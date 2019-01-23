@@ -1,0 +1,46 @@
+<section class="app-content-box" [title]="'REGISTERROLECOMPONENT.Header'">
+  <section content class="row">
+    <div class="col-sm-8">
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label for="keyString">{{ 'REGISTERROLECOMPONENT.Form.labels.name' | translate}}</label>
+          <input type="text" [(ngModel)]="role.keyString" name="keyString" placeholder="{{ 'REGISTERROLECOMPONENT.Form.placeholders.title' | translate}}" class="form-control">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <label>{{ 'REGISTERROLECOMPONENT.Form.labels.privileges' | translate}}:</label>
+          <ul class="list-group">
+            <ng-container *ngFor="let privilege of privileges">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ 'GLOBAL.Privileges.' + privilege.keyString | translate}}
+                <mat-checkbox [(ngModel)]="privilege.selected" value="{{privilege.id}}"></mat-checkbox>
+              </li>
+            </ng-container>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <label>{{ 'REGISTERROLECOMPONENT.Role.users' | translate}}:</label>
+      <ul class="list-group">
+        <ng-container *ngFor="let user of role.Users">
+          <li routerLink="/user/{{user.id}}" class="list-group-item">
+            <img class="userpic" *ngIf="user.avatar" src="{{user.avatar.location + 'thumbnails/' + user.avatar.title}}" alt="{{user.avatar.title}}">
+            <img class="userpic" *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
+            <span>{{user.name + ' ' + user.surname}}</span>
+          </li>
+        </ng-container>
+        <button class="list-group-item list-group-item-action active" (click)="addParticipantDialog()">{{ 'REGISTERROLECOMPONENT.Actions.addUser' | translate}}</button>
+      </ul>
+    </div>
+  </section>
+
+
+
+
+
+  <button buttons class="btn btn-primary" (click)="onRegisterSubmit()">{{ 'REGISTERROLECOMPONENT.Submit' }}</button>
+
+</section>

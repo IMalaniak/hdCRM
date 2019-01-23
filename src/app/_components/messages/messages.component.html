@@ -1,0 +1,8 @@
+<ng-container *ngIf="showDebugContainer">
+  <hr>
+  <h4 class="text-danger">DEBUG</h4>
+  <ul>
+    <li class="text-info" *ngFor='let message of messageService.messages; let i = index'>{{i+1}}. {{message}} </li>
+  </ul>
+  <button class="btn btn-danger" (click)="messageService.clear()">clear</button>
+</ng-container>

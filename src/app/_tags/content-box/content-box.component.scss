@@ -1,0 +1,29 @@
+.content-box {
+  margin: {
+    top: 1em;
+    bottom: 1em;
+  }
+
+  .card-body {
+      overflow-x: auto;
+  }
+}
+
+.progress-spinner-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+
+  &:before {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    filter: blur(5px);
+    content: '';
+    background: rgba(255,255,255,0.9);
+  }
+}

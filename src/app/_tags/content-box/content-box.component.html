@@ -1,0 +1,20 @@
+<div class="content-box shadow card {{cssClass}}">
+  <section class="card-header">
+    <section class="d-flex justify-content-between align-items-center">
+      <h4>{{ title | translate}}</h4>
+      <ng-content select="[buttons]"></ng-content>
+    </section>
+    <ng-content select="[subheader]"></ng-content>
+  </section>
+  <section class="card-body">
+    <ng-content select="[content]"></ng-content>
+  </section>
+
+  <section *ngIf="boxFooter" class="card-footer text-muted">
+    <ng-content select="[boxFooter]"></ng-content>
+  </section>
+
+  <div *ngIf="showDataLoader" class="progress-spinner-overlay">
+    <mat-progress-bar mode="query"></mat-progress-bar>
+  </div>
+</div>

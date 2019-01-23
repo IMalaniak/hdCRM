@@ -1,0 +1,92 @@
+<!--
+<section class="app-content-box" [title]="'USERSCOMPONENT.Search.header'" [cssClass]="'search-advanced'">
+
+</section>
+-->
+<section class="app-content-box" [title]="'USERSCOMPONENT.List.header'" [showDataLoader]="!dataLoaded">
+
+  <div buttons>
+    <button *ngIf="addUserPrivilege" class="btn btn-primary" routerLink="/register">{{ 'USERSCOMPONENT.Actions.register' | translate}}</button>
+  </div>
+
+  <section subheader *ngIf="selectedUsers.length>0" class="bg-primary text-white p-2 fixed-bottom">
+    <span class="w-100">{{ 'USERSCOMPONENT.BulkSection.selected' | translate}}: {{selectedUsers.length}}</span>
+    <section class="d-flex align-items-center">
+      <span>{{ 'USERSCOMPONENT.BulkSection.actionsWithSelected' | translate}}: </span>
+      <button *ngIf="selectedState != 'active'" mat-icon-button (click)="changeStateOfSelected('active')" title="{{ 'USERSCOMPONENT.BulkSection.actions.activate' | translate}}">
+        <mat-icon>launch</mat-icon>
+      </button>
+      <button *ngIf="selectedState != 'disabled'" mat-icon-button (click)="changeStateOfSelected('disabled')" title="{{ 'USERSCOMPONENT.BulkSection.actions.deactivate' | translate}}">
+        <mat-icon>block</mat-icon>
+      </button>
+      <button *ngIf="selectedState != 'archive'" mat-icon-button (click)="changeStateOfSelected('archive')" title="{{ 'USERSCOMPONENT.BulkSection.actions.archive' | translate}}">
+        <mat-icon>archive</mat-icon>
+      </button>
+    </section>
+  </section>
+
+  <mat-tab-group content  (selectedTabChange)="onTabClick($event)" [selectedIndex]="selectedTab" (selectedIndexChange)="selectedTab = $event">
+    <mat-tab label="{{ 'GLOBAL.StatesPlural.' + state.keyString | translate}}" *ngFor="let state of states;">
+      <section *ngIf="sortedData && sortedData.length<=0" class="no-content p-3">
+        <p class="lead text-info text-center">
+          {{'USERSCOMPONENT.NoContentInfo' | translate}}
+        </p>
+      </section>
+      <table  *ngIf="sortedData && sortedData.length>0" id="userlist" class="table table-sm table-responsive-sm table-hover crm-table" matSort (matSortChange)="sortData($event)">
+        <thead>
+          <th><mat-checkbox (click)="$event.stopPropagation()" (change)="selectAll($event)" [indeterminate]="selectedUsers.length > 0 && selectedUsers.length < sortedData.length" [checked]="!notSelectedUsers.length"></mat-checkbox></th>
+          <th></th>
+          <th mat-sort-header="login">{{ 'USERSCOMPONENT.List.login' | translate}}</th>
+          <th mat-sort-header="email">{{ 'USERSCOMPONENT.List.email' | translate}}</th>
+          <th mat-sort-header="name">{{ 'USERSCOMPONENT.List.name' | translate}}</th>
+          <th mat-sort-header="surname">{{ 'USERSCOMPONENT.List.surname' | translate}}</th>
+          <th mat-sort-header="phone">{{ 'USERSCOMPONENT.List.phone' | translate}}</th>
+          <th mat-sort-header="state">{{ 'USERSCOMPONENT.List.state' | translate}}</th>
+          <th mat-sort-header="createdAt">{{ 'GLOBAL.List.createdAt' | translate}}</th>
+          <th mat-sort-header="updatedAt">{{ 'GLOBAL.List.updatedAt' | translate}}</th>
+          <th mat-sort-header="defaultLang">{{ 'USERSCOMPONENT.List.defaultLang' | translate}}</th>
+          <th *ngIf="editUserPrivilege" class="context-menu"></th>
+        </thead>
+        <tbody>
+          <tr (click)="onUserSelect(user.id)" *ngFor="let user of sortedData;" [ngClass]="{'table-info': user.State.id=='1', 'table-danger': user.State.id=='3', 'table-secondary': user.State.id=='4' }">
+            <td (click)="$event.stopPropagation()"><mat-checkbox [(ngModel)]=user.selected (change)="onUserCheck(user)"></mat-checkbox></td>
+            <td>
+              <img class="userpic" *ngIf="user.avatar" src="{{baseUrl + user.avatar.location + 'thumbnails/' + user.avatar.title}}" alt="{{user.avatar.title}}">
+              <img class="userpic" *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
+            </td>
+            <td>{{user.login}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.surname}}</td>
+            <td>{{user.phone}}</td>
+            <td>{{ 'GLOBAL.States.' + user.State.keyString | translate}}</td>
+            <td>{{user.createdAt | date: 'short'}}</td>
+            <td>{{user.updatedAt | date: 'short'}}</td>
+            <td>{{user.defaultLang}}</td>
+
+            <td *ngIf="editUserPrivilege" class="context-menu" (click)="$event.stopPropagation()">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button *ngIf="user.State.id == '2'" mat-menu-item (click)="this.changeUserState(user, 3)">
+                  <mat-icon>block</mat-icon>
+                  <span>{{ 'USERSCOMPONENT.List.actions.deactivate' | translate}}</span>
+                </button>
+                <button *ngIf="user.State.id == '1' || user.State.id == '3'" mat-menu-item (click)="this.changeUserState(user, 2)">
+                  <mat-icon>launch</mat-icon>
+                  <span>{{ 'USERSCOMPONENT.List.actions.activate' | translate}}</span>
+                </button>
+                <button mat-menu-item (click)="this.changeUserState(user, 4)">
+                  <mat-icon>archive</mat-icon>
+                  <span>{{ 'USERSCOMPONENT.List.actions.archive' | translate}}</span>
+                </button>
+              </mat-menu>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-tab>
+  </mat-tab-group>
+
+</section>

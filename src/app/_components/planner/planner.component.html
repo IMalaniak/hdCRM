@@ -1,0 +1,34 @@
+<!--
+<section class="app-content-box" [title]="'PLANNER.Search.header'" [cssClass]="'search-advanced'">
+
+</section>
+-->
+<section class="app-content-box" [title]="'PLANNERCOMPONENT.List.header'">
+
+  <div buttons class="btn-group-horizontal">
+    <button class="btn btn-primary"  routerLink="/register/plan">{{ 'PLANNERCOMPONENT.Actions.create' | translate}}</button>
+  </div>
+
+  <table id="planlist" content class="table table-sm table-responsive-sm table-hover">
+    <thead>
+      <th>{{ 'PLANNERCOMPONENT.List.title' | translate}}</th>
+      <th>{{ 'PLANNERCOMPONENT.List.creator' | translate}}</th>
+      <th>{{ 'PLANNERCOMPONENT.List.stage' | translate}}</th>
+      <th>{{ 'PLANNERCOMPONENT.List.participants' | translate}}</th>
+      <th>{{ 'GLOBAL.List.createdAt' | translate}}</th>
+      <th>{{ 'GLOBAL.List.updatedAt' | translate}}</th>
+      <th>{{ 'PLANNERCOMPONENT.List.deadline' | translate}}</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let plan of plans;" routerLink="/plan/{{plan.id}}" [ngClass]="{'table-info': plan.StageId=='1', 'table-success': plan.StageId=='2', 'table-warning': plan.StageId=='3' }">
+        <td>{{plan.title}}</td>
+        <td>{{plan.Creator.name + ' ' + plan.Creator.surname}}</td>
+        <td>{{ 'GLOBAL.Stages.' + plan.Stage.keyString | translate}}</td>
+        <td>{{plan.Participants.length}}</td>
+        <td>{{plan.createdAt | date: 'short'}}</td>
+        <td>{{plan.updatedAt | date: 'short'}}</td>
+        <td>{{plan.deadline | date: 'short'}}</td>
+      </tr>
+    </tbody>
+  </table>
+</section>

@@ -1,0 +1,60 @@
+@import 'variables';
+@import 'mixins';
+
+.app-sidebar {
+  background-color: color(main, dark);
+  min-width: size(sidebar, width);
+  flex-basis: size(sidebar, width);
+  transition: min-width $animation-time-style, flex-basis $animation-time-style;
+
+  &.minimized {
+    min-width: size(sidebar, minimized);
+    flex-basis: size(sidebar, minimized);
+  }
+}
+
+.sidebar-menu {
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+  a {
+    display: flex;
+    height: size(header, height);
+    align-items: center;
+    padding: 0 size(spacer, null, true);
+    color: color(main, light);
+    transition: background-color $animation-time-style, color $animation-time-style, border-width $animation-time-style;
+
+    &:hover {
+      text-decoration: none;
+      background-color: color(main, light);
+      color: color(highlight, light);
+      border-left: 8px solid;
+    }
+
+    > mat-icon {
+      margin-right: size(spacer, null, true);
+    }
+  }
+
+  .minimized & {
+
+    a {
+      justify-content: center;
+
+      &:hover {
+        border-left: none;
+        border-bottom: 4px solid;
+      }
+
+      span {
+        display: none;
+      }
+
+      > mat-icon {
+        margin-right: 0;
+      }
+    }
+  }
+}

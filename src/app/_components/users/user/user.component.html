@@ -1,0 +1,91 @@
+<section class="app-content-box" [title]="'USERCOMPONENT.Header'" *ngIf="user">
+  <div content class="row">
+    <div class="col-lg-8 col-md-12">
+      <div class="row">
+        <div class="col-xl-4 col-md-6 col-xs-12">
+          <img *ngIf="user.avatar" src="{{baseUrl + user.avatar.location + user.avatar.title}}" alt="{{user.avatar.title}}" class="img-thumbnail">
+          <img *ngIf="!user.avatar" src="./assets/images/userpic/noimage.png" alt="noimage" class="img-thumbnail">
+        </div>
+        <form class="col-xl-8 col-md-6 col-xs-12">
+          <div class="form-group row">
+            <label for="name" class="col-sm-4 col-form-label">{{ 'USERCOMPONENT.User.name' | translate}}:</label>
+            <div class="col-sm-8">
+              <input [(ngModel)]="user.name" name="name" type="text" [ngClass]="{'form-control': editForm, 'form-control-plaintext': !editForm}" [readonly]="!editForm" placeholder="">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="surname" class="col-sm-4 col-form-label">{{ 'USERCOMPONENT.User.surname' | translate}}:</label>
+            <div class="col-sm-8">
+              <input [(ngModel)]="user.surname" name="surname" type="text" [ngClass]="{'form-control': editForm, 'form-control-plaintext': !editForm}" [readonly]="!editForm" placeholder="">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="login" class="col-sm-4 col-form-label">{{ 'USERCOMPONENT.User.login' | translate}}:</label>
+            <div class="col-sm-8">
+              <input type="text" name="login" class="form-control-plaintext" readonly placeholder="" value="{{user.login}}">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="email" class="col-sm-4 col-form-label">{{ 'USERCOMPONENT.User.email' | translate}}:</label>
+            <div class="col-sm-8">
+              <input [(ngModel)]="user.email" name="email" type="text" [ngClass]="{'form-control': editForm, 'form-control-plaintext': !editForm}" [readonly]="!editForm" placeholder="">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="phone" class="col-sm-4 col-form-label">{{ 'USERCOMPONENT.User.phone' | translate}}:</label>
+            <div class="col-sm-8">
+              <input [(ngModel)]="user.phone" name="phone" type="text" [ngClass]="{'form-control': editForm, 'form-control-plaintext': !editForm}" [readonly]="!editForm" placeholder="">
+            </div>
+          </div>
+          <div class="form-group row" matTooltip="{{ 'USERCOMPONENT.User.defaultLangWarning' | translate}}" [matTooltipDisabled]=!editForm>
+            <label for="defaultLang" class="col-sm-4 col-form-label">{{ 'USERCOMPONENT.User.defaultLang' | translate}}:</label>
+            <div class="col-sm-8">
+              <input *ngIf="!editForm" [(ngModel)]="user.defaultLang" type="text" name="defaultLang" class="form-control-plaintext" readonly placeholder="">
+              <select *ngIf="editForm" [(ngModel)]="user.defaultLang" name="defaultLang" class="form-control">
+                <option *ngFor="let lang of langs" [value]="lang">{{ lang }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="userState" class="col-sm-4 col-form-label">{{ 'USERCOMPONENT.User.state' | translate}}:</label>
+            <div class="col-sm-8">
+              <input *ngIf="!editForm" value="{{ 'GLOBAL.States.' + user.State.keyString | translate}}" type="text" name="userState" class="form-control-plaintext" readonly placeholder="">
+              <select *ngIf="editForm" [(ngModel)]="user.StateId" name="userState" class="form-control">
+                <option *ngFor="let state of states" [value]="state.id">{{ 'GLOBAL.States.' + state.keyString | translate}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="createdAt" class="col-sm-4 col-form-label">{{ 'GLOBAL.List.createdAt' | translate}}:</label>
+            <div class="col-sm-8">
+              <input type="text" name="createdAt" class="form-control-plaintext" readonly placeholder="" value="{{user.createdAt | date: 'short' }}">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="updatedAt" class="col-sm-4 col-form-label">{{ 'GLOBAL.List.updatedAt' | translate}}:</label>
+            <div class="col-sm-8">
+              <input type="text" name="updatedAt" class="form-control-plaintext" readonly placeholder="" value="{{user.updatedAt | date: 'short' }}">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-12 user-roles">
+      <label>{{ 'USERCOMPONENT.User.role' | translate}}:</label>
+      <ul class="list-group">
+        <ng-container *ngFor="let role of user.Roles">
+          <li class="list-group-item">{{role.keyString}}</li>
+        </ng-container>
+        <button *ngIf="editForm" class="list-group-item list-group-item-action active" (click)="addRolesDialog()">{{ 'USERCOMPONENT.Actions.addRole' | translate}}</button>
+      </ul>
+    </div>
+  </div>
+
+  <div buttons *ngIf="editUserPrivilege">
+    <button *ngIf="!editForm" class="btn btn-primary" (click)="onClickEdit()">{{ 'USERCOMPONENT.Actions.edit' | translate}}</button>
+    <button *ngIf="editForm" class="btn btn-primary" (click)="onUpdateUserSubmit()">{{ 'GLOBAL.Actions.saveChanges' | translate}}</button>
+    <button *ngIf="editForm" class="btn btn-light"  (click)="onClickCancelEdit()">{{ 'GLOBAL.Actions.cancelEdit' | translate}}</button>
+  </div>
+
+</section>

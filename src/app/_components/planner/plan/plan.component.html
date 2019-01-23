@@ -1,0 +1,76 @@
+<section class="app-content-box" [title]="'PLANCOMPONENT.Header'" *ngIf="plan">
+
+  <div content class="row">
+    <form class="col-md-8">
+      <div class="form-group row">
+        <label for="title" class="col-sm-4 col-form-label">{{ 'PLANCOMPONENT.Plan.title' | translate}}:</label>
+        <div class="col-sm-8">
+          <input [(ngModel)]="plan.title" name="title" type="text" [ngClass]="{'form-control': editForm, 'form-control-plaintext': !editForm}" [readonly]="!editForm" placeholder="">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="budget" class="col-sm-4 col-form-label">{{ 'PLANCOMPONENT.Plan.budget' | translate}}:</label>
+        <div class="col-sm-8">
+          <input [(ngModel)]="plan.budget" name="budget" type="text" [ngClass]="{'form-control': editForm, 'form-control-plaintext': !editForm}" [readonly]="!editForm" placeholder="">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="description" class="col-sm-12 col-form-label">{{ 'PLANCOMPONENT.Plan.decsription' | translate}}:</label>
+        <div class="col-sm-12">
+          <textarea [(ngModel)]="plan.description" name="description" type="text" [ngClass]="{'form-control': editForm, 'form-control-plaintext': !editForm}" [readonly]="!editForm" placeholder=""></textarea>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="deadline" class="col-sm-4 col-form-label">{{ 'PLANCOMPONENT.Plan.deadline' | translate}}:</label>
+        <div class="col-sm-8">
+          <input [(ngModel)]="plan.deadline" type="text" name="deadline" [ngClass]="{'form-control': editForm, 'form-control-plaintext': !editForm}" [readonly]="!editForm" placeholder="">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="createdAt" class="col-sm-4 col-form-label">{{ 'PLANCOMPONENT.Plan.createdAt' | translate}}:</label>
+        <div class="col-sm-8">
+          <input type="text" name="createdAt" class="form-control-plaintext" readonly placeholder="" value="{{plan.createdAt | date: 'short' }}">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="updatedAt" class="col-sm-4 col-form-label">{{ 'PLANCOMPONENT.Plan.updatedAt' | translate}}:</label>
+        <div class="col-sm-8">
+          <input type="text" name="updatedAt" class="form-control-plaintext" readonly placeholder="" value="{{plan.updatedAt | date: 'short' }}">
+        </div>
+      </div>
+    </form>
+
+    <div class="col-md-4 plan-participants">
+      <label class="label">{{ 'PLANCOMPONENT.Plan.creator' | translate}}:</label>
+      <ul class="list-group">
+          <li routerLink="/user/{{plan.CreatorId}}" class="list-group-item">
+            <img class="userpic" *ngIf="plan.Creator.avatar" src="{{baseUrl + plan.Creator.avatar.location + 'thumbnails/' + plan.Creator.avatar.title}}" alt="{{plan.Creator.avatar.title}}">
+            <img class="userpic" *ngIf="!plan.Creator.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
+            <span>{{plan.Creator.name + ' ' + plan.Creator.surname}}</span>
+          </li>
+      </ul>
+      <br>
+      <label class="label">{{ 'PLANCOMPONENT.Plan.participants' | translate}}:</label>
+      <ul class="list-group">
+        <ng-container *ngFor="let user of plan.Participants">
+          <li routerLink="/user/{{user.id}}" class="list-group-item">
+            <img class="userpic" *ngIf="user.avatar" src="{{baseUrl + user.avatar.location + 'thumbnails/' + user.avatar.title}}" alt="{{user.avatar.title}}">
+            <img class="userpic" *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
+            <span>{{user.name + ' ' + user.surname}}</span>
+          </li>
+        </ng-container>
+        <button *ngIf="editForm" class="list-group-item list-group-item-action active" (click)="addParticipantDialog()">{{ 'PLANCOMPONENT.Actions.addParticipant' | translate}}</button>
+      </ul>
+    </div>
+
+  </div>
+
+  <div buttons *ngIf="editPlanPrivilege || plan.CreatorId == app.user.id">
+    <button *ngIf="!editForm" class="btn btn-primary" (click)="onClickEdit()">{{ 'PLANCOMPONENT.Actions.edit' | translate}}</button>
+    <button *ngIf="editForm" class="btn btn-primary" (click)="onUpdatePlanSubmit()">{{ 'GLOBAL.Actions.saveChanges' | translate}}</button>
+    <button *ngIf="editForm" class="btn btn-light"  (click)="onClickCancelEdit()">{{ 'GLOBAL.Actions.cancelEdit' | translate}}</button>
+  </div>
+
+</section>
+
+<app-attachments *ngIf="plan" [attachments]="plan.Documents" [editForm]="editForm" (deleteFileCall)="deleteDoc($event)"></app-attachments>

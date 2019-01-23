@@ -1,0 +1,38 @@
+<section class="app-content-box" [title]="'ATTACHMENTSCOMPONENT.Header'">
+  <section content *ngIf="attachments && attachments.length>0" >
+    <table class="table table-sm table-responsive-sm table-hover table-attachments">
+      <!-- <thead>
+        <tr>
+          <th>{{ 'ATTACHMENTSCOMPONENT.List.title' | translate}}</th>
+          <th>{{ 'ATTACHMENTSCOMPONENT.List.type' | translate}}</th>
+          <th>{{ 'ATTACHMENTSCOMPONENT.List.createdAt' | translate}}</th>
+          <th>{{ 'ATTACHMENTSCOMPONENT.List.updatedAt' | translate}}</th>
+          <th *ngIf="editForm">{{ 'ATTACHMENTSCOMPONENT.List.actions' | translate}}</th>
+        </tr>
+      </thead> -->
+      <tbody>
+        <tr *ngFor="let item of attachments;">
+          <td><a href="{{item.location+item.title}}"><i class="filetype-icon far fa-file{{getIcon(item.title)}}"></i>{{item.title}}</a></td>
+          <td>{{item.type}}</td>
+          <td>{{item.createdAt | date: 'short' }}</td>
+          <td>{{item.updatedAt | date: 'short' }}</td>
+          <td *ngIf="editForm"><i class="far fa-trash-alt text-danger" (click)="handleDeleteFile(item.id)"></i></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section content *ngIf="!attachments && attachments.length<=0 && !editForm" class="no-content">
+    <p class="lead text-info text-center">
+      {{'ATTACHMENTSCOMPONENT.NoContentInfo' | translate}}
+    </p>
+  </section>
+
+  <div content *ngIf="editForm">
+    <!-- <file-pond #myPond
+        [options]="pondOptions"
+        (oninit)="pondHandleInit()"
+        (onaddfile)="pondHandleAddFile($event)">
+    </file-pond> -->
+  </div>
+</section>

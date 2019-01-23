@@ -1,0 +1,18 @@
+<section class="container login-section">
+  <div class="row">
+    <div class="col col-md">
+      <h3>{{ 'LOGINCOMPONENT.Header' | translate}}</h3>
+      <form (submit)="onLoginSubmit()">
+          <div class="form-group">
+            <label for="login">{{ 'LOGINCOMPONENT.LoginForm.login' | translate}}</label>
+            <input type="text" class="form-control" [(ngModel)]="user.login" name="login">
+          </div>
+          <div class="form-group">
+            <label for="password">{{ 'LOGINCOMPONENT.LoginForm.password' | translate}}</label>
+            <input type="password" class="form-control" [(ngModel)]="user.password" name="password">
+          </div>
+          <input type="submit" class="btn btn-primary" value="{{ 'LOGINCOMPONENT.LoginForm.buttonLogIn' | translate}}">
+      </form>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,233 @@
+@import 'variables';
+@import 'mixins';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import url('https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,500,700&subset=cyrillic-ext,latin-ext');
+
+
+/* ripped CSS4 vars out of color map */
+:root {
+  // each item in color map
+  @each $name, $color in $colors {
+    // maps require a second loop
+    @if type-of($color) == "map" {
+      // each item in sub map
+      @each $subname, $subcolor in $color {
+        // --color-primary-base
+        #{$color-prefix}#{$name}-#{$subname}: $subcolor;
+      }
+    // normal colors
+    } @elseif type-of($color) == "color" {
+      // --color-background
+      #{$color-prefix}#{$name}: $color;
+    }
+  }
+
+  // each item in size map
+  @each $name, $size in $sizes {
+    // maps require a second loop
+    @if type-of($size) == "map" {
+      // each item in sub map
+      @each $subname, $subsize in $size {
+        // --size-viewport-md
+        #{$size-prefix}#{$name}-#{$subname}: $subsize;
+      }
+    // normal sizes
+    } @elseif type-of($size) == "number" {
+      // --size-background
+      #{$size-prefix}#{$name}: $size;
+    }
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.hidden {
+  display: none;
+}
+
+ul {
+  list-style: none;
+}
+
+button:focus,
+a:focus {
+  outline: none;
+}
+
+html, body {
+  font-family: 'Ubuntu', Arial, sans-serif;
+  font-size: size(font);
+  margin: 0;
+  height: 100vh;
+  max-height: 100vh;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: color(main, base);
+	color: color(main, dark);
+}
+
+.grid {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+  justify-content: space-between;
+	bottom: 0;
+	left: 0;
+	right: 0;
+  top: 0;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  min-height: size(header, height);
+  flex-basis: size(header, height);
+  background-color: color(main, dark);
+  color: color(main, light);
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
+  z-index: 3;
+
+  > div {
+    text-align: center;
+    height: 100%;
+    padding: 0 size(spacer,null,true);
+    display: flex;
+    align-items: center;
+
+    > mat-icon {
+      cursor: pointer;
+    }
+
+    &:last-of-type {
+
+    }
+
+    &.user-search {
+
+    }
+
+    &.user-dropdown {
+      > i {
+        font-size: 36px;
+      }
+    }
+  }
+
+  .company-logo {
+    width: size(sidebar, width);
+    background-color: color(main, light);
+    padding: 0.25*size(spacer,null,true) 0.5*size(spacer,null,true);
+    color: color(main, dark);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: width $animation-time-style;
+
+    &.minimized {
+      width: size(sidebar, minimized);
+      justify-content: center;
+
+      img {
+        display: none;
+      }
+    }
+
+    img {
+      max-height: 100%;
+      object-fit: contain;
+    }
+  }
+}
+
+main {
+  flex-grow: 10;
+  display: flex;
+  flex-direction: row;
+}
+
+footer {
+  margin-top: 0.5*size(footer, height, true);
+  min-height: size(footer, height);
+	background: color(secondary, base);
+	color: color(secondary, light);
+  z-index: 3;
+
+  a {
+    color: color(secondary, light);
+
+    &:hover {
+      color: color(secondary, dark);
+      text-decoration: none;
+    }
+  }
+}
+
+.content {
+  flex-grow: 10;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.breadcrumb {
+  margin: 0;
+  padding: 0.5*size(spacer, null, true) size(spacer, null, true);
+  background: color(main, dark);
+  color: color(secondary, light);
+
+  a {
+    display: inherit;
+    color: color(secondary, light);
+  }
+
+  > li {
+    display: inline-flex;
+    justify-content: center;
+    align-content: center;
+
+  }
+}
+
+.crm-table {
+  td {
+    vertical-align: middle;
+  }
+
+  .context-menu {
+    width: 50px;
+  }
+
+}
+
+.userpic {
+  max-height: size(userpic);
+  border-radius: 50%;
+}
+
+.mat-checkbox {
+  margin-bottom: -0.5rem;
+
+  .mat-checkbox-layout {
+    margin: 0;
+  }
+}
+
+.mat-sort-header-container {
+    align-items: baseline;
+}
+
+.table-hover {
+	tr {
+		cursor: pointer;
+	}
+}
