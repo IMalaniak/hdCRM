@@ -313,12 +313,12 @@ router.get('/checkUserPrivilege/:userId/:privilege', passport.authenticate('jwt'
 					});
 					return Promise.all(promises)
 				}).then(result => {
-					for (tmp of result) {
-						if (tmp) {
-							return res.json(tmp);
-						}
-					}
-					res.json(false);
+					if (result.length > 0) {
+						const tmp = result.filter(item => item === true);
+						res.json(tmp[0]);
+					} else {
+						res.json(false);
+					}					
 				});
 		}).catch(error => {
 			res.status(400).json(error.toString());
