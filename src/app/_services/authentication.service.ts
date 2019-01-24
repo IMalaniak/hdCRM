@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { map } from 'rxjs/operators';
 
-import { User } from '@/_models';
+import { User, Privilege } from '@/_models';
 
 const jwtHelper = new JwtHelperService();
 
@@ -21,6 +21,18 @@ export class AuthenticationService {
 
     public get currentUserValue(): User {
         return this.currentUserSubject.value;
+    }
+
+    public get currentUserPrivileges(): string[] {
+        let privileges = [];
+        for (const role of this.currentUserValue.Roles) {
+            privileges.push(role.Privileges.map(privilege => {
+                return privilege.keyString;
+            }));
+        }
+        privileges = [].concat(...privileges);
+        privileges = privileges.filter((v, i, a) => a.indexOf(v) === i);
+        return privileges;
     }
 
     public get userToken(): string {

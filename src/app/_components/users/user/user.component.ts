@@ -52,9 +52,7 @@ export class UserComponent implements OnInit {
   }
 
   canEditUser(): void {
-    this.privilegeService.checkUserPrivilege('editUser').subscribe(isPrivileged => {
-        this.editUserPrivilege = isPrivileged;
-    });
+    this.editUserPrivilege = this.privilegeService.checkUserPrivilege('editUser');
   }
 
   getUserData(): void {

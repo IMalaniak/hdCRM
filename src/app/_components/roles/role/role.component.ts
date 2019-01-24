@@ -49,9 +49,7 @@ export class RoleComponent implements OnInit {
   }
 
   canEditRole(): void {
-    this.privilegeService.checkUserPrivilege('editRole').subscribe(isPrivileged => {
-        this.editRolePrivilege = isPrivileged;
-    });
+    this.editRolePrivilege = this.privilegeService.checkUserPrivilege('editRole');
   }
 
   getRoleData(): void {

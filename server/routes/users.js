@@ -76,7 +76,16 @@ router.post('/authenticate', (req, res, next) => {
 					through: {
 						attributes: []
 					},
-					required: false
+					required: false,
+					include: [
+						{
+							model: models.Privilege,
+							through: {
+								attributes: []
+							},
+							required: false,
+						}
+					]
 				}, {
 					model: models.State
 				}, {
@@ -322,41 +331,6 @@ router.put('/changeStateOfSelected', passport.authenticate('jwt', {session: fals
 	return Promise.all(promises).then(result => {
 		res.status(200).json({status: "ok"});
 	}).catch(error =>{
-		res.status(400).json(error.toString());
-	});
-});
-
-//check User privilege
-router.get('/checkUserPrivilege/:userId/:privilege', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Privilege.findOne({
-		where: {keyString: req.params.privilege},
-		attributes: ['id'],
-	}).then(privilege => {
-		models.User.findOne({
-			where: {id: req.params.userId}
-		}).then(user => {
-				user.getRoles().then(roles => {
-					const promises = [];
-					roles.forEach(role => {
-						promises.push(
-							role.hasPrivileges([privilege.id]).then(privilege => {
-								return privilege;
-							})
-						);
-					});
-					return Promise.all(promises)
-				}).then(result => {
-					if (result.length > 0) {
-						const tmp = result.filter(item => item === true);
-						res.json(tmp[0]);
-					} else {
-						res.json(false);
-					}					
-				});
-		}).catch(error => {
-			res.status(400).json(error.toString());
-		});
-	}).catch(error => {
 		res.status(400).json(error.toString());
 	});
 });

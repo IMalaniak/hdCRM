@@ -4,7 +4,6 @@ import swal from 'sweetalert2';
 import { AuthenticationService, TranslationsService } from '@/_services';
 import { User } from '@/_models';
 import { first } from 'rxjs/operators';
-import { error } from 'util';
 
 @Component({
   selector: 'app-login',

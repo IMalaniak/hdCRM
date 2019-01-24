@@ -18,9 +18,7 @@ export class MessagesComponent implements OnInit {
 
   ngOnInit() {
     if (this.authService.validToken()) {
-      this.privilegeService.checkUserPrivilege('showDebug').subscribe(isPrivileged => {
-        this.showDebugContainer = isPrivileged;
-      });
+      this.showDebugContainer = this.privilegeService.checkUserPrivilege('showDebug');
     }
   }
 

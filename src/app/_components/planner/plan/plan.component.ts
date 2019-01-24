@@ -52,9 +52,7 @@ export class PlanComponent implements OnInit {
   }
 
   canEditPlan(): void {
-    this.privilegeService.checkUserPrivilege('editPlan').subscribe(isPrivileged => {
-        this.editPlanPrivilege = isPrivileged;
-    });
+    this.editPlanPrivilege = this.privilegeService.checkUserPrivilege('editPlan');
   }
 
   getPlanData(): void {

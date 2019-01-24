@@ -100,15 +100,11 @@ export class UsersComponent implements OnInit {
   }
 
   canEditUser(): void {
-    this.privilegeService.checkUserPrivilege('editUser').subscribe(isPrivileged => {
-      this.editUserPrivilege = isPrivileged;
-    });
+    this.editUserPrivilege = this.privilegeService.checkUserPrivilege('editUser');
   }
 
   canAddUser(): void {
-    this.privilegeService.checkUserPrivilege('addUser').subscribe(isPrivileged => {
-      this.addUserPrivilege = isPrivileged;
-    });
+    this.addUserPrivilege = this.privilegeService.checkUserPrivilege('addUser');
   }
 
   sortData(sort: Sort) {
