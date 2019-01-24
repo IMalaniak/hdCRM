@@ -2,6 +2,7 @@
 import { environment } from 'environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Plan } from '@/_models';
 
 @Injectable()
@@ -14,22 +15,22 @@ export class PlanService {
     return this.http.post<any>(`${environment.baseUrl}/plans/create`, plan);
   }
 
-  getFullList() {
-    return this.http.get<any | Plan[]>(`${environment.baseUrl}/plans/fullList`);
+  getFullList(): Observable<Plan[]> {
+    return this.http.get<Plan[]>(`${environment.baseUrl}/plans/fullList`);
   }
 
-  getListByStage(stage: number) {
+  getListByStage(stage: number): Observable<Plan[]> {
     const url = `${environment.baseUrl}/plans/stageList/${stage}`;
-    return this.http.get<any | Plan[]>(url);
+    return this.http.get<Plan[]>(url);
   }
 
-  getPlan(id: number) {
+  getPlan(id: number): Observable<Plan> {
     const url = `${environment.baseUrl}/plans/details/${id}`;
-    return this.http.get<any | Plan>(url);
+    return this.http.get<Plan>(url);
   }
 
-  updatePlan(plan) {
-    return this.http.put<any | Plan>(`${environment.baseUrl}/plans/update`, plan);
+  updatePlan(plan): Observable<Plan> {
+    return this.http.put<Plan>(`${environment.baseUrl}/plans/update`, plan);
   }
 
   // redo

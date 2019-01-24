@@ -60,12 +60,10 @@ export class PlanComponent implements OnInit {
 
     this.stageService.getStagesList().subscribe(stages => {
       this.stages = stages;
-      console.log(this.stages);
     });
 
     this.planService.getPlan(id).subscribe(plan => {
       this.plan = plan;
-      console.log(this.plan);
       this.planInitial = { ...this.plan };
     });
 
@@ -102,8 +100,8 @@ export class PlanComponent implements OnInit {
         };
     });
     // Update plan
-    this.planService.updatePlan(this.plan).subscribe(plan => {
-      if (plan) {
+    this.planService.updatePlan(this.plan).subscribe(
+      plan => {
         this.plan = plan;
         this.planInitial = { ...this.plan };
         this.editForm = false;
@@ -115,12 +113,12 @@ export class PlanComponent implements OnInit {
           showConfirmButton: false,
           position: 'bottom-end'
         });
-      } else {
+      },
+      error => {
         swal({
           text: this.translations['PLANCOMPONENT.PopUps.udpatePlanError'],
           type: 'error',
         });
-      }
     });
   }
 

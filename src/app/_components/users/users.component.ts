@@ -11,6 +11,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserService, PrivilegeService, StateService, TranslationsService } from '@/_services';
 import { User, State } from '@/_models';
 import swal from 'sweetalert2';
+import { error } from 'util';
 
 
 @Component({
@@ -135,9 +136,8 @@ export class UsersComponent implements OnInit {
     const userState = new User();
     userState.id = user.id;
     userState.StateId = state;
-    this.userService.updateUserState(userState).subscribe(userData => {
-
-      if (user) {
+    this.userService.updateUserState(userState).subscribe(
+      userData => {
         user.State = userData.State;
         swal({
           text: this.translations['USERSCOMPONENT.PopUps.stateUpdatedTo'] + this.translationsService.globalTranslations['GLOBAL.States.' + user.State.keyString],
@@ -147,15 +147,15 @@ export class UsersComponent implements OnInit {
           showConfirmButton: false,
           position: 'bottom-end'
         });
-      } else {
+      },
+      error => {
         swal({
           text: this.translationsService.globalTranslations['GLOBAL.PopUps.serverError'],
           type: 'error',
           timer: 1500
         });
       }
-
-    });
+    );
   }
 
   onUserSelect(id): void {
@@ -183,8 +183,8 @@ export class UsersComponent implements OnInit {
       }
     }
 
-    this.userService.changeStateOfSelected(this.selectedUsers, state).subscribe(response => {
-      if (response) {
+    this.userService.changeStateOfSelected(this.selectedUsers, state).subscribe(
+      response => {
         for (const user of this.selectedUsers) {
           const i = this.users.indexOf(user);
           this.users[i].selected = user.selected = false;
@@ -200,14 +200,15 @@ export class UsersComponent implements OnInit {
           showConfirmButton: false,
           position: 'bottom-end'
         });
-      } else {
+      },
+      error => {
         swal({
           text: this.translationsService.globalTranslations['GLOBAL.PopUps.serverError'],
           type: 'error',
           timer: 1500
         });
       }
-    });
+    );
   }
 
   checkIfDataIsLoaded(): Promise<void> {

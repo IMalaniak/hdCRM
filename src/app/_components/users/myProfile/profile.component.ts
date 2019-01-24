@@ -70,8 +70,8 @@ export class ProfileComponent implements OnInit {
 }
 
   updateUser(): void {
-    this.userService.updateUser(this.user).subscribe(user => {
-      if (user) {
+    this.userService.updateUser(this.user).subscribe(
+      user => {
         this.user = user;
         this.userInitial = { ...this.user };
         this.editForm = false;
@@ -83,13 +83,14 @@ export class ProfileComponent implements OnInit {
           showConfirmButton: false,
           position: 'bottom-end'
         });
-      } else {
+      },
+      error => {
         swal({
           text: this.translations['PROFILECOMPONENT.PopUps.udpateUserError'],
           type: 'error',
         });
       }
-    });
+    );
   }
 
 

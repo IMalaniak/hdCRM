@@ -12,11 +12,6 @@ function findUserById(userId){
 		include: [
 			{
 				model: models.Role,
-				where: {
-					keyString: {
-						$ne: 'root'
-					}
-				},
 				required: false,
 				through: {
 					attributes: []

@@ -75,13 +75,7 @@ router.post('/create', passport.authenticate('jwt', {session: false}), (req, res
 
 //List full
 router.get('/list', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Role.findAll({
-		where: {
-			keyString: {
-				$ne: 'root'
-			}
-		}
-	}).then(roles => {
+	models.Role.findAll().then(roles => {
 		res.json(roles);
 	}).catch(error => {
 		res.status(400).json(error.toString());
@@ -91,11 +85,6 @@ router.get('/list', passport.authenticate('jwt', {session: false}), (req, res, n
 //full list with users and privileges
 router.get('/listFull', passport.authenticate('jwt', {session: false}), (req, res, next) => {
 	models.Role.findAll({
-		where: {
-			keyString: {
-				$ne: 'root'
-			}
-		},
 		include: [
 			{
 				model: models.Privilege,

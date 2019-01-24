@@ -88,7 +88,7 @@ export class RegisterRoleComponent implements OnInit {
         return<User> {
           id: user.id
         };
-      });    
+      });
     }
 
     // Register role

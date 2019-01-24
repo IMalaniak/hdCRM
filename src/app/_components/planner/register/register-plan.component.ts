@@ -5,6 +5,7 @@ import { UsersComponentDialogComponent } from '@/_components';
 import { PlanService, TranslationsService, AuthenticationService } from '@/_services';
 import { User, Plan, Asset } from '@/_models';
 import swal from 'sweetalert2';
+import { error } from 'util';
 
 @Component({
   selector: 'app-register-plan',
@@ -75,24 +76,22 @@ export class RegisterPlanComponent implements OnInit {
     this.plan.CreatorId = this.authService.currentUserValue.id;
 
     // Register plan
-    this.planService.createPlan(this.plan).subscribe(data => {
-
-      if (data.success) {
+    this.planService.createPlan(this.plan).subscribe(
+      data => {
         swal({
           title: this.translations['REGISTERPLANCOMPONENT.Alerts.planAdded'],
           type: 'success',
           timer: 1500
         });
         this.router.navigate(['/planner']);
-      } else {
+      },
+      error => {
         swal({
           title: this.translationsService.globalTranslations['GLOBAL.PopUps.serverError'],
           type: 'error',
           timer: 1500
         });
         this.router.navigate(['/register/plan']);
-      }
-
     });
   }
 

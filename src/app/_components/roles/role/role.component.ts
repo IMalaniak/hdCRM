@@ -6,6 +6,7 @@ import { UsersComponentDialogComponent } from '@/_components';
 import swal from 'sweetalert2';
 import { Role, User, Privilege } from '@/_models';
 import { RoleService, PrivilegeService, TranslationsService } from '@/_services';
+import { error } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-role',
@@ -128,8 +129,8 @@ export class RoleComponent implements OnInit {
     });
 
     // Register user
-    this.roleService.updateRole(this.role).subscribe(role => {
-      if (role) {
+    this.roleService.updateRole(this.role).subscribe(
+      role => {
         this.role = role;
         this.roleInitial = { ...this.role };
         this.editForm = false;
@@ -141,14 +142,14 @@ export class RoleComponent implements OnInit {
           showConfirmButton: false,
           position: 'bottom-end'
         });
-      } else {
+      },
+      error => {
         swal({
           text: this.translations['ROLECOMPONENT.PopUps.udpateRoleError'],
           type: 'error',
         });
       }
-
-    });
+    );
   }
 
   onClickEdit(): void {

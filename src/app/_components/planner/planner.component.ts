@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AppComponent } from '@/_components';
 import swal from 'sweetalert2';
 import { Plan } from '@/_models';
 import { PlanService } from '@/_services';
@@ -13,8 +12,7 @@ export class PlannerComponent implements OnInit {
   plans: Plan[];
 
   constructor(
-    private app: AppComponent,
-    private planService: PlanService,
+    private planService: PlanService
   ) { }
 
   ngOnInit() {

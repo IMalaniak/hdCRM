@@ -49,9 +49,7 @@ export class LoginComponent implements OnInit {
         }
         this.router.navigate([this.returnUrl]);
       },
-      // tslint:disable-next-line:no-shadowed-variable
       error => {
-        console.log(error);
         swal({
           title: this.translations['LOGINCOMPONENT.Alerts.loginFailedTitle'],
           text: this.translations['LOGINCOMPONENT.Alerts.loginFailedText'],

@@ -4,8 +4,9 @@ import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 import { RolesComponentDialogComponent } from '@/_components';
-import { ValidateService, UserService, PrivilegeService, RoleService, StateService, TranslationsService } from '@/_services';
+import { ValidateService, UserService, PrivilegeService, StateService, TranslationsService } from '@/_services';
 import { User, Role, State } from '@/_models';
+import { error } from 'util';
 
 @Component({
   selector: 'app-user',
@@ -132,8 +133,8 @@ export class UserComponent implements OnInit {
         };
     });
 
-    this.userService.updateUser(this.user).subscribe(user => {
-      if (user) {
+    this.userService.updateUser(this.user).subscribe(
+      user => {
         this.user = user;
         this.userInitial = { ...this.user };
         this.editForm = false;
@@ -145,14 +146,15 @@ export class UserComponent implements OnInit {
           showConfirmButton: false,
           position: 'bottom-end'
         });
-      } else {
+      },
+      error => {
         swal({
           text: this.translations['USERCOMPONENT.PopUps.udpateUserError'],
           type: 'error',
           timer: 3000
         });
       }
-    });
+    );
   }
 
 }
