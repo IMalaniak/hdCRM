@@ -72,10 +72,17 @@ router.post('/authenticate', (req, res, next) => {
 			where: {login: login},
 			include: [
 				{
+					model: models.Role,
+					through: {
+						attributes: []
+					},
+					required: false
+				}, {
 					model: models.State
 				}, {
 					model: models.Asset,
-					as: 'avatar'
+					as: 'avatar',
+					required: false
 				}
 			]
 		}).then(user => {
@@ -97,7 +104,8 @@ router.post('/authenticate', (req, res, next) => {
 				const token = jwt.sign(user.dataValues, env.SECRET, {
 					expiresIn: 86400  // 1 day //604800 1 week
 				});
-				res.json({
+
+				let tmpUser = {
 					id: user.id,
 					login: user.login,
 					name: user.name,
@@ -106,12 +114,31 @@ router.post('/authenticate', (req, res, next) => {
 					defaultLang: user.defaultLang,
 					avatar: user.avatar,
 					token: 'JWT ' + token
-				});
+				};
 
-				models.UserLoginHistory.create({
-					UserId: user.id,
-					IP: req.connection.remoteAddress,
-					dateLastLoggedIn: new Date()
+				if (user.Roles.length > 0) {
+					tmpUser.Roles = user.Roles;
+				}
+
+				res.json(tmpUser);
+
+				models.UserLoginHistory.findOrCreate({
+					where: {
+						UserId: user.id
+					},
+					defaults: {
+						IP: req.connection.remoteAddress,
+						dateLastLoggedIn: new Date()						
+					}
+				}).spread((uLogHistItem, created) => {
+					models.UserLoginHistory.update({
+						IP: req.connection.remoteAddress,
+						dateLastLoggedIn: new Date()
+					}, {
+						where: {
+							UserId: user.id
+						}
+					});
 				});
 
 			} else {
