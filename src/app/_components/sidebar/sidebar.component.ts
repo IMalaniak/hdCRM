@@ -16,6 +16,9 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
   }
 
+  get isValidToken(): boolean {
+    return this.authService.validToken();
+  }
 
 
 }

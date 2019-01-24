@@ -8,7 +8,7 @@
 		</div>
 
 		<nav class="d-flex align-items-center" aria-label="breadcrumb" role="navigation">
-			<ol class="breadcrumb" *ngIf="authService.validToken()">
+			<ol class="breadcrumb" *ngIf="isValidToken">
 				<li class="breadcrumb-item active" aria-current="page"> <a [routerLink]="['/dashboard']"><mat-icon>dashboard</mat-icon></a> </li>
 			</ol>
 		</nav>
@@ -25,16 +25,16 @@
 		<div class="user-question">
 			<mat-icon>question_answer</mat-icon>
 		</div>
-		<div *ngIf="authService.validToken()">
+		<div *ngIf="isValidToken">
 			<img class="userpic" *ngIf="!authService.currentUserValue.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage" [routerLink]="['/profile']">
 			<img class="userpic" *ngIf="authService.currentUserValue.avatar" src="{{baseUrl + authService.currentUserValue.avatar.location + 'thumbnails/' + authService.currentUserValue.avatar.title}}" alt="{{authService.currentUserValue.avatar.title}}" [routerLink]="['/profile']">
 			<!-- <span *ngIf="authService.currentUserValue">{{authService.currentUserValue.name + ' ' + authService.currentUserValue.surname}}</span> -->
 		</div>
 		<div class="user-login">
-			<button mat-icon-button *ngIf="authService.validToken()" (click)="onLogoutClick()" title="{{ 'MAIN.UserDropdown.logout' | translate }}">
+			<button mat-icon-button *ngIf="isValidToken" (click)="onLogoutClick()" title="{{ 'MAIN.UserDropdown.logout' | translate }}">
 				<mat-icon>arrow_back</mat-icon>
 			</button>
-			<button mat-icon-button *ngIf="!authService.validToken()" [routerLink]="['/login']" title="{{ 'MAIN.UserDropdown.login' | translate }}">
+			<button mat-icon-button *ngIf="!isValidToken" [routerLink]="['/login']" title="{{ 'MAIN.UserDropdown.login' | translate }}">
 				<mat-icon>arrow_forward</mat-icon>
 			</button>
 		</div>

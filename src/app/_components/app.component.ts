@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   baseUrl: string;
 
   constructor(
-    public authService: AuthenticationService,
+    private authService: AuthenticationService,
     public translationsService: TranslationsService,
     public router: Router
   ) {
@@ -40,6 +40,10 @@ export class AppComponent implements OnInit {
       'GLOBAL.PopUps.nextButtonText',
       'GLOBAL.PopUps.notAuthorized'
     ]);
+  }
+
+  get isValidToken(): boolean {
+    return this.authService.validToken();
   }
 
   onLogoutClick() {
