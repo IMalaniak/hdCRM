@@ -6,7 +6,7 @@
 <section class="app-content-box" [title]="'PLANNERCOMPONENT.List.header'">
 
   <div buttons class="btn-group-horizontal">
-    <button class="btn btn-primary"  routerLink="/register/plan">{{ 'PLANNERCOMPONENT.Actions.create' | translate}}</button>
+    <button class="btn btn-primary"  routerLink="/planner/add">{{ 'PLANNERCOMPONENT.Actions.create' | translate}}</button>
   </div>
 
   <table id="planlist" content class="table table-sm table-responsive-sm table-hover">
@@ -20,7 +20,7 @@
       <th>{{ 'PLANNERCOMPONENT.List.deadline' | translate}}</th>
     </thead>
     <tbody>
-      <tr *ngFor="let plan of plans;" routerLink="/plan/{{plan.id}}" [ngClass]="{'table-info': plan.StageId=='1', 'table-success': plan.StageId=='2', 'table-warning': plan.StageId=='3' }">
+      <tr *ngFor="let plan of plans;" routerLink="/planner/details/{{plan.id}}" [ngClass]="{'table-info': plan.StageId=='1', 'table-success': plan.StageId=='2', 'table-warning': plan.StageId=='3' }">
         <td>{{plan.title}}</td>
         <td>{{plan.Creator.name + ' ' + plan.Creator.surname}}</td>
         <td>{{ 'GLOBAL.Stages.' + plan.Stage.keyString | translate}}</td>

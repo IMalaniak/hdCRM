@@ -1,8 +1,8 @@
 <nav class="sidebar-menu">
   <ul>
     <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/home']"><mat-icon>home</mat-icon><span class="item-title">{{ 'SIDEBAR.Menu.home' | translate}}</span></a></li>
-    <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/dashboard']"><mat-icon>dashboard</mat-icon><span class="item-title">{{ 'SIDEBAR.Menu.dashboard' | translate}}</span></a></li>
     <ng-template [ngIf]="isValidToken">
+      <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/dashboard']"><mat-icon>dashboard</mat-icon><span class="item-title">{{ 'SIDEBAR.Menu.dashboard' | translate}}</span></a></li>
       <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/profile']"><mat-icon>person</mat-icon><span class="item-title">{{ 'SIDEBAR.Menu.administration.myProfile' | translate}}</span></a></li>
       <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/users']"><mat-icon>people</mat-icon><span class="item-title">{{ 'SIDEBAR.Menu.administration.users' | translate}}</span></a></li>
       <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/roles']"><mat-icon>theaters</mat-icon><span class="item-title">{{ 'SIDEBAR.Menu.administration.roles' | translate}}</span></a></li>

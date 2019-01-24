@@ -163,7 +163,7 @@ export class UsersComponent implements OnInit {
   }
 
   onUserSelect(id): void {
-    this.router.navigate([`/user/${id}`]);
+    this.router.navigate([`/users/details/${id}`]);
   }
 
   onUserCheck(user: User): void {

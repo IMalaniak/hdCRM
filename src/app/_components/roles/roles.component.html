@@ -6,7 +6,7 @@
 <section class="app-content-box" [title]="'ROLESCOMPONENT.List.header'" [showDataLoader]="!dataLoaded">
 
   <div buttons class="btn-group-horizontal">
-    <button class="btn btn-primary" routerLink="/register/role">{{ 'ROLESCOMPONENT.Actions.create' | translate}}</button>
+    <button class="btn btn-primary" routerLink="/roles/add">{{ 'ROLESCOMPONENT.Actions.create' | translate}}</button>
   </div>
 
   <table *ngIf="roles && roles.length>0" id="rolelist" content class="table table-sm table-responsive-sm table-hover crm-table">
@@ -19,7 +19,7 @@
       <th>{{ 'GLOBAL.List.updatedAt' | translate}}</th>
     </thead>
     <tbody>
-      <tr routerLink="/role/{{role.id}}" *ngFor="let role of roles;">
+      <tr routerLink="/roles/details/{{role.id}}" *ngFor="let role of roles;">
         <td (click)="$event.stopPropagation()"><mat-checkbox [(ngModel)]=role.selected (change)="onRoleCheck(role)"></mat-checkbox></td>
         <td>{{role.keyString}}</td>
         <td>{{role.Users.length}}</td>

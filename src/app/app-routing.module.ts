@@ -23,22 +23,29 @@ const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   // private routes
-  {path: 'planner', component: PlannerComponent, canActivate: [AuthGuard]},
-  {path: 'plan/:id', component: PlanComponent, canActivate: [AuthGuard]},
-  {path: 'users', component: UsersComponent, canActivate: [AuthGuard]},
-  {path: 'user/:id', component: UserComponent, canActivate: [AuthGuard]},
-  {path: 'roles', component: RolesComponent, canActivate: [AuthGuard]},
-  {path: 'role/:id', component: RoleComponent, canActivate: [AuthGuard]},
-  {path: 'register', canActivate: [AuthGuard],
+  {path: 'planner', canActivate: [AuthGuard],
     children: [
-      { path: '', redirectTo: 'user', pathMatch: 'full' },
-      { path: 'user', component: RegisterUserComponent },
-      { path: 'role', component: RegisterRoleComponent },
-      { path: 'plan', component: RegisterPlanComponent }
+      {path: '', component: PlannerComponent },
+      {path: 'details/:id', component: PlanComponent, canActivate: [AuthGuard]},
+      {path: 'add', component: RegisterPlanComponent}
+    ]
+  },  
+  {path: 'users', canActivate: [AuthGuard],
+    children: [
+      {path: '', component: UsersComponent },
+      {path: 'details/:id', component: UserComponent, canActivate: [AuthGuard]},
+      {path: 'register', component: RegisterUserComponent},
+    ]
+  },
+  {path: 'roles', canActivate: [AuthGuard],
+    children: [
+      {path: '', component: RolesComponent },
+      {path: 'details/:id', component: RoleComponent, canActivate: [AuthGuard]},
+      {path: 'add', component: RegisterRoleComponent},
     ]
   },
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
-  {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+  {path: 'myprofile', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'administration', component: AdministrationComponent, canActivate: [AuthGuard]},
 //  {path: 'translations', component: TranslationsComponent, canActivate:[AuthGuard]},
 ];
