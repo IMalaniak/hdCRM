@@ -1,6 +1,6 @@
 import { environment } from 'environments/environment';
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService, TranslationsService } from '@/_services';
+import { AuthenticationService, TranslationsService, PrivilegeService } from '@/_services';
 import { Router } from '@angular/router';
 import { User } from '@/_models';
 import swal from 'sweetalert2';
@@ -13,10 +13,13 @@ import swal from 'sweetalert2';
 export class AppComponent implements OnInit {
   sidebarMinimized: boolean;
   baseUrl: string;
+  showDebug: boolean;
+
 
   constructor(
     private authService: AuthenticationService,
     public translationsService: TranslationsService,
+    private privilegeService: PrivilegeService,
     public router: Router
   ) {
     this.translationsService.translate.addLangs(['en', 'pl', 'ua', 'ru']);
@@ -25,13 +28,15 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.showDebug = false;
     if (this.authService.validToken()) {
       this.translationsService.translate.use(this.authService.currentUserValue.defaultLang);
-      this.sidebarMinimized = JSON.parse(localStorage.getItem('sidebarMinimized'));
+      this.showDebug = this.privilegeService.checkUserPrivilege('showDebug');
     } else {
       const browserLang = this.translationsService.translate.getBrowserLang();
       this.translationsService.translate.use(browserLang.match(/en|ua/) ? browserLang : 'en');
     }
+    this.sidebarMinimized = JSON.parse(localStorage.getItem('sidebarMinimized'));
     this.translationsService.initGlobalTranslations([
       'GLOBAL.PopUps.loggedOut',
       'GLOBAL.PopUps.serverError',
