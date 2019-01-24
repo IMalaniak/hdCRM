@@ -26,7 +26,8 @@
     color: color(main, light);
     transition: background-color $animation-time-style, color $animation-time-style, border-width $animation-time-style;
 
-    &:hover {
+    &:hover,
+    &.active {
       text-decoration: none;
       background-color: color(main, light);
       color: color(highlight, light);
@@ -43,7 +44,8 @@
     a {
       justify-content: center;
 
-      &:hover {
+      &:hover,
+      &.active {
         border-left: none;
         border-bottom: 4px solid;
       }

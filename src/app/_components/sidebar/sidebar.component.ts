@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { AuthenticationService } from '@/_services';
 
 @Component({
   selector: '.app-sidebar',
@@ -8,7 +9,9 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private authService: AuthenticationService
+  ) { }
 
   ngOnInit() {
   }
