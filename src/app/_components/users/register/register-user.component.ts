@@ -81,7 +81,6 @@ export class RegisterUserComponent implements OnInit {
           type: 'error',
           timer: 1500
         });
-        this.router.navigate(['/register/user']);
       }
     );
   }

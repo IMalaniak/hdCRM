@@ -110,7 +110,6 @@ router.get('/listFull', passport.authenticate('jwt', {session: false}), (req, re
 //role by id
 router.get('/details/:id', passport.authenticate('jwt', {session: false}), (req, res, next) => {
 	findRoleById(req.params.id).then(role => {
-		sdfsdf
 		res.json(role);
 	}).catch(error => {
 		res.status(400).json(error.toString());
