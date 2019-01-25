@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
-import { RolesComponentDialogComponent } from '@/_components';
+import { RolesComponentDialogComponent } from '../../roles/roles.component';
 import { ValidateService, UserService, PrivilegeService, StateService, TranslationsService } from '@/_services';
 import { User, Role, State } from '@/_models';
 import { error } from 'util';

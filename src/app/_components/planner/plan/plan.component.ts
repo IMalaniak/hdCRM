@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
-import { UsersComponentDialogComponent } from '@/_components';
+import { UsersComponentDialogComponent } from '../../users/users.component';
 import { Plan, User, Stage } from '@/_models';
 import { PlanService, PrivilegeService, StageService, TranslationsService } from '@/_services';
 

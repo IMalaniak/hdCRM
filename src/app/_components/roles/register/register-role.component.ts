@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-import { UsersComponentDialogComponent } from '@/_components';
+import { UsersComponentDialogComponent } from '../../users/users.component';
 import { Role, User, Privilege } from '@/_models';
 import { RoleService, PrivilegeService, TranslationsService } from '@/_services';
 import swal from 'sweetalert2';
