@@ -2,28 +2,18 @@ import { environment } from 'environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { Privilege } from '@/_models';
-import { AuthenticationService } from '@/_services';
 
 @Injectable()
 export class PrivilegeService {
 
   constructor(
-    private http: HttpClient,
-    private authService: AuthenticationService
+    private http: HttpClient
   ) { }
 
   getUserPrivileges(user): Observable<string[]> {
     const url = `${environment.baseUrl}/privileges/availableForUser/${user.id}`;
-    return this.http.get<any | string[]>(url);
-  }
-
-  checkUserPrivilege(privilege: string): boolean {
-    if (this.authService.currentUserPrivileges) {
-      return this.authService.currentUserPrivileges.indexOf(privilege) >= 0;
-    }
-    return false;
+    return this.http.get<string[]>(url);
   }
 
   getPrivilegesListForRole(roleId: number): Observable<Privilege[]> {
@@ -33,6 +23,22 @@ export class PrivilegeService {
 
   getFullList(): Observable<Privilege[]> {
     return this.http.get<Privilege[]>(`${environment.baseUrl}/privileges/list`);
+  }
+
+  isPrivileged(user, privilege): boolean {
+    if(user && user.Roles && user.Roles.length > 0) {
+      let privileges = [];
+      for (const role of user.Roles) {
+        privileges.push(role.Privileges.map(privilege => {
+          return privilege.keyString;
+        }));
+      }
+      privileges = [].concat(...privileges);
+      privileges = privileges.filter((v, i, a) => a.indexOf(v) === i);
+      return privileges.includes(privilege);
+    } else {
+      return false;
+    }
   }
 
 }

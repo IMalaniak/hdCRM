@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 import { RolesComponentDialogComponent } from '../../roles/roles.component';
-import { ValidateService, UserService, PrivilegeService, StateService, TranslationsService } from '@/_services';
+import { AuthenticationService, UserService, PrivilegeService, StateService, TranslationsService } from '@/_services';
 import { User, Role, State } from '@/_models';
 import { error } from 'util';
 
@@ -25,14 +25,15 @@ export class UserComponent implements OnInit {
 
   constructor(
     public translationsService: TranslationsService,
+    private authService: AuthenticationService,
     private route: ActivatedRoute,
-    private validateService: ValidateService,
     private userService: UserService,
     private stateService: StateService,
     private privilegeService: PrivilegeService,
     private dialog: MatDialog
   ) {
     this.baseUrl = environment.baseUrl;
+    this.editUserPrivilege = false;
   }
 
   ngOnInit(): void {
@@ -46,14 +47,11 @@ export class UserComponent implements OnInit {
     ]).subscribe((translations: string[]) => {
       this.translations = translations;
     });
-
-    this.canEditUser();
+    this.authService.currentUser.subscribe(user => {
+      this.editUserPrivilege = this.privilegeService.isPrivileged(user, 'editUser');
+    });
     this.getUserData();
     this.editForm = false;
-  }
-
-  canEditUser(): void {
-    this.editUserPrivilege = this.privilegeService.checkUserPrivilege('editUser');
   }
 
   getUserData(): void {

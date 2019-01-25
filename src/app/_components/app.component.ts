@@ -25,13 +25,13 @@ export class AppComponent implements OnInit {
     this.translationsService.translate.addLangs(['en', 'pl', 'ua', 'ru']);
     this.translationsService.translate.setDefaultLang('en');
     this.baseUrl = environment.baseUrl;
+    this.showDebug = false;
   }
 
-  ngOnInit() {
-    this.showDebug = false;
+  ngOnInit() {    
     if (this.authService.validToken()) {
       this.translationsService.translate.use(this.authService.currentUserValue.defaultLang);
-      this.showDebug = this.privilegeService.checkUserPrivilege('showDebug');
+      //this.showDebug = this.privilegeService.checkUserPrivilege('showDebug');
     } else {
       const browserLang = this.translationsService.translate.getBrowserLang();
       this.translationsService.translate.use(browserLang.match(/en|ua/) ? browserLang : 'en');
@@ -45,6 +45,9 @@ export class AppComponent implements OnInit {
       'GLOBAL.PopUps.nextButtonText',
       'GLOBAL.PopUps.notAuthorized'
     ]);
+    this.authService.currentUser.subscribe(user => {
+      this.showDebug = this.privilegeService.isPrivileged(user, 'showDebug');
+    });
   }
 
   get isValidToken(): boolean {

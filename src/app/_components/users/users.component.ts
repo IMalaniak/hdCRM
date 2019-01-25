@@ -1,14 +1,13 @@
 import { environment } from 'environments/environment';
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-
 import {
   Sort,
   MatTabChangeEvent,
   MatCheckboxChange
  } from '@angular/material';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { UserService, PrivilegeService, StateService, TranslationsService } from '@/_services';
+import { AuthenticationService, UserService, PrivilegeService, StateService, TranslationsService } from '@/_services';
 import { User, State } from '@/_models';
 import swal from 'sweetalert2';
 import { error } from 'util';
@@ -35,17 +34,23 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private authService: AuthenticationService,
     private userService: UserService,
     private stateService: StateService,
     private privilegeService: PrivilegeService,
     private translationsService: TranslationsService
   ) {
     this.baseUrl = environment.baseUrl;
+    this.editUserPrivilege = false;
+    this.addUserPrivilege = false;
   }
 
   ngOnInit() {
     this.dataLoaded = false;
-    this.initPrivileges();
+    this.authService.currentUser.subscribe(user => {
+      this.editUserPrivilege = this.privilegeService.isPrivileged(user, 'editUser');
+      this.addUserPrivilege = this.privilegeService.isPrivileged(user, 'addUser');
+    });
     this.userService.getList().subscribe(users => {
       this.users = users.map(user => {
         user.selected = false;
@@ -93,19 +98,6 @@ export class UsersComponent implements OnInit {
   onTabClick(event: MatTabChangeEvent): void {
     this.sortByState(this.states[event.index].id);
     this.selectedState = this.states[event.index].keyString;
-  }
-
-  initPrivileges(): void {
-    this.canEditUser();
-    this.canAddUser();
-  }
-
-  canEditUser(): void {
-    this.editUserPrivilege = this.privilegeService.checkUserPrivilege('editUser');
-  }
-
-  canAddUser(): void {
-    this.addUserPrivilege = this.privilegeService.checkUserPrivilege('addUser');
   }
 
   sortData(sort: Sort) {

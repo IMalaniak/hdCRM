@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 import { UsersComponentDialogComponent } from '../../users/users.component';
 import { Plan, User, Stage } from '@/_models';
-import { PlanService, PrivilegeService, StageService, TranslationsService } from '@/_services';
+import { AuthenticationService, PlanService, PrivilegeService, StageService, TranslationsService } from '@/_services';
 
 @Component({
   selector: 'app-plan',
@@ -27,9 +27,11 @@ export class PlanComponent implements OnInit {
     private planService: PlanService,
     private privilegeService: PrivilegeService,
     private stageService: StageService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private authService: AuthenticationService
   ) {
     this.baseUrl = environment.baseUrl;
+    this.editPlanPrivilege = false;
   }
 
   ngOnInit() {
@@ -45,14 +47,11 @@ export class PlanComponent implements OnInit {
     ]).subscribe((translations: string[]) => {
       this.translations = translations;
     });
-
-    this.canEditPlan();
+    this.authService.currentUser.subscribe(user => {
+      this.editPlanPrivilege = this.privilegeService.isPrivileged(user, 'editPlan');
+    });
     this.getPlanData();
     this.editForm = false;
-  }
-
-  canEditPlan(): void {
-    this.editPlanPrivilege = this.privilegeService.checkUserPrivilege('editPlan');
   }
 
   getPlanData(): void {
