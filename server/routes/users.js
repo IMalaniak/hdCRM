@@ -53,6 +53,8 @@ router.post('/register', passport.authenticate('jwt', {session: false}), (req, r
 			}).catch(error => {
 				res.status(400).json(error.toString());
 			});
+		} else {
+			res.status(200);
 		}
 	}).catch(error => {
 		res.status(400).json(error.toString());
