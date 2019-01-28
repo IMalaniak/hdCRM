@@ -54,8 +54,11 @@ router.post('/register', passport.authenticate('jwt', {session: false}), (req, r
 				res.status(400).json(error.toString());
 			});
 		} else {
-			res.status(200);
+			res.status(200).json(user);
 		}
+	}).catch(models.sequelize.ValidationError, error => {
+		//console.error(error);
+		res.status(412).json(error);
 	}).catch(error => {
 		res.status(400).json(error.toString());
 	});

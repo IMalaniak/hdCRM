@@ -9,15 +9,46 @@ module.exports = (sequelize, DataTypes) => {
   	email:  {
       type: DataTypes.STRING(50),
   	  required: true,
-      allowNull: false
+      allowNull: false,
+      unique: true,
+      validate: {
+        notEmpty: true,
+        isEmail: true,
+        isUnique(value, next) {
+          User.findOne({
+            where: { email: value },
+            attributes: ['id']
+          }).done((user) => {
+            if (user)
+              return next('errors.email.unique');
+
+            next();
+          });
+        }
+      }
     },
   	login: {
       type: DataTypes.STRING(50),
   	  required: true,
-      allowNull: false
+      allowNull: false,
+      unique: true,
+      validate: {
+        notEmpty: true,
+        isUnique(value, next) {
+          User.findOne({
+            where: { login: value },
+            attributes: ['id']
+          }).done((user) => {
+            if (user)
+              return next('errors.login.unique');
+
+            next();
+          });
+        }
+      }
     },
   	name:  {
-      type: DataTypes.STRING(50)
+      type: DataTypes.STRING(50) 
     },
   	surname:  {
       type: DataTypes.STRING(50)
