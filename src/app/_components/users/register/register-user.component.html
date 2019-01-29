@@ -4,18 +4,18 @@
       <div class="form-row">
         <div class="form-group col-md-6">
           <label>{{ 'REGISTERUSERCOMPONENT.Form.labels.name' | translate}}</label>
-          <input type="text" [(ngModel)]="user.name" name="name" placeholder="{{ 'REGISTERUSERCOMPONENT.Form.placeholders.name' | translate}}" class="form-control">
+          <input type="text" [(ngModel)]="user.name" required name="name" placeholder="{{ 'REGISTERUSERCOMPONENT.Form.placeholders.name' | translate}}" class="form-control">
         </div>
         <div class="form-group col-md-6">
           <label>{{ 'REGISTERUSERCOMPONENT.Form.labels.surname' | translate}}</label>
-          <input type="text" [(ngModel)]="user.surname" name="surname" placeholder="{{ 'REGISTERUSERCOMPONENT.Form.placeholders.surname' | translate}}" class="form-control">
+          <input type="text" [(ngModel)]="user.surname" required name="surname" placeholder="{{ 'REGISTERUSERCOMPONENT.Form.placeholders.surname' | translate}}" class="form-control">
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group col-md-6">
           <label>{{ 'REGISTERUSERCOMPONENT.Form.labels.email' | translate}}</label>
-          <input type="email" [(ngModel)]="user.email" name="email" placeholder="{{ 'REGISTERUSERCOMPONENT.Form.placeholders.email' | translate}}" class="form-control">
+          <input type="email" [(ngModel)]="user.email" required email name="email" placeholder="{{ 'REGISTERUSERCOMPONENT.Form.placeholders.email' | translate}}" class="form-control">
         </div>
         <div class="form-group col-md-6">
           <label>{{ 'REGISTERUSERCOMPONENT.Form.labels.phone' | translate}}</label>
@@ -26,11 +26,11 @@
       <div class="form-row">
         <div class="form-group col-md-6">
           <label>{{ 'REGISTERUSERCOMPONENT.Form.labels.login' | translate}}</label>
-          <input type="text" [(ngModel)]="user.login" name="login" placeholder="{{ 'REGISTERUSERCOMPONENT.Form.placeholders.login' | translate}}" class="form-control">
+          <input type="text" [(ngModel)]="user.login" required name="login" placeholder="{{ 'REGISTERUSERCOMPONENT.Form.placeholders.login' | translate}}" class="form-control">
         </div>
         <div class="form-group col-md-6">
           <label>{{ 'REGISTERUSERCOMPONENT.Form.labels.password' | translate}}</label>
-          <input type="password" [(ngModel)]="user.password" name="password" class="form-control">
+          <input type="password" [(ngModel)]="user.password" required name="password" class="form-control">
         </div>
       </div>
 
