@@ -66,10 +66,17 @@ router.post('/register', passport.authenticate('jwt', {session: false}), (req, r
 
 //Auth
 router.post('/authenticate', (req, res, next) => {
-	const login = req.body.login;
+	const loginOrEmail = req.body.login;
 	const password = req.body.password;
 	models.User.findOne({
-			where: {login: login},
+			where: {$or: [
+				{
+					login: loginOrEmail
+				},
+				{
+					email: loginOrEmail
+				}
+			]},
 			include: [
 				{
 					model: models.Role,
