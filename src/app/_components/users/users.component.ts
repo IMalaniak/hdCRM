@@ -41,8 +41,6 @@ export class UsersComponent implements OnInit {
     private translationsService: TranslationsService
   ) {
     this.baseUrl = environment.baseUrl;
-    this.editUserPrivilege = false;
-    this.addUserPrivilege = false;
   }
 
   ngOnInit() {

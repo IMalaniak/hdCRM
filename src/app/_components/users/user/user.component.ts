@@ -33,7 +33,7 @@ export class UserComponent implements OnInit {
     private dialog: MatDialog
   ) {
     this.baseUrl = environment.baseUrl;
-    this.editUserPrivilege = false;
+    this.editForm = false;
   }
 
   ngOnInit(): void {
@@ -51,7 +51,6 @@ export class UserComponent implements OnInit {
       this.editUserPrivilege = this.privilegeService.isPrivileged(user, 'editUser');
     });
     this.getUserData();
-    this.editForm = false;
   }
 
   getUserData(): void {

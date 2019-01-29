@@ -31,7 +31,7 @@ export class PlanComponent implements OnInit {
     private authService: AuthenticationService
   ) {
     this.baseUrl = environment.baseUrl;
-    this.editPlanPrivilege = false;
+    this.editForm = false;
   }
 
   ngOnInit() {
@@ -51,7 +51,6 @@ export class PlanComponent implements OnInit {
       this.editPlanPrivilege = this.privilegeService.isPrivileged(user, 'editPlan');
     });
     this.getPlanData();
-    this.editForm = false;
   }
 
   getPlanData(): void {

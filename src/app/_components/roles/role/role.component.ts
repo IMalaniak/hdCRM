@@ -32,7 +32,7 @@ export class RoleComponent implements OnInit {
     private dialog: MatDialog
   ) {
     this.baseUrl = environment.baseUrl;
-    this.editRolePrivilege = false;
+    this.editForm = false;
   }
 
   ngOnInit() {
@@ -49,7 +49,6 @@ export class RoleComponent implements OnInit {
       this.editRolePrivilege = this.privilegeService.isPrivileged(user, 'editRole');
     });
     this.getRoleData();
-    this.editForm = false;
   }
 
   getRoleData(): void {
