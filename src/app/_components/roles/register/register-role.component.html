@@ -23,7 +23,7 @@
     </div>
 
     <div class="col-sm-4">
-      <label>{{ 'REGISTERROLECOMPONENT.Role.users' | translate}}:</label>
+      <label>{{ 'REGISTERROLECOMPONENT.Users' | translate}}:</label>
       <ul class="list-group">
         <ng-container *ngFor="let user of role.Users">
           <li routerLink="/user/{{user.id}}" class="list-group-item">
@@ -41,6 +41,6 @@
 
 
 
-  <button buttons class="btn btn-primary" (click)="onRegisterSubmit()">{{ 'REGISTERROLECOMPONENT.Submit' }}</button>
+  <button buttons class="btn btn-primary" (click)="onRegisterSubmit()">{{ 'REGISTERROLECOMPONENT.Actions.submit' | translate }}</button>
 
 </section>

@@ -32,7 +32,8 @@
         "addPlan": "Add Plan",
         "editRole": "Edit Role",
         "deleteRole": "Delete Role",
-        "addRole": "Add Role"
+        "addRole": "Add Role",
+        "showDebug": "Show Debug"
       },
       "List": {
         "createdAt": "Date created",
@@ -78,34 +79,60 @@
         }
       }
     },
+    "BREADCRUMBS": {
+      "login": "Login",
+      "home": "Home",
+      "dashboard": "Dashboard",
+      "administration": "Administration",
+      "myprofile": "My profile",
+      "users": "Users",
+      "userDetails": "User details",
+      "userRegister": "Register",
+      "translations": "Translations",
+      "roles": "Roles",
+      "roleDetails": "Role details",
+      "roleAdd": "Add role",
+      "planner": "Planning",
+      "planDetails": "Plan details",
+      "planAdd": "Add plan"
+    },
     "REGISTERUSERCOMPONENT": {
       "Header": "Register a new user",
       "Form": {
         "labels": {
           "login": "Login",
           "email": "Email",
+          "phone": "Phone",
           "name": "Name",
           "surname": "Surname",
           "role": "Role",
-          "password": "Password"
+          "password": "Password",
+          "defaultLang": "Language"
         },
         "placeholders": {
           "login": "Enter login here",
           "email": "Enter email here",
           "name": "Enter name here",
-          "surname": "Enter surname here"
+          "surname": "Enter surname here",
+          "phone": "Enter phone here"
         }
       },
       "Alerts": {
         "fieldsError": "Please, fill in all fields!",
         "badEmail": "Email address is not correct!",
         "userRegistered": "User registered!"
+      },
+      "Actions": {
+        "submit": "Submit"
       }
     },
     "PROFILECOMPONENT": {
       "Header": "My profile",
       "Actions": {
         "edit": "Edit"
+      },
+      "User": {
+        "defaultLangWarning": "Language will change after next login"
       }
     },
     "USERSCOMPONENT": {
@@ -154,10 +181,12 @@
         "phone": "Phone",
         "state": "State",
         "role": "Role",
-        "defaultLang": "Language"
+        "defaultLang": "Language",
+        "defaultLangWarning": "Language will change after next login"
       },
       "Actions": {
-        "edit": "Edit User"
+        "edit": "Edit User",
+        "addRole": "Add Role" 
       },
       "PopUps": {
         "udpateUserTitle": "Are You sure?",
@@ -180,6 +209,11 @@
     },
     "ROLECOMPONENT": {
       "Header": "Role details",
+      "Form": {
+        "labels": {
+          "name": "Key"
+        }
+      },
       "Role": {
         "users": "Users",
         "privileges": "Privileges"
@@ -192,7 +226,28 @@
         "udpateRoleTitle": "Are You sure?",
         "udpateRoleText": "Do you really want to save changes? You will not be able to recover this!",
         "udpateRoleSuccess": "Role updated!",
-        "udpateRoleError": "Somth went wrong!"
+        "udpateRoleError": "Somth went wrong!",
+        "selectUsersTitle": "Select users"
+      }
+    },
+    "REGISTERROLECOMPONENT": {
+      "Header": "Add role",
+      "Form": {
+        "labels": {
+          "name": "Key",
+          "privileges": "Privileges"
+        },
+        "placeholders": {
+          "title": "Enter key name here"
+        }
+      },
+      "Users": "Users",
+      "Actions": {
+        "addUser": "Add User",
+        "submit": "Submit"
+      },
+      "PopUps": {
+        "selectUsersTitle": "Select users"
       }
     },
     "PLANNERCOMPONENT": {

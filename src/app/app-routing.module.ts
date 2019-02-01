@@ -40,7 +40,7 @@ const routes: Routes = [
   {path: 'roles', data: { breadcrumb: 'roles' }, canActivate: [AuthGuard],
     children: [
       {path: '', component: RolesComponent },
-      {path: 'details/:id', data: { breadcrumb: 'role/details' }, component: RoleComponent, canActivate: [AuthGuard]},
+      {path: 'details/:id', data: { breadcrumb: 'roleDetails' }, component: RoleComponent, canActivate: [AuthGuard]},
       {path: 'add', data: { breadcrumb: 'roleAdd' }, component: RegisterRoleComponent},
     ]
   },

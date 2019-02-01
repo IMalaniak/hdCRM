@@ -44,7 +44,7 @@ export class RegisterRoleComponent implements OnInit {
     const dialogRef = this.dialog.open(UsersComponentDialogComponent, {
       height: '80vh',
       data: {
-        title: this.translations['REGISTERROLECOMPONENT.PopUps.SelectUsersTitle'],
+        title: this.translations['REGISTERROLECOMPONENT.PopUps.selectUsersTitle'],
       }
     });
 

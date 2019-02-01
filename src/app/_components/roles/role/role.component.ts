@@ -69,7 +69,7 @@ export class RoleComponent implements OnInit {
     const dialogRef = this.dialog.open(UsersComponentDialogComponent, {
       height: '80vh',
       data: {
-        title: this.translations['ROLECOMPONENT.PopUps.SelectUsersTitle'],
+        title: this.translations['ROLECOMPONENT.PopUps.selectUsersTitle'],
       }
     });
 

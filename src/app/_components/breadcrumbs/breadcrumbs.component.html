@@ -8,10 +8,10 @@
       </ng-container>
       <ng-container *ngIf="breadcrumb.keyString !== 'home'">
           <a routerLink="{{breadcrumb.url}}" *ngIf="!isLast">
-              {{ 'MAIN.Breadcrumbs.' + breadcrumb.keyString | translate }}
+              {{ 'BREADCRUMBS.' + breadcrumb.keyString | translate }}
           </a>
           <ng-container *ngIf="isLast">
-              {{ 'MAIN.Breadcrumbs.' + breadcrumb.keyString | translate }}
+              {{ 'BREADCRUMBS.' + breadcrumb.keyString | translate }}
           </ng-container>
       </ng-container>
     </li>
