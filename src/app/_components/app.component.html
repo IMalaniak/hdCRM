@@ -6,12 +6,8 @@
 				<mat-icon>menu</mat-icon>
 			</button>
 		</div>
-
-		<nav class="d-flex align-items-center" aria-label="breadcrumb" role="navigation">
-			<ol class="breadcrumb" *ngIf="isValidToken">
-				<li class="breadcrumb-item active" aria-current="page"> <a [routerLink]="['/dashboard']"><mat-icon>dashboard</mat-icon></a> </li>
-			</ol>
-		</nav>
+		
+		<app-breadcrumbs></app-breadcrumbs>
 
 		<div class="user-lang ml-auto">
 			<div>

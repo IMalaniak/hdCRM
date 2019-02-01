@@ -16,3 +16,4 @@ export * from './users/myProfile/profile.component';
 export * from './users/register/register-user.component';
 export * from './users/user/user.component';
 export * from './users/users.component';
+export * from './breadcrumbs/breadcrumbs.component';

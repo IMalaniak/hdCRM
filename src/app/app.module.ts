@@ -11,6 +11,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppComponent,
   AttachmentsComponent,
+  BreadcrumbsComponent,
   AdministrationComponent,
   DashboardComponent,
   HomeComponent,
@@ -48,7 +49,6 @@ import { AuthenticationService,
   StageService,
   MessageService } from '@/_services';
 
-
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -58,6 +58,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     AppComponent,
     AttachmentsComponent,
+    BreadcrumbsComponent,
     AdministrationComponent,
     ContentBoxComponent,
     DashboardComponent,

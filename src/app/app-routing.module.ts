@@ -21,32 +21,32 @@ const routes: Routes = [
   //  public routes
   {path: '', component: HomeComponent},
   {path: 'home', component: HomeComponent},
-  {path: 'login', component: LoginComponent},
+  {path: 'login', data: { breadcrumb: 'login' }, component: LoginComponent},
   // private routes
-  {path: 'planner', canActivate: [AuthGuard],
+  {path: 'planner', data: { breadcrumb: 'planner' }, canActivate: [AuthGuard],
     children: [
       {path: '', component: PlannerComponent },
-      {path: 'details/:id', component: PlanComponent, canActivate: [AuthGuard]},
-      {path: 'add', component: RegisterPlanComponent}
+      {path: 'details/:id', data: { breadcrumb: 'planDetails' }, component: PlanComponent, canActivate: [AuthGuard]},
+      {path: 'add', data: { breadcrumb: 'planAdd' }, component: RegisterPlanComponent}
     ]
   },  
-  {path: 'users', canActivate: [AuthGuard],
+  {path: 'users', data: { breadcrumb: 'users' }, canActivate: [AuthGuard],
     children: [
       {path: '', component: UsersComponent },
-      {path: 'details/:id', component: UserComponent, canActivate: [AuthGuard]},
-      {path: 'register', component: RegisterUserComponent},
+      {path: 'details/:id', data: { breadcrumb: 'userDetails' }, component: UserComponent, canActivate: [AuthGuard]},
+      {path: 'register', data: { breadcrumb: 'userRegister' }, component: RegisterUserComponent},
     ]
   },
-  {path: 'roles', canActivate: [AuthGuard],
+  {path: 'roles', data: { breadcrumb: 'roles' }, canActivate: [AuthGuard],
     children: [
       {path: '', component: RolesComponent },
-      {path: 'details/:id', component: RoleComponent, canActivate: [AuthGuard]},
-      {path: 'add', component: RegisterRoleComponent},
+      {path: 'details/:id', data: { breadcrumb: 'role/details' }, component: RoleComponent, canActivate: [AuthGuard]},
+      {path: 'add', data: { breadcrumb: 'roleAdd' }, component: RegisterRoleComponent},
     ]
   },
-  {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
-  {path: 'myprofile', component: ProfileComponent, canActivate: [AuthGuard]},
-  {path: 'administration', component: AdministrationComponent, canActivate: [AuthGuard]},
+  {path: 'dashboard', data: { breadcrumb: 'dashboard' }, component: DashboardComponent, canActivate: [AuthGuard]},
+  {path: 'myprofile', data: { breadcrumb: 'myprofile' }, component: ProfileComponent, canActivate: [AuthGuard]},
+  {path: 'administration', data: { breadcrumb: 'administration' }, component: AdministrationComponent, canActivate: [AuthGuard]},
 //  {path: 'translations', component: TranslationsComponent, canActivate:[AuthGuard]},
 ];
 
