@@ -23,7 +23,11 @@
       <div class="form-group row">
         <label for="deadline" class="col-sm-4 col-form-label">{{ 'REGISTERPLANCOMPONENT.Plan.deadline' | translate}}:</label>
         <div class="col-sm-8">
-          <input [(ngModel)]="plan.deadline" type="text" name="deadline" class="form-control" placeholder="">
+          <mat-form-field>
+            <input matInput [min]="plan.createdAt" [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="plan.deadline" type="datetime" name="deadline">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
         </div>
       </div>
     </form>
