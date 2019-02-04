@@ -43,7 +43,7 @@ export class UserComponent implements OnInit {
       'USERCOMPONENT.PopUps.udpateUserText',
       'USERCOMPONENT.PopUps.udpateUserSuccess',
       'USERCOMPONENT.PopUps.udpateUserError',
-      'USERCOMPONENT.PopUps.SelectRolesTitle'
+      'USERCOMPONENT.PopUps.selectRolesTitle'
     ]).subscribe((translations: string[]) => {
       this.translations = translations;
     });
@@ -72,7 +72,7 @@ export class UserComponent implements OnInit {
     const dialogRef = this.dialog.open(RolesComponentDialogComponent, {
       height: '80vh',
       data: {
-        title: this.translations['USERCOMPONENT.PopUps.SelectRolesTitle'],
+        title: this.translations['USERCOMPONENT.PopUps.selectRolesTitle'],
       }
     });
 

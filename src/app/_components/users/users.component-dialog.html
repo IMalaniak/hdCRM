@@ -2,9 +2,7 @@
 <section mat-dialog-content>
   <app-users></app-users>
 </section>
-<div mat-dialog-actions>
-  <section class="d-flex">
-    <button class="btn btn-light" (click)="onNoClick()">{{'USERSCOMPONENTDIALOG.Actions.Cancel' | translate}}</button>
-    <button class="btn btn-primary" [mat-dialog-close]="usersComponent.selectedUsers" cdkFocusInitial>{{'USERSCOMPONENTDIALOG.Actions.Ok' | translate}}</button>
-  </section>
+<div mat-dialog-actions class="justify-content-end">
+    <button class="btn btn-light" (click)="onNoClick()">{{'USERSCOMPONENTDIALOG.Actions.cancel' | translate}}</button>
+    <button class="btn btn-primary" [mat-dialog-close]="usersComponent.selectedUsers" cdkFocusInitial>{{'USERSCOMPONENTDIALOG.Actions.ok' | translate}}</button>
 </div>

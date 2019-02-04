@@ -41,7 +41,7 @@ export class RoleComponent implements OnInit {
       'ROLECOMPONENT.PopUps.udpateRoleText',
       'ROLECOMPONENT.PopUps.udpateRoleSuccess',
       'ROLECOMPONENT.PopUps.udpateRoleError',
-      'ROLECOMPONENT.PopUps.SelectUsersTitle'
+      'ROLECOMPONENT.PopUps.selectUsersTitle'
     ]).subscribe((translations: string[]) => {
       this.translations = translations;
     });

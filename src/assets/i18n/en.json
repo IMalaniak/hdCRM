@@ -171,6 +171,12 @@
         "stateUpdatedTo": "User state was changed to: "
       }
     },
+    "USERSCOMPONENTDIALOG": {
+      "Actions": {
+        "cancel": "Cancel",
+        "ok": "Ok"
+      }
+    },
     "USERCOMPONENT": {
       "Header": "User details",
       "User": {
@@ -192,7 +198,8 @@
         "udpateUserTitle": "Are You sure?",
         "udpateUserText": "Do you really want to save changes? You will not be able to recover this!",
         "udpateUserSuccess": "User updated!",
-        "udpateUserError": "Somth went wrong!"
+        "udpateUserError": "Somth went wrong!",
+        "selectRolesTitle": "Select roles"
       }
     },
     "ROLESCOMPONENT": {
@@ -205,6 +212,12 @@
         "title": "Title",
         "usersCount": "Users",
         "privilegesCount": "Privileges"
+      }
+    },
+    "ROLESCOMPONENTDIALOG": {
+      "Actions": {
+        "cancel": "Cancel",
+        "ok": "Ok"
       }
     },
     "ROLECOMPONENT": {
