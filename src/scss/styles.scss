@@ -212,6 +212,10 @@ footer {
 .userpic {
   max-height: size(userpic);
   border-radius: 50%;
+  
+  .list-group-item & {
+    margin-right: size(spacer, null, true);
+  }
 }
 
 .mat-checkbox {
