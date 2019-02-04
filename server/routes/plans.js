@@ -17,7 +17,7 @@ router.post('/create', passport.authenticate('jwt', {session: false}), (req, res
 		}).then(user => {
 			plan.setCreator(user).then(() => {
 				models.Stage.findOne({
-					where: {title: 'created'}
+					where: {keyString: 'created'}
 				}).then(stage => {
 					plan.setStage(stage).then(() => {
 						if(req.body.Participants) {
