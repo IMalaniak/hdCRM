@@ -56,7 +56,7 @@ router.post('/register', passport.authenticate('jwt', {session: false}), (req, r
 		} else {
 			res.status(200).json(user);
 		}
-	}).catch(models.sequelize.ValidationError, error => {
+	}).catch(models.sequelize.ValidationError, models.sequelize.UniqueConstraintError, error => {
 		//console.error(error);
 		res.status(412).json(error);
 	}).catch(error => {

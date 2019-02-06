@@ -13,18 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       validate: {
         notEmpty: true,
-        isEmail: true,
-        isUnique(value, next) {
-          User.findOne({
-            where: { email: value },
-            attributes: ['id']
-          }).done((user) => {
-            if (user)
-              return next('errors.email.unique');
-
-            next();
-          });
-        }
+        isEmail: true
       }
     },
   	login: {
@@ -33,18 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true,
       validate: {
-        notEmpty: true,
-        isUnique(value, next) {
-          User.findOne({
-            where: { login: value },
-            attributes: ['id']
-          }).done((user) => {
-            if (user)
-              return next('errors.login.unique');
-
-            next();
-          });
-        }
+        notEmpty: true
       }
     },
   	name:  {
@@ -69,6 +47,16 @@ module.exports = (sequelize, DataTypes) => {
     defaultLang: {
       type: DataTypes.CHAR(2)
     }
+  },{
+    indexes: [
+      {
+        unique: true,
+        fields: ['email']
+      }, {
+        unique: true,
+        fields: ['login']    
+      }
+    ]
   });
   User.associate = function(models) {
     User.belongsToMany(models.Role, {through: 'UserRoles', foreignKey: 'UserId'});
