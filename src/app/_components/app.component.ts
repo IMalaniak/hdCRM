@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
     private privilegeService: PrivilegeService,
     public router: Router
   ) {
-    this.translationsService.translate.addLangs(['en', 'pl', 'ua', 'ru']);
+    this.translationsService.translate.addLangs(['en', 'pl', 'uk', 'ru']);
     this.translationsService.translate.setDefaultLang('en');
     this.baseUrl = environment.baseUrl;
   }
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
       //this.showDebug = this.privilegeService.checkUserPrivilege('showDebug');
     } else {
       const browserLang = this.translationsService.translate.getBrowserLang();
-      this.translationsService.translate.use(browserLang.match(/en|ua/) ? browserLang : 'en');
+      this.translationsService.translate.use(browserLang.match(/en|uk|pl|ru/) ? browserLang : 'en');
     }
     this.sidebarMinimized = JSON.parse(localStorage.getItem('sidebarMinimized'));
     this.translationsService.initGlobalTranslations([
