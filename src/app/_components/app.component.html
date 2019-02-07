@@ -9,15 +9,12 @@
 		
 		<app-breadcrumbs></app-breadcrumbs>
 
-		<div class="user-lang ml-auto">
-			<div>
-				<span [ngClass]="{'nonactive': translationsService.translate.currentLang !== lang}" *ngFor="let lang of translationsService.translate.getLangs()"><img src="./assets/images/langs/{{ lang }}.svg" alt="{{ lang }}" (click)="translationsService.translate.use(lang)"></span>
-			</div>
-		</div>
-
-		<div class="user-search">
+		<div class="user-search ml-auto">
 			<mat-icon>search</mat-icon>
 		</div>
+
+		<!-- <span [ngClass]="{'nonactive': translationsService.translate.currentLang !== lang}" *ngFor="let lang of translationsService.translate.getLangs()"><img src="./assets/images/langs/{{ lang }}.svg" alt="{{ lang }}" (click)="translationsService.translate.use(lang)"></span> -->
+
 		<div class="user-question">
 			<mat-icon>question_answer</mat-icon>
 		</div>
@@ -45,15 +42,19 @@
 			</div>
 
 			<footer>
-				<div class="container">
-					<div class="row">
-						<div class="col-sm-6">
-							<span [innerHTML]="'MAIN.Footer.signature' | translate"></span>
-						</div>
-						<div class="col-sm-6">
-
-						</div>
+				<div>
+					<div class="user-lang">
+						<label for="langSelect">{{'MAIN.Footer.choseLang' | translate}}</label>
+						<select #langSelect name="langSelect" (change)="translationsService.translate.use(langSelect.value)">
+							<option *ngFor="let lang of translationsService.translate.getLangs()" [value]="lang" [selected]="lang === translationsService.translate.currentLang">{{ lang }}</option>
+						</select>
 					</div>
+				</div>
+				<div class="author-links">
+					<span [innerHTML]="'MAIN.Footer.signature' | translate"></span>
+					<!-- <div class="social-media">
+
+					</div> -->
 				</div>
 			</footer>
 		</section>
