@@ -40,7 +40,7 @@
           <div class="form-group row" matTooltip="{{ 'USERCOMPONENT.User.defaultLangWarning' | translate}}" [matTooltipDisabled]=!editForm>
             <label for="defaultLang" class="col-sm-4 col-form-label">{{ 'USERCOMPONENT.User.defaultLang' | translate}}:</label>
             <div class="col-sm-8">
-              <input *ngIf="!editForm" value="{{ 'GLOBAL.Languages.labels.' + user.defaultLang | translate}}" [(ngModel)]="user.defaultLang" type="text" name="defaultLang" class="form-control-plaintext" readonly placeholder="">
+              <input *ngIf="!editForm" value="{{ 'GLOBAL.Languages.labels.' + user.defaultLang | translate}}"  type="text" name="defaultLang" class="form-control-plaintext" readonly placeholder="">
               <select *ngIf="editForm" [(ngModel)]="user.defaultLang" name="defaultLang" class="form-control">
                 <option *ngFor="let lang of langs" [value]="lang">{{ 'GLOBAL.Languages.labels.' + lang | translate }}</option>
               </select>
