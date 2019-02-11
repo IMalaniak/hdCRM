@@ -46,7 +46,7 @@
 					<div class="user-lang">
 						<label for="langSelect">{{'MAIN.Footer.choseLang' | translate}}</label>
 						<select #langSelect name="langSelect" (change)="translationsService.translate.use(langSelect.value)">
-							<option *ngFor="let lang of translationsService.translate.getLangs()" [value]="lang" [selected]="lang === translationsService.translate.currentLang">{{ lang }}</option>
+							<option *ngFor="let lang of translationsService.translate.getLangs()" [value]="lang" [selected]="lang === translationsService.translate.currentLang">{{ 'GLOBAL.Languages.labels.' + lang | translate }}</option>
 						</select>
 					</div>
 				</div>

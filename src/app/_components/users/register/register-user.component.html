@@ -38,7 +38,7 @@
         <div class="form-group col-md-6">
           <label>{{ 'REGISTERUSERCOMPONENT.Form.labels.defaultLang' | translate}}</label>
           <select [(ngModel)]="user.defaultLang" name="defaultLang" class="form-control">
-            <option *ngFor="let lang of langs" [value]="lang">{{ lang }}</option>
+            <option *ngFor="let lang of langs" [value]="lang">{{ 'GLOBAL.Languages.labels.' + lang | translate }}</option>
           </select>
         </div>
       </div>

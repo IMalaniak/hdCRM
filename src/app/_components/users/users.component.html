@@ -62,7 +62,7 @@
             <td>{{ 'GLOBAL.States.' + user.State.keyString | translate}}</td>
             <td>{{user.createdAt | date: 'short'}}</td>
             <td>{{user.updatedAt | date: 'short'}}</td>
-            <td>{{user.defaultLang}}</td>
+            <td>{{ 'GLOBAL.Languages.labels.' + user.defaultLang | translate}}</td>
 
             <td *ngIf="editUserPrivilege" class="context-menu" (click)="$event.stopPropagation()">
               <button mat-icon-button [matMenuTriggerFor]="menu">

@@ -35,6 +35,14 @@
         "addRole": "Add Role",
         "showDebug": "Show Debug"
       },
+      "Languages": {
+        "labels": {
+          "uk": "Українська",
+          "ru": "Русский",
+          "pl": "Polski",
+          "en": "English"
+        }
+      },
       "List": {
         "createdAt": "Date created",
         "updatedAt": "Date updated"

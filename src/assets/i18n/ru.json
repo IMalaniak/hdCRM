@@ -27,6 +27,14 @@
         "deleteRole": "Удалять Роль",
         "addRole": "Создавать Роль"
       },
+      "Languages": {
+        "labels": {
+          "uk": "Українська",
+          "ru": "Русский",
+          "pl": "Polski",
+          "en": "English"
+        }
+      },
       "List": {
         "createdAt": "Дата создания",
         "updatedAt": "Дата модификации"

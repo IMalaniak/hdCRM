@@ -22,6 +22,14 @@
 			"edit": "Редагувати",
 			"saveChanges": "Зберегти зміни"
 		},
+		"Languages": {
+			"labels": {
+			  "uk": "Українська",
+			  "ru": "Русский",
+			  "pl": "Polski",
+			  "en": "English"
+			}
+		},
 		"List": {
 			"createdAt": "Дата створення",
 			"updatedAt": "Дата редагування"
