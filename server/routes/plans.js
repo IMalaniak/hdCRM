@@ -158,6 +158,9 @@ router.get('/details/:id', passport.authenticate('jwt', {session: false}), (req,
 				through: {
 					attributes: []
 				}
+			},
+			{
+				model: models.Stage
 			}
 		]
 	}).then(plan => {

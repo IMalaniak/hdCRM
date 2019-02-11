@@ -1,5 +1,6 @@
 import { User } from './user';
 import { Asset } from './asset';
+import { Stage } from './stage';
 
 export class Plan {
   id: number;
@@ -9,6 +10,8 @@ export class Plan {
   budget: number;
   progress: number;
   CreatorId: number;
+  StageId: number;
+  Stage: Stage;
   Creator: User;
   Participants: User[];
   Documents: Asset[];
