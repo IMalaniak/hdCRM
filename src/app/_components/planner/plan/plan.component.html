@@ -1,6 +1,15 @@
 <section class="app-content-box" [title]="'PLANCOMPONENT.Header'" *ngIf="plan">
-
+  
   <div content class="row">
+ 
+    <div class="col-md-12">
+      <ul class="list-group stages-scheme">
+        <li *ngFor="let stage of stages" [ngClass]="{'active': stage.id === plan.StageId}">
+          <span>{{ 'GLOBAL.Stages.' + stage.keyString  | translate}}</span>
+        </li>
+      </ul>
+    </div>
+
     <form class="col-md-8">
       <div class="form-group row">
         <label for="title" class="col-sm-4 col-form-label">{{ 'PLANCOMPONENT.Plan.title' | translate}}:</label>
@@ -79,3 +88,4 @@
 </section>
 
 <app-attachments *ngIf="plan" [attachments]="plan.Documents" [editForm]="editForm" (deleteFileCall)="deleteDoc($event)"></app-attachments>
+
