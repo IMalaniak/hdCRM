@@ -67,11 +67,13 @@ export class RegisterPlanComponent implements OnInit {
   }
 
   onClickSubmit() {
-    this.plan.Participants = this.plan.Participants.map(user => {
-        return<User> {
-          id: user.id
-        };
-    });
+    if (this.plan.Participants && this.plan.Participants.length > 0) {
+      this.plan.Participants = this.plan.Participants.map(user => {
+          return<User> {
+            id: user.id
+          };
+      });
+    }
 
     this.plan.CreatorId = this.authService.currentUserValue.id;
 

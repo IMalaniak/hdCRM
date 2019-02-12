@@ -92,11 +92,13 @@ export class PlanComponent implements OnInit {
   }
 
   updatePlan(): void {
-    this.plan.Participants = this.plan.Participants.map(user => {
+    if (this.plan.Participants && this.plan.Participants.length > 0) {
+      this.plan.Participants = this.plan.Participants.map(user => {
         return<User> {
           id: user.id
         };
-    });
+      });
+    }
     // Update plan
     this.planService.updatePlan(this.plan).subscribe(
       plan => {

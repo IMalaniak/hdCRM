@@ -65,7 +65,7 @@
       </ul>
       <br>
       <label class="label">{{ 'PLANCOMPONENT.Plan.participants' | translate}}:</label>
-      <ul class="list-group">
+      <ul class="list-group" *ngIf="plan.Participants">
         <ng-container *ngFor="let user of plan.Participants">
           <li routerLink="/user/{{user.id}}" class="list-group-item">
             <img class="userpic" *ngIf="user.avatar" src="{{baseUrl + user.avatar.location + 'thumbnails/' + user.avatar.title}}" alt="{{user.avatar.title}}">
