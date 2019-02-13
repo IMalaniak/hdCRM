@@ -10,8 +10,9 @@ export class Plan {
   budget: number;
   progress: number;
   CreatorId: number;
-  StageId: number;
-  Stage: Stage;
+  activeStageId: number;
+  activeStage: Stage;
+  Stages: Stage[];
   Creator: User;
   Participants: User[];
   Documents: Asset[];

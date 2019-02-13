@@ -30,7 +30,8 @@ module.exports = (sequelize, DataTypes) => {
     Plan.belongsTo(models.User, {as: 'Creator'});
     Plan.belongsToMany(models.User, {as: 'Participants', through: 'UserPlans', foreignKey: 'PlanId'});
     Plan.belongsToMany(models.Asset, {as: 'Documents', through: 'PlanAssets', foreignKey: 'PlanId'});
-    Plan.belongsTo(models.Stage);
+    Plan.belongsTo(models.Stage, {as: 'activeStage'});
+    Plan.belongsToMany(models.Stage, {as: 'Stages', through: models.PlanStages, foreignKey: 'PlanId'});
   };
   return Plan;
 };

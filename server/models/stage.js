@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   });
   Stage.associate = function(models) {
-    Stage.hasMany(models.Plan);
+    Stage.hasMany(models.Plan, {foreignKey: 'activeStageId'});
+    Stage.belongsToMany(models.Plan, {as: 'StagePlans', through: models.PlanStages, foreignKey: 'StageId'});
   };
   return Stage;
 };

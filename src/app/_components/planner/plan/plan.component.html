@@ -2,9 +2,9 @@
   
   <div content class="row">
  
-    <div class="col-md-12">
+    <div class="col-md-12" *ngIf="plan.Stages">
       <ul class="list-group stages-scheme">
-        <li *ngFor="let stage of stages" [ngClass]="{'active': stage.id === plan.StageId}">
+        <li *ngFor="let stage of plan.Stages" [ngClass]="{'active': stage.id === plan.activeStageId, 'passed': stage.Details.completed}">
           <span>{{ 'GLOBAL.Stages.' + stage.keyString  | translate}}</span>
         </li>
       </ul>

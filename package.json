@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "ng": "ng",
+    "prestart": "node_modules/.bin/sequelize db:migrate",
     "start": "node app.js",
     "start-web": "ng serve",
     "build": "ng build --prod",

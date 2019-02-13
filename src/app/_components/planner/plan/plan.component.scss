@@ -42,8 +42,12 @@
             }
 
             &.passed {
+                color: color(main, base);
                 background: color(main, dark);
                 text-decoration: line-through;
+                &:after {
+                    border-left-color: color(main, dark);    
+                }
             }
         }
     }

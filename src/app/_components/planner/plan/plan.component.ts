@@ -16,7 +16,6 @@ export class PlanComponent implements OnInit {
   baseUrl: string;
   plan: Plan;
   planInitial: Plan;
-  stages: Stage[];
   editForm: boolean;
   editPlanPrivilege: boolean;
   translations: object;
@@ -55,10 +54,6 @@ export class PlanComponent implements OnInit {
 
   getPlanData(): void {
     const id = +this.route.snapshot.paramMap.get('id');
-
-    this.stageService.getStagesList().subscribe(stages => {
-      this.stages = stages;
-    });
 
     this.planService.getPlan(id).subscribe(plan => {
       this.plan = plan;

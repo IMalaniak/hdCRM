@@ -20,10 +20,10 @@
       <th>{{ 'PLANNERCOMPONENT.List.deadline' | translate}}</th>
     </thead>
     <tbody>
-      <tr *ngFor="let plan of plans;" routerLink="/planner/details/{{plan.id}}" [ngClass]="{'table-info': plan.StageId=='1', 'table-success': plan.StageId=='2', 'table-warning': plan.StageId=='3' }">
+      <tr *ngFor="let plan of plans;" routerLink="/planner/details/{{plan.id}}" [ngClass]="{'table-info': plan.activeStageId=='1', 'table-success': plan.activeStageId=='2', 'table-warning': plan.activeStageId=='3' }">
         <td>{{plan.title}}</td>
         <td>{{plan.Creator.name + ' ' + plan.Creator.surname}}</td>
-        <td>{{ 'GLOBAL.Stages.' + plan.Stage.keyString | translate}}</td>
+        <td>{{ 'GLOBAL.Stages.' + plan.activeStage.keyString | translate}}</td>
         <td>{{plan.Participants.length}}</td>
         <td>{{plan.createdAt | date: 'short'}}</td>
         <td>{{plan.updatedAt | date: 'short'}}</td>

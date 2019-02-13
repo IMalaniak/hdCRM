@@ -16,30 +16,42 @@ router.post('/create', passport.authenticate('jwt', {session: false}), (req, res
 			where: {id: req.body.CreatorId}
 		}).then(user => {
 			plan.setCreator(user).then(() => {
-				models.Stage.findOne({
-					where: {keyString: 'created'}
-				}).then(stage => {
-					plan.setStage(stage).then(() => {
-						if(req.body.Participants) {
-							models.User.findAll({
-								where: {
-									[models.Sequelize.Op.or] : req.body.Participants
-								}
-							}).then(users => {
-								plan.setParticipants(users).then(() => {
-									res.json({success: true, msg: 'Plan created!'});
-								}).catch(error => {
-									res.status(400).json(error.toString());
-								});
+				models.Stage.findAll({
+					where: {
+						keyString: {
+							[models.Sequelize.Op.or]: ['created', 'inProgress', 'finished']
+						}
+					}
+				}).then(stages => {
+					for (const i in stages) {
+						if (stages[i].keyString === 'created') {
+							plan.setActiveStage(stages[i]);
+						}
+						plan.addStages(stages[i], {through: {
+								order: i,
+								completed: false
+							}
+						});
+					}
+
+					if(req.body.Participants) {
+						models.User.findAll({
+							where: {
+								[models.Sequelize.Op.or] : req.body.Participants
+							}
+						}).then(users => {
+							plan.setParticipants(users).then(() => {
+								res.json({success: true, msg: 'Plan created!'});
 							}).catch(error => {
 								res.status(400).json(error.toString());
 							});
-						} else {
-							res.json({success: true, msg: 'Plan created!'});
-						}
-					}).catch(error => {
-						res.status(400).json(error.toString());
-					});
+						}).catch(error => {
+							res.status(400).json(error.toString());
+						});
+					} else {
+						res.json({success: true, msg: 'Plan created!'});
+					}
+
 				}).catch(error => {
 					res.status(400).json(error.toString());
 				});
@@ -76,12 +88,15 @@ router.get('/fullList/', passport.authenticate('jwt', {session: false}), (req, r
 				}
 			},
 			{
-				model: models.Stage
+				model: models.Stage,
+				as: 'activeStage'
 			}
 		]
 	}).then(plans => {
 		res.json(plans);
 	}).catch(error => {
+		console.error(error);
+		
 		res.status(400).json(error.toString());
 	});
 });
@@ -111,7 +126,8 @@ router.get('/stageList/:stage', passport.authenticate('jwt', {session: false}), 
 					}
 				},
 				{
-					model: models.Stage
+					model: models.Stage,
+					as: 'activeStage'
 				}
 			]
 		}).then(plans => {
@@ -160,8 +176,20 @@ router.get('/details/:id', passport.authenticate('jwt', {session: false}), (req,
 				}
 			},
 			{
-				model: models.Stage
+				model: models.Stage,
+				as: 'activeStage'
+			},
+			{
+				model: models.Stage,
+				as: 'Stages',
+				through: {
+					as: 'Details',
+					attributes: { exclude: ['PlanId', 'StageId'] }
+				}
 			}
+		],
+		order: [ 
+			[models.Sequelize.col('order')]
 		]
 	}).then(plan => {
 		res.json(plan);
