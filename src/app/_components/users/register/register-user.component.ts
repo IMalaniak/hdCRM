@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import swal from 'sweetalert2';
-import { ValidateService, UserService, RoleService, TranslationsService } from '@/_services';
+import { UserService, RoleService, TranslationsService } from '@/_services';
 import { User, Role } from '@/_models';
+import {AbstractControl, FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-register-user',
@@ -10,25 +11,31 @@ import { User, Role } from '@/_models';
   styleUrls: ['./register-user.component.scss']
 })
 export class RegisterUserComponent implements OnInit {
-  user = new User();
+  user: User;
   roles: Role[];
   translations: Object;
   langs: string[];
-
+  userData: FormGroup;
+  hidePassword = true;
+  selectedRolesIds: number[]; 
+  
   constructor(
-    private validateService: ValidateService,
     private userService: UserService,
     private router: Router,
     private roleService: RoleService,
-    public translationsService: TranslationsService
-  ) { }
+    public translationsService: TranslationsService,
+    private _formBuilder: FormBuilder
+  ) {
+    this.user = new User();
+  }
 
   ngOnInit() {
     this.langs = this.translationsService.translate.getLangs();
     this.translationsService.getTranslations([
       'REGISTERUSERCOMPONENT.Alerts.fieldsError',
       'REGISTERUSERCOMPONENT.Alerts.badEmail',
-      'REGISTERUSERCOMPONENT.Alerts.userRegistered'
+      'REGISTERUSERCOMPONENT.Alerts.userRegistered',
+      'REGISTERUSERCOMPONENT.Alerts.emailRequired'
     ]).subscribe((translations: string[]) => {
       this.translations = translations;
     });
@@ -36,34 +43,62 @@ export class RegisterUserComponent implements OnInit {
     this.roleService.getRolesList().subscribe(roles => {
       this.roles = roles;
     });
+
+    this.userData = this._formBuilder.group({
+      formArray: this._formBuilder.array([
+        this._formBuilder.group({
+          login: new FormControl('', [
+            Validators.required,
+            Validators.minLength(4)
+          ]),
+          email: new FormControl('', [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+          ]),
+          password: new FormControl('', [
+            Validators.required,
+            Validators.minLength(6)
+          ]),
+        }),
+        this._formBuilder.group({
+          name: new FormControl('', [
+            Validators.required,
+            Validators.maxLength(25)
+          ]),
+          surname: ['', Validators.required],
+          phone: ['', Validators.required],
+          defaultLang: ['', Validators.required]
+        }),
+      ])
+    });
   }
 
+  onAreaListControlChanged(list){
+    this.selectedRolesIds = list.selectedOptions.selected.map(item => item.value);
+  }
+
+    get formArray(): AbstractControl | null { return this.userData.get('formArray'); }
+    get login() { return this.formArray.get([0]).get('login'); }
+    get password() { return this.formArray.get([0]).get('password'); }
+    get email() { return this.formArray.get([0]).get('email'); }
+    get name() { return this.formArray.get([1]).get('name'); }
+    get surname() { return this.formArray.get([1]).get('surname'); }
+    get phone() { return this.formArray.get([1]).get('phone'); }
+    get defaultLang() { return this.formArray.get([1]).get('defaultLang'); }
+
   onRegisterSubmit() {
-    // Required fields
-    if (!this.validateService.validateRegister(this.user)) {
-      swal({
-        title: this.translations['REGISTERUSERCOMPONENT.Alerts.fieldsError'],
-        type: 'warning',
-        timer: 1500
-      });
-      return false;
-    }
+    this.user.login = this.login.value;
+    this.user.password = this.password.value;
+    this.user.email = this.email.value;
+    this.user.name = this.name.value;
+    this.user.surname = this.surname.value;
+    this.user.phone = this.phone.value;
+    this.user.defaultLang = this.defaultLang.value; 
 
-    // validateEmail
-    if (!this.validateService.validateEmail(this.user.email)) {
-      swal({
-        title: this.translations['REGISTERUSERCOMPONENT.Alerts.badEmail'],
-        type: 'warning',
-        timer: 1500
-      });
-      return false;
+    if(this.selectedRolesIds.length) {
+    this.user.selectedRoleIds = this.selectedRolesIds;
     }
-
-    this.user.Roles = this.roles.filter(role => role.selected).map(role => {
-        return<Role> {
-          id: role.id
-        };
-    });
 
     // Register user
     this.userService.registerUser(this.user).subscribe(
@@ -84,5 +119,5 @@ export class RegisterUserComponent implements OnInit {
       }
     );
   }
-
+  
 }

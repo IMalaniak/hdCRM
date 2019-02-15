@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppMaterialModule } from '@/_shared';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -92,7 +92,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     FormsModule,
     HttpClientModule,
     AppMaterialModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ReactiveFormsModule
   ],
   entryComponents: [UsersComponentDialogComponent, RolesComponentDialogComponent],
   providers: [

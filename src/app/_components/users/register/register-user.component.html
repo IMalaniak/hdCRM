@@ -1,62 +1,146 @@
 <section class="app-content-box" [title]="'REGISTERUSERCOMPONENT.Header'">
   <section content class="row">
-    <div class="col-sm-8">
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label>{{ 'REGISTERUSERCOMPONENT.Form.labels.name' | translate}}</label>
-          <input type="text" [(ngModel)]="user.name" required name="name" placeholder="{{ 'REGISTERUSERCOMPONENT.Form.placeholders.name' | translate}}" class="form-control">
-        </div>
-        <div class="form-group col-md-6">
-          <label>{{ 'REGISTERUSERCOMPONENT.Form.labels.surname' | translate}}</label>
-          <input type="text" [(ngModel)]="user.surname" required name="surname" placeholder="{{ 'REGISTERUSERCOMPONENT.Form.placeholders.surname' | translate}}" class="form-control">
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label>{{ 'REGISTERUSERCOMPONENT.Form.labels.email' | translate}}</label>
-          <input type="email" [(ngModel)]="user.email" required email name="email" placeholder="{{ 'REGISTERUSERCOMPONENT.Form.placeholders.email' | translate}}" class="form-control">
-        </div>
-        <div class="form-group col-md-6">
-          <label>{{ 'REGISTERUSERCOMPONENT.Form.labels.phone' | translate}}</label>
-          <input type="text" [(ngModel)]="user.phone" name="phone" placeholder="{{ 'REGISTERUSERCOMPONENT.Form.placeholders.phone' | translate}}" class="form-control">
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label>{{ 'REGISTERUSERCOMPONENT.Form.labels.login' | translate}}</label>
-          <input type="text" [(ngModel)]="user.login" required name="login" placeholder="{{ 'REGISTERUSERCOMPONENT.Form.placeholders.login' | translate}}" class="form-control">
-        </div>
-        <div class="form-group col-md-6">
-          <label>{{ 'REGISTERUSERCOMPONENT.Form.labels.password' | translate}}</label>
-          <input type="password" [(ngModel)]="user.password" required name="password" class="form-control">
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label>{{ 'REGISTERUSERCOMPONENT.Form.labels.defaultLang' | translate}}</label>
-          <select [(ngModel)]="user.defaultLang" name="defaultLang" class="form-control">
-            <option *ngFor="let lang of langs" [value]="lang">{{ 'GLOBAL.Languages.labels.' + lang | translate }}</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-sm-4">
-      <label>{{ 'REGISTERUSERCOMPONENT.Form.labels.role' | translate}}:</label>
-      <ul class="list-group">
-        <ng-container *ngFor="let role of roles">
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            {{role.keyString}}
-            <mat-checkbox [(ngModel)]="role.selected" value="{{role.id}}"></mat-checkbox>
-          </li>
-        </ng-container>
-      </ul>
-    </div>
+    <form class="col-12" [formGroup]="userData">
+      <mat-horizontal-stepper linear #stepper formArrayName="formArray">
+        <mat-step formGroupName="0" [stepControl]="formArray?.get([0])">
+          <div class="row">
+            <div class="col-4">
+              <ng-template matStepLabel>{{ 'REGISTERUSERCOMPONENT.StepLabels.generalInfo' | translate}}</ng-template>
+              <mat-form-field appearance="outline">
+                <mat-label>{{ 'REGISTERUSERCOMPONENT.Form.labels.login' | translate}}</mat-label>
+                <input matInput formControlName="login" type="text" name="login" placeholder="{{ 'REGISTERUSERCOMPONENT.Form.placeholders.login' | translate}}" required> 
+                <mat-error *ngIf="login.invalid && (login.dirty || login.touched)">
+                  <mat-error *ngIf="login.errors.required">
+                    {{ 'REGISTERUSERCOMPONENT.Form.errors.loginRequired' | translate}}
+                  </mat-error>
+                  <mat-error *ngIf="login.errors.minlength">
+                    {{ 'REGISTERUSERCOMPONENT.Form.errors.loginIsTooShort' | translate}}
+                  </mat-error>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field appearance="outline">
+                <mat-label>{{ 'REGISTERUSERCOMPONENT.Form.labels.email' | translate}}</mat-label>
+                <input matInput formControlName="email" type="email" name="email" placeholder="{{ 'REGISTERUSERCOMPONENT.Form.placeholders.email' | translate}}" required>
+                <mat-error *ngIf="email.invalid && (email.dirty || email.touched)">
+                  <mat-error *ngIf="email.errors.required">
+                    {{ 'REGISTERUSERCOMPONENT.Form.errors.badEmail.' | translate}}
+                  </mat-error>
+                  <mat-error *ngIf="email.errors.pattern">
+                    {{ 'REGISTERUSERCOMPONENT.Form.errors.badEmail.' | translate}}
+                  </mat-error>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field appearance="outline">
+                <mat-label>{{ 'REGISTERUSERCOMPONENT.Form.labels.password' | translate}}</mat-label>
+                <input matInput formControlName="password" name="password" [type]="hidePassword ? 'password' : 'text'" required>
+                <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                <mat-error *ngIf="password.invalid && (password.dirty || password.touched)">
+                  <mat-error *ngIf="password.errors.required">
+                    {{ 'REGISTERUSERCOMPONENT.Form.errors.passwordRequired' | translate}}
+                  </mat-error>
+                  <mat-error *ngIf="password.errors.minlength">
+                    {{ 'REGISTERUSERCOMPONENT.Form.errors.passwordIsTooShort' | translate}}
+                  </mat-error>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div>
+                <button mat-stroked-button matStepperNext type="button">{{ 'REGISTERCOMPONENT.Actions.next' | translate}}</button>
+              </div>
+            </div>
+          </div>
+        </mat-step>
+        <mat-step formGroupName="1" [stepControl]="formArray?.get([1])">
+          <div class="row">
+            <div class="col-3">
+              <ng-template matStepLabel>{{ 'REGISTERUSERCOMPONENT.StepLabels.contactInfo' | translate}}</ng-template>
+              <mat-form-field appearance="outline">
+                <mat-label>{{ 'REGISTERUSERCOMPONENT.Form.labels.name' | translate}}</mat-label>
+                <input matInput formControlName="name" type="text" name="name" placeholder="{{ 'REGISTERUSERCOMPONENT.Form.placeholders.name' | translate}}" required>
+                <mat-error *ngIf="name.invalid && (name.dirty || name.touched)">
+                  <mat-error *ngIf="name.errors.required">
+                    {{ 'REGISTERUSERCOMPONENT.Form.errors.nameRequired' | translate}}
+                  </mat-error>
+                  <mat-error *ngIf="name.errors.minlength">
+                    {{ 'REGISTERUSERCOMPONENT.Form.errors.nameIsTooShort' | translate}}
+                  </mat-error>
+                  <mat-error *ngIf="name.errors.maxlength">
+                    {{ 'REGISTERUSERCOMPONENT.Form.errors.loginIsTooLong' | translate}}
+                  </mat-error>
+                </mat-error>
+              </mat-form-field> 
+            </div> 
+            <div class="col-3">
+              <mat-form-field appearance="outline">
+                <mat-label>{{ 'REGISTERUSERCOMPONENT.Form.labels.surname' | translate}}</mat-label>
+                <input matInput formControlName="surname" type="text" name="surname" placeholder="{{ 'REGISTERUSERCOMPONENT.Form.placeholders.surname' | translate}}" required> 
+                <mat-error *ngIf="surname.invalid && (surname.dirty || surname.touched)">
+                  <mat-error *ngIf="surname.errors.required">
+                    {{ 'REGISTERUSERCOMPONENT.Form.errors.surnameRequired' | translate}}
+                  </mat-error>
+                </mat-error> 
+              </mat-form-field>
+            </div>
+            <div class="col-3">
+              <mat-form-field appearance="outline">
+                <mat-label>{{ 'REGISTERUSERCOMPONENT.Form.labels.phone' | translate}}</mat-label>
+                <input matInput formControlName="phone" type="number" name="phone" placeholder="{{ 'REGISTERUSERCOMPONENT.Form.placeholders.phone' | translate}}" required> 
+              </mat-form-field>
+            </div>
+            <div class="col-3">
+              <mat-form-field appearance="outline">
+                <mat-label>{{ 'REGISTERUSERCOMPONENT.Form.labels.defaultLang' | translate}}</mat-label>
+                <mat-select formControlName="defaultLang" name="defaultLang" required>
+                  <mat-option *ngFor="let lang of langs" [value]="lang">{{ 'GLOBAL.Languages.labels.' + lang | translate }}</mat-option>
+                </mat-select>   
+              </mat-form-field>
+            </div>
+          </div> 
+          <div class="row">
+            <div class="col pl-3">
+              <button mat-stroked-button matStepperPrevious type="button">{{ 'REGISTERCOMPONENT.Actions.back' | translate}}</button>
+              <button mat-stroked-button matStepperNext type="button">{{ 'REGISTERCOMPONENT.Actions.next' | translate}}</button>
+            </div>
+          </div>         
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>{{ 'REGISTERUSERCOMPONENT.StepLabels.roleInfo' | translate}}</ng-template>
+          <div class="row">
+          <div class="col-3">
+            <mat-selection-list #list>
+              <label>{{ 'REGISTERUSERCOMPONENT.Form.labels.role' | translate}}:</label>
+              <mat-list-option *ngFor="let role of roles" [value]="role.id" (click)="onAreaListControlChanged(list)">
+                {{role.keyString}}
+              </mat-list-option>
+            </mat-selection-list>    
+          </div>
+          </div>
+          <div class="row">
+            <div class="col mt-4">
+              <button mat-stroked-button matStepperPrevious type="button">{{ 'REGISTERCOMPONENT.Actions.back' | translate}}</button>
+              <button mat-stroked-button matStepperNext type="button">{{ 'REGISTERCOMPONENT.Actions.next' | translate}}</button>
+            </div>
+          </div> 
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>{{ 'REGISTERCOMPONENT.StepLabels.done' | translate}}</ng-template>
+          <div>
+            <button mat-stroked-button matStepperPrevious type="button">{{ 'REGISTERCOMPONENT.Actions.back' | translate}}</button>
+            <button mat-stroked-button (click)="stepper.reset()" type="button">{{ 'REGISTERCOMPONENT.Actions.reset' | translate}}</button>
+          </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </form>
   </section>
-
-  <button buttons class="btn btn-primary" (click)="onRegisterSubmit()">{{ 'REGISTERUSERCOMPONENT.Actions.submit' | translate }}</button>
+  
+  <button buttons class="btn btn-primary" [disabled]="userData.invalid" (click)="onRegisterSubmit()">{{ 'REGISTERUSERCOMPONENT.Actions.submit' | translate }}</button>
 
 </section>
+
