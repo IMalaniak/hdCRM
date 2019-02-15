@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import swal from 'sweetalert2';
 import { Role, Privilege } from '@/_models';
-import { RoleService, PrivilegeService, TranslationsService } from '@/_services';
+import { RoleService, TranslationsService } from '@/_services';
 import { MatCheckboxChange } from '@angular/material';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -19,12 +19,12 @@ export class RolesComponent implements OnInit {
 
   constructor(
     private translationsService: TranslationsService,
-    private roleService: RoleService,
-    private privilegeService: PrivilegeService
-  ) { }
+    private roleService: RoleService
+  ) {
+    this.dataLoaded = false;
+  }
 
   ngOnInit() {
-    this.dataLoaded = false;
     this.translationsService.getTranslations([
       'ROLES.PopUps.roleUsers',
       'ROLES.PopUps.addRole.title',
@@ -34,12 +34,6 @@ export class RolesComponent implements OnInit {
     });
 
     this.getRolesData();
-  }
-
-  isRolePrivileged(role, privilege): boolean {
-    let isPrivileged = role.Privileges.filter(({id}) => privilege.id === id);
-    isPrivileged = isPrivileged.length ? true : false;
-    return isPrivileged;
   }
 
   getRolesData(): void {

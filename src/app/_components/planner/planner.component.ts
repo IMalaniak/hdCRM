@@ -10,10 +10,13 @@ import { PlanService } from '@/_services';
 })
 export class PlannerComponent implements OnInit {
   plans: Plan[];
+  dataLoaded: boolean;
 
   constructor(
     private planService: PlanService
-  ) { }
+  ) {
+    this.dataLoaded = false;
+  }
 
   ngOnInit() {
     this.getPlannerData();
@@ -23,6 +26,9 @@ export class PlannerComponent implements OnInit {
   getPlannerData(): void {
     this.planService.getFullList().subscribe(plans => {
       this.plans = plans;
+      setTimeout(() => {
+        this.dataLoaded = true;
+      }, 300);
     });
   }
 

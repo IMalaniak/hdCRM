@@ -41,10 +41,10 @@ export class UsersComponent implements OnInit {
     private translationsService: TranslationsService
   ) {
     this.baseUrl = environment.baseUrl;
+    this.dataLoaded = false;
   }
 
   ngOnInit() {
-    this.dataLoaded = false;
     this.authService.currentUser.subscribe(user => {
       this.editUserPrivilege = this.privilegeService.isPrivileged(user, 'editUser');
       this.addUserPrivilege = this.privilegeService.isPrivileged(user, 'addUser');
