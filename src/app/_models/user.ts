@@ -13,6 +13,7 @@ export class User {
   createdAt: string;
   updatedAt: string;
   Roles: Role[];
+  selectedRoleIds: number[];
   defaultLang: string;
   StateId: number;
   State: State;

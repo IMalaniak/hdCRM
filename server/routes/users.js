@@ -44,7 +44,9 @@ router.post('/register', passport.authenticate('jwt', {session: false}), (req, r
 		if(req.body.Roles){
 			models.Role.findAll({
 				where: {
-						[models.Sequelize.Op.or] : req.body.Roles
+					id: {
+						[models.Sequelize.Op.or] : req.body.selectedRoleIds
+					}	
 				}
 			}).then(roles => {
 				user.setRoles(roles).then(result => {
