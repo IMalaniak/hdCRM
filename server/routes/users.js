@@ -41,7 +41,7 @@ router.post('/register', passport.authenticate('jwt', {session: false}), (req, r
 		phone: req.body.phone,
 		StateId: 1 //change this to smth
 	}).then(user => {
-		if(req.body.Roles){
+		if(req.body.selectedRoleIds){
 			models.Role.findAll({
 				where: {
 					id: {
