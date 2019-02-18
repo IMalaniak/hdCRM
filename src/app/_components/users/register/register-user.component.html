@@ -114,7 +114,7 @@
           <div class="col-lg-4 col-md-6 col-12">
             <mat-selection-list #list>
               <label>{{ 'REGISTERUSERCOMPONENT.Form.labels.role' | translate}}:</label>
-              <mat-list-option *ngFor="let role of roles" [value]="role.id" (click)="onAreaListControlChanged(list)">
+              <mat-list-option *ngFor="let role of roles" [value]="role.id" (click)="onRoleSelect(list)">
                 {{role.keyString}}
               </mat-list-option>
             </mat-selection-list>    

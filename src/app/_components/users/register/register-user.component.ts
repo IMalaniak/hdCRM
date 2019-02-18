@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import swal from 'sweetalert2';
 import { UserService, RoleService, TranslationsService } from '@/_services';
 import { User, Role } from '@/_models';
@@ -17,11 +16,10 @@ export class RegisterUserComponent implements OnInit {
   langs: string[];
   userData: FormGroup;
   hidePassword = true;
-  selectedRolesIds: number[]; 
+  selectedRolesIds: number[];
   
   constructor(
     private userService: UserService,
-    private router: Router,
     private roleService: RoleService,
     public translationsService: TranslationsService,
     private _formBuilder: FormBuilder
@@ -80,18 +78,18 @@ export class RegisterUserComponent implements OnInit {
     });
   }
 
-  onAreaListControlChanged(list){
+  onRoleSelect(list) {
     this.selectedRolesIds = list.selectedOptions.selected.map(item => item.value);
   }
 
-    get formArray(): AbstractControl | null { return this.userData.get('formArray'); }
-    get login() { return this.formArray.get([0]).get('login'); }
-    get password() { return this.formArray.get([0]).get('password'); }
-    get email() { return this.formArray.get([0]).get('email'); }
-    get name() { return this.formArray.get([1]).get('name'); }
-    get surname() { return this.formArray.get([1]).get('surname'); }
-    get phone() { return this.formArray.get([1]).get('phone'); }
-    get defaultLang() { return this.formArray.get([1]).get('defaultLang'); }
+  get formArray(): AbstractControl | null { return this.userData.get('formArray'); }
+  get login() { return this.formArray.get([0]).get('login'); }
+  get password() { return this.formArray.get([0]).get('password'); }
+  get email() { return this.formArray.get([0]).get('email'); }
+  get name() { return this.formArray.get([1]).get('name'); }
+  get surname() { return this.formArray.get([1]).get('surname'); }
+  get phone() { return this.formArray.get([1]).get('phone'); }
+  get defaultLang() { return this.formArray.get([1]).get('defaultLang'); }
 
   onRegisterSubmit() {
     this.user.login = this.login.value;
@@ -100,7 +98,7 @@ export class RegisterUserComponent implements OnInit {
     this.user.name = this.name.value;
     this.user.surname = this.surname.value;
     this.user.phone = this.phone.value;
-    this.user.defaultLang = this.defaultLang.value; 
+    this.user.defaultLang = this.defaultLang.value;
 
     if (this.selectedRolesIds.length) {
       this.user.selectedRoleIds = this.selectedRolesIds;
@@ -114,7 +112,6 @@ export class RegisterUserComponent implements OnInit {
           type: 'success',
           timer: 1500
         });
-        this.router.navigate(['/login']);
       },
       error => {
         swal({
@@ -125,5 +122,4 @@ export class RegisterUserComponent implements OnInit {
       }
     );
   }
-  
 }
