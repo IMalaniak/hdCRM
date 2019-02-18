@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import swal from 'sweetalert2';
 import { UserService, RoleService, TranslationsService } from '@/_services';
 import { User, Role } from '@/_models';
-import {AbstractControl, FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-register-user',
@@ -17,7 +17,7 @@ export class RegisterUserComponent implements OnInit {
   userData: FormGroup;
   hidePassword = true;
   selectedRolesIds: number[];
-  
+
   constructor(
     private userService: UserService,
     private roleService: RoleService,
