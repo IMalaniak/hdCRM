@@ -1,65 +1,63 @@
-<section class="grid">
-	<header>
-		<div class="company-logo" [ngClass]="{'minimized': sidebarMinimized}">
-			<img src="./assets/images/logo_big.png" alt="noimage">
-			<button mat-icon-button (click)="toogleSidebar()">
-				<mat-icon>menu</mat-icon>
-			</button>
-		</div>
-		
-		<app-breadcrumbs></app-breadcrumbs>
+<header>
+	<div class="company-logo" [ngClass]="{'minimized': sidebarMinimized}">
+		<img src="./assets/images/logo_big.png" alt="noimage">
+		<button mat-icon-button (click)="toogleSidebar()">
+			<mat-icon>menu</mat-icon>
+		</button>
+	</div>
+	
+	<app-breadcrumbs></app-breadcrumbs>
 
-		<div class="user-search ml-auto">
-			<mat-icon>search</mat-icon>
+	<div class="user-search ml-auto">
+		<mat-icon>search</mat-icon>
+	</div>
+
+	<!-- <span [ngClass]="{'nonactive': translationsService.translate.currentLang !== lang}" *ngFor="let lang of translationsService.translate.getLangs()"><img src="./assets/images/langs/{{ lang }}.svg" alt="{{ lang }}" (click)="translationsService.translate.use(lang)"></span> -->
+
+	<div class="user-question">
+		<mat-icon>question_answer</mat-icon>
+	</div>
+	<div *ngIf="isValidToken">
+		<img class="userpic" *ngIf="!authService.currentUserValue.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage" [routerLink]="['/myprofile']">
+		<img class="userpic" *ngIf="authService.currentUserValue.avatar" src="{{baseUrl + authService.currentUserValue.avatar.location + 'thumbnails/' + authService.currentUserValue.avatar.title}}" alt="{{authService.currentUserValue.avatar.title}}" [routerLink]="['/myprofile']">
+		<!-- <span *ngIf="authService.currentUserValue">{{authService.currentUserValue.name + ' ' + authService.currentUserValue.surname}}</span> -->
+	</div>
+	<div class="user-login">
+		<button mat-icon-button *ngIf="isValidToken" (click)="onLogoutClick()" title="{{ 'MAIN.UserDropdown.logout' | translate }}">
+			<mat-icon>arrow_back</mat-icon>
+		</button>
+		<button mat-icon-button *ngIf="!isValidToken" [routerLink]="['/login']" title="{{ 'MAIN.UserDropdown.login' | translate }}">
+			<mat-icon>arrow_forward</mat-icon>
+		</button>
+	</div>
+</header>
+
+<main>
+	<aside class="app-sidebar" [ngClass]="{'minimized': sidebarMinimized}"></aside>
+
+	<section class="content">
+		<div class="container-fluid">
+			<router-outlet></router-outlet>
 		</div>
 
-		<!-- <span [ngClass]="{'nonactive': translationsService.translate.currentLang !== lang}" *ngFor="let lang of translationsService.translate.getLangs()"><img src="./assets/images/langs/{{ lang }}.svg" alt="{{ lang }}" (click)="translationsService.translate.use(lang)"></span> -->
-
-		<div class="user-question">
-			<mat-icon>question_answer</mat-icon>
-		</div>
-		<div *ngIf="isValidToken">
-			<img class="userpic" *ngIf="!authService.currentUserValue.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage" [routerLink]="['/myprofile']">
-			<img class="userpic" *ngIf="authService.currentUserValue.avatar" src="{{baseUrl + authService.currentUserValue.avatar.location + 'thumbnails/' + authService.currentUserValue.avatar.title}}" alt="{{authService.currentUserValue.avatar.title}}" [routerLink]="['/myprofile']">
-			<!-- <span *ngIf="authService.currentUserValue">{{authService.currentUserValue.name + ' ' + authService.currentUserValue.surname}}</span> -->
-		</div>
-		<div class="user-login">
-			<button mat-icon-button *ngIf="isValidToken" (click)="onLogoutClick()" title="{{ 'MAIN.UserDropdown.logout' | translate }}">
-				<mat-icon>arrow_back</mat-icon>
-			</button>
-			<button mat-icon-button *ngIf="!isValidToken" [routerLink]="['/login']" title="{{ 'MAIN.UserDropdown.login' | translate }}">
-				<mat-icon>arrow_forward</mat-icon>
-			</button>
-		</div>
-	</header>
-
-	<main>
-		<aside class="app-sidebar" [ngClass]="{'minimized': sidebarMinimized}"></aside>
-
-		<section class="content">
-			<div class="container-fluid">
-				<router-outlet></router-outlet>
+		<footer>
+			<div>
+				<div class="user-lang">
+					<label for="langSelect">{{'MAIN.Footer.choseLang' | translate}}</label>
+					<select #langSelect name="langSelect" (change)="translationsService.translate.use(langSelect.value)">
+						<option *ngFor="let lang of translationsService.translate.getLangs()" [value]="lang" [selected]="lang === translationsService.translate.currentLang">{{ 'GLOBAL.Languages.labels.' + lang | translate }}</option>
+					</select>
+				</div>
 			</div>
+			<div class="author-links">
+				<span [innerHTML]="'MAIN.Footer.signature' | translate"></span>
+				<!-- <div class="social-media">
 
-			<footer>
-				<div>
-					<div class="user-lang">
-						<label for="langSelect">{{'MAIN.Footer.choseLang' | translate}}</label>
-						<select #langSelect name="langSelect" (change)="translationsService.translate.use(langSelect.value)">
-							<option *ngFor="let lang of translationsService.translate.getLangs()" [value]="lang" [selected]="lang === translationsService.translate.currentLang">{{ 'GLOBAL.Languages.labels.' + lang | translate }}</option>
-						</select>
-					</div>
-				</div>
-				<div class="author-links">
-					<span [innerHTML]="'MAIN.Footer.signature' | translate"></span>
-					<!-- <div class="social-media">
+				</div> -->
+			</div>
+		</footer>
+	</section>
 
-					</div> -->
-				</div>
-			</footer>
-		</section>
-
-	</main>
-</section>
+</main>
 
 <section class="app-messages" *ngIf="showDebug && isValidToken"></section>

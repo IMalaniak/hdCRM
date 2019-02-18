@@ -49,7 +49,7 @@ export class RegisterUserComponent implements OnInit {
         this._formBuilder.group({
           login: new FormControl('', [
             Validators.required,
-            Validators.minLength(4)
+            Validators.minLength(6)
           ]),
           email: new FormControl('', [
             Validators.required,
@@ -66,9 +66,15 @@ export class RegisterUserComponent implements OnInit {
             Validators.required,
             Validators.maxLength(25)
           ]),
-          surname: ['', Validators.required],
-          phone: ['', Validators.required],
-          defaultLang: ['', Validators.required]
+          surname: new FormControl('', [
+            Validators.required,
+            Validators.maxLength(25)
+          ]),
+          phone: new FormControl('', [
+            Validators.required,
+            Validators.pattern('^[0-9]+$')
+          ]),
+          defaultLang: new FormControl('en', Validators.required)
         }),
       ])
     });
@@ -96,8 +102,8 @@ export class RegisterUserComponent implements OnInit {
     this.user.phone = this.phone.value;
     this.user.defaultLang = this.defaultLang.value; 
 
-    if(this.selectedRolesIds.length) {
-    this.user.selectedRoleIds = this.selectedRolesIds;
+    if (this.selectedRolesIds.length) {
+      this.user.selectedRoleIds = this.selectedRolesIds;
     }
 
     // Register user

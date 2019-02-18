@@ -1,15 +1,3 @@
 mat-form-field  {
     width: 100%;
-  }
-
-.ng-invalid:not(form) {
-   border-left: none;
-}
-
-.ng-valid[required], .ng-valid.required {
-  border-left: none;
-}
-
-input[type=number]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
 }
