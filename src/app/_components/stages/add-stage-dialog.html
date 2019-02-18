@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>{{'STAGESCOMPONENT.Dialog.title' | translate}}</h1>
+<div mat-dialog-content>
+  <div class="d-flex flex-column justify-content-center">
+      <mat-form-field appearance="outline">
+          <mat-label>{{'STAGESCOMPONENT.Dialog.addStageInputLable' | translate}}</mat-label>
+          <input matInput [formControl]="data.keyString">
+          <mat-error *ngIf="data.keyString.invalid">
+              <mat-error *ngIf="data.keyString.errors.required">
+                {{ 'STAGESCOMPONENT.Form.errors.keyRequired' | translate}}
+              </mat-error>
+              <mat-error *ngIf="data.keyString.errors.minlength && (data.keyString.dirty || data.keyString.touched)">
+                {{ 'STAGESCOMPONENT.Form.errors.keyIsTooShort' | translate}}
+              </mat-error>
+            </mat-error>
+      </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">{{'GLOBAL.PopUps.cancelButtonText' | translate}}</button>
+  <button mat-button [mat-dialog-close]="data.keyString.value" [disabled]="data.keyString.invalid">{{'GLOBAL.PopUps.addButtonText' | translate}}</button>
+</div>

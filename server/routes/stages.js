@@ -7,8 +7,8 @@ const passport = require('passport');
 router.post('/create', passport.authenticate('jwt', {session: false}), (req, res, next) => {
 	models.Stage.create({
 		keyString: req.body.keyString,
-	}).then(() => {
-		res.status(200);
+	}).then(stage => {
+		res.status(200).json(stage);
 	}).catch(error => {
 		res.status(400).json(error.toString());
 	});

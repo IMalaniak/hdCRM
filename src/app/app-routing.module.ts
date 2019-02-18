@@ -15,6 +15,7 @@ import { DashboardComponent,
   RegisterUserComponent,
   UserComponent,
   UsersComponent,
+  StagesComponent
  } from '@/_components';
 
 const routes: Routes = [
@@ -26,21 +27,22 @@ const routes: Routes = [
   {path: 'planner', data: { breadcrumb: 'planner' }, canActivate: [AuthGuard],
     children: [
       {path: '', component: PlannerComponent },
-      {path: 'details/:id', data: { breadcrumb: 'planDetails' }, component: PlanComponent, canActivate: [AuthGuard]},
-      {path: 'add', data: { breadcrumb: 'planAdd' }, component: RegisterPlanComponent}
+      {path: 'details/:id', data: { breadcrumb: 'planDetails' }, component: PlanComponent},
+      {path: 'add', data: { breadcrumb: 'planAdd' }, component: RegisterPlanComponent},
+      {path: 'stages', data: { breadcrumb: 'stages' }, component: StagesComponent},
     ]
-  },  
+  },
   {path: 'users', data: { breadcrumb: 'users' }, canActivate: [AuthGuard],
     children: [
       {path: '', component: UsersComponent },
-      {path: 'details/:id', data: { breadcrumb: 'userDetails' }, component: UserComponent, canActivate: [AuthGuard]},
+      {path: 'details/:id', data: { breadcrumb: 'userDetails' }, component: UserComponent},
       {path: 'register', data: { breadcrumb: 'userRegister' }, component: RegisterUserComponent},
     ]
   },
   {path: 'roles', data: { breadcrumb: 'roles' }, canActivate: [AuthGuard],
     children: [
       {path: '', component: RolesComponent },
-      {path: 'details/:id', data: { breadcrumb: 'roleDetails' }, component: RoleComponent, canActivate: [AuthGuard]},
+      {path: 'details/:id', data: { breadcrumb: 'roleDetails' }, component: RoleComponent},
       {path: 'add', data: { breadcrumb: 'roleAdd' }, component: RegisterRoleComponent},
     ]
   },

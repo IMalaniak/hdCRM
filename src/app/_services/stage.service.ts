@@ -11,6 +11,10 @@ export class StageService {
     private http: HttpClient
   ) { }
 
+  createStage(stage: Stage): Observable<Stage> {
+    return this.http.post<Stage>(`${environment.baseUrl}/stages/create`, stage);
+  }
+
   getStagesList(): Observable<Stage[]> {
     return this.http.get<Stage[]>(`${environment.baseUrl}/stages/list`);
   }

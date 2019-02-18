@@ -1,0 +1,22 @@
+<section class="app-content-box" [title]="'STAGESCOMPONENT.List.header'" [showDataLoader]="!dataLoaded">
+
+  <div buttons class="btn-group-horizontal">
+    <button mat-raised-button color="primary" (click)="createStageDialog()" >{{ 'STAGESCOMPONENT.Actions.create' | translate}}</button>
+  </div>
+
+  <table id="stagelist" content class="table table-sm table-responsive-sm table-hover crm-table">
+    <thead>
+      <!-- <th><mat-checkbox (click)="$event.stopPropagation()" (change)="selectAll($event)" [indeterminate]="selectedRoles.length > 0 && selectedRoles.length < roles.length" [checked]="!notSelectedRoles.length"></mat-checkbox></th> -->
+      <th>{{ 'STAGESCOMPONENT.List.title' | translate}}</th>
+      <!-- <th>{{ 'STAGESCOMPONENT.List.plansCount' | translate}}</th> -->
+    </thead>
+    <tbody>
+      <tr *ngFor="let stage of stages;">
+        <!-- <td><mat-checkbox [(ngModel)]=role.selected (change)="onRoleCheck(role)"></mat-checkbox></td> -->
+        <td>{{stage.keyString}}</td>
+        <!-- <td>{{role.Plans.length}}</td> -->
+      </tr>
+    </tbody>
+  </table>
+
+</section>

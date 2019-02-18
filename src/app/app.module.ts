@@ -29,7 +29,9 @@ import { AppComponent,
   RegisterUserComponent,
   UserComponent,
   UsersComponent,
-  UsersComponentDialogComponent
+  UsersComponentDialogComponent,
+  AddStageDialogComponent,
+  StagesComponent
  } from '@/_components';
 
  // tags
@@ -77,7 +79,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     RegisterUserComponent,
     UserComponent,
     UsersComponent,
-    UsersComponentDialogComponent
+    UsersComponentDialogComponent,
+    AddStageDialogComponent,
+    StagesComponent
   ],
   imports: [
     BrowserModule,
@@ -95,7 +99,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserAnimationsModule,
     ReactiveFormsModule
   ],
-  entryComponents: [UsersComponentDialogComponent, RolesComponentDialogComponent],
+  entryComponents: [UsersComponentDialogComponent, RolesComponentDialogComponent, AddStageDialogComponent],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
