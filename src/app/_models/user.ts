@@ -1,6 +1,7 @@
 import { Role } from './role';
 import { State } from './state';
 import { Asset } from './asset';
+import { UserLoginHistory } from './userLoginHistory'
 
 export class User {
   id: number;
@@ -20,4 +21,5 @@ export class User {
   avatar: Asset;
   selected: boolean;
   token?: string;
+  lastSessionData: UserLoginHistory;
 }

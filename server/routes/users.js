@@ -101,6 +101,9 @@ router.post('/authenticate', (req, res, next) => {
 					model: models.Asset,
 					as: 'avatar',
 					required: false
+				}, {
+					model: models.UserLoginHistory,
+					required: false
 				}
 			]
 		}).then(user => {
@@ -131,7 +134,8 @@ router.post('/authenticate', (req, res, next) => {
 					email: user.email,
 					defaultLang: user.defaultLang,
 					avatar: user.avatar,
-					token: 'JWT ' + token
+					token: 'JWT ' + token,
+					lastSessionData: user.UserLoginHistories[0]
 				};
 
 				if (user.Roles.length > 0) {
