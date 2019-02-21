@@ -1,1 +1,44 @@
-
+<div class="container-fluid">
+    <div class="row mt-3">
+        <div class="col-sm-6 сol-md-6 col-lg-3">
+            <div class="card text-center">
+                <img *ngIf="appUser.avatar" src="{{baseUrl + appUser.avatar.location + appUser.avatar.title}}" alt="{{appUser.avatar.title}}" class="img-top mx-auto">
+                <img *ngIf="!appUser.avatar" src="./assets/images/userpic/noimage.png" alt="noimage" class="img-top">
+                <div class="card-body">
+                    <h5>{{ appUser.name }} {{ appUser.surname }}</h5>
+                    <div class="mb-3">{{ appUser.login }}</div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <ul class="inline-role"><li *ngFor="let role of appUser.Roles; let isLast = last">{{ role.keyString }}{{ isLast ? '' : ',' }}</li></ul> 
+                        </li>
+                    </ul>
+                    <div class="row user-date mt-3" *ngIf="appUser.lastSessionData && appUser.lastSessionData.dateLastLoggedIn">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="text-muted text-md-left text-sm-center">
+                                <small>Last login:</small>
+                            </div>  
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="text-muted text-md-right text-sm-center">
+                                <small>{{ appUser.lastSessionData.dateLastLoggedIn | date: 'medium' }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row user-date" *ngIf="appUser.lastSessionData && appUser.lastSessionData.dateUnsuccessfulLogIn">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="text-muted text-md-left text-sm-center">
+                                <small>Unsuccessful login:</small>
+                            </div>  
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="text-muted text-md-right text-sm-center">
+                                <small>{{ appUser.lastSessionData.dateUnsuccessfulLogIn | date: 'medium' }}</small>
+                            </div>
+                        </div>
+                    </div>     
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    

@@ -78,7 +78,7 @@
     </div> -->
   </div>
 
-  <div buttons >
+  <div buttons>
     <button *ngIf="!editForm" class="btn btn-primary" (click)="onClickEdit()">{{ 'PROFILECOMPONENT.Actions.edit' | translate}}</button>
     <button *ngIf="editForm" class="btn btn-primary" (click)="onUpdateUserSubmit()">{{ 'GLOBAL.Actions.saveChanges' | translate}}</button>
     <button *ngIf="editForm" class="btn btn-light"  (click)="onClickCancelEdit()">{{ 'GLOBAL.Actions.cancelEdit' | translate}}</button>

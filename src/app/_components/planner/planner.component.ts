@@ -22,7 +22,6 @@ export class PlannerComponent implements OnInit {
     this.getPlannerData();
   }
 
-
   getPlannerData(): void {
     this.planService.getFullList().subscribe(plans => {
       this.plans = plans;
