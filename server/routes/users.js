@@ -66,6 +66,32 @@ router.post('/register', passport.authenticate('jwt', {session: false}), (req, r
 	});
 });
 
+function saveLogInAttempt(req, user, isSuccess) {
+	const defaults = {};
+	defaults.IP = req.connection.remoteAddress;
+	if (isSuccess) {
+		defaults.dateLastLoggedIn = new Date();
+	} else {
+		defaults.dateUnsuccessfulLogIn = new Date();
+	}
+	models.UserLoginHistory.findOrCreate({
+		where: {
+			UserId: user.id
+		},
+		defaults: defaults
+	}).spread((uLogHistItem, created) => {
+		if (!created) {
+			uLogHistItem.IP = req.connection.remoteAddress;
+			if (isSuccess) {
+				uLogHistItem.dateLastLoggedIn = new Date();
+			} else {
+				uLogHistItem.dateUnsuccessfulLogIn = new Date();
+			}
+			uLogHistItem.save();
+		}
+	});
+}
+
 //Auth
 router.post('/authenticate', (req, res, next) => {
 	const loginOrEmail = req.body.login;
@@ -113,9 +139,11 @@ router.post('/authenticate', (req, res, next) => {
 			}
 
 			if(user.State.id === 1) {
+				saveLogInAttempt(req, user, false);
 				res.status(409).json({success: false, msg: 'Account is not activated!', status: 1});
 				return;
 			} else if (user.State.id === 3) {
+				saveLogInAttempt(req, user, false);
 				res.status(409).json({success: false, msg: 'Account is disabled!', status: 2});
 				return;
 			}
@@ -135,35 +163,18 @@ router.post('/authenticate', (req, res, next) => {
 					defaultLang: user.defaultLang,
 					avatar: user.avatar,
 					token: 'JWT ' + token,
-					lastSessionData: user.UserLoginHistories[0]
+					lastSessionData: user.UserLoginHistory
 				};
 
 				if (user.Roles.length > 0) {
 					tmpUser.Roles = user.Roles;
 				}
 
+				saveLogInAttempt(req, user, true);
+
 				res.json(tmpUser);
-
-				models.UserLoginHistory.findOrCreate({
-					where: {
-						UserId: user.id
-					},
-					defaults: {
-						IP: req.connection.remoteAddress,
-						dateLastLoggedIn: new Date()						
-					}
-				}).spread((uLogHistItem, created) => {
-					models.UserLoginHistory.update({
-						IP: req.connection.remoteAddress,
-						dateLastLoggedIn: new Date()
-					}, {
-						where: {
-							UserId: user.id
-						}
-					});
-				});
-
 			} else {
+				saveLogInAttempt(req, user, false);
 				res.status(401).json({success: false, msg: 'Password is not correct!', status: 4});
 			}
 	}).catch(error => {

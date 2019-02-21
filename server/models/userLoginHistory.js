@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
     },
   	dateLastLoggedIn: {
       type: DataTypes.DATE
+    },
+    dateUnsuccessfulLogIn: {
+      type: DataTypes.DATE
     }
   }, {
     freezeTableName: true,
