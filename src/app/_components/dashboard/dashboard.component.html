@@ -1,44 +1,29 @@
-<div class="container-fluid">
-    <div class="row mt-3">
-        <div class="col-sm-6 сol-md-6 col-lg-3">
-            <div class="card text-center">
-                <img *ngIf="appUser.avatar" src="{{baseUrl + appUser.avatar.location + appUser.avatar.title}}" alt="{{appUser.avatar.title}}" class="img-top mx-auto">
-                <img *ngIf="!appUser.avatar" src="./assets/images/userpic/noimage.png" alt="noimage" class="img-top">
-                <div class="card-body">
-                    <h5>{{ appUser.name }} {{ appUser.surname }}</h5>
-                    <div class="mb-3">{{ appUser.login }}</div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <ul class="inline-role"><li *ngFor="let role of appUser.Roles; let isLast = last">{{ role.keyString }}{{ isLast ? '' : ',' }}</li></ul> 
-                        </li>
-                    </ul>
-                    <div class="row user-date mt-3" *ngIf="appUser.lastSessionData && appUser.lastSessionData.dateLastLoggedIn">
-                        <div class="col-md-6 col-sm-12">
-                            <div class="text-muted text-md-left text-sm-center">
-                                <small>Last login:</small>
-                            </div>  
+
+<section class="row dashboard-cards mt-3">
+    <div class="col-sm-6 col-md-4 col-lg-3">
+        <mat-card class="user-card">
+            <mat-card-content>
+                <img *ngIf="appUser.avatar" src="{{baseUrl + appUser.avatar.location + appUser.avatar.title}}" alt="{{appUser.avatar.title}}">
+                <img *ngIf="!appUser.avatar" src="./assets/images/userpic/noimage.png" alt="noimage">
+                <ul>
+                    <li>
+                        <h5>{{ appUser.name + ' ' + appUser.surname }}</h5>
+                        <span>({{ appUser.login }})</span>
+                    </li>
+                    <li class="roles">
+                        <span *ngFor="let role of appUser.Roles; last as isLast ">{{ role.keyString }}</span>
+                    </li>
+                    <li *ngIf="appUser.lastSessionData" class="lastSessionData">
+                        <div *ngIf="appUser.lastSessionData.dateLastLoggedIn">
+                            <small i18n="@@dashboardCardsDateLastLoggedIn">Last session:</small><small>{{ appUser.lastSessionData.dateLastLoggedIn | date: 'medium' }}</small>
                         </div>
-                        <div class="col-md-6 col-sm-12">
-                            <div class="text-muted text-md-right text-sm-center">
-                                <small>{{ appUser.lastSessionData.dateLastLoggedIn | date: 'medium' }}</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row user-date" *ngIf="appUser.lastSessionData && appUser.lastSessionData.dateUnsuccessfulLogIn">
-                        <div class="col-md-6 col-sm-12">
-                            <div class="text-muted text-md-left text-sm-center">
-                                <small>Unsuccessful login:</small>
-                            </div>  
-                        </div>
-                        <div class="col-md-6 col-sm-12">
-                            <div class="text-muted text-md-right text-sm-center">
-                                <small>{{ appUser.lastSessionData.dateUnsuccessfulLogIn | date: 'medium' }}</small>
-                            </div>
-                        </div>
-                    </div>     
-                </div>
-            </div>
-        </div>
+                        <div *ngIf="appUser.lastSessionData.dateUnsuccessfulLogIn">
+                            <small i18n="@@dashboardCardsDateUnsuccessfulLogIn">Unsuccessful login:</small><small>{{ appUser.lastSessionData.dateUnsuccessfulLogIn | date: 'medium' }}</small>
+                        </div>                   
+                    </li>
+                </ul>    
+            </mat-card-content>
+        </mat-card>
     </div>
-</div>
+</section>
     

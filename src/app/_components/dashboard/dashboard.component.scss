@@ -1,20 +1,49 @@
-.img-top {
-    width: 40%;
-    border-radius: 50%;
-    margin-top: 1.5em;
-}
+@import 'variables';
+@import 'mixins';
 
-.inline-role {
-    display: flex;
-    flex-direction: row;
-    padding-inline-start: 0;
-    justify-content: center;
-}
+.user-card {
+    ul {
+        margin: 0;
+        padding: 0;
+        width: 80%;
+        margin: 0 auto;
+        text-align: center;
+    }
 
-.user-date {
-    width: 90%; 
-    margin: 0 auto;
-}
+    li {
+        padding: 0.5em 0;
+        border-bottom: 1px solid color(secondary, dark);
 
+        &:last-of-type {
+            border-bottom: none;
+        }
+
+        > h5 {
+            margin: 0;
+        }
+    }
+
+    img {
+        display: block;
+        width: 55%;
+        border-radius: 50%;
+        margin: 1.5em auto;
+    }
+
+    .roles {
+        > span {
+            margin: 0 0.3em;
+            font-style: italic;
+        }
+    }
+
+    .lastSessionData {
+        > div {
+            display: flex;
+            justify-content: space-between;
+            align-content: center;
+        }
+    }
+}
 
 
