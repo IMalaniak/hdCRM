@@ -16,10 +16,20 @@ module.exports = function(passport){
 			attributes: { exclude: ['passwordHash', 'salt'] },
 			include: [
 				{
+					model: models.Role,
+					through: {
+						attributes: []
+					},
+					required: false
+				}, {
 					model: models.State
 				}, {
 					model: models.Asset,
-					as: 'avatar'
+					as: 'avatar',
+					required: false
+				}, {
+					model: models.UserLoginHistory,
+					required: false
 				}
 			]
 		}).then(user => {
@@ -27,7 +37,7 @@ module.exports = function(passport){
 				return done(null, user);
 			}
 		}).catch(error => {
-			return done(err, false);
+			return done(error, false);
 		});
 	}));
 };
