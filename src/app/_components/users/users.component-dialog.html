@@ -3,6 +3,6 @@
   <app-users></app-users>
 </section>
 <div mat-dialog-actions class="justify-content-end">
-    <button class="btn btn-light" (click)="onNoClick()">{{'USERSCOMPONENTDIALOG.Actions.cancel' | translate}}</button>
-    <button class="btn btn-primary" [mat-dialog-close]="usersComponent.selectedUsers" cdkFocusInitial>{{'USERSCOMPONENTDIALOG.Actions.ok' | translate}}</button>
+    <button mat-raised-button (click)="onNoClick()">{{'USERSCOMPONENTDIALOG.Actions.cancel' | translate}}</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="usersComponent.selectedUsers" cdkFocusInitial>{{'USERSCOMPONENTDIALOG.Actions.ok' | translate}}</button>
 </div>

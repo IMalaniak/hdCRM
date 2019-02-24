@@ -73,16 +73,16 @@
             <span>{{user.name + ' ' + user.surname}}</span>
           </li>
         </ng-container>
-        <button *ngIf="editForm" class="list-group-item list-group-item-action active" (click)="addParticipantDialog()">{{ 'PLANCOMPONENT.Actions.addParticipant' | translate}}</button>
+        <button mat-raised-button color="primary" *ngIf="editForm" class="list-group-item list-group-item-action active" (click)="addParticipantDialog()">{{ 'PLANCOMPONENT.Actions.addParticipant' | translate}}</button>
       </ul>
     </div>
 
   </div>
 
   <div buttons *ngIf="editPlanPrivilege || plan.CreatorId == app.user.id">
-    <button *ngIf="!editForm" class="btn btn-primary" (click)="onClickEdit()">{{ 'PLANCOMPONENT.Actions.edit' | translate}}</button>
-    <button *ngIf="editForm" class="btn btn-primary" (click)="onUpdatePlanSubmit()">{{ 'GLOBAL.Actions.saveChanges' | translate}}</button>
-    <button *ngIf="editForm" class="btn btn-light"  (click)="onClickCancelEdit()">{{ 'GLOBAL.Actions.cancelEdit' | translate}}</button>
+    <button mat-raised-button color="primary" *ngIf="!editForm" (click)="onClickEdit()">{{ 'PLANCOMPONENT.Actions.edit' | translate}}</button>
+    <button mat-raised-button color="primary" *ngIf="editForm" (click)="onUpdatePlanSubmit()">{{ 'GLOBAL.Actions.saveChanges' | translate}}</button>
+    <button mat-raised-button *ngIf="editForm" (click)="onClickCancelEdit()">{{ 'GLOBAL.Actions.cancelEdit' | translate}}</button>
   </div>
 
 </section>

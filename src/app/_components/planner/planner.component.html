@@ -5,8 +5,8 @@
 -->
 <section class="app-content-box" [title]="'PLANNERCOMPONENT.List.header'" [showDataLoader]="!dataLoaded">
 
-  <div buttons class="btn-group-horizontal">
-    <button class="btn btn-primary"  routerLink="/planner/add">{{ 'PLANNERCOMPONENT.Actions.create' | translate}}</button>
+  <div buttons>
+    <button mat-raised-button color="primary" routerLink="/planner/add">{{ 'PLANNERCOMPONENT.Actions.create' | translate}}</button>
   </div>
 
   <table id="planlist" content class="table table-sm table-responsive-sm table-hover">

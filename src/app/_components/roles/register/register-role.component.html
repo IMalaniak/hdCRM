@@ -32,15 +32,11 @@
             <span>{{user.name + ' ' + user.surname}}</span>
           </li>
         </ng-container>
-        <button class="list-group-item list-group-item-action active" (click)="addParticipantDialog()">{{ 'REGISTERROLECOMPONENT.Actions.addUser' | translate}}</button>
+        <button mat-raised-button color="primary" class="list-group-item list-group-item-action active" (click)="addParticipantDialog()">{{ 'REGISTERROLECOMPONENT.Actions.addUser' | translate}}</button>
       </ul>
     </div>
   </section>
 
-
-
-
-
-  <button buttons class="btn btn-primary" (click)="onRegisterSubmit()">{{ 'REGISTERROLECOMPONENT.Actions.submit' | translate }}</button>
+  <button mat-raised-button color="primary" buttons (click)="onRegisterSubmit()">{{ 'REGISTERROLECOMPONENT.Actions.submit' | translate }}</button>
 
 </section>

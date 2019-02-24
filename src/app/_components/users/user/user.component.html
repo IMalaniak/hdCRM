@@ -77,15 +77,15 @@
         <ng-container *ngFor="let role of user.Roles">
           <li class="list-group-item">{{role.keyString}}</li>
         </ng-container>
-        <button *ngIf="editForm" class="list-group-item list-group-item-action active" (click)="addRolesDialog()">{{ 'USERCOMPONENT.Actions.addRole' | translate}}</button>
+        <button mat-raised-button color="primary" *ngIf="editForm" class="list-group-item list-group-item-action active" (click)="addRolesDialog()">{{ 'USERCOMPONENT.Actions.addRole' | translate}}</button>
       </ul>
     </div>
   </div>
 
   <div buttons *ngIf="editUserPrivilege">
-    <button *ngIf="!editForm" class="btn btn-primary" (click)="onClickEdit()">{{ 'USERCOMPONENT.Actions.edit' | translate}}</button>
-    <button *ngIf="editForm" class="btn btn-primary" (click)="onUpdateUserSubmit()">{{ 'GLOBAL.Actions.saveChanges' | translate}}</button>
-    <button *ngIf="editForm" class="btn btn-light"  (click)="onClickCancelEdit()">{{ 'GLOBAL.Actions.cancelEdit' | translate}}</button>
+    <button mat-raised-button color="primary" *ngIf="!editForm" (click)="onClickEdit()">{{ 'USERCOMPONENT.Actions.edit' | translate}}</button>
+    <button mat-raised-button color="primary" *ngIf="editForm" (click)="onUpdateUserSubmit()">{{ 'GLOBAL.Actions.saveChanges' | translate}}</button>
+    <button mat-raised-button *ngIf="editForm" (click)="onClickCancelEdit()">{{ 'GLOBAL.Actions.cancelEdit' | translate}}</button>
   </div>
 
 </section>

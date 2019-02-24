@@ -6,7 +6,7 @@
 <section class="app-content-box" [title]="'USERSCOMPONENT.List.header'" [showDataLoader]="!dataLoaded">
 
   <div buttons>
-    <button *ngIf="addUserPrivilege" class="btn btn-primary" routerLink="/users/register">{{ 'USERSCOMPONENT.Actions.register' | translate}}</button>
+    <button mat-raised-button color="primary" *ngIf="addUserPrivilege" routerLink="/users/register">{{ 'USERSCOMPONENT.Actions.register' | translate}}</button>
   </div>
 
   <section subheader *ngIf="selectedUsers.length>0" class="bg-primary text-white p-2 fixed-bottom">

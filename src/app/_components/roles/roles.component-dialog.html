@@ -3,6 +3,6 @@
   <app-roles></app-roles>
 </section>
 <div mat-dialog-actions class="justify-content-end">
-    <button class="btn btn-light" (click)="onNoClick()">{{'ROLESCOMPONENTDIALOG.Actions.cancel' | translate}}</button>
-    <button class="btn btn-primary" [mat-dialog-close]="rolesComponent.selectedRoles" cdkFocusInitial>{{'ROLESCOMPONENTDIALOG.Actions.ok' | translate}}</button>
+    <button mat-raised-button (click)="onNoClick()">{{'ROLESCOMPONENTDIALOG.Actions.cancel' | translate}}</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="rolesComponent.selectedRoles" cdkFocusInitial>{{'ROLESCOMPONENTDIALOG.Actions.ok' | translate}}</button>
 </div>

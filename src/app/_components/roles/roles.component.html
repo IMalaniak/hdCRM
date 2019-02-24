@@ -6,7 +6,7 @@
 <section class="app-content-box" [title]="'ROLESCOMPONENT.List.header'" [showDataLoader]="!dataLoaded">
 
   <div buttons class="btn-group-horizontal">
-    <button class="btn btn-primary" routerLink="/roles/add">{{ 'ROLESCOMPONENT.Actions.create' | translate}}</button>
+    <button mat-raised-button color="primary" routerLink="/roles/add">{{ 'ROLESCOMPONENT.Actions.create' | translate}}</button>
   </div>
 
   <table *ngIf="roles && roles.length>0" id="rolelist" content class="table table-sm table-responsive-sm table-hover crm-table">
