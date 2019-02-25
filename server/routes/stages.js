@@ -23,4 +23,33 @@ router.get('/list', passport.authenticate('jwt', {session: false}), (req, res, n
 	});
 });
 
+router.get('/countPlans', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	models.Stage.findAll({
+		// attributes: {
+		// 	include: [
+		// 		[
+		// 			models.sequelize.fn('COUNT', models.sequelize.col('StagePlans')), 'planCount'
+		// 		]	
+		// 	]
+		// },
+		include: [
+			{
+				model: models.Plan,
+				attributes: ['id']
+			}
+		]
+	}).then(stages => {
+		const newObj = stages.map(stage => {
+			return {
+				id: stage.id,
+				keyString: stage.keyString,
+				totalPlans: stage.Plans.length
+			}
+		});
+		res.json(newObj);
+	}).catch(error => {
+		res.status(400).json(error.toString());
+	});
+});
+
 module.exports = router;
