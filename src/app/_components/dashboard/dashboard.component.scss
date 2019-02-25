@@ -1,5 +1,6 @@
 @import 'variables';
 @import 'mixins';
+@import "~bootstrap/scss/mixins/breakpoints";
 
 .user-card {
     ul {
@@ -42,6 +43,12 @@
             display: flex;
             justify-content: space-between;
             align-content: center;
+        }
+
+        @include media-breakpoint-down(md) {
+            > div {
+                flex-direction: column;
+            }
         }
     }
 }
