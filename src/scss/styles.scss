@@ -1,64 +1,22 @@
 @import 'variables';
 @import 'mixins';
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import url('https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,500,700&subset=cyrillic-ext,latin-ext');
-
-
-/* ripped CSS4 vars out of color map */
-:root {
-  // each item in color map
-  @each $name, $color in $colors {
-    // maps require a second loop
-    @if type-of($color) == "map" {
-      // each item in sub map
-      @each $subname, $subcolor in $color {
-        // --color-primary-base
-        #{$color-prefix}#{$name}-#{$subname}: $subcolor;
-      }
-    // normal colors
-    } @elseif type-of($color) == "color" {
-      // --color-background
-      #{$color-prefix}#{$name}: $color;
-    }
-  }
-
-  // each item in size map
-  @each $name, $size in $sizes {
-    // maps require a second loop
-    @if type-of($size) == "map" {
-      // each item in sub map
-      @each $subname, $subsize in $size {
-        // --size-viewport-md
-        #{$size-prefix}#{$name}-#{$subname}: $subsize;
-      }
-    // normal sizes
-    } @elseif type-of($size) == "number" {
-      // --size-background
-      #{$size-prefix}#{$name}: $size;
-    }
-  }
-}
-
-* {
-  box-sizing: border-box;
-}
-
-.hidden {
-  display: none;
-}
-
-ul {
-  list-style: none;
-}
-
-button:focus,
-a:focus {
-  outline: none;
-}
+@import '~bootstrap/scss/bootstrap-reboot';
+@import '~bootstrap/scss/bootstrap-grid';
+@import '~bootstrap/scss/type';
+@import '~bootstrap/scss/card';
+@import '~bootstrap/scss/breadcrumb';
+@import '~bootstrap/scss/list-group';
+@import '~bootstrap/scss/tables';
+@import '~bootstrap/scss/images';
+@import '~bootstrap/scss/forms';
+@import "~bootstrap/scss/utilities";
+// @import "~bootstrap/scss/print";
+@import 'styles-reset';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import 'root';
 
 html, body {
-  font-family: 'Ubuntu', Arial, sans-serif;
-  font-size: size(font);
   margin: 0;
   height: 100vh;
   max-height: 100vh;
@@ -68,8 +26,10 @@ html, body {
 }
 
 body {
-  background: color(main, base);
-	color: color(main, dark);
+  font-family: 'Ubuntu', Arial, sans-serif;
+  font-size: crmsize(font);
+  background: crmcolor(main, base);
+  color: crmcolor(main, dark);
 }
 
 .grid {
@@ -88,17 +48,17 @@ header {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  min-height: size(header, height);
-  flex-basis: size(header, height);
-  background-color: color(main, dark);
-  color: color(main, light);
+  min-height: crmsize(header, height);
+  flex-basis: crmsize(header, height);
+  background-color: crmcolor(main, dark);
+  color: crmcolor(main, light);
   box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
   z-index: 3;
 
   > div {
     text-align: center;
     height: 100%;
-    padding: 0 size(spacer,null,true);
+    padding: 0 crmsize(spacer,null,true);
     display: flex;
     align-items: center;
 
@@ -122,17 +82,17 @@ header {
   }
 
   .company-logo {
-    width: size(sidebar, width);
-    background-color: color(main, light);
-    padding: 0.25*size(spacer,null,true) 0.5*size(spacer,null,true);
-    color: color(main, dark);
+    width: crmsize(sidebar, width);
+    background-color: crmcolor(main, light);
+    padding: 0.25*crmsize(spacer,null,true) 0.5*crmsize(spacer,null,true);
+    color: crmcolor(main, dark);
     display: flex;
     justify-content: space-between;
     align-items: center;
     transition: width $animation-time-style;
 
     &.minimized {
-      width: size(sidebar, minimized);
+      width: crmsize(sidebar, minimized);
       justify-content: center;
 
       img {
@@ -159,10 +119,10 @@ footer {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 0.5*size(footer, height, true);
-  min-height: size(footer, height);
-	background: color(secondary, base);
-	color: color(secondary, light);
+  margin-top: 0.5*crmsize(footer, height, true);
+  min-height: crmsize(footer, height);
+	background: crmcolor(secondary, base);
+	color: crmcolor(secondary, light);
   z-index: 3;
   text-align: center;
 
@@ -176,7 +136,7 @@ footer {
 
   .user-lang {
     label {
-      margin-right: 0.5*size(spacer, null, true);
+      margin-right: 0.5*crmsize(spacer, null, true);
     }
   }
 
@@ -187,10 +147,10 @@ footer {
   }
 
   a {
-    color: color(secondary, light);
+    color: crmcolor(secondary, light);
 
     &:hover {
-      color: color(secondary, dark);
+      color: crmcolor(secondary, dark);
       text-decoration: none;
     }
   }
@@ -207,13 +167,13 @@ footer {
 
 .breadcrumb {
   margin: 0;
-  padding: 0.5*size(spacer, null, true) size(spacer, null, true);
-  background: color(main, dark);
-  color: color(secondary, light);
+  padding: 0.5*crmsize(spacer, null, true) crmsize(spacer, null, true);
+  background: crmcolor(main, dark);
+  color: crmcolor(secondary, light);
 
   a {
     display: inherit;
-    color: color(secondary, light);
+    color: crmcolor(secondary, light);
   }
 
   > li {
@@ -236,11 +196,11 @@ footer {
 }
 
 .userpic {
-  max-height: size(userpic);
+  max-height: crmsize(userpic);
   border-radius: 50%;
   
   .list-group-item & {
-    margin-right: size(spacer, null, true);
+    margin-right: crmsize(spacer, null, true);
   }
 }
 
@@ -252,6 +212,14 @@ footer {
   }
 }
 
+span.mat-button-wrapper {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  display: block;
+}
+
 .mat-sort-header-container {
     align-items: baseline;
 }
@@ -260,4 +228,8 @@ footer {
 	tr {
 		cursor: pointer;
 	}
+}
+
+.hidden {
+  display: none;
 }

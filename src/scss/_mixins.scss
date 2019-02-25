@@ -1,16 +1,16 @@
 // retrieve color from map with Sass ie. `color(primary, base)`
-@function color($color-name, $color-variant:null, $true-val:false) {
+@function crmcolor($color-name, $color-variant:null, $true-val:false) {
 
   // we need to return the color value
   @if $true-val == true {
     // color variant is optional
     @if ($color-variant != null) {
       // map inception, need two deep
-      @return map-get(map-get($colors,$color-name),$color-variant);
+      @return map-get(map-get($crmcolors,$color-name),$color-variant);
 
     } @else {
       // single-level color, one deep
-      @return map-get($colors,$color-name);
+      @return map-get($crmcolors,$color-name);
 
     }
   // if we're only returning the CSS4 variable
@@ -29,18 +29,18 @@
 }
 
 // retrieve size from map with Sass ie. `size(viewport, sm)`
-@function size($size-name, $size-variant:null, $true-val:false) {
+@function crmsize($size-name, $size-variant:null, $true-val:false) {
 
   // we need to return the size value
   @if $true-val == true {
     // size variant is optional
     @if ($size-variant != null) {
       // map inception, need two deep
-      @return map-get(map-get($sizes,$size-name),$size-variant);
+      @return map-get(map-get($crmsizes,$size-name),$size-variant);
 
     } @else {
       // single-level size, one deep
-      @return map-get($sizes,$size-name);
+      @return map-get($crmsizes,$size-name);
 
     }
   // if we're only returning the CSS4 variable

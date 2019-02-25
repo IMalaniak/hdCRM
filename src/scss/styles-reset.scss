@@ -1,0 +1,19 @@
+* {
+  &:active,
+  :focus {
+    outline: none !important;
+  }
+}
+
+label {
+  margin-bottom: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+button:focus,
+a:focus {
+  outline: none;
+}

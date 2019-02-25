@@ -1,5 +1,5 @@
 // color variable map
-$colors: (
+$crmcolors: (
   main: (
     base: #FFF,
     light: #FFF,
@@ -27,9 +27,7 @@ $colors: (
 );
 
 // size variable map
-$sizes: (
-  container: (sm: 750px, md: 970px, lg: 1170px ),
-  viewport:  (sm: 768px, md: 992px, lg: 1200px ),
+$crmsizes: (
   font: 1em,
   header: (
     height: 3rem
@@ -45,9 +43,22 @@ $sizes: (
   spacer: 1em
 );
 
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+);
+
+$link-hover-decoration: none;    // remove underline from button links
+
+$link-color: #3f51b5;            // set link color based on the used material theme
+$link-hover-color: currentColor;
+
 // variable prefixes for CSS4 output
-$color-prefix: --color-;
-$size-prefix: --size-;
+$color-prefix: --crmcolor-;
+$size-prefix: --crmsize-;
 
 //OTHER
 $animation-time-style: .16s ease-in-out;

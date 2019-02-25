@@ -2,14 +2,14 @@
 @import 'mixins';
 
 .app-sidebar {
-  background-color: color(main, dark);
-  min-width: size(sidebar, width);
-  flex-basis: size(sidebar, width);
+  background-color: crmcolor(main, dark);
+  min-width: crmsize(sidebar, width);
+  flex-basis: crmsize(sidebar, width);
   transition: min-width $animation-time-style, flex-basis $animation-time-style;
 
   &.minimized {
-    min-width: size(sidebar, minimized);
-    flex-basis: size(sidebar, minimized);
+    min-width: crmsize(sidebar, minimized);
+    flex-basis: crmsize(sidebar, minimized);
   }
 }
 
@@ -20,22 +20,22 @@
   }
   a {
     display: flex;
-    height: size(header, height);
+    height: crmsize(header, height);
     align-items: center;
-    padding: 0 size(spacer, null, true);
-    color: color(main, light);
+    padding: 0 crmsize(spacer, null, true);
+    color: crmcolor(main, light);
     transition: background-color $animation-time-style, color $animation-time-style, border-width $animation-time-style;
 
     &:hover,
     &.active {
       text-decoration: none;
-      background-color: color(main, light);
-      color: color(highlight, light);
+      background-color: crmcolor(main, light);
+      color: crmcolor(highlight, light);
       border-left: 8px solid;
     }
 
     > mat-icon {
-      margin-right: size(spacer, null, true);
+      margin-right: crmsize(spacer, null, true);
     }
   }
 

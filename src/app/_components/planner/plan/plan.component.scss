@@ -2,25 +2,34 @@
 @import 'mixins';
 
 .stages-scheme {
-    margin-bottom: 1em;
     display: flex;
+    width: 100%;
     justify-content: start;
     align-items: center;
     flex-direction: row;
+    overflow-x: auto;
     
     > {
         li {
-            background: color(secondary, dark);
-            padding: 1.1em 0.8em 1.1em 2em;
-            margin: 0 1.3*size(spacer, null, true);
+            background: crmcolor(secondary, dark);
+            padding: 1.1em 1.1em 1.1em 2.86em;
+            margin: 0 0.5*crmsize(spacer, null, true);
             position: relative;
+            transition: background-color $animation-time-style;
 
             &:first-of-type {
                 margin-left: 0;
             }
 
-            &:after {
-                left: 100%;
+            &:last-of-type {
+                margin-right: 0;
+            }
+
+            span {
+                white-space: nowrap;
+            }
+
+            &:after, &:before {
                 top: 50%;
                 border: solid transparent;
                 content: " ";
@@ -28,26 +37,42 @@
                 width: 0;
                 position: absolute;
                 pointer-events: none;
-                border-left-color: color(secondary, dark);
-                border-width: 1.85em;
+                border-left-color: crmcolor(secondary, dark);
+                border-width: 1.85em;      
                 margin-top: -1.85em;
+                transition: border-left-color $animation-time-style;
+            }
+
+            &:before {
+                border-left-color: crmcolor(main, base);
+                left: 0;
+            }
+
+            &:after {
+                left: 100%;
+                border-right-width: 0;
+                z-index: 1;
             }
 
             &.active {
-                color: color(main, base);
-                background: color(highlight, green);
+                color: crmcolor(main, base);
+                background: crmcolor(highlight, green);
                 &:after {
-                    border-left-color: color(highlight, green);    
+                    border-left-color: crmcolor(highlight, green);    
                 }
             }
 
             &.passed {
-                color: color(main, base);
-                background: color(main, dark);
+                color: crmcolor(main, base);
+                background: crmcolor(main, dark);
                 text-decoration: line-through;
                 &:after {
-                    border-left-color: color(main, dark);    
+                    border-left-color: crmcolor(main, dark);    
                 }
+            }
+
+            &.addStage {
+                cursor: pointer;
             }
         }
     }
