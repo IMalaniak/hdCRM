@@ -104,6 +104,15 @@ header {
       max-height: 100%;
       object-fit: contain;
     }
+
+    @include media-breakpoint-down(md) {
+      width: crmsize(sidebar, minimized);
+      justify-content: center;
+      
+      img {
+        display: none;
+      }     
+    }
   }
 }
 
@@ -112,6 +121,24 @@ main {
   display: flex;
   flex-direction: row;
   width: 100vw;
+  position: relative;
+
+  .overlay {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    display: block;
+    z-index: 3;
+    visibility: hidden;
+    transition: visibility $animation-time-style, background-color $animation-time-style;
+
+    &.isVisible {
+      background-color: rgba(0,0,0,.6);
+      visibility: visible;
+    }
+  }
 }
 
 footer {

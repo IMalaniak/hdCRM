@@ -7,13 +7,29 @@
   .card-body {
       overflow-x: auto;
   }
+
+  h4 {
+    margin: 0;
+    text-overflow: ellipsis;
+    min-width: 50%;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  div[buttons] {
+    max-width: 50%;
+  }
+
+  button {
+    max-width: 100%;
+  }
 }
 
 .progress-spinner-overlay {
   position: absolute;
   width: 100%;
   height: 100%;
-  z-index: 9999;
+  z-index: 3;
 
   &:before {
     display: block;
