@@ -1,0 +1,13 @@
+@import 'variables';
+@import 'mixins';
+
+$fHeight: crmsize(footer, height, true) + 0.5*crmsize(footer, height, true);
+$hHeight: crmsize(header, height, true);
+
+.login-section {
+    width: 100%;
+    height: calc(100vh - #{$fHeight} - #{$hHeight});
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
