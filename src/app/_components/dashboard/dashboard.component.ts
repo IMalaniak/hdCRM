@@ -2,7 +2,8 @@ import { environment } from 'environments/environment';
 import { Component, OnInit } from '@angular/core';
 import { TranslationsService } from '@/_services/translations.service';
 import { AuthenticationService } from '@/_services/authentication.service';
-import { User } from '@/_models';
+import { StageService } from '@/_services';
+import { User, Stage } from '@/_models';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,10 +15,12 @@ export class DashboardComponent implements OnInit {
   appUser: User;
   editForm: boolean;
   baseUrl: string;
+  stages: Stage[];
 
   constructor(
     private translationsService: TranslationsService,
     private authenticationService: AuthenticationService,
+    private stageService: StageService
   ) { 
     this.baseUrl = environment.baseUrl;
   }
@@ -33,9 +36,8 @@ export class DashboardComponent implements OnInit {
       this.appUser = user;
     });
 
+    this.stageService.countPlansByStage().subscribe(stage => {
+      this.stages = stage;
+    });
   }
- 
-    onClickEdit(): void {
-      this.editForm = true;
-    }
 }

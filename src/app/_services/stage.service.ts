@@ -19,4 +19,7 @@ export class StageService {
     return this.http.get<Stage[]>(`${environment.baseUrl}/stages/list`);
   }
 
+  countPlansByStage(): Observable<Stage[]> {
+    return this.http.get<Stage[]>(`${environment.baseUrl}/stages/countPlans`);
+  }
 }
