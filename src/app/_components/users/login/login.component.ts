@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   translations: Object;
   user: User = new User();
   returnUrl: string;
+  hidePassword = true;
 
   constructor(
     private authService: AuthenticationService,
