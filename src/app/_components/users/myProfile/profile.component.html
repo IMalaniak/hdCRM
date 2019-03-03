@@ -1,111 +1,175 @@
-<section class="app-content-box" [title]="'PROFILECOMPONENT.Header'" *ngIf="user">
-  <div content class="row profile-section">
-    <div class="col-sm-12 col-md-6 col-lg-4">
-      <mat-card class="d-flex justify-content-center align-items-center">
-        <mat-card-content class="d-flex justify-content-center align-items-center flex-column">
+<div class="container-fluid profile-container px-0">
+ <div class="row"> 
+    <div class="col-12">
+      <div class="img-background">
+        <img *ngIf="user.avatar" src="{{baseUrl + user.avatar.location + user.avatar.title}}" alt="{{user.avatar.title}}">
+        <img *ngIf="!user.avatar" src="./assets/images/userpic/noimage.png" alt="noimage">
+        <h2>{{ user.name}} {{ user.surname }}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-4 col-lg-3 ava-background">
+      <div class="img-avatar d-flex justify-content-center align-items-center">
           <img *ngIf="user.avatar" src="{{baseUrl + user.avatar.location + user.avatar.title}}" alt="{{user.avatar.title}}">
           <img *ngIf="!user.avatar" src="./assets/images/userpic/noimage.png" alt="noimage">
-          <h5 class="mt-3">{{ user.name }} {{ user.surname }}</h5>
-        </mat-card-content>
-      </mat-card>
+      </div>
+      <h3 class="w-75 mx-auto pt-5">{{ user.name}} {{ user.surname }}</h3>
+      <div class="w-75 mx-auto pb-5 mt-4">
+        <h5 i18n="@@">{{ "Details" | uppercase }}</h5>
+        <mat-divider></mat-divider>
+        <h6 class="mb-5 mt-2" i18n="@@">{{ "Department" | uppercase }}</h6>
+        <h6 class="mb-0" i18n="@@">{{ "Roles" | uppercase }}</h6>
+        <ul class="mb-4">
+          <li class="roles">
+            <span *ngFor="let role of user.Roles; last as isLast">{{ role.keyString }}</span>
+          </li>
+        </ul>
+        <h5 i18n="@@">{{ "Contact" | uppercase }}</h5>
+        <mat-divider></mat-divider>
+        <div class="d-flex align-items-center mt-2">
+          <mat-icon color="primary" class="pt-1">email</mat-icon><span>{{ user.email }}</span><br> 
+        </div>
+        <div class="d-flex align-items-center">
+          <mat-icon color="primary" class="pt-1">phone</mat-icon><span>{{ user.phone }}</span>
+        </div>
+      </div>
     </div>
-
-    <div class="col-sm-12 col-md-6 col-lg-4">
-      <form *ngIf="editForm" class="d-flex justify-content-center align-items-center"> 
-        <mat-card class="d-flex justify-content-center align-items-center flex-column">
-          <mat-card-content>
-            <mat-form-field appearance="outline">
-              <mat-label>{{ 'USERCOMPONENT.User.name' | translate }}</mat-label>
-              <input matInput [(ngModel)]="user.name" name="name" type="text" [readonly]="!editForm" placeholder="" class="">
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>{{ 'USERCOMPONENT.User.surname' | translate }}</mat-label>
-              <input matInput [(ngModel)]="user.surname" name="surname" type="text" [readonly]="!editForm" placeholder="">
-            </mat-form-field> 
-            <mat-form-field appearance="outline">
-              <mat-label>{{ 'USERCOMPONENT.User.email' | translate}}</mat-label>
-              <input matInput [(ngModel)]="user.email" name="email" type="text" [readonly]="!editForm" placeholder="">
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>{{ 'USERCOMPONENT.User.phone' | translate}}</mat-label>
-              <input matInput [(ngModel)]="user.phone" name="phone" type="text" [readonly]="!editForm" placeholder="">
-            </mat-form-field>
-            <mat-form-field appearance="outline" matTooltip="{{ 'PROFILECOMPONENT.User.defaultLangWarning' | translate}}" [matTooltipDisabled]=!editForm>
-              <mat-label>{{ 'USERCOMPONENT.User.defaultLang' | translate}}</mat-label>
-              <input matInput *ngIf="!editForm" value="{{ 'GLOBAL.Languages.labels.' + user.defaultLang | translate}}"  type="text" name="defaultLang"  readonly placeholder="">
-              <mat-select [(ngModel)]="user.defaultLang" name="defaultLang">
-                <mat-option *ngFor="let lang of langs" [value]="lang">{{ 'GLOBAL.Languages.labels.' + lang | translate }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </mat-card-content>
-        </mat-card>
-      </form>
-
-      <mat-card class="d-flex justify-content-center align-items-center" *ngIf="!editForm">
-        <mat-card-content class="d-flex justify-content-center align-items-center">
-          <mat-list>
-            <mat-list-item>
-              <span>{{ 'USERCOMPONENT.User.name' | translate}}:</span> 
-              <span>{{ user.name }}</span>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <span>{{ 'USERCOMPONENT.User.surname' | translate}}:</span>
-              <span>{{user.surname}}</span>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <span>{{ 'USERCOMPONENT.User.login' | translate}}:</span>
-              <span>{{user.login}}</span>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <span>{{ 'USERCOMPONENT.User.email' | translate}}:</span>
-              <span>{{user.email}}</span>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <span>{{ 'USERCOMPONENT.User.phone' | translate}}:</span>
-              <span>{{user.phone}}</span>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <span>{{ 'USERCOMPONENT.User.defaultLang' | translate}}:</span>
-              <span>{{user.defaultLang}}</span>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <span>{{ 'GLOBAL.List.createdAt' | translate}}:</span>
-              <span>{{user.createdAt | date: 'short' }}</span>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <span>{{ 'GLOBAL.List.updatedAt' | translate}}:</span>
-              <span>{{user.updatedAt | date: 'short' }}</span>
-            </mat-list-item>
-          </mat-list>
-        </mat-card-content>
-      </mat-card>
-    </div>
-
-    <div class="col-sm-12 col-md-6 col-lg-4">
-      <mat-card>
-        <mat-card-content>
-          <h6>{{ 'USERCOMPONENT.User.role' | translate}}:</h6>
-          <mat-divider></mat-divider>
-          <mat-list *ngFor="let role of user.Roles">
-            <mat-list-item>{{ role.keyString }}</mat-list-item>
-            <mat-divider></mat-divider>
-          </mat-list>
-        </mat-card-content>
-      </mat-card>
+    <div class="col-sm-12 col-md-8 col-lg-9 tabs-background">
+      <mat-tab-group mat-stretch-tabs dynamicHeight> 
+        <mat-tab i18n="@@" label="Details">
+          <section content class="app-content-box">
+            <div content class="row">
+              <div *ngIf="!editForm" class="col-md-12 col-lg-6">
+                <mat-list>
+                  <mat-list-item>
+                    <div class="row">
+                      <div class="col">
+                        <span i18n="@@">Name:</span> 
+                      </div>
+                      <div class="col">
+                        <span i18n="@@">{{ user.name }}</span>
+                      </div>
+                    </div>
+                  </mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item>
+                    <div class="row">
+                      <div class="col">
+                        <span i18n="@@">Surname:</span> 
+                      </div>
+                      <div class="col">
+                        <span i18n="@@">{{ user.surname }}</span>
+                      </div>
+                    </div>
+                  </mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item>
+                    <div class="row">
+                      <div class="col">
+                        <span i18n="@@">Login:</span> 
+                      </div>
+                      <div class="col">
+                        <span>{{ user.login }}</span>
+                      </div>
+                    </div>
+                  </mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item>
+                    <div class="row">
+                      <div class="col">
+                        <span i18n="@@">Login:</span> 
+                      </div>
+                      <div class="col">
+                        <span>{{ user.email }}</span>
+                      </div>
+                    </div>
+                  </mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item>
+                    <div class="row">
+                      <div class="col">
+                        <span i18n="@@">Phone:</span> 
+                      </div>
+                      <div class="col">
+                        <span>{{ user.phone }}</span>
+                      </div>
+                    </div>
+                  </mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item>
+                    <div class="row">
+                      <div class="col">
+                        <span i18n="@@">Language:</span> 
+                      </div>
+                      <div class="col">
+                        <span>{{ user.defaultLang }}</span>
+                      </div>
+                    </div>
+                  </mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item>
+                    <div class="row">
+                      <div class="col">
+                        <span i18n="@@">Date created:</span>
+                      </div>
+                      <div class="col">
+                        <span>{{ user.createdAt | date: 'short' }}</span>
+                      </div>
+                    </div>
+                  </mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item>
+                    <div class="row">
+                      <div class="col">
+                        <span i18n="@@">Date updated:</span>
+                      </div>
+                      <div class="col">
+                        <span>{{ user.updatedAt | date: 'short' }}</span>
+                      </div>
+                    </div>
+                  </mat-list-item>
+                </mat-list>
+              </div>
+              <div *ngIf="editForm" class="col-sm-12 col-md-6">
+                <form class="d-flex flex-column pt-3">  
+                  <mat-form-field appearance="outline">
+                    <mat-label i18n="@@">Neme</mat-label>
+                    <input matInput [(ngModel)]="user.name" name="name" type="text" [readonly]="!editForm">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label i18n="@@">Surname</mat-label>
+                    <input matInput [(ngModel)]="user.surname" name="surname" type="text" [readonly]="!editForm">
+                  </mat-form-field> 
+                  <mat-form-field appearance="outline">
+                    <mat-label i18n="@@">Email</mat-label>
+                    <input matInput [(ngModel)]="user.email" name="email" type="text" [readonly]="!editForm">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label i18n="@@">Phone</mat-label>
+                    <input matInput [(ngModel)]="user.phone" name="phone" type="text" [readonly]="!editForm">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" matTooltip="{{ 'PROFILECOMPONENT.User.defaultLangWarning' | translate}}" [matTooltipDisabled]=!editForm>
+                    <mat-label i18n="@@">Language</mat-label>
+                    <input matInput *ngIf="!editForm" value="{{ 'GLOBAL.Languages.labels.' + user.defaultLang | translate}}"  type="text" name="defaultLang"  readonly>
+                    <mat-select [(ngModel)]="user.defaultLang" name="defaultLang">
+                      <mat-option *ngFor="let lang of langs" [value]="lang" i18n="@@">{{ lang }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </form>  
+              </div>
+            </div>
+            <div buttons>
+              <button mat-raised-button color="primary" *ngIf="!editForm" (click)="onClickEdit()" i18n="@@">Edit</button>
+              <button mat-raised-button color="primary" *ngIf="editForm" (click)="onUpdateUserSubmit()" i18n="@@">Save changes</button>
+              <button mat-raised-button *ngIf="editForm" (click)="onClickCancelEdit()" i18n="@@">Cancel</button>
+            </div>
+          </section>
+        </mat-tab>
+        <mat-tab i18n="@@" label="Activity"></mat-tab>
+        <mat-tab i18n="@@" label="Plans"></mat-tab>
+        <mat-tab i18n="@@" label="Other"></mat-tab>
+      </mat-tab-group>
     </div>
   </div>
-    
-  <div buttons>
-    <button mat-raised-button color="primary" *ngIf="!editForm" (click)="onClickEdit()">{{ 'PROFILECOMPONENT.Actions.edit' | translate}}</button>
-    <button mat-raised-button color="primary" *ngIf="editForm" (click)="onUpdateUserSubmit()">{{ 'GLOBAL.Actions.saveChanges' | translate}}</button>
-    <button mat-raised-button *ngIf="editForm" (click)="onClickCancelEdit()">{{ 'GLOBAL.Actions.cancelEdit' | translate}}</button>
-  </div>
-
-</section>
+</div>

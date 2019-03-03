@@ -1,23 +1,93 @@
-.profile-section {
-    img {
-        display: block;
-        border-radius: 50%;
-        width: 50%;
+@import 'variables';
+@import 'mixins';
+@import "~bootstrap/scss/mixins/breakpoints";
+
+.profile-container {
+
+    ul {
+        margin: 0;
+        padding: 0;
     }
 
-    .mat-list-base {
-        padding-top: 0;
+    .img-background {
+        > img {
+            width: 100%;
+            height: 13em;
+            filter: blur(2.5em);
+        }
+
+        h2 {
+            position: absolute;
+            top: 45%;
+            left: 22%;
+            color: crmcolor(main, base);
+        }
+
+        @include media-breakpoint-down(sm) {
+            > h2 {
+                display: none;
+            }
+        }
     }
 
-    mat-form-field {
-        width: 100%;
+    .ava-background {
+        background-color: crmcolor(secondary, light);
+
+        h5 {
+            color: #3f51b5;
+        }
+
+        h3 {
+            display: none;
+        }
+
+        @include media-breakpoint-down(sm) {
+            > h3 {
+                display: block;
+                color: crmcolor(main, dark);
+            }
+        }
+
+        .img-avatar {
+            > img {
+                display: block;
+                width: 60%;
+                border-radius: 50%;
+                border: .5em solid crmcolor(main, light);
+                position: relative;
+                margin-top: -30%;
+            } 
+        }
+
+        .roles {
+            > span:first-child { 
+                margin: 0 0.3em 0 0;
+            }
+    
+            > span {
+                margin: 0 0.3em;
+            }
+        }
+
+        mat-icon {
+            font-size: 18px;
+        }
     }
 
-    .mat-card {
-        height: 100%;
+    .tabs-background {
+        background-color: crmcolor(main, base); 
+
+        mat-list { 
+            .row {
+                width: 100%;
+                margin: auto;
+            } 
+        }
+
+        mat-list-item {
+            .col:last-child {
+                text-align: right;
+            } 
+        }
     }
 }
-
-
-
-
