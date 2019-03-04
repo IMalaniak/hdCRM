@@ -49,7 +49,7 @@
           </div>
         </div>
         <div class="d-flex justify-content-end">
-          <button mat-stroked-button matStepperNext color="primary" type="button">{{ 'REGISTERCOMPONENT.Actions.next' | translate}}</button>
+          <button mat-stroked-button matStepperNext color="primary" class="crm-button" type="button"><mat-icon>arrow_forward</mat-icon><span>{{ 'REGISTERCOMPONENT.Actions.next' | translate}}</span></button>
         </div>
       </mat-step>
       <mat-step formGroupName="1" [stepControl]="formArray?.get([1])">
@@ -104,8 +104,8 @@
           </div>
         </div> 
         <div class="d-flex justify-content-between">
-          <button mat-stroked-button matStepperPrevious type="button">{{ 'REGISTERCOMPONENT.Actions.back' | translate}}</button>
-          <button mat-stroked-button matStepperNext color="primary" type="button">{{ 'REGISTERCOMPONENT.Actions.next' | translate}}</button>
+          <button mat-stroked-button matStepperPrevious class="crm-button" type="button"><mat-icon>arrow_back</mat-icon><span>{{ 'REGISTERCOMPONENT.Actions.back' | translate}}</span></button>
+          <button mat-stroked-button matStepperNext color="primary" class="crm-button" type="button"><mat-icon>arrow_forward</mat-icon><span>{{ 'REGISTERCOMPONENT.Actions.next' | translate}}</span></button>
         </div>         
       </mat-step>
       <mat-step>
@@ -121,8 +121,8 @@
           </div>
         </div>
         <div class="d-flex justify-content-between">
-          <button mat-stroked-button matStepperPrevious type="button">{{ 'REGISTERCOMPONENT.Actions.back' | translate}}</button>
-          <button mat-stroked-button color="warn" (click)="stepper.reset()" type="button">{{ 'REGISTERCOMPONENT.Actions.reset' | translate}}</button>
+          <button mat-stroked-button matStepperPrevious class="crm-button" type="button"><mat-icon>arrow_back</mat-icon><span>{{ 'REGISTERCOMPONENT.Actions.back' | translate}}</span></button>
+          <button mat-stroked-button color="warn" class="crm-button" (click)="stepper.reset()" type="button"><mat-icon>remove_circle</mat-icon><span>{{ 'REGISTERCOMPONENT.Actions.reset' | translate}}</span></button>
           <!-- <button mat-stroked-button matStepperNext type="button">{{ 'REGISTERCOMPONENT.Actions.next' | translate}}</button> -->
         </div> 
       </mat-step>
@@ -136,7 +136,7 @@
     </mat-vertical-stepper>
   </form>
 
-  <button buttons mat-raised-button color="primary" [disabled]="userData.invalid" (click)="onRegisterSubmit()">{{ 'REGISTERUSERCOMPONENT.Actions.submit' | translate }}</button>
+  <button buttons mat-raised-button color="primary" class="crm-button" [disabled]="userData.invalid" (click)="onRegisterSubmit()"><mat-icon>verified_user</mat-icon><span>{{ 'REGISTERUSERCOMPONENT.Actions.submit' | translate }}</span></button>
 
 </section>
 

@@ -144,7 +144,7 @@
               <div *ngIf="editForm" class="col-md-12 col-lg-6">
                 <form class="d-flex flex-column pt-3">  
                   <mat-form-field appearance="outline">
-                    <mat-label i18n="@@profileСomponentTabDetailsName">Neme</mat-label>
+                    <mat-label i18n="@@profileСomponentTabDetailsName">Name</mat-label>
                     <input matInput [(ngModel)]="user.name" name="name" type="text" [readonly]="!editForm">
                   </mat-form-field>
                   <mat-form-field appearance="outline">
@@ -170,9 +170,9 @@
               </div>
             </div>
             <div buttons>
-              <button mat-raised-button color="primary" *ngIf="!editForm" (click)="onClickEdit()" i18n="@@profileСomponentActionsEditProfile">Edit</button>
-              <button mat-raised-button color="primary" *ngIf="editForm" (click)="onUpdateUserSubmit()" i18n="@@profileСomponentActionsSave">Save changes</button>
-              <button mat-raised-button *ngIf="editForm" (click)="onClickCancelEdit()" i18n="@@profileСomponentActionsCancel">Cancel</button>
+              <button mat-raised-button color="primary" class="crm-button" *ngIf="!editForm" (click)="onClickEdit()" i18n="@@profileСomponentActionsEditProfile"><mat-icon>edit</mat-icon><span>Edit</span></button>
+              <button mat-raised-button color="primary" class="crm-button" *ngIf="editForm" (click)="onUpdateUserSubmit()" i18n="@@profileСomponentActionsSave"><mat-icon>save</mat-icon><span>Save changes</span></button>
+              <button mat-raised-button class="crm-button" *ngIf="editForm" (click)="onClickCancelEdit()" i18n="@@profileСomponentActionsCancel"><mat-icon>cancel</mat-icon><span>Cancel</span></button>
             </div>
           </section>
         </mat-tab>
