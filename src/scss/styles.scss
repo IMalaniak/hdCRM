@@ -146,7 +146,7 @@ footer {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 0.5*crmsize(footer, height, true);
+  //margin-top: 0.5*crmsize(footer, height, true);
   min-height: crmsize(footer, height);
 	background: crmcolor(secondary, base);
 	color: crmcolor(secondary, light);

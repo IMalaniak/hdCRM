@@ -1,175 +1,185 @@
-<div class="container-fluid profile-container px-0">
- <div class="row"> 
-    <div class="col-12">
-      <div class="img-background">
-        <img *ngIf="user.avatar" src="{{baseUrl + user.avatar.location + user.avatar.title}}" alt="{{user.avatar.title}}">
-        <img *ngIf="!user.avatar" src="./assets/images/userpic/noimage.png" alt="noimage">
-        <h2>{{ user.name}} {{ user.surname }}</h2>
-      </div>
+<section class="profile-container" *ngIf="user">
+  <div class="img-header">
+    <img *ngIf="user.avatar" src="{{baseUrl + user.avatar.location + user.avatar.title}}" alt="{{user.avatar.title}}">
+    <img *ngIf="!user.avatar" src="./assets/images/userpic/noimage.png" alt="noimage">
+    <div class="row name">
+      <div class="col-sm-12 col-md-4 col-lg-3"></div>
+      <div class="col-sm-12 col-md-8 col-lg-9"><h2>{{ user.name}} {{ user.surname }}</h2></div>
     </div>
+    
   </div>
   <div class="row">
-    <div class="col-sm-12 col-md-4 col-lg-3 ava-background">
+    <aside class="col-sm-12 col-md-4 col-lg-3">
       <div class="img-avatar d-flex justify-content-center align-items-center">
           <img *ngIf="user.avatar" src="{{baseUrl + user.avatar.location + user.avatar.title}}" alt="{{user.avatar.title}}">
           <img *ngIf="!user.avatar" src="./assets/images/userpic/noimage.png" alt="noimage">
       </div>
-      <h3 class="w-75 mx-auto pt-5">{{ user.name}} {{ user.surname }}</h3>
-      <div class="w-75 mx-auto pb-5 mt-4">
-        <h5 i18n="@@">{{ "Details" | uppercase }}</h5>
+      <h3 class="w-75 mx-auto">{{ user.name}} {{ user.surname }}</h3>
+      <div class="w-75 mx-auto mt-3 details">
+        <h5 i18n="@@profileСomponentAsideDetailsHeader">{{ "Details" | uppercase }}</h5>       
         <mat-divider></mat-divider>
-        <h6 class="mb-5 mt-2" i18n="@@">{{ "Department" | uppercase }}</h6>
-        <h6 class="mb-0" i18n="@@">{{ "Roles" | uppercase }}</h6>
-        <ul class="mb-4">
-          <li class="roles">
-            <span *ngFor="let role of user.Roles; last as isLast">{{ role.keyString }}</span>
-          </li>
-        </ul>
-        <h5 i18n="@@">{{ "Contact" | uppercase }}</h5>
-        <mat-divider></mat-divider>
-        <div class="d-flex align-items-center mt-2">
-          <mat-icon color="primary" class="pt-1">email</mat-icon><span>{{ user.email }}</span><br> 
+
+        <div class="department">
+          <h6 i18n="@@profileСomponentAsideDetailsDep">{{ "Department" | uppercase }}</h6>
         </div>
-        <div class="d-flex align-items-center">
-          <mat-icon color="primary" class="pt-1">phone</mat-icon><span>{{ user.phone }}</span>
+        
+        <div class="roles">
+          <h6 i18n="@@profileСomponentAsideDetailsRoles">{{ "Roles" | uppercase }}</h6>
+          <ul>
+            <li>
+              <span *ngFor="let role of user.Roles; last as isLast">{{ role.keyString }}</span>
+            </li>
+          </ul>
+        </div>
+
+        <h5 i18n="@@profileСomponentAsideContactsHeader">{{ "Contact" | uppercase }}</h5>
+        <mat-divider></mat-divider>
+
+        <div class="contacts">  
+          <a class="d-flex align-items-center" href="mailto:{{ user.email }}">
+            <mat-icon color="primary">email</mat-icon><span>{{ user.email }}</span>
+          </a>
+          <div class="d-flex align-items-center">
+            <mat-icon color="primary">phone</mat-icon><span>{{ user.phone }}</span>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-sm-12 col-md-8 col-lg-9 tabs-background">
+    </aside>
+    <div class="col-sm-12 col-md-8 col-lg-9 tabs">
       <mat-tab-group mat-stretch-tabs dynamicHeight> 
-        <mat-tab i18n="@@" label="Details">
-          <section content class="app-content-box">
+        <mat-tab i18n="@@profileСomponentTabsLabelDetails" label="Details">
+          <section class="app-content-box">
             <div content class="row">
               <div *ngIf="!editForm" class="col-md-12 col-lg-6">
                 <mat-list>
                   <mat-list-item>
-                    <div class="row">
-                      <div class="col">
-                        <span i18n="@@">Name:</span> 
+                    <section>
+                      <div>
+                        <span i18n="@@profileСomponentTabDetailsName">Name:</span> 
                       </div>
-                      <div class="col">
-                        <span i18n="@@">{{ user.name }}</span>
+                      <div>
+                        <span>{{ user.name }}</span>
                       </div>
-                    </div>
+                    </section>
                   </mat-list-item>
                   <mat-divider></mat-divider>
                   <mat-list-item>
-                    <div class="row">
-                      <div class="col">
-                        <span i18n="@@">Surname:</span> 
+                    <section>
+                      <div>
+                        <span i18n="@@profileСomponentTabDetailsSurname">Surname:</span> 
                       </div>
-                      <div class="col">
-                        <span i18n="@@">{{ user.surname }}</span>
+                      <div>
+                        <span>{{ user.surname }}</span>
                       </div>
-                    </div>
+                    </section>
                   </mat-list-item>
                   <mat-divider></mat-divider>
                   <mat-list-item>
-                    <div class="row">
-                      <div class="col">
-                        <span i18n="@@">Login:</span> 
+                    <section>
+                      <div>
+                        <span i18n="@@profileСomponentTabDetailsLogin">Login:</span> 
                       </div>
-                      <div class="col">
+                      <div>
                         <span>{{ user.login }}</span>
                       </div>
-                    </div>
+                    </section>
                   </mat-list-item>
                   <mat-divider></mat-divider>
                   <mat-list-item>
-                    <div class="row">
-                      <div class="col">
-                        <span i18n="@@">Login:</span> 
+                    <section>
+                      <div>
+                        <span i18n="@@profileСomponentTabDetailsEmail">Email:</span> 
                       </div>
-                      <div class="col">
+                      <div>
                         <span>{{ user.email }}</span>
                       </div>
-                    </div>
+                    </section> 
                   </mat-list-item>
                   <mat-divider></mat-divider>
                   <mat-list-item>
-                    <div class="row">
-                      <div class="col">
-                        <span i18n="@@">Phone:</span> 
+                    <section>
+                      <div>
+                        <span i18n="@@profileСomponentTabDetailsPhone">Phone:</span> 
                       </div>
-                      <div class="col">
+                      <div>
                         <span>{{ user.phone }}</span>
                       </div>
-                    </div>
+                    </section>
                   </mat-list-item>
                   <mat-divider></mat-divider>
                   <mat-list-item>
-                    <div class="row">
-                      <div class="col">
-                        <span i18n="@@">Language:</span> 
+                    <section>
+                      <div>
+                        <span i18n="@@profileСomponentTabDetailsLang">Language:</span> 
                       </div>
-                      <div class="col">
+                      <div>
                         <span>{{ user.defaultLang }}</span>
                       </div>
-                    </div>
+                    </section>  
                   </mat-list-item>
                   <mat-divider></mat-divider>
                   <mat-list-item>
-                    <div class="row">
-                      <div class="col">
-                        <span i18n="@@">Date created:</span>
+                    <section>
+                      <div>
+                        <span i18n="@@profileСomponentTabDetailsDateCreated">Date created:</span>
                       </div>
-                      <div class="col">
+                      <div>
                         <span>{{ user.createdAt | date: 'short' }}</span>
                       </div>
-                    </div>
+                    </section>
                   </mat-list-item>
                   <mat-divider></mat-divider>
                   <mat-list-item>
-                    <div class="row">
-                      <div class="col">
-                        <span i18n="@@">Date updated:</span>
+                    <section>
+                      <div>
+                        <span i18n="@@profileСomponentTabDetailsDateUpdated">Date updated:</span>
                       </div>
-                      <div class="col">
+                      <div>
                         <span>{{ user.updatedAt | date: 'short' }}</span>
                       </div>
-                    </div>
+                    </section>
                   </mat-list-item>
                 </mat-list>
               </div>
-              <div *ngIf="editForm" class="col-sm-12 col-md-6">
+              <div *ngIf="editForm" class="col-md-12 col-lg-6">
                 <form class="d-flex flex-column pt-3">  
                   <mat-form-field appearance="outline">
-                    <mat-label i18n="@@">Neme</mat-label>
+                    <mat-label i18n="@@profileСomponentTabDetailsName">Neme</mat-label>
                     <input matInput [(ngModel)]="user.name" name="name" type="text" [readonly]="!editForm">
                   </mat-form-field>
                   <mat-form-field appearance="outline">
-                    <mat-label i18n="@@">Surname</mat-label>
+                    <mat-label i18n="@@profileСomponentTabDetailsSurname">Surname</mat-label>
                     <input matInput [(ngModel)]="user.surname" name="surname" type="text" [readonly]="!editForm">
                   </mat-form-field> 
                   <mat-form-field appearance="outline">
-                    <mat-label i18n="@@">Email</mat-label>
+                    <mat-label i18n="@@profileСomponentTabDetailsEmail">Email</mat-label>
                     <input matInput [(ngModel)]="user.email" name="email" type="text" [readonly]="!editForm">
                   </mat-form-field>
                   <mat-form-field appearance="outline">
-                    <mat-label i18n="@@">Phone</mat-label>
+                    <mat-label i18n="@@profileСomponentTabDetailsPhone">Phone</mat-label>
                     <input matInput [(ngModel)]="user.phone" name="phone" type="text" [readonly]="!editForm">
                   </mat-form-field>
                   <mat-form-field appearance="outline" matTooltip="{{ 'PROFILECOMPONENT.User.defaultLangWarning' | translate}}" [matTooltipDisabled]=!editForm>
-                    <mat-label i18n="@@">Language</mat-label>
+                    <mat-label i18n="@@profileСomponentTabDetailsLang">Language</mat-label>
                     <input matInput *ngIf="!editForm" value="{{ 'GLOBAL.Languages.labels.' + user.defaultLang | translate}}"  type="text" name="defaultLang"  readonly>
                     <mat-select [(ngModel)]="user.defaultLang" name="defaultLang">
-                      <mat-option *ngFor="let lang of langs" [value]="lang" i18n="@@">{{ lang }}</mat-option>
+                      <mat-option *ngFor="let lang of langs" [value]="lang">{{ lang }}</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </form>  
               </div>
             </div>
             <div buttons>
-              <button mat-raised-button color="primary" *ngIf="!editForm" (click)="onClickEdit()" i18n="@@">Edit</button>
-              <button mat-raised-button color="primary" *ngIf="editForm" (click)="onUpdateUserSubmit()" i18n="@@">Save changes</button>
-              <button mat-raised-button *ngIf="editForm" (click)="onClickCancelEdit()" i18n="@@">Cancel</button>
+              <button mat-raised-button color="primary" *ngIf="!editForm" (click)="onClickEdit()" i18n="@@profileСomponentActionsEditProfile">Edit</button>
+              <button mat-raised-button color="primary" *ngIf="editForm" (click)="onUpdateUserSubmit()" i18n="@@profileСomponentActionsSave">Save changes</button>
+              <button mat-raised-button *ngIf="editForm" (click)="onClickCancelEdit()" i18n="@@profileСomponentActionsCancel">Cancel</button>
             </div>
           </section>
         </mat-tab>
-        <mat-tab i18n="@@" label="Activity"></mat-tab>
-        <mat-tab i18n="@@" label="Plans"></mat-tab>
-        <mat-tab i18n="@@" label="Other"></mat-tab>
+        <!-- <mat-tab i18n="@@profileСomponentTabsLabelActivity" label="Activity"></mat-tab>
+        <mat-tab i18n="@@profileСomponentTabsLabelPlans" label="Plans"></mat-tab>
+        <mat-tab i18n="@@profileСomponentTabsLabelOther" label="Other"></mat-tab> -->
       </mat-tab-group>
     </div>
   </div>
-</div>
+</section>

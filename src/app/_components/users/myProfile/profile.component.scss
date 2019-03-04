@@ -9,85 +9,104 @@
         padding: 0;
     }
 
-    .img-background {
-        > img {
-            width: 100%;
-            height: 13em;
-            filter: blur(2.5em);
-        }
-
-        h2 {
-            position: absolute;
-            top: 45%;
-            left: 22%;
-            color: crmcolor(main, base);
-        }
+    .img-header {
+        height: 13em;
+        position: relative;
 
         @include media-breakpoint-down(sm) {
-            > h2 {
-                display: none;
+            height: 8em;
+        }
+
+        .name {
+            display: none;
+            @include media-breakpoint-up(md) {
+                display: flex;
+                position: absolute;
+                width: 100%;
+                bottom: 0;
+                color: crmcolor(main, base);
             }
+        }
+
+        > img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;         
+            filter: blur(3em);
         }
     }
 
-    .ava-background {
+    aside {
         background-color: crmcolor(secondary, light);
-
-        h5 {
-            color: #3f51b5;
-        }
-
-        h3 {
-            display: none;
-        }
-
-        @include media-breakpoint-down(sm) {
-            > h3 {
-                display: block;
-                color: crmcolor(main, dark);
-            }
-        }
+        padding-bottom: 1em;
 
         .img-avatar {
             > img {
                 display: block;
                 width: 60%;
                 border-radius: 50%;
-                border: .5em solid crmcolor(main, light);
+                border: .25rem solid crmcolor(main, light);
                 position: relative;
                 margin-top: -30%;
             } 
         }
 
-        .roles {
-            > span:first-child { 
-                margin: 0 0.3em 0 0;
-            }
-    
-            > span {
-                margin: 0 0.3em;
+        h5 {
+            color: #3f51b5;
+        }
+
+        h3 {
+            display: block;
+            color: crmcolor(main, dark);
+
+            @include media-breakpoint-up(md) {
+                display: none;
             }
         }
 
-        mat-icon {
-            font-size: 18px;
+        .details {
+            > div {
+                padding: crmsize(spacer, null, true) 0;
+            }
         }
+        
+        .roles {
+            span {
+                margin: 0 0.3em;
+
+                &:first-child { 
+                    margin: 0 0.3em 0 0;
+                }
+            }
+        }
+
+        .contacts {
+            span {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+
+            mat-icon {
+                font-size: 1em;
+                height: 1em;
+                width: 1em;
+                margin-right: 0.5em;
+            }
+        }
+
+
     }
 
-    .tabs-background {
+    .tabs {
         background-color: crmcolor(main, base); 
 
-        mat-list { 
-            .row {
-                width: 100%;
-                margin: auto;
-            } 
-        }
-
         mat-list-item {
-            .col:last-child {
-                text-align: right;
-            } 
+            section {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+            }   
         }
     }
 }
