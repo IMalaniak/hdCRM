@@ -65,6 +65,8 @@ module.exports = (sequelize, DataTypes) => {
     User.belongsToMany(models.Plan, {as: 'PlansTakesPartIn', through: 'UserPlans', foreignKey: 'UserId'});
     User.belongsTo(models.State);
     User.hasOne(models.UserLoginHistory);
+    User.hasOne(models.Department, {as: 'ManagedDepartment', foreignKey: 'managerId'});
+    User.belongsTo(models.Department, {constraints: false});
   };
   return User;
 };

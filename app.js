@@ -15,6 +15,7 @@ const states = require('./server/routes/states');
 const stages = require('./server/routes/stages');
 const plans = require('./server/routes/plans');
 const files = require('./server/routes/files');
+const departments = require('./server/routes/departments');
 
 //Port #
 const PORT = process.env.PORT || env.PORT;
@@ -41,6 +42,7 @@ app.use('/privileges', privileges);
 app.use('/states', states);
 app.use('/stages', stages);
 app.use('/plans', plans);
+app.use('/departments', departments);
 app.use('/files', files);
 
 app.get('/', (req, res) => {
