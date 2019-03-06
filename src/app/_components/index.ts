@@ -18,3 +18,6 @@ export * from './users/user/user.component';
 export * from './users/users.component';
 export * from './breadcrumbs/breadcrumbs.component';
 export * from './stages/stages.component';
+export * from './departments/departments.component';
+export * from './departments/department/department.component';
+export * from './departments/add/add-department.component';

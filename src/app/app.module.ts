@@ -31,7 +31,11 @@ import { AppComponent,
   UsersComponent,
   UsersComponentDialogComponent,
   AddStageDialogComponent,
-  StagesComponent
+  StagesComponent,
+  DepartmentsComponent,
+  DepartmentComponent,
+  AddDepartmentComponent
+
  } from '@/_components';
 
  // tags
@@ -49,7 +53,9 @@ import { AuthenticationService,
   PrivilegeService,
   StateService,
   StageService,
-  MessageService } from '@/_services';
+  MessageService,
+  DepartmentService
+ } from '@/_services';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -81,7 +87,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     UsersComponent,
     UsersComponentDialogComponent,
     AddStageDialogComponent,
-    StagesComponent
+    StagesComponent,
+    DepartmentsComponent,
+    DepartmentComponent,
+    AddDepartmentComponent
   ],
   imports: [
     BrowserModule,
@@ -112,7 +121,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     PrivilegeService,
     StateService,
     StageService,
-    MessageService
+    MessageService,
+    DepartmentService
   ],
   bootstrap: [AppComponent]
 })

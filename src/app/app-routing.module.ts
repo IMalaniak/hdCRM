@@ -15,7 +15,10 @@ import { DashboardComponent,
   RegisterUserComponent,
   UserComponent,
   UsersComponent,
-  StagesComponent
+  StagesComponent,
+  DepartmentsComponent,
+  DepartmentComponent,
+  AddDepartmentComponent
  } from '@/_components';
 
 const routes: Routes = [
@@ -49,6 +52,13 @@ const routes: Routes = [
   {path: 'dashboard', data: { breadcrumb: 'dashboard' }, component: DashboardComponent, canActivate: [AuthGuard]},
   {path: 'myprofile', data: { breadcrumb: 'myprofile' }, component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'administration', data: { breadcrumb: 'administration' }, component: AdministrationComponent, canActivate: [AuthGuard]},
+  {path: 'departments', data: { breadcrumb: 'departments' }, canActivate: [AuthGuard],
+    children: [
+      {path: '', component: DepartmentsComponent },
+      {path: 'details/:id', data: { breadcrumb: 'departmentDetails' }, component: DepartmentComponent},
+      {path: 'add', data: { breadcrumb: 'departmentAdd' }, component: AddDepartmentComponent},
+    ]
+  }
 //  {path: 'translations', component: TranslationsComponent, canActivate:[AuthGuard]},
 ];
 
