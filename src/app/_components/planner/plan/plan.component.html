@@ -1,15 +1,39 @@
-<section class="app-content-box" [title]="'PLANCOMPONENT.Header'" *ngIf="plan">
+<section class="row">
+    <section class="app-content-box col-md-8" [title]="'PLANCOMPONENT.StagesHeader'" *ngIf="plan && plan.Stages">
+        <div content class="row">
+          <div class="col-md-12">
+            <div cdkDropList cdkDropListOrientation="horizontal" class="list-group stages-wrapper" (cdkDropListDropped)="dragDropStages($event)" [cdkDropListDisabled]="!configPlanStages">
+              <div *ngFor="let stage of plan.Stages" class="stages-item" [ngClass]="{'active': stage.id === plan.activeStageId, 'passed': stage.Details.completed}" matTooltip="{{stage.Details.description}}" cdkDrag>
+                <span>{{ 'GLOBAL.Stages.' + stage.keyString  | translate}}</span>
+              </div>
+              <div *ngIf="configPlanStages" class="stages-item addStage" (click)="addStageDialog()" i18n="@@globalStagesAddStage">Add stage</div>
+            </div>
+          </div>
+        </div>
+        <div buttons *ngIf="canEditPlan">
+            <button *ngIf="!configPlanStages" mat-raised-button class="crm-button" color="primary" (click)="onClickConfigureStages()" i18n="@@planComponentActionsConfigureStages"><mat-icon>settings</mat-icon><span>Configure stages</span></button>
+            <button *ngIf="configPlanStages" class="crm-button" mat-raised-button color="primary" [swal]="onUpdatePlanStagesSubmit" i18n="@@globalActionsSaveChanges"><mat-icon>save</mat-icon><span>Save</span></button>
+            <button *ngIf="configPlanStages" class="crm-button" mat-raised-button (click)="onClickCancelEditStages()" i18n="@@globalActionsCancelEdit"><mat-icon>cancel</mat-icon><span>Cancel</span></button>
+        </div>
+    </section>
+      
+    <section class="app-content-box col-md-4" [title]="'PLANCOMPONENT.ActionsHeader'" *ngIf="plan">
+        <div content class="d-flex" *ngIf="canEditPlan">
+          <button mat-stroked-button color="primary" [swal]="goToNextStageSwal">
+            <ng-container *ngIf="plan.activeStage.keyString === 'finished'" i18n="@@planComponentActionsFinishPlan">
+                Finish plan
+            </ng-container>
+            <ng-container *ngIf="plan.activeStage.keyString !== 'finished'" i18n="@@planComponentActionsGoToNextStage">
+                Go to next stage
+            </ng-container>
+          </button>
+        </div>
+    </section>
+</section>
+
+<section class="app-content-box" [title]="'PLANCOMPONENT.DetailsHeader'" *ngIf="plan">
   
   <div content class="row">
- 
-    <div class="col-md-12" *ngIf="plan.Stages">
-      <ul class="list-group stages-scheme">
-        <li *ngFor="let stage of plan.Stages" [ngClass]="{'active': stage.id === plan.activeStageId, 'passed': stage.Details.completed}">
-          <span>{{ 'GLOBAL.Stages.' + stage.keyString  | translate}}</span>
-        </li>
-      </ul>
-    </div>
-
     <form class="col-md-8">
       <div class="form-group row">
         <label for="title" class="col-sm-4 col-form-label">{{ 'PLANCOMPONENT.Plan.title' | translate}}:</label>
@@ -79,13 +103,43 @@
 
   </div>
 
-  <div buttons *ngIf="editPlanPrivilege || plan.CreatorId == app.user.id">
-    <button mat-raised-button color="primary" *ngIf="!editForm" (click)="onClickEdit()">{{ 'PLANCOMPONENT.Actions.edit' | translate}}</button>
-    <button mat-raised-button color="primary" *ngIf="editForm" (click)="onUpdatePlanSubmit()">{{ 'GLOBAL.Actions.saveChanges' | translate}}</button>
-    <button mat-raised-button *ngIf="editForm" (click)="onClickCancelEdit()">{{ 'GLOBAL.Actions.cancelEdit' | translate}}</button>
+  <div buttons *ngIf="canEditPlan">
+    <button *ngIf="!editForm" mat-raised-button color="primary" class="crm-button" (click)="onClickEdit()"><mat-icon>edit</mat-icon><span></span>Edit</button>
+    <button *ngIf="editForm" mat-raised-button color="primary" class="crm-button" [swal]="updatePlanSwal"><mat-icon>save</mat-icon><span>Save</span></button>
+    <button *ngIf="editForm" mat-raised-button class="crm-button" (click)="onClickCancelEdit()"><mat-icon>cancel</mat-icon><span>Cancel</span></button>
   </div>
 
 </section>
 
-<app-attachments *ngIf="plan" [attachments]="plan.Documents" [editForm]="editForm" (deleteFileCall)="deleteDoc($event)"></app-attachments>
+<app-attachments *ngIf="plan && plan.Documents && plan.Documents.length" [attachments]="plan.Documents" [editForm]="editForm" (deleteFileCall)="deleteDoc($event)"></app-attachments>
 
+
+<swal
+  #onUpdatePlanStagesSubmit
+  title="You are about to save stages configuration."
+  text="Are you sure you want update stages configuration?"
+  type="question"
+  [showCancelButton]="true"
+  (confirm)="updatePlanStages()"
+  [options]="{confirmButtonText: 'OK', cancelButtonText: 'Cancel'}">
+</swal>
+
+<swal
+  #goToNextStageSwal
+  title="You are about to pass stage."
+  text="Are you sure you want to go to next plan stage?"
+  type="question"
+  [showCancelButton]="true"
+  (confirm)="goToNextStage()"
+  [options]="{confirmButtonText: 'OK', cancelButtonText: 'Cancel'}">
+</swal>
+
+<swal
+  #updatePlanSwal
+  title="You are about to update plan"
+  text="Are you sure you want to update plan details?"
+  type="question"
+  [showCancelButton]="true"
+  (confirm)="updatePlan()"
+  [options]="{confirmButtonText: 'OK', cancelButtonText: 'Cancel'}">
+</swal>

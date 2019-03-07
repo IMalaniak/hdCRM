@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>{{data.title}}</h1>
+<section mat-dialog-content>
+  <app-stages></app-stages>
+</section>
+<div mat-dialog-actions class="justify-content-end">
+    <button mat-raised-button (click)="onNoClick()">{{'STAGESCOMPONENTDIALOG.Actions.cancel' | translate}}</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="stagesComponent.selectedStages" cdkFocusInitial>{{'STAGESCOMPONENTDIALOG.Actions.ok' | translate}}</button>
+</div>

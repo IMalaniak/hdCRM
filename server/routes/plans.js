@@ -255,7 +255,22 @@ router.put('/update', passport.authenticate('jwt', {session: false}), (req, res,
 										through: {
 											attributes: []
 										}
+									},
+									{
+										model: models.Stage,
+										as: 'activeStage'
+									},
+									{
+										model: models.Stage,
+										as: 'Stages',
+										through: {
+											as: 'Details',
+											attributes: { exclude: ['PlanId', 'StageId'] }
+										}
 									}
+								],
+								order: [ 
+									[models.Sequelize.col('order')]
 								]
 							}).then(plan => {
 								res.json(plan);
@@ -273,6 +288,95 @@ router.put('/update', passport.authenticate('jwt', {session: false}), (req, res,
 				res.status(400).json(error.toString());
 			});
 		}
+	}).catch(error => {
+		res.status(400).json(error.toString());
+	});
+});
+
+router.put('/updatePlanStages', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	models.Plan.findByPk(req.body.id).then(plan => {
+		const stageIds = req.body.Stages.map(stage => {
+			return {id: stage.id}
+		});
+		models.Stage.findAll({
+			where: {
+				[models.Sequelize.Op.or] : stageIds
+			}
+		}).then(stages => {
+			stages = stages.map(stage => {
+				const planStage = req.body.Stages.filter(reqStage => {
+					return reqStage.id === stage.id;
+				})[0];
+				stage.PlanStages = {
+					order: planStage.Details.order,
+					description: planStage.Details.description,
+					completed: planStage.Details.completed
+				};
+				return stage;
+			});			
+			plan.setStages(stages).then(resp => {
+				res.status(200).json(resp);
+			}).catch(error => {
+				res.status(400).json(error.toString());
+			});
+		}).catch(error => {
+			res.status(400).json(error.toString());
+		});			
+	}).catch(error => {
+		res.status(400).json(error.toString());
+	});
+});
+
+
+// set next stage active
+router.get('/toNextStage/:id', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	models.Plan.findOne({
+		where: {id: req.params.id},
+		attributes: ['id', 'activeStageId'],
+		include: [
+			{
+				model: models.Stage,
+				as: 'activeStage'
+			},
+			{
+				model: models.Stage,
+				as: 'Stages',
+				through: {
+					as: 'Details',
+					attributes: { exclude: ['PlanId', 'StageId'] }
+				}
+			}
+		],
+		order: [ 
+			[models.Sequelize.col('order')]
+		]
+	}).then(plan => {
+		plan.Stages.forEach((stage, i) => {
+			if (stage.id === plan.activeStageId) {	
+				stage.Details.completed = true;
+				stage.Details.save().then(stage => {
+					if (plan.Stages[i+1]) {
+						plan.setActiveStage(plan.Stages[i+1].id).then(() => {
+							plan.reload().then(plan => {
+								res.json(plan);
+							}).catch(error => {
+								res.status(400).json(error.toString());
+							});
+						}).catch(error => {
+							res.status(400).json(error.toString());
+						});
+					} else {
+						plan.reload().then(plan => {
+							res.json(plan);
+						}).catch(error => {
+							res.status(400).json(error.toString());
+						});
+					}
+				}).catch(error => {
+					res.status(400).json(error.toString());
+				});
+			}					
+		});	
 	}).catch(error => {
 		res.status(400).json(error.toString());
 	});

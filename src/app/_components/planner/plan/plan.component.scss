@@ -1,79 +1,78 @@
 @import 'variables';
 @import 'mixins';
 
-.stages-scheme {
+.stages-wrapper {
     display: flex;
     width: 100%;
     justify-content: start;
     align-items: center;
     flex-direction: row;
     overflow-x: auto;
-    
-    > {
-        li {
-            background: crmcolor(secondary, dark);
-            padding: 1.1em 1.1em 1.1em 2.86em;
-            margin: 0 0.5*crmsize(spacer, null, true);
-            position: relative;
-            transition: background-color $animation-time-style;
+}
 
-            &:first-of-type {
-                margin-left: 0;
-            }
+.stages-item {
+    background: crmcolor(secondary, dark);
+    padding: 1.1em 1.1em 1.1em 2.86em;
+    margin: 0 0.5*crmsize(spacer, null, true);
+    position: relative;
+    white-space: nowrap;
+    transition: background-color $animation-time-style;
 
-            &:last-of-type {
-                margin-right: 0;
-            }
+    &:first-of-type {
+        margin-left: 0;
+    }
 
-            span {
-                white-space: nowrap;
-            }
+    &:last-of-type {
+        margin-right: 0;
+    }
 
-            &:after, &:before {
-                top: 50%;
-                border: solid transparent;
-                content: " ";
-                height: 0;
-                width: 0;
-                position: absolute;
-                pointer-events: none;
-                border-left-color: crmcolor(secondary, dark);
-                border-width: 1.85em;      
-                margin-top: -1.85em;
-                transition: border-left-color $animation-time-style;
-            }
+    span {
+        white-space: nowrap;
+    }
 
-            &:before {
-                border-left-color: crmcolor(main, base);
-                left: 0;
-            }
+    &:after, &:before {
+        top: 50%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-left-color: crmcolor(secondary, dark);
+        border-width: 1.85em;      
+        margin-top: -1.85em;
+        transition: border-left-color $animation-time-style;
+    }
 
-            &:after {
-                left: 100%;
-                border-right-width: 0;
-                z-index: 1;
-            }
+    &:before {
+        border-left-color: crmcolor(main, base);
+        left: 0;
+    }
 
-            &.active {
-                color: crmcolor(main, base);
-                background: crmcolor(highlight, green);
-                &:after {
-                    border-left-color: crmcolor(highlight, green);    
-                }
-            }
+    &:after {
+        left: 100%;
+        border-right-width: 0;
+        z-index: 1;
+    }
 
-            &.passed {
-                color: crmcolor(main, base);
-                background: crmcolor(main, dark);
-                text-decoration: line-through;
-                &:after {
-                    border-left-color: crmcolor(main, dark);    
-                }
-            }
-
-            &.addStage {
-                cursor: pointer;
-            }
+    &.active {
+        color: crmcolor(main, base);
+        background: crmcolor(highlight, green);
+        &:after {
+            border-left-color: crmcolor(highlight, green);    
         }
+    }
+
+    &.passed {
+        color: crmcolor(main, base);
+        background: crmcolor(main, dark);
+        text-decoration: line-through;
+        &:after {
+            border-left-color: crmcolor(main, dark);    
+        }
+    }
+
+    &.addStage {
+        cursor: pointer;
     }
 }

@@ -1,27 +1,37 @@
 import { environment } from 'environments/environment';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 import { UsersComponentDialogComponent } from '../../users/users.component';
-import { Plan, User, Stage } from '@/_models';
+import { StagesComponentDialogComponent } from '../../stages/stages.component';
+import { Plan, User, Stage, StageDetails } from '@/_models';
 import { AuthenticationService, PlanService, PrivilegeService, StageService, TranslationsService } from '@/_services';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-plan',
   templateUrl: './plan.component.html',
   styleUrls: ['./plan.component.scss']
 })
-export class PlanComponent implements OnInit {
+export class PlanComponent implements OnInit, OnDestroy {
+  appUser: User;
   baseUrl: string;
   plan: Plan;
   planInitial: Plan;
+  initialStages: Stage[];
   editForm: boolean;
+  configPlanStages: boolean;
   editPlanPrivilege: boolean;
+  configStagesPrivilege: boolean;
   translations: object;
 
+  private unsubscribe: Subject<void> = new Subject();
+
   constructor(
-    private translationsService: TranslationsService,
+    public translationsService: TranslationsService,
     private route: ActivatedRoute,
     private planService: PlanService,
     private privilegeService: PrivilegeService,
@@ -31,6 +41,7 @@ export class PlanComponent implements OnInit {
   ) {
     this.baseUrl = environment.baseUrl;
     this.editForm = false;
+    this.configPlanStages = false;
   }
 
   ngOnInit() {
@@ -47,42 +58,80 @@ export class PlanComponent implements OnInit {
       this.translations = translations;
     });
     this.authService.currentUser.subscribe(user => {
+      this.appUser = user;
       this.editPlanPrivilege = this.privilegeService.isPrivileged(user, 'editPlan');
+      this.configStagesPrivilege = this.privilegeService.isPrivileged(user, 'configStages');
     });
     this.getPlanData();
+  }
+
+  canEditPlan(): boolean {
+    return (this.editPlanPrivilege && this.configStagesPrivilege) || (this.appUser.id === this.plan.CreatorId);
   }
 
   getPlanData(): void {
     const id = +this.route.snapshot.paramMap.get('id');
 
-    this.planService.getPlan(id).subscribe(plan => {
+    this.planService.getPlan(id).pipe(takeUntil(this.unsubscribe)).subscribe(plan => {
       this.plan = plan;
-      this.planInitial = { ...this.plan };
+      this.planInitial = { ...plan };
+      this.initialStages = [ ...plan.Stages ];
     });
 
+  }
+
+  goToNextStage(): void {
+    this.planService.toNextStage(this.plan.id).pipe(takeUntil(this.unsubscribe)).subscribe(planStages => {
+      this.plan.activeStage = planStages.activeStage;
+      this.plan.activeStageId = planStages.activeStage.id;
+      planStages.Stages.sort((a, b) => {
+        return a.Details.order - b.Details.order;
+      });
+      planStages.Stages.forEach((stage, i) => {
+        this.plan.Stages[i].Details.completed = stage.Details.completed;
+      });
+      this.planInitial = { ...this.plan };
+    });
   }
 
   onClickEdit(): void {
     this.editForm = true;
   }
 
-  onClickCancelEdit(): void {
-    this.editForm = false;
-    this.plan = this.planInitial;
+  onClickConfigureStages(): void {
+    this.configPlanStages = true;
   }
 
-  onUpdatePlanSubmit(): void {
-    swal({
-      title: this.translations['PLANCOMPONENT.PopUps.udpatePlanTitle'],
-      text: this.translations['PLANCOMPONENT.PopUps.udpatePlanText'],
-      type: 'question',
-      showCancelButton: true,
-      confirmButtonText: this.translationsService.globalTranslations['GLOBAL.PopUps.confirmButtonText'],
-      cancelButtonText: this.translationsService.globalTranslations['GLOBAL.PopUps.cancelButtonText']
-    }).then((result) => {
-      if (result.value) {
-        this.updatePlan();
-      }
+  onClickCancelEditStages(): void {
+    this.configPlanStages = false;
+    this.plan.Stages = [ ...this.initialStages ];
+  }
+
+  onClickCancelEdit(): void {
+    this.editForm = false;
+    this.plan = { ...this.planInitial };
+  }
+
+  updatePlanStages(): void {
+    this.planService.updatePlanStages(this.plan).pipe(takeUntil(this.unsubscribe)).subscribe(
+      success => {
+        // this.plan = plan;
+        // this.planInitial = { ...this.plan };
+        this.configPlanStages = false;
+        swal({
+          text: this.translations['PLANCOMPONENT.PopUps.udpatePlanSuccess'],
+          type: 'success',
+          timer: 6000,
+          toast: true,
+          showConfirmButton: false,
+          position: 'bottom-end'
+        });
+      },
+      error => {
+        swal({
+          text: this.translations['PLANCOMPONENT.PopUps.udpatePlanError'],
+          type: 'error',
+        });
     });
   }
 
@@ -95,7 +144,7 @@ export class PlanComponent implements OnInit {
       });
     }
     // Update plan
-    this.planService.updatePlan(this.plan).subscribe(
+    this.planService.updatePlan(this.plan).pipe(takeUntil(this.unsubscribe)).subscribe(
       plan => {
         this.plan = plan;
         this.planInitial = { ...this.plan };
@@ -117,6 +166,69 @@ export class PlanComponent implements OnInit {
     });
   }
 
+  addStageDialog(): void {
+    const dialogRef = this.dialog.open(StagesComponentDialogComponent, {
+      height: '80vh',
+      data: {
+        title: this.translations['PLANCOMPONENT.PopUps.selectStagesTitle'],
+      }
+    });
+
+    const stagesC = dialogRef.componentInstance.stagesComponent;
+
+    dialogRef.afterOpened().pipe(takeUntil(this.unsubscribe)).subscribe(() => {
+      stagesC.checkIfDataIsLoaded().then(() => {
+        for (const stage of this.plan.Stages) {
+          stagesC.stages.find((user, i) => {
+              if (user.id === stage.id) {
+                stagesC.stages[i].selected = true;
+                  return true; // stop searching
+              }
+          });
+        }
+        stagesC.resetSelected(false);
+      });
+    });
+
+    dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe((result: Stage[]) => {
+      // remove unchecked
+      const removeUnchecked = new Promise((resolve, reject) => {
+        this.plan.Stages.forEach((stage, i) => {
+          const tmp = result.filter(el => {
+            return stage.id === el.id;
+          });
+          if (tmp.length === 0) {
+            this.plan.Stages.splice(i, 1);
+          }
+          if (i === this.plan.Stages.length - 1) {
+            resolve();
+          }
+        });
+      });
+
+      removeUnchecked.then(res => {
+        // add checked if no such
+        result.forEach((el, i) => {
+          const tmp = this.plan.Stages.filter(stage => {
+            return stage.id === el.id;
+          });
+          if (tmp.length === 0) {
+            el.Details = new StageDetails(i);
+            this.plan.Stages.push(el);
+          }
+        });
+      });
+
+    });
+  }
+
+  dragDropStages(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.plan.Stages, event.previousIndex, event.currentIndex);
+    this.plan.Stages.forEach((el, i) => {
+      el.Details.order = i;
+    });
+  }
+
   addParticipantDialog(): void {
     const dialogRef = this.dialog.open(UsersComponentDialogComponent, {
       height: '80vh',
@@ -127,7 +239,7 @@ export class PlanComponent implements OnInit {
 
     const usersC = dialogRef.componentInstance.usersComponent;
 
-    dialogRef.afterOpen().subscribe(result => {
+    dialogRef.afterOpened().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
       usersC.checkIfDataIsLoaded().then(() => {
         for (const participant of this.plan.Participants) {
           usersC.sortedData.find((user, i) => {
@@ -141,7 +253,7 @@ export class PlanComponent implements OnInit {
       });
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
       if (result) {
         this.plan.Participants = result;
       }
@@ -162,7 +274,7 @@ export class PlanComponent implements OnInit {
           planId: this.plan.id,
           docId: docId
         };
-        this.planService.deleteDoc(req).subscribe(plan => {
+        this.planService.deleteDoc(req).pipe(takeUntil(this.unsubscribe)).subscribe(plan => {
           console.log(plan);
           if (plan) {
             this.plan = plan;
@@ -184,6 +296,12 @@ export class PlanComponent implements OnInit {
         });
       }
     });
+  }
+
+  ngOnDestroy() {
+    console.log('plan component ngOnDestory');
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
 }

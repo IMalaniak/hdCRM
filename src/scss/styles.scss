@@ -245,12 +245,10 @@ footer {
   white-space: nowrap;  
   display: block;
 
-  @include media-breakpoint-down(sm) {
-   .mat-icon {
-      margin-right: 0px !important;
-      font-size: 1.5em !important;
-      height: 1.05em !important;
-    }
+  .mat-button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .mat-icon {
@@ -258,6 +256,12 @@ footer {
     width: 1em;
     font-size: 1.25em;
     margin-right: 18px;
+
+    @include media-breakpoint-down(sm) {
+      margin-right: 0px !important;
+      font-size: 1.5em !important;
+      height: 1.05em !important;
+    }
 
     &:after {
       content: '';

@@ -3,7 +3,7 @@ import { environment } from 'environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Plan } from '@/_models';
+import { Plan, Stage } from '@/_models';
 
 @Injectable()
 export class PlanService {
@@ -31,6 +31,15 @@ export class PlanService {
 
   updatePlan(plan): Observable<Plan> {
     return this.http.put<Plan>(`${environment.baseUrl}/plans/update`, plan);
+  }
+
+  updatePlanStages(plan): Observable<Plan> {
+    return this.http.put<Plan>(`${environment.baseUrl}/plans/updatePlanStages`, plan);
+  }
+
+  toNextStage(id: number): Observable<Plan> {
+    const url = `${environment.baseUrl}/plans/toNextStage/${id}`;
+    return this.http.get<Plan>(url);
   }
 
   // redo

@@ -9,3 +9,12 @@ export class PlanStage {
   createdAt: string;
   updatedAt: string;
 }
+
+export class StageDetails extends PlanStage {
+  constructor(order: number) {
+    super();
+    this.order = order;
+    this.completed = false;
+    this.description = '';
+  }
+}

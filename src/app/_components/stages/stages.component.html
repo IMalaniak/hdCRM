@@ -4,15 +4,15 @@
     <button mat-raised-button color="primary" (click)="createStageDialog()" >{{ 'STAGESCOMPONENT.Actions.create' | translate}}</button>
   </div>
 
-  <table id="stagelist" content class="table table-sm table-responsive-sm table-hover crm-table">
+  <table id="stagelist" content class="table table-sm table-responsive-sm table-hover crm-table" *ngIf="stages">
     <thead>
-      <!-- <th><mat-checkbox (click)="$event.stopPropagation()" (change)="selectAll($event)" [indeterminate]="selectedRoles.length > 0 && selectedRoles.length < roles.length" [checked]="!notSelectedRoles.length"></mat-checkbox></th> -->
+      <th><mat-checkbox (click)="$event.stopPropagation()" (change)="selectAll($event)" [indeterminate]="selectedStages.length > 0 && selectedStages.length < stages.length" [checked]="!notSelectedStages.length"></mat-checkbox></th>
       <th>{{ 'STAGESCOMPONENT.List.title' | translate}}</th>
       <!-- <th>{{ 'STAGESCOMPONENT.List.plansCount' | translate}}</th> -->
     </thead>
     <tbody>
       <tr *ngFor="let stage of stages;">
-        <!-- <td><mat-checkbox [(ngModel)]=role.selected (change)="onRoleCheck(role)"></mat-checkbox></td> -->
+        <td><mat-checkbox [(ngModel)]=stage.selected (change)="onStageCheck(stage)"></mat-checkbox></td>
         <td>{{stage.keyString}}</td>
         <!-- <td>{{role.Plans.length}}</td> -->
       </tr>

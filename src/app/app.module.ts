@@ -2,12 +2,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppMaterialModule } from '@/_shared';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 
 import { AppComponent,
   AttachmentsComponent,
@@ -30,6 +33,7 @@ import { AppComponent,
   UserComponent,
   UsersComponent,
   UsersComponentDialogComponent,
+  StagesComponentDialogComponent,
   AddStageDialogComponent,
   StagesComponent,
   DepartmentsComponent,
@@ -86,6 +90,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     UserComponent,
     UsersComponent,
     UsersComponentDialogComponent,
+    StagesComponentDialogComponent,
     AddStageDialogComponent,
     StagesComponent,
     DepartmentsComponent,
@@ -102,13 +107,15 @@ export function HttpLoaderFactory(http: HttpClient) {
             deps: [HttpClient]
         }
     }),
+    SweetAlert2Module.forRoot(),
     FormsModule,
     HttpClientModule,
     AppMaterialModule,
+    DragDropModule,
     BrowserAnimationsModule,
     ReactiveFormsModule
   ],
-  entryComponents: [UsersComponentDialogComponent, RolesComponentDialogComponent, AddStageDialogComponent],
+  entryComponents: [UsersComponentDialogComponent, RolesComponentDialogComponent, AddStageDialogComponent, StagesComponentDialogComponent],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

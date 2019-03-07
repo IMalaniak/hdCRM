@@ -6,3 +6,4 @@ export * from './role';
 export * from './state';
 export * from './stage';
 export * from './user';
+export { PlanStage, StageDetails } from './planStage';
