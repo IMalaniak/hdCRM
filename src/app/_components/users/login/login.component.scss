@@ -1,7 +1,7 @@
 @import 'variables';
 @import 'mixins';
 
-$fHeight: crmsize(footer, height, true) + 0.5*crmsize(footer, height, true);
+$fHeight: crmsize(footer, height, true);
 $hHeight: crmsize(header, height, true);
 
 .login-section {

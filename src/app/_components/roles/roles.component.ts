@@ -1,5 +1,4 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import swal from 'sweetalert2';
 import { Role, Privilege } from '@/_models';
 import { RoleService, TranslationsService } from '@/_services';
 import { MatCheckboxChange } from '@angular/material';
@@ -12,7 +11,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class RolesComponent implements OnInit {
   roles: Role[];
-  selectedRoles: Role[] = [];
+  selectedRoles: Role[];
   notSelectedRoles: Role[];
   translations: object;
   dataLoaded: boolean;
@@ -96,23 +95,6 @@ export class RolesComponent implements OnInit {
       }
     }
   }
-
-  // showRoleUsers(role): void {
-  //   let usersTable = `
-  //     <table>
-  //       <tr>${role.Users}</tr>
-  //     </table>
-  //   `;
-  //
-  //   swal({
-  //     title: this.translations['ROLES.PopUps.roleUsers'],
-  //     html: usersTable,
-  //   });
-  // }
-  //
-  // showRolePrivileges(role): void {
-  //
-  // }
 }
 
 export interface RolesDialogData {
