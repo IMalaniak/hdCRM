@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import swal from 'sweetalert2';
 import { Plan } from '@/_models';
 import { PlanService } from '@/_services';
@@ -9,7 +10,7 @@ import { PlanService } from '@/_services';
   styleUrls: ['./planner.component.scss']
 })
 export class PlannerComponent implements OnInit {
-  plans: Plan[];
+  plans$: Observable<Plan[]>;
 
   constructor(
     private planService: PlanService
@@ -21,9 +22,7 @@ export class PlannerComponent implements OnInit {
   }
 
   getPlannerData(): void {
-    this.planService.getFullList().subscribe(plans => {
-      this.plans = plans;
-    });
+    this.plans$ = this.planService.getFullList();
   }
 
 }
