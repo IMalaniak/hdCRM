@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, ContentChild, ElementRef, ViewEncapsulation} from '@angular/core';
+import { LoaderService } from '@/_services';
 
 @Component({
   selector: '.app-content-box',
@@ -15,7 +16,7 @@ export class ContentBoxComponent implements OnInit {
   @ContentChild('buttons') buttons: ElementRef;
   @ContentChild('boxFooter') boxFooter: ElementRef;
 
-  constructor() { }
+  constructor(public loaderService: LoaderService) { }
 
   ngOnInit() {
   }

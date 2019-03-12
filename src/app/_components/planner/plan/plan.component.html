@@ -1,5 +1,5 @@
 <section class="row">
-    <section class="app-content-box col-md-8" [title]="'PLANCOMPONENT.StagesHeader'" *ngIf="plan && plan.Stages">
+    <section class="app-content-box col-md-8" [title]="'PLANCOMPONENT.StagesHeader'" *ngIf="plan && plan.Stages" [showDataLoader]="true">
         <div content class="row">
           <div class="col-md-12">
             <div cdkDropList cdkDropListOrientation="horizontal" class="list-group stages-wrapper" (cdkDropListDropped)="dragDropStages($event)" [cdkDropListDisabled]="!configPlanStages">
@@ -17,7 +17,7 @@
         </div>
     </section>
       
-    <section class="app-content-box col-md-4" [title]="'PLANCOMPONENT.ActionsHeader'" *ngIf="plan">
+    <section class="app-content-box col-md-4" [title]="'PLANCOMPONENT.ActionsHeader'" *ngIf="plan" [showDataLoader]="true">
         <div content class="d-flex" *ngIf="canEditPlan">
           <button mat-stroked-button color="primary" [swal]="goToNextStageSwal">
             <ng-container *ngIf="plan.activeStage.keyString === 'finished'" i18n="@@planComponentActionsFinishPlan">
@@ -31,7 +31,7 @@
     </section>
 </section>
 
-<section class="app-content-box" [title]="'PLANCOMPONENT.DetailsHeader'" *ngIf="plan">
+<section class="app-content-box" [title]="'PLANCOMPONENT.DetailsHeader'" *ngIf="plan" [showDataLoader]="true">
   
   <div content class="row">
     <form class="col-md-8">

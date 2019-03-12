@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { UsersComponentDialogComponent } from '../../users/users.component';
 import { Role, User, Privilege } from '@/_models';
-import { RoleService, PrivilegeService, TranslationsService } from '@/_services';
+import { RoleService, PrivilegeService, TranslationsService, LoaderService } from '@/_services';
 import swal from 'sweetalert2';
 import { error } from 'util';
 
@@ -22,6 +22,7 @@ export class RegisterRoleComponent implements OnInit {
     private roleService: RoleService,
     private privilegeService: PrivilegeService,
     private translationsService: TranslationsService,
+    private loaderService: LoaderService,
     private dialog: MatDialog
   ) { }
 
@@ -51,17 +52,19 @@ export class RegisterRoleComponent implements OnInit {
     if (this.role.Users) {
       const usersC = dialogRef.componentInstance.usersComponent;
 
-      dialogRef.afterOpen().subscribe(result => {
-        usersC.checkIfDataIsLoaded().then(() => {
-          for (const roleUser of this.role.Users) {
-            usersC.sortedData.find((user, i) => {
-                if (user.id === roleUser.id) {
-                    usersC.sortedData[i].selected = true;
-                    return true; // stop searching
-                }
-            });
+      dialogRef.afterOpened().subscribe(result => {
+        this.loaderService.isLoaded.subscribe(isLoaded => {
+          if (isLoaded) {
+            for (const roleUser of this.role.Users) {
+              usersC.sortedData.find((user, i) => {
+                  if (user.id === roleUser.id) {
+                      usersC.sortedData[i].selected = true;
+                      return true; // stop searching
+                  }
+              });
+            }
+            usersC.resetSelected(false);
           }
-          usersC.resetSelected(false);
         });
       });
     }

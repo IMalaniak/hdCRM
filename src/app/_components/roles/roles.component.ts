@@ -14,13 +14,11 @@ export class RolesComponent implements OnInit {
   selectedRoles: Role[];
   notSelectedRoles: Role[];
   translations: object;
-  dataLoaded: boolean;
 
   constructor(
     private translationsService: TranslationsService,
     private roleService: RoleService
   ) {
-    this.dataLoaded = false;
   }
 
   ngOnInit() {
@@ -42,9 +40,6 @@ export class RolesComponent implements OnInit {
         return role;
       });
       this.resetSelected();
-      setTimeout(() => {
-        this.dataLoaded = true;
-      }, 300);
     });
   }
 
@@ -66,18 +61,6 @@ export class RolesComponent implements OnInit {
         this.notSelectedRoles.splice(this.notSelectedRoles.indexOf(role), 1);
       }
     }
-  }
-
-  checkIfDataIsLoaded(): Promise<void> {
-    const self = this;
-    return new Promise(function (resolve, reject) {
-        (function waitForData() {
-            if (self.dataLoaded) {
-              return resolve();
-            }
-            setTimeout(waitForData, 30);
-        })();
-    });
   }
 
   resetSelected(reset: boolean = true): void {

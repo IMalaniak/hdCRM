@@ -30,7 +30,6 @@ export class UsersComponent implements OnInit {
   addUserPrivilege: boolean;
   selectedTab: string;
   selectedState: string;
-  dataLoaded: boolean;
 
   constructor(
     private router: Router,
@@ -41,7 +40,6 @@ export class UsersComponent implements OnInit {
     private translationsService: TranslationsService
   ) {
     this.baseUrl = environment.baseUrl;
-    this.dataLoaded = false;
   }
 
   ngOnInit() {
@@ -63,9 +61,6 @@ export class UsersComponent implements OnInit {
             break;
           }
         }
-        setTimeout(() => {
-          this.dataLoaded = true;
-        }, 300);
       });
     });
 
@@ -199,18 +194,6 @@ export class UsersComponent implements OnInit {
         });
       }
     );
-  }
-
-  checkIfDataIsLoaded(): Promise<void> {
-    const self = this;
-    return new Promise(function (resolve, reject) {
-        (function waitForData() {
-            if (self.dataLoaded) {
-              return resolve();
-            }
-            setTimeout(waitForData, 30);
-        })();
-    });
   }
 
   resetSelected(reset: boolean = true): void {

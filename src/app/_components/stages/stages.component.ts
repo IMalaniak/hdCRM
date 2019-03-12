@@ -12,7 +12,6 @@ import { Stage } from '@/_models';
   styleUrls: ['./stages.component.scss']
 })
 export class StagesComponent implements OnInit {
-  dataLoaded: boolean;
   stages: Stage[];
   selectedStages: Stage[];
   notSelectedStages: Stage[];
@@ -24,7 +23,6 @@ export class StagesComponent implements OnInit {
     private stageService: StageService,
     private dialog: MatDialog
   ) {
-    this.dataLoaded = false;
     this.newStage = new Stage();
   }
 
@@ -40,9 +38,6 @@ export class StagesComponent implements OnInit {
         return stage;
       });
       this.resetSelected();
-      setTimeout(() => {
-        this.dataLoaded = true;
-      }, 300);
     });
   }
 
@@ -116,19 +111,6 @@ export class StagesComponent implements OnInit {
       }
     });
   }
-
-  checkIfDataIsLoaded(): Promise<void> {
-    const self = this;
-    return new Promise(function (resolve, reject) {
-        (function waitForData() {
-            if (self.dataLoaded) {
-              return resolve();
-            }
-            setTimeout(waitForData, 30);
-        })();
-    });
-  }
-
 }
 
 export interface AddStageDialogData {
@@ -136,7 +118,6 @@ export interface AddStageDialogData {
 }
 
 @Component({
-  selector: 'add-stage-dialog',
   templateUrl: 'add-stage-dialog.html'
 })
 export class AddStageDialogComponent {

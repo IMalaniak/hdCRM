@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { UsersComponentDialogComponent } from '../../users/users.component';
-import { PlanService, TranslationsService, AuthenticationService } from '@/_services';
+import { PlanService, TranslationsService, AuthenticationService, LoaderService } from '@/_services';
 import { User, Plan, Asset } from '@/_models';
 import swal from 'sweetalert2';
 import { error } from 'util';
@@ -21,6 +21,7 @@ export class RegisterPlanComponent implements OnInit {
     private authService: AuthenticationService,
     private translationsService: TranslationsService,
     private planService: PlanService,
+    private loaderService: LoaderService,
     private dialog: MatDialog
   ) { }
 
@@ -44,17 +45,19 @@ export class RegisterPlanComponent implements OnInit {
     if (this.plan.Participants) {
       const usersC = dialogRef.componentInstance.usersComponent;
 
-      dialogRef.afterOpen().subscribe(result => {
-        usersC.checkIfDataIsLoaded().then(() => {
-          for (const participant of this.plan.Participants) {
-            usersC.sortedData.find((user, i) => {
-                if (user.id === participant.id) {
-                    usersC.sortedData[i].selected = true;
-                    return true; // stop searching
-                }
-            });
+      dialogRef.afterOpened().subscribe(result => {
+        this.loaderService.isLoaded.subscribe(isLoaded => {
+          if (isLoaded) {
+            for (const participant of this.plan.Participants) {
+              usersC.sortedData.find((user, i) => {
+                  if (user.id === participant.id) {
+                      usersC.sortedData[i].selected = true;
+                      return true; // stop searching
+                  }
+              });
+            }
+            usersC.resetSelected(false);
           }
-          usersC.resetSelected(false);
         });
       });
     }

@@ -45,7 +45,7 @@ import { AppComponent,
  // tags
 import { ContentBoxComponent } from '@/_tags';
 
-import { JwtInterceptor, ErrorInterceptor } from '@/_helpers';
+import { httpInterceptorsProviders } from '@/_helpers';
 
 // services
 import { AuthenticationService,
@@ -58,7 +58,8 @@ import { AuthenticationService,
   StateService,
   StageService,
   MessageService,
-  DepartmentService
+  DepartmentService,
+  LoaderService
  } from '@/_services';
 
 // AoT requires an exported function for factories
@@ -117,8 +118,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   entryComponents: [UsersComponentDialogComponent, RolesComponentDialogComponent, AddStageDialogComponent, StagesComponentDialogComponent],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    httpInterceptorsProviders,
     AuthenticationService,
     TranslationsService,
     RoleService,
@@ -129,7 +129,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     StateService,
     StageService,
     MessageService,
-    DepartmentService
+    DepartmentService,
+    LoaderService
   ],
   bootstrap: [AppComponent]
 })

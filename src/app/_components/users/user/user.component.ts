@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 import { RolesComponentDialogComponent } from '../../roles/roles.component';
-import { AuthenticationService, UserService, PrivilegeService, StateService, TranslationsService } from '@/_services';
+import { AuthenticationService, UserService, PrivilegeService, StateService, TranslationsService, LoaderService } from '@/_services';
 import { User, Role, State } from '@/_models';
 import { error } from 'util';
 
@@ -14,6 +14,7 @@ import { error } from 'util';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
+  showDataLoader: boolean;
   baseUrl: string;
   user: User;
   userInitial: User;
@@ -30,10 +31,12 @@ export class UserComponent implements OnInit {
     private userService: UserService,
     private stateService: StateService,
     private privilegeService: PrivilegeService,
+    private loaderService: LoaderService,
     private dialog: MatDialog
   ) {
     this.baseUrl = environment.baseUrl;
     this.editForm = false;
+    this.showDataLoader = true;
   }
 
   ngOnInit(): void {
@@ -69,6 +72,7 @@ export class UserComponent implements OnInit {
   }
 
   addRolesDialog(): void {
+    this.showDataLoader = false;
     const dialogRef = this.dialog.open(RolesComponentDialogComponent, {
       height: '80vh',
       data: {
@@ -78,17 +82,19 @@ export class UserComponent implements OnInit {
 
     const rolesC = dialogRef.componentInstance.rolesComponent;
 
-    dialogRef.afterOpen().subscribe(() => {
-      rolesC.checkIfDataIsLoaded().then(() => {
-        for (const userRole of this.user.Roles) {
-          rolesC.roles.find((role, i) => {
-              if (role.id === userRole.id) {
-                  rolesC.roles[i].selected = true;
-                  return true; // stop searching
-              }
-          });
+    dialogRef.afterOpened().subscribe(() => {
+      this.loaderService.isLoaded.subscribe(isLoaded => {
+        if (isLoaded) {
+          for (const userRole of this.user.Roles) {
+            rolesC.roles.find((role, i) => {
+                if (role.id === userRole.id) {
+                    rolesC.roles[i].selected = true;
+                    return true; // stop searching
+                }
+            });
+          }
+          rolesC.resetSelected(false);
         }
-        rolesC.resetSelected(false);
       });
     });
 

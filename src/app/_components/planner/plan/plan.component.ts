@@ -7,7 +7,7 @@ import swal from 'sweetalert2';
 import { UsersComponentDialogComponent } from '../../users/users.component';
 import { StagesComponentDialogComponent } from '../../stages/stages.component';
 import { Plan, User, Stage, StageDetails } from '@/_models';
-import { AuthenticationService, PlanService, PrivilegeService, StageService, TranslationsService } from '@/_services';
+import { AuthenticationService, PlanService, PrivilegeService, StageService, TranslationsService, LoaderService } from '@/_services';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -17,6 +17,7 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./plan.component.scss']
 })
 export class PlanComponent implements OnInit, OnDestroy {
+  showDataLoader: boolean;
   appUser: User;
   baseUrl: string;
   plan: Plan;
@@ -35,13 +36,14 @@ export class PlanComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private planService: PlanService,
     private privilegeService: PrivilegeService,
-    private stageService: StageService,
+    private loaderService: LoaderService,
     private dialog: MatDialog,
     private authService: AuthenticationService
   ) {
     this.baseUrl = environment.baseUrl;
     this.editForm = false;
     this.configPlanStages = false;
+    this.showDataLoader = true;
   }
 
   ngOnInit() {
@@ -167,6 +169,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   }
 
   addStageDialog(): void {
+    this.showDataLoader = false;
     const dialogRef = this.dialog.open(StagesComponentDialogComponent, {
       height: '80vh',
       data: {
@@ -177,16 +180,18 @@ export class PlanComponent implements OnInit, OnDestroy {
     const stagesC = dialogRef.componentInstance.stagesComponent;
 
     dialogRef.afterOpened().pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-      stagesC.checkIfDataIsLoaded().then(() => {
-        for (const stage of this.plan.Stages) {
-          stagesC.stages.find((user, i) => {
-              if (user.id === stage.id) {
-                stagesC.stages[i].selected = true;
-                  return true; // stop searching
-              }
-          });
+      this.loaderService.isLoaded.subscribe(isLoaded => {
+        if (isLoaded) {
+          for (const stage of this.plan.Stages) {
+            stagesC.stages.find((user, i) => {
+                if (user.id === stage.id) {
+                  stagesC.stages[i].selected = true;
+                    return true; // stop searching
+                }
+            });
+          }
+          stagesC.resetSelected(false);
         }
-        stagesC.resetSelected(false);
       });
     });
 
@@ -230,6 +235,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   }
 
   addParticipantDialog(): void {
+    this.showDataLoader = false;
     const dialogRef = this.dialog.open(UsersComponentDialogComponent, {
       height: '80vh',
       data: {
@@ -240,16 +246,18 @@ export class PlanComponent implements OnInit, OnDestroy {
     const usersC = dialogRef.componentInstance.usersComponent;
 
     dialogRef.afterOpened().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
-      usersC.checkIfDataIsLoaded().then(() => {
-        for (const participant of this.plan.Participants) {
-          usersC.sortedData.find((user, i) => {
-              if (user.id === participant.id) {
-                  usersC.sortedData[i].selected = true;
-                  return true; // stop searching
-              }
-          });
+      this.loaderService.isLoaded.subscribe(isLoaded => {
+        if (isLoaded) {
+          for (const participant of this.plan.Participants) {
+            usersC.sortedData.find((user, i) => {
+                if (user.id === participant.id) {
+                    usersC.sortedData[i].selected = true;
+                    return true; // stop searching
+                }
+            });
+          }
+          usersC.resetSelected(false);
         }
-        usersC.resetSelected(false);
       });
     });
 

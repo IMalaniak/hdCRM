@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UsersComponentDialogComponent } from '../../users/users.component';
 import swal from 'sweetalert2';
 import { Role, User, Privilege } from '@/_models';
-import { AuthenticationService, RoleService, PrivilegeService, TranslationsService } from '@/_services';
+import { AuthenticationService, RoleService, PrivilegeService, TranslationsService, LoaderService } from '@/_services';
 import { error } from '@angular/compiler/src/util';
 
 @Component({
@@ -22,6 +22,7 @@ export class RoleComponent implements OnInit {
   editForm: boolean;
   translations: object;
   editRolePrivilege: boolean;
+  showDataLoader: boolean;
 
   constructor(
     private translationsService: TranslationsService,
@@ -29,10 +30,12 @@ export class RoleComponent implements OnInit {
     private route: ActivatedRoute,
     private privilegeService: PrivilegeService,
     private roleService: RoleService,
+    private loaderService: LoaderService,
     private dialog: MatDialog
   ) {
     this.baseUrl = environment.baseUrl;
     this.editForm = false;
+    this.showDataLoader = true;
   }
 
   ngOnInit() {
@@ -66,6 +69,7 @@ export class RoleComponent implements OnInit {
   }
 
   addParticipantDialog(): void {
+    this.showDataLoader = false;
     const dialogRef = this.dialog.open(UsersComponentDialogComponent, {
       height: '80vh',
       data: {
@@ -76,17 +80,19 @@ export class RoleComponent implements OnInit {
     if (this.role.Users) {
       const usersC = dialogRef.componentInstance.usersComponent;
 
-      dialogRef.afterOpen().subscribe(result => {
-        usersC.checkIfDataIsLoaded().then(() => {
-          for (const roleUser of this.role.Users) {
-            usersC.sortedData.find((user, i) => {
-                if (user.id === roleUser.id) {
-                    usersC.sortedData[i].selected = true;
-                    return true; // stop searching
-                }
-            });
+      dialogRef.afterOpened().subscribe(result => {
+        this.loaderService.isLoaded.subscribe(isLoaded => {
+          if (isLoaded) {
+            for (const roleUser of this.role.Users) {
+              usersC.sortedData.find((user, i) => {
+                  if (user.id === roleUser.id) {
+                      usersC.sortedData[i].selected = true;
+                      return true; // stop searching
+                  }
+              });
+            }
+            usersC.resetSelected(false);
           }
-          usersC.resetSelected(false);
         });
       });
     }
