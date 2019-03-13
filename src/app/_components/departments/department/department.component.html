@@ -1,0 +1,126 @@
+<section content class="app-content-box" [title]="department.title + ' ' + 'department'" [showDataLoader]="true" *ngIf="department">
+  <div content class="row">
+    <div class="col-md-6">
+      <form class="d-flex flex-column" *ngIf="editForm">  
+        <mat-form-field appearance="outline">
+          <mat-label i18n="@@departmentComponentDetailsTitle">Title</mat-label>
+          <input matInput [(ngModel)]="department.title" name="title" type="text" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label i18n="@@departmentComponentDetailsDescription">Write a description</mat-label>
+          <textarea matInput [(ngModel)]="department.description" name="description" type="text" required></textarea>
+        </mat-form-field> 
+      </form> 
+      <mat-list class="w-100" *ngIf="!editForm">
+        <mat-list-item>
+          <section>
+            <div>
+              <span i18n="@@departmentСomponentDetailsTitle">Title:</span>
+            </div>
+            <div>
+              <span>{{ department.title }}</span>
+            </div>
+          </section>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <section>
+            <div>
+              <span i18n="@@departmentСomponentDetailsDateCreated">Date created:</span>
+            </div>
+            <div>
+              <span>{{ department.createdAt | date: 'short' }}</span>
+            </div>
+          </section>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <section>
+            <div>
+              <span i18n="@@departmentСomponentDetailsDateUpdated">Date updated:</span>
+            </div>
+            <div>
+              <span>{{ department.createdAt | date: 'short' }}</span>
+            </div>
+          </section>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <div class="w-100 px-3 mt-2">
+          <span i18n="@@departmentСomponentDetailsDescription">Description:</span>
+          <p class="pt-2">{{ department.description }}</p>
+        </div>
+      </mat-list>
+    </div>
+    <div class="col-md-6">
+      <mat-list class="w-100">
+        <div class="d-flex flex-row justify-content-between align-items-center">
+          <span class="text-muted" i18n="@@departmentComponentParticipantTitleManager">Manager</span>
+          <button mat-raised-button color="primary" class="crm-button" (click)="openManagerDialog()" *ngIf="editForm" i18n="@@DepartmentComponentActionsAddManager"><mat-icon>person_add</mat-icon><span>Add manager</span></button>
+        </div>
+        <mat-list-item *ngIf="department.Manager">
+          <img matListAvatar *ngIf="department.Manager.avatar" src="{{baseUrl + department.Manager.avatar.location + department.Manager.avatar.title}}" alt="{{department.Manager.avatar.title}}">
+          <img matListAvatar *ngIf="!department.Manager.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
+          <h3 matLine>{{ department.Manager.name + ' ' + department.Manager.surname }}</h3>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
+  <div content class="row">
+    <div class="col-md-6">
+      <mat-list>
+        <div class="d-flex flex-row justify-content-between align-items-center">
+          <div class="d-flex flex-row align-items-center"><span class="text-muted" i18n="@@departmentComponentParticipantTitleWorkers">Workers</span><mat-chip color="primary" selected>{{department.Workers.length}}</mat-chip></div>
+          <button mat-raised-button color="primary" class="crm-button" (click)="openWorkersDialog()" *ngIf="editForm" i18n="@@departmentComponentActionsAddWorkers"><mat-icon>group_add</mat-icon><span>Add workers</span></button>
+        </div>
+        <mat-list-item *ngFor="let user of department.Workers; let i = index;">
+          <img matListAvatar *ngIf="user.avatar" src="{{baseUrl + user.avatar.location + user.avatar.title}}" alt="{{user.avatar.title}}">
+          <img matListAvatar *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
+          <h3 matLine>{{ user.name + ' ' + user.surname }}</h3>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-sm-6 col-md-12 col-lg-6">
+          <mat-list class="w-100">
+            <div class="d-flex flex-row justify-content-between align-items-center">
+              <span class="text-muted" i18n="@@departmentComponentParticipantTitleParentDepartment">Parent department</span>
+              <button mat-raised-button color="primary" class="crm-button" *ngIf="editForm" i18n="@@departmentComponentActionsAddParentDepartment"><mat-icon>add_circle_outline</mat-icon><span>Add parent department</span></button>
+            </div>
+            <!-- <mat-list-item *ngFor="">
+              <h3 matLine>{{}}</h3>
+            </mat-list-item> -->
+          </mat-list>
+        </div>
+        <div class="col-sm-6 col-md-12 col-lg-6">
+          <mat-list class="w-100">
+            <div class="d-flex flex-row justify-content-between align-items-center">
+              <div class="d-flex flex-row align-items-center"><span class="text-muted" i18n="@@departmentComponentParticipantTitleSubDepartments">Sub departments</span><mat-chip color="primary" selected>{{department.SubDepartments.length}}</mat-chip></div>
+              <button mat-raised-button color="primary" class="crm-button" *ngIf="editForm" i18n="@@departmentComponentActionsAddSubDepartments"><mat-icon>add_circle_outline</mat-icon><span>Add sub departments</span></button>
+            </div>
+            <!-- <mat-list-item *ngFor="">
+              <h3 matLine>{{}}</h3>
+              <mat-divider></mat-divider>
+            </mat-list-item> -->
+          </mat-list>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div buttons *ngIf="canEditDepartment">
+    <button *ngIf="!editForm" mat-raised-button color="primary" class="crm-button" (click)="onClickEdit()" i18n="@@departmentСomponentActionsEditDepartment"><mat-icon>edit</mat-icon><span></span>Edit</button>
+    <button *ngIf="editForm" mat-raised-button color="primary" class="crm-button" [swal]="updateDepartmentSwal" i18n="@@departmentСomponentActionsEditDepartment"><mat-icon>save</mat-icon><span>Save</span></button>
+    <button *ngIf="editForm" mat-raised-button class="crm-button" (click)="onClickCancelEdit()" i18n="@@departmentСomponentActionsEditDepartment"><mat-icon>cancel</mat-icon><span>Cancel</span></button>
+  </div>
+</section>
+
+<swal
+  #updateDepartmentSwal
+  title="You are about to update department"
+  text="Are you sure you want to update department details?"
+  type="question"
+  [showCancelButton]="true"
+  (confirm)="updateDepartment()"
+  [options]="{confirmButtonText: 'OK', cancelButtonText: 'Cancel'}">
+</swal>

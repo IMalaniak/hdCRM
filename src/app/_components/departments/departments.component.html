@@ -1,0 +1,27 @@
+<section class="app-content-box" [title]="'DepartmentList'" [showDataLoader]="!dataLoaded" i18n="@@departmentsComponentListHeader">
+
+  <div buttons>
+    <button mat-raised-button color="primary" class="crm-button" routerLink="/departments/add" i18n="@@departmentsComponentActionsCreate"><mat-icon>add_circle</mat-icon><span>Create a new department</span></button>
+  </div>
+
+  <table content class="table table-sm table-responsive-sm table-hover crm-table">
+    <thead>
+      <th i18n="@@departmentsComponentListTitle">Title</th>
+      <th i18n="@@departmentsComponentListManagerName">Manager</th>
+      <th i18n="@@departmentsComponentListWorkerNumber">Workers</th>
+      <th i18n="@@departmentsComponentListCreateAt">Date created</th>
+      <th i18n="@@departmentsComponentListUpdateAt">Date updated</th>
+    </thead>
+    <tbody>
+      <tr routerLink="/departments/details/{{department.id}}" *ngFor="let department of departments$ | async;">
+        <td>{{ department.title }}</td>
+        <td>{{ department.Manager.name + ' ' + department.Manager.surname }}</td>
+        <td>{{ department.Workers.length }}</td>
+        <td>{{ department.createdAt | date: 'short' }}</td>
+        <td>{{ department.updatedAt | date: 'short' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</section>
+

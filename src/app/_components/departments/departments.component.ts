@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs';
+import { DepartmentService } from '@/_services';
+import { Department } from '@/_models';
 
 @Component({
   selector: 'app-departments',
@@ -6,10 +9,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./departments.component.scss']
 })
 export class DepartmentsComponent implements OnInit {
+  departments$: Observable<Department[]>;
 
-  constructor() { }
+  constructor(
+    private departmentService: DepartmentService
+  ) {
 
-  ngOnInit() {
   }
 
+  ngOnInit() {
+    this.getDepartmentsData();
+  }
+
+  getDepartmentsData(): void {
+    this.departments$ = this.departmentService.getDepartmentList();
+  }
 }

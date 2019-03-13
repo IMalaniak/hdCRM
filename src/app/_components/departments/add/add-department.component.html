@@ -1,0 +1,67 @@
+<section content class="app-content-box" [title]="'Create a new department'">
+  <div content class="row">
+    <div class="col-md-6">
+      <form class="d-flex flex-column">  
+        <mat-form-field appearance="outline">
+          <mat-label i18n="@@addDepartmentComponentDetailsTitle">Title</mat-label>
+          <input matInput [(ngModel)]="department.title" name="title" type="text" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label i18n="@@addDepartmentComponentDetailsDescription">Write a description</mat-label>
+          <textarea matInput [(ngModel)]="department.description" name="description" type="text" required></textarea>
+        </mat-form-field> 
+      </form> 
+    </div>
+    <div class="col-md-6">
+      <mat-list class="w-100">
+        <h6 class="text-muted" i18n="@@addDepartmentComponentParticipantTitleManager">Manager</h6>
+        <mat-list-item *ngIf="department.Manager">
+          <img matListAvatar *ngIf="department.Manager.avatar" src="{{baseUrl + department.Manager.avatar.location + department.Manager.avatar.title}}" alt="{{department.Manager.avatar.title}}">
+          <img matListAvatar *ngIf="!department.Manager.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
+          <h3 matLine>{{ department.Manager.name + ' ' + department.Manager.surname }}</h3>
+        </mat-list-item>
+      </mat-list>
+      <button mat-raised-button color="primary" class="crm-button" (click)="addManagerDialog()" i18n="@@addDepartmentComponentActionsAddManager"><mat-icon>person_add</mat-icon><span>Add manager</span></button>
+    </div>
+  </div>
+  <div content class="row">
+    <div class="col-md-6">
+      <mat-list class="w-100">
+        <h6 class="text-muted" i18n="@@addDepartmentComponentParticipantTitleWorkers">Workers</h6>
+        <mat-list-item *ngFor="let user of department.Workers; let i = index;">
+          <img matListAvatar *ngIf="user.avatar" src="{{baseUrl + user.avatar.location + user.avatar.title}}" alt="{{user.avatar.title}}">
+          <img matListAvatar *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
+          <h3 matLine>{{ user.name + ' ' + user.surname }}</h3>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+        <button mat-raised-button color="primary" class="crm-button" (click)="addWorkersDialog()" i18n="@@addDepartmentComponentActionsAddWorkers"><mat-icon>group_add</mat-icon><span>Add workers</span></button>
+      </mat-list>
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-sm-6 col-md-12 col-lg-6">
+          <mat-list class="w-100">
+            <h6 class="text-muted" i18n="@@addDepartmentComponentParticipantTitleParentDepartment">Parent department</h6>
+            <!-- <mat-list-item *ngFor="">
+              <h3 matLine>{{}}</h3>
+            </mat-list-item> -->
+            <button mat-raised-button color="primary" class="crm-button" i18n="@@addDepartmentComponentActionsAddParentDepartment"><mat-icon>add_circle_outline</mat-icon><span>Add parent department</span></button>
+          </mat-list>
+        </div>
+        <div class="col-sm-6 col-md-12 col-lg-6">
+          <mat-list class="w-100">
+            <h6 class="text-muted" i18n="@@addDepartmentComponentParticipantTitleSubDepartments">Sub departments</h6>
+            <!-- <mat-list-item *ngFor="">
+              <h3 matLine>{{}}</h3>
+              <mat-divider></mat-divider>
+            </mat-list-item> -->
+            <button mat-raised-button color="primary" class="crm-button" i18n="@@addDepartmentComponentActionsAddSubDepartments"><mat-icon>add_circle_outline</mat-icon><span>Add sub departments</span></button>
+          </mat-list>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div buttons>
+    <button mat-raised-button color="primary" class="crm-button" (click)="onClickSubmit()" i18n="@@addDepartmentComponentActionSubmit"><mat-icon>assignment_turned_in</mat-icon><span>Submit</span></button>
+  </div>
+</section>
