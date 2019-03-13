@@ -17,11 +17,10 @@
       <div class="w-75 mx-auto mt-3 details">
         <h5 i18n="@@userСomponentAsideDetailsHeader">{{ "Details" | uppercase }}</h5>       
         <mat-divider></mat-divider>
-
-        <div class="department">
+        <div class="department" *ngIf="user.Department">
           <h6 i18n="@@userСomponentAsideDetailsDep">{{ "Department" | uppercase }}</h6>
-        </div>
-        
+          <a routerLink="/departments/details/{{ user.Department.id }}"><span>{{ user.Department.title }}</span></a>
+        </div> 
         <div class="roles">
           <h6 i18n="@@userСomponentAsideDetailsRoles">{{ "Roles" | uppercase }}</h6>
           <ul>
@@ -29,17 +28,14 @@
               <span *ngFor="let role of user.Roles; last as isLast">{{ role.keyString }}</span>
             </li>
           </ul>
-          <button mat-raised-button color="primary" class="crm-button mt-2" (click)="addRolesDialog()" *ngIf="editForm" i18n="@@userСomponentActionsAddRoles"><mat-icon>add_circle_outline</mat-icon><span>Add Role</span></button>
         </div>
-
+        <button mat-raised-button color="primary" class="crm-button mt-2" (click)="addRolesDialog()" *ngIf="editForm" i18n="@@userСomponentActionsAddRoles"><mat-icon>add_circle_outline</mat-icon><span>Add Role</span></button>
         <div>
           <h6 i18n="@@userСomponentAsideDetailsState">{{ "State" | uppercase }}</h6>
           <span>{{ user.State.keyString }}</span>
         </div>
-
         <h5 i18n="@@userСomponentAsideContactsHeader">{{ "Contact" | uppercase }}</h5>
         <mat-divider></mat-divider>
-
         <div class="contacts">  
           <a class="d-flex align-items-center" href="mailto:{{ user.email }}">
             <mat-icon color="primary">email</mat-icon><span>{{ user.email }}</span>

@@ -19,8 +19,9 @@
         <h5 i18n="@@profileСomponentAsideDetailsHeader">{{ "Details" | uppercase }}</h5>       
         <mat-divider></mat-divider>
 
-        <div class="department">
+        <div class="department" *ngIf="user.Department">
           <h6 i18n="@@profileСomponentAsideDetailsDep">{{ "Department" | uppercase }}</h6>
+          <a routerLink="/departments/details/{{ user.Department.id }}"><span>{{ user.Department.title }}</span></a>
         </div>
         
         <div class="roles">

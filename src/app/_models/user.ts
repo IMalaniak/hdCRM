@@ -2,6 +2,7 @@ import { Role } from './role';
 import { State } from './state';
 import { Asset } from './asset';
 import { UserLoginHistory } from './userLoginHistory'
+import { Department } from './department';
 
 export class User {
   id: number;
@@ -18,6 +19,8 @@ export class User {
   defaultLang: string;
   StateId: number;
   State: State;
+  Department: Department;
+  DepartmentId: number;
   avatar: Asset;
   selected: boolean;
   token?: string;

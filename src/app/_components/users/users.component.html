@@ -41,6 +41,7 @@
           <th mat-sort-header="name">{{ 'USERSCOMPONENT.List.name' | translate}}</th>
           <th mat-sort-header="surname">{{ 'USERSCOMPONENT.List.surname' | translate}}</th>
           <th mat-sort-header="phone">{{ 'USERSCOMPONENT.List.phone' | translate}}</th>
+          <th mat-sort-header="department">{{ 'Department' }}</th>
           <th mat-sort-header="state">{{ 'USERSCOMPONENT.List.state' | translate}}</th>
           <th mat-sort-header="createdAt">{{ 'GLOBAL.List.createdAt' | translate}}</th>
           <th mat-sort-header="updatedAt">{{ 'GLOBAL.List.updatedAt' | translate}}</th>
@@ -59,6 +60,7 @@
             <td>{{user.name}}</td>
             <td>{{user.surname}}</td>
             <td>{{user.phone}}</td>
+            <td>{{user.Department.title}}</td>
             <td>{{ 'GLOBAL.States.' + user.State.keyString | translate}}</td>
             <td>{{user.createdAt | date: 'short'}}</td>
             <td>{{user.updatedAt | date: 'short'}}</td>

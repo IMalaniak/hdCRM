@@ -10,6 +10,9 @@
                         <h5>{{ appUser.name + ' ' + appUser.surname }}</h5>
                         <span>({{ appUser.login }})</span>
                     </li>
+                    <li *ngIf="appUser.Department">
+                        <a routerLink="/departments/details/{{ appUser.Department.id }}"><span>{{ appUser.Department.title }}</span></a>
+                    </li>
                     <li class="roles">
                         <span *ngFor="let role of appUser.Roles; last as isLast ">{{ role.keyString }}</span>
                     </li>
