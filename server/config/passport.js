@@ -30,6 +30,9 @@ module.exports = function(passport){
 				}, {
 					model: models.UserLoginHistory,
 					required: false
+				}, {
+					model: models.Department,
+					required: false,
 				}
 			]
 		}).then(user => {

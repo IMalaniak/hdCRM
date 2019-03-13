@@ -21,6 +21,9 @@ function findUserById(userId){
 			}, {
 				model: models.Asset,
 				as: 'avatar'
+			}, {
+				model: models.Department,
+				required: false,
 			}
 		]
 	});
@@ -130,6 +133,9 @@ router.post('/authenticate', (req, res, next) => {
 				}, {
 					model: models.UserLoginHistory,
 					required: false
+				}, {
+					model: models.Department,
+					required: false,
 				}
 			]
 		}).then(user => {
@@ -163,7 +169,8 @@ router.post('/authenticate', (req, res, next) => {
 					defaultLang: user.defaultLang,
 					avatar: user.avatar,
 					token: 'JWT ' + token,
-					lastSessionData: user.UserLoginHistory
+					lastSessionData: user.UserLoginHistory,
+					Department: user.Department
 				};
 
 				if (user.Roles.length > 0) {
@@ -208,6 +215,9 @@ router.get('/list', passport.authenticate('jwt', {session: false}), (req, res, n
 			}, {
 				model: models.Asset,
 				as: 'avatar'
+			}, {
+				model: models.Department,
+				required: false,
 			}
 		]
 	}).then(users => {
@@ -239,6 +249,9 @@ router.get('/list/:stateId', passport.authenticate('jwt', {session: false}), (re
 				}, {
 					model: models.Asset,
 					as: 'avatar'
+				}, {
+					model: models.Department,
+					required: false,
 				}
 			]
 		}).then(users => {
