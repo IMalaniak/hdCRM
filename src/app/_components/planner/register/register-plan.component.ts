@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'environments/environment';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { UsersComponentDialogComponent } from '../../users/users.component';
-import { PlanService, TranslationsService, AuthenticationService, LoaderService } from '@/_services';
+import { PlanService, AuthenticationService, LoaderService } from '@/_services';
 import { User, Plan, Asset } from '@/_models';
 import swal from 'sweetalert2';
 import { error } from 'util';
@@ -14,31 +15,25 @@ import { error } from 'util';
 })
 export class RegisterPlanComponent implements OnInit {
   plan = new Plan();
-  translations: object;
+  baseUrl: string;
 
   constructor(
     private router: Router,
     private authService: AuthenticationService,
-    private translationsService: TranslationsService,
     private planService: PlanService,
     private loaderService: LoaderService,
     private dialog: MatDialog
-  ) { }
+  ) {
+    this.baseUrl = environment.baseUrl;
+   }
 
-  ngOnInit() {
-    this.translationsService.getTranslations([
-      'REGISTERPLANCOMPONENT.Alerts.planAdded',
-      'REGISTERPLANCOMPONENT.PopUps.SelectParticipantsTitle'
-    ]).subscribe((translations: string[]) => {
-      this.translations = translations;
-    });
-  }
+  ngOnInit() {}
 
   addParticipantDialog(): void {
     const dialogRef = this.dialog.open(UsersComponentDialogComponent, {
       height: '80vh',
       data: {
-        title: this.translations['REGISTERPLANCOMPONENT.PopUps.SelectParticipantsTitle'],
+        title: 'Select participants',
       }
     });
 
@@ -84,7 +79,7 @@ export class RegisterPlanComponent implements OnInit {
     this.planService.createPlan(this.plan).subscribe(
       data => {
         swal({
-          title: this.translations['REGISTERPLANCOMPONENT.Alerts.planAdded'],
+          title: 'Plan created!',
           type: 'success',
           timer: 1500
         });
@@ -92,7 +87,7 @@ export class RegisterPlanComponent implements OnInit {
       },
       error => {
         swal({
-          title: this.translationsService.globalTranslations['GLOBAL.PopUps.serverError'],
+          title: 'Ooops, something went wrong!',
           type: 'error',
           timer: 1500
         });

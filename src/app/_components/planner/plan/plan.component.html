@@ -1,5 +1,5 @@
 <section class="row">
-    <section class="app-content-box col-md-8" [title]="'PLANCOMPONENT.StagesHeader'" *ngIf="plan && plan.Stages" [showDataLoader]="true">
+    <section class="app-content-box col-md-8" [title]="'Stages'" *ngIf="plan && plan.Stages" [showDataLoader]="true" i18n="@@planComponentHeaderStages">
         <div content class="row">
           <div class="col-md-12">
             <div cdkDropList cdkDropListOrientation="horizontal" class="list-group stages-wrapper" (cdkDropListDropped)="dragDropStages($event)" [cdkDropListDisabled]="!configPlanStages">
@@ -11,108 +11,135 @@
           </div>
         </div>
         <div buttons *ngIf="canEditPlan">
-            <button *ngIf="!configPlanStages" mat-raised-button class="crm-button" color="primary" (click)="onClickConfigureStages()" i18n="@@planComponentActionsConfigureStages"><mat-icon>settings</mat-icon><span>Configure stages</span></button>
-            <button *ngIf="configPlanStages" class="crm-button" mat-raised-button color="primary" [swal]="onUpdatePlanStagesSubmit" i18n="@@globalActionsSaveChanges"><mat-icon>save</mat-icon><span>Save</span></button>
-            <button *ngIf="configPlanStages" class="crm-button" mat-raised-button (click)="onClickCancelEditStages()" i18n="@@globalActionsCancelEdit"><mat-icon>cancel</mat-icon><span>Cancel</span></button>
+          <button *ngIf="!configPlanStages" mat-raised-button class="crm-button" color="primary" (click)="onClickConfigureStages()" i18n="@@planComponentActionsConfigureStages"><mat-icon>settings</mat-icon><span>Configure stages</span></button>
+          <button *ngIf="configPlanStages" class="crm-button" mat-raised-button color="primary" [swal]="onUpdatePlanStagesSubmit" i18n="@@globalActionsSaveChanges"><mat-icon>save</mat-icon><span>Save</span></button>
+          <button *ngIf="configPlanStages" class="crm-button" mat-raised-button (click)="onClickCancelEditStages()" i18n="@@globalActionsCancelEdit"><mat-icon>cancel</mat-icon><span>Cancel</span></button>
         </div>
-    </section>
-      
-    <section class="app-content-box col-md-4" [title]="'PLANCOMPONENT.ActionsHeader'" *ngIf="plan" [showDataLoader]="true">
+    </section>    
+    <section class="app-content-box col-md-4" [title]="'Actions'" *ngIf="plan" [showDataLoader]="true" i18n="@@planComponentHeaderActions">
         <div content class="d-flex" *ngIf="canEditPlan">
-          <button mat-stroked-button color="primary" [swal]="goToNextStageSwal">
+          <button mat-stroked-button color="primary" class="crm-button" [swal]="goToNextStageSwal">
             <ng-container *ngIf="plan.activeStage.keyString === 'finished'" i18n="@@planComponentActionsFinishPlan">
-                Finish plan
+              <mat-icon>done</mat-icon><span>Finish plan</span>
             </ng-container>
             <ng-container *ngIf="plan.activeStage.keyString !== 'finished'" i18n="@@planComponentActionsGoToNextStage">
-                Go to next stage
+              <mat-icon>arrow_forward</mat-icon><span>Go to next stage</span> 
             </ng-container>
           </button>
         </div>
     </section>
 </section>
-
-<section class="app-content-box" [title]="'PLANCOMPONENT.DetailsHeader'" *ngIf="plan" [showDataLoader]="true">
-  
+<section class="app-content-box plan-details" [title]="'Details'" *ngIf="plan" [showDataLoader]="true" i18n="@@planComponentHeaderDetails">
   <div content class="row">
-    <form class="col-md-8">
-      <div class="form-group row">
-        <label for="title" class="col-sm-4 col-form-label">{{ 'PLANCOMPONENT.Plan.title' | translate}}:</label>
-        <div class="col-sm-8">
-          <input [(ngModel)]="plan.title" name="title" type="text" [ngClass]="{'form-control': editForm, 'form-control-plaintext': !editForm}" [readonly]="!editForm" placeholder="">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="budget" class="col-sm-4 col-form-label">{{ 'PLANCOMPONENT.Plan.budget' | translate}}:</label>
-        <div class="col-sm-8">
-          <input [(ngModel)]="plan.budget" name="budget" type="text" [ngClass]="{'form-control': editForm, 'form-control-plaintext': !editForm}" [readonly]="!editForm" placeholder="">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="description" class="col-sm-12 col-form-label">{{ 'PLANCOMPONENT.Plan.decsription' | translate}}:</label>
-        <div class="col-sm-12">
-          <textarea [(ngModel)]="plan.description" name="description" type="text" [ngClass]="{'form-control': editForm, 'form-control-plaintext': !editForm}" [readonly]="!editForm" placeholder=""></textarea>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="deadline" class="col-sm-4 col-form-label">{{ 'PLANCOMPONENT.Plan.deadline' | translate}}:</label>
-        <div class="col-sm-8">
-          <mat-form-field *ngIf="editForm">
-            <input matInput [min]="plan.createdAt" [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="plan.deadline" type="datetime" name="deadline">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-          <input *ngIf="!editForm" type="text" name="deadline" class="form-control-plaintext" readonly placeholder="" value="{{plan.deadline | date: 'short' }}">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="createdAt" class="col-sm-4 col-form-label">{{ 'PLANCOMPONENT.Plan.createdAt' | translate}}:</label>
-        <div class="col-sm-8">
-          <input type="text" name="createdAt" class="form-control-plaintext" readonly placeholder="" value="{{plan.createdAt | date: 'short' }}">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="updatedAt" class="col-sm-4 col-form-label">{{ 'PLANCOMPONENT.Plan.updatedAt' | translate}}:</label>
-        <div class="col-sm-8">
-          <input type="text" name="updatedAt" class="form-control-plaintext" readonly placeholder="" value="{{plan.updatedAt | date: 'short' }}">
-        </div>
-      </div>
-    </form>
-
-    <div class="col-md-4 plan-participants">
-      <label class="label">{{ 'PLANCOMPONENT.Plan.creator' | translate}}:</label>
-      <ul class="list-group">
-          <li routerLink="/user/{{plan.CreatorId}}" class="list-group-item">
-            <img class="userpic" *ngIf="plan.Creator.avatar" src="{{baseUrl + plan.Creator.avatar.location + 'thumbnails/' + plan.Creator.avatar.title}}" alt="{{plan.Creator.avatar.title}}">
-            <img class="userpic" *ngIf="!plan.Creator.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
-            <span>{{plan.Creator.name + ' ' + plan.Creator.surname}}</span>
-          </li>
-      </ul>
-      <br>
-      <label class="label">{{ 'PLANCOMPONENT.Plan.participants' | translate}}:</label>
-      <ul class="list-group" *ngIf="plan.Participants">
-        <ng-container *ngFor="let user of plan.Participants">
-          <li routerLink="/user/{{user.id}}" class="list-group-item">
-            <img class="userpic" *ngIf="user.avatar" src="{{baseUrl + user.avatar.location + 'thumbnails/' + user.avatar.title}}" alt="{{user.avatar.title}}">
-            <img class="userpic" *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
-            <span>{{user.name + ' ' + user.surname}}</span>
-          </li>
-        </ng-container>
-        <button mat-raised-button color="primary" *ngIf="editForm" class="list-group-item list-group-item-action active" (click)="addParticipantDialog()">{{ 'PLANCOMPONENT.Actions.addParticipant' | translate}}</button>
-      </ul>
+    <div class="col-md-8">
+      <mat-list class="w-100" *ngIf="!editForm">
+        <mat-list-item>
+          <section>
+            <div>
+              <span i18n="@@planСomponentDetailsTitle">Title:</span>
+            </div>
+            <div>
+              <span>{{ plan.title }}</span>
+            </div>
+          </section>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <section>
+            <div>
+              <span i18n="@@planСomponentDetailsDateBudget">Budget:</span>
+            </div>
+            <div>
+              <span>{{ plan.budget }}</span>
+            </div>
+          </section>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <section>
+            <div>
+              <span i18n="@@planСomponentDetailsDateDeadline">Deadline:</span>
+            </div>
+            <div>
+              <span>{{ plan.deadline }}</span>
+            </div>
+          </section>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <section>
+            <div>
+              <span i18n="@@planСomponentDetailsDateCreated">Date created:</span>
+            </div>
+            <div>
+              <span>{{ plan.createdAt | date: 'short' }}</span>
+            </div>
+          </section>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <section>
+            <div>
+              <span i18n="@@planСomponentDetailsDateUpdated">Date updated:</span>
+            </div>
+            <div>
+              <span>{{ plan.updatedAt | date: 'short' }}</span>
+            </div>
+          </section>
+        </mat-list-item>
+      </mat-list>
+      <form class="d-flex flex-column" *ngIf="editForm">  
+        <mat-form-field appearance="outline">
+          <mat-label i18n="@@planComponentDetailsTitle">Title</mat-label>
+          <input matInput [(ngModel)]="plan.title" name="title" type="text" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label i18n="@@planComponentDetailsBudget">Title</mat-label>
+          <input matInput [(ngModel)]="plan.budget" name="budget" type="text" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label i18n="@@planComponentDetailsDescription">Write a description</mat-label>
+          <textarea matInput [(ngModel)]="plan.description" name="description" type="text" required></textarea>
+        </mat-form-field>
+        <mat-form-field color="primary" appearance="outline">
+          <mat-label i18n="@@planComponentDetailsDeadline">Deadline</mat-label>
+          <input matInput [min]="plan.createdAt" [matDatepicker]="picker" [(ngModel)]="plan.deadline" type="datetime" name="deadline" required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #picker></mat-datepicker>
+        </mat-form-field> 
+      </form>
     </div>
-
+    <div class="col-md-4">
+      <mat-list class="w-100">
+        <label class="text-muted" i18n="@@planComponentParticipantTitleCreator">Creator</label>
+        <mat-list-item *ngIf="plan.Creator">
+          <img matListAvatar *ngIf="plan.Creator.avatar" src="{{baseUrl + plan.Creator.avatar.location + plan.Creator.avatar.title}}" alt="{{plan.Creator.avatar.title}}">
+          <img matListAvatar *ngIf="!plan.Creator.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
+          <h3 matLine><a routerLink="/users/details/{{plan.CreatorId}}">{{ plan.Creator.name + ' ' + plan.Creator.surname }}</a></h3>
+        </mat-list-item>
+      </mat-list>
+      <mat-list>
+        <div class="d-flex flex-row justify-content-between align-items-center">
+          <div class="d-flex flex-row align-items-center"><span class="text-muted" i18n="@@planComponentTitleParticipants">Participants</span><mat-chip color="primary" selected>{{plan.Participants.length}}</mat-chip></div>
+          <button mat-raised-button color="primary" class="crm-button" (click)="addParticipantDialog()" *ngIf="editForm" i18n="@@planComponentActionsAddParticipants"><mat-icon>group_add</mat-icon><span>Add Participants</span></button>
+        </div>
+        <mat-list-item *ngFor="let user of plan.Participants; let i = index;">
+          <img matListAvatar *ngIf="user.avatar" src="{{baseUrl + user.avatar.location + user.avatar.title}}" alt="{{user.avatar.title}}">
+          <img matListAvatar *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
+          <h3 matLine>{{ user.name + ' ' + user.surname }}</h3>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+      </mat-list>
+    </div>
   </div>
-
   <div buttons *ngIf="canEditPlan">
-    <button *ngIf="!editForm" mat-raised-button color="primary" class="crm-button" (click)="onClickEdit()"><mat-icon>edit</mat-icon><span></span>Edit</button>
-    <button *ngIf="editForm" mat-raised-button color="primary" class="crm-button" [swal]="updatePlanSwal"><mat-icon>save</mat-icon><span>Save</span></button>
-    <button *ngIf="editForm" mat-raised-button class="crm-button" (click)="onClickCancelEdit()"><mat-icon>cancel</mat-icon><span>Cancel</span></button>
+    <button *ngIf="!editForm" mat-raised-button color="primary" class="crm-button" (click)="onClickEdit()" i18n="@@planСomponentActionsEdit"><mat-icon>edit</mat-icon><span>Edit</span></button>
+    <button *ngIf="editForm" mat-raised-button color="primary" class="crm-button" [swal]="updatePlanSwal" i18n="@@globalActionsSaveChanges"><mat-icon>save</mat-icon><span>Save</span></button>
+    <button *ngIf="editForm" mat-raised-button class="crm-button" (click)="onClickCancelEdit()" i18n="@@globalActionsСancelEdit"><mat-icon>cancel</mat-icon><span>Cancel</span></button>
   </div>
-
 </section>
 
 <app-attachments *ngIf="plan && plan.Documents && plan.Documents.length" [attachments]="plan.Documents" [editForm]="editForm" (deleteFileCall)="deleteDoc($event)"></app-attachments>
-
 
 <swal
   #onUpdatePlanStagesSubmit

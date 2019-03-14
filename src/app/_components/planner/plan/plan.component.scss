@@ -76,3 +76,19 @@
         cursor: pointer;
     }
 }
+
+.plan-details {
+    mat-list-item {
+        section {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }   
+    } 
+
+    mat-chip {
+        padding: 0 0.5em;
+        border-radius: 50%;
+        margin-left: 0.5em;
+    }
+}

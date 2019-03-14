@@ -7,7 +7,7 @@ import swal from 'sweetalert2';
 import { UsersComponentDialogComponent } from '../../users/users.component';
 import { StagesComponentDialogComponent } from '../../stages/stages.component';
 import { Plan, User, Stage, StageDetails } from '@/_models';
-import { AuthenticationService, PlanService, PrivilegeService, StageService, TranslationsService, LoaderService } from '@/_services';
+import { AuthenticationService, PlanService, PrivilegeService, StageService, LoaderService } from '@/_services';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -27,12 +27,10 @@ export class PlanComponent implements OnInit, OnDestroy {
   configPlanStages: boolean;
   editPlanPrivilege: boolean;
   configStagesPrivilege: boolean;
-  translations: object;
 
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
-    public translationsService: TranslationsService,
     private route: ActivatedRoute,
     private planService: PlanService,
     private privilegeService: PrivilegeService,
@@ -47,18 +45,6 @@ export class PlanComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.translationsService.getTranslations([
-      'PLANCOMPONENT.PopUps.udpatePlanTitle',
-      'PLANCOMPONENT.PopUps.udpatePlanText',
-      'PLANCOMPONENT.PopUps.udpatePlanSuccess',
-      'PLANCOMPONENT.PopUps.udpatePlanError',
-      'PLANCOMPONENT.PopUps.deletePlanDocumentTitle',
-      'PLANCOMPONENT.PopUps.deletePlanDocumentText',
-      'PLANCOMPONENT.PopUps.deletePlanDocumentSuccess',
-      'PLANCOMPONENT.PopUps.SelectParticipantsTitle'
-    ]).subscribe((translations: string[]) => {
-      this.translations = translations;
-    });
     this.authService.currentUser.subscribe(user => {
       this.appUser = user;
       this.editPlanPrivilege = this.privilegeService.isPrivileged(user, 'editPlan');
@@ -79,7 +65,6 @@ export class PlanComponent implements OnInit, OnDestroy {
       this.planInitial = { ...plan };
       this.initialStages = [ ...plan.Stages ];
     });
-
   }
 
   goToNextStage(): void {
@@ -121,7 +106,7 @@ export class PlanComponent implements OnInit, OnDestroy {
         // this.planInitial = { ...this.plan };
         this.configPlanStages = false;
         swal({
-          text: this.translations['PLANCOMPONENT.PopUps.udpatePlanSuccess'],
+          text: 'Stages updated!',
           type: 'success',
           timer: 6000,
           toast: true,
@@ -131,7 +116,7 @@ export class PlanComponent implements OnInit, OnDestroy {
       },
       error => {
         swal({
-          text: this.translations['PLANCOMPONENT.PopUps.udpatePlanError'],
+          text: 'Ooops, something went wrong!',
           type: 'error',
         });
     });
@@ -152,7 +137,7 @@ export class PlanComponent implements OnInit, OnDestroy {
         this.planInitial = { ...this.plan };
         this.editForm = false;
         swal({
-          text: this.translations['PLANCOMPONENT.PopUps.udpatePlanSuccess'],
+          text: 'Plan updated!',
           type: 'success',
           timer: 6000,
           toast: true,
@@ -162,7 +147,7 @@ export class PlanComponent implements OnInit, OnDestroy {
       },
       error => {
         swal({
-          text: this.translations['PLANCOMPONENT.PopUps.udpatePlanError'],
+          text: 'Ooops, something went wrong!',
           type: 'error',
         });
     });
@@ -173,7 +158,7 @@ export class PlanComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(StagesComponentDialogComponent, {
       height: '80vh',
       data: {
-        title: this.translations['PLANCOMPONENT.PopUps.selectStagesTitle'],
+        title: 'Select stages',
       }
     });
 
@@ -239,7 +224,7 @@ export class PlanComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(UsersComponentDialogComponent, {
       height: '80vh',
       data: {
-        title: this.translations['PLANCOMPONENT.PopUps.SelectParticipantsTitle'],
+        title: 'Select participants',
       }
     });
 
@@ -270,12 +255,12 @@ export class PlanComponent implements OnInit, OnDestroy {
 
   deleteDoc(docId: number): void {
     swal({
-      title: this.translations['PLANCOMPONENT.PopUps.deletePlanDocumentTitle'],
-      text: this.translations['PLANCOMPONENT.PopUps.deletePlanDocumentText'],
+      title: 'You are going to delete document',
+      text: 'Are you sure you want to delete document from plan, changes cannot be undone?',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonText: this.translationsService.globalTranslations['GLOBAL.PopUps.confirmButtonText'],
-      cancelButtonText: this.translationsService.globalTranslations['GLOBAL.PopUps.cancelButtonText']
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel'
     }).then((result) => {
       if (result.value) {
         const req = {
@@ -288,7 +273,7 @@ export class PlanComponent implements OnInit, OnDestroy {
             this.plan = plan;
             this.planInitial = { ...this.plan };
             swal({
-              text: this.translations['PLANCOMPONENT.PopUps.deletePlanDocumentSuccess'],
+              text: 'You have successfully removed a document from plan',
               type: 'success',
               timer: 6000,
               toast: true,
@@ -297,7 +282,7 @@ export class PlanComponent implements OnInit, OnDestroy {
             });
           } else {
             swal({
-              text: this.translations['PLANCOMPONENT.PopUps.udpatePlanError'],
+              text: 'Ooops, something went wrong!',
               type: 'error',
             });
           }
