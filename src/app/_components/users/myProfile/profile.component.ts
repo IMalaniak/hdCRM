@@ -1,7 +1,7 @@
 import { environment } from 'environments/environment';
 import { Component, OnInit } from '@angular/core';
 import swal from 'sweetalert2';
-import { UserService, TranslationsService } from '@/_services';
+import { UserService } from '@/_services';
 import { User } from '@/_models';
 
 @Component({
@@ -13,27 +13,16 @@ export class ProfileComponent implements OnInit {
   baseUrl: string;
   user: User;
   userInitial: User;
-  translations: Object;
   editForm: boolean;
   langs: string[];
 
   constructor(
-    public translationsService: TranslationsService,
     private userService: UserService
   ) {
     this.baseUrl = environment.baseUrl;
   }
 
   ngOnInit() {
-    this.langs = this.translationsService.translate.getLangs();
-    this.translationsService.getTranslations([
-      'PROFILECOMPONENT.PopUps.udpateUserTitle',
-      'PROFILECOMPONENT.PopUps.udpateUserText',
-      'PROFILECOMPONENT.PopUps.udpateUserSuccess',
-      'PROFILECOMPONENT.PopUps.udpateUserError'
-    ]).subscribe((translations: string[]) => {
-      this.translations = translations;
-    });
     this.getUserData();
     this.editForm = false;
   }
@@ -56,12 +45,12 @@ export class ProfileComponent implements OnInit {
 
   onUpdateUserSubmit(): void {
     swal({
-      title: this.translations['PROFILECOMPONENT.PopUps.udpateUserTitle'],
-      text: this.translations['PROFILECOMPONENT.PopUps.udpateUserText'],
+      title: 'Are you about to update user',
+      text: 'Are you sure you want to update user details?',
       type: 'question',
       showCancelButton: true,
-      confirmButtonText: this.translationsService.globalTranslations['GLOBAL.PopUps.confirmButtonText'],
-      cancelButtonText: this.translationsService.globalTranslations['GLOBAL.PopUps.cancelButtonText']
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel'
     }).then((result) => {
       if (result.value) {
         this.updateUser();
@@ -76,7 +65,7 @@ export class ProfileComponent implements OnInit {
         this.userInitial = { ...this.user };
         this.editForm = false;
         swal({
-          text: this.translations['PROFILECOMPONENT.PopUps.udpateUserSuccess'],
+          text: 'User updated!',
           type: 'success',
           timer: 6000,
           toast: true,
@@ -86,7 +75,7 @@ export class ProfileComponent implements OnInit {
       },
       error => {
         swal({
-          text: this.translations['PROFILECOMPONENT.PopUps.udpateUserError'],
+          text: 'Ooops, something went wrong!',
           type: 'error',
         });
       }

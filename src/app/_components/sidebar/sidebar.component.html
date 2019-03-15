@@ -2,12 +2,12 @@
   <ul>
     <!-- <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/home']"><mat-icon>home</mat-icon><span class="item-title">{{ 'SIDEBAR.Menu.home' | translate}}</span></a></li> -->
     <ng-template [ngIf]="isValidToken">
-      <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/dashboard']"><mat-icon>dashboard</mat-icon><span class="item-title">{{ 'SIDEBAR.Menu.dashboard' | translate}}</span></a></li>
-      <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/myprofile']"><mat-icon>person</mat-icon><span class="item-title">{{ 'SIDEBAR.Menu.administration.myProfile' | translate}}</span></a></li>
-      <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/users']"><mat-icon>people</mat-icon><span class="item-title">{{ 'SIDEBAR.Menu.administration.users' | translate}}</span></a></li>
-      <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/roles']"><mat-icon>theaters</mat-icon><span class="item-title">{{ 'SIDEBAR.Menu.administration.roles' | translate}}</span></a></li>
+      <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/dashboard']"><mat-icon>dashboard</mat-icon><span class="item-title" i18n="@@sidebarMenuAdministrationDashboard">Dashboard</span></a></li>
+      <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/myprofile']"><mat-icon>person</mat-icon><span class="item-title" i18n="@@sidebarMenuAdministrationMyProfile">My profile</span></a></li>
+      <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/users']"><mat-icon>people</mat-icon><span class="item-title" i18n="@@sidebarMenuAdministrationUsers">Users</span></a></li>
+      <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/roles']"><mat-icon>theaters</mat-icon><span class="item-title" i18n="@@sidebarMenuAdministrationRoles">Roles</span></a></li>
       <!-- <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/translations']"><span class="item-title">{{ 'SIDEBAR.Menu.administration.translations' | translate}}</span></a></li> -->
-      <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/planner']"><mat-icon>list_alt</mat-icon><span class="item-title">{{ 'SIDEBAR.Menu.planning.plans' | translate}}</span></a></li>
+      <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/planner']"><mat-icon>list_alt</mat-icon><span class="item-title" i18n="@@sidebarMenuAdministrationPlans">Plans</span></a></li>
       <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/departments']"><mat-icon>business</mat-icon><span class="item-title" i18n="@@sidebarMenuAdministrationDepartments">Departments</span></a></li>
       <!--
       <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/myplans']"><span class="item-title">{{ 'SIDEBAR.Menu.planning.myPlans' | translate}}</span></a></li>

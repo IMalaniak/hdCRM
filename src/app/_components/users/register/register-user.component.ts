@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import swal from 'sweetalert2';
-import { UserService, RoleService, TranslationsService } from '@/_services';
+import { UserService, RoleService } from '@/_services';
 import { User, Role } from '@/_models';
 
 @Component({
@@ -12,7 +12,6 @@ import { User, Role } from '@/_models';
 export class RegisterUserComponent implements OnInit {
   user: User;
   roles: Role[];
-  translations: Object;
   langs: string[];
   userData: FormGroup;
   hidePassword = true;
@@ -21,23 +20,12 @@ export class RegisterUserComponent implements OnInit {
   constructor(
     private userService: UserService,
     private roleService: RoleService,
-    public translationsService: TranslationsService,
     private _formBuilder: FormBuilder
   ) {
     this.user = new User();
   }
 
   ngOnInit() {
-    this.langs = this.translationsService.translate.getLangs();
-    this.translationsService.getTranslations([
-      'REGISTERUSERCOMPONENT.Alerts.fieldsError',
-      'REGISTERUSERCOMPONENT.Alerts.badEmail',
-      'REGISTERUSERCOMPONENT.Alerts.userRegistered',
-      'REGISTERUSERCOMPONENT.Alerts.emailRequired'
-    ]).subscribe((translations: string[]) => {
-      this.translations = translations;
-    });
-
     this.roleService.getRolesList().subscribe(roles => {
       this.roles = roles;
     });
@@ -103,19 +91,18 @@ export class RegisterUserComponent implements OnInit {
     if (this.selectedRolesIds.length) {
       this.user.selectedRoleIds = this.selectedRolesIds;
     }
-
-    // Register user
+    
     this.userService.registerUser(this.user).subscribe(
       data => {
         swal({
-          title: this.translations['REGISTERUSERCOMPONENT.Alerts.userRegistered'],
+          title: 'User registered!',
           type: 'success',
           timer: 1500
         });
       },
       error => {
         swal({
-          title: this.translationsService.globalTranslations['GLOBAL.PopUps.serverError'],
+          title: 'Ooops, something went wrong!',
           type: 'error',
           timer: 1500
         });

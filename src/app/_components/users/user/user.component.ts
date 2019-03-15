@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 import { RolesComponentDialogComponent } from '../../roles/roles.component';
-import { AuthenticationService, UserService, PrivilegeService, StateService, TranslationsService, LoaderService } from '@/_services';
+import { AuthenticationService, UserService, PrivilegeService, StateService, LoaderService } from '@/_services';
 import { User, Role, State } from '@/_models';
 import { error } from 'util';
 
@@ -20,12 +20,10 @@ export class UserComponent implements OnInit {
   userInitial: User;
   states: State[];
   editForm: boolean;
-  translations: object;
   editUserPrivilege: boolean;
   langs: string[];
 
   constructor(
-    public translationsService: TranslationsService,
     private authService: AuthenticationService,
     private route: ActivatedRoute,
     private userService: UserService,
@@ -40,16 +38,6 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.langs = this.translationsService.translate.getLangs();
-    this.translationsService.getTranslations([
-      'USERCOMPONENT.PopUps.udpateUserTitle',
-      'USERCOMPONENT.PopUps.udpateUserText',
-      'USERCOMPONENT.PopUps.udpateUserSuccess',
-      'USERCOMPONENT.PopUps.udpateUserError',
-      'USERCOMPONENT.PopUps.selectRolesTitle'
-    ]).subscribe((translations: string[]) => {
-      this.translations = translations;
-    });
     this.authService.currentUser.subscribe(user => {
       this.editUserPrivilege = this.privilegeService.isPrivileged(user, 'editUser');
     });
@@ -66,9 +54,7 @@ export class UserComponent implements OnInit {
       this.stateService.getStatesList().subscribe(states => {
         this.states = states;
       });
-
     });
-
   }
 
   addRolesDialog(): void {
@@ -76,7 +62,7 @@ export class UserComponent implements OnInit {
     const dialogRef = this.dialog.open(RolesComponentDialogComponent, {
       height: '80vh',
       data: {
-        title: this.translations['USERCOMPONENT.PopUps.selectRolesTitle'],
+        title: 'Select roles',
       }
     });
 
@@ -116,12 +102,12 @@ export class UserComponent implements OnInit {
 
   onUpdateUserSubmit(): void {
     swal({
-      title: this.translations['USERCOMPONENT.PopUps.udpateUserTitle'],
-      text: this.translations['USERCOMPONENT.PopUps.udpateUserText'],
+      title: 'Are you sure?',
+      text: 'Do you really want to save changes? You will not be able to recover this!',
       type: 'question',
       showCancelButton: true,
-      confirmButtonText: this.translationsService.globalTranslations['GLOBAL.PopUps.confirmButtonText'],
-      cancelButtonText: this.translationsService.globalTranslations['GLOBAL.PopUps.cancelButtonText']
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel'
     }).then((result) => {
       if (result.value) {
         this.updateUser();
@@ -142,7 +128,7 @@ export class UserComponent implements OnInit {
         this.userInitial = { ...this.user };
         this.editForm = false;
         swal({
-          text: this.translations['USERCOMPONENT.PopUps.udpateUserSuccess'],
+          text: 'User updated!',
           type: 'success',
           timer: 6000,
           toast: true,
@@ -152,12 +138,11 @@ export class UserComponent implements OnInit {
       },
       error => {
         swal({
-          text: this.translations['USERCOMPONENT.PopUps.udpateUserError'],
+          text: 'Ooops, something went wrong!',
           type: 'error',
           timer: 3000
         });
       }
     );
   }
-
 }

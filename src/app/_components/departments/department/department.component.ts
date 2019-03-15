@@ -74,7 +74,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(UsersComponentDialogComponent, {
       height: '80vh',
       data: {
-        title: ['Select manager'],
+        title: 'Select manager',
       }
     });
 
@@ -102,7 +102,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(UsersComponentDialogComponent, {
       height: '80vh',
       data: {
-        title: ['Select workers'],
+        title: 'Select workers',
       }
     });
 

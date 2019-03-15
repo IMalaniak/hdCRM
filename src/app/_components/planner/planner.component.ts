@@ -14,8 +14,7 @@ export class PlannerComponent implements OnInit {
 
   constructor(
     private planService: PlanService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.getPlannerData();
@@ -24,5 +23,4 @@ export class PlannerComponent implements OnInit {
   getPlannerData(): void {
     this.plans$ = this.planService.getFullList();
   }
-
 }

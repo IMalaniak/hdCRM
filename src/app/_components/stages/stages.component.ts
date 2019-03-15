@@ -3,7 +3,7 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { FormControl, Validators } from '@angular/forms';
 import swal from 'sweetalert2';
 import { MatCheckboxChange } from '@angular/material';
-import { StageService, TranslationsService } from '@/_services';
+import { StageService } from '@/_services';
 import { Stage } from '@/_models';
 
 @Component({
@@ -16,10 +16,8 @@ export class StagesComponent implements OnInit {
   selectedStages: Stage[];
   notSelectedStages: Stage[];
   newStage: Stage;
-  translations: string[];
 
   constructor(
-    public translationsService: TranslationsService,
     private stageService: StageService,
     private dialog: MatDialog
   ) {
@@ -27,11 +25,6 @@ export class StagesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.translationsService.getTranslations([
-      'STAGESCOMPONENT.Alerts.stageAdded'
-    ]).subscribe((translations: string[]) => {
-      this.translations = translations;
-    });
     this.stageService.getStagesList().subscribe(stages => {
       this.stages = stages.map(stage => {
         stage.selected = false;
@@ -93,7 +86,7 @@ export class StagesComponent implements OnInit {
         this.stageService.createStage(this.newStage).subscribe(
           stage => {
             swal({
-              title: this.translations['STAGESCOMPONENT.Alerts.stageAdded'],
+              title: 'Stage created!',
               type: 'success',
               timer: 1500
             }).then(() => {
@@ -102,7 +95,7 @@ export class StagesComponent implements OnInit {
           },
           error => {
             swal({
-              title: this.translationsService.globalTranslations['GLOBAL.PopUps.serverError'],
+              title: 'Ooops, something went wrong!',
               type: 'error',
               timer: 1500
             });

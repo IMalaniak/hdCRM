@@ -2,7 +2,6 @@ import { environment } from 'environments/environment';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { TranslationsService } from '@/_services/translations.service';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { StageService, DepartmentService } from '@/_services';
 import { User, Stage, Department, SingleChartData } from '@/_models';
@@ -13,7 +12,6 @@ import { User, Stage, Department, SingleChartData } from '@/_models';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  translations: Object;
   appUser: User;
   editForm: boolean;
   baseUrl: string;
@@ -23,7 +21,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
-    private translationsService: TranslationsService,
     private departmentService: DepartmentService,
     private authenticationService: AuthenticationService,
     private stageService: StageService
@@ -32,12 +29,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.translationsService.getTranslations([
-      'DASHBOARDCOMPONENT.Header'
-    ]).subscribe((translations: string[]) => {
-        this.translations = translations;
-    }); 
-
     this.authenticationService.currentUser.pipe(takeUntil(this.unsubscribe)).subscribe(user => {
       this.appUser = user;
     });

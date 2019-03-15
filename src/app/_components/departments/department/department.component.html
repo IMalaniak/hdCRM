@@ -109,9 +109,9 @@
     </div>
   </div>
   <div buttons *ngIf="canEditDepartment">
-    <button *ngIf="!editForm" mat-raised-button color="primary" class="crm-button" (click)="onClickEdit()" i18n="@@departmentСomponentActionsEditDepartment"><mat-icon>edit</mat-icon><span></span>Edit</button>
-    <button *ngIf="editForm" mat-raised-button color="primary" class="crm-button" [swal]="updateDepartmentSwal" i18n="@@departmentСomponentActionsEditDepartment"><mat-icon>save</mat-icon><span>Save</span></button>
-    <button *ngIf="editForm" mat-raised-button class="crm-button" (click)="onClickCancelEdit()" i18n="@@departmentСomponentActionsEditDepartment"><mat-icon>cancel</mat-icon><span>Cancel</span></button>
+    <button *ngIf="!editForm" mat-raised-button color="primary" class="crm-button" (click)="onClickEdit()" i18n="@@globalActionsEdit"><mat-icon>edit</mat-icon><span></span>Edit</button>
+    <button *ngIf="editForm" mat-raised-button color="primary" class="crm-button" [swal]="updateDepartmentSwal" i18n="@@globalActionsSaveChanges"><mat-icon>save</mat-icon><span>Save</span></button>
+    <button *ngIf="editForm" mat-raised-button class="crm-button" (click)="onClickCancelEdit()" i18n="@@globalActionsCancelEdit"><mat-icon>cancel</mat-icon><span>Cancel</span></button>
   </div>
 </section>
 

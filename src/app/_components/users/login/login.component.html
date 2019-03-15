@@ -14,7 +14,7 @@
               <input matInput [(ngModel)]="user.password" name="password" [type]="hidePassword ? 'password' : 'text'">
               <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
             </mat-form-field>
-            <button mat-raised-button color="primary" class="crm-button" type="submit" i18n="@@loginFormLogInButton"><mat-icon>vpn_key</mat-icon><span>Login</span></button>
+            <button mat-raised-button color="primary" class="crm-button" type="submit"><mat-icon>vpn_key</mat-icon><span i18n="@@loginFormLogInButton">Login</span></button>
           </mat-card-content>
         </mat-card>
       </form>

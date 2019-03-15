@@ -13,9 +13,7 @@ export class DepartmentsComponent implements OnInit {
 
   constructor(
     private departmentService: DepartmentService
-  ) {
-
-  }
+  ) {}
 
   ngOnInit() {
     this.getDepartmentsData();

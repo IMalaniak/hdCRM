@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Asset, FileTypes } from '@/_models';
-import { TranslationsService } from '@/_services';
 
 @Component({
   selector: 'app-attachments',
@@ -14,7 +13,6 @@ export class AttachmentsComponent implements OnInit {
   @Input() editForm: boolean;
   @Output() deleteFileCall: EventEmitter<any> = new EventEmitter();
   allowedFileTypesMap: FileTypes;
-  translations: Object;
 
   // pondOptions = {
   //   class: 'my-filepond',
@@ -32,18 +30,13 @@ export class AttachmentsComponent implements OnInit {
   // }
 
   constructor(
-    private translationsService: TranslationsService
   ) { }
 
   ngOnInit() {
     if (!this.attachments) {
       this.attachments = [];
     }
-    this.translationsService.getTranslations([
-      'ATTACHMENTSCOMPONENT.FilePond.labelIdle',
-    ]).subscribe((translations: string[]) => {
-      this.translations = translations;
-    });
+
     this.allowedFileTypesMap = {
       msWord: ['doc', 'docx'],
       msPPoint: ['ppt', 'pptx'],

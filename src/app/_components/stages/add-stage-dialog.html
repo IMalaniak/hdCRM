@@ -1,21 +1,21 @@
-<h1 mat-dialog-title>{{'STAGESCOMPONENT.Dialog.title' | translate}}</h1>
+<h1 mat-dialog-title i18n="@@addStageComponentDialogHeaderCreateStage">Create stage</h1>
 <div mat-dialog-content>
   <div class="d-flex flex-column justify-content-center">
-      <mat-form-field appearance="outline">
-          <mat-label>{{'STAGESCOMPONENT.Dialog.addStageInputLable' | translate}}</mat-label>
-          <input matInput [formControl]="data.keyString">
-          <mat-error *ngIf="data.keyString.invalid">
-              <mat-error *ngIf="data.keyString.errors.required">
-                {{ 'STAGESCOMPONENT.Form.errors.keyRequired' | translate}}
-              </mat-error>
-              <mat-error *ngIf="data.keyString.errors.minlength && (data.keyString.dirty || data.keyString.touched)">
-                {{ 'STAGESCOMPONENT.Form.errors.keyIsTooShort' | translate}}
-              </mat-error>
-            </mat-error>
-      </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label i18n="@@addStageComponentDialogLable">Lable</mat-label>
+      <input matInput [formControl]="data.keyString">
+      <mat-error *ngIf="data.keyString.invalid">
+        <mat-error *ngIf="data.keyString.errors.required" i18n="@@addStageComponentDialogFormErrorsLableRequired">
+          Label is required!
+        </mat-error>
+        <mat-error *ngIf="data.keyString.errors.minlength && (data.keyString.dirty || data.keyString.touched)" i18n="@@addStageComponentDialogFormErrorsLableIsTooShort">
+          Label is too short!
+        </mat-error>
+      </mat-error>
+    </mat-form-field>
   </div>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">{{'GLOBAL.PopUps.cancelButtonText' | translate}}</button>
-  <button mat-button [mat-dialog-close]="data.keyString.value" [disabled]="data.keyString.invalid">{{'GLOBAL.PopUps.addButtonText' | translate}}</button>
+  <button mat-stroked-button class="crm-button" (click)="onNoClick()" i18n="@@globalActionsCancelEdit"><mat-icon>cancel</mat-icon><span>Cancel</span></button>
+  <button mat-stroked-button class="crm-button" [mat-dialog-close]="data.keyString.value" [disabled]="data.keyString.invalid" i18n="@@addStageComponentDialogActionAddStage"><mat-icon>add</mat-icon><span>Add stage</span></button>
 </div>

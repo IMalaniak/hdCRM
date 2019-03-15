@@ -1,4 +1,4 @@
-<section content class="app-content-box" [title]="'Create a new department'">
+<section content class="app-content-box" [title]="'Create a new department'" i18n="@@addDepartmentComponentHeader">
   <div content class="row">
     <div class="col-md-6">
       <form class="d-flex flex-column">  
@@ -21,7 +21,7 @@
           <h3 matLine>{{ department.Manager.name + ' ' + department.Manager.surname }}</h3>
         </mat-list-item>
       </mat-list>
-      <button mat-raised-button color="primary" class="crm-button" (click)="addManagerDialog()" i18n="@@addDepartmentComponentActionsAddManager"><mat-icon>person_add</mat-icon><span>Add manager</span></button>
+      <button mat-raised-button color="primary" class="crm-button" (click)="addManagerDialog()"><mat-icon>person_add</mat-icon><span i18n="@@addDepartmentComponentActionsAddManager">Add manager</span></button>
     </div>
   </div>
   <div content class="row">
@@ -34,7 +34,7 @@
           <h3 matLine>{{ user.name + ' ' + user.surname }}</h3>
           <mat-divider></mat-divider>
         </mat-list-item>
-        <button mat-raised-button color="primary" class="crm-button" (click)="addWorkersDialog()" i18n="@@addDepartmentComponentActionsAddWorkers"><mat-icon>group_add</mat-icon><span>Add workers</span></button>
+        <button mat-raised-button color="primary" class="crm-button" (click)="addWorkersDialog()"><mat-icon>group_add</mat-icon><span i18n="@@addDepartmentComponentActionsAddWorkers">Add workers</span></button>
       </mat-list>
     </div>
     <div class="col-md-6">
@@ -45,7 +45,7 @@
             <!-- <mat-list-item *ngFor="">
               <h3 matLine>{{}}</h3>
             </mat-list-item> -->
-            <button mat-raised-button color="primary" class="crm-button" i18n="@@addDepartmentComponentActionsAddParentDepartment"><mat-icon>add_circle_outline</mat-icon><span>Add parent department</span></button>
+            <button mat-raised-button color="primary" class="crm-button"><mat-icon>add_circle_outline</mat-icon><span i18n="@@addDepartmentComponentActionsAddParentDepartment">Add parent department</span></button>
           </mat-list>
         </div>
         <div class="col-sm-6 col-md-12 col-lg-6">
@@ -55,13 +55,13 @@
               <h3 matLine>{{}}</h3>
               <mat-divider></mat-divider>
             </mat-list-item> -->
-            <button mat-raised-button color="primary" class="crm-button" i18n="@@addDepartmentComponentActionsAddSubDepartments"><mat-icon>add_circle_outline</mat-icon><span>Add sub departments</span></button>
+            <button mat-raised-button color="primary" class="crm-button"><mat-icon>add_circle_outline</mat-icon><span i18n="@@addDepartmentComponentActionsAddSubDepartments">Add sub departments</span></button>
           </mat-list>
         </div>
       </div>
     </div>
   </div>
   <div buttons>
-    <button mat-raised-button color="primary" class="crm-button" (click)="onClickSubmit()" i18n="@@addDepartmentComponentActionSubmit"><mat-icon>assignment_turned_in</mat-icon><span>Submit</span></button>
+    <button mat-raised-button color="primary" class="crm-button" (click)="onClickSubmit()"><mat-icon>assignment_turned_in</mat-icon><span i18n="@@addDepartmentComponentActionSubmit">Submit</span></button>
   </div>
 </section>

@@ -1,4 +1,4 @@
-<section class="app-content-box" [title]="'ATTACHMENTSCOMPONENT.Header'">
+<section class="app-content-box" [title]="'Attachments'">
   <section content *ngIf="attachments && attachments.length>0" >
     <table class="table table-sm table-responsive-sm table-hover table-attachments">
       <!-- <thead>
@@ -23,8 +23,8 @@
   </section>
 
   <section content *ngIf="!attachments && attachments.length<=0 && !editForm" class="no-content">
-    <p class="lead text-info text-center">
-      {{'ATTACHMENTSCOMPONENT.NoContentInfo' | translate}}
+    <p class="lead text-info text-center" i18n="@@attachmentsComponentNoContentInfo">
+      {{ 'No content info' }}
     </p>
   </section>
 

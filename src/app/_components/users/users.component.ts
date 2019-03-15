@@ -7,7 +7,7 @@ import {
   MatCheckboxChange
  } from '@angular/material';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AuthenticationService, UserService, PrivilegeService, StateService, TranslationsService } from '@/_services';
+import { AuthenticationService, UserService, PrivilegeService, StateService } from '@/_services';
 import { User, State } from '@/_models';
 import swal from 'sweetalert2';
 import { error } from 'util';
@@ -25,7 +25,6 @@ export class UsersComponent implements OnInit {
   notSelectedUsers: User[];
   states: State[];
   sortedData: User[];
-  translations: Object;
   editUserPrivilege: boolean;
   addUserPrivilege: boolean;
   selectedTab: string;
@@ -37,7 +36,6 @@ export class UsersComponent implements OnInit {
     private userService: UserService,
     private stateService: StateService,
     private privilegeService: PrivilegeService,
-    private translationsService: TranslationsService
   ) {
     this.baseUrl = environment.baseUrl;
   }
@@ -62,17 +60,6 @@ export class UsersComponent implements OnInit {
           }
         }
       });
-    });
-
-    this.translationsService.getTranslations([
-      'GLOBAL.States.initialized',
-      'GLOBAL.States.active',
-      'GLOBAL.States.disabled',
-      'GLOBAL.States.archive',
-      'GLOBAL.PopUps.serverError',
-      'USERSCOMPONENT.PopUps.stateUpdatedTo'
-    ]).subscribe((translations: string[]) => {
-        this.translations = translations;
     });
   }
 
@@ -125,7 +112,7 @@ export class UsersComponent implements OnInit {
       userData => {
         user.State = userData.State;
         swal({
-          text: this.translations['USERSCOMPONENT.PopUps.stateUpdatedTo'] + this.translationsService.globalTranslations['GLOBAL.States.' + user.State.keyString],
+          text: `User state was changed to: ${state.keyString}`,
           type: 'success',
           timer: 6000,
           toast: true,
@@ -135,7 +122,7 @@ export class UsersComponent implements OnInit {
       },
       error => {
         swal({
-          text: this.translationsService.globalTranslations['GLOBAL.PopUps.serverError'],
+          text: 'Ooops, something went wrong!',
           type: 'error',
           timer: 1500
         });
@@ -178,7 +165,7 @@ export class UsersComponent implements OnInit {
         }
         this.resetSelected();
         swal({
-          text: this.translations['USERSCOMPONENT.PopUps.stateUpdatedTo'] + this.translationsService.globalTranslations['GLOBAL.States.' + state.keyString],
+          text: `User state was changed to: ${state.keyString}`,
           type: 'success',
           timer: 6000,
           toast: true,
@@ -188,7 +175,7 @@ export class UsersComponent implements OnInit {
       },
       error => {
         swal({
-          text: this.translationsService.globalTranslations['GLOBAL.PopUps.serverError'],
+          text: 'Ooops, something went wrong!',
           type: 'error',
           timer: 1500
         });

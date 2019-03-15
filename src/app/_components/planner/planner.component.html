@@ -3,27 +3,27 @@
 
 </section>
 -->
-<section class="app-content-box" [title]="'PLANNERCOMPONENT.List.header'" [showDataLoader]="true">
+<section class="app-content-box" [title]="'Plan list'" [showDataLoader]="true">
 
   <div buttons>
-    <button mat-raised-button color="primary" routerLink="/planner/add">{{ 'PLANNERCOMPONENT.Actions.create' | translate}}</button>
+    <button mat-raised-button color="primary" class="crm-button" routerLink="/planner/add" i18n="@@plannerСomponentActionCreateNewPlan"><mat-icon>add_circle</mat-icon><span>Create a new plan</span></button>
   </div>
 
   <table id="planlist" content class="table table-sm table-responsive-sm table-hover">
     <thead>
-      <th>{{ 'PLANNERCOMPONENT.List.title' | translate}}</th>
-      <th>{{ 'PLANNERCOMPONENT.List.creator' | translate}}</th>
-      <th>{{ 'PLANNERCOMPONENT.List.stage' | translate}}</th>
-      <th>{{ 'PLANNERCOMPONENT.List.participants' | translate}}</th>
-      <th>{{ 'GLOBAL.List.createdAt' | translate}}</th>
-      <th>{{ 'GLOBAL.List.updatedAt' | translate}}</th>
-      <th>{{ 'PLANNERCOMPONENT.List.deadline' | translate}}</th>
+      <th i18n="@@plannerСomponentListTitle">Title</th>
+      <th i18n="@@plannerСomponentListCreator">Creator</th>
+      <th i18n="@@plannerСomponentListStage">Stage</th>
+      <th i18n="@@plannerСomponentListParticipants">Participants</th>
+      <th i18n="@@plannerСomponentListCreatedAt">Date created</th>
+      <th i18n="@@plannerСomponentListUpdatedAt">Date created</th>
+      <th i18n="@@plannerСomponentListDeadline">Deadline</th>
     </thead>
     <tbody>
       <tr *ngFor="let plan of plans$ | async;" routerLink="/planner/details/{{plan.id}}" [ngClass]="{'table-info': plan.activeStageId=='1', 'table-success': plan.activeStageId=='2', 'table-warning': plan.activeStageId=='3' }">
         <td>{{plan.title}}</td>
         <td>{{plan.Creator.name + ' ' + plan.Creator.surname}}</td>
-        <td>{{ 'GLOBAL.Stages.' + plan.activeStage.keyString | translate}}</td>
+        <td>{{plan.activeStage.keyString}}</td>
         <td>{{plan.Participants.length}}</td>
         <td>{{plan.createdAt | date: 'short'}}</td>
         <td>{{plan.updatedAt | date: 'short'}}</td>

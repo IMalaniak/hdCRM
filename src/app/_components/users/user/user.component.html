@@ -29,7 +29,7 @@
             </li>
           </ul>
         </div>
-        <button mat-raised-button color="primary" class="crm-button mt-2" (click)="addRolesDialog()" *ngIf="editForm" i18n="@@userСomponentActionsAddRoles"><mat-icon>add_circle_outline</mat-icon><span>Add Role</span></button>
+        <button mat-raised-button color="primary" class="crm-button mt-2" (click)="addRolesDialog()" *ngIf="editForm"><mat-icon>add_circle_outline</mat-icon><span i18n="@@userСomponentActionsAddRoles">Add Role</span></button>
         <div>
           <h6 i18n="@@userСomponentAsideDetailsState">{{ "State" | uppercase }}</h6>
           <span>{{ user.State.keyString }}</span>
@@ -178,9 +178,9 @@
               </div>
             </div>
             <div buttons>
-              <button mat-raised-button color="primary" class="crm-button" *ngIf="!editForm" (click)="onClickEdit()" i18n="@@userСomponentActionsEditUser"><mat-icon>edit</mat-icon><span>Edit</span></button>
-              <button mat-raised-button color="primary" class="crm-button" *ngIf="editForm" (click)="onUpdateUserSubmit()" i18n="@@userСomponentActionsSave"><mat-icon>save</mat-icon><span>Save changes</span></button>
-              <button mat-raised-button class="crm-button" *ngIf="editForm" (click)="onClickCancelEdit()" i18n="@@userСomponentActionsCancel"><mat-icon>cancel</mat-icon><span>Cancel</span></button>
+              <button mat-raised-button color="primary" class="crm-button" *ngIf="!editForm" (click)="onClickEdit()"><mat-icon>edit</mat-icon><span i18n="@@globalActionsEdit">Edit</span></button>
+              <button mat-raised-button color="primary" class="crm-button" *ngIf="editForm" (click)="onUpdateUserSubmit()"><mat-icon>save</mat-icon><span i18n="@@globalActionSaveChanges">Save changes</span></button>
+              <button mat-raised-button class="crm-button" *ngIf="editForm" (click)="onClickCancelEdit()"><mat-icon>cancel</mat-icon><span i18n="@@globalActionsCancelEdit">Cancel</span></button>
             </div>
           </section>
         </mat-tab>

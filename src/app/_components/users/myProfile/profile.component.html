@@ -6,24 +6,21 @@
       <div class="col-sm-12 col-md-4 col-lg-3"></div>
       <div class="col-sm-12 col-md-8 col-lg-9"><h2>{{ user.name}} {{ user.surname }}</h2></div>
     </div>
-    
   </div>
   <div class="row">
     <aside class="col-sm-12 col-md-4 col-lg-3">
       <div class="img-avatar d-flex justify-content-center align-items-center">
-          <img *ngIf="user.avatar" src="{{baseUrl + user.avatar.location + user.avatar.title}}" alt="{{user.avatar.title}}">
-          <img *ngIf="!user.avatar" src="./assets/images/userpic/noimage.png" alt="noimage">
+        <img *ngIf="user.avatar" src="{{baseUrl + user.avatar.location + user.avatar.title}}" alt="{{user.avatar.title}}">
+        <img *ngIf="!user.avatar" src="./assets/images/userpic/noimage.png" alt="noimage">
       </div>
       <h3 class="w-75 mx-auto">{{ user.name}} {{ user.surname }}</h3>
       <div class="w-75 mx-auto mt-3 details">
         <h5 i18n="@@profileСomponentAsideDetailsHeader">{{ "Details" | uppercase }}</h5>       
         <mat-divider></mat-divider>
-
         <div class="department" *ngIf="user.Department">
           <h6 i18n="@@profileСomponentAsideDetailsDep">{{ "Department" | uppercase }}</h6>
           <a routerLink="/departments/details/{{ user.Department.id }}"><span>{{ user.Department.title }}</span></a>
         </div>
-        
         <div class="roles">
           <h6 i18n="@@profileСomponentAsideDetailsRoles">{{ "Roles" | uppercase }}</h6>
           <ul>
@@ -32,10 +29,8 @@
             </li>
           </ul>
         </div>
-
         <h5 i18n="@@profileСomponentAsideContactsHeader">{{ "Contact" | uppercase }}</h5>
         <mat-divider></mat-divider>
-
         <div class="contacts">  
           <a class="d-flex align-items-center" href="mailto:{{ user.email }}">
             <mat-icon color="primary">email</mat-icon><span>{{ user.email }}</span>
@@ -171,9 +166,9 @@
               </div>
             </div>
             <div buttons>
-              <button mat-raised-button color="primary" class="crm-button" *ngIf="!editForm" (click)="onClickEdit()" i18n="@@profileСomponentActionsEditProfile"><mat-icon>edit</mat-icon><span>Edit</span></button>
-              <button mat-raised-button color="primary" class="crm-button" *ngIf="editForm" (click)="onUpdateUserSubmit()" i18n="@@profileСomponentActionsSave"><mat-icon>save</mat-icon><span>Save changes</span></button>
-              <button mat-raised-button class="crm-button" *ngIf="editForm" (click)="onClickCancelEdit()" i18n="@@profileСomponentActionsCancel"><mat-icon>cancel</mat-icon><span>Cancel</span></button>
+              <button mat-raised-button color="primary" class="crm-button" *ngIf="!editForm" (click)="onClickEdit()"><mat-icon>edit</mat-icon><span i18n="@@globalActionsEdit">Edit</span></button>
+              <button mat-raised-button color="primary" class="crm-button" *ngIf="editForm" (click)="onUpdateUserSubmit()"><mat-icon>save</mat-icon><span i18n="@@globalActionsSaveChanges">Save changes</span></button>
+              <button mat-raised-button class="crm-button" *ngIf="editForm" (click)="onClickCancelEdit()"><mat-icon>cancel</mat-icon><span i18n="@@globalActionsCancelEdit">Cancel</span></button>
             </div>
           </section>
         </mat-tab>

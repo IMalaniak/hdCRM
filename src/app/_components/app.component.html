@@ -23,10 +23,10 @@
 		<!-- <span *ngIf="authService.currentUserValue">{{authService.currentUserValue.name + ' ' + authService.currentUserValue.surname}}</span> -->
 	</div>
 	<div class="user-login">
-		<button mat-icon-button *ngIf="isValidToken" (click)="onLogoutClick()" title="{{ 'MAIN.UserDropdown.logout' | translate }}">
+		<button mat-icon-button *ngIf="isValidToken" (click)="onLogoutClick()" title="Log out!" i18n="@@appComponentUserDropdownActionsLogOut">
 			<mat-icon>arrow_back</mat-icon>
 		</button>
-		<button mat-icon-button *ngIf="!isValidToken" [routerLink]="['/login']" title="{{ 'MAIN.UserDropdown.login' | translate }}">
+		<button mat-icon-button *ngIf="!isValidToken" [routerLink]="['/login']" title="Log in!" i18n="@@appComponentUserDropdownActionsLogIn">
 			<mat-icon>arrow_forward</mat-icon>
 		</button>
 	</div>
@@ -42,12 +42,12 @@
 
 		<footer>
 			<div>
-				<div class="user-lang">
+				<!-- <div class="user-lang">
 					<label for="langSelect">{{'MAIN.Footer.choseLang' | translate}}</label>
 					<select #langSelect name="langSelect" (change)="translationsService.translate.use(langSelect.value)">
 						<option *ngFor="let lang of translationsService.translate.getLangs()" [value]="lang" [selected]="lang === translationsService.translate.currentLang">{{ 'GLOBAL.Languages.labels.' + lang | translate }}</option>
 					</select>
-				</div>
+				</div> -->
 			</div>
 			<div class="author-links">
 				<span [innerHTML]="'MAIN.Footer.signature' | translate"></span>
