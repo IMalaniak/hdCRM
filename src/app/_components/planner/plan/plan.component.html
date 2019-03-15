@@ -1,33 +1,33 @@
 <section class="row">
-    <section class="app-content-box col-md-8" [title]="'Stages'" *ngIf="plan && plan.Stages" [showDataLoader]="true" i18n="@@planComponentHeaderStages">
-        <div content class="row">
-          <div class="col-md-12">
-            <div cdkDropList cdkDropListOrientation="horizontal" class="list-group stages-wrapper" (cdkDropListDropped)="dragDropStages($event)" [cdkDropListDisabled]="!configPlanStages">
-              <div *ngFor="let stage of plan.Stages" class="stages-item" [ngClass]="{'active': stage.id === plan.activeStageId, 'passed': stage.Details.completed}" matTooltip="{{stage.Details.description}}" cdkDrag>
-                <span>{{ 'GLOBAL.Stages.' + stage.keyString  | translate}}</span>
-              </div>
-              <div *ngIf="configPlanStages" class="stages-item addStage" (click)="addStageDialog()" i18n="@@globalStagesAddStage">Add stage</div>
-            </div>
+  <section class="app-content-box col-md-8" [title]="'Stages'" *ngIf="plan && plan.Stages" [showDataLoader]="true" i18n="@@planComponentHeaderStages">
+    <div content class="row">
+      <div class="col-md-12">
+        <div cdkDropList cdkDropListOrientation="horizontal" class="list-group stages-wrapper" (cdkDropListDropped)="dragDropStages($event)" [cdkDropListDisabled]="!configPlanStages">
+          <div *ngFor="let stage of plan.Stages" class="stages-item" [ngClass]="{'active': stage.id === plan.activeStageId, 'passed': stage.Details.completed}" matTooltip="{{stage.Details.description}}" cdkDrag>
+            <span>{{ 'GLOBAL.Stages.' + stage.keyString  | translate}}</span>
           </div>
+          <div *ngIf="configPlanStages" class="stages-item addStage" (click)="addStageDialog()" i18n="@@globalStagesAddStage">Add stage</div>
         </div>
-        <div buttons *ngIf="canEditPlan">
-          <button *ngIf="!configPlanStages" mat-raised-button class="crm-button" color="primary" (click)="onClickConfigureStages()" i18n="@@planComponentActionsConfigureStages"><mat-icon>settings</mat-icon><span>Configure stages</span></button>
-          <button *ngIf="configPlanStages" class="crm-button" mat-raised-button color="primary" [swal]="onUpdatePlanStagesSubmit" i18n="@@globalActionsSaveChanges"><mat-icon>save</mat-icon><span>Save</span></button>
-          <button *ngIf="configPlanStages" class="crm-button" mat-raised-button (click)="onClickCancelEditStages()" i18n="@@globalActionsCancelEdit"><mat-icon>cancel</mat-icon><span>Cancel</span></button>
-        </div>
-    </section>    
-    <section class="app-content-box col-md-4" [title]="'Actions'" *ngIf="plan" [showDataLoader]="true" i18n="@@planComponentHeaderActions">
-        <div content class="d-flex" *ngIf="canEditPlan">
-          <button mat-stroked-button color="primary" class="crm-button" [swal]="goToNextStageSwal">
-            <ng-container *ngIf="plan.activeStage.keyString === 'finished'" i18n="@@planComponentActionsFinishPlan">
-              <mat-icon>done</mat-icon><span>Finish plan</span>
-            </ng-container>
-            <ng-container *ngIf="plan.activeStage.keyString !== 'finished'" i18n="@@planComponentActionsGoToNextStage">
-              <mat-icon>arrow_forward</mat-icon><span>Go to next stage</span> 
-            </ng-container>
-          </button>
-        </div>
-    </section>
+      </div>
+    </div>
+    <div buttons *ngIf="canEditPlan">
+      <button *ngIf="!configPlanStages" mat-raised-button class="crm-button" color="primary" (click)="onClickConfigureStages()" i18n="@@planComponentActionsConfigureStages"><mat-icon>settings</mat-icon><span>Configure stages</span></button>
+      <button *ngIf="configPlanStages" class="crm-button" mat-raised-button color="primary" [swal]="onUpdatePlanStagesSubmit" i18n="@@globalActionsSaveChanges"><mat-icon>save</mat-icon><span>Save</span></button>
+      <button *ngIf="configPlanStages" class="crm-button" mat-raised-button (click)="onClickCancelEditStages()" i18n="@@globalActionsCancelEdit"><mat-icon>cancel</mat-icon><span>Cancel</span></button>
+    </div>
+  </section>    
+  <section class="app-content-box col-md-4" [title]="'Actions'" *ngIf="plan" [showDataLoader]="true" i18n="@@planComponentHeaderActions">
+    <div content class="d-flex" *ngIf="canEditPlan">
+      <button mat-stroked-button color="primary" class="crm-button" [swal]="goToNextStageSwal">
+        <ng-container *ngIf="plan.activeStage.keyString === 'finished'" i18n="@@planComponentActionsFinishPlan">
+          <mat-icon>done</mat-icon><span>Finish plan</span>
+        </ng-container>
+        <ng-container *ngIf="plan.activeStage.keyString !== 'finished'" i18n="@@planComponentActionsGoToNextStage">
+          <mat-icon>arrow_forward</mat-icon><span>Go to next stage</span> 
+        </ng-container>
+      </button>
+    </div>
+  </section>
 </section>
 <section class="app-content-box plan-details" [title]="'Details'" *ngIf="plan" [showDataLoader]="true" i18n="@@planComponentHeaderDetails">
   <div content class="row">

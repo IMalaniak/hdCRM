@@ -292,7 +292,6 @@ export class PlanComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('plan component ngOnDestory');
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
