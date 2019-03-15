@@ -1,22 +1,26 @@
 import { environment } from 'environments/environment';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { TranslationsService } from '@/_services/translations.service';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { StageService, DepartmentService } from '@/_services';
-import { User, Stage, Department } from '@/_models';
+import { User, Stage, Department, SingleChartData } from '@/_models';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   translations: Object;
   appUser: User;
   editForm: boolean;
   baseUrl: string;
-  stages: Stage[];
-  departments: Department[];
+  departmentsChart: SingleChartData[] = [];
+  planStagesChart: SingleChartData[] = [];
+
+  private unsubscribe: Subject<void> = new Subject();
 
   constructor(
     private translationsService: TranslationsService,
@@ -34,16 +38,21 @@ export class DashboardComponent implements OnInit {
         this.translations = translations;
     }); 
 
-    this.authenticationService.currentUser.subscribe(user => {
+    this.authenticationService.currentUser.pipe(takeUntil(this.unsubscribe)).subscribe(user => {
       this.appUser = user;
     });
 
-    this.stageService.countPlansByStage().subscribe(stage => {
-      this.stages = stage;
+    this.stageService.countPlansByStage().pipe(takeUntil(this.unsubscribe)).subscribe(stagesCount => {
+      this.planStagesChart = stagesCount.map(stage => (new SingleChartData(stage.keyString, stage.totalPlans)));
     });
 
-    this.departmentService.getDepartmentList().subscribe(department => {
-      this.departments = department;
+    this.departmentService.getDepartmentList().pipe(takeUntil(this.unsubscribe)).subscribe(departments => {
+      this.departmentsChart = departments.map(dep => (new SingleChartData(dep.title, dep.Workers.length)));
     });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }

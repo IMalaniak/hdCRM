@@ -54,3 +54,18 @@
 }
 
 
+.plan-stages-card, .departments-card {
+    .card-body {
+        height: 100%;
+    }
+    
+    .chart-wrapper {
+        height: 20em;
+        display: flex;
+        overflow: hidden; 
+        
+        > div {
+            height: 100% !important;
+        }
+    }
+}

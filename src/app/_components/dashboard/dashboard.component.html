@@ -1,8 +1,8 @@
 
-<section class="row dashboard-cards mt-3">
+<section class="row dashboard-cards my-3">
     <div class="col-sm-6 col-md-4 col-xl-3">
-        <mat-card class="user-card">
-            <mat-card-content>
+        <div class="card shadow user-card">
+            <div class="card-body">
                 <img *ngIf="appUser.avatar" src="{{baseUrl + appUser.avatar.location + appUser.avatar.title}}" alt="{{appUser.avatar.title}}">
                 <img *ngIf="!appUser.avatar" src="./assets/images/userpic/noimage.png" alt="noimage">
                 <ul>
@@ -18,15 +18,51 @@
                     </li>
                     <li *ngIf="appUser.lastSessionData" class="lastSessionData">
                         <div *ngIf="appUser.lastSessionData.dateLastLoggedIn">
-                            <small i18n="@@dashboardCardsDateLastLoggedIn">Last session:</small><small>{{ appUser.lastSessionData.dateLastLoggedIn | date: 'medium' }}</small>
+                            <small i18n="@@dashboardCardsUserDateLastLoggedIn">Last session:</small><small>{{ appUser.lastSessionData.dateLastLoggedIn | date: 'medium' }}</small>
                         </div>
                         <div *ngIf="appUser.lastSessionData.dateUnsuccessfulLogIn">
-                            <small i18n="@@dashboardCardsDateUnsuccessfulLogIn">Unsuccessful login:</small><small>{{ appUser.lastSessionData.dateUnsuccessfulLogIn | date: 'medium' }}</small>
+                            <small i18n="@@dashboardCardsUserDateUnsuccessfulLogIn">Unsuccessful login:</small><small>{{ appUser.lastSessionData.dateUnsuccessfulLogIn | date: 'medium' }}</small>
                         </div>                   
                     </li>
                 </ul>    
-            </mat-card-content>
-        </mat-card>
+            </div>
+        </div>
     </div>
 </section>
-    
+<section class="row dashboard-cards my-3">
+    <div class="col-sm-12 col-md-6 col-xl-6" *ngIf="planStagesChart">
+        <div class="card shadow plan-stages-card">
+            <div class="card-body">        
+                <h5 class="card-title" i18n="@@dashboardCardsPlansByStageTitle">Plans by stage</h5>
+                <div class="chart-wrapper">
+                    <ngx-charts-advanced-pie-chart
+                        [results]="planStagesChart"
+                        [scheme]="'aqua'"
+                        [gradient]="true">
+                    </ngx-charts-advanced-pie-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-xl-6" *ngIf="departmentsChart">
+        <div class="card shadow departments-card">
+            <div class="card-body">      
+                <h5 class="card-title" i18n="@@dashboardCardsDepartmentsTitle">Departments</h5>
+                <div class="chart-wrapper">
+                    <ngx-charts-bar-vertical
+                        [results]="departmentsChart"
+                        [scheme]="'aqua'"
+                        [gradient]="true"
+                        [xAxis]="true"
+                        [yAxis]="true"
+                        [legend]="false"
+                        [showXAxisLabel]="true"
+                        [showYAxisLabel]="true"
+                        [xAxisLabel]="'Departments'"
+                        [yAxisLabel]="'Number of workers'">
+                    </ngx-charts-bar-vertical>
+                </div>
+            </div>
+        </div>     
+    </div> 
+</section>
