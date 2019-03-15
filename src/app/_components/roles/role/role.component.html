@@ -3,23 +3,23 @@
     <div class="col-sm-8">
       <div class="form-row">
         <div class="form-group col-md-12">
-          <label for="keyString">{{ 'ROLECOMPONENT.Form.labels.name' | translate}}: </label>
+          <label for="keyString" i18n="@@roleComponentFormLabelsTitle">Title: </label>
           <input type="text" [(ngModel)]="role.keyString" name="keyString" [ngClass]="{'form-control': editForm, 'form-control-plaintext': !editForm}" [readonly]="!editForm" placeholder="">
         </div>
       </div>
       <div class="form-row">
         <div class="col-md-4 user-roles">
-          <label class="label">{{ 'ROLECOMPONENT.Role.privileges' | translate}}:</label>
+          <label class="label" i18n="@@roleComponentFormLabelsPrivileges">Privileges:</label>
           <ul *ngIf="!editForm" class="list-group">
             <ng-container *ngFor="let privilege of privileges">
-              <li class="list-group-item"  *ngIf="privilege.selected">{{ 'GLOBAL.Privileges.' + privilege.keyString | translate}}</li>
+              <li class="list-group-item"  *ngIf="privilege.selected">{{privilege.keyString}}</li>
             </ng-container>
           </ul>
 
           <ul *ngIf="editForm" class="list-group">
             <ng-container *ngFor="let privilege of privileges">
               <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{ 'GLOBAL.Privileges.' + privilege.keyString | translate}}
+                {{ privilege.keyString }}
                 <mat-checkbox [(ngModel)]="privilege.selected" value="{{privilege.id}}"></mat-checkbox>
               </li>
             </ng-container>
@@ -29,7 +29,7 @@
     </div>
 
     <div class="col-sm-4">
-      <label>{{ 'ROLECOMPONENT.Role.users' | translate}}:</label>
+      <label i18n="@@roleComponentFormLabelsUsers">Users:</label>
       <ul class="list-group">
         <ng-container *ngFor="let user of role.Users">
           <li routerLink="/user/{{user.id}}" class="list-group-item">
@@ -38,15 +38,15 @@
             <span>{{user.name + ' ' + user.surname}}</span>
           </li>
         </ng-container>
-        <button mat-raised-button color="primary" *ngIf="editForm" class="list-group-item list-group-item-action active" (click)="addParticipantDialog()">{{ 'ROLECOMPONENT.Actions.addUser' | translate}}</button>
+        <button mat-raised-button color="primary" *ngIf="editForm" class="list-group-item list-group-item-action active" (click)="addParticipantDialog()" i18n="@@roleComponentFormActionsAddUsers">Add User</button>
       </ul>
     </div>
   </section>
 
   <div buttons *ngIf="editRolePrivilege">
-    <button *ngIf="!editForm" mat-raised-button color="primary" (click)="onClickEdit()">{{ 'ROLECOMPONENT.Actions.edit' | translate}}</button>
-    <button *ngIf="editForm" mat-raised-button color="primary" (click)="onUpdateRoleSubmit()">{{ 'GLOBAL.Actions.saveChanges' | translate}}</button>
-    <button *ngIf="editForm" mat-raised-button (click)="onClickCancelEdit()">{{ 'GLOBAL.Actions.cancelEdit' | translate}}</button>
+    <button *ngIf="!editForm" mat-raised-button color="primary" (click)="onClickEdit()"><mat-icon>edit</mat-icon><span i18n="@@roleComponentFormActionsEdit">Edit</span></button>
+    <button *ngIf="editForm" mat-raised-button color="primary" (click)="onUpdateRoleSubmit()"><mat-icon>save</mat-icon><span i18n="@@roleComponentFormActionsSaveChanges">Save Changes</span></button>
+    <button *ngIf="editForm" mat-raised-button (click)="onClickCancelEdit()"><mat-icon>cancel</mat-icon><span i18n="@@roleComponentFormActionsCancelEdit">Cancel</span></button>
   </div>
 
 </section>

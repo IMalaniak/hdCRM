@@ -31,8 +31,6 @@
     "@angular/platform-browser-dynamic": "^7.2.4",
     "@angular/router": "^7.2.4",
     "@auth0/angular-jwt": "^2.1.0",
-    "@ngx-translate/core": "^11.0.1",
-    "@ngx-translate/http-loader": "^4.0.0",
     "@swimlane/ngx-charts": "^10.1.0",
     "@toverux/ngx-sweetalert2": "^4.0.0",
     "async": "^2.6.2",

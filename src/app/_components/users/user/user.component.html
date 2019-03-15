@@ -108,7 +108,7 @@
                     </section>
                   </mat-list-item>
                   <mat-divider></mat-divider>
-                  <mat-list-item>
+                  <!-- <mat-list-item>
                     <section>
                       <div>
                         <span i18n="@@userСomponentTabDetailsLang">Language:</span> 
@@ -117,7 +117,7 @@
                         <span>{{ user.defaultLang }}</span>
                       </div>
                     </section>  
-                  </mat-list-item>
+                  </mat-list-item> -->
                   <mat-divider></mat-divider>
                   <mat-list-item>
                     <section>
@@ -160,16 +160,16 @@
                     <mat-label i18n="@@userСomponentTabDetailsPhone">Phone</mat-label>
                     <input matInput [(ngModel)]="user.phone" name="phone" type="text" [readonly]="!editForm">
                   </mat-form-field>
-                  <mat-form-field appearance="outline" matTooltip="{{ 'USERCOMPONENT.User.defaultLangWarning' | translate}}" [matTooltipDisabled]=!editForm>
+                  <!-- <mat-form-field appearance="outline" matTooltip="Language will change after next login" [matTooltipDisabled]=!editForm>
                     <mat-label i18n="@@userСomponentTabDetailsLang">Language</mat-label>
-                    <input matInput *ngIf="!editForm" value="{{ 'GLOBAL.Languages.labels.' + user.defaultLang | translate}}"  type="text" name="defaultLang">
+                    <input matInput *ngIf="!editForm" value="{{ user.defaultLang }}"  type="text" name="defaultLang">
                     <mat-select [(ngModel)]="user.defaultLang" name="defaultLang">
                       <mat-option *ngFor="let lang of langs" [value]="lang">{{ lang }}</mat-option>
                     </mat-select>
-                  </mat-form-field>
+                  </mat-form-field> -->
                   <mat-form-field appearance="outline">
                     <mat-label i18n="@@userСomponentTabDetailsState">State</mat-label>
-                    <input matInput *ngIf="!editForm" value="{{ 'GLOBAL.States.' + user.State.keyString | translate}}"  type="text" name="userState">
+                    <input matInput *ngIf="!editForm" value="{{ user.State.keyString }}"  type="text" name="userState">
                     <mat-select [(ngModel)]="user.StateId" name="userState">
                       <mat-option *ngFor="let state of states" [value]="state.id">{{ state.keyString }}</mat-option>
                     </mat-select>

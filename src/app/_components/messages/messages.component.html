@@ -4,5 +4,5 @@
   <ul>
     <li class="text-info" *ngFor='let message of messageService.messages; let i = index'>{{i+1}}. {{message}} </li>
   </ul>
-  <button class="btn btn-danger" (click)="messageService.clear()" i18n="@@messagesСomponentActionsClear">clear</button>
+  <button mat-raised-button color="primary" class="crm-button" (click)="messageService.clear()"><span i18n="@@messagesСomponentActionsClear">Clear</span></button>
 </ng-container>

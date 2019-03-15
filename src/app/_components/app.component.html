@@ -12,8 +12,6 @@
 		<mat-icon>search</mat-icon>
 	</div>
 
-	<!-- <span [ngClass]="{'nonactive': translationsService.translate.currentLang !== lang}" *ngFor="let lang of translationsService.translate.getLangs()"><img src="./assets/images/langs/{{ lang }}.svg" alt="{{ lang }}" (click)="translationsService.translate.use(lang)"></span> -->
-
 	<div class="user-question">
 		<mat-icon>question_answer</mat-icon>
 	</div>
@@ -41,16 +39,8 @@
 		</section>
 
 		<footer>
-			<div>
-				<!-- <div class="user-lang">
-					<label for="langSelect">{{'MAIN.Footer.choseLang' | translate}}</label>
-					<select #langSelect name="langSelect" (change)="translationsService.translate.use(langSelect.value)">
-						<option *ngFor="let lang of translationsService.translate.getLangs()" [value]="lang" [selected]="lang === translationsService.translate.currentLang">{{ 'GLOBAL.Languages.labels.' + lang | translate }}</option>
-					</select>
-				</div> -->
-			</div>
 			<div class="author-links">
-				<span [innerHTML]="'MAIN.Footer.signature' | translate"></span>
+				<span>Project by:&nbsp; <a href='http://mywebmaster.pp.ua' data-toggle='tooltip' title='MyWebMaster Web Studio - web sites projects'>myWebMaster</a></span>
 				<!-- <div class="social-media">
 
 				</div> -->

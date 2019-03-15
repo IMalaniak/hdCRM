@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { UsersComponentDialogComponent } from '../../users/users.component';
 import { Role, User, Privilege } from '@/_models';
-import { RoleService, PrivilegeService, TranslationsService, LoaderService } from '@/_services';
+import { RoleService, PrivilegeService, LoaderService } from '@/_services';
 import swal from 'sweetalert2';
 import { error } from 'util';
 
@@ -15,26 +15,16 @@ import { error } from 'util';
 export class RegisterRoleComponent implements OnInit {
   role = new Role();
   privileges: Privilege[];
-  translations: Object;
 
   constructor(
     private router: Router,
     private roleService: RoleService,
     private privilegeService: PrivilegeService,
-    private translationsService: TranslationsService,
     private loaderService: LoaderService,
     private dialog: MatDialog
   ) { }
 
   ngOnInit() {
-    this.translationsService.getTranslations([
-      'REGISTERROLECOMPONENT.Alerts.fieldsError',
-      'REGISTERROLECOMPONENT.Alerts.roleAdded',
-      'REGISTERROLECOMPONENT.PopUps.SelectUsersTitle'
-    ]).subscribe((translations: string[]) => {
-      this.translations = translations;
-    });
-
     this.privilegeService.getFullList().subscribe(privileges => {
       this.privileges = privileges;
     });
@@ -45,7 +35,7 @@ export class RegisterRoleComponent implements OnInit {
     const dialogRef = this.dialog.open(UsersComponentDialogComponent, {
       height: '80vh',
       data: {
-        title: this.translations['REGISTERROLECOMPONENT.PopUps.selectUsersTitle'],
+        title: 'Select Users',
       }
     });
 
@@ -98,7 +88,7 @@ export class RegisterRoleComponent implements OnInit {
     this.roleService.registerRole(this.role).subscribe(
       data => {
         swal({
-          title: this.translations['REGISTERROLECOMPONENT.Alerts.roleAdded'],
+          title: 'Role added!',
           type: 'success',
           timer: 1500
         });
@@ -106,7 +96,7 @@ export class RegisterRoleComponent implements OnInit {
       },
       error => {
         swal({
-          title: this.translationsService.globalTranslations['GLOBAL.PopUps.serverError'],
+          title: 'Server Error',
           type: 'error',
           timer: 1500
         });

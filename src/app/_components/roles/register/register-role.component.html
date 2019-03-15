@@ -3,17 +3,17 @@
     <div class="col-sm-8">
       <div class="form-row">
         <div class="form-group col-md-12">
-          <label for="keyString">{{ 'REGISTERROLECOMPONENT.Form.labels.name' | translate}}</label>
-          <input type="text" [(ngModel)]="role.keyString" name="keyString" placeholder="{{ 'REGISTERROLECOMPONENT.Form.placeholders.title' | translate}}" class="form-control">
+          <label for="keyString" i18n="@@registerRoleComponentFormLabelsTitle">Title</label>
+          <input type="text" [(ngModel)]="role.keyString" name="keyString" placeholder="Enter key name here" class="form-control">
         </div>
       </div>
       <div class="row">
         <div class="col-sm-4">
-          <label>{{ 'REGISTERROLECOMPONENT.Form.labels.privileges' | translate}}:</label>
+          <label i18n="@@registerRoleComponentFormLabelsTitle">Privileges:</label>
           <ul class="list-group">
             <ng-container *ngFor="let privilege of privileges">
               <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{ 'GLOBAL.Privileges.' + privilege.keyString | translate}}
+                {{ privilege.keyString }}
                 <mat-checkbox [(ngModel)]="privilege.selected" value="{{privilege.id}}"></mat-checkbox>
               </li>
             </ng-container>
@@ -23,7 +23,7 @@
     </div>
 
     <div class="col-sm-4">
-      <label>{{ 'REGISTERROLECOMPONENT.Users' | translate}}:</label>
+      <label i18n="@@registerRoleComponentFormLabelsTitle">Users:</label>
       <ul class="list-group">
         <ng-container *ngFor="let user of role.Users">
           <li routerLink="/user/{{user.id}}" class="list-group-item">
@@ -32,11 +32,11 @@
             <span>{{user.name + ' ' + user.surname}}</span>
           </li>
         </ng-container>
-        <button mat-raised-button color="primary" class="list-group-item list-group-item-action active" (click)="addParticipantDialog()">{{ 'REGISTERROLECOMPONENT.Actions.addUser' | translate}}</button>
+        <button mat-raised-button color="primary" class="list-group-item list-group-item-action active" (click)="addParticipantDialog()" i18n="@@registerRoleComponentFormActionsAddUser">Add User</button>
       </ul>
     </div>
   </section>
 
-  <button mat-raised-button color="primary" buttons (click)="onRegisterSubmit()">{{ 'REGISTERROLECOMPONENT.Actions.submit' | translate }}</button>
+  <button mat-raised-button color="primary" class="crm-button" buttons (click)="onRegisterSubmit()"><mat-icon>save</mat-icon><span i18n="@@registerRoleComponentFormActionsSubmit">Submit</span></button>
 
 </section>

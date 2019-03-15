@@ -1,13 +1,12 @@
 ﻿import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
-import { AuthenticationService, TranslationsService } from '@/_services';
+import { AuthenticationService } from '@/_services';
 import swal from 'sweetalert2';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
     constructor(
-        private translationsService: TranslationsService,
         private router: Router,
         private authenticationService: AuthenticationService
     ) { }
@@ -20,7 +19,7 @@ export class AuthGuard implements CanActivate {
             return true;
         }
         swal({
-            text: this.translationsService.globalTranslations['GLOBAL.PopUps.notAuthorized'],
+            title: 'You are not authorized to see this page!',
             type: 'error',
             timer: 1500
         });

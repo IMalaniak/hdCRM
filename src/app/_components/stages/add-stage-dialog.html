@@ -16,6 +16,6 @@
   </div>
 </div>
 <div mat-dialog-actions>
-  <button mat-stroked-button class="crm-button" (click)="onNoClick()" i18n="@@globalActionsCancelEdit"><mat-icon>cancel</mat-icon><span>Cancel</span></button>
-  <button mat-stroked-button class="crm-button" [mat-dialog-close]="data.keyString.value" [disabled]="data.keyString.invalid" i18n="@@addStageComponentDialogActionAddStage"><mat-icon>add</mat-icon><span>Add stage</span></button>
+  <button mat-stroked-button class="crm-button" (click)="onNoClick()"><mat-icon>cancel</mat-icon><span i18n="@@globalActionsCancelEdit">Cancel</span></button>
+  <button mat-stroked-button class="crm-button" [mat-dialog-close]="data.keyString.value" [disabled]="data.keyString.invalid"><mat-icon>add</mat-icon><span i18n="@@addStageComponentDialogActionAddStage">Add stage</span></button>
 </div>

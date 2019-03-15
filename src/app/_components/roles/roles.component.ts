@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { Role, Privilege } from '@/_models';
-import { RoleService, TranslationsService } from '@/_services';
+import { RoleService } from '@/_services';
 import { MatCheckboxChange } from '@angular/material';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -13,23 +13,13 @@ export class RolesComponent implements OnInit {
   roles: Role[];
   selectedRoles: Role[];
   notSelectedRoles: Role[];
-  translations: object;
 
   constructor(
-    private translationsService: TranslationsService,
     private roleService: RoleService
   ) {
   }
 
   ngOnInit() {
-    this.translationsService.getTranslations([
-      'ROLES.PopUps.roleUsers',
-      'ROLES.PopUps.addRole.title',
-      'ROLES.PopUps.addRole.placeholder'
-    ]).subscribe((translations: string[]) => {
-      this.translations = translations;
-    });
-
     this.getRolesData();
   }
 

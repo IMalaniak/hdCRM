@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UsersComponentDialogComponent } from '../../users/users.component';
 import swal from 'sweetalert2';
 import { Role, User, Privilege } from '@/_models';
-import { AuthenticationService, RoleService, PrivilegeService, TranslationsService, LoaderService } from '@/_services';
+import { AuthenticationService, RoleService, PrivilegeService, LoaderService } from '@/_services';
 import { error } from '@angular/compiler/src/util';
 
 @Component({
@@ -20,12 +20,10 @@ export class RoleComponent implements OnInit {
   privileges: Privilege[];
   privilegesInitial: Privilege[];
   editForm: boolean;
-  translations: object;
   editRolePrivilege: boolean;
   showDataLoader: boolean;
 
   constructor(
-    private translationsService: TranslationsService,
     private authService: AuthenticationService,
     private route: ActivatedRoute,
     private privilegeService: PrivilegeService,
@@ -39,15 +37,6 @@ export class RoleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.translationsService.getTranslations([
-      'ROLECOMPONENT.PopUps.udpateRoleTitle',
-      'ROLECOMPONENT.PopUps.udpateRoleText',
-      'ROLECOMPONENT.PopUps.udpateRoleSuccess',
-      'ROLECOMPONENT.PopUps.udpateRoleError',
-      'ROLECOMPONENT.PopUps.selectUsersTitle'
-    ]).subscribe((translations: string[]) => {
-      this.translations = translations;
-    });
     this.authService.currentUser.subscribe(user => {
       this.editRolePrivilege = this.privilegeService.isPrivileged(user, 'editRole');
     });
@@ -73,7 +62,7 @@ export class RoleComponent implements OnInit {
     const dialogRef = this.dialog.open(UsersComponentDialogComponent, {
       height: '80vh',
       data: {
-        title: this.translations['ROLECOMPONENT.PopUps.selectUsersTitle'],
+        title: 'Select Users',
       }
     });
 
@@ -106,12 +95,12 @@ export class RoleComponent implements OnInit {
 
   onUpdateRoleSubmit(): void {
     swal({
-      title: this.translations['ROLECOMPONENT.PopUps.udpateRoleTitle'],
-      text: this.translations['ROLECOMPONENT.PopUps.udpateRoleText'],
+      title: 'You are about to update role',
+      text: 'Are You sure You want to update role? Changes cannot be undone.',
       type: 'question',
       showCancelButton: true,
-      confirmButtonText: this.translationsService.globalTranslations['GLOBAL.PopUps.confirmButtonText'],
-      cancelButtonText: this.translationsService.globalTranslations['GLOBAL.PopUps.cancelButtonText']
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel'
     }).then((result) => {
       if (result.value) {
         this.updateRole();
@@ -139,7 +128,7 @@ export class RoleComponent implements OnInit {
         this.roleInitial = { ...this.role };
         this.editForm = false;
         swal({
-          text: this.translations['ROLECOMPONENT.PopUps.udpateRoleSuccess'],
+          text: 'Role updated!',
           type: 'success',
           timer: 6000,
           toast: true,
@@ -149,7 +138,7 @@ export class RoleComponent implements OnInit {
       },
       error => {
         swal({
-          text: this.translations['ROLECOMPONENT.PopUps.udpateRoleError'],
+          text: 'Server Error',
           type: 'error',
         });
       }

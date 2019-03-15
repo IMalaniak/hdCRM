@@ -3,14 +3,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppMaterialModule } from '@/_shared';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 
@@ -51,7 +48,6 @@ import { httpInterceptorsProviders } from '@/_helpers';
 
 // services
 import { AuthenticationService,
-  TranslationsService,
   RoleService,
   ValidateService,
   UserService,
@@ -63,11 +59,6 @@ import { AuthenticationService,
   DepartmentService,
   LoaderService
  } from '@/_services';
-
-// AoT requires an exported function for factories
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
 
 @NgModule({
   declarations: [
@@ -103,13 +94,6 @@ export function HttpLoaderFactory(http: HttpClient) {
   imports: [
     BrowserModule,
     AppRoutingModule,
-    TranslateModule.forRoot({
-        loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient]
-        }
-    }),
     NgxChartsModule,
     SweetAlert2Module.forRoot(),
     FormsModule,
@@ -123,7 +107,6 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [
     httpInterceptorsProviders,
     AuthenticationService,
-    TranslationsService,
     RoleService,
     ValidateService,
     UserService,

@@ -1,10 +1,10 @@
-<section class="app-content-box" [title]="'Register a new user'" i18n="@@registerUserComponentHeaderRegisterANewUser">
+<section class="app-content-box" [title]="'Register a new user'">
   <form content class="row" [formGroup]="userData">
     <mat-vertical-stepper class="col-12" linear #stepper formArrayName="formArray" mobileQuery.matches>
       <mat-step formGroupName="0" [stepControl]="formArray?.get([0])">
         <div class="row">
           <div class="col-lg-4 col-md-6 col-12">
-            <ng-template matStepLabel i18n="@@registerUserComponentStepperTitleGeneralInformation">General information</ng-template>
+            <ng-template matStepLabel i18n="@@registerUserComponentStepperLabelsGeneralInformation">General information</ng-template>
             <mat-form-field appearance="outline">
               <mat-label i18n="@@registerUserComponentStepperInputPlaceholderLogin">Login</mat-label>
               <input matInput formControlName="login" type="text" name="login" required> 
@@ -55,7 +55,7 @@
       <mat-step formGroupName="1" [stepControl]="formArray?.get([1])">
         <div class="row">
           <div class="col-lg-3 col-md-6 col-12">
-            <ng-template matStepLabel i18n="@@registerUserComponentStepperTitleContactInformation">Contact information</ng-template>
+            <ng-template matStepLabel i18n="@@registerUserComponentStepperLabelsContactInformation">Contact information</ng-template>
             <mat-form-field appearance="outline">
               <mat-label i18n="@@registerUserComponentStepperInputPlaceholderName">Name</mat-label>
               <input matInput formControlName="name" type="text" name="name" required>
@@ -109,7 +109,7 @@
         </div>         
       </mat-step>
       <mat-step>
-        <ng-template matStepLabel i18n="@@registerUserComponentStepperTitleRoleInformation">Role information</ng-template>
+        <ng-template matStepLabel i18n="@@registerUserComponentStepperLabelsRoleInformation">Role information</ng-template>
         <div class="row">
           <div class="col-lg-4 col-md-6 col-12">
             <mat-selection-list #list>
@@ -123,15 +123,11 @@
         <div class="d-flex justify-content-between">
           <button mat-stroked-button matStepperPrevious class="crm-button" type="button"><mat-icon>arrow_back</mat-icon><span i18n="@@registerUserComponentStepperActionsBack">Back</span></button>
           <button mat-stroked-button color="warn" class="crm-button" (click)="stepper.reset()" type="button"><mat-icon>remove_circle</mat-icon><span i18n="@@registerUserComponentStepperActionsResetAll">Reset all</span></button>
-          <!-- <button mat-stroked-button matStepperNext type="button">{{ 'REGISTERCOMPONENT.Actions.next' | translate}}</button> -->
         </div> 
       </mat-step>
       <!-- <mat-step>
-        <ng-template matStepLabel>{{ 'REGISTERCOMPONENT.StepLabels.done' | translate}}</ng-template>
-        <div>
-          <button mat-stroked-button matStepperPrevious type="button">{{ 'REGISTERCOMPONENT.Actions.back' | translate}}</button>
-          <button mat-stroked-button (click)="stepper.reset()" type="button">{{ 'REGISTERCOMPONENT.Actions.reset' | translate}}</button>
-        </div>
+        <ng-template matStepLabel i18n="@@registerUserComponentStepperLabelsDone">Done</ng-template>
+
       </mat-step> -->
     </mat-vertical-stepper>
   </form>

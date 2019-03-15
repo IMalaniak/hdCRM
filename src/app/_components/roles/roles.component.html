@@ -6,17 +6,17 @@
 <section class="app-content-box" [title]="'ROLESCOMPONENT.List.header'" [showDataLoader]="true">
 
   <div buttons class="btn-group-horizontal">
-    <button mat-raised-button color="primary" routerLink="/roles/add">{{ 'ROLESCOMPONENT.Actions.create' | translate}}</button>
+    <button mat-raised-button color="primary" class="crm-button" routerLink="/roles/add"><mat-icon>add</mat-icon><span i18n="@@rolesComponentDialogActionsCreate">Create</span></button>
   </div>
 
   <table *ngIf="roles && roles.length>0" id="rolelist" content class="table table-sm table-responsive-sm table-hover crm-table">
     <thead>
       <th><mat-checkbox (click)="$event.stopPropagation()" (change)="selectAll($event)" [indeterminate]="selectedRoles.length > 0 && selectedRoles.length < roles.length" [checked]="!notSelectedRoles.length"></mat-checkbox></th>
-      <th>{{ 'ROLESCOMPONENT.List.title' | translate}}</th>
-      <th>{{ 'ROLESCOMPONENT.List.usersCount' | translate}}</th>
-      <th>{{ 'ROLESCOMPONENT.List.privilegesCount' | translate}}</th>
-      <th>{{ 'GLOBAL.List.createdAt' | translate}}</th>
-      <th>{{ 'GLOBAL.List.updatedAt' | translate}}</th>
+      <th i18n="@@rolesComponentDialogListTitle">Title</th>
+      <th i18n="@@rolesComponentDialogListUserCount">Users</th>
+      <th i18n="@@rolesComponentDialogListPrivilegesCount">Privileges</th>
+      <th i18n="@@rolesComponentDialogListCreatedAt">Created At</th>
+      <th i18n="@@rolesComponentDialogListUpdatedAt">Updated At</th>
     </thead>
     <tbody>
       <tr routerLink="/roles/details/{{role.id}}" *ngFor="let role of roles;">

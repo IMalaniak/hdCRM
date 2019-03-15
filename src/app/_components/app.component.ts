@@ -34,8 +34,8 @@ export class AppComponent implements OnInit {
       this.authService.currentUser.subscribe(user => {
         this.showDebug = this.privilegeService.isPrivileged(user, 'showDebug');
       });
-    } 
-    
+    }
+
     if (this.mobileQuery.matches) {
       this.sidebarMinimized = true;
       this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {

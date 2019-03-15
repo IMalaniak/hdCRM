@@ -1,4 +1,4 @@
-<section class="app-content-box" [title]="'Create a new plan'" i18n="@@registerPlanComponentHeaderCreateANewPlan">
+<section class="app-content-box" [title]="'Create a new plan'">
   <div content class="row">
     <form class="col-md-8">
       <div class="d-flex flex-column">
@@ -26,7 +26,7 @@
       <mat-list class="w-100">
         <div class="d-flex flex-row justify-content-between align-items-center">
           <span class="text-muted" i18n="@@registerPlanComponentParticipantsTitleWorkers">Participants</span>
-          <button mat-raised-button color="primary" class="crm-button" (click)="addParticipantDialog()" i18n="@@addDepartmentComponentActionsAddParticipants"><mat-icon>group_add</mat-icon><span>Add participants</span></button>
+          <button mat-raised-button color="primary" class="crm-button" (click)="addParticipantDialog()"><mat-icon>group_add</mat-icon><span i18n="@@addDepartmentComponentActionsAddParticipants">Add participants</span></button>
         </div>
         <mat-list-item *ngFor="let user of plan.Participants; let i = index;">
           <img matListAvatar *ngIf="user.avatar" src="{{baseUrl + user.avatar.location + user.avatar.title}}" alt="{{user.avatar.title}}">
@@ -38,7 +38,7 @@
     </div>
   </div>
   <div buttons>
-    <button mat-raised-button color="primary" class="crm-button" (click)="onClickSubmit()" i18n="@@registerPlanComponentActionSubmit"><mat-icon>assignment_turned_in</mat-icon><span>Submit</span></button>
+    <button mat-raised-button color="primary" class="crm-button" (click)="onClickSubmit()"><mat-icon>assignment_turned_in</mat-icon><span i18n="@@registerPlanComponentActionSubmit">Submit</span></button>
   </div>
 </section>
 

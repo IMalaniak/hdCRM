@@ -1,22 +1,22 @@
 <section class="row">
-  <section class="app-content-box col-md-8" [title]="'Stages'" *ngIf="plan && plan.Stages" [showDataLoader]="true" i18n="@@planComponentHeaderStages">
+  <section class="app-content-box col-md-8" [title]="'Stages'" *ngIf="plan && plan.Stages" [showDataLoader]="true">
     <div content class="row">
       <div class="col-md-12">
         <div cdkDropList cdkDropListOrientation="horizontal" class="list-group stages-wrapper" (cdkDropListDropped)="dragDropStages($event)" [cdkDropListDisabled]="!configPlanStages">
           <div *ngFor="let stage of plan.Stages" class="stages-item" [ngClass]="{'active': stage.id === plan.activeStageId, 'passed': stage.Details.completed}" matTooltip="{{stage.Details.description}}" cdkDrag>
-            <span>{{ 'GLOBAL.Stages.' + stage.keyString  | translate}}</span>
+            <span>{{ stage.keyString  | uppercase}}</span>
           </div>
           <div *ngIf="configPlanStages" class="stages-item addStage" (click)="addStageDialog()" i18n="@@globalStagesAddStage">Add stage</div>
         </div>
       </div>
     </div>
     <div buttons *ngIf="canEditPlan">
-      <button *ngIf="!configPlanStages" mat-raised-button class="crm-button" color="primary" (click)="onClickConfigureStages()" i18n="@@planComponentActionsConfigureStages"><mat-icon>settings</mat-icon><span>Configure stages</span></button>
-      <button *ngIf="configPlanStages" class="crm-button" mat-raised-button color="primary" [swal]="onUpdatePlanStagesSubmit" i18n="@@globalActionsSaveChanges"><mat-icon>save</mat-icon><span>Save</span></button>
-      <button *ngIf="configPlanStages" class="crm-button" mat-raised-button (click)="onClickCancelEditStages()" i18n="@@globalActionsCancelEdit"><mat-icon>cancel</mat-icon><span>Cancel</span></button>
+      <button *ngIf="!configPlanStages" mat-raised-button class="crm-button" color="primary" (click)="onClickConfigureStages()"><mat-icon>settings</mat-icon><span i18n="@@planComponentActionsConfigureStages">Configure stages</span></button>
+      <button *ngIf="configPlanStages" class="crm-button" mat-raised-button color="primary" [swal]="onUpdatePlanStagesSubmit"><mat-icon>save</mat-icon><span i18n="@@globalActionsSaveChanges">Save</span></button>
+      <button *ngIf="configPlanStages" class="crm-button" mat-raised-button (click)="onClickCancelEditStages()"><mat-icon>cancel</mat-icon><span i18n="@@globalActionsCancelEdit">Cancel</span></button>
     </div>
   </section>    
-  <section class="app-content-box col-md-4" [title]="'Actions'" *ngIf="plan" [showDataLoader]="true" i18n="@@planComponentHeaderActions">
+  <section class="app-content-box col-md-4" [title]="'Actions'" *ngIf="plan" [showDataLoader]="true">
     <div content class="d-flex" *ngIf="canEditPlan">
       <button mat-stroked-button color="primary" class="crm-button" [swal]="goToNextStageSwal">
         <ng-container *ngIf="plan.activeStage.keyString === 'finished'" i18n="@@planComponentActionsFinishPlan">
@@ -29,7 +29,7 @@
     </div>
   </section>
 </section>
-<section class="app-content-box plan-details" [title]="'Details'" *ngIf="plan" [showDataLoader]="true" i18n="@@planComponentHeaderDetails">
+<section class="app-content-box plan-details" [title]="'Details'" *ngIf="plan" [showDataLoader]="true">
   <div content class="row">
     <div class="col-md-8">
       <mat-list class="w-100" *ngIf="!editForm">
@@ -121,7 +121,7 @@
       <mat-list>
         <div class="d-flex flex-row justify-content-between align-items-center">
           <div class="d-flex flex-row align-items-center"><span class="text-muted" i18n="@@planComponentTitleParticipants">Participants</span><mat-chip color="primary" selected>{{plan.Participants.length}}</mat-chip></div>
-          <button mat-raised-button color="primary" class="crm-button" (click)="addParticipantDialog()" *ngIf="editForm" i18n="@@planComponentActionsAddParticipants"><mat-icon>group_add</mat-icon><span>Add Participants</span></button>
+          <button mat-raised-button color="primary" class="crm-button" (click)="addParticipantDialog()" *ngIf="editForm"><mat-icon>group_add</mat-icon><span i18n="@@planComponentActionsAddParticipants">Add Participants</span></button>
         </div>
         <mat-list-item *ngFor="let user of plan.Participants; let i = index;">
           <img matListAvatar *ngIf="user.avatar" src="{{baseUrl + user.avatar.location + user.avatar.title}}" alt="{{user.avatar.title}}">
@@ -133,9 +133,9 @@
     </div>
   </div>
   <div buttons *ngIf="canEditPlan">
-    <button *ngIf="!editForm" mat-raised-button color="primary" class="crm-button" (click)="onClickEdit()" i18n="@@planСomponentActionsEdit"><mat-icon>edit</mat-icon><span>Edit</span></button>
-    <button *ngIf="editForm" mat-raised-button color="primary" class="crm-button" [swal]="updatePlanSwal" i18n="@@globalActionsSaveChanges"><mat-icon>save</mat-icon><span>Save</span></button>
-    <button *ngIf="editForm" mat-raised-button class="crm-button" (click)="onClickCancelEdit()" i18n="@@globalActionsСancelEdit"><mat-icon>cancel</mat-icon><span>Cancel</span></button>
+    <button *ngIf="!editForm" mat-raised-button color="primary" class="crm-button" (click)="onClickEdit()"><mat-icon>edit</mat-icon><span i18n="@@planСomponentActionsEdit">Edit</span></button>
+    <button *ngIf="editForm" mat-raised-button color="primary" class="crm-button" [swal]="updatePlanSwal"><mat-icon>save</mat-icon><span i18n="@@globalActionsSaveChanges">Save</span></button>
+    <button *ngIf="editForm" mat-raised-button class="crm-button" (click)="onClickCancelEdit()"><mat-icon>cancel</mat-icon><span i18n="@@globalActionsСancelEdit">Cancel</span></button>
   </div>
 </section>
 
