@@ -45,7 +45,7 @@
 
   <div buttons *ngIf="editRolePrivilege">
     <button *ngIf="!editForm" mat-raised-button color="primary" (click)="onClickEdit()"><mat-icon>edit</mat-icon><span i18n="@@roleComponentFormActionsEdit">Edit</span></button>
-    <button *ngIf="editForm" mat-raised-button color="primary" (click)="onUpdateRoleSubmit()"><mat-icon>save</mat-icon><span i18n="@@roleComponentFormActionsSaveChanges">Save Changes</span></button>
+    <button *ngIf="editForm" mat-raised-button color="primary" (click)="onUpdateRoleSubmit()"><mat-icon>save</mat-icon><span i18n="@@roleComponentFormActionsSaveChanges">Save</span></button>
     <button *ngIf="editForm" mat-raised-button (click)="onClickCancelEdit()"><mat-icon>cancel</mat-icon><span i18n="@@roleComponentFormActionsCancelEdit">Cancel</span></button>
   </div>
 

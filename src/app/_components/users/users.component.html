@@ -23,7 +23,7 @@
     </section>
   </section>
   <mat-tab-group content (selectedTabChange)="onTabClick($event)" [selectedIndex]="selectedTab" (selectedIndexChange)="selectedTab = $event">
-    <mat-tab label="{{ state.keyString }}" *ngFor="let state of states;">
+    <mat-tab label="{{ state.keyString | uppercase }}" *ngFor="let state of states;">
       <section *ngIf="sortedData && sortedData.length<=0" class="no-content p-3">
         <p class="lead text-info text-center" i18n="@@usersComponentTabNoContentInfo">
           No content
