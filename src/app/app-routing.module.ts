@@ -27,7 +27,7 @@ const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'login', data: { breadcrumb: 'Login' }, component: LoginComponent},
   // private routes
-  {path: 'planner', data: { breadcrumb: 'Llanner' }, canActivate: [AuthGuard],
+  {path: 'planner', data: { breadcrumb: 'Planner' }, canActivate: [AuthGuard],
     children: [
       {path: '', component: PlannerComponent },
       {path: 'details/:id', data: { breadcrumb: 'Plan details' }, component: PlanComponent},

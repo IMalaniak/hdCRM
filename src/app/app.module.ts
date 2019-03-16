@@ -57,7 +57,8 @@ import { AuthenticationService,
   StageService,
   MessageService,
   DepartmentService,
-  LoaderService
+  LoaderService,
+  MediaqueryService
  } from '@/_services';
 
 @NgModule({
@@ -116,7 +117,8 @@ import { AuthenticationService,
     StageService,
     MessageService,
     DepartmentService,
-    LoaderService
+    LoaderService,
+    MediaqueryService
   ],
   bootstrap: [AppComponent]
 })

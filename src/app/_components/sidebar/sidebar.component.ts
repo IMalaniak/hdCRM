@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { AuthenticationService } from '@/_services';
+import { AuthenticationService, MediaqueryService } from '@/_services';
 
 @Component({
   selector: '.app-sidebar',
@@ -10,7 +10,8 @@ import { AuthenticationService } from '@/_services';
 export class SidebarComponent implements OnInit {
 
   constructor(
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    public mediaquery: MediaqueryService
   ) { }
 
   ngOnInit() {

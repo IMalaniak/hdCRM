@@ -6,7 +6,7 @@
 		</button>
 	</div>
 	
-	<app-breadcrumbs></app-breadcrumbs>
+	<app-breadcrumbs *ngIf="!mediaquery.isPhone"></app-breadcrumbs>
 
 	<div class="user-search ml-auto">
 		<mat-icon>search</mat-icon>
@@ -32,7 +32,7 @@
 
 <main>
 	<aside class="app-sidebar" [ngClass]="{'minimized': sidebarMinimized}"></aside>
-	<div class="overlay" *ngIf="mobileQuery.matches" [ngClass]="{'isVisible': !sidebarMinimized}" (click)="sidebarMinimized=true"></div>
+	<div class="overlay" *ngIf="mediaquery.isMobileDevice" [ngClass]="{'isVisible': !sidebarMinimized}" (click)="sidebarMinimized=true"></div>
 	<section class="content">
 		<section class="container-fluid">
 			<router-outlet></router-outlet>

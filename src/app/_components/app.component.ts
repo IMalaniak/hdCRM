@@ -1,7 +1,6 @@
 import { environment } from 'environments/environment';
-import { MediaMatcher } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService, PrivilegeService } from '@/_services';
+import { AuthenticationService, PrivilegeService, MediaqueryService } from '@/_services';
 import { Router, NavigationEnd } from '@angular/router';
 import { User } from '@/_models';
 import swal from 'sweetalert2';
@@ -13,19 +12,17 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  mobileQuery: MediaQueryList;
   sidebarMinimized: boolean;
   baseUrl: string;
   showDebug: boolean;
 
   constructor(
-    private media: MediaMatcher,
     private authService: AuthenticationService,
     private privilegeService: PrivilegeService,
-    private router: Router
+    private router: Router,
+    public mediaquery: MediaqueryService
   ) {
     this.showDebug = false;
-    this.mobileQuery = this.media.matchMedia('(max-width: 992px)');
     this.baseUrl = environment.baseUrl;
   }
 
@@ -36,7 +33,7 @@ export class AppComponent implements OnInit {
       });
     }
 
-    if (this.mobileQuery.matches) {
+    if (this.mediaquery.isMobileDevice) {
       this.sidebarMinimized = true;
       this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
         this.sidebarMinimized = true;
