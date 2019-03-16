@@ -57,7 +57,7 @@
             <td>{{ user.name }}</td>
             <td>{{ user.surname }}</td>
             <td>{{ user.phone }}</td>
-            <td>{{ user.Department.title }}</td>
+            <td>{{ user.Department ? user.Department.title  : '-' }}</td>
             <td>{{ user.State.keyString }}</td>
             <td>{{ user.createdAt | date: 'short' }}</td>
             <td>{{ user.updatedAt | date: 'short' }}</td>

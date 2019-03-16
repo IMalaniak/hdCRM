@@ -21,7 +21,7 @@
           <h6 i18n="@@profileСomponentAsideDetailsDep">{{ "Department" | uppercase }}</h6>
           <a routerLink="/departments/details/{{ user.Department.id }}"><span>{{ user.Department.title }}</span></a>
         </div>
-        <div class="roles">
+        <div class="roles" *ngIf="user.Roles">
           <h6 i18n="@@profileСomponentAsideDetailsRoles">{{ "Roles" | uppercase }}</h6>
           <ul>
             <li>

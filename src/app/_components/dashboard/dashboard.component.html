@@ -13,7 +13,7 @@
                     <li *ngIf="appUser.Department">
                         <a routerLink="/departments/details/{{ appUser.Department.id }}"><span>{{ appUser.Department.title }}</span></a>
                     </li>
-                    <li class="roles">
+                    <li class="roles" *ngIf="appUser.Roles">
                         <span *ngFor="let role of appUser.Roles; last as isLast ">{{ role.keyString }}</span>
                     </li>
                     <li *ngIf="appUser.lastSessionData" class="lastSessionData">
