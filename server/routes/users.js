@@ -5,6 +5,7 @@ const env = require('../config/env');
 const crypt = require('../config/crypt');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const mailer = require('../mailer/nodeMailerTemplate');
 
 function findUserById(userId){
 	return models.User.findById(userId, {
@@ -188,6 +189,88 @@ router.post('/authenticate', (req, res, next) => {
 		res.status(400).json(error.toString());
 	});
 
+});
+
+router.post('/forgot_password', (req, res, next) => {
+	const loginOrEmail = req.body.login;
+
+	models.User.findOne({
+		where: {$or: [
+			{
+				login: loginOrEmail
+			},
+			{
+				email: loginOrEmail
+			}
+		]}
+	}).then(user => {
+		if (user) {
+			user.getPasswordAttributes().then(pa => {
+				if (pa) {
+					pa.destroy({
+						where: {
+							id: pa.id
+						}
+					});
+				}
+			});
+			const token = crypt.genRandomString(32);
+			const expireDate = crypt.setExpireMinutes(new Date(), 5);
+			user.createPasswordAttributes({
+				resetPasswordToken: token,
+				resetPasswordTokenExpire: expireDate,
+			}).then(pa => {
+				mailer.sendPasswordReset(user.email, user.login, user.name, `${env.URL}/auth/password-reset/${token}`).then(() => {
+					res.status(200).json({success: true, message: "Activation link has been sent"});
+				}).catch(error => {
+					res.status(400).json(error.toString());
+				});
+			});
+		} else {
+			res.json({success: false, message: 'no_user'});
+		}
+	}).catch(error => {
+		res.status(400).json(error.toString());
+	});
+	
+});
+
+router.post('/reset_password', (req, res, next) => {
+	models.PasswordAttributes.findOne({
+		where: {
+			resetPasswordToken: req.body.token,
+			resetPasswordTokenExpire: {
+				$gt: Date.now()
+			}
+		}
+	}).then(pa => {
+		if (pa) {
+			if (req.body.newPassword === req.body.verifyPassword) {
+				pa.getUser().then(user => {
+					const passwordData = crypt.saltHashPassword(req.body.newPassword);
+					user.passwordHash = passwordData.passwordHash;
+					user.salt = passwordData.salt;
+					user.save().then(user => {
+						mailer.sendPasswordResetConfirmation(user.email, user.login, user.name).then(() => {
+							res.status(200).json({success: true, message: "New password is set!"});
+						}).catch(error => {
+							res.status(400).json(error.toString());
+						});
+					}).catch(error => {
+						res.status(400).json(error.toString());
+					});
+				}).catch(error => {
+					res.status(400).json(error.toString());
+				});
+			} else {
+				res.json({success: false, message: 'Passwords do not match'});
+			}			
+		} else {
+			res.json({success: false, message: "Password reset token is invalid or has expired!"});
+		}
+	}).catch(error => {
+		res.status(400).json(error.toString());
+	});
 });
 
 //Profile

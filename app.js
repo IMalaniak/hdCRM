@@ -8,9 +8,6 @@ const db = require('./server/models/index');
 const api = require('./server/routes');
 const app = express();
 
-//Port #
-const PORT = process.env.PORT || env.PORT;
-
 //CORS Middleware
 app.use(cors());
 
@@ -38,7 +35,7 @@ db.sequelize.sync({
 	//alter: true,
 	//force: true
 }).then(() => {
-  app.listen(PORT, () => {
-    console.log('Express listening on port:', PORT);
+  app.listen(env.PORT, () => {
+    console.log('Express listening on port:', env.PORT);
   });
 });

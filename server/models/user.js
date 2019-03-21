@@ -67,6 +67,7 @@ module.exports = (sequelize, DataTypes) => {
     User.hasOne(models.UserLoginHistory);
     User.hasOne(models.Department, {as: 'ManagedDepartment', foreignKey: 'managerId'});
     User.belongsTo(models.Department, {constraints: false});
+    User.hasOne(models.PasswordAttributes, {as: 'PasswordAttributes', foreignKey: 'UserId'});
   };
   return User;
 };
