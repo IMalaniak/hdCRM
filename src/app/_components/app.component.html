@@ -24,7 +24,7 @@
 		<button mat-icon-button *ngIf="isValidToken" (click)="onLogoutClick()" title="Log out!" i18n="@@appComponentUserDropdownActionsLogOut">
 			<mat-icon>arrow_back</mat-icon>
 		</button>
-		<button mat-icon-button *ngIf="!isValidToken" [routerLink]="['/login']" title="Log in!" i18n="@@appComponentUserDropdownActionsLogIn">
+		<button mat-icon-button *ngIf="!isValidToken" [routerLink]="['/auth']" title="Log in!" i18n="@@appComponentUserDropdownActionsLogIn">
 			<mat-icon>arrow_forward</mat-icon>
 		</button>
 	</div>

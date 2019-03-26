@@ -25,7 +25,15 @@ const routes: Routes = [
   //  public routes
   {path: '', component: HomeComponent},
   {path: 'home', component: HomeComponent},
-  {path: 'login', data: { breadcrumb: 'Login' }, component: LoginComponent},
+  {path: 'auth', data: { breadcrumb: 'Authorization' },
+  children: [
+    {path: '', pathMatch: 'full', redirectTo: 'login' },
+    {path: 'login', data: { breadcrumb: 'Login' }, component: LoginComponent},
+    {path: 'request-new-password', data: { breadcrumb: 'Request new password' }, component: LoginComponent},
+    {path: 'password-reset/:token', data: { breadcrumb: 'Reset password' }, component: LoginComponent},
+    {path: 'register', data: { breadcrumb: 'Register' }, component: RegisterUserComponent},
+  ]
+},
   // private routes
   {path: 'planner', data: { breadcrumb: 'Planner' }, canActivate: [AuthGuard],
     children: [
@@ -39,7 +47,6 @@ const routes: Routes = [
     children: [
       {path: '', component: UsersComponent },
       {path: 'details/:id', data: { breadcrumb: 'User details' }, component: UserComponent},
-      {path: 'register', data: { breadcrumb: 'Register' }, component: RegisterUserComponent},
     ]
   },
   {path: 'roles', data: { breadcrumb: 'Roles' }, canActivate: [AuthGuard],

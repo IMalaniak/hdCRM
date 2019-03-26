@@ -1,0 +1,68 @@
+@import 'variables';
+@import 'mixins';
+
+$fHeight: crmsize(footer, height, true);
+$hHeight: crmsize(header, height, true);
+
+.login-section {
+    width: 100%;
+    height: calc(100vh - #{$fHeight} - #{$hHeight});
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .invisible{
+        opacity: 0;
+        display: none;
+    }
+    
+    .visible{
+        opacity: 1;
+        display: block;
+        animation: fadeInFromNone 0.7s ease-in-out;
+      }
+
+      @keyframes fadeInFromNone {
+        0% {
+            display: none;
+            opacity: 0;
+        }
+    
+        100% {
+            display: block;
+            opacity: 1;
+        }
+    }
+
+    [class$="-message"] {
+        width: 23em;
+        box-shadow: none;
+    }
+
+    .success-message {
+        background-color: #D4F5D1;
+        border: 1px solid #60D955;
+
+
+        span {
+            color: #60D955;
+        }
+
+        mat-icon {
+            color: #60D955;
+        }
+    }
+
+    .failed-message {
+        background-color: #FA5757;
+        border: 1px solid #BA2C3A;
+
+        span {
+            color: crmcolor(main, base);
+        }
+
+        mat-icon {
+            color: crmcolor(main, base);
+        }
+    }
+}

@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { map } from 'rxjs/operators';
 
-import { User } from '@/_models';
+import { User, Response } from '@/_models';
 
 const jwtHelper = new JwtHelperService();
 
@@ -43,6 +43,14 @@ export class AuthenticationService {
 
                 return user;
             }));
+    }
+
+    requestPasswordReset(user: User): Observable<Response> {
+        return this.http.post<Response>(`${environment.baseUrl}/users/forgot_password`, user);
+    }
+
+    resetPassword(data: any): Observable<Response> {
+        return this.http.post<Response>(`${environment.baseUrl}/users/reset_password`, data);
     }
 
     logout() {

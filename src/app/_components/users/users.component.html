@@ -5,7 +5,7 @@
 -->
 <section class="app-content-box" [title]="'User list'" [showDataLoader]="true">
   <div buttons>
-    <button mat-raised-button color="primary" class="crm-button" *ngIf="addUserPrivilege" routerLink="/users/register"><mat-icon>person_add</mat-icon><span i18n="@@usersComponentActionsRegisterANewUser">Register a new user</span></button>
+    <button mat-raised-button color="primary" class="crm-button" *ngIf="addUserPrivilege" routerLink="/auth/register"><mat-icon>person_add</mat-icon><span i18n="@@usersComponentActionsRegisterANewUser">Register a new user</span></button>
   </div>
   <section subheader *ngIf="selectedUsers.length>0" class="bg-primary text-white p-2 fixed-bottom">
     <span class="w-100" i18n="@@usersComponentBulkSectionSelectedUsers">Selected users: {{ selectedUsers.length }}</span>

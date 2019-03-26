@@ -38,7 +38,6 @@ import { AppComponent,
   DepartmentsComponent,
   DepartmentComponent,
   AddDepartmentComponent
-
  } from '@/_components';
 
  // tags
