@@ -5,6 +5,14 @@
         <mat-card>
           <mat-card-content class="d-flex justify-content-center flex-column p-3">
             <h3 i18n="@@loginComponentFormHeaderTitleLogin" class="pb-2">Login</h3>
+            <mat-card class="failed-message mb-3" *ngIf="serverResponse && !serverResponse.success">
+              <mat-card-content class="d-flex flex-row align-items-center">
+                <mat-icon>highlight_off</mat-icon>
+                <div class="ml-3">
+                  <span i18n="@@loginComponentMessageTokenIsNotValid">Your token does not exist or it has expired.</span>
+                </div>
+              </mat-card-content>
+            </mat-card>
             <mat-form-field appearance="outline">
               <mat-label i18n="@@loginComponentFormLoginOrEmailLabel">Login/Email</mat-label>
               <input matInput [(ngModel)]="user.login" name="login" type="text">
@@ -22,15 +30,16 @@
       <form (submit)="onResetPasswordRequest()" *ngIf="currentPath === 'request-new-password'">
         <mat-card>
           <mat-card-content class="d-flex justify-content-center flex-column p-3">
-            <mat-card class="success-message mb-3" *ngIf="passwordResetResponse && passwordResetResponse.success">
+            <h3 i18n="@@loginComponentFormRequestNewPasswordHeader" class="pb-2">Your email or login</h3>
+            <mat-card class="success-message mb-3" *ngIf="serverResponse && serverResponse.success">
               <mat-card-content class="d-flex flex-row align-items-center">
                 <mat-icon>check_circle_outline</mat-icon>
                 <div class="ml-3">
-                  <span i18n="@@loginComponentMessageEmailSentToYourEmailAddress">A message has been sent to your email address. Follow the instructions to reset your password.</span>
+                  <span i18n="@@loginComponentMessageSentToYourEmailAddress">A message has been sent to your email address. Follow the instructions to reset your password.</span>
                 </div>
               </mat-card-content>
             </mat-card>
-            <mat-card class="failed-message mb-3" *ngIf="passwordResetResponse && !passwordResetResponse.success">
+            <mat-card class="failed-message mb-3" *ngIf="serverResponse && !serverResponse.success">
               <mat-card-content class="d-flex flex-row align-items-center">
                 <mat-icon>highlight_off</mat-icon>
                 <div class="ml-3">
@@ -38,9 +47,8 @@
                 </div>
               </mat-card-content>
             </mat-card>
-            <h3 i18n="@@loginComponentFormHeaderTitleYourEmailAddressOrLogin" class="pb-2">Your email or login</h3>
             <mat-form-field appearance="outline">
-              <mat-label i18n="@@loginComponentFormLabelEmailOrLogin">Login/Email</mat-label>
+              <mat-label i18n="@@loginComponentFormLoginOrEmailLabel">Login/Email</mat-label>
               <input matInput [(ngModel)]="user.login" type="text" name="login" required>
             </mat-form-field>
             <div class="d-flex justify-content-between">
@@ -53,7 +61,8 @@
       <form (submit)="onResetPassword()" [formGroup]="newPasswordForm" *ngIf="currentPath === 'password-reset'">
         <mat-card>
           <mat-card-content class="d-flex justify-content-center flex-column p-3">
-            <mat-card class="success-message mb-3" *ngIf="passwordResetResponse && passwordResetResponse.success">
+            <h3 i18n="@@loginComponentFormPasswordResetHeader" class="pb-2">Reset password</h3>
+            <mat-card class="success-message mb-3" *ngIf="serverResponse && serverResponse.success">
               <mat-card-content class="d-flex flex-row align-items-center">
                 <mat-icon>check_circle_outline</mat-icon>
                 <div class="ml-3">
@@ -61,7 +70,7 @@
                 </div>
               </mat-card-content>
             </mat-card>
-            <mat-card class="failed-message mb-3" *ngIf="passwordResetResponse && !passwordResetResponse.success">
+            <mat-card class="failed-message mb-3" *ngIf="serverResponse && !serverResponse.success">
               <mat-card-content class="d-flex flex-row align-items-center">
                 <mat-icon>highlight_off</mat-icon>
                 <div class="ml-3">
@@ -69,7 +78,6 @@
                 </div>
               </mat-card-content>
             </mat-card>
-            <h3 i18n="@@loginComponentFormHeaderTitleCreate" class="pb-2">Reset password</h3>
             <mat-form-field appearance="outline">
               <mat-label i18n="@@loginComponentFormResetNewPasswordLabel">New password</mat-label>
               <input matInput type="password" formControlName="newPassword" [type]="hidePassword ? 'password' : 'text'" required>
@@ -105,6 +113,34 @@
           </mat-card-content>
         </mat-card>
       </form>
+      <mat-card *ngIf="currentPath === 'activate-account'">
+        <mat-card-content class="d-flex justify-content-center flex-column p-3">
+          <mat-card class="process-message" *ngIf="!serverResponse">
+            <mat-card-content class="d-flex flex-row align-items-center">
+              <mat-icon>check_circle_outline</mat-icon>
+              <div class="ml-3">
+                <span i18n="@@loginComponentMessageActivationInProgress">Wait until your account is been activated...</span>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="success-message" *ngIf="serverResponse && serverResponse.success">
+            <mat-card-content class="d-flex flex-row align-items-center">
+              <mat-icon>check_circle_outline</mat-icon>
+              <div class="ml-3">
+                <span i18n="@@loginComponentMessageAccountActivated">You account has been activated successfully! You can <a routerLink="/auth/">login now</a>.</span>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="failed-message" *ngIf="serverResponse && !serverResponse.success">
+            <mat-card-content class="d-flex flex-row align-items-center">
+              <mat-icon>highlight_off</mat-icon>
+              <div class="ml-3">
+                <span i18n="@@loginComponentMessageTokenIsNotValid">Your token does not exist or it has expired.</span>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </mat-card-content>   
+      </mat-card>
     </div>
   </div>
 </section>

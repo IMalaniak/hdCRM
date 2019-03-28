@@ -32,7 +32,24 @@ function findUserById(userId){
 
 //Register
 router.post('/register', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	const passwordData = crypt.saltHashPassword(req.body.password);
+	const tempPassword = crypt.genRandomString(12);
+
+	const passwordData = crypt.saltHashPassword(tempPassword);
+
+	const sendInvitationMail = function(user) {
+		const token = crypt.genTimeLimitedToken(60);
+		user.createPasswordAttributes({
+			token: token.value,
+			tokenExpire: token.expireDate,
+			passwordExpire: token.expireDate
+		}).then(pa => {
+			mailer.sendActivation(user, tempPassword, `${env.URL}/auth/activate-account/${token.value}`).then(() => {
+				res.status(200).json({success: true, message: "Activation link has been sent"});
+			}).catch(error => {
+				res.status(400).json(error.toString());
+			});	
+		});
+	}
 
 	models.User.create({
 		email: req.body.email,
@@ -54,13 +71,13 @@ router.post('/register', passport.authenticate('jwt', {session: false}), (req, r
 				}
 			}).then(roles => {
 				user.setRoles(roles).then(result => {
-					res.status(200).json(result);
+					sendInvitationMail(user);
 				});
 			}).catch(error => {
 				res.status(400).json(error.toString());
 			});
 		} else {
-			res.status(200).json(user);
+			sendInvitationMail(user);
 		}
 	}).catch(models.sequelize.ValidationError, models.sequelize.UniqueConstraintError, error => {
 		//console.error(error);
@@ -69,6 +86,51 @@ router.post('/register', passport.authenticate('jwt', {session: false}), (req, r
 		res.status(400).json(error.toString());
 	});
 });
+
+router.post('/activate_account', (req, res, next) => {
+	models.PasswordAttributes.findOne({
+		where: {
+			token: req.body.token,
+			tokenExpire: {
+				$gt: Date.now()
+			}
+		}
+	}).then(pa => {
+		if (pa) {
+			pa.getUser().then(user => {
+				user.StateId = 2;
+				user.save().then(user => {				
+					user.getPasswordAttributes().then(pa => {
+						if (pa) {
+							pa.token = null;
+							pa.tokenExpire = null;
+							pa.save().then(() => {
+								mailer.sendActivationConfirmation(user).then(() => {
+									res.json({success: true, message: "Successful activation!"});
+								}).catch(error => {
+									res.status(400).json(error.toString());
+								});
+							}).catch(error => {
+								res.status(400).json(error.toString());
+							});
+						}
+					}).catch(error => {
+						res.status(400).json(error.toString());
+					});
+				}).catch(error => {
+					res.status(400).json(error.toString());
+				});
+			}).catch(error => {
+				res.status(400).json(error.toString());
+			});
+		} else {
+			res.json({success: false, message: "Activation token is invalid or has expired!"});
+		}
+	}).catch(error => {
+		res.status(400).json(error.toString());
+	});
+});
+
 
 function saveLogInAttempt(req, user, isSuccess) {
 	const defaults = {};
@@ -206,25 +268,33 @@ router.post('/forgot_password', (req, res, next) => {
 	}).then(user => {
 		if (user) {
 			user.getPasswordAttributes().then(pa => {
-				if (pa) {
-					pa.destroy({
-						where: {
-							id: pa.id
-						}
+				const token = crypt.genTimeLimitedToken(5);
+				const sendPasswordResetMail = function() {
+					mailer.sendPasswordReset(user, `${env.URL}/auth/password-reset/${token.value}`).then(() => {
+						res.status(200).json({success: true, message: "Activation link has been sent"});
+					}).catch(error => {
+						res.status(400).json(error.toString());
 					});
 				}
-			});
-			const token = crypt.genRandomString(32);
-			const expireDate = crypt.setExpireMinutes(new Date(), 5);
-			user.createPasswordAttributes({
-				resetPasswordToken: token,
-				resetPasswordTokenExpire: expireDate,
-			}).then(pa => {
-				mailer.sendPasswordReset(user.email, user.login, user.name, `${env.URL}/auth/password-reset/${token}`).then(() => {
-					res.status(200).json({success: true, message: "Activation link has been sent"});
-				}).catch(error => {
-					res.status(400).json(error.toString());
-				});
+
+				if (pa) {
+					pa.token = token.value;
+					pa.tokenExpire = token.expireDate;
+					pa.save().then(() => {
+						sendPasswordResetMail();
+					}).catch(error => {
+						res.status(400).json(error.toString());
+					});
+				} else {
+					user.createPasswordAttributes({
+						token: token.value,
+						tokenExpire: token.expireDate,
+					}).then(pa => {
+						sendPasswordResetMail();
+					});
+				}
+			}).catch(error => {
+				res.status(400).json(error.toString());
 			});
 		} else {
 			res.json({success: false, message: 'no_user'});
@@ -238,8 +308,8 @@ router.post('/forgot_password', (req, res, next) => {
 router.post('/reset_password', (req, res, next) => {
 	models.PasswordAttributes.findOne({
 		where: {
-			resetPasswordToken: req.body.token,
-			resetPasswordTokenExpire: {
+			token: req.body.token,
+			tokenExpire: {
 				$gt: Date.now()
 			}
 		}
@@ -251,8 +321,20 @@ router.post('/reset_password', (req, res, next) => {
 					user.passwordHash = passwordData.passwordHash;
 					user.salt = passwordData.salt;
 					user.save().then(user => {
-						mailer.sendPasswordResetConfirmation(user.email, user.login, user.name).then(() => {
-							res.status(200).json({success: true, message: "New password is set!"});
+						user.getPasswordAttributes().then(pa => {
+							if (pa) {
+								pa.token = null;
+								pa.tokenExpire = null;
+								pa.save().then(() => {
+									mailer.sendPasswordResetConfirmation(user).then(() => {
+										res.status(200).json({success: true, message: "New password is set!"});
+									}).catch(error => {
+										res.status(400).json(error.toString());
+									});
+								}).catch(error => {
+									res.status(400).json(error.toString());
+								});
+							}
 						}).catch(error => {
 							res.status(400).json(error.toString());
 						});

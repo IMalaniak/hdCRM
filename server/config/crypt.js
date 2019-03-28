@@ -21,25 +21,32 @@ crypt.genRandomString = function(length){
 crypt.sha512 = function(password, salt){
     let hash = crypto.createHmac('sha512', salt); /** Hashing algorithm sha512 */
     hash.update(password);
-    let value = hash.digest('hex');
+    const value = hash.digest('hex');
     return {
-        salt:salt,
-        passwordHash:value
+        salt: salt,
+        passwordHash: value
     };
 };
 
 crypt.saltHashPassword = function(userpassword) {
-    let salt = crypt.genRandomString(16); /** Gives us salt of length 16 */
+    const salt = crypt.genRandomString(16); /** Gives us salt of length 16 */
     return crypt.sha512(userpassword, salt);
 }
 
 crypt.validatePassword = function(userpassword, passwordHash, salt) {
-	let testHash = crypt.sha512(userpassword, salt);
+	const testHash = crypt.sha512(userpassword, salt);
 	return testHash.passwordHash === passwordHash;
 }
 
 crypt.setExpireMinutes = function(date, minutes) {
     return new Date(date.getTime() + minutes*60000);
+}
+
+crypt.genTimeLimitedToken = function(minutes) {
+    const token = {};
+    token.value = crypt.genRandomString(32);
+    token.expireDate = crypt.setExpireMinutes(new Date(), minutes);
+    return token;
 }
 
 module.exports = crypt;

@@ -24,33 +24,63 @@ const newEmail = new Email({
   }
 });
 
-mailer.sendPasswordReset = function (email, username, name, tokenUrl) {
+mailer.sendPasswordReset = function (user, tokenUrl) {
   return newEmail.send({
     template: 'resetPassword',
     message: {
       subject: 'Reset Password request',
-      to: email
+      to: user.email
     },
     locals: {
-      name: name,
-      username: username,
+      name: user.name,
+      username: user.login,
       token: tokenUrl
     }
   });
 };
 
-mailer.sendPasswordResetConfirmation = function(email, username, name) {
+mailer.sendPasswordResetConfirmation = function(user) {
   return newEmail.send({
     template: 'resetPasswordConfirmation',
     message: {
       subject: 'Password reset confirmation',
-      to: email
+      to: user.email
     },
     locals: {
-      name: name,
-      username: username
+      name: user.name,
+      username: user.login
     }
   });
 };
+
+mailer.sendActivation = function(user, tmpPassword, url) {
+  return newEmail.send({
+    template: 'initActivation',
+    message: {
+      subject: 'Welcome to HDCRM',
+      to: user.email
+    },
+    locals: {
+      name: user.name,
+      username: user.login,
+      tmpPass: tmpPassword,
+      activationUrl: url
+    }
+  });
+};
+
+mailer.sendActivationConfirmation = function(user) {
+  return newEmail.send({
+    template: 'confirmActivation',
+    message: {
+      subject: 'Good job activating your HDCRM',
+      to: user.email
+    },
+    locals: {
+      name: user.name,
+      username: user.login
+    }
+  });
+}
 
 module.exports = mailer;

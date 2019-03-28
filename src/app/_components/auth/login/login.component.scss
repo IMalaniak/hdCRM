@@ -34,7 +34,7 @@ $hHeight: crmsize(header, height, true);
         }
     }
 
-    [class$="-message"] {
+    .success-message, .failed-message, .process-message {
         width: 23em;
         box-shadow: none;
     }
@@ -44,11 +44,7 @@ $hHeight: crmsize(header, height, true);
         border: 1px solid #60D955;
 
 
-        span {
-            color: #60D955;
-        }
-
-        mat-icon {
+        span, mat-icon {
             color: #60D955;
         }
     }
@@ -57,11 +53,16 @@ $hHeight: crmsize(header, height, true);
         background-color: #FA5757;
         border: 1px solid #BA2C3A;
 
-        span {
+        span, mat-icon {
             color: crmcolor(main, base);
         }
+    }
 
-        mat-icon {
+    .process-message {
+        background-color: rgb(255, 238, 0);
+        border: 1px solid rgb(218, 214, 0);
+
+        span, mat-icon {
             color: crmcolor(main, base);
         }
     }

@@ -45,6 +45,10 @@ export class AuthenticationService {
             }));
     }
 
+    activateAccount(token: string): Observable<Response> {
+        return this.http.post<Response>(`${environment.baseUrl}/users/activate_account`, {token: token});
+    }
+
     requestPasswordReset(user: User): Observable<Response> {
         return this.http.post<Response>(`${environment.baseUrl}/users/forgot_password`, user);
     }

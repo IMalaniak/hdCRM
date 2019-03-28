@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   user: User = new User();
   returnUrl: string;
   hidePassword = true;
-  passwordResetResponse: Response;
+  serverResponse: Response;
   currentPath: string;
   token: string;
   newPasswordForm: FormGroup;
@@ -37,9 +37,11 @@ export class LoginComponent implements OnInit {
 
     if (this.currentPath === 'password-reset') {
       this.preparePasswordResetFnc();
+    } else if (this.currentPath === 'activate-account') {
+      this.prepareAccountActivationFnc();
     }
   }
-              
+
   preparePasswordResetFnc(): void {
     this.token = this.route.snapshot.paramMap.get('token');
 
@@ -55,6 +57,28 @@ export class LoginComponent implements OnInit {
     }, {  
         validator: ConfirmPasswordValidator.MatchPassword
     });
+  }
+
+  prepareAccountActivationFnc(): void {
+    this.token = this.route.snapshot.paramMap.get('token');
+    this.authService.activateAccount(this.token).pipe(first()).subscribe(
+      response => {
+        this.serverResponse = response;
+        if (response.success) {
+          const self = this;
+          setTimeout(function() {
+            self.router.navigate(['/auth']);
+          }, 5000);
+        }
+      },
+      error => {
+        swal({
+          title: 'Account activation failed',
+          type: 'error',
+          timer: 3000
+        });
+      }
+    );
   }
 
   get newPassword() { return this.newPasswordForm.get('newPassword'); }
@@ -83,7 +107,7 @@ export class LoginComponent implements OnInit {
   onResetPasswordRequest() {
     this.authService.requestPasswordReset(this.user).pipe(first()).subscribe(
       response => {
-        this.passwordResetResponse = response;
+        this.serverResponse = response;
       },
       error => {
         swal({
@@ -98,7 +122,7 @@ export class LoginComponent implements OnInit {
   onResetPassword() {
     this.authService.resetPassword({token: this.token, newPassword: this.newPassword.value, verifyPassword: this.confirmPassword.value}).pipe(first()).subscribe(
       response => {
-        this.passwordResetResponse = response;
+        this.serverResponse = response;
         if (response.success) {
           const self = this;
           setTimeout(function() {
