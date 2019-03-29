@@ -14,7 +14,7 @@
     <ng-content select="[boxFooter]"></ng-content>
   </section>
 
-  <div *ngIf="showDataLoader && (loaderService.showLoader | async)" class="progress-spinner-overlay">
+  <div *ngIf="showDataLoader && (dataIsLoading$ | async)" class="progress-spinner-overlay">
     <mat-progress-bar mode="query"></mat-progress-bar>
   </div>
 </div>

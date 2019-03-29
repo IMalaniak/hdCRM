@@ -16,7 +16,7 @@
       <button *ngIf="configPlanStages" class="crm-button" mat-raised-button (click)="onClickCancelEditStages()"><mat-icon>cancel</mat-icon><span i18n="@@globalActionsCancelEdit">Cancel</span></button>
     </div>
   </section>    
-  <section class="app-content-box col-md-4" [title]="'Actions'" *ngIf="plan" [showDataLoader]="true">
+  <section class="app-content-box col-md-4" [title]="'Actions'" *ngIf="plan">
     <div content class="d-flex" *ngIf="canEditPlan">
       <button mat-stroked-button color="primary" class="crm-button" [swal]="goToNextStageSwal">
         <ng-container *ngIf="plan.activeStage.keyString === 'finished'" i18n="@@planComponentActionsFinishPlan">

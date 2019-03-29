@@ -6,20 +6,27 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 @Injectable()
 export class LoaderService {
-    public showLoader = new BehaviorSubject(false);
+    private showDataLoader: BehaviorSubject<boolean>;
+    private dataIsLoaded: BehaviorSubject<boolean>;
     public isLoaded: Observable<boolean>;
+    public showLoader: Observable<boolean>;
 
     constructor() {
-        this.isLoaded = this.showLoader.asObservable();
+        this.showDataLoader = new BehaviorSubject(false);
+        this.dataIsLoaded = new BehaviorSubject(false);
+        this.isLoaded = this.dataIsLoaded.asObservable();
+        this.showLoader = this.showDataLoader.asObservable();
     }
 
     show() {
-        this.showLoader.next(true);
+        this.showDataLoader.next(true);
+        this.dataIsLoaded.next(false);
     }
 
     hide() {
         setTimeout(() => {
-            this.showLoader.next(false);
+            this.showDataLoader.next(false);
+            this.dataIsLoaded.next(true);
         }, 300);
     }
 }
