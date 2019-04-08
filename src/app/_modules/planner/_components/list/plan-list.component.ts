@@ -1,0 +1,26 @@
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import swal from 'sweetalert2';
+import { Plan } from '../../_models';
+import { PlanService } from '../../_services';
+
+@Component({
+  selector: 'app-plan-list',
+  templateUrl: './plan-list.component.html',
+  styleUrls: ['./plan-list.component.scss']
+})
+export class PlanListComponent implements OnInit {
+  plans$: Observable<Plan[]>;
+
+  constructor(
+    private planService: PlanService
+  ) {}
+
+  ngOnInit() {
+    this.getPlannerData();
+  }
+
+  getPlannerData(): void {
+    this.plans$ = this.planService.getFullList();
+  }
+}

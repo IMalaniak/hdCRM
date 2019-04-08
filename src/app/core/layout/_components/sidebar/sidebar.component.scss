@@ -1,0 +1,83 @@
+@import 'variables';
+@import 'mixins';
+@import "~bootstrap/scss/mixins/breakpoints";
+
+app-sidebar {
+  background-color: crmcolor(main, dark);
+  min-width: crmsize(sidebar, width);
+  flex-basis: crmsize(sidebar, width);
+  transition: min-width $animation-time-style, flex-basis $animation-time-style, left $animation-time-style;
+
+  &.minimized {
+    min-width: crmsize(sidebar, minimized);
+    flex-basis: crmsize(sidebar, minimized);
+  }
+
+  @include media-breakpoint-down(md) {
+    min-width: crmsize(sidebar, width);
+    max-width: 100%; 
+
+    &.minimized {
+      left: -100%;
+    }
+
+    position: fixed;
+    top: crmsize(header, height);
+    left: 0;
+    bottom: 0;
+    z-index: 13;
+    overflow-y: auto;
+  }
+
+  @include media-breakpoint-down(sm) {
+    min-width: 100%;
+  }
+}
+
+.sidebar-menu {
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+  a {
+    display: flex;
+    height: crmsize(header, height);
+    align-items: center;
+    padding: 0 crmsize(spacer, null, true);
+    color: crmcolor(main, light);
+    transition: background-color $animation-time-style, color $animation-time-style, border-width $animation-time-style;
+
+    &:hover,
+    &.active {
+      text-decoration: none;
+      background-color: crmcolor(main, light);
+      color: crmcolor(highlight, light);
+      border-left: 8px solid;
+    }
+
+    > mat-icon {
+      margin-right: crmsize(spacer, null, true);
+    }
+  }
+
+  .minimized & {
+
+    a {
+      justify-content: center;
+
+      &:hover,
+      &.active {
+        border-left: none;
+        border-bottom: 4px solid;
+      }
+
+      span {
+        display: none;
+      }
+
+      > mat-icon {
+        margin-right: 0;
+      }
+    }
+  }
+}

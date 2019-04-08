@@ -1,124 +1,26 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AppMaterialModule } from '@/_shared';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { HttpClientModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppRoutingModule } from './app-routing.module';
 
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { CoreModule } from './core/core.module';
 
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 
-import { AppComponent,
-  AttachmentsComponent,
-  BreadcrumbsComponent,
-  AdministrationComponent,
-  DashboardComponent,
-  HomeComponent,
-  MessagesComponent,
-  PlannerComponent,
-  PlanComponent,
-  RegisterPlanComponent,
-  RolesComponent,
-  RolesComponentDialogComponent,
-  RegisterRoleComponent,
-  RoleComponent,
-  SidebarComponent,
-  LoginComponent,
-  ProfileComponent,
-  RegisterUserComponent,
-  UserComponent,
-  UsersComponent,
-  UsersComponentDialogComponent,
-  StagesComponentDialogComponent,
-  AddStageDialogComponent,
-  StagesComponent,
-  DepartmentsComponent,
-  DepartmentComponent,
-  AddDepartmentComponent
- } from '@/_components';
+import { AppComponent } from './app.component';
 
- // tags
-import { ContentBoxComponent } from '@/_tags';
-
-import { httpInterceptorsProviders } from '@/_helpers';
-
-// services
-import { AuthenticationService,
-  RoleService,
-  ValidateService,
-  UserService,
-  PlanService,
-  PrivilegeService,
-  StateService,
-  StageService,
-  MessageService,
-  DepartmentService,
-  LoaderService,
-  MediaqueryService
- } from '@/_services';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    AttachmentsComponent,
-    BreadcrumbsComponent,
-    AdministrationComponent,
-    ContentBoxComponent,
-    DashboardComponent,
-    HomeComponent,
-    MessagesComponent,
-    PlannerComponent,
-    PlanComponent,
-    RegisterPlanComponent,
-    RolesComponent,
-    RolesComponentDialogComponent,
-    RegisterRoleComponent,
-    RoleComponent,
-    SidebarComponent,
-    LoginComponent,
-    ProfileComponent,
-    RegisterUserComponent,
-    UserComponent,
-    UsersComponent,
-    UsersComponentDialogComponent,
-    StagesComponentDialogComponent,
-    AddStageDialogComponent,
-    StagesComponent,
-    DepartmentsComponent,
-    DepartmentComponent,
-    AddDepartmentComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    NgxChartsModule,
-    SweetAlert2Module.forRoot(),
-    FormsModule,
-    HttpClientModule,
-    AppMaterialModule,
-    DragDropModule,
+    CoreModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule
+    SweetAlert2Module.forRoot()
   ],
-  entryComponents: [UsersComponentDialogComponent, RolesComponentDialogComponent, AddStageDialogComponent, StagesComponentDialogComponent],
-  providers: [
-    httpInterceptorsProviders,
-    AuthenticationService,
-    RoleService,
-    ValidateService,
-    UserService,
-    PlanService,
-    PrivilegeService,
-    StateService,
-    StageService,
-    MessageService,
-    DepartmentService,
-    LoaderService,
-    MediaqueryService
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
