@@ -7,6 +7,8 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const mailer = require('../mailer/nodeMailerTemplate');
 
+const Op = models.Sequelize.Op;
+
 function findUserById(userId){
 	return models.User.findById(userId, {
 		attributes: { exclude: ['passwordHash', 'salt'] },
@@ -66,7 +68,7 @@ router.post('/register', passport.authenticate('jwt', {session: false}), (req, r
 			models.Role.findAll({
 				where: {
 					id: {
-						[models.Sequelize.Op.or] : req.body.selectedRoleIds
+						[Op.or] : req.body.selectedRoleIds
 					}	
 				}
 			}).then(roles => {
@@ -92,7 +94,7 @@ router.post('/activate_account', (req, res, next) => {
 		where: {
 			token: req.body.token,
 			tokenExpire: {
-				$gt: Date.now()
+				[Op.gt]: Date.now()
 			}
 		}
 	}).then(pa => {
@@ -163,13 +165,14 @@ router.post('/authenticate', (req, res, next) => {
 	const loginOrEmail = req.body.login;
 	const password = req.body.password;
 	models.User.findOne({
-			where: {$or: [
-				{
-					login: loginOrEmail
-				},
-				{
-					email: loginOrEmail
-				}
+			where: {
+				[Op.or]: [
+					{
+						login: loginOrEmail
+					},
+					{
+						email: loginOrEmail
+					}
 			]},
 			include: [
 				{
@@ -257,7 +260,7 @@ router.post('/forgot_password', (req, res, next) => {
 	const loginOrEmail = req.body.login;
 
 	models.User.findOne({
-		where: {$or: [
+		where: {[Op.or]: [
 			{
 				login: loginOrEmail
 			},
@@ -310,7 +313,7 @@ router.post('/reset_password', (req, res, next) => {
 		where: {
 			token: req.body.token,
 			tokenExpire: {
-				$gt: Date.now()
+				[Op.gt]: Date.now()
 			}
 		}
 	}).then(pa => {
@@ -458,7 +461,7 @@ router.put('/updateUser', passport.authenticate('jwt', {session: false}), (req, 
 				if(req.body.Roles) {
 					models.Role.findAll({
 						where: {
-								[models.Sequelize.Op.or] : req.body.Roles
+								[Op.or] : req.body.Roles
 						}
 					}).then(roles => {
 						user.setRoles(roles).then(() => {
