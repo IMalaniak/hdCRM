@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { Role } from '../../_models';
@@ -15,6 +16,7 @@ import swal from 'sweetalert2';
   styleUrls: ['./add-role.component.scss']
 })
 export class AddRoleComponent implements OnInit {
+  keyString: FormControl;
   role = new Role();
   privileges: Privilege[];
 
@@ -30,6 +32,11 @@ export class AddRoleComponent implements OnInit {
     this.privilegeService.getFullList().subscribe(privileges => {
       this.privileges = privileges;
     });
+
+    this.keyString = new FormControl('', [
+      Validators.required,
+      Validators.minLength(3)
+    ]);
   }
 
 

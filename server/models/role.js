@@ -8,7 +8,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     keyString: {
       type: DataTypes.STRING(50),
-	    required: true
+      required: true,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
     }
   });
   Role.associate = function(models) {
