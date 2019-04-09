@@ -7,8 +7,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { httpInterceptorsProviders } from './_interceptors';
 
-import { MessageModule } from '@/_modules';
-
 import { AuthenticationService, LoaderService, ValidateService, MediaqueryService, PrivilegeService, StateService } from '@/_shared/services';
 
 import { LayoutModule } from './layout/layout.module';
@@ -21,16 +19,14 @@ import { LayoutModule } from './layout/layout.module';
       HttpClientModule,
       FormsModule,
       ReactiveFormsModule,
-      LayoutModule,
-      MessageModule
+      LayoutModule
     ],
     exports: [
       RouterModule,
       HttpClientModule,
       FormsModule,
       ReactiveFormsModule,
-      LayoutModule,
-      MessageModule
+      LayoutModule
     ],
     providers: [
         httpInterceptorsProviders,

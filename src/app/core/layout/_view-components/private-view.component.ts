@@ -20,6 +20,7 @@ import { filter } from 'rxjs/operators';
           </section>
           <div class="overlay" *ngIf="mediaquery.isMobileDevice" [ngClass]="{'isVisible': !sidebarMinimized}" (click)="sidebarMinimized=true"></div>
       </main>
+      <section class="app-messages" *ngIf="showDebug && isValidToken"></section>
     </section>
   `,
   styles: []

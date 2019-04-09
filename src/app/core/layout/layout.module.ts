@@ -5,12 +5,15 @@ import { LayoutRoutingModule } from './layout-routing.module';
 import { PublicViewComponent, PrivateViewComponent } from './_view-components';
 import { BreadcrumbsComponent, SidebarComponent, HeaderComponent, FooterComponent } from './_components';
 import { SharedModule } from '@/_shared/modules';
+import { MessageModule } from '@/_modules';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    SharedModule
+    LayoutRoutingModule,
+    SharedModule,
+    MessageModule
   ],
   declarations: [
       PublicViewComponent,
@@ -21,7 +24,6 @@ import { SharedModule } from '@/_shared/modules';
       FooterComponent
     ],
   exports: [
-    LayoutRoutingModule,
       BreadcrumbsComponent,
       SidebarComponent,
       HeaderComponent,
