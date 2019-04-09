@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { PublicViewComponent, PrivateViewComponent } from './_view-components';
-import { BreadcrumbsComponent, SidebarComponent, HeaderComponent, FooterComponent } from './_components';
+import { BreadcrumbsComponent, SidebarComponent, HeaderComponent, FooterComponent, PageNotFoundComponent, InternalServerErrorComponent } from './_components';
 import { SharedModule } from '@/_shared/modules';
 import { MessageModule } from '@/_modules';
 
@@ -21,13 +21,17 @@ import { MessageModule } from '@/_modules';
       BreadcrumbsComponent,
       SidebarComponent,
       HeaderComponent,
-      FooterComponent
+      FooterComponent,
+      PageNotFoundComponent,
+      InternalServerErrorComponent
     ],
   exports: [
       BreadcrumbsComponent,
       SidebarComponent,
       HeaderComponent,
-      FooterComponent
+      FooterComponent,
+      PageNotFoundComponent,
+      InternalServerErrorComponent
     ]
 })
 export class LayoutModule {}
