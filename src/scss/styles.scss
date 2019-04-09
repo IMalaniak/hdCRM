@@ -117,10 +117,16 @@ app-header {
 }
 
 main {
+  $hHeight: crmsize(header, height, true);
+  $height: calc(100% - #{$hHeight});
+
   flex-grow: 10;
   display: flex;
   flex-direction: row;
   width: 100vw;
+  max-height: $height;
+  flex-basis: $height;
+
   position: relative;
 
   .overlay {
@@ -190,6 +196,7 @@ footer {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
 }
 
 .breadcrumb {
