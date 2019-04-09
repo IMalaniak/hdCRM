@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard, PublicGuard } from '@/core/_guards';
 import { PublicViewComponent, PrivateViewComponent } from './_view-components';
-import { AuthModule, HomeModule, UsersModule, RolesModule, DashboardModule, PlannerModule, DepartmentsModule } from '@/_modules';
 import { PageNotFoundComponent } from './_components';
 
 const routes: Routes = [
@@ -11,9 +10,9 @@ const routes: Routes = [
     component: PublicViewComponent,
     children: [
       {path: '', pathMatch: 'full', redirectTo: 'home'},
-      {path: 'home', data: { breadcrumb: 'Home' }, loadChildren: () => HomeModule},
-      {path: 'auth', data: { breadcrumb: 'Authorization' }, canActivate: [PublicGuard], loadChildren: () => AuthModule},
-      { path: "**", component: PageNotFoundComponent }
+      {path: 'home', data: { breadcrumb: 'Home' }, loadChildren: '../../_modules/home/home.module#HomeModule'},
+      {path: 'auth', data: { breadcrumb: 'Authorization' }, canActivate: [PublicGuard], loadChildren:  '../../_modules/auth/auth.module#AuthModule'},
+      // { path: '**', component: PageNotFoundComponent }
     ]
   },
   {
@@ -22,14 +21,13 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {path: '', pathMatch: 'full', redirectTo: 'dashboard'},
-      {path: 'planner', loadChildren: () => PlannerModule},
-      {path: 'users', loadChildren: () => UsersModule },
-      {path: 'roles', loadChildren: () => RolesModule },
-      {path: 'dashboard', loadChildren: () => DashboardModule},
-      {path: 'departments', loadChildren: () => DepartmentsModule}
+      {path: 'planner', loadChildren:  '../../_modules/planner/planner.module#PlannerModule'},
+      {path: 'users', loadChildren:  '../../_modules/users/users.module#UsersModule' },
+      {path: 'roles', loadChildren:  '../../_modules/roles/roles.module#RolesModule' },
+      {path: 'dashboard', loadChildren:  '../../_modules/dashboard/dashboard.module#DashboardModule'},
+      {path: 'departments', loadChildren:  '../../_modules/departments/departments.module#DepartmentsModule'}
     ]
-  },
-  // { path: '**', redirectTo: '' }
+  }
 ];
 
 @NgModule({
