@@ -55,9 +55,7 @@ router.get('/list/:roleId', passport.authenticate('jwt', {session: false}), (req
 
 // check User privilege
 router.get('/availableForUser/:userId/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.User.findOne({
-		where: {id: req.params.userId}
-	}).then(user => {
+	models.User.findByPk(req.params.userId).then(user => {
 			user.getRoles().then(roles => {
 				const promises = [];
 				roles.forEach(role => {
@@ -84,9 +82,7 @@ router.get('/availableForUser/:userId/', passport.authenticate('jwt', {session: 
 
 // check User privilege
 router.get('/checkUser/:userId/:privilege', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.User.findOne({
-		where: {id: req.params.userId}
-	}).then(user => {
+	models.User.findByPk(req.params.userId).then(user => {
 			user.getRoles().then(roles => {
 				const promises = [];
 				roles.forEach(role => {

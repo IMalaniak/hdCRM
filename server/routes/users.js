@@ -10,7 +10,7 @@ const mailer = require('../mailer/nodeMailerTemplate');
 const Op = models.Sequelize.Op;
 
 function findUserById(userId){
-	return models.User.findById(userId, {
+	return models.User.findByPk(userId, {
 		attributes: { exclude: ['passwordHash', 'salt'] },
 		include: [
 			{
@@ -397,9 +397,7 @@ router.get('/list', passport.authenticate('jwt', {session: false}), (req, res, n
 
 //List by state
 router.get('/list/:stateId', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.State.findOne({
-		where: {id: req.params.stateId}
-	}).then(state => {
+	models.State.findByPk(req.params.stateId).then(state => {
 		state.getUsers({
 			attributes: { exclude: ['passwordHash', 'salt'] },
 			include: [
@@ -497,8 +495,7 @@ router.put('/updateUserState', passport.authenticate('jwt', {session: false}), (
 		}
 	).then(result => {
 		if (result) {
-			models.User.findOne({
-				where: {id: req.body.id},
+			models.User.findByPk(req.body.id, {
 				attributes: ['StateId'],
 				include: [{
 						model: models.State

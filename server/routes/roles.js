@@ -5,7 +5,7 @@ const passport = require('passport');
 
 
 function findRoleById(roleId){
-	return models.Role.findById(roleId, {
+	return models.Role.findByPk(roleId, {
 		include: [
 			{
 				model: models.User,

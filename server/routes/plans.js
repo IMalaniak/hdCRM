@@ -12,9 +12,7 @@ router.post('/create', passport.authenticate('jwt', {session: false}), (req, res
 		description: req.body.description,
 		progress: 0
 	}).then(plan => {
-		models.User.findOne({
-			where: {id: req.body.CreatorId}
-		}).then(user => {
+		models.User.findByPk(req.body.CreatorId).then(user => {
 			plan.setCreator(user).then(() => {
 				models.Stage.findAll({
 					where: {
@@ -103,9 +101,7 @@ router.get('/fullList/', passport.authenticate('jwt', {session: false}), (req, r
 
 //List of plans
 router.get('/stageList/:stage', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Stage.findOne({
-		where: {id: req.params.stage}
-	}).then(stage => {
+	models.Stage.findByPk(req.params.stage).then(stage => {
 		stage.getPlans({
 			include: [
 				{
@@ -142,8 +138,7 @@ router.get('/stageList/:stage', passport.authenticate('jwt', {session: false}), 
 
 //user by id
 router.get('/details/:id', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Plan.findOne({
-		where: {id: req.params.id},
+	models.Plan.findByPk(req.params.id, {
 		include: [
 			{
 				model: models.User,
@@ -213,9 +208,7 @@ router.put('/update', passport.authenticate('jwt', {session: false}), (req, res,
 		}
 	).then(result => {
 		if (result) {
-			models.Plan.findOne({
-				where: {id: req.body.id},
-			}).then(plan => {
+			models.Plan.findByPk(req.body.id).then(plan => {
 				if(req.body.Participants) {
 					models.User.findAll({
 						where: {
@@ -223,8 +216,7 @@ router.put('/update', passport.authenticate('jwt', {session: false}), (req, res,
 						}
 					}).then(users => {
 						plan.setParticipants(users).then(result => {
-							models.Plan.findOne({
-								where: {id: req.body.id},
+							models.Plan.findByPk(req.body.id, {
 								include: [
 									{
 										model: models.User,
@@ -330,8 +322,7 @@ router.put('/updatePlanStages', passport.authenticate('jwt', {session: false}), 
 
 // set next stage active
 router.get('/toNextStage/:id', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Plan.findOne({
-		where: {id: req.params.id},
+	models.Plan.findByPk(req.params.id, {
 		attributes: ['id', 'activeStageId'],
 		include: [
 			{
