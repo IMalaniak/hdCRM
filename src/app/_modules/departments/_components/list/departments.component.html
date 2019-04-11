@@ -1,6 +1,6 @@
 <section class="app-content-box" [title]="'Department list'" [showDataLoader]="true">
 
-  <div buttons>
+  <div buttons *ngIf="addDepPrivilege">
     <button mat-raised-button color="primary" class="crm-button" routerLink="/departments/add"><mat-icon>add_circle</mat-icon><span i18n="@@departmentsComponentActionsCreate">Create a new department</span></button>
   </div>
 

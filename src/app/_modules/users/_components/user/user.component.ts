@@ -6,7 +6,6 @@ import { AuthenticationService } from '@/_shared/services';
 import { UserService } from '../../_services';
 import { PrivilegeService, StateService } from '@/_shared/services';
 import { User } from '../../_models';
-import { Role } from '@/_modules/roles';
 import { State } from '@/core/_models';
 
 @Component({

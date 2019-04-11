@@ -54,7 +54,7 @@ export class PlanComponent implements OnInit, OnDestroy {
     this.getPlanData();
   }
 
-  canEditPlan(): boolean {
+  get canEditPlan(): boolean {
     return (this.editPlanPrivilege && this.configStagesPrivilege) || (this.appUser.id === this.plan.CreatorId);
   }
 

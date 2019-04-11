@@ -2,6 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { Role } from '../../_models';
 import { RoleService } from '../../_services';
 import { MatCheckboxChange } from '@angular/material';
+import { AuthenticationService, PrivilegeService } from '@/_shared/services';
 
 @Component({
   selector: 'app-roles',
@@ -9,16 +10,22 @@ import { MatCheckboxChange } from '@angular/material';
   styleUrls: ['./roles.component.scss']
 })
 export class RolesComponent implements OnInit {
+  addRolePrivilege: boolean;
   roles: Role[];
   selectedRoles: Role[];
   notSelectedRoles: Role[];
 
   constructor(
-    private roleService: RoleService
+    private roleService: RoleService,
+    private authService: AuthenticationService,
+    private privilegeService: PrivilegeService,
   ) {
   }
 
   ngOnInit() {
+    this.authService.currentUser.subscribe(user => {
+      this.addRolePrivilege = this.privilegeService.isPrivileged(user, 'addRole');
+    });
     this.getRolesData();
   }
 
