@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const models = require('../models/index');
+const db = require('../models/index');
 const passport = require('passport');
 
-//create
-router.post('/create', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Privilege.create({
+// create
+router.post('/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	db.Privilege.create({
 		keyString: req.body.keyString
 	}).then(result => {
 		res.status(200);
@@ -14,9 +14,9 @@ router.post('/create', passport.authenticate('jwt', {session: false}), (req, res
 	});
 });
 
-//full list
-router.get('/list', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Privilege.findAll().then(privileges => {
+// full list
+router.get('/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	db.Privilege.findAll().then(privileges => {
 		const privilegesObjNew = privileges.map(privilege => {
 			return {
 				id: privilege.id,
@@ -31,11 +31,11 @@ router.get('/list', passport.authenticate('jwt', {session: false}), (req, res, n
 });
 
 //List for role
-router.get('/list/:roleId', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Privilege.findAll({
+router.get('/:roleId', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	db.Privilege.findAll({
 		attributes: ['id', 'keyString'],
 		include: [{
-			model: models.Role,
+			model: db.Role,
 			where: {id: req.params.roleId},
 			required: false
 		}]
@@ -55,7 +55,7 @@ router.get('/list/:roleId', passport.authenticate('jwt', {session: false}), (req
 
 // check User privilege
 router.get('/availableForUser/:userId/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.User.findByPk(req.params.userId).then(user => {
+	db.User.findByPk(req.params.userId).then(user => {
 			user.getRoles().then(roles => {
 				const promises = [];
 				roles.forEach(role => {
@@ -82,7 +82,7 @@ router.get('/availableForUser/:userId/', passport.authenticate('jwt', {session: 
 
 // check User privilege
 router.get('/checkUser/:userId/:privilege', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.User.findByPk(req.params.userId).then(user => {
+	db.User.findByPk(req.params.userId).then(user => {
 			user.getRoles().then(roles => {
 				const promises = [];
 				roles.forEach(role => {

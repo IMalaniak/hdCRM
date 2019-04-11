@@ -14,20 +14,20 @@ export class DepartmentService {
   }
 
   createDepartment(department: Department) {
-    return this.http.post<any>(`${this.api}/create`, department);
+    return this.http.post<any>(this.api, department);
   }
 
   getDepartment(id: number): Observable<Department> {
-    const url = `${this.api}/details/${id}`;
+    const url = `${this.api}/${id}`;
     return this.http.get<Department>(url);
   }
 
   updateDepartment(department): Observable<Department> {
-    return this.http.put<Department>(`${this.api}/update`, department);
+    return this.http.put<Department>(this.api, department);
   }
 
   getDepartmentList(): Observable<Department[]> {
-    return this.http.get<Department[]>(`${this.api}/list`);
+    return this.http.get<Department[]>(this.api);
   }
 
 }

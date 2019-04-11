@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const models = require('../models/index');
+const db = require('../models/index');
 const passport = require('passport');
 
 //create
-router.post('/create', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Stage.create({
+router.post('/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	db.Stage.create({
 		keyString: req.body.keyString,
 	}).then(stage => {
 		res.status(200).json(stage);
@@ -15,8 +15,8 @@ router.post('/create', passport.authenticate('jwt', {session: false}), (req, res
 });
 
 //full list
-router.get('/list', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Stage.findAll().then(stages => {
+router.get('/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	db.Stage.findAll().then(stages => {
 		res.json(stages);
 	}).catch(error => {
 		res.status(400).json(error.toString());
@@ -24,17 +24,17 @@ router.get('/list', passport.authenticate('jwt', {session: false}), (req, res, n
 });
 
 router.get('/countPlans', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Stage.findAll({
+	db.Stage.findAll({
 		// attributes: {
 		// 	include: [
 		// 		[
-		// 			models.sequelize.fn('COUNT', models.sequelize.col('StagePlans')), 'planCount'
+		// 			db.sequelize.fn('COUNT', db.sequelize.col('StagePlans')), 'planCount'
 		// 		]	
 		// 	]
 		// },
 		include: [
 			{
-				model: models.Plan,
+				model: db.Plan,
 				attributes: ['id']
 			}
 		]

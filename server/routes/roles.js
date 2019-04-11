@@ -1,23 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const models = require('../models/index');
+const db = require('../models/index');
 const passport = require('passport');
 
 
 function findRoleById(roleId){
-	return models.Role.findByPk(roleId, {
+	return db.Role.findByPk(roleId, {
 		include: [
 			{
-				model: models.User,
+				model: db.User,
 				attributes: { exclude: ['passwordHash', 'salt'] },
 				include: [
 					{
-						model: models.Asset,
+						model: db.Asset,
 						as: 'avatar'
 					}
 				]
 			}, {
-				model: models.Privilege,
+				model: db.Privilege,
 				through: {
 					attributes: []
 				}
@@ -27,22 +27,23 @@ function findRoleById(roleId){
 }
 
 //create
-router.post('/create', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-
-	models.Role.create({
+router.post('/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	console.log(req.body);
+	
+	db.Role.create({
 		keyString: req.body.keyString
 	}).then(role => {
 		if(req.body.Privileges){
-			models.Privilege.findAll({
+			db.Privilege.findAll({
 				where: {
-					[models.Sequelize.Op.or] : req.body.Privileges
+					[db.Sequelize.Op.or] : req.body.Privileges
 				}
 			}).then(privileges => {
 				role.setPrivileges(privileges).then(result => {
 					if(req.body.Users){
-						models.User.findAll({
+						db.User.findAll({
 							where: {
-									[models.Sequelize.Op.or] : req.body.Users
+									[db.Sequelize.Op.or] : req.body.Users
 							}
 						}).then(users => {
 							role.setUsers(users).then(result => {
@@ -72,28 +73,18 @@ router.post('/create', passport.authenticate('jwt', {session: false}), (req, res
 
 });
 
-
-//List full
-router.get('/list', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Role.findAll().then(roles => {
-		res.json(roles);
-	}).catch(error => {
-		res.status(400).json(error.toString());
-	});
-});
-
 //full list with users and privileges
-router.get('/listFull', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Role.findAll({
+router.get('/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	db.Role.findAll({
 		include: [
 			{
-				model: models.Privilege,
+				model: db.Privilege,
 				through: {
 					attributes: []
 				}
 			},
 			{
-				model: models.User,
+				model: db.User,
 				attributes: ['id', 'login'],
 				through: {
 					attributes: []
@@ -108,7 +99,7 @@ router.get('/listFull', passport.authenticate('jwt', {session: false}), (req, re
 });
 
 //role by id
-router.get('/details/:id', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res, next) => {
 	findRoleById(req.params.id).then(role => {
 		res.json(role);
 	}).catch(error => {
@@ -118,8 +109,8 @@ router.get('/details/:id', passport.authenticate('jwt', {session: false}), (req,
 
 
 //update role
-router.put('/update', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Role.update(
+router.put('/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	db.Role.update(
 		{
 			keyString: req.body.keyString,
 		},
@@ -129,16 +120,16 @@ router.put('/update', passport.authenticate('jwt', {session: false}), (req, res,
 	).then(result => {
 			findRoleById(req.body.id).then(role => {
 				if(req.body.Privileges) {
-					models.Privilege.findAll({
+					db.Privilege.findAll({
 						where: {
-								[models.Sequelize.Op.or] : req.body.Privileges
+								[db.Sequelize.Op.or] : req.body.Privileges
 						}
 					}).then(privileges => {
 						role.setPrivileges(privileges).then(result => {
 							if(req.body.Users){
-								models.User.findAll({
+								db.User.findAll({
 									where: {
-											[models.Sequelize.Op.or] : req.body.Users
+											[db.Sequelize.Op.or] : req.body.Users
 									}
 								}).then(users => {
 									role.setUsers(users).then(result => {

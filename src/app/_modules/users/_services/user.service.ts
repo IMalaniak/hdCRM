@@ -19,18 +19,16 @@ export class UserService {
     return this.http.get<User>(`${this.api}/profile`);
   }
 
-  getList(stateId?: number): Observable<User[]> {
-    const url = stateId ? `${this.api}/list/${stateId}` : `${this.api}/list`;
-    return this.http.get<User[]>(url);
+  getList(): Observable<User[]> {
+    return this.http.get<User[]>(this.api);
   }
 
   getUser(id: number): Observable<User> {
-    const url = `${this.api}/userDetails/${id}`;
-    return this.http.get<User>(url);
+    return this.http.get<User>(`${this.api}/${id}`);
   }
 
   updateUser(user: User): Observable<User> {
-    return this.http.put<User>(`${this.api}/updateUser`, user);
+    return this.http.put<User>(`${this.api}/${user.id}`, user);
   }
 
   updateUserState(user: User): Observable<User> {

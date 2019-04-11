@@ -13,7 +13,7 @@ export class StateService {
   }
 
   getStatesList(): Observable<State[]> {
-    return this.http.get<State[]>(`${this.api}/listFull`);
+    return this.http.get<State[]>(this.api);
   }
 
 }

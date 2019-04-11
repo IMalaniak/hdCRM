@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { Validators, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { Role } from '../../_models';
@@ -76,6 +76,7 @@ export class AddRoleComponent implements OnInit {
   }
 
   onRegisterSubmit() {
+    this.role.keyString = this.keyString.value;
     const selectedPrivileges = this.privileges.filter(privilege => privilege.selected);
     if (selectedPrivileges.length > 0) {
       this.role.Privileges = selectedPrivileges.map(privilege => {
@@ -109,7 +110,6 @@ export class AddRoleComponent implements OnInit {
           type: 'error',
           timer: 1500
         });
-        this.router.navigate(['/register/role']);
       }
     );
   }

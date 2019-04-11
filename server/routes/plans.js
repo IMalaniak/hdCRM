@@ -1,23 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const models = require('../models/index');
+const db = require('../models/index');
 const passport = require('passport');
 
-//create
-router.post('/create', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Plan.create({
+// create
+router.post('/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	db.Plan.create({
 		title: req.body.title,
 		budget: req.body.budget,
 		deadline: req.body.deadline,
 		description: req.body.description,
 		progress: 0
 	}).then(plan => {
-		models.User.findByPk(req.body.CreatorId).then(user => {
+		db.User.findByPk(req.body.CreatorId).then(user => {
 			plan.setCreator(user).then(() => {
-				models.Stage.findAll({
+				db.Stage.findAll({
 					where: {
 						keyString: {
-							[models.Sequelize.Op.or]: ['created', 'inProgress', 'finished']
+							[db.Sequelize.Op.or]: ['created', 'inProgress', 'finished']
 						}
 					}
 				}).then(stages => {
@@ -33,9 +33,9 @@ router.post('/create', passport.authenticate('jwt', {session: false}), (req, res
 					}
 
 					if(req.body.Participants) {
-						models.User.findAll({
+						db.User.findAll({
 							where: {
-								[models.Sequelize.Op.or] : req.body.Participants
+								[db.Sequelize.Op.or] : req.body.Participants
 							}
 						}).then(users => {
 							plan.setParticipants(users).then(() => {
@@ -64,21 +64,21 @@ router.post('/create', passport.authenticate('jwt', {session: false}), (req, res
 	});
 });
 
-//List of plans
-router.get('/fullList/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Plan.findAll({
+// List
+router.get('/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	db.Plan.findAll({
 		include: [
 			{
-				model: models.User,
+				model: db.User,
 				as: 'Creator',
 				attributes: { exclude: ['passwordHash', 'salt'] },
 				include: {
-					model: models.Asset,
+					model: db.Asset,
 					as: 'avatar'
 				}
 			},
 			{
-				model: models.User,
+				model: db.User,
 				as: 'Participants',
 				attributes: { exclude: ['passwordHash', 'salt'] },
 				through: {
@@ -86,7 +86,7 @@ router.get('/fullList/', passport.authenticate('jwt', {session: false}), (req, r
 				}
 			},
 			{
-				model: models.Stage,
+				model: db.Stage,
 				as: 'activeStage'
 			}
 		]
@@ -101,20 +101,20 @@ router.get('/fullList/', passport.authenticate('jwt', {session: false}), (req, r
 
 //List of plans
 router.get('/stageList/:stage', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Stage.findByPk(req.params.stage).then(stage => {
+	db.Stage.findByPk(req.params.stage).then(stage => {
 		stage.getPlans({
 			include: [
 				{
-					model: models.User,
+					model: db.User,
 					as: 'Creator',
 					attributes: { exclude: ['passwordHash', 'salt'] },
 					include: {
-						model: models.Asset,
+						model: db.Asset,
 						as: 'avatar'
 					}
 				},
 				{
-					model: models.User,
+					model: db.User,
 					as: 'Participants',
 					attributes: { exclude: ['passwordHash', 'salt'] },
 					through: {
@@ -122,7 +122,7 @@ router.get('/stageList/:stage', passport.authenticate('jwt', {session: false}), 
 					}
 				},
 				{
-					model: models.Stage,
+					model: db.Stage,
 					as: 'activeStage'
 				}
 			]
@@ -137,45 +137,45 @@ router.get('/stageList/:stage', passport.authenticate('jwt', {session: false}), 
 });
 
 //user by id
-router.get('/details/:id', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Plan.findByPk(req.params.id, {
+router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	db.Plan.findByPk(req.params.id, {
 		include: [
 			{
-				model: models.User,
+				model: db.User,
 				as: 'Creator',
 				attributes: { exclude: ['passwordHash', 'salt'] },
 				include: [
 					{
-						model: models.Asset,
+						model: db.Asset,
 						as: 'avatar'
 					}
 				]
 			},
 			{
-				model: models.User,
+				model: db.User,
 				as: 'Participants',
 				attributes: { exclude: ['passwordHash', 'salt'] },
 				through: {
 					attributes: []
 				},
 				include: {
-					model: models.Asset,
+					model: db.Asset,
 					as: 'avatar'
 				}
 			},
 			{
-				model: models.Asset,
+				model: db.Asset,
 				as: 'Documents',
 				through: {
 					attributes: []
 				}
 			},
 			{
-				model: models.Stage,
+				model: db.Stage,
 				as: 'activeStage'
 			},
 			{
-				model: models.Stage,
+				model: db.Stage,
 				as: 'Stages',
 				through: {
 					as: 'Details',
@@ -184,7 +184,7 @@ router.get('/details/:id', passport.authenticate('jwt', {session: false}), (req,
 			}
 		],
 		order: [ 
-			[models.Sequelize.col('order')]
+			[db.Sequelize.col('order')]
 		]
 	}).then(plan => {
 		res.json(plan);
@@ -195,8 +195,8 @@ router.get('/details/:id', passport.authenticate('jwt', {session: false}), (req,
 
 
 //update plan by id
-router.put('/update', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Plan.update(
+router.put('/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	db.Plan.update(
 		{
 			title: req.body.title,
 			description: req.body.description,
@@ -208,52 +208,52 @@ router.put('/update', passport.authenticate('jwt', {session: false}), (req, res,
 		}
 	).then(result => {
 		if (result) {
-			models.Plan.findByPk(req.body.id).then(plan => {
+			db.Plan.findByPk(req.body.id).then(plan => {
 				if(req.body.Participants) {
-					models.User.findAll({
+					db.User.findAll({
 						where: {
-								[models.Sequelize.Op.or] : req.body.Participants
+								[db.Sequelize.Op.or] : req.body.Participants
 						}
 					}).then(users => {
 						plan.setParticipants(users).then(result => {
-							models.Plan.findByPk(req.body.id, {
+							db.Plan.findByPk(req.body.id, {
 								include: [
 									{
-										model: models.User,
+										model: db.User,
 										as: 'Creator',
 										attributes: { exclude: ['passwordHash', 'salt'] },
 										include: [
 											{
-												model: models.Asset,
+												model: db.Asset,
 												as: 'avatar'
 											}
 										]
 									},
 									{
-										model: models.User,
+										model: db.User,
 										as: 'Participants',
 										attributes: { exclude: ['passwordHash', 'salt'] },
 										through: {
 											attributes: []
 										},
 										include: {
-											model: models.Asset,
+											model: db.Asset,
 											as: 'avatar'
 										}
 									},
 									{
-										model: models.Asset,
+										model: db.Asset,
 										as: 'Documents',
 										through: {
 											attributes: []
 										}
 									},
 									{
-										model: models.Stage,
+										model: db.Stage,
 										as: 'activeStage'
 									},
 									{
-										model: models.Stage,
+										model: db.Stage,
 										as: 'Stages',
 										through: {
 											as: 'Details',
@@ -262,7 +262,7 @@ router.put('/update', passport.authenticate('jwt', {session: false}), (req, res,
 									}
 								],
 								order: [ 
-									[models.Sequelize.col('order')]
+									[db.Sequelize.col('order')]
 								]
 							}).then(plan => {
 								res.json(plan);
@@ -286,13 +286,13 @@ router.put('/update', passport.authenticate('jwt', {session: false}), (req, res,
 });
 
 router.put('/updatePlanStages', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Plan.findByPk(req.body.id).then(plan => {
+	db.Plan.findByPk(req.body.id).then(plan => {
 		const stageIds = req.body.Stages.map(stage => {
 			return {id: stage.id}
 		});
-		models.Stage.findAll({
+		db.Stage.findAll({
 			where: {
-				[models.Sequelize.Op.or] : stageIds
+				[db.Sequelize.Op.or] : stageIds
 			}
 		}).then(stages => {
 			stages = stages.map(stage => {
@@ -322,15 +322,15 @@ router.put('/updatePlanStages', passport.authenticate('jwt', {session: false}), 
 
 // set next stage active
 router.get('/toNextStage/:id', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Plan.findByPk(req.params.id, {
+	db.Plan.findByPk(req.params.id, {
 		attributes: ['id', 'activeStageId'],
 		include: [
 			{
-				model: models.Stage,
+				model: db.Stage,
 				as: 'activeStage'
 			},
 			{
-				model: models.Stage,
+				model: db.Stage,
 				as: 'Stages',
 				through: {
 					as: 'Details',
@@ -339,7 +339,7 @@ router.get('/toNextStage/:id', passport.authenticate('jwt', {session: false}), (
 			}
 		],
 		order: [ 
-			[models.Sequelize.col('order')]
+			[db.Sequelize.col('order')]
 		]
 	}).then(plan => {
 		plan.Stages.forEach((stage, i) => {

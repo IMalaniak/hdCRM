@@ -30,12 +30,19 @@ app.get('/*', (req, res) => {
 	res.sendFile(path.join(__dirname, './dist/webApp/index.html'));
 });
 
-// //Start DB
-db.sequelize.sync({
-	//alter: true,
-	//force: true
-}).then(() => {
+if (env.NODE_ENV !== 'production') {
+  // //Start DB
+  db.sequelize.sync({
+    //alter: true,
+    //force: true
+  }).then(() => {
+    app.listen(env.PORT, () => {
+      console.log('Express listening on port:', env.PORT);
+    });
+  });
+} else {
   app.listen(env.PORT, () => {
     console.log('Express listening on port:', env.PORT);
   });
-});
+}
+

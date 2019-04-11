@@ -1,6 +1,6 @@
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
-const models = require('../models/index');
+const db = require('../models/index');
 const env = require('./env');
 
 module.exports = function(passport){
@@ -11,27 +11,27 @@ module.exports = function(passport){
 	//opts.issuer = 'accounts.examplesoft.com';
 	//opts.audience = 'yoursite.net';
 	passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
-		models.User.findOne({
+		db.User.findOne({
 			where: {id: jwt_payload.id},
 			attributes: { exclude: ['passwordHash', 'salt'] },
 			include: [
 				{
-					model: models.Role,
+					model: db.Role,
 					through: {
 						attributes: []
 					},
 					required: false
 				}, {
-					model: models.State
+					model: db.State
 				}, {
-					model: models.Asset,
+					model: db.Asset,
 					as: 'avatar',
 					required: false
 				}, {
-					model: models.UserLoginHistory,
+					model: db.UserLoginHistory,
 					required: false
 				}, {
-					model: models.Department,
+					model: db.Department,
 					required: false,
 				}
 			]

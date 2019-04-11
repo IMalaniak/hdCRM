@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import swal from 'sweetalert2';
 import { AuthenticationService } from '@/_shared/services';
-import { RoleService } from '@/_modules/roles/_services';
-import { Role } from '@/_modules/roles';
-import { Response } from '@/core/_models';
+// import { RoleService } from '@/_modules/roles/_services';
+// import { Role } from '@/_modules/roles';
+// import { Response } from '@/core/_models';
 import { User } from '@/_modules/users';
 
 @Component({
@@ -14,7 +14,7 @@ import { User } from '@/_modules/users';
 })
 export class RegisterUserComponent implements OnInit {
   user: User;
-  roles: Role[];
+  // roles: Role[];
   langs: string[];
   userData: FormGroup;
   hidePassword = true;
@@ -22,16 +22,16 @@ export class RegisterUserComponent implements OnInit {
 
   constructor(
     private authService: AuthenticationService,
-    private roleService: RoleService,
+    // private roleService: RoleService,
     private _formBuilder: FormBuilder
   ) {
     this.user = new User();
   }
 
   ngOnInit() {
-    this.roleService.getRolesList().subscribe(roles => {
-      this.roles = roles;
-    });
+    // this.roleService.getFullList().subscribe(roles => {
+    //   this.roles = roles;
+    // });
 
     this.userData = this._formBuilder.group({
       formArray: this._formBuilder.array([
@@ -69,9 +69,9 @@ export class RegisterUserComponent implements OnInit {
     });
   }
 
-  onRoleSelect(list) {
-    this.selectedRolesIds = list.selectedOptions.selected.map(item => item.value);
-  }
+  // onRoleSelect(list) {
+  //   this.selectedRolesIds = list.selectedOptions.selected.map(item => item.value);
+  // }
 
   get formArray(): AbstractControl | null { return this.userData.get('formArray'); }
   get login() { return this.formArray.get([0]).get('login'); }
@@ -91,9 +91,9 @@ export class RegisterUserComponent implements OnInit {
     this.user.phone = this.phone.value;
     this.user.defaultLang = this.defaultLang.value;
 
-    if (this.selectedRolesIds.length) {
-      this.user.selectedRoleIds = this.selectedRolesIds;
-    }
+    // if (this.selectedRolesIds.length) {
+    //   this.user.selectedRoleIds = this.selectedRolesIds;
+    // }
 
     this.authService.registerUser(this.user).subscribe(
       data => {

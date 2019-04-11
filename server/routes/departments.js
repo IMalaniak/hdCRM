@@ -1,37 +1,37 @@
 const express = require('express');
 const router = express.Router();
-const models = require('../models/index');
+const db = require('../models/index');
 const passport = require('passport');
 
 function findDepByPk(id){
-	return models.Department.findByPk(id, {
+	return db.Department.findByPk(id, {
 		include: [
 			{
-				model: models.Department,
+				model: db.Department,
 				as: "ParentDepartment",
 				required: false,
 			}, {
-				model: models.Department,
+				model: db.Department,
 				as: "SubDepartments",
 				required: false,
 			}, {
-				model: models.User,
+				model: db.User,
 				as: "Workers",
 				attributes: { exclude: ['passwordHash', 'salt'] },
 				include: [
 					{
-						model: models.Asset,
+						model: db.Asset,
 						as: 'avatar'
 					}
 				],
 				required: false
 			}, {
-				model: models.User,
+				model: db.User,
 				as: 'Manager',
 				attributes: { exclude: ['passwordHash', 'salt'] },
 				include: [
 					{
-						model: models.Asset,
+						model: db.Asset,
 						as: 'avatar'
 					}
 				],
@@ -53,9 +53,9 @@ function addParentDepPr(dep, parentDepartment) {
 
 function addSubDepartmentsPr(dep, subDepartments) {
 	return new Promise((resolve, reject) => {
-		models.Department.findAll({
+		db.Department.findAll({
 			where: {
-				[models.Sequelize.Op.or] : subDepartments
+				[db.Sequelize.Op.or] : subDepartments
 			}
 		}).then(deps => {
 			dep.setSubDepartments(deps).then(resp => {
@@ -71,9 +71,9 @@ function addSubDepartmentsPr(dep, subDepartments) {
 
 function addWorkersPr(dep, workers) {
 	return new Promise((resolve, reject) => {
-		models.User.findAll({
+		db.User.findAll({
 			where: {
-				[models.Sequelize.Op.or] : workers
+				[db.Sequelize.Op.or] : workers
 			}
 		}).then(users => {
 			dep.setWorkers(users).then(resp => {
@@ -87,9 +87,9 @@ function addWorkersPr(dep, workers) {
 	});
 }
 
-//create
-router.post('/create', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Department.create({
+// create
+router.post('/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	db.Department.create({
 		title: req.body.title,
 		description: req.body.description,
 		managerId: req.body.Manager.id
@@ -110,36 +110,36 @@ router.post('/create', passport.authenticate('jwt', {session: false}), (req, res
 });
 
 
-//List full
-router.get('/list', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Department.findAll({
+// List full
+router.get('/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	db.Department.findAll({
 		include: [
 			{
-				model: models.Department,
+				model: db.Department,
 				as: "ParentDepartment",
 				required: false,
 			}, {
-				model: models.Department,
+				model: db.Department,
 				as: "SubDepartments",
 				required: false,
 			}, {
-				model: models.User,
+				model: db.User,
 				as: "Workers",
 				attributes: { exclude: ['passwordHash', 'salt'] },
 				include: [
 					{
-						model: models.Asset,
+						model: db.Asset,
 						as: 'avatar'
 					}
 				],
 				required: false
 			}, {
-				model: models.User,
+				model: db.User,
 				as: 'Manager',
 				attributes: { exclude: ['passwordHash', 'salt'] },
 				include: [
 					{
-						model: models.Asset,
+						model: db.Asset,
 						as: 'avatar'
 					}
 				],
@@ -153,8 +153,8 @@ router.get('/list', passport.authenticate('jwt', {session: false}), (req, res, n
 	});
 });
 
-//role by id
-router.get('/details/:id', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+// dep by id
+router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res, next) => {
 	findDepByPk(req.params.id).then(dep => {
 		res.status(200).json(dep);
 	}).catch(error => {
@@ -164,8 +164,8 @@ router.get('/details/:id', passport.authenticate('jwt', {session: false}), (req,
 
 
 //update role
-router.put('/update', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	models.Department.update({
+router.put('/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	db.Department.update({
 		title: req.body.title,
 		description: req.body.description,
 		managerId: req.body.Manager.id

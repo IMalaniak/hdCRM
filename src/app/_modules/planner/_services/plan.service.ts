@@ -14,11 +14,11 @@ export class PlanService {
   }
 
   createPlan(plan: Plan) {
-    return this.http.post<any>(`${this.api}/create`, plan);
+    return this.http.post<any>(this.api, plan);
   }
 
   getFullList(): Observable<Plan[]> {
-    return this.http.get<Plan[]>(`${this.api}/fullList`);
+    return this.http.get<Plan[]>(this.api);
   }
 
   getListByStage(stage: number): Observable<Plan[]> {
@@ -27,12 +27,11 @@ export class PlanService {
   }
 
   getPlan(id: number): Observable<Plan> {
-    const url = `${this.api}/details/${id}`;
-    return this.http.get<Plan>(url);
+    return this.http.get<Plan>(`${this.api}/${id}`);
   }
 
   updatePlan(plan): Observable<Plan> {
-    return this.http.put<Plan>(`${this.api}/update`, plan);
+    return this.http.put<Plan>(this.api, plan);
   }
 
   updatePlanStages(plan): Observable<Plan> {

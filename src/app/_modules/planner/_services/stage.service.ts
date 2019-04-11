@@ -15,11 +15,11 @@ export class StageService {
   }
 
   createStage(stage: Stage): Observable<Stage> {
-    return this.http.post<Stage>(`${this.api}/create`, stage);
+    return this.http.post<Stage>(this.api, stage);
   }
 
   getStagesList(): Observable<Stage[]> {
-    return this.http.get<Stage[]>(`${this.api}/list`);
+    return this.http.get<Stage[]>(this.api);
   }
 
   countPlansByStage(): Observable<Stage[]> {

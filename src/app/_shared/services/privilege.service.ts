@@ -19,12 +19,12 @@ export class PrivilegeService {
   }
 
   getPrivilegesListForRole(roleId: number): Observable<Privilege[]> {
-    const url = `${this.api}/list/${roleId}`;
+    const url = `${this.api}/${roleId}`;
     return this.http.get<Privilege[]>(url);
   }
 
   getFullList(): Observable<Privilege[]> {
-    return this.http.get<Privilege[]>(`${this.api}/list`);
+    return this.http.get<Privilege[]>(this.api);
   }
 
   isPrivileged(user, privilege): boolean {

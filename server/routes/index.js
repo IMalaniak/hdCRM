@@ -1,6 +1,7 @@
 const api = require('express').Router();
 
 const users = require('./users');
+const auth = require('./auth');
 const roles = require('./roles');
 const privileges = require('./privileges');
 const states = require('./states');
@@ -11,8 +12,10 @@ const departments = require('./departments');
 
 
 api.get('/', (req, res) => {
-    res.status(200).json({ message: 'Connected!' });
+    res.status(200).json({ success: true, message: 'Connected!' });
 });
+
+api.use('/auth', auth);
 api.use('/users', users);
 api.use('/roles', roles);
 api.use('/privileges', privileges);
