@@ -1,7 +1,8 @@
 import { Role } from '@/_modules/roles';
 import { State } from '@/core/_models';
 import { Asset } from '@/_modules/attachments';
-import { UserLoginHistory } from './userLoginHistory'
+import { UserLoginHistory } from './userLoginHistory';
+import { PasswordAttribute } from './passwordAttribute';
 import { Department } from '@/_modules/departments';
 
 export class User {
@@ -25,4 +26,5 @@ export class User {
   selected: boolean;
   token?: string;
   lastSessionData: UserLoginHistory;
+  PasswordAttributes: PasswordAttribute[];
 }

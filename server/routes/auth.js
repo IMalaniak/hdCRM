@@ -175,7 +175,12 @@ router.post('/authenticate', (req, res, next) => {
 					required: false
 				}, {
 					model: db.Department,
-					required: false,
+					required: false
+				}, {
+					model: db.PasswordAttributes,
+					as: 'PasswordAttributes',
+					attributes: ['updatedAt', 'passwordExpire'],
+					required: false
 				}
 			]
 		}).then(user => {
@@ -208,13 +213,23 @@ router.post('/authenticate', (req, res, next) => {
 					email: user.email,
 					defaultLang: user.defaultLang,
 					avatar: user.avatar,
-					token: 'JWT ' + token,
-					lastSessionData: user.UserLoginHistory,
-					Department: user.Department
+					token: 'JWT ' + token
 				};
 
-				if (user.Roles.length > 0) {
+				if (user.Roles && user.Roles.length > 0) {
 					tmpUser.Roles = user.Roles;
+				}
+
+				if (user.UserLoginHistory) {
+					tmpUser.lastSessionData = user.UserLoginHistory;
+				}
+
+				if (user.Department) {
+					tmpUser.Department = user.Department;
+				}
+
+				if (user.PasswordAttributes) {
+					tmpUser.PasswordAttributes = user.PasswordAttributes;
 				}
 
 				saveLogInAttempt(req, user, true);
