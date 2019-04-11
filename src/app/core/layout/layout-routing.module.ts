@@ -12,7 +12,6 @@ const routes: Routes = [
       {path: '', pathMatch: 'full', redirectTo: 'home'},
       {path: 'home', data: { breadcrumb: 'Home' }, loadChildren: '../../_modules/home/home.module#HomeModule'},
       {path: 'auth', data: { breadcrumb: 'Authorization' }, canActivate: [PublicGuard], loadChildren:  '../../_modules/auth/auth.module#AuthModule'},
-      // { path: '**', component: PageNotFoundComponent }
     ]
   },
   {
@@ -27,7 +26,8 @@ const routes: Routes = [
       {path: 'dashboard', loadChildren:  '../../_modules/dashboard/dashboard.module#DashboardModule'},
       {path: 'departments', loadChildren:  '../../_modules/departments/departments.module#DepartmentsModule'}
     ]
-  }
+  },
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
