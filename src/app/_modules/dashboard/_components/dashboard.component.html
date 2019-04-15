@@ -16,11 +16,32 @@
                     <li class="roles" *ngIf="appUser.Roles">
                         <span *ngFor="let role of appUser.Roles; last as isLast ">{{ role.keyString }}</span>
                     </li>
-                    <li *ngIf="appUser.lastSessionData" class="lastSessionData">
-                        <div *ngIf="appUser.lastSessionData.dateLastLoggedIn">
+                </ul>    
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-4 col-xl-3" *ngIf="appUser">
+        <div class="card shadow user-card">
+            <div class="card-body">
+                <h5 class="card-title" i18n="@@dashboardCardsUserSessionData">Session data</h5>
+                <ul class="sessionData">
+                    <li *ngIf="appUser.PasswordAttributes && appUser.PasswordAttributes.passwordExpire">
+                        <div>
+                            <small i18n="@@dashboardCardsUserPasswordExpireDate">Password expire date:</small><small>{{ appUser.PasswordAttributes.passwordExpire | date: 'medium' }}</small>
+                        </div>
+                    </li>
+                    <li *ngIf="appUser.PasswordAttributes && appUser.PasswordAttributes.updatedAt">
+                        <div>
+                            <small i18n="@@dashboardCardsUserPasswordUpdatedDate">Last password update:</small><small>{{ appUser.PasswordAttributes.updatedAt | date: 'medium' }}</small>
+                        </div>                   
+                    </li>
+                    <li *ngIf="appUser.lastSessionData && appUser.lastSessionData.dateLastLoggedIn">
+                        <div>
                             <small i18n="@@dashboardCardsUserDateLastLoggedIn">Last session:</small><small>{{ appUser.lastSessionData.dateLastLoggedIn | date: 'medium' }}</small>
                         </div>
-                        <div *ngIf="appUser.lastSessionData.dateUnsuccessfulLogIn">
+                    </li>
+                    <li *ngIf="appUser.lastSessionData && appUser.lastSessionData.dateUnsuccessfulLogIn">
+                        <div>
                             <small i18n="@@dashboardCardsUserDateUnsuccessfulLogIn">Unsuccessful login:</small><small>{{ appUser.lastSessionData.dateUnsuccessfulLogIn | date: 'medium' }}</small>
                         </div>                   
                     </li>

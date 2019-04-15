@@ -38,16 +38,27 @@
         }
     }
 
-    .lastSessionData {
-        > div {
+    .sessionData {
+        li > div {
             display: flex;
             justify-content: space-between;
             align-content: center;
-        }
 
-        @include media-breakpoint-down(md) {
-            > div {
+            small {
+                &:first-child {
+                    text-align: left;
+                }
+                &:last-child {
+                    text-align: right;
+                }
+            }
+
+            @include media-breakpoint-down(md) {
                 flex-direction: column;
+
+                small {
+                    text-align: center;
+                }
             }
         }
     }
