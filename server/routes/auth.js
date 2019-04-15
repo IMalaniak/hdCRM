@@ -41,7 +41,7 @@ router.post('/register', (req, res, next) => {
 	const passwordData = crypt.saltHashPassword(tempPassword);
 
 	const sendInvitationMail = function(user) {
-		const token = crypt.genTimeLimitedToken(60);
+		const token = crypt.genTimeLimitedToken(24*60);
 		user.createPasswordAttributes({
 			token: token.value,
 			tokenExpire: token.expireDate,

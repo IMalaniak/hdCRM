@@ -1,4 +1,4 @@
-export class PasswordAttribute {
+export class PasswordAttributes {
   passwordExpire: string;
   updatedAt: string;
 }
