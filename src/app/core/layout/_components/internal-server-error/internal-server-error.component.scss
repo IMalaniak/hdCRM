@@ -1,4 +1,5 @@
 @import "~bootstrap/scss/mixins/breakpoints";
+@import 'mixins';
 @import 'variables';
 
 .internal-server-error {
@@ -9,8 +10,16 @@
     align-items: center;
 
     .error-number {
-        font-size: 8em;
-        color: #3F51B5;
+        font-size: 14em;
+        font-weight: bold;
+        color: crmcolor(warn, base);
+    }
+
+    .error {
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 2.5em;
+        color: crmcolor(warn, base);
     }
 
     @include media-breakpoint-down(md) {
