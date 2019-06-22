@@ -7,9 +7,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor() {
   }
+  
+  ngOnInit() {  
+    const hamburger = document.querySelector(".hamburger");
+    const nav = document.querySelector("nav");
 
+    //Hamburger toggle
+    hamburger.addEventListener("click", () => {
+      hamburger.classList.toggle('active');
+      hamburger.classList.toggle('not-active');
+    });
+ 
+    //Navbar shrink animation
+    window.onscroll = function() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        nav.classList.add('nav-shrink');
+      } else {
+        nav.classList.remove('nav-shrink');
+      }
+
+    //Navbar md remove shrink animation
+      if (window.matchMedia("(max-width: 991px)").matches) {
+        nav.classList.remove('nav-shrink');
+      }
+    };
+
+  }
 }
