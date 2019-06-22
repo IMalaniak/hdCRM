@@ -1,4 +1,5 @@
-<section class="login-section" >
+<section class="login-section">
+  <h3 class="crm-brand">Crm company</h3>
   <div class="row">
     <div class="col col-md">
       <form (submit)="onLoginSubmit()" *ngIf="currentPath === 'login'">
@@ -23,7 +24,7 @@
               <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
             </mat-form-field>  
             <button mat-raised-button color="primary" class="crm-button mb-3" type="submit"><mat-icon>vpn_key</mat-icon><span i18n="@@loginComponentFormActionsLogIn">Login</span></button>
-            <button mat-button type="button" class="text-muted mx-auto" routerLink="/auth/request-new-password/" i18n="@@loginComponentActionsForgotYourPassword">Forgot password</button>
+            <button mat-button type="button" class="text-muted mx-auto" routerLink="/auth/request-new-password/" i18n="@@loginComponentActionsForgotYourPassword">Forgot password?</button>
           </mat-card-content>
         </mat-card>
       </form>
