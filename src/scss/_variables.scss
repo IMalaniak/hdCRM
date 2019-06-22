@@ -5,24 +5,32 @@ $crmcolors: (
     light: #FFF,
     dark: lighten(#000, 10%)
   ),
+  primary: (
+    base: #039be5,
+    light: lighten(#FFBB00, 15%),
+    dark: darken(#FFBB00, 15%)
+  ),
+  accent: (
+    base: #00897b
+  ),
+  warn: (
+    base: #e53935
+  ),
+  secondary: (
+    base: #0969A2,
+    light: #f8f8f8,
+    dark: darken(#f8f8f8, 8%)
+  ),
+  text: #FFF,
+  background: #333,
+
+  //Delete, but first set all scss without highlight
   highlight: (
     base: #D1E751,
     light: #4DBCE9,
     dark: #26ADE4,
     green: #42A948,
     red: #a94442
-  ),
-  text: #FFF,
-  background: #333,
-  primary: (
-    base: #FFBB00,
-    light: lighten(#FFBB00, 15%),
-    dark: darken(#FFBB00, 15%)
-  ),
-  secondary: (
-    base: #0969A2,
-    light: #f8f8f8,
-    dark: darken(#f8f8f8, 8%)
   )
 );
 

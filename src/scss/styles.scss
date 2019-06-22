@@ -13,8 +13,11 @@
 @import "~bootstrap/scss/utilities";
 // @import "~bootstrap/scss/print";
 @import 'styles-reset';
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import 'root';
+
+@import "theme.scss";
+@include mat-core();
+@include angular-material-theme($crm-theme);
 
 html, body {
   margin: 0;
@@ -66,13 +69,13 @@ app-header {
       cursor: pointer;
     }
 
-    &:last-of-type {
+    // &:last-of-type {
 
-    }
+    // }
 
-    &.user-search {
+    // &.user-search {
 
-    }
+    // }
 
     &.user-dropdown {
       > i {
