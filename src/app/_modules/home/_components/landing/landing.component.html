@@ -1,35 +1,17 @@
+<nav>
+  <div class="nav-container">
+    <a class="crm-brand"><span i18n="@@landingComponentNavBrand">Crm company</span></a>
+    <button mat-raised-button color="primary" [routerLink]="['/auth']" i18n="@@landingComponentNavActionsLogIn">Log in</button>
+  </div>
+</nav>
 <section id="home">
   <div class="background"></div>
   <div class="background background-2"></div>
   <div class="background background-3"></div>
   <div class="background background-4"></div>
-  <nav>
-    <div class="nav-container">
-      <input type="checkbox" id="nav-check">
-      <a class="crm-brand"><span i18n="@@landingComponentNavBrand">Crm company</span></a>
-      <div class="hamburger not-active">
-        <label for="nav-check">
-          <span></span>
-          <span></span>
-          <span></span>
-        </label>
-      </div>
-      <ul>
-        <li>
-          <a><span i18n="@@landingComponentNavMenuHome">Home</span></a>
-        </li>
-        <li>
-          <a><span i18n="@@landingComponentNavMenuContact">Contact</span></a>
-        </li>
-        <li>
-          <button mat-raised-button color="primary" [routerLink]="['/auth']" i18n="@@landingComponentActionsLogIn">Log in</button>
-        </li>
-      </ul>
-    </div>  
-  </nav>
   <div class="container-fluid home-content">
     <div class="row">
-      <div class="col-sm-12 col-md-12 col-lg-6">
+      <div class="col-sm-12 col-md-10 col-lg-6">
         <span i18n="@@landingComponentHomeContentCrmTitle">Crm</span>
         <h1 i18n="@@landingComponentHomeContentCrmFullSubTitle">Customer relationship management</h1>
         <h3 i18n="@@landingComponentHomeContentCrmBuildAStrategy">Build a strategy of communication with your clients and potencial customers.</h3>
@@ -38,5 +20,3 @@
     </div>
   </div> 
 </section> 
-
-

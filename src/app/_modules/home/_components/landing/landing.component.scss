@@ -3,8 +3,38 @@
 @import "~bootstrap/scss/mixins/_gradients";
 @import "~bootstrap/scss/mixins/_breakpoints";
 
-$cubic: cubic-bezier(0.4, 0.01, 0.165, 0.99);
-$menuItems: 3;
+nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    background-color: crmcolor(main, light);
+    box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.1);
+    height: 4.3em;
+    z-index: 999;
+
+    .nav-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 0 1em;
+        margin: 0 auto;
+
+        .crm-brand {
+            color: crmcolor(main, dark);
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+    
+        button {
+            padding: 0.125em 1em;
+            font-size: 20px;
+        }
+    }
+}
 
 #home {
     display: flex;
@@ -20,134 +50,41 @@ $menuItems: 3;
         bottom: 0;
         right: -50%;
         left: -50%;
-        opacity: .4;
+        opacity: 0.4;
         z-index: -999;
 
         @keyframes slide {
             0% {
-              transform:translateX(-25%);
+            transform:translateX(-25%);
             }
             100% {
-              transform:translateX(25%);
+            transform:translateX(25%);
             }
         }
     }
-      
+    
     .background-2 {
         animation-direction: alternate-reverse;
         animation-duration: 3s;
     }
-      
+    
     .background-3 {
         animation-duration: 5s;
-    }
-
-    nav {
-        position: fixed;
-        top: 0;
-        right: 0;
-        left: 0;
-        display: flex;
-        align-items: center;
-        color: transparent;
-        height: 6em;
-        transition: all 0.3s ease-in-out;
-        z-index: 999;
-
-        .nav-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 1em;
-            width: 75%;
-            margin: 0 auto;
-
-            .crm-brand {
-                font-size: 1.6rem;
-                color: crmcolor(main, dark);
-                font-weight: bold;
-                text-transform: uppercase;
-                transition: all 0.3s ease-in-out;
-            }
-        
-            ul {
-                display: flex;
-                align-items: center;
-                margin-left: auto;
-                padding-left: 0;
-                margin-bottom: 0;
-
-                li {
-                    margin-left: 4em;
-                    
-                    span {  
-                        font-size: 20px;
-                        color: #888888;  
-                        padding-bottom: 5px;
-                        border-bottom: solid 2px transparent;
-                        transition: all 0.2s ease-in-out;  
-                    
-                        &:hover {
-                            border-bottom: solid 2px crmcolor(primary, base);
-                            color: crmcolor(primary, base);  
-                        }
-                    }
-        
-                    button {
-                        padding: 0.125em 1em;
-                        font-size: 19px;
-                        transition: all 0.3s ease-in-out;
-                    }
-                }
-            }
-
-            #nav-check {
-                display: none;
-            }
-        }
-    }
-
-    .nav-shrink {
-        height: 3.5em;
-        background-color: crmcolor(main, light);
-        opacity: 0.95;
-        border-bottom: 1px solid #EAEAEA;
-        transition: all 0.3s ease-in-out;
-
-        .nav-container {
-            .crm-brand {
-                font-size: 1.4rem;
-                transition: font-size 0.3s ease-in-out;
-            }
-            
-            ul> li {
-                span {
-                    font-size: 19px;
-                }
-
-                button {
-                    padding: 0 0.9em;
-                    font-size: 18px;
-                    transition: all 0.3s ease-in-out;
-                }
-            }
-        }
     } 
 
     .home-content {
-        width: 75%;
-       
+        width: 100%;
+    
         span {
             @include gradient-x(crmcolor(primary, base) 20%, crmcolor(main, dark) 100%);
             -webkit-text-fill-color: transparent;
             -webkit-background-clip: text;
-            font-size: 16rem;
+            align-items: center;
             font-weight: bold; 
             text-transform: uppercase;
         }
 
         h1 {
-            font-size: 3.2rem;
             text-transform: capitalize;
             margin-bottom: 1em;
         }
@@ -164,230 +101,68 @@ $menuItems: 3;
     }
 }    
 
-@include media-breakpoint-down(md) {
-    nav {
-        background-color: #000 !important;
-        height: 4em !important;
-
-        .nav-container {
-            width: 100% !important;
-            padding: 0 !important;
-
-            ul {
-                position: absolute;
-                flex-direction: column;
-                justify-content: flex-start;
-                align-items: flex-start !important;
-                top: 4em;
-                width: 100%;
-                padding: 0 3em !important;
-                overflow: hidden;
-                background-color: #000;
-    
-                li {
-                    width: 100%;
-                    padding-bottom: 1em;
-                    margin: 1.2em 0 !important;
-                    border-bottom: 1px solid #888888;
-                    transition: all 0.2s ease-in-out !important;
-
-                    &:hover {
-                        border-bottom: 1px solid crmcolor(main, light) !important;
-                    }
-
-                    &:last-child {
-                        border: none;
-
-                        &:hover {
-                            border: none !important;
-                        }
-                    }  
-
-                    span {
-                        color: crmcolor(main, light) !important; 
-                        border: none !important;
-                    }
-                }
-            }
-
-            #nav-check:not(:checked) ~ ul  {
-                height: 0;
-                transition: height 1s $cubic 0.25s;
-
-                & li {
-                    opacity: 0;
-                    transition-delay: 1s !important;
-                }
-            }
-
-            #nav-check:checked ~ ul { 
-                height: calc(100vh - 4em);
-                transition: height 1s $cubic 0.25s;
-                
-                & li {
-                    opacity: 1;
-                    transition: opacity 0.3s ease-in-out;
-                    @for $i from 1 through $menuItems {
-                        &:nth-child(#{$i}) {
-                            transition-delay: #{0.13 * $i+0.2}s !important;
-                        }
-                    }
-                }
-            }
-
-            .crm-brand {
-                position: absolute;
-                padding: 0 1em;
-                color: crmcolor(main, light) !important;
-            }
-
-            .hamburger {
-                position: absolute;
-                right: 0;
-                margin: 0 1.7em;
-                width: 35px;
-                cursor: pointer;
-                transition: margin-top 0.3s ease-in-out;
-
-                label {
-                    display: block;
-                }
-
-                span {
-                    display: block;
-                    width: 100%;
-                    border-radius: 4px;
-                    height: 3px;
-                    background: crmcolor(main, light);
-                    transition: all 0.3s;
-                    position: relative;
-                }
-                
-                span + span {
-                    margin-top: 6px;
-                }
-            }
-
-            .active span:nth-child(1) {
-                animation: ease .7s top forwards;
-            }
-            
-            .not-active span:nth-child(1) {
-                animation: ease .7s top-2 forwards;
-            }
-            
-            .active span:nth-child(2) {
-                animation: ease .7s scaled forwards;
-            }
-            
-            .not-active span:nth-child(2) {
-                animation: ease .7s scaled-2 forwards;
-            }
-            
-            .active span:nth-child(3) {
-                animation: ease .7s bottom forwards;
-            }
-            
-            .not-active span:nth-child(3) {
-                animation: ease .7s bottom-2 forwards;
-            }
-            
-            @keyframes top {
-                0% {
-                    top: 0;
-                    transform: rotate(0);
-                }
-                50% {
-                    top: 9px;
-                    transform: rotate(0);
-                }
-                100% {
-                    top: 9px;
-                    transform: rotate(45deg);
-                }
-            }
-            
-            @keyframes top-2 {
-                0% {
-                    top: 9px;
-                    transform: rotate(45deg);
-                }
-                50% {
-                    top: 9px;
-                    transform: rotate(0deg);
-                }
-                100% {
-                    top: 0;
-                    transform: rotate(0deg);
-                }
-            }
-            
-            @keyframes bottom {
-                0% {
-                    bottom: 0;
-                    transform: rotate(0);
-                }
-                50% {
-                    bottom: 9px;
-                    transform: rotate(0);
-                }
-                100% {
-                    bottom: 9px;
-                    transform: rotate(135deg);
-                }
-            }
-            
-            @keyframes bottom-2 {
-                0% {
-                    bottom: 9px;
-                    transform: rotate(135deg);
-                }
-                50% {
-                    bottom: 9px;
-                    transform: rotate(0);
-                }
-                100% {
-                    bottom: 0;
-                    transform: rotate(0);
-                }
-            }
-            
-            @keyframes scaled {
-                50% {
-                    transform: scale(0);
-                }
-                100% {
-                    transform: scale(0);
-                }
-            }
-            
-            @keyframes scaled-2 {
-                0% {
-                    transform: scale(0);
-                }
-                50% {
-                    transform: scale(0);
-                }
-                100% {
-                    transform: scale(1);
-                }
-            }
+@include media-breakpoint-up(xs) {
+    .nav-container {
+        .crm-brand {
+            font-size: 1.5rem;
         }
     }
-}
 
-@include media-breakpoint-down(sm) {
     .home-content {
-        width: 100% !important;
-
         span {
-            font-size: 9rem !important;
+            font-size: 40vw;
         }
 
         h1 {
-            font-size: 2.8rem !important;
+            font-size: 2.8rem;
+        }
+    }  
+}
+
+@include media-breakpoint-up(sm) {
+    nav {
+        .nav-container {
+            .crm-brand {
+                font-size: 1.6rem;
+            }
+        }  
+    }
+
+    .home-content {
+        span {
+            font-size: 36vw;
+        }
+
+        h1 {
+            font-size: 3.2rem;
+        }
+    }    
+}
+
+@include media-breakpoint-up(md) {
+    nav {
+        .nav-container {
+            width: 75%;
+        } 
+    }
+
+    #home{
+        .home-content {
+            width: 75%;
+            
+            span {
+                font-size: 30vw;
+            }
         }
     }
 }
 
-    
+@include media-breakpoint-up(lg) {
+    #home{
+        .home-content {
+            span {
+                font-size: 14vw;
+            }
+        }
+    }
+}
