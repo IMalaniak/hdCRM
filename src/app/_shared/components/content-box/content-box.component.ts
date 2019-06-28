@@ -12,10 +12,10 @@ export class ContentBoxComponent implements OnInit {
   @Input() title: string;
   @Input() cssClass: string;
   @Input() showDataLoader: boolean;
-  @ContentChild('content') content: ElementRef;
-  @ContentChild('subheader') subheader: ElementRef;
-  @ContentChild('buttons') buttons: ElementRef;
-  @ContentChild('boxFooter') boxFooter: ElementRef;
+  @ContentChild('content', {static: false}) content: ElementRef;
+  @ContentChild('subheader', {static: false}) subheader: ElementRef;
+  @ContentChild('buttons', {static: false}) buttons: ElementRef;
+  @ContentChild('boxFooter', {static: false}) boxFooter: ElementRef;
 
   constructor() { }
 

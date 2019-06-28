@@ -15,7 +15,7 @@ export class StagesDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: StagesDialogData
   ) {}
 
-  @ViewChild(StagesComponent)
+  @ViewChild(StagesComponent, {static: false})
     stagesComponent: StagesComponent;
 
   onNoClick(): void {

@@ -28,8 +28,8 @@ export class DepartmentsComponent implements OnInit, AfterViewInit {
   loading$: Observable<boolean>;
   resultsLength$: Observable<number>;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   displayedColumns = ['title', 'manager', 'workers', 'createdAt', 'updatedAt', 'actions'];
 

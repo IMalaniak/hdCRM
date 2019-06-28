@@ -15,7 +15,7 @@ export class UsersDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: UsersDialogData
   ) {}
 
-  @ViewChild(UsersComponent)
+  @ViewChild(UsersComponent, {static: false})
     usersComponent: UsersComponent;
 
   onNoClick(): void {

@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DepartmentsRoutingModule } from './departments-routing.module';
 import { SharedModule } from '@/_shared/modules';
 
-import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 import { UsersModule } from '@/_modules/users/users.module';
 

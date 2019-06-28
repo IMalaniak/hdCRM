@@ -25,8 +25,8 @@ export class PlanListComponent implements OnInit, AfterViewInit {
   plans$: Observable<Plan[]>;
   dataSource: PlansDataSource;
   loading$: Observable<boolean>;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   displayedColumns = ['title', 'creator', 'stage', 'participants', 'createdAt', 'updatedAt', 'deadline', 'actions'];
   resultsLength$: Observable<number>;

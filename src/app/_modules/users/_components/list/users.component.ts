@@ -29,8 +29,8 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   addUserPrivilege$: Observable<boolean>;
   resultsLength$: Observable<number>;
   loading$: Observable<boolean>;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   displayedColumns = ['select', 'avatar', 'login', 'email', 'name', 'surname', 'phone', 'dep', 'state', 'createdAt', 'updatedAt', 'actions'];
 

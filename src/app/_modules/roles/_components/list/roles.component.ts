@@ -26,8 +26,8 @@ export class RolesComponent implements OnInit, OnDestroy, AfterViewInit {
   selection = new SelectionModel<Role>(true, []);
   loading$: Observable<boolean>;
   resultsLength$: Observable<number>;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   displayedColumns = ['select', 'title', 'users', 'privileges', 'createdAt', 'updatedAt', 'actions'];
 
