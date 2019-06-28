@@ -58,7 +58,6 @@ export class RoleComponent implements OnInit {
   }
 
   addParticipantDialog(): void {
-    this.showDataLoader = false;
     const dialogRef = this.dialog.open(UsersDialogComponent, {
       height: '80vh',
       data: {
