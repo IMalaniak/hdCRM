@@ -1,6 +1,6 @@
 
-<section class="row dashboard-cards my-3">
-    <div class="col-sm-6 col-md-4 col-xl-3" *ngIf="appUser">
+<section class="row dashboard-cards my-3" *ngIf="appUser$ | async as appUser">
+    <div class="col-sm-6 col-md-4 col-xl-3">
         <div class="card shadow user-card">
             <div class="card-body">
                 <img *ngIf="appUser.avatar" src="{{baseUrl + appUser.avatar.location + appUser.avatar.title}}" alt="{{appUser.avatar.title}}">
@@ -20,7 +20,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-6 col-md-4 col-xl-3" *ngIf="appUser">
+    <div class="col-sm-6 col-md-4 col-xl-3">
         <div class="card shadow user-card">
             <div class="card-body">
                 <h5 class="card-title" i18n="@@dashboardCardsUserSessionData">Session data</h5>

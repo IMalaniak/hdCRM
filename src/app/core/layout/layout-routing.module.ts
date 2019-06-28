@@ -11,7 +11,7 @@ const routes: Routes = [
     children: [
       {path: '', pathMatch: 'full', redirectTo: 'home'},
       {path: 'home', data: { breadcrumb: 'Home' }, loadChildren: '../../_modules/home/home.module#HomeModule'},
-      {path: 'auth', data: { breadcrumb: 'Authorization' }, canActivate: [PublicGuard], loadChildren:  '../../_modules/auth/auth.module#AuthModule'},
+      //{path: 'auth', data: { breadcrumb: 'Authorization' }, canActivate: [PublicGuard], loadChildren:  '../../_modules/auth/auth.module#AuthModule'},
     ]
   },
   {

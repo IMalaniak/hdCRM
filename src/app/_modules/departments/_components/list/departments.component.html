@@ -1,27 +1,71 @@
-<section class="app-content-box" [title]="'Department list'" [showDataLoader]="true">
+<section class="app-content-box" [title]="'Department list'" [showDataLoader]="loading$ | async">
 
-  <div buttons *ngIf="addDepPrivilege">
+  <div buttons *ngIf="addDepPrivilege$ | async">
     <button mat-raised-button color="primary" class="crm-button" routerLink="/departments/add"><mat-icon>add_circle</mat-icon><span i18n="@@departmentsComponentActionsCreate">Create a new department</span></button>
   </div>
 
-  <table content class="table table-sm table-responsive-sm table-hover crm-table">
-    <thead>
-      <th i18n="@@departmentsComponentListTitle">Title</th>
-      <th i18n="@@departmentsComponentListManagerName">Manager</th>
-      <th i18n="@@departmentsComponentListWorkerNumber">Workers</th>
-      <th i18n="@@departmentsComponentListCreateAt">Date created</th>
-      <th i18n="@@departmentsComponentListUpdateAt">Date updated</th>
-    </thead>
-    <tbody>
-      <tr routerLink="/departments/details/{{department.id}}" *ngFor="let department of departments$ | async;">
-        <td>{{ department.title }}</td>
-        <td>{{ department.Manager.name + ' ' + department.Manager.surname }}</td>
-        <td>{{ department.Workers.length }}</td>
-        <td>{{ department.createdAt | date: 'short' }}</td>
-        <td>{{ department.updatedAt | date: 'short' }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div content class="mat-elevation-z8 departments-table-container">
+    <mat-table class="departments-table crm-table" [dataSource]="dataSource" matSort matSortDisabled>
+        <!-- Checkbox Column -->
+        <!-- <ng-container matColumnDef="select">
+          <mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()"
+                          [aria-label]="checkboxLabel()">
+            </mat-checkbox>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)"
+                          [aria-label]="checkboxLabel(row)">
+            </mat-checkbox>
+          </mat-cell>
+        </ng-container> -->
+        <ng-container matColumnDef="title">
+          <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@departmentsComponentListTitle">Title</mat-header-cell>
+          <mat-cell *matCellDef="let dep">{{dep.title}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="manager">
+          <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@departmentsComponentListManagerFullName">Manager</mat-header-cell>
+          <mat-cell *matCellDef="let dep">{{dep.Manager.name + ' ' + dep.Manager.surname}}</mat-cell>
+        </ng-container>     
+        <ng-container matColumnDef="workers">
+          <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@departmentsComponentListWorkersNumber">Workers</mat-header-cell>
+          <mat-cell *matCellDef="let dep">{{dep.Workers.length}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="createdAt">
+          <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@departmentsComponentListCreateAt">Created At</mat-header-cell>
+          <mat-cell *matCellDef="let dep">{{dep.createdAt | date: 'short'}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="updatedAt">
+          <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@departmentsComponentListUpdateAt">Updated At</mat-header-cell>
+          <mat-cell *matCellDef="let dep">{{dep.updatedAt | date: 'short'}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="actions" stickyEnd i18n="@@globalsListActions">
+          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+          <mat-cell *matCellDef="let dep">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="onDepSelect(dep.id)">
+                  <mat-icon>details</mat-icon>
+                  <span i18n="@@departmentsComponentListActionsView">Details</span>
+                </button>
+                <button mat-menu-item (click)="onDepSelect(dep.id, true)">
+                  <mat-icon>edit</mat-icon>
+                  <span i18n="@@departmentsComponentListActionsEdit">Edit</span>
+                </button>
+              </mat-menu>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
 
+    <mat-paginator [length]="resultsLength$ | async" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+  </div>
 </section>
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import swal from 'sweetalert2';
-import { AuthenticationService } from '@/_shared/services';
+import { AuthenticationService } from '../../_services';
 // import { RoleService } from '@/_modules/roles/_services';
 // import { Role } from '@/_modules/roles';
 // import { Response } from '@/core/_models';

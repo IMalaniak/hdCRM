@@ -1,109 +1,104 @@
-import { environment } from 'environments/environment';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  Sort,
-  MatTabChangeEvent,
-  MatCheckboxChange
- } from '@angular/material';
-import { AuthenticationService } from '@/_shared/services';
-import { UserService } from '../../_services';
-import { PrivilegeService, StateService } from '@/_shared/services';
-import { User } from '../../_models';
-import { State } from '@/core/_models';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatPaginator, MatSort } from '@angular/material';
+import { Store, select } from '@ngrx/store';
+import { Observable, Subject, merge } from 'rxjs';
+import { map, takeUntil, tap } from 'rxjs/operators';
+
 import swal from 'sweetalert2';
 
+import { UserService, UsersDataSource } from '../../_services';
+import { User } from '../../_models';
+
+import { PageQuery } from '@/core/_models';
+
+import { AppState } from '@/core/reducers';
+import { selectUsersLoading, selectUsersTotalCount } from '../../store/user.selectors';
+import { isPrivileged } from '@/core/auth/store/auth.selectors';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit {
-  baseUrl: string;
-  users: User[];
-  selectedUsers: User[] = [];
-  notSelectedUsers: User[];
-  states: State[];
-  sortedData: User[];
-  editUserPrivilege: boolean;
-  addUserPrivilege: boolean;
-  selectedTab: string;
-  selectedState: string;
+export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
+  dataSource: UsersDataSource;
+  selection = new SelectionModel<User>(true, []);
+  editUserPrivilege$: Observable<boolean>;
+  addUserPrivilege$: Observable<boolean>;
+  resultsLength$: Observable<number>;
+  loading$: Observable<boolean>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+  displayedColumns = ['select', 'avatar', 'login', 'email', 'name', 'surname', 'phone', 'dep', 'state', 'createdAt', 'updatedAt', 'actions'];
+
+  private unsubscribe: Subject<void> = new Subject();
 
   constructor(
     private router: Router,
-    private authService: AuthenticationService,
     private userService: UserService,
-    private stateService: StateService,
-    private privilegeService: PrivilegeService,
+    private store: Store<AppState>
   ) {
-    this.baseUrl = environment.baseUrl;
+
   }
 
   ngOnInit() {
-    this.authService.currentUser.subscribe(user => {
-      this.editUserPrivilege = this.privilegeService.isPrivileged(user, 'editUser');
-      this.addUserPrivilege = this.privilegeService.isPrivileged(user, 'addUser');
-    });
-    this.userService.getList().subscribe(users => {
-      this.users = users.map(user => {
-        user.selected = false;
-        return user;
-      });
-      this.stateService.getStatesList().subscribe(states => {
-        this.states = states;
-        for (const i in this.states) {
-          if (this.states[i].keyString === 'active') {
-            this.selectedTab = i;
-            this.selectedState = 'active';
-            break;
-          }
-        }
-      });
-    });
+    this.editUserPrivilege$ = this.store.pipe(select(isPrivileged('editUser')));
+    this.addUserPrivilege$ = this.store.pipe(select(isPrivileged('addUser')));
+
+    this.loading$ = this.store.pipe(select(selectUsersLoading));
+    this.resultsLength$ = this.store.pipe(select(selectUsersTotalCount));
+    this.dataSource = new UsersDataSource(this.store);
+
+    const initialPage: PageQuery = {
+      pageIndex: 0,
+      pageSize: 5,
+      sortIndex: 'id',
+      sortDirection: 'asc'
+    };
+
+    this.dataSource.loadUsers(initialPage);
+
   }
 
-  sortByState(stateId: number): void {
-    this.sortedData = this.users.filter(user => user.StateId === stateId);
-    this.resetSelected();
+  ngAfterViewInit() {
+
+    // this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+
+    merge(this.sort.sortChange, this.paginator.page)
+      .pipe(
+          tap(() => this.loadUsersPage())
+      )
+      .subscribe();
+
   }
 
-  selectAll(event: MatCheckboxChange): void {
-    for (const user of this.sortedData) {
-      user.selected = event.checked;
-    }
-    this.resetSelected(false);
+  loadUsersPage() {
+    const newPage: PageQuery = {
+      pageIndex: this.paginator.pageIndex,
+      pageSize: this.paginator.pageSize,
+      sortIndex: this.sort.active,
+      sortDirection: this.sort.direction || 'asc'
+    };
+
+    this.dataSource.loadUsers(newPage);
+
   }
 
-  onTabClick(event: MatTabChangeEvent): void {
-    this.sortByState(this.states[event.index].id);
-    this.selectedState = this.states[event.index].keyString;
-  }
+  // isAllSelected() {
+  //   const numSelected = this.selection.selected.length;
+  //   const numRows = this.resultsLength;
+  //   return numSelected === numRows;
+  // }
 
-  sortData(sort: Sort) {
-    const data = this.users.slice();
-    if (!sort.active || sort.direction === '') {
-      this.sortedData = data;
-      return;
-    }
-
-    this.sortedData = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'login': return compare(a.login, b.login, isAsc);
-        case 'email': return compare(a.email, b.email, isAsc);
-        case 'name': return compare(a.name, b.name, isAsc);
-        case 'surname': return compare(a.surname, b.surname, isAsc);
-        case 'phone': return compare(a.phone, b.phone, isAsc);
-        case 'state': return compare(a.State.keyString, b.State.keyString, isAsc);
-        case 'createdAt': return compare(a.createdAt, b.createdAt, isAsc);
-        case 'updatedAt': return compare(a.updatedAt, b.updatedAt, isAsc);
-        case 'defaultLang': return compare(a.defaultLang, b.defaultLang, isAsc);
-        default: return 0;
-      }
-    });
-  }
+  // /** Selects all rows if they are not all selected; otherwise clear selection. */
+  // masterToggle() {
+  //   this.isAllSelected() ?
+  //       this.selection.clear() :
+  //       this.users.forEach(row => this.selection.select(row));
+  // }
 
   changeUserState(user, state): void {
     const userState = new User();
@@ -131,77 +126,50 @@ export class UsersComponent implements OnInit {
     );
   }
 
-  onUserSelect(id): void {
-    this.router.navigate([`/users/details/${id}`]);
+  onUserSelect(id: number, edit: boolean = false): void {
+    this.router.navigate([`/users/details/${id}`], {
+      queryParams: { edit }
+    });
   }
 
-  onUserCheck(user: User): void {
-    const i = this.selectedUsers.indexOf(user);
-    if (i >= 0) {
-      this.selectedUsers.splice(i, 1);
-      this.notSelectedUsers.push(user);
-    } else {
-      if (user.selected) {
-        this.selectedUsers.push(user);
-        this.notSelectedUsers.splice(this.notSelectedUsers.indexOf(user), 1);
-      }
-    }
+  // changeStateOfSelected(stateTitle: string = 'active'): void {
+  //   let state;
+  //   for (state of this.states) {
+  //     if (state.keyString === stateTitle) {
+  //       break;
+  //     }
+  //   }
+
+  //   this.userService.changeStateOfSelected(this.selectedUsers, state).subscribe(
+  //     response => {
+  //       for (const user of this.selectedUsers) {
+  //         const i = this.users.indexOf(user);
+  //         this.users[i].selected = user.selected = false;
+  //         this.users[i].StateId = user.StateId = state.id;
+  //         this.users[i].State = user.State = state;
+  //       }
+  //       this.resetSelected();
+  //       swal({
+  //         text: `User state was changed to: ${state.keyString}`,
+  //         type: 'success',
+  //         timer: 6000,
+  //         toast: true,
+  //         showConfirmButton: false,
+  //         position: 'bottom-end'
+  //       });
+  //     },
+  //     error => {
+  //       swal({
+  //         text: 'Ooops, something went wrong!',
+  //         type: 'error',
+  //         timer: 1500
+  //       });
+  //     }
+  //   );
+  // }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
-
-  changeStateOfSelected(stateTitle: string = 'active'): void {
-    let state;
-    for (state of this.states) {
-      if (state.keyString === stateTitle) {
-        break;
-      }
-    }
-
-    this.userService.changeStateOfSelected(this.selectedUsers, state).subscribe(
-      response => {
-        for (const user of this.selectedUsers) {
-          const i = this.users.indexOf(user);
-          this.users[i].selected = user.selected = false;
-          this.users[i].StateId = user.StateId = state.id;
-          this.users[i].State = user.State = state;
-        }
-        this.resetSelected();
-        swal({
-          text: `User state was changed to: ${state.keyString}`,
-          type: 'success',
-          timer: 6000,
-          toast: true,
-          showConfirmButton: false,
-          position: 'bottom-end'
-        });
-      },
-      error => {
-        swal({
-          text: 'Ooops, something went wrong!',
-          type: 'error',
-          timer: 1500
-        });
-      }
-    );
-  }
-
-  resetSelected(reset: boolean = true): void {
-    const self = this;
-    if (reset) {
-      this.selectedUsers = [];
-      this.notSelectedUsers = [...this.sortedData];
-    } else {
-      self.resetSelected();
-      for (const user of this.sortedData) {
-        if (user.selected) {
-          this.selectedUsers.push(user);
-          this.notSelectedUsers.splice(this.notSelectedUsers.indexOf(user), 1);
-        }
-      }
-    }
-  }
-
-}
-
-function compare(a, b, isAsc) {
-  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

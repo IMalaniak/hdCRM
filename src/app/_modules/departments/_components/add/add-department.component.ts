@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'environments/environment';
-import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
-import { UsersDialogComponent, User } from '@/_modules/users';
-import { LoaderService } from '@/_shared/services';
-import { DepartmentService } from '../../_services';
+import { UsersDialogComponent } from '@/_modules/users';
 import { Department } from '../../_models';
-import swal from 'sweetalert2';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { AppState } from '@/core/reducers';
+import { CreateDepartment } from '../../store/department.actions';
 
 @Component({
   selector: 'app-add-department',
@@ -22,10 +21,8 @@ export class AddDepartmentComponent implements OnInit {
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
-    private router: Router,
-    private departmentService: DepartmentService,
-    private loaderService: LoaderService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private store: Store<AppState>
   ) { 
     this.baseUrl = environment.baseUrl;
   }
@@ -44,13 +41,13 @@ export class AddDepartmentComponent implements OnInit {
     if (this.department.Manager) {
       const usersC = dialogRef.componentInstance.usersComponent;
 
-      dialogRef.afterOpen().pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-        this.loaderService.isLoaded.pipe(takeUntil(this.unsubscribe)).subscribe(isLoaded => {
-          if (isLoaded) {
-          usersC.resetSelected(false);
-          }
-        });
-      });
+      // dialogRef.afterOpen().pipe(takeUntil(this.unsubscribe)).subscribe(() => {
+      //   this.loaderService.isLoaded.pipe(takeUntil(this.unsubscribe)).subscribe(isLoaded => {
+      //     if (isLoaded) {
+      //     usersC.resetSelected(false);
+      //     }
+      //   });
+      // });
     }
 
     dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
@@ -71,62 +68,33 @@ export class AddDepartmentComponent implements OnInit {
     if (this.department.Workers) {
       const usersC = dialogRef.componentInstance.usersComponent;
 
-      dialogRef.afterOpen().pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-        this.loaderService.isLoaded.pipe(takeUntil(this.unsubscribe)).subscribe(isLoaded => {
-          if (isLoaded) {
-            for (const participant of this.department.Workers) {
-              usersC.sortedData.find((user, i) => {
-                  if (user.id === participant.id) {
-                      usersC.sortedData[i].selected = true;
-                      return true;
-                  }
-              });
-            }
-            usersC.resetSelected(false);
-          }
-        });
-      });
+      // TODO
+      // dialogRef.afterOpen().pipe(takeUntil(this.unsubscribe)).subscribe(() => {
+      //   this.loaderService.isLoaded.pipe(takeUntil(this.unsubscribe)).subscribe(isLoaded => {
+      //     if (isLoaded) {
+      //       for (const participant of this.department.Workers) {
+      //         usersC.sortedData.find((user, i) => {
+      //             if (user.id === participant.id) {
+      //                 usersC.sortedData[i].selected = true;
+      //                 return true;
+      //             }
+      //         });
+      //       }
+      //       usersC.resetSelected(false);
+      //     }
+      //   });
+      // });
     }
 
     dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
-      if (result) {
+      if (result && result.length > 0) {
         this.department.Workers = result;
       }
     });
   }
 
   onClickSubmit() {
-    if (this.department.Workers && this.department.Workers.length > 0) {
-      this.department.Workers = this.department.Workers.map(user => {
-          return<User> {
-            id: user.id
-          };
-      });
-    }
-
-    if (this.department.Manager && this.department.Manager.id) {
-      const manager = new User();
-      manager.id = this.department.Manager.id;
-      this.department.Manager = manager;
-    }
-
-    this.departmentService.createDepartment(this.department).pipe(takeUntil(this.unsubscribe)).subscribe(
-      data => {
-        swal({
-          title: 'Department created!',
-          type: 'success',
-          timer: 1500
-        });
-        this.router.navigate(['/departments']);
-      },
-      error => {
-        swal({
-          title: 'Ooops, something went wrong!',
-          type: 'error',
-          timer: 1500
-        });
-        this.router.navigate(['/departments/add']);
-    });
+    this.store.dispatch(new CreateDepartment({department: this.department}));
   }
 
 }

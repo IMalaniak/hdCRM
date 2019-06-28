@@ -28,8 +28,6 @@ function findRoleById(roleId){
 
 //create
 router.post('/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	console.log(req.body);
-	
 	db.Role.create({
 		keyString: req.body.keyString
 	}).then(role => {
@@ -75,24 +73,41 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req, res, next
 
 //full list with users and privileges
 router.get('/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	db.Role.findAll({
+	const queryParams = req.query;
+	let limit = parseInt(queryParams.pageSize);
+	let offset = parseInt(queryParams.pageIndex) * limit;
+	
+	db.Role.findAndCountAll({
 		include: [
 			{
 				model: db.Privilege,
 				through: {
 					attributes: []
-				}
+				},
+				required: false
 			},
 			{
 				model: db.User,
-				attributes: ['id', 'login'],
-				through: {
-					attributes: []
-				}
+				attributes: { exclude: ['passwordHash', 'salt'] },
+				include: [
+					{
+						model: db.Asset,
+						as: 'avatar',
+						required: false
+					}
+				],
+				required: false
 			}
-		]
-	}).then(roles => {
-		res.json(roles);
+		],
+		limit: limit,
+		offset: offset,
+		order: [
+			[queryParams.sortIndex, queryParams.sortDirection.toUpperCase()]
+		],
+		distinct: true
+	}).then(data => {
+		let pages = Math.ceil(data.count / limit);
+		res.json({list: data.rows, count: data.count, pages: pages});
 	}).catch(error => {
 		res.status(400).json(error.toString());
 	});

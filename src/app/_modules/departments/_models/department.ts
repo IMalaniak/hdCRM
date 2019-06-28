@@ -1,4 +1,5 @@
 import { User } from '@/_modules/users';
+import { ApiResponse } from '@/core/_models';
 
 export class Department {
     id: number;
@@ -13,3 +14,16 @@ export class Department {
     Workers: User[];
     Manager: User;
 }
+
+export class DepartmentServerResponse extends ApiResponse {
+    list: Department[];
+    department: Department;
+    pages: number;
+  
+    constructor() {
+      super();
+      this.list = [];
+      this.department = new Department();
+    }
+}
+  

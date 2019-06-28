@@ -3,87 +3,121 @@
 
 </section>
 -->
-<section class="app-content-box" [title]="'User list'" [showDataLoader]="true">
+<section class="app-content-box" [title]="'User list'" [showDataLoader]="loading$ | async">
   <div buttons>
-    <button mat-raised-button color="primary" class="crm-button" *ngIf="addUserPrivilege" routerLink="/auth/register"><mat-icon>person_add</mat-icon><span i18n="@@usersComponentActionsRegisterANewUser">Register a new user</span></button>
+    <button mat-raised-button color="primary" class="crm-button" *ngIf="addUserPrivilege$ | async" routerLink="/auth/register"><mat-icon>person_add</mat-icon><span i18n="@@usersComponentActionsRegisterANewUser">Register a new user</span></button>
   </div>
-  <section subheader *ngIf="selectedUsers.length>0" class="bg-primary text-white p-2 fixed-bottom">
-    <span class="w-100" i18n="@@usersComponentBulkSectionSelectedUsers">Selected users: {{ selectedUsers.length }}</span>
+  <section subheader *ngIf="selection.selected.length > 0" class="bg-primary text-white p-2 fixed-bottom">
+    <span class="w-100" i18n="@@usersComponentBulkSectionSelectedUsers">Selected users: {{ selection.selected.length }}</span>
     <section class="d-flex align-items-center">
       <span i18n="@@usersComponentBulkSectionWithSelectedUsers">Actions with selected: </span>
-      <button *ngIf="selectedState != 'active'" mat-icon-button (click)="changeStateOfSelected('active')" title="'Activate'" i18n-title="@@usersComponentBulkSectionActionsActivate">
+      <button mat-icon-button (click)="changeStateOfSelected('active')" title="'Activate'" i18n-title="@@usersComponentBulkSectionActionsActivate">
         <mat-icon>launch</mat-icon>
       </button>
-      <button *ngIf="selectedState != 'disabled'" mat-icon-button (click)="changeStateOfSelected('disabled')" title="'Deactivate'" i18n-title="@@usersComponentBulkSectionActionsDeactivate">
+      <button mat-icon-button (click)="changeStateOfSelected('disabled')" title="'Deactivate'" i18n-title="@@usersComponentBulkSectionActionsDeactivate">
         <mat-icon>block</mat-icon>
       </button>
-      <button *ngIf="selectedState != 'archive'" mat-icon-button (click)="changeStateOfSelected('archive')" title="'Archive'" i18n-title="@@usersComponentBulkSectionActionsArchive">
+      <button mat-icon-button (click)="changeStateOfSelected('archive')" title="'Archive'" i18n-title="@@usersComponentBulkSectionActionsArchive">
         <mat-icon>archive</mat-icon>
       </button>
     </section>
   </section>
-  <mat-tab-group content (selectedTabChange)="onTabClick($event)" [selectedIndex]="selectedTab" (selectedIndexChange)="selectedTab = $event">
-    <mat-tab label="{{ state.keyString | uppercase }}" *ngFor="let state of states;">
-      <section *ngIf="sortedData && sortedData.length<=0" class="no-content p-3">
-        <p class="lead text-info text-center" i18n="@@usersComponentTabNoContentInfo">
-          No content
-        </p>
-      </section>
-      <table  *ngIf="sortedData && sortedData.length>0" id="userlist" class="table table-sm table-responsive-sm table-hover crm-table" matSort (matSortChange)="sortData($event)">
-        <thead>
-          <th><mat-checkbox (click)="$event.stopPropagation()" (change)="selectAll($event)" [indeterminate]="selectedUsers.length > 0 && selectedUsers.length < sortedData.length" [checked]="!notSelectedUsers.length"></mat-checkbox></th>
-          <th></th>
-          <th mat-sort-header="login" i18n="@@usersComponentListLogin">Login</th>
-          <th mat-sort-header="email" i18n="@@usersComponentListEmail">Email</th>
-          <th mat-sort-header="name" i18n="@@usersComponentListName">Name</th>
-          <th mat-sort-header="surname" i18n="@@usersComponentListSurname">Surname</th>
-          <th mat-sort-header="phone" i18n="@@usersComponentListPhone">Phone</th>
-          <th mat-sort-header="department" i18n="@@usersComponentListDepartment">Department</th>
-          <th mat-sort-header="state" i18n="@@usersComponentListState">State</th>
-          <th mat-sort-header="createdAt" i18n="@@usersComponentListCreatedAt">Date created</th>
-          <th mat-sort-header="updatedAt" i18n="@@usersComponentListUpdatedAt">Date updated</th>
-          <!-- <th mat-sort-header="defaultLang" i18n="@@usersComponentListDefaultLang">Language</th> -->
-          <th *ngIf="editUserPrivilege" class="context-menu"></th>
-        </thead>
-        <tbody>
-          <tr (click)="onUserSelect(user.id)" *ngFor="let user of sortedData;" [ngClass]="{'table-info': user.State.id=='1', 'table-danger': user.State.id=='3', 'table-secondary': user.State.id=='4' }">
-            <td (click)="$event.stopPropagation()"><mat-checkbox [(ngModel)]=user.selected (change)="onUserCheck(user)"></mat-checkbox></td>
-            <td>
-              <img class="userpic" *ngIf="user.avatar" src="{{baseUrl + user.avatar.location + 'thumbnails/' + user.avatar.title}}" alt="{{user.avatar.title}}">
-              <img class="userpic" *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
-            </td>
-            <td>{{ user.login }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.name }}</td>
-            <td>{{ user.surname }}</td>
-            <td>{{ user.phone }}</td>
-            <td>{{ user.Department ? user.Department.title  : '-' }}</td>
-            <td>{{ user.State.keyString }}</td>
-            <td>{{ user.createdAt | date: 'short' }}</td>
-            <td>{{ user.updatedAt | date: 'short' }}</td>
-            <!-- <td>{{ user.defaultLang }}</td> -->
-            <td *ngIf="editUserPrivilege" class="context-menu" (click)="$event.stopPropagation()">
-              <button mat-icon-button [matMenuTriggerFor]="menu">
-                <mat-icon>more_vert</mat-icon>
+
+  <div content class="mat-elevation-z8 users-table-container">
+    <mat-table content class="users-table crm-table" [dataSource]="dataSource" matSort matSortDisabled>
+        <ng-container matColumnDef="select" sticky>
+          <mat-header-cell *matHeaderCellDef>
+            <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox> -->
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="avatar">
+          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            <img class="userpic" *ngIf="user.avatar" src="{{user.avatar.getThumbnailsUrl}}" alt="{{user.avatar.title}}">
+            <img class="userpic" *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="login">
+          <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListLogin">Login</mat-header-cell>
+          <mat-cell *matCellDef="let user">{{ user.login }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="email">
+          <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListEmail">Email</mat-header-cell>
+          <mat-cell *matCellDef="let user">{{ user.email }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListName">Name</mat-header-cell>
+          <mat-cell *matCellDef="let user">{{ user.name }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="surname">
+          <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListSurname">Surname</mat-header-cell>
+          <mat-cell *matCellDef="let user">{{ user.surname }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="phone">
+          <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListPhone">Phone</mat-header-cell>
+          <mat-cell *matCellDef="let user">{{ user.phone }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="dep">
+          <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListDepartment">Department</mat-header-cell>
+          <mat-cell *matCellDef="let user">{{ user.Department ? user.Department.title  : '-' }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="state">
+          <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListState">State</mat-header-cell>
+          <mat-cell *matCellDef="let user">{{ user.State.keyString }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="createdAt">
+          <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListCreatedAt">Date created</mat-header-cell>
+          <mat-cell *matCellDef="let user">{{ user.createdAt | date: 'short' }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="updatedAt">
+          <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListUpdatedAt">Date updated</mat-header-cell>
+          <mat-cell *matCellDef="let user">{{ user.updatedAt | date: 'short' }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="actions" stickyEnd>
+          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="onUserSelect(user.id)">
+                <mat-icon>details</mat-icon>
+                <span i18n="@@usersComponentListActionsView">Details</span>
               </button>
-              <mat-menu #menu="matMenu">
-                <button *ngIf="user.State.id == '2'" mat-menu-item (click)="this.changeUserState(user, 3)">
-                  <mat-icon>block</mat-icon>
-                  <span i18n="@@usersComponentListActionsDeactivate">Deactivate user</span>
-                </button>
-                <button *ngIf="user.State.id == '1' || user.State.id == '3'" mat-menu-item (click)="this.changeUserState(user, 2)">
-                  <mat-icon>launch</mat-icon>
-                  <span i18n="@@usersComponentListActionsActivate">Activate user</span>
-                </button>
-                <button mat-menu-item (click)="this.changeUserState(user, 4)">
-                  <mat-icon>archive</mat-icon>
-                  <span i18n="@@usersComponentListActionsArchive">Archive user</span>
-                </button>
-              </mat-menu>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </mat-tab>
-  </mat-tab-group>
+              <button *ngIf="editUserPrivilege$ | async" mat-menu-item (click)="onUserSelect(user.id, true)">
+                <mat-icon>edit</mat-icon>
+                <span i18n="@@usersComponentListActionsEdit">Edit</span>
+              </button>
+              <button *ngIf="(editUserPrivilege$ | async) && user.State.id === 2" mat-menu-item (click)="this.changeUserState(user, 3)">
+                <mat-icon>block</mat-icon>
+                <span i18n="@@usersComponentListActionsDeactivate">Deactivate user</span>
+              </button>
+              <button *ngIf="(editUserPrivilege$ | async) && (user.State.id === 1 || user.State.id === 3)" mat-menu-item (click)="this.changeUserState(user, 2)">
+                <mat-icon>launch</mat-icon>
+                <span i18n="@@usersComponentListActionsActivate">Activate user</span>
+              </button>
+              <button *ngIf="editUserPrivilege$ | async" mat-menu-item (click)="this.changeUserState(user, 4)">
+                <mat-icon>archive</mat-icon>
+                <span i18n="@@usersComponentListActionsArchive">Archive user</span>
+              </button>
+            </mat-menu>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+
+    <mat-paginator [length]="resultsLength$ | async" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+  </div>
+
 </section>

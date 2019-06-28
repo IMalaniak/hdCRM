@@ -226,9 +226,26 @@ footer {
     vertical-align: middle;
   }
 
-  .context-menu {
-    width: 50px;
+  .mat-column-actions {
+    flex: 0 0 3.125rem;
   }
+
+  .mat-column-avatar {
+    flex: 0 0 crmsize(userpic);
+    margin-right: 24px;
+  }
+
+  .mat-column-select {
+    flex: 0 0 4rem;
+    .mat-checkbox {
+        margin-bottom: unset;
+    }
+  }
+
+  .context-menu {
+    width: 3.125rem;
+  }
+
 
 }
 

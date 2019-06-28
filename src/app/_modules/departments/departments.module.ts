@@ -16,6 +16,10 @@ import {
      } from './_components';
 
 import { DepartmentService } from './_services';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { departmentsReducer } from './store/department.reducer';
+import { DepartmentEffects } from './store/department.effects';
 
 @NgModule({
   imports: [
@@ -24,9 +28,11 @@ import { DepartmentService } from './_services';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    DepartmentsRoutingModule,
+    DepartmentsRoutingModule.forRoot(),
     SweetAlert2Module,
-    UsersModule
+    UsersModule,
+    StoreModule.forFeature('departments', departmentsReducer),
+    EffectsModule.forFeature([DepartmentEffects])
   ],
   declarations: [
     AddDepartmentComponent,

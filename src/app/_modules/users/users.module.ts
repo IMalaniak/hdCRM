@@ -11,7 +11,12 @@ import {
     UsersComponent,
     UsersDialogComponent } from './_components';
 
-import { UserService } from './_services';
+import { UserService, StateService } from './_services';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import {usersReducer} from './store/user.reducer';
+import { UserEffects } from './store/user.effects';
+import { statesReducer } from './store/state.reducer';
 
 @NgModule({
   imports: [
@@ -20,7 +25,10 @@ import { UserService } from './_services';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    UsersRoutingModule
+    UsersRoutingModule.forRoot(),
+    StoreModule.forFeature('users', usersReducer),
+    StoreModule.forFeature('states', statesReducer),
+    EffectsModule.forFeature([UserEffects])
   ],
   declarations: [
     ProfileComponent,
@@ -29,7 +37,8 @@ import { UserService } from './_services';
     UsersDialogComponent,
   ],
   providers: [
-    UserService
+    UserService,
+    StateService
   ],
   exports: [
     ProfileComponent,

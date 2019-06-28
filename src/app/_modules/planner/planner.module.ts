@@ -3,13 +3,19 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { PlannerRoutingModule } from './planner-routing.module';
-import { SharedModule } from '@/_shared/modules';
-import { AttachmentsModule } from '../attachments/attachments.module';
+
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 
+
+import { PlannerRoutingModule } from './planner-routing.module';
+import { SharedModule } from '@/_shared/modules';
+import { AttachmentsModule } from '../attachments/attachments.module';
 import { UsersModule } from '@/_modules/users/users.module';
+
+
 
 import {
     AddPlanComponent,
@@ -21,6 +27,10 @@ import {
      } from './_components';
 
 import { PlanService, StageService } from './_services';
+import { plansReducer } from './store/plan.reducer';
+import { PlanEffects } from './store/plan.effects';
+import { stagesReducer } from './store/stage.reducer';
+
 
 @NgModule({
   imports: [
@@ -30,10 +40,13 @@ import { PlanService, StageService } from './_services';
     ReactiveFormsModule,
     SharedModule,
     DragDropModule,
-    PlannerRoutingModule,
+    PlannerRoutingModule.forRoot(),
     AttachmentsModule,
     SweetAlert2Module,
-    UsersModule
+    UsersModule,
+    StoreModule.forFeature('plans', plansReducer),
+    StoreModule.forFeature('stages', stagesReducer),
+    EffectsModule.forFeature([PlanEffects])
   ],
   declarations: [
     AddPlanComponent,
@@ -42,7 +55,7 @@ import { PlanService, StageService } from './_services';
     AddStageDialogComponent,
     StagesDialogComponent,
     StagesComponent
-  ],
+  ], 
   providers: [
     PlanService,
     StageService

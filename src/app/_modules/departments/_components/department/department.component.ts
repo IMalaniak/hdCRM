@@ -2,13 +2,21 @@ import { environment } from 'environments/environment';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
+import { Store, select } from '@ngrx/store';
+import { Update } from '@ngrx/entity';
+
+import swal from 'sweetalert2';
+import { takeUntil } from 'rxjs/operators';
+
 import { Department } from '../../_models';
 import { UsersDialogComponent, User } from '@/_modules/users';
-import swal from 'sweetalert2';
 import { Subject } from 'rxjs';
-import { LoaderService, AuthenticationService, PrivilegeService } from '@/_shared/services';
 import { DepartmentService } from '../../_services';
-import { takeUntil } from 'rxjs/operators';
+
+import { AppState } from '@/core/reducers';
+
+import { DepartmentSaved } from '../../store/department.actions';
+import { currentUser } from '@/core/auth/store/auth.selectors';
 
 @Component({
   selector: 'app-department',
@@ -23,16 +31,14 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   baseUrl: string;
   editForm: boolean;
   editDepartmentPrivilege: boolean;
-  
+
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
     private departmentService: DepartmentService,
-    private loaderService: LoaderService,
-    private authService: AuthenticationService,
-    private privilegeService: PrivilegeService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
+    private store: Store<AppState>
   ) {
     this.baseUrl = environment.baseUrl;
     this.editForm = false;
@@ -40,25 +46,28 @@ export class DepartmentComponent implements OnInit, OnDestroy {
    }
 
   ngOnInit() {
-    this.authService.currentUser.pipe(takeUntil(this.unsubscribe)).subscribe(user => {
-      this.appUser = user;
-      this.editDepartmentPrivilege = this.privilegeService.isPrivileged(user, 'editDepartment');
+    this.store.pipe(
+      select(currentUser),
+      takeUntil(this.unsubscribe)
+    ).subscribe(user => {
+        this.appUser = user;
+        // TODO:
+        // this.editDepartmentPrivilege = this.privilegeService.isPrivileged(user, 'editDepartment');
     });
 
-    this.getDepartmentData();
-  }
-
-  getDepartmentData(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
-
-    this.departmentService.getDepartment(id).pipe(takeUntil(this.unsubscribe)).subscribe(department => {
-      this.department = department;
-      this.departmentInitial = { ...department };
-    });
+    // TODO: check
+    this.departmentInitial = this.route.snapshot.data['department'];
+    this.department = {...this.departmentInitial}
+    if (this.canEditDepartment) {
+      const edit = this.route.snapshot.queryParams['edit'];
+      if (edit) {
+        this.editForm = JSON.parse(edit);
+      }
+    }
   }
 
   get canEditDepartment(): boolean {
-    return this.editDepartmentPrivilege || (this.appUser.id === this.department.managerId);
+     return this.editDepartmentPrivilege || (this.appUser.id === this.department.managerId);
   }
 
   onClickEdit(): void {
@@ -67,93 +76,84 @@ export class DepartmentComponent implements OnInit, OnDestroy {
 
   onClickCancelEdit(): void {
     this.editForm = false;
-    this.department = { ...this.departmentInitial };
+    this.department = {...this.route.snapshot.data['department']};
   }
 
   openManagerDialog(): void {
-    this.showDataLoader = false;
-    const dialogRef = this.dialog.open(UsersDialogComponent, {
-      height: '80vh',
-      data: {
-        title: 'Select manager',
-      }
-    });
+    // TODO
+    // this.showDataLoader = false;
+    // const dialogRef = this.dialog.open(UsersDialogComponent, {
+    //   height: '80vh',
+    //   data: {
+    //     title: 'Select manager',
+    //   }
+    // });
 
-    if (this.department.Manager) {
-      const usersC = dialogRef.componentInstance.usersComponent;
+    // if (this.department.Manager) {
+    //   const usersC = dialogRef.componentInstance.usersComponent;
 
-      dialogRef.afterOpen().pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-        this.loaderService.isLoaded.pipe(takeUntil(this.unsubscribe)).subscribe(isLoaded => {
-          if (isLoaded) {
-          usersC.resetSelected(false);
-          }
-        });
-      });
-    }
+    //   dialogRef.afterOpen().pipe(takeUntil(this.unsubscribe)).subscribe(() => {
+    //     this.loaderService.isLoaded.pipe(takeUntil(this.unsubscribe)).subscribe(isLoaded => {
+    //       if (isLoaded) {
+    //       usersC.resetSelected(false);
+    //       }
+    //     });
+    //   });
+    // }
 
-    dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
-      if (result) {
-        this.department.Manager = result[0];
-      }
-    });
+    // dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
+    //   if (result) {
+    //     this.department.Manager = result[0];
+    //   }
+    // });
   }
 
   openWorkersDialog(): void {
-    this.showDataLoader = false;
-    const dialogRef = this.dialog.open(UsersDialogComponent, {
-      height: '80vh',
-      data: {
-        title: 'Select workers',
-      }
-    });
+    // TODO
+    // this.showDataLoader = false;
+    // const dialogRef = this.dialog.open(UsersDialogComponent, {
+    //   height: '80vh',
+    //   data: {
+    //     title: 'Select workers',
+    //   }
+    // });
 
-    if (this.department.Workers) {
-      const usersC = dialogRef.componentInstance.usersComponent;
+    // if (this.department.Workers) {
+    //   const usersC = dialogRef.componentInstance.usersComponent;
 
-      dialogRef.afterOpen().pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-        this.loaderService.isLoaded.pipe(takeUntil(this.unsubscribe)).subscribe(isLoaded => {
-          if (isLoaded) {
-            for (const participant of this.department.Workers) {
-              usersC.sortedData.find((user, i) => {
-                if (user.id === participant.id) {
-                    usersC.sortedData[i].selected = true;
-                    return true;
-                }
-              });
-            }
-            usersC.resetSelected(false);
-          }
-        });
-      });
-    }
+    //   // TODO
+    //   // dialogRef.afterOpen().pipe(takeUntil(this.unsubscribe)).subscribe(() => {
+    //   //   this.loaderService.isLoaded.pipe(takeUntil(this.unsubscribe)).subscribe(isLoaded => {
+    //   //     if (isLoaded) {
+    //   //       for (const participant of this.department.Workers) {
+    //   //         usersC.sortedData.find((user, i) => {
+    //   //           if (user.id === participant.id) {
+    //   //               usersC.sortedData[i].selected = true;
+    //   //               return true;
+    //   //           }
+    //   //         });
+    //   //       }
+    //   //       usersC.resetSelected(false);
+    //   //     }
+    //   //   });
+    //   // });
+    // }
 
-    dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
-      if (result) {
-        this.department.Workers = result;
-      }
-    });
+    // dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
+    //   if (result) {
+    //     this.department.Workers = result;
+    //   }
+    // });
   }
 
   updateDepartment(): void {
-    this.showDataLoader = true;
-    if (this.department.Workers && this.department.Workers.length > 0) {
-      this.department.Workers = this.department.Workers.map(user => {
-        return<User> {
-          id: user.id
-        };
-      });
-    }
-
-    if (this.department.Manager && this.department.Manager.id) {
-      const manager = new User();
-      manager.id = this.department.Manager.id;
-      this.department.Manager = manager;
-    }
-
-    this.departmentService.updateDepartment(this.department).pipe(takeUntil(this.unsubscribe)).subscribe(
-      department => {
-        this.department = department;
-        this.departmentInitial = { ...this.department };
+    this.departmentService.updateOne(this.department).pipe(takeUntil(this.unsubscribe)).subscribe(
+      () => {
+        const department: Update<Department> = {
+          id: this.department.id,
+          changes: this.department
+        }
+        this.store.dispatch(new DepartmentSaved({department}));
         this.editForm = false;
         swal({
           text: 'Department updated!',
@@ -173,7 +173,6 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('dep component ngOnDestory');
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }

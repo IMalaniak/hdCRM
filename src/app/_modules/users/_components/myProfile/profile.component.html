@@ -1,6 +1,6 @@
 <section class="profile-container" *ngIf="user">
   <div class="img-header">
-    <img *ngIf="user.avatar" src="{{baseUrl + user.avatar.location + user.avatar.title}}" alt="{{user.avatar.title}}">
+    <img *ngIf="user.avatar" src="{{user.avatar.getUrl}}" alt="{{user.avatar.title}}">
     <img *ngIf="!user.avatar" src="./assets/images/userpic/noimage.png" alt="noimage">
     <div class="row name">
       <div class="col-sm-12 col-md-4 col-lg-3"></div>
@@ -10,7 +10,7 @@
   <div class="row">
     <aside class="col-sm-12 col-md-4 col-lg-3">
       <div class="img-avatar d-flex justify-content-center align-items-center">
-        <img *ngIf="user.avatar" src="{{baseUrl + user.avatar.location + user.avatar.title}}" alt="{{user.avatar.title}}">
+        <img *ngIf="user.avatar" src="{{user.avatar.getUrl}}" alt="{{user.avatar.title}}">
         <img *ngIf="!user.avatar" src="./assets/images/userpic/noimage.png" alt="noimage">
       </div>
       <h3 class="w-75 mx-auto">{{ user.name}} {{ user.surname }}</h3>

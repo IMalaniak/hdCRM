@@ -2,12 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Validators, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-import { Role } from '../../_models';
-import { RoleService } from '../../_services';
-import { User } from '@/_modules/users';
+import { Role, Privilege } from '../../_models';
+import { RoleService, PrivilegeService } from '../../_services';
+import { User } from '@/_modules/users/_models';
 import { UsersDialogComponent } from '@/_modules/users/_components/dialog/users-dialog.component';
-import { PrivilegeService, LoaderService } from '@/_shared/services';
-import { Privilege } from '@/core/_models';
 import swal from 'sweetalert2';
 
 @Component({
@@ -24,7 +22,6 @@ export class AddRoleComponent implements OnInit {
     private router: Router,
     private roleService: RoleService,
     private privilegeService: PrivilegeService,
-    private loaderService: LoaderService,
     private dialog: MatDialog
   ) { }
 
@@ -51,21 +48,22 @@ export class AddRoleComponent implements OnInit {
     if (this.role.Users) {
       const usersC = dialogRef.componentInstance.usersComponent;
 
-      dialogRef.afterOpened().subscribe(result => {
-        this.loaderService.isLoaded.subscribe(isLoaded => {
-          if (isLoaded) {
-            for (const roleUser of this.role.Users) {
-              usersC.sortedData.find((user, i) => {
-                  if (user.id === roleUser.id) {
-                      usersC.sortedData[i].selected = true;
-                      return true; // stop searching
-                  }
-              });
-            }
-            usersC.resetSelected(false);
-          }
-        });
-      });
+      // TODO:
+      // dialogRef.afterOpened().subscribe(result => {
+      //   this.loaderService.isLoaded.subscribe(isLoaded => {
+      //     if (isLoaded) {
+      //       for (const roleUser of this.role.Users) {
+      //         usersC.sortedData.find((user, i) => {
+      //             if (user.id === roleUser.id) {
+      //                 usersC.sortedData[i].selected = true;
+      //                 return true; // stop searching
+      //             }
+      //         });
+      //       }
+      //       usersC.resetSelected(false);
+      //     }
+      //   });
+      // });
     }
 
     dialogRef.afterClosed().subscribe(result => {

@@ -31,7 +31,7 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                  "src/scss"
+                "src/scss"
               ]
             },
             "scripts": []
@@ -88,11 +88,11 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
-              "src/scss/styles.scss" 
+              "src/scss/styles.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                  "src/scss"
+                "src/scss"
               ]
             },
             "scripts": [],
@@ -145,5 +145,8 @@
       }
     }
   },
-  "defaultProject": "webApp"
+  "defaultProject": "webApp",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

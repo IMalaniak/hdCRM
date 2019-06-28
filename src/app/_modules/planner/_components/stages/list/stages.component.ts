@@ -1,74 +1,64 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {MatDialog} from '@angular/material';
 import { FormControl, Validators } from '@angular/forms';
-import swal from 'sweetalert2';
-import { MatCheckboxChange } from '@angular/material';
-import { StageService } from '../../../_services';
 import { Stage } from '../../../_models';
 import { AddStageDialogComponent } from '../add-dialog/add-stage-dialog.component';
+import { Observable, Subject } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+import { AppState } from '@/core/reducers';
+import { AllStagesRequestedFromDialogWindow, CreateStage } from '@/_modules/planner/store/plan.actions';
+import { selectAllStages, selectStagesLoading } from '@/_modules/planner/store/plan.selectors';
+import { map, catchError, takeUntil } from 'rxjs/operators';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-stages',
   templateUrl: './stages.component.html',
   styleUrls: ['./stages.component.scss']
 })
-export class StagesComponent implements OnInit {
+export class StagesComponent implements OnInit, OnDestroy {
   stages: Stage[];
-  selectedStages: Stage[];
-  notSelectedStages: Stage[];
-  newStage: Stage;
+  selection = new SelectionModel<Stage>(true, []);
+  resultsLength: number;
+  isLoading$: Observable<boolean>;
+
+  displayedColumns = ['select', 'title'];
+
+  private unsubscribe: Subject<void> = new Subject();
 
   constructor(
-    private stageService: StageService,
-    private dialog: MatDialog
-  ) {
-    this.newStage = new Stage();
-  }
+    private dialog: MatDialog,
+    private store: Store<AppState>
+  ) { }
 
   ngOnInit() {
-    this.stageService.getStagesList().subscribe(stages => {
-      this.stages = stages.map(stage => {
-        stage.selected = false;
-        return stage;
-      });
-      this.resetSelected();
-    });
+
+    this.store.dispatch(new AllStagesRequestedFromDialogWindow);
+
+    this.isLoading$ = this.store.pipe(select(selectStagesLoading));
+
+    this.store.pipe(
+      takeUntil(this.unsubscribe),
+      select(selectAllStages),
+      map(data => {
+        this.resultsLength = data.length;
+        return data;
+      })
+    ).subscribe(data => this.stages = data);
+
   }
 
-  selectAll(event: MatCheckboxChange): void {
-    for (const stage of this.stages) {
-      stage.selected = event.checked;
-    }
-    this.resetSelected(false);
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.resultsLength;
+    return numSelected === numRows;
   }
 
-  resetSelected(reset: boolean = true): void {
-    const self = this;
-    if (reset) {
-      this.selectedStages = [];
-      this.notSelectedStages = [...this.stages];
-    } else {
-      self.resetSelected();
-      for (const role of this.stages) {
-        if (role.selected) {
-          this.selectedStages.push(role);
-          this.notSelectedStages.splice(this.notSelectedStages.indexOf(role), 1);
-        }
-      }
-    }
-  }
-
-  onStageCheck(stage: Stage): void {
-    const i = this.selectedStages.indexOf(stage);
-    if (i >= 0) {
-      this.selectedStages.splice(i, 1);
-      this.notSelectedStages.push(stage);
-    } else {
-      if (stage.selected) {
-        this.selectedStages.push(stage);
-        this.notSelectedStages.splice(this.notSelectedStages.indexOf(stage), 1);
-      }
-    }
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+        this.selection.clear() :
+        this.stages.forEach(row => this.selection.select(row));
   }
 
   createStageDialog(): void {
@@ -81,28 +71,16 @@ export class StagesComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
       if (result) {
-        this.newStage.keyString = result;
-        this.stageService.createStage(this.newStage).subscribe(
-          stage => {
-            swal({
-              title: 'Stage created!',
-              type: 'success',
-              timer: 1500
-            }).then(() => {
-              this.stages.push(stage);
-            });
-          },
-          error => {
-            swal({
-              title: 'Ooops, something went wrong!',
-              type: 'error',
-              timer: 1500
-            });
-          }
-        );
+        const newStage = new Stage({keyString: result});
+        this.store.dispatch(new CreateStage({stage: newStage}));
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }

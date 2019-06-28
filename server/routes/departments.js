@@ -98,8 +98,12 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req, res, next
 		const addSubDepartmentsPromise = req.body.SubDepartments && req.body.SubDepartments.length > 0 ? addSubDepartmentsPr(dep, req.body.SubDepartments) : Promise.resolve(true);
 		const addWorkersPromise = req.body.Workers && req.body.Workers.length > 0 ? addWorkersPr(dep, req.body.Workers) : Promise.resolve(true);
 
-		Promise.all([addParentDepPromise, addSubDepartmentsPromise, addWorkersPromise]).then(values => {
-			res.status(200).json(values);
+		Promise.all([addParentDepPromise, addSubDepartmentsPromise, addWorkersPromise]).then(() => {
+			findDepByPk(dep.id).then(dep => {
+				res.json(dep);
+			}).catch(error => {
+				res.status(400).json(error.toString());
+			});
 		}).catch(error => {
 			res.status(400).json(error.toString());
 		});
@@ -110,9 +114,13 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req, res, next
 });
 
 
-// List full
+// List Paginated full
 router.get('/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	db.Department.findAll({
+	const queryParams = req.query;
+	let limit = parseInt(queryParams.pageSize);
+	let offset = parseInt(queryParams.pageIndex) * limit;
+
+	db.Department.findAndCountAll({
 		include: [
 			{
 				model: db.Department,
@@ -145,11 +153,39 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req, res, next)
 				],
 				required: false
 			}
-		]
-	}).then(deps => {
-		res.status(200).json(deps);
+		],
+		limit: limit,
+		offset: offset,
+		order: [
+			[queryParams.sortIndex, queryParams.sortDirection.toUpperCase()]
+		],
+		distinct: true
+	}).then(data => {
+		let pages = Math.ceil(data.count / limit);
+		res.json({list: data.rows, count: data.count, pages: pages});
 	}).catch(error => {
-		res.status(400).json(error.toString());
+		res.status(500).json(error.toString());
+	});	
+});
+
+router.get('/dashboard', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	db.Department.findAndCountAll({
+		attributes: ['title', 'id'],
+		include: [
+			{
+				model: db.User,
+				as: "Workers",
+				attributes: ['id'],
+				required: false
+			}
+		],
+		order: [
+			['id', 'ASC']
+		]
+	}).then(data => {
+		res.json({list: data.rows, count: data.count});
+	}).catch(error => {
+		res.status(500).json(error.toString());
 	});
 });
 

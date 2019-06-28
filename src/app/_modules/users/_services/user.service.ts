@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '../_models';
-import { State } from '@/core/_models';
+import { User, UserServerResponse, State } from '../_models';
+import { map } from 'rxjs/operators';
+import { Asset } from '@/_modules/attachments';
+import { Role } from '@/_modules/roles/_models';
 
 @Injectable()
 export class UserService {
@@ -19,16 +21,27 @@ export class UserService {
     return this.http.get<User>(`${this.api}/profile`);
   }
 
-  getList(): Observable<User[]> {
-    return this.http.get<User[]>(this.api);
+  getList(pageIndex = 0, pageSize = 5, sortIndex = 'id', sortDirection = 'asc'): Observable<UserServerResponse> {
+    return this.http.get<UserServerResponse>(this.api, {
+      params: new HttpParams()
+          .set('pageIndex', pageIndex.toString())
+          .set('pageSize', pageSize.toString())
+          .set('sortIndex', sortIndex)
+          .set('sortDirection', sortDirection)
+      }).pipe(
+        map(res => new UserServerResponse(res))
+      );
   }
 
   getUser(id: number): Observable<User> {
-    return this.http.get<User>(`${this.api}/${id}`);
+    return this.http.get<User>(`${this.api}/${id}`).pipe(
+      map(res => new User(res))
+    );
   }
 
   updateUser(user: User): Observable<User> {
-    return this.http.put<User>(`${this.api}/${user.id}`, user);
+    return this.http.put<User>(`${this.api}/${user.id}`, this.formatBeforeSend(user));
+
   }
 
   updateUserState(user: User): Observable<User> {
@@ -45,6 +58,23 @@ export class UserService {
       stateId: state.id
     };
     return this.http.put<User[]>(`${this.api}/changeStateOfSelected`, data);
+  }
+
+  formatBeforeSend(user: User): User {
+    if (user.State) {
+      const state = new State({
+        id: user.State.id
+      });
+      user.State = state;
+    }
+    if (user.Roles) {
+      user.Roles = user.Roles.map(role => {
+        return new Role({
+          id: role.id
+        });
+      });
+    }
+    return user;
   }
 
 }

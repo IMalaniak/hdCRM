@@ -1,4 +1,4 @@
-<section class="login-section">
+<section class="login-section" >
   <h3 class="crm-brand">Crm company</h3>
   <div class="row">
     <div class="col col-md">
@@ -16,15 +16,15 @@
             </mat-card>
             <mat-form-field appearance="outline">
               <mat-label i18n="@@loginComponentFormLoginOrEmailLabel">Login/Email</mat-label>
-              <input matInput [(ngModel)]="user.login" name="login" type="text">
+              <input matInput [(ngModel)]="user.login" name="login" autocomplete="username" type="text" required>
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label i18n="@@loginComponentFormPasswordLabel">Password</mat-label>
-              <input matInput [(ngModel)]="user.password" name="password" [type]="hidePassword ? 'password' : 'text'">
+              <input matInput [(ngModel)]="user.password" name="password" autocomplete="current-password" [type]="hidePassword ? 'password' : 'text'" required>
               <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
             </mat-form-field>  
             <button mat-raised-button color="primary" class="crm-button mb-3" type="submit"><mat-icon>vpn_key</mat-icon><span i18n="@@loginComponentFormActionsLogIn">Login</span></button>
-            <button mat-button type="button" class="text-muted mx-auto" routerLink="/auth/request-new-password/" i18n="@@loginComponentActionsForgotYourPassword">Forgot password?</button>
+            <button mat-button type="button" class="text-muted mx-auto" routerLink="/auth/request-new-password/" i18n="@@loginComponentActionsForgotYourPassword">Forgot password</button>
           </mat-card-content>
         </mat-card>
       </form>
@@ -50,7 +50,7 @@
             </mat-card>
             <mat-form-field appearance="outline">
               <mat-label i18n="@@loginComponentFormLoginOrEmailLabel">Login/Email</mat-label>
-              <input matInput [(ngModel)]="user.login" type="text" name="login" required>
+              <input matInput [(ngModel)]="user.login" type="text" autocomplete="username" name="login" required>
             </mat-form-field>
             <div class="d-flex justify-content-between">
               <button mat-raised-button class="crm-button mr-1" type="reset" routerLink="/auth/login"><mat-icon>clear</mat-icon><span i18n="@@globalActionsCancelEdit">Cancel</span></button>
@@ -81,7 +81,7 @@
             </mat-card>
             <mat-form-field appearance="outline">
               <mat-label i18n="@@loginComponentFormResetNewPasswordLabel">New password</mat-label>
-              <input matInput type="password" formControlName="newPassword" [type]="hidePassword ? 'password' : 'text'" required>
+              <input matInput type="password" formControlName="newPassword" autocomplete="off" [type]="hidePassword ? 'password' : 'text'" required>
               <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
               <mat-error *ngIf="newPassword.invalid">
                 <mat-error *ngIf="newPassword.errors.minlength" i18n="@@loginComponentInputErrorsPasswordIsTooShort">

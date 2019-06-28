@@ -1,3 +1,7 @@
+import { environment } from 'environments/environment';
+
+const baseUrl = environment.baseUrl;
+
 export class Asset {
   id: number;
   title: string;
@@ -5,6 +9,18 @@ export class Asset {
   type: string;
   createdAt: string;
   updatedAt: string;
+
+  constructor(input?: any) {
+    Object.assign(this, input);
+  }
+
+  get getThumbnailsUrl(): string {
+    return baseUrl + this.location + 'thumbnails/' + this.title;
+  }
+
+  get getUrl(): string {
+    return baseUrl + this.location + this.title;
+  }
 }
 
 export class FileTypes {

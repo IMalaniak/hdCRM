@@ -16,37 +16,15 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req, res, next
 
 //full list
 router.get('/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	db.Stage.findAll().then(stages => {
-		res.json(stages);
-	}).catch(error => {
-		res.status(400).json(error.toString());
-	});
-});
-
-router.get('/countPlans', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	db.Stage.findAll({
-		// attributes: {
-		// 	include: [
-		// 		[
-		// 			db.sequelize.fn('COUNT', db.sequelize.col('StagePlans')), 'planCount'
-		// 		]	
-		// 	]
-		// },
+	db.Stage.findAndCountAll({
 		include: [
 			{
 				model: db.Plan,
 				attributes: ['id']
 			}
 		]
-	}).then(stages => {
-		const newObj = stages.map(stage => {
-			return {
-				id: stage.id,
-				keyString: stage.keyString,
-				totalPlans: stage.Plans.length
-			}
-		});
-		res.json(newObj);
+	}).then(data => {
+		res.json({list: data.rows, count: data.count});
 	}).catch(error => {
 		res.status(400).json(error.toString());
 	});

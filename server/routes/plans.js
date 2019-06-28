@@ -3,142 +3,8 @@ const router = express.Router();
 const db = require('../models/index');
 const passport = require('passport');
 
-// create
-router.post('/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	db.Plan.create({
-		title: req.body.title,
-		budget: req.body.budget,
-		deadline: req.body.deadline,
-		description: req.body.description,
-		progress: 0
-	}).then(plan => {
-		db.User.findByPk(req.body.CreatorId).then(user => {
-			plan.setCreator(user).then(() => {
-				db.Stage.findAll({
-					where: {
-						keyString: {
-							[db.Sequelize.Op.or]: ['created', 'inProgress', 'finished']
-						}
-					}
-				}).then(stages => {
-					for (const i in stages) {
-						if (stages[i].keyString === 'created') {
-							plan.setActiveStage(stages[i]);
-						}
-						plan.addStages(stages[i], {through: {
-								order: i,
-								completed: false
-							}
-						});
-					}
-
-					if(req.body.Participants) {
-						db.User.findAll({
-							where: {
-								[db.Sequelize.Op.or] : req.body.Participants
-							}
-						}).then(users => {
-							plan.setParticipants(users).then(() => {
-								res.json({success: true, msg: 'Plan created!'});
-							}).catch(error => {
-								res.status(400).json(error.toString());
-							});
-						}).catch(error => {
-							res.status(400).json(error.toString());
-						});
-					} else {
-						res.json({success: true, msg: 'Plan created!'});
-					}
-
-				}).catch(error => {
-					res.status(400).json(error.toString());
-				});
-			}).catch(error => {
-				res.status(400).json(error.toString());
-			});
-		}).catch(error => {
-			res.status(400).json(error.toString());
-		});
-	}).catch(error => {
-		res.status(400).json(error.toString());
-	});
-});
-
-// List
-router.get('/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	db.Plan.findAll({
-		include: [
-			{
-				model: db.User,
-				as: 'Creator',
-				attributes: { exclude: ['passwordHash', 'salt'] },
-				include: {
-					model: db.Asset,
-					as: 'avatar'
-				}
-			},
-			{
-				model: db.User,
-				as: 'Participants',
-				attributes: { exclude: ['passwordHash', 'salt'] },
-				through: {
-					attributes: []
-				}
-			},
-			{
-				model: db.Stage,
-				as: 'activeStage'
-			}
-		]
-	}).then(plans => {
-		res.json(plans);
-	}).catch(error => {
-		console.error(error);
-		
-		res.status(400).json(error.toString());
-	});
-});
-
-//List of plans
-router.get('/stageList/:stage', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	db.Stage.findByPk(req.params.stage).then(stage => {
-		stage.getPlans({
-			include: [
-				{
-					model: db.User,
-					as: 'Creator',
-					attributes: { exclude: ['passwordHash', 'salt'] },
-					include: {
-						model: db.Asset,
-						as: 'avatar'
-					}
-				},
-				{
-					model: db.User,
-					as: 'Participants',
-					attributes: { exclude: ['passwordHash', 'salt'] },
-					through: {
-						attributes: []
-					}
-				},
-				{
-					model: db.Stage,
-					as: 'activeStage'
-				}
-			]
-		}).then(plans => {
-			res.json(plans);
-		}).catch(error => {
-			res.status(400).json(error.toString());
-		});
-	}).catch(error => {
-		res.status(400).json(error.toString());
-	});
-});
-
-//user by id
-router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	db.Plan.findByPk(req.params.id, {
+function findPlanById(planId) {
+	return db.Plan.findByPk(planId, {
 		include: [
 			{
 				model: db.User,
@@ -186,7 +52,186 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res, ne
 		order: [ 
 			[db.Sequelize.col('order')]
 		]
+	})
+}
+
+// create
+router.post('/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+
+	const finish = function(planId) {
+		findPlanById(planId).then(plan => {
+			res.json(plan);
+		}).catch(error => {
+			res.status(400).json(error.toString());
+		});
+	}
+
+	db.Plan.create({
+		title: req.body.title,
+		budget: req.body.budget,
+		deadline: req.body.deadline,
+		description: req.body.description,
+		progress: 0
 	}).then(plan => {
+		db.User.findByPk(req.body.CreatorId).then(user => {
+			plan.setCreator(user).then(() => {
+				db.Stage.findAll({
+					where: {
+						keyString: {
+							[db.Sequelize.Op.or]: ['created', 'inProgress', 'finished']
+						}
+					}
+				}).then(stages => {
+					for (const i in stages) {
+						if (stages[i].keyString === 'created') {
+							plan.setActiveStage(stages[i]);
+						}
+						plan.addStages(stages[i], {through: {
+								order: i,
+								completed: false
+							}
+						});
+					}
+
+					if(req.body.Participants) {
+						db.User.findAll({
+							where: {
+								[db.Sequelize.Op.or] : req.body.Participants
+							}
+						}).then(users => {
+							plan.setParticipants(users).then(() => {
+								finish(plan.id);
+							}).catch(error => {
+								res.status(400).json(error.toString());
+							});
+						}).catch(error => {
+							res.status(400).json(error.toString());
+						});
+					} else {
+						finish(plan.id);
+					}
+
+				}).catch(error => {
+					res.status(400).json(error.toString());
+				});
+			}).catch(error => {
+				res.status(400).json(error.toString());
+			});
+		}).catch(error => {
+			res.status(400).json(error.toString());
+		});
+	}).catch(error => {
+		res.status(400).json(error.toString());
+	});
+});
+
+// Paginated List
+router.get('/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	const queryParams = req.query;
+	let limit = parseInt(queryParams.pageSize);
+	let offset = parseInt(queryParams.pageIndex) * limit;
+	
+	db.Plan.findAndCountAll({
+		include: [
+			{
+				model: db.User,
+				as: 'Creator',
+				attributes: { exclude: ['passwordHash', 'salt'] },
+				include: [
+					{
+						model: db.Asset,
+						as: 'avatar'
+					}
+				]
+			},
+			{
+				model: db.User,
+				as: 'Participants',
+				attributes: { exclude: ['passwordHash', 'salt'] },
+				through: {
+					attributes: []
+				},
+				include: {
+					model: db.Asset,
+					as: 'avatar'
+				}
+			},
+			{
+				model: db.Asset,
+				as: 'Documents',
+				through: {
+					attributes: []
+				}
+			},
+			{
+				model: db.Stage,
+				as: 'activeStage'
+			},
+			{
+				model: db.Stage,
+				as: 'Stages',
+				through: {
+					as: 'Details',
+					attributes: { exclude: ['PlanId', 'StageId'] }
+				}
+			}
+		],
+		limit: limit,
+		offset: offset,
+		order: [
+			[queryParams.sortIndex, queryParams.sortDirection.toUpperCase()],
+			//[db.Sequelize.literal(`"Stages->Details"."order" ASC`)]
+			// TODO: sort
+		],
+		distinct: true
+	}).then(data => {
+		let pages = Math.ceil(data.count / limit);
+		res.json({list: data.rows, count: data.count, pages: pages});
+	}).catch(error => {
+		res.status(500).json(error.toString());
+	});
+});
+
+//List of plans
+router.get('/stageList/:stage', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	db.Stage.findByPk(req.params.stage).then(stage => {
+		stage.getPlans({
+			include: [
+				{
+					model: db.User,
+					as: 'Creator',
+					attributes: { exclude: ['passwordHash', 'salt'] },
+					include: {
+						model: db.Asset,
+						as: 'avatar'
+					}
+				},
+				{
+					model: db.User,
+					as: 'Participants',
+					attributes: { exclude: ['passwordHash', 'salt'] },
+					through: {
+						attributes: []
+					}
+				},
+				{
+					model: db.Stage,
+					as: 'activeStage'
+				}
+			]
+		}).then(plans => {
+			res.json(plans);
+		}).catch(error => {
+			res.status(400).json(error.toString());
+		});
+	}).catch(error => {
+		res.status(400).json(error.toString());
+	});
+});
+
+//plan by id
+router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	findPlanById(req.params.id).then(plan => {
 		res.json(plan);
 	}).catch(error => {
 		res.status(400).json(error.toString());

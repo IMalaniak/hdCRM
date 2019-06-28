@@ -1,77 +1,95 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy} from '@angular/core';
+import { Router } from '@angular/router';
+import { MatPaginator, MatSort } from '@angular/material';
+import { SelectionModel } from '@angular/cdk/collections';
+import { Store, select } from '@ngrx/store';
+import { Observable, Subject, merge } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
+import { AppState } from '@/core/reducers';
+
+import { isPrivileged } from '@/core/auth/store/auth.selectors';
+import { RolesDataSource } from '../../_services/role.datasource';
 import { Role } from '../../_models';
-import { RoleService } from '../../_services';
-import { MatCheckboxChange } from '@angular/material';
-import { AuthenticationService, PrivilegeService } from '@/_shared/services';
+import { selectRolesTotalCount, selectRolesLoading } from '../../store/role.selectors';
+import { PageQuery } from '@/core/_models';
 
 @Component({
   selector: 'app-roles',
   templateUrl: './roles.component.html',
   styleUrls: ['./roles.component.scss']
 })
-export class RolesComponent implements OnInit {
-  addRolePrivilege: boolean;
-  roles: Role[];
-  selectedRoles: Role[];
-  notSelectedRoles: Role[];
+export class RolesComponent implements OnInit, OnDestroy, AfterViewInit {
+  addRolePrivilege$: Observable<boolean>;
+  editRolePrivilege$: Observable<boolean>;
+  dataSource: RolesDataSource;
+  selection = new SelectionModel<Role>(true, []);
+  loading$: Observable<boolean>;
+  resultsLength$: Observable<number>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+  displayedColumns = ['select', 'title', 'users', 'privileges', 'createdAt', 'updatedAt', 'actions'];
+
+  private unsubscribe: Subject<void> = new Subject();
 
   constructor(
-    private roleService: RoleService,
-    private authService: AuthenticationService,
-    private privilegeService: PrivilegeService,
+    private store: Store<AppState>,
+    private router: Router
   ) {
   }
 
   ngOnInit() {
-    this.authService.currentUser.subscribe(user => {
-      this.addRolePrivilege = this.privilegeService.isPrivileged(user, 'addRole');
+    this.addRolePrivilege$ = this.store.pipe(select(isPrivileged('addRole')));
+    this.editRolePrivilege$ = this.store.pipe(select(isPrivileged('editRole')));
+    this.loading$ = this.store.pipe(select(selectRolesLoading));
+    this.resultsLength$ = this.store.pipe(select(selectRolesTotalCount));
+    this.dataSource = new RolesDataSource(this.store);
+
+    const initialPage: PageQuery = {
+      pageIndex: 0,
+      pageSize: 5,
+      sortIndex: 'id',
+      sortDirection: 'asc'
+    };
+
+    this.dataSource.loadRoles(initialPage);
+  }
+
+  ngAfterViewInit() {
+
+    // this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+
+    merge(this.sort.sortChange, this.paginator.page)
+      .pipe(
+          tap(() => this.loadRolesPage())
+      )
+      .subscribe();
+
+  }
+
+  loadRolesPage() {
+    const newPage: PageQuery = {
+      pageIndex: this.paginator.pageIndex,
+      pageSize: this.paginator.pageSize,
+      sortIndex: this.sort.active,
+      sortDirection: this.sort.direction || 'asc'
+    };
+
+    this.dataSource.loadRoles(newPage);
+
+  }
+
+  onRoleSelect(id: number, edit: boolean = false): void {
+    this.router.navigate([`/roles/details/${id}`], {
+      queryParams: { edit }
     });
-    this.getRolesData();
   }
 
-  getRolesData(): void {
-    this.roleService.getFullList().subscribe(roles => {
-      this.roles = roles.map(role => {
-        role.selected = false;
-        return role;
-      });
-      this.resetSelected();
-    });
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
-  selectAll(event: MatCheckboxChange): void {
-    for (const role of this.roles) {
-      role.selected = event.checked;
-    }
-    this.resetSelected(false);
-  }
 
-  onRoleCheck(role: Role): void {
-    const i = this.selectedRoles.indexOf(role);
-    if (i >= 0) {
-      this.selectedRoles.splice(i, 1);
-      this.notSelectedRoles.push(role);
-    } else {
-      if (role.selected) {
-        this.selectedRoles.push(role);
-        this.notSelectedRoles.splice(this.notSelectedRoles.indexOf(role), 1);
-      }
-    }
-  }
-
-  resetSelected(reset: boolean = true): void {
-    const self = this;
-    if (reset) {
-      this.selectedRoles = [];
-      this.notSelectedRoles = [...this.roles];
-    } else {
-      self.resetSelected();
-      for (const role of this.roles) {
-        if (role.selected) {
-          this.selectedRoles.push(role);
-          this.notSelectedRoles.splice(this.notSelectedRoles.indexOf(role), 1);
-        }
-      }
-    }
-  }
 }

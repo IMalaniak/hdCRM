@@ -3,13 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
-import { Role } from '../../_models';
-import { RoleService } from '../../_services';
-import { User } from '@/_modules/users';
+import { Role, Privilege } from '../../_models';
+import { RoleService, PrivilegeService } from '../../_services';
+import { User } from '@/_modules/users/_models';
 import { UsersDialogComponent } from '@/_modules/users/_components/dialog/users-dialog.component';
-import { Privilege } from '@/core/_models';
-import { AuthenticationService, LoaderService, PrivilegeService } from '@/_shared/services';
-
+import { Store, select } from '@ngrx/store';
+import { AppState } from '@/core/reducers';
+import { isPrivileged } from '@/core/auth/store/auth.selectors';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -24,16 +25,15 @@ export class RoleComponent implements OnInit {
   privileges: Privilege[];
   privilegesInitial: Privilege[];
   editForm: boolean;
-  editRolePrivilege: boolean;
+  editRolePrivilege$: Observable<boolean>;
   showDataLoader: boolean;
 
   constructor(
-    private authService: AuthenticationService,
     private route: ActivatedRoute,
     private privilegeService: PrivilegeService,
     private roleService: RoleService,
-    private loaderService: LoaderService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private store: Store<AppState>
   ) {
     this.baseUrl = environment.baseUrl;
     this.editForm = false;
@@ -41,9 +41,7 @@ export class RoleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.currentUser.subscribe(user => {
-      this.editRolePrivilege = this.privilegeService.isPrivileged(user, 'editRole');
-    });
+    this.editRolePrivilege$ = this.store.pipe(select(isPrivileged('editRole')));
     this.getRoleData();
   }
 
@@ -73,21 +71,22 @@ export class RoleComponent implements OnInit {
     if (this.role.Users) {
       const usersC = dialogRef.componentInstance.usersComponent;
 
-      dialogRef.afterOpened().subscribe(result => {
-        this.loaderService.isLoaded.subscribe(isLoaded => {
-          if (isLoaded) {
-            for (const roleUser of this.role.Users) {
-              usersC.sortedData.find((user, i) => {
-                  if (user.id === roleUser.id) {
-                      usersC.sortedData[i].selected = true;
-                      return true; // stop searching
-                  }
-              });
-            }
-            usersC.resetSelected(false);
-          }
-        });
-      });
+      // TODO
+      // dialogRef.afterOpened().subscribe(result => {
+      //   this.loaderService.isLoaded.subscribe(isLoaded => {
+      //     if (isLoaded) {
+      //       for (const roleUser of this.role.Users) {
+      //         usersC.sortedData.find((user, i) => {
+      //             if (user.id === roleUser.id) {
+      //                 usersC.sortedData[i].selected = true;
+      //                 return true; // stop searching
+      //             }
+      //         });
+      //       }
+      //       usersC.resetSelected(false);
+      //     }
+      //   });
+      // });
     }
 
     dialogRef.afterClosed().subscribe(result => {

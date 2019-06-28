@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Role } from '../_models';
+import { Role, RoleServerResponse } from '../_models';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class RoleService {
@@ -26,8 +27,17 @@ export class RoleService {
     return this.http.put<Role>(this.api, role);
   }
 
-  getFullList(): Observable<Role[]> {
-    return this.http.get<Role[]>(this.api);
+
+  getList(pageIndex = 0, pageSize = 5, sortIndex = 'id', sortDirection = 'asc'): Observable<RoleServerResponse> {
+    return this.http.get<RoleServerResponse>(this.api, {
+      params: new HttpParams()
+          .set('pageIndex', pageIndex.toString())
+          .set('pageSize', pageSize.toString())
+          .set('sortIndex', sortIndex)
+          .set('sortDirection', sortDirection)
+      }).pipe(
+        map(res => new RoleServerResponse(res))
+      );
   }
 
 }

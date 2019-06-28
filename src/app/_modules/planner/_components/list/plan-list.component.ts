@@ -1,33 +1,116 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import swal from 'sweetalert2';
 import { Plan } from '../../_models';
-import { PlanService } from '../../_services';
-import { AuthenticationService, PrivilegeService } from '@/_shared/services';
+import { Store, select } from '@ngrx/store';
+import { AppState } from '@/core/reducers';
+
+import { PlansDataSource } from '../../_services/plan.datasource';
+
+import { selectPlansLoading, selectPlansTotalCount } from '../../store/plan.selectors';
+import { MatPaginator, MatSort } from '@angular/material';
+import { tap } from 'rxjs/operators';
+import { SelectionModel } from '@angular/cdk/collections';
+import { Router } from '@angular/router';
+import { PageQuery } from '@/core/_models';
+import { isPrivileged } from '@/core/auth/store/auth.selectors';
 
 @Component({
   selector: 'app-plan-list',
   templateUrl: './plan-list.component.html',
   styleUrls: ['./plan-list.component.scss']
 })
-export class PlanListComponent implements OnInit {
-  addPlanPrivilege: boolean;
+export class PlanListComponent implements OnInit, AfterViewInit {
+  addPlanPrivilege$: Observable<boolean>;
   plans$: Observable<Plan[]>;
+  dataSource: PlansDataSource;
+  loading$: Observable<boolean>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+  displayedColumns = ['title', 'creator', 'stage', 'participants', 'createdAt', 'updatedAt', 'deadline', 'actions'];
+  resultsLength$: Observable<number>;
+
+  selection = new SelectionModel<Plan>(true, []);
 
   constructor(
-    private planService: PlanService,
-    private authService: AuthenticationService,
-    private privilegeService: PrivilegeService,
+    private router: Router,
+    private store: Store<AppState>,
   ) {}
 
   ngOnInit() {
-    this.authService.currentUser.subscribe(user => {
-      this.addPlanPrivilege = this.privilegeService.isPrivileged(user, 'addPlan');
-    });
-    this.getPlannerData();
+    this.addPlanPrivilege$ = this.store.pipe(select(isPrivileged('addPlan')));
+
+    this.loading$ = this.store.pipe(select(selectPlansLoading));
+    this.resultsLength$ = this.store.pipe(select(selectPlansTotalCount));
+    this.dataSource = new PlansDataSource(this.store);
+
+    const initialPage: PageQuery = {
+      pageIndex: 0,
+      pageSize: 5,
+      sortIndex: 'id',
+      sortDirection: 'asc'
+    };
+
+    this.dataSource.loadPlans(initialPage);
+
   }
 
-  getPlannerData(): void {
-    this.plans$ = this.planService.getFullList();
+  ngAfterViewInit() {
+      this.paginator.page
+        .pipe(
+          tap(() => this.loadPlansPage())
+        )
+        .subscribe();
+
+        // TODO: check for other solution
+      this.sort.sortChange
+          .pipe(
+            tap(() => this.loadPlansPage())
+          )
+          .subscribe();
+
   }
+
+  loadPlansPage() {
+    const newPage: PageQuery = {
+      pageIndex: this.paginator.pageIndex,
+      pageSize: this.paginator.pageSize,
+      sortIndex: this.sort.active,
+      sortDirection: this.sort.direction || 'asc'
+    };
+
+    this.dataSource.loadPlans(newPage);
+
+  }
+
+
+  onPlanSelect(id: number, edit: boolean = false): void {
+    this.router.navigate([`/planner/details/${id}`], {
+      queryParams: { edit }
+    });
+  }
+
+    // /** Whether the number of selected elements matches the total number of rows. */
+    // isAllSelected() {
+    //   const numSelected = this.selection.selected.length;
+    //   const numRows = this.dataSource.length;
+    //   return numSelected === numRows;
+    // }
+  
+    // /** Selects all rows if they are not all selected; otherwise clear selection. */
+    // masterToggle() {
+    //   this.isAllSelected() ?
+    //       this.selection.clear() :
+    //       this.dataSource.data.forEach(row => this.selection.select(row));
+    // }
+  
+    // /** The label for the checkbox on the passed row */
+    // checkboxLabel(row?: Plan): string {
+    //   if (!row) {
+    //     return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+    //   }
+    //   return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
+    // }
+
 }

@@ -1,30 +1,57 @@
 ﻿import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-
-import { AuthenticationService } from '@/_shared/services';
 import swal from 'sweetalert2';
+import { Store, select } from '@ngrx/store';
+import { AppState } from '../reducers';
+import { Observable, of } from 'rxjs';
+import { tap, mergeMap, first } from 'rxjs/operators';
+import { isloggedIn, isValidToken } from '../auth/store/auth.selectors';
+
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { LogOut } from '../auth/store/auth.actions';
+const jwtHelper = new JwtHelperService();
+
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
     constructor(
-        private router: Router,
-        private authenticationService: AuthenticationService
+        private store$: Store<AppState>,
+        private router: Router
     ) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        const currentUser = this.authenticationService.currentUserValue;
-        const validToken = this.authenticationService.validToken();
-        if (currentUser && validToken) {
-            // logged in so return true
-            return true;
-        }
-        swal({
-            title: 'You are not authorized to see this page!',
-            type: 'error',
-            timer: 1500
-        });
-        // not logged in so redirect to login page with the return url
-        this.router.navigate(['/auth'], { queryParams: { returnUrl: state.url } });
-        return false;
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+        return this.store$
+            .pipe(
+            select(isloggedIn),
+            tap(loggedIn => {
+                if (loggedIn) {
+                    // TODO
+                    this.checkToken();
+                } else if (!loggedIn) {
+                    swal({
+                        title: 'You are not authorized to see this page!',
+                        type: 'error',
+                        timer: 1500
+                    });
+                    this.router.navigateByUrl('/auth/login');
+                }
+            })
+        );
+    }
+
+    private checkToken(): Observable<boolean> {
+        return this.store$.pipe(
+            select(isValidToken),
+            tap(isValid => {
+                if (!isValid) {
+                    swal({
+                        title: 'Token has expired!',
+                        type: 'error',
+                        timer: 1500
+                    });
+                    this.store$.dispatch(new LogOut());
+                }
+            })
+        );
     }
 }

@@ -11,12 +11,15 @@ function findUserById(userId){
 		include: [
 			{
 				model: db.Role,
-				required: false,
 				through: {
 					attributes: []
 				}
 			}, {
+				model: db.UserLoginHistory
+			}, {
 				model: db.State
+			}, {
+				model: db.Asset
 			}, {
 				model: db.Asset,
 				as: 'avatar'
@@ -30,7 +33,11 @@ function findUserById(userId){
 
 //List
 router.get('/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	db.User.findAll({
+	const queryParams = req.query;
+	let limit = parseInt(queryParams.pageSize);
+	let offset = parseInt(queryParams.pageIndex) * limit;
+	
+	db.User.findAndCountAll({
 		attributes: { exclude: ['passwordHash', 'salt'] },
 		include: [
 			{
@@ -51,12 +58,19 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req, res, next)
 				model: db.Department,
 				required: false,
 			}
-		]
-	}).then(users => {
-		res.json(users);
+		],
+		limit: limit,
+		offset: offset,
+		order: [
+			[queryParams.sortIndex, queryParams.sortDirection.toUpperCase()]
+		],
+		distinct: true
+	}).then(data => {
+		let pages = Math.ceil(data.count / limit);
+		res.json({list: data.rows, count: data.count, pages: pages});
 	}).catch(error => {
-		res.status(400).json(error.toString());
-	});
+		res.status(500).json(error.toString());
+	});	
 });
 
 //Profile

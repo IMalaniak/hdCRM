@@ -202,7 +202,7 @@ router.post('/authenticate', (req, res, next) => {
 			let isMatch = crypt.validatePassword(password, user.passwordHash, user.salt);
 			if (isMatch) {
 				const token = jwt.sign(user.dataValues, env.SECRET, {
-					expiresIn: 86400  // 1 day //604800 1 week
+					expiresIn: 86400  // 86400s = 1 day //604800s = 1 week
 				});
 
 				let tmpUser = {
@@ -213,7 +213,10 @@ router.post('/authenticate', (req, res, next) => {
 					email: user.email,
 					defaultLang: user.defaultLang,
 					avatar: user.avatar,
-					token: 'JWT ' + token
+					token: 'JWT ' + token,
+					phone: user.phone,
+					createdAt: user.createdAt,
+					updatedAt: user.updatedAt
 				};
 
 				if (user.Roles && user.Roles.length > 0) {

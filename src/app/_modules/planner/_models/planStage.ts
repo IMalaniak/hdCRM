@@ -8,13 +8,10 @@ export class PlanStage {
   completed: boolean;
   createdAt: string;
   updatedAt: string;
-}
 
-export class StageDetails extends PlanStage {
-  constructor(order: number) {
-    super();
-    this.order = order;
-    this.completed = false;
-    this.description = '';
+  constructor(input?: any) {
+    if (input) {
+      Object.assign(this, input);
+    }
   }
 }

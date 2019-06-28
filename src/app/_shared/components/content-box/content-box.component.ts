@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ContentChild, ElementRef, ViewEncapsulation} from '@angular/core';
-import { LoaderService } from '@/_shared/services';
+
 import { Observable } from 'rxjs';
 
 @Component({
@@ -17,12 +17,9 @@ export class ContentBoxComponent implements OnInit {
   @ContentChild('buttons') buttons: ElementRef;
   @ContentChild('boxFooter') boxFooter: ElementRef;
 
-  constructor(public loaderService: LoaderService) { }
+  constructor() { }
 
   ngOnInit() {
   }
 
-  get dataIsLoading$(): Observable<boolean> {
-    return this.loaderService.showLoader;
-  }
 }

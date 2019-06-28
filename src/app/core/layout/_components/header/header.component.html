@@ -14,16 +14,18 @@
 <div class="user-question">
 	<mat-icon>question_answer</mat-icon>
 </div>
-<div *ngIf="isValidToken">
-	<img class="userpic" *ngIf="!authService.currentUserValue.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage" [routerLink]="['/myprofile']">
-	<img class="userpic" *ngIf="authService.currentUserValue.avatar" src="{{baseUrl + authService.currentUserValue.avatar.location + 'thumbnails/' + authService.currentUserValue.avatar.title}}" alt="{{authService.currentUserValue.avatar.title}}" [routerLink]="['/myprofile']">
-	<!-- <span *ngIf="authService.currentUserValue">{{authService.currentUserValue.name + ' ' + authService.currentUserValue.surname}}</span> -->
+<!-- <div *ngIf="isValidToken"> -->
+<div>
+	<img class="userpic" *ngIf="currentUser && !currentUser.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage" [routerLink]="['/myprofile']">
+	<img class="userpic" *ngIf="currentUser && currentUser.avatar" src="{{currentUser.avatar.getThumbnailsUrl}}" alt="{{currentUser.avatar.title}}" [routerLink]="['/myprofile']">
+	<!-- <span *ngIf="currentUser">{{currentUser.name + ' ' + currentUser.surname}}</span> -->
 </div>
 <div class="user-login">
-	<button mat-icon-button *ngIf="isValidToken" (click)="onLogoutClick()" title="Log out!" i18n="@@appComponentUserDropdownActionsLogOut">
+	<!-- <button mat-icon-button *ngIf="isValidToken" (click)="onLogoutClick()" title="Log out!" i18n="@@appComponentUserDropdownActionsLogOut"> -->
+	<button mat-icon-button (click)="onLogoutClick()" title="Log out!" i18n="@@appComponentUserDropdownActionsLogOut">
 		<mat-icon>arrow_back</mat-icon>
 	</button>
-	<button mat-icon-button *ngIf="!isValidToken" [routerLink]="['/auth']" title="Log in!" i18n="@@appComponentUserDropdownActionsLogIn">
+	<!-- <button mat-icon-button *ngIf="!isValidToken" [routerLink]="['/auth']" title="Log in!" i18n="@@appComponentUserDropdownActionsLogIn">
 		<mat-icon>arrow_forward</mat-icon>
-	</button>
+	</button> -->
 </div>

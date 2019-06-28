@@ -1,8 +1,13 @@
-import { environment } from 'environments/environment';
 import { Component, OnInit } from '@angular/core';
 import swal from 'sweetalert2';
-import { UserService } from '../../_services';
 import { User } from '../../_models';
+import { Store, select } from '@ngrx/store';
+import { AppState } from '@/core/reducers';
+import { currentUser } from '@/core/auth/store/auth.selectors';
+import { UserService } from '../../_services';
+import { Update } from '@ngrx/entity';
+import { UserSaved } from '../../store/user.actions';
+import { ProfileSaved } from '@/core/auth/store/auth.actions';
 
 @Component({
   selector: 'app-profile',
@@ -10,27 +15,21 @@ import { User } from '../../_models';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-  baseUrl: string;
   user: User;
   userInitial: User;
-  editForm: boolean;
+  editForm = false;
   langs: string[];
 
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private store: Store<AppState>
   ) {
-    this.baseUrl = environment.baseUrl;
   }
 
   ngOnInit() {
-    this.getUserData();
-    this.editForm = false;
-  }
-
-  getUserData(): void {
-    this.userService.getProfile().subscribe(profile => {
-      this.user = profile;
-      this.userInitial = { ...this.user };
+    this.store.pipe(select(currentUser)).subscribe(user => {
+      this.user = new User(user);
+      this.userInitial = new User(user);
     });
   }
 
@@ -40,7 +39,6 @@ export class ProfileComponent implements OnInit {
 
   onClickCancelEdit(): void {
     this.editForm = false;
-    this.user = this.userInitial;
   }
 
   onUpdateUserSubmit(): void {
@@ -60,9 +58,25 @@ export class ProfileComponent implements OnInit {
 
   updateUser(): void {
     this.userService.updateUser(this.user).subscribe(
-      user => {
-        this.user = user;
-        this.userInitial = { ...this.user };
+      data => {
+        const user: Update<User> = {
+          id: this.user.id,
+          changes: data
+        };
+        this.store.dispatch(new UserSaved({user}));
+
+        // TODO: compress code
+        this.user.name = data.name;
+        this.user.surname = data.surname;
+        this.user.login = data.login;
+        this.user.email = data.email;
+        this.user.phone = data.phone;
+        this.user.updatedAt = data.updatedAt;
+        this.user.avatar = data.avatar;
+        this.user.avatarId = data.avatarId;
+
+        this.store.dispatch(new ProfileSaved({user: this.user}));
+
         this.editForm = false;
         swal({
           text: 'User updated!',

@@ -13,7 +13,11 @@ import {
 
 import { UsersModule } from '@/_modules/users/users.module';
 
-import { RoleService } from './_services';
+import { RoleService, PrivilegeService } from './_services';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { rolesReducer } from './store/role.reducer';
+import { RoleEffects } from './store/role.effects';
 
 @NgModule({
   imports: [
@@ -23,6 +27,8 @@ import { RoleService } from './_services';
     ReactiveFormsModule,
     SharedModule,
     RolesRoutingModule,
+    StoreModule.forFeature('roles', rolesReducer),
+    EffectsModule.forFeature([RoleEffects]),
     UsersModule
   ],
   declarations: [
@@ -32,7 +38,8 @@ import { RoleService } from './_services';
     RolesDialogComponent
   ],
   providers: [
-    RoleService
+    RoleService,
+    PrivilegeService
   ],
   exports: [
     RolesComponent,

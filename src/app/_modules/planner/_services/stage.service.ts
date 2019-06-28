@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Stage } from '../_models';
+import { Stage, StageServerResponse } from '../_models';
 
 @Injectable()
 export class StageService {
@@ -14,12 +14,12 @@ export class StageService {
     this.api = '/stages';
   }
 
-  createStage(stage: Stage): Observable<Stage> {
+  create(stage: Stage): Observable<Stage> {
     return this.http.post<Stage>(this.api, stage);
   }
 
-  getStagesList(): Observable<Stage[]> {
-    return this.http.get<Stage[]>(this.api);
+  getList(): Observable<StageServerResponse> {
+    return this.http.get<StageServerResponse>(this.api);
   }
 
   countPlansByStage(): Observable<Stage[]> {

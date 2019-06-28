@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { State } from '@/core/_models';
+import { State } from '../_models';
 
 @Injectable()
 export class StateService {
@@ -12,7 +12,7 @@ export class StateService {
     this.api = '/states';
   }
 
-  getStatesList(): Observable<State[]> {
+  getList(): Observable<State[]> {
     return this.http.get<State[]>(this.api);
   }
 

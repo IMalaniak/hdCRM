@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, Input, HostBinding } from '@angular/core';
-import { AuthenticationService, MediaqueryService } from '@/_shared/services';
+import { MediaqueryService } from '@/_shared/services';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,16 +12,15 @@ export class SidebarComponent implements OnInit {
   @HostBinding('class.minimized') get minimized() { return this.sidebarMinimized; }
 
   constructor(
-    private authService: AuthenticationService,
     public mediaquery: MediaqueryService
   ) { }
 
   ngOnInit() {
   }
 
-  get isValidToken(): boolean {
-    return this.authService.validToken();
-  }
+  // get isValidToken(): boolean {
+
+  // }
 
 
 }

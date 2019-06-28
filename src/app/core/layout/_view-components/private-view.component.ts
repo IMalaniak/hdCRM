@@ -1,16 +1,23 @@
 import { environment } from 'environments/environment';
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService, MediaqueryService, PrivilegeService } from '@/_shared/services';
+import { MediaqueryService } from '@/_shared/services';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { Store, select } from '@ngrx/store';
+import { AppState } from '@/core/reducers';
+import { Observable } from 'rxjs';
+import { User } from '@/_modules/users';
+import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
+import * as layoutActions from '../store/layout.actions'; 
+import * as fromLayout from '../store/';
 
 @Component({
   selector: 'app-private',
   template: `
     <section class="grid">
-      <app-header [sidebarMinimized]="sidebarMinimized" (hideSidebar)="toogleSideBar($event)"></app-header>
+      <app-header [sidebarMinimized]="sidebarMinimized$ | async" [currentUser]="currentUser$ | async" (hideSidebar)="toogleSideBar($event)"></app-header>
       <main>
-          <app-sidebar [sidebarMinimized]="sidebarMinimized"></app-sidebar>
+          <app-sidebar [sidebarMinimized]="sidebarMinimized$ | async"></app-sidebar>
           <section class="content">
               <section class="container-fluid">
                   <router-outlet></router-outlet>
@@ -18,51 +25,41 @@ import { filter } from 'rxjs/operators';
 
               <app-footer></app-footer>
           </section>
-          <div class="overlay" *ngIf="mediaquery.isMobileDevice" [ngClass]="{'isVisible': !sidebarMinimized}" (click)="sidebarMinimized=true"></div>
+          <div class="overlay" *ngIf="mediaquery.isMobileDevice" [ngClass]="{'isVisible': !sidebarMinimized$ | async}" (click)="toogleSideBar(true)"></div>
       </main>
-      <section class="app-messages" *ngIf="showDebug && isValidToken"></section>
+      <section class="app-messages" *ngIf="showDebug$ | async"></section>
     </section>
   `,
   styles: []
 })
 export class PrivateViewComponent implements OnInit {
-    sidebarMinimized: boolean;
+    sidebarMinimized$: Observable<boolean>;
     baseUrl: string;
-    showDebug: boolean;
+    showDebug$: Observable<boolean>;
+    currentUser$: Observable<User>;
 
     constructor(
-      private authService: AuthenticationService,
-      private privilegeService: PrivilegeService,
       private router: Router,
-      public mediaquery: MediaqueryService
+      public mediaquery: MediaqueryService,
+      private store: Store<AppState>
     ) {
-      this.showDebug = false;
       this.baseUrl = environment.baseUrl;
     }
 
     ngOnInit() {
-      if (this.isValidToken) {
-        this.authService.currentUser.subscribe(user => {
-          this.showDebug = this.privilegeService.isPrivileged(user, 'showDebug');
-        });
-      }
+      this.currentUser$ = this.store.pipe(select(currentUser));
+      this.sidebarMinimized$ = this.store.pipe(select(fromLayout.getSidebarState));
+      this.showDebug$ = this.store.pipe(select(isPrivileged('showDebug')));
 
       if (this.mediaquery.isMobileDevice) {
-        this.sidebarMinimized = true;
+        this.store.dispatch(new layoutActions.ToggleSidebar(true));
         this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
-          this.sidebarMinimized = true;
+          this.store.dispatch(new layoutActions.ToggleSidebar(true));
         });
-      } else {
-        this.sidebarMinimized = JSON.parse(localStorage.getItem('sidebarMinimized'));
       }
     }
-
-    get isValidToken(): boolean {
-      return this.authService.validToken();
-    }
-
+    
     toogleSideBar(minimized: boolean) {
-      this.sidebarMinimized = minimized;
-      localStorage.setItem('sidebarMinimized', JSON.stringify(this.sidebarMinimized));
+      this.store.dispatch(new layoutActions.ToggleSidebar(minimized));
     }
 }

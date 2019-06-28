@@ -4,5 +4,5 @@
 </section>
 <div mat-dialog-actions class="justify-content-end">
     <button mat-raised-button class="crm-button" (click)="onNoClick()"><mat-icon>cancel</mat-icon><span i18n="@@globalActionsCancelEdit">Cancel</span></button>
-    <button mat-raised-button color="primary" class="crm-button" [mat-dialog-close]="stagesComponent.selectedStages" cdkFocusInitial><mat-icon>save</mat-icon><span i18n="@@globalActionsSaveChanges">Save</span></button>
+    <button mat-raised-button color="primary" class="crm-button" [mat-dialog-close]="stagesComponent.selection.selected" cdkFocusInitial><mat-icon>save</mat-icon><span i18n="@@globalActionsSaveChanges">Save</span></button>
 </div>

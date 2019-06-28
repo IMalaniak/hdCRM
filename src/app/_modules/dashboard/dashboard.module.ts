@@ -5,8 +5,14 @@ import { DashboardComponent } from './_components/dashboard.component';
 import { AppMaterialModule } from '@/_shared/modules';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
-import { DepartmentService } from '@/_modules/departments';
-import { StageService } from '@/_modules/planner';
+import { StageService, PlanService } from '@/_modules/planner/_services';
+import { EffectsModule } from '@ngrx/effects';
+import { DepartmentEffects } from '../departments/store/department.effects';
+import { DepartmentService } from '../departments/_services';
+import { StoreModule } from '@ngrx/store';
+import { departmentsReducer } from '../departments/store/department.reducer';
+import { stagesReducer } from '../planner/store/stage.reducer';
+import { PlanEffects } from '../planner/store/plan.effects';
 
 const routes: Routes = [
     {path: '', data: { breadcrumb: 'Dashboard' }, component: DashboardComponent},
@@ -18,6 +24,10 @@ const routes: Routes = [
     AppMaterialModule,
     RouterModule.forChild(routes),
     NgxChartsModule,
+    StoreModule.forFeature('departments', departmentsReducer),
+    EffectsModule.forFeature([DepartmentEffects]),
+    StoreModule.forFeature('stages', stagesReducer),
+    EffectsModule.forFeature([PlanEffects])
   ],
   declarations: [
     DashboardComponent
@@ -25,6 +35,6 @@ const routes: Routes = [
   exports: [
     DashboardComponent
     ],
-  providers: [DepartmentService, StageService]
+  providers: [StageService, PlanService, DepartmentService]
 })
 export class DashboardModule {}

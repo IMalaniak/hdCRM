@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Department } from '../_models';
+import { Department, DepartmentServerResponse } from '../_models';
+import { User } from '@/_modules/users/_models';
 
 @Injectable()
 export class DepartmentService {
@@ -13,21 +14,48 @@ export class DepartmentService {
     this.api = '/departments';
   }
 
-  createDepartment(department: Department) {
-    return this.http.post<any>(this.api, department);
+  create(department: Department) {
+    return this.http.post<any>(this.api, this.formatBeforeSend(department));
   }
 
-  getDepartment(id: number): Observable<Department> {
+  getOne(id: number): Observable<Department> {
     const url = `${this.api}/${id}`;
     return this.http.get<Department>(url);
   }
 
-  updateDepartment(department): Observable<Department> {
-    return this.http.put<Department>(this.api, department);
+  updateOne(department: Department): Observable<Department> {
+    return this.http.put<Department>(this.api, this.formatBeforeSend(department));
   }
 
-  getDepartmentList(): Observable<Department[]> {
-    return this.http.get<Department[]>(this.api);
+  getList(pageIndex = 0, pageSize = 5, sortIndex = 'id', sortDirection = 'asc'): Observable<DepartmentServerResponse> {
+    return this.http.get<DepartmentServerResponse>(this.api, {
+      params: new HttpParams()
+          .set('pageIndex', pageIndex.toString())
+          .set('pageSize', pageSize.toString())
+          .set('sortIndex', sortIndex)
+          .set('sortDirection', sortDirection)
+      });
+  }
+
+  getDashboardData(): Observable<DepartmentServerResponse> {
+    return this.http.get<DepartmentServerResponse>(`${this.api}/dashboard`);
+  }
+
+  formatBeforeSend(dep: Department): Department {
+    if (dep.Workers && dep.Workers.length > 0) {
+      dep.Workers = dep.Workers.map(user => {
+        return<User> {
+          id: user.id
+        };
+      });
+    }
+
+    if (dep.Manager && dep.Manager.id) {
+      const manager = new User();
+      manager.id = dep.Manager.id;
+      dep.Manager = manager;
+    }
+    return dep;
   }
 
 }

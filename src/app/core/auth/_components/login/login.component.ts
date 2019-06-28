@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
-import { AuthenticationService } from '@/_shared/services';
-import { Response } from '@/core/_models';
+import { AuthenticationService } from '../../_services';
+import { ApiResponse } from '@/core/_models';
 import { User } from '@/_modules/users';
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
 import { ConfirmPasswordValidator } from '@/_shared/validators';
 import { first } from 'rxjs/operators';
+import { AppState } from '@/core/reducers';
+import { Store } from '@ngrx/store';
+import * as authActions from '../../store/auth.actions';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +20,7 @@ export class LoginComponent implements OnInit {
   user: User = new User();
   returnUrl: string;
   hidePassword = true;
-  serverResponse: Response;
+  serverResponse: ApiResponse;
   currentPath: string;
   token: string;
   newPasswordForm: FormGroup;
@@ -26,12 +29,11 @@ export class LoginComponent implements OnInit {
     private authService: AuthenticationService,
     private router: Router,
     private route: ActivatedRoute,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private store: Store<AppState>
   ) {}
 
   ngOnInit() {
-    // reset login status
-    this.authService.logout();
     this.currentPath = this.route.snapshot.url[0].path;
     // get return url from route parameters or default to '/dashboard'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
@@ -86,23 +88,7 @@ export class LoginComponent implements OnInit {
   get confirmPassword() { return this.newPasswordForm.get('confirmPassword'); }
 
   onLoginSubmit() {
-    this.authService.login(this.user).pipe(first()).subscribe(
-      user => {
-        this.router.navigate([this.returnUrl]);
-      },
-      error => {
-        swal({
-          title: 'error',
-          text: 'error',
-          type: 'error',
-          timer: 1500
-        }).then((result) => {
-          if (result.dismiss === swal.DismissReason.timer) {
-            this.router.navigate(['/auth']);
-          }
-        });
-      }
-    );
+    this.store.dispatch(new authActions.LogIn(this.user));
   }
 
   onResetPasswordRequest() {

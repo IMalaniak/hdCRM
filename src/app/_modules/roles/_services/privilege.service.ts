@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Privilege } from '@/core/_models';
+import { Privilege } from '../_models';
 
 @Injectable()
 export class PrivilegeService {
@@ -25,22 +25,6 @@ export class PrivilegeService {
 
   getFullList(): Observable<Privilege[]> {
     return this.http.get<Privilege[]>(this.api);
-  }
-
-  isPrivileged(user, privilege): boolean {
-    if(user && user.Roles && user.Roles.length > 0) {
-      let privileges = [];
-      for (const role of user.Roles) {
-        privileges.push(role.Privileges.map(privilege => {
-          return privilege.keyString;
-        }));
-      }
-      privileges = [].concat(...privileges);
-      privileges = privileges.filter((v, i, a) => a.indexOf(v) === i);
-      return privileges.includes(privilege);
-    } else {
-      return false;
-    }
   }
 
 }

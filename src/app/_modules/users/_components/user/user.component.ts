@@ -1,12 +1,18 @@
-import { environment } from 'environments/environment';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Store, select } from '@ngrx/store';
+import { Update } from '@ngrx/entity';
+import { AppState } from '@/core/reducers';
+
 import swal from 'sweetalert2';
-import { AuthenticationService } from '@/_shared/services';
+
 import { UserService } from '../../_services';
-import { PrivilegeService, StateService } from '@/_shared/services';
-import { User } from '../../_models';
-import { State } from '@/core/_models';
+import { User, State } from '../../_models';
+
+import { UserSaved, AllStatesRequested } from '../../store/user.actions';
+import { Observable } from 'rxjs';
+import { selectAllStates } from '../../store/user.selectors';
+import { isPrivileged } from '@/core/auth/store/auth.selectors';
 
 @Component({
   selector: 'app-user',
@@ -15,44 +21,45 @@ import { State } from '@/core/_models';
 })
 export class UserComponent implements OnInit {
   showDataLoader: boolean;
-  baseUrl: string;
   user: User;
   userInitial: User;
-  states: State[];
+  states$: Observable<State[]>;
   editForm: boolean;
-  editUserPrivilege: boolean;
+  editUserPrivilege$: Observable<boolean>;
   langs: string[];
 
   constructor(
-    private authService: AuthenticationService,
     private route: ActivatedRoute,
     private userService: UserService,
-    private stateService: StateService,
-    private privilegeService: PrivilegeService,
+    private store: Store<AppState>
   ) {
-    this.baseUrl = environment.baseUrl;
     this.editForm = false;
     this.showDataLoader = true;
   }
 
   ngOnInit(): void {
-    this.authService.currentUser.subscribe(user => {
-      this.editUserPrivilege = this.privilegeService.isPrivileged(user, 'editUser');
+    this.editUserPrivilege$ = this.store.pipe(select(isPrivileged('editUser')));
+    this.editUserPrivilege$.subscribe(camEdit => {
+      // TODO: unsubs
+      if (camEdit) {
+        const edit = this.route.snapshot.queryParams['edit'];
+        if (edit) {
+          this.editForm = JSON.parse(edit);
+        }
+      }
     });
     this.getUserData();
   }
 
   getUserData(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
+    // TODO: check
+    // deep copy this.user = new User(JSON.parse(JSON.stringify(this.route.snapshot.data['user'])));
+    this.user = new User(this.route.snapshot.data['user']);
+    this.userInitial = new User(this.route.snapshot.data['user']);
 
-    this.userService.getUser(id).subscribe(user => {
-      this.user = user;
-      this.userInitial = { ...this.user };
+    this.store.dispatch(new AllStatesRequested);
 
-      this.stateService.getStatesList().subscribe(states => {
-        this.states = states;
-      });
-    });
+    this.states$ = this.store.pipe(select(selectAllStates));
   }
 
   onClickEdit(): void {
@@ -81,9 +88,14 @@ export class UserComponent implements OnInit {
 
   updateUser(): void {
     this.userService.updateUser(this.user).subscribe(
-      user => {
-        this.user = user;
-        this.userInitial = { ...this.user };
+      data => {
+        const user: Update<User> = {
+          id: this.user.id,
+          changes: data
+        };
+        this.store.dispatch(new UserSaved({user}));
+        this.user = new User(data);
+        this.userInitial = new User(data);
         this.editForm = false;
         swal({
           text: 'User updated!',

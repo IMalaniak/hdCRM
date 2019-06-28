@@ -80,32 +80,4 @@ router.get('/availableForUser/:userId/', passport.authenticate('jwt', {session: 
 	});
 });
 
-// check User privilege
-router.get('/checkUser/:userId/:privilege', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	db.User.findByPk(req.params.userId).then(user => {
-			user.getRoles().then(roles => {
-				const promises = [];
-				roles.forEach(role => {
-					promises.push(
-						role.getPrivileges().then(privileges => {
-							return privileges;
-						})
-					);
-				});
-				Promise.all(promises).then(result => {
-					let resp = [].concat(...result);
-					resp = [...new Set(resp.map(x => x.keyString))];
-					resp = resp.indexOf(req.params.privilege) > 0;
-					res.json(resp);
-				}).catch(error => {
-					res.status(400).json(error.toString());
-				});
-			}).catch(error => {
-				res.status(400).json(error.toString());
-			});
-	}).catch(error => {
-		res.status(400).json(error.toString());
-	});
-});
-
 module.exports = router;

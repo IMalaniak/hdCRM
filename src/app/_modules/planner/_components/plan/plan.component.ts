@@ -1,16 +1,19 @@
-import { environment } from 'environments/environment';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
+import { Update } from '@ngrx/entity';
+import { Store, select } from '@ngrx/store';
+import { Subject, Observable, combineLatest } from 'rxjs';
+import { takeUntil, map } from 'rxjs/operators';
 import swal from 'sweetalert2';
 import { StagesDialogComponent } from '../../_components/stages/dialog/stages-dialog.component';
-import { Plan, Stage, StageDetails } from '../../_models';
+import { Plan, Stage, PlanStage } from '../../_models';
 import { PlanService, StageService } from '../../_services';
 import { UsersDialogComponent, User } from '@/_modules/users';
-import { AuthenticationService, LoaderService, PrivilegeService } from '@/_shared/services';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { AppState } from '@/core/reducers';
+import { PlanSaved } from '../../store/plan.actions';
+import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 
 @Component({
   selector: 'app-plan',
@@ -19,56 +22,59 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class PlanComponent implements OnInit, OnDestroy {
   showDataLoader: boolean;
-  appUser: User;
-  baseUrl: string;
+  appUser$: Observable<User>;
   plan: Plan;
   planInitial: Plan;
-  initialStages: Stage[];
   editForm: boolean;
   configPlanStages: boolean;
-  editPlanPrivilege: boolean;
-  configStagesPrivilege: boolean;
+  editPlanPrivilege$: Observable<boolean>;
+  configStagesPrivilege$: Observable<boolean>;
 
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
     private route: ActivatedRoute,
     private planService: PlanService,
-    private privilegeService: PrivilegeService,
-    private loaderService: LoaderService,
     private dialog: MatDialog,
-    private authService: AuthenticationService
+    private store: Store<AppState>
   ) {
-    this.baseUrl = environment.baseUrl;
     this.editForm = false;
     this.configPlanStages = false;
     this.showDataLoader = true;
   }
 
   ngOnInit() {
-    this.authService.currentUser.subscribe(user => {
-      this.appUser = user;
-      this.editPlanPrivilege = this.privilegeService.isPrivileged(user, 'editPlan');
-      this.configStagesPrivilege = this.privilegeService.isPrivileged(user, 'configStages');
-    });
-    this.getPlanData();
+      this.appUser$ = this.store.pipe(select(currentUser));
+      this.editPlanPrivilege$ = this.store.pipe(select(isPrivileged('editPlan')));
+      this.configStagesPrivilege$ = this.store.pipe(select(isPrivileged('configStages')));
+
+      this.plan = new Plan(this.route.snapshot.data['plan']);
+      this.planInitial = new Plan(this.route.snapshot.data['plan']);
+      // TODO: unsubscribe
+      this.canEditPlan$.subscribe(canEdit => {
+        if (canEdit) {
+          const edit = this.route.snapshot.queryParams['edit'];
+          if (edit) {
+            this.editForm = JSON.parse(edit);
+          }
+        }
+      });
   }
 
-  get canEditPlan(): boolean {
-    return (this.editPlanPrivilege && this.configStagesPrivilege) || (this.appUser.id === this.plan.CreatorId);
-  }
-
-  getPlanData(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
-
-    this.planService.getPlan(id).pipe(takeUntil(this.unsubscribe)).subscribe(plan => {
-      this.plan = plan;
-      this.planInitial = { ...plan };
-      this.initialStages = [ ...plan.Stages ];
-    });
+  get canEditPlan$(): Observable<boolean> {
+    // combine 3 observables and compare values => return boolean
+    const combine = combineLatest(
+      this.editPlanPrivilege$,
+      this.configStagesPrivilege$,
+      this.appUser$
+    )
+    return combine.pipe(
+      map(res => ((res[0] && res[1]) || res[2].id === this.plan.CreatorId))
+    );
   }
 
   goToNextStage(): void {
+    // TODO ngrx
     this.planService.toNextStage(this.plan.id).pipe(takeUntil(this.unsubscribe)).subscribe(planStages => {
       this.plan.activeStage = planStages.activeStage;
       this.plan.activeStageId = planStages.activeStage.id;
@@ -78,7 +84,6 @@ export class PlanComponent implements OnInit, OnDestroy {
       planStages.Stages.forEach((stage, i) => {
         this.plan.Stages[i].Details.completed = stage.Details.completed;
       });
-      this.planInitial = { ...this.plan };
     });
   }
 
@@ -92,19 +97,23 @@ export class PlanComponent implements OnInit, OnDestroy {
 
   onClickCancelEditStages(): void {
     this.configPlanStages = false;
-    this.plan.Stages = [ ...this.initialStages ];
+    this.plan = this.planInitial;
   }
 
   onClickCancelEdit(): void {
     this.editForm = false;
-    this.plan = { ...this.planInitial };
+    this.plan = this.planInitial;
   }
 
   updatePlanStages(): void {
     this.planService.updatePlanStages(this.plan).pipe(takeUntil(this.unsubscribe)).subscribe(
-      success => {
-        // this.plan = plan;
-        // this.planInitial = { ...this.plan };
+      () => {
+        const plan: Update<Plan> = {
+          id: this.plan.id,
+          changes: {...this.plan}
+        }
+        this.store.dispatch(new PlanSaved({plan}));
+        this.planInitial = new Plan(this.plan);
         this.configPlanStages = false;
         swal({
           text: 'Stages updated!',
@@ -124,18 +133,16 @@ export class PlanComponent implements OnInit, OnDestroy {
   }
 
   updatePlan(): void {
-    if (this.plan.Participants && this.plan.Participants.length > 0) {
-      this.plan.Participants = this.plan.Participants.map(user => {
-        return<User> {
-          id: user.id
-        };
-      });
-    }
     // Update plan
-    this.planService.updatePlan(this.plan).pipe(takeUntil(this.unsubscribe)).subscribe(
-      plan => {
-        this.plan = plan;
-        this.planInitial = { ...this.plan };
+    this.planService.updateOne(this.plan).pipe(takeUntil(this.unsubscribe)).subscribe(
+      data => {
+        const plan: Update<Plan> = {
+          id: this.plan.id,
+          changes: data
+        }
+        this.store.dispatch(new PlanSaved({plan}));
+        this.plan = new Plan(data);
+        this.planInitial = new Plan(data);
         this.editForm = false;
         swal({
           text: 'Plan updated!',
@@ -157,7 +164,8 @@ export class PlanComponent implements OnInit, OnDestroy {
   addStageDialog(): void {
     this.showDataLoader = false;
     const dialogRef = this.dialog.open(StagesDialogComponent, {
-      height: '80vh',
+      height: '75vh',
+      width: '50%',
       data: {
         title: 'Select stages',
       }
@@ -166,17 +174,16 @@ export class PlanComponent implements OnInit, OnDestroy {
     const stagesC = dialogRef.componentInstance.stagesComponent;
 
     dialogRef.afterOpened().pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-      this.loaderService.isLoaded.subscribe(isLoaded => {
-        if (isLoaded) {
-          for (const stage of this.plan.Stages) {
-            stagesC.stages.find((user, i) => {
-                if (user.id === stage.id) {
-                  stagesC.stages[i].selected = true;
-                    return true; // stop searching
+      stagesC.isLoading$.pipe(takeUntil(this.unsubscribe)).subscribe(isLoading => {
+        if (!isLoading) {
+          for (const pStage of this.plan.Stages) {
+            stagesC.stages.find((stage, i) => {
+                if (stage.id === pStage.id) {
+                  stagesC.selection.select(stage);
+                  return true; // stop searching
                 }
             });
           }
-          stagesC.resetSelected(false);
         }
       });
     });
@@ -184,7 +191,8 @@ export class PlanComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe((result: Stage[]) => {
       // remove unchecked
       const removeUnchecked = new Promise((resolve, reject) => {
-        this.plan.Stages.forEach((stage, i) => {
+        const pStages = this.plan.Stages;
+        pStages.forEach((stage, i) => {
           const tmp = result.filter(el => {
             return stage.id === el.id;
           });
@@ -204,8 +212,13 @@ export class PlanComponent implements OnInit, OnDestroy {
             return stage.id === el.id;
           });
           if (tmp.length === 0) {
-            el.Details = new StageDetails(i);
-            this.plan.Stages.push(el);
+            const newStage = new Stage(el);
+            newStage.Details = new PlanStage({
+              order: i,
+              completed: false,
+              description: ''
+            });
+            this.plan.Stages.push(newStage);
           }
         });
       });
@@ -215,8 +228,10 @@ export class PlanComponent implements OnInit, OnDestroy {
 
   dragDropStages(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.plan.Stages, event.previousIndex, event.currentIndex);
-    this.plan.Stages.forEach((el, i) => {
-      el.Details.order = i;
+    this.plan.Stages = this.plan.Stages.map((stage, i) => {
+      const newStage = new Stage(stage);
+      newStage.Details.order = i;
+      return newStage;
     });
   }
 
@@ -231,21 +246,20 @@ export class PlanComponent implements OnInit, OnDestroy {
 
     const usersC = dialogRef.componentInstance.usersComponent;
 
-    dialogRef.afterOpened().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
-      this.loaderService.isLoaded.subscribe(isLoaded => {
-        if (isLoaded) {
-          for (const participant of this.plan.Participants) {
-            usersC.sortedData.find((user, i) => {
-                if (user.id === participant.id) {
-                    usersC.sortedData[i].selected = true;
-                    return true; // stop searching
-                }
-            });
-          }
-          usersC.resetSelected(false);
-        }
-      });
-    });
+    // dialogRef.afterOpened().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
+    //   usersC.isLoading$.pipe(takeUntil(this.unsubscribe)).subscribe(isLoading => {
+    //     if (!isLoading) {
+    //       for (const pParticipant of this.plan.Participants) {
+    //         usersC.users.find((user, i) => {
+    //             if (user.id === pParticipant.id) {
+    //               usersC.selection.select(user);
+    //               return true; // stop searching
+    //             }
+    //         });
+    //       }
+    //     }
+    //   });
+    // });
 
     dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
       if (result) {
@@ -255,41 +269,39 @@ export class PlanComponent implements OnInit, OnDestroy {
   }
 
   deleteDoc(docId: number): void {
-    swal({
-      title: 'You are going to delete document',
-      text: 'Are you sure you want to delete document from plan, changes cannot be undone?',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Confirm',
-      cancelButtonText: 'Cancel'
-    }).then((result) => {
-      if (result.value) {
-        const req = {
-          planId: this.plan.id,
-          docId: docId
-        };
-        this.planService.deleteDoc(req).pipe(takeUntil(this.unsubscribe)).subscribe(plan => {
-          console.log(plan);
-          if (plan) {
-            this.plan = plan;
-            this.planInitial = { ...this.plan };
-            swal({
-              text: 'You have successfully removed a document from plan',
-              type: 'success',
-              timer: 6000,
-              toast: true,
-              showConfirmButton: false,
-              position: 'bottom-end'
-            });
-          } else {
-            swal({
-              text: 'Ooops, something went wrong!',
-              type: 'error',
-            });
-          }
-        });
-      }
-    });
+    // swal({
+    //   title: 'You are going to delete document',
+    //   text: 'Are you sure you want to delete document from plan, changes cannot be undone?',
+    //   type: 'warning',
+    //   showCancelButton: true,
+    //   confirmButtonText: 'Confirm',
+    //   cancelButtonText: 'Cancel'
+    // }).then((result) => {
+    //   if (result.value) {
+    //     const req = {
+    //       planId: this.plan.id,
+    //       docId: docId
+    //     };
+    //     this.planService.deleteDoc(req).pipe(takeUntil(this.unsubscribe)).subscribe(plan => {
+    //       if (plan) {
+
+    //         swal({
+    //           text: 'You have successfully removed a document from plan',
+    //           type: 'success',
+    //           timer: 6000,
+    //           toast: true,
+    //           showConfirmButton: false,
+    //           position: 'bottom-end'
+    //         });
+    //       } else {
+    //         swal({
+    //           text: 'Ooops, something went wrong!',
+    //           type: 'error',
+    //         });
+    //       }
+    //     });
+    //   }
+    // });
   }
 
   ngOnDestroy() {

@@ -3,31 +3,73 @@
 
 </section>
 -->
-<section class="app-content-box" [title]="'ROLESCOMPONENT.List.header'" [showDataLoader]="true">
+<section class="app-content-box" [title]="'Roles List'" [showDataLoader]="loading$ | async">
 
-  <div buttons *ngIf="addRolePrivilege">
+  <div buttons *ngIf="addRolePrivilege$ | async">
     <button mat-raised-button color="primary" class="crm-button" routerLink="/roles/add"><mat-icon>add</mat-icon><span i18n="@@rolesComponentDialogActionsCreate">Create</span></button>
   </div>
 
-  <table *ngIf="roles && roles.length>0" id="rolelist" content class="table table-sm table-responsive-sm table-hover crm-table">
-    <thead>
-      <th><mat-checkbox (click)="$event.stopPropagation()" (change)="selectAll($event)" [indeterminate]="selectedRoles.length > 0 && selectedRoles.length < roles.length" [checked]="!notSelectedRoles.length"></mat-checkbox></th>
-      <th i18n="@@rolesComponentDialogListTitle">Title</th>
-      <th i18n="@@rolesComponentDialogListUserCount">Users</th>
-      <th i18n="@@rolesComponentDialogListPrivilegesCount">Privileges</th>
-      <th i18n="@@rolesComponentDialogListCreatedAt">Created At</th>
-      <th i18n="@@rolesComponentDialogListUpdatedAt">Updated At</th>
-    </thead>
-    <tbody>
-      <tr routerLink="/roles/details/{{role.id}}" *ngFor="let role of roles;">
-        <td (click)="$event.stopPropagation()"><mat-checkbox [(ngModel)]=role.selected (change)="onRoleCheck(role)"></mat-checkbox></td>
-        <td>{{role.keyString}}</td>
-        <td>{{role.Users.length}}</td>
-        <td>{{role.Privileges.length}}</td>
-        <td>{{role.createdAt | date: 'short'}}</td>
-        <td>{{role.updatedAt | date: 'short'}}</td>
-      </tr>
-    </tbody>
-  </table>
+
+  <div content class="mat-elevation-z8 roles-table-container">
+    <mat-table class="roles-table crm-table" [dataSource]="dataSource" matSort matSortDisabled>
+        <ng-container matColumnDef="select" sticky>
+          <mat-header-cell *matHeaderCellDef>
+            <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox> -->
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="title">
+          <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@rolesComponentListTitle">Title</mat-header-cell>
+          <mat-cell *matCellDef="let role">{{ role.keyString }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="users">
+          <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@rolesComponentListUserCount">Users</mat-header-cell>
+          <mat-cell *matCellDef="let role">{{ role.Users.length }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="privileges">
+          <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@rolesComponentListPrivilegesCount">Privileges</mat-header-cell>
+          <mat-cell *matCellDef="let role">{{ role.Privileges.length }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="createdAt">
+          <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@rolesComponentListCreatedAt">Date created</mat-header-cell>
+          <mat-cell *matCellDef="let role">{{ role.createdAt | date: 'short' }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="updatedAt">
+          <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@rolesComponentListUpdatedAt">Date updated</mat-header-cell>
+          <mat-cell *matCellDef="let role">{{ role.updatedAt | date: 'short' }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="actions" stickyEnd>
+          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+          <mat-cell *matCellDef="let role">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="onRoleSelect(user.id)">
+                <mat-icon>details</mat-icon>
+                <span i18n="@@rolesComponentListActionsView">Details</span>
+              </button>
+              <button *ngIf="editRolePrivilege$ | async" mat-menu-item (click)="onRoleSelect(user.id, true)">
+                <mat-icon>edit</mat-icon>
+                <span i18n="@@rolesComponentListActionsEdit">Edit</span>
+              </button>
+            </mat-menu>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+
+    <mat-paginator [length]="resultsLength$ | async" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+  </div>
 
 </section>

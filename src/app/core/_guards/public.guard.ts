@@ -1,25 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot } from '@angular/router';
-
-import { AuthenticationService } from '@/_shared/services';
+import { Observable } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+import { AppState } from '../reducers';
+import { isLoggedOut } from '../auth/store/auth.selectors';
+import { tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class PublicGuard implements CanActivate {
     constructor(
-        private router: Router,
-        private authenticationService: AuthenticationService
+        private store: Store<AppState>,
+        private router: Router
     ) { }
 
-    canActivate(route: ActivatedRouteSnapshot) {
-        const currentUser = this.authenticationService.currentUserValue;
-        const validToken = this.authenticationService.validToken();
-        if (currentUser && validToken) {
-            // user session is valid, so redirect to dashboard
-            this.router.navigate(['/dashboard']);
-            return false;
-        }
-
-        // not logged in so redirect to login page with the return url
-        return true;
+    canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
+        return this.store
+            .pipe(
+            select(isLoggedOut),
+            tap(loggedOut => {
+                if (!loggedOut) {
+                    this.router.navigateByUrl('/dashboard');
+                }
+            })
+        );
     }
 }
