@@ -26,7 +26,6 @@ export class RoleComponent implements OnInit {
   privilegesInitial: Privilege[];
   editForm: boolean;
   editRolePrivilege$: Observable<boolean>;
-  showDataLoader: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -37,7 +36,6 @@ export class RoleComponent implements OnInit {
   ) {
     this.baseUrl = environment.baseUrl;
     this.editForm = false;
-    this.showDataLoader = true;
   }
 
   ngOnInit() {

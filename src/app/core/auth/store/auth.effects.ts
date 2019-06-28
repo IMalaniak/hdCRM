@@ -46,6 +46,15 @@ export class AuthEffects {
       ofType(fromAuth.AuthActionTypes.LOGIN_FAILURE)
     );
 
+    @Effect({ dispatch: false })
+    public LogOut: Observable<any> = this.actions$.pipe(
+      ofType(fromAuth.AuthActionTypes.LOGOUT),
+      tap((user) => {
+        this.router.navigateByUrl('/auth/login');
+        localStorage.removeItem('currentUser');
+      })
+    );
+
     @Effect()
     init$ = defer(() => {
       const userData = localStorage.getItem('currentUser');
@@ -55,50 +64,5 @@ export class AuthEffects {
         return <any> of(new fromAuth.LogOut());
       }
     });
-
-    @Effect({ dispatch: false })
-    public LogOut: Observable<any> = this.actions$.pipe(
-      ofType(fromAuth.AuthActionTypes.LOGOUT),
-      tap((user) => {
-        this.router.navigateByUrl('/auth/login');
-        localStorage.removeItem('currentUser');
-      })
-    );
-    
-
-//   @Effect()
-//   SignUp: Observable<any> = this.actions
-//     .ofType(AuthActionTypes.SIGNUP)
-//     .map((action: SignUp) => action.payload)
-//     .switchMap(payload => {
-//       return this.authService.signUp(payload.email, payload.password)
-//         .map((user) => {
-//           return new SignUpSuccess({token: user.token, email: payload.email});
-//         })
-//         .catch((error) => {
-//           return Observable.of(new SignUpFailure({ error: error }));
-//         });
-//     });
-
-//   @Effect({ dispatch: false })
-//   SignUpSuccess: Observable<any> = this.actions.pipe(
-//     ofType(AuthActionTypes.SIGNUP_SUCCESS),
-//     tap((user) => {
-//       localStorage.setItem('token', user.payload.token);
-//       this.router.navigateByUrl('/');
-//     })
-//   );
-
-//   @Effect({ dispatch: false })
-//   SignUpFailure: Observable<any> = this.actions.pipe(
-//     ofType(AuthActionTypes.SIGNUP_FAILURE)
-//   );
-
-//   @Effect({ dispatch: false })
-//   GetStatus: Observable<any> = this.actions
-//     .ofType(AuthActionTypes.GET_STATUS)
-//     .switchMap(payload => {
-//       return this.authService.getStatus();
-//     });
 
 }

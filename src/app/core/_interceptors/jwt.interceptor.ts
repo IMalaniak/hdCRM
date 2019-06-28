@@ -12,14 +12,11 @@ const jwtHelper = new JwtHelperService();
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-    /**
-     * Constructor.
-     */
+
     constructor(private store$: Store<AppState>) {}
 
     /**
-     * Intercepts all HTTP requests and adds the JWT token to the request's header if the URL
-     * is a REST endpoint and not login or logout.
+     * Intercepts all HTTP requests and adds the JWT token if it is present to the request's header if the URL
      */
     public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // Consider only adding the auth header to API requests as this will add it to all HTTP requests.
@@ -40,24 +37,26 @@ export class JwtInterceptor implements HttpInterceptor {
             select(getToken),
             first(),
             mergeMap((token: string) => {
-                if (token && this.validToken(token)) {
-                    request = request.clone({
-                        setHeaders: {
-                            Authorization: `${token}`
-                        }
-                    });
-                } else {
-                    swal({
-                        title: 'Token has expired!',
-                        type: 'error',
-                        timer: 1500
-                    });
-                    this.store$.dispatch(new LogOut());
+                if (token) {
+                    // if there is token - check if it is valid
+                    if (this.validToken(token)) {
+                        request = request.clone({
+                            setHeaders: {
+                                Authorization: `${token}`
+                            }
+                        });
+                    } else {
+                        swal({
+                            title: 'JWT: Token has expired!',
+                            type: 'error',
+                            timer: 1500
+                        });
+                        this.store$.dispatch(new LogOut());
+                    }
                 }
+                // if public request - do nothing
                 return of(request);
             }),
-            // TODO: skip if there is no token
-            catchError(err => of(request))
         );
     }
 
