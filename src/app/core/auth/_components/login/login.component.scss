@@ -13,15 +13,15 @@
     align-items: center;
     @include gradient-radial(crmcolor(primary, base), crmcolor(main, dark));
 
-    .crm-brand {
-        position: absolute;
-        top: 0;
-        left: 0;
-        text-transform: uppercase;
-        color: crmcolor(main, light);
-        font-weight: bold;
-        padding: 0.5em 0.5em;
-    }
+    // .crm-brand {
+    //     position: absolute;
+    //     top: 0;
+    //     left: 0;
+    //     text-transform: uppercase;
+    //     color: crmcolor(main, light);
+    //     font-weight: bold;
+    //     padding: 0.5em 0.5em;
+    // }
 
     .success-message, .failed-message, .process-message {
         width: 23em;
