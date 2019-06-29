@@ -108,7 +108,7 @@
       </div>
     </div>
   </div>
-  <div buttons *ngIf="canEditDepartment">
+  <div buttons *ngIf="canEditDepartment$ | async">
     <button *ngIf="!editForm" mat-raised-button color="primary" class="crm-button" (click)="onClickEdit()"><mat-icon>edit</mat-icon><span i18n="@@globalActionsEdit"></span>Edit</button>
     <button *ngIf="editForm" mat-raised-button color="primary" class="crm-button" [swal]="updateDepartmentSwal"><mat-icon>save</mat-icon><span i18n="@@globalActionsSaveChanges">Save</span></button>
     <button *ngIf="editForm" mat-raised-button class="crm-button" (click)="onClickCancelEdit()"><mat-icon>cancel</mat-icon><span i18n="@@globalActionsCancelEdit">Cancel</span></button>

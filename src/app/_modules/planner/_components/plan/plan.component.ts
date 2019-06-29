@@ -50,8 +50,7 @@ export class PlanComponent implements OnInit, OnDestroy {
 
       this.plan = new Plan(this.route.snapshot.data['plan']);
       this.planInitial = new Plan(this.route.snapshot.data['plan']);
-      // TODO: unsubscribe
-      this.canEditPlan$.subscribe(canEdit => {
+      this.canEditPlan$.pipe(takeUntil(this.unsubscribe)).subscribe(canEdit => {
         if (canEdit) {
           const edit = this.route.snapshot.queryParams['edit'];
           if (edit) {
@@ -63,11 +62,7 @@ export class PlanComponent implements OnInit, OnDestroy {
 
   get canEditPlan$(): Observable<boolean> {
     // combine 3 observables and compare values => return boolean
-    const combine = combineLatest(
-      this.editPlanPrivilege$,
-      this.configStagesPrivilege$,
-      this.appUser$
-    )
+    const combine = combineLatest([this.editPlanPrivilege$, this.configStagesPrivilege$, this.appUser$]);
     return combine.pipe(
       map(res => ((res[0] && res[1]) || res[2].id === this.plan.CreatorId))
     );
@@ -246,6 +241,7 @@ export class PlanComponent implements OnInit, OnDestroy {
 
     const usersC = dialogRef.componentInstance.usersComponent;
 
+    // TODO
     // dialogRef.afterOpened().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
     //   usersC.isLoading$.pipe(takeUntil(this.unsubscribe)).subscribe(isLoading => {
     //     if (!isLoading) {

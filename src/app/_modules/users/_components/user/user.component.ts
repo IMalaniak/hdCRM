@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
@@ -10,16 +10,17 @@ import { UserService } from '../../_services';
 import { User, State } from '../../_models';
 
 import { UserSaved, AllStatesRequested } from '../../store/user.actions';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { selectAllStates } from '../../store/user.selectors';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit, OnDestroy {
   showDataLoader: boolean;
   user: User;
   userInitial: User;
@@ -27,6 +28,8 @@ export class UserComponent implements OnInit {
   editForm: boolean;
   editUserPrivilege$: Observable<boolean>;
   langs: string[];
+
+  private unsubscribe: Subject<void> = new Subject();
 
   constructor(
     private route: ActivatedRoute,
@@ -39,8 +42,7 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
     this.editUserPrivilege$ = this.store.pipe(select(isPrivileged('editUser')));
-    this.editUserPrivilege$.subscribe(camEdit => {
-      // TODO: unsubs
+    this.editUserPrivilege$.pipe(takeUntil(this.unsubscribe)).subscribe(camEdit => {
       if (camEdit) {
         const edit = this.route.snapshot.queryParams['edit'];
         if (edit) {
@@ -87,7 +89,7 @@ export class UserComponent implements OnInit {
   }
 
   updateUser(): void {
-    this.userService.updateUser(this.user).subscribe(
+    this.userService.updateUser(this.user).pipe(takeUntil(this.unsubscribe)).subscribe(
       data => {
         const user: Update<User> = {
           id: this.user.id,
@@ -114,5 +116,10 @@ export class UserComponent implements OnInit {
         });
       }
     );
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }

@@ -10,7 +10,7 @@
       <div class="form-row">
         <div class="col-md-4 user-roles">
           <label class="label" i18n="@@roleComponentFormLabelsPrivileges">Privileges:</label>
-          <ul *ngIf="!editForm" class="list-group">
+          <!-- <ul *ngIf="!editForm" class="list-group">
             <ng-container *ngFor="let privilege of privileges">
               <li class="list-group-item"  *ngIf="privilege.selected">{{privilege.keyString}}</li>
             </ng-container>
@@ -23,7 +23,7 @@
                 <mat-checkbox [(ngModel)]="privilege.selected" value="{{privilege.id}}"></mat-checkbox>
               </li>
             </ng-container>
-          </ul>
+          </ul> -->
         </div>
       </div>
     </div>

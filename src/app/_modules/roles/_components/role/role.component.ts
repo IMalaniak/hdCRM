@@ -44,17 +44,9 @@ export class RoleComponent implements OnInit {
   }
 
   getRoleData(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
+    this.role = new Role(this.route.snapshot.data['role']);
+    this.roleInitial = new Role(this.route.snapshot.data['role']);
 
-    this.roleService.getRole(id).subscribe(role => {
-      this.role = role;
-      this.roleInitial = { ...this.role };
-
-      this.privilegeService.getPrivilegesListForRole(id).subscribe(privileges => {
-        this.privileges = privileges;
-        this.privilegesInitial = [ ...this.privileges ];
-      });
-    });
   }
 
   addParticipantDialog(): void {

@@ -75,6 +75,8 @@ export class ProfileComponent implements OnInit {
         this.user.avatar = data.avatar;
         this.user.avatarId = data.avatarId;
 
+        // this.user = Object.assign(this.user, data);
+
         this.store.dispatch(new ProfileSaved({user: this.user}));
 
         this.editForm = false;

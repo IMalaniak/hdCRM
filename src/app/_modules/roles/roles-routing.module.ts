@@ -1,14 +1,15 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { 
     RolesComponent,
     RoleComponent,
     AddRoleComponent, } from './_components';
+import { RoleResolver } from './_services/role.resolver';
 
 const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'list' },
     {path: 'list', data: { breadcrumb: 'Roles list' }, component: RolesComponent },
-    {path: 'details/:id', data: { breadcrumb: 'Role details' }, component: RoleComponent},
+    {path: 'details/:id', data: { breadcrumb: 'Role details' }, component: RoleComponent, resolve: {role: RoleResolver}},
     {path: 'add', data: { breadcrumb: 'Add role' }, component: AddRoleComponent},
 ];
 
@@ -16,4 +17,11 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class RolesRoutingModule {}
+export class RolesRoutingModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+        ngModule: RolesRoutingModule,
+        providers: [RoleResolver],
+    }
+  }
+}

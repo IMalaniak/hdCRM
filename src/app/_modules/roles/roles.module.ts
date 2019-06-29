@@ -26,7 +26,7 @@ import { RoleEffects } from './store/role.effects';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    RolesRoutingModule,
+    RolesRoutingModule.forRoot(),
     StoreModule.forFeature('roles', rolesReducer),
     EffectsModule.forFeature([RoleEffects]),
     UsersModule

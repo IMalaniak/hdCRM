@@ -60,9 +60,11 @@ export class AuthEffects {
       const userData = localStorage.getItem('currentUser');
       if (userData) {
          return of(new fromAuth.LogInSuccess(JSON.parse(userData)));
-      } else {
-        return <any> of(new fromAuth.LogOut());
       }
+      // TODO: cannot access public routes
+      // else {
+      //   return <any> of(new fromAuth.LogOut());
+      // }
     });
 
 }

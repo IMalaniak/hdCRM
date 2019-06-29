@@ -6,17 +6,17 @@ import { Store, select } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 
 import swal from 'sweetalert2';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, map } from 'rxjs/operators';
 
 import { Department } from '../../_models';
 import { UsersDialogComponent, User } from '@/_modules/users';
-import { Subject } from 'rxjs';
+import { Subject, Observable, combineLatest } from 'rxjs';
 import { DepartmentService } from '../../_services';
 
 import { AppState } from '@/core/reducers';
 
 import { DepartmentSaved } from '../../store/department.actions';
-import { currentUser } from '@/core/auth/store/auth.selectors';
+import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
 
 @Component({
   selector: 'app-department',
@@ -25,12 +25,12 @@ import { currentUser } from '@/core/auth/store/auth.selectors';
 })
 export class DepartmentComponent implements OnInit, OnDestroy {
   department: Department;
-  appUser: User;
+  appUser$: Observable<User>;
   departmentInitial: Department;
   showDataLoader: boolean;
   baseUrl: string;
   editForm: boolean;
-  editDepartmentPrivilege: boolean;
+  editDepartmentPrivilege$: Observable<boolean>;
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -46,28 +46,27 @@ export class DepartmentComponent implements OnInit, OnDestroy {
    }
 
   ngOnInit() {
-    this.store.pipe(
-      select(currentUser),
-      takeUntil(this.unsubscribe)
-    ).subscribe(user => {
-        this.appUser = user;
-        // TODO:
-        // this.editDepartmentPrivilege = this.privilegeService.isPrivileged(user, 'editDepartment');
-    });
+    this.appUser$ = this.store.pipe(select(currentUser));
+    this.editDepartmentPrivilege$ = this.store.pipe(select(isPrivileged('editDepartment')));
 
-    // TODO: check
-    this.departmentInitial = this.route.snapshot.data['department'];
-    this.department = {...this.departmentInitial}
-    if (this.canEditDepartment) {
-      const edit = this.route.snapshot.queryParams['edit'];
-      if (edit) {
-        this.editForm = JSON.parse(edit);
+    this.departmentInitial = new Department(this.route.snapshot.data['department']);
+    this.department = new Department(this.route.snapshot.data['department']);
+    this.canEditDepartment$.pipe(takeUntil(this.unsubscribe)).subscribe(canEdit => {
+      if (canEdit) {
+        const edit = this.route.snapshot.queryParams['edit'];
+        if (edit) {
+          this.editForm = JSON.parse(edit);
+        }
       }
-    }
+    });
   }
 
-  get canEditDepartment(): boolean {
-     return this.editDepartmentPrivilege || (this.appUser.id === this.department.managerId);
+  get canEditDepartment$(): Observable<boolean> {
+    // combine 2 observables and compare values => return boolean
+    const combine = combineLatest([this.editDepartmentPrivilege$, this.appUser$]);
+    return combine.pipe(
+      map(res => (res[0] || (res[1].id === this.department.managerId)))
+    );
   }
 
   onClickEdit(): void {
