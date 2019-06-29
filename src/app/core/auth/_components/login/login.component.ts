@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { AuthenticationService } from '../../_services';
 import { ApiResponse } from '@/core/_models';
 import { User } from '@/_modules/users';
@@ -75,7 +75,7 @@ export class LoginComponent implements OnInit {
         }
       },
       error => {
-        swal({
+        Swal.fire({
           title: 'Account activation failed',
           type: 'error',
           timer: 3000
@@ -97,7 +97,7 @@ export class LoginComponent implements OnInit {
         this.serverResponse = response;
       },
       error => {
-        swal({
+        Swal.fire({
           title: 'Email or login delivery failed!',
           type: 'error',
           timer: 3000
@@ -118,7 +118,7 @@ export class LoginComponent implements OnInit {
         }
       },
       error => {
-        swal({
+        Swal.fire({
           title: 'Ooops, something went wrong!',
           type: 'error',
           timer: 1500

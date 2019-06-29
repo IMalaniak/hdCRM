@@ -67,7 +67,7 @@
                   <mat-icon>details</mat-icon>
                   <span i18n="@@plannerComponentListActionsView">Details</span>
                 </button>
-                <button mat-menu-item (click)="onPlanSelect(plan.id, true)">
+                <button *ngIf="editPlanPrivilege$ | async" mat-menu-item (click)="onPlanSelect(plan.id, true)">
                   <mat-icon>edit</mat-icon>
                   <span i18n="@@plannerComponentListActionsEdit">Edit</span>
                 </button>

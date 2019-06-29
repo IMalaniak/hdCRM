@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { User } from '../../_models';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
@@ -42,7 +42,7 @@ export class ProfileComponent implements OnInit {
   }
 
   onUpdateUserSubmit(): void {
-    swal({
+    Swal.fire({
       title: 'Are you about to update user',
       text: 'Are you sure you want to update user details?',
       type: 'question',
@@ -80,7 +80,7 @@ export class ProfileComponent implements OnInit {
         this.store.dispatch(new ProfileSaved({user: this.user}));
 
         this.editForm = false;
-        swal({
+        Swal.fire({
           text: 'User updated!',
           type: 'success',
           timer: 6000,
@@ -90,7 +90,7 @@ export class ProfileComponent implements OnInit {
         });
       },
       error => {
-        swal({
+        Swal.fire({
           text: 'Ooops, something went wrong!',
           type: 'error',
         });

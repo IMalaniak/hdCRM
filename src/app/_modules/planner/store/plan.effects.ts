@@ -8,7 +8,7 @@ import { PlanService, StageService } from '../_services';
 import { AppState } from '@/core/reducers';
 import { PlanServerResponse, Stage, Plan } from '../_models';
 import { allStagesLoaded } from './plan.selectors';
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class PlanEffects {
       mergeMap((plan: Plan) =>
         this.planService.create({...plan}).pipe(
           map(newPlan => {
-            swal({
+            Swal.fire({
               title: 'Plan created!',
               type: 'success',
               timer: 1500
@@ -30,7 +30,7 @@ export class PlanEffects {
             return new CreatePlanSuccess({plan: newPlan});
           }),
           catchError(err => {
-            swal({
+            Swal.fire({
               title: 'Ooops, something went wrong!',
               type: 'error',
               timer: 1500
@@ -80,7 +80,7 @@ export class PlanEffects {
       mergeMap((stage: Stage) =>
         this.stageService.create(stage).pipe(
           map(newStage => {
-            swal({
+            Swal.fire({
               title: 'Stage created!',
               type: 'success',
               timer: 1500
@@ -88,7 +88,7 @@ export class PlanEffects {
             return new CreateStageSuccess({stage: newStage});
           }),
           catchError(err => {
-            swal({
+            Swal.fire({
               title: 'Ooops, something went wrong!',
               type: 'error',
               timer: 1500

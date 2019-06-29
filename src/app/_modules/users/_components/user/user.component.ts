@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 import { AppState } from '@/core/reducers';
 
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 import { UserService } from '../../_services';
 import { User, State } from '../../_models';
@@ -74,7 +74,7 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   onUpdateUserSubmit(): void {
-    swal({
+    Swal.fire({
       title: 'Are you sure?',
       text: 'Do you really want to save changes? You will not be able to recover this!',
       type: 'question',
@@ -99,7 +99,7 @@ export class UserComponent implements OnInit, OnDestroy {
         this.user = new User(data);
         this.userInitial = new User(data);
         this.editForm = false;
-        swal({
+        Swal.fire({
           text: 'User updated!',
           type: 'success',
           timer: 6000,
@@ -109,7 +109,7 @@ export class UserComponent implements OnInit, OnDestroy {
         });
       },
       error => {
-        swal({
+        Swal.fire({
           text: 'Ooops, something went wrong!',
           type: 'error',
           timer: 3000

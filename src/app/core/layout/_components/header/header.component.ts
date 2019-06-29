@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MediaqueryService } from '@/_shared/services';
 import { Router } from '@angular/router';
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import * as authActions from '@/core/auth/store/auth.actions';
@@ -31,14 +31,10 @@ export class HeaderComponent implements OnInit {
 
   }
 
-  // get isValidToken(): boolean {
-  //   return this.authService.validToken();
-  // }
-
   onLogoutClick() {
     this.store.dispatch(new authActions.LogOut());
     this.router.navigate(['/home']);
-    swal({
+    Swal.fire({
       text: 'Logged out!',
       type: 'info',
       timer: 1000

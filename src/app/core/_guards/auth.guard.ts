@@ -1,6 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../reducers';
 import { Observable, of } from 'rxjs';
@@ -28,7 +28,7 @@ export class AuthGuard implements CanActivate {
                     // TODO
                     this.checkToken();
                 } else if (!loggedIn) {
-                    swal({
+                    Swal.fire({
                         title: 'You are not authorized to see this page!',
                         type: 'error',
                         timer: 1500
@@ -44,7 +44,7 @@ export class AuthGuard implements CanActivate {
             select(isValidToken),
             tap(isValid => {
                 if (!isValid) {
-                    swal({
+                    Swal.fire({
                         title: 'Token has expired!',
                         type: 'error',
                         timer: 1500

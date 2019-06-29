@@ -7,7 +7,7 @@ import { getToken } from '../auth/store/auth.selectors';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AppState } from '../reducers';
 import { LogOut } from '../auth/store/auth.actions';
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 const jwtHelper = new JwtHelperService();
 
 @Injectable()
@@ -46,7 +46,7 @@ export class JwtInterceptor implements HttpInterceptor {
                             }
                         });
                     } else {
-                        swal({
+                        Swal.fire({
                             title: 'JWT: Token has expired!',
                             type: 'error',
                             timer: 1500

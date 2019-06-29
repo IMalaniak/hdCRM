@@ -6,7 +6,7 @@ import { Role, Privilege } from '../../_models';
 import { RoleService, PrivilegeService } from '../../_services';
 import { User } from '@/_modules/users/_models';
 import { UsersDialogComponent } from '@/_modules/users/_components/dialog/users-dialog.component';
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-role',
@@ -95,7 +95,7 @@ export class AddRoleComponent implements OnInit {
     // Register role
     this.roleService.registerRole(this.role).subscribe(
       data => {
-        swal({
+        Swal.fire({
           title: 'Role added!',
           type: 'success',
           timer: 1500
@@ -103,7 +103,7 @@ export class AddRoleComponent implements OnInit {
         this.router.navigate(['/roles']);
       },
       error => {
-        swal({
+        Swal.fire({
           title: 'Server Error',
           type: 'error',
           timer: 1500

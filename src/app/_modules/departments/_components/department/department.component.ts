@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { takeUntil, map } from 'rxjs/operators';
 
 import { Department } from '../../_models';
@@ -154,7 +154,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
         }
         this.store.dispatch(new DepartmentSaved({department}));
         this.editForm = false;
-        swal({
+        Swal.fire({
           text: 'Department updated!',
           type: 'success',
           timer: 6000,
@@ -164,7 +164,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
         });
       },
       error => {
-        swal({
+        Swal.fire({
           text: 'Ooops, something went wrong!',
           type: 'error',
         });

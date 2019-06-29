@@ -6,7 +6,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable, Subject, merge } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
 
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 import { UserService, UsersDataSource } from '../../_services';
 import { User } from '../../_models';
@@ -107,7 +107,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     this.userService.updateUserState(userState).subscribe(
       userData => {
         user.State = userData.State;
-        swal({
+        Swal.fire({
           text: `User state was changed to: ${state.keyString}`,
           type: 'success',
           timer: 6000,
@@ -117,7 +117,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
         });
       },
       error => {
-        swal({
+        Swal.fire({
           text: 'Ooops, something went wrong!',
           type: 'error',
           timer: 1500
@@ -149,7 +149,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   //         this.users[i].State = user.State = state;
   //       }
   //       this.resetSelected();
-  //       swal({
+  //       Swal.fire({
   //         text: `User state was changed to: ${state.keyString}`,
   //         type: 'success',
   //         timer: 6000,
@@ -159,7 +159,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   //       });
   //     },
   //     error => {
-  //       swal({
+  //       Swal.fire({
   //         text: 'Ooops, something went wrong!',
   //         type: 'error',
   //         timer: 1500

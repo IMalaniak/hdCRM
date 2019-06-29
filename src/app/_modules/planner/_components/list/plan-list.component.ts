@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { Plan } from '../../_models';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
@@ -22,6 +22,7 @@ import { isPrivileged } from '@/core/auth/store/auth.selectors';
 })
 export class PlanListComponent implements OnInit, AfterViewInit {
   addPlanPrivilege$: Observable<boolean>;
+  editPlanPrivilege$: Observable<boolean>;
   plans$: Observable<Plan[]>;
   dataSource: PlansDataSource;
   loading$: Observable<boolean>;
@@ -40,6 +41,7 @@ export class PlanListComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.addPlanPrivilege$ = this.store.pipe(select(isPrivileged('addPlan')));
+    this.editPlanPrivilege$ = this.store.pipe(select(isPrivileged('addPlan')));
 
     this.loading$ = this.store.pipe(select(selectPlansLoading));
     this.resultsLength$ = this.store.pipe(select(selectPlansTotalCount));

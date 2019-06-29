@@ -6,7 +6,7 @@ import { Update } from '@ngrx/entity';
 import { Store, select } from '@ngrx/store';
 import { Subject, Observable, combineLatest } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { StagesDialogComponent } from '../../_components/stages/dialog/stages-dialog.component';
 import { Plan, Stage, PlanStage } from '../../_models';
 import { PlanService, StageService } from '../../_services';
@@ -110,7 +110,7 @@ export class PlanComponent implements OnInit, OnDestroy {
         this.store.dispatch(new PlanSaved({plan}));
         this.planInitial = new Plan(this.plan);
         this.configPlanStages = false;
-        swal({
+        Swal.fire({
           text: 'Stages updated!',
           type: 'success',
           timer: 6000,
@@ -120,7 +120,7 @@ export class PlanComponent implements OnInit, OnDestroy {
         });
       },
       error => {
-        swal({
+        Swal.fire({
           text: 'Ooops, something went wrong!',
           type: 'error',
         });
@@ -139,7 +139,7 @@ export class PlanComponent implements OnInit, OnDestroy {
         this.plan = new Plan(data);
         this.planInitial = new Plan(data);
         this.editForm = false;
-        swal({
+        Swal.fire({
           text: 'Plan updated!',
           type: 'success',
           timer: 6000,
@@ -149,7 +149,7 @@ export class PlanComponent implements OnInit, OnDestroy {
         });
       },
       error => {
-        swal({
+        Swal.fire({
           text: 'Ooops, something went wrong!',
           type: 'error',
         });
@@ -265,7 +265,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   }
 
   deleteDoc(docId: number): void {
-    // swal({
+    // Swal.fire({
     //   title: 'You are going to delete document',
     //   text: 'Are you sure you want to delete document from plan, changes cannot be undone?',
     //   type: 'warning',
@@ -281,7 +281,7 @@ export class PlanComponent implements OnInit, OnDestroy {
     //     this.planService.deleteDoc(req).pipe(takeUntil(this.unsubscribe)).subscribe(plan => {
     //       if (plan) {
 
-    //         swal({
+    //         Swal.fire({
     //           text: 'You have successfully removed a document from plan',
     //           type: 'success',
     //           timer: 6000,
@@ -290,7 +290,7 @@ export class PlanComponent implements OnInit, OnDestroy {
     //           position: 'bottom-end'
     //         });
     //       } else {
-    //         swal({
+    //         Swal.fire({
     //           text: 'Ooops, something went wrong!',
     //           type: 'error',
     //         });

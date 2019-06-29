@@ -8,7 +8,7 @@ import { DepartmentService } from '../_services';
 import { AppState } from '@/core/reducers';
 import { DepartmentServerResponse, Department } from '../_models';
 import { selectDashboardDepDataLoaded } from './department.selectors';
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class DepartmentEffects {
       mergeMap((department: Department) =>
         this.departmentService.create({...department}).pipe(
           map(newDepartment => {
-            swal({
+            Swal.fire({
               title: 'Department created!',
               type: 'success',
               timer: 1500
@@ -30,7 +30,7 @@ export class DepartmentEffects {
             return new CreateDepartmentSuccess({department: newDepartment});
           }),
           catchError(err => {
-            swal({
+            Swal.fire({
               title: 'Ooops, something went wrong!',
               type: 'error',
               timer: 1500

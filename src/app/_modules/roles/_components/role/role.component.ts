@@ -2,7 +2,7 @@ import { environment } from 'environments/environment';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { Role, Privilege } from '../../_models';
 import { RoleService, PrivilegeService } from '../../_services';
 import { User } from '@/_modules/users/_models';
@@ -86,7 +86,7 @@ export class RoleComponent implements OnInit {
   }
 
   onUpdateRoleSubmit(): void {
-    swal({
+    Swal.fire({
       title: 'You are about to update role',
       text: 'Are You sure You want to update role? Changes cannot be undone.',
       type: 'question',
@@ -119,7 +119,7 @@ export class RoleComponent implements OnInit {
         this.role = role;
         this.roleInitial = { ...this.role };
         this.editForm = false;
-        swal({
+        Swal.fire({
           text: 'Role updated!',
           type: 'success',
           timer: 6000,
@@ -129,7 +129,7 @@ export class RoleComponent implements OnInit {
         });
       },
       error => {
-        swal({
+        Swal.fire({
           text: 'Server Error',
           type: 'error',
         });
