@@ -1,3 +1,6 @@
+@import '~@angular/material/theming';
+@import "theme.scss";
+
 // color variable map
 $crmcolors: (
   main: (
@@ -6,31 +9,28 @@ $crmcolors: (
     dark: lighten(#000, 10%)
   ),
   primary: (
-    base: #039be5,
-    light: lighten(#FFBB00, 15%),
-    dark: darken(#FFBB00, 15%)
-  ),
-  accent: (
-    base: #00897b
-  ),
-  warn: (
-    base: #e53935
+    base: mat-color($crm-theme-primary, 600),
+    light: mat-color($crm-theme-primary, 400),
+    dark: mat-color($crm-theme-primary, 800)
   ),
   secondary: (
     base: #0969A2,
     light: #f8f8f8,
     dark: darken(#f8f8f8, 8%)
   ),
-  text: #FFF,
-  background: #333,
-
-  //Delete, but first set all scss without highlight
+  accent: (
+    base: mat-color($crm-theme-accent, 600),
+    light: mat-color($crm-theme-accent, 400),
+    dark: mat-color($crm-theme-accent, 800)
+  ),
+  warn: (
+    base: mat-color($crm-theme-warn, 600),
+    light: mat-color($crm-theme-warn, 400),
+    dark: mat-color($crm-theme-warn, 800)
+  ),
   highlight: (
-    base: #D1E751,
-    light: #4DBCE9,
-    dark: #26ADE4,
-    green: #42A948,
-    red: #a94442
+    success: mat-color($crm-theme-accent, A400),
+    error: mat-color($crm-theme-warn, 600),
   )
 );
 
@@ -61,7 +61,7 @@ $grid-breakpoints: (
 
 $link-hover-decoration: none;    // remove underline from button links
 
-$link-color: #3f51b5;            // set link color based on the used material theme
+$link-color: mat-color($crm-theme-primary, 800);            // set link color based on the used material theme
 $link-hover-color: currentColor;
 
 // variable prefixes for CSS4 output

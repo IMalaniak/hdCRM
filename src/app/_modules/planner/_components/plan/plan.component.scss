@@ -57,9 +57,9 @@
 
     &.active {
         color: crmcolor(main, base);
-        background: crmcolor(highlight, green);
+        background: crmcolor(highlight, success);
         &:after {
-            border-left-color: crmcolor(highlight, green);    
+            border-left-color: crmcolor(highlight, success);    
         }
     }
 

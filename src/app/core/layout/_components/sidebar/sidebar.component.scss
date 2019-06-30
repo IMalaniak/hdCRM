@@ -51,7 +51,7 @@ app-sidebar {
     &.active {
       text-decoration: none;
       background-color: crmcolor(main, light);
-      color: crmcolor(highlight, light);
+      color: crmcolor(primary, base);
       border-left: 8px solid;
     }
 
