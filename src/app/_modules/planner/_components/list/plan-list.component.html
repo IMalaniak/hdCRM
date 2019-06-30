@@ -9,7 +9,7 @@
     <button mat-raised-button color="primary" class="crm-button" routerLink="/planner/add"><mat-icon>add_circle</mat-icon><span i18n="@@plannerСomponentActionCreateNewPlan">Create a new plan</span></button>
   </div>
 
-  <div content class="mat-elevation-z8 plans-table-container">
+  <div content class="table-container">
     <mat-table class="plans-table crm-table" [dataSource]="dataSource" matSort matSortDisabled>
         <!-- Checkbox Column -->
         <!-- <ng-container matColumnDef="select">
@@ -77,7 +77,6 @@
         <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
     </mat-table>
-
-    <mat-paginator [length]="resultsLength$ | async" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
   </div>
+  <mat-paginator content [length]="resultsLength$ | async" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
 </section>
