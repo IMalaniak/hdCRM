@@ -19,8 +19,6 @@ export class PublicGuard implements CanActivate {
             select(isLoggedOut),
             tap(loggedOut => {
                 if (!loggedOut) {
-                    console.log("hello");
-                    
                     this.router.navigateByUrl('/dashboard');
                 }
             })

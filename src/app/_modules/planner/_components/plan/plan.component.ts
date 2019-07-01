@@ -70,16 +70,32 @@ export class PlanComponent implements OnInit, OnDestroy {
 
   goToNextStage(): void {
     // TODO ngrx
-    this.planService.toNextStage(this.plan.id).pipe(takeUntil(this.unsubscribe)).subscribe(planStages => {
-      this.plan.activeStage = planStages.activeStage;
-      this.plan.activeStageId = planStages.activeStage.id;
-      planStages.Stages.sort((a, b) => {
-        return a.Details.order - b.Details.order;
-      });
-      planStages.Stages.forEach((stage, i) => {
-        this.plan.Stages[i].Details.completed = stage.Details.completed;
-      });
-    });
+    this.planService.toNextStage(this.plan.id).pipe(takeUntil(this.unsubscribe)).subscribe(
+      data => {
+        const plan: Update<Plan> = {
+          id: this.plan.id,
+          changes: data
+        }
+        this.store.dispatch(new PlanSaved({plan}));
+        this.plan = new Plan(data);
+        this.planInitial = new Plan(data);
+        this.configPlanStages = false;
+        Swal.fire({
+          text: 'Stages updated!',
+          type: 'success',
+          timer: 6000,
+          toast: true,
+          showConfirmButton: false,
+          position: 'bottom-end'
+        });
+      },
+      error => {
+        Swal.fire({
+          text: 'Ooops, something went wrong!',
+          type: 'error',
+        });
+      }
+    );
   }
 
   onClickEdit(): void {
@@ -102,13 +118,14 @@ export class PlanComponent implements OnInit, OnDestroy {
 
   updatePlanStages(): void {
     this.planService.updatePlanStages(this.plan).pipe(takeUntil(this.unsubscribe)).subscribe(
-      () => {
+      data => {
         const plan: Update<Plan> = {
           id: this.plan.id,
-          changes: {...this.plan}
+          changes: data
         }
         this.store.dispatch(new PlanSaved({plan}));
-        this.planInitial = new Plan(this.plan);
+        this.plan = new Plan(data);
+        this.planInitial = new Plan(data);
         this.configPlanStages = false;
         Swal.fire({
           text: 'Stages updated!',
@@ -124,7 +141,8 @@ export class PlanComponent implements OnInit, OnDestroy {
           text: 'Ooops, something went wrong!',
           type: 'error',
         });
-    });
+      }
+    );
   }
 
   updatePlan(): void {
@@ -153,7 +171,8 @@ export class PlanComponent implements OnInit, OnDestroy {
           text: 'Ooops, something went wrong!',
           type: 'error',
         });
-    });
+      }
+    );
   }
 
   addStageDialog(): void {

@@ -180,12 +180,21 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req, res, next)
 		offset: offset,
 		order: [
 			[queryParams.sortIndex, queryParams.sortDirection.toUpperCase()],
-			//[db.Sequelize.literal(`"Stages->Details"."order" ASC`)]
 			// TODO: sort
+			//[db.Sequelize.literal(`"Stages->Details"."order" ASC`)]
 		],
 		distinct: true
 	}).then(data => {
 		let pages = Math.ceil(data.count / limit);
+		// TODO: sort with sequelize query
+		function sortByOrder(a, b) {
+			return a.Details.order - b.Details.order;
+		}
+		data.rows.forEach(plan => {
+			if(plan.Stages && plan.Stages.length > 0) {
+				plan.Stages = plan.Stages.sort(sortByOrder);
+			}
+		});
 		res.json({list: data.rows, count: data.count, pages: pages});
 	}).catch(error => {
 		res.status(500).json(error.toString());
@@ -261,55 +270,7 @@ router.put('/', passport.authenticate('jwt', {session: false}), (req, res, next)
 						}
 					}).then(users => {
 						plan.setParticipants(users).then(result => {
-							db.Plan.findByPk(req.body.id, {
-								include: [
-									{
-										model: db.User,
-										as: 'Creator',
-										attributes: { exclude: ['passwordHash', 'salt'] },
-										include: [
-											{
-												model: db.Asset,
-												as: 'avatar'
-											}
-										]
-									},
-									{
-										model: db.User,
-										as: 'Participants',
-										attributes: { exclude: ['passwordHash', 'salt'] },
-										through: {
-											attributes: []
-										},
-										include: {
-											model: db.Asset,
-											as: 'avatar'
-										}
-									},
-									{
-										model: db.Asset,
-										as: 'Documents',
-										through: {
-											attributes: []
-										}
-									},
-									{
-										model: db.Stage,
-										as: 'activeStage'
-									},
-									{
-										model: db.Stage,
-										as: 'Stages',
-										through: {
-											as: 'Details',
-											attributes: { exclude: ['PlanId', 'StageId'] }
-										}
-									}
-								],
-								order: [ 
-									[db.Sequelize.col('order')]
-								]
-							}).then(plan => {
+							findPlanById(req.body.id).then(plan => {
 								res.json(plan);
 							}).catch(error => {
 								res.status(400).json(error.toString());
@@ -352,7 +313,11 @@ router.put('/updatePlanStages', passport.authenticate('jwt', {session: false}), 
 				return stage;
 			});			
 			plan.setStages(stages).then(resp => {
-				res.status(200).json(resp);
+				findPlanById(req.body.id).then(plan => {
+					res.json(plan);
+				}).catch(error => {
+					res.status(400).json(error.toString());
+				});
 			}).catch(error => {
 				res.status(400).json(error.toString());
 			});
@@ -393,7 +358,7 @@ router.get('/toNextStage/:id', passport.authenticate('jwt', {session: false}), (
 				stage.Details.save().then(stage => {
 					if (plan.Stages[i+1]) {
 						plan.setActiveStage(plan.Stages[i+1].id).then(() => {
-							plan.reload().then(plan => {
+							findPlanById(req.params.id).then(plan => {
 								res.json(plan);
 							}).catch(error => {
 								res.status(400).json(error.toString());
@@ -402,7 +367,7 @@ router.get('/toNextStage/:id', passport.authenticate('jwt', {session: false}), (
 							res.status(400).json(error.toString());
 						});
 					} else {
-						plan.reload().then(plan => {
+						findPlanById(req.params.id).then(plan => {
 							res.json(plan);
 						}).catch(error => {
 							res.status(400).json(error.toString());

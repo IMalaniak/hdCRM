@@ -15,7 +15,7 @@ export class RolesDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: RolesDialogData
   ) {}
 
-  @ViewChild(RolesComponent, {static: false})
+  @ViewChild(RolesComponent, {static: true})
     rolesComponent: RolesComponent;
 
   onNoClick(): void {
