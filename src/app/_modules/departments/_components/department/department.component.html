@@ -1,7 +1,7 @@
-<section content class="app-content-box" [title]="department.title + ' ' + 'department'" *ngIf="department">
+<section class="app-content-box" [title]="department.title + ' ' + 'department'" *ngIf="department">
   <div content class="row">
     <div class="col-md-6">
-      <form class="d-flex flex-column" *ngIf="editForm">  
+      <form class="d-flex flex-column p-3" *ngIf="editForm">  
         <mat-form-field appearance="outline">
           <mat-label i18n="@@departmentComponentDetailsTitle">Title</mat-label>
           <input matInput [(ngModel)]="department.title" name="title" type="text" required>
@@ -53,9 +53,9 @@
     </div>
     <div class="col-md-6">
       <mat-list class="w-100">
-        <div class="d-flex flex-row justify-content-between align-items-center">
+        <div class="d-flex flex-row justify-content-between align-items-center p-3">
           <span class="text-muted" i18n="@@departmentComponentParticipantTitleManager">Manager</span>
-          <button mat-raised-button color="primary" class="crm-button" (click)="openManagerDialog()" *ngIf="editForm"><mat-icon>person_add</mat-icon><span i18n="@@DepartmentComponentActionsAddManager">Add manager</span></button>
+          <button mat-raised-button color="primary" class="crm-button" (click)="openManagerDialog()" *ngIf="editForm"><mat-icon>person_add</mat-icon><span i18n="@@DepartmentComponentActionsChangeManager">Change manager</span></button>
         </div>
         <mat-list-item *ngIf="department.Manager">
           <img matListAvatar *ngIf="department.Manager.avatar" src="{{baseUrl + department.Manager.avatar.location + department.Manager.avatar.title}}" alt="{{department.Manager.avatar.title}}">
@@ -67,7 +67,7 @@
   </div>
   <div content class="row">
     <div class="col-md-6">
-      <mat-list>
+      <mat-list class="p-3">
         <div class="d-flex flex-row justify-content-between align-items-center">
           <div class="d-flex flex-row align-items-center"><span class="text-muted" i18n="@@departmentComponentParticipantTitleWorkers">Workers</span><mat-chip color="primary" selected>{{department.Workers.length}}</mat-chip></div>
           <button mat-raised-button color="primary" class="crm-button" (click)="openWorkersDialog()" *ngIf="editForm"><mat-icon>group_add</mat-icon><span i18n="@@departmentComponentActionsAddWorkers">Add workers</span></button>
@@ -83,7 +83,7 @@
     <div class="col-md-6">
       <div class="row">
         <div class="col-sm-6 col-md-12 col-lg-6">
-          <mat-list class="w-100">
+          <mat-list class="w-100 p-3">
             <div class="d-flex flex-row justify-content-between align-items-center">
               <span class="text-muted" i18n="@@departmentComponentParticipantTitleParentDepartment">Parent department</span>
               <button mat-raised-button color="primary" class="crm-button" *ngIf="editForm"><mat-icon>add_circle_outline</mat-icon><span i18n="@@departmentComponentActionsAddParentDepartment">Add parent department</span></button>
@@ -94,7 +94,7 @@
           </mat-list>
         </div>
         <div class="col-sm-6 col-md-12 col-lg-6">
-          <mat-list class="w-100">
+          <mat-list class="w-100 p-3">
             <div class="d-flex flex-row justify-content-between align-items-center">
               <div class="d-flex flex-row align-items-center"><span class="text-muted" i18n="@@departmentComponentParticipantTitleSubDepartments">Sub departments</span><mat-chip color="primary" selected>{{department.SubDepartments.length}}</mat-chip></div>
               <button mat-raised-button color="primary" class="crm-button" *ngIf="editForm"><mat-icon>add_circle_outline</mat-icon><span i18n="@@departmentComponentActionsAddSubDepartments">Add sub departments</span></button>

@@ -1,3 +1,6 @@
+@import 'variables';
+@import 'mixins';
+
 .content-box {
   margin: {
     top: 1em;
@@ -18,6 +21,12 @@
 
   div[buttons] {
     max-width: 50%;
+
+    button {
+      + button {
+        margin-left: crmsize(spacer, null, true);
+      }
+    }
   }
 
   button {
