@@ -151,12 +151,18 @@ main {
 }
 
 .content {
+  $hHeight: crmsize(header, height, true);
+
   flex-grow: 10;
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  > section.container-fluid {
+      min-height: calc(100vh - #{$hHeight});
+  }
 
 }
 

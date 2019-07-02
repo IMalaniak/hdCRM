@@ -1,4 +1,4 @@
-<nav>
+<nav class="home-nav">
   <div class="nav-container">
     <a class="crm-brand"><span i18n="@@landingComponentNavBrand">HDCRM</span></a>
     <button mat-raised-button color="primary" [routerLink]="['/auth']" i18n="@@landingComponentNavActionsLogIn">Log in</button>
@@ -19,38 +19,4 @@
       </div>
     </div>
   </div> 
-</section> 
-<footer>
-  <div class="container-fluid footer-content">
-    <div class="row">
-      <div class="col-sm-12 col-md-6 col-lg-4">
-        <h4 i18n="@@landingComponentHomeFooterBrand" class="footer-crm-brand">HDCRM</h4>
-      </div>
-      <div class="col-sm-12 col-md-6 col-lg-4">
-        <h4 i18n="@@landingComponentHomeFooterSubscribeUs">Subscribe us for e-mail updates</h4>
-        <form>  
-          <mat-form-field appearance="outline">
-            <mat-label i18n="@@landingComponentHomeFooterInputEmail">Email</mat-label>
-            <input matInput type="text" name="email" autocomplete="off" required>
-          </mat-form-field>
-          <button mat-raised-button color="primary" i18n="@@landingComponentFooterActionsSubscribe">Subscribe</button>
-        </form>
-      </div>
-      <div class="col-sm-12 col-md-6 col-lg-4">
-        <h4 i18n="@@landingComponentHomeFooterConnectWithUs" class="connect-title">Connect with us</h4>
-        <ul>
-          <li><fa-icon id="facebook-icon" [icon]="['fab', 'facebook-square']" size="2x"></fa-icon></li>
-          <li><fa-icon id="twitter-icon" [icon]="['fab', 'twitter-square']" size="2x"></fa-icon></li>
-          <li><fa-icon id="instagram-icon" [icon]="['fab', 'instagram']" size="2x"></fa-icon></li>
-        </ul>
-      </div>
-    </div>
-    <div class="horizontal-line"></div>
-    <div class="row">
-      <div class="col-sm-12 col-md-6">
-        <span i18n="@@landingComponentFooterCopyright" class="copyright-text">©2019 HDCRM. All rights reserved.</span>
-      </div>
-      <div class="col-sm-12 col-md-6"></div>
-    </div>
-  </div>
-</footer>
+</section>

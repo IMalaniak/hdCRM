@@ -27,7 +27,7 @@ import * as fromLayout from '../store/';
           </section>
           <div class="overlay" *ngIf="mediaquery.isMobileDevice" [ngClass]="{'isVisible': !sidebarMinimized$ | async}" (click)="toogleSideBar(true)"></div>
       </main>
-      <section class="app-messages" *ngIf="showDebug$ | async"></section>
+<!--      <section class="app-messages" *ngIf="showDebug$ | async"></section> -->
     </section>
   `,
   styles: []

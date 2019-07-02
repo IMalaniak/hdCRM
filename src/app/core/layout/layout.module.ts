@@ -11,6 +11,10 @@ import { EffectsModule } from '@ngrx/effects';
 import { layoutReducer } from './store/layout.reducer';
 import { LayoutEffects } from './store/layout.effects';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faFacebookSquare, faTwitterSquare, faInstagram } from '@fortawesome/free-brands-svg-icons';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -19,7 +23,8 @@ import { LayoutEffects } from './store/layout.effects';
     SharedModule,
     MessageModule,
     StoreModule.forFeature('layout', layoutReducer),
-    EffectsModule.forFeature([LayoutEffects])
+    EffectsModule.forFeature([LayoutEffects]),
+    FontAwesomeModule
   ],
   declarations: [
       PublicViewComponent,
@@ -40,4 +45,8 @@ import { LayoutEffects } from './store/layout.effects';
       InternalServerErrorComponent
     ]
 })
-export class LayoutModule {}
+export class LayoutModule {
+  constructor() {
+    library.add(faFacebookSquare, faTwitterSquare, faInstagram);
+  }
+}

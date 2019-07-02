@@ -1,0 +1,135 @@
+@import 'variables';
+@import 'mixins';
+@import "~bootstrap/scss/mixins/_breakpoints";
+
+footer {
+    background-color: crmcolor(main, dark);
+    width: 100%;
+    
+    .footer-content {
+        padding: 6em 1em;
+        @include media-breakpoint-down(xs) {
+            padding: 3em 1em;
+        }
+        @include media-breakpoint-up(md) {
+            width: 75%;
+        }
+
+        h5 {
+            color: crmcolor(main, light);
+            text-transform: uppercase;
+        }
+
+        .footer-crm-brand {
+            margin-bottom: 3em;
+            @include media-breakpoint-up(md) {
+                margin-bottom: 0;
+            }
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+
+            mat-form-field {
+                width: 100%;
+                @include media-breakpoint-up(sm) {
+                    width: 50%;
+                }
+                @include media-breakpoint-up(md) {
+                    width: 100%;
+                }
+            }
+
+            .mat-form-field-label {
+                color: crmcolor(main, light);
+            }
+            
+            .mat-form-field-appearance-outline .mat-form-field-outline {
+                color: crmcolor(main, light);
+            }
+
+            .mat-form-field-appearance-outline .mat-form-field-outline-thick {
+                color: crmcolor(primary, base);
+            }
+
+            .mat-input-element {
+                color: crmcolor(main, light);
+            }
+
+            // For disabled autofill background, but i do it in template with autocompelete="off", choose the best method!
+
+            // input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus {
+            //     -webkit-text-fill-color: crmcolor(main, light) !important;
+            //     transition: background-color 9999s ease-in-out 0s;
+            // }
+
+            button {
+                width: fit-content !important;
+                font-size: 16px;
+                padding: 2px 16px;
+            }
+        }
+
+        .connect-title {
+            margin-top: 3em;
+            @include media-breakpoint-up(lg) {
+                text-align: right;
+                margin-top: 0;
+            }
+        }
+    
+        ul {
+            display: flex;
+            flex-direction: row;
+            padding-left: 0;
+            margin-bottom: 0;
+            @include media-breakpoint-up(lg) {
+                justify-content: flex-end;
+            }
+
+            li {
+                margin: 0 0.8em;
+
+                &:first-child {
+                    margin-left: 0;
+                }
+
+                @include media-breakpoint-up(md) {
+                    &:last-child {
+                        margin-right: 0;
+                    }
+                }
+
+                fa-icon {
+                    color: crmcolor(main, light);
+                    transition: color 0.2s ease-in-out;
+                    cursor: pointer;
+                }
+
+                #facebook-icon:hover {
+                    color: #3b5998;
+                }
+
+                #twitter-icon:hover {
+                    color: #1da1f2;
+                }
+
+                #instagram-icon:hover {
+                    color: #E1306C;
+                }
+            }
+        }
+    
+        .horizontal-line {
+            margin: 3em 0 0.5em 0;
+            background-color: crmcolor(main, light);
+            width: 100%;
+            height: 1px;
+        }
+
+        .copyright-text {
+            color: crmcolor(main, light);  
+        }
+    }
+}

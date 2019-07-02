@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-public',
   template: `
     <router-outlet></router-outlet>
+    <app-footer></app-footer>
   `,
   styles: []
 })
