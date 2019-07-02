@@ -150,48 +150,6 @@ main {
   }
 }
 
-footer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  //margin-top: 0.5*crmsize(footer, height, true);
-  min-height: crmsize(footer, height);
-	background: crmcolor(main, dark);
-	color: crmcolor(secondary, light);
-  z-index: 3;
-  text-align: center;
-
-  > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-  }
-
-  .user-lang {
-    label {
-      margin-right: 0.5*crmsize(spacer, null, true);
-    }
-  }
-
-  .author-links {
-    span {
-      width: 100%;
-    }
-  }
-
-  a {
-    color: crmcolor(secondary, light);
-
-    &:hover {
-      color: crmcolor(secondary, dark);
-      text-decoration: none;
-    }
-  }
-}
-
 .content {
   flex-grow: 10;
   overflow-y: auto;
