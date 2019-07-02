@@ -3,16 +3,19 @@
 @import "~bootstrap/scss/mixins/_gradients";
 @import "~bootstrap/scss/mixins/_breakpoints";
 
+body {
+    overflow-y: scroll;
+}
+
 nav {
     position: fixed;
     top: 0;
-    right: 0;
-    left: 0;
+    width: 100%;
     display: flex;
     align-items: center;
     background-color: crmcolor(main, light);
     box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.1);
-    height: 4.3em;
+    height: 4em;
     z-index: 999;
 
     .nav-container {
@@ -82,44 +85,180 @@ nav {
             width: 75%;
         }
     
-        span {
+        .title {
             @include gradient-x(crmcolor(primary, base) 20%, crmcolor(main, dark) 100%);
             -webkit-text-fill-color: transparent;
             -webkit-background-clip: text;
             align-items: center;
+            line-height: 1.1;
             font-weight: bold; 
             text-transform: uppercase;
-            font-size: 40vw;
+            font-size: 8em;
             @include media-breakpoint-up(sm) {
-                font-size: 36vw;
+                font-size: 15em;
             }
             @include media-breakpoint-up(md) {
-                font-size: 30vw;
+                font-size: 15.5em;
             }
             @include media-breakpoint-up(lg) {
-                font-size: 14vw;
+                font-size: 18em;
             }
         }
 
         h1 {
             text-transform: capitalize;
+            margin-bottom: 0.5em;
             @include media-breakpoint-up(sm) {
-                font-size: 3.2rem;
+                font-size: 3.2em;
+            }
+            @include media-breakpoint-up(lg) {
+                font-size: 3.8em;
             }
         }
         
         h3 {
             color: crmcolor(primary, base);
             margin-bottom: 1.8em;
-            font-size: 1em;
-            @include media-breakpoint-up(xs) {
-                font-size: 1.75em;
+            @include media-breakpoint-down(xs) {
+                margin-bottom: 1em;
+                font-size: 1.5em;
             }
         }
 
         button {
             font-size: 1.25em;
             padding: 5px 20px;
+        }
+    }
+}
+
+footer {
+    background-color: crmcolor(main, dark);
+    width: 100%;
+    
+    .footer-content {
+        padding: 6em 1em;
+        @include media-breakpoint-down(xs) {
+            padding: 3em 1em;
+        }
+        @include media-breakpoint-up(md) {
+            width: 75%;
+        }
+
+        h4 {
+            color: crmcolor(main, light);
+            text-transform: uppercase;
+        }
+
+        .footer-crm-brand {
+            margin-bottom: 3em;
+            @include media-breakpoint-up(md) {
+                margin-bottom: 0;
+            }
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+
+            mat-form-field {
+                width: 100%;
+                @include media-breakpoint-up(sm) {
+                    width: 50%;
+                }
+                @include media-breakpoint-up(md) {
+                    width: 100%;
+                }
+            }
+
+            .mat-form-field-label {
+                color: crmcolor(main, light);
+            }
+            
+            .mat-form-field-appearance-outline .mat-form-field-outline {
+                color: crmcolor(main, light);
+            }
+
+            .mat-form-field-appearance-outline .mat-form-field-outline-thick {
+                color: crmcolor(primary, base);
+            }
+
+            .mat-input-element {
+                color: crmcolor(main, light);
+            }
+
+            // For disabled autofill background, but i do it in template with autocompelete="off", choose the best method!
+
+            // input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus {
+            //     -webkit-text-fill-color: crmcolor(main, light) !important;
+            //     transition: background-color 9999s ease-in-out 0s;
+            // }
+
+            button {
+                width: fit-content !important;
+                font-size: 16px;
+                padding: 2px 16px;
+            }
+        }
+
+        .connect-title {
+            margin-top: 3em;
+            @include media-breakpoint-up(lg) {
+                text-align: right;
+                margin-top: 0;
+            }
+        }
+    
+        ul {
+            display: flex;
+            flex-direction: row;
+            padding-left: 0;
+            margin-bottom: 0;
+            @include media-breakpoint-up(lg) {
+                justify-content: flex-end;
+            }
+
+            li {
+                margin: 0 0.8em;
+
+                &:first-child {
+                    margin-left: 0;
+                }
+
+                @include media-breakpoint-up(md) {
+                    &:last-child {
+                        margin-right: 0;
+                    }
+                }
+
+                fa-icon {
+                    color: crmcolor(main, light);
+                    transition: color 0.2s ease-in-out;
+                }
+
+                #facebook-icon:hover {
+                    color: #3b5998;
+                }
+
+                #twitter-icon:hover {
+                    color: #1da1f2;
+                }
+
+                #instagram-icon:hover {
+                    color: #E1306C;
+                }
+            }
+        }
+    
+        .horizontal-line {
+            margin: 3em 0 0.5em 0;
+            background-color: crmcolor(main, light);
+            width: 100%;
+            height: 1px;
+        }
+
+        .copyright-text {
+            color: crmcolor(main, light);  
         }
     }
 }
