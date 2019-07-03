@@ -52,13 +52,13 @@ export class PrivateViewComponent implements OnInit {
       this.showDebug$ = this.store.pipe(select(isPrivileged('showDebug')));
 
       if (this.mediaquery.isMobileDevice) {
-        this.store.dispatch(new layoutActions.ToggleSidebar(true));
+        this.toogleSideBar(true);
         this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
-          this.store.dispatch(new layoutActions.ToggleSidebar(true));
+          this.toogleSideBar(true);
         });
       }
     }
-    
+
     toogleSideBar(minimized: boolean) {
       this.store.dispatch(new layoutActions.ToggleSidebar(minimized));
     }

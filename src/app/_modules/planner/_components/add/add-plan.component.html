@@ -1,29 +1,31 @@
 <section class="app-content-box" [title]="'Create a new plan'">
   <div content class="row">
-    <form class="col-md-8">
-      <div class="d-flex flex-column">
-        <mat-form-field appearance="outline">
-          <mat-label i18n="@@registerPlanComponentDetailsTitle">Title</mat-label>
-          <input matInput [(ngModel)]="plan.title" name="title" type="text" required>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label i18n="@@registerPlanComponentDetailsBudget">Budget</mat-label>
-          <input matInput [(ngModel)]="plan.budget" name="budget" type="text" required>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label i18n="@@registerPlanComponentDetailsDescription">Write a description</mat-label>
-          <textarea matInput [(ngModel)]="plan.description" name="description" type="text" required></textarea>
-        </mat-form-field>
-        <mat-form-field color="primary" appearance="outline">
-          <mat-label i18n="@@registerPlanComponentDetailsDeadline">Deadline</mat-label>
-          <input matInput [min]="plan.createdAt" [matDatepicker]="picker" [(ngModel)]="plan.deadline" type="datetime" name="deadline" required>
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker touchUi #picker></mat-datepicker>
-        </mat-form-field>
-      </div>   
-    </form>
+    <div class="col-md-8">
+      <form class="p-3">
+        <div class="d-flex flex-column">
+          <mat-form-field appearance="outline">
+            <mat-label i18n="@@registerPlanComponentDetailsTitle">Title</mat-label>
+            <input matInput [(ngModel)]="plan.title" name="title" type="text" required>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label i18n="@@registerPlanComponentDetailsBudget">Budget</mat-label>
+            <input matInput [(ngModel)]="plan.budget" name="budget" type="text" required>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label i18n="@@registerPlanComponentDetailsDescription">Write a description</mat-label>
+            <textarea matInput [(ngModel)]="plan.description" name="description" type="text" required></textarea>
+          </mat-form-field>
+          <mat-form-field color="primary" appearance="outline">
+            <mat-label i18n="@@registerPlanComponentDetailsDeadline">Deadline</mat-label>
+            <input matInput [min]="plan.createdAt" [matDatepicker]="picker" [(ngModel)]="plan.deadline" type="datetime" name="deadline" required>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #picker></mat-datepicker>
+          </mat-form-field>
+        </div>   
+      </form>      
+    </div>
     <div class="col-md-4">
-      <mat-list class="w-100">
+      <mat-list class="w-100 p-3">
         <div class="d-flex flex-row justify-content-between align-items-center">
           <span class="text-muted" i18n="@@registerPlanComponentParticipantsTitleWorkers">Participants</span>
           <button mat-raised-button color="primary" class="crm-button" (click)="addParticipantDialog()"><mat-icon>group_add</mat-icon><span i18n="@@addDepartmentComponentActionsAddParticipants">Add participants</span></button>

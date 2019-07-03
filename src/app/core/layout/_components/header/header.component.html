@@ -7,15 +7,14 @@
 
 <!-- <app-breadcrumbs *ngIf="!mediaquery.isPhone"></app-breadcrumbs> -->
 
-<div class="user-search ml-auto">
+<!-- <div class="user-search ml-auto">
 	<mat-icon>search</mat-icon>
 </div>
 
 <div class="user-question">
 	<mat-icon>question_answer</mat-icon>
-</div>
-<!-- <div *ngIf="isValidToken"> -->
-<div>
+</div> -->
+<div class="user-dropdown">
 	<img class="userpic" *ngIf="currentUser && !currentUser.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage" [routerLink]="['/users/myprofile']">
 	<img class="userpic" *ngIf="currentUser && currentUser.avatar" src="{{currentUser.avatar.getThumbnailsUrl}}" alt="{{currentUser.avatar.title}}" [routerLink]="['/users/myprofile']">
 	<!-- <span *ngIf="currentUser">{{currentUser.fullname}}</span> -->

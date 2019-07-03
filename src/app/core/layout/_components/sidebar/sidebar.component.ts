@@ -18,9 +18,4 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
   }
 
-  // get isValidToken(): boolean {
-
-  // }
-
-
 }
