@@ -3,11 +3,11 @@
     <div class="col-sm-6 col-md-4 col-xl-3">
         <div class="card shadow user-card">
             <div class="card-body">
-                <img *ngIf="appUser.avatar" src="{{baseUrl + appUser.avatar.location + appUser.avatar.title}}" alt="{{appUser.avatar.title}}">
+                <img *ngIf="appUser.avatar" src="{{appUser.avatar.getUrl}}" alt="{{appUser.avatar.title}}">
                 <img *ngIf="!appUser.avatar" src="./assets/images/userpic/noimage.png" alt="noimage">
                 <ul>
                     <li>
-                        <h5>{{ appUser.name + ' ' + appUser.surname }}</h5>
+                        <h5>{{ appUser.fullname }}</h5>
                         <span>({{ appUser.login }})</span>
                     </li>
                     <li *ngIf="appUser.Department">

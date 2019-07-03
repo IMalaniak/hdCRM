@@ -16,9 +16,9 @@
       <mat-list class="w-100">
         <h6 class="text-muted" i18n="@@addDepartmentComponentParticipantTitleManager">Manager</h6>
         <mat-list-item *ngIf="department.Manager">
-          <img matListAvatar *ngIf="department.Manager.avatar" src="{{baseUrl + department.Manager.avatar.location + department.Manager.avatar.title}}" alt="{{department.Manager.avatar.title}}">
+          <img matListAvatar *ngIf="department.Manager.avatar" src="{{department.Manager.avatar.getThumbnailsUrl}}" alt="{{department.Manager.avatar.title}}">
           <img matListAvatar *ngIf="!department.Manager.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
-          <h3 matLine>{{ department.Manager.name + ' ' + department.Manager.surname }}</h3>
+          <h3 matLine>{{ department.Manager.fullname }}</h3>
         </mat-list-item>
       </mat-list>
       <button mat-raised-button color="primary" class="crm-button" (click)="addManagerDialog()"><mat-icon>person_add</mat-icon><span i18n="@@addDepartmentComponentActionsAddManager">Add manager</span></button>
@@ -29,9 +29,9 @@
       <mat-list class="w-100">
         <h6 class="text-muted" i18n="@@addDepartmentComponentParticipantTitleWorkers">Workers</h6>
         <mat-list-item *ngFor="let user of department.Workers; let i = index;">
-          <img matListAvatar *ngIf="user.avatar" src="{{baseUrl + user.avatar.location + user.avatar.title}}" alt="{{user.avatar.title}}">
+          <img matListAvatar *ngIf="user.avatar" src="{{user.avatar.getThumbnailsUrl}}" alt="{{user.avatar.title}}">
           <img matListAvatar *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
-          <h3 matLine>{{ user.name + ' ' + user.surname }}</h3>
+          <h3 matLine>{{ user.fullname }}</h3>
           <mat-divider></mat-divider>
         </mat-list-item>
         <button mat-raised-button color="primary" class="crm-button" (click)="addWorkersDialog()"><mat-icon>group_add</mat-icon><span i18n="@@addDepartmentComponentActionsAddWorkers">Add workers</span></button>

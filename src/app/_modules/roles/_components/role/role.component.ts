@@ -1,4 +1,3 @@
-import { environment } from 'environments/environment';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
@@ -19,7 +18,6 @@ import { Observable } from 'rxjs';
   styleUrls: ['./role.component.scss']
 })
 export class RoleComponent implements OnInit {
-  baseUrl: string;
   role: Role;
   roleInitial: Role;
   privileges: Privilege[];
@@ -34,7 +32,6 @@ export class RoleComponent implements OnInit {
     private dialog: MatDialog,
     private store: Store<AppState>
   ) {
-    this.baseUrl = environment.baseUrl;
     this.editForm = false;
   }
 

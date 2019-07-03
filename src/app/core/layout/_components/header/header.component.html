@@ -16,9 +16,9 @@
 </div>
 <!-- <div *ngIf="isValidToken"> -->
 <div>
-	<img class="userpic" *ngIf="currentUser && !currentUser.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage" [routerLink]="['/myprofile']">
-	<img class="userpic" *ngIf="currentUser && currentUser.avatar" src="{{currentUser.avatar.getThumbnailsUrl}}" alt="{{currentUser.avatar.title}}" [routerLink]="['/myprofile']">
-	<!-- <span *ngIf="currentUser">{{currentUser.name + ' ' + currentUser.surname}}</span> -->
+	<img class="userpic" *ngIf="currentUser && !currentUser.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage" [routerLink]="['/users/myprofile']">
+	<img class="userpic" *ngIf="currentUser && currentUser.avatar" src="{{currentUser.avatar.getThumbnailsUrl}}" alt="{{currentUser.avatar.title}}" [routerLink]="['/users/myprofile']">
+	<!-- <span *ngIf="currentUser">{{currentUser.fullname}}</span> -->
 </div>
 <div class="user-login">
 	<!-- <button mat-icon-button *ngIf="isValidToken" (click)="onLogoutClick()" title="Log out!" i18n="@@appComponentUserDropdownActionsLogOut"> -->

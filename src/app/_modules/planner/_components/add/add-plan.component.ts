@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { environment } from 'environments/environment';
 import { MatDialog } from '@angular/material';
 import { Plan } from '../../_models';
 import { UsersDialogComponent, User } from '@/_modules/users';
@@ -17,7 +16,6 @@ import { CreatePlan } from '../../store/plan.actions';
 })
 export class AddPlanComponent implements OnInit, OnDestroy {
   plan = new Plan();
-  baseUrl: string;
   appUser: User;
 
   private unsubscribe: Subject<void> = new Subject();
@@ -27,7 +25,7 @@ export class AddPlanComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private store: Store<AppState>
   ) {
-    this.baseUrl = environment.baseUrl;
+
    }
 
   ngOnInit() {

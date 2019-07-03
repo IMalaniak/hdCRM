@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from 'environments/environment';
 import { MatDialog } from '@angular/material';
 import { UsersDialogComponent } from '@/_modules/users';
 import { Department } from '../../_models';
@@ -16,7 +15,6 @@ import { CreateDepartment } from '../../store/department.actions';
 })
 export class AddDepartmentComponent implements OnInit {
   department = new Department();
-  baseUrl: string;
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -24,7 +22,7 @@ export class AddDepartmentComponent implements OnInit {
     private dialog: MatDialog,
     private store: Store<AppState>
   ) { 
-    this.baseUrl = environment.baseUrl;
+
   }
 
   ngOnInit() {

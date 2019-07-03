@@ -33,9 +33,9 @@
       <ul class="list-group">
         <ng-container *ngFor="let user of role.Users">
           <li routerLink="/user/{{user.id}}" class="list-group-item">
-            <img class="userpic" *ngIf="user.avatar" src="{{baseUrl + user.avatar.location + 'thumbnails/' + user.avatar.title}}" alt="{{user.avatar.title}}">
+            <img class="userpic" *ngIf="user.avatar" src="{{user.avatar.getThumbnailsUrl}}" alt="{{user.avatar.title}}">
             <img class="userpic" *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
-            <span>{{user.name + ' ' + user.surname}}</span>
+            <span>{{user.fullname}}</span>
           </li>
         </ng-container>
         <button mat-raised-button color="primary" *ngIf="editForm" class="list-group-item list-group-item-action active" (click)="addParticipantDialog()" i18n="@@roleComponentFormActionsAddUsers">Add User</button>

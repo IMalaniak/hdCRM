@@ -4,7 +4,7 @@
     <img *ngIf="!user.avatar" src="./assets/images/userpic/noimage.png" alt="noimage">
     <div class="row name">
       <div class="col-sm-12 col-md-4 col-lg-3"></div>
-      <div class="col-sm-12 col-md-8 col-lg-9"><h2>{{ user.name}} {{ user.surname }}</h2></div>
+      <div class="col-sm-12 col-md-8 col-lg-9"><h2>{{ user.fullname }}</h2></div>
     </div>
   </div>
   <div class="row">
@@ -13,7 +13,7 @@
         <img *ngIf="user.avatar" src="{{user.avatar.getUrl}}" alt="{{user.avatar.title}}">
         <img *ngIf="!user.avatar" src="./assets/images/userpic/noimage.png" alt="noimage">
       </div>
-      <h3 class="w-75 mx-auto">{{ user.name}} {{ user.surname }}</h3>
+      <h3 class="w-75 mx-auto">{{ user.fullname }}</h3>
       <div class="w-75 mx-auto mt-3 details">
         <h5 i18n="@@profileСomponentAsideDetailsHeader">{{ "Details" | uppercase }}</h5>       
         <mat-divider></mat-divider>

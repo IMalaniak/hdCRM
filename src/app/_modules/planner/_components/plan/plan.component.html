@@ -52,7 +52,7 @@
               <span i18n="@@planСomponentDetailsDateBudget">Budget:</span>
             </div>
             <div>
-              <span>{{ plan.budget }}</span>
+              <span>{{ plan.budget | currency }}</span>
             </div>
           </section>
         </mat-list-item>
@@ -63,7 +63,7 @@
               <span i18n="@@planСomponentDetailsDateDeadline">Deadline:</span>
             </div>
             <div>
-              <span>{{ plan.deadline }}</span>
+              <span>{{ plan.deadline | date: 'short' }}</span>
             </div>
           </section>
         </mat-list-item>
@@ -118,7 +118,7 @@
             <mat-list-item *ngIf="plan.Creator">
               <img matListAvatar *ngIf="plan.Creator.avatar" src="{{plan.Creator.avatar.getThumbnailsUrl}}" alt="{{plan.Creator.avatar.title}}">
               <img matListAvatar *ngIf="!plan.Creator.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
-              <h3 matLine><a routerLink="/users/details/{{plan.CreatorId}}">{{ plan.Creator.name + ' ' + plan.Creator.surname }}</a></h3>
+              <h3 matLine><a routerLink="/users/details/{{plan.CreatorId}}">{{ plan.Creator.fullname }}</a></h3>
             </mat-list-item>
           </mat-list>
           <mat-list>
@@ -129,7 +129,7 @@
             <mat-list-item *ngFor="let user of plan.Participants; let i = index;">
               <img matListAvatar *ngIf="user.avatar" src="{{user.avatar.getThumbnailsUrl}}" alt="{{user.avatar.title}}">
               <img matListAvatar *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
-              <h3 matLine>{{ user.name + ' ' + user.surname }}</h3>
+              <h3 matLine>{{ user.fullname }}</h3>
               <mat-divider></mat-divider>
             </mat-list-item>
           </mat-list>

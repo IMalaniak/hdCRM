@@ -29,9 +29,9 @@
           <button mat-raised-button color="primary" class="crm-button" (click)="addParticipantDialog()"><mat-icon>group_add</mat-icon><span i18n="@@addDepartmentComponentActionsAddParticipants">Add participants</span></button>
         </div>
         <mat-list-item *ngFor="let user of plan.Participants; let i = index;">
-          <img matListAvatar *ngIf="user.avatar" src="{{baseUrl + user.avatar.location + user.avatar.title}}" alt="{{user.avatar.title}}">
+          <img matListAvatar *ngIf="user.avatar" src="{{user.avatar.getThumbnailsUrl}}" alt="{{user.avatar.title}}">
           <img matListAvatar *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
-          <h3 matLine>{{ user.name + ' ' + user.surname }}</h3>
+          <h3 matLine>{{ user.fullname }}</h3>
           <mat-divider></mat-divider>
         </mat-list-item>
       </mat-list> 

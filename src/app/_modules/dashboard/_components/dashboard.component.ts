@@ -1,4 +1,3 @@
-import { environment } from 'environments/environment';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
@@ -23,7 +22,6 @@ import { selectAllStages } from '@/_modules/planner/store/plan.selectors';
 export class DashboardComponent implements OnInit, OnDestroy {
   appUser$: Observable<User>;
   editForm: boolean;
-  baseUrl: string;
   departmentsChart: SingleChartData[] = [];
   planStagesChart: SingleChartData[] = [];
 
@@ -33,7 +31,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private stageService: StageService,
     private store: Store<AppState>
   ) { 
-    this.baseUrl = environment.baseUrl;
+
   }
 
   ngOnInit() {

@@ -2,7 +2,7 @@
   <ul>
     <li *ngIf="mediaquery.isPhone"><a [routerLinkActive]="['active']" [routerLink]="['/home']"><mat-icon>home</mat-icon><span class="item-title" i18n="@@sidebarMenuHome">Home</span></a></li>
     <li><a [routerLinkActive]="['active']" [routerLink]="['/dashboard']"><mat-icon>dashboard</mat-icon><span class="item-title" i18n="@@sidebarMenuDashboard">Dashboard</span></a></li>
-    <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/users/myprofile']"><mat-icon>person</mat-icon><span class="item-title" i18n="@@sidebarMenuMyProfile">My profile</span></a></li>
+    <!-- <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/users/myprofile']"><mat-icon>person</mat-icon><span class="item-title" i18n="@@sidebarMenuMyProfile">My profile</span></a></li> -->
     <li><a [routerLinkActive]="['active']" [routerLink]="['/users']"><mat-icon>people</mat-icon><span class="item-title" i18n="@@sidebarMenuUsers">Users</span></a></li>
     <li><a [routerLinkActive]="['active']" [routerLink]="['/roles']"><mat-icon>theaters</mat-icon><span class="item-title" i18n="@@sidebarMenuRoles">Roles</span></a></li>
     <li><a [routerLinkActive]="['active']" [routerLink]="['/planner']"><mat-icon>list_alt</mat-icon><span class="item-title" i18n="@@sidebarMenuPlans">Plans</span></a></li>

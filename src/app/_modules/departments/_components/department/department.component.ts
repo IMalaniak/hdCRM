@@ -1,4 +1,3 @@
-import { environment } from 'environments/environment';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
@@ -28,7 +27,6 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   appUser$: Observable<User>;
   departmentInitial: Department;
   showDataLoader: boolean;
-  baseUrl: string;
   editForm: boolean;
   editDepartmentPrivilege$: Observable<boolean>;
 
@@ -40,7 +38,6 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private store: Store<AppState>
   ) {
-    this.baseUrl = environment.baseUrl;
     this.editForm = false;
     this.showDataLoader = true;
    }
