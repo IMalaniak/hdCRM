@@ -3,9 +3,16 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-public',
   template: `
+  <section class="main">
     <router-outlet></router-outlet>
     <app-footer></app-footer>
+  </section>  
   `,
-  styles: []
+  styles: [`
+    section.main {
+      height: 100%;
+      overflow-y: auto;
+    }
+  `]
 })
 export class PublicViewComponent {}

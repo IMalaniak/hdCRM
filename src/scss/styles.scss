@@ -19,16 +19,12 @@
 @include mat-core();
 @include angular-material-theme($crm-theme);
 
-html, body {
+body {
   margin: 0;
   height: 100vh;
   max-height: 100vh;
-  width: 100vw;
   max-width: 100vw;
   overflow: hidden;
-}
-
-body {
   font-family: 'Ubuntu', Arial, sans-serif;
   font-size: crmsize(font);
   background: crmcolor(main, base);

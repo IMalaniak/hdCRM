@@ -3,10 +3,6 @@
 @import "~bootstrap/scss/mixins/_gradients";
 @import "~bootstrap/scss/mixins/_breakpoints";
 
-body {
-    overflow-y: scroll;
-}
-
 nav.home-nav {
     position: fixed;
     top: 0;
