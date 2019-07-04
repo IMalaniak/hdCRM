@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
   currentPath: string;
   token: string;
   newPasswordForm: FormGroup;
+  disableButton: boolean;
 
   constructor(
     private authService: AuthenticationService,
@@ -35,6 +36,7 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.disableButton = false;
     this.currentPath = this.route.snapshot.url[0].path;
     // get return url from route parameters or default to '/dashboard'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
@@ -47,6 +49,7 @@ export class LoginComponent implements OnInit {
       // TODO: get detailed error from serv
       this.store.pipe(select(getApiResponse)).subscribe(resp => {
         this.serverResponse = resp;
+        this.disableButton = false;
       });
     }
   }
@@ -91,15 +94,19 @@ export class LoginComponent implements OnInit {
   }
 
   onLoginSubmit() {
+    this.disableButton = true;
     this.store.dispatch(new authActions.LogIn(this.user));
   }
 
   onResetPasswordRequest() {
+    this.disableButton = true;
     this.authService.requestPasswordReset(this.user).pipe(first()).subscribe(
       response => {
         this.serverResponse = response;
+        this.disableButton = false;
       },
       error => {
+        this.disableButton = false;
         Swal.fire({
           title: 'Email or login delivery failed!',
           type: 'error',
