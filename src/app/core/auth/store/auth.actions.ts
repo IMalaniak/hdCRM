@@ -6,11 +6,14 @@ import { ApiResponse } from '@/core/_models';
 
 export enum AuthActionTypes {
   LOGIN = '[Auth] Login',
-  LOGIN_SUCCESS = '[Auth] Login Success',
-  LOGIN_FAILURE = '[Auth] Login Failure',
+  LOGIN_SUCCESS = '[Auth API] Login Success',
+  LOGIN_FAILURE = '[Auth API] Login Failure',
   SIGNUP = '[Auth] Signup',
-  SIGNUP_SUCCESS = '[Auth] Signup Success',
-  SIGNUP_FAILURE = '[Auth] Signup Failure',
+  SIGNUP_SUCCESS = '[Auth API] Signup Success',
+  SIGNUP_FAILURE = '[Auth API] Signup Failure',
+  RESET_PASSWORD = '[Auth] Reset Password Requested',
+  RESET_PASSWORD_SUCCESS = '[Auth API] Reset Password Success',
+  RESET_PASSWORD_FAILURE = '[Auth API] Reset Password Failure',
   LOGOUT = '[Auth] Logout',
   GET_STATUS = '[Auth] GetStatus',
   PROFILE_SAVED = '[My Profile] Profile saved'
@@ -46,6 +49,21 @@ export class LogInFailure implements Action {
 //   constructor(public payload: any) {}
 // }
 
+export class ResetPassword implements Action {
+  readonly type = AuthActionTypes.RESET_PASSWORD;
+  constructor(public payload: User) {}
+}
+
+export class ResetPasswordSuccess implements Action {
+  readonly type = AuthActionTypes.RESET_PASSWORD_SUCCESS;
+  constructor(public payload: ApiResponse) {}
+}
+
+export class ResetPasswordFailure implements Action {
+  readonly type = AuthActionTypes.RESET_PASSWORD_FAILURE;
+  constructor(public payload: ApiResponse) {}
+}
+
 export class LogOut implements Action {
   readonly type = AuthActionTypes.LOGOUT;
 }
@@ -66,6 +84,9 @@ export type AuthActions =
   // | SignUp
   // | SignUpSuccess
   // | SignUpFailure
+  | ResetPassword
+  | ResetPasswordSuccess
+  | ResetPasswordFailure
   | LogOut
   | GetStatus
   | ProfileSaved;

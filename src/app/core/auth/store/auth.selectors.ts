@@ -12,6 +12,11 @@ export const getApiResponse = createSelector(
     auth => auth.apiResp
 );
 
+export const isLoading = createSelector(
+    selectAuthState,
+    auth => auth.loading
+);
+
 export const currentUser = createSelector(
     selectAuthState,
     auth => new User(auth.currentUser)

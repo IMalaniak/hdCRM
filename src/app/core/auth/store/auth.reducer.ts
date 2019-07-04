@@ -8,27 +8,37 @@ export interface AuthState {
   loggedIn: boolean;
   currentUser: User | null;
   apiResp: ApiResponse;
+  loading: boolean;
 }
 
 export const initialState: AuthState = {
   loggedIn: false,
   currentUser: null,
-  apiResp: null
+  apiResp: null,
+  loading: false
 };
 
 export function authReducer(state = initialState, action: AuthActions): AuthState {
   switch (action.type) {
+    case AuthActionTypes.LOGIN: {
+      return {
+        ...state,
+        loading: true
+      };
+    }
+
     case AuthActionTypes.LOGIN_SUCCESS: {
       return {
         ...state,
         loggedIn: true,
-        currentUser:  action.payload
+        currentUser:  action.payload,
       };
     }
     case AuthActionTypes.LOGIN_FAILURE: {
       return {
         ...state,
-        apiResp: action.payload
+        apiResp: action.payload,
+        loading: false
       };
     }
     // case AuthActionTypes.SIGNUP_SUCCESS: {
@@ -50,6 +60,29 @@ export function authReducer(state = initialState, action: AuthActions): AuthStat
     // }
     case AuthActionTypes.LOGOUT: {
       return initialState;
+    }
+
+    case AuthActionTypes.RESET_PASSWORD: {
+      return {
+        ...state,
+        loading: true
+      };
+    }
+
+    case AuthActionTypes.RESET_PASSWORD_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        apiResp: action.payload
+      };
+    }
+
+    case AuthActionTypes.RESET_PASSWORD_FAILURE: {
+      return {
+        ...state,
+        loading: false,
+        apiResp: action.payload
+      };
     }
 
     case AuthActionTypes.PROFILE_SAVED:

@@ -10,7 +10,8 @@ import { first } from 'rxjs/operators';
 import { AppState } from '@/core/reducers';
 import { Store, select } from '@ngrx/store';
 import * as authActions from '../../store/auth.actions';
-import { getApiResponse } from '../../store/auth.selectors';
+import { getApiResponse, isLoading } from '../../store/auth.selectors';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,7 @@ export class LoginComponent implements OnInit {
   currentPath: string;
   token: string;
   newPasswordForm: FormGroup;
-  disableButton: boolean;
+  isLoading$: Observable<boolean>;
 
   constructor(
     private authService: AuthenticationService,
@@ -36,7 +37,7 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.disableButton = false;
+    this.isLoading$ = this.store.pipe(select(isLoading));
     this.currentPath = this.route.snapshot.url[0].path;
     // get return url from route parameters or default to '/dashboard'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
@@ -49,7 +50,6 @@ export class LoginComponent implements OnInit {
       // TODO: get detailed error from serv
       this.store.pipe(select(getApiResponse)).subscribe(resp => {
         this.serverResponse = resp;
-        this.disableButton = false;
       });
     }
   }
@@ -94,24 +94,24 @@ export class LoginComponent implements OnInit {
   }
 
   onLoginSubmit() {
-    this.disableButton = true;
     this.store.dispatch(new authActions.LogIn(this.user));
   }
 
   onResetPasswordRequest() {
-    this.disableButton = true;
+    // TODO change to ngrx totallly
+    this.store.dispatch(new authActions.ResetPassword(this.user));
     this.authService.requestPasswordReset(this.user).pipe(first()).subscribe(
       response => {
         this.serverResponse = response;
-        this.disableButton = false;
+        this.store.dispatch(new authActions.ResetPasswordSuccess(response));
       },
       error => {
-        this.disableButton = false;
-        Swal.fire({
-          title: 'Email or login delivery failed!',
-          type: 'error',
-          timer: 3000
-        });
+        this.store.dispatch(new authActions.ResetPasswordFailure(error));
+        // Swal.fire({
+        //   title: 'Email or login delivery failed!',
+        //   type: 'error',
+        //   timer: 3000
+        // });
       }
     );
   }

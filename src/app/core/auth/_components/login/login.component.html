@@ -23,9 +23,9 @@
               <input matInput [(ngModel)]="user.password" name="password" autocomplete="current-password" [type]="hidePassword ? 'password' : 'text'" required>
               <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
             </mat-form-field>  
-            <button mat-raised-button color="primary" class="crm-button mb-3" type="submit" [disabled]="disableButton">
-              <mat-icon *ngIf="!disableButton">vpn_key</mat-icon>
-              <mat-icon *ngIf="disableButton">block</mat-icon>
+            <button mat-raised-button color="primary" class="crm-button mb-3" type="submit" [disabled]="isLoading$ | async">
+              <mat-icon *ngIf="!(isLoading$ | async)">vpn_key</mat-icon>
+              <mat-icon *ngIf="isLoading$ | async">block</mat-icon>
               <span i18n="@@loginComponentFormActionsLogIn">Login</span></button>
             <button mat-button type="button" class="text-muted mx-auto" routerLink="/auth/request-new-password/" i18n="@@loginComponentActionsForgotYourPassword">Forgot password</button>
           </mat-card-content>
@@ -57,7 +57,7 @@
             </mat-form-field>
             <div class="d-flex justify-content-between">
               <button mat-raised-button class="crm-button mr-1" type="reset" routerLink="/auth/login"><mat-icon>clear</mat-icon><span i18n="@@globalActionsCancelEdit">Cancel</span></button>
-              <button mat-raised-button color="primary" class="crm-button ml-1" type="submit" [disabled]="disableButton"><mat-icon>arrow_forward</mat-icon><span i18n="@@loginComponentActionsResetPassword">Reset password</span></button>
+              <button mat-raised-button color="primary" class="crm-button ml-1" type="submit" [disabled]="isLoading$ | async"><mat-icon>arrow_forward</mat-icon><span i18n="@@loginComponentActionsResetPassword">Reset password</span></button>
             </div>
           </mat-card-content>
         </mat-card>
