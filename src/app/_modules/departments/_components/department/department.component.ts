@@ -16,6 +16,7 @@ import { AppState } from '@/core/reducers';
 
 import { DepartmentSaved } from '../../store/department.actions';
 import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
+import { MediaqueryService } from '@/_shared/services';
 
 @Component({
   selector: 'app-department',
@@ -36,7 +37,8 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     private departmentService: DepartmentService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private mediaQuery: MediaqueryService
   ) {
     this.editForm = false;
     this.showDataLoader = true;
@@ -79,7 +81,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     // TODO
     // this.showDataLoader = false;
     // const dialogRef = this.dialog.open(UsersDialogComponent, {
-    //   height: '80vh',
+    //   ...this.mediaQuery.deFaultPopupSize,
     //   data: {
     //     title: 'Select manager',
     //   }
@@ -108,7 +110,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     // TODO
     // this.showDataLoader = false;
     // const dialogRef = this.dialog.open(UsersDialogComponent, {
-    //   height: '80vh',
+    //   ...this.mediaQuery.deFaultPopupSize,
     //   data: {
     //     title: 'Select workers',
     //   }

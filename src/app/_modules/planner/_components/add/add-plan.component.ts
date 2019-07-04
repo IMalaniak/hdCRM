@@ -8,6 +8,7 @@ import { currentUser } from '@/core/auth/store/auth.selectors';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { CreatePlan } from '../../store/plan.actions';
+import { MediaqueryService } from '@/_shared/services';
 
 @Component({
   selector: 'app-add-plan',
@@ -23,7 +24,8 @@ export class AddPlanComponent implements OnInit, OnDestroy {
 
   constructor(
     private dialog: MatDialog,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private mediaQuery: MediaqueryService
   ) {
 
    }
@@ -36,8 +38,7 @@ export class AddPlanComponent implements OnInit, OnDestroy {
 
   addParticipantDialog(): void {
     const dialogRef = this.dialog.open(UsersDialogComponent, {
-      height: '80vh',
-      width: '80vw',
+      ...this.mediaQuery.deFaultPopupSize,
       data: {
         title: 'Select participants',
       }

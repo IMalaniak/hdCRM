@@ -12,6 +12,7 @@ import { Component, OnInit } from '@angular/core';
     section.main {
       height: 100%;
       overflow-y: auto;
+      scroll-behavior: smooth;
     }
   `]
 })

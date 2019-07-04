@@ -7,6 +7,7 @@ import { RoleService, PrivilegeService } from '../../_services';
 import { User } from '@/_modules/users/_models';
 import { UsersDialogComponent } from '@/_modules/users/_components/dialog/users-dialog.component';
 import Swal from 'sweetalert2';
+import { MediaqueryService } from '@/_shared/services';
 
 @Component({
   selector: 'app-add-role',
@@ -22,7 +23,8 @@ export class AddRoleComponent implements OnInit {
     private router: Router,
     private roleService: RoleService,
     private privilegeService: PrivilegeService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private mediaQuery: MediaqueryService
   ) { }
 
   ngOnInit() {
@@ -39,7 +41,7 @@ export class AddRoleComponent implements OnInit {
 
   addParticipantDialog(): void {
     const dialogRef = this.dialog.open(UsersDialogComponent, {
-      height: '80vh',
+      ...this.mediaQuery.deFaultPopupSize,
       data: {
         title: 'Select Users',
       }

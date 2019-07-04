@@ -1,6 +1,6 @@
 {
-  "name": "hdCRM",
-  "version": "0.0.1",
+  "name": "HDCRM",
+  "version": "0.1.0-alfa",
   "description": "Bussiness aplication for small companies",
   "main": "app.js",
   "scripts": {
@@ -12,8 +12,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "prepare-db": "sequelize db:seed:all --env='production'",
-    "postinstall": "npm run build"
+    "prepare-db": "sequelize db:seed:all --env='production'"
   },
   "private": true,
   "dependencies": {

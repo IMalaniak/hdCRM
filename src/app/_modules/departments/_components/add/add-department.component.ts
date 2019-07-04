@@ -7,6 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { CreateDepartment } from '../../store/department.actions';
+import { MediaqueryService } from '@/_shared/services';
 
 @Component({
   selector: 'app-add-department',
@@ -20,7 +21,8 @@ export class AddDepartmentComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private mediaQuery: MediaqueryService
   ) { 
 
   }
@@ -30,7 +32,7 @@ export class AddDepartmentComponent implements OnInit {
 
   addManagerDialog(): void {
     const dialogRef = this.dialog.open(UsersDialogComponent, {
-      height: '80vh',
+      ...this.mediaQuery.deFaultPopupSize,
       data: {
         title: ['Select manager'],
       }
@@ -57,7 +59,7 @@ export class AddDepartmentComponent implements OnInit {
 
   addWorkersDialog(): void {
     const dialogRef = this.dialog.open(UsersDialogComponent, {
-      height: '80vh',
+      ...this.mediaQuery.deFaultPopupSize,
       data: {
         title: ['Select workers'],
       }

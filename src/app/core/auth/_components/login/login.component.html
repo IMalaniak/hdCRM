@@ -10,7 +10,7 @@
               <mat-card-content class="d-flex flex-row align-items-center">
                 <mat-icon>highlight_off</mat-icon>
                 <div class="ml-3">
-                  <span i18n="@@loginComponentMessageTokenIsNotValid">Your token does not exist or it has expired.</span>
+                  <span i18n="@@loginComponentMessageLoginError">Data you provided is incorect</span>
                 </div>
               </mat-card-content>
             </mat-card>
@@ -136,7 +136,7 @@
             <mat-card-content class="d-flex flex-row align-items-center">
               <mat-icon>highlight_off</mat-icon>
               <div class="ml-3">
-                <span i18n="@@loginComponentMessageTokenIsNotValid">Your token does not exist or it has expired.</span>
+                <span i18n="@@loginComponentMessageTokenIsNotValid">Your token does not exist or it has expired.<br>You can <a routerLink="/auth/request-new-password/">request a new password reset</a></span>
               </div>
             </mat-card-content>
           </mat-card>

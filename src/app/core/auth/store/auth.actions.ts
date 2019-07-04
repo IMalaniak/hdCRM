@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 import { User } from '@/_modules/users/_models';
+import { ApiResponse } from '@/core/_models';
 
 
 export enum AuthActionTypes {
@@ -17,33 +18,33 @@ export enum AuthActionTypes {
 
 export class LogIn implements Action {
   readonly type = AuthActionTypes.LOGIN;
-  constructor(public payload: any) {}
+  constructor(public payload: User) {}
 }
 
 export class LogInSuccess implements Action {
   readonly type = AuthActionTypes.LOGIN_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: User) {}
 }
 
 export class LogInFailure implements Action {
   readonly type = AuthActionTypes.LOGIN_FAILURE;
-  constructor(public payload: any) {}
+  constructor(public payload: ApiResponse) {}
 }
 
-export class SignUp implements Action {
-  readonly type = AuthActionTypes.SIGNUP;
-  constructor(public payload: any) {}
-}
+// export class SignUp implements Action {
+//   readonly type = AuthActionTypes.SIGNUP;
+//   constructor(public payload: any) {}
+// }
 
-export class SignUpSuccess implements Action {
-  readonly type = AuthActionTypes.SIGNUP_SUCCESS;
-  constructor(public payload: any) {}
-}
+// export class SignUpSuccess implements Action {
+//   readonly type = AuthActionTypes.SIGNUP_SUCCESS;
+//   constructor(public payload: any) {}
+// }
 
-export class SignUpFailure implements Action {
-  readonly type = AuthActionTypes.SIGNUP_FAILURE;
-  constructor(public payload: any) {}
-}
+// export class SignUpFailure implements Action {
+//   readonly type = AuthActionTypes.SIGNUP_FAILURE;
+//   constructor(public payload: any) {}
+// }
 
 export class LogOut implements Action {
   readonly type = AuthActionTypes.LOGOUT;
@@ -62,9 +63,9 @@ export type AuthActions =
   | LogIn
   | LogInSuccess
   | LogInFailure
-  | SignUp
-  | SignUpSuccess
-  | SignUpFailure
+  // | SignUp
+  // | SignUpSuccess
+  // | SignUpFailure
   | LogOut
   | GetStatus
   | ProfileSaved;

@@ -9,11 +9,12 @@ import { takeUntil, map } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { StagesDialogComponent } from '../../_components/stages/dialog/stages-dialog.component';
 import { Plan, Stage, PlanStage } from '../../_models';
-import { PlanService, StageService } from '../../_services';
+import { PlanService } from '../../_services';
 import { UsersDialogComponent, User } from '@/_modules/users';
 import { AppState } from '@/core/reducers';
 import { PlanSaved } from '../../store/plan.actions';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
+import { MediaqueryService } from '@/_shared/services';
 
 @Component({
   selector: 'app-plan',
@@ -36,7 +37,8 @@ export class PlanComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private planService: PlanService,
     private dialog: MatDialog,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private mediaQuery: MediaqueryService
   ) {
     this.editForm = false;
     this.configPlanStages = false;
@@ -122,7 +124,7 @@ export class PlanComponent implements OnInit, OnDestroy {
         const plan: Update<Plan> = {
           id: this.plan.id,
           changes: data
-        }
+        };
         this.store.dispatch(new PlanSaved({plan}));
         this.plan = new Plan(data);
         this.planInitial = new Plan(data);
@@ -152,7 +154,7 @@ export class PlanComponent implements OnInit, OnDestroy {
         const plan: Update<Plan> = {
           id: this.plan.id,
           changes: data
-        }
+        };
         this.store.dispatch(new PlanSaved({plan}));
         this.plan = new Plan(data);
         this.planInitial = new Plan(data);
@@ -178,8 +180,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   addStageDialog(): void {
     this.showDataLoader = false;
     const dialogRef = this.dialog.open(StagesDialogComponent, {
-      height: '75vh',
-      width: '50%',
+      ...this.mediaQuery.deFaultPopupSize,
       data: {
         title: 'Select stages',
       }
@@ -252,7 +253,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   addParticipantDialog(): void {
     this.showDataLoader = false;
     const dialogRef = this.dialog.open(UsersDialogComponent, {
-      height: '80vh',
+      ...this.mediaQuery.deFaultPopupSize,
       data: {
         title: 'Select participants',
       }

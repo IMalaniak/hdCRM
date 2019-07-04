@@ -1,18 +1,19 @@
 
 import { AuthActionTypes, AuthActions } from './auth.actions';
 import { User } from '@/_modules/users';
+import { ApiResponse } from '@/core/_models';
 
 
 export interface AuthState {
   loggedIn: boolean;
   currentUser: User | null;
-  errorMessage: string | null;
+  apiResp: ApiResponse;
 }
 
 export const initialState: AuthState = {
   loggedIn: false,
   currentUser: null,
-  errorMessage: null
+  apiResp: null
 };
 
 export function authReducer(state = initialState, action: AuthActions): AuthState {
@@ -21,14 +22,13 @@ export function authReducer(state = initialState, action: AuthActions): AuthStat
       return {
         ...state,
         loggedIn: true,
-        currentUser:  action.payload,
-        errorMessage: null
+        currentUser:  action.payload
       };
     }
     case AuthActionTypes.LOGIN_FAILURE: {
       return {
         ...state,
-        errorMessage: 'Incorrect email and/or password.'
+        apiResp: action.payload
       };
     }
     // case AuthActionTypes.SIGNUP_SUCCESS: {
@@ -39,13 +39,13 @@ export function authReducer(state = initialState, action: AuthActions): AuthStat
     //       token: action.payload.token,
     //       email: action.payload.email
     //     },
-    //     errorMessage: null
+    //     apiResp: null
     //   };
     // }
     // case AuthActionTypes.SIGNUP_FAILURE: {
     //   return {
     //     ...state,
-    //     errorMessage: 'That email is already in use.'
+    //     apiResp: 'That email is already in use.'
     //   };
     // }
     case AuthActionTypes.LOGOUT: {

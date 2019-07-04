@@ -47,7 +47,7 @@ $crmsizes: (
     width: 18.75rem,
     minimized: 3.25rem
   ),
-  userpic: 3.125rem,
+  userpic: 3rem,
   spacer: 1em
 );
 
@@ -59,10 +59,19 @@ $grid-breakpoints: (
   xl: 1200px
 );
 
-$link-hover-decoration: none;    // remove underline from button links
+// reset bootstrap variables:
 
-$link-color: mat-color($crm-theme-primary, 800);            // set link color based on the used material theme
+// remove underline from button links
+$link-hover-decoration: none;    
+
+// set link color based on the used material theme
+$link-color: mat-color($crm-theme-primary, 800);            
 $link-hover-color: currentColor;
+$theme-colors: (
+  "primary": mat-color($crm-theme-primary, 600),
+  "danger": mat-color($crm-theme-warn, 600),
+  "success": mat-color($crm-theme-accent, A400),
+);
 
 // variable prefixes for CSS4 output
 $color-prefix: --crmcolor-;

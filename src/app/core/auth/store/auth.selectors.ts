@@ -7,6 +7,11 @@ const jwtHelper = new JwtHelperService();
 
 export const selectAuthState = createFeatureSelector<AuthState>('auth');
 
+export const getApiResponse = createSelector(
+    selectAuthState,
+    auth => auth.apiResp
+);
+
 export const currentUser = createSelector(
     selectAuthState,
     auth => new User(auth.currentUser)

@@ -8,8 +8,9 @@ import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms'
 import { ConfirmPasswordValidator } from '@/_shared/validators';
 import { first } from 'rxjs/operators';
 import { AppState } from '@/core/reducers';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as authActions from '../../store/auth.actions';
+import { getApiResponse } from '../../store/auth.selectors';
 
 @Component({
   selector: 'app-login',
@@ -42,6 +43,11 @@ export class LoginComponent implements OnInit {
       this.preparePasswordResetFnc();
     } else if (this.currentPath === 'activate-account') {
       this.prepareAccountActivationFnc();
+    } else if (this.currentPath === 'login') {
+      // TODO: get detailed error from serv
+      this.store.pipe(select(getApiResponse)).subscribe(resp => {
+        this.serverResponse = resp;
+      });
     }
   }
 
@@ -57,7 +63,7 @@ export class LoginComponent implements OnInit {
       confirmPassword: new FormControl('', [
         Validators.required,
       ]),
-    }, {  
+    }, {
         validator: ConfirmPasswordValidator.MatchPassword
     });
   }
@@ -84,9 +90,6 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  get newPassword() { return this.newPasswordForm.get('newPassword'); }
-  get confirmPassword() { return this.newPasswordForm.get('confirmPassword'); }
-
   onLoginSubmit() {
     this.store.dispatch(new authActions.LogIn(this.user));
   }
@@ -106,6 +109,9 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  get newPassword() { return this.newPasswordForm.get('newPassword'); }
+  get confirmPassword() { return this.newPasswordForm.get('confirmPassword'); }
+
   onResetPassword() {
     this.authService.resetPassword({token: this.token, newPassword: this.newPassword.value, verifyPassword: this.confirmPassword.value}).pipe(first()).subscribe(
       response => {
@@ -123,6 +129,6 @@ export class LoginComponent implements OnInit {
           type: 'error',
           timer: 1500
         });
-    })
+    });
   }
 }

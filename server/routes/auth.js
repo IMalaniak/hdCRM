@@ -185,17 +185,17 @@ router.post('/authenticate', (req, res, next) => {
 			]
 		}).then(user => {
 			if(!user) {
-				res.status(409).json({success: false, msg: 'No user, or no user data!', status: 3});
+				res.status(409).json({success: false, message: 'No user, or no user data!', statusCode: 3});
 				return;
 			}
 
 			if(user.State.id === 1) {
 				saveLogInAttempt(req, user, false);
-				res.status(409).json({success: false, msg: 'Account is not activated!', status: 1});
+				res.status(409).json({success: false, message: 'Account is not activated!', statusCode: 1});
 				return;
 			} else if (user.State.id === 3) {
 				saveLogInAttempt(req, user, false);
-				res.status(409).json({success: false, msg: 'Account is disabled!', status: 2});
+				res.status(409).json({success: false, message: 'Account is disabled!', statusCode: 2});
 				return;
 			}
 
@@ -240,7 +240,7 @@ router.post('/authenticate', (req, res, next) => {
 				res.json(tmpUser);
 			} else {
 				saveLogInAttempt(req, user, false);
-				res.status(401).json({success: false, msg: 'Password is not correct!', status: 4});
+				res.status(401).json({success: false, message: 'Password is not correct!', statusCode: 4});
 			}
 	}).catch(error => {
 		res.status(400).json(error.toString());

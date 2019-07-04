@@ -10,6 +10,7 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { Observable } from 'rxjs';
+import { MediaqueryService } from '@/_shared/services';
 
 
 @Component({
@@ -30,7 +31,8 @@ export class RoleComponent implements OnInit {
     private privilegeService: PrivilegeService,
     private roleService: RoleService,
     private dialog: MatDialog,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private mediaQuery: MediaqueryService
   ) {
     this.editForm = false;
   }
@@ -48,7 +50,7 @@ export class RoleComponent implements OnInit {
 
   addParticipantDialog(): void {
     const dialogRef = this.dialog.open(UsersDialogComponent, {
-      height: '80vh',
+      ...this.mediaQuery.deFaultPopupSize,
       data: {
         title: 'Select Users',
       }
