@@ -1,6 +1,6 @@
 
-<section class="row dashboard-cards my-3" *ngIf="appUser$ | async as appUser">
-    <div class="col-sm-6 col-md-4 col-xl-3">
+<section class="row dashboard-cards mt-3" *ngIf="appUser$ | async as appUser">
+    <div class="col-sm-6 col-md-4 col-xl-3 mb-xs-3">
         <div class="card shadow user-card">
             <div class="card-body">
                 <img *ngIf="appUser.avatar" src="{{appUser.avatar.getUrl}}" alt="{{appUser.avatar.title}}">
@@ -50,7 +50,7 @@
         </div>
     </div>
 </section>
-<section class="row dashboard-cards my-3">
+<section class="row my-3">
     <div class="col-sm-12 col-md-6 col-xl-6" *ngIf="planStagesChart">
         <div class="card shadow plan-stages-card">
             <div class="card-body">        

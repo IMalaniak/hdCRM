@@ -25,21 +25,21 @@
           <h6 i18n="@@userСomponentAsideDetailsRoles">{{ "Roles" | uppercase }}</h6>
           <ul>
             <li>
-              <span *ngFor="let role of user.Roles; last as isLast">{{ role.keyString }}</span>
+              <span *ngFor="let role of user.Roles; last as isLast ">{{ role.keyString }}</span>
             </li>
           </ul>
         </div>
-        <div>
+        <div *ngIf="user.State">
           <h6 i18n="@@userСomponentAsideDetailsState">{{ "State" | uppercase }}</h6>
           <span>{{ user.State.keyString }}</span>
         </div>
         <h5 i18n="@@userСomponentAsideContactsHeader">{{ "Contact" | uppercase }}</h5>
         <mat-divider></mat-divider>
         <div class="contacts">  
-          <a class="d-flex align-items-center" href="mailto:{{ user.email }}">
+          <a class="d-flex align-items-center" *ngIf="user.email" href="mailto:{{ user.email }}">
             <mat-icon color="primary">email</mat-icon><span>{{ user.email }}</span>
           </a>
-          <div class="d-flex align-items-center">
+          <div class="d-flex align-items-center" *ngIf="user.phone">
             <mat-icon color="primary">phone</mat-icon><span>{{ user.phone }}</span>
           </div>
         </div>

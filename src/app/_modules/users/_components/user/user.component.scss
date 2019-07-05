@@ -10,11 +10,10 @@
     }
 
     .img-header {
-        height: 13em;
+        height: 10em;
         position: relative;
-
-        @include media-breakpoint-down(sm) {
-            height: 8em;
+        @include media-breakpoint-up(md) {
+            height: 13em;
         }
 
         .name {
@@ -43,22 +42,27 @@
         .img-avatar {
             > img {
                 display: block;
-                width: 60%;
+                width: 55%;
                 border-radius: 50%;
                 border: .25rem solid crmcolor(main, light);
                 position: relative;
-                margin-top: -30%;
+                margin-top: -28%;
+                margin-bottom: 1.5em;
+                @include media-breakpoint-up(sm) {
+                    width: 40%;
+                    margin-top: -20%;
+                }
+                @include media-breakpoint-up(md) {
+                    width: 65%;
+                    margin-top: -33%;
+                    margin-bottom: 0;
+                }
             } 
-        }
-
-        h5 {
-            color: #3f51b5;
         }
 
         h3 {
             display: block;
             color: crmcolor(main, dark);
-
             @include media-breakpoint-up(md) {
                 display: none;
             }
@@ -67,6 +71,10 @@
         .details {
             > div {
                 padding: crmsize(spacer, null, true) 0;
+            }
+
+            h5 {
+                color: crmcolor(primary, base);
             }
         }
         

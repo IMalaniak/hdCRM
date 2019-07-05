@@ -19,9 +19,9 @@ $crmcolors: (
     dark: darken(#f8f8f8, 8%)
   ),
   accent: (
-    base: mat-color($crm-theme-accent, 600),
-    light: mat-color($crm-theme-accent, 400),
-    dark: mat-color($crm-theme-accent, 800)
+    base: mat-color($crm-theme-accent, 800),
+    light: mat-color($crm-theme-accent, 600),
+    dark: mat-color($crm-theme-accent, 900)
   ),
   warn: (
     base: mat-color($crm-theme-warn, 600),

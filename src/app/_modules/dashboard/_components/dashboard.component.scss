@@ -2,6 +2,12 @@
 @import 'mixins';
 @import "~bootstrap/scss/mixins/breakpoints";
 
+.mb-xs-3 {
+    @include media-breakpoint-down(xs) {
+        margin-bottom: 1em;
+    }
+}
+
 .user-card {
     ul {
         margin: 0;
@@ -42,28 +48,44 @@
         li > div {
             display: flex;
             justify-content: space-between;
+            flex-direction: row;
             align-content: center;
+            @include media-breakpoint-up(sm) {
+                flex-direction: column;
+            }
+            @include media-breakpoint-up(lg) {
+                flex-direction: row;
+            }
 
             small {
                 &:first-child {
                     text-align: left;
+                    @include media-breakpoint-up(sm) {
+                        text-align: center;
+                    }
+                    @include media-breakpoint-up(lg) {
+                        text-align: left;
+                    }
                 }
                 &:last-child {
                     text-align: right;
-                }
-            }
-
-            @include media-breakpoint-down(md) {
-                flex-direction: column;
-
-                small {
-                    text-align: center;
+                    @include media-breakpoint-up(sm) {
+                        text-align: center;
+                    }
+                    @include media-breakpoint-up(lg) {
+                        text-align: right;
+                    }
                 }
             }
         }
     }
 }
 
+.plan-stages-card {
+    @include media-breakpoint-down(sm) {
+        margin-bottom: 1em;
+    }
+}
 
 .plan-stages-card, .departments-card {
     .card-body {

@@ -10,6 +10,9 @@ import { AuthEffects } from './store/auth.effects';
 import { AppMaterialModule } from '@/_shared/modules';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faKey } from '@fortawesome/free-solid-svg-icons';
 
 
 @NgModule({
@@ -20,6 +23,7 @@ import { EffectsModule } from '@ngrx/effects';
     ReactiveFormsModule,
     AppMaterialModule,
     AuthRoutingModule,
+    FontAwesomeModule,
     StoreModule.forFeature('auth', fromAuth.authReducer),
     EffectsModule.forFeature([AuthEffects]),
   ],
@@ -38,5 +42,8 @@ export class AuthModule {
         ngModule: AuthModule,
         providers: [AuthenticationService]
     }
+  }
+  constructor() {
+    library.add( faKey );
   }
 }
