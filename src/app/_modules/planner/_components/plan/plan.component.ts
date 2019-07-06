@@ -71,7 +71,6 @@ export class PlanComponent implements OnInit, OnDestroy {
   }
 
   goToNextStage(): void {
-    // TODO ngrx
     this.planService.toNextStage(this.plan.id).pipe(takeUntil(this.unsubscribe)).subscribe(
       data => {
         const plan: Update<Plan> = {

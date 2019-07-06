@@ -29,12 +29,13 @@ export const getToken = createSelector(
 
 export const isValidToken = createSelector(
     getToken,
-    token => !jwtHelper.isTokenExpired(token)
+    token => token ? !jwtHelper.isTokenExpired(token) : false
 );
 
 export const isloggedIn = createSelector(
     selectAuthState,
-    auth => auth.loggedIn
+    isValidToken,
+    (auth, valid) => auth.loggedIn && valid
 );
 
 export const isLoggedOut = createSelector(

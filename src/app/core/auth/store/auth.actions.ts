@@ -15,6 +15,7 @@ export enum AuthActionTypes {
   RESET_PASSWORD_SUCCESS = '[Auth API] Reset Password Success',
   RESET_PASSWORD_FAILURE = '[Auth API] Reset Password Failure',
   LOGOUT = '[Auth] Logout',
+  REDIRECT_TO_LOGIN = '[Auth] Redirect to login',
   GET_STATUS = '[Auth] GetStatus',
   PROFILE_SAVED = '[My Profile] Profile saved'
 }
@@ -66,6 +67,11 @@ export class ResetPasswordFailure implements Action {
 
 export class LogOut implements Action {
   readonly type = AuthActionTypes.LOGOUT;
+}
+
+export class RedirectToLogin implements Action {
+  readonly type = AuthActionTypes.REDIRECT_TO_LOGIN;
+  constructor(public payload: string) {}
 }
 
 export class GetStatus implements Action {

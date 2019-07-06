@@ -2,18 +2,18 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/c
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { first, mergeMap, catchError } from 'rxjs/operators';
+import { first, mergeMap } from 'rxjs/operators';
 import { getToken } from '../auth/store/auth.selectors';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AppState } from '../reducers';
-import { LogOut } from '../auth/store/auth.actions';
-import Swal from 'sweetalert2';
+import { RedirectToLogin } from '../auth/store/auth.actions';
+import { Router } from '@angular/router';
 const jwtHelper = new JwtHelperService();
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
 
-    constructor(private store$: Store<AppState>) {}
+    constructor(private store$: Store<AppState>, private router: Router) {}
 
     /**
      * Intercepts all HTTP requests and adds the JWT token if it is present to the request's header if the URL
@@ -46,12 +46,8 @@ export class JwtInterceptor implements HttpInterceptor {
                             }
                         });
                     } else {
-                        Swal.fire({
-                            title: 'JWT: Token has expired!',
-                            type: 'error',
-                            timer: 1500
-                        });
-                        this.store$.dispatch(new LogOut());
+                        const returnUrl = this.router.routerState.snapshot.url;
+                        this.store$.dispatch(new RedirectToLogin(returnUrl));
                     }
                 }
                 // if public request - do nothing
@@ -60,6 +56,7 @@ export class JwtInterceptor implements HttpInterceptor {
         );
     }
 
+    // TODO
     private validToken(token) {
         return !jwtHelper.isTokenExpired(token);
     }

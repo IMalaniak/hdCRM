@@ -20,7 +20,6 @@ import { Observable } from 'rxjs';
 })
 export class LoginComponent implements OnInit {
   user: User = new User();
-  returnUrl: string;
   hidePassword = true;
   serverResponse: ApiResponse;
   currentPath: string;
@@ -39,8 +38,6 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.isLoading$ = this.store.pipe(select(isLoading));
     this.currentPath = this.route.snapshot.url[0].path;
-    // get return url from route parameters or default to '/dashboard'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
 
     if (this.currentPath === 'password-reset') {
       this.preparePasswordResetFnc();

@@ -3,14 +3,11 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
 import Swal from 'sweetalert2';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../reducers';
-import { Observable, of } from 'rxjs';
-import { tap, mergeMap, first } from 'rxjs/operators';
-import { isloggedIn, isValidToken } from '../auth/store/auth.selectors';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { isloggedIn } from '../auth/store/auth.selectors';
 
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { LogOut } from '../auth/store/auth.actions';
-const jwtHelper = new JwtHelperService();
-
+import { RedirectToLogin } from '../auth/store/auth.actions';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
@@ -24,34 +21,11 @@ export class AuthGuard implements CanActivate {
             .pipe(
             select(isloggedIn),
             tap(loggedIn => {
-                if (loggedIn) {
-                    // TODO
-                    this.checkToken();
-                } else if (!loggedIn) {
-                    Swal.fire({
-                        title: 'You are not authorized to see this page!',
-                        type: 'error',
-                        timer: 1500
-                    });
-                    this.router.navigateByUrl('/auth/login');
+                if (!loggedIn) {
+                    this.store$.dispatch(new RedirectToLogin(state.url));
                 }
             })
         );
     }
 
-    private checkToken(): Observable<boolean> {
-        return this.store$.pipe(
-            select(isValidToken),
-            tap(isValid => {
-                if (!isValid) {
-                    Swal.fire({
-                        title: 'Token has expired!',
-                        type: 'error',
-                        timer: 1500
-                    });
-                    this.store$.dispatch(new LogOut());
-                }
-            })
-        );
-    }
 }
