@@ -258,27 +258,10 @@ export class PlanComponent implements OnInit, OnDestroy {
       }
     });
 
-    const usersC = dialogRef.componentInstance.usersComponent;
-
-    // TODO
-    // dialogRef.afterOpened().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
-    //   usersC.isLoading$.pipe(takeUntil(this.unsubscribe)).subscribe(isLoading => {
-    //     if (!isLoading) {
-    //       for (const pParticipant of this.plan.Participants) {
-    //         usersC.users.find((user, i) => {
-    //             if (user.id === pParticipant.id) {
-    //               usersC.selection.select(user);
-    //               return true; // stop searching
-    //             }
-    //         });
-    //       }
-    //     }
-    //   });
-    // });
 
     dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
-      if (result) {
-        this.plan.Participants = result;
+      if (result && result.length > 0) {
+        this.plan.Participants = [...new Set([...this.plan.Participants, ...result])];
       }
     });
   }

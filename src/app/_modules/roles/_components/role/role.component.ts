@@ -56,30 +56,9 @@ export class RoleComponent implements OnInit {
       }
     });
 
-    if (this.role.Users) {
-      const usersC = dialogRef.componentInstance.usersComponent;
-
-      // TODO
-      // dialogRef.afterOpened().subscribe(result => {
-      //   this.loaderService.isLoaded.subscribe(isLoaded => {
-      //     if (isLoaded) {
-      //       for (const roleUser of this.role.Users) {
-      //         usersC.sortedData.find((user, i) => {
-      //             if (user.id === roleUser.id) {
-      //                 usersC.sortedData[i].selected = true;
-      //                 return true; // stop searching
-      //             }
-      //         });
-      //       }
-      //       usersC.resetSelected(false);
-      //     }
-      //   });
-      // });
-    }
-
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.role.Users = result;
+      if (result && result.length > 0) {
+        this.role.Users = [...new Set([...this.role.Users, ...result])];
       }
     });
   }

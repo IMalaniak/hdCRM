@@ -35,6 +35,8 @@ export class AuthenticationService {
         return this.http.post<ApiResponse>(`${this.api}/reset_password`, data);
     }
 
-    // TODO: logout url destroy server session
+    logout() {
+        return this.http.get(`${this.api}/logout`);
+    }
 
 }

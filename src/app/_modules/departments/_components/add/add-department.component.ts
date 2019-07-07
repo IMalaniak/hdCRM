@@ -38,20 +38,8 @@ export class AddDepartmentComponent implements OnInit {
       }
     });
 
-    if (this.department.Manager) {
-      const usersC = dialogRef.componentInstance.usersComponent;
-
-      // dialogRef.afterOpen().pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-      //   this.loaderService.isLoaded.pipe(takeUntil(this.unsubscribe)).subscribe(isLoaded => {
-      //     if (isLoaded) {
-      //     usersC.resetSelected(false);
-      //     }
-      //   });
-      // });
-    }
-
     dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
-      if (result) {
+      if (result && result.length > 0) {
         this.department.Manager = result[0];
       }
     });
@@ -65,30 +53,9 @@ export class AddDepartmentComponent implements OnInit {
       }
     });
 
-    if (this.department.Workers) {
-      const usersC = dialogRef.componentInstance.usersComponent;
-
-      // TODO
-      // dialogRef.afterOpen().pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-      //   this.loaderService.isLoaded.pipe(takeUntil(this.unsubscribe)).subscribe(isLoaded => {
-      //     if (isLoaded) {
-      //       for (const participant of this.department.Workers) {
-      //         usersC.sortedData.find((user, i) => {
-      //             if (user.id === participant.id) {
-      //                 usersC.sortedData[i].selected = true;
-      //                 return true;
-      //             }
-      //         });
-      //       }
-      //       usersC.resetSelected(false);
-      //     }
-      //   });
-      // });
-    }
-
     dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
       if (result && result.length > 0) {
-        this.department.Workers = result;
+        this.department.Workers = [...new Set([...this.department.Workers, ...result])];
       }
     });
   }

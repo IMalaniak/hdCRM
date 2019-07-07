@@ -236,7 +236,7 @@ router.post('/authenticate', (req, res, next) => {
 				}
 
 				saveLogInAttempt(req, user, true);
-
+				res.cookie('jwt', token);
 				res.json(tmpUser);
 			} else {
 				saveLogInAttempt(req, user, false);
@@ -347,6 +347,14 @@ router.post('/reset_password', (req, res, next) => {
 		}
 	}).catch(error => {
 		res.status(400).json(error.toString());
+	});
+});
+
+router.get('/logout', (req, res, next) => {
+	req.logout();
+	req.session.destroy((err) => {
+	  res.clearCookie('jwt');
+	  res.send('Logged out');
 	});
 });
 
