@@ -4,7 +4,6 @@ import { Store, select } from '@ngrx/store';
 
 import { takeUntil } from 'rxjs/operators';
 
-import { StageService, Stage } from '@/_modules/planner';
 import { User } from '@/_modules/users';
 import { SingleChartData } from '@/core/_models';
 import { AppState } from '@/core/reducers';
@@ -28,7 +27,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
-    private stageService: StageService,
     private store: Store<AppState>
   ) { 
 

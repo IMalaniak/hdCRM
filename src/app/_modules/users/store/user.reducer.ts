@@ -37,28 +37,25 @@ export function usersReducer(state = initialUsersState , action: UserActions): U
 
   switch (action.type) {
 
-    case UserActionTypes.UserLoaded:
+    case UserActionTypes.USER_LOADED:
       return adapter.addOne(action.payload.user, state);
 
-    case UserActionTypes.UserListPageRequested:
+    case UserActionTypes.USER_LIST_PAGE_REQUESTED:
       return {
         ...state,
         loading: true
       };
 
-    case UserActionTypes.UserListPageLoaded:
+    case UserActionTypes.USER_LIST_PAGE_LOADED:
       return adapter.addMany(action.payload.list, {...state, loading: false, pages: action.payload.pages, countAll: action.payload.count});
 
-    case UserActionTypes.UserListPageCancelled:
+    case UserActionTypes.USER_LIST_PAGE_CANCELLED:
       return {
         ...state,
         loading: false
       };
 
-    case UserActionTypes.AllUsersLoaded:
-      return adapter.addAll(action.payload.users, {...state, allUsersLoaded: true});
-
-    case UserActionTypes.UserSaved:
+    case UserActionTypes.USER_SAVED:
       return adapter.updateOne(action.payload.user, state);
 
     default: {

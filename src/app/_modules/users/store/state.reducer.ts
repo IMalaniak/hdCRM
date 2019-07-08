@@ -22,7 +22,7 @@ export function statesReducer(state = initialStatesState , action: UserActions):
 
   switch (action.type) {
 
-    case UserActionTypes.AllStatesLoaded:
+    case UserActionTypes.ALLSTATES_LOADED:
       return adapter.addAll(action.payload.states, {...state, allStatesLoaded: true});
 
     default: {

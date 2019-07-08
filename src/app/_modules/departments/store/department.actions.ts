@@ -4,70 +4,70 @@ import { Department, DepartmentServerResponse } from '../_models';
 import { PageQuery } from '@/core/_models';
 
 export enum DepartmentActionTypes {
-  DepartmentRequested = '[Department Details] Department Requested',
-  DepartmentLoaded = '[Departments API] Department Loaded',
-  DepartmentSaved = '[Department Details] Department Changes Saved',
-  CreateDepartment = '[Add Department] Add Department Requested',
-  CreateDepartmentSuccess = '[Departments API] Add Department Success',
-  CreateDepartmentFail = '[Departments API] Add Department Fail',
-  ListPageRequested = '[Departments List] Departments Page Requested',
-  ListPageLoaded = '[Departments API] Departments Page Loaded',
-  ListPageCancelled = '[Departments API] Departments Page Cancelled',
-  DepDashboardDataRequested = '[Dashboard] Dashboard Data Requested',
-  DepDashboardDataLoaded = '[Dashboard] Dashboard Data Loaded'
+  DEPARTMENT_REQUESTED = '[Department Details] Department Requested',
+  DEPARTMENT_LOADED = '[Departments API] Department Loaded',
+  DEPARTMENT_SAVED = '[Department Details] Department Changes Saved',
+  DEPARTMENT_CREATE = '[Add Department] Add Department Requested',
+  DEPARTMENT_CREATE_SUCCESS = '[Departments API] Add Department Success',
+  DEPARTMENT_CREATE_FAIL = '[Departments API] Add Department Fail',
+  DEPARTMENT_LIST_PAGE_REQUESTED = '[Departments List] Departments Page Requested',
+  DEPARTMENT_LIST_PAGE_LOADED = '[Departments API] Departments Page Loaded',
+  DEPARTMENT_LIST_PAGE_CANCELLED = '[Departments API] Departments Page Cancelled',
+  DEPARTMENT_DASHBOARD_DATA_REQUESTED = '[Dashboard] Dashboard Data Requested',
+  DEPARTMENT_DASHBOARD_DATA_LOADED = '[Dashboard] Dashboard Data Loaded'
 }
 
 export class DepartmentRequested implements Action {
-  readonly type = DepartmentActionTypes.DepartmentRequested;
+  readonly type = DepartmentActionTypes.DEPARTMENT_REQUESTED;
   constructor(public payload: {departmentId: number}) {}
 }
 
 export class DepartmentLoaded implements Action {
-  readonly type = DepartmentActionTypes.DepartmentLoaded;
+  readonly type = DepartmentActionTypes.DEPARTMENT_LOADED;
   constructor(public payload: {department: Department}) {}
 }
 
 export class DepartmentSaved implements Action {
-  readonly type = DepartmentActionTypes.DepartmentSaved;
+  readonly type = DepartmentActionTypes.DEPARTMENT_SAVED;
   constructor(public payload: {department: Update<Department>}) {}
 }
 
 export class CreateDepartment implements Action {
-  readonly type = DepartmentActionTypes.CreateDepartment;
+  readonly type = DepartmentActionTypes.DEPARTMENT_CREATE;
   constructor(public payload: {department: Department}) {}
 }
 
 export class CreateDepartmentSuccess implements Action {
-  readonly type = DepartmentActionTypes.CreateDepartmentSuccess;
+  readonly type = DepartmentActionTypes.DEPARTMENT_CREATE_SUCCESS;
   constructor(public payload: {department: Department}) { }
 }
 
 export class CreateDepartmentFail implements Action {
-  readonly type = DepartmentActionTypes.CreateDepartmentFail;
+  readonly type = DepartmentActionTypes.DEPARTMENT_CREATE_FAIL;
   constructor(public payload: string) { }
 }
 
 
 export class ListPageRequested implements Action {
-  readonly type = DepartmentActionTypes.ListPageRequested;
+  readonly type = DepartmentActionTypes.DEPARTMENT_LIST_PAGE_REQUESTED;
   constructor(public payload: {page: PageQuery}) {}
 }
 
 export class ListPageLoaded implements Action {
-  readonly type = DepartmentActionTypes.ListPageLoaded;
+  readonly type = DepartmentActionTypes.DEPARTMENT_LIST_PAGE_LOADED;
   constructor(public payload: DepartmentServerResponse) {}
 }
 
 export class ListPageCancelled implements Action {
-  readonly type = DepartmentActionTypes.ListPageCancelled;
+  readonly type = DepartmentActionTypes.DEPARTMENT_LIST_PAGE_CANCELLED;
 }
 
 export class DepDashboardDataRequested implements Action {
-  readonly type = DepartmentActionTypes.DepDashboardDataRequested;
+  readonly type = DepartmentActionTypes.DEPARTMENT_DASHBOARD_DATA_REQUESTED;
 }
 
 export class DepDashboardDataLoaded implements Action {
-  readonly type = DepartmentActionTypes.DepDashboardDataLoaded;
+  readonly type = DepartmentActionTypes.DEPARTMENT_DASHBOARD_DATA_LOADED;
   constructor(public payload: DepartmentServerResponse) {}
 }
 

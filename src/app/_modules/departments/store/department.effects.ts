@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { Action, Store, select } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { DepartmentRequested, DepartmentActionTypes, DepartmentLoaded, ListPageRequested, ListPageLoaded, ListPageCancelled, DepDashboardDataRequested, DepDashboardDataLoaded, CreateDepartment, CreateDepartmentSuccess, CreateDepartmentFail } from './department.actions';
+import * as depActions from './department.actions';
 import { mergeMap, map, catchError, withLatestFrom, filter } from 'rxjs/operators';
 import { DepartmentService } from '../_services';
 import { AppState } from '@/core/reducers';
@@ -16,8 +16,8 @@ export class DepartmentEffects {
 
     @Effect()
     createDepartment$: Observable<Action> = this.actions$.pipe(
-      ofType<CreateDepartment>(DepartmentActionTypes.CreateDepartment),
-      map((action: CreateDepartment) => action.payload.department),
+      ofType<depActions.CreateDepartment>(depActions.DepartmentActionTypes.DEPARTMENT_CREATE),
+      map((action: depActions.CreateDepartment) => action.payload.department),
       mergeMap((department: Department) =>
         this.departmentService.create({...department}).pipe(
           map(newDepartment => {
@@ -27,7 +27,7 @@ export class DepartmentEffects {
               timer: 1500
             });
             this.router.navigate(['/departments']);
-            return new CreateDepartmentSuccess({department: newDepartment});
+            return new depActions.CreateDepartmentSuccess({department: newDepartment});
           }),
           catchError(err => {
             Swal.fire({
@@ -35,7 +35,7 @@ export class DepartmentEffects {
               type: 'error',
               timer: 1500
             });
-            return of(new CreateDepartmentFail(err));
+            return of(new depActions.CreateDepartmentFail(err));
           })
         )
       )
@@ -43,34 +43,34 @@ export class DepartmentEffects {
 
     @Effect()
     loadDepartment$: Observable<Action> = this.actions$.pipe(
-        ofType<DepartmentRequested>(DepartmentActionTypes.DepartmentRequested),
+        ofType<depActions.DepartmentRequested>(depActions.DepartmentActionTypes.DEPARTMENT_REQUESTED),
         mergeMap(action => this.departmentService.getOne(action.payload.departmentId)),
-        map(department => new DepartmentLoaded({department}))
+        map(department => new depActions.DepartmentLoaded({department}))
     );
 
     @Effect()
     loadDepartments$ = this.actions$.pipe(
-        ofType<ListPageRequested>(DepartmentActionTypes.ListPageRequested),
+        ofType<depActions.ListPageRequested>(depActions.DepartmentActionTypes.DEPARTMENT_LIST_PAGE_REQUESTED),
         mergeMap(({payload}) =>
                 this.departmentService.getList(payload.page.pageIndex, payload.page.pageSize, payload.page.sortIndex, payload.page.sortDirection)
                   .pipe(
                     catchError(err => {
                       console.log('error loading a departments page ', err);
-                      this.store.dispatch(new ListPageCancelled());
+                      this.store.dispatch(new depActions.ListPageCancelled());
                       return of(new DepartmentServerResponse());
                     })
                   )
         ),
-        map((response: DepartmentServerResponse) => new ListPageLoaded(response)),
+        map((response: DepartmentServerResponse) => new depActions.ListPageLoaded(response)),
     );
 
     @Effect()
     loadDashboardData$ = this.actions$.pipe(
-        ofType<DepDashboardDataRequested>(DepartmentActionTypes.DepDashboardDataRequested),
+        ofType<depActions.DepDashboardDataRequested>(depActions.DepartmentActionTypes.DEPARTMENT_DASHBOARD_DATA_REQUESTED),
         withLatestFrom(this.store.pipe(select(selectDashboardDepDataLoaded))),
         filter(([action, selectDashboardDepDataLoaded]) => !selectDashboardDepDataLoaded),
         mergeMap(() => this.departmentService.getDashboardData()),
-        map(resp => new DepDashboardDataLoaded(resp)),
+        map(resp => new depActions.DepDashboardDataLoaded(resp)),
         catchError(err => {
           console.log('error loading dep data for dashboard ', err);
           return throwError(err);

@@ -25,25 +25,25 @@ export function rolesReducer(state = initialRolesState , action: RoleActions): R
 
   switch (action.type) {
 
-    case RoleActionTypes.RoleLoaded:
+    case RoleActionTypes.ROLE_LOADED:
       return adapter.addOne(action.payload.role, state);
 
-    case RoleActionTypes.RolesListPageRequested:
+    case RoleActionTypes.ROLES_LIST_PAGE_REQUESTED:
       return {
         ...state,
         loading: true
       };
 
-    case RoleActionTypes.RolesListPageLoaded:
+    case RoleActionTypes.ROLES_LIST_PAGE_LOADED:
       return adapter.upsertMany(action.payload.list, {...state, loading: false, pages: action.payload.pages, countAll: action.payload.count});
 
-    case RoleActionTypes.RolesListPageCancelled:
+    case RoleActionTypes.ROLES_LIST_PAGE_CANCELLED:
       return {
         ...state,
         loading: false
       };
 
-    case RoleActionTypes.RoleSaved:
+    case RoleActionTypes.ROLE_SAVED:
       return adapter.updateOne(action.payload.role, state);
 
     default: {

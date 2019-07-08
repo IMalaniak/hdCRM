@@ -23,25 +23,25 @@ export function stagesReducer(state = initialStagesState , action: PlanActions):
 
   switch (action.type) {
 
-    case PlanActionTypes.CreateStageSuccess:
+    case PlanActionTypes.STAGE_CREATE_SUCCESS:
       return adapter.addOne(action.payload.stage, state);
 
-    case PlanActionTypes.CreateStageFail:
+    case PlanActionTypes.STAGE_CREATE_FAIL:
       return {
         ...state,
         error: action.payload
       };
 
-    case PlanActionTypes.AllStagesRequestedFromDashboard || PlanActionTypes.AllStagesRequestedFromDialogWindow:
+    case PlanActionTypes.ALLSTAGES_REQUESTED_FROM_DASHBOARD || PlanActionTypes.ALLSTAGES_REQUESTED_FROM_DIALOGWINDOW:
       return {
         ...state,
         loading: true
       };
 
-    case PlanActionTypes.AllStagesLoaded:
+    case PlanActionTypes.ALLSTAGES_LOADED:
       return adapter.addAll(action.payload.list, {...state, allStagesLoaded: true, loading: false});
 
-    case PlanActionTypes.StageSaved:
+    case PlanActionTypes.STAGE_SAVED:
       return adapter.updateOne(action.payload.stage, state);
 
     default: {

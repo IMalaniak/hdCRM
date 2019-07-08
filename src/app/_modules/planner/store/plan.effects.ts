@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError, of } from 'rxjs';
 import { Action, Store, select } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { PlanRequested, PlanActionTypes, PlanLoaded, ListPageRequested, ListPageLoaded, ListPageCancelled, AllStagesRequestedFromDashboard, AllStagesLoaded, CreateStage, CreateStageSuccess, CreateStageFail, AllStagesRequestedFromDialogWindow, CreatePlan, CreatePlanSuccess, CreatePlanFail } from './plan.actions';
+import * as planActions from './plan.actions';
 import { mergeMap, map, withLatestFrom, filter, catchError } from 'rxjs/operators';
 import { PlanService, StageService } from '../_services';
 import { AppState } from '@/core/reducers';
@@ -16,8 +16,8 @@ export class PlanEffects {
 
     @Effect()
     createPlan$: Observable<Action> = this.actions$.pipe(
-      ofType<CreatePlan>(PlanActionTypes.CreatePlan),
-      map((action: CreatePlan) => action.payload.plan),
+      ofType<planActions.CreatePlan>(planActions.PlanActionTypes.PLAN_CREATE),
+      map((action: planActions.CreatePlan) => action.payload.plan),
       mergeMap((plan: Plan) =>
         this.planService.create({...plan}).pipe(
           map(newPlan => {
@@ -27,7 +27,7 @@ export class PlanEffects {
               timer: 1500
             });
             this.router.navigate(['/planner']);
-            return new CreatePlanSuccess({plan: newPlan});
+            return new planActions.CreatePlanSuccess({plan: newPlan});
           }),
           catchError(err => {
             Swal.fire({
@@ -35,7 +35,7 @@ export class PlanEffects {
               type: 'error',
               timer: 1500
             });
-            return of(new CreatePlanFail(err));
+            return of(new planActions.CreatePlanFail(err));
           })
         )
       )
@@ -43,40 +43,40 @@ export class PlanEffects {
 
     @Effect()
     loadPlan$: Observable<Action> = this.actions$.pipe(
-        ofType<PlanRequested>(PlanActionTypes.PlanRequested),
+        ofType<planActions.PlanRequested>(planActions.PlanActionTypes.PLAN_REQUESTED),
         mergeMap(action => this.planService.getOne(action.payload.planId)),
-        map(plan => new PlanLoaded({plan}))
+        map(plan => new planActions.PlanLoaded({plan}))
     );
 
     @Effect()
     loadPlans$ = this.actions$.pipe(
-        ofType<ListPageRequested>(PlanActionTypes.ListPageRequested),
+        ofType<planActions.ListPageRequested>(planActions.PlanActionTypes.PLAN_LIST_PAGE_REQUESTED),
         mergeMap(({payload}) =>
                 this.planService.getList(payload.page.pageIndex, payload.page.pageSize, payload.page.sortIndex, payload.page.sortDirection)
                   .pipe(
                     catchError(err => {
-                      this.store.dispatch(new ListPageCancelled());
+                      this.store.dispatch(new planActions.ListPageCancelled());
                       return of(new PlanServerResponse());
                     })
                   )
         ),
-        map((response: PlanServerResponse) => new ListPageLoaded(response)),
+        map((response: PlanServerResponse) => new planActions.ListPageLoaded(response)),
     );
 
     @Effect()
     loadAllStage$ = this.actions$.pipe(
-        ofType<AllStagesRequestedFromDashboard | AllStagesRequestedFromDialogWindow>(PlanActionTypes.AllStagesRequestedFromDashboard, PlanActionTypes.AllStagesRequestedFromDialogWindow),
+        ofType<planActions.AllStagesRequestedFromDashboard | planActions.AllStagesRequestedFromDialogWindow>(planActions.PlanActionTypes.ALLSTAGES_REQUESTED_FROM_DASHBOARD, planActions.PlanActionTypes.ALLSTAGES_REQUESTED_FROM_DIALOGWINDOW),
         withLatestFrom(this.store.pipe(select(allStagesLoaded))),
         filter(([action, allStagesLoaded]) => !allStagesLoaded),
         mergeMap(() => this.stageService.getList()),
-        map(stages => new AllStagesLoaded(stages)),
+        map(stages => new planActions.AllStagesLoaded(stages)),
         catchError(err => throwError(err))
     );
 
     @Effect()
     createStage$: Observable<Action> = this.actions$.pipe(
-      ofType<CreateStage>(PlanActionTypes.CreateStage),
-      map((action: CreateStage) => action.payload.stage),
+      ofType<planActions.CreateStage>(planActions.PlanActionTypes.STAGE_CREATE),
+      map((action: planActions.CreateStage) => action.payload.stage),
       mergeMap((stage: Stage) =>
         this.stageService.create(stage).pipe(
           map(newStage => {
@@ -85,7 +85,7 @@ export class PlanEffects {
               type: 'success',
               timer: 1500
             });
-            return new CreateStageSuccess({stage: newStage});
+            return new planActions.CreateStageSuccess({stage: newStage});
           }),
           catchError(err => {
             Swal.fire({
@@ -93,7 +93,7 @@ export class PlanEffects {
               type: 'error',
               timer: 1500
             });
-            return of(new CreateStageFail(err));
+            return of(new planActions.CreateStageFail(err));
           })
         )
       )

@@ -37,34 +37,34 @@ export function plansReducer(state = initialPlansState , action: PlanActions): P
 
   switch (action.type) {
 
-    case PlanActionTypes.CreatePlanSuccess:
+    case PlanActionTypes.PLAN_CREATE_SUCCESS:
       return adapter.addOne(action.payload.plan, state);
 
-    case PlanActionTypes.CreatePlanFail:
+    case PlanActionTypes.PLAN_CREATE_FAIL:
       return {
         ...state,
         error: action.payload
       };
 
-    case PlanActionTypes.PlanLoaded:
+    case PlanActionTypes.PLAN_LOADED:
       return adapter.addOne(action.payload.plan, state);
 
-    case PlanActionTypes.ListPageRequested:
+    case PlanActionTypes.PLAN_LIST_PAGE_REQUESTED:
       return {
         ...state,
         loading: true
       };
 
-    case PlanActionTypes.ListPageLoaded:
+    case PlanActionTypes.PLAN_LIST_PAGE_LOADED:
       return adapter.upsertMany(action.payload.list, {...state, loading: false, pages: action.payload.pages, countAll: action.payload.count});
 
-    case PlanActionTypes.ListPageCancelled:
+    case PlanActionTypes.PLAN_LIST_PAGE_CANCELLED:
       return {
         ...state,
         loading: false
       };
 
-    case PlanActionTypes.PlanSaved:
+    case PlanActionTypes.PLAN_SAVED:
       return adapter.updateOne(action.payload.plan, state);
 
     default: {

@@ -10,7 +10,7 @@ import { first } from 'rxjs/operators';
 import { AppState } from '@/core/reducers';
 import { Store, select } from '@ngrx/store';
 import * as authActions from '../../store/auth.actions';
-import { getApiResponse, isLoading } from '../../store/auth.selectors';
+import * as authSelectors from '../../store/auth.selectors';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.isLoading$ = this.store.pipe(select(isLoading));
+    this.isLoading$ = this.store.pipe(select(authSelectors.isLoading));
     this.currentPath = this.route.snapshot.url[0].path;
 
     if (this.currentPath === 'password-reset') {
@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
       this.prepareAccountActivationFnc();
     } else if (this.currentPath === 'login') {
       // TODO: get detailed error from serv
-      this.store.pipe(select(getApiResponse)).subscribe(resp => {
+      this.store.pipe(select(authSelectors.getApiResponse)).subscribe(resp => {
         this.serverResponse = resp;
       });
     }

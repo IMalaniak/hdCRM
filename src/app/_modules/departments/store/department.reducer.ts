@@ -1,4 +1,3 @@
-import { Action } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Department } from '../_models';
 import { DepartmentActions, DepartmentActionTypes } from './department.actions';
@@ -31,37 +30,37 @@ export function departmentsReducer(state = initialDepartmentsState , action: Dep
 
   switch (action.type) {
 
-    case DepartmentActionTypes.CreateDepartmentSuccess:
+    case DepartmentActionTypes.DEPARTMENT_CREATE_SUCCESS:
       return adapter.addOne(action.payload.department, state);
 
-    case DepartmentActionTypes.CreateDepartmentFail:
+    case DepartmentActionTypes.DEPARTMENT_CREATE_FAIL:
       return {
         ...state,
         error: action.payload
       };
 
-    case DepartmentActionTypes.DepartmentLoaded:
+    case DepartmentActionTypes.DEPARTMENT_LOADED:
       return adapter.addOne(action.payload.department, state);
 
-    case DepartmentActionTypes.ListPageRequested:
+    case DepartmentActionTypes.DEPARTMENT_LIST_PAGE_REQUESTED:
       return {
         ...state,
         loading: true
       };
 
-    case DepartmentActionTypes.ListPageLoaded:
+    case DepartmentActionTypes.DEPARTMENT_LIST_PAGE_LOADED:
       return adapter.upsertMany(action.payload.list, {...state, loading: false, pages: action.payload.pages, countAll: action.payload.count});
 
-    case DepartmentActionTypes.ListPageCancelled:
+    case DepartmentActionTypes.DEPARTMENT_LIST_PAGE_CANCELLED:
       return {
         ...state,
         loading: false
       };
 
-    case DepartmentActionTypes.DepartmentSaved:
+    case DepartmentActionTypes.DEPARTMENT_SAVED:
       return adapter.updateOne(action.payload.department, state);
 
-    case DepartmentActionTypes.DepDashboardDataLoaded:
+    case DepartmentActionTypes.DEPARTMENT_DASHBOARD_DATA_LOADED:
       return adapter.upsertMany(action.payload.list, {...state, countAll: action.payload.count, dashboardDataLoaded: true});
 
     default: {

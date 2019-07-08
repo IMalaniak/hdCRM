@@ -77,71 +77,34 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     this.department = {...this.route.snapshot.data['department']};
   }
 
-  openManagerDialog(): void {
-    // TODO
-    // this.showDataLoader = false;
-    // const dialogRef = this.dialog.open(UsersDialogComponent, {
-    //   ...this.mediaQuery.deFaultPopupSize,
-    //   data: {
-    //     title: 'Select manager',
-    //   }
-    // });
+  addManagerDialog(): void {
+    const dialogRef = this.dialog.open(UsersDialogComponent, {
+      ...this.mediaQuery.deFaultPopupSize,
+      data: {
+        title: ['Select manager'],
+      }
+    });
 
-    // if (this.department.Manager) {
-    //   const usersC = dialogRef.componentInstance.usersComponent;
-
-    //   dialogRef.afterOpen().pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-    //     this.loaderService.isLoaded.pipe(takeUntil(this.unsubscribe)).subscribe(isLoaded => {
-    //       if (isLoaded) {
-    //       usersC.resetSelected(false);
-    //       }
-    //     });
-    //   });
-    // }
-
-    // dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
-    //   if (result) {
-    //     this.department.Manager = result[0];
-    //   }
-    // });
+    dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
+      if (result && result.length > 0) {
+        this.department.Manager = result[0];
+      }
+    });
   }
 
-  openWorkersDialog(): void {
-    // TODO
-    // this.showDataLoader = false;
-    // const dialogRef = this.dialog.open(UsersDialogComponent, {
-    //   ...this.mediaQuery.deFaultPopupSize,
-    //   data: {
-    //     title: 'Select workers',
-    //   }
-    // });
+  addWorkersDialog(): void {
+    const dialogRef = this.dialog.open(UsersDialogComponent, {
+      ...this.mediaQuery.deFaultPopupSize,
+      data: {
+        title: ['Select workers'],
+      }
+    });
 
-    // if (this.department.Workers) {
-    //   const usersC = dialogRef.componentInstance.usersComponent;
-
-    //   // TODO
-    //   // dialogRef.afterOpen().pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-    //   //   this.loaderService.isLoaded.pipe(takeUntil(this.unsubscribe)).subscribe(isLoaded => {
-    //   //     if (isLoaded) {
-    //   //       for (const participant of this.department.Workers) {
-    //   //         usersC.sortedData.find((user, i) => {
-    //   //           if (user.id === participant.id) {
-    //   //               usersC.sortedData[i].selected = true;
-    //   //               return true;
-    //   //           }
-    //   //         });
-    //   //       }
-    //   //       usersC.resetSelected(false);
-    //   //     }
-    //   //   });
-    //   // });
-    // }
-
-    // dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
-    //   if (result) {
-    //     this.department.Workers = result;
-    //   }
-    // });
+    dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
+      if (result && result.length > 0) {
+        this.department.Workers = [...new Set([...this.department.Workers, ...result])];
+      }
+    });
   }
 
   updateDepartment(): void {
