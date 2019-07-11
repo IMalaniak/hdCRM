@@ -61,10 +61,6 @@ app-header {
     display: flex;
     align-items: center;
 
-    > mat-icon {
-      cursor: pointer;
-    }
-
     // &:last-of-type {
 
     // }
@@ -241,37 +237,54 @@ main {
     align-items: center;
   }
 
-  .mat-icon {
-    height: 100%;
-    line-height: 36px;
-    width: 1em;
-    font-size: 1.25em;
-    margin-right: 18px;
+  .mat-icon, fa-icon {
+    margin-right: 0.8em;
 
     @include media-breakpoint-down(sm) {
-      margin-right: 0px !important;
-      font-size: 1.5em !important;
-    }
+      margin-right: 0;
+      font-size: 1.5em;
 
-    &:after {
-      content: '';
-      display: inline-block;
-      height: 1em;
-      border-right: 1px solid;
-      margin-left: 8px;
-
-      @include media-breakpoint-down(sm) {
+      + span {
         display: none;
       }
     }
 
     + span {
-      @include media-breakpoint-down(sm) {
-        display: none;
+      &:before {
+        content: '';
+        display: inline;
+        border-left: 1px solid;
+        margin-right: 0.6em;
+  
+        @include media-breakpoint-down(sm) {
+          display: none;
+        }
       }
     }
   }
 }
+
+.mat-icon-button {
+  .mat-button-wrapper {
+    fa-icon {
+      font-size: 1.25em;
+    }
+  }
+}
+
+.mat-menu-item {
+  display: flex !important;
+  line-height: 2.5em !important;
+  height: 2.5em !important;
+
+  fa-icon {
+    margin-right: 1em;
+    vertical-align: middle;
+    font-size: 1.25em;
+    //color: rgba(0, 0, 0, 0.54);
+    color: crmcolor(primary, base)
+  }
+} 
 
 .mat-sort-header-container {
     align-items: baseline;

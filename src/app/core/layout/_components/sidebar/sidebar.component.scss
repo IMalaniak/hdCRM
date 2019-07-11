@@ -55,7 +55,7 @@ app-sidebar {
       border-left: 8px solid;
     }
 
-    > mat-icon {
+    > mat-icon, fa-icon {
       margin-right: crmsize(spacer, null, true);
     }
   }
@@ -75,7 +75,7 @@ app-sidebar {
         display: none;
       }
 
-      > mat-icon {
+      > mat-icon, fa-icon {
         margin-right: 0;
       }
     }

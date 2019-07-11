@@ -55,7 +55,7 @@
       <mat-list class="w-100">
         <div class="d-flex flex-row justify-content-between align-items-center p-3">
           <span class="text-muted" i18n="@@departmentComponentParticipantTitleManager">Manager</span>
-          <button mat-raised-button color="primary" class="crm-button" (click)="openManagerDialog()" *ngIf="editForm"><mat-icon>person_add</mat-icon><span i18n="@@DepartmentComponentActionsChangeManager">Change manager</span></button>
+          <button mat-raised-button color="primary" class="crm-button" (click)="openManagerDialog()" *ngIf="editForm"><fa-icon [icon]="['fas', 'user-plus']"></fa-icon><span i18n="@@DepartmentComponentActionsChangeManager">Change manager</span></button>
         </div>
         <mat-list-item *ngIf="department.Manager">
           <img matListAvatar *ngIf="department.Manager.avatar" src="{{department.Manager.avatar.getThumbnailsUrl}}" alt="{{department.Manager.avatar.title}}">
@@ -70,7 +70,7 @@
       <mat-list class="p-3">
         <div class="d-flex flex-row justify-content-between align-items-center">
           <div class="d-flex flex-row align-items-center"><span class="text-muted" i18n="@@departmentComponentParticipantTitleWorkers">Workers</span><mat-chip color="primary" selected>{{department.Workers.length}}</mat-chip></div>
-          <button mat-raised-button color="primary" class="crm-button" (click)="openWorkersDialog()" *ngIf="editForm"><mat-icon>group_add</mat-icon><span i18n="@@departmentComponentActionsAddWorkers">Add workers</span></button>
+          <button mat-raised-button color="primary" class="crm-button" (click)="openWorkersDialog()" *ngIf="editForm"><fa-icon [icon]="['fas', 'user-plus']"></fa-icon><span i18n="@@departmentComponentActionsAddWorkers">Add workers</span></button>
         </div>
         <mat-list-item *ngFor="let user of department.Workers; let i = index;">
           <img matListAvatar *ngIf="user.avatar" src="{{user.avatar.getThumbnailsUrl}}" alt="{{user.avatar.title}}">
@@ -86,7 +86,7 @@
           <mat-list class="w-100 p-3">
             <div class="d-flex flex-row justify-content-between align-items-center">
               <span class="text-muted" i18n="@@departmentComponentParticipantTitleParentDepartment">Parent department</span>
-              <button mat-raised-button color="primary" class="crm-button" *ngIf="editForm"><mat-icon>add_circle_outline</mat-icon><span i18n="@@departmentComponentActionsAddParentDepartment">Add parent department</span></button>
+              <button mat-raised-button color="primary" class="crm-button" *ngIf="editForm"><fa-icon [icon]="['fas', 'plus']"></fa-icon><span i18n="@@departmentComponentActionsAddParentDepartment">Add parent department</span></button>
             </div>
             <!-- <mat-list-item *ngFor="">
               <h3 matLine>{{}}</h3>
@@ -97,7 +97,7 @@
           <mat-list class="w-100 p-3">
             <div class="d-flex flex-row justify-content-between align-items-center">
               <div class="d-flex flex-row align-items-center"><span class="text-muted" i18n="@@departmentComponentParticipantTitleSubDepartments">Sub departments</span><mat-chip color="primary" selected>{{department.SubDepartments.length}}</mat-chip></div>
-              <button mat-raised-button color="primary" class="crm-button" *ngIf="editForm"><mat-icon>add_circle_outline</mat-icon><span i18n="@@departmentComponentActionsAddSubDepartments">Add sub departments</span></button>
+              <button mat-raised-button color="primary" class="crm-button" *ngIf="editForm"><fa-icon [icon]="['fas', 'plus']"></fa-icon><span i18n="@@departmentComponentActionsAddSubDepartments">Add sub departments</span></button>
             </div>
             <!-- <mat-list-item *ngFor="">
               <h3 matLine>{{}}</h3>
@@ -109,9 +109,9 @@
     </div>
   </div>
   <div buttons *ngIf="canEditDepartment$ | async">
-    <button *ngIf="!editForm" mat-raised-button color="primary" class="crm-button" (click)="onClickEdit()"><mat-icon>edit</mat-icon><span i18n="@@globalActionsEdit"></span>Edit</button>
-    <button *ngIf="editForm" mat-raised-button color="primary" class="crm-button" [swal]="updateDepartmentSwal"><mat-icon>save</mat-icon><span i18n="@@globalActionsSaveChanges">Save</span></button>
-    <button *ngIf="editForm" mat-raised-button class="crm-button" (click)="onClickCancelEdit()"><mat-icon>cancel</mat-icon><span i18n="@@globalActionsCancelEdit">Cancel</span></button>
+    <button *ngIf="!editForm" mat-raised-button color="primary" class="crm-button" (click)="onClickEdit()"><fa-icon [icon]="['fas', 'edit']"></fa-icon><span i18n="@@globalActionsEdit"></span>Edit</button>
+    <button *ngIf="editForm" mat-raised-button color="primary" class="crm-button" [swal]="updateDepartmentSwal"><fa-icon [icon]="['fas', 'save']"></fa-icon><span i18n="@@globalActionsSaveChanges">Save</span></button>
+    <button *ngIf="editForm" mat-raised-button class="crm-button" (click)="onClickCancelEdit()"><fa-icon [icon]="['fas', 'times-circle']"></fa-icon><span i18n="@@globalActionsCancelEdit">Cancel</span></button>
   </div>
 </section>
 
