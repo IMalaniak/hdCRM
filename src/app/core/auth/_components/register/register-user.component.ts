@@ -35,11 +35,12 @@ export class RegisterUserComponent implements OnInit {
         this._formBuilder.group({
           login: new FormControl('', [
             Validators.required,
-            Validators.minLength(6)
+            Validators.minLength(6),
+            Validators.maxLength(25),
+            Validators.pattern('^[a-zA-Z0-9]+$'),
           ]),
           email: new FormControl('', [
             Validators.required,
-            Validators.minLength(6),
             Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
           ]),
           // password: new FormControl('', [
@@ -50,11 +51,13 @@ export class RegisterUserComponent implements OnInit {
         this._formBuilder.group({
           name: new FormControl('', [
             Validators.required,
-            Validators.maxLength(25)
+            Validators.maxLength(25),
+            Validators.pattern('^[a-zA-Z]+$'),
           ]),
           surname: new FormControl('', [
             Validators.required,
-            Validators.maxLength(25)
+            Validators.maxLength(25),
+            Validators.pattern('^[a-zA-Z]+$'),
           ]),
           phone: new FormControl('', [
             Validators.required,
