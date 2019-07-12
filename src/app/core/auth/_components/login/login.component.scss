@@ -13,7 +13,12 @@
     align-items: center;
     @include gradient-radial(crmcolor(primary, base), crmcolor(main, dark));
 
+    .container-fluid {
+        width: auto;
+    }
+    
     // .crm-brand {
+    // @include media-breakpoint-up(sm) {
     //     position: absolute;
     //     top: 0;
     //     left: 0;
