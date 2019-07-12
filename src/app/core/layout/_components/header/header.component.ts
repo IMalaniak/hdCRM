@@ -7,8 +7,6 @@ import { AppState } from '@/core/reducers';
 import * as authActions from '@/core/auth/store/auth.actions';
 import { User } from '@/_modules/users';
 
-
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -27,8 +25,13 @@ export class HeaderComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit() {}
 
+  toogleHamburger() {
+    const hamburger = document.querySelector(".hamburger");
+
+    hamburger.classList.toggle('active');
+    hamburger.classList.toggle('not-active');
   }
 
   onLogoutClick() {
