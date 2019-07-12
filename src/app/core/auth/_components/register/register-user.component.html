@@ -1,146 +1,161 @@
-<section class="app-content-box" [title]="'Register a new user'">
-  <form content class="row" [formGroup]="userData">
-    <mat-vertical-stepper class="col-12" linear #stepper formArrayName="formArray" mobileQuery.matches>
-      <mat-step formGroupName="0" [stepControl]="formArray?.get([0])">
-        <div class="row">
-          <div class="col-lg-4 col-md-6 col-12">
-            <ng-template matStepLabel i18n="@@registerUserComponentStepperLabelsGeneralInformation">General information</ng-template>
-            <mat-form-field appearance="outline">
-              <mat-label i18n="@@registerUserComponentStepperInputPlaceholderLogin">Login</mat-label>
-              <input matInput formControlName="login" type="text" name="login" required> 
-              <mat-error *ngIf="login.invalid">
-                <mat-error *ngIf="login.errors.required" i18n="@@registerUserComponentStepperInputErrorsLoginRequired">
-                  Login is required!
-                </mat-error>
-                <mat-error *ngIf="login.errors.maxlength" i18n="@@registerUserComponentStepperInputErrorsLoginIsTooLong">
-                  Login is too long!
-                </mat-error>
-                <mat-error *ngIf="login.errors.pattern" i18n="@@registerUserComponentStepperInputErrorsLoginIsInvalid">
-                  Login is invalid!
-                </mat-error>
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col-lg-4 col-md-6 col-12">
-            <mat-form-field appearance="outline">
-              <mat-label i18n="@@registerUserComponentStepperInputPlaceholderEmail">Email</mat-label>
-              <input matInput formControlName="email" type="email" name="email" required>
-              <mat-error *ngIf="email.invalid">
-                <mat-error *ngIf="email.errors.required" i18n="@@registerUserComponentStepperInputErrorsEmailRequired">
-                  Email is required!
-                </mat-error>
-                <mat-error *ngIf="email.errors.pattern" i18n="@@registerUserComponentStepperInputErrorsBadEmail">
-                  Please enter a valid email address!
-                </mat-error>
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <!-- <div class="col-lg-4 col-md-6 col-12">
-            <mat-form-field appearance="outline">
-              <mat-label i18n="@@registerUserComponentStepperInputPlaceholderPassword">Password</mat-label>
-              <input matInput formControlName="password" name="password" [type]="hidePassword ? 'password' : 'text'" required>
-              <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-              <mat-error *ngIf="password.invalid">
-                <mat-error *ngIf="password.errors.required" i18n="@@registerUserComponentStepperInputErrorsPasswordRequired">
-                  Password is required!
-                </mat-error>
-                <mat-error *ngIf="password.errors.minlength && (password.dirty || password.touched)" i18n="@@registerUserComponentStepperInputErrorsPasswordIsTooShort">
-                  Password is too short!
-                </mat-error>
-              </mat-error>
-            </mat-form-field>
-          </div> -->
-        </div>
-        <div class="d-flex justify-content-end">
-          <button mat-stroked-button matStepperNext color="primary" class="crm-button" type="button"><mat-icon>arrow_forward</mat-icon><span i18n="@@registerUserComponentStepperActionsNext">Next</span></button>
-        </div>
-      </mat-step>
-      <mat-step formGroupName="1" [stepControl]="formArray?.get([1])">
-        <div class="row">
-          <div class="col-lg-3 col-md-6 col-12">
-            <ng-template matStepLabel i18n="@@registerUserComponentStepperLabelsContactInformation">Contact information</ng-template>
-            <mat-form-field appearance="outline">
-              <mat-label i18n="@@registerUserComponentStepperInputPlaceholderName">Name</mat-label>
-              <input matInput formControlName="name" type="text" name="name" required>
-              <mat-error *ngIf="name.invalid">
-                <mat-error *ngIf="name.errors.required" i18n="@@registerUserComponentStepperInputErrorsNameRequired">
-                  Name is required!
-                </mat-error>
-                <mat-error *ngIf="name.errors.maxlength" i18n="@@registerUserComponentStepperInputErrorsNameIsTooShort">
-                  Name is too long!
-                </mat-error>
-                <mat-error *ngIf="name.errors.pattern" i18n="@@registerUserComponentStepperInputErrorsNameIsInvalid">
-                  Name is invalid! Only allow latters.
-                </mat-error>
-              </mat-error>
-            </mat-form-field> 
-          </div> 
-          <div class="col-lg-3 col-md-6 col-12">
-            <mat-form-field appearance="outline">
-              <mat-label i18n="@@registerUserComponentStepperInputPlaceholderSurname">Surname</mat-label>
-              <input matInput formControlName="surname" type="text" name="surname" required> 
-              <mat-error *ngIf="surname.invalid">
-                <mat-error *ngIf="surname.errors.required" i18n="@@registerUserComponentStepperInputErrorsSurnameRequired">
-                  Surname is required!
-                </mat-error>
-                <mat-error *ngIf="surname.errors.pattern" i18n="@@registerUserComponentStepperInputErrorsSurnameIsInvalid">
-                  Surname is invalid! Only allow latters.
-                </mat-error>
-              </mat-error> 
-            </mat-form-field>
-          </div>
-          <div class="col-lg-3 col-md-6 col-12">
-          <mat-form-field appearance="outline">
-              <mat-label i18n="@@registerUserComponentStepperInputPlaceholderPhone">Phone</mat-label>
-              <input matInput formControlName="phone" type="tel" name="phone" required> 
-              <mat-error *ngIf="phone.invalid">
-                <mat-error *ngIf="phone.errors.required" i18n="@@registerUserComponentStepperInputErrorsPhoneRequired">
-                  Phone is required!
-                </mat-error>
-                <mat-error *ngIf="phone.errors.pattern" i18n="@@registerUserComponentStepperInputErrorsPhoneIsInvalid">
-                  Phone is invalid! Only allow numbers.
-                </mat-error>
-              </mat-error> 
-            </mat-form-field>
-          </div>
-          <!-- <div class="col-lg-3 col-md-6 col-12">
-            <mat-form-field appearance="outline">
-              <mat-label i18n="@@registerUserComponentStepperInputPlaceholderDafaultLang">Language</mat-label>
-              <mat-select formControlName="defaultLang" name="defaultLang" required>
-                <mat-option *ngFor="let lang of langs" [value]="lang">{{ lang }}</mat-option>
-              </mat-select>   
-            </mat-form-field>
-          </div> -->
-        </div> 
-        <div class="d-flex justify-content-between">
-          <button mat-stroked-button matStepperPrevious class="crm-button" type="button"><mat-icon>arrow_back</mat-icon><span i18n="@@registerUserComponentStepperActionsBack">Back</span></button>
-          <!-- <button mat-stroked-button matStepperNext color="primary" class="crm-button" type="button"><mat-icon>arrow_forward</mat-icon><span i18n="@@registerUserComponentStepperActionsNext">Next</span></button> -->
-          <button mat-stroked-button color="warn" class="crm-button" (click)="stepper.reset()" type="button"><mat-icon>remove_circle</mat-icon><span i18n="@@registerUserComponentStepperActionsResetAll">Reset all</span></button>
-        </div>         
-      </mat-step>
-      <!-- <mat-step>
-        <ng-template matStepLabel i18n="@@registerUserComponentStepperLabelsRoleInformation">Role information</ng-template>
-        <div class="row">
-          <div class="col-lg-4 col-md-6 col-12">
-            <mat-selection-list #list>
-              <label i18n="@@registerUserComponentStepperPlaceholderRole">Role:</label>
-              <mat-list-option *ngFor="let role of roles" [value]="role.id" (click)="onRoleSelect(list)">
-                {{ role.keyString }}
-              </mat-list-option>
-            </mat-selection-list>    
-          </div>
-        </div>
-        <div class="d-flex justify-content-between">
-          <button mat-stroked-button matStepperPrevious class="crm-button" type="button"><mat-icon>arrow_back</mat-icon><span i18n="@@registerUserComponentStepperActionsBack">Back</span></button>
-          <button mat-stroked-button color="warn" class="crm-button" (click)="stepper.reset()" type="button"><mat-icon>remove_circle</mat-icon><span i18n="@@registerUserComponentStepperActionsResetAll">Reset all</span></button>
-        </div> 
-      </mat-step> -->
-      <!-- <mat-step>
-        <ng-template matStepLabel i18n="@@registerUserComponentStepperLabelsDone">Done</ng-template>
-
-      </mat-step> -->
-    </mat-vertical-stepper>
-  </form>
-  <button buttons mat-raised-button color="primary" class="crm-button" [disabled]="userData.invalid" (click)="onRegisterSubmit()"><mat-icon>verified_user</mat-icon><span i18n="@@registerUserComponentStepperActionsSubmit">Submit</span></button>
+<section class="register-section">
+  <!-- <h3 class="crm-brand">Crm company</h3> -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col col-md">
+        <form [formGroup]="userData" (submit)="onRegisterSubmit()">
+          <mat-card>
+            <mat-card-content>
+              <h3 i18n="@@registerUserComponentFormHeaderTitleRegister">Register your HDCRM Account</h3>
+              <mat-vertical-stepper linear #stepper formArrayName="formArray" mobileQuery.matches>
+                <mat-step formGroupName="0" [stepControl]="formArray?.get([0])">
+                  <div class="row d-flex flex-column">
+                    <div class="col col-md">
+                      <ng-template matStepLabel i18n="@@registerUserComponentStepperLabelsGeneralInformation">General information</ng-template>
+                      <mat-form-field appearance="outline">
+                        <mat-label i18n="@@registerUserComponentStepperInputPlaceholderLogin">Login</mat-label>
+                        <input matInput formControlName="login" type="text" name="login" required> 
+                        <mat-error *ngIf="login.invalid">
+                          <mat-error *ngIf="login.errors.required" i18n="@@registerUserComponentStepperInputErrorsLoginRequired">
+                            Login is required! 
+                          </mat-error>
+                          <mat-error *ngIf="login.errors.minlength" i18n="@@registerUserComponentStepperInputErrorsLoginIsTooShort">
+                            Login is too short!
+                          </mat-error>
+                          <mat-error *ngIf="login.errors.maxlength" i18n="@@registerUserComponentStepperInputErrorsLoginIsTooLong">
+                            Login is too long!
+                          </mat-error>
+                          <mat-error *ngIf="login.errors.pattern" i18n="@@registerUserComponentStepperInputErrorsLoginIsInvalid">
+                            Unallowed symbols used!
+                          </mat-error>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col col-md">
+                      <mat-form-field appearance="outline">
+                        <mat-label i18n="@@registerUserComponentStepperInputPlaceholderEmail">Email</mat-label>
+                        <input matInput formControlName="email" type="email" name="email" required>
+                        <mat-error *ngIf="email.invalid">
+                          <mat-error *ngIf="email.errors.required" i18n="@@registerUserComponentStepperInputErrorsEmailRequired">
+                            Email is required!
+                          </mat-error>
+                          <mat-error *ngIf="email.errors.pattern" i18n="@@registerUserComponentStepperInputErrorsBadEmail">
+                            Invalid email address!
+                          </mat-error>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <!-- <div class="col col-md">
+                      <mat-form-field appearance="outline">
+                        <mat-label i18n="@@registerUserComponentStepperInputPlaceholderPassword">Password</mat-label>
+                        <input matInput formControlName="password" name="password" [type]="hidePassword ? 'password' : 'text'" required>
+                        <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        <mat-error *ngIf="password.invalid">
+                          <mat-error *ngIf="password.errors.required" i18n="@@registerUserComponentStepperInputErrorsPasswordRequired">
+                            Password is required!
+                          </mat-error>
+                          <mat-error *ngIf="password.errors.minlength i18n="@@registerUserComponentStepperInputErrorsPasswordIsTooShort">
+                            Password is too short!
+                          </mat-error>
+                        </mat-error>
+                      </mat-form-field>
+                    </div> -->
+                  </div>
+                  <div class="d-flex justify-content-end">
+                    <button mat-stroked-button matStepperNext color="primary" class="crm-button" type="button"><mat-icon>arrow_forward</mat-icon><span i18n="@@registerUserComponentStepperActionsNext">Next</span></button>
+                  </div>
+                </mat-step>
+                <mat-step formGroupName="1" [stepControl]="formArray?.get([1])">
+                  <div class="row d-flex flex-column">
+                    <div class="col col-md">
+                      <ng-template matStepLabel i18n="@@registerUserComponentStepperLabelsContactInformation">Contact information</ng-template>
+                      <mat-form-field appearance="outline">
+                        <mat-label i18n="@@registerUserComponentStepperInputPlaceholderName">Name</mat-label>
+                        <input matInput formControlName="name" type="text" name="name" required>
+                        <mat-error *ngIf="name.invalid">
+                          <mat-error *ngIf="name.errors.required" i18n="@@registerUserComponentStepperInputErrorsNameRequired">
+                            Name is required!
+                          </mat-error>
+                          <mat-error *ngIf="name.errors.maxlength" i18n="@@registerUserComponentStepperInputErrorsNameIsTooShort">
+                            Name is too long!
+                          </mat-error>
+                          <mat-error *ngIf="name.errors.pattern" i18n="@@registerUserComponentStepperInputErrorsNameIsInvalid">
+                            Unallowed numbers and symbols used!
+                          </mat-error>
+                        </mat-error>
+                      </mat-form-field> 
+                    </div> 
+                    <div class="col col-md">
+                      <mat-form-field appearance="outline">
+                        <mat-label i18n="@@registerUserComponentStepperInputPlaceholderSurname">Surname</mat-label>
+                        <input matInput formControlName="surname" type="text" name="surname" required> 
+                        <mat-error *ngIf="surname.invalid">
+                          <mat-error *ngIf="surname.errors.required" i18n="@@registerUserComponentStepperInputErrorsSurnameRequired">
+                            Surname is required!
+                          </mat-error>
+                          <mat-error *ngIf="surname.errors.pattern" i18n="@@registerUserComponentStepperInputErrorsSurnameIsInvalid">
+                            Unallowed numbers and symbols used!
+                          </mat-error>
+                        </mat-error> 
+                      </mat-form-field>
+                    </div>
+                    <div class="col col-md">
+                      <mat-form-field appearance="outline">
+                        <mat-label i18n="@@registerUserComponentStepperInputPlaceholderPhone">Phone</mat-label>
+                        <input matInput formControlName="phone" type="tel" name="phone" required> 
+                        <mat-error *ngIf="phone.invalid">
+                          <mat-error *ngIf="phone.errors.required" i18n="@@registerUserComponentStepperInputErrorsPhoneRequired">
+                            Phone is required!
+                          </mat-error>
+                          <mat-error *ngIf="phone.errors.pattern" i18n="@@registerUserComponentStepperInputErrorsPhoneIsInvalid">
+                            Unallowed letters and symbols used!
+                          </mat-error>
+                        </mat-error> 
+                      </mat-form-field>
+                    </div>
+                    <!-- <div class="col-lg-3 col-md-6 col-12">
+                      <mat-form-field appearance="outline">
+                        <mat-label i18n="@@registerUserComponentStepperInputPlaceholderDafaultLang">Language</mat-label>
+                        <mat-select formControlName="defaultLang" name="defaultLang" required>
+                          <mat-option *ngFor="let lang of langs" [value]="lang">{{ lang }}</mat-option>
+                        </mat-select>   
+                      </mat-form-field>
+                    </div> -->
+                  </div> 
+                  <div class="d-flex justify-content-between">
+                    <button mat-stroked-button matStepperPrevious class="crm-button" type="button"><mat-icon>arrow_back</mat-icon><span i18n="@@registerUserComponentStepperActionsBack">Back</span></button>
+                    <!-- <button mat-stroked-button matStepperNext color="primary" class="crm-button" type="button"><mat-icon>arrow_forward</mat-icon><span i18n="@@registerUserComponentStepperActionsNext">Next</span></button> -->
+                    <button mat-stroked-button color="warn" class="crm-button" (click)="stepper.reset()" type="button"><mat-icon>remove_circle</mat-icon><span i18n="@@registerUserComponentStepperActionsResetAll">Reset all</span></button>
+                  </div>         
+                </mat-step>
+                <!-- <mat-step>
+                  <ng-template matStepLabel i18n="@@registerUserComponentStepperLabelsRoleInformation">Role information</ng-template>
+                  <div class="row">
+                    <div class="col-lg-4 col-md-6 col-12">
+                      <mat-selection-list #list>
+                        <label i18n="@@registerUserComponentStepperPlaceholderRole">Role:</label>
+                        <mat-list-option *ngFor="let role of roles" [value]="role.id" (click)="onRoleSelect(list)">
+                          {{ role.keyString }}
+                        </mat-list-option>
+                      </mat-selection-list>    
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <button mat-stroked-button matStepperPrevious class="crm-button" type="button"><mat-icon>arrow_back</mat-icon><span i18n="@@registerUserComponentStepperActionsBack">Back</span></button>
+                    <button mat-stroked-button color="warn" class="crm-button" (click)="stepper.reset()" type="button"><mat-icon>remove_circle</mat-icon><span i18n="@@registerUserComponentStepperActionsResetAll">Reset all</span></button>
+                  </div> 
+                </mat-step> -->
+                <!-- <mat-step>
+                  <ng-template matStepLabel i18n="@@registerUserComponentStepperLabelsDone">Done</ng-template>
+                </mat-step> -->
+              </mat-vertical-stepper>
+              <div class="d-flex justify-content-end btn-register">
+                <button mat-raised-button color="primary" class="crm-button" [disabled]="userData.invalid" (click)="onRegisterSubmit()"><mat-icon>verified_user</mat-icon><span i18n="@@registerUserComponentStepperActionsSubmit">Submit</span></button>
+              </div>
+            </mat-card-content>
+          </mat-card>   
+        </form>
+      </div>
+    </div>
+  </div>
 </section>
-
