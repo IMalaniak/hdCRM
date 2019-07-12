@@ -90,7 +90,7 @@
             </button>
             <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="onUserSelect(user.id)">
-              <fa-icon [icon]="['fas', 'user-cog']"></fa-icon>
+              <fa-icon [icon]="['fas', 'address-card']"></fa-icon>
                 <span i18n="@@usersComponentListActionsView">Details</span>
               </button>
               <button *ngIf="editUserPrivilege$ | async" mat-menu-item (click)="onUserSelect(user.id, true)">

@@ -237,12 +237,12 @@ main {
     align-items: center;
   }
 
-  .mat-icon, fa-icon {
+  fa-icon {
     margin-right: 0.8em;
 
     @include media-breakpoint-down(sm) {
       margin-right: 0;
-      font-size: 1.5em;
+      font-size: 1.25em;
 
       + span {
         display: none;

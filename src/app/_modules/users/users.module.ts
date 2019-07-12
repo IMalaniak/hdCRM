@@ -6,7 +6,7 @@ import { UsersRoutingModule } from './users-routing.module';
 import { SharedModule } from '@/_shared/modules';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEllipsisV, faUserPlus, faEdit, faBan, faUserCog, faUserEdit, faArchive, faUserCheck, faEnvelope, faPhone, faTimes, faSave } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisV, faUserPlus, faEdit, faBan, faAddressCard, faUserEdit, faArchive, faUserCheck, faEnvelope, faPhone, faTimes, faSave } from '@fortawesome/free-solid-svg-icons';
 
 import {
     ProfileComponent,
@@ -59,7 +59,7 @@ export class UsersModule {
       faUserPlus,
       faEdit,
       faBan,
-      faUserCog,
+      faAddressCard,
       faUserEdit,
       faArchive,
       faUserCheck,
