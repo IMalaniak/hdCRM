@@ -6,9 +6,8 @@
 <section class="app-content-box" [title]="'Roles List'" [showDataLoader]="loading$ | async">
 
   <div buttons *ngIf="addRolePrivilege$ | async">
-    <button mat-raised-button color="primary" class="crm-button" routerLink="/roles/add"><mat-icon>add</mat-icon><span i18n="@@rolesComponentDialogActionsCreate">Create</span></button>
+    <button mat-raised-button color="primary" class="crm-button" routerLink="/roles/add"><fa-icon [icon]="['fas', 'plus']"></fa-icon><span i18n="@@rolesComponentDialogActionsCreate">Create</span></button>
   </div>
-
 
   <div content class="table-container">
     <mat-table class="roles-table crm-table" [dataSource]="dataSource" matSort matSortDisabled>
@@ -50,15 +49,15 @@
           <mat-header-cell *matHeaderCellDef></mat-header-cell>
           <mat-cell *matCellDef="let role">
             <button mat-icon-button [matMenuTriggerFor]="menu">
-              <mat-icon>more_vert</mat-icon>
+              <fa-icon [icon]="['fas', 'ellipsis-v']"></fa-icon>
             </button>
             <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="onRoleSelect(role.id)">
-                <mat-icon>details</mat-icon>
+              <fa-icon [icon]="['fas', 'info']"></fa-icon>
                 <span i18n="@@rolesComponentListActionsView">Details</span>
               </button>
               <button *ngIf="editRolePrivilege$ | async" mat-menu-item (click)="onRoleSelect(role.id, true)">
-                <mat-icon>edit</mat-icon>
+                <fa-icon [icon]="['fas', 'edit']"></fa-icon>
                 <span i18n="@@rolesComponentListActionsEdit">Edit</span>
               </button>
             </mat-menu>

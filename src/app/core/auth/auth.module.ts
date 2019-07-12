@@ -10,10 +10,10 @@ import { AuthEffects } from './store/auth.effects';
 import { AppMaterialModule } from '@/_shared/modules';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faKey } from '@fortawesome/free-solid-svg-icons';
-
+import { faKey, faArrowRight, faArrowLeft, faTrashAlt, faPaperPlane, faBan, faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 @NgModule({
   imports: [
@@ -44,6 +44,15 @@ export class AuthModule {
     }
   }
   constructor() {
-    library.add( faKey );
+    library.add( 
+      faKey,
+      faBan,
+      faArrowRight,
+      faCheck,
+      faTrashAlt,
+      faArrowLeft,
+      faPaperPlane,
+      faTimes
+    );
   }
 }

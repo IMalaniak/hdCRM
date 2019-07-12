@@ -9,7 +9,7 @@
               <h3 i18n="@@loginComponentFormHeaderTitleLogin" class="pb-2">Login</h3>
               <mat-card class="failed-message mb-3" *ngIf="serverResponse && !serverResponse.success">
                 <mat-card-content class="d-flex flex-row align-items-center">
-                  <mat-icon>highlight_off</mat-icon>
+                  <fa-icon [icon]="['fas', 'times']"></fa-icon>
                   <div class="ml-3">
                     <span i18n="@@loginComponentMessageLoginError">Data you provided is incorect</span>
                   </div>
@@ -23,10 +23,11 @@
                 <mat-label i18n="@@loginComponentFormPasswordLabel">Password</mat-label>
                 <input matInput [(ngModel)]="user.password" name="password" autocomplete="current-password" [type]="hidePassword ? 'password' : 'text'">
                 <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                <!-- TODO FA-ICON -->
               </mat-form-field>  
               <button mat-raised-button color="primary" class="crm-button mb-3" type="submit" [disabled]="isLoading$ | async">
-                <mat-icon *ngIf="!(isLoading$ | async)">vpn_key</mat-icon>
-                <mat-icon *ngIf="isLoading$ | async">block</mat-icon>
+                <fa-icon *ngIf="!(isLoading$ | async)" [icon]="['fas', 'key']"></fa-icon>
+                <fa-icon *ngIf="isLoading$ | async" [icon]="['fas', 'ban']"></fa-icon>
                 <span i18n="@@loginComponentFormActionsLogIn">Login</span></button>
               <button mat-button type="button" class="text-muted mx-auto" routerLink="/auth/request-new-password/" i18n="@@loginComponentActionsForgotYourPassword">Forgot password?</button>
             </mat-card-content>
@@ -38,7 +39,7 @@
               <h3 i18n="@@loginComponentFormRequestNewPasswordHeader" class="pb-2">Your email or login</h3>
               <mat-card class="success-message mb-3" *ngIf="serverResponse && serverResponse.success">
                 <mat-card-content class="d-flex flex-row align-items-center">
-                  <mat-icon>check_circle_outline</mat-icon>
+                  <fa-icon [icon]="['fas', 'check']"></fa-icon>
                   <div class="ml-3">
                     <span i18n="@@loginComponentMessageSentToYourEmailAddress">A message has been sent to your email address. Follow the instructions to reset your password.</span>
                   </div>
@@ -46,7 +47,7 @@
               </mat-card>
               <mat-card class="failed-message mb-3" *ngIf="serverResponse && !serverResponse.success">
                 <mat-card-content class="d-flex flex-row align-items-center">
-                  <mat-icon>highlight_off</mat-icon>
+                  <fa-icon [icon]="['fas', 'times']"></fa-icon>
                   <div class="ml-3">
                     <span i18n="@@loginComponentMessageUserIsNotExist">The following user does not exist! Please, provide correct email or login!</span>
                   </div>
@@ -57,8 +58,8 @@
                 <input matInput [(ngModel)]="user.login" type="text" autocomplete="username" name="login" required>
               </mat-form-field>
               <div class="d-flex justify-content-between">
-                <button mat-raised-button class="crm-button mr-1" type="reset" routerLink="/auth/login"><mat-icon>clear</mat-icon><span i18n="@@globalActionsCancelEdit">Cancel</span></button>
-                <button mat-raised-button color="primary" class="crm-button ml-1" type="submit" [disabled]="isLoading$ | async"><mat-icon>arrow_forward</mat-icon><span i18n="@@loginComponentActionsResetPassword">Reset password</span></button>
+                <button mat-raised-button class="crm-button mr-1" type="reset" routerLink="/auth/login"><fa-icon [icon]="['fas', 'times']"></fa-icon><span i18n="@@globalActionsCancelEdit">Cancel</span></button>
+                <button mat-raised-button color="primary" class="crm-button ml-1" type="submit" [disabled]="isLoading$ | async"><fa-icon [icon]="['fas', 'arrow-right']"></fa-icon><span i18n="@@loginComponentActionsResetPassword">Reset password</span></button>
               </div>
             </mat-card-content>
           </mat-card>
@@ -69,7 +70,7 @@
               <h3 i18n="@@loginComponentFormPasswordResetHeader" class="pb-2">Reset password</h3>
               <mat-card class="success-message mb-3" *ngIf="serverResponse && serverResponse.success">
                 <mat-card-content class="d-flex flex-row align-items-center">
-                  <mat-icon>check_circle_outline</mat-icon>
+                  <fa-icon [icon]="['fas', 'check']"></fa-icon>
                   <div class="ml-3">
                     <span i18n="@@loginComponentMessagePasswordChanged">You have successfully changed your password.</span>
                   </div>
@@ -77,7 +78,7 @@
               </mat-card>
               <mat-card class="failed-message mb-3" *ngIf="serverResponse && !serverResponse.success">
                 <mat-card-content class="d-flex flex-row align-items-center">
-                  <mat-icon>highlight_off</mat-icon>
+                  <fa-icon [icon]="['fas', 'times']"></fa-icon>
                   <div class="ml-3">
                     <span i18n="@@loginComponentMessageTokenIsNotValid">Your token does not exist or it has expired.<br>You can <a routerLink="/auth/request-new-password/">request a new password reset</a></span>
                   </div>
@@ -112,8 +113,8 @@
                 </mat-error>
               </mat-form-field> 
               <div class="d-flex flex-row justify-content-between mt-1">
-                <button mat-stroked-button class="crm-button mr-1" routerLink="/auth/login"><mat-icon>clear</mat-icon><span i18n="@@globalActionsCancelEdit">Cancel</span></button>
-                <button mat-raised-button color="primary" type="submit" class="crm-button ml-1" [disabled]="newPasswordForm.invalid"><mat-icon>done</mat-icon><span i18n="@@loginComponentFormActionsSubmit">Submit</span></button>
+                <button mat-stroked-button class="crm-button mr-1" routerLink="/auth/login"><fa-icon [icon]="['fas', 'times']"></fa-icon><span i18n="@@globalActionsCancelEdit">Cancel</span></button>
+                <button mat-raised-button color="primary" type="submit" class="crm-button ml-1" [disabled]="newPasswordForm.invalid"><fa-icon [icon]="['fas', 'check']"></fa-icon><span i18n="@@loginComponentFormActionsSubmit">Submit</span></button>
               </div> 
             </mat-card-content>
           </mat-card>
@@ -122,7 +123,7 @@
           <mat-card-content class="d-flex justify-content-center flex-column p-3">
             <mat-card class="process-message" *ngIf="!serverResponse">
               <mat-card-content class="d-flex flex-row align-items-center">
-                <mat-icon>check_circle_outline</mat-icon>
+                <fa-icon [icon]="['fas', 'clock']"></fa-icon>
                 <div class="ml-3">
                   <span i18n="@@loginComponentMessageActivationInProgress">Wait until your account is been activated...</span>
                 </div>
@@ -130,7 +131,7 @@
             </mat-card>
             <mat-card class="success-message" *ngIf="serverResponse && serverResponse.success">
               <mat-card-content class="d-flex flex-row align-items-center">
-                <mat-icon>check_circle_outline</mat-icon>
+                <fa-icon [icon]="['fas', 'check']"></fa-icon>
                 <div class="ml-3">
                   <span i18n="@@loginComponentMessageAccountActivated">You account has been activated successfully! You can <a routerLink="/auth/">login now</a>.</span>
                 </div>
@@ -138,7 +139,7 @@
             </mat-card>
             <mat-card class="failed-message" *ngIf="serverResponse && !serverResponse.success">
               <mat-card-content class="d-flex flex-row align-items-center">
-                <mat-icon>highlight_off</mat-icon>
+                <fa-icon [icon]="['fas', 'times']"></fa-icon>
                 <div class="ml-3">
                   <span i18n="@@loginComponentMessageTokenIsNotValid">Your token does not exist or it has expired.<br>You can <a routerLink="/auth/request-new-password/">request a new password reset</a></span>
                 </div>

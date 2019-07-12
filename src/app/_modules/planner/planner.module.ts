@@ -14,7 +14,9 @@ import { SharedModule } from '@/_shared/modules';
 import { AttachmentsModule } from '../attachments/attachments.module';
 import { UsersModule } from '@/_modules/users/users.module';
 
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faEllipsisV, faInfo, faEdit, faPlus, faSave, faTimes, faUserPlus, faPaperPlane, faArrowRight, faCog } from '@fortawesome/free-solid-svg-icons';
 
 import {
     AddPlanComponent,
@@ -30,7 +32,6 @@ import { plansReducer } from './store/plan.reducer';
 import { PlanEffects } from './store/plan.effects';
 import { stagesReducer } from './store/stage.reducer';
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -43,6 +44,7 @@ import { stagesReducer } from './store/stage.reducer';
     AttachmentsModule,
     SweetAlert2Module,
     UsersModule,
+    FontAwesomeModule,
     StoreModule.forFeature('plans', plansReducer),
     StoreModule.forFeature('stages', stagesReducer),
     EffectsModule.forFeature([PlanEffects])
@@ -69,4 +71,19 @@ import { stagesReducer } from './store/stage.reducer';
   ],
   entryComponents: [AddStageDialogComponent, StagesDialogComponent]
 })
-export class PlannerModule {}
+export class PlannerModule {
+  constructor() {
+    library.add(
+      faEllipsisV,
+      faInfo,
+      faEdit,
+      faPlus,
+      faSave,
+      faTimes,
+      faUserPlus,
+      faPaperPlane,
+      faArrowRight,
+      faCog
+    );
+  }
+}

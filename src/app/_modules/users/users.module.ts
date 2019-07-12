@@ -4,6 +4,9 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsersRoutingModule } from './users-routing.module';
 import { SharedModule } from '@/_shared/modules';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faEllipsisV, faUserPlus, faEdit, faBan, faUserCog, faUserEdit, faArchive, faUserCheck, faEnvelope, faPhone, faTimes, faSave } from '@fortawesome/free-solid-svg-icons';
 
 import {
     ProfileComponent,
@@ -25,6 +28,7 @@ import { statesReducer } from './store/state.reducer';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    FontAwesomeModule,
     UsersRoutingModule.forRoot(),
     StoreModule.forFeature('users', usersReducer),
     StoreModule.forFeature('states', statesReducer),
@@ -48,4 +52,21 @@ import { statesReducer } from './store/state.reducer';
   ],
   entryComponents: [UsersDialogComponent]
 })
-export class UsersModule {}
+export class UsersModule {
+  constructor() {
+    library.add( 
+      faEllipsisV,
+      faUserPlus,
+      faEdit,
+      faBan,
+      faUserCog,
+      faUserEdit,
+      faArchive,
+      faUserCheck,
+      faEnvelope,
+      faPhone,
+      faTimes,
+      faSave
+    );
+  }
+}

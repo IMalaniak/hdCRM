@@ -33,10 +33,10 @@
         <mat-divider></mat-divider>
         <div class="contacts">  
           <a class="d-flex align-items-center" href="mailto:{{ user.email }}">
-            <mat-icon color="primary">email</mat-icon><span>{{ user.email }}</span>
+            <fa-icon [icon]="['fas', 'envelope']"></fa-icon><span>{{ user.email }}</span>
           </a>
           <div class="d-flex align-items-center">
-            <mat-icon color="primary">phone</mat-icon><span>{{ user.phone }}</span>
+            <fa-icon [icon]="['fas', 'phone']"></fa-icon><span>{{ user.phone }}</span>
           </div>
         </div>
       </div>
@@ -166,9 +166,9 @@
               </div>
             </div>
             <div buttons>
-              <button mat-raised-button color="primary" class="crm-button" *ngIf="!editForm" (click)="onClickEdit()"><mat-icon>edit</mat-icon><span i18n="@@globalActionsEdit">Edit</span></button>
-              <button mat-raised-button color="primary" class="crm-button" *ngIf="editForm" (click)="onUpdateUserSubmit()"><mat-icon>save</mat-icon><span i18n="@@globalActionsSaveChanges">Save</span></button>
-              <button mat-raised-button class="crm-button" *ngIf="editForm" (click)="onClickCancelEdit()"><mat-icon>cancel</mat-icon><span i18n="@@globalActionsCancelEdit">Cancel</span></button>
+              <button mat-raised-button color="primary" class="crm-button" *ngIf="!editForm" (click)="onClickEdit()"><fa-icon [icon]="['fas', 'edit']"></fa-icon><span i18n="@@globalActionsEdit">Edit</span></button>
+              <button mat-raised-button color="primary" class="crm-button" *ngIf="editForm" (click)="onUpdateUserSubmit()"><fa-icon [icon]="['fas', 'save']"></fa-icon><span i18n="@@globalActionsSaveChanges">Save</span></button>
+              <button mat-raised-button class="crm-button" *ngIf="editForm" (click)="onClickCancelEdit()"><fa-icon [icon]="['fas', 'times']"></fa-icon><span i18n="@@globalActionsCancelEdit">Cancel</span></button>
             </div>
           </section>
         </mat-tab>

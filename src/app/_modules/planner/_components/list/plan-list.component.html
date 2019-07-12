@@ -6,7 +6,7 @@
 <section class="app-content-box" [title]="'Plan list'" [showDataLoader]="loading$ | async">
 
   <div buttons *ngIf="addPlanPrivilege$ | async">
-    <button mat-raised-button color="primary" class="crm-button" routerLink="/planner/add"><mat-icon>add_circle</mat-icon><span i18n="@@plannerСomponentActionCreateNewPlan">Create a new plan</span></button>
+    <button mat-raised-button color="primary" class="crm-button" routerLink="/planner/add"><fa-icon [icon]="['fas', 'plus']"></fa-icon><span i18n="@@plannerСomponentActionCreateNewPlan">Create a new plan</span></button>
   </div>
 
   <div content class="table-container">
@@ -59,19 +59,19 @@
         <ng-container matColumnDef="actions" stickyEnd >
           <mat-header-cell *matHeaderCellDef i18n="@@globalsListActions"></mat-header-cell>
           <mat-cell *matCellDef="let plan">
-              <button mat-icon-button [matMenuTriggerFor]="menu">
-                <mat-icon>more_vert</mat-icon>
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <fa-icon [icon]="['fas', 'ellipsis-v']"></fa-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="onPlanSelect(plan.id)">
+                <fa-icon [icon]="['fas', 'info']"></fa-icon>
+                <span i18n="@@plannerComponentListActionsView">Details</span>
               </button>
-              <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="onPlanSelect(plan.id)">
-                  <mat-icon>details</mat-icon>
-                  <span i18n="@@plannerComponentListActionsView">Details</span>
-                </button>
-                <button *ngIf="editPlanPrivilege$ | async" mat-menu-item (click)="onPlanSelect(plan.id, true)">
-                  <mat-icon>edit</mat-icon>
-                  <span i18n="@@plannerComponentListActionsEdit">Edit</span>
-                </button>
-              </mat-menu>
+              <button *ngIf="editPlanPrivilege$ | async" mat-menu-item (click)="onPlanSelect(plan.id, true)">
+                <fa-icon [icon]="['fas', 'edit']"></fa-icon>
+                <span i18n="@@plannerComponentListActionsEdit">Edit</span>
+              </button>
+            </mat-menu>
           </mat-cell>
         </ng-container>
         <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>

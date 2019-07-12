@@ -16,6 +16,6 @@
   </div>
 </div>
 <div mat-dialog-actions class="justify-content-center">
-  <button mat-raised-button class="crm-button" (click)="onNoClick()"><mat-icon>cancel</mat-icon><span i18n="@@globalActionsCancelEdit">Cancel</span></button>
-  <button mat-raised-button color="primary" class="crm-button" [mat-dialog-close]="data.keyString.value" [disabled]="data.keyString.invalid"><mat-icon>add</mat-icon><span i18n="@@addStageComponentDialogActionAddStage">Add stage</span></button>
+  <button mat-raised-button class="crm-button" (click)="onNoClick()"><fa-icon [icon]="['fas', 'times']"></fa-icon><span i18n="@@globalActionsCancelEdit">Cancel</span></button>
+  <button mat-raised-button color="primary" class="crm-button" [mat-dialog-close]="data.keyString.value" [disabled]="data.keyString.invalid"><fa-icon [icon]="['fas', 'plus']"></fa-icon><span i18n="@@addStageComponentDialogActionAddStage">Add stage</span></button>
 </div>

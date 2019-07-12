@@ -5,6 +5,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RolesRoutingModule } from './roles-routing.module';
 import { SharedModule } from '@/_shared/modules';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faEllipsisV, faInfo, faEdit, faPlus, faSave, faTimes, faUserPlus, faPaperPlane, faArrowRight, faCog, faCheck } from '@fortawesome/free-solid-svg-icons';
+
 import {
     RolesComponent,
     RoleComponent,
@@ -26,6 +30,7 @@ import { RoleEffects } from './store/role.effects';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    FontAwesomeModule,
     RolesRoutingModule.forRoot(),
     StoreModule.forFeature('roles', rolesReducer),
     EffectsModule.forFeature([RoleEffects]),
@@ -49,4 +54,17 @@ import { RoleEffects } from './store/role.effects';
   ],
   entryComponents: [RolesDialogComponent]
 })
-export class RolesModule {}
+export class RolesModule {
+  constructor() {
+    library.add(
+      faEllipsisV,
+      faInfo,
+      faEdit,
+      faPlus,
+      faSave,
+      faTimes,
+      faUserPlus,
+      faCheck
+    );
+  }
+}

@@ -11,7 +11,7 @@ import { UsersModule } from '@/_modules/users/users.module';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEllipsisV, faInfoCircle, faEdit, faPlus, faSave, faTimesCircle, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisV, faInfo, faEdit, faPlus, faSave, faTimes, faUserPlus, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 import {
     AddDepartmentComponent,
@@ -57,12 +57,13 @@ export class DepartmentsModule {
   constructor() {
     library.add(
       faEllipsisV,
-      faInfoCircle,
+      faInfo,
       faEdit,
       faPlus,
       faSave,
-      faTimesCircle,
-      faUserPlus
+      faTimes,
+      faUserPlus,
+      faPaperPlane
     );
   }
 }

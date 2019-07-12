@@ -87,10 +87,8 @@
                 white-space: nowrap;
             }
 
-            mat-icon {
-                font-size: 1em;
-                height: 1em;
-                width: 1em;
+            fa-icon {
+                color: crmcolor(primary, base);
                 margin-right: 0.5em;
             }
         }

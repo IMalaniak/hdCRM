@@ -29,16 +29,15 @@
     // }
 
     .success-message, .failed-message, .process-message {
-        width: 23em;
         box-shadow: none;
+        max-width: 23em;
     }
 
     .success-message {
         background-color: #D4F5D1;
         border: 1px solid #60D955;
 
-
-        span, mat-icon {
+        span, fa-icon {
             color: #60D955;
         }
     }
@@ -47,7 +46,7 @@
         background-color: #FA5757;
         border: 1px solid #BA2C3A;
 
-        span, mat-icon {
+        span, fa-icon {
             color: crmcolor(main, base);
         }
     }
@@ -56,7 +55,7 @@
         background-color: rgb(255, 238, 0);
         border: 1px solid rgb(218, 214, 0);
 
-        span, mat-icon {
+        span, fa-icon {
             color: crmcolor(main, base);
         }
     }
