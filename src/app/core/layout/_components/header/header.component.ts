@@ -27,13 +27,6 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {}
 
-  toogleHamburger() {
-    const hamburger = document.querySelector(".hamburger");
-
-    hamburger.classList.toggle('active');
-    hamburger.classList.toggle('not-active');
-  }
-
   onLogoutClick() {
     this.store.dispatch(new authActions.LogOut());
     this.router.navigate(['/home']);
