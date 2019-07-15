@@ -36,9 +36,9 @@ function saveLogInAttempt(req, user, isSuccess) {
 
 //Register
 router.post('/register', (req, res, next) => {
-	const tempPassword = crypt.genRandomString(12);
+	const password = req.body.password ? req.body.password : crypt.genRandomString(12);
 
-	const passwordData = crypt.saltHashPassword(tempPassword);
+	const passwordData = crypt.saltHashPassword(password);
 
 	const sendInvitationMail = function(user) {
 		const token = crypt.genTimeLimitedToken(24*60);
@@ -47,7 +47,7 @@ router.post('/register', (req, res, next) => {
 			tokenExpire: token.expireDate,
 			passwordExpire: token.expireDate
 		}).then(pa => {
-			mailer.sendActivation(user, tempPassword, `${env.URL}/auth/activate-account/${token.value}`).then(() => {
+			mailer.sendActivation(user, password, `${env.URL}/auth/activate-account/${token.value}`).then(() => {
 				res.status(200).json({success: true, message: "Activation link has been sent"});
 			}).catch(error => {
 				res.status(400).json(error.toString());
