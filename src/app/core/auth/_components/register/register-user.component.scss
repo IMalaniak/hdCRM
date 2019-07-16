@@ -34,6 +34,9 @@
 
             mat-card-content {
                 @include media-breakpoint-up(xs) {
+                    padding: 0.1em;
+                }
+                @include media-breakpoint-up(sm) {
                     padding: 1em;
                 }
             }
@@ -46,6 +49,12 @@
 
             mat-form-field {
                 width: 100%;
+                display: block;
+            }
+
+            mat-checkbox {
+                margin: 0 0.5em 0 0.5em;
+                line-height: 1;
             }
         }
 

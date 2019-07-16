@@ -29,7 +29,6 @@ export class RegisterUserComponent implements OnInit {
     // this.roleService.getFullList().subscribe(roles => {
     //   this.roles = roles;
     // });
-
     this.userData = this._formBuilder.group({
       formArray: this._formBuilder.array([
         this._formBuilder.group({
@@ -43,10 +42,11 @@ export class RegisterUserComponent implements OnInit {
             Validators.required,
             Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
           ]),
-          // password: new FormControl('', [
-          //   Validators.required,
-          //   Validators.minLength(6)
-          // ]),
+          password: new FormControl('', [
+            Validators.required,
+            Validators.minLength(6)
+          ]),
+          generatePassword: new FormControl('')
         }),
         this._formBuilder.group({
           name: new FormControl('', [
@@ -67,6 +67,18 @@ export class RegisterUserComponent implements OnInit {
         }),
       ])
     });
+
+    this.generatePassword.valueChanges.subscribe(value => {
+      if (value) {
+        this.password.setValidators(null);
+      } else {
+        this.password.setValidators([
+          Validators.required,
+          Validators.minLength(6)
+        ]);
+      }
+      this.password.updateValueAndValidity();  
+    })
   }
 
   // onRoleSelect(list) {
@@ -75,16 +87,20 @@ export class RegisterUserComponent implements OnInit {
 
   get formArray(): AbstractControl | null { return this.userData.get('formArray'); }
   get login() { return this.formArray.get([0]).get('login'); }
-  // get password() { return this.formArray.get([0]).get('password'); }
+  get password() { return this.formArray.get([0]).get('password'); }
+  get generatePassword() { return this.formArray.get([0]).get('generatePassword'); }
   get email() { return this.formArray.get([0]).get('email'); }
   get name() { return this.formArray.get([1]).get('name'); }
   get surname() { return this.formArray.get([1]).get('surname'); }
   get phone() { return this.formArray.get([1]).get('phone'); }
   // get defaultLang() { return this.formArray.get([1]).get('defaultLang'); }
 
+
   onRegisterSubmit() {
     this.user.login = this.login.value;
-    // this.user.password = this.password.value;
+    if (!this.generatePassword) {
+      this.user.password = this.password.value;
+    }
     this.user.email = this.email.value;
     this.user.name = this.name.value;
     this.user.surname = this.surname.value;
