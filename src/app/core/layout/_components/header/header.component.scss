@@ -1,130 +1,309 @@
 @import 'variables';
 @import '_mixins';
+@import "~bootstrap/scss/mixins/_breakpoints";
 
-.hamburger {
-    width: 22px;
+:host {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  min-height: crmsize(header, height);
+  flex-basis: crmsize(header, height);
+  background-color: crmcolor(main, dark);
+  color: crmcolor(main, light);
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
+  z-index: 101;
 
-    label {
-        display: block;
+  .company-logo {
+    width: crmsize(sidebar, width);
+    background-color: crmcolor(main, light);
+    padding: 0.25*crmsize(spacer, null, true) 0.5*crmsize(spacer, null, true);
+    color: crmcolor(main, dark);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: width $animation-time-style;
+
+    &.minimized {
+      width: crmsize(sidebar, minimized);
+      justify-content: center;
+
+      img {
+        display: none;
+      }
+    }
+
+    img {
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    @include media-breakpoint-down(md) {
+      width: crmsize(sidebar, minimized);
+      justify-content: center;
+
+      img {
+        display: none;
+      }
+    }
+  }
+
+  > div {
+    text-align: center;
+    height: 100%;
+    padding: 0 crmsize(spacer, null, true);
+    display: flex;
+    align-items: center;
+
+    // &:last-of-type {
+
+    // }
+
+    // &.user-search {
+
+    // }
+
+    &.user-dropdown {
+      margin-left: auto;
+    }
+  }
+
+  .user-dropdown {
+    position: relative;
+
+    img {
         cursor: pointer;
     }
 
-    span {
-        display: block;
-        width: 100%;
-        border-radius: 10px;
-        height: 2px;
-        background: crmcolor(main, dark);
-        transition: all 0.3s;
-        position: relative;
+    .dropdown-content {
+        $hHeight: crmsize(header, height, true);
 
-        &:nth-child(1) {
-            animation: ease .6s top forwards;
+        display: flex;
+        flex-direction: column;
+        opacity: 0;
+        visibility: hidden;
+        padding: crmsize(spacer, null, true);
+        background-color: crmcolor(main, dark);
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 100vw;
+        height: calc(100vh - #{$hHeight});
+        max-height: calc(100vh - #{$hHeight});
+        transition: opacity $animation-time-style, visibility $animation-time-style;
 
-            .minimized & {
-                animation: ease .6s top-2 forwards;
-            }
+        @include media-breakpoint-up(sm) {
+          width: 20em;
+          height: 50vh;
+          max-height: 50vh;
         }
 
-        &:nth-child(2) {
-            animation: ease .6s scaled forwards;
-
-            .minimized & {
-                animation: ease .6s scaled-2 forwards;
-            }
-        }
-
-        &:nth-child(3) {
-            animation: ease .6s bottom forwards;
-
-            .minimized & {
-                animation: ease .6s bottom-2 forwards;
-            }
+        .mat-stroked-button {
+          margin: 0.5*crmsize(spacer, null, true);
+          border-color: currentColor;
         }
     }
-    
-    span + span {
-        margin-top: 4px;
+
+    &:hover {
+        .dropdown-content {
+          visibility: visible;
+          opacity: 1;
+        }
     }
+  }
+}
+
+.notifications-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5em;
+  margin-top: crmsize(spacer, null, true);
+  border-top: 1px currentColor solid;
+  
+  > div {
+    &:first-of-type {
+      padding: 0.5*crmsize(spacer, null, true) 0.5*crmsize(spacer, null, true) crmsize(spacer, null, true);
+    }
+    &:nth-child(2) {
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+  }
+  
+  input.notification-check[type='checkbox']{
+    display: none;
+
+    + .notification {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      &.new {
+        // different collor
+      }
+
+      span {
+        text-align: left;
+        font-size: 0.8em;
+      }
+    }
+    &:not(:checked) + .notification {
+      transition: height $animation-time-style;
+      height: 0;
+      padding: 0;
+      font-size: 0;
+      border: none;
+      * {
+        display: none; 
+      }
+    }
+    &:checked + .notification {  
+      height: 4em;
+      padding: 0.5*crmsize(spacer, null, true);
+      border-top: 1px currentColor solid;
+    }
+  }
+
+  fa-icon {
+    cursor: pointer;
+  }
+}
+
+.hamburger {
+  width: 22px;
+
+  label {
+    display: block;
+    cursor: pointer;
+  }
+
+  span {
+    display: block;
+    width: 100%;
+    border-radius: 10px;
+    height: 2px;
+    background: crmcolor(main, dark);
+    transition: all $animation-time-style;
+    position: relative;
+
+    &:nth-child(1) {
+      animation: ease $animation-time top forwards;
+
+      .minimized & {
+        animation: ease $animation-time top-2 forwards;
+      }
+    }
+
+    &:nth-child(2) {
+      animation: ease $animation-time scaled forwards;
+
+      .minimized & {
+        animation: ease $animation-time scaled-2 forwards;
+      }
+    }
+
+    &:nth-child(3) {
+      animation: ease $animation-time bottom forwards;
+
+      .minimized & {
+        animation: ease $animation-time bottom-2 forwards;
+      }
+    }
+  }
+
+  span+span {
+    margin-top: 4px;
+  }
 }
 
 @keyframes top {
-    0% {
-        top: 0;
-        transform: rotate(0);
-    }
-    50% {
-        top: 6px;
-        transform: rotate(0);
-    }
-    100% {
-        top: 6px;
-        transform: rotate(45deg);
-    }
+  0% {
+    top: 0;
+    transform: rotate(0);
+  }
+
+  50% {
+    top: 6px;
+    transform: rotate(0);
+  }
+
+  100% {
+    top: 6px;
+    transform: rotate(45deg);
+  }
 }
 
 @keyframes top-2 {
-    0% {
-        top: 6px;
-        transform: rotate(45deg);
-    }
-    50% {
-        top: 6px;
-        transform: rotate(0deg);
-    }
-    100% {
-        top: 0;
-        transform: rotate(0deg);
-    }
+  0% {
+    top: 6px;
+    transform: rotate(45deg);
+  }
+
+  50% {
+    top: 6px;
+    transform: rotate(0deg);
+  }
+
+  100% {
+    top: 0;
+    transform: rotate(0deg);
+  }
 }
 
 @keyframes bottom {
-    0% {
-        bottom: 0;
-        transform: rotate(0);
-    }
-    50% {
-        bottom: 6px;
-        transform: rotate(0);
-    }
-    100% {
-        bottom: 6px;
-        transform: rotate(135deg);
-    }
+  0% {
+    bottom: 0;
+    transform: rotate(0);
+  }
+
+  50% {
+    bottom: 6px;
+    transform: rotate(0);
+  }
+
+  100% {
+    bottom: 6px;
+    transform: rotate(135deg);
+  }
 }
 
 @keyframes bottom-2 {
-    0% {
-        bottom: 6px;
-        transform: rotate(135deg);
-    }
-    50% {
-        bottom: 6px;
-        transform: rotate(0);
-    }
-    100% {
-        bottom: 0;
-        transform: rotate(0);
-    }
+  0% {
+    bottom: 6px;
+    transform: rotate(135deg);
+  }
+
+  50% {
+    bottom: 6px;
+    transform: rotate(0);
+  }
+
+  100% {
+    bottom: 0;
+    transform: rotate(0);
+  }
 }
 
 @keyframes scaled {
-    50% {
-        transform: scale(0);
-    }
-    100% {
-        transform: scale(0);
-    }
+  50% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(0);
+  }
 }
 
 @keyframes scaled-2 {
-    0% {
-        transform: scale(0);
-    }
-    50% {
-        transform: scale(0);
-    }
-    100% {
-        transform: scale(1);
-    }
+  0% {
+    transform: scale(0);
+  }
+
+  50% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }

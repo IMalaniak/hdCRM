@@ -78,4 +78,6 @@ $color-prefix: --crmcolor-;
 $size-prefix: --crmsize-;
 
 //OTHER
-$animation-time-style: .16s ease-in-out;
+$animation-time: .26s;
+$animation-style: ease-in-out;
+$animation-time-style: $animation-time $animation-style;
