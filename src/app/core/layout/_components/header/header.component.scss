@@ -94,7 +94,7 @@
 
         @include media-breakpoint-up(sm) {
           width: 20em;
-          height: 50vh;
+          height: auto;
           max-height: 50vh;
         }
 
