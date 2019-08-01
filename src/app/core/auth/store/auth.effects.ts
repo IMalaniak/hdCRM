@@ -10,6 +10,9 @@ import * as fromAuth from './auth.actions';
 import { AuthenticationService } from '../_services';
 import Swal from 'sweetalert2';
 
+import { JwtHelperService } from '@auth0/angular-jwt';
+const jwtHelper = new JwtHelperService();
+
 
 @Injectable()
 export class AuthEffects {
@@ -62,14 +65,15 @@ export class AuthEffects {
 
     @Effect()
     init$ = defer(() => {
-      const userData = localStorage.getItem('currentUser');
+      let userData: any = localStorage.getItem('currentUser');
       if (userData) {
-         return of(new fromAuth.LogInSuccess(JSON.parse(userData)));
+        userData = JSON.parse(userData);
+        if (!jwtHelper.isTokenExpired(userData.token)) {
+          return of(new fromAuth.LogInSuccess(userData));
+        } else {
+          localStorage.removeItem('currentUser');
+        }
       }
-      // TODO: cannot access public routes
-      // else {
-      //   return <any> of(new fromAuth.LogOut());
-      // }
     });
 
 }

@@ -352,10 +352,10 @@ router.post('/reset_password', (req, res, next) => {
 
 router.get('/logout', (req, res, next) => {
 	req.logout();
-	req.session.destroy((err) => {
-	  res.clearCookie('jwt');
-	  res.send('Logged out');
-	});
+	// req.session.destroy((err) => {
+	//   res.clearCookie('jwt');
+	//   res.send('Logged out');
+	// });
 });
 
 module.exports = router;
