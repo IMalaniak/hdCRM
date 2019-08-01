@@ -98,7 +98,7 @@ export class RegisterUserComponent implements OnInit {
 
   onRegisterSubmit() {
     this.user.login = this.login.value;
-    if (!this.generatePassword) {
+    if (!this.generatePassword.value) {
       this.user.password = this.password.value;
     }
     this.user.email = this.email.value;
