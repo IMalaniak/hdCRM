@@ -5,13 +5,14 @@
   "main": "app.js",
   "scripts": {
     "ng": "ng",
-    "prestart": "node_modules/.bin/sequelize db:migrate",
-    "start": "node app.js",
+    "start": "node -r dotenv/config app.js",
     "web": "ng serve --aot -o",
+    "dev": "concurrently \"ng serve --aot -o\" \"nodemon\"",
     "build": "ng build --aot --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "migrate-db": "node_modules/.bin/sequelize db:migrate",
     "prepare-db": "sequelize db:seed:all --env='production'"
   },
   "private": true,
@@ -44,9 +45,11 @@
     "async": "^3.1.0",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.3.1",
+    "concurrently": "^4.1.1",
     "core-js": "^2.6.9",
     "cors": "*",
     "d3": "^5.9.7",
+    "dotenv": "^8.0.0",
     "email-templates": "^6.0.0",
     "express": "^4.17.1",
     "filepond": "^4.4.11",
@@ -93,5 +96,20 @@
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
     "typescript": "~3.4.5"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      ".git",
+      "node_modules",
+      "./src"
+    ],
+    "watch": [
+      "./server",
+      "./app.js"
+    ],
+    "exec": "npm start",
+    "ext": "ts"
   }
 }

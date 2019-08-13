@@ -3,7 +3,6 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
-const env = require('./server/config/env');
 const db = require('./server/models/index');
 const api = require('./server/routes');
 const app = express();
@@ -29,19 +28,19 @@ app.get('/*', (req, res) => {
 	res.sendFile(path.join(__dirname, './dist/webApp/index.html'));
 });
 
-if (env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production') {
   // //Start DB
   db.sequelize.sync({
     //alter: true,
     //force: true
   }).then(() => {
-    app.listen(env.PORT, () => {
-      console.log('Express listening on port:', env.PORT);
+    app.listen(process.env.PORT, () => {
+      console.log('Express listening on port:', process.env.PORT);
     });
   });
 } else {
-  app.listen(env.PORT, () => {
-    console.log('Express listening on port:', env.PORT);
+  app.listen(process.env.PORT, () => {
+    console.log('Express listening on port:', process.env.PORT);
   });
 }
 

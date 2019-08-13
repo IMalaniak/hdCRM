@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../models/index');
-const env = require('../config/env');
 const crypt = require('../config/crypt');
 const jwt = require('jsonwebtoken');
 const mailer = require('../mailer/nodeMailerTemplate');
@@ -47,7 +46,7 @@ router.post('/register', (req, res, next) => {
 			tokenExpire: token.expireDate,
 			passwordExpire: token.expireDate
 		}).then(pa => {
-			mailer.sendActivation(user, password, `${env.URL}/auth/activate-account/${token.value}`).then(() => {
+			mailer.sendActivation(user, password, `${process.env.URL}/auth/activate-account/${token.value}`).then(() => {
 				res.status(200).json({success: true, message: "Activation link has been sent"});
 			}).catch(error => {
 				res.status(400).json(error.toString());
@@ -201,7 +200,7 @@ router.post('/authenticate', (req, res, next) => {
 
 			let isMatch = crypt.validatePassword(password, user.passwordHash, user.salt);
 			if (isMatch) {
-				const token = jwt.sign(user.dataValues, env.SECRET, {
+				const token = jwt.sign(user.dataValues, process.env.SECRET, {
 					expiresIn: 86400  // 86400s = 1 day //604800s = 1 week
 				});
 
@@ -265,7 +264,7 @@ router.post('/forgot_password', (req, res, next) => {
 			user.getPasswordAttributes().then(pa => {
 				const token = crypt.genTimeLimitedToken(5);
 				const sendPasswordResetMail = function() {
-					mailer.sendPasswordReset(user, `${env.URL}/auth/password-reset/${token.value}`).then(() => {
+					mailer.sendPasswordReset(user, `${process.env.URL}/auth/password-reset/${token.value}`).then(() => {
 						res.status(200).json({success: true, message: "Activation link has been sent"});
 					}).catch(error => {
 						res.status(400).json(error.toString());

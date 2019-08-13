@@ -1,13 +1,12 @@
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const db = require('../models/index');
-const env = require('./env');
 
 module.exports = function(passport){
 
 	let opts = {}
 	opts.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('jwt');
-	opts.secretOrKey = env.SECRET;
+	opts.secretOrKey = process.env.SECRET;
 	//opts.issuer = 'accounts.examplesoft.com';
 	//opts.audience = 'yoursite.net';
 	passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
