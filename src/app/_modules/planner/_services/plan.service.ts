@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Plan, Stage, PlanServerResponse } from '../_models';
 import { User } from '@/_modules/users';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class PlanService {
@@ -25,7 +26,9 @@ export class PlanService {
           .set('pageSize', pageSize.toString())
           .set('sortIndex', sortIndex)
           .set('sortDirection', sortDirection)
-      });
+      }).pipe(
+        map(res => new PlanServerResponse(res))
+      );
   }
 
   getListByStage(stage: number, pageIndex = 0, pageSize = 5): Observable<Plan[]> {
@@ -38,7 +41,9 @@ export class PlanService {
   }
 
   getOne(id: number): Observable<Plan> {
-    return this.http.get<Plan>(`${this.api}/${id}`);
+    return this.http.get<Plan>(`${this.api}/${id}`).pipe(
+      map(res => new Plan(res))
+    );
   }
 
   updateOne(plan: Plan): Observable<Plan> {
@@ -54,9 +59,12 @@ export class PlanService {
     return this.http.get<Plan>(url);
   }
 
-  // redo
   deleteDoc(req: any) {
-    return this.http.put<any | Plan>(`${this.api}/delete-doc`, req);
+    return this.http.delete<any | Plan>(`${this.api}/documents`, {
+      params: new HttpParams()
+          .set('docId', req.docId.toString())
+          .set('planId', req.planId.toString())
+      });
   }
 
   formatBeforeSend(plan: Plan): Plan {

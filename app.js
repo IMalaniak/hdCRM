@@ -13,7 +13,6 @@ app.use(cors());
 
 //Ser static folder
 app.use(express.static(path.join(__dirname, './dist/webApp')));
-app.use('/api/userpics', express.static(path.join(__dirname, './uploads/images/userpic/')));
 
 //Body Parser Middleware
 app.use(bodyParser.json());

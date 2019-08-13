@@ -14,6 +14,7 @@ import { Observable, Subject } from 'rxjs';
 import { selectAllStates } from '../../store/user.selectors';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { takeUntil } from 'rxjs/operators';
+import { Asset } from '@/_shared/attachments';
 
 @Component({
   selector: 'app-user',
@@ -91,13 +92,12 @@ export class UserComponent implements OnInit, OnDestroy {
   updateUser(): void {
     this.userService.updateUser(this.user).pipe(takeUntil(this.unsubscribe)).subscribe(
       data => {
+        this.userInitial = new User(data);
         const user: Update<User> = {
           id: this.user.id,
-          changes: data
+          changes: new User(data)
         };
         this.store.dispatch(new UserSaved({user}));
-        this.user = new User(data);
-        this.userInitial = new User(data);
         this.editForm = false;
         Swal.fire({
           text: 'User updated!',
@@ -116,6 +116,17 @@ export class UserComponent implements OnInit, OnDestroy {
         });
       }
     );
+  }
+
+  updateUserPic(data: Asset): void {
+    this.user.avatar = data;
+    this.user.avatarId = data.id;
+    this.userInitial = new User(this.user);
+    const user: Update<User> = {
+      id: this.user.id,
+      changes: new User(this.user)
+    };
+    this.store.dispatch(new UserSaved({user}));
   }
 
   ngOnDestroy() {

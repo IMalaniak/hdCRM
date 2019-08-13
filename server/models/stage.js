@@ -1,12 +1,11 @@
-'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Stage = sequelize.define('Stage', {
-    id: {
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-      type: DataTypes.INTEGER
-    },
+    // id: {
+    //   allowNull: false,
+    //   autoIncrement: true,
+    //   primaryKey: true,
+    //   type: DataTypes.INTEGER
+    // },
     keyString: {
       type: DataTypes.STRING(255)
     }

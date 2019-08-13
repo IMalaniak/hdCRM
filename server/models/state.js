@@ -1,11 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
   const State = sequelize.define('State', {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      allowNull: false
-    },
+    // id: {
+    //   type: DataTypes.INTEGER,
+    //   primaryKey: true,
+    //   autoIncrement: true,
+    //   allowNull: false
+    // },
     keyString: {
       type: DataTypes.STRING(50),
 	    required: true

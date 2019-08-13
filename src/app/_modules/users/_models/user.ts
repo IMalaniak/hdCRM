@@ -1,10 +1,10 @@
 import { Role } from '@/_modules/roles';
 import { ApiResponse } from '@/core/_models';
-import { Asset } from '@/_modules/attachments';
 import { UserLoginHistory } from './userLoginHistory';
 import { PasswordAttributes } from './passwordAttributes';
 import { Department } from '@/_modules/departments';
 import { State } from './state';
+import { Asset } from '@/_shared/attachments/_models';
 
 export class User {
   id: number;

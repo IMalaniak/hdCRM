@@ -11,7 +11,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 import { PlannerRoutingModule } from './planner-routing.module';
 import { SharedModule } from '@/_shared/modules';
-import { AttachmentsModule } from '../attachments/attachments.module';
+import { AttachmentsModule } from '@/_shared/attachments/attachments.module';
 import { UsersModule } from '@/_modules/users/users.module';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -39,9 +39,9 @@ import { stagesReducer } from './store/stage.reducer';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    AttachmentsModule,
     DragDropModule,
     PlannerRoutingModule.forRoot(),
-    AttachmentsModule,
     SweetAlert2Module,
     UsersModule,
     FontAwesomeModule,

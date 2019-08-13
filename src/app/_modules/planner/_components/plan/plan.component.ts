@@ -15,6 +15,8 @@ import { AppState } from '@/core/reducers';
 import { PlanSaved } from '../../store/plan.actions';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { MediaqueryService } from '@/_shared/services';
+import { Asset } from '@/_shared/attachments';
+import { ApiResponse } from '@/core/_models';
 
 @Component({
   selector: 'app-plan',
@@ -266,40 +268,60 @@ export class PlanComponent implements OnInit, OnDestroy {
     });
   }
 
-  deleteDoc(docId: number): void {
-    // Swal.fire({
-    //   title: 'You are going to delete document',
-    //   text: 'Are you sure you want to delete document from plan, changes cannot be undone?',
-    //   type: 'warning',
-    //   showCancelButton: true,
-    //   confirmButtonText: 'Confirm',
-    //   cancelButtonText: 'Cancel'
-    // }).then((result) => {
-    //   if (result.value) {
-    //     const req = {
-    //       planId: this.plan.id,
-    //       docId: docId
-    //     };
-    //     this.planService.deleteDoc(req).pipe(takeUntil(this.unsubscribe)).subscribe(plan => {
-    //       if (plan) {
+  addDoc(doc: Asset): void {
+    this.plan.Documents.push(doc);
+    const plan: Update<Plan> = {
+      id: this.plan.id,
+      changes: this.plan
+    };
+    this.store.dispatch(new PlanSaved({plan}));
+    this.plan = new Plan(this.plan);
+    this.planInitial = new Plan(this.plan);
+  }
 
-    //         Swal.fire({
-    //           text: 'You have successfully removed a document from plan',
-    //           type: 'success',
-    //           timer: 6000,
-    //           toast: true,
-    //           showConfirmButton: false,
-    //           position: 'bottom-end'
-    //         });
-    //       } else {
-    //         Swal.fire({
-    //           text: 'Ooops, something went wrong!',
-    //           type: 'error',
-    //         });
-    //       }
-    //     });
-    //   }
-    // });
+  deleteDoc(docId: number): void {
+    Swal.fire({
+      title: 'You are going to delete document',
+      text: 'Are you sure you want to delete document from plan, changes cannot be undone?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.value) {
+        const req = {
+          planId: this.plan.id,
+          docId: docId
+        };
+        this.planService.deleteDoc(req).pipe(takeUntil(this.unsubscribe)).subscribe((response: ApiResponse) => {
+          if (response.success) {
+            this.plan.Documents = this.plan.Documents.filter(doc => {
+              return doc.id !== docId;
+            });
+            const plan: Update<Plan> = {
+              id: this.plan.id,
+              changes: this.plan
+            };
+            this.store.dispatch(new PlanSaved({plan}));
+            this.plan = new Plan(this.plan);
+            this.planInitial = new Plan(this.plan);
+            Swal.fire({
+              text: 'You have successfully removed a document from plan',
+              type: 'success',
+              timer: 6000,
+              toast: true,
+              showConfirmButton: false,
+              position: 'bottom-end'
+            });
+          } else {
+            Swal.fire({
+              text: 'Ooops, something went wrong!',
+              type: 'error',
+            });
+          }
+        });
+      }
+    });
   }
 
   ngOnDestroy() {

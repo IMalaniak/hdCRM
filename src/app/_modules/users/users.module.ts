@@ -20,6 +20,7 @@ import { EffectsModule } from '@ngrx/effects';
 import {usersReducer} from './store/user.reducer';
 import { UserEffects } from './store/user.effects';
 import { statesReducer } from './store/state.reducer';
+import { AttachmentsModule } from '@/_shared/attachments/attachments.module';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { statesReducer } from './store/state.reducer';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    AttachmentsModule,
     FontAwesomeModule,
     UsersRoutingModule.forRoot(),
     StoreModule.forFeature('users', usersReducer),

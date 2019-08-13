@@ -115,8 +115,13 @@ main {
     vertical-align: middle;
   }
 
-  .mat-column-actions {
+  .mat-column-actions,
+  .mat-column-icon {
     flex: 0 0 3.125rem;
+  }
+
+  .mat-column-actions {
+    padding-right: 0;
   }
 
   .mat-column-avatar {

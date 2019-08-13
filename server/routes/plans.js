@@ -1,7 +1,12 @@
 const express = require('express');
 const router = express.Router();
+const path = require('path');
+const fs = require('fs');
 const db = require('../models/index');
 const passport = require('passport');
+const multerConfig = require('../multer/multerConfig');
+const { promisify } = require('util');
+const unlinkAsync = promisify(fs.unlink);
 
 function findPlanById(planId) {
 	return db.Plan.findByPk(planId, {
@@ -383,9 +388,63 @@ router.get('/toNextStage/:id', passport.authenticate('jwt', {session: false}), (
 	});
 });
 
-//update plan by id
-router.put('/delete-doc', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+router.post('/documents/:planId', passport.authenticate('jwt', {session: false}), multerConfig.upload.single('uploader'), (req, res, next) => {
+	// we use single because filepond send file by one
+	let file = {
+		title: req.file.originalname,
+		location: req.file.destination.split('uploads')[1],
+		type: req.file.mimetype
+	};
 
+	db.Plan.findByPk(req.params.planId, {
+		attributes: ['id']
+	}).then(plan => {
+		plan.createDocument(file).then(doc => {
+			res.json(doc);
+		}).catch(error => {
+			res.status(400).json(error.toString());
+		});
+	}).catch(error => {
+		res.status(400).json(error.toString());
+	});
+
+});
+
+// update delete doc by planId
+router.delete('/documents/', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	db.Plan.findByPk(req.query.planId, {
+		attributes: ['id'],
+		include: [
+			{
+				model: db.Asset,
+				as: 'Documents',
+				through: {
+					where: { AssetId: req.query.docId },
+					attributes: []
+				}
+			}			
+		]
+	}).then(plan => {
+		const docToDelete = plan.Documents[0];
+		db.Asset.destroy({
+			where: {
+				id: docToDelete.id
+			}
+		}).then(() => {
+			// REDO to file server
+			let destination = path.join(__dirname, '../../uploads');
+			destination = destination + docToDelete.location + '/' + docToDelete.title;
+			unlinkAsync(destination).then(() => {
+				res.json({success: true, message: 'doc deleted'});
+			}).catch(error => {
+				res.status(400).json(error.toString());
+			});
+		}).catch(error => {
+			res.status(400).json(error.toString());
+		});
+	}).catch(error => {
+		res.status(400).json(error.toString());
+	});
 });
 
 module.exports = router;

@@ -15,11 +15,15 @@ export class Asset {
   }
 
   get getThumbnailsUrl(): string {
-    return baseUrl + this.location + 'thumbnails/' + this.title;
+    return baseUrl + this.location + '/thumbnails/' + this.title;
   }
 
   get getUrl(): string {
-    return baseUrl + this.location + this.title;
+    return baseUrl + this.location + '/' + this.title;
+  }
+
+  get downloadLink(): string {
+    return `${baseUrl}/files/download/${this.id}`;
   }
 }
 
@@ -30,4 +34,9 @@ export class FileTypes {
   video: string[];
   text: string[];
   compressed: string[];
+}
+
+export interface TempAddedAsset {
+  id: string;
+  name: string;
 }

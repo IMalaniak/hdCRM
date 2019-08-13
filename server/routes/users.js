@@ -2,6 +2,12 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models/index');
 const passport = require('passport');
+const path = require('path');
+const fs = require('fs');
+const multerConfig = require('../multer/multerConfig');
+var jimp = require('jimp');
+const { promisify } = require('util');
+const unlinkAsync = promisify(fs.unlink);
 
 const Op = db.Sequelize.Op;
 
@@ -127,6 +133,94 @@ router.put('/:id', passport.authenticate('jwt', {session: false}), (req, res, ne
 				res.status(400).json(error.toString());
 			});
 		}
+	}).catch(error => {
+		res.status(400).json(error.toString());
+	});
+});
+
+//user by id change avatar
+router.post('/:id/avatar', passport.authenticate('jwt', {session: false}), multerConfig.upload.single('profile-pic-uploader'), (req, res, next) => {
+	if (req.file) {	
+		jimp.read(req.file.path).then(tpl => (tpl.clone().resize(100, jimp.AUTO).write(req.file.destination+'/thumbnails/'+req.file.originalname)));
+	}
+	db.User.findByPk(req.params.id).then(user => {
+		user.getAvatar().then(avatar => {
+			if (avatar) {	
+				db.Asset.destroy({
+					where: {id: avatar.id}
+				}).then(() => {
+					const uploads = path.join(__dirname, '../../uploads');
+					const destination = uploads + avatar.location + '/' + avatar.title;
+					const thumbDestination = uploads + avatar.location + '/thumbnails/' + avatar.title;
+					unlinkAsync(destination).then(() => {
+						unlinkAsync(thumbDestination).then(() => {
+							let av = {
+								title: req.file.originalname,
+								location: req.file.destination.split('uploads')[1],
+								type: req.file.mimetype
+							};
+							user.createAvatar(av).then(newAv => {
+								res.json(newAv);
+							}).catch(error => {
+								res.status(400).json(error.toString());
+							});
+						}).catch(error => {
+							res.status(400).json(error.toString());
+						});
+					}).catch(error => {
+						res.status(400).json(error.toString());
+					});
+				}).catch(error => {
+					res.status(400).json(error.toString());
+				});
+			} else {
+				let av = {
+					title: req.file.originalname,
+					location: req.file.destination.split('uploads')[1],
+					type: req.file.mimetype
+				};
+				user.createAvatar(av).then(newAv => {
+					res.json(newAv);
+				}).catch(error => {
+					res.status(400).json(error.toString());
+				});			
+			}
+
+		}).catch(error => {
+			res.status(400).json(error.toString());
+		});
+	}).catch(error => {
+		res.status(400).json(error.toString());
+	});
+});
+
+//user by id delete avatar
+router.delete('/:id/avatar', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+	db.User.findByPk(req.params.id).then(user => {
+		user.getAvatar().then(avatar => {
+			if (avatar) {
+				db.Asset.destroy({
+					where: {id: avatar.id}
+				}).then(() => {
+					const uploads = path.join(__dirname, '../../uploads');
+					const destination = uploads + avatar.location + '/' + avatar.title;
+					const thumbDestination = uploads + avatar.location + '/thumbnails/' + avatar.title;
+					unlinkAsync(destination).then(() => {
+						unlinkAsync(thumbDestination).then(() => {
+							res.json({success: true, message: 'avatar deleted'});
+						}).catch(error => {
+							res.status(400).json(error.toString());
+						});					
+					}).catch(error => {
+						res.status(400).json(error.toString());
+					});
+				}).catch(error => {
+					res.status(400).json(error.toString());
+				});
+			}
+		}).catch(error => {
+			res.status(400).json(error.toString());
+		});
 	}).catch(error => {
 		res.status(400).json(error.toString());
 	});

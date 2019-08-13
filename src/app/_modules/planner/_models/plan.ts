@@ -1,7 +1,7 @@
 import { User } from '@/_modules/users';
-import { Asset } from '@/_modules/attachments';
 import { Stage } from './stage';
 import { ApiResponse } from '@/core/_models';
+import { Asset } from '@/_shared/attachments/_models';
 
 export class Plan {
   id: number;
@@ -36,6 +36,11 @@ export class Plan {
           return new Stage(stage);
         });
       }
+      if (input.Documents) {
+        this.Documents = input.Documents.map((doc: any) => {
+          return new Asset(doc);
+        });
+      }
     }
   }
 }
@@ -45,9 +50,15 @@ export class PlanServerResponse extends ApiResponse {
   plan: Plan;
   pages: number;
 
-  constructor() {
+  constructor(input?: any) {
     super();
-    this.list = [];
-    this.plan = new Plan();
+    if (input) {
+      Object.assign(this, input);
+      if (input.list && input.list.length > 0) {
+        this.list = input.list.map(plan => {
+          return new Plan(plan);
+        });
+      }
+    }
   }
 }

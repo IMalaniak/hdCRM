@@ -1,0 +1,9 @@
+<div class="img-avatar d-flex justify-content-center align-items-center">
+  <img *ngIf="avatar && !changePic" src="{{avatar.getUrl}}" alt="{{avatar.title}}">
+  <img *ngIf="!avatar && !changePic" src="./assets/images/userpic/noimage.png" alt="noimage">
+  <div class="pencil" [ngClass]="{'cancel': changePic}" (click)="changePic = !changePic">
+    <fa-icon *ngIf="!changePic" [icon]="['fas', 'pencil-alt']"></fa-icon>
+    <fa-icon *ngIf="changePic" [icon]="['fas', 'times']"></fa-icon>
+  </div>
+  <file-pond *ngIf="changePic" #picuploader [options]="uploaderOptions"></file-pond>
+</div>

@@ -3,7 +3,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User, UserServerResponse, State } from '../_models';
 import { map } from 'rxjs/operators';
-import { Asset } from '@/_modules/attachments';
 import { Role } from '@/_modules/roles/_models';
 
 @Injectable()

@@ -1,0 +1,70 @@
+@import 'variables';
+@import 'mixins';
+@import "~bootstrap/scss/mixins/breakpoints";
+
+.img-avatar {
+  position: relative;
+
+  > img {
+      display: block;
+      width: 55%;
+      border-radius: 50%;
+      border: .25rem solid crmcolor(main, light);
+      position: relative;
+      margin-top: -28%;
+      margin-bottom: 1.5em;
+      @include media-breakpoint-up(sm) {
+          width: 40%;
+          margin-top: -20%;
+      }
+      @include media-breakpoint-up(md) {
+          width: 65%;
+          margin-top: -33%;
+          margin-bottom: 0;
+      }
+  }
+
+  file-pond {
+    width: 65%;
+    margin-top: -33%;
+    margin-bottom: 0;
+
+    @include media-breakpoint-up(sm) {
+      width: 40%;
+      margin-top: -20%;
+    }
+    @include media-breakpoint-up(md) {
+        width: 65%;
+        margin-top: -33%;
+    }
+  }
+
+  .pencil {
+    position: absolute;
+    bottom: 8%;
+    right: 25%;
+    width: 3em;
+    height: 3em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: crmcolor(primary, light);
+    color: crmcolor(main, base);
+    cursor: pointer;
+    border: 0.10rem solid;
+    transform: scale(0);
+    transition: transform $animation-time-style, background $animation-time-style;
+    z-index: 1;
+
+    &.cancel {
+      background: crmcolor(warn, light);
+    }
+  }
+
+  &:hover {
+    .pencil {
+      transform: scale(1);
+    }
+  }
+}

@@ -1,11 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
   const Asset = sequelize.define('Asset', {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      allowNull: false
-    },
+    // id: {
+    //   type: DataTypes.INTEGER,
+    //   primaryKey: true,
+    //   autoIncrement: true,
+    //   allowNull: false
+    // },
     title: {
       type: DataTypes.STRING(250),
 	    required: true

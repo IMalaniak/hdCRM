@@ -143,7 +143,7 @@
   </div>
 </section>
 
-<!-- <app-attachments *ngIf="plan && plan.Documents && plan.Documents.length" [attachments]="plan.Documents" [editForm]="editForm" (deleteFileCall)="deleteDoc($event)"></app-attachments> -->
+<app-attachments [attachments]="plan.Documents" [apiUrl]="'/plans/documents/'+plan.id" [editForm]="editForm" (deleteFileCall)="deleteDoc($event)" (addFileCall)="addDoc($event)" ></app-attachments>
 
 <swal
   #onUpdatePlanStagesSubmit

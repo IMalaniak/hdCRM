@@ -39,27 +39,6 @@
         background-color: crmcolor(secondary, light);
         padding-bottom: 1em;
 
-        .img-avatar {
-            > img {
-                display: block;
-                width: 55%;
-                border-radius: 50%;
-                border: .25rem solid crmcolor(main, light);
-                position: relative;
-                margin-top: -28%;
-                margin-bottom: 1.5em;
-                @include media-breakpoint-up(sm) {
-                    width: 40%;
-                    margin-top: -20%;
-                }
-                @include media-breakpoint-up(md) {
-                    width: 65%;
-                    margin-top: -33%;
-                    margin-bottom: 0;
-                }
-            } 
-        }
-
         h3 {
             display: block;
             color: crmcolor(main, dark);

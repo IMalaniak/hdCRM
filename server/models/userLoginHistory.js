@@ -1,11 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
   const UserLoginHistory = sequelize.define('UserLoginHistory', {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      allowNull: false
-    },
+    // id: {
+    //   type: DataTypes.INTEGER,
+    //   primaryKey: true,
+    //   autoIncrement: true,
+    //   allowNull: false
+    // },
   	IP:  {
       type: DataTypes.STRING(20)
     },

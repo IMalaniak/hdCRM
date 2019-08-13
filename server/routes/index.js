@@ -1,3 +1,5 @@
+const express = require('express');
+const path = require('path');
 const api = require('express').Router();
 
 const users = require('./users');
@@ -14,6 +16,8 @@ const departments = require('./departments');
 api.get('/', (req, res) => {
     res.status(200).json({ success: true, message: 'Connected!' });
 });
+
+api.use('/images/userpic', express.static(path.join(__dirname, '../../uploads/images/userpic/')));
 
 api.use('/auth', auth);
 api.use('/users', users);
