@@ -27,20 +27,20 @@ app.use('/api', api);
 app.get('/*', (req, res) => {
 	res.sendFile(path.join(__dirname, './dist/webApp/index.html'));
 });
-
-if (process.env.NODE_ENV !== 'production') {
+const port = parseInt(process.env.PORT);
+if (port !== 'production') {
   // //Start DB
   db.sequelize.sync({
     //alter: true,
     //force: true
   }).then(() => {
-    app.listen(process.env.PORT, () => {
-      console.log('Express listening on port:', process.env.PORT);
+    app.listen(port, () => {
+      console.log(`Express listening on port: ${port}`);
     });
   });
 } else {
-  app.listen(process.env.PORT, () => {
-    console.log('Express listening on port:', process.env.PORT);
+  app.listen(port, () => {
+    console.log(`Express listening on port: ${port}`);
   });
 }
 
