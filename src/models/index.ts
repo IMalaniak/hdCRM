@@ -1,0 +1,81 @@
+import { Sequelize } from 'sequelize';
+import { User, UserFactory } from './User';
+import { Logger } from '@overnightjs/logger';
+import { UserLoginHistory, UserLoginHistoryFactory } from './UserLoginHistory';
+import { PasswordAttribute, PasswordAttributeFactory } from './PasswordAttribute';
+import { State, StateFactory } from './State';
+import { Role, RoleFactory } from './Role';
+import { Privilege, PrivilegeFactory } from './Privilege';
+import { Asset, AssetFactory } from './Asset';
+import { Plan, PlanFactory } from './Plan';
+import { Stage, StageFactory } from './Stage';
+import { PlanStage, PlanStageFactory } from './PlanStage';
+import { Department, DepartmentFactory } from './Department';
+
+
+class DataBase {
+  sequelize: Sequelize;
+
+  constructor() {
+    this.sequelize = new Sequelize(process.env.DATABASE_URL);
+    this.createModels();
+  }
+
+  private createModels(): void {
+    UserFactory(this.sequelize);
+    UserLoginHistoryFactory(this.sequelize);
+    PasswordAttributeFactory(this.sequelize);
+    StateFactory(this.sequelize);
+    AssetFactory(this.sequelize);
+    RoleFactory(this.sequelize);
+    PrivilegeFactory(this.sequelize);
+    PlanFactory(this.sequelize);
+    StageFactory(this.sequelize);
+    PlanStageFactory(this.sequelize);
+    DepartmentFactory(this.sequelize);
+
+    // associations
+    User.belongsToMany(Role, {through: 'UserRoles', foreignKey: 'UserId'});
+    User.belongsToMany(Asset, {through: 'UserAssets', foreignKey: 'UserId'});
+    User.belongsTo(Asset, {as: 'avatar'});
+    User.belongsToMany(Plan, {as: 'PlansTakesPartIn', through: 'UserPlans', foreignKey: 'UserId'});
+    User.belongsTo(State);
+    User.hasOne(UserLoginHistory);
+    User.hasOne(Department, {as: 'ManagedDepartment', foreignKey: 'managerId'});
+    User.belongsTo(Department, {constraints: false});
+    User.hasOne(PasswordAttribute, {as: 'PasswordAttributes', foreignKey: 'UserId'});
+    UserLoginHistory.belongsTo(User);
+    PasswordAttribute.belongsTo(User);
+    State.hasMany(User);
+    Asset.belongsToMany(User, {through: 'UserAssets', foreignKey: 'AssetId'});
+    Role.belongsToMany(User, {through: 'UserRoles', foreignKey: 'RoleId'});
+    Plan.belongsTo(User, {as: 'Creator'});
+    Plan.belongsToMany(User, {as: 'Participants', through: 'UserPlans', foreignKey: 'PlanId'});
+    Department.hasMany(User, {as: 'Workers', constraints: false});
+    Department.belongsTo(User, {as: 'Manager', foreignKey: 'managerId'});
+
+    Role.belongsToMany(Privilege, {through: 'RolePrivileges', foreignKey: 'RoleId'});
+    Privilege.belongsToMany(Role, {through: 'RolePrivileges', foreignKey: 'PrivilegeId'});
+
+    Plan.belongsToMany(Asset, {as: 'Documents', through: 'PlanAssets', foreignKey: 'PlanId'});
+    Plan.belongsTo(Stage, {as: 'activeStage'});
+    Plan.belongsToMany(Stage, {as: 'Stages', through: PlanStage, foreignKey: 'PlanId'});
+    Stage.hasMany(Plan, {foreignKey: 'activeStageId'});
+    Stage.belongsToMany(Plan, {as: 'StagePlans', through: PlanStage, foreignKey: 'StageId'});
+    Asset.belongsToMany(Plan, {through: 'PlanAssets', foreignKey: 'AssetId'});
+
+    Department.belongsTo(Department, {as: 'ParentDepartment', foreignKey: 'parentDepId'});
+    Department.hasMany(Department, {as: 'SubDepartments', foreignKey: 'parentDepId'});
+
+
+    Logger.Info(`DataBase inited`);
+  }
+
+  public get sequel(): Sequelize {
+    return this.sequelize;
+  }
+}
+
+export default DataBase;
+
+export { Asset, Department, PasswordAttribute, Plan, PlanStage, Privilege, Role, Stage, State, User, UserLoginHistory, Sequelize };
