@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { FilePondOptions, FilePondInstance } from 'filepond';
 import { environment } from 'environments/environment';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { getToken } from '@/core/auth/store/auth.selectors';
 import { Asset } from '../../_models';
+import { FilePond, FilePondOptionProps } from 'filepond';
 
 @Component({
   selector: 'app-profile-pic',
@@ -12,13 +12,12 @@ import { Asset } from '../../_models';
   styleUrls: ['./profile-pic.component.scss']
 })
 export class ProfilepicComponent implements OnInit {
-  @ViewChild('picuploader', { static: false }) picuploader: FilePondInstance;
+  @ViewChild('picuploader', { static: false }) picuploader: FilePond;
   @Input() avatar: Asset;
   @Input() apiUrl: string;
   @Output() addFileCall: EventEmitter<any> = new EventEmitter();
   changePic: boolean;
-  // TODO: init filepond on changePic
-  uploaderOptions: FilePondOptions;
+  uploaderOptions: any; // TODO: FilePondOptionProps;
   token: string;
 
   constructor(

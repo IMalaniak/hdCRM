@@ -24,9 +24,7 @@ require('./server/config/passport')(passport);
 
 app.use('/api', api);
 
-app.get('/*', (req, res) => {
-	res.sendFile(path.join(__dirname, './dist/webApp/index.html'));
-});
+
 const port = parseInt(process.env.PORT);
 if (port !== 'production') {
   // //Start DB

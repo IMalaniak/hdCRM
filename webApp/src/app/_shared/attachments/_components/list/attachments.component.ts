@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Asset, TempAddedAsset } from '../../_models';
 import { AttachmentService } from '../../_services';
-import { FilePondOptions, FilePondInstance } from 'filepond';
 import { environment } from 'environments/environment';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { getToken } from '@/core/auth/store/auth.selectors';
+import { FilePond, FilePondOptionProps } from 'filepond';
 
 @Component({
   selector: 'app-attachments',
@@ -13,14 +13,14 @@ import { getToken } from '@/core/auth/store/auth.selectors';
   styleUrls: ['./attachments.component.scss']
 })
 export class AttachmentsComponent implements OnInit {
-  @ViewChild('uploader', { static: false }) uploader: FilePondInstance;
+  @ViewChild('uploader', { static: false }) uploader: FilePond;
   @Input() attachments: Asset[];
   @Input() apiUrl: string;
   @Input() editForm: boolean;
   @Output() deleteFileCall: EventEmitter<any> = new EventEmitter();
   @Output() addFileCall: EventEmitter<any> = new EventEmitter();
   displayedColumns: string[] = ['icon', 'title', 'type', 'createdAt', 'updatedAt', 'actions'];
-  uploaderOptions: FilePondOptions;
+  uploaderOptions: any; // TODO FilePondOptionProps
   token: string;
   tempFiles: TempAddedAsset[] = [];
   uploaderVisible = false;
