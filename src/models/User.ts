@@ -5,6 +5,7 @@ import { State } from './State';
 import { Role } from './Role';
 import { Plan } from './Plan';
 import { Asset } from './Asset';
+import { Department } from './Department';
 
 export class User extends Model {
     public id!: number;

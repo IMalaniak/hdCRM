@@ -44,8 +44,8 @@ export class Asset extends Model {
 
 }
 
-export const AssetFactory = (sequelize: Sequelize): void => {
-    const asset = User.init({
+export const AssetFactory = (sequelize: Sequelize): void => {   
+    const asset = Asset.init({
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,

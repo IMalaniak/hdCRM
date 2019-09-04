@@ -1,5 +1,6 @@
 import { Sequelize, Model, DataTypes, Association, BelongsToManyAddAssociationMixin, BelongsToManyAddAssociationsMixin, BelongsToManyCountAssociationsMixin, BelongsToManyCreateAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManyHasAssociationMixin, BelongsToManyHasAssociationsMixin, BelongsToManyRemoveAssociationMixin, BelongsToManyRemoveAssociationsMixin, BelongsToManySetAssociationsMixin } from 'sequelize';
 import { User } from './User';
+import { Privilege } from './Privilege';
 
 export class Role extends Model {
     public id!: number;
@@ -42,7 +43,7 @@ export class Role extends Model {
 }
 
 export const RoleFactory = (sequelize: Sequelize): void => {
-    const role = User.init({
+    const role = Role.init({
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,

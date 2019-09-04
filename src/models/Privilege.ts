@@ -25,7 +25,7 @@ export class Privilege extends Model {
 }
 
 export const PrivilegeFactory = (sequelize: Sequelize): void => {
-    const role = Role.init({
+    const privilege = Privilege.init({
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
@@ -41,5 +41,5 @@ export const PrivilegeFactory = (sequelize: Sequelize): void => {
         sequelize
     });
 
-    return role;
+    return privilege;
 };

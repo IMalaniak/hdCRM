@@ -21,7 +21,7 @@ export class UserLoginHistory extends Model {
 }
 
 export const UserLoginHistoryFactory = (sequelize: Sequelize): void => {
-    const userLoginHistory = User.init({
+    const userLoginHistory = UserLoginHistory.init({
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,

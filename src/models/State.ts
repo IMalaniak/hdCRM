@@ -25,7 +25,7 @@ export class State extends Model {
 }
 
 export const StateFactory = (sequelize: Sequelize): void => {
-    const state = User.init({
+    const state = State.init({
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,

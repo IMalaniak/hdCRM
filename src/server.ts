@@ -12,9 +12,11 @@ import { PassportStrategy } from './config/passport';
 
 
 class CrmServer extends Server {
+    dBase: DataBase;
 
     constructor() {
         super(true);
+        this.dBase = new DataBase();
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({extended: true}));
         // Allow any method from any host and log requests
@@ -27,7 +29,7 @@ class CrmServer extends Server {
         });
         this.setupControllers();
         this.setupStaticFolders();
-
+        this.initPassport();
 
     }
 
@@ -58,12 +60,10 @@ class CrmServer extends Server {
         });
     }
 
-
     public start(port: number): void {
-        const dBase = new DataBase();
         if (process.env.NODE_ENV !== 'production') {
             // Sync DB
-            dBase.sequel.sync({
+            this.dBase.sequel.sync({
                 // alter: true,
                 // force: true
             }).then(() => {

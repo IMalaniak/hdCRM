@@ -22,18 +22,19 @@ class DataBase {
   }
 
   private createModels(): void {
+    AssetFactory(this.sequelize);
+    DepartmentFactory(this.sequelize);
+    PasswordAttributeFactory(this.sequelize);
+    PlanFactory(this.sequelize);
+    PlanStageFactory(this.sequelize);
+    PrivilegeFactory(this.sequelize);
+    RoleFactory(this.sequelize);
+    StageFactory(this.sequelize);
+    StateFactory(this.sequelize);
     UserFactory(this.sequelize);
     UserLoginHistoryFactory(this.sequelize);
-    PasswordAttributeFactory(this.sequelize);
-    StateFactory(this.sequelize);
-    AssetFactory(this.sequelize);
-    RoleFactory(this.sequelize);
-    PrivilegeFactory(this.sequelize);
-    PlanFactory(this.sequelize);
-    StageFactory(this.sequelize);
-    PlanStageFactory(this.sequelize);
-    DepartmentFactory(this.sequelize);
 
+    
     // associations
     User.belongsToMany(Role, {through: 'UserRoles', foreignKey: 'UserId'});
     User.belongsToMany(Asset, {through: 'UserAssets', foreignKey: 'UserId'});

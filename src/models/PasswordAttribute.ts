@@ -25,7 +25,7 @@ export class PasswordAttribute extends Model {
 }
 
 export const PasswordAttributeFactory = (sequelize: Sequelize): void => {
-    const passwordAttribute = User.init({
+    const passwordAttribute = PasswordAttribute.init({
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,

@@ -38,7 +38,7 @@ export class Stage extends Model {
 }
 
 export const StageFactory = (sequelize: Sequelize): void => {
-    const stage = Plan.init({
+    const stage = Stage.init({
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
