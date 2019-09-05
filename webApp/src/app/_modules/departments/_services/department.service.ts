@@ -19,12 +19,11 @@ export class DepartmentService {
   }
 
   getOne(id: number): Observable<Department> {
-    const url = `${this.api}/${id}`;
-    return this.http.get<Department>(url);
+    return this.http.get<Department>(`${this.api}/${id}`);
   }
 
   updateOne(department: Department): Observable<Department> {
-    return this.http.put<Department>(this.api, this.formatBeforeSend(department));
+    return this.http.put<Department>(`${this.api}/${department.id}`, this.formatBeforeSend(department));
   }
 
   getList(pageIndex = 0, pageSize = 5, sortIndex = 'id', sortDirection = 'asc'): Observable<DepartmentServerResponse> {

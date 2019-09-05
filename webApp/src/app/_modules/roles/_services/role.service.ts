@@ -14,19 +14,17 @@ export class RoleService {
     this.api = '/roles';
   }
 
-  registerRole(role) {
+  registerRole(role: Role) {
     return this.http.post<any>(this.api, role);
   }
 
   getRole(id: number): Observable<Role> {
-    const url = `${this.api}/${id}`;
-    return this.http.get<Role>(url);
+    return this.http.get<Role>(`${this.api}/${id}`);
   }
 
-  updateRole(role): Observable<Role> {
-    return this.http.put<Role>(this.api, role);
+  updateRole(role: Role): Observable<Role> {
+    return this.http.put<Role>(`${this.api}/${role.id}`, role);
   }
-
 
   getList(pageIndex = 0, pageSize = 5, sortIndex = 'id', sortDirection = 'asc'): Observable<RoleServerResponse> {
     return this.http.get<RoleServerResponse>(this.api, {

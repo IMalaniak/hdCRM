@@ -47,7 +47,7 @@ export class PlanService {
   }
 
   updateOne(plan: Plan): Observable<Plan> {
-    return this.http.put<Plan>(this.api, this.formatBeforeSend(plan));
+    return this.http.put<Plan>(`${this.api}/${plan.id}`, this.formatBeforeSend(plan));
   }
 
   updatePlanStages(plan: Plan): Observable<Plan> {
