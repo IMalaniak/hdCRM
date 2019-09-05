@@ -7,10 +7,12 @@
     "start": "node --inspect=5858 -r dotenv/config -r ts-node/register ./src/index.ts",
     "dev": "concurrently \"nodemon\" \"cd webApp && npm start\"",
     "start:watch": "nodemon",
-    "build": "concurrently \"tsc\" \"cd webApp && npm run build\"",
+    "build": "tsc",
+    "build:dev": "concurrently \"tsc\" \"cd webApp && npm run build\"",
     "migrate-db": "node_modules/.bin/sequelize db:migrate",
     "prepare-db": "sequelize db:seed:all --env='production'",
-    "install": "cd webApp && npm i"
+    "install": "cd webApp && npm i",
+    "heroku-postbuild": "cd webApp && npm run build"
   },
   "author": "",
   "license": "ISC",
