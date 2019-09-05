@@ -9,7 +9,8 @@
     "start:watch": "nodemon",
     "build": "concurrently \"tsc\" \"cd webApp && npm run build\"",
     "migrate-db": "node_modules/.bin/sequelize db:migrate",
-    "prepare-db": "sequelize db:seed:all --env='production'"
+    "prepare-db": "sequelize db:seed:all --env='production'",
+    "install": "cd webApp && npm i"
   },
   "author": "",
   "license": "ISC",
