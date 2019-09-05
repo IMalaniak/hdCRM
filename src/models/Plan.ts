@@ -65,7 +65,7 @@ export class Plan extends Model {
     public readonly Documents?: Asset[];
     public readonly Creator?: User;
     public readonly activeStage?: Stage;
-    public readonly Stages?: Stage[];
+    public Stages?: Stage[]; // readonly?
 
 
     public static associations: {

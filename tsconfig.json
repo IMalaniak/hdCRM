@@ -1,13 +1,9 @@
 {
   "compilerOptions": {
       "esModuleInterop": true,
+      "downlevelIteration": true,
       "outDir": "./dist",
       "baseUrl": "./",
-      "paths": {
-        "@/*": [
-            "src/*"
-        ]
-      },
       "removeComments": true,
       "importHelpers": true,
       "experimentalDecorators": true,
@@ -16,7 +12,7 @@
       ],
       "module": "commonjs",
       "moduleResolution": "node",
-      "target": "es5",
+      "target": "es6",
       "types": [
         "node"
       ],

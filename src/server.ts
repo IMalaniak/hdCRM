@@ -2,13 +2,11 @@ import express from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import passport from 'passport';
 import DataBase from './models';
 import * as controllers from './routes';
-
 import { Server } from '@overnightjs/core';
 import { Logger } from '@overnightjs/logger';
-import { PassportStrategy } from './config/passport';
+import Passport from './config/passport';
 
 
 class CrmServer extends Server {
@@ -27,16 +25,9 @@ class CrmServer extends Server {
                 next();
             }
         });
+        Passport.init();
         this.setupControllers();
         this.setupStaticFolders();
-        this.initPassport();
-
-    }
-
-    private initPassport(): void {
-        this.app.use(passport.initialize());
-        this.app.use(passport.session());
-        new PassportStrategy();
     }
 
     private setupControllers(): void {
@@ -53,7 +44,7 @@ class CrmServer extends Server {
     private setupStaticFolders(): void {
         // Set static folder
         this.app.use(express.static(path.join(__dirname, '../webApp/dist')));
-        this.app.use('/api/images/userpic', express.static(path.join(__dirname, '../../uploads/images/userpic/')));
+        this.app.use('/api/images/userpic', express.static(path.join(__dirname, '../uploads/images/userpic/')));
 
         this.app.get('/*', (req, res) => {
             res.sendFile(path.join(__dirname, '../webApp/dist/index.html'));

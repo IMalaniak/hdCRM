@@ -12,14 +12,14 @@ export class Mailer {
       from: `HDCRM <${this.sender}>`
     },
     // uncomment below to send emails in development/test env:
-    //send: false,
-    //preview: true,
+    // send: false,
+    // preview: true,
     send: true,
     preview: false,
     transport: {
       host: process.env.NODE_MAILER_HOST,
       port: 465,
-      secure: true,  //true for 465 port, false for other ports
+      secure: true,  // true for 465 port, false for other ports
       auth: {
           user: this.sender,
           pass: this.password
@@ -44,7 +44,7 @@ export class Mailer {
         token: tokenUrl
       }
     });
-  };
+  }
 
   sendPasswordResetConfirmation(user: db.User): Promise<Email> {
     return this.newEmail.send({
@@ -58,7 +58,7 @@ export class Mailer {
         username: user.login
       }
     });
-  };
+  }
 
   sendActivation(user: db.User, tmpPassword: string, url: string) {
     return this.newEmail.send({
@@ -74,7 +74,7 @@ export class Mailer {
         activationUrl: url
       }
     });
-  };
+  }
 
   sendActivationConfirmation(user: db.User) {
     return this.newEmail.send({

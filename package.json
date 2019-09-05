@@ -24,7 +24,6 @@
     "sequelize": "^5.13.0",
     "ts-node": "^8.3.0",
     "ts-node-dev": "^1.0.0-pre.40",
-    "tslint": "^5.18.0",
     "cors": "*",
     "email-templates": "^6.0.0",
     "jimp": "^0.6.4",
@@ -52,6 +51,7 @@
     "eslint": "^6.1.0",
     "eslint-plugin-import": "^2.18.2",
     "nodemon": "^1.19.1",
+    "tslint": "^5.19.0",
     "typescript": "^3.6.2"
   },
   "nodemonConfig": {

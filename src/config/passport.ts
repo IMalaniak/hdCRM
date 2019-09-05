@@ -1,20 +1,27 @@
+// tslint:disable: indent
 import {Strategy, ExtractJwt, StrategyOptions} from 'passport-jwt';
 import passport from 'passport';
 import * as db from '../models';
 
-export class PassportStrategy {
-	opts: StrategyOptions = {
-		jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('jwt'),
+export class Passport {
+	private opts: StrategyOptions = {
+		jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),
 		secretOrKey: process.env.SECRET,
-		issuer: 'auth@mywebmaster.pp.ua',
+		// issuer: 'auth@mywebmaster.pp.ua',
+		// audience = 'yoursite.net';
 	};
-	//opts.audience = 'yoursite.net';
 
 	constructor() {
-		this.init();
+
+	}
+
+	public authenticate() {
+		return passport.authenticate('jwt', { session: false, failWithError: true });
 	}
 
 	init(): void {
+		passport.initialize();
+        // passport.session();
 		passport.use(new Strategy(this.opts, (jwt_payload, done) => {
 			db.User.findOne({
 				where: {id: jwt_payload.id},
@@ -43,6 +50,8 @@ export class PassportStrategy {
 			}).then(user => {
 				if (user) {
 					return done(null, user);
+				} else {
+					return done(null, false);
 				}
 			}).catch(error => {
 				return done(error, false);
@@ -50,3 +59,5 @@ export class PassportStrategy {
 		}));
 	}
 }
+
+export default new Passport();
