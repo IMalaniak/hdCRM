@@ -152,7 +152,7 @@
   type="question"
   [showCancelButton]="true"
   (confirm)="updatePlanStages()"
-  [options]="{confirmButtonText: 'OK', cancelButtonText: 'Cancel'}">
+  [swalOptions]="{confirmButtonText: 'OK', cancelButtonText: 'Cancel'}">
 </swal>
 
 <swal
@@ -162,7 +162,7 @@
   type="question"
   [showCancelButton]="true"
   (confirm)="goToNextStage()"
-  [options]="{confirmButtonText: 'OK', cancelButtonText: 'Cancel'}">
+  [swalOptions]="{confirmButtonText: 'OK', cancelButtonText: 'Cancel'}">
 </swal>
 
 <swal
@@ -172,5 +172,5 @@
   type="question"
   [showCancelButton]="true"
   (confirm)="updatePlan()"
-  [options]="{confirmButtonText: 'OK', cancelButtonText: 'Cancel'}">
+  [swalOptions]="{confirmButtonText: 'OK', cancelButtonText: 'Cancel'}">
 </swal>

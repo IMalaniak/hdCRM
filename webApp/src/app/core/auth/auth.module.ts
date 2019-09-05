@@ -11,8 +11,7 @@ import { AppMaterialModule } from '@/_shared/modules';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faKey, faArrowRight, faArrowLeft, faTrashAlt, faPaperPlane, faBan, faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 @NgModule({
@@ -43,8 +42,8 @@ export class AuthModule {
         providers: [AuthenticationService]
     }
   }
-  constructor() {
-    library.add( 
+  constructor(library: FaIconLibrary) {
+    library.addIcons(
       faKey,
       faBan,
       faArrowRight,

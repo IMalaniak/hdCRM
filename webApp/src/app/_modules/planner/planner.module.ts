@@ -14,8 +14,7 @@ import { SharedModule } from '@/_shared/modules';
 import { AttachmentsModule } from '@/_shared/attachments/attachments.module';
 import { UsersModule } from '@/_modules/users/users.module';
 
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faEllipsisV, faInfo, faEdit, faPlus, faSave, faTimes, faUserPlus, faPaperPlane, faArrowRight, faCog } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -72,8 +71,8 @@ import { stagesReducer } from './store/stage.reducer';
   entryComponents: [AddStageDialogComponent, StagesDialogComponent]
 })
 export class PlannerModule {
-  constructor() {
-    library.add(
+  constructor(library: FaIconLibrary) {
+    library.addIcons(
       faEllipsisV,
       faInfo,
       faEdit,

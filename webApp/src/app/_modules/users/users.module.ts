@@ -4,8 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsersRoutingModule } from './users-routing.module';
 import { SharedModule } from '@/_shared/modules';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faEllipsisV, faUserPlus, faEdit, faBan, faAddressCard, faUserEdit, faArchive, faUserCheck, faEnvelope, faPhone, faTimes, faSave } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -55,8 +54,8 @@ import { AttachmentsModule } from '@/_shared/attachments/attachments.module';
   entryComponents: [UsersDialogComponent]
 })
 export class UsersModule {
-  constructor() {
-    library.add( 
+  constructor(library: FaIconLibrary) {
+    library.addIcons(
       faEllipsisV,
       faUserPlus,
       faEdit,

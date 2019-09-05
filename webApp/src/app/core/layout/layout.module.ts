@@ -11,8 +11,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { layoutReducer } from './store/layout.reducer';
 import { LayoutEffects } from './store/layout.effects';
 
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeModule, FaIconLibrary  } from '@fortawesome/angular-fontawesome';
 import { faFacebookSquare, faTwitterSquare, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { faHome, faThLarge, faUser, faUsers, faUserTag, faListAlt, faBuilding, faSignOutAlt, faBars, faArrowLeft, faSearch, faQuestion, faCog, faTimes } from '@fortawesome/free-solid-svg-icons';
 
@@ -47,8 +46,8 @@ import { faHome, faThLarge, faUser, faUsers, faUserTag, faListAlt, faBuilding, f
     ]
 })
 export class LayoutModule {
-  constructor() {
-    library.add(
+  constructor(library: FaIconLibrary) {
+    library.addIcons(
       faFacebookSquare,
       faTwitterSquare,
       faInstagram,

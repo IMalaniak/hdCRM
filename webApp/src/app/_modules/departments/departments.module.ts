@@ -9,8 +9,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 import { UsersModule } from '@/_modules/users/users.module';
 
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faEllipsisV, faInfo, faEdit, faPlus, faSave, faTimes, faUserPlus, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -54,8 +53,8 @@ import { DepartmentEffects } from './store/department.effects';
   ]
 })
 export class DepartmentsModule {
-  constructor() {
-    library.add(
+  constructor(library: FaIconLibrary) {
+    library.addIcons(
       faEllipsisV,
       faInfo,
       faEdit,
