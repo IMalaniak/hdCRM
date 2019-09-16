@@ -10,9 +10,7 @@
     "build": "tsc",
     "build:dev": "concurrently \"tsc\" \"cd webApp && npm run build\"",
     "migrate-db": "node_modules/.bin/sequelize db:migrate",
-    "prepare-db": "sequelize db:seed:all --env='production'",
-    "install": "cd webApp && npm i",
-    "heroku-postbuild": "cd webApp && npm run build"
+    "prepare-db": "sequelize db:seed:all --env='production'"
   },
   "author": "",
   "license": "ISC",

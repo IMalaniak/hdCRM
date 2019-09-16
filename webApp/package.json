@@ -4,8 +4,8 @@
   "description": "Bussiness aplication for small companies",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve -o",
-    "build": "ng build --prod",
+    "start": "ng serve --aot -o",
+    "build": "ng build --aot --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
