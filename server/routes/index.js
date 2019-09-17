@@ -9,6 +9,7 @@ const stages = require('./stages');
 const plans = require('./plans');
 const files = require('./files');
 const departments = require('./departments');
+const chats = require('./chats');
 
 
 api.get('/', (req, res) => {
@@ -24,5 +25,6 @@ api.use('/stages', stages);
 api.use('/plans', plans);
 api.use('/departments', departments);
 api.use('/files', files);
+api.use('/chats', chats);
 
 module.exports = api;

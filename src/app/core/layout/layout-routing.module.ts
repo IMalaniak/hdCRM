@@ -23,7 +23,8 @@ const routes: Routes = [
       {path: 'users', loadChildren: () => import('../../_modules/users/users.module').then(m => m.UsersModule) },
       {path: 'roles', loadChildren: () => import('../../_modules/roles/roles.module').then(m => m.RolesModule) },
       {path: 'dashboard', loadChildren: () => import('../../_modules/dashboard/dashboard.module').then(m => m.DashboardModule)},
-      {path: 'departments', loadChildren: () => import('../../_modules/departments/departments.module').then(m => m.DepartmentsModule)}
+      {path: 'departments', loadChildren: () => import('../../_modules/departments/departments.module').then(m => m.DepartmentsModule)},
+      {path: 'chats', loadChildren: () => import('../../_modules/chat/chat.module').then(m => m.ChatModule)}
     ]
   },
   { path: '**', component: PageNotFoundComponent }
