@@ -63,7 +63,7 @@ class CrmServer extends Server {
                 });
             });
         } else {
-            this.app.listen(port, '127.0.0.1', () => {
+            this.app.listen(port, () => {
                 Logger.Info(`Server is listening on ${port}`);
             });
         }
