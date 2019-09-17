@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 
-export class Crypt {
+class Crypt {
     constructor() {
 
     }
@@ -43,3 +43,5 @@ export class Crypt {
     };
 
 }
+
+export default new Crypt();

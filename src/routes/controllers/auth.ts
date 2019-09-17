@@ -4,14 +4,12 @@ import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
 import * as db from '../../models';
 import { Op, ValidationError, UniqueConstraintError } from 'sequelize';
-import { Crypt } from '../../config/crypt';
-import { Mailer } from '../../mailer/nodeMailerTemplates';
+import Crypt from '../../config/crypt';
+import Mailer from '../../mailer/nodeMailerTemplates';
 import jwt from 'jsonwebtoken';
 
 @Controller('auth/')
 export class AuthController {
-    crypt = new Crypt();
-    mailer = new Mailer();
 
     saveLogInAttempt(req: Request, user: db.User, isSuccess: boolean): Promise<void> {
         const defaults: any = {};
@@ -42,18 +40,18 @@ export class AuthController {
     @Post('register')
     private register(req: Request, res: Response) {
         Logger.Info(`Registering new user...`);
-        const password = req.body.password ? req.body.password : this.crypt.genRandomString(12);
+        const password = req.body.password ? req.body.password : Crypt.genRandomString(12);
 
-        const passwordData = this.crypt.saltHashPassword(password);
+        const passwordData = Crypt.saltHashPassword(password);
 
         const sendInvitationMail = function(user) {
-            const token = this.crypt.genTimeLimitedToken(24 * 60);
+            const token = Crypt.genTimeLimitedToken(24 * 60);
             user.createPasswordAttributes({
                 token: token.value,
                 tokenExpire: token.expireDate,
                 passwordExpire: token.expireDate
             }).then(pa => {
-                this.mailer.sendActivation(user, password, `${process.env.URL}/auth/activate-account/${token.value}`).then(() => {
+                Mailer.sendActivation(user, password, `${process.env.URL}/auth/activate-account/${token.value}`).then(() => {
                     return res.status(OK).json({success: true, message: 'Activation link has been sent'});
                 }).catch((err: any) => {
                     Logger.Err(err);
@@ -122,7 +120,7 @@ export class AuthController {
                                 pa.token = null;
                                 pa.tokenExpire = null;
                                 pa.save().then(() => {
-                                    this.mailer.sendActivationConfirmation(user).then(() => {
+                                    Mailer.sendActivationConfirmation(user).then(() => {
                                         return res.status(OK).json({success: true, message: 'Successful activation!'});
                                     }).catch((err: any) => {
                                         Logger.Err(err);
@@ -218,7 +216,7 @@ export class AuthController {
                     });
                 }
 
-                const isMatch = this.crypt.validatePassword(password, user.passwordHash, user.salt);
+                const isMatch = Crypt.validatePassword(password, user.passwordHash, user.salt);
                 if (isMatch) {
                     const tmpUser: any = {
                         id: user.id,
@@ -286,9 +284,9 @@ export class AuthController {
         }).then(user => {
             if (user) {
                 user.getPasswordAttributes().then(pa => {
-                    const token = this.crypt.genTimeLimitedToken(5);
+                    const token = Crypt.genTimeLimitedToken(5);
                     const sendPasswordResetMail = function() {
-                        this.mailer.sendPasswordReset(user, `${process.env.URL}/auth/password-reset/${token.value}`).then(() => {
+                        Mailer.sendPasswordReset(user, `${process.env.URL}/auth/password-reset/${token.value}`).then(() => {
                             return res.status(OK).json({success: true, message: 'Activation link has been sent'});
                         }).catch((err: any) => {
                             Logger.Err(err);
@@ -341,7 +339,7 @@ export class AuthController {
             if (pa) {
                 if (req.body.newPassword === req.body.verifyPassword) {
                     pa.getUser().then((user: db.User) => {
-                        const passwordData = this.crypt.saltHashPassword(req.body.newPassword);
+                        const passwordData = Crypt.saltHashPassword(req.body.newPassword);
                         user.passwordHash = passwordData.passwordHash;
                         user.salt = passwordData.salt;
                         user.save().then(user => {
@@ -350,7 +348,7 @@ export class AuthController {
                                     pa.token = null;
                                     pa.tokenExpire = null;
                                     pa.save().then(() => {
-                                        this.mailer.sendPasswordResetConfirmation(user).then(() => {
+                                        Mailer.sendPasswordResetConfirmation(user).then(() => {
                                             return res.status(OK).json({success: true, message: 'New password is set!'});
                                         }).catch((err: any) => {
                                             Logger.Err(err);

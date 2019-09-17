@@ -70,7 +70,7 @@
     "watch": [
       "./src"
     ],
-    "exec": "npm start:dev",
+    "exec": "npm run start:dev",
     "ext": "ts"
   }
 }

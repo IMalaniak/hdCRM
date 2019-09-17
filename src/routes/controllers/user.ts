@@ -155,7 +155,7 @@ export class UserController {
                     db.Asset.destroy({
                         where: {id: avatar.id}
                     }).then(() => {
-                        const uploads = path.join(__dirname, '../../uploads');
+                        const uploads = path.join(__dirname, '../../../uploads');
                         const destination = uploads + avatar.location + '/' + avatar.title;
                         const thumbDestination = uploads + avatar.location + '/thumbnails/' + avatar.title;
                         this.unlinkAsync(destination).then(() => {
@@ -216,7 +216,7 @@ export class UserController {
                     db.Asset.destroy({
                         where: {id: avatar.id}
                     }).then(() => {
-                        const uploads = path.join(__dirname, '../../uploads');
+                        const uploads = path.join(__dirname, '../../../uploads');
                         const destination = uploads + avatar.location + '/' + avatar.title;
                         const thumbDestination = uploads + avatar.location + '/thumbnails/' + avatar.title;
                         this.unlinkAsync(destination).then(() => {
