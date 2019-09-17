@@ -1,4 +1,5 @@
 export * from './auth';
+export * from './chat';
 export * from './department';
 export * from './file';
 export * from './plan';

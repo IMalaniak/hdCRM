@@ -5,3 +5,4 @@ export * from './dashboard/dashboard.module';
 export * from './messages/messages.module';
 export * from './planner/planner.module';
 export * from './departments/departments.module';
+export * from './chat/chat.module';

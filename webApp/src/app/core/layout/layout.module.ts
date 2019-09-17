@@ -13,7 +13,7 @@ import { LayoutEffects } from './store/layout.effects';
 
 import { FontAwesomeModule, FaIconLibrary  } from '@fortawesome/angular-fontawesome';
 import { faFacebookSquare, faTwitterSquare, faInstagram } from '@fortawesome/free-brands-svg-icons';
-import { faHome, faThLarge, faUser, faUsers, faUserTag, faListAlt, faBuilding, faSignOutAlt, faBars, faArrowLeft, faSearch, faQuestion, faCog, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faThLarge, faUser, faUsers, faUserTag, faListAlt, faBuilding, faSignOutAlt, faBars, faArrowLeft, faSearch, faQuestion, faCog, faTimes, faSms } from '@fortawesome/free-solid-svg-icons';
 
 @NgModule({
   imports: [
@@ -64,7 +64,8 @@ export class LayoutModule {
       faSearch,
       faQuestion,
       faCog,
-      faTimes
+      faTimes,
+      faSms
     );
   }
 }

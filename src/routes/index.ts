@@ -1,5 +1,5 @@
 import { Controller, ClassOptions, Children, Get } from '@overnightjs/core';
-import { UserController, AuthController, DepartmentController, FileController, PlanController, PrivilegeController, RoleController, StageController, StateController } from './controllers';
+import { UserController, AuthController, DepartmentController, FileController, PlanController, PrivilegeController, RoleController, StageController, StateController, ChatController } from './controllers';
 import { Request, Response } from 'express';
 import { OK } from 'http-status-codes';
 
@@ -7,6 +7,7 @@ import { OK } from 'http-status-codes';
 @ClassOptions({mergeParams: true})
 @Children([
     new AuthController(),
+    new ChatController(),
     new DepartmentController(),
     new FileController(),
     new PlanController(),
