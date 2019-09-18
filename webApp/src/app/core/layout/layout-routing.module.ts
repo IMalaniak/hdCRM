@@ -19,12 +19,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {path: '', pathMatch: 'full', redirectTo: 'dashboard'},
-      {path: 'planner', loadChildren: () => import('../../_modules/planner/planner.module').then(m => m.PlannerModule)},
-      {path: 'users', loadChildren: () => import('../../_modules/users/users.module').then(m => m.UsersModule) },
+      {path: 'planner', data: { breadcrumb: 'Planner' }, loadChildren: () => import('../../_modules/planner/planner.module').then(m => m.PlannerModule)},
+      {path: 'users', data: { breadcrumb: 'Users' }, loadChildren: () => import('../../_modules/users/users.module').then(m => m.UsersModule) },
       {path: 'roles', loadChildren: () => import('../../_modules/roles/roles.module').then(m => m.RolesModule) },
       {path: 'dashboard', loadChildren: () => import('../../_modules/dashboard/dashboard.module').then(m => m.DashboardModule)},
-      {path: 'departments', loadChildren: () => import('../../_modules/departments/departments.module').then(m => m.DepartmentsModule)},
-      {path: 'chats', loadChildren: () => import('../../_modules/chat/chat.module').then(m => m.ChatModule)}
+      {path: 'departments', data: { breadcrumb: 'Departments' }, loadChildren: () => import('../../_modules/departments/departments.module').then(m => m.DepartmentsModule)},
+      {path: 'chats', data: { breadcrumb: 'Chat' }, loadChildren: () => import('../../_modules/chat/chat.module').then(m => m.ChatModule)}
     ]
   },
   { path: '**', component: PageNotFoundComponent }

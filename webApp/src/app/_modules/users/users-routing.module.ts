@@ -9,8 +9,8 @@ import { UserResolver } from './_services';
 
 const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'list' },
-    {path: 'list', data: { breadcrumb: 'Users list' }, component: UsersComponent },
-    {path: 'details/:id', data: { breadcrumb: 'User details' }, component: UserComponent, resolve: {user: UserResolver}},
+    {path: 'list', data: { breadcrumb: 'List' }, component: UsersComponent },
+    {path: 'details/:id', data: { breadcrumb: 'Details' }, component: UserComponent, resolve: {user: UserResolver}},
     {path: 'myprofile', data: { breadcrumb: 'My profile' }, component: ProfileComponent},
 ];
 

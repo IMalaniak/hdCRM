@@ -8,8 +8,8 @@ import { RoleResolver } from './_services/role.resolver';
 
 const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'list' },
-    {path: 'list', data: { breadcrumb: 'Roles list' }, component: RolesComponent },
-    {path: 'details/:id', data: { breadcrumb: 'Role details' }, component: RoleComponent, resolve: {role: RoleResolver}},
+    {path: 'list', data: { breadcrumb: 'List' }, component: RolesComponent },
+    {path: 'details/:id', data: { breadcrumb: 'Details' }, component: RoleComponent, resolve: {role: RoleResolver}},
     {path: 'add', data: { breadcrumb: 'Add role' }, component: AddRoleComponent},
 ];
 

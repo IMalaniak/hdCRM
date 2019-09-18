@@ -12,42 +12,37 @@ export class BreadcrumbsComponent implements OnInit {
 
   public breadcrumbs: Breadcrumb[];
 
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    const breadcrumb: Breadcrumb = {
-      keyString: 'home',
-      url: 'home'
-    };
-
+    this.setBreadcrumbs();
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
-      // set breadcrumbs
-      const root: ActivatedRoute = this.route.root;
-      this.breadcrumbs = this.getBreadcrumbs(root);
-       this.breadcrumbs = [breadcrumb, ...this.breadcrumbs];
-
+      this.setBreadcrumbs();
     });
-
   }
 
-  private getBreadcrumbs(route: ActivatedRoute, url: string = '', breadcrumbs: Breadcrumb[] = []): Breadcrumb[] {
-    const ROUTE_DATA_BREADCRUMB: string = 'breadcrumb';
+  private setBreadcrumbs() {
+    const home: Breadcrumb = {
+      keyString: 'home',
+      url: '/home'
+    };
+    const root: ActivatedRoute = this.activatedRoute.root;
+    this.breadcrumbs = this.getBreadcrumbs(root);
+    this.breadcrumbs = [home, ...this.breadcrumbs];
+  }
+
+  private getBreadcrumbs(activatedRoute: ActivatedRoute, url: string = '', breadcrumbs: Breadcrumb[] = []): Breadcrumb[] {
+    const ROUTE_DATA_BREADCRUMB = 'breadcrumb';
 
     // get the child routes
-    const children: ActivatedRoute[] = route.children;
+    const children: ActivatedRoute[] = activatedRoute.children;
 
     // return if there are no more children
     if (children.length === 0) {
       return breadcrumbs;
     }
-
     // iterate over each children
     for (const child of children) {
-      // verify primary route
-      if (child.outlet !== PRIMARY_OUTLET || child.snapshot.url.length === 0) {
-        continue;
-      }
-
       // verify the custom data property "breadcrumb" is specified on the route
       if (!child.snapshot.data.hasOwnProperty(ROUTE_DATA_BREADCRUMB)) {
         return this.getBreadcrumbs(child, url, breadcrumbs);
@@ -71,4 +66,5 @@ export class BreadcrumbsComponent implements OnInit {
     }
     return breadcrumbs;
   }
+
 }

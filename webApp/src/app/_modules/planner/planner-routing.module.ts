@@ -9,8 +9,8 @@ import { PlanResolver } from './_services';
 
 const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'list' },
-    {path: 'list', data: { breadcrumb: 'Plans list' }, component: PlanListComponent },
-    {path: 'details/:id', data: { breadcrumb: 'Plan details' }, component: PlanComponent, resolve: {plan: PlanResolver}},
+    {path: 'list', data: { breadcrumb: 'List' }, component: PlanListComponent },
+    {path: 'details/:id', data: { breadcrumb: 'Details' }, component: PlanComponent, resolve: {plan: PlanResolver}},
     {path: 'add', data: { breadcrumb: 'Add plan' }, component: AddPlanComponent},
     {path: 'stages', data: { breadcrumb: 'Stages' }, component: StagesComponent},
 ];
