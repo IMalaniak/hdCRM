@@ -9,9 +9,9 @@ import { UserResolver } from './_services';
 
 const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'list' },
-    {path: 'list', data: { breadcrumb: 'List' }, component: UsersComponent },
-    {path: 'details/:id', data: { breadcrumb: 'Details' }, component: UserComponent, resolve: {user: UserResolver}},
-    {path: 'myprofile', data: { breadcrumb: 'My profile' }, component: ProfileComponent},
+    {path: 'list', data: { breadcrumb: 'List', animation: "UsersListPage" }, component: UsersComponent },
+    {path: 'details/:id', data: { breadcrumb: 'Details', animation: "UsersDetailsPage" }, component: UserComponent, resolve: {user: UserResolver}},
+    {path: 'myprofile', data: { breadcrumb: 'My profile', animation: "UserMyProfilePage" }, component: ProfileComponent},
 ];
 
 @NgModule({

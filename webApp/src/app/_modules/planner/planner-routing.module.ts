@@ -9,10 +9,10 @@ import { PlanResolver } from './_services';
 
 const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'list' },
-    {path: 'list', data: { breadcrumb: 'List' }, component: PlanListComponent },
-    {path: 'details/:id', data: { breadcrumb: 'Details' }, component: PlanComponent, resolve: {plan: PlanResolver}},
-    {path: 'add', data: { breadcrumb: 'Add plan' }, component: AddPlanComponent},
-    {path: 'stages', data: { breadcrumb: 'Stages' }, component: StagesComponent},
+    {path: 'list', data: { breadcrumb: 'List', animation: "PlannerListPage" }, component: PlanListComponent },
+    {path: 'details/:id', data: { breadcrumb: 'Details', animation: "PlannerDetailsPage" }, component: PlanComponent, resolve: {plan: PlanResolver}},
+    {path: 'add', data: { breadcrumb: 'Add plan', animation: "PlannerAddPage" }, component: AddPlanComponent},
+    {path: 'stages', data: { breadcrumb: 'Stages', animation: "PlannerStagesPage" }, component: StagesComponent},
 ];
 
 @NgModule({

@@ -1,7 +1,7 @@
 import { environment } from 'environments/environment';
 import { Component, OnInit } from '@angular/core';
 import { MediaqueryService } from '@/_shared/services';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
@@ -10,6 +10,7 @@ import { User } from '@/_modules/users';
 import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
 import * as layoutActions from '../store/layout.actions'; 
 import * as fromLayout from '../store/';
+import { routerTransition } from '@/_shared/animations/router-transition';
 
 @Component({
   selector: 'app-private',
@@ -19,8 +20,8 @@ import * as fromLayout from '../store/';
       <main>
           <app-sidebar [sidebarMinimized]="sidebarMinimized$ | async"></app-sidebar>
           <section class="content">
-              <section class="container-fluid">
-                  <router-outlet></router-outlet>
+              <section class="container-fluid position-relative" [@routeAnimations]="prepareRoute(outlet)">
+                  <router-outlet #outlet="outlet"></router-outlet>
               </section>
 
               <app-footer></app-footer>
@@ -30,8 +31,10 @@ import * as fromLayout from '../store/';
 <!--      <section class="app-messages" *ngIf="showDebug$ | async"></section> -->
     </section>
   `,
-  styles: []
-})
+  styles: [],
+  animations: [
+    routerTransition
+  ]})
 export class PrivateViewComponent implements OnInit {
     sidebarMinimized$: Observable<boolean>;
     baseUrl: string;
@@ -61,5 +64,9 @@ export class PrivateViewComponent implements OnInit {
 
     toogleSideBar(minimized: boolean) {
       this.store.dispatch(new layoutActions.ToggleSidebar(minimized));
+    }
+
+    prepareRoute(outlet: RouterOutlet) {
+      return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
     }
 }

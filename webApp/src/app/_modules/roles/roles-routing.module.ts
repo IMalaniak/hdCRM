@@ -8,9 +8,9 @@ import { RoleResolver } from './_services/role.resolver';
 
 const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'list' },
-    {path: 'list', data: { breadcrumb: 'List' }, component: RolesComponent },
-    {path: 'details/:id', data: { breadcrumb: 'Details' }, component: RoleComponent, resolve: {role: RoleResolver}},
-    {path: 'add', data: { breadcrumb: 'Add role' }, component: AddRoleComponent},
+    {path: 'list', data: { breadcrumb: 'List', animation: "RolesListPage" }, component: RolesComponent },
+    {path: 'details/:id', data: { breadcrumb: 'Details', animation: "RolesDetailsPage" }, component: RoleComponent, resolve: {role: RoleResolver}},
+    {path: 'add', data: { breadcrumb: 'Add role', animation: "RolesAddPage" }, component: AddRoleComponent},
 ];
 
 @NgModule({

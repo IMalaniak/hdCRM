@@ -7,7 +7,7 @@ import {
 
 const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'list' },
-    {path: 'list', data: { breadcrumb: 'List' }, component: ChatShellComponent },
+    {path: 'list', data: { breadcrumb: 'List', animation: "ChatsListPage" }, component: ChatShellComponent },
     // {path: 'list', data: { breadcrumb: 'Chats' }, component: ChatsComponent },
     // {path: 'details/:id', data: { breadcrumb: 'Chat details' }, component: ChatComponent, resolve: {department: DepartmentResolver}},
 ];

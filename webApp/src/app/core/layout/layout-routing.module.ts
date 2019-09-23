@@ -16,15 +16,15 @@ const routes: Routes = [
   {
     path: '',
     component: PrivateViewComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard], 
     children: [
       {path: '', pathMatch: 'full', redirectTo: 'dashboard'},
-      {path: 'planner', data: { breadcrumb: 'Planner' }, loadChildren: () => import('../../_modules/planner/planner.module').then(m => m.PlannerModule)},
-      {path: 'users', data: { breadcrumb: 'App Users' }, loadChildren: () => import('../../_modules/users/users.module').then(m => m.UsersModule) },
-      {path: 'roles', data: { breadcrumb: 'App Roles'}, loadChildren: () => import('../../_modules/roles/roles.module').then(m => m.RolesModule) },
-      {path: 'dashboard', loadChildren: () => import('../../_modules/dashboard/dashboard.module').then(m => m.DashboardModule)},
-      {path: 'departments', data: { breadcrumb: 'Departments' }, loadChildren: () => import('../../_modules/departments/departments.module').then(m => m.DepartmentsModule)},
-      {path: 'chats', data: { breadcrumb: 'Chat' }, loadChildren: () => import('../../_modules/chat/chat.module').then(m => m.ChatModule)}
+      {path: 'planner', data: { breadcrumb: 'Planner', animation: "PlannerPage"}, loadChildren: () => import('../../_modules/planner/planner.module').then(m => m.PlannerModule)},
+      {path: 'users', data: { breadcrumb: 'App Users', animation: "UsersPage"}, loadChildren: () => import('../../_modules/users/users.module').then(m => m.UsersModule) },
+      {path: 'roles', data: { breadcrumb: 'App Roles', animation: "RolesPage"}, loadChildren: () => import('../../_modules/roles/roles.module').then(m => m.RolesModule) },
+      {path: 'dashboard', data: { animation: "DashboardPage"}, loadChildren: () => import('../../_modules/dashboard/dashboard.module').then(m => m.DashboardModule)},
+      {path: 'departments', data: { breadcrumb: 'Departments', animation: "DepartmentsPage"}, loadChildren: () => import('../../_modules/departments/departments.module').then(m => m.DepartmentsModule)},
+      {path: 'chats', data: { breadcrumb: 'Chat', animation: "ChatsPage"}, loadChildren: () => import('../../_modules/chat/chat.module').then(m => m.ChatModule)}
     ]
   },
   { path: '**', component: PageNotFoundComponent }
