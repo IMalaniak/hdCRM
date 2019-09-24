@@ -29,11 +29,11 @@
         </ng-container>
         <ng-container matColumnDef="manager">
           <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@departmentsComponentListManagerFullName">Manager</mat-header-cell>
-          <mat-cell *matCellDef="let dep">{{dep.Manager.name + ' ' + dep.Manager.surname}}</mat-cell>
+          <mat-cell *matCellDef="let dep">{{dep.Manager ? dep.Manager.name + ' ' + dep.Manager.surname : '-'}}</mat-cell>
         </ng-container>     
         <ng-container matColumnDef="workers">
           <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@departmentsComponentListWorkersNumber">Workers</mat-header-cell>
-          <mat-cell *matCellDef="let dep">{{dep.Workers.length}}</mat-cell>
+          <mat-cell *matCellDef="let dep">{{dep.Workers ? dep.Workers.length : '-'}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="createdAt">
           <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@departmentsComponentListCreateAt">Created At</mat-header-cell>
