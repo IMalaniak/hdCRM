@@ -13,7 +13,7 @@ export class DepartmentController {
     @Get('dashboard')
     @Middleware([Passport.authenticate()])
     private getDashboardData(req: Request, res: Response) {
-        Logger.Info(`Geing departments dashboard data...`);
+        Logger.Info(`Geting departments dashboard data...`);
         db.Department.findAndCountAll({
             attributes: ['title', 'id'],
             include: [
