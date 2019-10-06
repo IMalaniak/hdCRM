@@ -55,7 +55,7 @@ class CrmServer extends Server {
         if (process.env.NODE_ENV !== 'production') {
             // Sync DB
             this.dBase.sequel.sync({
-                // alter: true,
+                alter: true,
                 // force: true
             }).then(() => {
                 this.app.listen(port, '127.0.0.1', () => {

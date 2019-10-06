@@ -4,6 +4,7 @@ import { Role } from './Role';
 export class Privilege extends Model {
     public id!: number;
     public keyString!: string;
+    public title: string;
 
     public addRole!: BelongsToManyAddAssociationMixin<Role, number>;
     public addRoles!: BelongsToManyAddAssociationsMixin<Role, number>;
@@ -34,6 +35,9 @@ export const PrivilegeFactory = (sequelize: Sequelize): void => {
         keyString: {
             type: new DataTypes.STRING(50),
             allowNull: false
+        },
+        title: {
+            type: new DataTypes.STRING(50)
         }
     }, {
         tableName: 'Privileges',

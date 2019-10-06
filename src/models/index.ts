@@ -11,6 +11,7 @@ import { Plan, PlanFactory } from './Plan';
 import { Stage, StageFactory } from './Stage';
 import { PlanStage, PlanStageFactory } from './PlanStage';
 import { Department, DepartmentFactory } from './Department';
+import { RolePrivilege, RolePrivilegeFactory } from './RolePrivileges';
 
 
 class DataBase {
@@ -29,6 +30,7 @@ class DataBase {
     PlanStageFactory(this.sequelize);
     PrivilegeFactory(this.sequelize);
     RoleFactory(this.sequelize);
+    RolePrivilegeFactory(this.sequelize);
     StageFactory(this.sequelize);
     StateFactory(this.sequelize);
     UserFactory(this.sequelize);
@@ -55,8 +57,8 @@ class DataBase {
     Department.hasMany(User, {as: 'Workers', constraints: false});
     Department.belongsTo(User, {as: 'Manager', foreignKey: 'managerId'});
 
-    Role.belongsToMany(Privilege, {through: 'RolePrivileges', foreignKey: 'RoleId'});
-    Privilege.belongsToMany(Role, {through: 'RolePrivileges', foreignKey: 'PrivilegeId'});
+    Role.belongsToMany(Privilege, {through: RolePrivilege, foreignKey: 'RoleId'});
+    Privilege.belongsToMany(Role, {through: RolePrivilege, foreignKey: 'PrivilegeId'});
 
     Plan.belongsToMany(Asset, {as: 'Documents', through: 'PlanAssets', foreignKey: 'PlanId'});
     Plan.belongsTo(Stage, {as: 'activeStage'});

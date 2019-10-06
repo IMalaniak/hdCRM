@@ -177,7 +177,7 @@ export class AuthController {
                             {
                                 model: db.Privilege,
                                 through: {
-                                    attributes: []
+                                    attributes: ['view', 'edit', 'add', 'delete']
                                 },
                                 required: false,
                             }
