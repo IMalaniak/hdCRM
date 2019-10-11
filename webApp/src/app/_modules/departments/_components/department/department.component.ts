@@ -46,7 +46,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.appUser$ = this.store.pipe(select(currentUser));
-    this.editDepartmentPrivilege$ = this.store.pipe(select(isPrivileged('editDepartment')));
+    this.editDepartmentPrivilege$ = this.store.pipe(select(isPrivileged('department-edit')));
 
     this.departmentInitial = new Department(this.route.snapshot.data['department']);
     this.department = new Department(this.route.snapshot.data['department']);

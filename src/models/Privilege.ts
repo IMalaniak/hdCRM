@@ -1,5 +1,6 @@
 import { Sequelize, Model, DataTypes, Association, BelongsToManyAddAssociationMixin, BelongsToManyAddAssociationsMixin, BelongsToManyCountAssociationsMixin, BelongsToManyCreateAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManyHasAssociationMixin, BelongsToManyHasAssociationsMixin, BelongsToManyRemoveAssociationMixin, BelongsToManyRemoveAssociationsMixin, BelongsToManySetAssociationsMixin } from 'sequelize';
 import { Role } from './Role';
+import { RolePrivilege } from './RolePrivileges';
 
 export class Privilege extends Model {
     public id!: number;
@@ -18,6 +19,7 @@ export class Privilege extends Model {
     public setRoles!: BelongsToManySetAssociationsMixin<Role, number>;
 
     public readonly Roles?: Role[];
+    public RolePrivilege: RolePrivilege;
 
     public static associations: {
         Roles: Association<Privilege, Role>;

@@ -1,9 +1,12 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromRole from './role.reducer';
+import * as fromPrivilege from './privilege.reducer';
 import { PageQuery } from '@/core/_models';
 import { Role } from '../_models';
 
 export const selectRolesState = createFeatureSelector<fromRole.RolesState>('roles');
+
+export const selectPrivilegesState = createFeatureSelector<fromPrivilege.PrivilegesState>('privileges');
 
 export const selectRoleById = (roleId: number) => createSelector(
     selectRolesState,
@@ -42,4 +45,19 @@ export const selectRolesPage = (page: PageQuery) => createSelector(
       return allRoles.slice(start, end);
     }
   }
+);
+
+export const selectAllPrivileges = createSelector(
+  selectPrivilegesState,
+  fromPrivilege.selectAll
+);
+
+export const allPrivilegesLoaded = createSelector(
+  selectPrivilegesState,
+  privilegeState => privilegeState.allPrivilegesLoaded
+);
+
+export const selectPrivilegesLoading = createSelector(
+  selectPrivilegesState,
+  privilegeState => privilegeState.loading
 );

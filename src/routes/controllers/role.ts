@@ -72,7 +72,7 @@ export class RoleController {
                 {
                     model: db.Privilege,
                     through: {
-                        attributes: []
+                        attributes: ['view', 'edit', 'add', 'delete']
                     },
                     required: false
                 }, {
@@ -115,7 +115,7 @@ export class RoleController {
         });
     }
 
-    @Put('')
+    @Put(':id')
     @Middleware([Passport.authenticate()])
     private updateOne(req: Request, res: Response) {
         Logger.Info(`Updating Role by Id: ${req.body.id}...`);
@@ -126,27 +126,35 @@ export class RoleController {
                 where: {id: req.body.id}
             }
         ).then(() => {
-                this.findRoleById(req.body.id).then(role => {
-                    if (req.body.Privileges) {
-                        db.Privilege.findAll({
-                            where: {
-                                    [Op.or] : req.body.Privileges
-                            }
-                        }).then(privileges => {
-                            role.setPrivileges(privileges).then(() => {
-                                if (req.body.Users) {
-                                    db.User.findAll({
-                                        where: {
-                                                [Op.or] : req.body.Users
-                                        }
-                                    }).then(users => {
-                                        role.setUsers(users).then(result => {
-                                            this.findRoleById(req.body.id).then(role => {
-                                                return res.status(OK).json(role);
-                                            }).catch((err: any) => {
-                                                Logger.Err(err);
-                                                return res.status(BAD_REQUEST).json(err.toString());
-                                            });
+            this.findRoleById(req.body.id).then(role => {
+                if (req.body.Privileges) {
+                    const privIds = req.body.Privileges.map(priv => {
+                        return {
+                            id: priv.id
+                        };
+                    });
+
+                    db.Privilege.findAll({
+                        where: {
+                                [Op.or] : privIds
+                        }
+                    }).then(privileges => {
+                        privileges = privileges.map(privilege => {
+                            privilege.RolePrivilege = req.body.Privileges.find(reqPriv => reqPriv.id === privilege.id).RolePrivilege;
+                            return privilege;
+                        });
+                        console.log(privileges);
+                        
+                        role.setPrivileges(privileges).then(() => {
+                            if (req.body.Users) {
+                                db.User.findAll({
+                                    where: {
+                                            [Op.or] : req.body.Users
+                                    }
+                                }).then(users => {
+                                    role.setUsers(users).then(result => {
+                                        this.findRoleById(req.body.id).then(role => {
+                                            return res.status(OK).json(role);
                                         }).catch((err: any) => {
                                             Logger.Err(err);
                                             return res.status(BAD_REQUEST).json(err.toString());
@@ -155,26 +163,30 @@ export class RoleController {
                                         Logger.Err(err);
                                         return res.status(BAD_REQUEST).json(err.toString());
                                     });
-                                } else {
-                                    this.findRoleById(req.body.id).then(role => {
-                                        return res.status(OK).json(role);
-                                    }).catch((err: any) => {
-                                        Logger.Err(err);
-                                        return res.status(BAD_REQUEST).json(err.toString());
-                                    });
-                                }
-                            });
-                        }).catch((err: any) => {
-                            Logger.Err(err);
-                            return res.status(BAD_REQUEST).json(err.toString());
+                                }).catch((err: any) => {
+                                    Logger.Err(err);
+                                    return res.status(BAD_REQUEST).json(err.toString());
+                                });
+                            } else {
+                                this.findRoleById(req.body.id).then(role => {
+                                    return res.status(OK).json(role);
+                                }).catch((err: any) => {
+                                    Logger.Err(err);
+                                    return res.status(BAD_REQUEST).json(err.toString());
+                                });
+                            }
                         });
-                    } else {
-                        return res.status(OK).json(role);
-                    }
-                }).catch((err: any) => {
-                    Logger.Err(err);
-                    return res.status(BAD_REQUEST).json(err.toString());
-                });
+                    }).catch((err: any) => {
+                        Logger.Err(err);
+                        return res.status(BAD_REQUEST).json(err.toString());
+                    });
+                } else {
+                    return res.status(OK).json(role);
+                }
+            }).catch((err: any) => {
+                Logger.Err(err);
+                return res.status(BAD_REQUEST).json(err.toString());
+            });
         }).catch((err: any) => {
             Logger.Err(err);
             return res.status(BAD_REQUEST).json(err.toString());
@@ -196,8 +208,9 @@ export class RoleController {
                 }, {
                     model: db.Privilege,
                     through: {
-                        attributes: []
-                    }
+                        attributes: ['view', 'edit', 'add', 'delete']
+                    },
+                    required: false
                 }
             ]
         });

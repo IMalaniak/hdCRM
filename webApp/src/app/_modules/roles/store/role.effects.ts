@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { Action, Store } from '@ngrx/store';
+import { Observable, of, throwError } from 'rxjs';
+import { Action, Store, select } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import * as roleActions from './role.actions';
-import { mergeMap, map, catchError } from 'rxjs/operators';
-import { RoleService } from '../_services';
+import { mergeMap, map, catchError, withLatestFrom, filter } from 'rxjs/operators';
+import { RoleService, PrivilegeService } from '../_services';
 import { AppState } from '@/core/reducers';
-import { RoleServerResponse } from '../_models';
+import { RoleServerResponse, Privilege } from '../_models';
+import Swal from 'sweetalert2';
+import { allPrivilegesLoaded } from './role.selectors';
 
 @Injectable()
 export class RoleEffects {
@@ -34,9 +36,46 @@ export class RoleEffects {
         map((response: RoleServerResponse) => new roleActions.RolesListPageLoaded(response)),
     );
 
+    @Effect()
+    loadAllPrivilege$ = this.actions$.pipe(
+        ofType<roleActions.AllPrivilegesRequested>(roleActions.RoleActionTypes.ALLPRIVILEGES_REQUESTED),
+        withLatestFrom(this.store.pipe(select(allPrivilegesLoaded))),
+        filter(([action, allPrivilegesLoaded]) => !allPrivilegesLoaded),
+        mergeMap(() => this.privilegeService.getFullList()),
+        map(privileges => new roleActions.AllPrivilegesLoaded(privileges)),
+        catchError(err => throwError(err))
+    );
+
+    @Effect()
+    createPrivilege$: Observable<Action> = this.actions$.pipe(
+      ofType<roleActions.CreatePrivilege>(roleActions.RoleActionTypes.PRIVILEGE_CREATE),
+      map((action: roleActions.CreatePrivilege) => action.payload.privilege),
+      mergeMap((privilege: Privilege) =>
+        this.privilegeService.create(privilege).pipe(
+          map(newPrivilege => {
+            Swal.fire({
+              title: 'Privilege created!',
+              type: 'success',
+              timer: 1500
+            });
+            return new roleActions.CreatePrivilegeSuccess({privilege: newPrivilege});
+          }),
+          catchError(err => {
+            Swal.fire({
+              title: 'Ooops, something went wrong!',
+              type: 'error',
+              timer: 1500
+            });
+            return of(new roleActions.CreatePrivilegeFail(err));
+          })
+        )
+      )
+    );
+
     constructor(
         private actions$: Actions,
         private store: Store<AppState>,
         private roleService: RoleService,
+        private privilegeService: PrivilegeService
     ) {}
 }

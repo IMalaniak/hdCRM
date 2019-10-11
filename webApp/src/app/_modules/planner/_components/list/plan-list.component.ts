@@ -40,8 +40,8 @@ export class PlanListComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
-    this.addPlanPrivilege$ = this.store.pipe(select(isPrivileged('addPlan')));
-    this.editPlanPrivilege$ = this.store.pipe(select(isPrivileged('addPlan')));
+    this.addPlanPrivilege$ = this.store.pipe(select(isPrivileged('plan-add')));
+    this.editPlanPrivilege$ = this.store.pipe(select(isPrivileged('plan-edit')));
 
     this.loading$ = this.store.pipe(select(selectPlansLoading));
     this.resultsLength$ = this.store.pipe(select(selectPlansTotalCount));

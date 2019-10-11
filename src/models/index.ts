@@ -36,7 +36,7 @@ class DataBase {
     UserFactory(this.sequelize);
     UserLoginHistoryFactory(this.sequelize);
 
-    
+
     // associations
     User.belongsToMany(Role, {through: 'UserRoles', foreignKey: 'UserId'});
     User.belongsToMany(Asset, {through: 'UserAssets', foreignKey: 'UserId'});
