@@ -39,7 +39,7 @@ export class DepartmentsComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
-    this.addDepPrivilege$ = this.store.pipe(select(isPrivileged('addDepartment')));
+    this.addDepPrivilege$ = this.store.pipe(select(isPrivileged('department-add')));
     this.loading$ = this.store.pipe(select(selectDepartmentsLoading));
     this.resultsLength$ = this.store.pipe(select(selectDepartmentsTotalCount));
     this.dataSource = new DepartmentsDataSource(this.store);

@@ -3,6 +3,7 @@ import { AuthState } from './auth.reducer';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from '@/_modules/users/_models';
+import { Privilege } from '@/_modules/roles';
 const jwtHelper = new JwtHelperService();
 
 export const selectAuthState = createFeatureSelector<AuthState>('auth');
@@ -51,7 +52,10 @@ export const getPrivileges = createSelector(
             let privileges = [];
             for (const role of user.Roles) {
               privileges.push(role.Privileges.map(privilege => {
-                return privilege.keyString;
+                return {
+                    keyString: privilege.keyString,
+                    RolePrivilege: privilege.RolePrivilege
+                };
               }));
             }
             privileges = [].concat(...privileges);
@@ -64,11 +68,15 @@ export const getPrivileges = createSelector(
 );
 
 // check if currentUser has privilege
-export const isPrivileged = (privilege: string) => createSelector(
+export const isPrivileged = (privilegeCheck: string) => createSelector(
     getPrivileges,
     privileges => {
-        if (privileges && privilege.length > 0) {
-            return privileges.includes(privilege);
+        const [symbol, action] = privilegeCheck.split('-');
+        if (privileges && privileges.length > 0) {
+            const check: Privilege = privileges.find(privilege => {
+                return privilege.keyString === symbol;
+            });
+            return check && check.RolePrivilege && check.RolePrivilege[action];
         } else {
             return false;
         }

@@ -40,8 +40,8 @@ export class RolesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    this.addRolePrivilege$ = this.store.pipe(select(isPrivileged('addRole')));
-    this.editRolePrivilege$ = this.store.pipe(select(isPrivileged('editRole')));
+    this.addRolePrivilege$ = this.store.pipe(select(isPrivileged('role-add')));
+    this.editRolePrivilege$ = this.store.pipe(select(isPrivileged('role-edit')));
     this.loading$ = this.store.pipe(select(selectRolesLoading));
     this.resultsLength$ = this.store.pipe(select(selectRolesTotalCount));
     this.dataSource = new RolesDataSource(this.store);

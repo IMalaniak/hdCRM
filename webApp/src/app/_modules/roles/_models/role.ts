@@ -1,5 +1,5 @@
 import { Privilege } from './privilege';
-import { User } from '@/_modules/users';
+import { User } from '@/_modules/users/_models';
 import { ApiResponse } from '@/core/_models';
 
 export class Role {
@@ -14,6 +14,16 @@ export class Role {
   constructor(input?: any) {
     if (input) {
       Object.assign(this, input);
+      if (input.Privileges && input.Privileges.length > 0) {
+        this.Privileges = input.Privileges.map(privilege => {
+          return new Privilege(privilege);
+        });
+      }
+      if (input.Users && input.Users.length > 0) {
+        this.Users = input.Users.map(user => {
+          return new User(user);
+        });
+      }
     }
   }
 }

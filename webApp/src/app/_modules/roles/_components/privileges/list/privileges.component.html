@@ -1,0 +1,38 @@
+<section class="app-content-box" [title]="'Privilege groups'" [showDataLoader]="isLoading$ | async">
+
+  <div buttons class="btn-group-horizontal">
+    <button mat-raised-button color="primary" class="crm-button" (click)="createPrivilegeDialog()"><fa-icon [icon]="['fas', 'plus']"></fa-icon><span i18n="@@privilegesComponentActionsCreateNewPrivilege">Create</span></button>
+  </div>
+
+  <div content class="mat-elevation-z8 privileges-table-container" *ngIf="privileges">
+      <mat-table class="privileges-table crm-table" [dataSource]="privileges">
+          <ng-container matColumnDef="select">
+            <mat-header-cell *matHeaderCellDef>
+              <mat-checkbox (change)="$event ? masterToggle() : null"
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()">
+              </mat-checkbox>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()"
+                            (change)="$event ? selection.toggle(row) : null"
+                            [checked]="selection.isSelected(row)">
+              </mat-checkbox>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef i18n="@@privilegesComponentHeaderPrivilege">Title</mat-header-cell>
+            <mat-cell *matCellDef="let privilege">{{privilege.title}}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="key">
+              <mat-header-cell *matHeaderCellDef i18n="@@privilegesComponentHeaderPrivilege">Key</mat-header-cell>
+              <mat-cell *matCellDef="let privilege">{{privilege.keyString}}</mat-cell>
+            </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+  
+      <!-- <mat-paginator [length]="resultsLength$ | async" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator> -->
+  </div>
+
+</section>

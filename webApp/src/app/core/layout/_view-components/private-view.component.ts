@@ -52,7 +52,7 @@ export class PrivateViewComponent implements OnInit {
     ngOnInit() {
       this.currentUser$ = this.store.pipe(select(currentUser));
       this.sidebarMinimized$ = this.store.pipe(select(fromLayout.getSidebarState));
-      this.showDebug$ = this.store.pipe(select(isPrivileged('showDebug')));
+      this.showDebug$ = this.store.pipe(select(isPrivileged('debug-view')));
 
       if (this.mediaquery.isMobileDevice) {
         this.toogleSideBar(true);

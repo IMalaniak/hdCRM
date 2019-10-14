@@ -12,7 +12,10 @@ import {
     RolesComponent,
     RoleComponent,
     AddRoleComponent,
-    RolesDialogComponent } from './_components';
+    RolesDialogComponent,
+    PrivilegesComponent,
+    PrivilegesDialogComponent,
+    AddPrivilegeDialogComponent } from './_components';
 
 import { UsersModule } from '@/_modules/users/users.module';
 
@@ -21,6 +24,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { rolesReducer } from './store/role.reducer';
 import { RoleEffects } from './store/role.effects';
+import { privilegesReducer } from './store/privilege.reducer';
 
 @NgModule({
   imports: [
@@ -32,6 +36,7 @@ import { RoleEffects } from './store/role.effects';
     FontAwesomeModule,
     RolesRoutingModule.forRoot(),
     StoreModule.forFeature('roles', rolesReducer),
+    StoreModule.forFeature('privileges', privilegesReducer),
     EffectsModule.forFeature([RoleEffects]),
     UsersModule
   ],
@@ -39,7 +44,10 @@ import { RoleEffects } from './store/role.effects';
     RolesComponent,
     RoleComponent,
     AddRoleComponent,
-    RolesDialogComponent
+    RolesDialogComponent,
+    PrivilegesComponent,
+    PrivilegesDialogComponent,
+    AddPrivilegeDialogComponent
   ],
   providers: [
     RoleService,
@@ -49,9 +57,12 @@ import { RoleEffects } from './store/role.effects';
     RolesComponent,
     RoleComponent,
     AddRoleComponent,
-    RolesDialogComponent
+    RolesDialogComponent,
+    PrivilegesComponent,
+    PrivilegesDialogComponent,
+    AddPrivilegeDialogComponent
   ],
-  entryComponents: [RolesDialogComponent]
+  entryComponents: [RolesDialogComponent, PrivilegesDialogComponent, AddPrivilegeDialogComponent]
 })
 export class RolesModule {
   constructor(library: FaIconLibrary) {

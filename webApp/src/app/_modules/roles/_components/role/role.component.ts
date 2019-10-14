@@ -1,16 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { MatDialog, MatTableDataSource, MatTable } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
-import { Role, Privilege } from '../../_models';
-import { RoleService, PrivilegeService } from '../../_services';
-import { User } from '@/_modules/users/_models';
+import { Role, Privilege, RolePrivilege } from '../../_models';
+import { RoleService } from '../../_services';
 import { UsersDialogComponent } from '@/_modules/users/_components/dialog/users-dialog.component';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { MediaqueryService } from '@/_shared/services';
+import { takeUntil } from 'rxjs/operators';
+import { cloneDeep } from 'lodash';
+import { Update } from '@ngrx/entity';
+import { RoleSaved } from '../../store/role.actions';
+import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
 
 
 @Component({
@@ -18,17 +22,19 @@ import { MediaqueryService } from '@/_shared/services';
   templateUrl: './role.component.html',
   styleUrls: ['./role.component.scss']
 })
-export class RoleComponent implements OnInit {
+export class RoleComponent implements OnInit, OnDestroy {
   role: Role;
   roleInitial: Role;
-  privileges: Privilege[];
-  privilegesInitial: Privilege[];
   editForm: boolean;
   editRolePrivilege$: Observable<boolean>;
+  displayedColumns = ['title', 'view', 'add', 'edit', 'delete'];
+
+  @ViewChild(MatTable, {static: false}) privilegesTable: MatTable<any>;
+
+  private unsubscribe: Subject<void> = new Subject();
 
   constructor(
     private route: ActivatedRoute,
-    private privilegeService: PrivilegeService,
     private roleService: RoleService,
     private dialog: MatDialog,
     private store: Store<AppState>,
@@ -38,14 +44,21 @@ export class RoleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.editRolePrivilege$ = this.store.pipe(select(isPrivileged('editRole')));
+    this.editRolePrivilege$ = this.store.pipe(select(isPrivileged('role-edit')));
+    this.editRolePrivilege$.pipe(takeUntil(this.unsubscribe)).subscribe(canEdit => {
+      if (canEdit) {
+        const edit = this.route.snapshot.queryParams['edit'];
+        if (edit) {
+          this.editForm = JSON.parse(edit);
+        }
+      }
+    });
     this.getRoleData();
   }
 
   getRoleData(): void {
-    this.role = new Role(this.route.snapshot.data['role']);
-    this.roleInitial = new Role(this.route.snapshot.data['role']);
-
+    this.role = new Role(cloneDeep(this.route.snapshot.data['role']));
+    this.roleInitial = new Role(cloneDeep(this.route.snapshot.data['role']));
   }
 
   addParticipantDialog(): void {
@@ -60,6 +73,51 @@ export class RoleComponent implements OnInit {
       if (result && result.length > 0) {
         this.role.Users = [...new Set([...this.role.Users, ...result])];
       }
+    });
+  }
+
+  addPrivilegeDialog(): void {
+    const dialogRef = this.dialog.open(PrivilegesDialogComponent, {
+      ...this.mediaQuery.deFaultPopupSize,
+      data: {
+        title: 'Select privileges',
+      }
+    });
+
+    const privilegesC = dialogRef.componentInstance.privilegesComponent;
+
+    dialogRef.afterOpened().pipe(takeUntil(this.unsubscribe)).subscribe(() => {
+      privilegesC.isLoading$.pipe(takeUntil(this.unsubscribe)).subscribe(isLoading => {
+        if (!isLoading) {
+          for (const pPrivilege of this.role.Privileges) {
+            privilegesC.privileges.find((privilege, i) => {
+                if (privilege.id === pPrivilege.id) {
+                  privilegesC.selection.select(privilege);
+                  return true; // stop searching
+                }
+            });
+          }
+        }
+      });
+    });
+
+    dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe((result: Privilege[]) => {
+      result.forEach((el, i) => {
+        const tmp = this.role.Privileges.filter(privilege => {
+          return privilege.id === el.id;
+        });
+        if (tmp.length === 0) {
+          const newPrivilege = new Privilege(el);
+          newPrivilege.RolePrivilege = new RolePrivilege({
+            add: false,
+            view: false,
+            edit: false,
+            delete: false
+          });
+          this.role.Privileges.push(newPrivilege);
+        }
+      });
+      this.privilegesTable.renderRows();
     });
   }
 
@@ -79,23 +137,15 @@ export class RoleComponent implements OnInit {
   }
 
   updateRole(): void {
-    this.role.Privileges = this.privileges.filter(privilege => privilege.selected).map(privilege => {
-        return<Privilege> {
-          id: privilege.id
-        };
-    });
-
-    this.role.Users = this.role.Users.map(user => {
-        return<User> {
-          id: user.id
-        };
-    });
-
-    // Register user
     this.roleService.updateRole(this.role).subscribe(
-      role => {
-        this.role = role;
-        this.roleInitial = { ...this.role };
+      data => {
+        this.roleInitial = new Role(cloneDeep(data));
+        this.role = new Role(cloneDeep(data));
+        const role: Update<Role> = {
+          id: this.role.id,
+          changes: new Role(data)
+        };
+        this.store.dispatch(new RoleSaved({role}));
         this.editForm = false;
         Swal.fire({
           text: 'Role updated!',
@@ -121,8 +171,12 @@ export class RoleComponent implements OnInit {
 
   onClickCancelEdit(): void {
     this.editForm = false;
-    this.privileges = this.privilegesInitial;
-    this.role = this.roleInitial;
+    this.role = cloneDeep(this.roleInitial);
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
 }

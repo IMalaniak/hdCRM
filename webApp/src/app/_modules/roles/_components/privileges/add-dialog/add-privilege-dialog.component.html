@@ -1,0 +1,33 @@
+<h1 mat-dialog-title i18n="@@addPrivilegeComponentDialogHeaderCreatePrivilege">Create privilege</h1>
+<div mat-dialog-content>
+  <div class="d-flex flex-column justify-content-center">
+    <mat-form-field appearance="outline">
+      <mat-label i18n="@@addPrivilegeComponentDialogLable">Title</mat-label>
+      <input matInput [formControl]="title">
+      <mat-error *ngIf="title.invalid">
+        <mat-error *ngIf="title.errors.required" i18n="@@addPrivilegeComponentDialogFormErrorsLabelRequired">
+          Title is required!
+        </mat-error>
+        <mat-error *ngIf="title.errors.minlength && (title.dirty || title.touched)" i18n="@@addPrivilegeComponentDialogFormErrorsLabelIsTooShort">
+          Title is too short!
+        </mat-error>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label i18n="@@addPrivilegeComponentDialogLable">Key</mat-label>
+        <input matInput [formControl]="keyString">
+        <mat-error *ngIf="keyString.invalid">
+          <mat-error *ngIf="keyString.errors.required" i18n="@@addPrivilegeComponentDialogFormErrorsLabelRequired">
+            Key is required!
+          </mat-error>
+          <mat-error *ngIf="keyString.errors.minlength && (keyString.dirty || keyString.touched)" i18n="@@addPrivilegeComponentDialogFormErrorsLabelIsTooShort">
+            Key is too short!
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions class="justify-content-center">
+  <button mat-raised-button class="crm-button" (click)="onNoClick()"><fa-icon [icon]="['fas', 'times']"></fa-icon><span i18n="@@globalActionsCancelEdit">Cancel</span></button>
+  <button mat-raised-button color="primary" class="crm-button" [mat-dialog-close]="data.value" [disabled]="data.invalid"><fa-icon [icon]="['fas', 'plus']"></fa-icon><span i18n="@@addPrivilegeComponentDialogActionAddPrivilege">Add privilege</span></button>
+</div>

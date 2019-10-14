@@ -1,9 +1,11 @@
 import { Sequelize, Model, DataTypes, Association, BelongsToManyAddAssociationMixin, BelongsToManyAddAssociationsMixin, BelongsToManyCountAssociationsMixin, BelongsToManyCreateAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManyHasAssociationMixin, BelongsToManyHasAssociationsMixin, BelongsToManyRemoveAssociationMixin, BelongsToManyRemoveAssociationsMixin, BelongsToManySetAssociationsMixin } from 'sequelize';
 import { Role } from './Role';
+import { RolePrivilege } from './RolePrivileges';
 
 export class Privilege extends Model {
     public id!: number;
     public keyString!: string;
+    public title: string;
 
     public addRole!: BelongsToManyAddAssociationMixin<Role, number>;
     public addRoles!: BelongsToManyAddAssociationsMixin<Role, number>;
@@ -17,6 +19,7 @@ export class Privilege extends Model {
     public setRoles!: BelongsToManySetAssociationsMixin<Role, number>;
 
     public readonly Roles?: Role[];
+    public RolePrivilege: RolePrivilege;
 
     public static associations: {
         Roles: Association<Privilege, Role>;
@@ -34,6 +37,9 @@ export const PrivilegeFactory = (sequelize: Sequelize): void => {
         keyString: {
             type: new DataTypes.STRING(50),
             allowNull: false
+        },
+        title: {
+            type: new DataTypes.STRING(50)
         }
     }, {
         tableName: 'Privileges',

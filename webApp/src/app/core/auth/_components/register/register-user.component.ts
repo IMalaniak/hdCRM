@@ -77,7 +77,7 @@ export class RegisterUserComponent implements OnInit {
           Validators.minLength(6)
         ]);
       }
-      this.password.updateValueAndValidity();  
+      this.password.updateValueAndValidity();
     })
   }
 

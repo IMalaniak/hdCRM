@@ -29,7 +29,7 @@ export class AddRoleComponent implements OnInit {
 
   ngOnInit() {
     this.privilegeService.getFullList().subscribe(privileges => {
-      this.privileges = privileges;
+      this.privileges = privileges.list;
     });
 
     this.keyString = new FormControl('', [

@@ -45,8 +45,8 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    this.editUserPrivilege$ = this.store.pipe(select(isPrivileged('editUser')));
-    this.addUserPrivilege$ = this.store.pipe(select(isPrivileged('addUser')));
+    this.editUserPrivilege$ = this.store.pipe(select(isPrivileged('user-edit')));
+    this.addUserPrivilege$ = this.store.pipe(select(isPrivileged('user-add')));
 
     this.loading$ = this.store.pipe(select(selectUsersLoading));
     this.resultsLength$ = this.store.pipe(select(selectUsersTotalCount));

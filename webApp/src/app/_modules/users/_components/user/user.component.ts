@@ -42,9 +42,9 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.editUserPrivilege$ = this.store.pipe(select(isPrivileged('editUser')));
-    this.editUserPrivilege$.pipe(takeUntil(this.unsubscribe)).subscribe(camEdit => {
-      if (camEdit) {
+    this.editUserPrivilege$ = this.store.pipe(select(isPrivileged('user-edit')));
+    this.editUserPrivilege$.pipe(takeUntil(this.unsubscribe)).subscribe(canEdit => {
+      if (canEdit) {
         const edit = this.route.snapshot.queryParams['edit'];
         if (edit) {
           this.editForm = JSON.parse(edit);

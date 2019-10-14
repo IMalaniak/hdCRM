@@ -49,8 +49,8 @@ export class PlanComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
       this.appUser$ = this.store.pipe(select(currentUser));
-      this.editPlanPrivilege$ = this.store.pipe(select(isPrivileged('editPlan')));
-      this.configStagesPrivilege$ = this.store.pipe(select(isPrivileged('configStages')));
+      this.editPlanPrivilege$ = this.store.pipe(select(isPrivileged('plan-edit')));
+      this.configStagesPrivilege$ = this.store.pipe(select(isPrivileged('stage-edit')));
 
       this.plan = new Plan(this.route.snapshot.data['plan']);
       this.planInitial = new Plan(this.route.snapshot.data['plan']);

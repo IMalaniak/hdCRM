@@ -13,9 +13,10 @@ export class PrivilegeController {
     private create(req: Request, res: Response) {
         Logger.Info(`Creating new privilege...`);
         db.Privilege.create({
-            keyString: req.body.keyString
-        }).then(() => {
-            return res.status(OK);
+            keyString: req.body.keyString,
+            title: req.body.title
+        }).then(privilege => {
+            return res.status(OK).json(privilege);
         }).catch((err: any) => {
             Logger.Err(err);
             return res.status(BAD_REQUEST).json(err.toString());
@@ -26,15 +27,8 @@ export class PrivilegeController {
     @Middleware([Passport.authenticate()])
     private getList(req: Request, res: Response) {
         Logger.Info(`Selecting privileges list...`);
-        db.Privilege.findAll().then(privileges => {
-            const privilegesObjNew = privileges.map(privilege => {
-                return {
-                    id: privilege.id,
-                    keyString: privilege.keyString,
-                    selected: false
-                };
-            });
-            return res.status(OK).json(privilegesObjNew);
+        db.Privilege.findAndCountAll().then(data => {
+            return res.status(OK).json({list: data.rows, count: data.count});
         }).catch((err: any) => {
             Logger.Err(err);
             return res.status(BAD_REQUEST).json(err.toString());

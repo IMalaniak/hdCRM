@@ -21,7 +21,7 @@ import {
     AddPlanComponent,
     PlanListComponent,
     PlanComponent,
-    AddStageDialogComponent, 
+    AddStageDialogComponent,
     StagesDialogComponent,
     StagesComponent
      } from './_components';
