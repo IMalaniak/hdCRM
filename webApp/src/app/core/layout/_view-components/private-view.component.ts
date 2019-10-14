@@ -10,7 +10,7 @@ import { User } from '@/_modules/users';
 import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
 import * as layoutActions from '../store/layout.actions'; 
 import * as fromLayout from '../store/';
-import { routerTransition } from '@/_shared/animations/router-transition';
+import { privateRouterTransition } from '@/_shared/animations/private-router-transition';
 
 @Component({
   selector: 'app-private',
@@ -20,7 +20,7 @@ import { routerTransition } from '@/_shared/animations/router-transition';
       <main>
           <app-sidebar [sidebarMinimized]="sidebarMinimized$ | async"></app-sidebar>
           <section class="content">
-              <section class="container-fluid position-relative" [@routeAnimations]="prepareRoute(outlet)">
+              <section class="container-fluid position-relative" [@privateRouterAnimations]="prepareRoute(outlet)">
                   <router-outlet #outlet="outlet"></router-outlet>
               </section>
 
@@ -33,7 +33,7 @@ import { routerTransition } from '@/_shared/animations/router-transition';
   `,
   styles: [],
   animations: [
-    routerTransition
+    privateRouterTransition
   ]})
 export class PrivateViewComponent implements OnInit {
     sidebarMinimized$: Observable<boolean>;

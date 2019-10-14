@@ -1,7 +1,7 @@
 import { trigger, transition, style, query, animate } from "@angular/animations";
 
-export const routerTransition = 
-trigger('routeAnimations', [
+export const privateRouterTransition = 
+trigger('privateRouterAnimations', [
   transition('* <=> *', [
     query(':enter, :leave', [
       style({

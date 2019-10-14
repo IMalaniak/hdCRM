@@ -25,7 +25,8 @@ const routes: Routes = [
       {path: 'dashboard', data: { animation: "DashboardPage"}, loadChildren: () => import('../../_modules/dashboard/dashboard.module').then(m => m.DashboardModule)},
       {path: 'departments', data: { breadcrumb: 'Departments', animation: "DepartmentsPage"}, loadChildren: () => import('../../_modules/departments/departments.module').then(m => m.DepartmentsModule)},
       {path: 'chats', data: { breadcrumb: 'Chat', animation: "ChatsPage"}, loadChildren: () => import('../../_modules/chat/chat.module').then(m => m.ChatModule)}
-    ]
+    ],
+    data: {animation: 'PrivateView'}
   },
   { path: '**', component: PageNotFoundComponent }
 ];
