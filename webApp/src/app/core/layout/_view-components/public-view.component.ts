@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-public',
@@ -11,7 +11,7 @@ import { Component, OnInit } from '@angular/core';
   styles: [`
     section.main {
       position: relative;
-      height: 100%;
+      height: 100vh;
       overflow-y: auto;
       scroll-behavior: smooth;
     }
