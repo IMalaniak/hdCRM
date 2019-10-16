@@ -6,11 +6,12 @@ import {
     UsersComponent } from './_components';
 
 import { UserResolver } from './_services';
+import { PrivilegeGuard } from '@/core/_guards';
 
 const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'list' },
-    {path: 'list', data: { breadcrumb: 'List', animation: 'UsersListPage' }, component: UsersComponent },
-    {path: 'details/:id', data: { breadcrumb: 'Details', animation: 'UserDetailsPage' }, component: UserComponent, resolve: {user: UserResolver}},
+    {path: 'list', data: { breadcrumb: 'List', animation: 'UsersListPage', privilege: 'user-view' }, canActivate: [PrivilegeGuard], component: UsersComponent },
+    {path: 'details/:id', data: { breadcrumb: 'Details', animation: 'UserDetailsPage', privilege: 'user-view' }, canActivate: [PrivilegeGuard], component: UserComponent, resolve: {user: UserResolver}},
     {path: 'myprofile', data: { breadcrumb: 'My profile', animation: 'MyProfilePage' }, component: ProfileComponent},
 ];
 

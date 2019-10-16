@@ -1,6 +1,5 @@
 ﻿import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import Swal from 'sweetalert2';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../reducers';
 import { Observable } from 'rxjs';
@@ -12,8 +11,7 @@ import { RedirectToLogin } from '../auth/store/auth.actions';
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
     constructor(
-        private store$: Store<AppState>,
-        private router: Router
+        private store$: Store<AppState>
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {

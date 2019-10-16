@@ -5,12 +5,13 @@ import {
     RoleComponent,
     AddRoleComponent, } from './_components';
 import { RoleResolver } from './_services/role.resolver';
+import { PrivilegeGuard } from '@/core/_guards';
 
 const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'list' },
-    {path: 'list', data: { breadcrumb: 'List', animation: 'RolesListPage' }, component: RolesComponent },
-    {path: 'details/:id', data: { breadcrumb: 'Details', animation: 'RoleDetailsPage' }, component: RoleComponent, resolve: {role: RoleResolver}},
-    {path: 'add', data: { breadcrumb: 'Add role', animation: 'AddRolePage' }, component: AddRoleComponent},
+    {path: 'list', data: { breadcrumb: 'List', animation: 'RolesListPage', privilege: 'role-view' }, canActivate: [PrivilegeGuard], component: RolesComponent },
+    {path: 'details/:id', data: { breadcrumb: 'Details', animation: 'RoleDetailsPage', privilege: 'role-view' }, canActivate: [PrivilegeGuard], component: RoleComponent, resolve: {role: RoleResolver}},
+    {path: 'add', data: { breadcrumb: 'Add role', animation: 'AddRolePage', privilege: 'role-add' }, canActivate: [PrivilegeGuard], component: AddRoleComponent},
 ];
 
 @NgModule({
