@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { 
+import {
     ProfileComponent,
     UserComponent,
     UsersComponent } from './_components';
@@ -9,9 +9,9 @@ import { UserResolver } from './_services';
 
 const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'list' },
-    {path: 'list', data: { breadcrumb: 'List', animation: "UsersListPage" }, component: UsersComponent },
-    {path: 'details/:id', data: { breadcrumb: 'Details', animation: "UsersDetailsPage" }, component: UserComponent, resolve: {user: UserResolver}},
-    {path: 'myprofile', data: { breadcrumb: 'My profile', animation: "UserMyProfilePage" }, component: ProfileComponent},
+    {path: 'list', data: { breadcrumb: 'List', animation: 'UsersListPage' }, component: UsersComponent },
+    {path: 'details/:id', data: { breadcrumb: 'Details', animation: 'UserDetailsPage' }, component: UserComponent, resolve: {user: UserResolver}},
+    {path: 'myprofile', data: { breadcrumb: 'My profile', animation: 'MyProfilePage' }, component: ProfileComponent},
 ];
 
 @NgModule({
@@ -23,6 +23,6 @@ export class UsersRoutingModule {
     return {
         ngModule: UsersRoutingModule,
         providers: [UserResolver],
-    }
+    };
   }
 }

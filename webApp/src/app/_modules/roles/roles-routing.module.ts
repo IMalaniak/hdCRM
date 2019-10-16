@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { 
+import {
     RolesComponent,
     RoleComponent,
     AddRoleComponent, } from './_components';
@@ -8,9 +8,9 @@ import { RoleResolver } from './_services/role.resolver';
 
 const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'list' },
-    {path: 'list', data: { breadcrumb: 'List', animation: "RolesListPage" }, component: RolesComponent },
-    {path: 'details/:id', data: { breadcrumb: 'Details', animation: "RolesDetailsPage" }, component: RoleComponent, resolve: {role: RoleResolver}},
-    {path: 'add', data: { breadcrumb: 'Add role', animation: "RolesAddPage" }, component: AddRoleComponent},
+    {path: 'list', data: { breadcrumb: 'List', animation: 'RolesListPage' }, component: RolesComponent },
+    {path: 'details/:id', data: { breadcrumb: 'Details', animation: 'RoleDetailsPage' }, component: RoleComponent, resolve: {role: RoleResolver}},
+    {path: 'add', data: { breadcrumb: 'Add role', animation: 'AddRolePage' }, component: AddRoleComponent},
 ];
 
 @NgModule({
@@ -22,6 +22,6 @@ export class RolesRoutingModule {
     return {
         ngModule: RolesRoutingModule,
         providers: [RoleResolver],
-    }
+    };
   }
 }
