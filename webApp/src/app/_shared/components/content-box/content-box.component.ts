@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 export class ContentBoxComponent implements OnInit {
   @Input() title: string;
   @Input() cssClass: string;
+  @Input() contentCssClass: string;
   @Input() showDataLoader: boolean;
   @ContentChild('content', {static: false}) content: ElementRef;
   @ContentChild('subheader', {static: false}) subheader: ElementRef;
