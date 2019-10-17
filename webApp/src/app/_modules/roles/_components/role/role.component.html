@@ -1,75 +1,78 @@
-<section class="app-content-box" [title]="'Role: ' + role.keyString" *ngIf="role">
+<section class="app-content-box" [title]="'Role: ' + role.keyString" [cssClass]="'bg-secondary border-0'" [contentCssClass]="'bg-light'" [headCssClass]="'text-white'" *ngIf="role">
   <section content class="row">
     <div class="col-sm-8">
-      <form class="d-flex flex-column p-3">  
-          <mat-form-field appearance="outline">
-            <mat-label i18n="@@roleСomponentTabDetailsTitle">Title</mat-label>
-            <input matInput [(ngModel)]="role.keyString" name="name" type="text" [readonly]="!editForm">
-          </mat-form-field>
-        </form>
+      <form class="d-flex flex-column">  
+        <mat-form-field appearance="outline">
+          <mat-label i18n="@@roleСomponentTabDetailsTitle">Title</mat-label>
+          <input matInput [(ngModel)]="role.keyString" name="name" type="text" [readonly]="!editForm">
+        </mat-form-field>
+      </form>
       <!-- <span i18n="@@roleComponentFormLabelsPrivileges">Privileges:</span> -->
-      <section>
-        <mat-table #privilegesTable [dataSource]="role.Privileges">
-          <ng-container matColumnDef="title">
-            <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
-            <mat-cell *matCellDef="let privilege"> {{privilege.title}} </mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="view">
-            <mat-header-cell *matHeaderCellDef> View </mat-header-cell>
-            <mat-cell *matCellDef="let privilege">
-              <mat-checkbox *ngIf="editForm" [(ngModel)]="privilege.RolePrivilege.view"></mat-checkbox>
-              <fa-icon *ngIf="!editForm" [icon]="privilege.RolePrivilege.view ? ['fas', 'check'] : ['fas', 'times']" [classes]="[privilege.RolePrivilege.view ? 'text-success' : 'text-danger']"></fa-icon>
-            </mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="add">
-            <mat-header-cell *matHeaderCellDef> Add </mat-header-cell>
-            <mat-cell *matCellDef="let privilege">
-              <mat-checkbox *ngIf="editForm" [(ngModel)]="privilege.RolePrivilege.add"></mat-checkbox>
-              <fa-icon *ngIf="!editForm" [icon]="privilege.RolePrivilege.add ? ['fas', 'check'] : ['fas', 'times']" [classes]="[privilege.RolePrivilege.add ? 'text-success' : 'text-danger']"></fa-icon>
-            </mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="edit">
-            <mat-header-cell *matHeaderCellDef> Edit </mat-header-cell>
-            <mat-cell *matCellDef="let privilege">
-              <mat-checkbox *ngIf="editForm" [(ngModel)]="privilege.RolePrivilege.edit"></mat-checkbox>
-              <fa-icon *ngIf="!editForm" [icon]="privilege.RolePrivilege.edit ? ['fas', 'check'] : ['fas', 'times']" [classes]="[privilege.RolePrivilege.edit ? 'text-success' : 'text-danger']"></fa-icon>
-            </mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="delete">
-            <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
-            <mat-cell *matCellDef="let privilege">
-              <mat-checkbox *ngIf="editForm" [(ngModel)]="privilege.RolePrivilege.delete"></mat-checkbox>
-              <fa-icon *ngIf="!editForm" [icon]="privilege.RolePrivilege.delete ? ['fas', 'check'] : ['fas', 'times']" [classes]="[privilege.RolePrivilege.delete ? 'text-success' : 'text-danger']"></fa-icon>
-            </mat-cell>
-          </ng-container>
-          <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-        </mat-table>
-        <button mat-raised-button *ngIf="editForm" class="crm-button" color="primary" (click)="addPrivilegeDialog()"><fa-icon [icon]="['fas', 'plus']"></fa-icon><span i18n="@@roleComponentActionsAddPrivilegeGroup">Add privilege group</span></button>
+      <section class="app-content-box" [title]="'Privileges'" [cssClass]="'border border-secondary m-0'" [contentCssClass]="'p-0'">
+        <div buttons>
+          <button mat-stroked-button color="primary" *ngIf="editForm" class="crm-button" routerLink="/roles/add"><fa-icon [icon]="['fas', 'plus']"></fa-icon><span i18n="@@rolesComponentDialogActionsCreate">Add</span></button>
+        </div>
+        <div content class="table-container">
+          <mat-table #privilegesTable class="role-table crm-table" [dataSource]="role.Privileges">
+            <ng-container matColumnDef="title" sticky>
+              <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
+              <mat-cell *matCellDef="let privilege"> {{privilege.title}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="view">
+              <mat-header-cell *matHeaderCellDef> View </mat-header-cell>
+              <mat-cell *matCellDef="let privilege">
+                <mat-checkbox *ngIf="editForm" [(ngModel)]="privilege.RolePrivilege.view"></mat-checkbox>
+                <fa-icon *ngIf="!editForm" [icon]="privilege.RolePrivilege.view ? ['fas', 'check'] : ['fas', 'times']" [classes]="[privilege.RolePrivilege.view ? 'text-success' : 'text-danger']"></fa-icon>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="add">
+              <mat-header-cell *matHeaderCellDef> Add </mat-header-cell>
+              <mat-cell *matCellDef="let privilege">
+                <mat-checkbox *ngIf="editForm" [(ngModel)]="privilege.RolePrivilege.add"></mat-checkbox>
+                <fa-icon *ngIf="!editForm" [icon]="privilege.RolePrivilege.add ? ['fas', 'check'] : ['fas', 'times']" [classes]="[privilege.RolePrivilege.add ? 'text-success' : 'text-danger']"></fa-icon>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="edit">
+              <mat-header-cell *matHeaderCellDef> Edit </mat-header-cell>
+              <mat-cell *matCellDef="let privilege">
+                <mat-checkbox *ngIf="editForm" [(ngModel)]="privilege.RolePrivilege.edit"></mat-checkbox>
+                <fa-icon *ngIf="!editForm" [icon]="privilege.RolePrivilege.edit ? ['fas', 'check'] : ['fas', 'times']" [classes]="[privilege.RolePrivilege.edit ? 'text-success' : 'text-danger']"></fa-icon>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="delete">
+              <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
+              <mat-cell *matCellDef="let privilege">
+                <mat-checkbox *ngIf="editForm" [(ngModel)]="privilege.RolePrivilege.delete"></mat-checkbox>
+                <fa-icon *ngIf="!editForm" [icon]="privilege.RolePrivilege.delete ? ['fas', 'check'] : ['fas', 'times']" [classes]="[privilege.RolePrivilege.delete ? 'text-success' : 'text-danger']"></fa-icon>
+              </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+          </mat-table>
+        </div>
       </section>
     </div>
-
     <div class="col-sm-4">
-      <mat-list>
-        <ng-container *ngFor="let user of role.Users">
-          <mat-list-item>
-            <img matListAvatar *ngIf="user.avatar" src="{{user.avatar.getThumbnailsUrl}}" alt="{{user.avatar.title}}">
-            <img matListAvatar *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
-            <h3 matLine><a routerLink="/user/{{user.id}}" >{{user.fullname}}</a></h3>
-          </mat-list-item>
-        </ng-container>
-        <mat-list-item>
-          <button mat-raised-button color="primary" *ngIf="editForm" class="list-group-item list-group-item-action active" (click)="addParticipantDialog()" i18n="@@roleComponentFormActionsAddUsers">Add User</button>
-        </mat-list-item>
-      </mat-list>
+      <section class="app-content-box" [title]="'Users'" [cssClass]="'border border-secondary mt-3 mt-sm-0'" [contentCssClass]="'p-0'">
+        <div buttons>
+          <button mat-stroked-button color="primary" *ngIf="editForm" class="crm-button" (click)="addParticipantDialog()"><fa-icon [icon]="['fas', 'user-plus']"></fa-icon><span i18n="@@roleComponentFormActionsAddUsers">Add</span></button>
+        </div>
+        <mat-list content>
+          <ng-container *ngFor="let user of role.Users">
+            <mat-list-item>
+              <img matListAvatar *ngIf="user.avatar" src="{{user.avatar.getThumbnailsUrl}}" alt="{{user.avatar.title}}">
+              <img matListAvatar *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
+              <h3 matLine><a routerLink="/user/{{user.id}}" >{{user.fullname}}</a></h3>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </ng-container>
+        </mat-list>
+      </section>  
     </div>
-
   </section>
-
   <div buttons *ngIf="editRolePrivilege$ | async">
     <button *ngIf="!editForm" class="crm-button" mat-raised-button color="primary" (click)="onClickEdit()"><fa-icon [icon]="['fas', 'edit']"></fa-icon><span i18n="@@roleComponentFormActionsEdit">Edit</span></button>
     <button *ngIf="editForm" class="crm-button" mat-raised-button color="primary" (click)="onUpdateRoleSubmit()"><fa-icon [icon]="['fas', 'save']"></fa-icon><span i18n="@@roleComponentFormActionsSaveChanges">Save</span></button>
     <button *ngIf="editForm" class="crm-button" mat-raised-button (click)="onClickCancelEdit()"><fa-icon [icon]="['fas', 'times']"></fa-icon><span i18n="@@roleComponentFormActionsCancelEdit">Cancel</span></button>
   </div>
-
 </section>

@@ -1,52 +1,49 @@
-<section class="app-content-box" [title]="'REGISTERROLECOMPONENT.Header'">
+<section class="app-content-box" [title]="'Register new role'" [cssClass]="'bg-secondary border-0'" [contentCssClass]="'bg-light'" [headCssClass]="'text-white'">
   <section content class="row">
     <div class="col-sm-8">
-      <div class="form-row">
-        <div class="form-group col-md-12">
-          <mat-form-field appearance="outline">
-            <mat-label i18n="@@registerRoleComponentFormLabelsTitle">Title</mat-label>
-            <input matInput [formControl]="keyString">
-            <mat-error *ngIf="keyString.invalid">
-              <mat-error *ngIf="keyString.errors.required" i18n="@@registerRoleComponentFormErrorsLableRequired">
-                Title is required!
-              </mat-error>
-              <mat-error *ngIf="keyString.errors.minlength && (keyString.dirty || keyString.touched)" i18n="@@registerRoleComponentFormErrorsLableIsTooShort">
-                Title is too short!
-              </mat-error>
+      <form class="d-flex flex-column">  
+        <mat-form-field appearance="outline">
+          <mat-label i18n="@@registerRoleComponentFormLabelsTitle">Title</mat-label>
+          <input matInput [formControl]="keyString">
+          <mat-error *ngIf="keyString.invalid">
+            <mat-error *ngIf="keyString.errors.required" i18n="@@registerRoleComponentFormErrorsLableRequired">
+              Title is required!
             </mat-error>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-4">
-          <label i18n="@@registerRoleComponentFormLabelsTitle">Privileges:</label>
-          <ul class="list-group">
-            <ng-container *ngFor="let privilege of privileges">
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{ privilege.keyString }}
-                <mat-checkbox [(ngModel)]="privilege.selected" value="{{privilege.id}}"></mat-checkbox>
-              </li>
-            </ng-container>
-          </ul>
-        </div>
-      </div>
+            <mat-error *ngIf="keyString.errors.minlength && (keyString.dirty || keyString.touched)" i18n="@@registerRoleComponentFormErrorsLableIsTooShort">
+              Title is too short!
+            </mat-error>
+          </mat-error>
+        </mat-form-field>
+      </form>
+      <section class="app-content-box" [title]="'Privileges'" [cssClass]="'border border-secondary m-0'" [contentCssClass]="'p-0'">
+        <mat-list content>
+          <ng-container *ngFor="let privilege of privileges">
+            <mat-list-item> 
+              <h3 matLine>{{ privilege.keyString }}</h3>
+              <mat-checkbox [(ngModel)]="privilege.selected" value="{{privilege.id}}"></mat-checkbox>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </ng-container>
+        </mat-list>
+      </section>
     </div>
-
     <div class="col-sm-4">
-      <label i18n="@@registerRoleComponentFormLabelsTitle">Users:</label>
-      <ul class="list-group">
-        <ng-container *ngFor="let user of role.Users">
-          <li routerLink="/user/{{user.id}}" class="list-group-item">
-            <img class="userpic" *ngIf="user.avatar" src="{{user.avatar.getThumbnailsUrl}}" alt="{{user.avatar.title}}">
-            <img class="userpic" *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
-            <span>{{user.fullname}}</span>
-          </li>
-        </ng-container>
-        <button mat-raised-button color="primary" class="list-group-item list-group-item-action active" (click)="addParticipantDialog()" i18n="@@registerRoleComponentFormActionsAddUser">Add User</button>
-      </ul>
+      <section class="app-content-box" [title]="'Users'" [cssClass]="'border border-secondary mt-3 mt-sm-0'" [contentCssClass]="'p-0'">
+        <div buttons>
+          <button mat-stroked-button color="primary" class="crm-button" (click)="addParticipantDialog()"><fa-icon [icon]="['fas', 'user-plus']"></fa-icon><span i18n="@@registerRoleComponentFormActionsAddUser">Add</span></button>
+        </div>
+        <mat-list content>
+          <ng-container *ngFor="let user of role.Users">
+            <mat-list-item>
+              <img matListAvatar *ngIf="user.avatar" src="{{user.avatar.getThumbnailsUrl}}" alt="{{user.avatar.title}}">
+              <img matListAvatar *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
+              <h3 matLine><a routerLink="/user/{{user.id}}" >{{user.fullname}}</a></h3>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </ng-container>
+        </mat-list>
+      </section>
     </div>
   </section>
-
   <button mat-raised-button color="primary" class="crm-button" [disabled]="keyString.invalid" buttons (click)="onRegisterSubmit()"><mat-icon>save</mat-icon><span i18n="@@registerRoleComponentFormActionsSubmit">Submit</span></button>
-
 </section>

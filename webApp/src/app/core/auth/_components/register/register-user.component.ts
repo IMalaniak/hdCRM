@@ -40,7 +40,7 @@ export class RegisterUserComponent implements OnInit {
           ]),
           email: new FormControl('', [
             Validators.required,
-            Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+            Validators.pattern('^([A-Z|a-z|0-9](\.|_){0,1})+[A-Z|a-z|0-9]\@([A-Z|a-z|0-9])+((\.){0,1}[A-Z|a-z|0-9]){2}\.[a-z]{2,3}$')
           ]),
           password: new FormControl('', [
             Validators.required,
@@ -52,7 +52,7 @@ export class RegisterUserComponent implements OnInit {
           name: new FormControl('', [
             Validators.required,
             Validators.maxLength(25),
-            Validators.pattern('^[a-zA-Z]+$'),
+            Validators.pattern('[~`!@#$%^&()_={}\\[\\]\\:;,\\.\\/<>\\\\*\\-+\\?]'),
           ]),
           surname: new FormControl('', [
             Validators.required,
