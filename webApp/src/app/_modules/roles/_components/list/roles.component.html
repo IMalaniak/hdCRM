@@ -3,7 +3,7 @@
 
 </section>
 -->
-<section class="app-content-box" [title]="'Roles List'" [showDataLoader]="loading$ | async">
+<section class="app-content-box" [title]="'Roles List'" [cssClass]="'bg-secondary border-0'" [contentCssClass]="'bg-light p-0'" [headCssClass]="'text-white'" [showDataLoader]="loading$ | async">
 
   <div buttons *ngIf="addRolePrivilege$ | async">
     <button mat-raised-button color="primary" class="crm-button" routerLink="/roles/add"><fa-icon [icon]="['fas', 'plus']"></fa-icon><span i18n="@@rolesComponentDialogActionsCreate">Create</span></button>

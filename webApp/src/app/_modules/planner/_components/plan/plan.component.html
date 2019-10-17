@@ -1,5 +1,5 @@
 <section class="row">
-  <section class="app-content-box col-md-8" [title]="'Stages'" *ngIf="plan && plan.Stages" [showDataLoader]="">
+  <section class="app-content-box col-md-8" [title]="'Stages'" *ngIf="plan && plan.Stages" [showDataLoader]="" [cssClass]="'bg-secondary border-0 mb-3 mb-md-0'" [contentCssClass]="'bg-light p-0'" [headCssClass]="'text-white'">
     <div content class="container-fluid">
       <div class="row">
           <div class="col-md-12">
@@ -18,7 +18,7 @@
       <button *ngIf="configPlanStages" class="crm-button" mat-raised-button (click)="onClickCancelEditStages()"><fa-icon [icon]="['fas', 'times']"></fa-icon><span i18n="@@globalActionsCancelEdit">Cancel</span></button>
     </div>
   </section>    
-  <section class="app-content-box col-md-4" [title]="'Actions'" *ngIf="plan">
+  <section class="app-content-box col-md-4" [title]="'Actions'" [cssClass]="'bg-secondary border-0 my-0 mt-md-3'" *ngIf="plan" [contentCssClass]="'bg-light p-0'" [headCssClass]="'text-white'">
     <div content class="d-flex p-3" *ngIf="canEditPlan$ | async">
       <button mat-stroked-button color="primary" class="crm-button" [swal]="goToNextStageSwal">
         <ng-container *ngIf="plan.activeStage.keyString === 'finished'" i18n="@@planComponentActionsFinishPlan">
@@ -31,101 +31,99 @@
     </div>
   </section>
 </section>
-<section class="app-content-box plan-details" [title]="'Details'" *ngIf="plan" [showDataLoader]="">
+<section class="app-content-box plan-details" [title]="'Details'" *ngIf="plan" [showDataLoader]="" [cssClass]="'bg-secondary border-0'" [contentCssClass]="'bg-light'" [headCssClass]="'text-white'">
   <div content class="row">
     <div class="col-md-8">
-      <mat-list class="w-100" *ngIf="!editForm">
-        <mat-list-item>
-          <section>
-            <div>
-              <span i18n="@@planСomponentDetailsTitle">Title:</span>
-            </div>
-            <div>
-              <span>{{ plan.title }}</span>
-            </div>
-          </section>
-        </mat-list-item>
-        <mat-divider></mat-divider>
-        <mat-list-item>
-          <section>
-            <div>
-              <span i18n="@@planСomponentDetailsDateBudget">Budget:</span>
-            </div>
-            <div>
-              <span>{{ plan.budget | currency }}</span>
-            </div>
-          </section>
-        </mat-list-item>
-        <mat-divider></mat-divider>
-        <mat-list-item>
-          <section>
-            <div>
-              <span i18n="@@planСomponentDetailsDateDeadline">Deadline:</span>
-            </div>
-            <div>
-              <span>{{ plan.deadline | date: 'short' }}</span>
-            </div>
-          </section>
-        </mat-list-item>
-        <mat-divider></mat-divider>
-        <mat-list-item>
-          <section>
-            <div>
-              <span i18n="@@planСomponentDetailsDateCreated">Date created:</span>
-            </div>
-            <div>
-              <span>{{ plan.createdAt | date: 'short' }}</span>
-            </div>
-          </section>
-        </mat-list-item>
-        <mat-divider></mat-divider>
-        <mat-list-item>
-          <section>
-            <div>
-              <span i18n="@@planСomponentDetailsDateUpdated">Date updated:</span>
-            </div>
-            <div>
-              <span>{{ plan.updatedAt | date: 'short' }}</span>
-            </div>
-          </section>
-        </mat-list-item>
-      </mat-list>
-      <form class="d-flex flex-column p-3" *ngIf="editForm">  
-        <mat-form-field appearance="outline">
-          <mat-label i18n="@@planComponentDetailsTitle">Title</mat-label>
-          <input matInput [(ngModel)]="plan.title" name="title" type="text" required>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label i18n="@@planComponentDetailsBudget">Title</mat-label>
-          <input matInput [(ngModel)]="plan.budget" name="budget" type="text" required>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label i18n="@@planComponentDetailsDescription">Write a description</mat-label>
-          <textarea matInput [(ngModel)]="plan.description" name="description" type="text" required></textarea>
-        </mat-form-field>
-        <mat-form-field color="primary" appearance="outline">
-          <mat-label i18n="@@planComponentDetailsDeadline">Deadline</mat-label>
-          <input matInput [min]="plan.createdAt" [matDatepicker]="picker" [(ngModel)]="plan.deadline" type="datetime" name="deadline" required>
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker touchUi #picker></mat-datepicker>
-        </mat-form-field> 
-      </form>
+      <section class="app-content-box" [title]="'Plan details'" [cssClass]="'border border-secondary m-0'" [contentCssClass]="'p-0'" [disableShadow]="true">
+        <mat-list content class="w-100" *ngIf="!editForm">
+          <mat-list-item>
+            <section>
+              <div>
+                <span i18n="@@planСomponentDetailsTitle">Title:</span>
+              </div>
+              <div>
+                <span>{{ plan.title }}</span>
+              </div>
+            </section>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <section>
+              <div>
+                <span i18n="@@planСomponentDetailsDateBudget">Budget:</span>
+              </div>
+              <div>
+                <span>{{ plan.budget | currency }}</span>
+              </div>
+            </section>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <section>
+              <div>
+                <span i18n="@@planСomponentDetailsDateDeadline">Deadline:</span>
+              </div>
+              <div>
+                <span>{{ plan.deadline | date: 'short' }}</span>
+              </div>
+            </section>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <section>
+              <div>
+                <span i18n="@@planСomponentDetailsDateCreated">Date created:</span>
+              </div>
+              <div>
+                <span>{{ plan.createdAt | date: 'short' }}</span>
+              </div>
+            </section>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <section>
+              <div>
+                <span i18n="@@planСomponentDetailsDateUpdated">Date updated:</span>
+              </div>
+              <div>
+                <span>{{ plan.updatedAt | date: 'short' }}</span>
+              </div>
+            </section>
+          </mat-list-item>
+        </mat-list> 
+        <form content class="d-flex flex-column p-3" *ngIf="editForm">  
+          <mat-form-field appearance="outline">
+            <mat-label i18n="@@planComponentDetailsTitle">Title</mat-label>
+            <input matInput [(ngModel)]="plan.title" name="title" type="text" required>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label i18n="@@planComponentDetailsBudget">Title</mat-label>
+            <input matInput [(ngModel)]="plan.budget" name="budget" type="text" required>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label i18n="@@planComponentDetailsDescription">Write a description</mat-label>
+            <textarea matInput [(ngModel)]="plan.description" name="description" type="text" required></textarea>
+          </mat-form-field>
+          <mat-form-field color="primary" appearance="outline">
+            <mat-label i18n="@@planComponentDetailsDeadline">Deadline</mat-label>
+            <input matInput [min]="plan.createdAt" [matDatepicker]="picker" [(ngModel)]="plan.deadline" type="datetime" name="deadline" required>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #picker></mat-datepicker>
+          </mat-form-field> 
+        </form>
+      </section>
     </div>
     <div class="col-md-4">
-      <div class="p-3">
-        <mat-list class="w-100">
-          <label class="text-muted" i18n="@@planComponentParticipantTitleCreator">Creator</label>
+      <section class="app-content-box" [title]="'Participants'" [cssClass]="'border border-secondary mt-3 mt-md-0 mb-0'" [contentCssClass]="'p-0'" [disableShadow]="true">
+        <button buttons mat-stroked-button color="primary" class="crm-button" (click)="addParticipantDialog()" *ngIf="editForm"><fa-icon [icon]="['fas', 'user-plus']"></fa-icon><span i18n="@@planComponentActionsAddParticipants">Add Participants</span></button>
+        <mat-list content>
           <mat-list-item *ngIf="plan.Creator">
+            <label class="text-muted" i18n="@@planComponentParticipantTitleCreator">Creator</label>
             <img matListAvatar *ngIf="plan.Creator.avatar" src="{{plan.Creator.avatar.getThumbnailsUrl}}" alt="{{plan.Creator.avatar.title}}">
             <img matListAvatar *ngIf="!plan.Creator.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
             <h3 matLine><a routerLink="/users/details/{{plan.CreatorId}}">{{ plan.Creator.fullname }}</a></h3>
           </mat-list-item>
-        </mat-list>
-        <mat-list>
-          <div class="d-flex flex-row justify-content-between align-items-center">
-            <div class="d-flex flex-row align-items-center"><span class="text-muted" i18n="@@planComponentTitleParticipants">Participants</span><mat-chip color="primary" selected>{{plan.Participants.length}}</mat-chip></div>
-            <button mat-raised-button color="primary" class="crm-button" (click)="addParticipantDialog()" *ngIf="editForm"><fa-icon [icon]="['fas', 'user-plus']"></fa-icon><span i18n="@@planComponentActionsAddParticipants">Add Participants</span></button>
-          </div>
+          <mat-divider></mat-divider>
           <mat-list-item *ngFor="let user of plan.Participants; let i = index;">
             <img matListAvatar *ngIf="user.avatar" src="{{user.avatar.getThumbnailsUrl}}" alt="{{user.avatar.title}}">
             <img matListAvatar *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
@@ -133,7 +131,7 @@
             <mat-divider></mat-divider>
           </mat-list-item>
         </mat-list>
-      </div>
+      </section>
     </div>
   </div>
   <div buttons *ngIf="canEditPlan$ | async">

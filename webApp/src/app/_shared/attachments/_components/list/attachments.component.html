@@ -1,4 +1,4 @@
-<section class="app-content-box" [title]="'Attachments'">
+<section class="app-content-box" [title]="'Attachments'" [cssClass]="'bg-secondary border-0'" [contentCssClass]="'bg-light p-0'" [headCssClass]="'text-white'">
   <section content *ngIf="attachments && attachments.length > 0" >
     <mat-table [dataSource]="attachments" class="mat-elevation-z8 table-attachments crm-table">
       <ng-container matColumnDef="icon">
@@ -45,7 +45,7 @@
   </div>
 
   <div buttons>
-    <button *ngIf="!uploaderVisible" mat-raised-button class="crm-button" (click)="onClickAddFiles()"><fa-icon [icon]="['fas', 'folder-plus']"></fa-icon><span i18n="@@attachmentsComponentActionsAddFiles">Add files</span></button>
+    <button *ngIf="!uploaderVisible" mat-raised-button color="primary" class="crm-button" (click)="onClickAddFiles()"><fa-icon [icon]="['fas', 'folder-plus']"></fa-icon><span i18n="@@attachmentsComponentActionsAddFiles">Add files</span></button>
     <button *ngIf="uploaderVisible" mat-raised-button class="crm-button" (click)="onClickAddFilesDone()"><fa-icon [icon]="['fas', 'check']"></fa-icon><span i18n="@@attachmentsComponentActionsAddFiles">Done</span></button>
   </div>
 </section>

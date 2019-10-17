@@ -45,7 +45,7 @@
     <div class="col-sm-12 col-md-8 col-lg-9 tabs">
       <mat-tab-group mat-stretch-tabs dynamicHeight> 
         <mat-tab i18n="@@userСomponentTabsLabelDetails" label="Details">
-          <section class="app-content-box">
+          <section class="app-content-box" [cssClass]="'bg-secondary border-0'" [contentCssClass]="'bg-light p-0'" [headCssClass]="'text-white'">
             <div content class="row">
               <div *ngIf="!editForm" class="col-md-12 col-lg-6">
                 <mat-list>
