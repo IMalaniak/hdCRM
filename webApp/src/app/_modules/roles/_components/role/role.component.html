@@ -10,7 +10,7 @@
       <!-- <span i18n="@@roleComponentFormLabelsPrivileges">Privileges:</span> -->
       <section class="app-content-box" [title]="'Privileges'" [cssClass]="'border border-secondary m-0'" [contentCssClass]="'p-0'">
         <div buttons>
-          <button mat-stroked-button color="primary" *ngIf="editForm" class="crm-button" routerLink="/roles/add"><fa-icon [icon]="['fas', 'plus']"></fa-icon><span i18n="@@rolesComponentDialogActionsCreate">Add</span></button>
+          <button mat-stroked-button color="primary" *ngIf="editForm" class="crm-button" (click)="addPrivilegeDialog()"><fa-icon [icon]="['fas', 'plus']"></fa-icon><span i18n="@@roleComponentActionsAddPrivilegeGroup">Add</span></button>
         </div>
         <div content class="table-container">
           <mat-table #privilegesTable class="role-table crm-table" [dataSource]="role.Privileges">
