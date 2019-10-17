@@ -388,7 +388,7 @@ export class PlanController {
                 }
             }).then(() => {
                 // REDO to file server
-                let destination = path.join(__dirname, '../../uploads');
+                let destination = path.join(__dirname, '../../../uploads');
                 destination = destination + docToDelete.location + '/' + docToDelete.title;
                 this.unlinkAsync(destination).then(() => {
                     return res.status(OK).json({success: true, message: 'doc deleted'});
