@@ -1,13 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators, FormControl } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatTable } from '@angular/material';
 import { Router } from '@angular/router';
-import { Role, Privilege } from '../../_models';
+import { Role, Privilege, RolePrivilege } from '../../_models';
 import { RoleService, PrivilegeService } from '../../_services';
 import { User } from '@/_modules/users/_models';
 import { UsersDialogComponent } from '@/_modules/users/_components/dialog/users-dialog.component';
 import Swal from 'sweetalert2';
 import { MediaqueryService } from '@/_shared/services';
+import { Subject } from 'rxjs';
+import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
+import { takeUntil } from 'rxjs/operators';
+import { AppState } from '@/core/reducers';
+import { Store } from '@ngrx/store';
+import { CreateRole } from '../../store/role.actions';
 
 @Component({
   selector: 'app-add-role',
@@ -17,25 +23,25 @@ import { MediaqueryService } from '@/_shared/services';
 export class AddRoleComponent implements OnInit {
   keyString: FormControl;
   role = new Role();
-  privileges: Privilege[];
+  displayedColumns = ['title', 'view', 'add', 'edit', 'delete'];
+
+  @ViewChild(MatTable, {static: false}) privilegesTable: MatTable<any>;
+
+  private unsubscribe: Subject<void> = new Subject();
 
   constructor(
-    private router: Router,
-    private roleService: RoleService,
-    private privilegeService: PrivilegeService,
+    private store: Store<AppState>,
     private dialog: MatDialog,
     private mediaQuery: MediaqueryService
   ) { }
 
   ngOnInit() {
-    this.privilegeService.getFullList().subscribe(privileges => {
-      this.privileges = privileges.list;
-    });
-
     this.keyString = new FormControl('', [
       Validators.required,
-      Validators.minLength(3)
+      Validators.minLength(2)
     ]);
+    this.role.Privileges = [];
+    this.role.Users = [];
   }
 
 
@@ -54,43 +60,54 @@ export class AddRoleComponent implements OnInit {
     });
   }
 
+  addPrivilegeDialog(): void {
+    const dialogRef = this.dialog.open(PrivilegesDialogComponent, {
+      ...this.mediaQuery.deFaultPopupSize,
+      data: {
+        title: 'Select privileges',
+      }
+    });
+
+    const privilegesC = dialogRef.componentInstance.privilegesComponent;
+
+    dialogRef.afterOpened().pipe(takeUntil(this.unsubscribe)).subscribe(() => {
+      privilegesC.isLoading$.pipe(takeUntil(this.unsubscribe)).subscribe(isLoading => {
+        if (!isLoading) {
+          for (const pPrivilege of this.role.Privileges) {
+            privilegesC.privileges.find((privilege, i) => {
+                if (privilege.id === pPrivilege.id) {
+                  privilegesC.selection.select(privilege);
+                  return true; // stop searching
+                }
+            });
+          }
+        }
+      });
+    });
+
+    dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe((result: Privilege[]) => {
+      result.forEach((el, i) => {
+        const tmp = this.role.Privileges.filter(privilege => {
+          return privilege.id === el.id;
+        });
+        if (tmp.length === 0) {
+          const newPrivilege = new Privilege(el);
+          newPrivilege.RolePrivilege = new RolePrivilege({
+            add: false,
+            view: false,
+            edit: false,
+            delete: false
+          });
+          this.role.Privileges.push(newPrivilege);
+        }
+      });
+      this.privilegesTable.renderRows();
+    });
+  }
+
   onRegisterSubmit() {
     this.role.keyString = this.keyString.value;
-    const selectedPrivileges = this.privileges.filter(privilege => privilege.selected);
-    if (selectedPrivileges.length > 0) {
-      this.role.Privileges = selectedPrivileges.map(privilege => {
-        return<Privilege> {
-          id: privilege.id
-        };
-      });
-    }
-
-    if (this.role.Users && this.role.Users.length > 0) {
-      this.role.Users = this.role.Users.map(user => {
-        return<User> {
-          id: user.id
-        };
-      });
-    }
-
-    // Register role
-    this.roleService.registerRole(this.role).subscribe(
-      data => {
-        Swal.fire({
-          title: 'Role added!',
-          type: 'success',
-          timer: 1500
-        });
-        this.router.navigate(['/roles']);
-      },
-      error => {
-        Swal.fire({
-          title: 'Server Error',
-          type: 'error',
-          timer: 1500
-        });
-      }
-    );
+    this.store.dispatch(new CreateRole({role: this.role}));
   }
 
 }

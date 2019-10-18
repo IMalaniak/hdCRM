@@ -7,6 +7,9 @@ export enum RoleActionTypes {
   ROLE_REQUESTED = '[Role Details] Role Requested',
   ROLE_LOADED = '[Roles API] Role Loaded',
   ROLE_SAVED = '[Role Details] Role Changes Saved',
+  ROLE_CREATE = '[Roles Add] Role Add Requested',
+  ROLE_CREATE_SUCCESS = '[Roles API] Add Role Success',
+  ROLE_CREATE_FAIL = '[Roles API] Add Role Fail',
   ROLES_LIST_PAGE_REQUESTED = '[Roles List] Roles Page Requested',
   ROLES_LIST_PAGE_LOADED = '[Roles API] Roles Page Loaded',
   ROLES_LIST_PAGE_CANCELLED = '[Roles API] Roles Page Cancelled',
@@ -18,6 +21,20 @@ export enum RoleActionTypes {
   PRIVILEGE_SAVED = '[Privileges Dialog Window] Privilege Saved'
 }
 
+export class CreateRole implements Action {
+  readonly type = RoleActionTypes.ROLE_CREATE;
+  constructor(public payload: {role: Role}) {}
+}
+
+export class CreateRoleSuccess implements Action {
+  readonly type = RoleActionTypes.ROLE_CREATE_SUCCESS;
+  constructor(public payload: {role: Role}) { }
+}
+
+export class CreateRoleFail implements Action {
+  readonly type = RoleActionTypes.ROLE_CREATE_FAIL;
+  constructor(public payload: string) { }
+}
 export class RoleRequested implements Action {
   readonly type = RoleActionTypes.ROLE_REQUESTED;
   constructor(public payload: {roleId: number}) {}
@@ -81,6 +98,9 @@ export class CreatePrivilegeFail implements Action {
 export type RoleActions = RoleRequested
   | RoleLoaded
   | RoleSaved
+  | CreateRole
+  | CreateRoleSuccess
+  | CreateRoleFail
   | RolesListPageRequested
   | RolesListPageLoaded
   | RolesListPageCancelled

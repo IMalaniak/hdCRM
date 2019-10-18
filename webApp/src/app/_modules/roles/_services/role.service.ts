@@ -15,8 +15,8 @@ export class RoleService {
     this.api = '/roles';
   }
 
-  registerRole(role: Role) {
-    return this.http.post<any>(this.api, role);
+  create(role: Role) {
+    return this.http.post<any>(this.api, this.formatBeforeSend(role));
   }
 
   getRole(id: number): Observable<Role> {

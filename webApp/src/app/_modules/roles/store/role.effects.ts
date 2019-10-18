@@ -6,12 +6,42 @@ import * as roleActions from './role.actions';
 import { mergeMap, map, catchError, withLatestFrom, filter } from 'rxjs/operators';
 import { RoleService, PrivilegeService } from '../_services';
 import { AppState } from '@/core/reducers';
-import { RoleServerResponse, Privilege } from '../_models';
+import { RoleServerResponse, Privilege, Role } from '../_models';
 import Swal from 'sweetalert2';
 import { allPrivilegesLoaded } from './role.selectors';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class RoleEffects {
+
+    @Effect()
+    createRole$: Observable<Action> = this.actions$.pipe(
+      ofType<roleActions.CreateRole>(roleActions.RoleActionTypes.ROLE_CREATE),
+      map((action: roleActions.CreateRole) => action.payload.role),
+      mergeMap((role: Role) =>
+        this.roleService.create({...role}).pipe(
+          map(newRole => {
+            console.log(newRole);
+            
+            Swal.fire({
+              title: 'Role created!',
+              type: 'success',
+              timer: 1500
+            });
+            this.router.navigate(['/roles']);
+            return new roleActions.CreateRoleSuccess({role: newRole});
+          }),
+          catchError(err => {
+            Swal.fire({
+              title: 'Ooops, something went wrong!',
+              type: 'error',
+              timer: 1500
+            });
+            return of(new roleActions.CreateRoleFail(err));
+          })
+        )
+      )
+    );
 
     @Effect()
     loadRole$: Observable<Action> = this.actions$.pipe(
@@ -75,6 +105,7 @@ export class RoleEffects {
     constructor(
         private actions$: Actions,
         private store: Store<AppState>,
+        private router: Router,
         private roleService: RoleService,
         private privilegeService: PrivilegeService
     ) {}

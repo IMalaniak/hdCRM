@@ -16,15 +16,43 @@
         </mat-form-field>
       </form>
       <section class="app-content-box" [title]="'Privileges'" [cssClass]="'border border-secondary m-0'" [contentCssClass]="'p-0'" [disableShadow]="true">
-        <mat-list content>
-          <ng-container *ngFor="let privilege of privileges">
-            <mat-list-item> 
-              <h3 matLine>{{ privilege.keyString }}</h3>
-              <mat-checkbox [(ngModel)]="privilege.selected" value="{{privilege.id}}"></mat-checkbox>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-          </ng-container>
-        </mat-list>
+        <div buttons>
+          <button mat-stroked-button color="primary" class="crm-button" (click)="addPrivilegeDialog()"><fa-icon [icon]="['fas', 'plus']"></fa-icon><span i18n="@@roleComponentActionsAddPrivilegeGroup">Add</span></button>
+        </div>
+        <div content class="table-container">
+          <mat-table #privilegesTable class="role-table crm-table" [dataSource]="role.Privileges">
+            <ng-container matColumnDef="title" sticky>
+              <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
+              <mat-cell *matCellDef="let privilege"> {{privilege.title}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="view">
+              <mat-header-cell *matHeaderCellDef> View </mat-header-cell>
+              <mat-cell *matCellDef="let privilege">
+                <mat-checkbox [(ngModel)]="privilege.RolePrivilege.view"></mat-checkbox>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="add">
+              <mat-header-cell *matHeaderCellDef> Add </mat-header-cell>
+              <mat-cell *matCellDef="let privilege">
+                <mat-checkbox [(ngModel)]="privilege.RolePrivilege.add"></mat-checkbox>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="edit">
+              <mat-header-cell *matHeaderCellDef> Edit </mat-header-cell>
+              <mat-cell *matCellDef="let privilege">
+                <mat-checkbox [(ngModel)]="privilege.RolePrivilege.edit"></mat-checkbox>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="delete">
+              <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
+              <mat-cell *matCellDef="let privilege">
+                <mat-checkbox [(ngModel)]="privilege.RolePrivilege.delete"></mat-checkbox>
+              </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+          </mat-table>
+        </div>
       </section>
     </div>
     <div class="col-sm-4">
@@ -45,5 +73,5 @@
       </section>
     </div>
   </section>
-  <button mat-raised-button color="primary" class="crm-button" [disabled]="keyString.invalid" buttons (click)="onRegisterSubmit()"><mat-icon>save</mat-icon><span i18n="@@registerRoleComponentFormActionsSubmit">Submit</span></button>
+  <button mat-raised-button color="primary" class="crm-button" [disabled]="keyString.invalid" buttons (click)="onRegisterSubmit()"><fa-icon [icon]="['fas', 'save']"></fa-icon><span i18n="@@registerRoleComponentFormActionsSubmit">Submit</span></button>
 </section>

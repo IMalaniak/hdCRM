@@ -8,6 +8,7 @@ export interface RolesState extends EntityState<Role> {
   loading: boolean;
   pages: number;
   countAll: number;
+  error: string;
 }
 
 export const adapter: EntityAdapter<Role> = createEntityAdapter<Role>({
@@ -17,13 +18,23 @@ export const adapter: EntityAdapter<Role> = createEntityAdapter<Role>({
 export const initialRolesState: RolesState = adapter.getInitialState({
   loading: false,
   pages: null,
-  countAll: null
+  countAll: null,
+  error: null
 });
 
 
 export function rolesReducer(state = initialRolesState , action: RoleActions): RolesState {
 
   switch (action.type) {
+
+    case RoleActionTypes.ROLE_CREATE_SUCCESS:
+      return adapter.addOne(action.payload.role, state);
+
+    case RoleActionTypes.ROLE_CREATE_FAIL:
+      return {
+        ...state,
+        error: action.payload
+      };
 
     case RoleActionTypes.ROLE_LOADED:
       return adapter.addOne(action.payload.role, state);
