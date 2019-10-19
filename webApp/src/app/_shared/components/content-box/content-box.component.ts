@@ -15,6 +15,7 @@ export class ContentBoxComponent implements OnInit {
   @Input() showDataLoader: boolean;
   @Input() headCssClass: string;
   @Input() disableShadow = false;
+  @Input() counter: number;
   @ContentChild('content', {static: false}) content: ElementRef;
   @ContentChild('subheader', {static: false}) subheader: ElementRef;
   @ContentChild('buttons', {static: false}) buttons: ElementRef;

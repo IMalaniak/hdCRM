@@ -15,7 +15,7 @@
           </mat-error>
         </mat-form-field>
       </form>
-      <section class="app-content-box" [title]="'Privileges'" [cssClass]="'border border-secondary m-0'" [contentCssClass]="'p-0'" [disableShadow]="true">
+      <section class="app-content-box" [title]="'Privileges'" [cssClass]="'border border-secondary m-0'" [contentCssClass]="'p-0'" [disableShadow]="true" [counter]="role.Privileges.length">
         <div buttons>
           <button mat-stroked-button color="primary" class="crm-button" (click)="addPrivilegeDialog()"><fa-icon [icon]="['fas', 'plus']"></fa-icon><span i18n="@@roleComponentActionsAddPrivilegeGroup">Add</span></button>
         </div>
@@ -56,7 +56,7 @@
       </section>
     </div>
     <div class="col-sm-4">
-      <section class="app-content-box" [title]="'Users'" [cssClass]="'border border-secondary mt-3 mt-sm-0'" [contentCssClass]="'p-0'" [disableShadow]="true">
+      <section class="app-content-box" [title]="'Users'" [cssClass]="'border border-secondary mt-3 mt-sm-0'" [contentCssClass]="'p-0'" [disableShadow]="true" [counter]="role.Users.length">
         <div buttons>
           <button mat-stroked-button color="primary" class="crm-button" (click)="addParticipantDialog()"><fa-icon [icon]="['fas', 'user-plus']"></fa-icon><span i18n="@@registerRoleComponentFormActionsAddUser">Add</span></button>
         </div>

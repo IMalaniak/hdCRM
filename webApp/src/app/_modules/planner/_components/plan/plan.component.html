@@ -114,7 +114,7 @@
       </section>
     </div>
     <div class="col-md-4">
-      <section class="app-content-box" [title]="'Participants'" [cssClass]="'border border-secondary mt-3 mt-md-0 mb-0'" [contentCssClass]="'p-0'" [disableShadow]="true">
+      <section class="app-content-box" [title]="'Participants'" [cssClass]="'border border-secondary mt-3 mt-md-0 mb-0'" [contentCssClass]="'p-0'" [disableShadow]="true" [counter]="plan.Participants.length + 1">
         <button buttons mat-stroked-button color="primary" class="crm-button" (click)="addParticipantDialog()" *ngIf="editForm"><fa-icon [icon]="['fas', 'user-plus']"></fa-icon><span i18n="@@planComponentActionsAddParticipants">Add Participants</span></button>
         <mat-list content>
           <mat-list-item *ngIf="plan.Creator">

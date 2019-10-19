@@ -28,6 +28,8 @@ export class AddDepartmentComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.department.SubDepartments = [];
+    this.department.Workers = [];
   }
 
   addManagerDialog(): void {

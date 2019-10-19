@@ -34,6 +34,8 @@ export class AddPlanComponent implements OnInit, OnDestroy {
     this.store.pipe(select(currentUser), takeUntil(this.unsubscribe)).subscribe(user => {
       this.appUser = user;
     });
+    
+    this.plan.Participants = [];
   }
 
   addParticipantDialog(): void {

@@ -68,7 +68,7 @@
   </div>
   <div content class="row">
     <div class="col-md-6">
-      <section class="app-content-box" [title]="'Workers'" [cssClass]="'border border-secondary mt-3 mb-0'" [contentCssClass]="'p-0'" [disableShadow]="true">
+      <section class="app-content-box" [title]="'Workers'" [cssClass]="'border border-secondary mt-3 mb-0'" [contentCssClass]="'p-0'" [disableShadow]="true" [counter]="department.Workers.length">
         <button buttons mat-stroked-button color="primary" class="crm-button" (click)="openWorkersDialog()" *ngIf="editForm"><fa-icon [icon]="['fas', 'user-plus']"></fa-icon><span i18n="@@departmentComponentActionsAddWorkers">Add workers</span></button>
         <mat-list content>
           <mat-list-item *ngFor="let user of department.Workers; let i = index;">
@@ -94,7 +94,7 @@
           </section>
         </div>
         <div class="col-sm-6 col-md-12 col-lg-6">
-          <section class="app-content-box" [title]="'Sub departments'" [cssClass]="'border border-secondary mt-3 mb-0'" [contentCssClass]="'p-0'" [disableShadow]="true">
+          <section class="app-content-box" [title]="'Sub departments'" [cssClass]="'border border-secondary mt-3 mb-0'" [contentCssClass]="'p-0'" [disableShadow]="true" [counter]="department.SubDepartments.length">
             <button buttons mat-stroked-button color="primary" class="crm-button" *ngIf="editForm"><fa-icon [icon]="['fas', 'plus']"></fa-icon><span i18n="@@departmentComponentActionsAddSubDepartments">Add sub departments</span></button>
             <!-- <mat-list content>
               <mat-list-item *ngFor="">

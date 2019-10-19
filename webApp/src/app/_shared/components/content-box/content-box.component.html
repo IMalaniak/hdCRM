@@ -2,6 +2,7 @@
   <section class="card-header {{headCssClass}}">
     <section class="d-flex justify-content-between align-items-center">
       <h4>{{ title }}</h4>
+      <span class="badge" matBadge="{{counter}}" matBadgeSize="small" matBadgeColor="primary" *ngIf="counter && counter > 0"></span>
       <ng-content select="[buttons]"></ng-content>
     </section>
     <ng-content select="[subheader]"></ng-content>

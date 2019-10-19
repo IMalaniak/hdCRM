@@ -1,4 +1,4 @@
-<section class="app-content-box" [title]="'Privilege groups'" [showDataLoader]="isLoading$ | async" [cssClass]="'bg-secondary border-0'" [contentCssClass]="'bg-light p-0'" [headCssClass]="'text-white'">
+<section class="app-content-box" [title]="'Privilege groups'" [showDataLoader]="isLoading$ | async" [cssClass]="'bg-secondary border-0'" [contentCssClass]="'bg-light p-0'" [headCssClass]="'text-white'" [counter]="privileges.length">
 
   <div buttons class="btn-group-horizontal">
     <button mat-raised-button color="primary" class="crm-button" (click)="createPrivilegeDialog()"><fa-icon [icon]="['fas', 'plus']"></fa-icon><span i18n="@@privilegesComponentActionsCreateNewPrivilege">Create</span></button>
