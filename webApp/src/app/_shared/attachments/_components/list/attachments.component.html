@@ -1,4 +1,4 @@
-<section class="app-content-box" [title]="'Attachments'" [cssClass]="'bg-secondary border-0'" [contentCssClass]="'bg-light p-0'" [headCssClass]="'text-white'">
+<section class="app-content-box" [title]="'Attachments'" [cssClass]="'bg-secondary border-0'" [contentCssClass]="'bg-light p-0'" [headCssClass]="'text-white'" [counter]="attachments.length">
   <section content *ngIf="attachments && attachments.length > 0" >
     <mat-table [dataSource]="attachments" class="mat-elevation-z8 table-attachments crm-table">
       <ng-container matColumnDef="icon">
