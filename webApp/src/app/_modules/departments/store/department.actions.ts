@@ -10,6 +10,7 @@ export enum DepartmentActionTypes {
   DEPARTMENT_CREATE = '[Add Department] Add Department Requested',
   DEPARTMENT_CREATE_SUCCESS = '[Departments API] Add Department Success',
   DEPARTMENT_CREATE_FAIL = '[Departments API] Add Department Fail',
+  DELETE_DEPARTMENT = '[Department List] Delete Department Requested',
   DEPARTMENT_LIST_PAGE_REQUESTED = '[Departments List] Departments Page Requested',
   DEPARTMENT_LIST_PAGE_LOADED = '[Departments API] Departments Page Loaded',
   DEPARTMENT_LIST_PAGE_CANCELLED = '[Departments API] Departments Page Cancelled',
@@ -47,6 +48,10 @@ export class CreateDepartmentFail implements Action {
   constructor(public payload: string) { }
 }
 
+export class DeleteDepartment implements Action {
+  readonly type = DepartmentActionTypes.DELETE_DEPARTMENT;
+  constructor(public payload: {departmentId: number}) {}
+}
 
 export class ListPageRequested implements Action {
   readonly type = DepartmentActionTypes.DEPARTMENT_LIST_PAGE_REQUESTED;
@@ -77,6 +82,7 @@ export type DepartmentActions = DepartmentRequested
   | CreateDepartment
   | CreateDepartmentSuccess
   | CreateDepartmentFail
+  | DeleteDepartment
   | ListPageRequested
   | ListPageLoaded
   | ListPageCancelled

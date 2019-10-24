@@ -13,6 +13,9 @@ import { RolesDataSource } from '../../_services/role.datasource';
 import { Role } from '../../_models';
 import { selectRolesTotalCount, selectRolesLoading } from '../../store/role.selectors';
 import { PageQuery } from '@/core/_models';
+import { DeleteRole } from '../../store/role.actions';
+
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-roles',
@@ -22,6 +25,7 @@ import { PageQuery } from '@/core/_models';
 export class RolesComponent implements OnInit, OnDestroy, AfterViewInit {
   addRolePrivilege$: Observable<boolean>;
   editRolePrivilege$: Observable<boolean>;
+  deleteRolePrivilege$: Observable<boolean>;
   dataSource: RolesDataSource;
   selection = new SelectionModel<Role>(true, []);
   loading$: Observable<boolean>;
@@ -42,6 +46,7 @@ export class RolesComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     this.addRolePrivilege$ = this.store.pipe(select(isPrivileged('role-add')));
     this.editRolePrivilege$ = this.store.pipe(select(isPrivileged('role-edit')));
+    this.deleteRolePrivilege$ = this.store.pipe(select(isPrivileged('role-delete')));
     this.loading$ = this.store.pipe(select(selectRolesLoading));
     this.resultsLength$ = this.store.pipe(select(selectRolesTotalCount));
     this.dataSource = new RolesDataSource(this.store);
@@ -83,6 +88,21 @@ export class RolesComponent implements OnInit, OnDestroy, AfterViewInit {
   onRoleSelect(id: number, edit: boolean = false): void {
     this.router.navigate([`/roles/details/${id}`], {
       queryParams: { edit }
+    });
+  }
+
+  deleteRole(roleId: number): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you really want to delete role? You will not be able to recover!',
+      type: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.value) {
+        this.store.dispatch(new DeleteRole({roleId}));
+      }
     });
   }
 

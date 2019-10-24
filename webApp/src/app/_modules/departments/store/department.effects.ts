@@ -64,6 +64,22 @@ export class DepartmentEffects {
         map((response: DepartmentServerResponse) => new depActions.ListPageLoaded(response)),
     );
 
+    @Effect({dispatch: false})
+    deleteDepartment$ = this.actions$.pipe(
+      ofType<depActions.DeleteDepartment>(depActions.DepartmentActionTypes.DELETE_DEPARTMENT),
+      mergeMap(action => this.departmentService.delete(action.payload.departmentId)),
+      map(() => {
+        Swal.fire({
+          text: `Department deleted`,
+          type: 'success',
+          timer: 6000,
+          toast: true,
+          showConfirmButton: false,
+          position: 'bottom-end'
+        });
+      })
+    );
+
     @Effect()
     loadDashboardData$ = this.actions$.pipe(
         ofType<depActions.DepDashboardDataRequested>(depActions.DepartmentActionTypes.DEPARTMENT_DASHBOARD_DATA_REQUESTED),

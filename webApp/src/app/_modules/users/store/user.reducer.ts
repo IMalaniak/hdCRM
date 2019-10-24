@@ -58,6 +58,9 @@ export function usersReducer(state = initialUsersState , action: UserActions): U
     case UserActionTypes.USER_SAVED:
       return adapter.updateOne(action.payload.user, state);
 
+    case UserActionTypes.DELETE_USER:
+      return adapter.removeOne(action.payload.userId, {...state, countAll: state.countAll - 1});
+
     default: {
       return state;
     }

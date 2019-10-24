@@ -9,6 +9,8 @@ import { AppState } from '@/core/reducers';
 import { allUsersLoaded, allStatesLoaded } from './user.selectors';
 import { UserServerResponse } from '../_models';
 
+import Swal from 'sweetalert2';
+
 @Injectable()
 export class UserEffects {
 
@@ -33,6 +35,22 @@ export class UserEffects {
                   )
         ),
         map((response: UserServerResponse) => new userActions.UserListPageLoaded(response)),
+    );
+
+    @Effect({dispatch: false})
+    deleteUser$ = this.actions$.pipe(
+      ofType<userActions.DeleteUser>(userActions.UserActionTypes.DELETE_USER),
+      mergeMap(action => this.userService.delete(action.payload.userId)),
+      map(() => {
+        Swal.fire({
+          text: `User deleted`,
+          type: 'success',
+          timer: 6000,
+          toast: true,
+          showConfirmButton: false,
+          position: 'bottom-end'
+        });
+      })
     );
 
     @Effect()

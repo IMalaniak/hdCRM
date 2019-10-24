@@ -14,6 +14,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { PageQuery } from '@/core/_models';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
+import { DeletePlan } from '../../store/plan.actions';
 
 @Component({
   selector: 'app-plan-list',
@@ -23,6 +24,7 @@ import { isPrivileged } from '@/core/auth/store/auth.selectors';
 export class PlanListComponent implements OnInit, AfterViewInit {
   addPlanPrivilege$: Observable<boolean>;
   editPlanPrivilege$: Observable<boolean>;
+  deletePlanPrivilege$: Observable<boolean>;
   plans$: Observable<Plan[]>;
   dataSource: PlansDataSource;
   loading$: Observable<boolean>;
@@ -42,6 +44,7 @@ export class PlanListComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.addPlanPrivilege$ = this.store.pipe(select(isPrivileged('plan-add')));
     this.editPlanPrivilege$ = this.store.pipe(select(isPrivileged('plan-edit')));
+    this.deletePlanPrivilege$ = this.store.pipe(select(isPrivileged('plan-delete')));
 
     this.loading$ = this.store.pipe(select(selectPlansLoading));
     this.resultsLength$ = this.store.pipe(select(selectPlansTotalCount));
@@ -86,11 +89,25 @@ export class PlanListComponent implements OnInit, AfterViewInit {
 
   }
 
-
   onPlanSelect(id: number, edit: boolean = false): void {
     this.router.navigate([`/planner/details/${id}`], {
       queryParams: { edit }
     });
   }
-  
+
+  deletePlan(planId: number): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you really want to delete plan? You will not be able to recover!',
+      type: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.value) {
+        this.store.dispatch(new DeletePlan({planId}));
+      }
+    });
+  }
+
 }

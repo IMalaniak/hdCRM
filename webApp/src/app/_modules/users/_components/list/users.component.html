@@ -89,25 +89,29 @@
               <fa-icon [icon]="['fas', 'ellipsis-v']"></fa-icon>
             </button>
             <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="onUserSelect(user.id)">
-              <fa-icon [icon]="['fas', 'address-card']"></fa-icon>
-                <span i18n="@@usersComponentListActionsView">Details</span>
+              <button mat-menu-item (click)="onUserSelect(user.id)">
+                <fa-icon [icon]="['fas', 'id-badge']"></fa-icon>
+                  <span i18n="@@usersComponentListActionsView">Details</span>
               </button>
               <button *ngIf="editUserPrivilege$ | async" mat-menu-item (click)="onUserSelect(user.id, true)">
                 <fa-icon [icon]="['fas', 'user-edit']"></fa-icon>
                 <span i18n="@@usersComponentListActionsEdit">Edit</span>
               </button>
-              <button *ngIf="(editUserPrivilege$ | async) && user.State.id === 2" mat-menu-item (click)="this.changeUserState(user, 3)">
-                <fa-icon [icon]="['fas', 'ban']"></fa-icon>
+              <button *ngIf="(editUserPrivilege$ | async) && user.State.id === 2 && user.id !== (currentUser$ | async).id" mat-menu-item (click)="changeUserState(user, 3)">
+                <fa-icon [icon]="['fas', 'user-slash']"></fa-icon>
                 <span i18n="@@usersComponentListActionsDeactivate">Deactivate user</span>
               </button>
-              <button *ngIf="(editUserPrivilege$ | async) && (user.State.id === 1 || user.State.id === 3)" mat-menu-item (click)="this.changeUserState(user, 2)">
+              <button *ngIf="(editUserPrivilege$ | async) && (user.State.id === 1 || user.State.id === 3)" mat-menu-item (click)="changeUserState(user, 2)">
                 <fa-icon [icon]="['fas', 'user-check']"></fa-icon>
                 <span i18n="@@usersComponentListActionsActivate">Activate user</span>
               </button>
-              <button *ngIf="editUserPrivilege$ | async" mat-menu-item (click)="this.changeUserState(user, 4)">
+              <button *ngIf="(editUserPrivilege$ | async) && user.State.id === 4 && user.id !== (currentUser$ | async).id" mat-menu-item (click)="changeUserState(user, 4)">
                 <fa-icon [icon]="['fas', 'archive']"></fa-icon>
                 <span i18n="@@usersComponentListActionsArchive">Archive user</span>
+              </button>
+              <button *ngIf="(deleteUserPrivilege$ | async) && user.id !== (currentUser$ | async).id" mat-menu-item (click)="deleteUser(user.id)">
+                <fa-icon [icon]="['fas', 'user-times']" class="text-danger"></fa-icon>
+                <span i18n="@@usersComponentListActionsDelete">Delete user</span>
               </button>
             </mat-menu>
           </mat-cell>

@@ -15,7 +15,8 @@ import { PageQuery } from '@/core/_models';
 
 import { AppState } from '@/core/reducers';
 import { selectUsersLoading, selectUsersTotalCount } from '../../store/user.selectors';
-import { isPrivileged } from '@/core/auth/store/auth.selectors';
+import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
+import { DeleteUser } from '../../store/user.actions';
 
 @Component({
   selector: 'app-users',
@@ -23,8 +24,10 @@ import { isPrivileged } from '@/core/auth/store/auth.selectors';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
+  currentUser$: Observable<User>;
   dataSource: UsersDataSource;
   selection = new SelectionModel<User>(true, []);
+  deleteUserPrivilege$: Observable<boolean>;
   editUserPrivilege$: Observable<boolean>;
   addUserPrivilege$: Observable<boolean>;
   resultsLength$: Observable<number>;
@@ -45,11 +48,15 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
+    this.deleteUserPrivilege$ = this.store.pipe(select(isPrivileged('user-delete')));
     this.editUserPrivilege$ = this.store.pipe(select(isPrivileged('user-edit')));
     this.addUserPrivilege$ = this.store.pipe(select(isPrivileged('user-add')));
 
     this.loading$ = this.store.pipe(select(selectUsersLoading));
     this.resultsLength$ = this.store.pipe(select(selectUsersTotalCount));
+
+    this.currentUser$ = this.store.pipe(select(currentUser));
+
     this.dataSource = new UsersDataSource(this.store);
 
     const initialPage: PageQuery = {
@@ -99,6 +106,21 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   //       this.selection.clear() :
   //       this.users.forEach(row => this.selection.select(row));
   // }
+
+  deleteUser(userId: number): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you really want to delete user? You will not be able to recover!',
+      type: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.value) {
+        this.store.dispatch(new DeleteUser({userId}));
+      }
+    });
+  }
 
   changeUserState(user, state): void {
     const userState = new User();

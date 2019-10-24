@@ -31,13 +31,16 @@ export function departmentsReducer(state = initialDepartmentsState , action: Dep
   switch (action.type) {
 
     case DepartmentActionTypes.DEPARTMENT_CREATE_SUCCESS:
-      return adapter.addOne(action.payload.department, state);
+      return adapter.addOne(action.payload.department, {...state, countAll: state.countAll + 1});
 
     case DepartmentActionTypes.DEPARTMENT_CREATE_FAIL:
       return {
         ...state,
         error: action.payload
       };
+
+    case DepartmentActionTypes.DELETE_DEPARTMENT:
+      return adapter.removeOne(action.payload.departmentId, {...state, countAll: state.countAll - 1});
 
     case DepartmentActionTypes.DEPARTMENT_LOADED:
       return adapter.addOne(action.payload.department, state);

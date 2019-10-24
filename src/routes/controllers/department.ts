@@ -177,6 +177,14 @@ export class DepartmentController {
     @Middleware([Passport.authenticate()])
     private deleteOne(req: Request, res: Response) {
         Logger.Info(`Deleting department by id: ${req.params.id}...`);
+        db.Department.destroy({
+            where: { id: req.params.id }
+        }).then(result => {
+            return res.status(OK).json(result);
+        }).catch((error: any) => {
+            Logger.Err(error);
+            return res.status(BAD_REQUEST).json(error.toString());
+        });
     }
 
     private findDepByPk(id: number | string): Promise<db.Department> {

@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsersRoutingModule } from './users-routing.module';
 import { SharedModule } from '@/_shared/modules';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faEllipsisV, faUserPlus, faEdit, faBan, faAddressCard, faUserEdit, faArchive, faUserCheck, faEnvelope, faPhone, faTimes, faSave } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisV, faUserPlus, faEdit, faBan, faIdBadge, faUserEdit, faArchive, faUserCheck, faUserSlash, faUserTimes, faEnvelope, faPhone, faTimes, faSave } from '@fortawesome/free-solid-svg-icons';
 
 import {
     ProfileComponent,
@@ -60,10 +60,12 @@ export class UsersModule {
       faUserPlus,
       faEdit,
       faBan,
-      faAddressCard,
+      faIdBadge,
       faUserEdit,
       faArchive,
       faUserCheck,
+      faUserSlash,
+      faUserTimes,
       faEnvelope,
       faPhone,
       faTimes,

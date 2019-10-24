@@ -26,6 +26,10 @@ export class DepartmentService {
     return this.http.put<Department>(`${this.api}/${department.id}`, this.formatBeforeSend(department));
   }
 
+  delete(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.api}/${id}`);
+  }
+
   getList(pageIndex = 0, pageSize = 5, sortIndex = 'id', sortDirection = 'asc'): Observable<DepartmentServerResponse> {
     return this.http.get<DepartmentServerResponse>(this.api, {
       params: new HttpParams()

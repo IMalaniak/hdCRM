@@ -10,6 +10,7 @@ export enum PlanActionTypes {
   PLAN_CREATE = '[Add Plan] Add Plan Requested',
   PLAN_CREATE_SUCCESS = '[Plans API] Add Plan Success',
   PLAN_CREATE_FAIL = '[Plans API] Add Plan Fail',
+  DELETE_PLAN = '[Plans List] Delete Plan Requested',
   PLAN_LIST_PAGE_REQUESTED = '[Plans List] Plans Page Requested',
   PLAN_LIST_PAGE_LOADED = '[Plans API] Plans Page Loaded',
   PLAN_LIST_PAGE_CANCELLED = '[Plans API] Plans Page Cancelled',
@@ -52,6 +53,10 @@ export class CreatePlanFail implements Action {
   constructor(public payload: string) { }
 }
 
+export class DeletePlan implements Action {
+  readonly type = PlanActionTypes.DELETE_PLAN;
+  constructor(public payload: {planId: number}) {}
+}
 export class ListPageRequested implements Action {
   readonly type = PlanActionTypes.PLAN_LIST_PAGE_REQUESTED;
   constructor(public payload: {page: PageQuery}) {}
@@ -107,6 +112,7 @@ export type PlanActions = PlanRequested
   | CreatePlan
   | CreatePlanSuccess
   | CreatePlanFail
+  | DeletePlan
   | ListPageRequested
   | ListPageLoaded
   | ListPageCancelled

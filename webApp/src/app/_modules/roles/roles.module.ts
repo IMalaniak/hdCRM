@@ -6,7 +6,7 @@ import { RolesRoutingModule } from './roles-routing.module';
 import { SharedModule } from '@/_shared/modules';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faEllipsisV, faInfo, faEdit, faPlus, faSave, faTimes, faUserPlus, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisV, faInfo, faEdit, faPlus, faSave, faTimes, faUserPlus, faCheck, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import {
     RolesComponent,
@@ -74,7 +74,8 @@ export class RolesModule {
       faSave,
       faTimes,
       faUserPlus,
-      faCheck
+      faCheck,
+      faTrash
     );
   }
 }

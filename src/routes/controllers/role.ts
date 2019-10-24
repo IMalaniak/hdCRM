@@ -1,5 +1,5 @@
 import { OK, BAD_REQUEST } from 'http-status-codes';
-import { Controller, Middleware, Get, Post, Put } from '@overnightjs/core';
+import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
 import * as db from '../../models';
@@ -210,6 +210,20 @@ export class RoleController {
         }).catch((err: any) => {
             Logger.Err(err);
             return res.status(BAD_REQUEST).json(err.toString());
+        });
+    }
+
+    @Delete(':id')
+    @Middleware([Passport.authenticate()])
+    private deleteOne(req: Request, res: Response) {
+        Logger.Info(`Deleting role by id: ${req.params.id}...`);
+        db.Role.destroy({
+            where: { id: req.params.id }
+        }).then(result => {
+            return res.status(OK).json(result);
+        }).catch((error: any) => {
+            Logger.Err(error);
+            return res.status(BAD_REQUEST).json(error.toString());
         });
     }
 

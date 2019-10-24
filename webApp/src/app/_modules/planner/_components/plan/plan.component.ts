@@ -7,6 +7,7 @@ import { Store, select } from '@ngrx/store';
 import { Subject, Observable, combineLatest } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import { cloneDeep } from 'lodash';
 import { StagesDialogComponent } from '../../_components/stages/dialog/stages-dialog.component';
 import { Plan, Stage, PlanStage } from '../../_models';
 import { PlanService } from '../../_services';
@@ -52,8 +53,8 @@ export class PlanComponent implements OnInit, OnDestroy {
       this.editPlanPrivilege$ = this.store.pipe(select(isPrivileged('plan-edit')));
       this.configStagesPrivilege$ = this.store.pipe(select(isPrivileged('stage-edit')));
 
-      this.plan = new Plan(this.route.snapshot.data['plan']);
-      this.planInitial = new Plan(this.route.snapshot.data['plan']);
+      this.plan = new Plan(cloneDeep(this.route.snapshot.data['plan']));
+      this.planInitial = new Plan(cloneDeep(this.route.snapshot.data['plan']));
       this.canEditPlan$.pipe(takeUntil(this.unsubscribe)).subscribe(canEdit => {
         if (canEdit) {
           const edit = this.route.snapshot.queryParams['edit'];
@@ -75,13 +76,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   goToNextStage(): void {
     this.planService.toNextStage(this.plan.id).pipe(takeUntil(this.unsubscribe)).subscribe(
       data => {
-        const plan: Update<Plan> = {
-          id: this.plan.id,
-          changes: data
-        }
-        this.store.dispatch(new PlanSaved({plan}));
-        this.plan = new Plan(data);
-        this.planInitial = new Plan(data);
+        this.updatePlanStore(data);
         this.configPlanStages = false;
         Swal.fire({
           text: 'Stages updated!',
@@ -111,24 +106,24 @@ export class PlanComponent implements OnInit, OnDestroy {
 
   onClickCancelEditStages(): void {
     this.configPlanStages = false;
-    this.plan = this.planInitial;
+    this.plan = cloneDeep(this.planInitial);
   }
 
   onClickCancelEdit(): void {
     this.editForm = false;
-    this.plan = this.planInitial;
+    this.plan = cloneDeep(this.planInitial);
+  }
+
+  removeParticipant(userId: number): void {
+    this.plan.Participants = this.plan.Participants.filter(participant => {
+      return participant.id !== userId;
+    });
   }
 
   updatePlanStages(): void {
     this.planService.updatePlanStages(this.plan).pipe(takeUntil(this.unsubscribe)).subscribe(
       data => {
-        const plan: Update<Plan> = {
-          id: this.plan.id,
-          changes: data
-        };
-        this.store.dispatch(new PlanSaved({plan}));
-        this.plan = new Plan(data);
-        this.planInitial = new Plan(data);
+        this.updatePlanStore(data);
         this.configPlanStages = false;
         Swal.fire({
           text: 'Stages updated!',
@@ -152,13 +147,7 @@ export class PlanComponent implements OnInit, OnDestroy {
     // Update plan
     this.planService.updateOne(this.plan).pipe(takeUntil(this.unsubscribe)).subscribe(
       data => {
-        const plan: Update<Plan> = {
-          id: this.plan.id,
-          changes: data
-        };
-        this.store.dispatch(new PlanSaved({plan}));
-        this.plan = new Plan(data);
-        this.planInitial = new Plan(data);
+        this.updatePlanStore(data);
         this.editForm = false;
         Swal.fire({
           text: 'Plan updated!',
@@ -270,13 +259,7 @@ export class PlanComponent implements OnInit, OnDestroy {
 
   addDoc(doc: Asset): void {
     this.plan.Documents.push(doc);
-    const plan: Update<Plan> = {
-      id: this.plan.id,
-      changes: this.plan
-    };
-    this.store.dispatch(new PlanSaved({plan}));
-    this.plan = new Plan(this.plan);
-    this.planInitial = new Plan(this.plan);
+    this.updatePlanStore(this.plan);
   }
 
   deleteDoc(docId: number): void {
@@ -298,13 +281,7 @@ export class PlanComponent implements OnInit, OnDestroy {
             this.plan.Documents = this.plan.Documents.filter(doc => {
               return doc.id !== docId;
             });
-            const plan: Update<Plan> = {
-              id: this.plan.id,
-              changes: this.plan
-            };
-            this.store.dispatch(new PlanSaved({plan}));
-            this.plan = new Plan(this.plan);
-            this.planInitial = new Plan(this.plan);
+            this.updatePlanStore(this.plan);
             Swal.fire({
               text: 'You have successfully removed a document from plan',
               type: 'success',
@@ -322,6 +299,16 @@ export class PlanComponent implements OnInit, OnDestroy {
         });
       }
     });
+  }
+
+  updatePlanStore(data: Plan): void {
+    this.plan = new Plan(cloneDeep(data));
+    this.planInitial = new Plan(cloneDeep(data));
+    const plan: Update<Plan> = {
+      id: this.plan.id,
+      changes: new Plan(data)
+    };
+    this.store.dispatch(new PlanSaved({plan}));
   }
 
   ngOnDestroy() {

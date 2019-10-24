@@ -146,7 +146,7 @@ export class RoleComponent implements OnInit, OnDestroy {
           changes: new Role(data)
         };
         this.store.dispatch(new RoleSaved({role}));
-        this.editForm = false;
+        this.disableEdit();
         Swal.fire({
           text: 'Role updated!',
           type: 'success',
@@ -165,13 +165,33 @@ export class RoleComponent implements OnInit, OnDestroy {
     );
   }
 
+  removePriv(privilegeId: number): void {
+    this.role.Privileges = this.role.Privileges.filter(rPriv => {
+      return rPriv.id !== privilegeId;
+    });
+  }
+
+  removeUser(userId: number): void {
+    this.role.Users = this.role.Users.filter(rUser => {
+      return rUser.id !== userId;
+    });
+  }
+
   onClickEdit(): void {
     this.editForm = true;
+    this.displayedColumns.push('actions');
+  }
+
+  disableEdit(): void {
+    this.editForm = false;
+    this.displayedColumns = this.displayedColumns.filter(col => {
+      return col !== 'actions';
+    });
   }
 
   onClickCancelEdit(): void {
-    this.editForm = false;
     this.role = cloneDeep(this.roleInitial);
+    this.disableEdit();
   }
 
   ngOnDestroy() {

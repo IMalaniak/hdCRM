@@ -46,6 +46,12 @@
                 <fa-icon *ngIf="!editForm" [icon]="privilege.RolePrivilege.delete ? ['fas', 'check'] : ['fas', 'times']" [classes]="[privilege.RolePrivilege.delete ? 'text-success' : 'text-danger']"></fa-icon>
               </mat-cell>
             </ng-container>
+            <ng-container matColumnDef="actions">
+              <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+              <mat-cell *matCellDef="let privilege">
+                <fa-icon [icon]="['fas', 'trash']" class="text-danger cursor-pointer" (click)="removePriv(privilege.id)"></fa-icon>
+              </mat-cell>
+            </ng-container>
             <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
           </mat-table>
@@ -63,6 +69,7 @@
               <img matListAvatar *ngIf="user.avatar" src="{{user.avatar.getThumbnailsUrl}}" alt="{{user.avatar.title}}">
               <img matListAvatar *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
               <h3 matLine><a routerLink="/user/{{user.id}}" >{{user.fullname}}</a></h3>
+              <fa-icon *ngIf="editForm" [icon]="['fas', 'trash']" class="text-danger cursor-pointer" (click)="removeUser(user.id)"></fa-icon>
             </mat-list-item>
             <mat-divider></mat-divider>
           </ng-container>

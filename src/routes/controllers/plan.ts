@@ -411,6 +411,14 @@ export class PlanController {
     @Middleware([Passport.authenticate()])
     private deleteOne(req: Request, res: Response) {
         Logger.Info(`Deleting plan by id: ${req.params.id}...`);
+        db.Plan.destroy({
+            where: { id: req.params.id }
+        }).then(result => {
+            return res.status(OK).json(result);
+        }).catch((error: any) => {
+            Logger.Err(error);
+            return res.status(BAD_REQUEST).json(error.toString());
+        });
     }
 
     private findPlanById(planId: number | string): Promise<db.Plan> {

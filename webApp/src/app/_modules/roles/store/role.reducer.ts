@@ -28,7 +28,7 @@ export function rolesReducer(state = initialRolesState , action: RoleActions): R
   switch (action.type) {
 
     case RoleActionTypes.ROLE_CREATE_SUCCESS:
-      return adapter.addOne(action.payload.role, state);
+      return adapter.addOne(action.payload.role, {...state, countAll: state.countAll + 1});
 
     case RoleActionTypes.ROLE_CREATE_FAIL:
       return {
@@ -53,6 +53,9 @@ export function rolesReducer(state = initialRolesState , action: RoleActions): R
         ...state,
         loading: false
       };
+
+    case RoleActionTypes.DELETE_ROLE:
+      return adapter.removeOne(action.payload.roleId, {...state, countAll: state.countAll - 1});
 
     case RoleActionTypes.ROLE_SAVED:
       return adapter.updateOne(action.payload.role, state);

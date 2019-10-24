@@ -66,7 +66,7 @@ export class UserController {
             distinct: true
         }).then(data => {
             const pages = Math.ceil(data.count / limit);
-            return res.status(OK).json({list: data.rows, count: data.count, pages: pages});
+            return res.status(OK).json({ list: data.rows, count: data.count, pages: pages });
         }).catch((err: any) => {
             Logger.Err(err);
             return res.status(BAD_REQUEST).json(err.toString());
@@ -99,7 +99,7 @@ export class UserController {
                 StateId: req.body.StateId
             },
             {
-                where: {id: req.body.id}
+                where: { id: req.body.id }
             }
         ).then(result => {
             if (result) {
@@ -107,7 +107,7 @@ export class UserController {
                     if (req.body.Roles) {
                         db.Role.findAll({
                             where: {
-                                    [Op.or] : req.body.Roles
+                                [Op.or]: req.body.Roles
                             }
                         }).then(roles => {
                             user.setRoles(roles).then(() => {
@@ -153,7 +153,7 @@ export class UserController {
             user.getAvatar().then(avatar => {
                 if (avatar) {
                     db.Asset.destroy({
-                        where: {id: avatar.id}
+                        where: { id: avatar.id }
                     }).then(() => {
                         const uploads = path.join(__dirname, '../../../uploads');
                         const destination = uploads + avatar.location + '/' + avatar.title;
@@ -214,14 +214,14 @@ export class UserController {
             user.getAvatar().then(avatar => {
                 if (avatar) {
                     db.Asset.destroy({
-                        where: {id: avatar.id}
+                        where: { id: avatar.id }
                     }).then(() => {
                         const uploads = path.join(__dirname, '../../../uploads');
                         const destination = uploads + avatar.location + '/' + avatar.title;
                         const thumbDestination = uploads + avatar.location + '/thumbnails/' + avatar.title;
                         this.unlinkAsync(destination).then(() => {
                             this.unlinkAsync(thumbDestination).then(() => {
-                                return res.status(OK).json({success: true, message: 'avatar deleted'});
+                                return res.status(OK).json({ success: true, message: 'avatar deleted' });
                             }).catch((error: any) => {
                                 Logger.Err(error);
                                 return res.status(BAD_REQUEST).json(error.toString());
@@ -254,7 +254,7 @@ export class UserController {
                 StateId: req.body.StateId
             },
             {
-                where: {id: req.body.id}
+                where: { id: req.body.id }
             }
         ).then(result => {
             if (result) {
@@ -277,23 +277,23 @@ export class UserController {
         Logger.Info(`Changing state of selected users...`);
         function updateRow(userId: number) {
             return db.User.update(
-                  {
-                      StateId: req.body.stateId
-                  },
-                  {
-                      where: {id: userId}
-                  }
+                {
+                    StateId: req.body.stateId
+                },
+                {
+                    where: { id: userId }
+                }
             );
-          }
+        }
 
-          const promises = [];
-          req.body.userIds.forEach(userId => {
-              promises.push(updateRow(userId));
-          });
+        const promises = [];
+        req.body.userIds.forEach(userId => {
+            promises.push(updateRow(userId));
+        });
 
-          return Promise.all(promises).then(result => {
-              return res.status(OK).json({status: 'ok'});
-          }).catch((error: any) => {
+        return Promise.all(promises).then(result => {
+            return res.status(OK).json({ status: 'ok' });
+        }).catch((error: any) => {
             Logger.Err(error);
             return res.status(BAD_REQUEST).json(error.toString());
         });
@@ -303,6 +303,14 @@ export class UserController {
     @Middleware([Passport.authenticate()])
     private deleteOne(req: Request, res: Response) {
         Logger.Info(`Deleting user by id: ${req.params.id}...`);
+        db.User.destroy({
+            where: { id: req.params.id }
+        }).then(result => {
+            return res.status(OK).json(result);
+        }).catch((error: any) => {
+            Logger.Err(error);
+            return res.status(BAD_REQUEST).json(error.toString());
+        });
     }
 
     private findUserById(userId: number | string): Promise<db.User> {

@@ -27,6 +27,10 @@ export class RoleService {
     return this.http.put<Role>(`${this.api}/${role.id}`, this.formatBeforeSend(role));
   }
 
+  delete(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.api}/${id}`);
+  }
+
   getList(pageIndex = 0, pageSize = 5, sortIndex = 'id', sortDirection = 'asc'): Observable<RoleServerResponse> {
     return this.http.get<RoleServerResponse>(this.api, {
       params: new HttpParams()

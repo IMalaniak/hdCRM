@@ -6,6 +6,7 @@ import { Update } from '@ngrx/entity';
 
 import Swal from 'sweetalert2';
 import { takeUntil, map } from 'rxjs/operators';
+import { cloneDeep } from 'lodash';
 
 import { Department } from '../../_models';
 import { UsersDialogComponent, User } from '@/_modules/users';
@@ -48,8 +49,8 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     this.appUser$ = this.store.pipe(select(currentUser));
     this.editDepartmentPrivilege$ = this.store.pipe(select(isPrivileged('department-edit')));
 
-    this.departmentInitial = new Department(this.route.snapshot.data['department']);
-    this.department = new Department(this.route.snapshot.data['department']);
+    this.departmentInitial = new Department(cloneDeep(this.route.snapshot.data['department']));
+    this.department = new Department(cloneDeep(this.route.snapshot.data['department']));
     this.canEditDepartment$.pipe(takeUntil(this.unsubscribe)).subscribe(canEdit => {
       if (canEdit) {
         const edit = this.route.snapshot.queryParams['edit'];
@@ -74,10 +75,10 @@ export class DepartmentComponent implements OnInit, OnDestroy {
 
   onClickCancelEdit(): void {
     this.editForm = false;
-    this.department = {...this.route.snapshot.data['department']};
+    this.department = cloneDeep(this.departmentInitial);
   }
 
-  addManagerDialog(): void {
+  openManagerDialog(): void {
     const dialogRef = this.dialog.open(UsersDialogComponent, {
       ...this.mediaQuery.deFaultPopupSize,
       data: {
@@ -107,13 +108,21 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     });
   }
 
+  removeWorker(userId: number): void {
+    this.department.Workers = this.department.Workers.filter(worker => {
+      return worker.id !== userId;
+    });
+  }
+
   updateDepartment(): void {
     this.departmentService.updateOne(this.department).pipe(takeUntil(this.unsubscribe)).subscribe(
-      () => {
+      data => {
+        this.department = new Department(cloneDeep(data));
+        this.departmentInitial = new Department(cloneDeep(data));
         const department: Update<Department> = {
           id: this.department.id,
-          changes: this.department
-        }
+          changes: new Department(data)
+        };
         this.store.dispatch(new DepartmentSaved({department}));
         this.editForm = false;
         Swal.fire({

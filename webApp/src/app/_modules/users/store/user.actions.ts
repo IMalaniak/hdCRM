@@ -7,6 +7,7 @@ export enum UserActionTypes {
   USER_REQUESTED = '[User Details] User Requested',
   USER_LOADED = '[Users API] User Loaded',
   USER_SAVED = '[User Details] User Changes Saved',
+  DELETE_USER = '[User List] Delete User',
   USER_LIST_PAGE_REQUESTED = '[User List] User Page Requested',
   USER_LIST_PAGE_LOADED = '[User API] User Page Loaded',
   USER_LIST_PAGE_CANCELLED = '[User API] User Page Cancelled',
@@ -27,6 +28,11 @@ export class UserLoaded implements Action {
 export class UserSaved implements Action {
   readonly type = UserActionTypes.USER_SAVED;
   constructor(public payload: {user: Update<User>}) {}
+}
+
+export class DeleteUser implements Action {
+  readonly type = UserActionTypes.DELETE_USER;
+  constructor(public payload: {userId: number}) {}
 }
 
 export class UserListPageRequested implements Action {
@@ -58,5 +64,6 @@ export type UserActions = UserRequested
   | UserListPageRequested
   | UserListPageLoaded
   | UserListPageCancelled
+  | DeleteUser
   | AllStatesRequested
   | AllStatesLoaded;

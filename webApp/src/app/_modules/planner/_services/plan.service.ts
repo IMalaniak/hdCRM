@@ -50,6 +50,10 @@ export class PlanService {
     return this.http.put<Plan>(`${this.api}/${plan.id}`, this.formatBeforeSend(plan));
   }
 
+  delete(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.api}/${id}`);
+  }
+
   updatePlanStages(plan: Plan): Observable<Plan> {
     return this.http.put<Plan>(`${this.api}/updatePlanStages`, this.formatBeforeSend(plan));
   }

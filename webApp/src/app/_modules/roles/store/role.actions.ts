@@ -10,6 +10,7 @@ export enum RoleActionTypes {
   ROLE_CREATE = '[Roles Add] Role Add Requested',
   ROLE_CREATE_SUCCESS = '[Roles API] Add Role Success',
   ROLE_CREATE_FAIL = '[Roles API] Add Role Fail',
+  DELETE_ROLE = '[Role List] Delete Role Requested',
   ROLES_LIST_PAGE_REQUESTED = '[Roles List] Roles Page Requested',
   ROLES_LIST_PAGE_LOADED = '[Roles API] Roles Page Loaded',
   ROLES_LIST_PAGE_CANCELLED = '[Roles API] Roles Page Cancelled',
@@ -17,6 +18,7 @@ export enum RoleActionTypes {
   PRIVILEGE_CREATE_SUCCESS = '[Privileges API] Create Privilege Success',
   PRIVILEGE_CREATE_FAIL = '[Privileges API] Create Privilege Fail',
   ALLPRIVILEGES_REQUESTED = '[Privileges List] Privileges List Requested',
+  ALLPRIVILEGES_REQUEST_CANCELED = '[Privileges List] Privileges List Request Canceled',
   ALLPRIVILEGES_LOADED = '[Privileges API] Privileges List Loaded',
   PRIVILEGE_SAVED = '[Privileges Dialog Window] Privilege Saved'
 }
@@ -37,6 +39,10 @@ export class CreateRoleFail implements Action {
 }
 export class RoleRequested implements Action {
   readonly type = RoleActionTypes.ROLE_REQUESTED;
+  constructor(public payload: {roleId: number}) {}
+}
+export class DeleteRole implements Action {
+  readonly type = RoleActionTypes.DELETE_ROLE;
   constructor(public payload: {roleId: number}) {}
 }
 
@@ -66,6 +72,10 @@ export class RolesListPageCancelled implements Action {
 
 export class AllPrivilegesRequested implements Action {
   readonly type = RoleActionTypes.ALLPRIVILEGES_REQUESTED;
+}
+
+export class AllPrivilegesRequestCanceled implements Action {
+  readonly type = RoleActionTypes.ALLPRIVILEGES_REQUEST_CANCELED;
 }
 
 export class AllPrivilegesLoaded implements Action {
@@ -101,11 +111,13 @@ export type RoleActions = RoleRequested
   | CreateRole
   | CreateRoleSuccess
   | CreateRoleFail
+  | DeleteRole
   | RolesListPageRequested
   | RolesListPageLoaded
   | RolesListPageCancelled
   | AllPrivilegesRequested
   | AllPrivilegesLoaded
+  | AllPrivilegesRequestCanceled
   | PrivilegeSaved
   | CreatePrivilege
   | CreatePrivilegeSuccess

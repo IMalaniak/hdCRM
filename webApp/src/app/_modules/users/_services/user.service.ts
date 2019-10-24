@@ -40,7 +40,10 @@ export class UserService {
 
   updateUser(user: User): Observable<User> {
     return this.http.put<User>(`${this.api}/${user.id}`, this.formatBeforeSend(user));
+  }
 
+  delete(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.api}/${id}`);
   }
 
   updateUserState(user: User): Observable<User> {

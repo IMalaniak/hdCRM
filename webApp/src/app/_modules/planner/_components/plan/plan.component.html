@@ -118,7 +118,7 @@
         <button buttons mat-stroked-button color="primary" class="crm-button" (click)="addParticipantDialog()" *ngIf="editForm"><fa-icon [icon]="['fas', 'user-plus']"></fa-icon><span i18n="@@planComponentActionsAddParticipants">Add Participants</span></button>
         <mat-list content>
           <mat-list-item *ngIf="plan.Creator">
-            <label class="text-muted" i18n="@@planComponentParticipantTitleCreator">Creator</label>
+            <label class="text-muted" i18n="@@planComponentCreatorLabel">Creator</label>
             <img matListAvatar *ngIf="plan.Creator.avatar" src="{{plan.Creator.avatar.getThumbnailsUrl}}" alt="{{plan.Creator.avatar.title}}">
             <img matListAvatar *ngIf="!plan.Creator.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
             <h3 matLine><a routerLink="/users/details/{{plan.CreatorId}}">{{ plan.Creator.fullname }}</a></h3>
@@ -128,7 +128,7 @@
             <img matListAvatar *ngIf="user.avatar" src="{{user.avatar.getThumbnailsUrl}}" alt="{{user.avatar.title}}">
             <img matListAvatar *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
             <h3 matLine>{{ user.fullname }}</h3>
-            <mat-divider></mat-divider>
+            <fa-icon *ngIf="editForm" [icon]="['fas', 'trash']" class="text-danger cursor-pointer" (click)="removeParticipant(user.id)"></fa-icon>
           </mat-list-item>
         </mat-list>
       </section>

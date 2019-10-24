@@ -5,6 +5,7 @@ import { Update } from '@ngrx/entity';
 import { AppState } from '@/core/reducers';
 
 import Swal from 'sweetalert2';
+import { cloneDeep } from 'lodash';
 
 import { UserService } from '../../_services';
 import { User, State } from '../../_models';
@@ -55,10 +56,8 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   getUserData(): void {
-    // TODO: check
-    // deep copy this.user = new User(JSON.parse(JSON.stringify(this.route.snapshot.data['user'])));
-    this.user = new User(this.route.snapshot.data['user']);
-    this.userInitial = new User(this.route.snapshot.data['user']);
+    this.user = new User(cloneDeep(this.route.snapshot.data['user']));
+    this.userInitial = new User(cloneDeep(this.route.snapshot.data['user']));
 
     this.store.dispatch(new AllStatesRequested);
 
@@ -92,12 +91,7 @@ export class UserComponent implements OnInit, OnDestroy {
   updateUser(): void {
     this.userService.updateUser(this.user).pipe(takeUntil(this.unsubscribe)).subscribe(
       data => {
-        this.userInitial = new User(data);
-        const user: Update<User> = {
-          id: this.user.id,
-          changes: new User(data)
-        };
-        this.store.dispatch(new UserSaved({user}));
+        this.updateUserStore(data);
         this.editForm = false;
         Swal.fire({
           text: 'User updated!',
@@ -121,10 +115,15 @@ export class UserComponent implements OnInit, OnDestroy {
   updateUserPic(data: Asset): void {
     this.user.avatar = data;
     this.user.avatarId = data.id;
-    this.userInitial = new User(this.user);
+    this.updateUserStore(this.user);
+  }
+
+  updateUserStore(data: User): void {
+    this.userInitial = new User(cloneDeep(data));
+    this.user = new User(cloneDeep(data));
     const user: Update<User> = {
       id: this.user.id,
-      changes: new User(this.user)
+      changes: new User(data)
     };
     this.store.dispatch(new UserSaved({user}));
   }

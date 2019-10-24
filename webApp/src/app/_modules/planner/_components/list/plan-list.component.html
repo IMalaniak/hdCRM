@@ -71,6 +71,10 @@
                 <fa-icon [icon]="['fas', 'edit']"></fa-icon>
                 <span i18n="@@plannerComponentListActionsEdit">Edit</span>
               </button>
+              <button *ngIf="deletePlanPrivilege$ | async" mat-menu-item (click)="deletePlan(plan.id)">
+                <fa-icon [icon]="['fas', 'trash']" class="text-danger"></fa-icon>
+                <span i18n="@@plannerComponentListActionsDelete">Delete</span>
+              </button>
             </mat-menu>
           </mat-cell>
         </ng-container>

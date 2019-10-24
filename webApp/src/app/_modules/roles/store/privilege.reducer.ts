@@ -38,6 +38,12 @@ export function privilegesReducer(state = initialPrivilegesState , action: RoleA
         loading: true
       };
 
+    case RoleActionTypes.ALLPRIVILEGES_REQUEST_CANCELED:
+      return {
+        ...state,
+        loading: false
+      };
+
     case RoleActionTypes.ALLPRIVILEGES_LOADED:
       return adapter.addAll(action.payload.list, {...state, allPrivilegesLoaded: true, loading: false});
 

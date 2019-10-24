@@ -75,8 +75,9 @@
             <img matListAvatar *ngIf="user.avatar" src="{{user.avatar.getThumbnailsUrl}}" alt="{{user.avatar.title}}">
             <img matListAvatar *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
             <h3 matLine>{{ user.fullname }}</h3>
-            <mat-divider></mat-divider>
+            <fa-icon *ngIf="editForm" [icon]="['fas', 'trash']" class="text-danger cursor-pointer" (click)="removeWorker(user.id)"></fa-icon>
           </mat-list-item>
+          <mat-divider></mat-divider>
         </mat-list>
       </section>
     </div>

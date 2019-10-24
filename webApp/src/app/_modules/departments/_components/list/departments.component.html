@@ -54,9 +54,13 @@
                   <fa-icon [icon]="['fas', 'info']"></fa-icon>
                   <span i18n="@@departmentsComponentListActionsView">Details</span>
                 </button>
-                <button mat-menu-item (click)="onDepSelect(dep.id, true)">
+                <button *ngIf="editDepPrivilege$ | async" mat-menu-item (click)="onDepSelect(dep.id, true)">
                   <fa-icon [icon]="['fas', 'edit']"></fa-icon>
                   <span i18n="@@departmentsComponentListActionsEdit">Edit</span>
+                </button>
+                <button *ngIf="deleteDepPrivilege$ | async" mat-menu-item (click)="deleteDepartment(dep.id)">
+                  <fa-icon [icon]="['fas', 'trash']" class="text-danger"></fa-icon>
+                  <span i18n="@@departmentsComponentListActionsDelete">Delete</span>
                 </button>
               </mat-menu>
           </mat-cell>

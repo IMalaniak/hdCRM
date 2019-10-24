@@ -63,6 +63,22 @@ export class PlanEffects {
         map((response: PlanServerResponse) => new planActions.ListPageLoaded(response)),
     );
 
+    @Effect({dispatch: false})
+    deletePlan$ = this.actions$.pipe(
+      ofType<planActions.DeletePlan>(planActions.PlanActionTypes.DELETE_PLAN),
+      mergeMap(action => this.planService.delete(action.payload.planId)),
+      map(() => {
+        Swal.fire({
+          text: `Plan deleted`,
+          type: 'success',
+          timer: 6000,
+          toast: true,
+          showConfirmButton: false,
+          position: 'bottom-end'
+        });
+      })
+    );
+
     @Effect()
     loadAllStage$ = this.actions$.pipe(
         ofType<planActions.AllStagesRequestedFromDashboard | planActions.AllStagesRequestedFromDialogWindow>(planActions.PlanActionTypes.ALLSTAGES_REQUESTED_FROM_DASHBOARD, planActions.PlanActionTypes.ALLSTAGES_REQUESTED_FROM_DIALOGWINDOW),

@@ -3,7 +3,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { Action, Store, select } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import * as roleActions from './role.actions';
-import { mergeMap, map, catchError, withLatestFrom, filter } from 'rxjs/operators';
+import { mergeMap, map, catchError, withLatestFrom, filter, tap } from 'rxjs/operators';
 import { RoleService, PrivilegeService } from '../_services';
 import { AppState } from '@/core/reducers';
 import { RoleServerResponse, Privilege, Role } from '../_models';
@@ -21,8 +21,6 @@ export class RoleEffects {
       mergeMap((role: Role) =>
         this.roleService.create({...role}).pipe(
           map(newRole => {
-            console.log(newRole);
-            
             Swal.fire({
               title: 'Role created!',
               type: 'success',
@@ -66,10 +64,31 @@ export class RoleEffects {
         map((response: RoleServerResponse) => new roleActions.RolesListPageLoaded(response)),
     );
 
+    @Effect({dispatch: false})
+    deleteRole$ = this.actions$.pipe(
+      ofType<roleActions.DeleteRole>(roleActions.RoleActionTypes.DELETE_ROLE),
+      mergeMap(action => this.roleService.delete(action.payload.roleId)),
+      map(() => {
+        Swal.fire({
+          text: `Role deleted`,
+          type: 'success',
+          timer: 6000,
+          toast: true,
+          showConfirmButton: false,
+          position: 'bottom-end'
+        });
+      })
+    );
+
     @Effect()
     loadAllPrivilege$ = this.actions$.pipe(
         ofType<roleActions.AllPrivilegesRequested>(roleActions.RoleActionTypes.ALLPRIVILEGES_REQUESTED),
         withLatestFrom(this.store.pipe(select(allPrivilegesLoaded))),
+        tap(([action, allPrivilegesLoaded]) => {
+            if (allPrivilegesLoaded) {
+              this.store.dispatch(new roleActions.AllPrivilegesRequestCanceled());
+            }
+        }),
         filter(([action, allPrivilegesLoaded]) => !allPrivilegesLoaded),
         mergeMap(() => this.privilegeService.getFullList()),
         map(privileges => new roleActions.AllPrivilegesLoaded(privileges)),

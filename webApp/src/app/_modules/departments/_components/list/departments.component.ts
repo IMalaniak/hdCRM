@@ -16,6 +16,10 @@ import { selectDepartmentsTotalCount, selectDepartmentsLoading } from '../../sto
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { tap } from 'rxjs/operators';
 
+
+import Swal from 'sweetalert2';
+import { DeleteDepartment } from '../../store/department.actions';
+
 @Component({
   selector: 'app-departments',
   templateUrl: './departments.component.html',
@@ -23,6 +27,8 @@ import { tap } from 'rxjs/operators';
 })
 export class DepartmentsComponent implements OnInit, AfterViewInit {
   addDepPrivilege$: Observable<boolean>;
+  editDepPrivilege$: Observable<boolean>;
+  deleteDepPrivilege$: Observable<boolean>;
   departments$: Observable<Department[]>;
   dataSource: DepartmentsDataSource;
   loading$: Observable<boolean>;
@@ -40,6 +46,8 @@ export class DepartmentsComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.addDepPrivilege$ = this.store.pipe(select(isPrivileged('department-add')));
+    this.editDepPrivilege$ = this.store.pipe(select(isPrivileged('department-edit')));
+    this.deleteDepPrivilege$ = this.store.pipe(select(isPrivileged('department-delete')));
     this.loading$ = this.store.pipe(select(selectDepartmentsLoading));
     this.resultsLength$ = this.store.pipe(select(selectDepartmentsTotalCount));
     this.dataSource = new DepartmentsDataSource(this.store);
@@ -85,6 +93,21 @@ export class DepartmentsComponent implements OnInit, AfterViewInit {
   onDepSelect(id: number, edit: boolean = false): void {
     this.router.navigate([`/departments/details/${id}`], {
       queryParams: { edit }
+    });
+  }
+
+  deleteDepartment(departmentId: number): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you really want to delete department? You will not be able to recover!',
+      type: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.value) {
+        this.store.dispatch(new DeleteDepartment({departmentId}));
+      }
     });
   }
 }

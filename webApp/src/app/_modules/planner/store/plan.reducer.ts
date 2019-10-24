@@ -38,13 +38,16 @@ export function plansReducer(state = initialPlansState , action: PlanActions): P
   switch (action.type) {
 
     case PlanActionTypes.PLAN_CREATE_SUCCESS:
-      return adapter.addOne(action.payload.plan, state);
+      return adapter.addOne(action.payload.plan, {...state, countAll: state.countAll + 1});
 
     case PlanActionTypes.PLAN_CREATE_FAIL:
       return {
         ...state,
         error: action.payload
       };
+
+    case PlanActionTypes.DELETE_PLAN:
+      return adapter.removeOne(action.payload.planId, {...state, countAll: state.countAll - 1});
 
     case PlanActionTypes.PLAN_LOADED:
       return adapter.addOne(action.payload.plan, state);
