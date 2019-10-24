@@ -140,6 +140,11 @@ main {
     width: 3.125rem;
   }
 
+  .mat-sort-header-button {
+    text-transform: uppercase;
+    font-style: italic;
+    color: theme-color('primary');
+  }
 
 }
 

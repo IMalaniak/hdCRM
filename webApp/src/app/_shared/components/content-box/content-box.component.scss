@@ -7,7 +7,7 @@
     bottom: 1em;
   }
 
-  h4 {
+  h5 {
     margin: 0;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -16,7 +16,7 @@
 
   .badge {
     position: relative;
-    margin: 0.4em auto 0 0.3em;
+    margin-right: auto;
 
     .mat-badge-content {
       position: inherit;
@@ -46,23 +46,22 @@
       min-width: 57.5em;
     }
   }
-}
 
-.progress-spinner-overlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 3;
-
-  &:before {
-    display: block;
+  .progress-spinner-overlay {
     position: absolute;
     width: 100%;
     height: 100%;
-    top: 0;
-    left: 0;
-    filter: blur(5px);
-    content: '';
-    background: rgba(255,255,255,0.9);
-  }
+    z-index: 100;
+  
+    &:before {
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      content: '';
+      background: rgba(255,255,255,0.9);
+    }
+  }  
 }
