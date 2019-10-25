@@ -12,14 +12,14 @@
     .error-number {
         font-size: 14em;
         font-weight: bold;
-        color: crmcolor(warn, base);
+        @include crm-bgcolor('theme', 'warn');
     }
 
     .error {
         text-transform: uppercase;
         font-weight: bold;
         font-size: 2.5em;
-        color: crmcolor(warn, base);
+        @include crm-bgcolor('theme', 'warn');
     }
 
     @include media-breakpoint-down(md) {

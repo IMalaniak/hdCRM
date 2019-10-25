@@ -3,18 +3,18 @@
 @import "~bootstrap/scss/mixins/breakpoints";
 
 app-sidebar {
-  background-color: crmcolor(main, dark);
-  min-width: crmsize(sidebar, width);
-  flex-basis: crmsize(sidebar, width);
-  transition: min-width $animation-time-style, flex-basis $animation-time-style, left $animation-time-style;
+  @include crm-bgcolor('layout', 'dark');
+  min-width: crmsize(sidebar, width, true);
+  flex-basis: crmsize(sidebar, width, true);
+  transition: min-width $transition, flex-basis $transition, left $transition;
 
   &.minimized {
-    min-width: crmsize(sidebar, minimized);
-    flex-basis: crmsize(sidebar, minimized);
+    min-width: crmsize(sidebar, minimized, true);
+    flex-basis: crmsize(sidebar, minimized, true);
   }
 
   @include media-breakpoint-down(md) {
-    min-width: crmsize(sidebar, width);
+    min-width: crmsize(sidebar, width, true);
     max-width: 100%; 
 
     &.minimized {
@@ -22,7 +22,7 @@ app-sidebar {
     }
 
     position: fixed;
-    top: crmsize(header, height);
+    top: crmsize(header, height, true);
     left: 0;
     bottom: 0;
     z-index: 110;
@@ -41,17 +41,17 @@ app-sidebar {
   }
   a {
     display: flex;
-    height: crmsize(header, height);
+    height: crmsize(header, height, true);
     align-items: center;
     padding: 0 crmsize(spacer, null, true);
-    color: crmcolor(main, light);
-    transition: background-color $animation-time-style, color $animation-time-style, border-width $animation-time-style;
+    @include crm-textcolor('layout', 'milk');
+    transition: background-color $transition, color $transition, border-width $transition;
 
     &:hover,
     &.active {
       text-decoration: none;
-      background-color: crmcolor(main, light);
-      color: crmcolor(primary, base);
+      @include crm-bgcolor('layout', 'milk');
+      @include crm-textcolor('theme', 'primary');
       border-left: 8px solid;
     }
 

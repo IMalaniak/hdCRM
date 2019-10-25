@@ -1,36 +1,82 @@
-@import '~@angular/material/theming';
 @import "theme.scss";
 
+// CRM Variables
+$transition-time:           0.28s;
+$transition-style:          $mat-fast-out-slow-in-timing-function;
+$transition:                $transition-time $transition-style;
+
+// RESET BOOTSTRAP VARIABLES:
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1440px,
+  xxxl: 1600px
+);
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1350px,
+  xxxl: 1500px
+);
+// remove underline from button links
+$link-hover-decoration: none;    
+
+// set link color based on the used material theme
+$link-color: mat-color($crm-theme-primary, 800);            
+$link-hover-color: currentColor;
+
+// reset bootstrap colors
+$white:     #fff;
+$gray-100:  #f8f9fa;
+$gray-800:  #343a40;
+$gray-900:  #212529;
+$light:       $gray-100;
+$dark:        $gray-800;
+$blue:        mat-color($crm-theme-primary, 600);
+$indigo:      mat-color($mat-purple, 500);
+$purple:      mat-color($mat-purple, 600);
+$pink:        mat-color($mat-pink, 500);
+$red:         mat-color($crm-theme-warn, 600);
+$orange:      mat-color($mat-amber, 800);
+$yellow:      mat-color($mat-amber, 400);
+$green:       mat-color($crm-theme-accent, A400);
+$teal:        mat-color($crm-theme-accent, 300);
+$cyan:        mat-color($crm-theme-primary, 300);
+
+// reset bootstrap transitions
+$btn-transition: color $transition, background-color $transition, border-color $transition, box-shadow $transition;
+$custom-forms-transition: background-color $transition, border-color $transition, box-shadow $transition;
+
+// Bootstrap options:
+$enable-responsive-font-sizes: true;
+
+// variable prefixes for CSS4 output
+$color-prefix: --crmcolor-;
+$size-prefix: --crmsize-;
+
+
+
+// CRM Maps
 // color variable map
 $crmcolors: (
-  main: (
-    base: #FFF,
-    light: #FFF,
-    dark: lighten(#000, 10%)
+  'layout': (
+    'background': $white,
+    'milk': $gray-100,
+    'dark': $gray-900
   ),
-  primary: (
-    base: mat-color($crm-theme-primary, 600),
-    light: mat-color($crm-theme-primary, 400),
-    dark: mat-color($crm-theme-primary, 800)
-  ),
-  secondary: (
-    base: #0969A2,
-    light: #f8f8f8,
-    dark: darken(#f8f8f8, 8%)
-  ),
-  accent: (
-    base: mat-color($crm-theme-accent, 800),
-    light: mat-color($crm-theme-accent, 600),
-    dark: mat-color($crm-theme-accent, 900)
-  ),
-  warn: (
-    base: mat-color($crm-theme-warn, 600),
-    light: mat-color($crm-theme-warn, 400),
-    dark: mat-color($crm-theme-warn, 800)
-  ),
-  highlight: (
-    success: mat-color($crm-theme-accent, A400),
-    error: mat-color($crm-theme-warn, 600),
+  'theme': (
+    'primary': $blue,
+    'secondary': $teal,
+    'accent': $green,
+    'warn': $red,
+    'light': $light,
+    'dark': $dark
   )
 );
 
@@ -50,34 +96,3 @@ $crmsizes: (
   userpic: 3rem,
   spacer: 1em
 );
-
-$grid-breakpoints: (
-  xs: 0,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px
-);
-
-// reset bootstrap variables:
-
-// remove underline from button links
-$link-hover-decoration: none;    
-
-// set link color based on the used material theme
-$link-color: mat-color($crm-theme-primary, 800);            
-$link-hover-color: currentColor;
-$theme-colors: (
-  "primary": mat-color($crm-theme-primary, 600),
-  "danger": mat-color($crm-theme-warn, 600),
-  "success": mat-color($crm-theme-accent, A400),
-);
-
-// variable prefixes for CSS4 output
-$color-prefix: --crmcolor-;
-$size-prefix: --crmsize-;
-
-//OTHER
-$animation-time: .26s;
-$animation-style: ease-in-out;
-$animation-time-style: $animation-time $animation-style;

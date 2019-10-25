@@ -9,7 +9,7 @@
       display: block;
       width: 55%;
       border-radius: 50%;
-      border: .25rem solid crmcolor(main, light);
+      border: .25rem solid crmcolor('layout', 'milk', true);
       position: relative;
       margin-top: -28%;
       margin-bottom: 1.5em;
@@ -49,16 +49,16 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: crmcolor(primary, light);
-    color: crmcolor(main, base);
+    @include crm-bgcolor('theme', 'primary');
+    @include crm-textcolor('layout', 'background');
     cursor: pointer;
     border: 0.10rem solid;
     transform: scale(0);
-    transition: transform $animation-time-style, background $animation-time-style;
+    transition: transform $transition, background $transition;
     z-index: 1;
 
     &.cancel {
-      background: crmcolor(warn, light);
+      @include crm-bgcolor('theme', 'warn');
     }
   }
 

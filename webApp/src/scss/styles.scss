@@ -26,9 +26,6 @@ body {
   max-width: 100vw;
   overflow: hidden;
   font-family: 'Ubuntu', Arial, sans-serif;
-  font-size: crmsize(font);
-  background: crmcolor(main, base);
-  color: crmcolor(main, dark);
 }
 
 .grid {
@@ -64,7 +61,7 @@ main {
     display: block;
     z-index: 3;
     visibility: hidden;
-    transition: visibility $animation-time-style, background-color $animation-time-style;
+    transition: visibility $transition, background-color $transition;
 
     &.isVisible {
       background-color: rgba(0,0,0,.6);
@@ -94,19 +91,18 @@ main {
 .breadcrumb {
   margin: 0;
   padding: 0.5*crmsize(spacer, null, true) crmsize(spacer, null, true);
-  background: crmcolor(main, dark);
-  color: crmcolor(secondary, light);
+  @include crm-bgcolor('layout', 'dark');
+  @include crm-textcolor('layout', 'milk');
 
   a {
     display: inherit;
-    color: crmcolor(secondary, light);
+    @include crm-textcolor('layout', 'milk');
   }
 
   > li {
     display: inline-flex;
     justify-content: center;
     align-content: center;
-
   }
 }
 
@@ -125,7 +121,7 @@ main {
   }
 
   .mat-column-avatar {
-    flex: 0 0 crmsize(userpic);
+    flex: 0 0 crmsize(userpic, null, true);
     margin-right: 24px;
   }
 
@@ -143,13 +139,13 @@ main {
   .mat-sort-header-button {
     text-transform: uppercase;
     font-style: italic;
-    color: theme-color('primary');
+    @include crm-textcolor('theme', 'primary');
   }
 
 }
 
 .userpic {
-  max-height: crmsize(userpic);
+  max-height: crmsize(userpic, null, true);
   border-radius: 50%;
   
   .list-group-item & {
@@ -221,8 +217,7 @@ main {
     margin-right: 1em;
     vertical-align: middle;
     font-size: 1.25em;
-    //color: rgba(0, 0, 0, 0.54);
-    color: crmcolor(primary, base)
+    @include crm-textcolor('theme', 'primary');
   }
 } 
 

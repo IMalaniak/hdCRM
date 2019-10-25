@@ -19,7 +19,7 @@
 
     li {
         padding: 0.5em 0;
-        border-bottom: 1px solid crmcolor(secondary, dark);
+        border-bottom: 1px solid crmcolor('theme', 'light', true);
 
         &:last-of-type {
             border-bottom: none;

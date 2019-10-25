@@ -3,7 +3,7 @@
 @import "~bootstrap/scss/mixins/_breakpoints";
 
 footer {
-    background-color: crmcolor(main, dark);
+    @include crm-bgcolor('layout', 'dark');
     width: 100%;
     
     .footer-content {
@@ -16,7 +16,7 @@ footer {
         }
 
         h5 {
-            color: crmcolor(main, light);
+            @include crm-textcolor('layout', 'milk');
             text-transform: uppercase;
         }
 
@@ -42,27 +42,27 @@ footer {
             }
 
             .mat-form-field-label {
-                color: crmcolor(main, light);
+                @include crm-textcolor('layout', 'milk');
             }
             
             .mat-form-field-appearance-outline .mat-form-field-outline {
-                color: crmcolor(main, light);
+                @include crm-textcolor('layout', 'milk');
             }
 
             .mat-form-field-appearance-outline .mat-form-field-outline-thick {
-                color: crmcolor(primary, base);
+                @include crm-textcolor('theme', 'primary');
             }
 
             .mat-input-element {
-                color: crmcolor(main, light);
+                @include crm-textcolor('layout', 'milk');
             }
 
             .mat-focused .mat-form-field-required-marker {
-                color: crmcolor(primary, base);
+                @include crm-textcolor('theme', 'primary');
             }
 
             input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active {
-                -webkit-text-fill-color: crmcolor(main, light) !important;
+                -webkit-text-fill-color: crmcolor('layout', 'milk', true) !important;
             }
 
             button {
@@ -102,8 +102,8 @@ footer {
                 }
 
                 fa-icon {
-                    color: crmcolor(main, light);
-                    transition: color 0.2s ease-in-out;
+                    @include crm-textcolor('layout', 'milk');
+                    transition: color $transition;
                     cursor: pointer;
                 }
 
@@ -123,13 +123,13 @@ footer {
     
         .horizontal-line {
             margin: 3em 0 0.5em 0;
-            background-color: crmcolor(main, light);
+            @include crm-bgcolor('layout', 'milk');
             width: 100%;
             height: 1px;
         }
 
         .copyright-text {
-            color: crmcolor(main, light);  
+            @include crm-textcolor('layout', 'milk');
         }
     }
 }

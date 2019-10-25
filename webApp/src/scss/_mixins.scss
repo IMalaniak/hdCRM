@@ -1,28 +1,27 @@
 // retrieve color from map with Sass ie. `color(primary, base)`
-@function crmcolor($color-name, $color-variant:null, $true-val:false) {
-
+@function crmcolor($map, $variant:null, $true-val:false) {
   // we need to return the color value
   @if $true-val == true {
     // color variant is optional
-    @if ($color-variant != null) {
+    @if ($variant != null) {
       // map inception, need two deep
-      @return map-get(map-get($crmcolors,$color-name),$color-variant);
+      @return map-get(map-get($crmcolors,$map),$variant);
 
     } @else {
       // single-level color, one deep
-      @return map-get($crmcolors,$color-name);
+      @return map-get($crmcolors,$map);
 
     }
   // if we're only returning the CSS4 variable
   } @else {
     // color variant is optional
-    @if ($color-variant != null) {
+    @if ($variant != null) {
       // map inception, need two names
-      @return var(#{$color-prefix}#{$color-name}-#{$color-variant});
+      @return var(#{$color-prefix}#{$map}-#{$variant});
 
     } @else {
       // single-level color, one name
-      @return var(#{$color-prefix}#{$color-name});
+      @return var(#{$color-prefix}#{$map});
 
     }
   }
@@ -65,4 +64,14 @@
 // access any variable
 @function v($name) {
   @return var(--#{$name});
+}
+
+@mixin crm-textcolor($map, $variant) {
+  color: crmcolor($map, $variant, true);
+  color: crmcolor($map, $variant);
+}
+
+@mixin crm-bgcolor($map, $variant) {
+  background-color: crmcolor($map, $variant, true);
+  background-color: crmcolor($map, $variant);
 }

@@ -7,25 +7,25 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  min-height: crmsize(header, height);
-  flex-basis: crmsize(header, height);
-  background-color: crmcolor(main, dark);
-  color: crmcolor(main, light);
+  min-height: crmsize(header, height, true);
+  flex-basis: crmsize(header, height, true);
+  @include crm-bgcolor('layout', 'dark');
+  @include crm-textcolor('layout', 'milk');
   box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
   z-index: 101;
 
   .company-logo {
-    width: crmsize(sidebar, width);
-    background-color: crmcolor(main, light);
+    width: crmsize(sidebar, width, true);
+    @include crm-bgcolor('layout', 'milk');
+    @include crm-textcolor('layout', 'dark');
     padding: 0.25*crmsize(spacer, null, true) 0.5*crmsize(spacer, null, true);
-    color: crmcolor(main, dark);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: width $animation-time-style;
+    transition: width $transition;
 
     &.minimized {
-      width: crmsize(sidebar, minimized);
+      width: crmsize(sidebar, minimized, true);
       justify-content: center;
 
       img {
@@ -39,7 +39,7 @@
     }
 
     @include media-breakpoint-down(md) {
-      width: crmsize(sidebar, minimized);
+      width: crmsize(sidebar, minimized, true);
       justify-content: center;
 
       img {
@@ -83,14 +83,14 @@
         opacity: 0;
         visibility: hidden;
         padding: crmsize(spacer, null, true);
-        background-color: crmcolor(main, dark);
+        @include crm-bgcolor('layout', 'dark');
         position: absolute;
         top: 100%;
         right: 0;
         width: 100vw;
         height: calc(100vh - #{$hHeight});
         max-height: calc(100vh - #{$hHeight});
-        transition: opacity $animation-time-style, visibility $animation-time-style;
+        transition: opacity $transition, visibility $transition;
 
         @include media-breakpoint-up(sm) {
           width: 20em;
@@ -156,7 +156,7 @@
       }
     }
     &:not(:checked) + .notification {
-      transition: height $animation-time-style;
+      transition: height $transition;
       height: 0;
       padding: 0;
       font-size: 0;
@@ -190,31 +190,31 @@
     width: 100%;
     border-radius: 10px;
     height: 2px;
-    background: crmcolor(main, dark);
-    transition: all $animation-time-style;
+    @include crm-bgcolor('layout', 'dark');
+    transition: all $transition;
     position: relative;
 
     &:nth-child(1) {
-      animation: ease $animation-time top forwards;
+      animation: ease $transition-time top forwards;
 
       .minimized & {
-        animation: ease $animation-time top-2 forwards;
+        animation: ease $transition-time top-2 forwards;
       }
     }
 
     &:nth-child(2) {
-      animation: ease $animation-time scaled forwards;
+      animation: ease $transition-time scaled forwards;
 
       .minimized & {
-        animation: ease $animation-time scaled-2 forwards;
+        animation: ease $transition-time scaled-2 forwards;
       }
     }
 
     &:nth-child(3) {
-      animation: ease $animation-time bottom forwards;
+      animation: ease $transition-time bottom forwards;
 
       .minimized & {
-        animation: ease $animation-time bottom-2 forwards;
+        animation: ease $transition-time bottom-2 forwards;
       }
     }
   }

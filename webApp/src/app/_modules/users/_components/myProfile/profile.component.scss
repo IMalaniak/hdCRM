@@ -24,7 +24,7 @@
                 position: absolute;
                 width: 100%;
                 bottom: 0;
-                color: crmcolor(main, base);
+                @include crm-textcolor('layout', 'background');
             }
         }
 
@@ -37,7 +37,7 @@
     }
 
     aside {
-        background-color: crmcolor(secondary, light);
+        @include crm-bgcolor('layout', 'milk');
         padding-bottom: 1em;
 
         .img-avatar {
@@ -45,7 +45,7 @@
                 display: block;
                 width: 60%;
                 border-radius: 50%;
-                border: .25rem solid crmcolor(main, light);
+                border: .25rem solid crmcolor('layout', 'milk', true);
                 position: relative;
                 margin-top: -30%;
             } 
@@ -57,7 +57,7 @@
 
         h3 {
             display: block;
-            color: crmcolor(main, dark);
+            @include crm-textcolor('layout', 'dark');
 
             @include media-breakpoint-up(md) {
                 display: none;
@@ -88,14 +88,14 @@
             }
 
             fa-icon {
-                color: crmcolor(primary, base);
+                @include crm-textcolor('theme', 'primary');
                 margin-right: 0.5em;
             }
         }
     }
 
     .tabs {
-        background-color: crmcolor(main, base); 
+        @include crm-bgcolor('layout', 'background');
 
         mat-list-item {
             section {

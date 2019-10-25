@@ -19,7 +19,7 @@
 
   .mat-column-actions {
     .trash {
-      color: crmcolor(warn, base, true);
+      @include crm-textcolor('theme', 'warn');
     }
   }
 }
