@@ -27,6 +27,7 @@
 
   div[buttons] {
     max-width: 50%;
+    display: flex;
 
     button {
       + button {
