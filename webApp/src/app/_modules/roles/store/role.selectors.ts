@@ -61,3 +61,8 @@ export const selectPrivilegesLoading = createSelector(
   selectPrivilegesState,
   privilegeState => privilegeState.loading
 );
+
+export const selectRolesDashboardDataLoaded = createSelector(
+  selectRolesState,
+  roleState => roleState.dashboardDataLoaded
+);

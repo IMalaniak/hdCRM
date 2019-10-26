@@ -8,7 +8,7 @@ import { RoleService, PrivilegeService } from '../_services';
 import { AppState } from '@/core/reducers';
 import { RoleServerResponse, Privilege, Role } from '../_models';
 import Swal from 'sweetalert2';
-import { allPrivilegesLoaded } from './role.selectors';
+import { allPrivilegesLoaded, selectRolesDashboardDataLoaded } from './role.selectors';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -119,6 +119,19 @@ export class RoleEffects {
           })
         )
       )
+    );
+
+    @Effect()
+    loadDashboardData$ = this.actions$.pipe(
+        ofType<roleActions.RoleDashboardDataRequested>(roleActions.RoleActionTypes.ROLE_DASHBOARD_DATA_REQUESTED),
+        withLatestFrom(this.store.pipe(select(selectRolesDashboardDataLoaded))),
+        filter(([action, rolesDashboardDataLoaded]) => !rolesDashboardDataLoaded),
+        mergeMap(() => this.roleService.getDashboardData()),
+        map(resp => new roleActions.RoleDashboardDataLoaded(resp)),
+        catchError(err => {
+          console.log('error loading dep data for dashboard ', err);
+          return throwError(err);
+        })
     );
 
     constructor(

@@ -14,8 +14,8 @@ export enum DepartmentActionTypes {
   DEPARTMENT_LIST_PAGE_REQUESTED = '[Departments List] Departments Page Requested',
   DEPARTMENT_LIST_PAGE_LOADED = '[Departments API] Departments Page Loaded',
   DEPARTMENT_LIST_PAGE_CANCELLED = '[Departments API] Departments Page Cancelled',
-  DEPARTMENT_DASHBOARD_DATA_REQUESTED = '[Dashboard] Dashboard Data Requested',
-  DEPARTMENT_DASHBOARD_DATA_LOADED = '[Dashboard] Dashboard Data Loaded'
+  DEPARTMENT_DASHBOARD_DATA_REQUESTED = '[Dashboard] Department Data Requested',
+  DEPARTMENT_DASHBOARD_DATA_LOADED = '[Dashboard] Department Data Loaded'
 }
 
 export class DepartmentRequested implements Action {

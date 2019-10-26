@@ -65,7 +65,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     // combine 2 observables and compare values => return boolean
     const combine = combineLatest([this.editDepartmentPrivilege$, this.appUser$]);
     return combine.pipe(
-      map(res => (res[0] || (res[1].id === this.department.managerId)))
+      map(([editPriv, appUser]) => (editPriv || (appUser.id === this.department.managerId)))
     );
   }
 

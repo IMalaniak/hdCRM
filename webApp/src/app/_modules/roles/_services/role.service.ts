@@ -43,6 +43,10 @@ export class RoleService {
       );
   }
 
+  getDashboardData(): Observable<RoleServerResponse> {
+    return this.http.get<RoleServerResponse>(`${this.api}/dashboard`);
+  }
+
   formatBeforeSend(role: Role): Role {
     if (role.Users) {
       role.Users = role.Users.map(user => {

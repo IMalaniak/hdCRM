@@ -20,7 +20,9 @@ export enum RoleActionTypes {
   ALLPRIVILEGES_REQUESTED = '[Privileges List] Privileges List Requested',
   ALLPRIVILEGES_REQUEST_CANCELED = '[Privileges List] Privileges List Request Canceled',
   ALLPRIVILEGES_LOADED = '[Privileges API] Privileges List Loaded',
-  PRIVILEGE_SAVED = '[Privileges Dialog Window] Privilege Saved'
+  PRIVILEGE_SAVED = '[Privileges Dialog Window] Privilege Saved',
+  ROLE_DASHBOARD_DATA_REQUESTED = '[Dashboard] Roles Data Requested',
+  ROLE_DASHBOARD_DATA_LOADED = '[Dashboard] Roles Data Loaded'
 }
 
 export class CreateRole implements Action {
@@ -95,14 +97,21 @@ export class CreatePrivilege implements Action {
 
 export class CreatePrivilegeSuccess implements Action {
   readonly type = RoleActionTypes.PRIVILEGE_CREATE_SUCCESS;
-
   constructor(public payload: {privilege: Privilege}) { }
 }
 
 export class CreatePrivilegeFail implements Action {
   readonly type = RoleActionTypes.PRIVILEGE_CREATE_FAIL;
-
   constructor(public payload: string) { }
+}
+
+export class RoleDashboardDataRequested implements Action {
+  readonly type = RoleActionTypes.ROLE_DASHBOARD_DATA_REQUESTED;
+}
+
+export class RoleDashboardDataLoaded implements Action {
+  readonly type = RoleActionTypes.ROLE_DASHBOARD_DATA_LOADED;
+  constructor(public payload: RoleServerResponse) {}
 }
 
 export type RoleActions = RoleRequested
@@ -121,4 +130,6 @@ export type RoleActions = RoleRequested
   | PrivilegeSaved
   | CreatePrivilege
   | CreatePrivilegeSuccess
-  | CreatePrivilegeFail;
+  | CreatePrivilegeFail
+  | RoleDashboardDataRequested
+  | RoleDashboardDataLoaded;

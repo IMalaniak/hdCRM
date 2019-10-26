@@ -9,6 +9,30 @@ import { Op } from 'sequelize';
 @Controller('roles/')
 export class RoleController {
 
+    @Get('dashboard')
+    @Middleware([Passport.authenticate()])
+    private getDashboardData(req: Request, res: Response) {
+        Logger.Info(`Geting roles dashboard data...`);
+        db.Role.findAndCountAll({
+            attributes: ['keyString', 'id'],
+            include: [
+                {
+                    model: db.User,
+                    attributes: ['id'],
+                    required: true
+                }
+            ],
+            order: [
+                ['id', 'ASC']
+            ]
+        }).then(data => {
+            res.status(OK).json({list: data.rows, count: data.count});
+        }).catch((error: any) => {
+            Logger.Err(error);
+            return res.status(BAD_REQUEST).json(error.toString());
+        });
+    }
+
     @Post('')
     @Middleware([Passport.authenticate()])
     private create(req: Request, res: Response) {

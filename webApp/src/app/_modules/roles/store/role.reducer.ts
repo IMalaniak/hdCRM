@@ -8,6 +8,7 @@ export interface RolesState extends EntityState<Role> {
   loading: boolean;
   pages: number;
   countAll: number;
+  dashboardDataLoaded: boolean;
   error: string;
 }
 
@@ -19,6 +20,7 @@ export const initialRolesState: RolesState = adapter.getInitialState({
   loading: false,
   pages: null,
   countAll: null,
+  dashboardDataLoaded: false,
   error: null
 });
 
@@ -59,6 +61,9 @@ export function rolesReducer(state = initialRolesState , action: RoleActions): R
 
     case RoleActionTypes.ROLE_SAVED:
       return adapter.updateOne(action.payload.role, state);
+
+    case RoleActionTypes.ROLE_DASHBOARD_DATA_LOADED:
+      return adapter.upsertMany(action.payload.list, {...state, countAll: action.payload.count, dashboardDataLoaded: true});
 
     default: {
       return state;
