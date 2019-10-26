@@ -11,24 +11,18 @@ import { User } from '@/_modules/users';
 })
 export class RegisterUserComponent implements OnInit {
   user: User;
-  // roles: Role[];
-  langs: string[];
   userData: FormGroup;
   hidePassword = true;
   selectedRolesIds: number[];
 
   constructor(
     private authService: AuthenticationService,
-    // private roleService: RoleService,
     private _formBuilder: FormBuilder
   ) {
     this.user = new User();
   }
 
   ngOnInit() {
-    // this.roleService.getFullList().subscribe(roles => {
-    //   this.roles = roles;
-    // });
     this.userData = this._formBuilder.group({
       formArray: this._formBuilder.array([
         this._formBuilder.group({
@@ -52,18 +46,17 @@ export class RegisterUserComponent implements OnInit {
           name: new FormControl('', [
             Validators.required,
             Validators.maxLength(25),
-            Validators.pattern('[~`!@#$%^&()_={}\\[\\]\\:;,\\.\\/<>\\\\*\\-+\\?]'),
+            Validators.pattern('^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.\'-]+$'),
           ]),
           surname: new FormControl('', [
             Validators.required,
             Validators.maxLength(25),
-            Validators.pattern('^[a-zA-Z]+$'),
+            Validators.pattern('^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.\'-]+$'),
           ]),
           phone: new FormControl('', [
             Validators.required,
             Validators.pattern('^[0-9]+$')
-          ]),
-          // defaultLang: new FormControl('en', Validators.required)
+          ])
         }),
       ])
     });

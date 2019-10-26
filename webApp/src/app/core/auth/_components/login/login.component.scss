@@ -1,6 +1,7 @@
 @import 'variables';
 @import 'mixins';
 @import "~bootstrap/scss/mixins/_gradients";
+@import "~bootstrap/scss/mixins/_breakpoints";
 
 .login-section {
     width: 100%;
@@ -11,8 +12,12 @@
     @include gradient-radial(crmcolor('theme', 'primary', true), crmcolor('layout', 'dark', true));
     
     form {
-        width: 20em;
-        margin: 0 auto;
+        width: 100%;
+
+        @include media-breakpoint-up(sm) {
+            width: 20em;
+            margin: 0 auto;
+        }
     }
 
     .success-message, .failed-message, .process-message {
