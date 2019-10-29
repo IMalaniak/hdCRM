@@ -31,7 +31,10 @@ export const PasswordAttributeFactory = (sequelize: Sequelize): void => {
             autoIncrement: true,
             primaryKey: true,
         },
-        token: DataTypes.STRING,
+        token: {
+            type: DataTypes.STRING,
+            unique: true,
+        },
         tokenExpire: DataTypes.DATE,
         passwordExpire: DataTypes.DATE
     }, {

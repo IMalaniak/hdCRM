@@ -9,12 +9,21 @@ import { Op } from 'sequelize';
 @Controller('roles/')
 export class RoleController {
 
+    // TODO: change to user type
+    currentUser: any;
+
     @Get('dashboard')
     @Middleware([Passport.authenticate()])
     private getDashboardData(req: Request, res: Response) {
         Logger.Info(`Geting roles dashboard data...`);
+        // TODO: req.user type
+        this.currentUser = req.user;
+
         db.Role.findAndCountAll({
             attributes: ['keyString', 'id'],
+            where: {
+                OrganizationId: this.currentUser.OrganizationId
+            },
             include: [
                 {
                     model: db.User,
@@ -37,8 +46,11 @@ export class RoleController {
     @Middleware([Passport.authenticate()])
     private create(req: Request, res: Response) {
         Logger.Info(`Creating new role...`);
+        this.currentUser = req.user;
+
         db.Role.create({
-            keyString: req.body.keyString
+            keyString: req.body.keyString,
+            OrganizationId: this.currentUser.OrganizationId
         }).then(createdRole => {
             this.findRoleById(createdRole.id).then(role => {
                 if (req.body.Privileges) {

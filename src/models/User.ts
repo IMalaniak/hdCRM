@@ -6,6 +6,7 @@ import { Role } from './Role';
 import { Plan } from './Plan';
 import { Asset } from './Asset';
 import { Department } from './Department';
+import { Organization } from './Organization';
 
 export class User extends Model {
     public id!: number;
@@ -23,9 +24,13 @@ export class User extends Model {
     public readonly updatedAt!: Date;
 
     // from assotiations
+    public OrganizationId!: number;
     public StateId!: number;
     public avatarId!: number;
     public DepartmentId!: number;
+
+    public getOrganization!: BelongsToGetAssociationMixin<Organization>;
+    public setOrganization!: BelongsToSetAssociationMixin<Organization, number>;
 
     public addRole!: BelongsToManyAddAssociationMixin<Role, number>;
     public addRoles!: BelongsToManyAddAssociationsMixin<Role, number>;
@@ -75,7 +80,7 @@ export class User extends Model {
     public getPasswordAttributes!: HasOneGetAssociationMixin<PasswordAttribute>;
     public setPasswordAttributes!: HasOneSetAssociationMixin<PasswordAttribute, number>;
 
-
+    public readonly Organization?: Organization;
     public readonly Roles?: Role[];
     public readonly Assets?: Asset[];
     public readonly avatar?: Asset;
@@ -87,6 +92,7 @@ export class User extends Model {
     public readonly PasswordAttributes?: PasswordAttribute;
 
     public static associations: {
+        Organization: Association<User, Organization>;
         Roles: Association<User, Role>;
         Asset: Association<User, Asset>;
         avatar: Association<User, Asset>;

@@ -168,6 +168,8 @@ export class AuthController {
                 ]},
                 include: [
                     {
+                        model: db.Organization
+                    }, {
                         model: db.Role,
                         through: {
                             attributes: []
@@ -228,7 +230,9 @@ export class AuthController {
                         avatar: user.avatar,
                         phone: user.phone,
                         createdAt: user.createdAt,
-                        updatedAt: user.updatedAt
+                        updatedAt: user.updatedAt,
+                        Organization: user.Organization,
+                        OrganizationId: user.OrganizationId
                     };
 
                     if (user.Roles && user.Roles.length > 0) {

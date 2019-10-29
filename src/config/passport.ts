@@ -28,6 +28,8 @@ export class Passport {
 				attributes: { exclude: ['passwordHash', 'salt'] },
 				include: [
 					{
+						model: db.Organization
+					}, {
 						model: db.Role,
 						through: {
 							attributes: []

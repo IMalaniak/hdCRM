@@ -15,6 +15,8 @@ import jimp from 'jimp';
 export class UserController {
 
     unlinkAsync = promisify(fs.unlink);
+    // TODO: change to user type
+    currentUser: any;
 
     @Get(':id')
     @Middleware([Passport.authenticate()])
@@ -32,12 +34,18 @@ export class UserController {
     @Middleware([Passport.authenticate()])
     private getAll(req: Request, res: Response) {
         Logger.Info(`Selecting all users...`);
+        // TODO: req.user type
+        this.currentUser = req.user;
+
         const queryParams = req.query;
         const limit = parseInt(queryParams.pageSize);
         const offset = parseInt(queryParams.pageIndex) * limit;
 
         db.User.findAndCountAll({
             attributes: { exclude: ['passwordHash', 'salt'] },
+            where: {
+                OrganizationId: this.currentUser.OrganizationId
+            },
             include: [
                 {
                     model: db.Role,

@@ -12,6 +12,7 @@ import { Stage, StageFactory } from './Stage';
 import { PlanStage, PlanStageFactory } from './PlanStage';
 import { Department, DepartmentFactory } from './Department';
 import { RolePrivilege, RolePrivilegeFactory } from './RolePrivileges';
+import { OrganizationFactory, Organization } from './Organization';
 
 
 class DataBase {
@@ -23,6 +24,7 @@ class DataBase {
   }
 
   private createModels(): void {
+    OrganizationFactory(this.sequelize);
     AssetFactory(this.sequelize);
     DepartmentFactory(this.sequelize);
     PasswordAttributeFactory(this.sequelize);
@@ -38,6 +40,16 @@ class DataBase {
 
 
     // associations
+    Organization.hasMany(Department);
+    Organization.hasMany(Plan);
+    Organization.hasMany(Role);
+    Organization.hasMany(User);
+
+    Department.belongsTo(Organization);
+    Plan.belongsTo(Organization);
+    Role.belongsTo(Organization);
+    User.belongsTo(Organization);
+
     User.belongsToMany(Role, {through: 'UserRoles', foreignKey: 'UserId'});
     User.belongsToMany(Asset, {through: 'UserAssets', foreignKey: 'UserId'});
     User.belongsTo(Asset, {as: 'avatar'});
@@ -81,4 +93,4 @@ class DataBase {
 
 export default DataBase;
 
-export { Asset, Department, PasswordAttribute, Plan, PlanStage, Privilege, Role, Stage, State, User, UserLoginHistory, Sequelize };
+export { Asset, Department, PasswordAttribute, Plan, PlanStage, Privilege, Role, Stage, State, User, UserLoginHistory, Organization, Sequelize };

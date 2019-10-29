@@ -15,6 +15,8 @@ import jimp from 'jimp';
 export class PlanController {
 
     unlinkAsync = promisify(fs.unlink);
+    // TODO: change to user type
+    currentUser: any;
 
     @Get(':id')
     @Middleware([Passport.authenticate()])
@@ -32,11 +34,17 @@ export class PlanController {
     @Middleware([Passport.authenticate()])
     private getAll(req: Request, res: Response) {
         Logger.Info(`Selecting all plans...`);
+        // TODO: req.user type
+        this.currentUser = req.user;
+
         const queryParams = req.query;
         const limit = parseInt(queryParams.pageSize);
         const offset = parseInt(queryParams.pageIndex) * limit;
 
         db.Plan.findAndCountAll({
+            where: {
+                OrganizationId: this.currentUser.OrganizationId
+            },
             include: [
                 {
                     model: db.User,
@@ -111,6 +119,7 @@ export class PlanController {
     @Middleware([Passport.authenticate()])
     private create(req: Request, res: Response) {
         Logger.Info(`Creating new plan...`);
+        this.currentUser = req.user;
         const finish = function(planId: number) {
             this.findPlanById(planId).then(plan => {
                 return res.status(OK).json(plan);
@@ -125,7 +134,8 @@ export class PlanController {
             budget: req.body.budget,
             deadline: req.body.deadline,
             description: req.body.description,
-            progress: 0
+            progress: 0,
+            OrganizationId: this.currentUser.OrganizationId
         }).then(plan => {
             db.User.findByPk(req.body.CreatorId).then(user => {
                 plan.setCreator(user).then(() => {

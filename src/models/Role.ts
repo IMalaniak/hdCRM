@@ -1,6 +1,7 @@
-import { Sequelize, Model, DataTypes, Association, BelongsToManyAddAssociationMixin, BelongsToManyAddAssociationsMixin, BelongsToManyCountAssociationsMixin, BelongsToManyCreateAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManyHasAssociationMixin, BelongsToManyHasAssociationsMixin, BelongsToManyRemoveAssociationMixin, BelongsToManyRemoveAssociationsMixin, BelongsToManySetAssociationsMixin } from 'sequelize';
+import { Sequelize, Model, DataTypes, Association, BelongsToManyAddAssociationMixin, BelongsToManyAddAssociationsMixin, BelongsToManyCountAssociationsMixin, BelongsToManyCreateAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManyHasAssociationMixin, BelongsToManyHasAssociationsMixin, BelongsToManyRemoveAssociationMixin, BelongsToManyRemoveAssociationsMixin, BelongsToManySetAssociationsMixin, BelongsToGetAssociationMixin, BelongsToSetAssociationMixin } from 'sequelize';
 import { User } from './User';
 import { Privilege } from './Privilege';
+import { Organization } from './Organization';
 
 export class Role extends Model {
     public id!: number;
@@ -9,6 +10,12 @@ export class Role extends Model {
     // timestamps
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
+
+    // from assotiations
+    public OrganizationId!: number;
+
+    public getOrganization!: BelongsToGetAssociationMixin<Organization>;
+    public setOrganization!: BelongsToSetAssociationMixin<Organization, number>;
 
     public addUser!: BelongsToManyAddAssociationMixin<User, number>;
     public addUsers!: BelongsToManyAddAssociationsMixin<User, number>;
@@ -32,10 +39,12 @@ export class Role extends Model {
     public removePrivileges!: BelongsToManyRemoveAssociationsMixin<Privilege, number>;
     public setPrivileges!: BelongsToManySetAssociationsMixin<Privilege, number>;
 
+    public readonly Organization?: Organization;
     public readonly Users?: User[];
     public readonly Privileges?: Privilege[];
 
     public static associations: {
+        Organization: Association<Role, Organization>;
         Users: Association<Role, User>;
         Privileges: Association<Role, Privilege>;
     };

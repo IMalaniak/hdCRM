@@ -9,13 +9,21 @@ import Passport from '../../config/passport';
 @Controller('departments/')
 export class DepartmentController {
 
+    // TODO: change to user type
+    currentUser: any;
 
     @Get('dashboard')
     @Middleware([Passport.authenticate()])
     private getDashboardData(req: Request, res: Response) {
         Logger.Info(`Geting departments dashboard data...`);
+        // TODO: req.user type
+        this.currentUser = req.user;
+
         db.Department.findAndCountAll({
             attributes: ['title', 'id'],
+            where: {
+                OrganizationId: this.currentUser.OrganizationId
+            },
             include: [
                 {
                     model: db.User,
@@ -51,11 +59,17 @@ export class DepartmentController {
     @Middleware([Passport.authenticate()])
     private getAll(req: Request, res: Response) {
         Logger.Info(`Selecting all departments...`);
+        // TODO: req.user type
+        this.currentUser = req.user;
+
         const queryParams = req.query;
         const limit = parseInt(queryParams.pageSize);
         const offset = parseInt(queryParams.pageIndex) * limit;
 
         db.Department.findAndCountAll({
+            where: {
+                OrganizationId: this.currentUser.OrganizationId
+            },
             include: [
                 {
                     model: db.Department,
@@ -108,10 +122,13 @@ export class DepartmentController {
     @Middleware([Passport.authenticate()])
     private create(req: Request, res: Response) {
         Logger.Info(`Creating new department...`);
+        this.currentUser = req.user;
+
         db.Department.create({
             title: req.body.title,
             description: req.body.description,
-            managerId: req.body.Manager.id
+            managerId: req.body.Manager.id,
+            OrganizationId: this.currentUser.OrganizationId
         }).then(dep => {
             const addParentDepPromise = req.body.ParentDepartment ? this.addParentDepPr(dep, req.body.ParentDepartment) : Promise.resolve(true);
             const addSubDepartmentsPromise = req.body.SubDepartments && req.body.SubDepartments.length > 0 ? this.addSubDepartmentsPr(dep, req.body.SubDepartments) : Promise.resolve(true);

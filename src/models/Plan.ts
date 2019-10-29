@@ -2,6 +2,7 @@ import { Sequelize, Model, DataTypes, BelongsToManyAddAssociationMixin, BelongsT
 import { User } from './User';
 import { Asset } from './Asset';
 import { Stage } from './Stage';
+import { Organization } from './Organization';
 
 export class Plan extends Model {
     public id!: number;
@@ -16,8 +17,12 @@ export class Plan extends Model {
     public readonly updatedAt!: Date;
 
     // from assotiations
+    public OrganizationId!: number;
     public CreatorId!: number;
     public activeStageId!: number;
+
+    public getOrganization!: BelongsToGetAssociationMixin<Organization>;
+    public setOrganization!: BelongsToSetAssociationMixin<Organization, number>;
 
     public createCreator!: BelongsToCreateAssociationMixin<User>;
     public getCreator!: BelongsToGetAssociationMixin<User>;
@@ -60,7 +65,7 @@ export class Plan extends Model {
     public removeStages!: BelongsToManyRemoveAssociationsMixin<Stage, number>;
     public setStages!: BelongsToManySetAssociationsMixin<Stage, number>;
 
-
+    public readonly Organization?: Organization;
     public readonly Participants?: User[];
     public readonly Documents?: Asset[];
     public readonly Creator?: User;
@@ -69,6 +74,7 @@ export class Plan extends Model {
 
 
     public static associations: {
+        Organization: Association<Plan, Organization>;
         Participants: Association<Plan, User>;
         Documents: Association<Plan, Asset>;
         Creator: Association<Plan, User>;

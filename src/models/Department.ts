@@ -1,6 +1,7 @@
 import { Sequelize, Model, DataTypes, HasManyAddAssociationMixin, HasManyAddAssociationsMixin, HasManyCountAssociationsMixin, HasManyCreateAssociationMixin, HasManyGetAssociationsMixin, HasManyHasAssociationMixin, HasManyHasAssociationsMixin, HasManyRemoveAssociationMixin, HasManyRemoveAssociationsMixin, HasManySetAssociationsMixin, BelongsToCreateAssociationMixin, BelongsToGetAssociationMixin, BelongsToSetAssociationMixin, Association } from 'sequelize';
 import { User } from './User';
 import { Stage } from './Stage';
+import { Organization } from './Organization';
 
 export class Department extends Model {
     public id!: number;
@@ -15,8 +16,12 @@ export class Department extends Model {
     public readonly updatedAt!: Date;
 
     // from assotiations
+    public OrganizationId!: number;
     public parentDepId!: number;
     public managerId!: number;
+
+    public getOrganization!: BelongsToGetAssociationMixin<Organization>;
+    public setOrganization!: BelongsToSetAssociationMixin<Organization, number>;
 
     public createParentDepartment!: BelongsToCreateAssociationMixin<User>;
     public getParentDepartment!: BelongsToGetAssociationMixin<User>;
@@ -48,12 +53,14 @@ export class Department extends Model {
     public getManager!: BelongsToGetAssociationMixin<Stage>;
     public setManager!: BelongsToSetAssociationMixin<Stage, number>;
 
+    public readonly Organization?: Organization;
     public readonly ParentDepartment?: Department;
     public readonly SubDepartments?: Department[];
     public readonly Workers?: User[];
     public readonly Manager?: User;
 
     public static associations: {
+        Organization: Association<Department, Organization>;
         ParentDepartment: Association<Department, Department>;
         SubDepartments: Association<Department, Department>;
         Workers: Association<Department, User>;
