@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl
+} from '@angular/forms';
 import Swal from 'sweetalert2';
 import { AuthenticationService } from '../../_services';
-import { User } from '@/_modules/users';
+import { User, Organization } from '@/_modules/users';
 
 @Component({
   selector: 'app-register-user',
@@ -14,12 +20,14 @@ export class RegisterUserComponent implements OnInit {
   userData: FormGroup;
   hidePassword = true;
   selectedRolesIds: number[];
+  disabled = false;
 
   constructor(
     private authService: AuthenticationService,
     private _formBuilder: FormBuilder
   ) {
     this.user = new User();
+    this.user.Organization = new Organization();
   }
 
   ngOnInit() {
@@ -30,11 +38,13 @@ export class RegisterUserComponent implements OnInit {
             Validators.required,
             Validators.minLength(6),
             Validators.maxLength(25),
-            Validators.pattern('^[a-zA-Z0-9]+$'),
+            Validators.pattern('^[a-zA-Z0-9]+$')
           ]),
           email: new FormControl('', [
             Validators.required,
-            Validators.pattern('^([A-Z|a-z|0-9](\.|_){0,1})+[A-Z|a-z|0-9]\@([A-Z|a-z|0-9])+((\.){0,1}[A-Z|a-z|0-9]){2}\.[a-z]{2,3}$')
+            Validators.pattern(
+              '^([A-Z|a-z|0-9](.|_){0,1})+[A-Z|a-z|0-9]@([A-Z|a-z|0-9])+((.){0,1}[A-Z|a-z|0-9]){2}.[a-z]{2,3}$'
+            )
           ]),
           password: new FormControl('', [
             Validators.required,
@@ -46,18 +56,38 @@ export class RegisterUserComponent implements OnInit {
           name: new FormControl('', [
             Validators.required,
             Validators.maxLength(25),
-            Validators.pattern('^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.\'-]+$'),
+            Validators.pattern(
+              '^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.\'-]+$'
+            )
           ]),
           surname: new FormControl('', [
             Validators.required,
             Validators.maxLength(25),
-            Validators.pattern('^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.\'-]+$'),
+            Validators.pattern(
+              '^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.\'-]+$'
+            )
           ]),
           phone: new FormControl('', [
             Validators.required,
             Validators.pattern('^[0-9]+$')
           ])
         }),
+        this._formBuilder.group({
+          companyInfoSelect: new FormControl(''),
+          companyName: new FormControl('', [
+            Validators.required,
+            Validators.maxLength(50),
+            Validators.pattern(
+              '^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.\'-]+$'
+            )
+          ]),
+          siteUrl: new FormControl('', [
+            Validators.required,
+            Validators.pattern(
+              '^(http://www.|https://www.|http://|https://)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$'
+            )
+          ])
+        })
       ])
     });
 
@@ -71,23 +101,72 @@ export class RegisterUserComponent implements OnInit {
         ]);
       }
       this.password.updateValueAndValidity();
-    })
+    });
+
+    this.companyInfoSelect.valueChanges.subscribe(value => {
+      if (value === 'company') {
+        this.companyName.setValidators([
+          Validators.required,
+          Validators.maxLength(50),
+          Validators.pattern(
+            '^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.\'-]+$'
+          )
+        ]);
+        this.siteUrl.setValidators(null);
+        this.siteUrl.reset();
+      } else if (value === 'private') {
+        this.siteUrl.setValidators([
+          Validators.required,
+          Validators.pattern(
+            '^(http://www.|https://www.|http://|https://)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$'
+          )
+        ]);
+        this.companyName.setValidators(null);
+        this.companyName.reset();
+      }
+      this.companyName.updateValueAndValidity();
+      this.siteUrl.updateValueAndValidity();
+    });
   }
 
   // onRoleSelect(list) {
   //   this.selectedRolesIds = list.selectedOptions.selected.map(item => item.value);
   // }
 
-  get formArray(): AbstractControl | null { return this.userData.get('formArray'); }
-  get login() { return this.formArray.get([0]).get('login'); }
-  get password() { return this.formArray.get([0]).get('password'); }
-  get generatePassword() { return this.formArray.get([0]).get('generatePassword'); }
-  get email() { return this.formArray.get([0]).get('email'); }
-  get name() { return this.formArray.get([1]).get('name'); }
-  get surname() { return this.formArray.get([1]).get('surname'); }
-  get phone() { return this.formArray.get([1]).get('phone'); }
+  get formArray(): AbstractControl | null {
+    return this.userData.get('formArray');
+  }
+  get login() {
+    return this.formArray.get([0]).get('login');
+  }
+  get password() {
+    return this.formArray.get([0]).get('password');
+  }
+  get generatePassword() {
+    return this.formArray.get([0]).get('generatePassword');
+  }
+  get email() {
+    return this.formArray.get([0]).get('email');
+  }
+  get name() {
+    return this.formArray.get([1]).get('name');
+  }
+  get surname() {
+    return this.formArray.get([1]).get('surname');
+  }
+  get phone() {
+    return this.formArray.get([1]).get('phone');
+  }
   // get defaultLang() { return this.formArray.get([1]).get('defaultLang'); }
-
+  get companyInfoSelect() {
+    return this.formArray.get([2]).get('companyInfoSelect');
+  }
+  get companyName() {
+    return this.formArray.get([2]).get('companyName');
+  }
+  get siteUrl() {
+    return this.formArray.get([2]).get('siteUrl');
+  }
 
   onRegisterSubmit() {
     this.user.login = this.login.value;
@@ -98,12 +177,15 @@ export class RegisterUserComponent implements OnInit {
     this.user.name = this.name.value;
     this.user.surname = this.surname.value;
     this.user.phone = this.phone.value;
+    if (this.companyName.value) {
+      this.user.Organization.companyName = this.companyName.value;
+    } else if (this.siteUrl.value) {
+      this.user.Organization.siteUrl = this.siteUrl.value;
+    }
     // this.user.defaultLang = this.defaultLang.value;
-
     // if (this.selectedRolesIds.length) {
     //   this.user.selectedRoleIds = this.selectedRolesIds;
     // }
-
     this.authService.registerUser(this.user).subscribe(
       data => {
         Swal.fire({
@@ -113,6 +195,7 @@ export class RegisterUserComponent implements OnInit {
         });
       },
       error => {
+        this.disabled = false;
         Swal.fire({
           title: 'Ooops, something went wrong!',
           type: 'error',

@@ -5,6 +5,7 @@ import { PasswordAttributes } from './passwordAttributes';
 import { Department } from '@/_modules/departments';
 import { State } from './state';
 import { Asset } from '@/_shared/attachments/_models';
+import { Organization } from './organization';
 
 export class User {
   id: number;
@@ -29,6 +30,7 @@ export class User {
   token?: string;
   lastSessionData: UserLoginHistory;
   PasswordAttributes: PasswordAttributes;
+  Organization: Organization;
 
   constructor(input?: any) {
     if (input) {
