@@ -9,18 +9,10 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 import { AppComponent } from './app.component';
 
-
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    CoreModule,
-    BrowserAnimationsModule,
-    SweetAlert2Module.forRoot()
-  ],
+  declarations: [AppComponent],
+  imports: [BrowserModule, CoreModule, BrowserAnimationsModule, SweetAlert2Module.forRoot()],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

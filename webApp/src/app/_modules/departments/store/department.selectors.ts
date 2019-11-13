@@ -7,15 +7,10 @@ import { PageQuery } from '@/core/_models';
 
 export const selectDepartmentsState = createFeatureSelector<DepartmentsState>('departments');
 
-export const selectDepartmentById = (departmentId: number) => createSelector(
-    selectDepartmentsState,
-    departmentsState => departmentsState.entities[departmentId]
-);
+export const selectDepartmentById = (departmentId: number) =>
+  createSelector(selectDepartmentsState, departmentsState => departmentsState.entities[departmentId]);
 
-export const selectAllDepartments = createSelector(
-  selectDepartmentsState,
-  fromDepartment.selectAll
-);
+export const selectAllDepartments = createSelector(selectDepartmentsState, fromDepartment.selectAll);
 
 export const selectDepartmentsLoading = createSelector(
   selectDepartmentsState,
@@ -32,19 +27,20 @@ export const selectDepartmentsTotalCount = createSelector(
   departmentsState => departmentsState.countAll
 );
 
-export const selectDepartmentsPage = (page: PageQuery) => createSelector(
-  selectAllDepartments,
-  selectDepartmentsPagesCount,
-  (allDepartments: Department[], pagesCount: number) => {
-    if (!pagesCount) {
-      return [];
-    } else {
-      const start = page.pageIndex * page.pageSize,
-            end = start + page.pageSize;
-      return allDepartments.slice(start, end);
+export const selectDepartmentsPage = (page: PageQuery) =>
+  createSelector(
+    selectAllDepartments,
+    selectDepartmentsPagesCount,
+    (allDepartments: Department[], pagesCount: number) => {
+      if (!pagesCount) {
+        return [];
+      } else {
+        const start = page.pageIndex * page.pageSize,
+          end = start + page.pageSize;
+        return allDepartments.slice(start, end);
+      }
     }
-  }
-);
+  );
 
 export const selectDashboardDepDataLoaded = createSelector(
   selectDepartmentsState,

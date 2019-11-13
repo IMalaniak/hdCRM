@@ -28,18 +28,15 @@ export class PlanListComponent implements OnInit, AfterViewInit {
   plans$: Observable<Plan[]>;
   dataSource: PlansDataSource;
   loading$: Observable<boolean>;
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
 
   displayedColumns = ['title', 'creator', 'stage', 'participants', 'createdAt', 'updatedAt', 'deadline', 'actions'];
   resultsLength$: Observable<number>;
 
   selection = new SelectionModel<Plan>(true, []);
 
-  constructor(
-    private router: Router,
-    private store: Store<AppState>,
-  ) {}
+  constructor(private router: Router, private store: Store<AppState>) {}
 
   ngOnInit() {
     this.addPlanPrivilege$ = this.store.pipe(select(isPrivileged('plan-add')));
@@ -58,23 +55,13 @@ export class PlanListComponent implements OnInit, AfterViewInit {
     };
 
     this.dataSource.loadPlans(initialPage);
-
   }
 
   ngAfterViewInit() {
-      this.paginator.page
-        .pipe(
-          tap(() => this.loadPlansPage())
-        )
-        .subscribe();
+    this.paginator.page.pipe(tap(() => this.loadPlansPage())).subscribe();
 
-        // TODO: check for other solution
-      this.sort.sortChange
-          .pipe(
-            tap(() => this.loadPlansPage())
-          )
-          .subscribe();
-
+    // TODO: check for other solution
+    this.sort.sortChange.pipe(tap(() => this.loadPlansPage())).subscribe();
   }
 
   loadPlansPage() {
@@ -86,7 +73,6 @@ export class PlanListComponent implements OnInit, AfterViewInit {
     };
 
     this.dataSource.loadPlans(newPage);
-
   }
 
   onPlanSelect(id: number, edit: boolean = false): void {
@@ -103,11 +89,10 @@ export class PlanListComponent implements OnInit, AfterViewInit {
       showCancelButton: true,
       confirmButtonText: 'Yes',
       cancelButtonText: 'Cancel'
-    }).then((result) => {
+    }).then(result => {
       if (result.value) {
-        this.store.dispatch(new DeletePlan({planId}));
+        this.store.dispatch(new DeletePlan({ planId }));
       }
     });
   }
-
 }

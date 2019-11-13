@@ -18,11 +18,7 @@ export const initialChatsState: ChatsState = adapter.getInitialState({
   chats: []
 });
 
-export function chatsReducer(
-    state = initialChatsState, 
-    action: ChatActions
-    ): ChatsState {
-
+export function chatsReducer(state = initialChatsState, action: ChatActions): ChatsState {
   switch (action.type) {
     case ChatActionTypes.CHAT_LIST_PAGE_REQUESTED:
       return {
@@ -32,9 +28,9 @@ export function chatsReducer(
 
     case ChatActionTypes.CHAT_LIST_PAGE_LOADED:
       return adapter.upsertMany(action.payload, {
-        ...state, 
+        ...state,
         loading: false
-      });  
+      });
 
     case ChatActionTypes.SET_CURRENT_CHAT:
       return {
@@ -51,13 +47,7 @@ export function chatsReducer(
     default: {
       return state;
     }
-
   }
 }
 
-export const {
-  selectAll,
-  selectEntities,
-  selectIds,
-  selectTotal
-} = adapter.getSelectors();
+export const { selectAll, selectEntities, selectIds, selectTotal } = adapter.getSelectors();

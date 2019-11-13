@@ -1,11 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormControl
-} from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { AuthenticationService } from '../../_services';
 import { User, Organization } from '@/_modules/users';
@@ -22,10 +16,7 @@ export class RegisterUserComponent implements OnInit {
   selectedRolesIds: number[];
   disabled = false;
 
-  constructor(
-    private authService: AuthenticationService,
-    private _formBuilder: FormBuilder
-  ) {
+  constructor(private authService: AuthenticationService, private _formBuilder: FormBuilder) {
     this.user = new User();
     this.user.Organization = new Organization();
   }
@@ -46,10 +37,7 @@ export class RegisterUserComponent implements OnInit {
               '^([A-Z|a-z|0-9](.|_){0,1})+[A-Z|a-z|0-9]@([A-Z|a-z|0-9])+((.){0,1}[A-Z|a-z|0-9]){2}.[a-z]{2,3}$'
             )
           ]),
-          password: new FormControl('', [
-            Validators.required,
-            Validators.minLength(6)
-          ]),
+          password: new FormControl('', [Validators.required, Validators.minLength(6)]),
           generatePassword: new FormControl('')
         }),
         this._formBuilder.group({
@@ -57,20 +45,17 @@ export class RegisterUserComponent implements OnInit {
             Validators.required,
             Validators.maxLength(25),
             Validators.pattern(
-              '^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.\'-]+$'
+              "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
             )
           ]),
           surname: new FormControl('', [
             Validators.required,
             Validators.maxLength(25),
             Validators.pattern(
-              '^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.\'-]+$'
+              "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
             )
           ]),
-          phone: new FormControl('', [
-            Validators.required,
-            Validators.pattern('^[0-9]+$')
-          ])
+          phone: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')])
         }),
         this._formBuilder.group({
           companyInfoSelect: new FormControl(''),
@@ -78,7 +63,7 @@ export class RegisterUserComponent implements OnInit {
             Validators.required,
             Validators.maxLength(50),
             Validators.pattern(
-              '^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.\'-]+$'
+              "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
             )
           ]),
           siteUrl: new FormControl('', [
@@ -95,10 +80,7 @@ export class RegisterUserComponent implements OnInit {
       if (value) {
         this.password.setValidators(null);
       } else {
-        this.password.setValidators([
-          Validators.required,
-          Validators.minLength(6)
-        ]);
+        this.password.setValidators([Validators.required, Validators.minLength(6)]);
       }
       this.password.updateValueAndValidity();
     });
@@ -109,7 +91,7 @@ export class RegisterUserComponent implements OnInit {
           Validators.required,
           Validators.maxLength(50),
           Validators.pattern(
-            '^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.\'-]+$'
+            "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
           )
         ]);
         this.siteUrl.setValidators(null);

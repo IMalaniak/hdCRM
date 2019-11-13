@@ -32,20 +32,27 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   addUserPrivilege$: Observable<boolean>;
   resultsLength$: Observable<number>;
   loading$: Observable<boolean>;
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  displayedColumns = ['select', 'avatar', 'login', 'email', 'name', 'surname', 'phone', 'dep', 'state', 'createdAt', 'updatedAt', 'actions'];
+  displayedColumns = [
+    'select',
+    'avatar',
+    'login',
+    'email',
+    'name',
+    'surname',
+    'phone',
+    'dep',
+    'state',
+    'createdAt',
+    'updatedAt',
+    'actions'
+  ];
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(
-    private router: Router,
-    private userService: UserService,
-    private store: Store<AppState>
-  ) {
-
-  }
+  constructor(private router: Router, private userService: UserService, private store: Store<AppState>) {}
 
   ngOnInit() {
     this.deleteUserPrivilege$ = this.store.pipe(select(isPrivileged('user-delete')));
@@ -67,19 +74,14 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     };
 
     this.dataSource.loadUsers(initialPage);
-
   }
 
   ngAfterViewInit() {
-
     // this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 
     merge(this.sort.sortChange, this.paginator.page)
-      .pipe(
-          tap(() => this.loadUsersPage())
-      )
+      .pipe(tap(() => this.loadUsersPage()))
       .subscribe();
-
   }
 
   loadUsersPage() {
@@ -91,7 +93,6 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     };
 
     this.dataSource.loadUsers(newPage);
-
   }
 
   // isAllSelected() {
@@ -115,9 +116,9 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
       showCancelButton: true,
       confirmButtonText: 'Yes',
       cancelButtonText: 'Cancel'
-    }).then((result) => {
+    }).then(result => {
       if (result.value) {
-        this.store.dispatch(new DeleteUser({userId}));
+        this.store.dispatch(new DeleteUser({ userId }));
       }
     });
   }

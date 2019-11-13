@@ -17,27 +17,27 @@ export enum UserActionTypes {
 
 export class UserRequested implements Action {
   readonly type = UserActionTypes.USER_REQUESTED;
-  constructor(public payload: {userId: number}) {}
+  constructor(public payload: { userId: number }) {}
 }
 
 export class UserLoaded implements Action {
   readonly type = UserActionTypes.USER_LOADED;
-  constructor(public payload: {user: User}) {}
+  constructor(public payload: { user: User }) {}
 }
 
 export class UserSaved implements Action {
   readonly type = UserActionTypes.USER_SAVED;
-  constructor(public payload: {user: Update<User>}) {}
+  constructor(public payload: { user: Update<User> }) {}
 }
 
 export class DeleteUser implements Action {
   readonly type = UserActionTypes.DELETE_USER;
-  constructor(public payload: {userId: number}) {}
+  constructor(public payload: { userId: number }) {}
 }
 
 export class UserListPageRequested implements Action {
   readonly type = UserActionTypes.USER_LIST_PAGE_REQUESTED;
-  constructor(public payload: {page: PageQuery}) {}
+  constructor(public payload: { page: PageQuery }) {}
 }
 
 export class UserListPageLoaded implements Action {
@@ -55,10 +55,11 @@ export class AllStatesRequested implements Action {
 
 export class AllStatesLoaded implements Action {
   readonly type = UserActionTypes.ALLSTATES_LOADED;
-  constructor(public payload: {states: State[]}) {}
+  constructor(public payload: { states: State[] }) {}
 }
 
-export type UserActions = UserRequested
+export type UserActions =
+  | UserRequested
   | UserLoaded
   | UserSaved
   | UserListPageRequested

@@ -17,34 +17,33 @@
   --font-family-sans-serif: #{inspect($font-family-sans-serif)};
   --font-family-monospace: #{inspect($font-family-monospace)};
 
-
-    // each item in color map
+  // each item in color map
   @each $name, $color in $crmcolors {
     // maps require a second loop
-    @if type-of($color) == "map" {
+    @if type-of($color) == 'map' {
       // each item in sub map
       @each $subname, $subcolor in $color {
         // --color-primary-base
         #{$color-prefix}#{$name}-#{$subname}: $subcolor;
       }
-    // normal colors
-    } @else if type-of($color) == "color" {
+      // normal colors
+    } @else if type-of($color) == 'color' {
       // --color-background
       #{$color-prefix}#{$name}: $color;
     }
   }
-  
-    // each item in size map
+
+  // each item in size map
   @each $name, $size in $crmsizes {
     // maps require a second loop
-    @if type-of($size) == "map" {
+    @if type-of($size) == 'map' {
       // each item in sub map
       @each $subname, $subsize in $size {
         // --size-viewport-md
         #{$size-prefix}#{$name}-#{$subname}: $subsize;
       }
-    // normal sizes
-    } @else if type-of($size) == "number" {
+      // normal sizes
+    } @else if type-of($size) == 'number' {
       // --size-background
       #{$size-prefix}#{$name}: $size;
     }

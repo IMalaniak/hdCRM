@@ -1,6 +1,6 @@
 @import 'variables';
 @import '_mixins';
-@import "~bootstrap/scss/mixins/_breakpoints";
+@import '~bootstrap/scss/mixins/_breakpoints';
 
 :host {
   display: flex;
@@ -11,14 +11,14 @@
   flex-basis: crmsize(header, height, true);
   @include crm-bgcolor('layout', 'dark');
   @include crm-textcolor('layout', 'milk');
-  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
   z-index: 101;
 
   .company-logo {
     width: crmsize(sidebar, width, true);
     @include crm-bgcolor('layout', 'milk');
     @include crm-textcolor('layout', 'dark');
-    padding: 0.25*crmsize(spacer, null, true) 0.5*crmsize(spacer, null, true);
+    padding: 0.25 * crmsize(spacer, null, true) 0.5 * crmsize(spacer, null, true);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -72,51 +72,51 @@
     position: relative;
 
     img {
-        cursor: pointer;
+      cursor: pointer;
     }
 
     .dropdown-content {
-        $hHeight: crmsize(header, height, true);
+      $hHeight: crmsize(header, height, true);
 
-        display: flex;
-        flex-direction: column;
-        opacity: 0;
-        visibility: hidden;
-        padding: crmsize(spacer, null, true);
-        @include crm-bgcolor('layout', 'dark');
-        position: absolute;
-        top: 100%;
-        right: 0;
-        width: 100vw;
-        height: calc(100vh - #{$hHeight});
-        max-height: calc(100vh - #{$hHeight});
-        transition: opacity $transition, visibility $transition;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      visibility: hidden;
+      padding: crmsize(spacer, null, true);
+      @include crm-bgcolor('layout', 'dark');
+      position: absolute;
+      top: 100%;
+      right: 0;
+      width: 100vw;
+      height: calc(100vh - #{$hHeight});
+      max-height: calc(100vh - #{$hHeight});
+      transition: opacity $transition, visibility $transition;
 
-        @include media-breakpoint-up(sm) {
-          width: 20em;
-          height: auto;
-          max-height: 50vh;
+      @include media-breakpoint-up(sm) {
+        width: 20em;
+        height: auto;
+        max-height: 50vh;
+      }
+
+      .mat-stroked-button {
+        margin: 0.5 * crmsize(spacer, null, true);
+        border-color: currentColor;
+      }
+
+      .user-roles {
+        span {
+          margin: 0 0.25 * crmsize(spacer, null, true);
+          font-size: 0.8em;
+          font-style: italic;
         }
-
-        .mat-stroked-button {
-          margin: 0.5*crmsize(spacer, null, true);
-          border-color: currentColor;
-        }
-
-        .user-roles {
-          span {
-            margin: 0 0.25*crmsize(spacer, null, true);
-            font-size: 0.8em;
-            font-style: italic;
-          }
-        }
+      }
     }
 
     &:hover {
-        .dropdown-content {
-          visibility: visible;
-          opacity: 1;
-        }
+      .dropdown-content {
+        visibility: visible;
+        opacity: 1;
+      }
     }
   }
 }
@@ -127,18 +127,18 @@
   padding: 0.5em;
   margin-top: crmsize(spacer, null, true);
   border-top: 1px currentColor solid;
-  
+
   > div {
     &:first-of-type {
-      padding: 0.5*crmsize(spacer, null, true) 0.5*crmsize(spacer, null, true) crmsize(spacer, null, true);
+      padding: 0.5 * crmsize(spacer, null, true) 0.5 * crmsize(spacer, null, true) crmsize(spacer, null, true);
     }
     &:nth-child(2) {
       overflow-y: auto;
       overflow-x: hidden;
     }
   }
-  
-  input.notification-check[type='checkbox']{
+
+  input.notification-check[type='checkbox'] {
     display: none;
 
     + .notification {
@@ -162,12 +162,12 @@
       font-size: 0;
       border: none;
       * {
-        display: none; 
+        display: none;
       }
     }
-    &:checked + .notification {  
+    &:checked + .notification {
       height: 4em;
-      padding: 0.5*crmsize(spacer, null, true);
+      padding: 0.5 * crmsize(spacer, null, true);
       border-top: 1px currentColor solid;
     }
   }
@@ -219,7 +219,7 @@
     }
   }
 
-  span+span {
+  span + span {
     margin-top: 4px;
   }
 }

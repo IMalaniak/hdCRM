@@ -6,20 +6,14 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  animations: [
-    appRouterTransition
-  ]
+  animations: [appRouterTransition]
 })
 export class AppComponent implements OnInit {
+  constructor() {}
 
-  constructor() {
-  }
+  ngOnInit() {}
 
-  ngOnInit() {
-  }
-  
   prepareRoute(outlet: RouterOutlet) {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
   }
-
 }

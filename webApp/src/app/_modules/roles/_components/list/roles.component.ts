@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatPaginator, MatSort } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -30,18 +30,14 @@ export class RolesComponent implements OnInit, OnDestroy, AfterViewInit {
   selection = new SelectionModel<Role>(true, []);
   loading$: Observable<boolean>;
   resultsLength$: Observable<number>;
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
 
   displayedColumns = ['select', 'title', 'users', 'privileges', 'createdAt', 'updatedAt', 'actions'];
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(
-    private store: Store<AppState>,
-    private router: Router
-  ) {
-  }
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   ngOnInit() {
     this.addRolePrivilege$ = this.store.pipe(select(isPrivileged('role-add')));
@@ -62,15 +58,11 @@ export class RolesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-
     // this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 
     merge(this.sort.sortChange, this.paginator.page)
-      .pipe(
-          tap(() => this.loadRolesPage())
-      )
+      .pipe(tap(() => this.loadRolesPage()))
       .subscribe();
-
   }
 
   loadRolesPage() {
@@ -82,7 +74,6 @@ export class RolesComponent implements OnInit, OnDestroy, AfterViewInit {
     };
 
     this.dataSource.loadRoles(newPage);
-
   }
 
   onRoleSelect(id: number, edit: boolean = false): void {
@@ -99,9 +90,9 @@ export class RolesComponent implements OnInit, OnDestroy, AfterViewInit {
       showCancelButton: true,
       confirmButtonText: 'Yes',
       cancelButtonText: 'Cancel'
-    }).then((result) => {
+    }).then(result => {
       if (result.value) {
-        this.store.dispatch(new DeleteRole({roleId}));
+        this.store.dispatch(new DeleteRole({ roleId }));
       }
     });
   }
@@ -110,6 +101,4 @@ export class RolesComponent implements OnInit, OnDestroy, AfterViewInit {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
-
-
 }

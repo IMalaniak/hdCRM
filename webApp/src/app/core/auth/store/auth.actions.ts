@@ -3,7 +3,6 @@ import { Update } from '@ngrx/entity';
 import { User } from '@/_modules/users/_models';
 import { ApiResponse } from '@/core/_models';
 
-
 export enum AuthActionTypes {
   LOGIN = '[Auth] Login',
   LOGIN_SUCCESS = '[Auth API] Login Success',
@@ -80,7 +79,7 @@ export class GetStatus implements Action {
 
 export class ProfileSaved implements Action {
   readonly type = AuthActionTypes.PROFILE_SAVED;
-  constructor(public payload: {user: User}) {}
+  constructor(public payload: { user: User }) {}
 }
 
 export type AuthActions =

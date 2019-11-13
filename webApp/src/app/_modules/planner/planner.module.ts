@@ -15,16 +15,28 @@ import { AttachmentsModule } from '@/_shared/attachments/attachments.module';
 import { UsersModule } from '@/_modules/users/users.module';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faEllipsisV, faInfo, faEdit, faPlus, faSave, faTimes, faTrash, faUserPlus, faPaperPlane, faArrowRight, faCog } from '@fortawesome/free-solid-svg-icons';
+import {
+  faEllipsisV,
+  faInfo,
+  faEdit,
+  faPlus,
+  faSave,
+  faTimes,
+  faTrash,
+  faUserPlus,
+  faPaperPlane,
+  faArrowRight,
+  faCog
+} from '@fortawesome/free-solid-svg-icons';
 
 import {
-    AddPlanComponent,
-    PlanListComponent,
-    PlanComponent,
-    AddStageDialogComponent,
-    StagesDialogComponent,
-    StagesComponent
-     } from './_components';
+  AddPlanComponent,
+  PlanListComponent,
+  PlanComponent,
+  AddStageDialogComponent,
+  StagesDialogComponent,
+  StagesComponent
+} from './_components';
 
 import { PlanService, StageService } from './_services';
 import { plansReducer } from './store/plan.reducer';
@@ -56,10 +68,7 @@ import { stagesReducer } from './store/stage.reducer';
     StagesDialogComponent,
     StagesComponent
   ],
-  providers: [
-    PlanService,
-    StageService
-  ],
+  providers: [PlanService, StageService],
   exports: [
     AddPlanComponent,
     PlanListComponent,

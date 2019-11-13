@@ -1,13 +1,13 @@
 <nav class="d-flex align-items-center" aria-label="breadcrumb" role="navigation">
   <ol class="breadcrumb">
-    <li *ngFor="let breadcrumb of breadcrumbs; last as isLast;" class="breadcrumb-item" [ngClass]="{'active': isLast}">
+    <li *ngFor="let breadcrumb of breadcrumbs; last as isLast" class="breadcrumb-item" [ngClass]="{ active: isLast }">
       <ng-container *ngIf="breadcrumb.keyString === 'home'">
-        <a routerLink="{{breadcrumb.url}}">
+        <a routerLink="{{ breadcrumb.url }}">
           <fa-icon [icon]="['fas', 'home']"></fa-icon>
         </a>
       </ng-container>
       <ng-container *ngIf="breadcrumb.keyString !== 'home'">
-        <a routerLink="{{breadcrumb.url}}" *ngIf="!isLast">
+        <a routerLink="{{ breadcrumb.url }}" *ngIf="!isLast">
           {{ breadcrumb.keyString }}
         </a>
         <ng-container *ngIf="isLast">

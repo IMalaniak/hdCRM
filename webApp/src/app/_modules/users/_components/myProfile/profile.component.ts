@@ -20,11 +20,7 @@ export class ProfileComponent implements OnInit {
   editForm = false;
   langs: string[];
 
-  constructor(
-    private userService: UserService,
-    private store: Store<AppState>
-  ) {
-  }
+  constructor(private userService: UserService, private store: Store<AppState>) {}
 
   ngOnInit() {
     this.store.pipe(select(currentUser)).subscribe(user => {
@@ -49,12 +45,12 @@ export class ProfileComponent implements OnInit {
       showCancelButton: true,
       confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel'
-    }).then((result) => {
+    }).then(result => {
       if (result.value) {
         this.updateUser();
       }
     });
-}
+  }
 
   updateUser(): void {
     this.userService.updateUser(this.user).subscribe(
@@ -63,7 +59,7 @@ export class ProfileComponent implements OnInit {
           id: this.user.id,
           changes: data
         };
-        this.store.dispatch(new UserSaved({user}));
+        this.store.dispatch(new UserSaved({ user }));
 
         // TODO: compress code
         this.user.name = data.name;
@@ -77,7 +73,7 @@ export class ProfileComponent implements OnInit {
 
         // this.user = Object.assign(this.user, data);
 
-        this.store.dispatch(new ProfileSaved({user: this.user}));
+        this.store.dispatch(new ProfileSaved({ user: this.user }));
 
         this.editForm = false;
         Swal.fire({
@@ -92,11 +88,9 @@ export class ProfileComponent implements OnInit {
       error => {
         Swal.fire({
           text: 'Ooops, something went wrong!',
-          type: 'error',
+          type: 'error'
         });
       }
     );
   }
-
-
 }

@@ -9,9 +9,7 @@ import { User } from '@/_modules/users/_models';
 export class RoleService {
   private api: string;
 
-  constructor(
-    private http: HttpClient
-  ) {
+  constructor(private http: HttpClient) {
     this.api = '/roles';
   }
 
@@ -32,15 +30,15 @@ export class RoleService {
   }
 
   getList(pageIndex = 0, pageSize = 5, sortIndex = 'id', sortDirection = 'asc'): Observable<RoleServerResponse> {
-    return this.http.get<RoleServerResponse>(this.api, {
-      params: new HttpParams()
+    return this.http
+      .get<RoleServerResponse>(this.api, {
+        params: new HttpParams()
           .set('pageIndex', pageIndex.toString())
           .set('pageSize', pageSize.toString())
           .set('sortIndex', sortIndex)
           .set('sortDirection', sortDirection)
-      }).pipe(
-        map(res => new RoleServerResponse(res))
-      );
+      })
+      .pipe(map(res => new RoleServerResponse(res)));
   }
 
   getDashboardData(): Observable<RoleServerResponse> {
@@ -57,5 +55,4 @@ export class RoleService {
     }
     return role;
   }
-
 }

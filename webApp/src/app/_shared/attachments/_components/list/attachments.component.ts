@@ -25,11 +25,7 @@ export class AttachmentsComponent implements OnInit {
   tempFiles: TempAddedAsset[] = [];
   uploaderVisible = false;
 
-
-  constructor(
-    private attachmentService: AttachmentService,
-    private store$: Store<AppState>
-  ) {  }
+  constructor(private attachmentService: AttachmentService, private store$: Store<AppState>) {}
 
   ngOnInit() {
     if (!this.attachments) {
@@ -47,15 +43,16 @@ export class AttachmentsComponent implements OnInit {
         process: {
           url: this.apiUrl,
           headers: {
-            'Authorization': this.token
+            Authorization: this.token
           },
-          onload: (res) => this.uploaderHandleAddFile(res)
+          onload: res => this.uploaderHandleAddFile(res)
         }
       },
-      onaddfilestart: (file) => this.tempFiles.push({
-        id: file.id,
-        name: file.filename
-      }),
+      onaddfilestart: file =>
+        this.tempFiles.push({
+          id: file.id,
+          name: file.filename
+        }),
       multiple: true,
       allowRevert: false,
       allowPaste: false,
@@ -77,7 +74,6 @@ export class AttachmentsComponent implements OnInit {
         'application/x-rar-compressed'
       ]
     };
-
   }
 
   uploaderHandleAddFile(data: any) {
@@ -96,23 +92,21 @@ export class AttachmentsComponent implements OnInit {
   }
 
   downloadFile(fileId: number, filename: string = null): void {
-    this.attachmentService.download(fileId).subscribe(
-      (response: any) => {
-        console.log(response);
-        const dataType = response.type;
-        const binaryData = [];
-        binaryData.push(response);
-        const downloadLink = document.createElement('a');
-        downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, {type: dataType}));
-        if (filename) {
-          downloadLink.setAttribute('download', filename);
-        }
-        downloadLink.setAttribute('target', '_blank');
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        downloadLink.remove();
+    this.attachmentService.download(fileId).subscribe((response: any) => {
+      console.log(response);
+      const dataType = response.type;
+      const binaryData = [];
+      binaryData.push(response);
+      const downloadLink = document.createElement('a');
+      downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, { type: dataType }));
+      if (filename) {
+        downloadLink.setAttribute('download', filename);
       }
-    );
+      downloadLink.setAttribute('target', '_blank');
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      downloadLink.remove();
+    });
   }
 
   handleDeleteFile(id: number): void {
@@ -126,5 +120,4 @@ export class AttachmentsComponent implements OnInit {
   onClickAddFilesDone(): void {
     this.uploaderVisible = false;
   }
-
 }

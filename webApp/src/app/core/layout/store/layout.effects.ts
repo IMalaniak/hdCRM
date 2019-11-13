@@ -5,11 +5,8 @@ import { Action } from '@ngrx/store';
 import * as layoutActions from './layout.actions';
 import { map, switchMap } from 'rxjs/operators';
 
-
-
 @Injectable()
 export class LayoutEffects {
-
   constructor(private actions$: Actions) {}
 
   @Effect()
@@ -27,8 +24,7 @@ export class LayoutEffects {
   init$ = defer(() => {
     const sideBarState = localStorage.getItem('sidebarMinimized');
     if (sideBarState) {
-       return of(new layoutActions.SidebarChangeState(JSON.parse(sideBarState)));
+      return of(new layoutActions.SidebarChangeState(JSON.parse(sideBarState)));
     }
   });
-
 }

@@ -13,25 +13,25 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class ChatEffects {
+  @Effect()
+  loadChats$ = this.actions$.pipe(
+    ofType<chatActions.ListPageRequested>(chatActions.ChatActionTypes.CHAT_LIST_PAGE_REQUESTED),
+    mergeMap(() =>
+      this.chatService.getList().pipe(
+        catchError(err => {
+          this.store.dispatch(new chatActions.ListPageCancelled());
+          return of([]);
+        })
+      )
+    ),
+    catchError(err => throwError(err)),
+    map((response: Chat[]) => new chatActions.ListPageLoaded(response))
+  );
 
-    @Effect()
-    loadChats$ = this.actions$.pipe(
-        ofType<chatActions.ListPageRequested>(chatActions.ChatActionTypes.CHAT_LIST_PAGE_REQUESTED),
-        mergeMap(() => this.chatService.getList()
-            .pipe(
-                catchError(err => {
-                this.store.dispatch(new chatActions.ListPageCancelled());
-                return of([]);
-                })
-            )),
-        catchError(err => throwError(err)),
-        map((response: Chat[]) => new chatActions.ListPageLoaded(response)),
-    );
-
-    constructor(
-        private actions$: Actions,
-        private store: Store<AppState>,
-        private chatService: ChatService,
-        private router: Router
-    ) {}
+  constructor(
+    private actions$: Actions,
+    private store: Store<AppState>,
+    private chatService: ChatService,
+    private router: Router
+  ) {}
 }

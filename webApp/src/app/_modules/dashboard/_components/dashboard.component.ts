@@ -29,14 +29,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(
-    private store: Store<AppState>
-  ) {
-
-  }
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
-    this.store.dispatch(new AllStagesRequestedFromDashboard);
+    this.store.dispatch(new AllStagesRequestedFromDashboard());
     this.store.dispatch(new DepDashboardDataRequested());
     this.store.dispatch(new RoleDashboardDataRequested());
 
@@ -46,17 +42,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.store.select(selectAllStages),
       this.store.select(selectAllDepartments),
       this.store.select(selectAllRoles)
-    ]).pipe(
-      filter(([stages, departments, roles]) => stages.length > 0 && departments.length > 0 && roles.length > 0),
-      map(([stagesCount, departments, roles]) => {
-        this.planStagesChart = stagesCount.map(stage => (new SingleChartData(stage.keyString, stage.Plans.length)));
-        this.departmentsChart = departments.map(dep => (new SingleChartData(dep.title, dep.Workers.length)));
-        this.rolesChart = roles.map(role => (new SingleChartData(role.keyString, role.Users.length)));
-      }),
-      take(1),
-      takeUntil(this.unsubscribe)
-    ).subscribe();
-
+    ])
+      .pipe(
+        filter(([stages, departments, roles]) => stages.length > 0 && departments.length > 0 && roles.length > 0),
+        map(([stagesCount, departments, roles]) => {
+          this.planStagesChart = stagesCount.map(stage => new SingleChartData(stage.keyString, stage.Plans.length));
+          this.departmentsChart = departments.map(dep => new SingleChartData(dep.title, dep.Workers.length));
+          this.rolesChart = roles.map(role => new SingleChartData(role.keyString, role.Users.length));
+        }),
+        take(1),
+        takeUntil(this.unsubscribe)
+      )
+      .subscribe();
   }
 
   ngOnDestroy() {

@@ -7,12 +7,10 @@ import { Breadcrumb } from './breadcrumb';
   selector: 'app-breadcrumbs',
   templateUrl: './breadcrumbs.component.html'
 })
-
 export class BreadcrumbsComponent implements OnInit {
-
   public breadcrumbs: Breadcrumb[];
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
     this.setBreadcrumbs();
@@ -31,7 +29,11 @@ export class BreadcrumbsComponent implements OnInit {
     this.breadcrumbs = [home, ...this.breadcrumbs];
   }
 
-  private getBreadcrumbs(activatedRoute: ActivatedRoute, url: string = '', breadcrumbs: Breadcrumb[] = []): Breadcrumb[] {
+  private getBreadcrumbs(
+    activatedRoute: ActivatedRoute,
+    url: string = '',
+    breadcrumbs: Breadcrumb[] = []
+  ): Breadcrumb[] {
     const ROUTE_DATA_BREADCRUMB = 'breadcrumb';
 
     // get the child routes
@@ -66,5 +68,4 @@ export class BreadcrumbsComponent implements OnInit {
     }
     return breadcrumbs;
   }
-
 }

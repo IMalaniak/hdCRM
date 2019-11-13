@@ -7,9 +7,7 @@ import { Privilege, PrivilegeServerResponse } from '../_models';
 export class PrivilegeService {
   private api: string;
 
-  constructor(
-    private http: HttpClient
-  ) {
+  constructor(private http: HttpClient) {
     this.api = '/privileges';
   }
 
@@ -30,5 +28,4 @@ export class PrivilegeService {
   getFullList(): Observable<PrivilegeServerResponse> {
     return this.http.get<PrivilegeServerResponse>(this.api);
   }
-
 }

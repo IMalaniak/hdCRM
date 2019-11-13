@@ -8,9 +8,7 @@ import { User } from '@/_modules/users/_models';
 export class DepartmentService {
   private api: string;
 
-  constructor(
-    private http: HttpClient
-  ) {
+  constructor(private http: HttpClient) {
     this.api = '/departments';
   }
 
@@ -33,11 +31,11 @@ export class DepartmentService {
   getList(pageIndex = 0, pageSize = 5, sortIndex = 'id', sortDirection = 'asc'): Observable<DepartmentServerResponse> {
     return this.http.get<DepartmentServerResponse>(this.api, {
       params: new HttpParams()
-          .set('pageIndex', pageIndex.toString())
-          .set('pageSize', pageSize.toString())
-          .set('sortIndex', sortIndex)
-          .set('sortDirection', sortDirection)
-      });
+        .set('pageIndex', pageIndex.toString())
+        .set('pageSize', pageSize.toString())
+        .set('sortIndex', sortIndex)
+        .set('sortDirection', sortDirection)
+    });
   }
 
   getDashboardData(): Observable<DepartmentServerResponse> {
@@ -47,7 +45,7 @@ export class DepartmentService {
   formatBeforeSend(dep: Department): Department {
     if (dep.Workers && dep.Workers.length > 0) {
       dep.Workers = dep.Workers.map(user => {
-        return<User> {
+        return <User>{
           id: user.id
         };
       });
@@ -60,5 +58,4 @@ export class DepartmentService {
     }
     return dep;
   }
-
 }

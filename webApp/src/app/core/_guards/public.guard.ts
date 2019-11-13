@@ -8,20 +8,16 @@ import { tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class PublicGuard implements CanActivate {
-    constructor(
-        private store: Store<AppState>,
-        private router: Router
-    ) { }
+  constructor(private store: Store<AppState>, private router: Router) {}
 
-    canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-        return this.store
-            .pipe(
-            select(isLoggedOut),
-            tap(loggedOut => {
-                if (!loggedOut) {
-                    this.router.navigateByUrl('/dashboard');
-                }
-            })
-        );
-    }
+  canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
+    return this.store.pipe(
+      select(isLoggedOut),
+      tap(loggedOut => {
+        if (!loggedOut) {
+          this.router.navigateByUrl('/dashboard');
+        }
+      })
+    );
+  }
 }

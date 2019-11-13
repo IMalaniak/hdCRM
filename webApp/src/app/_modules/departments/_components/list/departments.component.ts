@@ -16,7 +16,6 @@ import { selectDepartmentsTotalCount, selectDepartmentsLoading } from '../../sto
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { tap } from 'rxjs/operators';
 
-
 import Swal from 'sweetalert2';
 import { DeleteDepartment } from '../../store/department.actions';
 
@@ -34,15 +33,12 @@ export class DepartmentsComponent implements OnInit, AfterViewInit {
   loading$: Observable<boolean>;
   resultsLength$: Observable<number>;
 
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
 
   displayedColumns = ['title', 'manager', 'workers', 'createdAt', 'updatedAt', 'actions'];
 
-  constructor(
-    private store: Store<AppState>,
-    private router: Router
-  ) {}
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   ngOnInit() {
     this.addDepPrivilege$ = this.store.pipe(select(isPrivileged('department-add')));
@@ -63,19 +59,10 @@ export class DepartmentsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.paginator.page
-      .pipe(
-        tap(() => this.loadDepartmentsPage())
-      )
-      .subscribe();
+    this.paginator.page.pipe(tap(() => this.loadDepartmentsPage())).subscribe();
 
-      // TODO: check for other solution
-    this.sort.sortChange
-        .pipe(
-          tap(() => this.loadDepartmentsPage())
-        )
-        .subscribe();
-
+    // TODO: check for other solution
+    this.sort.sortChange.pipe(tap(() => this.loadDepartmentsPage())).subscribe();
   }
 
   loadDepartmentsPage() {
@@ -87,7 +74,6 @@ export class DepartmentsComponent implements OnInit, AfterViewInit {
     };
 
     this.dataSource.loadDepartments(newPage);
-
   }
 
   onDepSelect(id: number, edit: boolean = false): void {
@@ -104,9 +90,9 @@ export class DepartmentsComponent implements OnInit, AfterViewInit {
       showCancelButton: true,
       confirmButtonText: 'Yes',
       cancelButtonText: 'Cancel'
-    }).then((result) => {
+    }).then(result => {
       if (result.value) {
-        this.store.dispatch(new DeleteDepartment({departmentId}));
+        this.store.dispatch(new DeleteDepartment({ departmentId }));
       }
     });
   }

@@ -2,87 +2,88 @@
 @import 'mixins';
 
 .stages-wrapper {
-    display: flex;
-    width: 100%;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: row;
-    overflow-x: auto;
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  overflow-x: auto;
 }
 
 .stages-item {
-    @include crm-bgcolor('layout', 'milk');
-    padding: 1.1em 1.1em 1.1em 2.86em;
-    margin: 0 0.5*crmsize(spacer, null, true);
-    position: relative;
+  @include crm-bgcolor('layout', 'milk');
+  padding: 1.1em 1.1em 1.1em 2.86em;
+  margin: 0 0.5 * crmsize(spacer, null, true);
+  position: relative;
+  white-space: nowrap;
+  transition: background-color $transition;
+
+  &:first-of-type {
+    margin-left: 0;
+  }
+
+  &:last-of-type {
+    margin-right: 0;
+  }
+
+  span {
     white-space: nowrap;
-    transition: background-color $transition;
+  }
 
-    &:first-of-type {
-        margin-left: 0;
-    }
+  &:after,
+  &:before {
+    top: 50%;
+    border: solid transparent;
+    content: ' ';
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-left-color: crmcolor('layout', 'milk', true);
+    border-width: 1.85em;
+    margin-top: -1.85em;
+    transition: border-left-color $transition;
+  }
 
-    &:last-of-type {
-        margin-right: 0;
-    }
+  &:before {
+    border-left-color: crmcolor('layout', 'background', true);
+    left: 0;
+  }
 
-    span {
-        white-space: nowrap;
-    }
+  &:after {
+    left: 100%;
+    border-right-width: 0;
+    z-index: 1;
+  }
 
-    &:after, &:before {
-        top: 50%;
-        border: solid transparent;
-        content: " ";
-        height: 0;
-        width: 0;
-        position: absolute;
-        pointer-events: none;
-        border-left-color: crmcolor('layout', 'milk', true);
-        border-width: 1.85em;      
-        margin-top: -1.85em;
-        transition: border-left-color $transition;
-    }
-
-    &:before {
-        border-left-color: crmcolor('layout', 'background', true);
-        left: 0;
-    }
-
+  &.active {
+    @include crm-textcolor('layout', 'background');
+    background: theme-color('success');
     &:after {
-        left: 100%;
-        border-right-width: 0;
-        z-index: 1;
+      border-left-color: theme-color('success');
     }
+  }
 
-    &.active {
-        @include crm-textcolor('layout', 'background');
-        background: theme-color('success');
-        &:after {
-            border-left-color: theme-color('success');   
-        }
+  &.passed {
+    @include crm-textcolor('layout', 'background');
+    background: crmcolor('layout', 'dark', true);
+    text-decoration: line-through;
+    &:after {
+      border-left-color: crmcolor('layout', 'dark', true);
     }
+  }
 
-    &.passed {
-        @include crm-textcolor('layout', 'background');
-        background: crmcolor('layout', 'dark', true);
-        text-decoration: line-through;
-        &:after {
-            border-left-color: crmcolor('layout', 'dark', true);    
-        }
-    }
-
-    &.addStage {
-        cursor: pointer;
-    }
+  &.addStage {
+    cursor: pointer;
+  }
 }
 
 .plan-details {
-    mat-list-item {
-        section {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-        }   
-    } 
+  mat-list-item {
+    section {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
 }

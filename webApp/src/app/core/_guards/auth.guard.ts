@@ -10,20 +10,16 @@ import { RedirectToLogin } from '../auth/store/auth.actions';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
-    constructor(
-        private store$: Store<AppState>
-    ) { }
+  constructor(private store$: Store<AppState>) {}
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.store$
-            .pipe(
-            select(isloggedIn),
-            tap(loggedIn => {
-                if (!loggedIn) {
-                    this.store$.dispatch(new RedirectToLogin(state.url));
-                }
-            })
-        );
-    }
-
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+    return this.store$.pipe(
+      select(isloggedIn),
+      tap(loggedIn => {
+        if (!loggedIn) {
+          this.store$.dispatch(new RedirectToLogin(state.url));
+        }
+      })
+    );
+  }
 }

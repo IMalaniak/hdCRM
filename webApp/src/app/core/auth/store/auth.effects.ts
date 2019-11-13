@@ -13,67 +13,67 @@ import Swal from 'sweetalert2';
 import { JwtHelperService } from '@auth0/angular-jwt';
 const jwtHelper = new JwtHelperService();
 
-
 @Injectable()
 export class AuthEffects {
-    constructor(
-        private actions$: Actions,
-        private authService: AuthenticationService,
-        private router: Router,
-        private route: ActivatedRoute,
-    ) {}
+  constructor(
+    private actions$: Actions,
+    private authService: AuthenticationService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
-    @Effect()
-    LogIn$: Observable<Action> = this.actions$.pipe(
-        ofType(fromAuth.AuthActionTypes.LOGIN),
-        map((action: fromAuth.LogIn) => action.payload),
-        switchMap(payload =>
-            this.authService.login(payload).pipe(
-                map(user => new fromAuth.LogInSuccess(user)),
-                tap((action) => {
-                  localStorage.setItem('currentUser', JSON.stringify(action.payload));
-                  const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
-                  this.router.navigateByUrl(returnUrl);
-                }),
-                catchError(error => of(new fromAuth.LogInFailure(error)))
-            )
-        )
-    );
+  @Effect()
+  LogIn$: Observable<Action> = this.actions$.pipe(
+    ofType(fromAuth.AuthActionTypes.LOGIN),
+    map((action: fromAuth.LogIn) => action.payload),
+    switchMap(payload =>
+      this.authService.login(payload).pipe(
+        map(user => new fromAuth.LogInSuccess(user)),
+        tap(action => {
+          localStorage.setItem('currentUser', JSON.stringify(action.payload));
+          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+          this.router.navigateByUrl(returnUrl);
+        }),
+        catchError(error => of(new fromAuth.LogInFailure(error)))
+      )
+    )
+  );
 
-    @Effect({ dispatch: false })
-    public LogOut$: Observable<any> = this.actions$.pipe(
-      ofType(fromAuth.AuthActionTypes.LOGOUT),
-      tap((action) => {
-        this.authService.logout().subscribe();
+  @Effect({ dispatch: false })
+  public LogOut$: Observable<any> = this.actions$.pipe(
+    ofType(fromAuth.AuthActionTypes.LOGOUT),
+    tap(action => {
+      this.authService.logout().subscribe();
+      localStorage.removeItem('currentUser');
+      this.router.navigateByUrl('/home');
+    })
+  );
+
+  @Effect({ dispatch: false })
+  public RedirectToLogin$: Observable<any> = this.actions$.pipe(
+    ofType(fromAuth.AuthActionTypes.REDIRECT_TO_LOGIN),
+    tap(action => {
+      Swal.fire({
+        text: 'You are not authorized to see this page, or your session has been expired!',
+        type: 'error',
+        timer: 3000
+      });
+      this.router.navigate(['/auth/login'], {
+        queryParams: { returnUrl: action.payload }
+      });
+    })
+  );
+
+  @Effect()
+  init$ = defer(() => {
+    let userData: any = localStorage.getItem('currentUser');
+    if (userData) {
+      userData = JSON.parse(userData);
+      if (!jwtHelper.isTokenExpired(userData.token)) {
+        return of(new fromAuth.LogInSuccess(userData));
+      } else {
         localStorage.removeItem('currentUser');
-        this.router.navigateByUrl('/home');
-      })
-    );
-
-    @Effect({ dispatch: false })
-    public RedirectToLogin$: Observable<any> = this.actions$.pipe(
-      ofType(fromAuth.AuthActionTypes.REDIRECT_TO_LOGIN),
-      tap((action) => {
-        Swal.fire({
-          text: 'You are not authorized to see this page, or your session has been expired!',
-          type: 'error',
-          timer: 3000
-        });
-        this.router.navigate(['/auth/login'], {queryParams: {returnUrl: action.payload}});
-      })
-    );
-
-    @Effect()
-    init$ = defer(() => {
-      let userData: any = localStorage.getItem('currentUser');
-      if (userData) {
-        userData = JSON.parse(userData);
-        if (!jwtHelper.isTokenExpired(userData.token)) {
-          return of(new fromAuth.LogInSuccess(userData));
-        } else {
-          localStorage.removeItem('currentUser');
-        }
       }
-    });
-
+    }
+  });
 }

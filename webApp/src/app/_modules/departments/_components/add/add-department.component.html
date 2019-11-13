@@ -1,24 +1,50 @@
-<section content class="app-content-box" [title]="'Create a new department'" [cssClass]="'bg-secondary border-0'" [contentCssClass]="'bg-light'" [headCssClass]="'text-white'">
+<section
+  content
+  class="app-content-box"
+  [title]="'Create a new department'"
+  [cssClass]="'bg-secondary border-0'"
+  [contentCssClass]="'bg-light'"
+  [headCssClass]="'text-white'"
+>
   <div content class="row">
     <div class="col-md-6">
-      <form class="d-flex flex-column">  
+      <form class="d-flex flex-column">
         <mat-form-field appearance="outline">
           <mat-label i18n="@@addDepartmentComponentDetailsTitle">Title</mat-label>
-          <input matInput [(ngModel)]="department.title" name="title" type="text" required>
+          <input matInput [(ngModel)]="department.title" name="title" type="text" required />
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label i18n="@@addDepartmentComponentDetailsDescription">Write a description</mat-label>
           <textarea matInput [(ngModel)]="department.description" name="description" type="text" required></textarea>
-        </mat-form-field> 
-      </form> 
+        </mat-form-field>
+      </form>
     </div>
     <div class="col-md-6">
-      <section class="app-content-box" [title]="'Manager'" [cssClass]="'border border-secondary my-0'" [contentCssClass]="'p-0'" [disableShadow]="true">
-        <button buttons mat-stroked-button color="primary" class="crm-button" (click)="addManagerDialog()"><fa-icon [icon]="['fas', 'user-plus']"></fa-icon><span i18n="@@addDepartmentComponentActionsAddManager">Add manager</span></button>
+      <section
+        class="app-content-box"
+        [title]="'Manager'"
+        [cssClass]="'border border-secondary my-0'"
+        [contentCssClass]="'p-0'"
+        [disableShadow]="true"
+      >
+        <button buttons mat-stroked-button color="primary" class="crm-button" (click)="addManagerDialog()">
+          <fa-icon [icon]="['fas', 'user-plus']"></fa-icon
+          ><span i18n="@@addDepartmentComponentActionsAddManager">Add manager</span>
+        </button>
         <mat-list content>
           <mat-list-item *ngIf="department.Manager">
-            <img matListAvatar *ngIf="department.Manager.avatar" src="{{department.Manager.avatar.getThumbnailsUrl}}" alt="{{department.Manager.avatar.title}}">
-            <img matListAvatar *ngIf="!department.Manager.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
+            <img
+              matListAvatar
+              *ngIf="department.Manager.avatar"
+              src="{{ department.Manager.avatar.getThumbnailsUrl }}"
+              alt="{{ department.Manager.avatar.title }}"
+            />
+            <img
+              matListAvatar
+              *ngIf="!department.Manager.avatar"
+              src="./assets/images/userpic/noimage_croped.png"
+              alt="noimage"
+            />
             <h3 matLine>{{ department.Manager.fullname }}</h3>
           </mat-list-item>
         </mat-list>
@@ -27,12 +53,27 @@
   </div>
   <div content class="row">
     <div class="col-md-6">
-      <section class="app-content-box" [title]="'Workers'" [cssClass]="'border border-secondary mt-3 mb-0'" [contentCssClass]="'p-0'" [disableShadow]="true" [counter]="department.Workers.length">
-        <button buttons mat-stroked-button color="primary" class="crm-button" (click)="addWorkersDialog()"><fa-icon [icon]="['fas', 'user-plus']"></fa-icon><span i18n="@@addDepartmentComponentActionsAddWorkers">Add workers</span></button>
+      <section
+        class="app-content-box"
+        [title]="'Workers'"
+        [cssClass]="'border border-secondary mt-3 mb-0'"
+        [contentCssClass]="'p-0'"
+        [disableShadow]="true"
+        [counter]="department.Workers.length"
+      >
+        <button buttons mat-stroked-button color="primary" class="crm-button" (click)="addWorkersDialog()">
+          <fa-icon [icon]="['fas', 'user-plus']"></fa-icon
+          ><span i18n="@@addDepartmentComponentActionsAddWorkers">Add workers</span>
+        </button>
         <mat-list content>
-          <mat-list-item *ngFor="let user of department.Workers; let i = index;">
-            <img matListAvatar *ngIf="user.avatar" src="{{user.avatar.getThumbnailsUrl}}" alt="{{user.avatar.title}}">
-            <img matListAvatar *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
+          <mat-list-item *ngFor="let user of department.Workers; let i = index">
+            <img
+              matListAvatar
+              *ngIf="user.avatar"
+              src="{{ user.avatar.getThumbnailsUrl }}"
+              alt="{{ user.avatar.title }}"
+            />
+            <img matListAvatar *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage" />
             <h3 matLine>{{ user.fullname }}</h3>
             <mat-divider></mat-divider>
           </mat-list-item>
@@ -42,8 +83,17 @@
     <div class="col-md-6">
       <div class="row">
         <div class="col-sm-6 col-md-12 col-lg-6">
-          <section class="app-content-box" [title]="'Parent department'" [cssClass]="'border border-secondary mt-3 mb-0'" [contentCssClass]="'p-0'" [disableShadow]="true">
-            <button buttons mat-stroked-button color="primary" class="crm-button"><fa-icon [icon]="['fas', 'plus']"></fa-icon><span i18n="@@addDepartmentComponentActionsAddParentDepartment">Add parent department</span></button>
+          <section
+            class="app-content-box"
+            [title]="'Parent department'"
+            [cssClass]="'border border-secondary mt-3 mb-0'"
+            [contentCssClass]="'p-0'"
+            [disableShadow]="true"
+          >
+            <button buttons mat-stroked-button color="primary" class="crm-button">
+              <fa-icon [icon]="['fas', 'plus']"></fa-icon
+              ><span i18n="@@addDepartmentComponentActionsAddParentDepartment">Add parent department</span>
+            </button>
             <mat-list content>
               <!-- <mat-list-item *ngIf="">
                 <h3 matLine>{{}}</h3>
@@ -52,8 +102,18 @@
           </section>
         </div>
         <div class="col-sm-6 col-md-12 col-lg-6">
-          <section class="app-content-box" [title]="'Sub departments'" [cssClass]="'border border-secondary mt-3 mb-0'" [contentCssClass]="'p-0'" [disableShadow]="true" [counter]="department.SubDepartments.length">
-            <button buttons mat-stroked-button color="primary" class="crm-button"><fa-icon [icon]="['fas', 'plus']"></fa-icon><span i18n="@@addDepartmentComponentActionsAddSubDepartments">Add sub departments</span></button>
+          <section
+            class="app-content-box"
+            [title]="'Sub departments'"
+            [cssClass]="'border border-secondary mt-3 mb-0'"
+            [contentCssClass]="'p-0'"
+            [disableShadow]="true"
+            [counter]="department.SubDepartments.length"
+          >
+            <button buttons mat-stroked-button color="primary" class="crm-button">
+              <fa-icon [icon]="['fas', 'plus']"></fa-icon
+              ><span i18n="@@addDepartmentComponentActionsAddSubDepartments">Add sub departments</span>
+            </button>
             <mat-list content>
               <!-- <mat-list-item *ngIf="">
                 <h3 matLine>{{}}</h3>
@@ -65,5 +125,7 @@
       </div>
     </div>
   </div>
-  <button buttons mat-raised-button color="primary" class="crm-button" (click)="onClickSubmit()"><fa-icon [icon]="['fas', 'paper-plane']"></fa-icon><span i18n="@@addDepartmentComponentActionSubmit">Submit</span></button>
+  <button buttons mat-raised-button color="primary" class="crm-button" (click)="onClickSubmit()">
+    <fa-icon [icon]="['fas', 'paper-plane']"></fa-icon><span i18n="@@addDepartmentComponentActionSubmit">Submit</span>
+  </button>
 </section>

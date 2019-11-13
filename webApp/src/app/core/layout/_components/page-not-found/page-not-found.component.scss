@@ -1,33 +1,33 @@
-@import "~bootstrap/scss/mixins/breakpoints";
+@import '~bootstrap/scss/mixins/breakpoints';
 @import 'mixins';
 @import 'variables';
 
 .page-not-found {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    .error-number {
-        font-size: 14em;
-        font-weight: bold;
-        @include crm-bgcolor('theme', 'warn');
-    }
+  .error-number {
+    font-size: 14em;
+    font-weight: bold;
+    @include crm-bgcolor('theme', 'warn');
+  }
 
-    .error {
-        text-transform: uppercase;
-        font-weight: bold;
-        font-size: 2.5em;
-        @include crm-bgcolor('theme', 'warn');
-    }
+  .error {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 2.5em;
+    @include crm-bgcolor('theme', 'warn');
+  }
 
-    @include media-breakpoint-down(md) {
-        .col {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
+  @include media-breakpoint-down(md) {
+    .col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
     }
+  }
 }

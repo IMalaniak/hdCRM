@@ -10,13 +10,19 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { UsersModule } from '@/_modules/users/users.module';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faEllipsisV, faInfo, faEdit, faPlus, faSave, faTimes, faTrash, faUserPlus, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-
 import {
-    AddDepartmentComponent,
-    DepartmentComponent,
-    DepartmentsComponent
-     } from './_components';
+  faEllipsisV,
+  faInfo,
+  faEdit,
+  faPlus,
+  faSave,
+  faTimes,
+  faTrash,
+  faUserPlus,
+  faPaperPlane
+} from '@fortawesome/free-solid-svg-icons';
+
+import { AddDepartmentComponent, DepartmentComponent, DepartmentsComponent } from './_components';
 
 import { DepartmentService } from './_services';
 import { StoreModule } from '@ngrx/store';
@@ -38,32 +44,12 @@ import { DepartmentEffects } from './store/department.effects';
     EffectsModule.forFeature([DepartmentEffects]),
     FontAwesomeModule
   ],
-  declarations: [
-    AddDepartmentComponent,
-    DepartmentComponent,
-    DepartmentsComponent
-  ],
-  providers: [
-    DepartmentService
-  ],
-  exports: [
-    AddDepartmentComponent,
-    DepartmentComponent,
-    DepartmentsComponent
-  ]
+  declarations: [AddDepartmentComponent, DepartmentComponent, DepartmentsComponent],
+  providers: [DepartmentService],
+  exports: [AddDepartmentComponent, DepartmentComponent, DepartmentsComponent]
 })
 export class DepartmentsModule {
   constructor(library: FaIconLibrary) {
-    library.addIcons(
-      faEllipsisV,
-      faInfo,
-      faEdit,
-      faPlus,
-      faSave,
-      faTimes,
-      faTrash,
-      faUserPlus,
-      faPaperPlane
-    );
+    library.addIcons(faEllipsisV, faInfo, faEdit, faPlus, faSave, faTimes, faTrash, faUserPlus, faPaperPlane);
   }
 }

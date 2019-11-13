@@ -15,7 +15,6 @@ import { selectChatsLoading } from '../../store/chat.selectors';
   templateUrl: './chats.component.html',
   styleUrls: ['./chats.component.scss']
 })
-
 export class ChatsComponent implements OnInit {
   // chats$: Observable<Chat[]>;
   dataSource: ChatsDataSource;
@@ -27,8 +26,7 @@ export class ChatsComponent implements OnInit {
   @Output() selected = new EventEmitter<Chat>();
 
   constructor(
-    private store: Store<AppState>,
-    // private router: Router
+    private store: Store<AppState> // private router: Router
   ) {}
 
   ngOnInit() {

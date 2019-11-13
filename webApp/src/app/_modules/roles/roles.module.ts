@@ -6,16 +6,27 @@ import { RolesRoutingModule } from './roles-routing.module';
 import { SharedModule } from '@/_shared/modules';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faEllipsisV, faInfo, faEdit, faPlus, faSave, faTimes, faUserPlus, faCheck, faTrash } from '@fortawesome/free-solid-svg-icons';
+import {
+  faEllipsisV,
+  faInfo,
+  faEdit,
+  faPlus,
+  faSave,
+  faTimes,
+  faUserPlus,
+  faCheck,
+  faTrash
+} from '@fortawesome/free-solid-svg-icons';
 
 import {
-    RolesComponent,
-    RoleComponent,
-    AddRoleComponent,
-    RolesDialogComponent,
-    PrivilegesComponent,
-    PrivilegesDialogComponent,
-    AddPrivilegeDialogComponent } from './_components';
+  RolesComponent,
+  RoleComponent,
+  AddRoleComponent,
+  RolesDialogComponent,
+  PrivilegesComponent,
+  PrivilegesDialogComponent,
+  AddPrivilegeDialogComponent
+} from './_components';
 
 import { UsersModule } from '@/_modules/users/users.module';
 
@@ -49,10 +60,7 @@ import { privilegesReducer } from './store/privilege.reducer';
     PrivilegesDialogComponent,
     AddPrivilegeDialogComponent
   ],
-  providers: [
-    RoleService,
-    PrivilegeService
-  ],
+  providers: [RoleService, PrivilegeService],
   exports: [
     RolesComponent,
     RoleComponent,
@@ -66,16 +74,6 @@ import { privilegesReducer } from './store/privilege.reducer';
 })
 export class RolesModule {
   constructor(library: FaIconLibrary) {
-    library.addIcons(
-      faEllipsisV,
-      faInfo,
-      faEdit,
-      faPlus,
-      faSave,
-      faTimes,
-      faUserPlus,
-      faCheck,
-      faTrash
-    );
+    library.addIcons(faEllipsisV, faInfo, faEdit, faPlus, faSave, faTimes, faUserPlus, faCheck, faTrash);
   }
 }

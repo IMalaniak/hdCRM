@@ -3,18 +3,20 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-public',
   template: `
-  <section class="main">
-    <router-outlet></router-outlet>
-    <app-footer></app-footer>
-  </section>  
+    <section class="main">
+      <router-outlet></router-outlet>
+      <app-footer></app-footer>
+    </section>
   `,
-  styles: [`
-    section.main {
-      position: relative;
-      height: 100vh;
-      overflow-y: auto;
-      scroll-behavior: smooth;
-    }
-  `]
+  styles: [
+    `
+      section.main {
+        position: relative;
+        height: 100vh;
+        overflow-y: auto;
+        scroll-behavior: smooth;
+      }
+    `
+  ]
 })
 export class PublicViewComponent {}

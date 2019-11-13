@@ -22,23 +22,25 @@ registerPlugin(
 );
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faFileWord, faFilePowerpoint, faFileImage, faFileVideo, faFileAlt, faFileArchive, faFile, faTrashAlt, faFolderPlus, faCheck, faPencilAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
+import {
+  faFileWord,
+  faFilePowerpoint,
+  faFileImage,
+  faFileVideo,
+  faFileAlt,
+  faFileArchive,
+  faFile,
+  faTrashAlt,
+  faFolderPlus,
+  faCheck,
+  faPencilAlt,
+  faTimes
+} from '@fortawesome/free-solid-svg-icons';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SharedModule,
-    FilePondModule,
-    FontAwesomeModule
-  ],
-  declarations: [
-    AttachmentsComponent,
-    ProfilepicComponent
-    ],
-  exports: [
-    AttachmentsComponent,
-    ProfilepicComponent
-    ]
+  imports: [CommonModule, SharedModule, FilePondModule, FontAwesomeModule],
+  declarations: [AttachmentsComponent, ProfilepicComponent],
+  exports: [AttachmentsComponent, ProfilepicComponent]
 })
 export class AttachmentsModule {
   constructor(library: FaIconLibrary) {

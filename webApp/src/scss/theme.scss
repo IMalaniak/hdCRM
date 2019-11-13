@@ -1,14 +1,9 @@
 @import '~@angular/material/theming';
 
 // Define the theme
-$crm-theme-primary:  mat-palette($mat-light-blue, 600);
-$crm-theme-accent :  mat-palette($mat-teal, 600);
-$crm-theme-warn   :  mat-palette($mat-red, 600);
+$crm-theme-primary: mat-palette($mat-light-blue, 600);
+$crm-theme-accent: mat-palette($mat-teal, 600);
+$crm-theme-warn: mat-palette($mat-red, 600);
 
 // Create the theme object
-$crm-theme: mat-light-theme(
-    $crm-theme-primary,
-    $crm-theme-accent,
-    $crm-theme-warn
-);
-
+$crm-theme: mat-light-theme($crm-theme-primary, $crm-theme-accent, $crm-theme-warn);

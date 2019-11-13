@@ -1,18 +1,38 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {
-    ProfileComponent,
-    UserComponent,
-    UsersComponent } from './_components';
+import { ProfileComponent, UserComponent, UsersComponent } from './_components';
 
 import { UserResolver } from './_services';
 import { PrivilegeGuard } from '@/core/_guards';
 
 const routes: Routes = [
-    {path: '', pathMatch: 'full', redirectTo: 'list' },
-    {path: 'list', data: { breadcrumb: 'List', animation: 'UsersListPage', privilege: 'user-view' }, canActivate: [PrivilegeGuard], component: UsersComponent },
-    {path: 'details/:id', data: { breadcrumb: 'Details', animation: 'UserDetailsPage', privilege: 'user-view' }, canActivate: [PrivilegeGuard], component: UserComponent, resolve: {user: UserResolver}},
-    {path: 'myprofile', data: { breadcrumb: 'My profile', animation: 'MyProfilePage' }, component: ProfileComponent},
+  { path: '', pathMatch: 'full', redirectTo: 'list' },
+  {
+    path: 'list',
+    data: {
+      breadcrumb: 'List',
+      animation: 'UsersListPage',
+      privilege: 'user-view'
+    },
+    canActivate: [PrivilegeGuard],
+    component: UsersComponent
+  },
+  {
+    path: 'details/:id',
+    data: {
+      breadcrumb: 'Details',
+      animation: 'UserDetailsPage',
+      privilege: 'user-view'
+    },
+    canActivate: [PrivilegeGuard],
+    component: UserComponent,
+    resolve: { user: UserResolver }
+  },
+  {
+    path: 'myprofile',
+    data: { breadcrumb: 'My profile', animation: 'MyProfilePage' },
+    component: ProfileComponent
+  }
 ];
 
 @NgModule({
@@ -22,8 +42,8 @@ const routes: Routes = [
 export class UsersRoutingModule {
   static forRoot(): ModuleWithProviders {
     return {
-        ngModule: UsersRoutingModule,
-        providers: [UserResolver],
+      ngModule: UsersRoutingModule,
+      providers: [UserResolver]
     };
   }
 }

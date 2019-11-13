@@ -1,54 +1,59 @@
 @import 'variables';
 @import 'mixins';
-@import "~bootstrap/scss/mixins/_gradients";
-@import "~bootstrap/scss/mixins/_breakpoints";
+@import '~bootstrap/scss/mixins/_gradients';
+@import '~bootstrap/scss/mixins/_breakpoints';
 
 .login-section {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include gradient-radial(crmcolor('theme', 'primary', true), crmcolor('layout', 'dark', true));
+
+  form {
     width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    @include gradient-radial(crmcolor('theme', 'primary', true), crmcolor('layout', 'dark', true));
-    
-    form {
-        width: 100%;
 
-        @include media-breakpoint-up(sm) {
-            width: 20em;
-            margin: 0 auto;
-        }
+    @include media-breakpoint-up(sm) {
+      width: 20em;
+      margin: 0 auto;
     }
+  }
 
-    .success-message, .failed-message, .process-message {
-        box-shadow: none;
-        max-width: 23em;
+  .success-message,
+  .failed-message,
+  .process-message {
+    box-shadow: none;
+    max-width: 23em;
+  }
+
+  .success-message {
+    background-color: #d4f5d1;
+    border: 1px solid #60d955;
+
+    span,
+    fa-icon {
+      color: #60d955;
     }
+  }
 
-    .success-message {
-        background-color: #D4F5D1;
-        border: 1px solid #60D955;
+  .failed-message {
+    background-color: #fa5757;
+    border: 1px solid #ba2c3a;
 
-        span, fa-icon {
-            color: #60D955;
-        }
+    span,
+    fa-icon {
+      @include crm-textcolor('layout', 'background');
     }
+  }
 
-    .failed-message {
-        background-color: #FA5757;
-        border: 1px solid #BA2C3A;
+  .process-message {
+    background-color: rgb(255, 238, 0);
+    border: 1px solid rgb(218, 214, 0);
 
-        span, fa-icon {
-            @include crm-textcolor('layout', 'background');
-        }
+    span,
+    fa-icon {
+      @include crm-textcolor('layout', 'background');
     }
-
-    .process-message {
-        background-color: rgb(255, 238, 0);
-        border: 1px solid rgb(218, 214, 0);
-
-        span, fa-icon {
-            @include crm-textcolor('layout', 'background');
-        }
-    }
+  }
 }

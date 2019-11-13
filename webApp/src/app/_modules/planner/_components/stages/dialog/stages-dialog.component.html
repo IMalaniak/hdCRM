@@ -1,8 +1,18 @@
-<h1 mat-dialog-title>{{data.title}}</h1>
+<h1 mat-dialog-title>{{ data.title }}</h1>
 <section mat-dialog-content>
   <app-stages></app-stages>
 </section>
 <div mat-dialog-actions class="justify-content-end">
-    <button mat-raised-button class="crm-button" (click)="onNoClick()"><fa-icon [icon]="['fas', 'times']"></fa-icon><span i18n="@@globalActionsCancelEdit">Cancel</span></button>
-    <button mat-raised-button color="primary" class="crm-button" [mat-dialog-close]="stagesComponent.selection.selected" cdkFocusInitial><fa-icon [icon]="['fas', 'save']"></fa-icon><span i18n="@@globalActionsSaveChanges">Save</span></button>
+  <button mat-raised-button class="crm-button" (click)="onNoClick()">
+    <fa-icon [icon]="['fas', 'times']"></fa-icon><span i18n="@@globalActionsCancelEdit">Cancel</span>
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    class="crm-button"
+    [mat-dialog-close]="stagesComponent.selection.selected"
+    cdkFocusInitial
+  >
+    <fa-icon [icon]="['fas', 'save']"></fa-icon><span i18n="@@globalActionsSaveChanges">Save</span>
+  </button>
 </div>

@@ -1,128 +1,128 @@
 @import 'variables';
 @import 'mixins';
-@import "~bootstrap/scss/mixins/_gradients";
-@import "~bootstrap/scss/mixins/_breakpoints";
+@import '~bootstrap/scss/mixins/_gradients';
+@import '~bootstrap/scss/mixins/_breakpoints';
 
 nav.home-nav {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  @include crm-bgcolor('layout', 'milk');
+  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.1);
+  height: 4em;
+
+  .nav-container {
     display: flex;
     align-items: center;
-    @include crm-bgcolor('layout', 'milk');
-    box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.1);
-    height: 4em;
-
-    .nav-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        padding: 0 1em;
-        margin: 0 auto;
-        @include media-breakpoint-up(md) {
-            width: 75%;
-        }
-
-        .crm-brand {
-            @include crm-textcolor('theme', 'dark');
-            font-weight: bold;
-            font-size: 1.5em;
-            text-transform: uppercase;
-        }
-    
-        button {
-            font-size: 20px;
-        }
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 1em;
+    margin: 0 auto;
+    @include media-breakpoint-up(md) {
+      width: 75%;
     }
+
+    .crm-brand {
+      @include crm-textcolor('theme', 'dark');
+      font-weight: bold;
+      font-size: 1.5em;
+      text-transform: uppercase;
+    }
+
+    button {
+      font-size: 20px;
+    }
+  }
 }
 
 #home {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+
+  .background {
+    @include gradient-directional(crmcolor('layout', 'milk', true) 50%, #dddcdc 50%, -60deg);
+    animation: slide 4s ease-in-out infinite alternate;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: -50%;
+    left: -50%;
+    opacity: 0.4;
+    z-index: -999;
+
+    @keyframes slide {
+      0% {
+        transform: translateX(-25%);
+      }
+      100% {
+        transform: translateX(25%);
+      }
+    }
+  }
+
+  .background-2 {
+    animation-direction: alternate-reverse;
+    animation-duration: 3s;
+  }
+
+  .background-3 {
+    animation-duration: 5s;
+  }
+
+  .home-content {
     width: 100%;
-    height: 100vh;
-
-    .background {
-        @include gradient-directional(crmcolor('layout', 'milk', true) 50%, #dddcdc 50%, -60deg);
-        animation: slide 4s ease-in-out infinite alternate;
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        right: -50%;
-        left: -50%;
-        opacity: 0.4;
-        z-index: -999;
-
-        @keyframes slide {
-            0% {
-            transform:translateX(-25%);
-            }
-            100% {
-            transform:translateX(25%);
-            }
-        }
+    @include media-breakpoint-up(md) {
+      width: 75%;
     }
-    
-    .background-2 {
-        animation-direction: alternate-reverse;
-        animation-duration: 3s;
+
+    .title {
+      @include gradient-x(crmcolor('theme', 'primary', true) 20%, crmcolor('theme', 'dark', true) 100%);
+      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text;
+      align-items: center;
+      line-height: 1.1;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 8em;
+      @include media-breakpoint-up(sm) {
+        font-size: 15em;
+      }
+      @include media-breakpoint-up(md) {
+        font-size: 15.5em;
+      }
+      @include media-breakpoint-up(lg) {
+        font-size: 18em;
+      }
     }
-    
-    .background-3 {
-        animation-duration: 5s;
-    } 
 
-    .home-content {
-        width: 100%;
-        @include media-breakpoint-up(md) {
-            width: 75%;
-        }
-    
-        .title {
-            @include gradient-x(crmcolor('theme', 'primary', true) 20%, crmcolor('theme', 'dark', true) 100%);
-            -webkit-text-fill-color: transparent;
-            -webkit-background-clip: text;
-            align-items: center;
-            line-height: 1.1;
-            font-weight: bold; 
-            text-transform: uppercase;
-            font-size: 8em;
-            @include media-breakpoint-up(sm) {
-                font-size: 15em;
-            }
-            @include media-breakpoint-up(md) {
-                font-size: 15.5em;
-            }
-            @include media-breakpoint-up(lg) {
-                font-size: 18em;
-            }
-        }
-
-        h1 {
-            text-transform: capitalize;
-            margin-bottom: 0.5em;
-            @include media-breakpoint-up(sm) {
-                font-size: 3.2em;
-            }
-            @include media-breakpoint-up(lg) {
-                font-size: 3.8em;
-            }
-        }
-        
-        h3 {
-            @include crm-textcolor('theme', 'primary');
-            margin-bottom: 1.8em;
-            @include media-breakpoint-down(xs) {
-                margin-bottom: 1em;
-                font-size: 1.5em;
-            }
-        }
-
-        button {
-            font-size: 20px;
-            padding: 2px 16px;
-        }
+    h1 {
+      text-transform: capitalize;
+      margin-bottom: 0.5em;
+      @include media-breakpoint-up(sm) {
+        font-size: 3.2em;
+      }
+      @include media-breakpoint-up(lg) {
+        font-size: 3.8em;
+      }
     }
+
+    h3 {
+      @include crm-textcolor('theme', 'primary');
+      margin-bottom: 1.8em;
+      @include media-breakpoint-down(xs) {
+        margin-bottom: 1em;
+        font-size: 1.5em;
+      }
+    }
+
+    button {
+      font-size: 20px;
+      padding: 2px 16px;
+    }
+  }
 }

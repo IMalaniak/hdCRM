@@ -7,36 +7,35 @@ import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-    private api: string;
+  private api: string;
 
-    constructor(private http: HttpClient) {
-        this.api = '/auth';
-    }
+  constructor(private http: HttpClient) {
+    this.api = '/auth';
+  }
 
-    registerUser(user: User) {
-        return this.http.post<any>(`${this.api}/register`, user);
-    }
+  registerUser(user: User) {
+    return this.http.post<any>(`${this.api}/register`, user);
+  }
 
-    login(loginUser: User) {
-        return this.http.post<any>(`${this.api}/authenticate`, loginUser).pipe(
-            map(res => new User(res))
-        );
-    }
+  login(loginUser: User) {
+    return this.http.post<any>(`${this.api}/authenticate`, loginUser).pipe(map(res => new User(res)));
+  }
 
-    activateAccount(token: string): Observable<ApiResponse> {
-        return this.http.post<ApiResponse>(`${this.api}/activate_account`, {token: token});
-    }
+  activateAccount(token: string): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.api}/activate_account`, {
+      token: token
+    });
+  }
 
-    requestPasswordReset(user: User): Observable<ApiResponse> {
-        return this.http.post<ApiResponse>(`${this.api}/forgot_password`, user);
-    }
+  requestPasswordReset(user: User): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.api}/forgot_password`, user);
+  }
 
-    resetPassword(data: any): Observable<ApiResponse> {
-        return this.http.post<ApiResponse>(`${this.api}/reset_password`, data);
-    }
+  resetPassword(data: any): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.api}/reset_password`, data);
+  }
 
-    logout() {
-        return this.http.get(`${this.api}/logout`);
-    }
-
+  logout() {
+    return this.http.get(`${this.api}/logout`);
+  }
 }

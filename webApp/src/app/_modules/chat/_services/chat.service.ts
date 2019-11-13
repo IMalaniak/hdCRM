@@ -7,9 +7,7 @@ import { Chat } from '../_models';
 export class ChatService {
   private api: string;
 
-  constructor(
-    private http: HttpClient
-  ) {
+  constructor(private http: HttpClient) {
     this.api = '/chats';
   }
 

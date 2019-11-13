@@ -8,9 +8,7 @@ import { Stage, StageServerResponse } from '../_models';
 export class StageService {
   private api: string;
 
-  constructor(
-    private http: HttpClient
-  ) {
+  constructor(private http: HttpClient) {
     this.api = '/stages';
   }
 

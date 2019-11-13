@@ -1,17 +1,42 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {
-    AddDepartmentComponent,
-    DepartmentComponent,
-    DepartmentsComponent } from './_components';
+import { AddDepartmentComponent, DepartmentComponent, DepartmentsComponent } from './_components';
 import { DepartmentResolver } from './_services';
 import { PrivilegeGuard } from '@/core/_guards';
 
 const routes: Routes = [
-    {path: '', pathMatch: 'full', redirectTo: 'list' },
-    {path: 'list', data: { breadcrumb: 'List', animation: 'DepartmentsListPage', privilege: 'department-view' }, canActivate: [PrivilegeGuard], component: DepartmentsComponent },
-    {path: 'details/:id', data: { breadcrumb: 'Details', animation: 'DepartmentDetailsPage', privilege: 'department-view' }, canActivate: [PrivilegeGuard], component: DepartmentComponent, resolve: {department: DepartmentResolver}},
-    {path: 'add', data: { breadcrumb: 'Add new department', animation: 'AddDepartmentPage', privilege: 'department-add' }, canActivate: [PrivilegeGuard], component: AddDepartmentComponent},
+  { path: '', pathMatch: 'full', redirectTo: 'list' },
+  {
+    path: 'list',
+    data: {
+      breadcrumb: 'List',
+      animation: 'DepartmentsListPage',
+      privilege: 'department-view'
+    },
+    canActivate: [PrivilegeGuard],
+    component: DepartmentsComponent
+  },
+  {
+    path: 'details/:id',
+    data: {
+      breadcrumb: 'Details',
+      animation: 'DepartmentDetailsPage',
+      privilege: 'department-view'
+    },
+    canActivate: [PrivilegeGuard],
+    component: DepartmentComponent,
+    resolve: { department: DepartmentResolver }
+  },
+  {
+    path: 'add',
+    data: {
+      breadcrumb: 'Add new department',
+      animation: 'AddDepartmentPage',
+      privilege: 'department-add'
+    },
+    canActivate: [PrivilegeGuard],
+    component: AddDepartmentComponent
+  }
 ];
 
 @NgModule({
@@ -21,8 +46,8 @@ const routes: Routes = [
 export class DepartmentsRoutingModule {
   static forRoot(): ModuleWithProviders {
     return {
-        ngModule: DepartmentsRoutingModule,
-        providers: [DepartmentResolver],
+      ngModule: DepartmentsRoutingModule,
+      providers: [DepartmentResolver]
     };
   }
 }

@@ -16,7 +16,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   user: User = new User();
@@ -54,40 +54,40 @@ export class LoginComponent implements OnInit {
   preparePasswordResetFnc(): void {
     this.token = this.route.snapshot.paramMap.get('token');
 
-    this.newPasswordForm = this._formBuilder.group({
-      newPassword: new FormControl('', [
-        Validators.required,
-        Validators.minLength(6),
-        Validators.maxLength(64)
-      ]),
-      confirmPassword: new FormControl('', [
-        Validators.required,
-      ]),
-    }, {
+    this.newPasswordForm = this._formBuilder.group(
+      {
+        newPassword: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(64)]),
+        confirmPassword: new FormControl('', [Validators.required])
+      },
+      {
         validator: ConfirmPasswordValidator.MatchPassword
-    });
+      }
+    );
   }
 
   prepareAccountActivationFnc(): void {
     this.token = this.route.snapshot.paramMap.get('token');
-    this.authService.activateAccount(this.token).pipe(first()).subscribe(
-      response => {
-        this.serverResponse = response;
-        if (response.success) {
-          const self = this;
-          setTimeout(function() {
-            self.router.navigate(['/auth']);
-          }, 5000);
+    this.authService
+      .activateAccount(this.token)
+      .pipe(first())
+      .subscribe(
+        response => {
+          this.serverResponse = response;
+          if (response.success) {
+            const self = this;
+            setTimeout(function() {
+              self.router.navigate(['/auth']);
+            }, 5000);
+          }
+        },
+        error => {
+          Swal.fire({
+            title: 'Account activation failed',
+            type: 'error',
+            timer: 3000
+          });
         }
-      },
-      error => {
-        Swal.fire({
-          title: 'Account activation failed',
-          type: 'error',
-          timer: 3000
-        });
-      }
-    );
+      );
   }
 
   onLoginSubmit() {
@@ -97,42 +97,57 @@ export class LoginComponent implements OnInit {
   onResetPasswordRequest() {
     // TODO change to ngrx totallly
     this.store.dispatch(new authActions.ResetPassword(this.user));
-    this.authService.requestPasswordReset(this.user).pipe(first()).subscribe(
-      response => {
-        this.serverResponse = response;
-        this.store.dispatch(new authActions.ResetPasswordSuccess(response));
-      },
-      error => {
-        this.store.dispatch(new authActions.ResetPasswordFailure(error));
-        // Swal.fire({
-        //   title: 'Email or login delivery failed!',
-        //   type: 'error',
-        //   timer: 3000
-        // });
-      }
-    );
+    this.authService
+      .requestPasswordReset(this.user)
+      .pipe(first())
+      .subscribe(
+        response => {
+          this.serverResponse = response;
+          this.store.dispatch(new authActions.ResetPasswordSuccess(response));
+        },
+        error => {
+          this.store.dispatch(new authActions.ResetPasswordFailure(error));
+          // Swal.fire({
+          //   title: 'Email or login delivery failed!',
+          //   type: 'error',
+          //   timer: 3000
+          // });
+        }
+      );
   }
 
-  get newPassword() { return this.newPasswordForm.get('newPassword'); }
-  get confirmPassword() { return this.newPasswordForm.get('confirmPassword'); }
+  get newPassword() {
+    return this.newPasswordForm.get('newPassword');
+  }
+  get confirmPassword() {
+    return this.newPasswordForm.get('confirmPassword');
+  }
 
   onResetPassword() {
-    this.authService.resetPassword({token: this.token, newPassword: this.newPassword.value, verifyPassword: this.confirmPassword.value}).pipe(first()).subscribe(
-      response => {
-        this.serverResponse = response;
-        if (response.success) {
-          const self = this;
-          setTimeout(function() {
-            self.router.navigate(['/auth']);
-          }, 3000);
+    this.authService
+      .resetPassword({
+        token: this.token,
+        newPassword: this.newPassword.value,
+        verifyPassword: this.confirmPassword.value
+      })
+      .pipe(first())
+      .subscribe(
+        response => {
+          this.serverResponse = response;
+          if (response.success) {
+            const self = this;
+            setTimeout(function() {
+              self.router.navigate(['/auth']);
+            }, 3000);
+          }
+        },
+        error => {
+          Swal.fire({
+            title: 'Ooops, something went wrong!',
+            type: 'error',
+            timer: 1500
+          });
         }
-      },
-      error => {
-        Swal.fire({
-          title: 'Ooops, something went wrong!',
-          type: 'error',
-          timer: 1500
-        });
-    });
+      );
   }
 }

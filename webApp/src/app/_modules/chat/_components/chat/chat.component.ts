@@ -14,10 +14,9 @@ export class ChatComponent implements OnInit, OnDestroy {
   componentActive = true;
   chat: Chat | null;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.selectedChat) {
@@ -37,5 +36,4 @@ export class ChatComponent implements OnInit, OnDestroy {
   cancelEdit(): void {
     this.displayChat(this.chat);
   }
-
 }

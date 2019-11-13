@@ -25,41 +25,41 @@ export enum PlanActionTypes {
 
 export class PlanRequested implements Action {
   readonly type = PlanActionTypes.PLAN_REQUESTED;
-  constructor(public payload: {planId: number}) {}
+  constructor(public payload: { planId: number }) {}
 }
 
 export class PlanLoaded implements Action {
   readonly type = PlanActionTypes.PLAN_LOADED;
-  constructor(public payload: {plan: Plan}) {}
+  constructor(public payload: { plan: Plan }) {}
 }
 
 export class PlanSaved implements Action {
   readonly type = PlanActionTypes.PLAN_SAVED;
-  constructor(public payload: {plan: Update<Plan>}) {}
+  constructor(public payload: { plan: Update<Plan> }) {}
 }
 
 export class CreatePlan implements Action {
   readonly type = PlanActionTypes.PLAN_CREATE;
-  constructor(public payload: {plan: Plan}) {}
+  constructor(public payload: { plan: Plan }) {}
 }
 
 export class CreatePlanSuccess implements Action {
   readonly type = PlanActionTypes.PLAN_CREATE_SUCCESS;
-  constructor(public payload: {plan: Plan}) { }
+  constructor(public payload: { plan: Plan }) {}
 }
 
 export class CreatePlanFail implements Action {
   readonly type = PlanActionTypes.PLAN_CREATE_FAIL;
-  constructor(public payload: string) { }
+  constructor(public payload: string) {}
 }
 
 export class DeletePlan implements Action {
   readonly type = PlanActionTypes.DELETE_PLAN;
-  constructor(public payload: {planId: number}) {}
+  constructor(public payload: { planId: number }) {}
 }
 export class ListPageRequested implements Action {
   readonly type = PlanActionTypes.PLAN_LIST_PAGE_REQUESTED;
-  constructor(public payload: {page: PageQuery}) {}
+  constructor(public payload: { page: PageQuery }) {}
 }
 
 export class ListPageLoaded implements Action {
@@ -86,27 +86,28 @@ export class AllStagesLoaded implements Action {
 
 export class StageSaved implements Action {
   readonly type = PlanActionTypes.STAGE_SAVED;
-  constructor(public payload: {stage: Update<Stage>}) {}
+  constructor(public payload: { stage: Update<Stage> }) {}
 }
 
 export class CreateStage implements Action {
   readonly type = PlanActionTypes.STAGE_CREATE;
-  constructor(public payload: {stage: Stage}) {}
+  constructor(public payload: { stage: Stage }) {}
 }
 
 export class CreateStageSuccess implements Action {
   readonly type = PlanActionTypes.STAGE_CREATE_SUCCESS;
 
-  constructor(public payload: {stage: Stage}) { }
+  constructor(public payload: { stage: Stage }) {}
 }
 
 export class CreateStageFail implements Action {
   readonly type = PlanActionTypes.STAGE_CREATE_FAIL;
 
-  constructor(public payload: string) { }
+  constructor(public payload: string) {}
 }
 
-export type PlanActions = PlanRequested
+export type PlanActions =
+  | PlanRequested
   | PlanLoaded
   | PlanSaved
   | CreatePlan

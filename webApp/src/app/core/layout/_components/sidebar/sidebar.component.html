@@ -1,5 +1,10 @@
 <nav class="sidebar-menu">
   <ul *ngFor="let menuItem of sidebarMenu">
-    <li *ngIf="menuItem.privilege ? ((menuItem.privilege | async) && !menuItem.disable) : !menuItem.disable"><a [routerLinkActive]="['active']" [routerLink]="menuItem.url"><fa-icon [icon]="menuItem.icon"></fa-icon><span class="item-title" i18n="menuItem.i18n">{{menuItem.title}}</span></a></li>
+    <li *ngIf="menuItem.privilege ? (menuItem.privilege | async) && !menuItem.disable : !menuItem.disable">
+      <a [routerLinkActive]="['active']" [routerLink]="menuItem.url"
+        ><fa-icon [icon]="menuItem.icon"></fa-icon
+        ><span class="item-title" i18n="menuItem.i18n">{{ menuItem.title }}</span></a
+      >
+    </li>
   </ul>
-</nav> 
+</nav>

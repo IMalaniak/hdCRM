@@ -14,7 +14,6 @@ import { Department, DepartmentFactory } from './Department';
 import { RolePrivilege, RolePrivilegeFactory } from './RolePrivileges';
 import { OrganizationFactory, Organization } from './Organization';
 
-
 class DataBase {
   sequelize: Sequelize;
 
@@ -38,7 +37,6 @@ class DataBase {
     UserFactory(this.sequelize);
     UserLoginHistoryFactory(this.sequelize);
 
-
     // associations
     Organization.hasMany(Department);
     Organization.hasMany(Plan);
@@ -50,38 +48,75 @@ class DataBase {
     Role.belongsTo(Organization);
     User.belongsTo(Organization);
 
-    User.belongsToMany(Role, {through: 'UserRoles', foreignKey: 'UserId'});
-    User.belongsToMany(Asset, {through: 'UserAssets', foreignKey: 'UserId'});
-    User.belongsTo(Asset, {as: 'avatar'});
-    User.belongsToMany(Plan, {as: 'PlansTakesPartIn', through: 'UserPlans', foreignKey: 'UserId'});
+    User.belongsToMany(Role, { through: 'UserRoles', foreignKey: 'UserId' });
+    User.belongsToMany(Asset, { through: 'UserAssets', foreignKey: 'UserId' });
+    User.belongsTo(Asset, { as: 'avatar' });
+    User.belongsToMany(Plan, {
+      as: 'PlansTakesPartIn',
+      through: 'UserPlans',
+      foreignKey: 'UserId'
+    });
     User.belongsTo(State);
     User.hasOne(UserLoginHistory);
-    User.hasOne(Department, {as: 'ManagedDepartment', foreignKey: 'managerId'});
-    User.belongsTo(Department, {constraints: false});
-    User.hasOne(PasswordAttribute, {as: 'PasswordAttributes', foreignKey: 'UserId'});
+    User.hasOne(Department, {
+      as: 'ManagedDepartment',
+      foreignKey: 'managerId'
+    });
+    User.belongsTo(Department, { constraints: false });
+    User.hasOne(PasswordAttribute, {
+      as: 'PasswordAttributes',
+      foreignKey: 'UserId'
+    });
     UserLoginHistory.belongsTo(User);
     PasswordAttribute.belongsTo(User);
     State.hasMany(User);
-    Asset.belongsToMany(User, {through: 'UserAssets', foreignKey: 'AssetId'});
-    Role.belongsToMany(User, {through: 'UserRoles', foreignKey: 'RoleId'});
-    Plan.belongsTo(User, {as: 'Creator'});
-    Plan.belongsToMany(User, {as: 'Participants', through: 'UserPlans', foreignKey: 'PlanId'});
-    Department.hasMany(User, {as: 'Workers', constraints: false});
-    Department.belongsTo(User, {as: 'Manager', foreignKey: 'managerId'});
+    Asset.belongsToMany(User, { through: 'UserAssets', foreignKey: 'AssetId' });
+    Role.belongsToMany(User, { through: 'UserRoles', foreignKey: 'RoleId' });
+    Plan.belongsTo(User, { as: 'Creator' });
+    Plan.belongsToMany(User, {
+      as: 'Participants',
+      through: 'UserPlans',
+      foreignKey: 'PlanId'
+    });
+    Department.hasMany(User, { as: 'Workers', constraints: false });
+    Department.belongsTo(User, { as: 'Manager', foreignKey: 'managerId' });
 
-    Role.belongsToMany(Privilege, {through: RolePrivilege, foreignKey: 'RoleId'});
-    Privilege.belongsToMany(Role, {through: RolePrivilege, foreignKey: 'PrivilegeId'});
+    Role.belongsToMany(Privilege, {
+      through: RolePrivilege,
+      foreignKey: 'RoleId'
+    });
+    Privilege.belongsToMany(Role, {
+      through: RolePrivilege,
+      foreignKey: 'PrivilegeId'
+    });
 
-    Plan.belongsToMany(Asset, {as: 'Documents', through: 'PlanAssets', foreignKey: 'PlanId'});
-    Plan.belongsTo(Stage, {as: 'activeStage'});
-    Plan.belongsToMany(Stage, {as: 'Stages', through: PlanStage, foreignKey: 'PlanId'});
-    Stage.hasMany(Plan, {foreignKey: 'activeStageId'});
-    Stage.belongsToMany(Plan, {as: 'StagePlans', through: PlanStage, foreignKey: 'StageId'});
-    Asset.belongsToMany(Plan, {through: 'PlanAssets', foreignKey: 'AssetId'});
+    Plan.belongsToMany(Asset, {
+      as: 'Documents',
+      through: 'PlanAssets',
+      foreignKey: 'PlanId'
+    });
+    Plan.belongsTo(Stage, { as: 'activeStage' });
+    Plan.belongsToMany(Stage, {
+      as: 'Stages',
+      through: PlanStage,
+      foreignKey: 'PlanId'
+    });
+    Stage.hasMany(Plan, { foreignKey: 'activeStageId' });
+    Stage.belongsToMany(Plan, {
+      as: 'StagePlans',
+      through: PlanStage,
+      foreignKey: 'StageId'
+    });
+    Asset.belongsToMany(Plan, { through: 'PlanAssets', foreignKey: 'AssetId' });
 
-    Department.belongsTo(Department, {as: 'ParentDepartment', foreignKey: 'parentDepId'});
-    Department.hasMany(Department, {as: 'SubDepartments', foreignKey: 'parentDepId'});
-
+    Department.belongsTo(Department, {
+      as: 'ParentDepartment',
+      foreignKey: 'parentDepId'
+    });
+    Department.hasMany(Department, {
+      as: 'SubDepartments',
+      foreignKey: 'parentDepId'
+    });
 
     Logger.Info(`DataBase inited`);
   }
@@ -93,4 +128,18 @@ class DataBase {
 
 export default DataBase;
 
-export { Asset, Department, PasswordAttribute, Plan, PlanStage, Privilege, Role, Stage, State, User, UserLoginHistory, Organization, Sequelize };
+export {
+  Asset,
+  Department,
+  PasswordAttribute,
+  Plan,
+  PlanStage,
+  Privilege,
+  Role,
+  Stage,
+  State,
+  User,
+  UserLoginHistory,
+  Organization,
+  Sequelize
+};

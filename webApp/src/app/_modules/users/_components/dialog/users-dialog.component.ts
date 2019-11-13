@@ -6,20 +6,18 @@ export interface UsersDialogData {
   title: string;
 }
 @Component({
-  templateUrl: 'users-dialog.component.html',
+  templateUrl: 'users-dialog.component.html'
 })
 export class UsersDialogComponent {
-
   constructor(
     public dialogRef: MatDialogRef<UsersDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: UsersDialogData
   ) {}
 
-  @ViewChild(UsersComponent, {static: true})
-    usersComponent: UsersComponent;
+  @ViewChild(UsersComponent, { static: true })
+  usersComponent: UsersComponent;
 
   onNoClick(): void {
     this.dialogRef.close();
   }
-
 }

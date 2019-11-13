@@ -23,38 +23,38 @@ import { CustomSerializer } from '@/_shared/utils';
 
 import { environment } from 'environments/environment';
 
-
 @NgModule({
-    imports: [
-      CommonModule,
-      RouterModule,
-      HttpClientModule,
-      FormsModule,
-      ReactiveFormsModule,
-      AuthModule.forRoot(),
-      LayoutModule,
-      StoreModule.forRoot(reducers, { metaReducers, runtimeChecks: { strictStateImmutability: true, strictActionImmutability: true } }),
-      !environment.production ? StoreDevtoolsModule.instrument() : [],
-      EffectsModule.forRoot([]),
-      StoreRouterConnectingModule.forRoot({stateKey: 'router'})
-    ],
-    exports: [
-      RouterModule,
-      HttpClientModule,
-      FormsModule,
-      ReactiveFormsModule,
-      LayoutModule
-    ],
-    providers: [
-        httpInterceptorsProviders,
-        ValidateService,
-        MediaqueryService,
-        { provide: RouterStateSerializer, useClass: CustomSerializer }
-    ]
-  })
-  export class CoreModule extends EnsureModuleLoadedOnceGuard {    // Ensure that CoreModule is only loaded into AppModule
-    // Looks for the module in the parent injector to see if it's already been loaded (only want it loaded once)
-    constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
-      super(parentModule);
-    }
+  imports: [
+    CommonModule,
+    RouterModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AuthModule.forRoot(),
+    LayoutModule,
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true
+      }
+    }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([]),
+    StoreRouterConnectingModule.forRoot({ stateKey: 'router' })
+  ],
+  exports: [RouterModule, HttpClientModule, FormsModule, ReactiveFormsModule, LayoutModule],
+  providers: [
+    httpInterceptorsProviders,
+    ValidateService,
+    MediaqueryService,
+    { provide: RouterStateSerializer, useClass: CustomSerializer }
+  ]
+})
+export class CoreModule extends EnsureModuleLoadedOnceGuard {
+  // Ensure that CoreModule is only loaded into AppModule
+  // Looks for the module in the parent injector to see if it's already been loaded (only want it loaded once)
+  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
+    super(parentModule);
   }
+}

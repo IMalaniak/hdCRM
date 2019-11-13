@@ -1,12 +1,12 @@
-<div class="company-logo" [ngClass]="{'minimized': sidebarMinimized}">
-	<img src="./assets/images/logo_big.png" alt="noimage">
-	<div class="hamburger" (click)="toogleSidebar();">
-		<label for="nav-check">
-		<span></span>
-		<span></span>
-		<span></span>
-		</label>
-	</div>
+<div class="company-logo" [ngClass]="{ minimized: sidebarMinimized }">
+  <img src="./assets/images/logo_big.png" alt="noimage" />
+  <div class="hamburger" (click)="toogleSidebar()">
+    <label for="nav-check">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+  </div>
 </div>
 
 <app-breadcrumbs *ngIf="!mediaquery.isPhone"></app-breadcrumbs>
@@ -19,23 +19,34 @@
 	<fa-icon [icon]="['fas', 'question']"></fa-icon>
 </div> -->
 <div class="user-dropdown" *ngIf="currentUser">
-	<img class="userpic" *ngIf="!currentUser.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
-	<img class="userpic" *ngIf="currentUser.avatar" src="{{currentUser.avatar.getThumbnailsUrl}}" alt="{{currentUser.avatar.title}}">
+  <img class="userpic" *ngIf="!currentUser.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage" />
+  <img
+    class="userpic"
+    *ngIf="currentUser.avatar"
+    src="{{ currentUser.avatar.getThumbnailsUrl }}"
+    alt="{{ currentUser.avatar.title }}"
+  />
 
-	<section class="dropdown-content">
-		<section class="user-data">
-			<span>{{currentUser.fullname}}</span>
-			<div class="user-roles d-flex justify-content-center" *ngIf="currentUser.Roles">
-				<span *ngFor="let role of currentUser.Roles">{{ role.keyString }}</span>
-			</div>
-	
-			<div>
-				<button mat-stroked-button color="primary" class="crm-button" [routerLink]="['/users/myprofile']"><fa-icon [icon]="['fas', 'user']"></fa-icon><span i18n="@@headerComponentUserDropdownActionsMyProfile">My Profile</span></button>
-				<button mat-stroked-button color="warn" (click)="onLogoutClick()" class="crm-button"><fa-icon [icon]="['fas', 'sign-out-alt']"></fa-icon><span i18n="@@headerComponentUserDropdownActionsLogOut">Logout</span></button>
-			</div>
-		</section>
+  <section class="dropdown-content">
+    <section class="user-data">
+      <span>{{ currentUser.fullname }}</span>
+      <div class="user-roles d-flex justify-content-center" *ngIf="currentUser.Roles">
+        <span *ngFor="let role of currentUser.Roles">{{ role.keyString }}</span>
+      </div>
 
-		<!-- <section class="notifications-wrapper">
+      <div>
+        <button mat-stroked-button color="primary" class="crm-button" [routerLink]="['/users/myprofile']">
+          <fa-icon [icon]="['fas', 'user']"></fa-icon
+          ><span i18n="@@headerComponentUserDropdownActionsMyProfile">My Profile</span>
+        </button>
+        <button mat-stroked-button color="warn" (click)="onLogoutClick()" class="crm-button">
+          <fa-icon [icon]="['fas', 'sign-out-alt']"></fa-icon
+          ><span i18n="@@headerComponentUserDropdownActionsLogOut">Logout</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- <section class="notifications-wrapper">
 			<div class="d-flex justify-content-between"><span>Notifications</span><fa-icon [icon]="['fas', 'cog']"></fa-icon></div>
 			<div>
 					<input class="notification-check" type="checkbox" id="size_1" value="small" checked />
@@ -51,5 +62,5 @@
 			</div>
 			<a mat-button class="crm-button" [routerLink]="['/users/myprofile']"><span i18n="@@headerComponentUserDropdownActionsNotificationsMore">Show more</span></a>
 		</section> -->
-	</section>
+  </section>
 </div>

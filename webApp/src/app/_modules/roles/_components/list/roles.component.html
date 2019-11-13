@@ -3,9 +3,14 @@
 
 </section>
 -->
-<section class="app-content-box" [title]="'Roles List'" [cssClass]="'bg-secondary border-0'"
-  [contentCssClass]="'bg-light p-0'" [headCssClass]="'text-white'" [showDataLoader]="loading$ | async">
-
+<section
+  class="app-content-box"
+  [title]="'Roles List'"
+  [cssClass]="'bg-secondary border-0'"
+  [contentCssClass]="'bg-light p-0'"
+  [headCssClass]="'text-white'"
+  [showDataLoader]="loading$ | async"
+>
   <div buttons *ngIf="addRolePrivilege$ | async">
     <button mat-raised-button color="primary" class="crm-button" routerLink="/roles/add">
       <fa-icon [icon]="['fas', 'plus']"></fa-icon><span i18n="@@rolesComponentDialogActionsCreate">Create</span>
@@ -22,8 +27,11 @@
             </mat-checkbox> -->
         </mat-header-cell>
         <mat-cell *matCellDef="let row">
-          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
-            [checked]="selection.isSelected(row)">
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)"
+          >
           </mat-checkbox>
         </mat-cell>
       </ng-container>
@@ -36,17 +44,20 @@
         <mat-cell *matCellDef="let role">{{ role.Users.length }}</mat-cell>
       </ng-container>
       <ng-container matColumnDef="privileges">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@rolesComponentListPrivilegesCount">Privileges
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@rolesComponentListPrivilegesCount"
+          >Privileges
         </mat-header-cell>
         <mat-cell *matCellDef="let role">{{ role.Privileges.length }}</mat-cell>
       </ng-container>
       <ng-container matColumnDef="createdAt">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@rolesComponentListCreatedAt">Date created
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@rolesComponentListCreatedAt"
+          >Date created
         </mat-header-cell>
         <mat-cell *matCellDef="let role">{{ role.createdAt | date: 'short' }}</mat-cell>
       </ng-container>
       <ng-container matColumnDef="updatedAt">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@rolesComponentListUpdatedAt">Date updated
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@rolesComponentListUpdatedAt"
+          >Date updated
         </mat-header-cell>
         <mat-cell *matCellDef="let role">{{ role.updatedAt | date: 'short' }}</mat-cell>
       </ng-container>
@@ -79,5 +90,4 @@
   </div>
   <mat-paginator content [length]="resultsLength$ | async" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons>
   </mat-paginator>
-
 </section>

@@ -1,29 +1,49 @@
-<section class="app-content-box" [title]="'Register new role'" [cssClass]="'bg-secondary border-0'" [contentCssClass]="'bg-light'" [headCssClass]="'text-white'">
+<section
+  class="app-content-box"
+  [title]="'Register new role'"
+  [cssClass]="'bg-secondary border-0'"
+  [contentCssClass]="'bg-light'"
+  [headCssClass]="'text-white'"
+>
   <section content class="row">
     <div class="col-sm-8">
-      <form class="d-flex flex-column">  
+      <form class="d-flex flex-column">
         <mat-form-field appearance="outline">
           <mat-label i18n="@@registerRoleComponentFormLabelsTitle">Title</mat-label>
-          <input matInput [formControl]="keyString">
+          <input matInput [formControl]="keyString" />
           <mat-error *ngIf="keyString.invalid">
             <mat-error *ngIf="keyString.errors.required" i18n="@@registerRoleComponentFormErrorsLableRequired">
               Title is required!
             </mat-error>
-            <mat-error *ngIf="keyString.errors.minlength && (keyString.dirty || keyString.touched)" i18n="@@registerRoleComponentFormErrorsLableIsTooShort">
+            <mat-error
+              *ngIf="keyString.errors.minlength && (keyString.dirty || keyString.touched)"
+              i18n="@@registerRoleComponentFormErrorsLableIsTooShort"
+            >
               Title is too short!
             </mat-error>
           </mat-error>
         </mat-form-field>
       </form>
-      <section class="app-content-box" [title]="'Privileges'" [cssClass]="'border border-secondary m-0'" [contentCssClass]="'p-0'" [disableShadow]="true" [counter]="role.Privileges.length">
+      <section
+        class="app-content-box"
+        [title]="'Privileges'"
+        [cssClass]="'border border-secondary m-0'"
+        [contentCssClass]="'p-0'"
+        [disableShadow]="true"
+        [counter]="role.Privileges.length"
+      >
         <div buttons>
-          <button mat-stroked-button color="primary" class="crm-button" (click)="addPrivilegeDialog()"><fa-icon [icon]="['fas', 'plus']"></fa-icon><span i18n="@@roleComponentActionsAddPrivilegeGroup">Add</span></button>
+          <button mat-stroked-button color="primary" class="crm-button" (click)="addPrivilegeDialog()">
+            <fa-icon [icon]="['fas', 'plus']"></fa-icon><span i18n="@@roleComponentActionsAddPrivilegeGroup">Add</span>
+          </button>
         </div>
         <div content class="table-container">
           <mat-table #privilegesTable class="role-table crm-table" [dataSource]="role.Privileges">
             <ng-container matColumnDef="title" sticky>
               <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
-              <mat-cell *matCellDef="let privilege"> {{privilege.title}} </mat-cell>
+              <mat-cell *matCellDef="let privilege">
+                {{ privilege.title }}
+              </mat-cell>
             </ng-container>
             <ng-container matColumnDef="view">
               <mat-header-cell *matHeaderCellDef> View </mat-header-cell>
@@ -56,16 +76,33 @@
       </section>
     </div>
     <div class="col-sm-4">
-      <section class="app-content-box" [title]="'Users'" [cssClass]="'border border-secondary mt-3 mt-sm-0'" [contentCssClass]="'p-0'" [disableShadow]="true" [counter]="role.Users.length">
+      <section
+        class="app-content-box"
+        [title]="'Users'"
+        [cssClass]="'border border-secondary mt-3 mt-sm-0'"
+        [contentCssClass]="'p-0'"
+        [disableShadow]="true"
+        [counter]="role.Users.length"
+      >
         <div buttons>
-          <button mat-stroked-button color="primary" class="crm-button" (click)="addParticipantDialog()"><fa-icon [icon]="['fas', 'user-plus']"></fa-icon><span i18n="@@registerRoleComponentFormActionsAddUser">Add</span></button>
+          <button mat-stroked-button color="primary" class="crm-button" (click)="addParticipantDialog()">
+            <fa-icon [icon]="['fas', 'user-plus']"></fa-icon
+            ><span i18n="@@registerRoleComponentFormActionsAddUser">Add</span>
+          </button>
         </div>
         <mat-list content>
           <ng-container *ngFor="let user of role.Users">
             <mat-list-item>
-              <img matListAvatar *ngIf="user.avatar" src="{{user.avatar.getThumbnailsUrl}}" alt="{{user.avatar.title}}">
-              <img matListAvatar *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
-              <h3 matLine><a routerLink="/user/{{user.id}}" >{{user.fullname}}</a></h3>
+              <img
+                matListAvatar
+                *ngIf="user.avatar"
+                src="{{ user.avatar.getThumbnailsUrl }}"
+                alt="{{ user.avatar.title }}"
+              />
+              <img matListAvatar *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage" />
+              <h3 matLine>
+                <a routerLink="/user/{{ user.id }}">{{ user.fullname }}</a>
+              </h3>
             </mat-list-item>
             <mat-divider></mat-divider>
           </ng-container>
@@ -73,5 +110,14 @@
       </section>
     </div>
   </section>
-  <button mat-raised-button color="primary" class="crm-button" [disabled]="keyString.invalid" buttons (click)="onRegisterSubmit()"><fa-icon [icon]="['fas', 'save']"></fa-icon><span i18n="@@registerRoleComponentFormActionsSubmit">Submit</span></button>
+  <button
+    mat-raised-button
+    color="primary"
+    class="crm-button"
+    [disabled]="keyString.invalid"
+    buttons
+    (click)="onRegisterSubmit()"
+  >
+    <fa-icon [icon]="['fas', 'save']"></fa-icon><span i18n="@@registerRoleComponentFormActionsSubmit">Submit</span>
+  </button>
 </section>

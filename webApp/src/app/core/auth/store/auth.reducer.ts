@@ -1,8 +1,6 @@
-
 import { AuthActionTypes, AuthActions } from './auth.actions';
 import { User } from '@/_modules/users';
 import { ApiResponse } from '@/core/_models';
-
 
 export interface AuthState {
   loggedIn: boolean;
@@ -31,7 +29,7 @@ export function authReducer(state = initialState, action: AuthActions): AuthStat
       return {
         ...state,
         loggedIn: true,
-        currentUser:  action.payload,
+        currentUser: action.payload
       };
     }
     case AuthActionTypes.LOGIN_FAILURE: {

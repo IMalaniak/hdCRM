@@ -10,12 +10,12 @@
 // @import '~bootstrap/scss/tables';
 @import '~bootstrap/scss/images';
 // @import '~bootstrap/scss/forms';
-@import "~bootstrap/scss/utilities";
+@import '~bootstrap/scss/utilities';
 // @import "~bootstrap/scss/print";
 @import 'styles-reset';
 @import 'root';
 
-@import "theme.scss";
+@import 'theme.scss';
 @include mat-core();
 @include angular-material-theme($crm-theme);
 
@@ -29,11 +29,11 @@ body {
 }
 
 .grid {
-	display: flex;
-	flex-direction: column;
-	position: fixed;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
   justify-content: space-between;
-	left: 0;
+  left: 0;
   top: 0;
   width: 100%;
   height: 100%;
@@ -64,7 +64,7 @@ main {
     transition: visibility $transition, background-color $transition;
 
     &.isVisible {
-      background-color: rgba(0,0,0,.6);
+      background-color: rgba(0, 0, 0, 0.6);
       visibility: visible;
     }
   }
@@ -82,15 +82,14 @@ main {
   justify-content: space-between;
 
   > section.container-fluid {
-      min-height: calc(100vh - #{$hHeight});
-      flex: 1 0 auto;
+    min-height: calc(100vh - #{$hHeight});
+    flex: 1 0 auto;
   }
-
 }
 
 .breadcrumb {
   margin: 0;
-  padding: 0.5*crmsize(spacer, null, true) crmsize(spacer, null, true);
+  padding: 0.5 * crmsize(spacer, null, true) crmsize(spacer, null, true);
   @include crm-bgcolor('layout', 'dark');
   @include crm-textcolor('layout', 'milk');
 
@@ -128,7 +127,7 @@ main {
   .mat-column-select {
     flex: 0 0 4rem;
     .mat-checkbox {
-        margin-bottom: unset;
+      margin-bottom: unset;
     }
   }
 
@@ -141,13 +140,12 @@ main {
     font-style: italic;
     @include crm-textcolor('theme', 'primary');
   }
-
 }
 
 .userpic {
   max-height: crmsize(userpic, null, true);
   border-radius: 50%;
-  
+
   .list-group-item & {
     margin-right: crmsize(spacer, null, true);
   }
@@ -164,7 +162,7 @@ main {
 .crm-button {
   text-overflow: ellipsis;
   overflow: hidden;
-  white-space: nowrap;  
+  white-space: nowrap;
   display: block;
 
   .mat-button-wrapper {
@@ -191,7 +189,7 @@ main {
         display: inline;
         border-left: 1px solid;
         margin-right: 0.6em;
-  
+
         @include media-breakpoint-down(sm) {
           display: none;
         }
@@ -219,16 +217,16 @@ main {
     font-size: 1.25em;
     @include crm-textcolor('theme', 'primary');
   }
-} 
+}
 
 .mat-sort-header-container {
-    align-items: baseline;
+  align-items: baseline;
 }
 
 .table-hover {
-	tr {
-		cursor: pointer;
-	}
+  tr {
+    cursor: pointer;
+  }
 }
 
 .hidden {

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Privilege } from '../../../_models';
 import { AddPrivilegeDialogComponent } from '../add-dialog/add-privilege-dialog.component';
@@ -26,27 +26,23 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(
-    private dialog: MatDialog,
-    private _formBuilder: FormBuilder,
-    private store: Store<AppState>
-  ) { }
+  constructor(private dialog: MatDialog, private _formBuilder: FormBuilder, private store: Store<AppState>) {}
 
   ngOnInit() {
-
-    this.store.dispatch(new AllPrivilegesRequested);
+    this.store.dispatch(new AllPrivilegesRequested());
 
     this.isLoading$ = this.store.pipe(select(selectPrivilegesLoading));
 
-    this.store.pipe(
-      takeUntil(this.unsubscribe),
-      select(selectAllPrivileges),
-      map(data => {
-        this.resultsLength = data.length;
-        return data;
-      })
-    ).subscribe(data => this.privileges = data);
-
+    this.store
+      .pipe(
+        takeUntil(this.unsubscribe),
+        select(selectAllPrivileges),
+        map(data => {
+          this.resultsLength = data.length;
+          return data;
+        })
+      )
+      .subscribe(data => (this.privileges = data));
   }
 
   isAllSelected() {
@@ -57,31 +53,26 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
-    this.isAllSelected() ?
-        this.selection.clear() :
-        this.privileges.forEach(row => this.selection.select(row));
+    this.isAllSelected() ? this.selection.clear() : this.privileges.forEach(row => this.selection.select(row));
   }
 
   createPrivilegeDialog(): void {
     const dialogRef = this.dialog.open(AddPrivilegeDialogComponent, {
       data: this._formBuilder.group({
-        keyString: new FormControl('', [
-          Validators.required,
-          Validators.minLength(4)
-        ]),
-        title: new FormControl('', [
-          Validators.required,
-          Validators.minLength(4)
-        ])
+        keyString: new FormControl('', [Validators.required, Validators.minLength(4)]),
+        title: new FormControl('', [Validators.required, Validators.minLength(4)])
       })
     });
 
-    dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
-      if (result) {
-        const newPrivilege = new Privilege(result);
-        this.store.dispatch(new CreatePrivilege({privilege: newPrivilege}));
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(result => {
+        if (result) {
+          const newPrivilege = new Privilege(result);
+          this.store.dispatch(new CreatePrivilege({ privilege: newPrivilege }));
+        }
+      });
   }
 
   ngOnDestroy() {

@@ -3,7 +3,6 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Plan } from '../_models';
 import { PlanActions, PlanActionTypes } from './plan.actions';
 
-
 export interface PlansState extends EntityState<Plan> {
   loading: boolean;
   pages: number;
@@ -24,7 +23,6 @@ export const adapter: EntityAdapter<Plan> = createEntityAdapter<Plan>({
   sortComparer: sortByIdAndActiveStage
 });
 
-
 export const initialPlansState: PlansState = adapter.getInitialState({
   loading: false,
   pages: null,
@@ -32,13 +30,13 @@ export const initialPlansState: PlansState = adapter.getInitialState({
   error: null
 });
 
-
-export function plansReducer(state = initialPlansState , action: PlanActions): PlansState {
-
+export function plansReducer(state = initialPlansState, action: PlanActions): PlansState {
   switch (action.type) {
-
     case PlanActionTypes.PLAN_CREATE_SUCCESS:
-      return adapter.addOne(action.payload.plan, {...state, countAll: state.countAll + 1});
+      return adapter.addOne(action.payload.plan, {
+        ...state,
+        countAll: state.countAll + 1
+      });
 
     case PlanActionTypes.PLAN_CREATE_FAIL:
       return {
@@ -47,7 +45,10 @@ export function plansReducer(state = initialPlansState , action: PlanActions): P
       };
 
     case PlanActionTypes.DELETE_PLAN:
-      return adapter.removeOne(action.payload.planId, {...state, countAll: state.countAll - 1});
+      return adapter.removeOne(action.payload.planId, {
+        ...state,
+        countAll: state.countAll - 1
+      });
 
     case PlanActionTypes.PLAN_LOADED:
       return adapter.addOne(action.payload.plan, state);
@@ -59,7 +60,12 @@ export function plansReducer(state = initialPlansState , action: PlanActions): P
       };
 
     case PlanActionTypes.PLAN_LIST_PAGE_LOADED:
-      return adapter.upsertMany(action.payload.list, {...state, loading: false, pages: action.payload.pages, countAll: action.payload.count});
+      return adapter.upsertMany(action.payload.list, {
+        ...state,
+        loading: false,
+        pages: action.payload.pages,
+        countAll: action.payload.count
+      });
 
     case PlanActionTypes.PLAN_LIST_PAGE_CANCELLED:
       return {
@@ -73,14 +79,7 @@ export function plansReducer(state = initialPlansState , action: PlanActions): P
     default: {
       return state;
     }
-
   }
 }
 
-
-export const {
-  selectAll,
-  selectEntities,
-  selectIds,
-  selectTotal
-} = adapter.getSelectors();
+export const { selectAll, selectEntities, selectIds, selectTotal } = adapter.getSelectors();

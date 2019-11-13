@@ -1,4 +1,4 @@
 export class Breadcrumb {
-    keyString: string;
-    url: string;
+  keyString: string;
+  url: string;
 }

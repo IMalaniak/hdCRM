@@ -9,28 +9,24 @@ import { isPrivileged } from '../auth/store/auth.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class PrivilegeGuard implements CanActivate {
-    constructor(
-        private store$: Store<AppState>,
-        private router: Router
-    ) { }
+  constructor(private store$: Store<AppState>, private router: Router) {}
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.store$.pipe(
-            select(isPrivileged(route.data.privilege)),
-            tap(privileged => {
-                if (!privileged) {
-                    Swal.fire({
-                        title: 'Sorry, You have no rights to see this page!',
-                        type: 'error',
-                        timer: 3000,
-                        showCancelButton: false,
-                        showCloseButton: false,
-                    }).then(() => {
-                        return false;
-                    });
-                }
-            })
-        );
-    }
-
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+    return this.store$.pipe(
+      select(isPrivileged(route.data.privilege)),
+      tap(privileged => {
+        if (!privileged) {
+          Swal.fire({
+            title: 'Sorry, You have no rights to see this page!',
+            type: 'error',
+            timer: 3000,
+            showCancelButton: false,
+            showCloseButton: false
+          }).then(() => {
+            return false;
+          });
+        }
+      })
+    );
+  }
 }

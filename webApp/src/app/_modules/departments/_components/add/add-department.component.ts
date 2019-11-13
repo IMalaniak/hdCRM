@@ -19,13 +19,7 @@ export class AddDepartmentComponent implements OnInit {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(
-    private dialog: MatDialog,
-    private store: Store<AppState>,
-    private mediaQuery: MediaqueryService
-  ) { 
-
-  }
+  constructor(private dialog: MatDialog, private store: Store<AppState>, private mediaQuery: MediaqueryService) {}
 
   ngOnInit() {
     this.department.SubDepartments = [];
@@ -36,34 +30,39 @@ export class AddDepartmentComponent implements OnInit {
     const dialogRef = this.dialog.open(UsersDialogComponent, {
       ...this.mediaQuery.deFaultPopupSize,
       data: {
-        title: ['Select manager'],
+        title: ['Select manager']
       }
     });
 
-    dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
-      if (result && result.length > 0) {
-        this.department.Manager = result[0];
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(result => {
+        if (result && result.length > 0) {
+          this.department.Manager = result[0];
+        }
+      });
   }
 
   addWorkersDialog(): void {
     const dialogRef = this.dialog.open(UsersDialogComponent, {
       ...this.mediaQuery.deFaultPopupSize,
       data: {
-        title: ['Select workers'],
+        title: ['Select workers']
       }
     });
 
-    dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
-      if (result && result.length > 0) {
-        this.department.Workers = [...new Set([...this.department.Workers, ...result])];
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(result => {
+        if (result && result.length > 0) {
+          this.department.Workers = [...new Set([...this.department.Workers, ...result])];
+        }
+      });
   }
 
   onClickSubmit() {
-    this.store.dispatch(new CreateDepartment({department: this.department}));
+    this.store.dispatch(new CreateDepartment({ department: this.department }));
   }
-
 }

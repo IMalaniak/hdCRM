@@ -1,64 +1,55 @@
 // retrieve color from map with Sass ie. `color(primary, base)`
-@function crmcolor($map, $variant:null, $true-val:false) {
+@function crmcolor($map, $variant: null, $true-val: false) {
   // we need to return the color value
   @if $true-val == true {
     // color variant is optional
     @if ($variant != null) {
       // map inception, need two deep
-      @return map-get(map-get($crmcolors,$map),$variant);
-
+      @return map-get(map-get($crmcolors, $map), $variant);
     } @else {
       // single-level color, one deep
-      @return map-get($crmcolors,$map);
-
+      @return map-get($crmcolors, $map);
     }
-  // if we're only returning the CSS4 variable
+    // if we're only returning the CSS4 variable
   } @else {
     // color variant is optional
     @if ($variant != null) {
       // map inception, need two names
       @return var(#{$color-prefix}#{$map}-#{$variant});
-
     } @else {
       // single-level color, one name
       @return var(#{$color-prefix}#{$map});
-
     }
   }
 }
 
 // retrieve size from map with Sass ie. `size(viewport, sm)`
-@function crmsize($size-name, $size-variant:null, $true-val:false) {
-
+@function crmsize($size-name, $size-variant: null, $true-val: false) {
   // we need to return the size value
   @if $true-val == true {
     // size variant is optional
     @if ($size-variant != null) {
       // map inception, need two deep
-      @return map-get(map-get($crmsizes,$size-name),$size-variant);
-
+      @return map-get(map-get($crmsizes, $size-name), $size-variant);
     } @else {
       // single-level size, one deep
-      @return map-get($crmsizes,$size-name);
-
+      @return map-get($crmsizes, $size-name);
     }
-  // if we're only returning the CSS4 variable
+    // if we're only returning the CSS4 variable
   } @else {
     // size variant is optional
     @if ($size-variant != null) {
       // map inception, need two names
       @return var(#{$size-prefix}#{$size-name}-#{$size-variant});
-
     } @else {
       // single-level size, one name
       @return var(#{$size-prefix}#{$size-name});
-
     }
   }
 }
 
 // define local variable
-@mixin var($name,$value) {
+@mixin var($name, $value) {
   #{--$name}: $value;
 }
 // access any variable

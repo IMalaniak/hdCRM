@@ -20,42 +20,42 @@ export enum DepartmentActionTypes {
 
 export class DepartmentRequested implements Action {
   readonly type = DepartmentActionTypes.DEPARTMENT_REQUESTED;
-  constructor(public payload: {departmentId: number}) {}
+  constructor(public payload: { departmentId: number }) {}
 }
 
 export class DepartmentLoaded implements Action {
   readonly type = DepartmentActionTypes.DEPARTMENT_LOADED;
-  constructor(public payload: {department: Department}) {}
+  constructor(public payload: { department: Department }) {}
 }
 
 export class DepartmentSaved implements Action {
   readonly type = DepartmentActionTypes.DEPARTMENT_SAVED;
-  constructor(public payload: {department: Update<Department>}) {}
+  constructor(public payload: { department: Update<Department> }) {}
 }
 
 export class CreateDepartment implements Action {
   readonly type = DepartmentActionTypes.DEPARTMENT_CREATE;
-  constructor(public payload: {department: Department}) {}
+  constructor(public payload: { department: Department }) {}
 }
 
 export class CreateDepartmentSuccess implements Action {
   readonly type = DepartmentActionTypes.DEPARTMENT_CREATE_SUCCESS;
-  constructor(public payload: {department: Department}) { }
+  constructor(public payload: { department: Department }) {}
 }
 
 export class CreateDepartmentFail implements Action {
   readonly type = DepartmentActionTypes.DEPARTMENT_CREATE_FAIL;
-  constructor(public payload: string) { }
+  constructor(public payload: string) {}
 }
 
 export class DeleteDepartment implements Action {
   readonly type = DepartmentActionTypes.DELETE_DEPARTMENT;
-  constructor(public payload: {departmentId: number}) {}
+  constructor(public payload: { departmentId: number }) {}
 }
 
 export class ListPageRequested implements Action {
   readonly type = DepartmentActionTypes.DEPARTMENT_LIST_PAGE_REQUESTED;
-  constructor(public payload: {page: PageQuery}) {}
+  constructor(public payload: { page: PageQuery }) {}
 }
 
 export class ListPageLoaded implements Action {
@@ -76,7 +76,8 @@ export class DepDashboardDataLoaded implements Action {
   constructor(public payload: DepartmentServerResponse) {}
 }
 
-export type DepartmentActions = DepartmentRequested
+export type DepartmentActions =
+  | DepartmentRequested
   | DepartmentLoaded
   | DepartmentSaved
   | CreateDepartment

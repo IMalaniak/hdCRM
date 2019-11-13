@@ -1,8 +1,10 @@
 <ng-container>
-  <hr>
+  <hr />
   <h4 class="text-danger" i18n="@@messagesСomponentDebug">DEBUG</h4>
   <ul>
-    <li class="text-info" *ngFor='let message of messageService.messages; let i = index'>{{i+1}}. {{message}} </li>
+    <li class="text-info" *ngFor="let message of messageService.messages; let i = index">{{ i + 1 }}. {{ message }}</li>
   </ul>
-  <button mat-raised-button color="primary" class="crm-button" (click)="messageService.clear()"><span i18n="@@messagesСomponentActionsClear">Clear</span></button>
+  <button mat-raised-button color="primary" class="crm-button" (click)="messageService.clear()">
+    <span i18n="@@messagesСomponentActionsClear">Clear</span>
+  </button>
 </ng-container>

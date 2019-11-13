@@ -1,17 +1,17 @@
 .table-container {
-    .role-table {    
-        mat-row {
-            &:last-child {
-                border: none;
-            }
-        }
+  .role-table {
+    mat-row {
+      &:last-child {
+        border: none;
+      }
     }
+  }
 }
 
 mat-list {
-    mat-divider {
-        &:last-child {
-            display: none;
-        }
+  mat-divider {
+    &:last-child {
+      display: none;
     }
+  }
 }

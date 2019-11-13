@@ -30,7 +30,6 @@ export class MediaqueryService {
     return config;
   }
 
-
   public get isMobileDevice(): boolean {
     return this.upToTablet.matches;
   }

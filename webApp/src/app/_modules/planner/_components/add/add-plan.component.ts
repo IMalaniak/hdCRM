@@ -21,20 +21,13 @@ export class AddPlanComponent implements OnInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
 
-
-  constructor(
-    private dialog: MatDialog,
-    private store: Store<AppState>,
-    private mediaQuery: MediaqueryService
-  ) {
-
-   }
+  constructor(private dialog: MatDialog, private store: Store<AppState>, private mediaQuery: MediaqueryService) {}
 
   ngOnInit() {
     this.store.pipe(select(currentUser), takeUntil(this.unsubscribe)).subscribe(user => {
       this.appUser = user;
     });
-    
+
     this.plan.Participants = [];
   }
 
@@ -42,7 +35,7 @@ export class AddPlanComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(UsersDialogComponent, {
       ...this.mediaQuery.deFaultPopupSize,
       data: {
-        title: 'Select participants',
+        title: 'Select participants'
       }
     });
 
@@ -55,12 +48,11 @@ export class AddPlanComponent implements OnInit, OnDestroy {
 
   onClickSubmit() {
     this.plan.CreatorId = this.appUser.id;
-    this.store.dispatch(new CreatePlan({plan: this.plan}));
+    this.store.dispatch(new CreatePlan({ plan: this.plan }));
   }
 
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
-
 }

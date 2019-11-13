@@ -19,7 +19,11 @@ import { RoleService, PrivilegeService } from '../roles';
 import { privilegesReducer } from '../roles/store/privilege.reducer';
 
 const routes: Routes = [
-    {path: '', data: { breadcrumb: 'Dashboard' }, component: DashboardComponent},
+  {
+    path: '',
+    data: { breadcrumb: 'Dashboard' },
+    component: DashboardComponent
+  }
 ];
 
 @NgModule({
@@ -34,12 +38,8 @@ const routes: Routes = [
     StoreModule.forFeature('stages', stagesReducer),
     EffectsModule.forFeature([DepartmentEffects, RoleEffects, PlanEffects])
   ],
-  declarations: [
-    DashboardComponent
-    ],
-  exports: [
-    DashboardComponent
-    ],
+  declarations: [DashboardComponent],
+  exports: [DashboardComponent],
   providers: [StageService, PlanService, DepartmentService, RoleService, PrivilegeService]
 })
 export class DashboardModule {}

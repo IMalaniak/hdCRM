@@ -18,12 +18,7 @@ export class HeaderComponent implements OnInit {
   @Output()
   hideSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor(
-    private router: Router,
-    public mediaquery: MediaqueryService,
-    private store: Store<AppState>
-  ) {
-  }
+  constructor(private router: Router, public mediaquery: MediaqueryService, private store: Store<AppState>) {}
 
   ngOnInit() {}
 
@@ -40,5 +35,4 @@ export class HeaderComponent implements OnInit {
   toogleSidebar() {
     this.hideSidebar.emit(!this.sidebarMinimized);
   }
-
 }

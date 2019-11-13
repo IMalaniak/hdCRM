@@ -27,40 +27,40 @@ export enum RoleActionTypes {
 
 export class CreateRole implements Action {
   readonly type = RoleActionTypes.ROLE_CREATE;
-  constructor(public payload: {role: Role}) {}
+  constructor(public payload: { role: Role }) {}
 }
 
 export class CreateRoleSuccess implements Action {
   readonly type = RoleActionTypes.ROLE_CREATE_SUCCESS;
-  constructor(public payload: {role: Role}) { }
+  constructor(public payload: { role: Role }) {}
 }
 
 export class CreateRoleFail implements Action {
   readonly type = RoleActionTypes.ROLE_CREATE_FAIL;
-  constructor(public payload: string) { }
+  constructor(public payload: string) {}
 }
 export class RoleRequested implements Action {
   readonly type = RoleActionTypes.ROLE_REQUESTED;
-  constructor(public payload: {roleId: number}) {}
+  constructor(public payload: { roleId: number }) {}
 }
 export class DeleteRole implements Action {
   readonly type = RoleActionTypes.DELETE_ROLE;
-  constructor(public payload: {roleId: number}) {}
+  constructor(public payload: { roleId: number }) {}
 }
 
 export class RoleLoaded implements Action {
   readonly type = RoleActionTypes.ROLE_LOADED;
-  constructor(public payload: {role: Role}) {}
+  constructor(public payload: { role: Role }) {}
 }
 
 export class RoleSaved implements Action {
   readonly type = RoleActionTypes.ROLE_SAVED;
-  constructor(public payload: {role: Update<Role>}) {}
+  constructor(public payload: { role: Update<Role> }) {}
 }
 
 export class RolesListPageRequested implements Action {
   readonly type = RoleActionTypes.ROLES_LIST_PAGE_REQUESTED;
-  constructor(public payload: {page: PageQuery}) {}
+  constructor(public payload: { page: PageQuery }) {}
 }
 
 export class RolesListPageLoaded implements Action {
@@ -87,22 +87,22 @@ export class AllPrivilegesLoaded implements Action {
 
 export class PrivilegeSaved implements Action {
   readonly type = RoleActionTypes.PRIVILEGE_SAVED;
-  constructor(public payload: {privilege: Update<Privilege>}) {}
+  constructor(public payload: { privilege: Update<Privilege> }) {}
 }
 
 export class CreatePrivilege implements Action {
   readonly type = RoleActionTypes.PRIVILEGE_CREATE;
-  constructor(public payload: {privilege: Privilege}) {}
+  constructor(public payload: { privilege: Privilege }) {}
 }
 
 export class CreatePrivilegeSuccess implements Action {
   readonly type = RoleActionTypes.PRIVILEGE_CREATE_SUCCESS;
-  constructor(public payload: {privilege: Privilege}) { }
+  constructor(public payload: { privilege: Privilege }) {}
 }
 
 export class CreatePrivilegeFail implements Action {
   readonly type = RoleActionTypes.PRIVILEGE_CREATE_FAIL;
-  constructor(public payload: string) { }
+  constructor(public payload: string) {}
 }
 
 export class RoleDashboardDataRequested implements Action {
@@ -114,7 +114,8 @@ export class RoleDashboardDataLoaded implements Action {
   constructor(public payload: RoleServerResponse) {}
 }
 
-export type RoleActions = RoleRequested
+export type RoleActions =
+  | RoleRequested
   | RoleLoaded
   | RoleSaved
   | CreateRole

@@ -35,9 +35,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   exports: [
     MatAutocompleteModule,
     MatBadgeModule,
@@ -70,12 +68,9 @@ import { MatNativeDateModule, MatRippleModule } from '@angular/material';
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
-    MatTooltipModule,
+    MatTooltipModule
   ],
   declarations: [],
-  providers: [ MatDialog,
-    { provide: MatDialogRef, useValue: {} },
-    { provide: MAT_DIALOG_DATA, useValue: {} }
-  ],
+  providers: [MatDialog, { provide: MatDialogRef, useValue: {} }, { provide: MAT_DIALOG_DATA, useValue: {} }]
 })
-export class AppMaterialModule { }
+export class AppMaterialModule {}

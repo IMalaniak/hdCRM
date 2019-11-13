@@ -43,7 +43,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   ) {
     this.editForm = false;
     this.showDataLoader = true;
-   }
+  }
 
   ngOnInit() {
     this.appUser$ = this.store.pipe(select(currentUser));
@@ -64,9 +64,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   get canEditDepartment$(): Observable<boolean> {
     // combine 2 observables and compare values => return boolean
     const combine = combineLatest([this.editDepartmentPrivilege$, this.appUser$]);
-    return combine.pipe(
-      map(([editPriv, appUser]) => (editPriv || (appUser.id === this.department.managerId)))
-    );
+    return combine.pipe(map(([editPriv, appUser]) => editPriv || appUser.id === this.department.managerId));
   }
 
   onClickEdit(): void {
@@ -82,30 +80,36 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(UsersDialogComponent, {
       ...this.mediaQuery.deFaultPopupSize,
       data: {
-        title: ['Select manager'],
+        title: ['Select manager']
       }
     });
 
-    dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
-      if (result && result.length > 0) {
-        this.department.Manager = result[0];
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(result => {
+        if (result && result.length > 0) {
+          this.department.Manager = result[0];
+        }
+      });
   }
 
   addWorkersDialog(): void {
     const dialogRef = this.dialog.open(UsersDialogComponent, {
       ...this.mediaQuery.deFaultPopupSize,
       data: {
-        title: ['Select workers'],
+        title: ['Select workers']
       }
     });
 
-    dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
-      if (result && result.length > 0) {
-        this.department.Workers = [...new Set([...this.department.Workers, ...result])];
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(result => {
+        if (result && result.length > 0) {
+          this.department.Workers = [...new Set([...this.department.Workers, ...result])];
+        }
+      });
   }
 
   removeWorker(userId: number): void {
@@ -115,36 +119,39 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   }
 
   updateDepartment(): void {
-    this.departmentService.updateOne(this.department).pipe(takeUntil(this.unsubscribe)).subscribe(
-      data => {
-        this.department = new Department(cloneDeep(data));
-        this.departmentInitial = new Department(cloneDeep(data));
-        const department: Update<Department> = {
-          id: this.department.id,
-          changes: new Department(data)
-        };
-        this.store.dispatch(new DepartmentSaved({department}));
-        this.editForm = false;
-        Swal.fire({
-          text: 'Department updated!',
-          type: 'success',
-          timer: 6000,
-          toast: true,
-          showConfirmButton: false,
-          position: 'bottom-end'
-        });
-      },
-      error => {
-        Swal.fire({
-          text: 'Ooops, something went wrong!',
-          type: 'error',
-        });
-    });
+    this.departmentService
+      .updateOne(this.department)
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(
+        data => {
+          this.department = new Department(cloneDeep(data));
+          this.departmentInitial = new Department(cloneDeep(data));
+          const department: Update<Department> = {
+            id: this.department.id,
+            changes: new Department(data)
+          };
+          this.store.dispatch(new DepartmentSaved({ department }));
+          this.editForm = false;
+          Swal.fire({
+            text: 'Department updated!',
+            type: 'success',
+            timer: 6000,
+            toast: true,
+            showConfirmButton: false,
+            position: 'bottom-end'
+          });
+        },
+        error => {
+          Swal.fire({
+            text: 'Ooops, something went wrong!',
+            type: 'error'
+          });
+        }
+      );
   }
 
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
-
 }

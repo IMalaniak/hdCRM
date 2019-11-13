@@ -6,20 +6,18 @@ export interface RolesDialogData {
   title: string;
 }
 @Component({
-  templateUrl: 'roles-dialog.component.html',
+  templateUrl: 'roles-dialog.component.html'
 })
 export class RolesDialogComponent {
-
   constructor(
     public dialogRef: MatDialogRef<RolesDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: RolesDialogData
   ) {}
 
-  @ViewChild(RolesComponent, {static: true})
-    rolesComponent: RolesComponent;
+  @ViewChild(RolesComponent, { static: true })
+  rolesComponent: RolesComponent;
 
   onNoClick(): void {
     this.dialogRef.close();
   }
-
 }

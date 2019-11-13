@@ -2,7 +2,6 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { User } from '../_models';
 import { UserActions, UserActionTypes } from './user.actions';
 
-
 export interface UsersState extends EntityState<User> {
   allUsersLoaded: boolean;
   error: string;
@@ -32,11 +31,8 @@ export const initialUsersState: UsersState = adapter.getInitialState({
   countAll: null
 });
 
-
-export function usersReducer(state = initialUsersState , action: UserActions): UsersState {
-
+export function usersReducer(state = initialUsersState, action: UserActions): UsersState {
   switch (action.type) {
-
     case UserActionTypes.USER_LOADED:
       return adapter.addOne(action.payload.user, state);
 
@@ -47,7 +43,12 @@ export function usersReducer(state = initialUsersState , action: UserActions): U
       };
 
     case UserActionTypes.USER_LIST_PAGE_LOADED:
-      return adapter.addMany(action.payload.list, {...state, loading: false, pages: action.payload.pages, countAll: action.payload.count});
+      return adapter.addMany(action.payload.list, {
+        ...state,
+        loading: false,
+        pages: action.payload.pages,
+        countAll: action.payload.count
+      });
 
     case UserActionTypes.USER_LIST_PAGE_CANCELLED:
       return {
@@ -59,19 +60,15 @@ export function usersReducer(state = initialUsersState , action: UserActions): U
       return adapter.updateOne(action.payload.user, state);
 
     case UserActionTypes.DELETE_USER:
-      return adapter.removeOne(action.payload.userId, {...state, countAll: state.countAll - 1});
+      return adapter.removeOne(action.payload.userId, {
+        ...state,
+        countAll: state.countAll - 1
+      });
 
     default: {
       return state;
     }
-
   }
 }
 
-
-export const {
-  selectAll,
-  selectEntities,
-  selectIds,
-  selectTotal
-} = adapter.getSelectors();
+export const { selectAll, selectEntities, selectIds, selectTotal } = adapter.getSelectors();

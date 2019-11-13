@@ -1,5 +1,12 @@
-<section class="app-content-box" [title]="'Attachments'" [cssClass]="'bg-secondary border-0'" [contentCssClass]="'bg-light p-0'" [headCssClass]="'text-white'" [counter]="attachments.length">
-  <section content *ngIf="attachments && attachments.length > 0" >
+<section
+  class="app-content-box"
+  [title]="'Attachments'"
+  [cssClass]="'bg-secondary border-0'"
+  [contentCssClass]="'bg-light p-0'"
+  [headCssClass]="'text-white'"
+  [counter]="attachments.length"
+>
+  <section content *ngIf="attachments && attachments.length > 0">
     <mat-table [dataSource]="attachments" class="mat-elevation-z8 table-attachments crm-table">
       <ng-container matColumnDef="icon">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
@@ -7,30 +14,32 @@
       </ng-container>
       <ng-container matColumnDef="title">
         <mat-header-cell *matHeaderCellDef i18n="@@attachmentsComponentListTitle">Title</mat-header-cell>
-        <mat-cell *matCellDef="let item"><span (click)="downloadFile(item.id, item.title)">{{item.title}}</span></mat-cell>
+        <mat-cell *matCellDef="let item"
+          ><span (click)="downloadFile(item.id, item.title)">{{ item.title }}</span></mat-cell
+        >
       </ng-container>
       <ng-container matColumnDef="type">
         <mat-header-cell *matHeaderCellDef i18n="@@attachmentsComponentListType">Type</mat-header-cell>
-        <mat-cell *matCellDef="let item">{{item.type}}</mat-cell>
+        <mat-cell *matCellDef="let item">{{ item.type }}</mat-cell>
       </ng-container>
       <ng-container matColumnDef="createdAt">
         <mat-header-cell *matHeaderCellDef i18n="@@attachmentsComponentListCreatedAt">Created At</mat-header-cell>
-        <mat-cell *matCellDef="let item">{{item.createdAt | date: 'short' }}</mat-cell>
+        <mat-cell *matCellDef="let item">{{ item.createdAt | date: 'short' }}</mat-cell>
       </ng-container>
       <ng-container matColumnDef="updatedAt">
         <mat-header-cell *matHeaderCellDef i18n="@@attachmentsComponentListUpdatedAt">Updated At</mat-header-cell>
-        <mat-cell *matCellDef="let item">{{item.updatedAt | date: 'short' }}</mat-cell>
+        <mat-cell *matCellDef="let item">{{ item.updatedAt | date: 'short' }}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="actions" stickyEnd >
+      <ng-container matColumnDef="actions" stickyEnd>
         <mat-header-cell *matHeaderCellDef i18n="@@globalsListActions"></mat-header-cell>
         <mat-cell *matCellDef="let item">
-            <button class="trash" mat-icon-button (click)="handleDeleteFile(item.id)">
-              <fa-icon [icon]="['fas', 'trash-alt']"></fa-icon>
-            </button>
+          <button class="trash" mat-icon-button (click)="handleDeleteFile(item.id)">
+            <fa-icon [icon]="['fas', 'trash-alt']"></fa-icon>
+          </button>
         </mat-cell>
       </ng-container>
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
     </mat-table>
   </section>
 
@@ -45,7 +54,12 @@
   </div>
 
   <div buttons>
-    <button *ngIf="!uploaderVisible" mat-raised-button color="primary" class="crm-button" (click)="onClickAddFiles()"><fa-icon [icon]="['fas', 'folder-plus']"></fa-icon><span i18n="@@attachmentsComponentActionsAddFiles">Add files</span></button>
-    <button *ngIf="uploaderVisible" mat-raised-button class="crm-button" (click)="onClickAddFilesDone()"><fa-icon [icon]="['fas', 'check']"></fa-icon><span i18n="@@attachmentsComponentActionsAddFiles">Done</span></button>
+    <button *ngIf="!uploaderVisible" mat-raised-button color="primary" class="crm-button" (click)="onClickAddFiles()">
+      <fa-icon [icon]="['fas', 'folder-plus']"></fa-icon
+      ><span i18n="@@attachmentsComponentActionsAddFiles">Add files</span>
+    </button>
+    <button *ngIf="uploaderVisible" mat-raised-button class="crm-button" (click)="onClickAddFilesDone()">
+      <fa-icon [icon]="['fas', 'check']"></fa-icon><span i18n="@@attachmentsComponentActionsAddFiles">Done</span>
+    </button>
   </div>
 </section>

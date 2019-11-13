@@ -1,27 +1,27 @@
 @import 'variables';
 @import 'mixins';
-@import "~bootstrap/scss/mixins/breakpoints";
+@import '~bootstrap/scss/mixins/breakpoints';
 
 .img-avatar {
   position: relative;
 
   > img {
-      display: block;
-      width: 55%;
-      border-radius: 50%;
-      border: .25rem solid crmcolor('layout', 'milk', true);
-      position: relative;
-      margin-top: -28%;
-      margin-bottom: 1.5em;
-      @include media-breakpoint-up(sm) {
-          width: 40%;
-          margin-top: -20%;
-      }
-      @include media-breakpoint-up(md) {
-          width: 65%;
-          margin-top: -33%;
-          margin-bottom: 0;
-      }
+    display: block;
+    width: 55%;
+    border-radius: 50%;
+    border: 0.25rem solid crmcolor('layout', 'milk', true);
+    position: relative;
+    margin-top: -28%;
+    margin-bottom: 1.5em;
+    @include media-breakpoint-up(sm) {
+      width: 40%;
+      margin-top: -20%;
+    }
+    @include media-breakpoint-up(md) {
+      width: 65%;
+      margin-top: -33%;
+      margin-bottom: 0;
+    }
   }
 
   file-pond {
@@ -34,8 +34,8 @@
       margin-top: -20%;
     }
     @include media-breakpoint-up(md) {
-        width: 65%;
-        margin-top: -33%;
+      width: 65%;
+      margin-top: -33%;
     }
   }
 
@@ -52,7 +52,7 @@
     @include crm-bgcolor('theme', 'primary');
     @include crm-textcolor('layout', 'background');
     cursor: pointer;
-    border: 0.10rem solid;
+    border: 0.1rem solid;
     transform: scale(0);
     transition: transform $transition, background $transition;
     z-index: 1;

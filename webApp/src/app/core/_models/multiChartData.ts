@@ -1,4 +1,4 @@
-import { SingleChartData } from './singleChartData'
+import { SingleChartData } from './singleChartData';
 
 export class MultiChartData {
   name: string;

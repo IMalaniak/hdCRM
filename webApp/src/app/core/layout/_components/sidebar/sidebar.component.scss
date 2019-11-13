@@ -1,6 +1,6 @@
 @import 'variables';
 @import 'mixins';
-@import "~bootstrap/scss/mixins/breakpoints";
+@import '~bootstrap/scss/mixins/breakpoints';
 
 app-sidebar {
   @include crm-bgcolor('layout', 'dark');
@@ -15,7 +15,7 @@ app-sidebar {
 
   @include media-breakpoint-down(md) {
     min-width: crmsize(sidebar, width, true);
-    max-width: 100%; 
+    max-width: 100%;
 
     &.minimized {
       left: -100%;
@@ -55,13 +55,13 @@ app-sidebar {
       border-left: 8px solid;
     }
 
-    > mat-icon, fa-icon {
+    > mat-icon,
+    fa-icon {
       margin-right: crmsize(spacer, null, true);
     }
   }
 
   .minimized & {
-
     a {
       justify-content: center;
 
@@ -75,7 +75,8 @@ app-sidebar {
         display: none;
       }
 
-      > mat-icon, fa-icon {
+      > mat-icon,
+      fa-icon {
         margin-right: 0;
       }
     }

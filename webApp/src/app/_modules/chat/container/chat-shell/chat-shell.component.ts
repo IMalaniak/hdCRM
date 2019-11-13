@@ -16,7 +16,7 @@ export class ChatShellComponent implements OnInit {
   selectedChat$: Observable<Chat>;
   chats$: Observable<Chat[]>;
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
     this.selectedChat$ = this.store.pipe(select(getCurrentChat));
@@ -29,5 +29,4 @@ export class ChatShellComponent implements OnInit {
   clearChat(): void {
     this.store.dispatch(new ChatActions.ClearCurrentChat());
   }
-
 }

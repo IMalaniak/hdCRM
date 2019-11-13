@@ -2,45 +2,47 @@ import { Sequelize, Model, DataTypes, BelongsToGetAssociationMixin, Association 
 import { User } from './User';
 
 export class PasswordAttribute extends Model {
-    public id!: number;
-    public token!: string;
-    public tokenExpire!: Date;
-    public passwordExpire!: Date;
+  public id!: number;
+  public token!: string;
+  public tokenExpire!: Date;
+  public passwordExpire!: Date;
 
-    // timestamps
-    public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;
+  // timestamps
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
 
-    // from assotiations
-    public UserId!: number;
+  // from assotiations
+  public UserId!: number;
 
-    public getUser!: BelongsToGetAssociationMixin<User>;
+  public getUser!: BelongsToGetAssociationMixin<User>;
 
-    public readonly User?: User;
+  public readonly User?: User;
 
-    public static associations: {
-        User: Association<PasswordAttribute, User>;
-    };
-
+  public static associations: {
+    User: Association<PasswordAttribute, User>;
+  };
 }
 
 export const PasswordAttributeFactory = (sequelize: Sequelize): void => {
-    const passwordAttribute = PasswordAttribute.init({
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-        },
-        token: {
-            type: DataTypes.STRING,
-            unique: true,
-        },
-        tokenExpire: DataTypes.DATE,
-        passwordExpire: DataTypes.DATE
-    }, {
-        tableName: 'PasswordAttributes',
-        sequelize
-    });
+  const passwordAttribute = PasswordAttribute.init(
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+      },
+      token: {
+        type: DataTypes.STRING,
+        unique: true
+      },
+      tokenExpire: DataTypes.DATE,
+      passwordExpire: DataTypes.DATE
+    },
+    {
+      tableName: 'PasswordAttributes',
+      sequelize
+    }
+  );
 
-    return passwordAttribute;
+  return passwordAttribute;
 };

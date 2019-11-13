@@ -20,9 +20,7 @@ export class ProfilepicComponent implements OnInit {
   uploaderOptions: any; // TODO: FilePondOptionProps;
   token: string;
 
-  constructor(
-    private store$: Store<AppState>
-  ) {  }
+  constructor(private store$: Store<AppState>) {}
 
   ngOnInit() {
     this.store$.pipe(select(getToken)).subscribe(token => {
@@ -36,15 +34,15 @@ export class ProfilepicComponent implements OnInit {
         process: {
           url: this.apiUrl,
           headers: {
-            'Authorization': this.token
+            Authorization: this.token
           },
-          onload: (res) => this.uploaderHandleAddFile(res)
+          onload: res => this.uploaderHandleAddFile(res)
         },
         revert: {
           url: this.apiUrl,
           method: 'DELETE',
           headers: {
-            'Authorization': this.token
+            Authorization: this.token
           }
         }
       },
@@ -62,12 +60,10 @@ export class ProfilepicComponent implements OnInit {
       styleButtonRemoveItemPosition: 'center bottom',
       acceptedFileTypes: ['image/jpeg', 'image/png']
     };
-
   }
 
   uploaderHandleAddFile(data: any) {
     const asset = new Asset(JSON.parse(data));
     this.addFileCall.emit(asset);
   }
-
 }

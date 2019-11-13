@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { FormControl, Validators } from '@angular/forms';
 import { Stage } from '../../../_models';
 import { AddStageDialogComponent } from '../add-dialog/add-stage-dialog.component';
@@ -26,26 +26,23 @@ export class StagesComponent implements OnInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(
-    private dialog: MatDialog,
-    private store: Store<AppState>
-  ) { }
+  constructor(private dialog: MatDialog, private store: Store<AppState>) {}
 
   ngOnInit() {
-
-    this.store.dispatch(new AllStagesRequestedFromDialogWindow);
+    this.store.dispatch(new AllStagesRequestedFromDialogWindow());
 
     this.isLoading$ = this.store.pipe(select(selectStagesLoading));
 
-    this.store.pipe(
-      takeUntil(this.unsubscribe),
-      select(selectAllStages),
-      map(data => {
-        this.resultsLength = data.length;
-        return data;
-      })
-    ).subscribe(data => this.stages = data);
-
+    this.store
+      .pipe(
+        takeUntil(this.unsubscribe),
+        select(selectAllStages),
+        map(data => {
+          this.resultsLength = data.length;
+          return data;
+        })
+      )
+      .subscribe(data => (this.stages = data));
   }
 
   isAllSelected() {
@@ -56,27 +53,25 @@ export class StagesComponent implements OnInit, OnDestroy {
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
-    this.isAllSelected() ?
-        this.selection.clear() :
-        this.stages.forEach(row => this.selection.select(row));
+    this.isAllSelected() ? this.selection.clear() : this.stages.forEach(row => this.selection.select(row));
   }
 
   createStageDialog(): void {
     const dialogRef = this.dialog.open(AddStageDialogComponent, {
       data: {
-        keyString: new FormControl('', [
-          Validators.required,
-          Validators.minLength(4)
-        ])
+        keyString: new FormControl('', [Validators.required, Validators.minLength(4)])
       }
     });
 
-    dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe(result => {
-      if (result) {
-        const newStage = new Stage({keyString: result});
-        this.store.dispatch(new CreateStage({stage: newStage}));
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(result => {
+        if (result) {
+          const newStage = new Stage({ keyString: result });
+          this.store.dispatch(new CreateStage({ stage: newStage }));
+        }
+      });
   }
 
   ngOnDestroy() {

@@ -44,7 +44,6 @@ export class User {
   get fullname(): string {
     return this.name + ' ' + this.surname;
   }
-
 }
 
 export class UserServerResponse extends ApiResponse {

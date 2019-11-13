@@ -1,16 +1,21 @@
-
-<section class="app-content-box" [title]="'Create a new plan'" [cssClass]="'bg-secondary border-0'" [contentCssClass]="'bg-light'" [headCssClass]="'text-white'">
+<section
+  class="app-content-box"
+  [title]="'Create a new plan'"
+  [cssClass]="'bg-secondary border-0'"
+  [contentCssClass]="'bg-light'"
+  [headCssClass]="'text-white'"
+>
   <div content class="row">
     <div class="col-md-8">
       <form>
         <div class="d-flex flex-column">
           <mat-form-field appearance="outline">
             <mat-label i18n="@@registerPlanComponentDetailsTitle">Title</mat-label>
-            <input matInput [(ngModel)]="plan.title" name="title" type="text" required>
+            <input matInput [(ngModel)]="plan.title" name="title" type="text" required />
           </mat-form-field>
           <mat-form-field appearance="outline">
             <mat-label i18n="@@registerPlanComponentDetailsBudget">Budget</mat-label>
-            <input matInput [(ngModel)]="plan.budget" name="budget" type="text" required>
+            <input matInput [(ngModel)]="plan.budget" name="budget" type="text" required />
           </mat-form-field>
           <mat-form-field appearance="outline">
             <mat-label i18n="@@registerPlanComponentDetailsDescription">Write a description</mat-label>
@@ -18,28 +23,53 @@
           </mat-form-field>
           <mat-form-field color="primary" appearance="outline">
             <mat-label i18n="@@registerPlanComponentDetailsDeadline">Deadline</mat-label>
-            <input matInput [min]="plan.createdAt" [matDatepicker]="picker" [(ngModel)]="plan.deadline" type="datetime" name="deadline" required>
+            <input
+              matInput
+              [min]="plan.createdAt"
+              [matDatepicker]="picker"
+              [(ngModel)]="plan.deadline"
+              type="datetime"
+              name="deadline"
+              required
+            />
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker touchUi #picker></mat-datepicker>
           </mat-form-field>
-        </div>   
-      </form>      
+        </div>
+      </form>
     </div>
     <div class="col-md-4">
-      <section class="app-content-box" [title]="'Participants'" [cssClass]="'border border-secondary mt-3 mt-md-0 mb-0'" [contentCssClass]="'p-0'" [disableShadow]="true" [counter]="plan.Participants.length">
-        <button buttons mat-stroked-button color="primary" class="crm-button" (click)="addParticipantDialog()"><fa-icon [icon]="['fas', 'user-plus']"></fa-icon><span i18n="@@addDepartmentComponentActionsAddParticipants">Add participants</span></button>
+      <section
+        class="app-content-box"
+        [title]="'Participants'"
+        [cssClass]="'border border-secondary mt-3 mt-md-0 mb-0'"
+        [contentCssClass]="'p-0'"
+        [disableShadow]="true"
+        [counter]="plan.Participants.length"
+      >
+        <button buttons mat-stroked-button color="primary" class="crm-button" (click)="addParticipantDialog()">
+          <fa-icon [icon]="['fas', 'user-plus']"></fa-icon
+          ><span i18n="@@addDepartmentComponentActionsAddParticipants">Add participants</span>
+        </button>
         <mat-list content>
-          <mat-list-item *ngFor="let user of plan.Participants; let i = index;">
-            <img matListAvatar *ngIf="user.avatar" src="{{user.avatar.getThumbnailsUrl}}" alt="{{user.avatar.title}}">
-            <img matListAvatar *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage">
+          <mat-list-item *ngFor="let user of plan.Participants; let i = index">
+            <img
+              matListAvatar
+              *ngIf="user.avatar"
+              src="{{ user.avatar.getThumbnailsUrl }}"
+              alt="{{ user.avatar.title }}"
+            />
+            <img matListAvatar *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage" />
             <h3 matLine>{{ user.fullname }}</h3>
             <mat-divider></mat-divider>
           </mat-list-item>
-        </mat-list> 
+        </mat-list>
       </section>
     </div>
   </div>
-  <button buttons mat-raised-button color="primary" class="crm-button" (click)="onClickSubmit()"><fa-icon [icon]="['fas', 'paper-plane']"></fa-icon><span i18n="@@registerPlanComponentActionSubmit">Submit</span></button>
+  <button buttons mat-raised-button color="primary" class="crm-button" (click)="onClickSubmit()">
+    <fa-icon [icon]="['fas', 'paper-plane']"></fa-icon><span i18n="@@registerPlanComponentActionSubmit">Submit</span>
+  </button>
 </section>
 
 <app-attachments *ngIf="plan" [attachments]="plan.Documents" [editForm]="true"></app-attachments>

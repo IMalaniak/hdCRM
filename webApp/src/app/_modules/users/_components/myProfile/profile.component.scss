@@ -1,108 +1,107 @@
 @import 'variables';
 @import 'mixins';
-@import "~bootstrap/scss/mixins/breakpoints";
+@import '~bootstrap/scss/mixins/breakpoints';
 
 .profile-container {
+  ul {
+    margin: 0;
+    padding: 0;
+  }
 
-    ul {
-        margin: 0;
-        padding: 0;
+  .img-header {
+    height: 13em;
+    position: relative;
+
+    @include media-breakpoint-down(sm) {
+      height: 8em;
     }
 
-    .img-header {
-        height: 13em;
+    .name {
+      display: none;
+      @include media-breakpoint-up(md) {
+        display: flex;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        @include crm-textcolor('layout', 'background');
+      }
+    }
+
+    > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: blur(3em);
+    }
+  }
+
+  aside {
+    @include crm-bgcolor('layout', 'milk');
+    padding-bottom: 1em;
+
+    .img-avatar {
+      > img {
+        display: block;
+        width: 60%;
+        border-radius: 50%;
+        border: 0.25rem solid crmcolor('layout', 'milk', true);
         position: relative;
-
-        @include media-breakpoint-down(sm) {
-            height: 8em;
-        }
-
-        .name {
-            display: none;
-            @include media-breakpoint-up(md) {
-                display: flex;
-                position: absolute;
-                width: 100%;
-                bottom: 0;
-                @include crm-textcolor('layout', 'background');
-            }
-        }
-
-        > img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;         
-            filter: blur(3em);
-        }
+        margin-top: -30%;
+      }
     }
 
-    aside {
-        @include crm-bgcolor('layout', 'milk');
-        padding-bottom: 1em;
-
-        .img-avatar {
-            > img {
-                display: block;
-                width: 60%;
-                border-radius: 50%;
-                border: .25rem solid crmcolor('layout', 'milk', true);
-                position: relative;
-                margin-top: -30%;
-            } 
-        }
-
-        h5 {
-            color: #3f51b5;
-        }
-
-        h3 {
-            display: block;
-            @include crm-textcolor('layout', 'dark');
-
-            @include media-breakpoint-up(md) {
-                display: none;
-            }
-        }
-
-        .details {
-            > div {
-                padding: crmsize(spacer, null, true) 0;
-            }
-        }
-        
-        .roles {
-            span {
-                margin: 0 0.3em;
-
-                &:first-child { 
-                    margin: 0 0.3em 0 0;
-                }
-            }
-        }
-
-        .contacts {
-            span {
-                text-overflow: ellipsis;
-                overflow: hidden;
-                white-space: nowrap;
-            }
-
-            fa-icon {
-                @include crm-textcolor('theme', 'primary');
-                margin-right: 0.5em;
-            }
-        }
+    h5 {
+      color: #3f51b5;
     }
 
-    .tabs {
-        @include crm-bgcolor('layout', 'background');
+    h3 {
+      display: block;
+      @include crm-textcolor('layout', 'dark');
 
-        mat-list-item {
-            section {
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-            }   
-        }
+      @include media-breakpoint-up(md) {
+        display: none;
+      }
     }
+
+    .details {
+      > div {
+        padding: crmsize(spacer, null, true) 0;
+      }
+    }
+
+    .roles {
+      span {
+        margin: 0 0.3em;
+
+        &:first-child {
+          margin: 0 0.3em 0 0;
+        }
+      }
+    }
+
+    .contacts {
+      span {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      fa-icon {
+        @include crm-textcolor('theme', 'primary');
+        margin-right: 0.5em;
+      }
+    }
+  }
+
+  .tabs {
+    @include crm-bgcolor('layout', 'background');
+
+    mat-list-item {
+      section {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
 }

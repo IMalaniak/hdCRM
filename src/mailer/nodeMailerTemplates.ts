@@ -18,17 +18,15 @@ class Mailer {
     transport: {
       host: process.env.NODE_MAILER_HOST,
       port: 465,
-      secure: true,  // true for 465 port, false for other ports
+      secure: true, // true for 465 port, false for other ports
       auth: {
-          user: this.sender,
-          pass: this.password
+        user: this.sender,
+        pass: this.password
       }
     }
   });
 
-  constructor() {
-
-  }
+  constructor() {}
 
   sendPasswordReset(user: db.User, tokenUrl: string): Promise<Email> {
     return this.newEmail.send({

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ContentChild, ElementRef, ViewEncapsulation} from '@angular/core';
+import { Component, OnInit, Input, ContentChild, ElementRef, ViewEncapsulation } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -16,14 +16,12 @@ export class ContentBoxComponent implements OnInit {
   @Input() headCssClass: string;
   @Input() disableShadow = false;
   @Input() counter: number;
-  @ContentChild('content', {static: false}) content: ElementRef;
-  @ContentChild('subheader', {static: false}) subheader: ElementRef;
-  @ContentChild('buttons', {static: false}) buttons: ElementRef;
-  @ContentChild('boxFooter', {static: false}) boxFooter: ElementRef;
+  @ContentChild('content', { static: false }) content: ElementRef;
+  @ContentChild('subheader', { static: false }) subheader: ElementRef;
+  @ContentChild('buttons', { static: false }) buttons: ElementRef;
+  @ContentChild('boxFooter', { static: false }) boxFooter: ElementRef;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

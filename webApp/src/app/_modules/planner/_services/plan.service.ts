@@ -9,9 +9,7 @@ import { map } from 'rxjs/operators';
 export class PlanService {
   private api: string;
 
-  constructor(
-    private http: HttpClient
-  ) {
+  constructor(private http: HttpClient) {
     this.api = '/plans';
   }
 
@@ -20,30 +18,26 @@ export class PlanService {
   }
 
   getList(pageIndex = 0, pageSize = 5, sortIndex = 'id', sortDirection = 'asc'): Observable<PlanServerResponse> {
-    return this.http.get<PlanServerResponse>(this.api, {
-      params: new HttpParams()
+    return this.http
+      .get<PlanServerResponse>(this.api, {
+        params: new HttpParams()
           .set('pageIndex', pageIndex.toString())
           .set('pageSize', pageSize.toString())
           .set('sortIndex', sortIndex)
           .set('sortDirection', sortDirection)
-      }).pipe(
-        map(res => new PlanServerResponse(res))
-      );
+      })
+      .pipe(map(res => new PlanServerResponse(res)));
   }
 
   getListByStage(stage: number, pageIndex = 0, pageSize = 5): Observable<Plan[]> {
     const url = `${this.api}/stageList/${stage}`;
     return this.http.get<Plan[]>(url, {
-        params: new HttpParams()
-            .set('pageIndex', pageIndex.toString())
-            .set('pageSize', pageSize.toString())
-        });
+      params: new HttpParams().set('pageIndex', pageIndex.toString()).set('pageSize', pageSize.toString())
+    });
   }
 
   getOne(id: number): Observable<Plan> {
-    return this.http.get<Plan>(`${this.api}/${id}`).pipe(
-      map(res => new Plan(res))
-    );
+    return this.http.get<Plan>(`${this.api}/${id}`).pipe(map(res => new Plan(res)));
   }
 
   updateOne(plan: Plan): Observable<Plan> {
@@ -65,10 +59,8 @@ export class PlanService {
 
   deleteDoc(req: any) {
     return this.http.delete<any | Plan>(`${this.api}/documents`, {
-      params: new HttpParams()
-          .set('docId', req.docId.toString())
-          .set('planId', req.planId.toString())
-      });
+      params: new HttpParams().set('docId', req.docId.toString()).set('planId', req.planId.toString())
+    });
   }
 
   formatBeforeSend(plan: Plan): Plan {
@@ -87,5 +79,4 @@ export class PlanService {
     }
     return plan;
   }
-
 }

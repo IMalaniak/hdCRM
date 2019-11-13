@@ -1,45 +1,42 @@
-import {CollectionViewer, DataSource} from '@angular/cdk/collections';
-import {Observable, BehaviorSubject, of} from 'rxjs';
-import {Chat} from '../_models';
-import {catchError, tap} from 'rxjs/operators';
-import {select, Store} from '@ngrx/store';
-import {ListPageRequested} from '../store/chat.actions';
+import { CollectionViewer, DataSource } from '@angular/cdk/collections';
+import { Observable, BehaviorSubject, of } from 'rxjs';
+import { Chat } from '../_models';
+import { catchError, tap } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
+import { ListPageRequested } from '../store/chat.actions';
 // import {selectChatsPage} from '../store/chat.selectors';
 import { AppState } from '@/core/reducers';
 import { PageQuery } from '@/core/_models';
 import { selectAllChats } from '../store/chat.selectors';
 
 export class ChatsDataSource implements DataSource<Chat> {
+  private chatsSubject = new BehaviorSubject<Chat[]>([]);
 
-    private chatsSubject = new BehaviorSubject<Chat[]>([]);
+  constructor(private store: Store<AppState>) {}
 
-    constructor(private store: Store<AppState>) {
+  loadChats() {
+    this.store
+      .pipe(
+        select(selectAllChats),
+        tap(chats => {
+          if (chats.length > 0) {
+            this.chatsSubject.next(chats);
+          } else {
+            this.store.dispatch(new ListPageRequested());
+          }
+        }),
+        catchError(() => of([]))
+      )
+      .subscribe();
+  }
 
-    }
+  connect(collectionViewer: CollectionViewer): Observable<Chat[]> {
+    return this.chatsSubject.asObservable();
+  }
 
-    loadChats() {
-        this.store.pipe(
-            select(selectAllChats),
-            tap(chats => {
-              if (chats.length > 0) {
-                this.chatsSubject.next(chats);
-              } else {
-                this.store.dispatch(new ListPageRequested());
-              }
-            }),
-            catchError(() => of([]))
-          )
-          .subscribe();
-    }
-
-    connect(collectionViewer: CollectionViewer): Observable<Chat[]> {
-        return this.chatsSubject.asObservable();
-    }
-
-    disconnect(collectionViewer: CollectionViewer): void {
-        this.chatsSubject.complete();
-    }
-
+  disconnect(collectionViewer: CollectionViewer): void {
+    this.chatsSubject.complete();
+  }
 }
 
 // TODO check for better solution

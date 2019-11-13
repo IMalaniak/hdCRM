@@ -16,7 +16,6 @@ import { Update } from '@ngrx/entity';
 import { RoleSaved } from '../../store/role.actions';
 import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
 
-
 @Component({
   selector: 'app-role',
   templateUrl: './role.component.html',
@@ -29,7 +28,7 @@ export class RoleComponent implements OnInit, OnDestroy {
   editRolePrivilege$: Observable<boolean>;
   displayedColumns = ['title', 'view', 'add', 'edit', 'delete'];
 
-  @ViewChild(MatTable, {static: false}) privilegesTable: MatTable<any>;
+  @ViewChild(MatTable, { static: false }) privilegesTable: MatTable<any>;
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -65,7 +64,7 @@ export class RoleComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(UsersDialogComponent, {
       ...this.mediaQuery.deFaultPopupSize,
       data: {
-        title: 'Select Users',
+        title: 'Select Users'
       }
     });
 
@@ -80,45 +79,51 @@ export class RoleComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(PrivilegesDialogComponent, {
       ...this.mediaQuery.deFaultPopupSize,
       data: {
-        title: 'Select privileges',
+        title: 'Select privileges'
       }
     });
 
     const privilegesC = dialogRef.componentInstance.privilegesComponent;
 
-    dialogRef.afterOpened().pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-      privilegesC.isLoading$.pipe(takeUntil(this.unsubscribe)).subscribe(isLoading => {
-        if (!isLoading) {
-          for (const pPrivilege of this.role.Privileges) {
-            privilegesC.privileges.find((privilege, i) => {
+    dialogRef
+      .afterOpened()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(() => {
+        privilegesC.isLoading$.pipe(takeUntil(this.unsubscribe)).subscribe(isLoading => {
+          if (!isLoading) {
+            for (const pPrivilege of this.role.Privileges) {
+              privilegesC.privileges.find((privilege, i) => {
                 if (privilege.id === pPrivilege.id) {
                   privilegesC.selection.select(privilege);
                   return true; // stop searching
                 }
-            });
+              });
+            }
           }
-        }
-      });
-    });
-
-    dialogRef.afterClosed().pipe(takeUntil(this.unsubscribe)).subscribe((result: Privilege[]) => {
-      result.forEach((el, i) => {
-        const tmp = this.role.Privileges.filter(privilege => {
-          return privilege.id === el.id;
         });
-        if (tmp.length === 0) {
-          const newPrivilege = new Privilege(el);
-          newPrivilege.RolePrivilege = new RolePrivilege({
-            add: false,
-            view: false,
-            edit: false,
-            delete: false
-          });
-          this.role.Privileges.push(newPrivilege);
-        }
       });
-      this.privilegesTable.renderRows();
-    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((result: Privilege[]) => {
+        result.forEach((el, i) => {
+          const tmp = this.role.Privileges.filter(privilege => {
+            return privilege.id === el.id;
+          });
+          if (tmp.length === 0) {
+            const newPrivilege = new Privilege(el);
+            newPrivilege.RolePrivilege = new RolePrivilege({
+              add: false,
+              view: false,
+              edit: false,
+              delete: false
+            });
+            this.role.Privileges.push(newPrivilege);
+          }
+        });
+        this.privilegesTable.renderRows();
+      });
   }
 
   onUpdateRoleSubmit(): void {
@@ -129,7 +134,7 @@ export class RoleComponent implements OnInit, OnDestroy {
       showCancelButton: true,
       confirmButtonText: 'Yes',
       cancelButtonText: 'Cancel'
-    }).then((result) => {
+    }).then(result => {
       if (result.value) {
         this.updateRole();
       }
@@ -145,7 +150,7 @@ export class RoleComponent implements OnInit, OnDestroy {
           id: this.role.id,
           changes: new Role(data)
         };
-        this.store.dispatch(new RoleSaved({role}));
+        this.store.dispatch(new RoleSaved({ role }));
         this.disableEdit();
         Swal.fire({
           text: 'Role updated!',
@@ -159,7 +164,7 @@ export class RoleComponent implements OnInit, OnDestroy {
       error => {
         Swal.fire({
           text: 'Server Error',
-          type: 'error',
+          type: 'error'
         });
       }
     );
@@ -198,5 +203,4 @@ export class RoleComponent implements OnInit, OnDestroy {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
-
 }

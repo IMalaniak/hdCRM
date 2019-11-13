@@ -17,9 +17,7 @@ export class AttachmentService {
     compressed: ['zip', 'rar']
   };
 
-  constructor(
-    private http: HttpClient
-  ) {
+  constructor(private http: HttpClient) {
     this.api = '/files';
   }
 
@@ -83,11 +81,10 @@ export class AttachmentService {
   download(id: number): Observable<any> {
     const options = {
       headers: new HttpHeaders({
-        observe : 'response'
+        observe: 'response'
       }),
       responseType: 'blob' as 'json'
     };
     return this.http.get(`${this.api}/download/${id}`, options);
   }
-
 }

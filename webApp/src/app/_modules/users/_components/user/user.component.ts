@@ -33,11 +33,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(
-    private route: ActivatedRoute,
-    private userService: UserService,
-    private store: Store<AppState>
-  ) {
+  constructor(private route: ActivatedRoute, private userService: UserService, private store: Store<AppState>) {
     this.editForm = false;
     this.showDataLoader = true;
   }
@@ -59,7 +55,7 @@ export class UserComponent implements OnInit, OnDestroy {
     this.user = new User(cloneDeep(this.route.snapshot.data['user']));
     this.userInitial = new User(cloneDeep(this.route.snapshot.data['user']));
 
-    this.store.dispatch(new AllStatesRequested);
+    this.store.dispatch(new AllStatesRequested());
 
     this.states$ = this.store.pipe(select(selectAllStates));
   }
@@ -81,7 +77,7 @@ export class UserComponent implements OnInit, OnDestroy {
       showCancelButton: true,
       confirmButtonText: 'Yes',
       cancelButtonText: 'Cancel'
-    }).then((result) => {
+    }).then(result => {
       if (result.value) {
         this.updateUser();
       }
@@ -89,27 +85,30 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   updateUser(): void {
-    this.userService.updateUser(this.user).pipe(takeUntil(this.unsubscribe)).subscribe(
-      data => {
-        this.updateUserStore(data);
-        this.editForm = false;
-        Swal.fire({
-          text: 'User updated!',
-          type: 'success',
-          timer: 6000,
-          toast: true,
-          showConfirmButton: false,
-          position: 'bottom-end'
-        });
-      },
-      error => {
-        Swal.fire({
-          text: 'Ooops, something went wrong!',
-          type: 'error',
-          timer: 3000
-        });
-      }
-    );
+    this.userService
+      .updateUser(this.user)
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(
+        data => {
+          this.updateUserStore(data);
+          this.editForm = false;
+          Swal.fire({
+            text: 'User updated!',
+            type: 'success',
+            timer: 6000,
+            toast: true,
+            showConfirmButton: false,
+            position: 'bottom-end'
+          });
+        },
+        error => {
+          Swal.fire({
+            text: 'Ooops, something went wrong!',
+            type: 'error',
+            timer: 3000
+          });
+        }
+      );
   }
 
   updateUserPic(data: Asset): void {
@@ -125,7 +124,7 @@ export class UserComponent implements OnInit, OnDestroy {
       id: this.user.id,
       changes: new User(data)
     };
-    this.store.dispatch(new UserSaved({user}));
+    this.store.dispatch(new UserSaved({ user }));
   }
 
   ngOnDestroy() {
