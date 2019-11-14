@@ -58,15 +58,42 @@ export class RegisterUserComponent implements OnInit {
           phone: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')])
         }),
         this._formBuilder.group({
-          companyInfoSelect: new FormControl(''),
-          companyName: new FormControl('', [
+          organizationInfoSelect: new FormControl(''),
+          title: new FormControl('', [
             Validators.required,
             Validators.maxLength(50),
             Validators.pattern(
               "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
             )
           ]),
-          siteUrl: new FormControl('', [
+          employees: new FormControl(''),
+          country: new FormControl('', [
+            Validators.maxLength(50),
+            Validators.pattern(
+              "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
+            )
+          ]),
+          city: new FormControl('', [
+            Validators.maxLength(50),
+            Validators.pattern(
+              "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
+            )
+          ]),
+          address: new FormControl('', [
+            Validators.maxLength(50),
+            Validators.pattern(
+              "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
+            )
+          ]),
+          postcode: new FormControl('', Validators.maxLength(25)),
+          organizationPhone: new FormControl('', Validators.pattern('^[0-9]+$')),
+          organizationEmail: new FormControl(
+            '',
+            Validators.pattern(
+              '^([A-Z|a-z|0-9](.|_){0,1})+[A-Z|a-z|0-9]@([A-Z|a-z|0-9])+((.){0,1}[A-Z|a-z|0-9]){2}.[a-z]{2,3}$'
+            )
+          ),
+          website: new FormControl('', [
             Validators.required,
             Validators.pattern(
               '^(http://www.|https://www.|http://|https://)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$'
@@ -85,29 +112,29 @@ export class RegisterUserComponent implements OnInit {
       this.password.updateValueAndValidity();
     });
 
-    this.companyInfoSelect.valueChanges.subscribe(value => {
-      if (value === 'company') {
-        this.companyName.setValidators([
+    this.organizationInfoSelect.valueChanges.subscribe(value => {
+      if (value === 'organization') {
+        this.title.setValidators([
           Validators.required,
           Validators.maxLength(50),
           Validators.pattern(
             "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
           )
         ]);
-        this.siteUrl.setValidators(null);
-        this.siteUrl.reset();
+        this.website.setValidators(null);
+        this.website.reset();
       } else if (value === 'private') {
-        this.siteUrl.setValidators([
+        this.website.setValidators([
           Validators.required,
           Validators.pattern(
             '^(http://www.|https://www.|http://|https://)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$'
           )
         ]);
-        this.companyName.setValidators(null);
-        this.companyName.reset();
+        this.title.setValidators(null);
+        this.title.reset();
       }
-      this.companyName.updateValueAndValidity();
-      this.siteUrl.updateValueAndValidity();
+      this.title.updateValueAndValidity();
+      this.website.updateValueAndValidity();
     });
   }
 
@@ -140,14 +167,35 @@ export class RegisterUserComponent implements OnInit {
     return this.formArray.get([1]).get('phone');
   }
   // get defaultLang() { return this.formArray.get([1]).get('defaultLang'); }
-  get companyInfoSelect() {
-    return this.formArray.get([2]).get('companyInfoSelect');
+  get organizationInfoSelect() {
+    return this.formArray.get([2]).get('organizationInfoSelect');
   }
-  get companyName() {
-    return this.formArray.get([2]).get('companyName');
+  get title() {
+    return this.formArray.get([2]).get('title');
   }
-  get siteUrl() {
-    return this.formArray.get([2]).get('siteUrl');
+  get employees() {
+    return this.formArray.get([2]).get('employees');
+  }
+  get country() {
+    return this.formArray.get([2]).get('country');
+  }
+  get city() {
+    return this.formArray.get([2]).get('city');
+  }
+  get address() {
+    return this.formArray.get([2]).get('address');
+  }
+  get organizationPhone() {
+    return this.formArray.get([2]).get('organizationPhone');
+  }
+  get organizationEmail() {
+    return this.formArray.get([2]).get('organizationEmail');
+  }
+  get postcode() {
+    return this.formArray.get([2]).get('postcode');
+  }
+  get website() {
+    return this.formArray.get([2]).get('website');
   }
 
   onRegisterSubmit() {
@@ -159,10 +207,17 @@ export class RegisterUserComponent implements OnInit {
     this.user.name = this.name.value;
     this.user.surname = this.surname.value;
     this.user.phone = this.phone.value;
-    if (this.companyName.value) {
-      this.user.Organization.companyName = this.companyName.value;
-    } else if (this.siteUrl.value) {
-      this.user.Organization.siteUrl = this.siteUrl.value;
+    if (this.organizationInfoSelect.value === 'organization') {
+      this.user.Organization.title = this.title.value;
+      this.user.Organization.employees = this.employees.value;
+      this.user.Organization.country = this.country.value;
+      this.user.Organization.city = this.city.value;
+      this.user.Organization.address = this.address.value;
+      this.user.Organization.postcode = this.postcode.value;
+      this.user.Organization.phone = this.phone.value;
+      this.user.Organization.email = this.email.value;
+    } else if (this.organizationInfoSelect.value === 'private') {
+      this.user.Organization.website = this.website.value;
     }
     // this.user.defaultLang = this.defaultLang.value;
     // if (this.selectedRolesIds.length) {
