@@ -50,6 +50,11 @@
       }
     }
 
+    .mat-stepper-vertical {
+      max-height: 75vh;
+      overflow-y: auto;
+    }
+
     .btn-register {
       margin: 0.5em 1.5em 0 0;
       @include media-breakpoint-down(sm) {
@@ -59,7 +64,7 @@
 
     mat-expansion-panel {
       margin-bottom: 2em;
-      border: 1px solid #e0e0e0;
+      border: 1px solid rgba(0, 0, 0, 0.12);
       box-shadow: none;
     }
   }

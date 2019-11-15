@@ -14,7 +14,7 @@ export class RegisterUserComponent implements OnInit {
   userData: FormGroup;
   hidePassword = true;
   selectedRolesIds: number[];
-  disabled = false;
+  submitDisabled = false;
 
   constructor(private authService: AuthenticationService, private _formBuilder: FormBuilder) {
     this.user = new User();
@@ -45,47 +45,29 @@ export class RegisterUserComponent implements OnInit {
             Validators.required,
             Validators.maxLength(25),
             Validators.pattern(
-              "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
+              '^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.\'-]+$'
             )
           ]),
           surname: new FormControl('', [
             Validators.required,
             Validators.maxLength(25),
             Validators.pattern(
-              "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
+              '^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.\'-]+$'
             )
           ]),
           phone: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')])
         }),
         this._formBuilder.group({
-          organizationInfoSelect: new FormControl(''),
+          organizationType: new FormControl(''),
           title: new FormControl('', [
             Validators.required,
-            Validators.maxLength(50),
-            Validators.pattern(
-              "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
-            )
+            Validators.maxLength(150)
           ]),
           employees: new FormControl(''),
-          country: new FormControl('', [
-            Validators.maxLength(50),
-            Validators.pattern(
-              "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
-            )
-          ]),
-          city: new FormControl('', [
-            Validators.maxLength(50),
-            Validators.pattern(
-              "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
-            )
-          ]),
-          address: new FormControl('', [
-            Validators.maxLength(50),
-            Validators.pattern(
-              "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
-            )
-          ]),
-          postcode: new FormControl('', Validators.maxLength(25)),
+          country: new FormControl(''),
+          city: new FormControl(''),
+          address: new FormControl(''),
+          postcode: new FormControl(''),
           organizationPhone: new FormControl('', Validators.pattern('^[0-9]+$')),
           organizationEmail: new FormControl(
             '',
@@ -112,35 +94,22 @@ export class RegisterUserComponent implements OnInit {
       this.password.updateValueAndValidity();
     });
 
-    this.organizationInfoSelect.valueChanges.subscribe(value => {
-      if (value === 'organization') {
+    this.organizationType.valueChanges.subscribe(value => {
+      if (value === 'company') {
         this.title.setValidators([
           Validators.required,
           Validators.maxLength(50),
           Validators.pattern(
-            "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
+            '^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.\'-]+$'
           )
         ]);
-        this.website.setValidators(null);
-        this.website.reset();
       } else if (value === 'private') {
-        this.website.setValidators([
-          Validators.required,
-          Validators.pattern(
-            '^(http://www.|https://www.|http://|https://)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$'
-          )
-        ]);
         this.title.setValidators(null);
         this.title.reset();
       }
       this.title.updateValueAndValidity();
-      this.website.updateValueAndValidity();
     });
   }
-
-  // onRoleSelect(list) {
-  //   this.selectedRolesIds = list.selectedOptions.selected.map(item => item.value);
-  // }
 
   get formArray(): AbstractControl | null {
     return this.userData.get('formArray');
@@ -166,9 +135,8 @@ export class RegisterUserComponent implements OnInit {
   get phone() {
     return this.formArray.get([1]).get('phone');
   }
-  // get defaultLang() { return this.formArray.get([1]).get('defaultLang'); }
-  get organizationInfoSelect() {
-    return this.formArray.get([2]).get('organizationInfoSelect');
+  get organizationType() {
+    return this.formArray.get([2]).get('organizationType');
   }
   get title() {
     return this.formArray.get([2]).get('title');
@@ -199,6 +167,7 @@ export class RegisterUserComponent implements OnInit {
   }
 
   onRegisterSubmit() {
+    this.submitDisabled = true;
     this.user.login = this.login.value;
     if (!this.generatePassword.value) {
       this.user.password = this.password.value;
@@ -207,22 +176,18 @@ export class RegisterUserComponent implements OnInit {
     this.user.name = this.name.value;
     this.user.surname = this.surname.value;
     this.user.phone = this.phone.value;
-    if (this.organizationInfoSelect.value === 'organization') {
+    this.user.Organization.type = this.organizationType.value;
+    if (this.organizationType.value === 'company') {
       this.user.Organization.title = this.title.value;
       this.user.Organization.employees = this.employees.value;
       this.user.Organization.country = this.country.value;
       this.user.Organization.city = this.city.value;
       this.user.Organization.address = this.address.value;
       this.user.Organization.postcode = this.postcode.value;
-      this.user.Organization.phone = this.phone.value;
-      this.user.Organization.email = this.email.value;
-    } else if (this.organizationInfoSelect.value === 'private') {
-      this.user.Organization.website = this.website.value;
+      this.user.Organization.phone = this.organizationPhone.value;
+      this.user.Organization.email = this.organizationEmail.value;
     }
-    // this.user.defaultLang = this.defaultLang.value;
-    // if (this.selectedRolesIds.length) {
-    //   this.user.selectedRoleIds = this.selectedRolesIds;
-    // }
+    this.user.Organization.website = this.website.value;
     this.authService.registerUser(this.user).subscribe(
       data => {
         Swal.fire({
@@ -232,7 +197,7 @@ export class RegisterUserComponent implements OnInit {
         });
       },
       error => {
-        this.disabled = false;
+        this.submitDisabled = false;
         Swal.fire({
           title: 'Ooops, something went wrong!',
           type: 'error',
