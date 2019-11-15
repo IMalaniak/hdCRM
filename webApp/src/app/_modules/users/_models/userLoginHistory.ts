@@ -1,7 +1,7 @@
 export class UserLoginHistory {
   id: number;
   IP: string;
-  dateLastLoggedIn: string;
-  dateUnsuccessfulLogIn: string;
+  dateLastLoggedIn: Date;
+  dateUnsuccessfulLogIn: Date;
   UserId: number;
 }

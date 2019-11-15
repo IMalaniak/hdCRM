@@ -15,8 +15,8 @@ export class User {
   email: string;
   phone: string;
   password: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
   Roles: Role[];
   selectedRoleIds: number[];
   defaultLang: string;

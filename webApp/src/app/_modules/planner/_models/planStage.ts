@@ -6,8 +6,8 @@ export class PlanStage {
   description: string;
   order: number;
   completed: boolean;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 
   constructor(input?: any) {
     if (input) {

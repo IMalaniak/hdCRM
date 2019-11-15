@@ -17,8 +17,8 @@ export class Plan {
   Creator: User;
   Participants: User[];
   Documents: Asset[];
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 
   constructor(input?: any) {
     if (input) {

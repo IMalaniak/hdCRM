@@ -7,8 +7,8 @@ export class Role {
   keyString: string;
   Privileges: Privilege[];
   Users: User[];
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
   selected: boolean;
 
   constructor(input?: any) {

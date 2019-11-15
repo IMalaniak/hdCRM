@@ -1,4 +1,4 @@
 export class PasswordAttributes {
-  passwordExpire: string;
-  updatedAt: string;
+  passwordExpire: Date;
+  updatedAt: Date;
 }

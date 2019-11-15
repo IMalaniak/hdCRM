@@ -7,8 +7,8 @@ export class Department {
   description: string;
   managerId: number;
   parentDepId: number;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
   ParentDepartment: Department;
   SubDepartments: Department[];
   Workers: User[];
