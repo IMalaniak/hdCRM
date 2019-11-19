@@ -165,14 +165,8 @@
                     <div class="col col-md">
                       <mat-form-field appearance="outline">
                         <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderPhone ">Phone</mat-label>
-                        <input matInput formControlName="phone" type="tel" name="phone" required />
+                        <input matInput formControlName="phone" type="tel" name="phone" />
                         <mat-error *ngIf="phone.invalid">
-                          <mat-error
-                            *ngIf="phone.errors.required"
-                            i18n=" @@registerUserComponentStepperInputErrorsPhoneRequired "
-                          >
-                            Phone is required!
-                          </mat-error>
                           <mat-error
                             *ngIf="phone.errors.pattern"
                             i18n=" @@registerUserComponentStepperInputErrorsPhoneIsInvalid "

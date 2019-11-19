@@ -137,11 +137,16 @@ export class RoleController {
   @Middleware([Passport.authenticate()])
   private getList(req: Request, res: Response) {
     Logger.Info(`Selecting roles list...`);
+    this.currentUser = req.user;
+
     const queryParams = req.query;
     const limit = parseInt(queryParams.pageSize);
     const offset = parseInt(queryParams.pageIndex) * limit;
 
     db.Role.findAndCountAll({
+      where: {
+        OrganizationId: this.currentUser.OrganizationId
+      },
       include: [
         {
           model: db.Privilege,
@@ -163,8 +168,8 @@ export class RoleController {
           required: false
         }
       ],
-      limit: limit,
-      offset: offset,
+      limit,
+      offset,
       order: [[queryParams.sortIndex, queryParams.sortDirection.toUpperCase()]],
       distinct: true
     })

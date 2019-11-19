@@ -55,7 +55,7 @@ export class RegisterUserComponent implements OnInit {
               '^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.\'-]+$'
             )
           ]),
-          phone: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')])
+          phone: new FormControl('', [Validators.pattern('^[0-9]+$')])
         }),
         this._formBuilder.group({
           organizationType: new FormControl(''),
@@ -88,6 +88,7 @@ export class RegisterUserComponent implements OnInit {
     this.generatePassword.valueChanges.subscribe(value => {
       if (value) {
         this.password.setValidators(null);
+        this.password.reset();
       } else {
         this.password.setValidators([Validators.required, Validators.minLength(6)]);
       }

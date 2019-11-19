@@ -136,6 +136,7 @@ export {
   PlanStage,
   Privilege,
   Role,
+  RolePrivilege,
   Stage,
   State,
   User,

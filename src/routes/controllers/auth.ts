@@ -22,7 +22,7 @@ export class AuthController {
       where: {
         UserId: user.id
       },
-      defaults: defaults
+      defaults
     }).then(([uLogHistItem, created]) => {
       if (!created) {
         uLogHistItem.IP = req.connection.remoteAddress;
@@ -40,64 +40,103 @@ export class AuthController {
   private register(req: Request, res: Response) {
     Logger.Info(`Registering new user...`);
     const password = req.body.password ? req.body.password : Crypt.genRandomString(12);
-
     const passwordData = Crypt.saltHashPassword(password);
 
-    const sendInvitationMail = function(user) {
-      const token = Crypt.genTimeLimitedToken(24 * 60);
-      user
-        .createPasswordAttributes({
-          token: token.value,
-          tokenExpire: token.expireDate,
-          passwordExpire: token.expireDate
-        })
-        .then(pa => {
-          Mailer.sendActivation(user, password, `${process.env.URL}/auth/activate-account/${token.value}`)
-            .then(() => {
-              return res.status(OK).json({
-                success: true,
-                message: 'Activation link has been sent'
-              });
-            })
-            .catch((err: any) => {
-              Logger.Err(err);
-              return res.status(BAD_REQUEST).json(err);
-            });
-        });
+    const OrgDefaults: any = {
+      title: `PRIVATE_ORG_FOR_${req.body.name}_${req.body.surname}`,
+      Roles: [
+        {
+          keyString: 'admin'
+        }
+      ]
     };
 
-    db.User.create({
-      email: req.body.email,
-      login: req.body.login,
-      passwordHash: passwordData.passwordHash,
-      salt: passwordData.salt,
-      name: req.body.name,
-      surname: req.body.surname,
-      defaultLang: req.body.defaultLang,
-      phone: req.body.phone,
-      StateId: 1
-    })
-      .then(user => {
-        if (req.body.selectedRoleIds) {
-          db.Role.findAll({
-            where: {
-              id: {
-                [Op.or]: req.body.selectedRoleIds
+    db.User.create(
+      {
+        email: req.body.email,
+        login: req.body.login,
+        passwordHash: passwordData.passwordHash,
+        salt: passwordData.salt,
+        name: req.body.name,
+        surname: req.body.surname,
+        // defaultLang: req.body.defaultLang,
+        phone: req.body.phone,
+        Organization: { ...OrgDefaults, ...req.body.Organization },
+        StateId: 1
+      },
+      {
+        include: [
+          {
+            association: db.User.associations.Organization,
+            include: [
+              {
+                association: db.Organization.associations.Roles
               }
-            }
-          })
-            .then(roles => {
-              user.setRoles(roles).then(result => {
-                sendInvitationMail(user);
+            ]
+          }
+        ]
+      }
+    )
+      .then(user => {
+        // TODO: maybe change this, manually add privileges by root user.
+        const adminR = user.Organization.Roles[0];
+
+        db.Privilege.findAll()
+          .then(privileges => {
+            adminR
+              .setPrivileges(privileges)
+              .then(() => {
+                adminR.getPrivileges().then(rPrivileges => {
+                  rPrivileges.forEach(privilege => {
+                    privilege.RolePrivilege.add = true;
+                    privilege.RolePrivilege.delete = true;
+                    privilege.RolePrivilege.edit = true;
+                    privilege.RolePrivilege.view = true;
+                    privilege.RolePrivilege.save();
+                  });
+                  adminR
+                  .addUser(user)
+                  .then(() => {
+                    const token = Crypt.genTimeLimitedToken(24 * 60);
+                    user
+                      .createPasswordAttributes({
+                        token: token.value,
+                        tokenExpire: token.expireDate,
+                        passwordExpire: token.expireDate
+                      })
+                      .then(pa => {
+                        Mailer.sendActivation(user, password, `${process.env.URL}/auth/activate-account/${token.value}`)
+                          .then(() => {
+                            return res.status(OK).json({
+                              success: true,
+                              message: 'Activation link has been sent'
+                            });
+                          })
+                          .catch((err: any) => {
+                            Logger.Err(err);
+                            return res.status(BAD_REQUEST).json(err);
+                          });
+                      });
+                  })
+                  .catch((err: any) => {
+                    Logger.Err(err);
+                    return res.status(BAD_REQUEST).json(err);
+                  });
+                })
+                .catch((err: any) => {
+                  Logger.Err(err);
+                  return res.status(BAD_REQUEST).json(err);
+                });
+              })
+              .catch((err: any) => {
+                Logger.Err(err);
+                return res.status(BAD_REQUEST).json(err);
               });
-            })
-            .catch((err: any) => {
-              Logger.Err(err);
-              return res.status(BAD_REQUEST).json(err);
-            });
-        } else {
-          sendInvitationMail(user);
-        }
+          })
+          .catch((err: any) => {
+            Logger.Err(err);
+            return res.status(BAD_REQUEST).json(err);
+          });
       })
       .catch(ValidationError, UniqueConstraintError, error => {
         Logger.Err(ValidationError);
@@ -352,7 +391,7 @@ export class AuthController {
             .getPasswordAttributes()
             .then(pa => {
               const token = Crypt.genTimeLimitedToken(5);
-              const sendPasswordResetMail = function() {
+              const sendPasswordResetMail = () => {
                 Mailer.sendPasswordReset(user, `${process.env.URL}/auth/password-reset/${token.value}`)
                   .then(() => {
                     return res.status(OK).json({
@@ -483,10 +522,8 @@ export class AuthController {
   @Get('logout')
   private create(req: Request, res: Response) {
     Logger.Info(`Logging user out...`);
+    console.log(req.user);
     req.logout();
-    // req.session.destroy((err) => {
-    //   res.clearCookie('jwt');
-    //   res.send('Logged out');
-    // });
+    res.status(OK).json({message: 'logged out'});
   }
 }
