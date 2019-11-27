@@ -20,7 +20,8 @@ import {
   faPaperPlane,
   faBan,
   faTimes,
-  faCheck
+  faCheck,
+  faPlus
 } from '@fortawesome/free-solid-svg-icons';
 
 @NgModule({
@@ -46,6 +47,6 @@ export class AuthModule {
     };
   }
   constructor(library: FaIconLibrary) {
-    library.addIcons(faKey, faBan, faArrowRight, faCheck, faTrashAlt, faArrowLeft, faPaperPlane, faTimes);
+    library.addIcons(faKey, faBan, faArrowRight, faCheck, faTrashAlt, faArrowLeft, faPaperPlane, faTimes, faPlus);
   }
 }

@@ -22,7 +22,13 @@ import {
   faSave
 } from '@fortawesome/free-solid-svg-icons';
 
-import { ProfileComponent, UserComponent, UsersComponent, UsersDialogComponent } from './_components';
+import {
+  ProfileComponent,
+  UserComponent,
+  UsersComponent,
+  UsersDialogComponent,
+  InvitationDialogComponent
+} from './_components';
 
 import { UserService, StateService } from './_services';
 import { StoreModule } from '@ngrx/store';
@@ -46,10 +52,10 @@ import { AttachmentsModule } from '@/_shared/attachments/attachments.module';
     StoreModule.forFeature('states', statesReducer),
     EffectsModule.forFeature([UserEffects])
   ],
-  declarations: [ProfileComponent, UserComponent, UsersComponent, UsersDialogComponent],
+  declarations: [ProfileComponent, UserComponent, UsersComponent, UsersDialogComponent, InvitationDialogComponent],
   providers: [UserService, StateService],
   exports: [ProfileComponent, UserComponent, UsersComponent, UsersDialogComponent],
-  entryComponents: [UsersDialogComponent]
+  entryComponents: [UsersDialogComponent, InvitationDialogComponent]
 })
 export class UsersModule {
   constructor(library: FaIconLibrary) {

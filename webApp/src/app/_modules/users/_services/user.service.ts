@@ -42,6 +42,10 @@ export class UserService {
     return this.http.delete<any>(`${this.api}/${id}`);
   }
 
+  inviteUsers(users: User[]): Observable<User[]> {
+    return this.http.post<User[]>(`${this.api}/invite`, users);
+  }
+
   updateUserState(user: User): Observable<User> {
     return this.http.put<User>(`${this.api}/updateUserState`, user);
   }

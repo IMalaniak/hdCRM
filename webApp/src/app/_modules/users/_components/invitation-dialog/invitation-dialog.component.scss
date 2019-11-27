@@ -1,0 +1,51 @@
+@import 'variables';
+@import 'mixins';
+@import '~bootstrap/scss/mixins/breakpoints';
+
+.dialog-content {
+  mat-list {
+    mat-list-item {
+      border-bottom: 1px solid $gray-100;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @include media-breakpoint-up(md) {
+      flex-direction: row;
+    }
+
+    mat-form-field {
+      width: 100%;
+    }
+
+    button {
+      width: max-content;
+      margin-left: auto;
+      @include media-breakpoint-up(md) {
+        height: 4.15em;
+        margin-bottom: 1.5em;
+      }
+    }
+  }
+}
+
+.failed-message {
+  background-color: #fa5757;
+  border: 1px solid #ba2c3a;
+  margin-top: 1.5em;
+  @include media-breakpoint-up(md) {
+    margin-top: 0;
+  }
+
+  span,
+  fa-icon {
+    @include crm-textcolor('layout', 'background');
+  }
+}

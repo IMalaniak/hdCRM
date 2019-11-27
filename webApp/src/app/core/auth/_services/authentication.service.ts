@@ -8,9 +8,11 @@ import { map } from 'rxjs/operators';
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
   private api: string;
+  private apiAutocomplete: string;
 
   constructor(private http: HttpClient) {
     this.api = '/auth';
+    this.apiAutocomplete = '';
   }
 
   registerUser(user: User) {

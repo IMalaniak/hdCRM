@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatPaginator, MatSort } from '@angular/material';
+import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subject, merge } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
@@ -17,6 +17,8 @@ import { AppState } from '@/core/reducers';
 import { selectUsersLoading, selectUsersTotalCount } from '../../store/user.selectors';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { DeleteUser } from '../../store/user.actions';
+import { InvitationDialogComponent } from '../../_components';
+import { MediaqueryService } from '@/_shared/services';
 
 @Component({
   selector: 'app-users',
@@ -52,7 +54,13 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private router: Router, private userService: UserService, private store: Store<AppState>) {}
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private store: Store<AppState>,
+    public dialog: MatDialog,
+    private mediaQuery: MediaqueryService
+  ) {}
 
   ngOnInit() {
     this.deleteUserPrivilege$ = this.store.pipe(select(isPrivileged('user-delete')));
@@ -93,6 +101,12 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     };
 
     this.dataSource.loadUsers(newPage);
+  }
+
+  openInvitationDialog(): void {
+    this.dialog.open(InvitationDialogComponent, {
+      ...this.mediaQuery.smallPopupSize
+    });
   }
 
   // isAllSelected() {

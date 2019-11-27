@@ -17,10 +17,10 @@
       color="primary"
       class="crm-button"
       *ngIf="addUserPrivilege$ | async"
-      routerLink="/auth/register"
+      (click)="openInvitationDialog()"
     >
       <fa-icon [icon]="['fas', 'user-plus']"></fa-icon
-      ><span i18n="@@usersComponentActionsRegisterANewUser">Register a new user</span>
+      ><span i18n="@@usersComponentActionsAddInvitation">Add invitation</span>
     </button>
   </div>
   <section subheader *ngIf="selection.selected.length > 0" class="bg-primary text-white p-2 fixed-bottom">
@@ -28,7 +28,7 @@
       >Selected users: {{ selection.selected.length }}</span
     >
     <section class="d-flex align-items-center">
-      <span i18n="@@usersComponentBulkSectionWithSelectedUsers">Actions with selected: </span>
+      <span i18n="@@usersComponentBulkSectionWithSelectedUsers">Actions with selected:</span>
       <button
         mat-icon-button
         (click)="changeStateOfSelected('active')"

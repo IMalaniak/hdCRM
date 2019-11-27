@@ -30,6 +30,21 @@ export class MediaqueryService {
     return config;
   }
 
+  public get smallPopupSize(): MatDialogConfig {
+    let config: MatDialogConfig = {
+      height: 'fit-content',
+      width: '40wv'
+    };
+    if (this.upToPhone.matches) {
+      config = {
+        height: '99vh',
+        width: '99vw',
+        maxWidth: '99vw'
+      };
+    }
+    return config;
+  }
+
   public get isMobileDevice(): boolean {
     return this.upToTablet.matches;
   }

@@ -377,6 +377,14 @@ export class UserController {
       });
   }
 
+  @Post('invite/')
+  @Middleware([Passport.authenticate()])
+  private inviteMany(req: Request, res: Response) {
+    Logger.Info(`Inviting users...`);
+    // TODO: 
+    res.status(OK).json(req.body);
+  }
+
   private findUserById(userId: number | string): Promise<db.User> {
     return db.User.findByPk(userId, {
       attributes: { exclude: ['passwordHash', 'salt'] },
