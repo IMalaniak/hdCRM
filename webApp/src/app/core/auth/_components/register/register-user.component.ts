@@ -31,12 +31,7 @@ export class RegisterUserComponent implements OnInit {
             Validators.maxLength(25),
             Validators.pattern('^[a-zA-Z0-9]+$')
           ]),
-          email: new FormControl('', [
-            Validators.required,
-            Validators.pattern(
-              '^([A-Z|a-z|0-9](.|_){0,1})+[A-Z|a-z|0-9]@([A-Z|a-z|0-9])+((.){0,1}[A-Z|a-z|0-9]){2}.[a-z]{2,3}$'
-            )
-          ]),
+          email: new FormControl('', [Validators.required, Validators.email]),
           password: new FormControl('', [Validators.required, Validators.minLength(6)]),
           generatePassword: new FormControl('')
         }),
@@ -45,24 +40,21 @@ export class RegisterUserComponent implements OnInit {
             Validators.required,
             Validators.maxLength(25),
             Validators.pattern(
-              '^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.\'-]+$'
+              "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
             )
           ]),
           surname: new FormControl('', [
             Validators.required,
             Validators.maxLength(25),
             Validators.pattern(
-              '^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.\'-]+$'
+              "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
             )
           ]),
           phone: new FormControl('', [Validators.pattern('^[0-9]+$')])
         }),
         this._formBuilder.group({
           organizationType: new FormControl(''),
-          title: new FormControl('', [
-            Validators.required,
-            Validators.maxLength(150)
-          ]),
+          title: new FormControl('', [Validators.required, Validators.maxLength(150)]),
           employees: new FormControl(''),
           country: new FormControl(''),
           city: new FormControl(''),
@@ -101,7 +93,7 @@ export class RegisterUserComponent implements OnInit {
           Validators.required,
           Validators.maxLength(50),
           Validators.pattern(
-            '^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.\'-]+$'
+            "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
           )
         ]);
       } else if (value === 'private') {
