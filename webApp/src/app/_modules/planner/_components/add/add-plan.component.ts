@@ -9,6 +9,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { CreatePlan } from '../../store/plan.actions';
 import { MediaqueryService } from '@/_shared/services';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-plan',
@@ -17,13 +18,26 @@ import { MediaqueryService } from '@/_shared/services';
 })
 export class AddPlanComponent implements OnInit, OnDestroy {
   plan = new Plan();
+  planData: FormGroup;
   appUser: User;
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private dialog: MatDialog, private store: Store<AppState>, private mediaQuery: MediaqueryService) {}
+  constructor(
+    private dialog: MatDialog,
+    private store: Store<AppState>,
+    private mediaQuery: MediaqueryService,
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit() {
+    this.planData = this.formBuilder.group({
+      title: new FormControl('', [Validators.required, Validators.maxLength(100)]),
+      budget: new FormControl('', [Validators.required, Validators.min(0)]),
+      description: new FormControl('', [Validators.required, Validators.maxLength(2500)]),
+      deadline: new FormControl('', Validators.required)
+    });
+
     this.store.pipe(select(currentUser), takeUntil(this.unsubscribe)).subscribe(user => {
       this.appUser = user;
     });
@@ -48,7 +62,7 @@ export class AddPlanComponent implements OnInit, OnDestroy {
 
   onClickSubmit() {
     this.plan.CreatorId = this.appUser.id;
-    this.store.dispatch(new CreatePlan({ plan: this.plan }));
+    this.store.dispatch(new CreatePlan({ plan: { ...this.plan, ...this.planData.value } }));
   }
 
   ngOnDestroy() {

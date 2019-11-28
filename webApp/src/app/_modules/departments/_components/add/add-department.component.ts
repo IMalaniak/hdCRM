@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { CreateDepartment } from '../../store/department.actions';
 import { MediaqueryService } from '@/_shared/services';
+import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-add-department',
@@ -16,12 +17,22 @@ import { MediaqueryService } from '@/_shared/services';
 })
 export class AddDepartmentComponent implements OnInit {
   department = new Department();
+  departmentData: FormGroup;
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private dialog: MatDialog, private store: Store<AppState>, private mediaQuery: MediaqueryService) {}
+  constructor(
+    private dialog: MatDialog,
+    private store: Store<AppState>,
+    private mediaQuery: MediaqueryService,
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit() {
+    this.departmentData = this.formBuilder.group({
+      title: new FormControl('', [Validators.required, Validators.maxLength(100)]),
+      description: new FormControl('', [Validators.required, Validators.maxLength(2500)])
+    });
     this.department.SubDepartments = [];
     this.department.Workers = [];
   }
@@ -63,6 +74,6 @@ export class AddDepartmentComponent implements OnInit {
   }
 
   onClickSubmit() {
-    this.store.dispatch(new CreateDepartment({ department: this.department }));
+    this.store.dispatch(new CreateDepartment({ department: { ...this.department, ...this.departmentData.value } }));
   }
 }
