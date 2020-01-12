@@ -1,14 +1,14 @@
 <section class="login-section">
   <!-- <h3 class="crm-brand">Crm company</h3> -->
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col col-md">
+  <div class="container-fluid h-100">
+    <div class="row h-100">
+      <div class="col-sm-12 col-md-8 login-block">
         <form (submit)="onLoginSubmit()" *ngIf="currentPath === 'login'">
           <mat-card>
             <mat-card-content class="d-flex justify-content-center flex-column p-3">
-              <h3 i18n="@@loginComponentFormHeaderTitleLogin" class="pb-2">
+              <h2 i18n="@@loginComponentFormHeaderTitleLogin" class="pb-3">
                 Login
-              </h3>
+              </h2>
               <mat-card class="failed-message mb-3" *ngIf="serverResponse && !serverResponse.success">
                 <mat-card-content class="d-flex flex-row align-items-center">
                   <fa-icon [icon]="['fas', 'times']"></fa-icon>
@@ -35,26 +35,40 @@
                 }}</mat-icon>
                 <!-- TODO FA-ICON -->
               </mat-form-field>
-              <button
-                mat-raised-button
-                color="primary"
-                class="crm-button mb-3"
-                type="submit"
-                [disabled]="isLoading$ | async"
-              >
-                <fa-icon *ngIf="!(isLoading$ | async)" [icon]="['fas', 'key']"></fa-icon>
-                <fa-icon *ngIf="isLoading$ | async" [icon]="['fas', 'ban']"></fa-icon>
-                <span i18n="@@loginComponentFormActionsLogIn">Login</span>
-              </button>
-              <button
-                mat-button
-                type="button"
-                class="text-muted mx-auto"
-                routerLink="/auth/request-new-password/"
-                i18n="@@loginComponentActionsForgotYourPassword"
-              >
-                Forgot password?
-              </button>
+              <div class="d-flex flex-row justify-content-between align-items-center">
+                <button
+                  mat-button
+                  type="button"
+                  class="text-muted"
+                  routerLink="/auth/request-new-password/"
+                  i18n="@@loginComponentActionsForgotYourPassword"
+                >
+                  Forgot password?
+                </button>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  class="crm-button"
+                  type="submit"
+                  [disabled]="isLoading$ | async"
+                >
+                  <fa-icon *ngIf="!(isLoading$ | async)" [icon]="['fas', 'key']"></fa-icon>
+                  <fa-icon *ngIf="isLoading$ | async" [icon]="['fas', 'ban']"></fa-icon>
+                  <span i18n="@@loginComponentFormActionsLogIn">Login</span>
+                </button>
+              </div>
+              <!-- <div class="separator-wrapper my-4">
+                <div class="line"></div>
+                <small class="d-block text-uppercase font-weight-light text-muted mx-2">Or</small>
+                <div class="line"></div>
+              </div> -->
+              <!-- TODO add google integration function -->
+              <!-- <div class="google-btn">
+                <div class="google-icon-wrapper">
+                  <img class="google-icon-svg" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
+                </div>
+                <p class="btn-text" i18n="@@loginComponentActionsGoogleLogIn">Sign in with Google</p>
+              </div> -->
             </mat-card-content>
           </mat-card>
         </form>
@@ -230,6 +244,16 @@
             </mat-card>
           </mat-card-content>
         </mat-card>
+      </div>
+      <div class="col-sm-12 col-md-4 bg-block">
+        <div class="d-flex flex-column text-white">
+          <h2>New to HDCRM?</h2>
+          <p>Create an account and do management.</p>
+          <button mat-raised-button color="primary" class="crm-button" [routerLink]="['/auth/register']">
+            <fa-icon [icon]="['fas', 'arrow-right']"></fa-icon
+            ><span i18n="@@loginComponentActionsCreateAnAccount">Create an account</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>

@@ -1,8 +1,8 @@
 <section class="register-section">
   <!-- <h3 class="crm-brand">Crm company</h3> -->
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col col-md">
+  <div class="container-fluid h-100">
+    <div class="row h-100">
+      <div class="col-sm-12 col-md-8 register-block">
         <form [formGroup]="userData">
           <mat-card>
             <mat-card-content>
@@ -340,6 +340,16 @@
             </mat-card-content>
           </mat-card>
         </form>
+      </div>
+      <div class="col-sm-12 col-md-4 bg-block">
+        <div class="d-flex flex-column text-white">
+          <h2>Already registered?</h2>
+          <p>Instantly go back into your HDCRM dashboard below.</p>
+          <button mat-raised-button color="primary" class="crm-button" [routerLink]="['/auth/login']">
+            <fa-icon [icon]="['fas', 'arrow-right']"></fa-icon
+            ><span i18n="@@loginComponentActionsGoToLogin">Log in</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
