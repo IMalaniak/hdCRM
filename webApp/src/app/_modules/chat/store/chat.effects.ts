@@ -10,6 +10,8 @@ import { AppState } from '@/core/reducers';
 import { Chat } from '../_models';
 // import { selectDashboardDepDataLoaded } from './department.selectors';
 import { Router } from '@angular/router';
+import { SocketEvent } from '@/_shared/models/socketEvent';
+import { SocketService } from '@/_shared/services/socket.service';
 
 @Injectable()
 export class ChatEffects {
@@ -28,10 +30,20 @@ export class ChatEffects {
     map((response: Chat[]) => new chatActions.ListPageLoaded(response))
   );
 
+  @Effect({ dispatch: false })
+  initGroupChatSocket$ = this.actions$.pipe(
+    ofType<chatActions.InitGroupChatSocket>(chatActions.ChatActionTypes.INIT_GROUP_CHAT_SOCKET),
+    mergeMap(() =>
+      of(this.scktService.emit(SocketEvent.INITMODULE, {moduleName: 'group-chat'}))
+    ),
+    catchError(err => throwError(err))
+  );
+
   constructor(
     private actions$: Actions,
     private store: Store<AppState>,
     private chatService: ChatService,
+    private scktService: SocketService,
     private router: Router
   ) {}
 }

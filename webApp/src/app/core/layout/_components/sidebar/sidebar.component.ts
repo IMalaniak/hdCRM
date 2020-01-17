@@ -78,8 +78,7 @@ export class SidebarComponent implements OnInit {
         title: 'Chats',
         i18n: '@@sidebarMenuChats',
         icon: ['fas', 'sms'],
-        privilege: this.store.pipe(select(isPrivileged('chat-view'))),
-        disable: true
+        privilege: this.store.pipe(select(isPrivileged('chat-view')))
       }
     ];
   }

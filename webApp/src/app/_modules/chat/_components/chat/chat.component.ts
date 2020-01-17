@@ -1,39 +1,50 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy, SimpleChanges } from '@angular/core';
-import { Chat } from '../../_models';
+import { Component, OnInit } from '@angular/core';
+import { User } from '@/_modules/users/_models/user';
+import { Store, select } from '@ngrx/store';
+import { AppState } from '@/core/reducers';
+import { currentUser } from '@/core/auth/store/auth.selectors';
+import { SocketService } from '@/_shared/services/socket.service';
+import { SocketEvent } from '@/_shared/models/socketEvent';
+import { ChatService } from '../../_services';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit, OnDestroy {
-  @Input() selectedChat: Chat;
-  // @Output() delete = new EventEmitter<Chat>();
-  @Output() clearCurrent = new EventEmitter<void>();
+export class ChatComponent implements OnInit {
+  user: User;
+  messages: any[] = [];
+  messageContent: string;
 
-  componentActive = true;
-  chat: Chat | null;
+  constructor(private chatService: ChatService, private socketService: SocketService, private store$: Store<AppState>) {
+    this.store$.pipe(select(currentUser)).subscribe(systemUser => {
+      this.user = systemUser;
+    });
+  }
 
-  constructor() {}
+  ngOnInit(): void {
+    this.initIoConnection();
+  }
 
-  ngOnInit() {}
+  private initIoConnection(): void {
+    this.chatService.onMessage().subscribe((message: any) => {
+      console.log(message);
+      this.messages.push(message);
+    });
+  }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.selectedChat) {
-      const chat: any = changes.selectedChat.currentValue as Chat;
-      this.displayChat(chat);
+  public sendMessage(message: string): void {
+    if (!message) {
+      return;
     }
+
+    // this.chatService.send({
+    //   sender: this.user,
+    //   content: message
+    //   room: 'RoomTest'
+    // });
+    this.messageContent = null;
   }
 
-  ngOnDestroy(): void {
-    this.componentActive = false;
-  }
-
-  displayChat(chat: Chat | null): void {
-    this.chat = chat;
-  }
-
-  cancelEdit(): void {
-    this.displayChat(this.chat);
-  }
 }

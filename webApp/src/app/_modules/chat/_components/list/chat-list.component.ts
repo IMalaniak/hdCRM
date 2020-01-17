@@ -8,20 +8,17 @@ import { ChatsDataSource } from '../../_services/';
 import { Chat } from '../../_models';
 import { AppState } from '@/core/reducers';
 
-import { selectChatsLoading } from '../../store/chat.selectors';
 
 @Component({
-  selector: 'app-chats',
-  templateUrl: './chats.component.html',
-  styleUrls: ['./chats.component.scss']
+  selector: 'app-chat-list',
+  templateUrl: './chat-list.component.html',
+  styleUrls: ['./chat-list.component.scss']
 })
-export class ChatsComponent implements OnInit {
-  // chats$: Observable<Chat[]>;
-  dataSource: ChatsDataSource;
-  loading$: Observable<boolean>;
+export class ChatListComponent implements OnInit {
+  @Input() dataSource: ChatsDataSource;
+  @Input() isLoading: boolean;
   displayedColumns = ['id', 'messages', 'actions'];
 
-  @Input() chats: Chat[];
   @Input() selectedChat: Chat;
   @Output() selected = new EventEmitter<Chat>();
 
@@ -30,10 +27,7 @@ export class ChatsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loading$ = this.store.pipe(select(selectChatsLoading));
-    this.dataSource = new ChatsDataSource(this.store);
 
-    this.dataSource.loadChats();
   }
 
   chatSelected(chat: Chat): void {

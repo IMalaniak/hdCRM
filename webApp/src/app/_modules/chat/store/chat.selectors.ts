@@ -13,13 +13,17 @@ export const selectChatsLoading = createSelector(selectChatsState, chatsState =>
 
 export const getCurrentChatId = createSelector(selectChatsState, chatsState => chatsState.currentChatId);
 
-export const getCurrentChat = createSelector(selectChatsState, getCurrentChatId, (chatsState, currentChatId) => {
-  if (currentChatId === 0) {
-    return {
-      id: 0,
-      messages: []
-    };
-  } else {
-    return currentChatId ? chatsState.chats.find(chat => chat.id === currentChatId) : null;
-  }
-});
+// export const getCurrentChat = createSelector(selectChatsState, getCurrentChatId, (chatsState, currentChatId) => {
+//   if (currentChatId === 0) {
+//     return {
+//       id: 0,
+//       messages: []
+//     };
+//   } else {
+//     return currentChatId ? chatsState.chats.find(chat => chat.id === currentChatId) : null;
+//   }
+// });
+
+export const getGroupChatSocketInited = createSelector(selectChatsState, chatsState => chatsState.groupChatSocketInited);
+
+export const getPrivateChatSocketInited = createSelector(selectChatsState, chatsState => chatsState.privateChatSocketInited);

@@ -24,12 +24,6 @@ export class HeaderComponent implements OnInit {
 
   onLogoutClick() {
     this.store.dispatch(new authActions.LogOut());
-    this.router.navigate(['/home']);
-    Swal.fire({
-      text: 'Logged out!',
-      type: 'info',
-      timer: 1000
-    });
   }
 
   toogleSidebar() {

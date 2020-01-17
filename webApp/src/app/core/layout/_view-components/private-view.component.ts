@@ -1,16 +1,18 @@
 import { environment } from 'environments/environment';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MediaqueryService } from '@/_shared/services';
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { filter, takeUntil, take } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { User } from '@/_modules/users';
 import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
 import * as layoutActions from '../store/layout.actions';
 import * as fromLayout from '../store/';
 import { privateRouterTransition } from '@/_shared/animations/private-router-transition';
+import { SocketService } from '@/_shared/services/socket.service';
+import { SocketEvent } from '@/_shared/models/socketEvent';
 
 @Component({
   selector: 'app-private',
@@ -43,14 +45,14 @@ import { privateRouterTransition } from '@/_shared/animations/private-router-tra
   styles: [],
   animations: [privateRouterTransition]
 })
-export class PrivateViewComponent implements OnInit {
+export class PrivateViewComponent implements OnInit, OnDestroy {
   sidebarMinimized$: Observable<boolean>;
-  baseUrl: string;
   showDebug$: Observable<boolean>;
   currentUser$: Observable<User>;
 
-  constructor(private router: Router, public mediaquery: MediaqueryService, private store: Store<AppState>) {
-    this.baseUrl = environment.baseUrl;
+  private unsubscribe: Subject<void> = new Subject();
+
+  constructor(private router: Router, public mediaquery: MediaqueryService, private store: Store<AppState>, private scktService: SocketService) {
   }
 
   ngOnInit() {
@@ -64,6 +66,14 @@ export class PrivateViewComponent implements OnInit {
         this.toogleSideBar(true);
       });
     }
+    this.currentUser$.pipe(take(1)).subscribe(user => {
+      this.scktService.emit(SocketEvent.ISONLINE, user);
+      // this.scktService.emit(SocketEvent.INITMODULE, {moduleName: 'notifications'});
+    });
+    // TODO: move to another component ex: right sidebar
+    this.scktService.onEvent(SocketEvent.USERSONLINE).subscribe(res => {
+      console.log(res);
+    });
   }
 
   toogleSideBar(minimized: boolean) {
@@ -72,5 +82,10 @@ export class PrivateViewComponent implements OnInit {
 
   prepareRoute(outlet: RouterOutlet) {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }

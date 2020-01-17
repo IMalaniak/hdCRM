@@ -1,15 +1,21 @@
 import express from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
+import http from 'http';
 import cors from 'cors';
 import DataBase from './models';
 import * as controllers from './routes';
 import { Server } from '@overnightjs/core';
 import { Logger } from '@overnightjs/logger';
 import Passport from './config/passport';
+import socketIO from 'socket.io';
+import { SocketRouter } from './socketRoutes';
 
 class CrmServer extends Server {
-  dBase: DataBase;
+  private dBase: DataBase;
+  private server: http.Server;
+  private io: socketIO.Server;
+  private socketRouter = new SocketRouter();
 
   constructor() {
     super(true);
@@ -27,6 +33,9 @@ class CrmServer extends Server {
     Passport.init();
     this.setupControllers();
     this.setupStaticFolders();
+    this.server = http.createServer(this.app);
+    this.io = socketIO(this.server);
+    this.socketRouter.initSocketConnection(this.io);
   }
 
   private setupControllers(): void {
@@ -43,7 +52,7 @@ class CrmServer extends Server {
   private setupStaticFolders(): void {
     // Set static folder
     this.app.use(express.static(path.join(__dirname, '../webApp/dist')));
-    this.app.use('/api/images/userpic', express.static(path.join(__dirname, '../uploads/images/userpic/')));
+    this.app.use('/images/userpic', express.static(path.join(__dirname, '../uploads/images/userpic/')));
 
     this.app.get('/*', (req, res) => {
       res.sendFile(path.join(__dirname, '../webApp/dist/index.html'));
@@ -59,15 +68,16 @@ class CrmServer extends Server {
           // force: true
         })
         .then(() => {
-          this.app.listen(port, '127.0.0.1', () => {
+          this.server.listen(port, '127.0.0.1', () => {
             Logger.Info(`Server is listening on ${port}`);
           });
         });
     } else {
-      this.app.listen(port, () => {
+      this.server.listen(port, () => {
         Logger.Info(`Server is listening on ${port}`);
       });
     }
+
   }
 }
 

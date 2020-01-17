@@ -1,0 +1,71 @@
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { AppState } from '@/core/reducers';
+import { Store, select } from '@ngrx/store';
+
+import { Chat } from '../../_models';
+import { SocketService } from '@/_shared/services/socket.service';
+import { SocketEvent } from '@/_shared/models/socketEvent';
+import { getGroupChatSocketInited, selectChatsLoading } from '../../store/chat.selectors';
+import { map, takeUntil } from 'rxjs/operators';
+import { InitGroupChatSocket } from '../../store/chat.actions';
+import { ChatsDataSource } from '../../_services';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateChatDialogComponent } from '../../_components';
+import { FormControl, Validators } from '@angular/forms';
+
+@Component({
+  selector: 'app-group-chat',
+  templateUrl: './group-chat.component.html',
+  styleUrls: ['./group-chat.component.css']
+})
+export class GroupChatComponent implements OnInit, OnDestroy {
+  loading$: Observable<boolean>;
+  selectedChat$: Observable<Chat>;
+  dataSource: ChatsDataSource;
+
+  private unsubscribe: Subject<void> = new Subject();
+
+  constructor(private store: Store<AppState>, private scktService: SocketService, private dialog: MatDialog,) {}
+
+  ngOnInit() {
+    this.store
+      .pipe(
+        select(getGroupChatSocketInited),
+        map(groupChatSocketInited => {
+          if (!groupChatSocketInited) {
+            this.store.dispatch(new InitGroupChatSocket());
+          }
+        }),
+        takeUntil(this.unsubscribe)
+      )
+      .subscribe();
+
+    this.loading$ = this.store.pipe(select(selectChatsLoading), takeUntil(this.unsubscribe));
+    this.dataSource = new ChatsDataSource(this.store, true);
+    this.dataSource.loadChats();
+  }
+
+  createGroupChatDialog(): void {
+    const dialogRef = this.dialog.open(CreateChatDialogComponent, {
+      data: {
+        header: 'Create Group Chat',
+        title: new FormControl('', [Validators.required, Validators.minLength(4)])
+      }
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(result => {
+        if (result) {
+          this.scktService.emit(SocketEvent.NEWCHATGROUP, {result});
+        }
+      });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+  }
+}

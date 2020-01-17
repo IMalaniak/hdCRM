@@ -1,3 +1,3 @@
-export * from './list/chats.component';
+export * from './list/chat-list.component';
 export * from './chat/chat.component';
-export * from '../container/chat-shell/chat-shell.component';
+export * from './createChatDialog/create-chat-dialog.component';

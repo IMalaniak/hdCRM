@@ -1,6 +1,8 @@
-export class ChatMessage {
-  id: number;
-  message: string;
-  recepientId: number;
-  senderId: number;
+import { User } from '@/_modules/users/_models/user';
+
+export interface ChatMessage {
+  id?: number;
+  content?: string;
+  sender: User;
+  chatId: number;
 }

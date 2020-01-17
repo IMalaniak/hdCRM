@@ -72,14 +72,14 @@ export class UserController {
           required: false
         }
       ],
-      limit: limit,
-      offset: offset,
+      limit,
+      offset,
       order: [[queryParams.sortIndex, queryParams.sortDirection.toUpperCase()]],
       distinct: true
     })
       .then(data => {
         const pages = Math.ceil(data.count / limit);
-        return res.status(OK).json({ list: data.rows, count: data.count, pages: pages });
+        return res.status(OK).json({ list: data.rows, count: data.count, pages });
       })
       .catch((err: any) => {
         Logger.Err(err);

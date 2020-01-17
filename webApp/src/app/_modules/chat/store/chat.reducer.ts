@@ -6,7 +6,10 @@ export interface ChatsState extends EntityState<Chat> {
   loading: boolean;
   error: string;
   currentChatId: number | null;
-  chats: Chat[];
+  groupChats: Chat[];
+  privateChats: Chat[];
+  groupChatSocketInited: boolean;
+  privateChatSocketInited: boolean;
 }
 
 export const adapter: EntityAdapter<Chat> = createEntityAdapter<Chat>({});
@@ -15,7 +18,10 @@ export const initialChatsState: ChatsState = adapter.getInitialState({
   loading: false,
   error: null,
   currentChatId: null,
-  chats: []
+  groupChats: [],
+  privateChats: [],
+  groupChatSocketInited: false,
+  privateChatSocketInited: false
 });
 
 export function chatsReducer(state = initialChatsState, action: ChatActions): ChatsState {
@@ -42,6 +48,18 @@ export function chatsReducer(state = initialChatsState, action: ChatActions): Ch
       return {
         ...state,
         currentChatId: null
+      };
+
+    case ChatActionTypes.INIT_GROUP_CHAT_SOCKET:
+      return {
+        ...state,
+        groupChatSocketInited: true
+      };
+
+    case ChatActionTypes.INIT_PRIVATE_CHAT_SOCKET:
+      return {
+        ...state,
+        privateChatSocketInited: true
       };
 
     default: {

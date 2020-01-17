@@ -1,6 +1,8 @@
 import { ChatMessage } from './chat-message';
 
-export class Chat {
+export interface Chat {
   id: number;
-  messages: ChatMessage[];
+  room: string;
+  messages?: ChatMessage[];
+  createdAt: Date;
 }

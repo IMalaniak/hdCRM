@@ -12,7 +12,7 @@ import { selectAllChats } from '../store/chat.selectors';
 export class ChatsDataSource implements DataSource<Chat> {
   private chatsSubject = new BehaviorSubject<Chat[]>([]);
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private group = false) {}
 
   loadChats() {
     this.store

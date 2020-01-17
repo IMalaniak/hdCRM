@@ -5,30 +5,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChatRoutingModule } from './chat-routing.module';
 import { SharedModule } from '@/_shared/modules';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import {
-  faEllipsisV,
-  faUserPlus,
-  faEdit,
-  faBan,
-  faAddressCard,
-  faUserEdit,
-  faArchive,
-  faUserCheck,
-  faEnvelope,
-  faPhone,
-  faTimes,
-  faSave,
-  faInfo
-} from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faEllipsisV, faInfo } from '@fortawesome/free-solid-svg-icons';
 
-import { ChatsComponent, ChatComponent } from './_components';
+import { ChatListComponent, ChatComponent, CreateChatDialogComponent } from './_components';
 
 import { ChatService } from './_services';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { chatsReducer } from './store/chat.reducer';
 import { ChatEffects } from './store/chat.effects';
-import { ChatShellComponent } from './container/chat-shell/chat-shell.component';
+import { ChatShellComponent, GroupChatComponent, PrivateChatComponent } from './containers';
 
 @NgModule({
   imports: [
@@ -42,27 +28,17 @@ import { ChatShellComponent } from './container/chat-shell/chat-shell.component'
     StoreModule.forFeature('chats', chatsReducer),
     EffectsModule.forFeature([ChatEffects])
   ],
-  declarations: [ChatsComponent, ChatComponent, ChatShellComponent],
+  declarations: [ChatListComponent, ChatComponent, ChatShellComponent, GroupChatComponent, PrivateChatComponent, CreateChatDialogComponent],
   providers: [ChatService],
-  exports: [ChatsComponent, ChatComponent],
-  entryComponents: []
+  exports: [ChatListComponent, ChatComponent],
+  entryComponents: [CreateChatDialogComponent]
 })
 export class ChatModule {
   constructor(library: FaIconLibrary) {
     library.addIcons(
       faEllipsisV,
-      faUserPlus,
       faInfo,
-      faEdit,
-      faBan,
-      faAddressCard,
-      faUserEdit,
-      faArchive,
-      faUserCheck,
-      faEnvelope,
-      faPhone,
-      faTimes,
-      faSave
+      faPlus
     );
   }
 }
