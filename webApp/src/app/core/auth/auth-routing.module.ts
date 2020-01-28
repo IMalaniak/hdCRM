@@ -6,7 +6,7 @@ import { PublicGuard } from '@/core/_guards';
 const routes: Routes = [
   {
     path: 'auth',
-    data: { breadcrumb: 'Authorization' },
+    data: { breadcrumb: 'Authorization', animation: 'PublicView' },
     canActivate: [PublicGuard],
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'login' },

@@ -1,7 +1,7 @@
 import { trigger, transition, style, query, animate } from '@angular/animations';
 
 export const appRouterTransition = trigger('appRouterAnimations', [
-  transition('* => PrivateView', [
+  transition('PublicView => PrivateView', [
     query(
       ':leave',
       [
