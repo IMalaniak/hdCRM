@@ -4,5 +4,6 @@ export interface ChatMessage {
   id?: number;
   content?: string;
   sender: User;
-  chatId: number;
+  room: string;
+  createdAt: Date;
 }

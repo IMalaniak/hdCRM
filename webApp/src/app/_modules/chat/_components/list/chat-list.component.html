@@ -1,13 +1,11 @@
 <mat-table class="crm-table" [dataSource]="dataSource" matSort matSortDisabled>
   <ng-container matColumnDef="id">
     <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@chatListComponentListTitle">Chat</mat-header-cell>
-    <mat-cell *matCellDef="let chat">{{ chat.title }}</mat-cell>
+    <mat-cell *matCellDef="let chat">{{ chat.name }}</mat-cell>
   </ng-container>
   <ng-container matColumnDef="messages">
-    <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@chatListComponentListMessages"
-      >Messages</mat-header-cell
-    >
-    <mat-cell *matCellDef="let chat">{{ chat.messages.length }}</mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@chatListComponentListMessages">Created At</mat-header-cell>
+    <mat-cell *matCellDef="let chat">{{ chat.createdAt | date: 'short' }}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="actions" stickyEnd i18n="@@globalsListActions">
@@ -18,8 +16,8 @@
       </button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="chatSelected(chat)">
-          <fa-icon [icon]="['fas', 'info']"></fa-icon>
-          <span i18n="@@departmentsComponentListActionsView">Details</span>
+          <fa-icon [icon]="['fas', 'sign-in-alt']"></fa-icon>
+          <span i18n="@@departmentsComponentListActionsView">Join</span>
         </button>
       </mat-menu>
     </mat-cell>
@@ -29,4 +27,4 @@
   <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 </mat-table>
 
-  <!-- <mat-paginator content [length]="resultsLength$ | async" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator> -->
+<!-- <mat-paginator content [length]="resultsLength$ | async" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator> -->

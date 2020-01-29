@@ -3,8 +3,6 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 
-import { ChatsDataSource } from '../../_services/';
-
 import { Chat } from '../../_models';
 import { AppState } from '@/core/reducers';
 
@@ -15,9 +13,10 @@ import { AppState } from '@/core/reducers';
   styleUrls: ['./chat-list.component.scss']
 })
 export class ChatListComponent implements OnInit {
-  @Input() dataSource: ChatsDataSource;
+  // TODO
+  @Input() dataSource: any;
   @Input() isLoading: boolean;
-  displayedColumns = ['id', 'messages', 'actions'];
+  displayedColumns = ['id', 'actions'];
 
   @Input() selectedChat: Chat;
   @Output() selected = new EventEmitter<Chat>();

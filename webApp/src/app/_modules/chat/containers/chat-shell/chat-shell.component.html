@@ -7,16 +7,18 @@
 >
   <div buttons>
     <button mat-raised-button color="primary" class="crm-button" (click)="onCreateNewChat()">
-      <fa-icon [icon]="['fas', 'plus']"></fa-icon><span i18n="@@departmentsComponentActionsCreate">New Group Chat</span>
+      <fa-icon [icon]="['fas', 'plus']"></fa-icon><span i18n="@@chatShellComponentActionsCreate">New Chat</span>
     </button>
   </div>
 
-  <section content class="row">
-    <div class="col-md-6">
-      <app-chat-list [dataSource]="dataSource"></app-chat-list>
-    </div>
-    <div class="col-md-6">
-      <app-chat></app-chat>
+  <section content class="container-fluid">
+    <div class="row py-3">
+      <div class="col-md-6">
+        <app-chat-list [dataSource]="dataSource" (selected)="onChatSelected($event)"></app-chat-list>
+      </div>
+      <div class="col-md-6">
+        <app-chat [selectedChat]="selectedChat"></app-chat>
+      </div>
     </div>
   </section>
 </section>

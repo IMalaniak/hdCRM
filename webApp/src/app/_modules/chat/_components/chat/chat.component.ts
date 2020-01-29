@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, OnChanges } from '@angular/core';
 import { User } from '@/_modules/users/_models/user';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
@@ -6,16 +6,20 @@ import { currentUser } from '@/core/auth/store/auth.selectors';
 import { SocketService } from '@/_shared/services/socket.service';
 import { SocketEvent } from '@/_shared/models/socketEvent';
 import { ChatService } from '../../_services';
+import { Chat, ChatMessage } from '../../_models';
+import { FormControl, Validators } from '@angular/forms';
+import { cloneDeep } from 'lodash';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnChanges, OnDestroy {
   user: User;
-  messages: any[] = [];
-  messageContent: string;
+  @Input() selectedChat: Chat;
+  chat: Chat;
+  messageContent: FormControl;
 
   constructor(private chatService: ChatService, private socketService: SocketService, private store$: Store<AppState>) {
     this.store$.pipe(select(currentUser)).subscribe(systemUser => {
@@ -24,27 +28,40 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initIoConnection();
-  }
+    this.messageContent = new FormControl('', [
+      Validators.required
+    ]);
 
-  private initIoConnection(): void {
-    this.chatService.onMessage().subscribe((message: any) => {
-      console.log(message);
-      this.messages.push(message);
+    this.chatService.onGM().subscribe((message: ChatMessage) => {
+      this.chat.messages.push(message);
     });
   }
 
-  public sendMessage(message: string): void {
-    if (!message) {
+  ngOnChanges(): void {
+    if (this.selectedChat) {
+      this.chat = cloneDeep(this.selectedChat);
+      this.socketService.emit(SocketEvent.JOIN, this.selectedChat);
+    }
+  }
+
+  public sendMessage(): void {
+    if (!this.messageContent.value || this.messageContent.value.length !== 0)  {
       return;
     }
 
-    // this.chatService.send({
-    //   sender: this.user,
-    //   content: message
-    //   room: 'RoomTest'
-    // });
-    this.messageContent = null;
+    this.chatService.sendGM({
+      sender: this.user,
+      content: this.messageContent.value,
+      room: this.selectedChat.room,
+      createdAt: new Date()
+    });
+    this.messageContent.reset();
+  }
+
+  ngOnDestroy(): void {
+    if (this.selectedChat) {
+      this.socketService.emit(SocketEvent.LEAVE, this.selectedChat);
+    }
   }
 
 }

@@ -5,8 +5,12 @@ export enum SocketEvent {
   ISONLINE = 'is-online',
   ISOFFLINE = 'is-offline',
   JOIN = 'join',
+  LEAVE = 'leave',
   USERSONLINE = 'users-online',
   INITMODULE = 'init-module',
   NEWCHATGROUP = 'new-chat-group',
-  CHATMESSAGE = 'chat-message'
+  GETGROUPCHATLIST = 'get-group-chat-list',
+  GROUPCHATLIST = 'group-chat-list',
+  GROUPMESSAGE = 'group-chat-message',
+  PRIVATEMESSAGE = 'private-chat-message'
 }

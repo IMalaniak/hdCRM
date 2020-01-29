@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChatRoutingModule } from './chat-routing.module';
 import { SharedModule } from '@/_shared/modules';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faPlus, faEllipsisV, faInfo } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faEllipsisV, faInfo, faSignInAlt, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 import { ChatListComponent, ChatComponent, CreateChatDialogComponent } from './_components';
 
@@ -38,7 +38,9 @@ export class ChatModule {
     library.addIcons(
       faEllipsisV,
       faInfo,
-      faPlus
+      faPlus,
+      faSignInAlt,
+      faPaperPlane
     );
   }
 }

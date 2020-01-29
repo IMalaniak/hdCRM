@@ -1,9 +1,33 @@
-<div class="chat">
+<div class="shadow border border-primary chat" *ngIf="selectedChat">
   <div class="chat-header">
-    <button mat-raised-button (click)="sendMessage('hello mfkr')">Send</button>
+    {{ chat.name }}
   </div>
   <div class="chat-body">
-
+    <div
+      class="d-flex align-items-center justify-content-end chat-message-box"
+      *ngFor="let chatMessage of chat.messages"
+      [ngClass]="{ 'is-from': chatMessage.sender.id !== user.id }"
+    >
+      <span class="chat-message-sender" title="{{ chatMessage.sender.name }} {{ chatMessage.sender.surname }}">{{
+        chatMessage.sender.name | slice: 0:2
+      }}</span>
+      <div class="d-flex flex-column chat-message">
+        <span class="chat-message-content">{{ chatMessage.content }}</span>
+        <span class="chat-message-time">{{ chatMessage.createdAt | date: 'medium' }}</span>
+      </div>
+    </div>
   </div>
-  <div class="chat-actions"></div>
+  <div class="chat-actions">
+    <form class="d-flex">
+      <mat-form-field appearance="outline">
+        <textarea
+          matInput
+          placeholder="Write message"
+          [formControl]="messageContent"
+          required
+          (keydown.enter)="sendMessage()"
+        ></textarea>
+      </mat-form-field>
+    </form>
+  </div>
 </div>

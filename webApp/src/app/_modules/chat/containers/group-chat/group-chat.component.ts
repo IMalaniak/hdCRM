@@ -6,10 +6,14 @@ import { Store, select } from '@ngrx/store';
 import { Chat } from '../../_models';
 import { SocketService } from '@/_shared/services/socket.service';
 import { SocketEvent } from '@/_shared/models/socketEvent';
-import { getGroupChatSocketInited, selectChatsLoading } from '../../store/chat.selectors';
+import {
+  getGroupChatSocketInited,
+  selectChatsLoading,
+  getCurrentGChat,
+  selectAllGChats
+} from '../../store/chat.selectors';
 import { map, takeUntil } from 'rxjs/operators';
-import { InitGroupChatSocket } from '../../store/chat.actions';
-import { ChatsDataSource } from '../../_services';
+import { InitGroupChatSocket, SetCurrentGroupChat, GroupChatListRequested, NewGroupChatAdded } from '../../store/chat.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateChatDialogComponent } from '../../_components';
 import { FormControl, Validators } from '@angular/forms';
@@ -22,11 +26,11 @@ import { FormControl, Validators } from '@angular/forms';
 export class GroupChatComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
   selectedChat$: Observable<Chat>;
-  dataSource: ChatsDataSource;
+  chatList$: Observable<Chat[]>;
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private store: Store<AppState>, private scktService: SocketService, private dialog: MatDialog,) {}
+  constructor(private store: Store<AppState>, private scktService: SocketService, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.store
@@ -41,9 +45,17 @@ export class GroupChatComponent implements OnInit, OnDestroy {
       )
       .subscribe();
 
+    this.store.dispatch(new GroupChatListRequested());
+
+    this.chatList$ = this.store.pipe(takeUntil(this.unsubscribe), select(selectAllGChats));
+
     this.loading$ = this.store.pipe(select(selectChatsLoading), takeUntil(this.unsubscribe));
-    this.dataSource = new ChatsDataSource(this.store, true);
-    this.dataSource.loadChats();
+
+    this.selectedChat$ = this.store.pipe(select(getCurrentGChat), takeUntil(this.unsubscribe));
+
+    this.scktService.onEvent(SocketEvent.NEWCHATGROUP).subscribe((chat: Chat) => {
+      this.store.dispatch(new NewGroupChatAdded({chat}));
+    });
   }
 
   createGroupChatDialog(): void {
@@ -59,10 +71,18 @@ export class GroupChatComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(result => {
         if (result) {
-          this.scktService.emit(SocketEvent.NEWCHATGROUP, {result});
+          this.scktService.emit(SocketEvent.NEWCHATGROUP, result);
         }
       });
   }
+
+  chatSelected(chat: Chat): void {
+    this.store.dispatch(new SetCurrentGroupChat(chat));
+  }
+
+  // clearChat(): void {
+  //   this.store.dispatch(new ChatActions.ClearCurrentChat());
+  // }
 
   ngOnDestroy() {
     this.unsubscribe.next();
