@@ -1,19 +1,27 @@
 import { LayoutActionTypes, LayoutActions } from './layout.actions';
 
 export interface LayoutState {
-  hideSideBar: boolean;
+  hideLeftSidebar: boolean;
+  hideRightSidebar: boolean;
 }
 
 const initialState: LayoutState = {
-  hideSideBar: false
+  hideLeftSidebar: false,
+  hideRightSidebar: false
 };
 
 export function layoutReducer(state = initialState, action: LayoutActions): LayoutState {
   switch (action.type) {
-    case LayoutActionTypes.SidebarChangeState:
+    case LayoutActionTypes.LeftSidebarChangeState:
       return {
         ...state,
-        hideSideBar: action.payload
+        hideLeftSidebar: action.payload
+      };
+
+    case LayoutActionTypes.RightSidebarChangeState:
+      return {
+        ...state,
+        hideRightSidebar: action.payload
       };
 
     default:

@@ -17,24 +17,29 @@ import { privateRouterTransition } from '@/_shared/animations/private-router-tra
   template: `
     <section class="grid">
       <app-header
-        [sidebarMinimized]="sidebarMinimized$ | async"
+        [leftSidebarMinimized]="leftSidebarMinimized$ | async"
         [currentUser]="currentUser$ | async"
-        (hideSidebar)="toogleSideBar($event)"
+        (hideLeftSidebar)="toggleLeftSidebar($event)"
       ></app-header>
       <main>
-        <app-sidebar [sidebarMinimized]="sidebarMinimized$ | async"></app-sidebar>
+        <app-left-sidebar [leftSidebarMinimized]="leftSidebarMinimized$ | async"></app-left-sidebar>
         <section class="content">
-          <section class="container-fluid position-relative" [@privateRouterAnimations]="prepareRoute(outlet)">
-            <router-outlet #outlet="outlet"></router-outlet>
-          </section>
-
-          <app-footer></app-footer>
+          <div class="wrapper">
+            <section class="container-fluid position-relative" [@privateRouterAnimations]="prepareRoute(outlet)">
+              <router-outlet #outlet="outlet"></router-outlet>
+            </section>
+            <app-footer></app-footer>
+          </div>
+          <app-right-sidebar
+            [rightSidebarMinimized]="rightSidebarMinimized$ | async"
+            (hideRightSidebar)="toggleRightSidebar($event)"
+          ></app-right-sidebar>
         </section>
         <div
           class="overlay"
           *ngIf="mediaquery.isMobileDevice"
-          [ngClass]="{ isVisible: !sidebarMinimized$ | async }"
-          (click)="toogleSideBar(true)"
+          [ngClass]="{ isVisible: !leftSidebarMinimized$ | async }"
+          (click)="toggleLeftSidebar(true)"
         ></div>
       </main>
       <!--      <section class="app-messages" *ngIf="showDebug$ | async"></section> -->
@@ -44,7 +49,8 @@ import { privateRouterTransition } from '@/_shared/animations/private-router-tra
   animations: [privateRouterTransition]
 })
 export class PrivateViewComponent implements OnInit {
-  sidebarMinimized$: Observable<boolean>;
+  leftSidebarMinimized$: Observable<boolean>;
+  rightSidebarMinimized$: Observable<boolean>;
   baseUrl: string;
   showDebug$: Observable<boolean>;
   currentUser$: Observable<User>;
@@ -55,19 +61,26 @@ export class PrivateViewComponent implements OnInit {
 
   ngOnInit() {
     this.currentUser$ = this.store.pipe(select(currentUser));
-    this.sidebarMinimized$ = this.store.pipe(select(fromLayout.getSidebarState));
+    this.leftSidebarMinimized$ = this.store.pipe(select(fromLayout.getLeftSidebarState));
+    this.rightSidebarMinimized$ = this.store.pipe(select(fromLayout.getRightSidebarState));
     this.showDebug$ = this.store.pipe(select(isPrivileged('debug-view')));
 
     if (this.mediaquery.isMobileDevice) {
-      this.toogleSideBar(true);
+      this.toggleLeftSidebar(true);
+      this.toggleRightSidebar(true);
       this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
-        this.toogleSideBar(true);
+        this.toggleLeftSidebar(true);
+        this.toggleRightSidebar(true);
       });
     }
   }
 
-  toogleSideBar(minimized: boolean) {
-    this.store.dispatch(new layoutActions.ToggleSidebar(minimized));
+  toggleLeftSidebar(minimized: boolean): void {
+    this.store.dispatch(new layoutActions.ToggleLeftSidebar(minimized));
+  }
+
+  toggleRightSidebar(minimized: boolean): void {
+    this.store.dispatch(new layoutActions.ToggleRightSidebar(minimized));
   }
 
   prepareRoute(outlet: RouterOutlet) {

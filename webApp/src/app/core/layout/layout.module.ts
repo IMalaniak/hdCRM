@@ -5,11 +5,12 @@ import { LayoutRoutingModule } from './layout-routing.module';
 import { PublicViewComponent, PrivateViewComponent } from './_view-components';
 import {
   BreadcrumbsComponent,
-  SidebarComponent,
   HeaderComponent,
   FooterComponent,
   PageNotFoundComponent,
-  InternalServerErrorComponent
+  InternalServerErrorComponent,
+  LeftSidebarComponent,
+  RightSidebarComponent
 } from './_components';
 import { SharedModule } from '@/_shared/modules';
 import { MessageModule } from '@/_modules';
@@ -35,7 +36,8 @@ import {
   faQuestion,
   faCog,
   faTimes,
-  faSms
+  faSms,
+  faChevronRight
 } from '@fortawesome/free-solid-svg-icons';
 
 @NgModule({
@@ -53,7 +55,8 @@ import {
     PublicViewComponent,
     PrivateViewComponent,
     BreadcrumbsComponent,
-    SidebarComponent,
+    LeftSidebarComponent,
+    RightSidebarComponent,
     HeaderComponent,
     FooterComponent,
     PageNotFoundComponent,
@@ -61,7 +64,8 @@ import {
   ],
   exports: [
     BreadcrumbsComponent,
-    SidebarComponent,
+    LeftSidebarComponent,
+    RightSidebarComponent,
     HeaderComponent,
     FooterComponent,
     PageNotFoundComponent,
@@ -88,7 +92,8 @@ export class LayoutModule {
       faQuestion,
       faCog,
       faTimes,
-      faSms
+      faSms,
+      faChevronRight
     );
   }
 }

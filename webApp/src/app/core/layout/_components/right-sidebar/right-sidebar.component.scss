@@ -1,0 +1,112 @@
+@import 'variables';
+@import 'mixins';
+@import '~bootstrap/scss/mixins/breakpoints';
+
+app-right-sidebar {
+  @include crm-bgcolor('layout', 'milk');
+  position: fixed;
+  top: crmsize(header, height, true);
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  z-index: 100;
+  transition: all $transition;
+  -webkit-transition: all $transition;
+  -moz-transition: all $transition;
+
+  &.minimized {
+    min-width: crmsize(right-sidebar, minimized, true);
+    flex-basis: crmsize(right-sidebar, minimized, true);
+  }
+
+  @include media-breakpoint-up(md) {
+    min-width: crmsize(left-sidebar, width, true);
+    flex-basis: crmsize(left-sidebar, width, true);
+  }
+
+  @include media-breakpoint-up(lg) {
+    position: sticky;
+    top: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+.sidebar-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  padding: 1em 0;
+
+  > .btn-wrapper {
+    position: relative;
+    height: 2.4em;
+    margin-left: 1em;
+
+    > .btn-expand-wrapper {
+      @include crm-bgcolor('theme', 'primary');
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      height: 2.4em;
+      border-bottom-left-radius: 1.3em;
+      border-top-left-radius: 1.3em;
+      cursor: pointer;
+      transition: all $transition;
+      -webkit-transition: all $transition;
+      -moz-transition: all $transition;
+
+      > #btn-toggle {
+        @include crm-bgcolor('theme', 'primary');
+        position: absolute;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.4em;
+        height: 2.4em;
+        border-radius: 50%;
+        cursor: pointer;
+        transform: none;
+        transition: all $transition;
+        -webkit-transition: all $transition;
+        -moz-transition: all $transition;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-drag: none;
+        -webkit-tap-highlight-color: transparent;
+
+        fa-icon {
+          @include crm-textcolor('layout', 'background');
+          font-size: 0.85em;
+        }
+      }
+    }
+  }
+
+  .minimized & {
+    .btn-expand-wrapper {
+      @include crm-bgcolor('theme', 'primary');
+      left: -3.5em;
+      width: 100vw;
+      transition: all $transition;
+      -webkit-transition: all $transition;
+      -moz-transition: all $transition;
+
+      @include media-breakpoint-up(lg) {
+        &:hover {
+          left: -4.5em;
+        }
+      }
+
+      #btn-toggle  {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}

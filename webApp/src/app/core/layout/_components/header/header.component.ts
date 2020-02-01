@@ -12,17 +12,17 @@ import { User } from '@/_modules/users';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
-  @Input() sidebarMinimized: boolean;
+export class HeaderComponent {
+  @Input() leftSidebarMinimized: boolean;
+
   @Input() currentUser: User;
+
   @Output()
-  hideSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
+  hideLeftSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(private router: Router, public mediaquery: MediaqueryService, private store: Store<AppState>) {}
 
-  ngOnInit() {}
-
-  onLogoutClick() {
+  onLogoutClick(): void {
     this.store.dispatch(new authActions.LogOut());
     this.router.navigate(['/home']);
     Swal.fire({
@@ -32,7 +32,7 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  toogleSidebar() {
-    this.hideSidebar.emit(!this.sidebarMinimized);
+  toggleLeftSidebar(): void {
+    this.hideLeftSidebar.emit(!this.leftSidebarMinimized);
   }
 }

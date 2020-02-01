@@ -1,7 +1,7 @@
 @import 'theme.scss';
 
 // CRM Variables
-$transition-time: 0.28s;
+$transition-time: 0.3s;
 $transition-style: $mat-fast-out-slow-in-timing-function;
 $transition: $transition-time $transition-style;
 
@@ -87,9 +87,13 @@ $crmsizes: (
   footer: (
     height: 6rem
   ),
-  sidebar: (
-    width: 18.75rem,
+  left-sidebar: (
+    width: 16.5rem,
     minimized: 3.25rem
+  ),
+  right-sidebar: (
+    width: 16.5rem,
+    minimized: 0rem
   ),
   userpic: 3rem,
   spacer: 1em

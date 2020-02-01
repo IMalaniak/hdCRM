@@ -72,18 +72,22 @@ main {
 
 .content {
   $hHeight: crmsize(header, height, true);
-
   flex-grow: 10;
   overflow-y: auto;
   scroll-behavior: smooth;
   overflow-x: hidden;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
+  z-index: 149;
 
-  > section.container-fluid {
-    min-height: calc(100vh - #{$hHeight});
-    flex: 1 0 auto;
+  > .wrapper {
+    flex-grow: 1;
+
+    > section.container-fluid {
+      min-height: calc(100vh - #{$hHeight});
+      flex: 1 0 auto;
+    }
   }
 }
 

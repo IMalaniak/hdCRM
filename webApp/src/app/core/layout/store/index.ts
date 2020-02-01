@@ -5,4 +5,5 @@ import { LayoutState } from './layout.reducer';
 // Selector functions
 const getLayoutFeatureState = createFeatureSelector<LayoutState>('layout');
 
-export const getSidebarState = createSelector(getLayoutFeatureState, state => state.hideSideBar);
+export const getLeftSidebarState = createSelector(getLayoutFeatureState, state => state.hideLeftSidebar);
+export const getRightSidebarState = createSelector(getLayoutFeatureState, state => state.hideRightSidebar);

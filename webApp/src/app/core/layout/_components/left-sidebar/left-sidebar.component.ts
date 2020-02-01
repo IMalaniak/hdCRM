@@ -1,22 +1,23 @@
 import { Component, OnInit, ViewEncapsulation, Input, HostBinding } from '@angular/core';
 import { MediaqueryService } from '@/_shared/services';
 import { MenuItem } from './menuItem';
-import { Observable, of } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss'],
+  selector: 'app-left-sidebar',
+  templateUrl: './left-sidebar.component.html',
+  styleUrls: ['./left-sidebar.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class SidebarComponent implements OnInit {
-  @Input() sidebarMinimized: boolean;
-  @HostBinding('class.minimized') get minimized() {
-    return this.sidebarMinimized;
+export class LeftSidebarComponent implements OnInit {
+  @Input() leftSidebarMinimized: boolean;
+
+  @HostBinding('class.minimized') get minimized(): boolean {
+    return this.leftSidebarMinimized;
   }
+
   sidebarMenu: MenuItem[];
 
   constructor(public mediaquery: MediaqueryService, private store: Store<AppState>) {}
