@@ -15,7 +15,7 @@
   z-index: 101;
 
   .company-logo {
-    width: crmsize(sidebar, width, true);
+    width: crmsize(left-sidebar, width, true);
     @include crm-bgcolor('layout', 'milk');
     @include crm-textcolor('layout', 'dark');
     padding: 0.25 * crmsize(spacer, null, true) 0.5 * crmsize(spacer, null, true);
@@ -25,7 +25,7 @@
     transition: width $transition;
 
     &.minimized {
-      width: crmsize(sidebar, minimized, true);
+      width: crmsize(left-sidebar, minimized, true);
       justify-content: center;
 
       img {
@@ -39,7 +39,7 @@
     }
 
     @include media-breakpoint-down(md) {
-      width: crmsize(sidebar, minimized, true);
+      width: crmsize(left-sidebar, minimized, true);
       justify-content: center;
 
       img {

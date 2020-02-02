@@ -79,11 +79,10 @@ main {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  z-index: 100;
+  z-index: 149;
 
   > .wrapper {
     flex-grow: 1;
-    width: 100%;
 
     > section.container-fluid {
       min-height: calc(100vh - #{$hHeight});

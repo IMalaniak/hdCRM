@@ -4,17 +4,17 @@
 
 app-left-sidebar {
   @include crm-bgcolor('layout', 'dark');
-  min-width: crmsize(sidebar, width, true);
-  flex-basis: crmsize(sidebar, width, true);
+  min-width: crmsize(left-sidebar, width, true);
+  flex-basis: crmsize(left-sidebar, width, true);
   transition: min-width $transition, flex-basis $transition, left $transition;
 
   &.minimized {
-    min-width: crmsize(sidebar, minimized, true);
-    flex-basis: crmsize(sidebar, minimized, true);
+    min-width: crmsize(left-sidebar, minimized, true);
+    flex-basis: crmsize(left-sidebar, minimized, true);
   }
 
   @include media-breakpoint-down(md) {
-    min-width: crmsize(sidebar, width, true);
+    min-width: crmsize(left-sidebar, width, true);
     max-width: 100%;
 
     &.minimized {

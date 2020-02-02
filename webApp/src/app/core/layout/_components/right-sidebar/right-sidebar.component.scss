@@ -9,17 +9,19 @@ app-right-sidebar {
   right: 0;
   bottom: 0;
   min-width: 100%;
+  z-index: 100;
   transition: all $transition;
+  -webkit-transition: all $transition;
+  -moz-transition: all $transition;
 
   &.minimized {
-    min-width: crmsize(sidebar, hidden, true);
-    flex-basis: crmsize(sidebar, hidden, true);
-    width: crmsize(sidebar, hidden, true);
+    min-width: crmsize(right-sidebar, minimized, true);
+    flex-basis: crmsize(right-sidebar, minimized, true);
   }
 
   @include media-breakpoint-up(md) {
-    min-width: crmsize(sidebar, width, true);
-    flex-basis: crmsize(sidebar, width, true);
+    min-width: crmsize(left-sidebar, width, true);
+    flex-basis: crmsize(left-sidebar, width, true);
   }
 
   @include media-breakpoint-up(lg) {
@@ -54,8 +56,10 @@ app-right-sidebar {
       border-top-left-radius: 1.3em;
       cursor: pointer;
       transition: all $transition;
+      -webkit-transition: all $transition;
+      -moz-transition: all $transition;
 
-      > .btn-sidebar-toggle {
+      > #btn-toggle {
         @include crm-bgcolor('theme', 'primary');
         position: absolute;
         left: 0;
@@ -68,6 +72,14 @@ app-right-sidebar {
         cursor: pointer;
         transform: none;
         transition: all $transition;
+        -webkit-transition: all $transition;
+        -moz-transition: all $transition;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-drag: none;
+        -webkit-tap-highlight-color: transparent;
 
         fa-icon {
           @include crm-textcolor('layout', 'background');
@@ -83,6 +95,8 @@ app-right-sidebar {
       left: -3.5em;
       width: 100vw;
       transition: all $transition;
+      -webkit-transition: all $transition;
+      -moz-transition: all $transition;
 
       @include media-breakpoint-up(lg) {
         &:hover {
@@ -90,7 +104,7 @@ app-right-sidebar {
         }
       }
 
-      .btn-sidebar-toggle  {
+      #btn-toggle  {
         transform: rotate(180deg);
       }
     }
