@@ -87,13 +87,10 @@ $crmsizes: (
   footer: (
     height: 6rem
   ),
-  left-sidebar: (
+  sidebar: (
     width: 16.5rem,
-    minimized: 3.25rem
-  ),
-  right-sidebar: (
-    width: 16.5rem,
-    minimized: 0rem
+    minimized: 3.25rem,
+    hidden: 0rem
   ),
   userpic: 3rem,
   spacer: 1em
