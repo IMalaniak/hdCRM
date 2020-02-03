@@ -17,7 +17,7 @@ import { AppState } from '@/core/reducers';
 import { selectUsersLoading, selectUsersTotalCount } from '../../store/user.selectors';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { DeleteUser } from '../../store/user.actions';
-import { InvitationDialogComponent } from '../../_components';
+import { InvitationDialogComponent } from '../../_components/invitation-dialog/invitation-dialog.component';
 import { MediaqueryService } from '@/_shared/services';
 
 @Component({
