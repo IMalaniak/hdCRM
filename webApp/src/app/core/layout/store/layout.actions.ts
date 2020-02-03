@@ -1,10 +1,12 @@
 import { Action } from '@ngrx/store';
+import { LayoutState } from './layout.reducer';
 
 export enum LayoutActionTypes {
   ToggleLeftSidebar = '[Layout] Toggle Left Sidebar',
   LeftSidebarChangeState = '[Layout] Left Sidebar State Changed',
   ToggleRightSidebar = '[Layout] Toogle Right Sidebar',
   RightSidebarChangeState = '[Layout] Right Sidebar State Changed',
+  INIT_LAYOUT_SETTINGS = '[Layout] Init Layout Settings'
 }
 
 // Action Creators
@@ -28,5 +30,15 @@ export class RightSidebarChangeState implements Action {
   constructor(public payload: boolean) {}
 }
 
+export class InitLayoutSettings implements Action {
+  readonly type = LayoutActionTypes.INIT_LAYOUT_SETTINGS;
+  constructor(public payload: LayoutState) {}
+}
+
 // Union the valid types
-export type LayoutActions = ToggleLeftSidebar | LeftSidebarChangeState | ToggleRightSidebar | RightSidebarChangeState;
+export type LayoutActions =
+  | ToggleLeftSidebar
+  | LeftSidebarChangeState
+  | ToggleRightSidebar
+  | RightSidebarChangeState
+  | InitLayoutSettings;

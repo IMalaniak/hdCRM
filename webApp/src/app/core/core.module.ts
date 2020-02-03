@@ -13,7 +13,7 @@ import { EnsureModuleLoadedOnceGuard } from './ensureModuleLoadedOnceGuard';
 
 import { httpInterceptorsProviders } from './_interceptors';
 
-import { ValidateService, MediaqueryService } from '@/_shared/services';
+import { ValidateService, MediaqueryService, LocalStorageService } from '@/_shared/services';
 
 import { AuthModule } from './auth/auth.module';
 import { LayoutModule } from './layout/layout.module';
@@ -48,6 +48,7 @@ import { environment } from 'environments/environment';
     httpInterceptorsProviders,
     ValidateService,
     MediaqueryService,
+    LocalStorageService,
     { provide: RouterStateSerializer, useClass: CustomSerializer }
   ]
 })

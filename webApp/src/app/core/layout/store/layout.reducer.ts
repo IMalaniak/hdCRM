@@ -24,6 +24,12 @@ export function layoutReducer(state = initialState, action: LayoutActions): Layo
         hideRightSidebar: action.payload
       };
 
+    case LayoutActionTypes.INIT_LAYOUT_SETTINGS:
+      return {
+        ...state,
+        ...action.payload
+      };
+
     default:
       return state;
   }

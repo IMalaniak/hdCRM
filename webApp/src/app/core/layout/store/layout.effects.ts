@@ -4,10 +4,11 @@ import { Observable, defer, of } from 'rxjs';
 import { Action } from '@ngrx/store';
 import * as layoutActions from './layout.actions';
 import { map, switchMap } from 'rxjs/operators';
+import { LocalStorageService } from '@/_shared/services/local-storage.service';
 
 @Injectable()
 export class LayoutEffects {
-  constructor(private actions$: Actions) {}
+  constructor(private actions$: Actions, private localStorage: LocalStorageService) {}
 
   @Effect()
   toggleLeftSidebar$: Observable<Action> = this.actions$.pipe(
@@ -15,7 +16,7 @@ export class LayoutEffects {
     map((action: layoutActions.ToggleLeftSidebar) => action.payload),
     switchMap(payload => {
       window.dispatchEvent(new Event('resize'));
-      localStorage.setItem('leftSidebarMinimized', JSON.stringify(payload));
+      this.localStorage.setObjectKeyValue('layoutSettings', 'hideLeftSidebar', payload);
       return of(new layoutActions.LeftSidebarChangeState(payload));
     })
   );
@@ -26,21 +27,17 @@ export class LayoutEffects {
     map((action: layoutActions.ToggleRightSidebar) => action.payload),
     switchMap(payload => {
       window.dispatchEvent(new Event('resize'));
-      localStorage.setItem('rightSidebarMinimized', JSON.stringify(payload));
+      this.localStorage.setObjectKeyValue('layoutSettings', 'hideRightSidebar', payload);
       return of(new layoutActions.RightSidebarChangeState(payload));
     })
   );
 
   @Effect()
   init$ = defer(() => {
-    const leftSidebarState = localStorage.getItem('leftSidebarMinimized');
-    const rightSidebarState = localStorage.getItem('rightSidebarMinimized');
+    const layoutSettings = this.localStorage.getObject('layoutSettings');
 
-    if (!!leftSidebarState) {
-      return of(new layoutActions.LeftSidebarChangeState(JSON.parse(leftSidebarState)));
-    }
-    if (!!rightSidebarState) {
-      return of(new layoutActions.RightSidebarChangeState(JSON.parse(rightSidebarState)));
+    if (!!layoutSettings) {
+      return of(new layoutActions.InitLayoutSettings(layoutSettings));
     }
   });
 }
