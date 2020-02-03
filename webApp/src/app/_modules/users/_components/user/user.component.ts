@@ -3,19 +3,20 @@ import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 import { AppState } from '@/core/reducers';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import Swal from 'sweetalert2';
 import { cloneDeep } from 'lodash';
 
 import { UserService } from '../../_services';
 import { User, State } from '../../_models';
-
-import { UserSaved, AllStatesRequested } from '../../store/user.actions';
-import { Observable, Subject } from 'rxjs';
-import { selectAllStates } from '../../store/user.selectors';
-import { isPrivileged } from '@/core/auth/store/auth.selectors';
-import { takeUntil } from 'rxjs/operators';
 import { Asset } from '@/_shared/attachments';
+
+import { UserSaved } from '../../store/user.actions';
+import { AllStatesRequested } from '../../store/state.actions';
+import { isPrivileged } from '@/core/auth/store/auth.selectors';
+import { selectAllStates } from '../../store/state.selectors';
 
 @Component({
   selector: 'app-user',

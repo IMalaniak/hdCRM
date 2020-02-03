@@ -522,7 +522,6 @@ export class AuthController {
   @Get('logout')
   private create(req: Request, res: Response) {
     Logger.Info(`Logging user out...`);
-    console.log(req.user);
     req.logout();
     res.status(OK).json({message: 'logged out'});
   }

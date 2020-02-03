@@ -1,0 +1,35 @@
+<h1 mat-dialog-title>{{ data.header }}</h1>
+<div mat-dialog-content>
+  <div class="d-flex flex-column justify-content-center">
+    <mat-form-field appearance="outline">
+      <mat-label i18n="@@createChatComponentDialogLable">Chat Title</mat-label>
+      <input matInput [formControl]="data.title" required />
+      <mat-error *ngIf="data.title.invalid">
+        <mat-error *ngIf="data.title.errors.required" i18n="@@createChatComponentDialogFormErrorsLableRequired">
+          Title is required!
+        </mat-error>
+        <mat-error
+          *ngIf="data.title.errors.minlength && (data.title.dirty || data.title.touched)"
+          i18n="@@createChatComponentDialogFormErrorsLableIsTooShort"
+        >
+          Title is too short!
+        </mat-error>
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions class="justify-content-center">
+  <button mat-raised-button class="crm-button" (click)="onNoClick()">
+    <fa-icon [icon]="['fas', 'times']"></fa-icon><span i18n="@@globalActionsCancelEdit">Cancel</span>
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    class="crm-button"
+    [mat-dialog-close]="data.title.value"
+    [disabled]="data.title.invalid"
+  >
+    <fa-icon [icon]="['fas', 'plus']"></fa-icon
+    ><span i18n="@@createChatComponentDialogActionCreateChat">Create chat</span>
+  </button>
+</div>

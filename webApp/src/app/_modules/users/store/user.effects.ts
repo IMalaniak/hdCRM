@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError, of } from 'rxjs';
-import { Action, Store, select } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
+import { Action, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import * as userActions from './user.actions';
-import { mergeMap, map, withLatestFrom, filter, catchError } from 'rxjs/operators';
-import { UserService, StateService } from '../_services';
+import { mergeMap, map, catchError, tap } from 'rxjs/operators';
+import { UserService } from '../_services';
 import { AppState } from '@/core/reducers';
-import { allUsersLoaded, allStatesLoaded } from './user.selectors';
-import { UserServerResponse } from '../_models';
+import { UserServerResponse, User } from '../_models';
 
 import Swal from 'sweetalert2';
 
@@ -37,6 +36,29 @@ export class UserEffects {
     map((response: UserServerResponse) => new userActions.UserListPageLoaded(response))
   );
 
+  @Effect()
+  listOnlineUsers$ = this.actions$.pipe(
+    ofType<userActions.OnlineUserListRequested>(userActions.UserActionTypes.ONLINE_USER_LIST_REQUESTED),
+    tap(() => {
+      this.userService.listOnline();
+    }),
+    mergeMap(() => {
+      return this.userService.onlineUsersListed$.pipe(
+        map(onlineUsers => new userActions.OnlineUserListLoaded(onlineUsers.map(user => new User(user))))
+      );
+    })
+  );
+
+  @Effect()
+  userOnline$ = this.userService.userOnline$.pipe(
+    map(user => new userActions.UserOnline(new User(user)))
+  );
+
+  @Effect()
+  userOffline$ = this.userService.userOffline$.pipe(
+    map(user => new userActions.UserOffline(new User(user)))
+  );
+
   @Effect({ dispatch: false })
   deleteUser$ = this.actions$.pipe(
     ofType<userActions.DeleteUser>(userActions.UserActionTypes.DELETE_USER),
@@ -53,23 +75,9 @@ export class UserEffects {
     })
   );
 
-  @Effect()
-  loadAllStates$ = this.actions$.pipe(
-    ofType<userActions.AllStatesRequested>(userActions.UserActionTypes.ALLSTATES_REQUESTED),
-    withLatestFrom(this.store.pipe(select(allStatesLoaded))),
-    filter(([action, allStatesLoaded]) => !allStatesLoaded),
-    mergeMap(() => this.stateService.getList()),
-    map(states => new userActions.AllStatesLoaded({ states })),
-    catchError(err => {
-      console.log('error loading all states ', err);
-      return throwError(err);
-    })
-  );
-
   constructor(
     private actions$: Actions,
     private store: Store<AppState>,
-    private userService: UserService,
-    private stateService: StateService
+    private userService: UserService
   ) {}
 }

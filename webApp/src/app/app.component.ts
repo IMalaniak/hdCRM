@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { appRouterTransition } from '@/_shared/animations/app-transition';
 import { RouterOutlet } from '@angular/router';
+import { SocketService } from './_shared/services/socket.service';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +10,11 @@ import { RouterOutlet } from '@angular/router';
   animations: [appRouterTransition]
 })
 export class AppComponent implements OnInit {
-  constructor() {}
+  constructor(private scktService: SocketService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.scktService.initSocket();
+  }
 
   prepareRoute(outlet: RouterOutlet) {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];

@@ -1,22 +1,30 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ChatsComponent, ChatShellComponent } from './_components';
+import { GroupChatComponent, PrivateChatComponent } from './containers';
 import { PrivilegeGuard } from '@/core/_guards';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'list' },
+  { path: '', pathMatch: 'full', redirectTo: 'group-chat' },
   {
-    path: 'list',
+    path: 'group-chat',
     data: {
-      breadcrumb: 'List',
+      breadcrumb: 'Group Chat',
       animation: 'ChatsListPage',
-      privilege: 'chat-view'
+      privilege: 'groupChat-view'
     },
     canActivate: [PrivilegeGuard],
-    component: ChatShellComponent
+    component: GroupChatComponent
+  },
+  {
+    path: 'private-chat',
+    data: {
+      breadcrumb: 'Private Chat',
+      animation: 'ChatsListPage',
+      privilege: 'privateChat-view'
+    },
+    canActivate: [PrivilegeGuard],
+    component: PrivateChatComponent
   }
-  // {path: 'list', data: { breadcrumb: 'Chats' }, component: ChatsComponent },
-  // {path: 'details/:id', data: { breadcrumb: 'Chat details' }, component: ChatComponent, resolve: {department: DepartmentResolver}},
 ];
 
 @NgModule({

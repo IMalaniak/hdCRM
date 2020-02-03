@@ -11,6 +11,8 @@ import { AuthenticationService } from '../_services';
 import Swal from 'sweetalert2';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { SocketService } from '@/_shared/services/socket.service';
+import { SocketEvent } from '@/_shared/models/socketEvent';
 const jwtHelper = new JwtHelperService();
 
 @Injectable()
@@ -19,7 +21,8 @@ export class AuthEffects {
     private actions$: Actions,
     private authService: AuthenticationService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private scktService: SocketService
   ) {}
 
   @Effect()
@@ -43,9 +46,11 @@ export class AuthEffects {
   public LogOut$: Observable<any> = this.actions$.pipe(
     ofType(fromAuth.AuthActionTypes.LOGOUT),
     tap(action => {
-      this.authService.logout().subscribe();
-      localStorage.removeItem('currentUser');
-      this.router.navigateByUrl('/home');
+      this.authService.logout().subscribe(() => {
+        this.scktService.emit(SocketEvent.ISOFFLINE);
+        localStorage.removeItem('currentUser');
+        this.router.navigateByUrl('/home');
+      });
     })
   );
 

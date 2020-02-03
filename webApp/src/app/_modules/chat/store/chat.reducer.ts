@@ -2,46 +2,101 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Chat } from '../_models';
 import { ChatActions, ChatActionTypes } from './chat.actions';
 
-export interface ChatsState extends EntityState<Chat> {
-  loading: boolean;
-  error: string;
+export interface GroupChatsState extends EntityState<Chat> {
+  allChatsLoaded: boolean;
   currentChatId: number | null;
-  chats: Chat[];
+  groupChatSocketInited: boolean;
 }
 
-export const adapter: EntityAdapter<Chat> = createEntityAdapter<Chat>({});
+export interface PrivateChatsState extends EntityState<Chat> {
+  allChatsLoaded: boolean;
+  currentChatId: number | null;
+  privateChatSocketInited: boolean;
+}
 
-export const initialChatsState: ChatsState = adapter.getInitialState({
+export interface ChatsState {
+  loading: boolean;
+  error: string;
+  groupChats: GroupChatsState;
+  privateChats: PrivateChatsState;
+}
+
+export const groupChatAdapter: EntityAdapter<Chat> = createEntityAdapter<Chat>();
+export const privateChatAdapter: EntityAdapter<Chat> = createEntityAdapter<Chat>();
+
+export const groupChatInitialState: GroupChatsState = groupChatAdapter.getInitialState({
+  allChatsLoaded: false,
+  currentChatId: null,
+  groupChatSocketInited: false
+});
+
+export const privateChatInitialState: PrivateChatsState = privateChatAdapter.getInitialState({
+  allChatsLoaded: false,
+  currentChatId: null,
+  privateChatSocketInited: false
+});
+
+export const initialChatsState: ChatsState = {
   loading: false,
   error: null,
-  currentChatId: null,
-  chats: []
-});
+  groupChats: groupChatInitialState,
+  privateChats: privateChatInitialState,
+};
 
 export function chatsReducer(state = initialChatsState, action: ChatActions): ChatsState {
   switch (action.type) {
-    case ChatActionTypes.CHAT_LIST_PAGE_REQUESTED:
+    case ChatActionTypes.GROUP_CHAT_LIST_REQUESTED:
       return {
         ...state,
         loading: true
       };
 
-    case ChatActionTypes.CHAT_LIST_PAGE_LOADED:
-      return adapter.upsertMany(action.payload, {
-        ...state,
-        loading: false
-      });
-
-    case ChatActionTypes.SET_CURRENT_CHAT:
+    case ChatActionTypes.GROUP_CHAT_LIST_LOADED:
       return {
         ...state,
-        currentChatId: action.payload.id
+        loading: false,
+        groupChats: groupChatAdapter.upsertMany(action.payload, {
+          ...state.groupChats,
+          allChatsLoaded: true
+        })
       };
 
-    case ChatActionTypes.CLEAR_CURRENT_CHAT:
+    case ChatActionTypes.NEW_GROUP_CHAT_ADDED:
       return {
         ...state,
-        currentChatId: null
+        groupChats: groupChatAdapter.addOne(action.payload.chat, {
+          ...state.groupChats
+        })
+      };
+
+    case ChatActionTypes.SET_CURRENT_GROUP_CHAT:
+      return {
+        ...state,
+        groupChats: {...state.groupChats, currentChatId: action.payload.id}
+      };
+
+    case ChatActionTypes.SET_CURRENT_PRIVATE_CHAT:
+      return {
+        ...state,
+        privateChats: {...state.privateChats, currentChatId: action.payload.id}
+      };
+
+    // case ChatActionTypes.CLEAR_CURRENT_CHAT:
+    //   return {
+    //     ...state,
+    //     currentChatId: null
+    //   };
+
+    case ChatActionTypes.INIT_GROUP_CHAT_SOCKET:
+      return {
+        ...state,
+        groupChats: {...state.groupChats, groupChatSocketInited: true}
+      };
+
+    case ChatActionTypes.INIT_PRIVATE_CHAT_SOCKET:
+      return {
+        ...state,
+        privateChats: {...state.privateChats, privateChatSocketInited: true}
       };
 
     default: {
@@ -50,4 +105,5 @@ export function chatsReducer(state = initialChatsState, action: ChatActions): Ch
   }
 }
 
-export const { selectAll, selectEntities, selectIds, selectTotal } = adapter.getSelectors();
+export const { selectAll: selectAllGChats, selectEntities: selectEntitiesGChats, selectIds: selectIdsGChats, selectTotal: selectTotalGChats } = groupChatAdapter.getSelectors();
+export const { selectAll: selectAllPChats, selectEntities: selectEntitiesPChats, selectIds: selectIdsPChats, selectTotal: selectTotalPChats } = privateChatAdapter.getSelectors();

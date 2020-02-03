@@ -1,0 +1,6 @@
+<app-chat-shell
+  [dataSource]="chatList$ | async"
+  (createChat)="createGroupChatDialog()"
+  [selectedChat]="selectedChat$ | async"
+  (selected)="chatSelected($event)"
+></app-chat-shell>

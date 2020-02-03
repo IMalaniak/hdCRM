@@ -3,25 +3,25 @@ import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/cor
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
 import * as db from '../../models';
-import { Op } from 'sequelize';
 import Passport from '../../config/passport';
 import uploads from '../../multer/multerConfig';
 import path from 'path';
 import fs from 'fs';
 import { promisify } from 'util';
 import jimp from 'jimp';
+import { UserDBController } from '../../dbControllers/usersController';
 
 @Controller('users/')
 export class UserController {
   unlinkAsync = promisify(fs.unlink);
   // TODO: change to user type
-  currentUser: any;
+  private currentUser: any;
+  private userDbCtrl: UserDBController = new UserDBController();
 
   @Get(':id')
   @Middleware([Passport.authenticate()])
   private get(req: Request, res: Response) {
-    Logger.Info(`Selecting user by id: ${req.params.id}...`);
-    this.findUserById(req.params.id)
+    this.userDbCtrl.getById(req.params.id)
       .then((user: db.User) => {
         return res.status(OK).json(user);
       })
@@ -34,52 +34,12 @@ export class UserController {
   @Get('')
   @Middleware([Passport.authenticate()])
   private getAll(req: Request, res: Response) {
-    Logger.Info(`Selecting all users...`);
-    // TODO: req.user type
-    this.currentUser = req.user;
-
     const queryParams = req.query;
     const limit = parseInt(queryParams.pageSize);
-    const offset = parseInt(queryParams.pageIndex) * limit;
-
-    db.User.findAndCountAll({
-      attributes: { exclude: ['passwordHash', 'salt'] },
-      where: {
-        OrganizationId: this.currentUser.OrganizationId
-      },
-      include: [
-        {
-          model: db.Role,
-          through: {
-            attributes: []
-          }
-        },
-        {
-          model: db.UserLoginHistory
-        },
-        {
-          model: db.State
-        },
-        {
-          model: db.Asset
-        },
-        {
-          model: db.Asset,
-          as: 'avatar'
-        },
-        {
-          model: db.Department,
-          required: false
-        }
-      ],
-      limit: limit,
-      offset: offset,
-      order: [[queryParams.sortIndex, queryParams.sortDirection.toUpperCase()]],
-      distinct: true
-    })
+    this.userDbCtrl.getAll(req.user, queryParams)
       .then(data => {
         const pages = Math.ceil(data.count / limit);
-        return res.status(OK).json({ list: data.rows, count: data.count, pages: pages });
+        return res.status(OK).json({ list: data.rows, count: data.count, pages });
       })
       .catch((err: any) => {
         Logger.Err(err);
@@ -90,8 +50,7 @@ export class UserController {
   @Post('')
   @Middleware([Passport.authenticate()])
   private create(req: Request, res: Response) {
-    Logger.Info(`Creating new user...`);
-    db.User.create(req.body)
+    this.userDbCtrl.create(req.body)
       .then((user: db.User) => {
         return res.status(OK).json(user);
       })
@@ -104,50 +63,11 @@ export class UserController {
   @Put(':id')
   @Middleware([Passport.authenticate()])
   private updateOne(req: Request, res: Response) {
-    Logger.Info(`Updating user by id: ${req.params.id}...`);
-    db.User.update(
-      {
-        name: req.body.name,
-        surname: req.body.surname,
-        email: req.body.email,
-        phone: req.body.phone,
-        defaultLang: req.body.defaultLang,
-        StateId: req.body.StateId
-      },
-      {
-        where: { id: req.body.id }
-      }
-    )
+    this.userDbCtrl.updateOne(req.body)
       .then(result => {
         if (result) {
-          this.findUserById(req.body.id)
-            .then(user => {
-              if (req.body.Roles) {
-                db.Role.findAll({
-                  where: {
-                    [Op.or]: req.body.Roles
-                  }
-                })
-                  .then(roles => {
-                    user.setRoles(roles).then(() => {
-                      this.findUserById(req.body.id)
-                        .then(user => {
-                          return res.status(OK).json(user);
-                        })
-                        .catch((error: any) => {
-                          Logger.Err(error);
-                          return res.status(BAD_REQUEST).json(error.toString());
-                        });
-                    });
-                  })
-                  .catch((error: any) => {
-                    Logger.Err(error);
-                    return res.status(BAD_REQUEST).json(error.toString());
-                  });
-              } else {
-                return res.status(OK).json(user);
-              }
-            })
+          this.userDbCtrl.getById(req.body.id)
+            .then(user => res.status(OK).json(user))
             .catch((error: any) => {
               Logger.Err(error);
               return res.status(BAD_REQUEST).json(error.toString());
@@ -304,18 +224,10 @@ export class UserController {
   @Put('updateUserState')
   @Middleware([Passport.authenticate()])
   private updateUserState(req: Request, res: Response) {
-    Logger.Info(`Updating user state by id: ${req.params.id}...`);
-    db.User.update(
-      {
-        StateId: req.body.StateId
-      },
-      {
-        where: { id: req.body.id }
-      }
-    )
+    this.userDbCtrl.updateUserState(req.body)
       .then(result => {
         if (result) {
-          this.findUserById(req.body.id)
+          this.userDbCtrl.getById(req.body.id)
             .then(user => {
               return res.status(OK).json(user);
             })
@@ -335,20 +247,9 @@ export class UserController {
   @Middleware([Passport.authenticate()])
   private changeStateOfSelected(req: Request, res: Response) {
     Logger.Info(`Changing state of selected users...`);
-    function updateRow(userId: number) {
-      return db.User.update(
-        {
-          StateId: req.body.stateId
-        },
-        {
-          where: { id: userId }
-        }
-      );
-    }
-
     const promises = [];
     req.body.userIds.forEach(userId => {
-      promises.push(updateRow(userId));
+      promises.push(this.userDbCtrl.updateUserState(userId));
     });
 
     return Promise.all(promises)
@@ -364,10 +265,7 @@ export class UserController {
   @Delete(':id')
   @Middleware([Passport.authenticate()])
   private deleteOne(req: Request, res: Response) {
-    Logger.Info(`Deleting user by id: ${req.params.id}...`);
-    db.User.destroy({
-      where: { id: req.params.id }
-    })
+    this.userDbCtrl.deleteOne(req.params.id)
       .then(result => {
         return res.status(OK).json(result);
       })

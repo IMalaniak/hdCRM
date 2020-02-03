@@ -5,12 +5,12 @@ import { Observable } from 'rxjs';
 import { environment } from 'environments/environment';
 
 /**
- * Prefixes all requests with `environment.baseUrl`.
+ * Prefixes all requests with `environment.apiUrl`.
  */
 @Injectable()
 export class ApiPrefixInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    request = request.clone({ url: environment.baseUrl + request.url });
+    request = request.clone({ url: environment.apiUrl + request.url });
     return next.handle(request);
   }
 }

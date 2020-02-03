@@ -1,9 +1,0 @@
-<div class="row">
-  <div class="col-md-6">
-    <app-chats [chats]="chats$ | async" [selectedChat]="selectedChat$ | async" (selected)="chatSelected($event)">
-    </app-chats>
-  </div>
-  <div class="col-md-6">
-    <app-chat [selectedChat]="selectedChat$ | async" (clearCurrent)="clearChat()"> </app-chat>
-  </div>
-</div>

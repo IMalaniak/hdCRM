@@ -1,39 +1,67 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy, SimpleChanges } from '@angular/core';
-import { Chat } from '../../_models';
+import { Component, OnInit, Input, OnDestroy, OnChanges } from '@angular/core';
+import { User } from '@/_modules/users/_models/user';
+import { Store, select } from '@ngrx/store';
+import { AppState } from '@/core/reducers';
+import { currentUser } from '@/core/auth/store/auth.selectors';
+import { SocketService } from '@/_shared/services/socket.service';
+import { SocketEvent } from '@/_shared/models/socketEvent';
+import { ChatService } from '../../_services';
+import { Chat, ChatMessage } from '../../_models';
+import { FormControl, Validators } from '@angular/forms';
+import { cloneDeep } from 'lodash';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit, OnDestroy {
+export class ChatComponent implements OnInit, OnChanges, OnDestroy {
+  user: User;
   @Input() selectedChat: Chat;
-  // @Output() delete = new EventEmitter<Chat>();
-  @Output() clearCurrent = new EventEmitter<void>();
+  chat: Chat;
+  messageContent: FormControl;
 
-  componentActive = true;
-  chat: Chat | null;
+  constructor(private chatService: ChatService, private socketService: SocketService, private store$: Store<AppState>) {
+    this.store$.pipe(select(currentUser)).subscribe(systemUser => {
+      this.user = systemUser;
+    });
+  }
 
-  constructor() {}
+  ngOnInit(): void {
+    this.messageContent = new FormControl('', [
+      Validators.required
+    ]);
 
-  ngOnInit() {}
+    this.chatService.onGM().subscribe((message: ChatMessage) => {
+      this.chat.messages.push(new ChatMessage(message));
+    });
+  }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.selectedChat) {
-      const chat: any = changes.selectedChat.currentValue as Chat;
-      this.displayChat(chat);
+  ngOnChanges(): void {
+    if (this.selectedChat) {
+      this.chat = new Chat(cloneDeep(this.selectedChat));
+      this.socketService.emit(SocketEvent.JOIN, this.selectedChat);
     }
   }
 
+  public sendMessage(): void {
+    if (!this.messageContent.value || this.messageContent.value.length === 0)  {
+      return;
+    }
+
+    this.chatService.sendGM({
+      sender: this.user,
+      content: this.messageContent.value,
+      room: this.selectedChat.room,
+      createdAt: new Date()
+    });
+    this.messageContent.reset();
+  }
+
   ngOnDestroy(): void {
-    this.componentActive = false;
+    if (this.selectedChat) {
+      this.socketService.emit(SocketEvent.LEAVE, this.selectedChat);
+    }
   }
 
-  displayChat(chat: Chat | null): void {
-    this.chat = chat;
-  }
-
-  cancelEdit(): void {
-    this.displayChat(this.chat);
-  }
 }

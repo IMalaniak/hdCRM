@@ -6,7 +6,7 @@ import { Request } from 'express';
 const uploadsFolder = path.join(__dirname, '../../uploads');
 
 const store = multer.diskStorage({
-  destination: function(req: Request, file, cb) {
+  destination: (req: Request, file, cb) => {
     let dest: string;
     if (req.url.includes('avatar')) {
       dest = `${uploadsFolder}/images/userpic`;
@@ -18,7 +18,7 @@ const store = multer.diskStorage({
     }
     cb(null, dest);
   },
-  filename: function(req, file, cb) {
+  filename: (req, file, cb) => {
     cb(null, file.originalname);
   }
 });

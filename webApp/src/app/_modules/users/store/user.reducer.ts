@@ -43,7 +43,7 @@ export function usersReducer(state = initialUsersState, action: UserActions): Us
       };
 
     case UserActionTypes.USER_LIST_PAGE_LOADED:
-      return adapter.addMany(action.payload.list, {
+      return adapter.upsertMany(action.payload.list, {
         ...state,
         loading: false,
         pages: action.payload.pages,
@@ -55,6 +55,28 @@ export function usersReducer(state = initialUsersState, action: UserActions): Us
         ...state,
         loading: false
       };
+
+    case UserActionTypes.ONLINE_USER_LIST_REQUESTED:
+      return {
+        ...state,
+        loading: true
+      };
+
+    case UserActionTypes.USER_ONLINE:
+      return adapter.upsertOne(action.payload, {
+        ...state
+      });
+
+    case UserActionTypes.USER_OFFLINE:
+      return adapter.upsertOne(action.payload, {
+        ...state
+      });
+
+    case UserActionTypes.ONLINE_USER_LIST_LOADED:
+      return adapter.upsertMany(action.payload, {
+        ...state,
+        loading: false
+      });
 
     case UserActionTypes.USER_SAVED:
       return adapter.updateOne(action.payload.user, state);

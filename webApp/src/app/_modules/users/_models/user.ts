@@ -31,6 +31,12 @@ export class User {
   lastSessionData: UserLoginHistory;
   PasswordAttributes: PasswordAttributes;
   Organization: Organization;
+  OrganizationId: number;
+  online: boolean;
+  lastSocketId: string;
+  activeSockets?: string[];
+  OrgRoom: string;
+  rooms?: string[];
 
   constructor(input?: any) {
     if (input) {

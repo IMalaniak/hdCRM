@@ -22,6 +22,7 @@ import { reducers, metaReducers } from './reducers';
 import { CustomSerializer } from '@/_shared/utils';
 
 import { environment } from 'environments/environment';
+import { SocketService } from '@/_shared/services/socket.service';
 
 @NgModule({
   imports: [
@@ -49,7 +50,9 @@ import { environment } from 'environments/environment';
     ValidateService,
     MediaqueryService,
     LocalStorageService,
-    { provide: RouterStateSerializer, useClass: CustomSerializer }
+    { provide: RouterStateSerializer, useClass: CustomSerializer },
+    { provide: RouterStateSerializer, useClass: CustomSerializer },
+    SocketService
   ]
 })
 export class CoreModule extends EnsureModuleLoadedOnceGuard {
