@@ -52,7 +52,7 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private router: Router, public mediaquery: MediaqueryService, private store: Store<AppState>, private scktService: SocketService) {
+  constructor(private router: Router, public mediaquery: MediaqueryService, private store: Store<AppState>, private socket: SocketService) {
   }
 
   ngOnInit() {
@@ -67,12 +67,14 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
       });
     }
     this.currentUser$.pipe(take(1)).subscribe(user => {
-      this.scktService.emit(SocketEvent.ISONLINE, user);
-      // this.scktService.emit(SocketEvent.INITMODULE, {moduleName: 'notifications'});
-    });
-    // TODO: move to another component ex: right sidebar
-    this.scktService.onEvent(SocketEvent.USERSONLINE).subscribe(res => {
-      console.log(res);
+      this.socket.emit(SocketEvent.ISONLINE, {
+        id: user.id,
+        name: user.name,
+        surname: user.surname,
+        avatar: user.avatar,
+        OrganizationId: user.OrganizationId
+      });
+      // this.socket.emit(SocketEvent.INITMODULE, {moduleName: 'notifications'});
     });
   }
 

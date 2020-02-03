@@ -8,10 +8,10 @@ export enum GlobalEvents {
   ISONLINE = 'is-online',
   ISOFFLINE = 'is-offline',
   DISCONNECT = 'disconnect',
-  chatHelper = 'users-online',
   INITMODULE = 'init-module',
   JOIN = 'join',
-  LEAVE = 'leave'
+  LEAVE = 'leave',
+  USERSONLINE = 'users-online'
 }
 
 export enum GropChatEvents {
@@ -38,28 +38,38 @@ export class SocketRouter {
         Logger.Info(`Global: Client online, userId: ${user.id}`);
         const OrgRoom = `ORG_ROOM_${user.OrganizationId.toString()}`;
         socket.join(OrgRoom);
-        this.chatHelper.addUser({
+        const userOnline = {
           id: user.id,
-          fullname: `${user.name} ${user.surname}`,
+          name: user.name,
+          surname: user.surname,
+          avatar: user.avatar,
           lastSocketId: socket.id,
           OrgRoom,
-          rooms: [OrgRoom]
-        });
-        this.io.to(OrgRoom).emit(GlobalEvents.chatHelper, this.chatHelper.getUserList(OrgRoom));
+          rooms: [OrgRoom],
+          online: true
+        }
+        this.chatHelper.addUser(userOnline);
+        socket.to(OrgRoom).emit(GlobalEvents.ISONLINE, userOnline);
 
         this.initCases(socket);
+
+        socket.on(GlobalEvents.USERSONLINE, () => {
+          socket.emit(GlobalEvents.USERSONLINE, this.chatHelper.getUserList(OrgRoom)); // emit only to myself
+        });
       });
       socket.on(GlobalEvents.ISOFFLINE, () => {
         const userLeft = this.chatHelper.removeUser(socket.id);
         if (userLeft) {
-          this.io.to(userLeft.OrgRoom).emit(GlobalEvents.chatHelper, this.chatHelper.getUserList(userLeft.OrgRoom));
+          userLeft.online = false;
+          this.io.to(userLeft.OrgRoom).emit(GlobalEvents.ISOFFLINE, userLeft);
         }
       });
       socket.on(GlobalEvents.DISCONNECT, () => {
         Logger.Info(`Global: Client disconected, socketId: ${socket.id}`);
         const user = this.chatHelper.removeActiveSocket(socket.id);
         if (user) {
-          this.io.to(user.OrgRoom).emit(GlobalEvents.chatHelper, this.chatHelper.getUserList(user.OrgRoom));
+          user.online = false;
+          this.io.to(user.OrgRoom).emit(GlobalEvents.ISOFFLINE, user);
         }
       });
     });

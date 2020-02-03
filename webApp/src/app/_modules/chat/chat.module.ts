@@ -15,6 +15,9 @@ import { EffectsModule } from '@ngrx/effects';
 import { chatsReducer } from './store/chat.reducer';
 import { ChatEffects } from './store/chat.effects';
 import { ChatShellComponent, GroupChatComponent, PrivateChatComponent } from './containers';
+import { usersReducer } from '../users/store/user.reducer';
+import { UserEffects } from '../users/store/user.effects';
+import { UserService } from '../users';
 
 @NgModule({
   imports: [
@@ -26,10 +29,11 @@ import { ChatShellComponent, GroupChatComponent, PrivateChatComponent } from './
     FontAwesomeModule,
     ChatRoutingModule.forRoot(),
     StoreModule.forFeature('chats', chatsReducer),
-    EffectsModule.forFeature([ChatEffects])
+    StoreModule.forFeature('users', usersReducer),
+    EffectsModule.forFeature([ChatEffects, UserEffects])
   ],
   declarations: [ChatListComponent, ChatComponent, ChatShellComponent, GroupChatComponent, PrivateChatComponent, CreateChatDialogComponent],
-  providers: [ChatService],
+  providers: [ChatService, UserService],
   exports: [ChatListComponent, ChatComponent],
   entryComponents: [CreateChatDialogComponent]
 })

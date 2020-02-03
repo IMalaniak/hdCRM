@@ -11,8 +11,10 @@ export enum UserActionTypes {
   USER_LIST_PAGE_REQUESTED = '[User List] User Page Requested',
   USER_LIST_PAGE_LOADED = '[User API] User Page Loaded',
   USER_LIST_PAGE_CANCELLED = '[User API] User Page Cancelled',
-  ALLSTATES_REQUESTED = '[User Details] User States list requested',
-  ALLSTATES_LOADED = '[User Details] User States list loaded'
+  ONLINE_USER_LIST_REQUESTED = '[Users] Online Users Requested',
+  ONLINE_USER_LIST_LOADED = '[Users API] Online User List Loaded',
+  USER_ONLINE = '[User Socket API] User Online',
+  USER_OFFLINE = '[User Socket API] User Offline'
 }
 
 export class UserRequested implements Action {
@@ -49,14 +51,25 @@ export class UserListPageCancelled implements Action {
   readonly type = UserActionTypes.USER_LIST_PAGE_CANCELLED;
 }
 
-export class AllStatesRequested implements Action {
-  readonly type = UserActionTypes.ALLSTATES_REQUESTED;
+export class OnlineUserListRequested implements Action {
+  readonly type = UserActionTypes.ONLINE_USER_LIST_REQUESTED;
 }
 
-export class AllStatesLoaded implements Action {
-  readonly type = UserActionTypes.ALLSTATES_LOADED;
-  constructor(public payload: { states: State[] }) {}
+export class OnlineUserListLoaded implements Action {
+  readonly type = UserActionTypes.ONLINE_USER_LIST_LOADED;
+  constructor(public payload: User[]) {}
 }
+
+export class UserOnline implements Action {
+  readonly type = UserActionTypes.USER_ONLINE;
+  constructor(public payload: User) {}
+}
+
+export class UserOffline implements Action {
+  readonly type = UserActionTypes.USER_OFFLINE;
+  constructor(public payload: User) {}
+}
+
 
 export type UserActions =
   | UserRequested
@@ -66,5 +79,7 @@ export type UserActions =
   | UserListPageLoaded
   | UserListPageCancelled
   | DeleteUser
-  | AllStatesRequested
-  | AllStatesLoaded;
+  | OnlineUserListRequested
+  | OnlineUserListLoaded
+  | UserOnline
+  | UserOffline;

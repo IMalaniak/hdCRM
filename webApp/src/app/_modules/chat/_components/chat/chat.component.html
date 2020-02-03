@@ -8,7 +8,13 @@
       *ngFor="let chatMessage of chat.messages"
       [ngClass]="{ 'is-from': chatMessage.sender.id !== user.id }"
     >
-      <span class="chat-message-sender" title="{{ chatMessage.sender.name }} {{ chatMessage.sender.surname }}">{{
+      <img
+        class="userpic chat-message-sender-pic"
+        *ngIf="chatMessage.sender.avatar"
+        src="{{ chatMessage.sender.avatar.getThumbnailsUrl }}"
+        alt="{{ chatMessage.sender.avatar.title }}"
+      />
+      <span *ngIf="!chatMessage.sender.avatar" class="chat-message-sender" title="{{ chatMessage.sender.fullname }}">{{
         chatMessage.sender.name | slice: 0:2
       }}</span>
       <div class="d-flex flex-column chat-message">

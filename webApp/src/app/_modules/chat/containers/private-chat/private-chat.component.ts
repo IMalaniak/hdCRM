@@ -4,6 +4,8 @@ import { AppState } from '@/core/reducers';
 import { Store, select } from '@ngrx/store';
 
 import { Chat } from '../../_models';
+import { selectUsersOnline } from '@/_modules/users/store/user.selectors';
+import { OnlineUserListRequested } from '@/_modules/users/store/user.actions';
 
 @Component({
   selector: 'app-private-chat',
@@ -17,6 +19,10 @@ export class PrivateChatComponent implements OnInit {
   constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
+    this.store.dispatch(new OnlineUserListRequested());
+    this.store.pipe(select(selectUsersOnline)).subscribe(users => {
+      console.log(users);
+    });
   }
 
 

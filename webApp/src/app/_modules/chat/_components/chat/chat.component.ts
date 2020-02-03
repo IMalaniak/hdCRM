@@ -33,19 +33,19 @@ export class ChatComponent implements OnInit, OnChanges, OnDestroy {
     ]);
 
     this.chatService.onGM().subscribe((message: ChatMessage) => {
-      this.chat.messages.push(message);
+      this.chat.messages.push(new ChatMessage(message));
     });
   }
 
   ngOnChanges(): void {
     if (this.selectedChat) {
-      this.chat = cloneDeep(this.selectedChat);
+      this.chat = new Chat(cloneDeep(this.selectedChat));
       this.socketService.emit(SocketEvent.JOIN, this.selectedChat);
     }
   }
 
   public sendMessage(): void {
-    if (!this.messageContent.value || this.messageContent.value.length !== 0)  {
+    if (!this.messageContent.value || this.messageContent.value.length === 0)  {
       return;
     }
 

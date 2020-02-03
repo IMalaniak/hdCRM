@@ -1,4 +1,5 @@
 @import 'variables';
+@import 'mixins';
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 
@@ -11,7 +12,7 @@
         padding: $spacer;
     
         &::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
             border-radius: 10px;
             background-color: #F5F5F5;
         }
@@ -23,7 +24,7 @@
     
         &::-webkit-scrollbar-thumb {
             border-radius: 10px;
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+            box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
             background-color: $secondary;
         }
     }
@@ -70,7 +71,7 @@
         }
     
         &-sender {
-            $sender-width: 3rem;
+            $sender-width: crmsize(userpic, null, true);
             min-width: $sender-width;
             flex-basis: $sender-width;
             height: $sender-width;
@@ -87,6 +88,10 @@
             .is-from & {
                 background: $secondary;
             }
+        }
+
+        &-sender-pic {
+            order: 1;
         }
     }
 

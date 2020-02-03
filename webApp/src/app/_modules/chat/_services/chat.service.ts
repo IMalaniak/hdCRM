@@ -4,32 +4,37 @@ import { Observable } from 'rxjs';
 import { Chat, ChatMessage } from '../_models';
 import { SocketEvent } from '@/_shared/models/socketEvent';
 import { SocketService } from '@/_shared/services/socket.service';
+import { take } from 'rxjs/operators';
 
 @Injectable()
 export class ChatService {
   private api: string;
+  groupChatListed$: Observable<any>;
 
-  constructor(private http: HttpClient, private scktService: SocketService) {
+  constructor(private http: HttpClient, private socket: SocketService) {
     this.api = '/chats';
+    this.groupChatListed$ = this.socket.onEvent(SocketEvent.GROUPCHATLIST).pipe(
+      take(1),
+    );
   }
 
   getGroupChatList(): void {
-    return this.scktService.emit(SocketEvent.GETGROUPCHATLIST);
+    return this.socket.emit(SocketEvent.GETGROUPCHATLIST);
   }
 
   public sendPM(message: ChatMessage): void {
-    this.scktService.emit(SocketEvent.PRIVATEMESSAGE, message);
+    this.socket.emit(SocketEvent.PRIVATEMESSAGE, message);
   }
 
   public sendGM(message: ChatMessage): void {
-    this.scktService.emit(SocketEvent.GROUPMESSAGE, message);
+    this.socket.emit(SocketEvent.GROUPMESSAGE, message);
   }
 
   public onPM(): Observable<ChatMessage> {
-    return this.scktService.onEvent(SocketEvent.PRIVATEMESSAGE);
+    return this.socket.onEvent(SocketEvent.PRIVATEMESSAGE);
   }
 
   public onGM(): Observable<ChatMessage> {
-    return this.scktService.onEvent(SocketEvent.GROUPMESSAGE);
+    return this.socket.onEvent(SocketEvent.GROUPMESSAGE);
   }
 }

@@ -34,8 +34,7 @@ export class ChatEffects {
       this.chatService.getGroupChatList();
     }),
     mergeMap(() => {
-      return this.scktService.onEvent(SocketEvent.GROUPCHATLIST).pipe(
-        take(1),
+      return this.chatService.groupChatListed$.pipe(
         map((response: Chat[]) => new chatActions.GroupChatListLoaded(response))
       );
     }),

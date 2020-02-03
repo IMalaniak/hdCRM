@@ -2,15 +2,25 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User, UserServerResponse, State } from '../_models';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Role } from '@/_modules/roles/_models';
+import { SocketService } from '@/_shared/services/socket.service';
+import { SocketEvent } from '@/_shared/models/socketEvent';
 
 @Injectable()
 export class UserService {
   private api: string;
+  onlineUsersListed$: Observable<any>;
+  userOnline$: Observable<any>;
+  userOffline$: Observable<any>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private socket: SocketService) {
     this.api = '/users';
+    this.onlineUsersListed$ = this.socket.onEvent(SocketEvent.USERSONLINE).pipe(
+      take(1)
+    );
+    this.userOnline$ = this.socket.onEvent(SocketEvent.ISONLINE);
+    this.userOffline$ = this.socket.onEvent(SocketEvent.ISOFFLINE);
   }
 
   // redo
@@ -28,6 +38,10 @@ export class UserService {
           .set('sortDirection', sortDirection)
       })
       .pipe(map(res => new UserServerResponse(res)));
+  }
+
+  listOnline() {
+    this.socket.emit(SocketEvent.USERSONLINE);
   }
 
   getUser(id: number): Observable<User> {

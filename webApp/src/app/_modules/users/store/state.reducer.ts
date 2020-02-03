@@ -1,6 +1,6 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { State } from '../_models';
-import { UserActions, UserActionTypes } from './user.actions';
+import { StateActions, StateActionTypes } from './state.actions';
 
 export interface StatesState extends EntityState<State> {
   allStatesLoaded: boolean;
@@ -14,9 +14,9 @@ export const initialStatesState: StatesState = adapter.getInitialState({
   error: null
 });
 
-export function statesReducer(state = initialStatesState, action: UserActions): StatesState {
+export function statesReducer(state = initialStatesState, action: StateActions): StatesState {
   switch (action.type) {
-    case UserActionTypes.ALLSTATES_LOADED:
+    case StateActionTypes.ALLSTATES_LOADED:
       return adapter.addAll(action.payload.states, {
         ...state,
         allStatesLoaded: true

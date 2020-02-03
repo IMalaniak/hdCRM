@@ -1,12 +1,9 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromUser from './user.reducer';
-import * as fromState from './state.reducer';
 import { PageQuery } from '@/core/_models';
 import { User } from '../_models';
 
 export const selectUsersState = createFeatureSelector<fromUser.UsersState>('users');
-
-export const selectStatesState = createFeatureSelector<fromState.StatesState>('states');
 
 export const selectUserById = (userId: number) =>
   createSelector(selectUsersState, usersState => usersState.entities[userId]);
@@ -15,6 +12,8 @@ export const selectAllUsers = createSelector(selectUsersState, fromUser.selectAl
 
 export const selectUsersByState = (stateId: number) =>
   createSelector(selectAllUsers, users => users.filter(user => user.StateId === stateId));
+
+export const selectUsersOnline = createSelector(selectAllUsers, users => users.filter(user => user.online));
 
 export const allUsersLoaded = createSelector(selectUsersState, userState => userState.allUsersLoaded);
 
@@ -34,7 +33,3 @@ export const selectUsersPage = (page: PageQuery) =>
       return allUsers.slice(start, end);
     }
   });
-
-export const selectAllStates = createSelector(selectStatesState, fromState.selectAll);
-
-export const allStatesLoaded = createSelector(selectStatesState, stateState => stateState.allStatesLoaded);

@@ -1,10 +1,13 @@
 export interface UserOnline {
   id: number;
+  name: string;
+  surname: string;
+  avatar: any; // TODO Asset
   lastSocketId: string;
   activeSockets?: string[];
-  fullname: string;
   OrgRoom: string;
   rooms?: string[];
+  online: boolean;
 }
 
 export interface GroupChat {
@@ -19,7 +22,7 @@ export interface GroupChat {
 export interface ChatMessage {
   id?: number;
   content?: string;
-  sender: any;
+  sender: UserOnline;
   room: string;
   createdAt: Date;
 }
