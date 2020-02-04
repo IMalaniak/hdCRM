@@ -11,10 +11,6 @@ export class SocketService {
   private socket: socketIo.Socket;
 
   constructor() {
-    
-  }
-
-  public initSocket(): void {
     this.socket = socketIo(environment.baseUrl);
   }
 

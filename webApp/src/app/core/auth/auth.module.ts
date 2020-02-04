@@ -23,7 +23,6 @@ import {
   faCheck,
   faPlus
 } from '@fortawesome/free-solid-svg-icons';
-import { SocketService } from '@/_shared/services/socket.service';
 
 @NgModule({
   imports: [
@@ -38,8 +37,7 @@ import { SocketService } from '@/_shared/services/socket.service';
     EffectsModule.forFeature([AuthEffects])
   ],
   declarations: [LoginComponent, RegisterUserComponent],
-  exports: [LoginComponent, RegisterUserComponent],
-  providers: [SocketService]
+  exports: [LoginComponent, RegisterUserComponent]
 })
 export class AuthModule {
   static forRoot(): ModuleWithProviders {
