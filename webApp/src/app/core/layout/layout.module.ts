@@ -39,6 +39,9 @@ import {
   faSms,
   faChevronRight
 } from '@fortawesome/free-solid-svg-icons';
+import { usersReducer } from '@/_modules/users/store/user.reducer';
+import { UserEffects } from '@/_modules/users/store/user.effects';
+import { UserService } from '@/_modules/users';
 
 @NgModule({
   imports: [
@@ -48,7 +51,8 @@ import {
     SharedModule,
     MessageModule,
     StoreModule.forFeature('layout', layoutReducer),
-    EffectsModule.forFeature([LayoutEffects]),
+    StoreModule.forFeature('users', usersReducer),
+    EffectsModule.forFeature([LayoutEffects, UserEffects]),
     FontAwesomeModule
   ],
   declarations: [
@@ -62,6 +66,7 @@ import {
     PageNotFoundComponent,
     InternalServerErrorComponent
   ],
+  providers: [UserService],
   exports: [
     BreadcrumbsComponent,
     LeftSidebarComponent,

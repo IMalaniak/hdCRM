@@ -6,7 +6,7 @@
 @import '~bootstrap/scss/mixins';
 @import '~bootstrap/scss/root';
 @import '~bootstrap/scss/reboot';
-@import '~bootstrap/scss/type'; 
+@import '~bootstrap/scss/type';
 @import '~bootstrap/scss/grid';
 @import '~bootstrap/scss/card';
 @import '~bootstrap/scss/breadcrumb';
@@ -158,6 +158,17 @@ main {
   .list-group-item & {
     margin-right: crmsize(spacer, null, true);
   }
+}
+
+.user-status-icon {
+  position: absolute;
+  bottom: -0.2em;
+  right: -0.3em;
+  display: block;
+  width: 1em;
+  height: 1em;
+  border: 2px solid $white;
+  border-radius: 50%;
 }
 
 .mat-checkbox {

@@ -1,4 +1,10 @@
-import { Component, Input, HostBinding, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
+import { Component, Input, HostBinding, ViewEncapsulation, Output, EventEmitter, OnInit } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import { AppState } from '@/core/reducers';
+import { Observable } from 'rxjs';
+import { User } from '@/_modules/users';
+import { selectUsersOnline } from '@/_modules/users/store/user.selectors';
+import { OnlineUserListRequested } from '@/_modules/users/store/user.actions';
 
 @Component({
   selector: 'app-right-sidebar',
@@ -6,7 +12,7 @@ import { Component, Input, HostBinding, ViewEncapsulation, Output, EventEmitter 
   styleUrls: ['./right-sidebar.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class RightSidebarComponent {
+export class RightSidebarComponent implements OnInit {
   @Input() rightSidebarMinimized: boolean;
 
   @Output()
@@ -16,6 +22,15 @@ export class RightSidebarComponent {
     return this.rightSidebarMinimized;
   }
 
+  onlineUsers$: Observable<Array<User>>;
+
+  constructor(private store: Store<AppState>) {}
+
+  ngOnInit() {
+    this.store.dispatch(new OnlineUserListRequested());
+    this.onlineUsers$ = this.store.pipe(select(selectUsersOnline));
+  }
+
   get sidebarTipMessage(): string {
     return this.rightSidebarMinimized ? 'Show side panel' : 'Hide side panel';
   }
@@ -23,5 +38,4 @@ export class RightSidebarComponent {
   toggleRightSidebar(): void {
     this.hideRightSidebar.emit(!this.rightSidebarMinimized);
   }
-
 }

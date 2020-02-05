@@ -3,13 +3,14 @@
 @import '~bootstrap/scss/mixins/breakpoints';
 
 app-right-sidebar {
-  @include crm-bgcolor('layout', 'milk');
+  @include crm-bgcolor('layout', 'background');
   position: fixed;
   top: crmsize(header, height, true);
   right: 0;
   bottom: 0;
   min-width: 100%;
   transition: all $transition;
+  z-index: 100;
 
   &.minimized {
     min-width: crmsize(sidebar, hidden, true);
@@ -31,24 +32,90 @@ app-right-sidebar {
 }
 
 .sidebar-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  position: relative;
   height: 100%;
   width: 100%;
-  padding: 1em 0;
+  border-left: 1px solid lightgray;
+
+  > .sidebar-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    > .users-block {
+      display: flex;
+      flex-direction: column;
+
+      > .header-block {
+        @include crm-bgcolor('layout', 'milk');
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: crmsize(header, height, true);
+
+        > .header-title {
+          font-size: 1em;
+          text-transform: uppercase;
+          margin: 0 0 0 1.2em;
+
+          &.mat-badge-medium .mat-badge-content {
+            width: 19px;
+            height: 19px;
+            line-height: 19px;
+            top: 0;
+            right: -2em;
+          }
+        }
+      }
+
+      > ul {
+        padding-left: 1.2em;
+        margin-bottom: 1.4rem;
+
+        &:first-of-type {
+          margin-top: 1.4em;
+        }
+
+        > li {
+          display: flex;
+          flex-direction: row;
+
+          .userpic {
+            max-height: 2.3rem;
+          }
+
+          .user-info {
+            display: flex;
+            align-items: center;
+            margin-left: 0.8em;
+
+            > .user-fullname {
+              line-height: 1;
+              font-size: 0.95em;
+              font-weight: 400;
+            }
+          }
+        }
+      }
+    }
+  }
 
   > .btn-wrapper {
-    position: relative;
+    position: absolute;
+    bottom: 1em;
+    left: 1em;
     height: 2.4em;
-    margin-left: 1em;
+    width: 100%;
 
     > .btn-expand-wrapper {
       @include crm-bgcolor('theme', 'primary');
       position: absolute;
       top: 0;
       left: 0;
-      bottom: 0;
       height: 2.4em;
       border-bottom-left-radius: 1.3em;
       border-top-left-radius: 1.3em;
