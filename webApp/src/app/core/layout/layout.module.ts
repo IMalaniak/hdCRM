@@ -43,6 +43,15 @@ import { usersReducer } from '@/_modules/users/store/user.reducer';
 import { UserEffects } from '@/_modules/users/store/user.effects';
 import { UserService } from '@/_modules/users';
 
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  swipeEasing: true,
+  wheelSpeed: 0.2
+};
+
 @NgModule({
   imports: [
     CommonModule,
@@ -53,7 +62,8 @@ import { UserService } from '@/_modules/users';
     StoreModule.forFeature('layout', layoutReducer),
     StoreModule.forFeature('users', usersReducer),
     EffectsModule.forFeature([LayoutEffects, UserEffects]),
-    FontAwesomeModule
+    FontAwesomeModule,
+    PerfectScrollbarModule
   ],
   declarations: [
     PublicViewComponent,
@@ -66,7 +76,13 @@ import { UserService } from '@/_modules/users';
     PageNotFoundComponent,
     InternalServerErrorComponent
   ],
-  providers: [UserService],
+  providers: [
+    UserService,
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+    }
+  ],
   exports: [
     BreadcrumbsComponent,
     LeftSidebarComponent,

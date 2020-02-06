@@ -1,6 +1,7 @@
 @import 'variables';
 @import 'mixins';
 @import '~bootstrap/scss/mixins/breakpoints';
+@import '~perfect-scrollbar/css/perfect-scrollbar.css';
 
 app-right-sidebar {
   @include crm-bgcolor('layout', 'background');
@@ -46,7 +47,7 @@ app-right-sidebar {
     overflow-y: auto;
     overflow-x: hidden;
 
-    > .users-block {
+    .users-block {
       display: flex;
       flex-direction: column;
 
