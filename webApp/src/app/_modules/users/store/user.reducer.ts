@@ -87,6 +87,12 @@ export function usersReducer(state = initialUsersState, action: UserActions): Us
         countAll: state.countAll - 1
       });
 
+    case UserActionTypes.USERS_INVITED:
+      return adapter.addMany(action.payload, {
+        ...state,
+        countAll: state.countAll + action.payload.length
+      });
+
     default: {
       return state;
     }
