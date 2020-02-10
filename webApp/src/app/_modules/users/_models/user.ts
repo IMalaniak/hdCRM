@@ -51,7 +51,7 @@ export class User {
     return this.name + ' ' + this.surname;
   }
 
-  set fullname(fullname) {
+  set fullname(fullname: string) {
     [this.name, this.surname] = [...fullname.split(' ')];
   }
 }
