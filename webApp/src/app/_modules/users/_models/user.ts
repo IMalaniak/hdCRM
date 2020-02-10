@@ -50,6 +50,10 @@ export class User {
   get fullname(): string {
     return this.name + ' ' + this.surname;
   }
+
+  set fullname(fullname) {
+    [this.name, this.surname] = [...fullname.split(' ')];
+  }
 }
 
 export class UserServerResponse extends ApiResponse {
