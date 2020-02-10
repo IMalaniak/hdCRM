@@ -38,7 +38,9 @@ class DataBase {
     UserLoginHistoryFactory(this.sequelize);
 
     // associations
-    Organization.hasMany(Department);
+    Organization.hasMany(Department, {
+      onDelete: 'cascade'
+    });
     Organization.hasMany(Plan);
     Organization.hasMany(Role);
     Organization.hasMany(User);
@@ -60,7 +62,8 @@ class DataBase {
     User.hasOne(UserLoginHistory);
     User.hasOne(Department, {
       as: 'ManagedDepartment',
-      foreignKey: 'managerId'
+      foreignKey: 'managerId',
+      onDelete: 'set null'
     });
     User.belongsTo(Department, { constraints: false });
     User.hasOne(PasswordAttribute, {
