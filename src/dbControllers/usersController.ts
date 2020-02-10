@@ -1,9 +1,9 @@
 import * as db from '../models';
 import { Logger } from '@overnightjs/logger';
-import { IncludeOptions } from 'sequelize/types';
+import { IncludeOptions, FindOptions } from 'sequelize/types';
 
 export class UserDBController {
-  private includes: IncludeOptions[] = [
+  public includes: IncludeOptions[] = [
     {
       model: db.Role,
       through: {
@@ -26,6 +26,9 @@ export class UserDBController {
     {
       model: db.Department,
       required: false
+    },
+    {
+      model: db.Organization
     }
   ];
 
@@ -55,9 +58,21 @@ export class UserDBController {
     });
   }
 
-  public create(body: db.User): Promise<db.User> {
+  public async create(body: db.User): Promise<db.User> {
     Logger.Info(`Creating new user...`);
-    return db.User.create(body);
+    return new Promise((resolve, reject) => {
+      db.User.create(body).then(user => {
+        user.reload({
+          include: this.includes
+        }).then(u => {
+          resolve(u);
+        }).catch((err: any) => {
+          reject(err);
+        });
+      }).catch((err: any) => {
+        reject(err);
+      });
+    });
   }
 
   public updateOne(user: db.User): Promise<[number, db.User[]]> {
@@ -96,4 +111,5 @@ export class UserDBController {
       where: { id }
     });
   }
+
 }

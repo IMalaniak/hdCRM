@@ -86,6 +86,25 @@ class Mailer {
       }
     });
   }
+
+  sendInvitation(user: db.User, tmpPassword: string, url: string) {
+    return this.newEmail.send({
+      template: path.join(__dirname, '../../emails', 'userInvitation'),
+      message: {
+        subject: 'You have been invited to HDCRM system',
+        to: user.email
+      },
+      locals: {
+        organization: user.Organization.title,
+        email: user.email,
+        name: user.name,
+        username: user.login,
+        tmpPass: tmpPassword,
+        activationUrl: url
+      }
+    });
+  }
+
 }
 
 export default new Mailer();
