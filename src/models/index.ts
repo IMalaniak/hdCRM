@@ -65,7 +65,8 @@ class DataBase {
     User.belongsTo(Department, { constraints: false });
     User.hasOne(PasswordAttribute, {
       as: 'PasswordAttributes',
-      foreignKey: 'UserId'
+      foreignKey: 'UserId',
+      onDelete: 'cascade'
     });
     UserLoginHistory.belongsTo(User);
     PasswordAttribute.belongsTo(User);
