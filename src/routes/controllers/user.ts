@@ -10,6 +10,8 @@ import fs from 'fs';
 import { promisify } from 'util';
 import jimp from 'jimp';
 import { UserDBController } from '../../dbControllers/usersController';
+import Crypt from '../../config/crypt';
+import Mailer from '../../mailer/nodeMailerTemplates';
 
 @Controller('users/')
 export class UserController {
@@ -21,7 +23,8 @@ export class UserController {
   @Get(':id')
   @Middleware([Passport.authenticate()])
   private get(req: Request, res: Response) {
-    this.userDbCtrl.getById(req.params.id)
+    this.userDbCtrl
+      .getById(req.params.id)
       .then((user: db.User) => {
         return res.status(OK).json(user);
       })
@@ -36,7 +39,8 @@ export class UserController {
   private getAll(req: Request, res: Response) {
     const queryParams = req.query;
     const limit = parseInt(queryParams.pageSize);
-    this.userDbCtrl.getAll(req.user, queryParams)
+    this.userDbCtrl
+      .getAll(req.user, queryParams)
       .then(data => {
         const pages = Math.ceil(data.count / limit);
         return res.status(OK).json({ list: data.rows, count: data.count, pages });
@@ -50,7 +54,8 @@ export class UserController {
   @Post('')
   @Middleware([Passport.authenticate()])
   private create(req: Request, res: Response) {
-    this.userDbCtrl.create(req.body)
+    this.userDbCtrl
+      .create(req.body)
       .then((user: db.User) => {
         return res.status(OK).json(user);
       })
@@ -63,10 +68,12 @@ export class UserController {
   @Put(':id')
   @Middleware([Passport.authenticate()])
   private updateOne(req: Request, res: Response) {
-    this.userDbCtrl.updateOne(req.body)
+    this.userDbCtrl
+      .updateOne(req.body)
       .then(result => {
         if (result) {
-          this.userDbCtrl.getById(req.body.id)
+          this.userDbCtrl
+            .getById(req.body.id)
             .then(user => res.status(OK).json(user))
             .catch((error: any) => {
               Logger.Err(error);
@@ -224,10 +231,12 @@ export class UserController {
   @Put('updateUserState')
   @Middleware([Passport.authenticate()])
   private updateUserState(req: Request, res: Response) {
-    this.userDbCtrl.updateUserState(req.body)
+    this.userDbCtrl
+      .updateUserState(req.body)
       .then(result => {
         if (result) {
-          this.userDbCtrl.getById(req.body.id)
+          this.userDbCtrl
+            .getById(req.body.id)
             .then(user => {
               return res.status(OK).json(user);
             })
@@ -265,7 +274,8 @@ export class UserController {
   @Delete(':id')
   @Middleware([Passport.authenticate()])
   private deleteOne(req: Request, res: Response) {
-    this.userDbCtrl.deleteOne(req.params.id)
+    this.userDbCtrl
+      .deleteOne(req.params.id)
       .then(result => {
         return res.status(OK).json(result);
       })
@@ -279,8 +289,53 @@ export class UserController {
   @Middleware([Passport.authenticate()])
   private inviteMany(req: Request, res: Response) {
     Logger.Info(`Inviting users...`);
-    // TODO: 
-    res.status(OK).json(req.body);
+    this.currentUser = req.user;
+    const promises = [];
+
+    req.body.forEach((user: db.User) => {
+      promises.push(new Promise((resolve, reject) => {
+        const password = Crypt.genRandomString(12);
+        const passwordData = Crypt.saltHashPassword(password);
+        user.passwordHash = passwordData.passwordHash;
+        user.salt = passwordData.salt;
+        user.OrganizationId = this.currentUser.OrganizationId;
+        user.StateId = 1;
+        user.login = `${user.name}_${user.surname}`;
+        this.userDbCtrl.create(user)
+          .then(u => {
+            const token = Crypt.genTimeLimitedToken(24 * 60);
+            u.createPasswordAttributes({
+              token: token.value,
+              tokenExpire: token.expireDate,
+              passwordExpire: token.expireDate
+            })
+              .then(() => {
+                Mailer.sendInvitation(u, password, `${process.env.URL}/auth/activate-account/${token.value}`)
+                  .then(() => {
+                    resolve(u);
+                  })
+                  .catch((err: any) => {
+                    reject(err);
+                  });
+              })
+              .catch((err: any) => {
+                reject(err);
+              });
+          })
+          .catch((err: any) => {
+            reject(err);
+          });
+
+      }));
+    });
+
+    Promise.all(promises).then(response => {
+      return res.status(OK).json(response);
+    })
+    .catch((error: any) => {
+      Logger.Err(error);
+      return res.status(BAD_REQUEST).json(error.toString());
+    });
   }
 
   private findUserById(userId: number | string): Promise<db.User> {

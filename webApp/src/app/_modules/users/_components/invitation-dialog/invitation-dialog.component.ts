@@ -39,7 +39,7 @@ export class InvitationDialogComponent implements OnInit {
       this.errorInvitations = true;
       setTimeout(() => this.errorInvitations = false, 3000);
     } else {
-      this.users.push(user);
+      this.users.push(new User(user));
       this.userData.reset();
     }
   }
