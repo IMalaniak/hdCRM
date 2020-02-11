@@ -14,7 +14,8 @@ export class SocketService {
     this.socket = socketIo(environment.baseUrl);
   }
 
-  public emit(event: SocketEvent, params?: any): void {
+  // TODO type declaration?
+  public emit(event: SocketEvent, params?: any) {
     return this.socket.emit(event, params);
   }
 
