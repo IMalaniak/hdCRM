@@ -1,97 +1,51 @@
-import { Action } from '@ngrx/store';
-import { Update } from '@ngrx/entity';
+import { props, createAction } from '@ngrx/store';
 import { User } from '@/_modules/users/_models';
 import { ApiResponse } from '@/core/_models';
 
-export enum AuthActionTypes {
-  LOGIN = '[Auth] Login',
-  LOGIN_SUCCESS = '[Auth API] Login Success',
-  LOGIN_FAILURE = '[Auth API] Login Failure',
-  SIGNUP = '[Auth] Signup',
-  SIGNUP_SUCCESS = '[Auth API] Signup Success',
-  SIGNUP_FAILURE = '[Auth API] Signup Failure',
-  RESET_PASSWORD = '[Auth] Reset Password Requested',
-  RESET_PASSWORD_SUCCESS = '[Auth API] Reset Password Success',
-  RESET_PASSWORD_FAILURE = '[Auth API] Reset Password Failure',
-  LOGOUT = '[Auth] Logout',
-  REDIRECT_TO_LOGIN = '[Auth] Redirect to login',
-  GET_STATUS = '[Auth] GetStatus',
-  PROFILE_SAVED = '[My Profile] Profile saved'
-}
+export const logIn = createAction(
+  '[Auth] Login',
+  props<{ user: User }>()
+);
 
-export class LogIn implements Action {
-  readonly type = AuthActionTypes.LOGIN;
-  constructor(public payload: User) {}
-}
+export const logInSuccess = createAction(
+  '[Auth API] Login Success',
+  props<{ user: User }>()
+);
 
-export class LogInSuccess implements Action {
-  readonly type = AuthActionTypes.LOGIN_SUCCESS;
-  constructor(public payload: User) {}
-}
+export const logInFailure = createAction(
+  '[Auth API] Login Failure',
+  props<{ response: ApiResponse }>()
+);
 
-export class LogInFailure implements Action {
-  readonly type = AuthActionTypes.LOGIN_FAILURE;
-  constructor(public payload: ApiResponse) {}
-}
+export const resetPassword = createAction(
+  '[Auth] Reset Password Requested',
+  props<{ user: User }>()
+);
 
-// export class SignUp implements Action {
-//   readonly type = AuthActionTypes.SIGNUP;
-//   constructor(public payload: any) {}
-// }
+export const resetPasswordSuccess = createAction(
+  '[Auth API] Reset Password Success',
+  props<{ response: ApiResponse }>()
+);
 
-// export class SignUpSuccess implements Action {
-//   readonly type = AuthActionTypes.SIGNUP_SUCCESS;
-//   constructor(public payload: any) {}
-// }
+export const resetPasswordFailure = createAction(
+  '[Auth API] Reset Password Failure',
+  props<{ response: ApiResponse }>()
+);
 
-// export class SignUpFailure implements Action {
-//   readonly type = AuthActionTypes.SIGNUP_FAILURE;
-//   constructor(public payload: any) {}
-// }
+export const logOut = createAction(
+  '[Auth] Logout'
+);
 
-export class ResetPassword implements Action {
-  readonly type = AuthActionTypes.RESET_PASSWORD;
-  constructor(public payload: User) {}
-}
+export const redirectToLogin = createAction(
+  '[Auth] Redirect to login',
+  props<{ returnUrl: string }>()
+);
 
-export class ResetPasswordSuccess implements Action {
-  readonly type = AuthActionTypes.RESET_PASSWORD_SUCCESS;
-  constructor(public payload: ApiResponse) {}
-}
+export const getStatus = createAction(
+  '[Auth] GetStatus'
+);
 
-export class ResetPasswordFailure implements Action {
-  readonly type = AuthActionTypes.RESET_PASSWORD_FAILURE;
-  constructor(public payload: ApiResponse) {}
-}
-
-export class LogOut implements Action {
-  readonly type = AuthActionTypes.LOGOUT;
-}
-
-export class RedirectToLogin implements Action {
-  readonly type = AuthActionTypes.REDIRECT_TO_LOGIN;
-  constructor(public payload: string) {}
-}
-
-export class GetStatus implements Action {
-  readonly type = AuthActionTypes.GET_STATUS;
-}
-
-export class ProfileSaved implements Action {
-  readonly type = AuthActionTypes.PROFILE_SAVED;
-  constructor(public payload: { user: User }) {}
-}
-
-export type AuthActions =
-  | LogIn
-  | LogInSuccess
-  | LogInFailure
-  // | SignUp
-  // | SignUpSuccess
-  // | SignUpFailure
-  | ResetPassword
-  | ResetPasswordSuccess
-  | ResetPasswordFailure
-  | LogOut
-  | GetStatus
-  | ProfileSaved;
+export const profileSaved = createAction(
+  '[My Profile] Profile saved',
+  props<{ user: User }>()
+);
