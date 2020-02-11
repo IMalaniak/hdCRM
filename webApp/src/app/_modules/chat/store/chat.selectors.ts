@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromChat from './chat.reducer';
 
-export const selectChatsState = createFeatureSelector<fromChat.ChatsState>('chats');
+export const selectChatsState = createFeatureSelector<fromChat.ChatsState>(fromChat.chatsFeatureKey);
 export const selectGChatsState = createSelector(selectChatsState, chatsState => chatsState.groupChats);
 export const selectPChatsState = createSelector(selectChatsState, chatsState => chatsState.privateChats);
 
@@ -16,8 +16,18 @@ export const selectChatsLoading = createSelector(selectChatsState, chatsState =>
 export const getCurrentGChatId = createSelector(selectGChatsState, chatsState => chatsState.currentChatId);
 export const getCurrentPChatId = createSelector(selectPChatsState, chatsState => chatsState.currentChatId);
 
-export const getCurrentGChat = createSelector(selectGChatsState, getCurrentGChatId, (chatsState, currentChatId) => chatsState.entities[currentChatId]);
+export const getCurrentGChat = createSelector(
+  selectGChatsState,
+  getCurrentGChatId,
+  (chatsState, currentChatId) => chatsState.entities[currentChatId]
+);
 
-export const getGroupChatSocketInited = createSelector(selectChatsState, chatsState => chatsState.groupChats.groupChatSocketInited);
+export const getGroupChatSocketInited = createSelector(
+  selectChatsState,
+  chatsState => chatsState.groupChats.groupChatSocketInited
+);
 
-export const getPrivateChatSocketInited = createSelector(selectChatsState, chatsState => chatsState.privateChats.privateChatSocketInited);
+export const getPrivateChatSocketInited = createSelector(
+  selectChatsState,
+  chatsState => chatsState.privateChats.privateChatSocketInited
+);

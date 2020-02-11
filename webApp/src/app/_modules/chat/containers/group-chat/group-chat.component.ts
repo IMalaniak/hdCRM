@@ -13,7 +13,7 @@ import {
   selectAllGChats
 } from '../../store/chat.selectors';
 import { map, takeUntil } from 'rxjs/operators';
-import { InitGroupChatSocket, SetCurrentGroupChat, GroupChatListRequested, NewGroupChatAdded } from '../../store/chat.actions';
+import * as groupChatActions from '../../store/group-chat.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateChatDialogComponent } from '../../_components';
 import { FormControl, Validators } from '@angular/forms';
@@ -38,14 +38,14 @@ export class GroupChatComponent implements OnInit, OnDestroy {
         select(getGroupChatSocketInited),
         map(groupChatSocketInited => {
           if (!groupChatSocketInited) {
-            this.store.dispatch(new InitGroupChatSocket());
+            this.store.dispatch(groupChatActions.initGroupChatSocket());
           }
         }),
         takeUntil(this.unsubscribe)
       )
       .subscribe();
 
-    this.store.dispatch(new GroupChatListRequested());
+    this.store.dispatch(groupChatActions.groupChatListRequested());
 
     this.chatList$ = this.store.pipe(takeUntil(this.unsubscribe), select(selectAllGChats));
 
@@ -54,7 +54,7 @@ export class GroupChatComponent implements OnInit, OnDestroy {
     this.selectedChat$ = this.store.pipe(select(getCurrentGChat), takeUntil(this.unsubscribe));
 
     this.scktService.onEvent(SocketEvent.NEWCHATGROUP).subscribe((chat: Chat) => {
-      this.store.dispatch(new NewGroupChatAdded({chat}));
+      this.store.dispatch(groupChatActions.newGroupChatAdded({chat}));
     });
   }
 
@@ -77,7 +77,7 @@ export class GroupChatComponent implements OnInit, OnDestroy {
   }
 
   chatSelected(chat: Chat): void {
-    this.store.dispatch(new SetCurrentGroupChat(chat));
+    this.store.dispatch(groupChatActions.setCurrentGroupChat({chat}));
   }
 
   // clearChat(): void {

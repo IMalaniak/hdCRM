@@ -12,7 +12,7 @@ import { ChatListComponent, ChatComponent, CreateChatDialogComponent } from './_
 import { ChatService } from './_services';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { chatsReducer } from './store/chat.reducer';
+import * as fromChat from './store/chat.reducer';
 import { ChatEffects } from './store/chat.effects';
 import { ChatShellComponent, GroupChatComponent, PrivateChatComponent } from './containers';
 import { usersReducer } from '../users/store/user.reducer';
@@ -28,7 +28,7 @@ import { UserService } from '../users';
     SharedModule,
     FontAwesomeModule,
     ChatRoutingModule.forRoot(),
-    StoreModule.forFeature('chats', chatsReducer),
+    StoreModule.forFeature(fromChat.chatsFeatureKey, fromChat.reducer),
     StoreModule.forFeature('users', usersReducer),
     EffectsModule.forFeature([ChatEffects, UserEffects])
   ],
