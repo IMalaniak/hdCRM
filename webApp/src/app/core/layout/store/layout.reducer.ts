@@ -1,4 +1,5 @@
-import { LayoutActionTypes, LayoutActions } from './layout.actions';
+import * as LayoutActions from './layout.actions';
+import { createReducer, on, Action } from '@ngrx/store';
 
 export interface LayoutState {
   hideLeftSidebar: boolean;
@@ -10,27 +11,15 @@ const initialState: LayoutState = {
   hideRightSidebar: false
 };
 
-export function layoutReducer(state = initialState, action: LayoutActions): LayoutState {
-  switch (action.type) {
-    case LayoutActionTypes.LeftSidebarChangeState:
-      return {
-        ...state,
-        hideLeftSidebar: action.payload
-      };
+const layoutReducer = createReducer(
+  initialState,
+  on(LayoutActions.leftSidebarChangeState, (state, {minimized}) => ({...state, hideLeftSidebar: minimized}) ),
+  on(LayoutActions.rightSidebarChangeState, (state, {minimized}) => ({...state, hideRightSidebar: minimized}) ),
+  on(LayoutActions.initLayoutSettings, (state, {settings}) => ({...state, ...settings}) ),
+);
 
-    case LayoutActionTypes.RightSidebarChangeState:
-      return {
-        ...state,
-        hideRightSidebar: action.payload
-      };
-
-    case LayoutActionTypes.INIT_LAYOUT_SETTINGS:
-      return {
-        ...state,
-        ...action.payload
-      };
-
-    default:
-      return state;
-  }
+export function reducer(state: LayoutState | undefined, action: Action) {
+  return layoutReducer(state, action);
 }
+
+export const layoutFeatureKey = 'layout';

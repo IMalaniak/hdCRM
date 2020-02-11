@@ -1,43 +1,45 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, defer, of } from 'rxjs';
-import { Action } from '@ngrx/store';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
+import { defer, of } from 'rxjs';
 import * as layoutActions from './layout.actions';
-import { map, switchMap } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 import { LocalStorageService } from '@/_shared/services/local-storage.service';
 
 @Injectable()
 export class LayoutEffects {
   constructor(private actions$: Actions, private localStorage: LocalStorageService) {}
 
-  @Effect()
-  toggleLeftSidebar$: Observable<Action> = this.actions$.pipe(
-    ofType(layoutActions.LayoutActionTypes.ToggleLeftSidebar),
-    map((action: layoutActions.ToggleLeftSidebar) => action.payload),
-    switchMap(payload => {
-      window.dispatchEvent(new Event('resize'));
-      this.localStorage.setObjectKeyValue('layoutSettings', 'hideLeftSidebar', payload);
-      return of(new layoutActions.LeftSidebarChangeState(payload));
-    })
+  toggleLeftSidebar$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(layoutActions.toggleLeftSidebar),
+      map(payload => payload.minimized),
+      switchMap(minimized => {
+        window.dispatchEvent(new Event('resize'));
+        this.localStorage.setObjectKeyValue('layoutSettings', 'hideLeftSidebar', minimized);
+        return of(layoutActions.leftSidebarChangeState({minimized}));
+      })
+    )
   );
 
-  @Effect()
-  toggleRightSidebar$: Observable<Action> = this.actions$.pipe(
-    ofType(layoutActions.LayoutActionTypes.ToggleRightSidebar),
-    map((action: layoutActions.ToggleRightSidebar) => action.payload),
-    switchMap(payload => {
-      window.dispatchEvent(new Event('resize'));
-      this.localStorage.setObjectKeyValue('layoutSettings', 'hideRightSidebar', payload);
-      return of(new layoutActions.RightSidebarChangeState(payload));
-    })
+  toggleRightSidebar$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(layoutActions.toggleRightSidebar),
+      map(payload => payload.minimized),
+      switchMap(minimized => {
+        window.dispatchEvent(new Event('resize'));
+        this.localStorage.setObjectKeyValue('layoutSettings', 'hideRightSidebar', minimized);
+        return of(layoutActions.rightSidebarChangeState({minimized}));
+      })
+    )
   );
 
-  @Effect()
-  init$ = defer(() => {
-    const layoutSettings = this.localStorage.getObject('layoutSettings');
+  init$ = createEffect(() =>
+    defer(() => {
+      const settings = this.localStorage.getObject('layoutSettings');
 
-    if (!!layoutSettings) {
-      return of(new layoutActions.InitLayoutSettings(layoutSettings));
-    }
-  });
+      if (!!settings) {
+        return of(layoutActions.initLayoutSettings({settings}));
+      }
+    })
+  );
 }

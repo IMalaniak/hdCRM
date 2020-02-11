@@ -16,7 +16,7 @@ import { SharedModule } from '@/_shared/modules';
 import { MessageModule } from '@/_modules';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { layoutReducer } from './store/layout.reducer';
+import * as fromLayout from './store/layout.reducer';
 import { LayoutEffects } from './store/layout.effects';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
@@ -50,7 +50,7 @@ import { UserService } from '@/_modules/users';
     LayoutRoutingModule,
     SharedModule,
     MessageModule,
-    StoreModule.forFeature('layout', layoutReducer),
+    StoreModule.forFeature(fromLayout.layoutFeatureKey, fromLayout.reducer),
     StoreModule.forFeature('users', usersReducer),
     EffectsModule.forFeature([LayoutEffects, UserEffects]),
     FontAwesomeModule

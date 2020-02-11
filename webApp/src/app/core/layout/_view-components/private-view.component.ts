@@ -89,11 +89,11 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
   }
 
   toggleLeftSidebar(minimized: boolean): void {
-    this.store.dispatch(new layoutActions.ToggleLeftSidebar(minimized));
+    this.store.dispatch(layoutActions.toggleLeftSidebar({minimized}));
   }
 
   toggleRightSidebar(minimized: boolean): void {
-    this.store.dispatch(new layoutActions.ToggleRightSidebar(minimized));
+    this.store.dispatch(layoutActions.toggleRightSidebar({minimized}));
   }
 
   prepareRoute(outlet: RouterOutlet) {
