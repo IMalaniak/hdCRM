@@ -7,7 +7,7 @@ import { currentUser } from '@/core/auth/store/auth.selectors';
 import { UserService } from '../../_services';
 import { Update } from '@ngrx/entity';
 import { UserSaved } from '../../store/user.actions';
-import { ProfileSaved } from '@/core/auth/store/auth.actions';
+import { profileSaved } from '@/core/auth/store/auth.actions';
 
 @Component({
   selector: 'app-profile',
@@ -73,7 +73,7 @@ export class ProfileComponent implements OnInit {
 
         // this.user = Object.assign(this.user, data);
 
-        this.store.dispatch(new ProfileSaved({ user: this.user }));
+        this.store.dispatch(profileSaved({ user: this.user }));
 
         this.editForm = false;
         Swal.fire({
