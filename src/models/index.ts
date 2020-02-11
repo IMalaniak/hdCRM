@@ -65,7 +65,7 @@ class DataBase {
       foreignKey: 'managerId',
       onDelete: 'set null'
     });
-    User.belongsTo(Department, { as: 'Department', foreignKey: 'DepartmentId', constraints: false });
+    User.belongsTo(Department, { constraints: false });
     User.hasOne(PasswordAttribute, {
       as: 'PasswordAttributes',
       foreignKey: 'UserId',
@@ -82,13 +82,14 @@ class DataBase {
       through: 'UserPlans',
       foreignKey: 'PlanId'
     });
+
+    Department.belongsTo(User, { as: 'Manager', foreignKey: 'managerId' });
+
     Department.hasMany(User, {
       as: 'Workers',
       foreignKey: 'DepartmentId',
-      constraints: false,
-      // onDelete: 'set null' // TODO
+      constraints: false
     });
-    Department.belongsTo(User, { as: 'Manager', foreignKey: 'managerId' });
 
     Role.belongsToMany(Privilege, {
       through: RolePrivilege,
