@@ -13,7 +13,7 @@ import { RolesDataSource } from '../../_services/role.datasource';
 import { Role } from '../../_models';
 import { selectRolesTotalCount, selectRolesLoading } from '../../store/role.selectors';
 import { PageQuery } from '@/core/_models';
-import { DeleteRole } from '../../store/role.actions';
+import { deleteRole } from '../../store/role.actions';
 
 import Swal from 'sweetalert2';
 
@@ -82,7 +82,7 @@ export class RolesComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  deleteRole(roleId: number): void {
+  deleteRole(id: number): void {
     Swal.fire({
       title: 'Are you sure?',
       text: 'Do you really want to delete role? You will not be able to recover!',
@@ -92,7 +92,7 @@ export class RolesComponent implements OnInit, OnDestroy, AfterViewInit {
       cancelButtonText: 'Cancel'
     }).then(result => {
       if (result.value) {
-        this.store.dispatch(new DeleteRole({ roleId }));
+        this.store.dispatch(deleteRole({ id }));
       }
     });
   }

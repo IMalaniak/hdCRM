@@ -11,11 +11,10 @@ import { DepartmentService } from '../departments/_services';
 import { StoreModule } from '@ngrx/store';
 import * as fromDep from '../departments/store/department.reducer';
 import * as fromStages from '../planner/store/stage.reducer';
-import { rolesReducer } from '../roles/store/role.reducer';
+import * as fromRole from '../roles/store/role.reducer';
 import { DepartmentEffects } from '../departments/store/department.effects';
 import { RoleEffects } from '../roles/store/role.effects';
-import { RoleService, PrivilegeService } from '../roles';
-import { privilegesReducer } from '../roles/store/privilege.reducer';
+import { RoleService } from '../roles';
 import { StageEffects } from '../planner/store/stage.effects';
 
 const routes: Routes = [
@@ -33,13 +32,12 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     NgxChartsModule,
     StoreModule.forFeature(fromDep.departmentsFeatureKey, fromDep.reducer),
-    StoreModule.forFeature('roles', rolesReducer),
-    StoreModule.forFeature('privileges', privilegesReducer),
+    StoreModule.forFeature(fromRole.rolesFeatureKey, fromRole.reducer),
     StoreModule.forFeature(fromStages.stagesFeatureKey, fromStages.reducer),
     EffectsModule.forFeature([DepartmentEffects, RoleEffects, StageEffects])
   ],
   declarations: [DashboardComponent],
   exports: [DashboardComponent],
-  providers: [StageService, DepartmentService, RoleService, PrivilegeService]
+  providers: [StageService, DepartmentService, RoleService]
 })
 export class DashboardModule {}
