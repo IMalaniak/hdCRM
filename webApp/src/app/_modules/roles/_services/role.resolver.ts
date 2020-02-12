@@ -7,20 +7,20 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { selectRoleById } from '../store/role.selectors';
 import { tap, filter, first } from 'rxjs/operators';
-import { RoleRequested } from '../store/role.actions';
+import { roleRequested } from '../store/role.actions';
 
 @Injectable()
 export class RoleResolver implements Resolve<Role> {
   constructor(private store: Store<AppState>) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Role> {
-    const roleId = route.params['id'];
+    const id = route.params['id'];
 
     return this.store.pipe(
-      select(selectRoleById(roleId)),
+      select(selectRoleById(id)),
       tap(role => {
         if (!role) {
-          this.store.dispatch(new RoleRequested({ roleId }));
+          this.store.dispatch(roleRequested({ id }));
         }
       }),
       filter(role => !!role),

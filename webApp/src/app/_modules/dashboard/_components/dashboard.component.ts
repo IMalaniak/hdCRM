@@ -12,7 +12,7 @@ import { depDashboardDataRequested } from '@/_modules/departments/store/departme
 import { selectAllDepartments } from '@/_modules/departments/store/department.selectors';
 import { allStagesRequestedFromDashboard } from '@/_modules/planner/store/stage.actions';
 import { selectAllStages } from '@/_modules/planner/store/stage.selectors';
-import { RoleDashboardDataRequested } from '@/_modules/roles/store/role.actions';
+import { roleDashboardDataRequested } from '@/_modules/roles/store/role.actions';
 import { selectAllRoles } from '@/_modules/roles/store/role.selectors';
 
 @Component({
@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.store.dispatch(allStagesRequestedFromDashboard());
     this.store.dispatch(depDashboardDataRequested());
-    this.store.dispatch(new RoleDashboardDataRequested());
+    this.store.dispatch(roleDashboardDataRequested());
 
     this.appUser$ = this.store.pipe(select(currentUser));
 

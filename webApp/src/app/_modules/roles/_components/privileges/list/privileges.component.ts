@@ -6,8 +6,8 @@ import { AddPrivilegeDialogComponent } from '../add-dialog/add-privilege-dialog.
 import { Observable, Subject } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
-import { AllPrivilegesRequested, CreatePrivilege } from '@/_modules/roles/store/role.actions';
-import { selectAllPrivileges, selectPrivilegesLoading } from '@/_modules/roles/store/role.selectors';
+import { allPrivilegesRequested, createPrivilege } from '@/_modules/roles/store/privilege.actions';
+import { selectAllPrivileges, selectPrivilegesLoading } from '@/_modules/roles/store/privilege.selectors';
 import { map, catchError, takeUntil } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
 
@@ -29,7 +29,7 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
   constructor(private dialog: MatDialog, private _formBuilder: FormBuilder, private store: Store<AppState>) {}
 
   ngOnInit() {
-    this.store.dispatch(new AllPrivilegesRequested());
+    this.store.dispatch(allPrivilegesRequested());
 
     this.isLoading$ = this.store.pipe(select(selectPrivilegesLoading));
 
@@ -69,8 +69,8 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(result => {
         if (result) {
-          const newPrivilege = new Privilege(result);
-          this.store.dispatch(new CreatePrivilege({ privilege: newPrivilege }));
+          const privilege = new Privilege(result);
+          this.store.dispatch(createPrivilege({ privilege }));
         }
       });
   }
