@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { Action, Store } from '@ngrx/store';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { of } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import * as userActions from './user.actions';
 import { mergeMap, map, catchError, tap } from 'rxjs/operators';
 import { UserService } from '../_services';
@@ -12,77 +12,89 @@ import Swal from 'sweetalert2';
 
 @Injectable()
 export class UserEffects {
-  @Effect()
-  loadUser$: Observable<Action> = this.actions$.pipe(
-    ofType<userActions.UserRequested>(userActions.UserActionTypes.USER_REQUESTED),
-    mergeMap(action => this.userService.getUser(action.payload.userId)),
-    map(user => new userActions.UserLoaded({ user }))
+  loadUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(userActions.userRequested),
+      map(payload => payload.id),
+      mergeMap(id => this.userService.getUser(id)),
+      map(user => userActions.userLoaded({ user }))
+    )
   );
 
-  @Effect()
-  loadUsers$ = this.actions$.pipe(
-    ofType<userActions.UserListPageRequested>(userActions.UserActionTypes.USER_LIST_PAGE_REQUESTED),
-    mergeMap(({ payload }) =>
-      this.userService
-        .getList(payload.page.pageIndex, payload.page.pageSize, payload.page.sortIndex, payload.page.sortDirection)
-        .pipe(
+  loadUsers$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(userActions.listPageRequested),
+      map(payload => payload.page),
+      mergeMap(page =>
+        this.userService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
           catchError(err => {
-            console.log('error loading a users page ', err);
-            this.store.dispatch(new userActions.UserListPageCancelled());
+            this.store.dispatch(userActions.listPageCancelled());
             return of(new UserServerResponse());
           })
         )
-    ),
-    map((response: UserServerResponse) => new userActions.UserListPageLoaded(response))
+      ),
+      map((response: UserServerResponse) => userActions.listPageLoaded({ response }))
+    )
   );
 
-  @Effect()
-  listOnlineUsers$ = this.actions$.pipe(
-    ofType<userActions.OnlineUserListRequested>(userActions.UserActionTypes.ONLINE_USER_LIST_REQUESTED),
-    tap(() => {
-      this.userService.listOnline();
-    }),
-    mergeMap(() => {
-      return this.userService.onlineUsersListed$.pipe(
-        map(onlineUsers => new userActions.OnlineUserListLoaded(onlineUsers.map(user => new User(user))))
-      );
-    })
+  listOnlineUsers$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(userActions.OnlineUserListRequested),
+      tap(() => {
+        this.userService.listOnline();
+      }),
+      mergeMap(() => {
+        return this.userService.onlineUsersListed$.pipe(
+          map(onlineUsers => userActions.OnlineUserListLoaded({list: onlineUsers.map(user => new User(user))}))
+        );
+      })
+    )
   );
 
-  @Effect()
-  userOnline$ = this.userService.userOnline$.pipe(map(user => new userActions.UserOnline(new User(user))));
-
-  @Effect()
-  userOffline$ = this.userService.userOffline$.pipe(map(user => new userActions.UserOffline(new User(user))));
-
-  @Effect({ dispatch: false })
-  deleteUser$ = this.actions$.pipe(
-    ofType<userActions.DeleteUser>(userActions.UserActionTypes.DELETE_USER),
-    mergeMap(action => this.userService.delete(action.payload.userId)),
-    map(() => {
-      Swal.fire({
-        text: `User deleted`,
-        type: 'success',
-        timer: 6000,
-        toast: true,
-        showConfirmButton: false,
-        position: 'bottom-end'
-      });
-    })
+  userOnline$ = createEffect(() =>
+    this.userService.userOnline$.pipe(map(user => userActions.userOnline({ user: new User(user) })))
   );
 
-  @Effect()
-  inviteUsers$ = this.actions$.pipe(
-    ofType<userActions.InviteUsers>(userActions.UserActionTypes.INVITE_USERS),
-    map((action: userActions.InviteUsers) => action.payload),
+  userOffline$ = createEffect(() =>
+    this.userService.userOffline$.pipe(map(user => userActions.userOffline({ user: new User(user) })))
+  );
+
+  deleteUser$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(userActions.deleteUser),
+        map(payload => payload.id),
+        mergeMap(id => this.userService.delete(id)),
+        map(() =>
+          of(
+            Swal.fire({
+              text: `User deleted`,
+              type: 'success',
+              timer: 6000,
+              toast: true,
+              showConfirmButton: false,
+              position: 'bottom-end'
+            })
+          )
+        )
+      ),
+    {
+      dispatch: false
+    }
+  );
+
+  inviteUsers$ = createEffect(
+    () => this.actions$.pipe(
+    ofType(userActions.inviteUsers),
+    map(payload => payload.users),
     mergeMap((users: User[]) =>
       this.userService.inviteUsers(users).pipe(
         map(invitedUsers => {
-          return new userActions.UsersInvited(invitedUsers);
+          return userActions.usersInvited({invitedUsers});
         })
       )
     )
-  );
+  ));
 
   constructor(private actions$: Actions, private store: Store<AppState>, private userService: UserService) {}
 }

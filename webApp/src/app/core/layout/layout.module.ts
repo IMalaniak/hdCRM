@@ -39,7 +39,7 @@ import {
   faSms,
   faChevronRight
 } from '@fortawesome/free-solid-svg-icons';
-import { usersReducer } from '@/_modules/users/store/user.reducer';
+import * as fromUser from '@/_modules/users/store/user.reducer';
 import { UserEffects } from '@/_modules/users/store/user.effects';
 import { UserService } from '@/_modules/users';
 
@@ -51,7 +51,7 @@ import { UserService } from '@/_modules/users';
     SharedModule,
     MessageModule,
     StoreModule.forFeature(fromLayout.layoutFeatureKey, fromLayout.reducer),
-    StoreModule.forFeature('users', usersReducer),
+    StoreModule.forFeature(fromUser.usersFeatureKey, fromUser.reducer),
     EffectsModule.forFeature([LayoutEffects, UserEffects]),
     FontAwesomeModule
   ],
