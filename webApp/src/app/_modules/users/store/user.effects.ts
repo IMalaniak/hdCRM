@@ -50,14 +50,10 @@ export class UserEffects {
   );
 
   @Effect()
-  userOnline$ = this.userService.userOnline$.pipe(
-    map(user => new userActions.UserOnline(new User(user)))
-  );
+  userOnline$ = this.userService.userOnline$.pipe(map(user => new userActions.UserOnline(new User(user))));
 
   @Effect()
-  userOffline$ = this.userService.userOffline$.pipe(
-    map(user => new userActions.UserOffline(new User(user)))
-  );
+  userOffline$ = this.userService.userOffline$.pipe(map(user => new userActions.UserOffline(new User(user))));
 
   @Effect({ dispatch: false })
   deleteUser$ = this.actions$.pipe(
@@ -75,9 +71,18 @@ export class UserEffects {
     })
   );
 
-  constructor(
-    private actions$: Actions,
-    private store: Store<AppState>,
-    private userService: UserService
-  ) {}
+  @Effect()
+  inviteUsers$ = this.actions$.pipe(
+    ofType<userActions.InviteUsers>(userActions.UserActionTypes.INVITE_USERS),
+    map((action: userActions.InviteUsers) => action.payload),
+    mergeMap((users: User[]) =>
+      this.userService.inviteUsers(users).pipe(
+        map(invitedUsers => {
+          return new userActions.UsersInvited(invitedUsers);
+        })
+      )
+    )
+  );
+
+  constructor(private actions$: Actions, private store: Store<AppState>, private userService: UserService) {}
 }

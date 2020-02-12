@@ -9,12 +9,14 @@ export enum UserActionTypes {
   USER_SAVED = '[User Details] User Changes Saved',
   DELETE_USER = '[User List] Delete User',
   USER_LIST_PAGE_REQUESTED = '[User List] User Page Requested',
-  USER_LIST_PAGE_LOADED = '[User API] User Page Loaded',
-  USER_LIST_PAGE_CANCELLED = '[User API] User Page Cancelled',
+  USER_LIST_PAGE_LOADED = '[Users API] User Page Loaded',
+  USER_LIST_PAGE_CANCELLED = '[Users API] User Page Cancelled',
   ONLINE_USER_LIST_REQUESTED = '[Users] Online Users Requested',
   ONLINE_USER_LIST_LOADED = '[Users API] Online User List Loaded',
   USER_ONLINE = '[User Socket API] User Online',
-  USER_OFFLINE = '[User Socket API] User Offline'
+  USER_OFFLINE = '[User Socket API] User Offline',
+  INVITE_USERS = '[Invitation Dialog] Invite users requested',
+  USERS_INVITED = '[Users API] Invite users requested'
 }
 
 export class UserRequested implements Action {
@@ -70,6 +72,16 @@ export class UserOffline implements Action {
   constructor(public payload: User) {}
 }
 
+export class InviteUsers implements Action {
+  readonly type = UserActionTypes.INVITE_USERS;
+  constructor(public payload: User[]) {}
+}
+
+export class UsersInvited implements Action {
+  readonly type = UserActionTypes.USERS_INVITED;
+  constructor(public payload: User[]) {}
+}
+
 
 export type UserActions =
   | UserRequested
@@ -82,4 +94,6 @@ export type UserActions =
   | OnlineUserListRequested
   | OnlineUserListLoaded
   | UserOnline
-  | UserOffline;
+  | UserOffline
+  | InviteUsers
+  | UsersInvited;
