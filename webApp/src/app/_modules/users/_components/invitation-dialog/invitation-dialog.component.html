@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Invite users</h1>
 <div mat-dialog-content class="dialog-content">
-  <mat-list class="border rounded mb-4" *ngIf="invitedUsers.length >= 1">
+  <mat-list class="border rounded mb-4" *ngIf="invitedUsers.length > 0">
     <mat-list-item *ngFor="let user of invitedUsers"
       ><span
         >{{ user.fullname }} | <em>{{ user.email }}</em></span
@@ -84,7 +84,7 @@
     mat-raised-button
     color="primary"
     class="crm-button"
-    [disabled]="invitedUsers.length == 0"
+    [disabled]="invitedUsers.length === 0"
     (click)="sendInvitation()"
   >
     <fa-icon [icon]="['fas', 'envelope']"></fa-icon
