@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
-import { CreateDepartment } from '../../store/department.actions';
+import { createDepartment } from '../../store/department.actions';
 import { MediaqueryService } from '@/_shared/services';
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
 
@@ -74,6 +74,6 @@ export class AddDepartmentComponent implements OnInit {
   }
 
   onClickSubmit() {
-    this.store.dispatch(new CreateDepartment({ department: { ...this.department, ...this.departmentData.value } }));
+    this.store.dispatch(createDepartment({ department: { ...this.department, ...this.departmentData.value } }));
   }
 }

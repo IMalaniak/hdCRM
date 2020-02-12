@@ -8,7 +8,7 @@ import { User } from '@/_modules/users';
 import { SingleChartData } from '@/core/_models';
 import { AppState } from '@/core/reducers';
 import { currentUser } from '@/core/auth/store/auth.selectors';
-import { DepDashboardDataRequested } from '@/_modules/departments/store/department.actions';
+import { depDashboardDataRequested } from '@/_modules/departments/store/department.actions';
 import { selectAllDepartments } from '@/_modules/departments/store/department.selectors';
 import { AllStagesRequestedFromDashboard } from '@/_modules/planner/store/plan.actions';
 import { selectAllStages } from '@/_modules/planner/store/plan.selectors';
@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.store.dispatch(new AllStagesRequestedFromDashboard());
-    this.store.dispatch(new DepDashboardDataRequested());
+    this.store.dispatch(depDashboardDataRequested());
     this.store.dispatch(new RoleDashboardDataRequested());
 
     this.appUser$ = this.store.pipe(select(currentUser));
