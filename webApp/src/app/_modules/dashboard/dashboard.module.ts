@@ -9,7 +9,7 @@ import { StageService, PlanService } from '@/_modules/planner/_services';
 import { EffectsModule } from '@ngrx/effects';
 import { DepartmentService } from '../departments/_services';
 import { StoreModule } from '@ngrx/store';
-import { departmentsReducer } from '../departments/store/department.reducer';
+import * as fromDep from '../departments/store/department.reducer';
 import { stagesReducer } from '../planner/store/stage.reducer';
 import { rolesReducer } from '../roles/store/role.reducer';
 import { DepartmentEffects } from '../departments/store/department.effects';
@@ -32,7 +32,7 @@ const routes: Routes = [
     AppMaterialModule,
     RouterModule.forChild(routes),
     NgxChartsModule,
-    StoreModule.forFeature('departments', departmentsReducer),
+    StoreModule.forFeature(fromDep.departmentsFeatureKey, fromDep.reducer),
     StoreModule.forFeature('roles', rolesReducer),
     StoreModule.forFeature('privileges', privilegesReducer),
     StoreModule.forFeature('stages', stagesReducer),

@@ -7,20 +7,20 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { selectDepartmentById } from '../store/department.selectors';
 import { tap, filter, first } from 'rxjs/operators';
-import { DepartmentRequested } from '../store/department.actions';
+import { departmentRequested } from '../store/department.actions';
 
 @Injectable()
 export class DepartmentResolver implements Resolve<Department> {
   constructor(private store: Store<AppState>) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Department> {
-    const departmentId = route.params['id'];
+    const id = route.params['id'];
 
     return this.store.pipe(
-      select(selectDepartmentById(departmentId)),
+      select(selectDepartmentById(id)),
       tap(department => {
         if (!department) {
-          this.store.dispatch(new DepartmentRequested({ departmentId }));
+          this.store.dispatch(departmentRequested({ id }));
         }
       }),
       filter(department => !!department),
