@@ -7,7 +7,7 @@ import { Store, select } from '@ngrx/store';
 import { currentUser } from '@/core/auth/store/auth.selectors';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { CreatePlan } from '../../store/plan.actions';
+import { createPlan } from '../../store/plan.actions';
 import { MediaqueryService } from '@/_shared/services';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
@@ -62,7 +62,7 @@ export class AddPlanComponent implements OnInit, OnDestroy {
 
   onClickSubmit() {
     this.plan.CreatorId = this.appUser.id;
-    this.store.dispatch(new CreatePlan({ plan: { ...this.plan, ...this.planData.value } }));
+    this.store.dispatch(createPlan({ plan: { ...this.plan, ...this.planData.value } }));
   }
 
   ngOnDestroy() {

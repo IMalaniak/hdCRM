@@ -1,12 +1,9 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromStage from './stage.reducer';
 import * as fromPlan from './plan.reducer';
 import { PageQuery } from '@/core/_models';
 import { Plan } from '../_models';
 
-export const selectPlansState = createFeatureSelector<fromPlan.PlansState>('plans');
-
-export const selectStagesState = createFeatureSelector<fromStage.StagesState>('stages');
+export const selectPlansState = createFeatureSelector<fromPlan.PlansState>(fromPlan.plansFeatureKey);
 
 export const selectPlanById = (planId: number) =>
   createSelector(selectPlansState, plansState => plansState.entities[planId]);
@@ -32,9 +29,3 @@ export const selectPlansPage = (page: PageQuery) =>
       return allPlans.slice(start, end);
     }
   });
-
-export const selectAllStages = createSelector(selectStagesState, fromStage.selectAll);
-
-export const allStagesLoaded = createSelector(selectStagesState, stageState => stageState.allStagesLoaded);
-
-export const selectStagesLoading = createSelector(selectStagesState, stageState => stageState.loading);
