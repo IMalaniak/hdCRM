@@ -6,7 +6,7 @@ import { AppState } from '@/core/reducers';
 import { currentUser } from '@/core/auth/store/auth.selectors';
 import { UserService } from '../../_services';
 import { Update } from '@ngrx/entity';
-import { UserSaved } from '../../store/user.actions';
+import { userSaved } from '../../store/user.actions';
 import { profileSaved } from '@/core/auth/store/auth.actions';
 
 @Component({
@@ -59,7 +59,7 @@ export class ProfileComponent implements OnInit {
           id: this.user.id,
           changes: data
         };
-        this.store.dispatch(new UserSaved({ user }));
+        this.store.dispatch(userSaved({ user }));
 
         // TODO: compress code
         this.user.name = data.name;

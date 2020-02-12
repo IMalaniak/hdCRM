@@ -15,7 +15,7 @@ import { EffectsModule } from '@ngrx/effects';
 import * as fromChat from './store/chat.reducer';
 import { ChatEffects } from './store/chat.effects';
 import { ChatShellComponent, GroupChatComponent, PrivateChatComponent } from './containers';
-import { usersReducer } from '../users/store/user.reducer';
+import * as fromUser from '../users/store/user.reducer';
 import { UserEffects } from '../users/store/user.effects';
 import { UserService } from '../users';
 
@@ -29,7 +29,7 @@ import { UserService } from '../users';
     FontAwesomeModule,
     ChatRoutingModule.forRoot(),
     StoreModule.forFeature(fromChat.chatsFeatureKey, fromChat.reducer),
-    StoreModule.forFeature('users', usersReducer),
+    StoreModule.forFeature(fromUser.usersFeatureKey, fromUser.reducer),
     EffectsModule.forFeature([ChatEffects, UserEffects])
   ],
   declarations: [ChatListComponent, ChatComponent, ChatShellComponent, GroupChatComponent, PrivateChatComponent, CreateChatDialogComponent],
