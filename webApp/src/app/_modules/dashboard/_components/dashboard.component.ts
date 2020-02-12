@@ -10,8 +10,8 @@ import { AppState } from '@/core/reducers';
 import { currentUser } from '@/core/auth/store/auth.selectors';
 import { depDashboardDataRequested } from '@/_modules/departments/store/department.actions';
 import { selectAllDepartments } from '@/_modules/departments/store/department.selectors';
-import { AllStagesRequestedFromDashboard } from '@/_modules/planner/store/plan.actions';
-import { selectAllStages } from '@/_modules/planner/store/plan.selectors';
+import { allStagesRequestedFromDashboard } from '@/_modules/planner/store/stage.actions';
+import { selectAllStages } from '@/_modules/planner/store/stage.selectors';
 import { RoleDashboardDataRequested } from '@/_modules/roles/store/role.actions';
 import { selectAllRoles } from '@/_modules/roles/store/role.selectors';
 
@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
-    this.store.dispatch(new AllStagesRequestedFromDashboard());
+    this.store.dispatch(allStagesRequestedFromDashboard());
     this.store.dispatch(depDashboardDataRequested());
     this.store.dispatch(new RoleDashboardDataRequested());
 

@@ -7,20 +7,20 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { selectPlanById } from '../store/plan.selectors';
 import { tap, filter, first } from 'rxjs/operators';
-import { PlanRequested } from '../store/plan.actions';
+import { planRequested } from '../store/plan.actions';
 
 @Injectable()
 export class PlanResolver implements Resolve<Plan> {
   constructor(private store: Store<AppState>) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Plan> {
-    const planId = route.params['id'];
+    const id = route.params['id'];
 
     return this.store.pipe(
-      select(selectPlanById(planId)),
+      select(selectPlanById(id)),
       tap(plan => {
         if (!plan) {
-          this.store.dispatch(new PlanRequested({ planId }));
+          this.store.dispatch(planRequested({ id }));
         }
       }),
       filter(plan => !!plan),
