@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { isloggedIn } from '../auth/store/auth.selectors';
 
-import { redirectToLogin } from '../auth/store/auth.actions';
+import { RedirectToLogin } from '../auth/store/auth.actions';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
       select(isloggedIn),
       tap(loggedIn => {
         if (!loggedIn) {
-          this.store$.dispatch(redirectToLogin({returnUrl: state.url}));
+          this.store$.dispatch(new RedirectToLogin(state.url));
         }
       })
     );

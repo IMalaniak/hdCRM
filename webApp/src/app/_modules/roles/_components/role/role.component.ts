@@ -13,7 +13,7 @@ import { MediaqueryService } from '@/_shared/services';
 import { takeUntil } from 'rxjs/operators';
 import { cloneDeep } from 'lodash';
 import { Update } from '@ngrx/entity';
-import { roleSaved } from '../../store/role.actions';
+import { RoleSaved } from '../../store/role.actions';
 import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
 
 @Component({
@@ -150,7 +150,7 @@ export class RoleComponent implements OnInit, OnDestroy {
           id: this.role.id,
           changes: new Role(data)
         };
-        this.store.dispatch(roleSaved({ role }));
+        this.store.dispatch(new RoleSaved({ role }));
         this.disableEdit();
         Swal.fire({
           text: 'Role updated!',

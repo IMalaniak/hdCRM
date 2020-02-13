@@ -6,8 +6,8 @@ import { AddStageDialogComponent } from '../add-dialog/add-stage-dialog.componen
 import { Observable, Subject } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
-import { allStagesRequestedFromDialogWindow, createStage } from '@/_modules/planner/store/stage.actions';
-import { selectAllStages, selectStagesLoading } from '@/_modules/planner/store/stage.selectors';
+import { AllStagesRequestedFromDialogWindow, CreateStage } from '@/_modules/planner/store/plan.actions';
+import { selectAllStages, selectStagesLoading } from '@/_modules/planner/store/plan.selectors';
 import { map, catchError, takeUntil } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
 
@@ -29,7 +29,7 @@ export class StagesComponent implements OnInit, OnDestroy {
   constructor(private dialog: MatDialog, private store: Store<AppState>) {}
 
   ngOnInit() {
-    this.store.dispatch(allStagesRequestedFromDialogWindow());
+    this.store.dispatch(new AllStagesRequestedFromDialogWindow());
 
     this.isLoading$ = this.store.pipe(select(selectStagesLoading));
 
@@ -68,8 +68,8 @@ export class StagesComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(result => {
         if (result) {
-          const stage = new Stage({ keyString: result });
-          this.store.dispatch(createStage({ stage }));
+          const newStage = new Stage({ keyString: result });
+          this.store.dispatch(new CreateStage({ stage: newStage }));
         }
       });
   }

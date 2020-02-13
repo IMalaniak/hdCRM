@@ -33,7 +33,7 @@ import {
     AppMaterialModule,
     AuthRoutingModule,
     FontAwesomeModule,
-    StoreModule.forFeature(fromAuth.authFeatureKey, fromAuth.reducer),
+    StoreModule.forFeature('auth', fromAuth.authReducer),
     EffectsModule.forFeature([AuthEffects])
   ],
   declarations: [LoginComponent, RegisterUserComponent],

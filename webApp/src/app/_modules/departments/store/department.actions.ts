@@ -1,62 +1,91 @@
-import { createAction, props } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 import { Department, DepartmentServerResponse } from '../_models';
 import { PageQuery } from '@/core/_models';
 
-export const departmentRequested = createAction(
-  '[Department Details] Department Requested',
-  props<{ id: number }>()
-);
+export enum DepartmentActionTypes {
+  DEPARTMENT_REQUESTED = '[Department Details] Department Requested',
+  DEPARTMENT_LOADED = '[Departments API] Department Loaded',
+  DEPARTMENT_SAVED = '[Department Details] Department Changes Saved',
+  DEPARTMENT_CREATE = '[Add Department] Add Department Requested',
+  DEPARTMENT_CREATE_SUCCESS = '[Departments API] Add Department Success',
+  DEPARTMENT_CREATE_FAIL = '[Departments API] Add Department Fail',
+  DELETE_DEPARTMENT = '[Department List] Delete Department Requested',
+  DEPARTMENT_LIST_PAGE_REQUESTED = '[Departments List] Departments Page Requested',
+  DEPARTMENT_LIST_PAGE_LOADED = '[Departments API] Departments Page Loaded',
+  DEPARTMENT_LIST_PAGE_CANCELLED = '[Departments API] Departments Page Cancelled',
+  DEPARTMENT_DASHBOARD_DATA_REQUESTED = '[Dashboard] Department Data Requested',
+  DEPARTMENT_DASHBOARD_DATA_LOADED = '[Dashboard] Department Data Loaded'
+}
 
-export const departmentLoaded = createAction(
-  '[Departments API] Department Loaded',
-  props<{ department: Department }>()
-);
+export class DepartmentRequested implements Action {
+  readonly type = DepartmentActionTypes.DEPARTMENT_REQUESTED;
+  constructor(public payload: { departmentId: number }) {}
+}
 
-export const departmentSaved = createAction(
-  '[Department Details] Department Changes Saved',
-  props<{ department: Update<Department> }>()
-);
+export class DepartmentLoaded implements Action {
+  readonly type = DepartmentActionTypes.DEPARTMENT_LOADED;
+  constructor(public payload: { department: Department }) {}
+}
 
-export const createDepartment = createAction(
-  '[Add Department] Add Department Requested',
-  props<{ department: Department }>()
-);
+export class DepartmentSaved implements Action {
+  readonly type = DepartmentActionTypes.DEPARTMENT_SAVED;
+  constructor(public payload: { department: Update<Department> }) {}
+}
 
-export const createDepartmentSuccess = createAction(
-  '[Departments API] Add Department Success',
-  props<{ department: Department }>()
-);
+export class CreateDepartment implements Action {
+  readonly type = DepartmentActionTypes.DEPARTMENT_CREATE;
+  constructor(public payload: { department: Department }) {}
+}
 
-export const createDepartmentFail = createAction(
-  '[Departments API] Add Department Fail',
-  props<{ error: string }>()
-);
+export class CreateDepartmentSuccess implements Action {
+  readonly type = DepartmentActionTypes.DEPARTMENT_CREATE_SUCCESS;
+  constructor(public payload: { department: Department }) {}
+}
 
-export const deleteDepartment = createAction(
-  '[Department List] Delete Department Requested',
-  props<{ id: number }>()
-);
+export class CreateDepartmentFail implements Action {
+  readonly type = DepartmentActionTypes.DEPARTMENT_CREATE_FAIL;
+  constructor(public payload: string) {}
+}
 
-export const listPageRequested = createAction(
-  '[Departments List] Departments Page Requested',
-  props<{ page: PageQuery }>()
-);
+export class DeleteDepartment implements Action {
+  readonly type = DepartmentActionTypes.DELETE_DEPARTMENT;
+  constructor(public payload: { departmentId: number }) {}
+}
 
-export const listPageLoaded = createAction(
-  '[Departments API] Departments Page Loaded',
-  props<{ response: DepartmentServerResponse }>()
-);
+export class ListPageRequested implements Action {
+  readonly type = DepartmentActionTypes.DEPARTMENT_LIST_PAGE_REQUESTED;
+  constructor(public payload: { page: PageQuery }) {}
+}
 
-export const listPageCancelled = createAction(
-  '[Departments API] Departments Page Cancelled'
-);
+export class ListPageLoaded implements Action {
+  readonly type = DepartmentActionTypes.DEPARTMENT_LIST_PAGE_LOADED;
+  constructor(public payload: DepartmentServerResponse) {}
+}
 
-export const depDashboardDataRequested = createAction(
-  '[Dashboard] Department Data Requested',
-);
+export class ListPageCancelled implements Action {
+  readonly type = DepartmentActionTypes.DEPARTMENT_LIST_PAGE_CANCELLED;
+}
 
-export const depDashboardDataLoaded = createAction(
-  '[Dashboard] Department Data Loaded',
-  props<{ response: DepartmentServerResponse }>()
-);
+export class DepDashboardDataRequested implements Action {
+  readonly type = DepartmentActionTypes.DEPARTMENT_DASHBOARD_DATA_REQUESTED;
+}
+
+export class DepDashboardDataLoaded implements Action {
+  readonly type = DepartmentActionTypes.DEPARTMENT_DASHBOARD_DATA_LOADED;
+  constructor(public payload: DepartmentServerResponse) {}
+}
+
+export type DepartmentActions =
+  | DepartmentRequested
+  | DepartmentLoaded
+  | DepartmentSaved
+  | CreateDepartment
+  | CreateDepartmentSuccess
+  | CreateDepartmentFail
+  | DeleteDepartment
+  | ListPageRequested
+  | ListPageLoaded
+  | ListPageCancelled
+  | DepDashboardDataRequested
+  | DepDashboardDataLoaded;
