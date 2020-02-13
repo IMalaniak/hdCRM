@@ -16,7 +16,7 @@ import { SharedModule } from '@/_shared/modules';
 import { MessageModule } from '@/_modules';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { layoutReducer } from './store/layout.reducer';
+import * as fromLayout from './store/layout.reducer';
 import { LayoutEffects } from './store/layout.effects';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
@@ -39,7 +39,7 @@ import {
   faSms,
   faChevronRight
 } from '@fortawesome/free-solid-svg-icons';
-import { usersReducer } from '@/_modules/users/store/user.reducer';
+import * as fromUser from '@/_modules/users/store/user.reducer';
 import { UserEffects } from '@/_modules/users/store/user.effects';
 import { UserService } from '@/_modules/users';
 
@@ -50,8 +50,8 @@ import { UserService } from '@/_modules/users';
     LayoutRoutingModule,
     SharedModule,
     MessageModule,
-    StoreModule.forFeature('layout', layoutReducer),
-    StoreModule.forFeature('users', usersReducer),
+    StoreModule.forFeature(fromLayout.layoutFeatureKey, fromLayout.reducer),
+    StoreModule.forFeature(fromUser.usersFeatureKey, fromUser.reducer),
     EffectsModule.forFeature([LayoutEffects, UserEffects]),
     FontAwesomeModule
   ],

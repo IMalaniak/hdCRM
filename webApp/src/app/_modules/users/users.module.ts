@@ -33,8 +33,8 @@ import {
 import { UserService, StateService } from './_services';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { usersReducer } from './store/user.reducer';
-import { statesReducer } from './store/state.reducer';
+import * as fromUser from './store/user.reducer';
+import * as fromState from './store/state.reducer';
 import { UserEffects } from './store/user.effects';
 import { StateEffects } from './store/state.effects';
 import { AttachmentsModule } from '@/_shared/attachments/attachments.module';
@@ -49,8 +49,8 @@ import { AttachmentsModule } from '@/_shared/attachments/attachments.module';
     AttachmentsModule,
     FontAwesomeModule,
     UsersRoutingModule.forRoot(),
-    StoreModule.forFeature('users', usersReducer),
-    StoreModule.forFeature('states', statesReducer),
+    StoreModule.forFeature(fromUser.usersFeatureKey, fromUser.reducer),
+    StoreModule.forFeature(fromState.statesFeatureKey, fromState.reducer),
     EffectsModule.forFeature([UserEffects, StateEffects])
   ],
   declarations: [ProfileComponent, UserComponent, UsersComponent, UsersDialogComponent, InvitationDialogComponent],

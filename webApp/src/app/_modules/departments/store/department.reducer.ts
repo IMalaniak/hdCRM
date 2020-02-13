@@ -1,6 +1,7 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Department } from '../_models';
-import { DepartmentActions, DepartmentActionTypes } from './department.actions';
+import * as departmentActions from './department.actions';
+import { createReducer, on, Action } from '@ngrx/store';
 
 export interface DepartmentsState extends EntityState<Department> {
   loading: boolean;
@@ -10,9 +11,9 @@ export interface DepartmentsState extends EntityState<Department> {
   error: string;
 }
 
-export const adapter: EntityAdapter<Department> = createEntityAdapter<Department>({});
+const adapter: EntityAdapter<Department> = createEntityAdapter<Department>({});
 
-export const initialDepartmentsState: DepartmentsState = adapter.getInitialState({
+const initialState: DepartmentsState = adapter.getInitialState({
   loading: false,
   pages: null,
   countAll: null,
@@ -20,63 +21,46 @@ export const initialDepartmentsState: DepartmentsState = adapter.getInitialState
   error: null
 });
 
-export function departmentsReducer(state = initialDepartmentsState, action: DepartmentActions): DepartmentsState {
-  switch (action.type) {
-    case DepartmentActionTypes.DEPARTMENT_CREATE_SUCCESS:
-      return adapter.addOne(action.payload.department, {
-        ...state,
-        countAll: state.countAll + 1
-      });
+const departmentsReducer = createReducer(
+  initialState,
+  on(departmentActions.createDepartmentSuccess, (state, { department }) =>
+    adapter.addOne(department, {
+      ...state,
+      countAll: state.countAll + 1
+    })
+  ),
+  on(departmentActions.createDepartmentFail, (state, { error }) => ({ ...state, error })),
+  on(departmentActions.deleteDepartment, (state, { id }) =>
+    adapter.removeOne(id, {
+      ...state,
+      countAll: state.countAll - 1
+    })
+  ),
+  on(departmentActions.departmentLoaded, (state, { department }) => adapter.addOne(department, state)),
+  on(departmentActions.listPageRequested, state => ({ ...state, loading: true })),
+  on(departmentActions.listPageLoaded, (state, { response }) =>
+    adapter.upsertMany(response.list, {
+      ...state,
+      loading: false,
+      pages: response.pages,
+      countAll: response.count
+    })
+  ),
+  on(departmentActions.listPageCancelled, state => ({ ...state, loading: false })),
+  on(departmentActions.departmentSaved, (state, { department }) => adapter.updateOne(department, state)),
+  on(departmentActions.depDashboardDataLoaded, (state, { response }) =>
+    adapter.upsertMany(response.list, {
+      ...state,
+      countAll: response.count,
+      dashboardDataLoaded: true
+    })
+  )
+);
 
-    case DepartmentActionTypes.DEPARTMENT_CREATE_FAIL:
-      return {
-        ...state,
-        error: action.payload
-      };
-
-    case DepartmentActionTypes.DELETE_DEPARTMENT:
-      return adapter.removeOne(action.payload.departmentId, {
-        ...state,
-        countAll: state.countAll - 1
-      });
-
-    case DepartmentActionTypes.DEPARTMENT_LOADED:
-      return adapter.addOne(action.payload.department, state);
-
-    case DepartmentActionTypes.DEPARTMENT_LIST_PAGE_REQUESTED:
-      return {
-        ...state,
-        loading: true
-      };
-
-    case DepartmentActionTypes.DEPARTMENT_LIST_PAGE_LOADED:
-      return adapter.upsertMany(action.payload.list, {
-        ...state,
-        loading: false,
-        pages: action.payload.pages,
-        countAll: action.payload.count
-      });
-
-    case DepartmentActionTypes.DEPARTMENT_LIST_PAGE_CANCELLED:
-      return {
-        ...state,
-        loading: false
-      };
-
-    case DepartmentActionTypes.DEPARTMENT_SAVED:
-      return adapter.updateOne(action.payload.department, state);
-
-    case DepartmentActionTypes.DEPARTMENT_DASHBOARD_DATA_LOADED:
-      return adapter.upsertMany(action.payload.list, {
-        ...state,
-        countAll: action.payload.count,
-        dashboardDataLoaded: true
-      });
-
-    default: {
-      return state;
-    }
-  }
+export function reducer(state: DepartmentsState | undefined, action: Action) {
+  return departmentsReducer(state, action);
 }
+
+export const departmentsFeatureKey = 'departments';
 
 export const { selectAll, selectEntities, selectIds, selectTotal } = adapter.getSelectors();

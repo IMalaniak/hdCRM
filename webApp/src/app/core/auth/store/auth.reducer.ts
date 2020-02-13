@@ -1,6 +1,7 @@
-import { AuthActionTypes, AuthActions } from './auth.actions';
+import * as AuthActions from './auth.actions';
 import { User } from '@/_modules/users';
 import { ApiResponse } from '@/core/_models';
+import { createReducer, Action, on } from '@ngrx/store';
 
 export interface AuthState {
   loggedIn: boolean;
@@ -9,88 +10,27 @@ export interface AuthState {
   loading: boolean;
 }
 
-export const initialState: AuthState = {
+const initialState: AuthState = {
   loggedIn: false,
   currentUser: null,
   apiResp: null,
   loading: false
 };
 
-export function authReducer(state = initialState, action: AuthActions): AuthState {
-  switch (action.type) {
-    case AuthActionTypes.LOGIN: {
-      return {
-        ...state,
-        loading: true
-      };
-    }
+const authReducer = createReducer(
+  initialState,
+  on(AuthActions.logIn, (state) => ({...state, loading: true}) ),
+  on(AuthActions.logInSuccess, (state, {user}) => ({...state, loading: false, loggedIn: true, currentUser: user}) ),
+  on(AuthActions.logInFailure, (state, {response}) => ({...state, loading: false, apiResp: response}) ),
+  on(AuthActions.logOut, () => ({...initialState}) ),
+  on(AuthActions.resetPassword, (state) => ({...state, loading: true})),
+  on(AuthActions.resetPasswordSuccess, (state, {response}) => ({...state, loading: false, apiResp: response})),
+  on(AuthActions.resetPasswordFailure, (state, {response}) => ({...state, loading: false, apiResp: response})),
+  on(AuthActions.profileSaved, (state, {user}) => ({...state, currentUser: user})),
+);
 
-    case AuthActionTypes.LOGIN_SUCCESS: {
-      return {
-        ...state,
-        loggedIn: true,
-        currentUser: action.payload
-      };
-    }
-    case AuthActionTypes.LOGIN_FAILURE: {
-      return {
-        ...state,
-        apiResp: action.payload,
-        loading: false
-      };
-    }
-    // case AuthActionTypes.SIGNUP_SUCCESS: {
-    //   return {
-    //     ...state,
-    //     isAuthenticated: true,
-    //     user: {
-    //       token: action.payload.token,
-    //       email: action.payload.email
-    //     },
-    //     apiResp: null
-    //   };
-    // }
-    // case AuthActionTypes.SIGNUP_FAILURE: {
-    //   return {
-    //     ...state,
-    //     apiResp: 'That email is already in use.'
-    //   };
-    // }
-    case AuthActionTypes.LOGOUT: {
-      return initialState;
-    }
-
-    case AuthActionTypes.RESET_PASSWORD: {
-      return {
-        ...state,
-        loading: true
-      };
-    }
-
-    case AuthActionTypes.RESET_PASSWORD_SUCCESS: {
-      return {
-        ...state,
-        loading: false,
-        apiResp: action.payload
-      };
-    }
-
-    case AuthActionTypes.RESET_PASSWORD_FAILURE: {
-      return {
-        ...state,
-        loading: false,
-        apiResp: action.payload
-      };
-    }
-
-    case AuthActionTypes.PROFILE_SAVED:
-      return {
-        ...state,
-        currentUser: action.payload.user
-      };
-
-    default: {
-      return state;
-    }
-  }
+export function reducer(state: AuthState | undefined, action: Action) {
+  return authReducer(state, action);
 }
+
+export const authFeatureKey = 'auth';

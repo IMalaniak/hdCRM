@@ -17,7 +17,7 @@ import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { tap } from 'rxjs/operators';
 
 import Swal from 'sweetalert2';
-import { DeleteDepartment } from '../../store/department.actions';
+import { deleteDepartment } from '../../store/department.actions';
 
 @Component({
   selector: 'app-departments',
@@ -82,7 +82,7 @@ export class DepartmentsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  deleteDepartment(departmentId: number): void {
+  deleteDepartment(id: number): void {
     Swal.fire({
       title: 'Are you sure?',
       text: 'Do you really want to delete department? You will not be able to recover!',
@@ -92,7 +92,7 @@ export class DepartmentsComponent implements OnInit, AfterViewInit {
       cancelButtonText: 'Cancel'
     }).then(result => {
       if (result.value) {
-        this.store.dispatch(new DeleteDepartment({ departmentId }));
+        this.store.dispatch(deleteDepartment({ id }));
       }
     });
   }

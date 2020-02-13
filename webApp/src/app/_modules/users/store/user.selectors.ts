@@ -3,7 +3,7 @@ import * as fromUser from './user.reducer';
 import { PageQuery } from '@/core/_models';
 import { User } from '../_models';
 
-export const selectUsersState = createFeatureSelector<fromUser.UsersState>('users');
+export const selectUsersState = createFeatureSelector<fromUser.UsersState>(fromUser.usersFeatureKey);
 
 export const selectUserById = (userId: number) =>
   createSelector(selectUsersState, usersState => usersState.entities[userId]);

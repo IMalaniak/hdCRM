@@ -1,7 +1,7 @@
-import { Action } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Plan } from '../_models';
-import { PlanActions, PlanActionTypes } from './plan.actions';
+import * as PlanActions from './plan.actions';
+import { createReducer, on, Action } from '@ngrx/store';
 
 export interface PlansState extends EntityState<Plan> {
   loading: boolean;
@@ -19,67 +19,50 @@ function sortByIdAndActiveStage(p1: Plan, p2: Plan) {
   }
 }
 
-export const adapter: EntityAdapter<Plan> = createEntityAdapter<Plan>({
+const adapter: EntityAdapter<Plan> = createEntityAdapter<Plan>({
   sortComparer: sortByIdAndActiveStage
 });
 
-export const initialPlansState: PlansState = adapter.getInitialState({
+const initialState: PlansState = adapter.getInitialState({
   loading: false,
   pages: null,
   countAll: null,
   error: null
 });
 
-export function plansReducer(state = initialPlansState, action: PlanActions): PlansState {
-  switch (action.type) {
-    case PlanActionTypes.PLAN_CREATE_SUCCESS:
-      return adapter.addOne(action.payload.plan, {
-        ...state,
-        countAll: state.countAll + 1
-      });
+const plansReducer = createReducer(
+  initialState,
+  on(PlanActions.createPlanSuccess, (state, { plan }) =>
+    adapter.addOne(plan, {
+      ...state,
+      countAll: state.countAll + 1
+    })
+  ),
+  on(PlanActions.createPlanFail, (state, { error }) => ({ ...state, error })),
+  on(PlanActions.deletePlan, (state, { id }) =>
+    adapter.removeOne(id, {
+      ...state,
+      countAll: state.countAll - 1
+    })
+  ),
+  on(PlanActions.planLoaded, (state, { plan }) => adapter.addOne(plan, state)),
+  on(PlanActions.listPageRequested, state => ({ ...state, loading: true })),
+  on(PlanActions.listPageLoaded, (state, { response }) =>
+    adapter.upsertMany(response.list, {
+      ...state,
+      loading: false,
+      pages: response.pages,
+      countAll: response.count
+    })
+  ),
+  on(PlanActions.listPageCancelled, state => ({ ...state, loading: false })),
+  on(PlanActions.planSaved, (state, { plan }) => adapter.updateOne(plan, state))
+);
 
-    case PlanActionTypes.PLAN_CREATE_FAIL:
-      return {
-        ...state,
-        error: action.payload
-      };
-
-    case PlanActionTypes.DELETE_PLAN:
-      return adapter.removeOne(action.payload.planId, {
-        ...state,
-        countAll: state.countAll - 1
-      });
-
-    case PlanActionTypes.PLAN_LOADED:
-      return adapter.addOne(action.payload.plan, state);
-
-    case PlanActionTypes.PLAN_LIST_PAGE_REQUESTED:
-      return {
-        ...state,
-        loading: true
-      };
-
-    case PlanActionTypes.PLAN_LIST_PAGE_LOADED:
-      return adapter.upsertMany(action.payload.list, {
-        ...state,
-        loading: false,
-        pages: action.payload.pages,
-        countAll: action.payload.count
-      });
-
-    case PlanActionTypes.PLAN_LIST_PAGE_CANCELLED:
-      return {
-        ...state,
-        loading: false
-      };
-
-    case PlanActionTypes.PLAN_SAVED:
-      return adapter.updateOne(action.payload.plan, state);
-
-    default: {
-      return state;
-    }
-  }
+export function reducer(state: PlansState | undefined, action: Action) {
+  return plansReducer(state, action);
 }
+
+export const plansFeatureKey = 'plans';
 
 export const { selectAll, selectEntities, selectIds, selectTotal } = adapter.getSelectors();

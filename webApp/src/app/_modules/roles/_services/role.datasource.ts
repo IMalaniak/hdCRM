@@ -3,7 +3,7 @@ import { Observable, BehaviorSubject, of } from 'rxjs';
 import { Role } from '../_models/';
 import { catchError, tap } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
-import { RolesListPageRequested } from '../store/role.actions';
+import { listPageRequested } from '../store/role.actions';
 import { selectRolesPage } from '../store/role.selectors';
 import { AppState } from '@/core/reducers';
 import { PageQuery } from '@/core/_models';
@@ -21,7 +21,7 @@ export class RolesDataSource implements DataSource<Role> {
           if (roles.length > 0) {
             this.rolesSubject.next(roles);
           } else {
-            this.store.dispatch(new RolesListPageRequested({ page }));
+            this.store.dispatch(listPageRequested({ page }));
           }
         }),
         catchError(() => of([]))

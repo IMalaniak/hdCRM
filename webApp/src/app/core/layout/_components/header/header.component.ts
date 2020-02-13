@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
-import * as authActions from '@/core/auth/store/auth.actions';
+import { logOut } from '@/core/auth/store/auth.actions';
 import { User } from '@/_modules/users';
 
 @Component({
@@ -23,7 +23,7 @@ export class HeaderComponent {
   constructor(private router: Router, public mediaquery: MediaqueryService, private store: Store<AppState>) {}
 
   onLogoutClick(): void {
-    this.store.dispatch(new authActions.LogOut());
+    this.store.dispatch(logOut());
   }
 
   toggleLeftSidebar(): void {

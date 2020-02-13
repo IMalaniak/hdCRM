@@ -14,7 +14,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { PageQuery } from '@/core/_models';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
-import { DeletePlan } from '../../store/plan.actions';
+import { deletePlan } from '../../store/plan.actions';
 
 @Component({
   selector: 'app-plan-list',
@@ -81,7 +81,7 @@ export class PlanListComponent implements OnInit, AfterViewInit {
     });
   }
 
-  deletePlan(planId: number): void {
+  deletePlan(id: number): void {
     Swal.fire({
       title: 'Are you sure?',
       text: 'Do you really want to delete plan? You will not be able to recover!',
@@ -91,7 +91,7 @@ export class PlanListComponent implements OnInit, AfterViewInit {
       cancelButtonText: 'Cancel'
     }).then(result => {
       if (result.value) {
-        this.store.dispatch(new DeletePlan({ planId }));
+        this.store.dispatch(deletePlan({ id }));
       }
     });
   }
