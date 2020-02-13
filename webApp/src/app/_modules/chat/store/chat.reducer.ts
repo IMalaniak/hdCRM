@@ -23,22 +23,22 @@ export interface ChatsState {
   privateChats: PrivateChatsState;
 }
 
-export const groupChatAdapter: EntityAdapter<Chat> = createEntityAdapter<Chat>();
-export const privateChatAdapter: EntityAdapter<Chat> = createEntityAdapter<Chat>();
+const groupChatAdapter: EntityAdapter<Chat> = createEntityAdapter<Chat>();
+const privateChatAdapter: EntityAdapter<Chat> = createEntityAdapter<Chat>();
 
-export const groupChatInitialState: GroupChatsState = groupChatAdapter.getInitialState({
+const groupChatInitialState: GroupChatsState = groupChatAdapter.getInitialState({
   allChatsLoaded: false,
   currentChatId: null,
   groupChatSocketInited: false
 });
 
-export const privateChatInitialState: PrivateChatsState = privateChatAdapter.getInitialState({
+const privateChatInitialState: PrivateChatsState = privateChatAdapter.getInitialState({
   allChatsLoaded: false,
   currentChatId: null,
   privateChatSocketInited: false
 });
 
-export const initialChatsState: ChatsState = {
+const initialChatsState: ChatsState = {
   loading: false,
   error: null,
   groupChats: groupChatInitialState,

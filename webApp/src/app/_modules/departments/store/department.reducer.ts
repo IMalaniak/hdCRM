@@ -11,7 +11,7 @@ export interface DepartmentsState extends EntityState<Department> {
   error: string;
 }
 
-export const adapter: EntityAdapter<Department> = createEntityAdapter<Department>({});
+const adapter: EntityAdapter<Department> = createEntityAdapter<Department>({});
 
 const initialState: DepartmentsState = adapter.getInitialState({
   loading: false,
