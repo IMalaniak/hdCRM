@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { User } from '../../_models';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
-import { InviteUsers } from '../../store/user.actions';
+import { inviteUsers } from '../../store/user.actions';
 import { selectAllUsers } from '../../store/user.selectors';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -57,7 +57,7 @@ export class InvitationDialogComponent implements OnInit, OnDestroy {
   }
 
   sendInvitation() {
-    this.store$.dispatch(new InviteUsers(this.invitedUsers));
+    this.store$.dispatch(inviteUsers({users: this.invitedUsers}));
     this.dialogRef.close();
   }
 
