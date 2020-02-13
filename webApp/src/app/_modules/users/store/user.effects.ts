@@ -92,7 +92,7 @@ export class UserEffects {
         map(invitedUsers => {
           return userActions.usersInvited({invitedUsers});
         })
-      )
+      ) 
     )
   ));
 
