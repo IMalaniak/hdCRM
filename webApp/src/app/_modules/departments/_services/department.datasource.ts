@@ -3,7 +3,7 @@ import { Observable, BehaviorSubject, of } from 'rxjs';
 import { Department } from '../_models/';
 import { catchError, tap } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
-import { ListPageRequested } from '../store/department.actions';
+import { listPageRequested } from '../store/department.actions';
 import { selectDepartmentsPage } from '../store/department.selectors';
 import { AppState } from '@/core/reducers';
 import { PageQuery } from '@/core/_models';
@@ -21,7 +21,7 @@ export class DepartmentsDataSource implements DataSource<Department> {
           if (departments.length > 0) {
             this.departmentsSubject.next(departments);
           } else {
-            this.store.dispatch(new ListPageRequested({ page }));
+            this.store.dispatch(listPageRequested({ page }));
           }
         }),
         catchError(() => of([]))

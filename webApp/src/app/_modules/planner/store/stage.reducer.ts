@@ -1,6 +1,7 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Stage } from '../_models';
-import { PlanActions, PlanActionTypes } from './plan.actions';
+import * as StageActions from './stage.actions';
+import { createReducer, on, Action } from '@ngrx/store';
 
 export interface StagesState extends EntityState<Stage> {
   allStagesLoaded: boolean;
@@ -8,45 +9,36 @@ export interface StagesState extends EntityState<Stage> {
   loading: boolean;
 }
 
-export const adapter: EntityAdapter<Stage> = createEntityAdapter<Stage>();
+const adapter: EntityAdapter<Stage> = createEntityAdapter<Stage>();
 
-export const initialStagesState: StagesState = adapter.getInitialState({
+const initialState: StagesState = adapter.getInitialState({
   allStagesLoaded: false,
   error: null,
   loading: false
 });
 
-export function stagesReducer(state = initialStagesState, action: PlanActions): StagesState {
-  switch (action.type) {
-    case PlanActionTypes.STAGE_CREATE_SUCCESS:
-      return adapter.addOne(action.payload.stage, state);
+const stagesReducer = createReducer(
+  initialState,
+  on(StageActions.createStageSuccess, (state, { stage }) => adapter.addOne(stage, state)),
+  on(StageActions.createStageFail, (state, { error }) => ({ ...state, error })),
+  on(StageActions.allStagesRequestedFromDashboard || StageActions.allStagesRequestedFromDialogWindow, state => ({
+    ...state,
+    loading: true
+  })),
+  on(StageActions.allStagesLoaded, (state, { response }) =>
+    adapter.addAll(response.list, {
+      ...state,
+      allStagesLoaded: true,
+      loading: false
+    })
+  ),
+  on(StageActions.stageSaved, (state, { stage }) => adapter.updateOne(stage, state))
+);
 
-    case PlanActionTypes.STAGE_CREATE_FAIL:
-      return {
-        ...state,
-        error: action.payload
-      };
-
-    case PlanActionTypes.ALLSTAGES_REQUESTED_FROM_DASHBOARD || PlanActionTypes.ALLSTAGES_REQUESTED_FROM_DIALOGWINDOW:
-      return {
-        ...state,
-        loading: true
-      };
-
-    case PlanActionTypes.ALLSTAGES_LOADED:
-      return adapter.addAll(action.payload.list, {
-        ...state,
-        allStagesLoaded: true,
-        loading: false
-      });
-
-    case PlanActionTypes.STAGE_SAVED:
-      return adapter.updateOne(action.payload.stage, state);
-
-    default: {
-      return state;
-    }
-  }
+export function reducer(state: StagesState | undefined, action: Action) {
+  return stagesReducer(state, action);
 }
+
+export const stagesFeatureKey = 'stages';
 
 export const { selectAll, selectEntities, selectIds, selectTotal } = adapter.getSelectors();

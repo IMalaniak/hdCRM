@@ -15,7 +15,7 @@ import { DepartmentService } from '../../_services';
 
 import { AppState } from '@/core/reducers';
 
-import { DepartmentSaved } from '../../store/department.actions';
+import { departmentSaved } from '../../store/department.actions';
 import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
 import { MediaqueryService } from '@/_shared/services';
 
@@ -130,7 +130,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
             id: this.department.id,
             changes: new Department(data)
           };
-          this.store.dispatch(new DepartmentSaved({ department }));
+          this.store.dispatch(departmentSaved({ department }));
           this.editForm = false;
           Swal.fire({
             text: 'Department updated!',

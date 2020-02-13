@@ -1,6 +1,7 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { User } from '../_models';
-import { UserActions, UserActionTypes } from './user.actions';
+import * as UserActions from './user.actions';
+import { Action, on, createReducer } from '@ngrx/store';
 
 export interface UsersState extends EntityState<User> {
   allUsersLoaded: boolean;
@@ -19,11 +20,11 @@ function sortByIdAndActiveState(u1: User, u2: User) {
   }
 }
 
-export const adapter: EntityAdapter<User> = createEntityAdapter<User>({
+const adapter: EntityAdapter<User> = createEntityAdapter<User>({
   sortComparer: sortByIdAndActiveState
 });
 
-export const initialUsersState: UsersState = adapter.getInitialState({
+const initialState: UsersState = adapter.getInitialState({
   allUsersLoaded: false,
   error: null,
   loading: false,
@@ -31,72 +32,49 @@ export const initialUsersState: UsersState = adapter.getInitialState({
   countAll: null
 });
 
-export function usersReducer(state = initialUsersState, action: UserActions): UsersState {
-  switch (action.type) {
-    case UserActionTypes.USER_LOADED:
-      return adapter.addOne(action.payload.user, state);
+const usersReducer = createReducer(
+  initialState,
+  on(UserActions.userLoaded, (state, { user }) => adapter.addOne(user, state)),
+  on(UserActions.listPageRequested, state => ({ ...state, loading: true })),
+  on(UserActions.listPageLoaded, (state, { response }) =>
+    adapter.upsertMany(response.list, {
+      ...state,
+      loading: false,
+      pages: response.pages,
+      countAll: response.count
+    })
+  ),
+  on(UserActions.listPageCancelled, state => ({ ...state, loading: false })),
+  on(UserActions.OnlineUserListRequested, state => ({ ...state, loading: true })),
+  on(UserActions.OnlineUserListLoaded, (state, { list }) =>
+    adapter.upsertMany(list, {
+      ...state,
+      loading: false
+    })
+  ),
+  on(UserActions.userOnline, (state, { user }) =>
+    adapter.upsertOne(user, {
+      ...state
+    })
+  ),
+  on(UserActions.userOffline, (state, { user }) =>
+    adapter.upsertOne(user, {
+      ...state
+    })
+  ),
+  on(UserActions.userSaved, (state, { user }) => adapter.updateOne(user, state)),
+  on(UserActions.deleteUser, (state, { id }) =>
+    adapter.removeOne(id, {
+      ...state,
+      countAll: state.countAll - 1
+    })
+  )
+);
 
-    case UserActionTypes.USER_LIST_PAGE_REQUESTED:
-      return {
-        ...state,
-        loading: true
-      };
-
-    case UserActionTypes.USER_LIST_PAGE_LOADED:
-      return adapter.upsertMany(action.payload.list, {
-        ...state,
-        loading: false,
-        pages: action.payload.pages,
-        countAll: action.payload.count
-      });
-
-    case UserActionTypes.USER_LIST_PAGE_CANCELLED:
-      return {
-        ...state,
-        loading: false
-      };
-
-    case UserActionTypes.ONLINE_USER_LIST_REQUESTED:
-      return {
-        ...state,
-        loading: true
-      };
-
-    case UserActionTypes.USER_ONLINE:
-      return adapter.upsertOne(action.payload, {
-        ...state
-      });
-
-    case UserActionTypes.USER_OFFLINE:
-      return adapter.upsertOne(action.payload, {
-        ...state
-      });
-
-    case UserActionTypes.ONLINE_USER_LIST_LOADED:
-      return adapter.upsertMany(action.payload, {
-        ...state,
-        loading: false
-      });
-
-    case UserActionTypes.USER_SAVED:
-      return adapter.updateOne(action.payload.user, state);
-
-    case UserActionTypes.DELETE_USER:
-      return adapter.removeOne(action.payload.userId, {
-        ...state,
-        countAll: state.countAll - 1
-      });
-
-    case UserActionTypes.USERS_INVITED:
-      return adapter.addMany(action.payload, {
-        ...state,
-        countAll: state.countAll + action.payload.length
-      });
-
-    default: {
-      return state;
-    }
-  }
+export function reducer(state: UsersState | undefined, action: Action) {
+  return usersReducer(state, action);
 }
+
+export const usersFeatureKey = 'users';
 
 export const { selectAll, selectEntities, selectIds, selectTotal } = adapter.getSelectors();

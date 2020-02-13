@@ -13,7 +13,7 @@ import { Plan, Stage, PlanStage } from '../../_models';
 import { PlanService } from '../../_services';
 import { UsersDialogComponent, User } from '@/_modules/users';
 import { AppState } from '@/core/reducers';
-import { PlanSaved } from '../../store/plan.actions';
+import { planSaved } from '../../store/plan.actions';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { MediaqueryService } from '@/_shared/services';
 import { Asset } from '@/_shared/attachments';
@@ -325,7 +325,7 @@ export class PlanComponent implements OnInit, OnDestroy {
       id: this.plan.id,
       changes: new Plan(data)
     };
-    this.store.dispatch(new PlanSaved({ plan }));
+    this.store.dispatch(planSaved({ plan }));
   }
 
   ngOnDestroy() {
