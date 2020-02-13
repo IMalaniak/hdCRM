@@ -91,22 +91,22 @@ export class LoginComponent implements OnInit {
   }
 
   onLoginSubmit() {
-    this.store.dispatch(authActions.logIn({user: this.user}));
+    this.store.dispatch(new authActions.LogIn(this.user));
   }
 
   onResetPasswordRequest() {
     // TODO change to ngrx totallly
-    this.store.dispatch(authActions.resetPassword({user: this.user}));
+    this.store.dispatch(new authActions.ResetPassword(this.user));
     this.authService
       .requestPasswordReset(this.user)
       .pipe(first())
       .subscribe(
         response => {
           this.serverResponse = response;
-          this.store.dispatch(authActions.resetPasswordSuccess({response}));
+          this.store.dispatch(new authActions.ResetPasswordSuccess(response));
         },
         error => {
-          this.store.dispatch(authActions.resetPasswordFailure({response: error}));
+          this.store.dispatch(new authActions.ResetPasswordFailure(error));
           // Swal.fire({
           //   title: 'Email or login delivery failed!',
           //   type: 'error',

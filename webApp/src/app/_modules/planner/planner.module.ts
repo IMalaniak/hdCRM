@@ -39,10 +39,9 @@ import {
 } from './_components';
 
 import { PlanService, StageService } from './_services';
-import * as fromPlan from './store/plan.reducer';
+import { plansReducer } from './store/plan.reducer';
 import { PlanEffects } from './store/plan.effects';
-import * as fromStage from './store/stage.reducer';
-import { StageEffects } from './store/stage.effects';
+import { stagesReducer } from './store/stage.reducer';
 
 @NgModule({
   imports: [
@@ -57,9 +56,9 @@ import { StageEffects } from './store/stage.effects';
     SweetAlert2Module,
     UsersModule,
     FontAwesomeModule,
-    StoreModule.forFeature(fromPlan.plansFeatureKey, fromPlan.reducer),
-    StoreModule.forFeature(fromStage.stagesFeatureKey, fromStage.reducer),
-    EffectsModule.forFeature([PlanEffects, StageEffects])
+    StoreModule.forFeature('plans', plansReducer),
+    StoreModule.forFeature('stages', stagesReducer),
+    EffectsModule.forFeature([PlanEffects])
   ],
   declarations: [
     AddPlanComponent,

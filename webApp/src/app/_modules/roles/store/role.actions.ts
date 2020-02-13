@@ -1,62 +1,136 @@
-import { createAction, props } from '@ngrx/store';
-import { Role, RoleServerResponse } from '../_models';
+import { Action } from '@ngrx/store';
+import { Role, RoleServerResponse, PrivilegeServerResponse, Privilege } from '../_models';
 import { Update } from '@ngrx/entity';
 import { PageQuery } from '@/core/_models';
 
-export const createRole = createAction(
-  '[Roles Add] Role Add Requested',
-  props<{ role: Role }>()
-);
+export enum RoleActionTypes {
+  ROLE_REQUESTED = '[Role Details] Role Requested',
+  ROLE_LOADED = '[Roles API] Role Loaded',
+  ROLE_SAVED = '[Role Details] Role Changes Saved',
+  ROLE_CREATE = '[Roles Add] Role Add Requested',
+  ROLE_CREATE_SUCCESS = '[Roles API] Add Role Success',
+  ROLE_CREATE_FAIL = '[Roles API] Add Role Fail',
+  DELETE_ROLE = '[Role List] Delete Role Requested',
+  ROLES_LIST_PAGE_REQUESTED = '[Roles List] Roles Page Requested',
+  ROLES_LIST_PAGE_LOADED = '[Roles API] Roles Page Loaded',
+  ROLES_LIST_PAGE_CANCELLED = '[Roles API] Roles Page Cancelled',
+  PRIVILEGE_CREATE = '[Privileges Dialog Window] New Privilege Creation Initialized',
+  PRIVILEGE_CREATE_SUCCESS = '[Privileges API] Create Privilege Success',
+  PRIVILEGE_CREATE_FAIL = '[Privileges API] Create Privilege Fail',
+  ALLPRIVILEGES_REQUESTED = '[Privileges List] Privileges List Requested',
+  ALLPRIVILEGES_REQUEST_CANCELED = '[Privileges List] Privileges List Request Canceled',
+  ALLPRIVILEGES_LOADED = '[Privileges API] Privileges List Loaded',
+  PRIVILEGE_SAVED = '[Privileges Dialog Window] Privilege Saved',
+  ROLE_DASHBOARD_DATA_REQUESTED = '[Dashboard] Roles Data Requested',
+  ROLE_DASHBOARD_DATA_LOADED = '[Dashboard] Roles Data Loaded'
+}
 
-export const createRoleSuccess = createAction(
-  '[Roles API] Add Role Success',
-  props<{ role: Role }>()
-);
+export class CreateRole implements Action {
+  readonly type = RoleActionTypes.ROLE_CREATE;
+  constructor(public payload: { role: Role }) {}
+}
 
-export const createRoleFail = createAction(
-  '[Roles API] Add Role Fail',
-  props<{ error: string }>()
-);
+export class CreateRoleSuccess implements Action {
+  readonly type = RoleActionTypes.ROLE_CREATE_SUCCESS;
+  constructor(public payload: { role: Role }) {}
+}
 
-export const roleRequested = createAction(
-  '[Role Details] Role Requested',
-  props<{ id: number }>()
-);
+export class CreateRoleFail implements Action {
+  readonly type = RoleActionTypes.ROLE_CREATE_FAIL;
+  constructor(public payload: string) {}
+}
+export class RoleRequested implements Action {
+  readonly type = RoleActionTypes.ROLE_REQUESTED;
+  constructor(public payload: { roleId: number }) {}
+}
+export class DeleteRole implements Action {
+  readonly type = RoleActionTypes.DELETE_ROLE;
+  constructor(public payload: { roleId: number }) {}
+}
 
-export const roleLoaded = createAction(
-  '[Roles API] Role Loaded',
-  props<{ role: Role }>()
-);
+export class RoleLoaded implements Action {
+  readonly type = RoleActionTypes.ROLE_LOADED;
+  constructor(public payload: { role: Role }) {}
+}
 
-export const roleSaved = createAction(
-  '[Role Details] Role Changes Saved',
-  props<{ role: Update<Role> }>()
-);
+export class RoleSaved implements Action {
+  readonly type = RoleActionTypes.ROLE_SAVED;
+  constructor(public payload: { role: Update<Role> }) {}
+}
 
-export const deleteRole = createAction(
-  '[Role List] Delete Role Requested',
-  props<{ id: number }>()
-);
+export class RolesListPageRequested implements Action {
+  readonly type = RoleActionTypes.ROLES_LIST_PAGE_REQUESTED;
+  constructor(public payload: { page: PageQuery }) {}
+}
 
-export const listPageRequested = createAction(
-  '[Roles List] Roles Page Requested',
-  props<{ page: PageQuery }>()
-);
+export class RolesListPageLoaded implements Action {
+  readonly type = RoleActionTypes.ROLES_LIST_PAGE_LOADED;
+  constructor(public payload: RoleServerResponse) {}
+}
 
-export const listPageLoaded = createAction(
-  '[Roles API] Roles Page Loaded',
-  props<{ response: RoleServerResponse }>()
-);
+export class RolesListPageCancelled implements Action {
+  readonly type = RoleActionTypes.ROLES_LIST_PAGE_CANCELLED;
+}
 
-export const listPageCancelled = createAction(
-  '[Roles API] Roles Page Cancelled'
-);
+export class AllPrivilegesRequested implements Action {
+  readonly type = RoleActionTypes.ALLPRIVILEGES_REQUESTED;
+}
 
-export const roleDashboardDataRequested = createAction(
-  '[Dashboard] Roles Data Requested',
-);
+export class AllPrivilegesRequestCanceled implements Action {
+  readonly type = RoleActionTypes.ALLPRIVILEGES_REQUEST_CANCELED;
+}
 
-export const roleDashboardDataLoaded = createAction(
-  '[Dashboard] Roles Data Loaded',
-  props<{ response: RoleServerResponse }>()
-);
+export class AllPrivilegesLoaded implements Action {
+  readonly type = RoleActionTypes.ALLPRIVILEGES_LOADED;
+  constructor(public payload: PrivilegeServerResponse) {}
+}
+
+export class PrivilegeSaved implements Action {
+  readonly type = RoleActionTypes.PRIVILEGE_SAVED;
+  constructor(public payload: { privilege: Update<Privilege> }) {}
+}
+
+export class CreatePrivilege implements Action {
+  readonly type = RoleActionTypes.PRIVILEGE_CREATE;
+  constructor(public payload: { privilege: Privilege }) {}
+}
+
+export class CreatePrivilegeSuccess implements Action {
+  readonly type = RoleActionTypes.PRIVILEGE_CREATE_SUCCESS;
+  constructor(public payload: { privilege: Privilege }) {}
+}
+
+export class CreatePrivilegeFail implements Action {
+  readonly type = RoleActionTypes.PRIVILEGE_CREATE_FAIL;
+  constructor(public payload: string) {}
+}
+
+export class RoleDashboardDataRequested implements Action {
+  readonly type = RoleActionTypes.ROLE_DASHBOARD_DATA_REQUESTED;
+}
+
+export class RoleDashboardDataLoaded implements Action {
+  readonly type = RoleActionTypes.ROLE_DASHBOARD_DATA_LOADED;
+  constructor(public payload: RoleServerResponse) {}
+}
+
+export type RoleActions =
+  | RoleRequested
+  | RoleLoaded
+  | RoleSaved
+  | CreateRole
+  | CreateRoleSuccess
+  | CreateRoleFail
+  | DeleteRole
+  | RolesListPageRequested
+  | RolesListPageLoaded
+  | RolesListPageCancelled
+  | AllPrivilegesRequested
+  | AllPrivilegesLoaded
+  | AllPrivilegesRequestCanceled
+  | PrivilegeSaved
+  | CreatePrivilege
+  | CreatePrivilegeSuccess
+  | CreatePrivilegeFail
+  | RoleDashboardDataRequested
+  | RoleDashboardDataLoaded;

@@ -27,7 +27,7 @@ import { AddDepartmentComponent, DepartmentComponent, DepartmentsComponent } fro
 import { DepartmentService } from './_services';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import * as fromDep from './store/department.reducer';
+import { departmentsReducer } from './store/department.reducer';
 import { DepartmentEffects } from './store/department.effects';
 
 @NgModule({
@@ -40,7 +40,7 @@ import { DepartmentEffects } from './store/department.effects';
     DepartmentsRoutingModule.forRoot(),
     SweetAlert2Module,
     UsersModule,
-    StoreModule.forFeature(fromDep.departmentsFeatureKey, fromDep.reducer),
+    StoreModule.forFeature('departments', departmentsReducer),
     EffectsModule.forFeature([DepartmentEffects]),
     FontAwesomeModule
   ],

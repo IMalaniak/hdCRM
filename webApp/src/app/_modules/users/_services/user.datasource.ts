@@ -3,7 +3,7 @@ import { Observable, BehaviorSubject, of } from 'rxjs';
 import { User } from '../_models/';
 import { catchError, tap } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
-import { listPageRequested } from '../store/user.actions';
+import { UserListPageRequested } from '../store/user.actions';
 import { selectUsersPage } from '../store/user.selectors';
 import { AppState } from '@/core/reducers';
 import { PageQuery } from '@/core/_models';
@@ -21,7 +21,7 @@ export class UsersDataSource implements DataSource<User> {
           if (users.length > 0) {
             this.usersSubject.next(users);
           } else {
-            this.store.dispatch(listPageRequested({ page }));
+            this.store.dispatch(new UserListPageRequested({ page }));
           }
         }),
         catchError(() => of([]))

@@ -1,7 +1,6 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Privilege } from '../_models';
-import * as PrivilegeActions from './privilege.actions';
-import { createReducer, on, Action } from '@ngrx/store';
+import { RoleActions, RoleActionTypes } from './role.actions';
 
 export interface PrivilegesState extends EntityState<Privilege> {
   allPrivilegesLoaded: boolean;
@@ -9,34 +8,51 @@ export interface PrivilegesState extends EntityState<Privilege> {
   loading: boolean;
 }
 
-const adapter: EntityAdapter<Privilege> = createEntityAdapter<Privilege>();
+export const adapter: EntityAdapter<Privilege> = createEntityAdapter<Privilege>();
 
-const initialState: PrivilegesState = adapter.getInitialState({
+export const initialPrivilegesState: PrivilegesState = adapter.getInitialState({
   allPrivilegesLoaded: false,
   error: null,
   loading: false
 });
 
-const privilegesReducer = createReducer(
-  initialState,
-  on(PrivilegeActions.createPrivilegeSuccess, (state, { privilege }) => adapter.addOne(privilege, state)),
-  on(PrivilegeActions.createPrivilegeFail, (state, { error }) => ({ ...state, error })),
-  on(PrivilegeActions.allPrivilegesRequested, state => ({ ...state, loading: true })),
-  on(PrivilegeActions.allPrivilegesRequestCanceled, state => ({ ...state, loading: false })),
-  on(PrivilegeActions.allPrivilegesLoaded, (state, { response }) =>
-    adapter.addAll(response.list, {
-      ...state,
-      allPrivilegesLoaded: true,
-      loading: false
-    })
-  ),
-  on(PrivilegeActions.privilegeSaved, (state, { privilege }) => adapter.updateOne(privilege, state))
-);
+export function privilegesReducer(state = initialPrivilegesState, action: RoleActions): PrivilegesState {
+  switch (action.type) {
+    case RoleActionTypes.PRIVILEGE_CREATE_SUCCESS:
+      return adapter.addOne(action.payload.privilege, state);
 
-export function reducer(state: PrivilegesState | undefined, action: Action) {
-  return privilegesReducer(state, action);
+    case RoleActionTypes.PRIVILEGE_CREATE_FAIL:
+      return {
+        ...state,
+        error: action.payload
+      };
+
+    case RoleActionTypes.ALLPRIVILEGES_REQUESTED:
+      return {
+        ...state,
+        loading: true
+      };
+
+    case RoleActionTypes.ALLPRIVILEGES_REQUEST_CANCELED:
+      return {
+        ...state,
+        loading: false
+      };
+
+    case RoleActionTypes.ALLPRIVILEGES_LOADED:
+      return adapter.addAll(action.payload.list, {
+        ...state,
+        allPrivilegesLoaded: true,
+        loading: false
+      });
+
+    case RoleActionTypes.PRIVILEGE_SAVED:
+      return adapter.updateOne(action.payload.privilege, state);
+
+    default: {
+      return state;
+    }
+  }
 }
-
-export const privilegesFeatureKey = 'privileges';
 
 export const { selectAll, selectEntities, selectIds, selectTotal } = adapter.getSelectors();

@@ -16,7 +16,7 @@ import { PageQuery } from '@/core/_models';
 import { AppState } from '@/core/reducers';
 import { selectUsersLoading, selectUsersTotalCount } from '../../store/user.selectors';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
-import { deleteUser } from '../../store/user.actions';
+import { DeleteUser } from '../../store/user.actions';
 import { InvitationDialogComponent } from '../../_components/invitation-dialog/invitation-dialog.component';
 import { MediaqueryService } from '@/_shared/services';
 
@@ -122,7 +122,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   //       this.users.forEach(row => this.selection.select(row));
   // }
 
-  deleteUser(id: number): void {
+  deleteUser(userId: number): void {
     Swal.fire({
       title: 'Are you sure?',
       text: 'Do you really want to delete user? You will not be able to recover!',
@@ -132,7 +132,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
       cancelButtonText: 'Cancel'
     }).then(result => {
       if (result.value) {
-        this.store.dispatch(deleteUser({ id }));
+        this.store.dispatch(new DeleteUser({ userId }));
       }
     });
   }

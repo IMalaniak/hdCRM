@@ -19,7 +19,7 @@ export class PrivateChatComponent implements OnInit {
   constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
-    this.store.dispatch(OnlineUserListRequested());
+    this.store.dispatch(new OnlineUserListRequested());
     this.store.pipe(select(selectUsersOnline)).subscribe(users => {
       console.log(users);
     });

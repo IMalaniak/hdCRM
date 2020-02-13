@@ -27,7 +27,7 @@ export class RightSidebarComponent implements OnInit {
   constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
-    this.store.dispatch(OnlineUserListRequested());
+    this.store.dispatch(new OnlineUserListRequested());
     this.onlineUsers$ = this.store.pipe(select(selectUsersOnline));
   }
 
