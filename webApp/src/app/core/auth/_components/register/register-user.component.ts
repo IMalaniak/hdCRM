@@ -185,7 +185,7 @@ export class RegisterUserComponent implements OnInit {
       data => {
         Swal.fire({
           title: 'User registered!',
-          type: 'success',
+          icon: 'success',
           timer: 1500
         });
       },
@@ -193,7 +193,7 @@ export class RegisterUserComponent implements OnInit {
         this.submitDisabled = false;
         Swal.fire({
           title: 'Ooops, something went wrong!',
-          type: 'error',
+          icon: 'error',
           timer: 1500
         });
       }

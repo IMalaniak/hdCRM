@@ -86,7 +86,7 @@ export class RolesComponent implements OnInit, OnDestroy, AfterViewInit {
     Swal.fire({
       title: 'Are you sure?',
       text: 'Do you really want to delete role? You will not be able to recover!',
-      type: 'question',
+      icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Yes',
       cancelButtonText: 'Cancel'

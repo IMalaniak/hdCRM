@@ -86,7 +86,7 @@ export class DepartmentsComponent implements OnInit, AfterViewInit {
     Swal.fire({
       title: 'Are you sure?',
       text: 'Do you really want to delete department? You will not be able to recover!',
-      type: 'question',
+      icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Yes',
       cancelButtonText: 'Cancel'

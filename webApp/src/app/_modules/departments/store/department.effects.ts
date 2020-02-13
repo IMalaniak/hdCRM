@@ -22,7 +22,7 @@ export class DepartmentEffects {
           map(newDepartment => {
             Swal.fire({
               title: 'Department created!',
-              type: 'success',
+              icon: 'success',
               timer: 1500
             });
             this.router.navigate(['/departments']);
@@ -33,7 +33,7 @@ export class DepartmentEffects {
           catchError(error => {
             Swal.fire({
               title: 'Ooops, something went wrong!',
-              type: 'error',
+              icon: 'error',
               timer: 1500
             });
             return of(depActions.createDepartmentFail(error));
@@ -78,7 +78,7 @@ export class DepartmentEffects {
           of(
             Swal.fire({
               text: `Department deleted`,
-              type: 'success',
+              icon: 'success',
               timer: 6000,
               toast: true,
               showConfirmButton: false,

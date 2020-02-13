@@ -22,7 +22,7 @@ export class RoleEffects {
           map(newRole => {
             Swal.fire({
               title: 'Role created!',
-              type: 'success',
+              icon: 'success',
               timer: 1500
             });
             this.router.navigate(['/roles']);
@@ -31,7 +31,7 @@ export class RoleEffects {
           catchError(error => {
             Swal.fire({
               title: 'Ooops, something went wrong!',
-              type: 'error',
+              icon: 'error',
               timer: 1500
             });
             return of(roleActions.createRoleFail({ error }));
@@ -77,7 +77,7 @@ export class RoleEffects {
           of(
             Swal.fire({
               text: `Role deleted`,
-              type: 'success',
+              icon: 'success',
               timer: 6000,
               toast: true,
               showConfirmButton: false,

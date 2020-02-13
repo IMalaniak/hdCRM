@@ -69,7 +69,7 @@ export class UserEffects {
           of(
             Swal.fire({
               text: `User deleted`,
-              type: 'success',
+              icon: 'success',
               timer: 6000,
               toast: true,
               showConfirmButton: false,

@@ -21,7 +21,7 @@ export class PlanEffects {
           map(newPlan => {
             Swal.fire({
               title: 'Plan created!',
-              type: 'success',
+              icon: 'success',
               timer: 1500
             });
             this.router.navigate(['/planner']);
@@ -30,7 +30,7 @@ export class PlanEffects {
           catchError(error => {
             Swal.fire({
               title: 'Ooops, something went wrong!',
-              type: 'error',
+              icon: 'error',
               timer: 1500
             });
             return of(planActions.createPlanFail({ error }));
@@ -75,7 +75,7 @@ export class PlanEffects {
           of(
             Swal.fire({
               text: `Plan deleted`,
-              type: 'success',
+              icon: 'success',
               timer: 6000,
               toast: true,
               showConfirmButton: false,

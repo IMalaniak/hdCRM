@@ -32,7 +32,7 @@ export class StageEffects {
           map(newStage => {
             Swal.fire({
               title: 'Stage created!',
-              type: 'success',
+              icon: 'success',
               timer: 1500
             });
             return stageActions.createStageSuccess({
@@ -42,7 +42,7 @@ export class StageEffects {
           catchError(error => {
             Swal.fire({
               title: 'Ooops, something went wrong!',
-              type: 'error',
+              icon: 'error',
               timer: 1500
             });
             return of(stageActions.createStageFail({ error }));

@@ -18,7 +18,7 @@ export class PrivilegeGuard implements CanActivate {
         if (!privileged) {
           Swal.fire({
             title: 'Sorry, You have no rights to see this page!',
-            type: 'error',
+            icon: 'error',
             timer: 3000,
             showCancelButton: false,
             showCloseButton: false

@@ -126,7 +126,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     Swal.fire({
       title: 'Are you sure?',
       text: 'Do you really want to delete user? You will not be able to recover!',
-      type: 'question',
+      icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Yes',
       cancelButtonText: 'Cancel'
@@ -146,7 +146,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
         user.State = userData.State;
         Swal.fire({
           text: `User state was changed to: ${state.keyString}`,
-          type: 'success',
+          icon: 'success',
           timer: 6000,
           toast: true,
           showConfirmButton: false,
@@ -156,7 +156,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
       error => {
         Swal.fire({
           text: 'Ooops, something went wrong!',
-          type: 'error',
+          icon: 'error',
           timer: 1500
         });
       }
@@ -188,7 +188,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   //       this.resetSelected();
   //       Swal.fire({
   //         text: `User state was changed to: ${state.keyString}`,
-  //         type: 'success',
+  //         icon: 'success',
   //         timer: 6000,
   //         toast: true,
   //         showConfirmButton: false,
@@ -198,7 +198,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   //     error => {
   //       Swal.fire({
   //         text: 'Ooops, something went wrong!',
-  //         type: 'error',
+  //         icon: 'error',
   //         timer: 1500
   //       });
   //     }

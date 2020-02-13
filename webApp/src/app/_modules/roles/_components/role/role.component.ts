@@ -130,7 +130,7 @@ export class RoleComponent implements OnInit, OnDestroy {
     Swal.fire({
       title: 'You are about to update role',
       text: 'Are You sure You want to update role? Changes cannot be undone.',
-      type: 'question',
+      icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Yes',
       cancelButtonText: 'Cancel'
@@ -154,7 +154,7 @@ export class RoleComponent implements OnInit, OnDestroy {
         this.disableEdit();
         Swal.fire({
           text: 'Role updated!',
-          type: 'success',
+          icon: 'success',
           timer: 6000,
           toast: true,
           showConfirmButton: false,
@@ -164,7 +164,7 @@ export class RoleComponent implements OnInit, OnDestroy {
       error => {
         Swal.fire({
           text: 'Server Error',
-          type: 'error'
+          icon: 'error'
         });
       }
     );
