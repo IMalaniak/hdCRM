@@ -47,14 +47,14 @@ export class SocketRouter {
           OrgRoom,
           rooms: [OrgRoom],
           online: true
-        }
+        };
         this.chatHelper.addUser(userOnline);
         socket.to(OrgRoom).emit(GlobalEvents.ISONLINE, userOnline);
 
         this.initCases(socket);
 
         socket.on(GlobalEvents.USERSONLINE, () => {
-          socket.emit(GlobalEvents.USERSONLINE, this.chatHelper.getUserList(OrgRoom)); // emit only to myself
+          socket.emit(GlobalEvents.USERSONLINE, this.chatHelper.getOthersInRoom(userOnline.id, OrgRoom)); // emit only to myself
         });
       });
       socket.on(GlobalEvents.ISOFFLINE, () => {
