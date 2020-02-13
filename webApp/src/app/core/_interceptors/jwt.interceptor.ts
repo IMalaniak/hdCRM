@@ -6,7 +6,7 @@ import { first, mergeMap } from 'rxjs/operators';
 import { getToken } from '../auth/store/auth.selectors';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AppState } from '../reducers';
-import { redirectToLogin } from '../auth/store/auth.actions';
+import { RedirectToLogin } from '../auth/store/auth.actions';
 import { Router } from '@angular/router';
 const jwtHelper = new JwtHelperService();
 
@@ -46,7 +46,7 @@ export class JwtInterceptor implements HttpInterceptor {
             });
           } else {
             const returnUrl = this.router.routerState.snapshot.url;
-            this.store$.dispatch(redirectToLogin({returnUrl}));
+            this.store$.dispatch(new RedirectToLogin(returnUrl));
           }
         }
         // if public request - do nothing

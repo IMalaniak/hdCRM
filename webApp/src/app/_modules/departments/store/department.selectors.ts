@@ -1,9 +1,11 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { DepartmentsState } from './department.reducer';
+
 import * as fromDepartment from './department.reducer';
 import { Department } from '../_models';
 import { PageQuery } from '@/core/_models';
 
-export const selectDepartmentsState = createFeatureSelector<fromDepartment.DepartmentsState>(fromDepartment.departmentsFeatureKey);
+export const selectDepartmentsState = createFeatureSelector<DepartmentsState>('departments');
 
 export const selectDepartmentById = (departmentId: number) =>
   createSelector(selectDepartmentsState, departmentsState => departmentsState.entities[departmentId]);

@@ -13,8 +13,8 @@ import { UserService } from '../../_services';
 import { User, State } from '../../_models';
 import { Asset } from '@/_shared/attachments';
 
-import { userSaved } from '../../store/user.actions';
-import { allStatesRequested } from '../../store/state.actions';
+import { UserSaved } from '../../store/user.actions';
+import { AllStatesRequested } from '../../store/state.actions';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { selectAllStates } from '../../store/state.selectors';
 
@@ -56,7 +56,7 @@ export class UserComponent implements OnInit, OnDestroy {
     this.user = new User(cloneDeep(this.route.snapshot.data['user']));
     this.userInitial = new User(cloneDeep(this.route.snapshot.data['user']));
 
-    this.store.dispatch(allStatesRequested());
+    this.store.dispatch(new AllStatesRequested());
 
     this.states$ = this.store.pipe(select(selectAllStates));
   }
@@ -125,7 +125,7 @@ export class UserComponent implements OnInit, OnDestroy {
       id: this.user.id,
       changes: new User(data)
     };
-    this.store.dispatch(userSaved({ user }));
+    this.store.dispatch(new UserSaved({ user }));
   }
 
   ngOnDestroy() {

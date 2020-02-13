@@ -1,27 +1,44 @@
-import { createAction, props } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { LayoutState } from './layout.reducer';
 
-export const toggleLeftSidebar = createAction(
-  '[Layout] Toggle Left Sidebar',
-  props<{ minimized: boolean }>()
-);
+export enum LayoutActionTypes {
+  ToggleLeftSidebar = '[Layout] Toggle Left Sidebar',
+  LeftSidebarChangeState = '[Layout] Left Sidebar State Changed',
+  ToggleRightSidebar = '[Layout] Toogle Right Sidebar',
+  RightSidebarChangeState = '[Layout] Right Sidebar State Changed',
+  INIT_LAYOUT_SETTINGS = '[Layout] Init Layout Settings'
+}
 
-export const leftSidebarChangeState = createAction(
-  '[Layout] Left Sidebar State Changed',
-  props<{ minimized: boolean }>()
-);
+// Action Creators
+export class ToggleLeftSidebar implements Action {
+  readonly type = LayoutActionTypes.ToggleLeftSidebar;
+  constructor(public payload: boolean) {}
+}
 
-export const toggleRightSidebar = createAction(
-  '[Layout] Toggle Right Sidebar',
-  props<{ minimized: boolean }>()
-);
+export class LeftSidebarChangeState implements Action {
+  readonly type = LayoutActionTypes.LeftSidebarChangeState;
+  constructor(public payload: boolean) {}
+}
 
-export const rightSidebarChangeState = createAction(
-  '[Layout] Right Sidebar State Changed',
-  props<{ minimized: boolean }>()
-);
+export class ToggleRightSidebar implements Action {
+  readonly type = LayoutActionTypes.ToggleRightSidebar;
+  constructor(public payload: boolean) {}
+}
 
-export const initLayoutSettings = createAction(
-  '[Layout] Init Layout Settings',
-  props<{ settings: LayoutState }>()
-);
+export class RightSidebarChangeState implements Action {
+  readonly type = LayoutActionTypes.RightSidebarChangeState;
+  constructor(public payload: boolean) {}
+}
+
+export class InitLayoutSettings implements Action {
+  readonly type = LayoutActionTypes.INIT_LAYOUT_SETTINGS;
+  constructor(public payload: LayoutState) {}
+}
+
+// Union the valid types
+export type LayoutActions =
+  | ToggleLeftSidebar
+  | LeftSidebarChangeState
+  | ToggleRightSidebar
+  | RightSidebarChangeState
+  | InitLayoutSettings;

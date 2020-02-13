@@ -33,10 +33,9 @@ import { UsersModule } from '@/_modules/users/users.module';
 import { RoleService, PrivilegeService } from './_services';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import * as fromRole from './store/role.reducer';
+import { rolesReducer } from './store/role.reducer';
 import { RoleEffects } from './store/role.effects';
-import * as fromPrivilege from './store/privilege.reducer';
-import { PrivilegeEffects } from './store/privilege.effects';
+import { privilegesReducer } from './store/privilege.reducer';
 
 @NgModule({
   imports: [
@@ -47,9 +46,9 @@ import { PrivilegeEffects } from './store/privilege.effects';
     SharedModule,
     FontAwesomeModule,
     RolesRoutingModule.forRoot(),
-    StoreModule.forFeature(fromRole.rolesFeatureKey, fromRole.reducer),
-    StoreModule.forFeature(fromPrivilege.privilegesFeatureKey, fromPrivilege.reducer),
-    EffectsModule.forFeature([RoleEffects, PrivilegeEffects]),
+    StoreModule.forFeature('roles', rolesReducer),
+    StoreModule.forFeature('privileges', privilegesReducer),
+    EffectsModule.forFeature([RoleEffects]),
     UsersModule
   ],
   declarations: [

@@ -3,7 +3,7 @@ import { Observable, BehaviorSubject, of } from 'rxjs';
 import { Plan } from '../_models/';
 import { catchError, tap } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
-import { listPageRequested } from '../store/plan.actions';
+import { ListPageRequested } from '../store/plan.actions';
 import { selectPlansPage } from '../store/plan.selectors';
 import { AppState } from '@/core/reducers';
 import { PageQuery } from '@/core/_models';
@@ -21,7 +21,7 @@ export class PlansDataSource implements DataSource<Plan> {
           if (plans.length > 0) {
             this.plansSubject.next(plans);
           } else {
-            this.store.dispatch(listPageRequested({ page }));
+            this.store.dispatch(new ListPageRequested({ page }));
           }
         }),
         catchError(() => of([]))

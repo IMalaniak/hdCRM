@@ -13,7 +13,7 @@ import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialo
 import { takeUntil } from 'rxjs/operators';
 import { AppState } from '@/core/reducers';
 import { Store } from '@ngrx/store';
-import { createRole } from '../../store/role.actions';
+import { CreateRole } from '../../store/role.actions';
 
 @Component({
   selector: 'app-add-role',
@@ -105,6 +105,6 @@ export class AddRoleComponent implements OnInit {
 
   onRegisterSubmit() {
     this.role.keyString = this.keyString.value;
-    this.store.dispatch(createRole({ role: this.role }));
+    this.store.dispatch(new CreateRole({ role: this.role }));
   }
 }
