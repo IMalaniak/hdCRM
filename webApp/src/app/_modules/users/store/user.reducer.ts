@@ -73,7 +73,7 @@ const usersReducer = createReducer(
     adapter.addMany(invitedUsers, {
       ...state,
       countAll: state.countAll + invitedUsers.length
-    }) 
+    })
   )
 );
 
