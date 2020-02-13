@@ -13,9 +13,9 @@ export const deleteUser = createAction('[User List] Delete User', props<{ id: nu
 
 export const listPageRequested = createAction('[User List] User Page Requested', props<{ page: PageQuery }>());
 
-export const listPageLoaded = createAction('[User API] User Page Loaded', props<{ response: UserServerResponse }>());
+export const listPageLoaded = createAction('[Users API] User Page Loaded', props<{ response: UserServerResponse }>());
 
-export const listPageCancelled = createAction('[User API] User Page Cancelled');
+export const listPageCancelled = createAction('[Users API] User Page Cancelled');
 
 export const OnlineUserListRequested = createAction('[Users] Online Users Requested');
 
@@ -24,3 +24,7 @@ export const OnlineUserListLoaded = createAction('[Users API] Online User List L
 export const userOnline = createAction('[User Socket API] User Online', props<{ user: User }>());
 
 export const userOffline = createAction('[User Socket API] User Offline', props<{ user: User }>());
+
+export const inviteUsers = createAction('[Invitation Dialog] Invite users requested', props<{ users: User[] }>());
+
+export const usersInvited = createAction('[Users API] Invite users requested', props<{ invitedUsers: User[] }>());

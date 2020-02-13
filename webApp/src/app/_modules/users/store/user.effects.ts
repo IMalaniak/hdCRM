@@ -45,7 +45,7 @@ export class UserEffects {
       }),
       mergeMap(() => {
         return this.userService.onlineUsersListed$.pipe(
-          map(onlineUsers => userActions.OnlineUserListLoaded({list: onlineUsers.map(user => new User(user))}))
+          map(onlineUsers => userActions.OnlineUserListLoaded({ list: onlineUsers.map(user => new User(user)) }))
         );
       })
     )
@@ -81,6 +81,20 @@ export class UserEffects {
     {
       dispatch: false
     }
+  );
+
+  inviteUsers$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(userActions.inviteUsers),
+      map(payload => payload.users),
+      mergeMap((users: User[]) =>
+        this.userService.inviteUsers(users).pipe(
+          map(invitedUsers => {
+            return userActions.usersInvited({ invitedUsers });
+          })
+        )
+      )
+    )
   );
 
   constructor(private actions$: Actions, private store: Store<AppState>, private userService: UserService) {}
