@@ -9,7 +9,7 @@ export interface StagesState extends EntityState<Stage> {
   loading: boolean;
 }
 
-export const adapter: EntityAdapter<Stage> = createEntityAdapter<Stage>();
+const adapter: EntityAdapter<Stage> = createEntityAdapter<Stage>();
 
 const initialState: StagesState = adapter.getInitialState({
   allStagesLoaded: false,
