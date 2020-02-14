@@ -13,7 +13,7 @@ import { FilePond, FilePondOptionProps } from 'filepond';
   styleUrls: ['./attachments.component.scss']
 })
 export class AttachmentsComponent implements OnInit {
-  @ViewChild('uploader', { static: false }) uploader: FilePond;
+  @ViewChild('uploader') uploader: FilePond;
   @Input() attachments: Asset[];
   @Input() apiUrl: string;
   @Input() editForm: boolean;

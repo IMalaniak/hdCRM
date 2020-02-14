@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators, FormControl } from '@angular/forms';
-import { MatDialog, MatTable } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Role, Privilege, RolePrivilege } from '../../_models';
 import { RoleService, PrivilegeService } from '../../_services';
@@ -25,7 +26,7 @@ export class AddRoleComponent implements OnInit {
   role = new Role();
   displayedColumns = ['title', 'view', 'add', 'edit', 'delete'];
 
-  @ViewChild(MatTable, { static: false }) privilegesTable: MatTable<any>;
+  @ViewChild(MatTable) privilegesTable: MatTable<any>;
 
   private unsubscribe: Subject<void> = new Subject();
 

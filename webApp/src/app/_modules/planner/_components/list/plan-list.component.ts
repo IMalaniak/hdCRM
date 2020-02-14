@@ -8,7 +8,8 @@ import { AppState } from '@/core/reducers';
 import { PlansDataSource } from '../../_services/plan.datasource';
 
 import { selectPlansLoading, selectPlansTotalCount } from '../../store/plan.selectors';
-import { MatPaginator, MatSort } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { tap } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
@@ -28,8 +29,8 @@ export class PlanListComponent implements OnInit, AfterViewInit {
   plans$: Observable<Plan[]>;
   dataSource: PlansDataSource;
   loading$: Observable<boolean>;
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   displayedColumns = ['title', 'creator', 'stage', 'participants', 'createdAt', 'updatedAt', 'deadline', 'actions'];
   resultsLength$: Observable<number>;

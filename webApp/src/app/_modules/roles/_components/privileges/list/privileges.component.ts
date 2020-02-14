@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Privilege } from '../../../_models';
 import { AddPrivilegeDialogComponent } from '../add-dialog/add-privilege-dialog.component';

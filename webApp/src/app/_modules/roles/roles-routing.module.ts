@@ -44,7 +44,7 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class RolesRoutingModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<RolesRoutingModule> {
     return {
       ngModule: RolesRoutingModule,
       providers: [RoleResolver]

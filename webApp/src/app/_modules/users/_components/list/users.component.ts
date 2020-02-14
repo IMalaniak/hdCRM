@@ -1,7 +1,9 @@
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatPaginator, MatSort, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subject, merge } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
@@ -34,8 +36,8 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   addUserPrivilege$: Observable<boolean>;
   resultsLength$: Observable<number>;
   loading$: Observable<boolean>;
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   displayedColumns = [
     'select',

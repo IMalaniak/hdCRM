@@ -40,7 +40,7 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class UsersRoutingModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<UsersRoutingModule> {
     return {
       ngModule: UsersRoutingModule,
       providers: [UserResolver]

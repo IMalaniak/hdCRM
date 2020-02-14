@@ -12,7 +12,7 @@ import { FilePond, FilePondOptionProps } from 'filepond';
   styleUrls: ['./profile-pic.component.scss']
 })
 export class ProfilepicComponent implements OnInit {
-  @ViewChild('picuploader', { static: false }) picuploader: FilePond;
+  @ViewChild('picuploader') picuploader: FilePond;
   @Input() avatar: Asset;
   @Input() apiUrl: string;
   @Output() addFileCall: EventEmitter<any> = new EventEmitter();

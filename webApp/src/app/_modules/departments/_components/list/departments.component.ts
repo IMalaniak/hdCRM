@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatPaginator, MatSort } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { Store, select } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
@@ -33,8 +34,8 @@ export class DepartmentsComponent implements OnInit, AfterViewInit {
   loading$: Observable<boolean>;
   resultsLength$: Observable<number>;
 
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   displayedColumns = ['title', 'manager', 'workers', 'createdAt', 'updatedAt', 'actions'];
 

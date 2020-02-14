@@ -54,7 +54,7 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class PlannerRoutingModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<PlannerRoutingModule> {
     return {
       ngModule: PlannerRoutingModule,
       providers: [PlanResolver]
