@@ -55,8 +55,7 @@ import { AttachmentsModule } from '@/_shared/attachments/attachments.module';
   ],
   declarations: [ProfileComponent, UserComponent, UsersComponent, UsersDialogComponent, InvitationDialogComponent],
   providers: [UserService, StateService],
-  exports: [ProfileComponent, UserComponent, UsersComponent, UsersDialogComponent],
-  entryComponents: [UsersDialogComponent, InvitationDialogComponent]
+  exports: [ProfileComponent, UserComponent, UsersComponent, UsersDialogComponent]
 })
 export class UsersModule {
   constructor(library: FaIconLibrary) {
