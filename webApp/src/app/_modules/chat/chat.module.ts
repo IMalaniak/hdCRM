@@ -34,8 +34,7 @@ import { UserService } from '../users';
   ],
   declarations: [ChatListComponent, ChatComponent, ChatShellComponent, GroupChatComponent, PrivateChatComponent, CreateChatDialogComponent],
   providers: [ChatService, UserService],
-  exports: [ChatListComponent, ChatComponent],
-  entryComponents: [CreateChatDialogComponent]
+  exports: [ChatListComponent, ChatComponent]
 })
 export class ChatModule {
   constructor(library: FaIconLibrary) {

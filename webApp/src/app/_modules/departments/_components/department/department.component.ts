@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
@@ -134,7 +134,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
           this.editForm = false;
           Swal.fire({
             text: 'Department updated!',
-            type: 'success',
+            icon: 'success',
             timer: 6000,
             toast: true,
             showConfirmButton: false,
@@ -144,7 +144,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
         error => {
           Swal.fire({
             text: 'Ooops, something went wrong!',
-            type: 'error'
+            icon: 'error'
           });
         }
       );

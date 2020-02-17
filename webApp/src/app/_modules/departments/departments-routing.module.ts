@@ -44,7 +44,7 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class DepartmentsRoutingModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<DepartmentsRoutingModule> {
     return {
       ngModule: DepartmentsRoutingModule,
       providers: [DepartmentResolver]

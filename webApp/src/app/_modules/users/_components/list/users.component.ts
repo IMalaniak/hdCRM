@@ -1,7 +1,9 @@
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatPaginator, MatSort, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subject, merge } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
@@ -34,8 +36,8 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   addUserPrivilege$: Observable<boolean>;
   resultsLength$: Observable<number>;
   loading$: Observable<boolean>;
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   displayedColumns = [
     'select',
@@ -126,7 +128,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     Swal.fire({
       title: 'Are you sure?',
       text: 'Do you really want to delete user? You will not be able to recover!',
-      type: 'question',
+      icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Yes',
       cancelButtonText: 'Cancel'
@@ -146,7 +148,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
         user.State = userData.State;
         Swal.fire({
           text: `User state was changed to: ${state.keyString}`,
-          type: 'success',
+          icon: 'success',
           timer: 6000,
           toast: true,
           showConfirmButton: false,
@@ -156,7 +158,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
       error => {
         Swal.fire({
           text: 'Ooops, something went wrong!',
-          type: 'error',
+          icon: 'error',
           timer: 1500
         });
       }
@@ -188,7 +190,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   //       this.resetSelected();
   //       Swal.fire({
   //         text: `User state was changed to: ${state.keyString}`,
-  //         type: 'success',
+  //         icon: 'success',
   //         timer: 6000,
   //         toast: true,
   //         showConfirmButton: false,
@@ -198,7 +200,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   //     error => {
   //       Swal.fire({
   //         text: 'Ooops, something went wrong!',
-  //         type: 'error',
+  //         icon: 'error',
   //         timer: 1500
   //       });
   //     }

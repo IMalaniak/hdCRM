@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { Plan } from '../../_models';
 import { UsersDialogComponent, User } from '@/_modules/users';
 import { AppState } from '@/core/reducers';

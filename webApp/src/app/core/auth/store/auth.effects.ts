@@ -61,7 +61,7 @@ export class AuthEffects {
       tap(action => {
         Swal.fire({
           text: 'You are not authorized to see this page, or your session has been expired!',
-          type: 'error',
+          icon: 'error',
           timer: 3000
         });
         this.router.navigate(['/auth/login'], {

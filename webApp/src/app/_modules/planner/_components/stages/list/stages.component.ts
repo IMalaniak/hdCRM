@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { Stage } from '../../../_models';
 import { AddStageDialogComponent } from '../add-dialog/add-stage-dialog.component';

@@ -32,7 +32,7 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class ChatRoutingModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<ChatRoutingModule> {
     return {
       ngModule: ChatRoutingModule
       // providers: [DepartmentResolver],

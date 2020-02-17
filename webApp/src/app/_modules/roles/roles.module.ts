@@ -70,8 +70,7 @@ import { PrivilegeEffects } from './store/privilege.effects';
     PrivilegesComponent,
     PrivilegesDialogComponent,
     AddPrivilegeDialogComponent
-  ],
-  entryComponents: [RolesDialogComponent, PrivilegesDialogComponent, AddPrivilegeDialogComponent]
+  ]
 })
 export class RolesModule {
   constructor(library: FaIconLibrary) {

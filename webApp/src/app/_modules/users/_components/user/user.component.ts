@@ -74,7 +74,7 @@ export class UserComponent implements OnInit, OnDestroy {
     Swal.fire({
       title: 'Are you sure?',
       text: 'Do you really want to save changes? You will not be able to recover this!',
-      type: 'question',
+      icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Yes',
       cancelButtonText: 'Cancel'
@@ -95,7 +95,7 @@ export class UserComponent implements OnInit, OnDestroy {
           this.editForm = false;
           Swal.fire({
             text: 'User updated!',
-            type: 'success',
+            icon: 'success',
             timer: 6000,
             toast: true,
             showConfirmButton: false,
@@ -105,7 +105,7 @@ export class UserComponent implements OnInit, OnDestroy {
         error => {
           Swal.fire({
             text: 'Ooops, something went wrong!',
-            type: 'error',
+            icon: 'error',
             timer: 3000
           });
         }

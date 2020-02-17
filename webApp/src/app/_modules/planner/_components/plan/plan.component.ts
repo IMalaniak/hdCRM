@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Update } from '@ngrx/entity';
 import { Store, select } from '@ngrx/store';
@@ -81,7 +81,7 @@ export class PlanComponent implements OnInit, OnDestroy {
           this.configPlanStages = false;
           Swal.fire({
             text: 'Stages updated!',
-            type: 'success',
+            icon: 'success',
             timer: 6000,
             toast: true,
             showConfirmButton: false,
@@ -91,7 +91,7 @@ export class PlanComponent implements OnInit, OnDestroy {
         error => {
           Swal.fire({
             text: 'Ooops, something went wrong!',
-            type: 'error'
+            icon: 'error'
           });
         }
       );
@@ -131,7 +131,7 @@ export class PlanComponent implements OnInit, OnDestroy {
           this.configPlanStages = false;
           Swal.fire({
             text: 'Stages updated!',
-            type: 'success',
+            icon: 'success',
             timer: 6000,
             toast: true,
             showConfirmButton: false,
@@ -141,7 +141,7 @@ export class PlanComponent implements OnInit, OnDestroy {
         error => {
           Swal.fire({
             text: 'Ooops, something went wrong!',
-            type: 'error'
+            icon: 'error'
           });
         }
       );
@@ -158,7 +158,7 @@ export class PlanComponent implements OnInit, OnDestroy {
           this.editForm = false;
           Swal.fire({
             text: 'Plan updated!',
-            type: 'success',
+            icon: 'success',
             timer: 6000,
             toast: true,
             showConfirmButton: false,
@@ -168,7 +168,7 @@ export class PlanComponent implements OnInit, OnDestroy {
         error => {
           Swal.fire({
             text: 'Ooops, something went wrong!',
-            type: 'error'
+            icon: 'error'
           });
         }
       );
@@ -280,7 +280,7 @@ export class PlanComponent implements OnInit, OnDestroy {
     Swal.fire({
       title: 'You are going to delete document',
       text: 'Are you sure you want to delete document from plan, changes cannot be undone?',
-      type: 'warning',
+      icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel'
@@ -301,7 +301,7 @@ export class PlanComponent implements OnInit, OnDestroy {
               this.updatePlanStore(this.plan);
               Swal.fire({
                 text: 'You have successfully removed a document from plan',
-                type: 'success',
+                icon: 'success',
                 timer: 6000,
                 toast: true,
                 showConfirmButton: false,
@@ -310,7 +310,7 @@ export class PlanComponent implements OnInit, OnDestroy {
             } else {
               Swal.fire({
                 text: 'Ooops, something went wrong!',
-                type: 'error'
+                icon: 'error'
               });
             }
           });

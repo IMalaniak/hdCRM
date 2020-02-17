@@ -77,8 +77,7 @@ import { StageEffects } from './store/stage.effects';
     AddStageDialogComponent,
     StagesDialogComponent,
     StagesComponent
-  ],
-  entryComponents: [AddStageDialogComponent, StagesDialogComponent]
+  ]
 })
 export class PlannerModule {
   constructor(library: FaIconLibrary) {

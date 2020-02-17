@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { MatDialog, MatTableDataSource, MatTable } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Role, Privilege, RolePrivilege } from '../../_models';
@@ -28,7 +29,7 @@ export class RoleComponent implements OnInit, OnDestroy {
   editRolePrivilege$: Observable<boolean>;
   displayedColumns = ['title', 'view', 'add', 'edit', 'delete'];
 
-  @ViewChild(MatTable, { static: false }) privilegesTable: MatTable<any>;
+  @ViewChild(MatTable) privilegesTable: MatTable<any>;
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -130,7 +131,7 @@ export class RoleComponent implements OnInit, OnDestroy {
     Swal.fire({
       title: 'You are about to update role',
       text: 'Are You sure You want to update role? Changes cannot be undone.',
-      type: 'question',
+      icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Yes',
       cancelButtonText: 'Cancel'
@@ -154,7 +155,7 @@ export class RoleComponent implements OnInit, OnDestroy {
         this.disableEdit();
         Swal.fire({
           text: 'Role updated!',
-          type: 'success',
+          icon: 'success',
           timer: 6000,
           toast: true,
           showConfirmButton: false,
@@ -164,7 +165,7 @@ export class RoleComponent implements OnInit, OnDestroy {
       error => {
         Swal.fire({
           text: 'Server Error',
-          type: 'error'
+          icon: 'error'
         });
       }
     );

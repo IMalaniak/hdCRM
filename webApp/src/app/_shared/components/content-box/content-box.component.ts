@@ -16,10 +16,10 @@ export class ContentBoxComponent implements OnInit {
   @Input() headCssClass: string;
   @Input() disableShadow = false;
   @Input() counter: number;
-  @ContentChild('content', { static: false }) content: ElementRef;
-  @ContentChild('subheader', { static: false }) subheader: ElementRef;
-  @ContentChild('buttons', { static: false }) buttons: ElementRef;
-  @ContentChild('boxFooter', { static: false }) boxFooter: ElementRef;
+  @ContentChild('content') content: ElementRef;
+  @ContentChild('subheader') subheader: ElementRef;
+  @ContentChild('buttons') buttons: ElementRef;
+  @ContentChild('boxFooter') boxFooter: ElementRef;
 
   constructor() {}
 

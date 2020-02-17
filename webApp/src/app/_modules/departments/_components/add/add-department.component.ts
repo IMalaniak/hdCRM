@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { UsersDialogComponent } from '@/_modules/users';
 import { Department } from '../../_models';
 import { Subject } from 'rxjs';

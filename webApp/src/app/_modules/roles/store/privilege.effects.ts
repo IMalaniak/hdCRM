@@ -39,7 +39,7 @@ export class PrivilegeEffects {
           map(newPrivilege => {
             Swal.fire({
               title: 'Privilege created!',
-              type: 'success',
+              icon: 'success',
               timer: 1500
             });
             return privilegeActions.createPrivilegeSuccess({
@@ -49,7 +49,7 @@ export class PrivilegeEffects {
           catchError(error => {
             Swal.fire({
               title: 'Ooops, something went wrong!',
-              type: 'error',
+              icon: 'error',
               timer: 1500
             });
             return of(privilegeActions.createPrivilegeFail({ error }));

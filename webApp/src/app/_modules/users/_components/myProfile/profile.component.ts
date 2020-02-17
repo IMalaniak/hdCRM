@@ -41,7 +41,7 @@ export class ProfileComponent implements OnInit {
     Swal.fire({
       title: 'Are you about to update user',
       text: 'Are you sure you want to update user details?',
-      type: 'question',
+      icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel'
@@ -78,7 +78,7 @@ export class ProfileComponent implements OnInit {
         this.editForm = false;
         Swal.fire({
           text: 'User updated!',
-          type: 'success',
+          icon: 'success',
           timer: 6000,
           toast: true,
           showConfirmButton: false,
@@ -88,7 +88,7 @@ export class ProfileComponent implements OnInit {
       error => {
         Swal.fire({
           text: 'Ooops, something went wrong!',
-          type: 'error'
+          icon: 'error'
         });
       }
     );

@@ -83,7 +83,7 @@ export class LoginComponent implements OnInit {
         error => {
           Swal.fire({
             title: 'Account activation failed',
-            type: 'error',
+            icon: 'error',
             timer: 3000
           });
         }
@@ -109,7 +109,7 @@ export class LoginComponent implements OnInit {
           this.store.dispatch(authActions.resetPasswordFailure({response: error}));
           // Swal.fire({
           //   title: 'Email or login delivery failed!',
-          //   type: 'error',
+          //   icon: 'error',
           //   timer: 3000
           // });
         }
@@ -144,7 +144,7 @@ export class LoginComponent implements OnInit {
         error => {
           Swal.fire({
             title: 'Ooops, something went wrong!',
-            type: 'error',
+            icon: 'error',
             timer: 1500
           });
         }
