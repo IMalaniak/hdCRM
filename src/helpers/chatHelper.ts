@@ -71,8 +71,12 @@ export class ChatHelper {
     return this.userList.find(user => user.activeSockets.includes(lastSocketId));
   }
 
-  public getUserList(room: string) {
+  public getUsersList(room: string) {
     return this.userList.filter(user => user.rooms.includes(room));
+  }
+
+  public getOthersInRoom(currentUserId: number, room: string) {
+    return this.getUsersList(room).filter(user => user.id !== currentUserId);
   }
 
   public createGroupChat(name: string, OrgRoom: string) {
