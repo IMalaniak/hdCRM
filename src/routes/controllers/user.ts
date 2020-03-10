@@ -16,8 +16,6 @@ import Mailer from '../../mailer/nodeMailerTemplates';
 @Controller('users/')
 export class UserController {
   unlinkAsync = promisify(fs.unlink);
-  // TODO: change to user type
-  private currentUser: any;
   private userDbCtrl: UserDBController = new UserDBController();
 
   @Get(':id')
@@ -289,7 +287,6 @@ export class UserController {
   @Middleware([Passport.authenticate()])
   private inviteMany(req: Request, res: Response) {
     Logger.Info(`Inviting users...`);
-    this.currentUser = req.user;
     const promises = [];
 
     req.body.forEach((user: db.User) => {
@@ -298,7 +295,7 @@ export class UserController {
         const passwordData = Crypt.saltHashPassword(password);
         user.passwordHash = passwordData.passwordHash;
         user.salt = passwordData.salt;
-        user.OrganizationId = this.currentUser.OrganizationId;
+        user.OrganizationId = req.user.OrganizationId;
         user.StateId = 1;
         user.login = `${user.name}_${user.surname}`;
         this.userDbCtrl.create(user)

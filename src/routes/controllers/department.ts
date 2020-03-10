@@ -8,20 +8,14 @@ import Passport from '../../config/passport';
 
 @Controller('departments/')
 export class DepartmentController {
-  // TODO: change to user type
-  currentUser: any;
-
   @Get('dashboard')
   @Middleware([Passport.authenticate()])
   private getDashboardData(req: Request, res: Response) {
     Logger.Info(`Geting departments dashboard data...`);
-    // TODO: req.user type
-    this.currentUser = req.user;
-
     db.Department.findAndCountAll({
       attributes: ['title', 'id'],
       where: {
-        OrganizationId: this.currentUser.OrganizationId
+        OrganizationId: req.user.OrganizationId
       },
       include: [
         {
@@ -60,16 +54,13 @@ export class DepartmentController {
   @Middleware([Passport.authenticate()])
   private getAll(req: Request, res: Response) {
     Logger.Info(`Selecting all departments...`);
-    // TODO: req.user type
-    this.currentUser = req.user;
-
     const queryParams = req.query;
     const limit = parseInt(queryParams.pageSize);
     const offset = parseInt(queryParams.pageIndex) * limit;
 
     db.Department.findAndCountAll({
       where: {
-        OrganizationId: this.currentUser.OrganizationId
+        OrganizationId: req.user.OrganizationId
       },
       include: [
         {
@@ -107,14 +98,14 @@ export class DepartmentController {
           required: false
         }
       ],
-      limit: limit,
-      offset: offset,
+      limit,
+      offset,
       order: [[queryParams.sortIndex, queryParams.sortDirection.toUpperCase()]],
       distinct: true
     })
       .then(data => {
         const pages = Math.ceil(data.count / limit);
-        res.status(OK).json({ list: data.rows, count: data.count, pages: pages });
+        res.status(OK).json({ list: data.rows, count: data.count, pages });
       })
       .catch((err: any) => {
         Logger.Err(err);
@@ -126,13 +117,11 @@ export class DepartmentController {
   @Middleware([Passport.authenticate()])
   private create(req: Request, res: Response) {
     Logger.Info(`Creating new department...`);
-    this.currentUser = req.user;
-
     db.Department.create({
       title: req.body.title,
       description: req.body.description,
       managerId: req.body.Manager.id,
-      OrganizationId: this.currentUser.OrganizationId
+      OrganizationId: req.user.OrganizationId
     })
       .then(dep => {
         const addParentDepPromise = req.body.ParentDepartment
