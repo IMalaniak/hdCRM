@@ -8,20 +8,14 @@ import { Op } from 'sequelize';
 
 @Controller('roles/')
 export class RoleController {
-  // TODO: change to user type
-  currentUser: any;
-
   @Get('dashboard')
   @Middleware([Passport.authenticate()])
   private getDashboardData(req: Request, res: Response) {
     Logger.Info(`Geting roles dashboard data...`);
-    // TODO: req.user type
-    this.currentUser = req.user;
-
     db.Role.findAndCountAll({
       attributes: ['keyString', 'id'],
       where: {
-        OrganizationId: this.currentUser.OrganizationId
+        OrganizationId: req.user.OrganizationId
       },
       include: [
         {
@@ -45,11 +39,9 @@ export class RoleController {
   @Middleware([Passport.authenticate()])
   private create(req: Request, res: Response) {
     Logger.Info(`Creating new role...`);
-    this.currentUser = req.user;
-
     db.Role.create({
       keyString: req.body.keyString,
-      OrganizationId: this.currentUser.OrganizationId
+      OrganizationId: req.user.OrganizationId
     })
       .then(createdRole => {
         this.findRoleById(createdRole.id)
@@ -137,15 +129,13 @@ export class RoleController {
   @Middleware([Passport.authenticate()])
   private getList(req: Request, res: Response) {
     Logger.Info(`Selecting roles list...`);
-    this.currentUser = req.user;
-
     const queryParams = req.query;
     const limit = parseInt(queryParams.pageSize);
     const offset = parseInt(queryParams.pageIndex) * limit;
 
     db.Role.findAndCountAll({
       where: {
-        OrganizationId: this.currentUser.OrganizationId
+        OrganizationId: req.user.OrganizationId
       },
       include: [
         {

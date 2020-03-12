@@ -14,8 +14,6 @@ import jimp from 'jimp';
 @Controller('plans/')
 export class PlanController {
   unlinkAsync = promisify(fs.unlink);
-  // TODO: change to user type
-  currentUser: any;
 
   @Get(':id')
   @Middleware([Passport.authenticate()])
@@ -35,8 +33,6 @@ export class PlanController {
   @Middleware([Passport.authenticate()])
   private getAll(req: Request, res: Response) {
     Logger.Info(`Selecting all plans...`);
-    // TODO: req.user type
-    this.currentUser = req.user;
 
     const queryParams = req.query;
     const limit = parseInt(queryParams.pageSize);
@@ -44,7 +40,7 @@ export class PlanController {
 
     db.Plan.findAndCountAll({
       where: {
-        OrganizationId: this.currentUser.OrganizationId
+        OrganizationId: req.user.OrganizationId
       },
       include: [
         {
@@ -92,8 +88,8 @@ export class PlanController {
           } as IncludeThroughOptions
         }
       ],
-      limit: limit,
-      offset: offset,
+      limit,
+      offset,
       order: [
         [queryParams.sortIndex, queryParams.sortDirection.toUpperCase()]
         // TODO: sort
@@ -112,7 +108,7 @@ export class PlanController {
             plan.Stages = plan.Stages.sort(sortByOrder);
           }
         });
-        return res.status(OK).json({ list: data.rows, count: data.count, pages: pages });
+        return res.status(OK).json({ list: data.rows, count: data.count, pages });
       })
       .catch((err: any) => {
         Logger.Err(err);
@@ -124,7 +120,6 @@ export class PlanController {
   @Middleware([Passport.authenticate()])
   private create(req: Request, res: Response) {
     Logger.Info(`Creating new plan...`);
-    this.currentUser = req.user;
     const finish = function(planId: number) {
       this.findPlanById(planId)
         .then(plan => {
@@ -142,7 +137,7 @@ export class PlanController {
       deadline: req.body.deadline,
       description: req.body.description,
       progress: 0,
-      OrganizationId: this.currentUser.OrganizationId
+      OrganizationId: req.user.OrganizationId
     })
       .then(plan => {
         db.User.findByPk(req.body.CreatorId)
