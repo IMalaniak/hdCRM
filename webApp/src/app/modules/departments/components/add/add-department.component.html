@@ -1,0 +1,155 @@
+<section
+  content
+  class="app-content-box"
+  [title]="'Create a new department'"
+  [cssClass]="'bg-secondary border-0'"
+  [contentCssClass]="'bg-light'"
+  [headCssClass]="'text-white'"
+>
+  <div content class="row">
+    <div class="col-md-6">
+      <form class="d-flex flex-column" [formGroup]="departmentData">
+        <mat-form-field appearance="outline">
+          <mat-label i18n="@@addDepartmentComponentDetailsTitle">Title</mat-label>
+          <input matInput formControlName="title" type="text" required />
+          <mat-error
+            *ngIf="
+              departmentData.controls['title'].invalid &&
+              (departmentData.controls['title'].dirty || departmentData.controls['title'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="departmentData.controls['title'].errors.required"
+              i18n="@@addDepartmentComponentInputTitleErrorsRequired"
+            >
+              Title is required!
+            </mat-error>
+            <mat-error
+              *ngIf="departmentData.controls['title'].errors.maxlength"
+              i18n="@@addDepartmentComponentInputTitleErrorsMaxlenth"
+            >
+              Title is too long!
+            </mat-error>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label i18n="@@addDepartmentComponentDetailsDescription">Write a description</mat-label>
+          <textarea matInput formControlName="description" type="text" required></textarea>
+          <mat-error
+            *ngIf="
+              departmentData.controls['description'].invalid &&
+              (departmentData.controls['description'].dirty || departmentData.controls['description'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="departmentData.controls['description'].errors.required"
+              i18n="@@addDepartmentComponentInputDescriptionErrorsRequired"
+            >
+              Description is required!
+            </mat-error>
+            <mat-error
+              *ngIf="departmentData.controls['description'].errors.maxlength"
+              i18n="@@addDepartmentComponentInputDescriptionErrorsMaxlength"
+            >
+              Description is too long!
+            </mat-error>
+          </mat-error>
+        </mat-form-field>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <section
+        class="app-content-box"
+        [title]="'Manager'"
+        [cssClass]="'border border-secondary my-0'"
+        [contentCssClass]="'p-0'"
+        [disableShadow]="true"
+      >
+        <button buttons mat-stroked-button color="primary" class="crm-button" (click)="addManagerDialog()">
+          <fa-icon [icon]="['fas', 'user-plus']"></fa-icon
+          ><span i18n="@@addDepartmentComponentActionsAddManager">Add manager</span>
+        </button>
+        <mat-list content>
+          <mat-list-item *ngIf="department.Manager">
+            <img
+              matListAvatar
+              *ngIf="department.Manager.avatar"
+              src="{{ department.Manager.avatar.getThumbnailsUrl }}"
+              alt="{{ department.Manager.avatar.title }}"
+            />
+            <img
+              matListAvatar
+              *ngIf="!department.Manager.avatar"
+              src="./assets/images/userpic/noimage_croped.png"
+              alt="noimage"
+            />
+            <h3 matLine>{{ department.Manager.fullname }}</h3>
+          </mat-list-item>
+        </mat-list>
+      </section>
+    </div>
+  </div>
+  <div content class="row">
+    <div class="col-md-6">
+      <templates-box-user-list-sm
+        [users]="department.Workers"
+        title="Workers"
+        [editMode]="true"
+        (addClick)="addWorkersDialog()"
+        (removeClick)="removeWorker($event)"
+      ></templates-box-user-list-sm>
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-sm-6 col-md-12 col-lg-6">
+          <section
+            class="app-content-box"
+            [title]="'Parent department'"
+            [cssClass]="'border border-secondary mt-3 mb-0'"
+            [contentCssClass]="'p-0'"
+            [disableShadow]="true"
+          >
+            <button buttons mat-stroked-button color="primary" class="crm-button">
+              <fa-icon [icon]="['fas', 'plus']"></fa-icon
+              ><span i18n="@@addDepartmentComponentActionsAddParentDepartment">Add parent department</span>
+            </button>
+            <mat-list content>
+              <!-- <mat-list-item *ngIf="">
+                <h3 matLine>{{}}</h3>
+              </mat-list-item> -->
+            </mat-list>
+          </section>
+        </div>
+        <div class="col-sm-6 col-md-12 col-lg-6">
+          <section
+            class="app-content-box"
+            [title]="'Sub departments'"
+            [cssClass]="'border border-secondary mt-3 mb-0'"
+            [contentCssClass]="'p-0'"
+            [disableShadow]="true"
+            [counter]="department.SubDepartments.length"
+          >
+            <button buttons mat-stroked-button color="primary" class="crm-button">
+              <fa-icon [icon]="['fas', 'plus']"></fa-icon
+              ><span i18n="@@addDepartmentComponentActionsAddSubDepartments">Add sub departments</span>
+            </button>
+            <mat-list content>
+              <!-- <mat-list-item *ngIf="">
+                <h3 matLine>{{}}</h3>
+                <mat-divider></mat-divider>
+              </mat-list-item> -->
+            </mat-list>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+  <atoms-icon-button
+    buttons
+    (click)="onClickSubmit()"
+    [icon]="['fas', 'paper-plane']"
+    [disabled]="departmentData.invalid"
+  >
+    Submit
+  </atoms-icon-button>
+</section>

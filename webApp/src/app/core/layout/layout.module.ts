@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LayoutRoutingModule } from './layout-routing.module';
-import { PublicViewComponent, PrivateViewComponent } from './_view-components';
+import { PublicViewComponent, PrivateViewComponent } from './view-containers';
 import {
   BreadcrumbsComponent,
   HeaderComponent,
@@ -11,9 +11,9 @@ import {
   InternalServerErrorComponent,
   LeftSidebarComponent,
   RightSidebarComponent
-} from './_components';
-import { SharedModule } from '@/_shared/modules';
-import { MessageModule } from '@/_modules';
+} from './components';
+import { SharedModule } from '@/shared';
+import { MessageModule } from '@/modules';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import * as fromLayout from './store/layout.reducer';
@@ -39,9 +39,9 @@ import {
   faSms,
   faChevronRight
 } from '@fortawesome/free-solid-svg-icons';
-import * as fromUser from '@/_modules/users/store/user.reducer';
-import { UserEffects } from '@/_modules/users/store/user.effects';
-import { UserService } from '@/_modules/users';
+import * as fromUser from '@/modules/users/store/user.reducer';
+import { UserEffects } from '@/modules/users/store/user.effects';
+import { UserService } from '@/modules/users';
 
 @NgModule({
   imports: [

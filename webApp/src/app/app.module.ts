@@ -8,7 +8,7 @@ import { CoreModule } from './core/core.module';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 import { AppComponent } from './app.component';
-import { SocketService } from './_shared/services/socket.service';
+import { SocketService } from './shared';
 
 @NgModule({
   declarations: [AppComponent],

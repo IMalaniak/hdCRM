@@ -1,0 +1,58 @@
+<div class="company-logo" [ngClass]="{ minimized: leftSidebarMinimized }">
+  <img src="./assets/images/logo_big.png" alt="noimage" />
+  <div class="hamburger" (click)="toggleLeftSidebar()">
+    <label for="nav-check">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+  </div>
+</div>
+
+<app-breadcrumbs *ngIf="!mediaquery.isPhone"></app-breadcrumbs>
+
+<!-- <div class="user-search ml-auto">
+	<fa-icon [icon]="['fas', 'search']"></fa-icon>
+</div>
+
+<div class="user-question">
+	<fa-icon [icon]="['fas', 'question']"></fa-icon>
+</div> -->
+<div class="user-dropdown" *ngIf="currentUser">
+  <atoms-user-pic [avatar]="currentUser.avatar"></atoms-user-pic>
+
+  <section class="dropdown-content">
+    <section class="user-data">
+      <span>{{ currentUser.fullname }}</span>
+      <div class="user-roles d-flex justify-content-center" *ngIf="currentUser.Roles">
+        <span *ngFor="let role of currentUser.Roles">{{ role.keyString }}</span>
+      </div>
+
+      <div>
+        <atoms-icon-button matType="stroked" [routerLink]="['/users/myprofile']" [icon]="['fas', 'user']">
+          My Profile
+        </atoms-icon-button>
+        <atoms-icon-button matType="stroked" color="warn" (click)="onLogoutClick()" [icon]="['fas', 'user']">
+          Logout
+        </atoms-icon-button>
+      </div>
+    </section>
+
+    <!-- <section class="notifications-wrapper">
+			<div class="d-flex justify-content-between"><span>Notifications</span><fa-icon [icon]="['fas', 'cog']"></fa-icon></div>
+			<div>
+					<input class="notification-check" type="checkbox" id="size_1" value="small" checked />
+					<label class="notification new" for="size_1"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
+					<input class="notification-check" type="checkbox" id="size_2" value="small" checked />
+					<label class="notification new" for="size_2"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
+					<input class="notification-check" type="checkbox" id="size_3" value="small" checked />
+					<label class="notification new" for="size_3"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
+					<input class="notification-check" type="checkbox" id="size_4" value="small" checked />
+					<label class="notification new" for="size_4"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
+					<input class="notification-check" type="checkbox" id="size_5" value="small" checked />
+					<label class="notification new" for="size_5"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
+			</div>
+			<a mat-button class="crm-button" [routerLink]="['/users/myprofile']"><span i18n="@@headerComponentUserDropdownActionsNotificationsMore">Show more</span></a>
+		</section> -->
+  </section>
+</div>

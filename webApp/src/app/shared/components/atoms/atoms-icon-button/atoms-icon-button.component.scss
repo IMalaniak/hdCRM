@@ -1,0 +1,42 @@
+@import 'variables';
+@import 'mixins';
+@import '~bootstrap/scss/mixins/breakpoints';
+
+.crm-button {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: block;
+
+  .mat-button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  fa-icon {
+    margin-right: 0.8em;
+
+    @include media-breakpoint-down(sm) {
+      margin-right: 0;
+      font-size: 1.25em;
+
+      + span {
+        display: none;
+      }
+    }
+
+    + span {
+      &:before {
+        content: '';
+        display: inline;
+        border-left: 1px solid;
+        margin-right: 0.6em;
+
+        @include media-breakpoint-down(sm) {
+          display: none;
+        }
+      }
+    }
+  }
+}

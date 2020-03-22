@@ -1,0 +1,247 @@
+<section class="row">
+  <section
+    class="app-content-box col-md-8"
+    [title]="'Stages'"
+    *ngIf="plan && plan.Stages"
+    [showDataLoader]=""
+    [cssClass]="'bg-secondary border-0 mb-3 mb-md-0'"
+    [contentCssClass]="'bg-light p-0'"
+    [headCssClass]="'text-white'"
+  >
+    <div content class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div
+            cdkDropList
+            cdkDropListOrientation="horizontal"
+            class="list-group stages-wrapper py-3"
+            (cdkDropListDropped)="dragDropStages($event)"
+            [cdkDropListDisabled]="!configPlanStages"
+          >
+            <div
+              *ngFor="let stage of plan.Stages"
+              class="stages-item"
+              [ngClass]="{
+                active: stage.id === plan.activeStageId,
+                passed: stage.Details.completed
+              }"
+              matTooltip="{{ stage.Details.description }}"
+              cdkDrag
+            >
+              <span>{{ stage.keyString | uppercase }}</span>
+            </div>
+            <div
+              *ngIf="configPlanStages"
+              class="stages-item addStage"
+              (click)="addStageDialog()"
+              i18n="@@globalStagesAddStage"
+            >
+              Add stage
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div buttons *ngIf="canEditPlan$ | async">
+      <atoms-icon-button *ngIf="!configPlanStages" (click)="onClickConfigureStages()" [icon]="['fas', 'cog']">
+        Configure stages
+      </atoms-icon-button>
+      <atoms-icon-button *ngIf="configPlanStages" [swal]="onUpdatePlanStagesSubmit" [icon]="['fas', 'save']">
+        Save
+      </atoms-icon-button>
+      <atoms-icon-button
+        *ngIf="configPlanStages"
+        (click)="onClickCancelEditStages()"
+        [icon]="['fas', 'times']"
+        color="basic"
+      >
+        Cancel
+      </atoms-icon-button>
+    </div>
+  </section>
+  <section
+    class="app-content-box col-md-4"
+    [title]="'Actions'"
+    [cssClass]="'bg-secondary border-0 my-0 mt-md-3'"
+    *ngIf="plan"
+    [contentCssClass]="'bg-light p-0'"
+    [headCssClass]="'text-white'"
+  >
+    <div content class="d-flex p-3" *ngIf="canEditPlan$ | async">
+      <atoms-icon-button
+        [swal]="goToNextStageSwal"
+        [icon]="plan.activeStage.keyString === 'finished' ? ['fas', 'check'] : ['fas', 'arrow-right']"
+        matType="stroked"
+      >
+        {{ plan.activeStage.keyString === 'finished' ? 'Finish plan' : 'Go to next stage' }}
+      </atoms-icon-button>
+    </div>
+  </section>
+</section>
+<section
+  class="app-content-box plan-details"
+  [title]="'Details'"
+  *ngIf="plan"
+  [showDataLoader]=""
+  [cssClass]="'bg-secondary border-0'"
+  [contentCssClass]="'bg-light'"
+  [headCssClass]="'text-white'"
+>
+  <div content class="row">
+    <div class="col-md-8">
+      <section
+        class="app-content-box"
+        [title]="'Plan details'"
+        [cssClass]="'border border-secondary m-0'"
+        [contentCssClass]="'p-0'"
+        [disableShadow]="true"
+      >
+        <mat-list content class="w-100" *ngIf="!editForm">
+          <mat-list-item>
+            <section>
+              <div>
+                <span i18n="@@planСomponentDetailsTitle">Title:</span>
+              </div>
+              <div>
+                <span>{{ plan.title }}</span>
+              </div>
+            </section>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <section>
+              <div>
+                <span i18n="@@planСomponentDetailsDateBudget">Budget:</span>
+              </div>
+              <div>
+                <span>{{ plan.budget | currency }}</span>
+              </div>
+            </section>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <section>
+              <div>
+                <span i18n="@@planСomponentDetailsDateDeadline">Deadline:</span>
+              </div>
+              <div>
+                <span>{{ plan.deadline | date: 'short' }}</span>
+              </div>
+            </section>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <section>
+              <div>
+                <span i18n="@@planСomponentDetailsDateCreated">Date created:</span>
+              </div>
+              <div>
+                <span>{{ plan.createdAt | date: 'short' }}</span>
+              </div>
+            </section>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <section>
+              <div>
+                <span i18n="@@planСomponentDetailsDateUpdated">Date updated:</span>
+              </div>
+              <div>
+                <span>{{ plan.updatedAt | date: 'short' }}</span>
+              </div>
+            </section>
+          </mat-list-item>
+        </mat-list>
+        <form content class="d-flex flex-column p-3" *ngIf="editForm">
+          <mat-form-field appearance="outline">
+            <mat-label i18n="@@planComponentDetailsTitle">Title</mat-label>
+            <input matInput [(ngModel)]="plan.title" name="title" type="text" required />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label i18n="@@planComponentDetailsBudget">Title</mat-label>
+            <input matInput [(ngModel)]="plan.budget" name="budget" type="text" required />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label i18n="@@planComponentDetailsDescription">Write a description</mat-label>
+            <textarea matInput [(ngModel)]="plan.description" name="description" type="text" required></textarea>
+          </mat-form-field>
+          <mat-form-field color="primary" appearance="outline">
+            <mat-label i18n="@@planComponentDetailsDeadline">Deadline</mat-label>
+            <input
+              matInput
+              [min]="plan.createdAt"
+              [matDatepicker]="picker"
+              [(ngModel)]="plan.deadline"
+              type="datetime"
+              name="deadline"
+              required
+            />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #picker></mat-datepicker>
+          </mat-form-field>
+        </form>
+      </section>
+    </div>
+    <div class="col-md-4">
+      <templates-box-user-list-sm
+        [users]="plan.Participants"
+        title="Participants"
+        [editMode]="editForm"
+        (addClick)="addParticipantDialog()"
+        (removeClick)="removeParticipant($event)"
+      ></templates-box-user-list-sm>
+    </div>
+  </div>
+  <div buttons *ngIf="canEditPlan$ | async">
+    <atoms-icon-button *ngIf="!editForm" (click)="onClickEdit()" [icon]="['fas', 'edit']">
+      Edit
+    </atoms-icon-button>
+    <atoms-icon-button *ngIf="editForm" [swal]="updatePlanSwal" [icon]="['fas', 'save']">
+      Save
+    </atoms-icon-button>
+    <atoms-icon-button *ngIf="editForm" (click)="onClickCancelEdit()" [icon]="['fas', 'times']" color="basic">
+      Cancel
+    </atoms-icon-button>
+  </div>
+</section>
+
+<app-attachments
+  [attachments]="plan.Documents"
+  [apiUrl]="'/plans/documents/' + plan.id"
+  [editForm]="editForm"
+  (deleteFileCall)="deleteDoc($event)"
+  (addFileCall)="addDoc($event)"
+></app-attachments>
+
+<swal
+  #onUpdatePlanStagesSubmit
+  title="You are about to save stages configuration."
+  text="Are you sure you want update stages configuration?"
+  icon="question"
+  [showCancelButton]="true"
+  (confirm)="updatePlanStages()"
+  [swalOptions]="{ confirmButtonText: 'OK', cancelButtonText: 'Cancel' }"
+>
+</swal>
+
+<swal
+  #goToNextStageSwal
+  title="You are about to pass stage."
+  text="Are you sure you want to go to next plan stage?"
+  icon="question"
+  [showCancelButton]="true"
+  (confirm)="goToNextStage()"
+  [swalOptions]="{ confirmButtonText: 'OK', cancelButtonText: 'Cancel' }"
+>
+</swal>
+
+<swal
+  #updatePlanSwal
+  title="You are about to update plan"
+  text="Are you sure you want to update plan details?"
+  icon="question"
+  [showCancelButton]="true"
+  (confirm)="updatePlan()"
+  [swalOptions]="{ confirmButtonText: 'OK', cancelButtonText: 'Cancel' }"
+>
+</swal>

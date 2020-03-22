@@ -1,0 +1,13 @@
+@import 'variables';
+@import 'mixins';
+
+.userpic {
+  max-height: crmsize(userpic, null, true);
+  max-width: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+
+  .list-group-item & {
+    margin-right: crmsize(spacer, null, true);
+  }
+}

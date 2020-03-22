@@ -13,13 +13,12 @@ import { EnsureModuleLoadedOnceGuard } from './ensureModuleLoadedOnceGuard';
 
 import { httpInterceptorsProviders } from './_interceptors';
 
-import { ValidateService, MediaqueryService, LocalStorageService } from '@/_shared/services';
+import { ValidateService, MediaqueryService, LocalStorageService, CustomSerializer } from '@/shared';
 
 import { AuthModule } from './auth/auth.module';
 import { LayoutModule } from './layout/layout.module';
 
 import { reducers, metaReducers } from './reducers';
-import { CustomSerializer } from '@/_shared/utils';
 
 import { environment } from 'environments/environment';
 

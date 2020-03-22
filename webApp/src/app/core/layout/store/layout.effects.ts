@@ -3,7 +3,7 @@ import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { defer, of } from 'rxjs';
 import * as layoutActions from './layout.actions';
 import { switchMap, map } from 'rxjs/operators';
-import { LocalStorageService } from '@/_shared/services/local-storage.service';
+import { LocalStorageService } from '@/shared';
 
 @Injectable()
 export class LayoutEffects {
