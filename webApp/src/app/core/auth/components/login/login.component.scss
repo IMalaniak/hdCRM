@@ -134,7 +134,7 @@
       padding: 0 2em;
     }
 
-    button {
+    atoms-icon-button {
       margin-top: 3em;
       width: fit-content;
       @include media-breakpoint-up(md) {

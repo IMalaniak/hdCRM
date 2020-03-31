@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'atoms-icon-button',
@@ -16,6 +16,8 @@ export class AtomsIconButtonComponent implements OnInit {
   @Input() type = 'button';
   @Input() matType = 'raised';
   @Input() disabled = false;
+
+  @HostBinding('class.d-inline-block') displayInline = true;
 
   constructor() {}
 

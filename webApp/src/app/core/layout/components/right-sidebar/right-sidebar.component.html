@@ -1,34 +1,6 @@
 <div class="sidebar-wrapper">
   <div class="sidebar-content">
-    <div class="users-block" *ngIf="onlineUsers$ | async">
-      <div class="header-block">
-        <h5
-          i18n="@@rightSidebarComponentUsersOnlineHeaderTitle"
-          class="header-title"
-          matBadge="{{ (onlineUsers$ | async).length }}"
-          matBadgeOverlap="false"
-        >
-          Users online
-        </h5>
-      </div>
-      <ul *ngFor="let user of onlineUsers$ | async">
-        <li>
-          <div class="position-relative">
-            <img
-              class="userpic"
-              *ngIf="user.avatar"
-              src="{{ user.avatar.getThumbnailsUrl }}"
-              alt="{{ user.avatar.title }}"
-            />
-            <img class="userpic" *ngIf="!user.avatar" src="./assets/images/userpic/noimage_croped.png" alt="noimage" />
-            <span class="bg-success" [ngClass]="{ 'user-status-icon': user.online }"></span>
-          </div>
-          <div class="user-info">
-            <span class="user-fullname">{{ user.name + ' ' + user.surname }}</span>
-          </div>
-        </li>
-      </ul>
-    </div>
+    <templates-box-user-list-sm *ngIf="(onlineUsers$ | async).length>0" [users]="onlineUsers$ | async" title="Users online" boxCss="border-0 mt-3 mt-sm-0"></templates-box-user-list-sm>
   </div>
   <div class="btn-wrapper">
     <div class="btn-expand-wrapper" (click)="toggleRightSidebar()">

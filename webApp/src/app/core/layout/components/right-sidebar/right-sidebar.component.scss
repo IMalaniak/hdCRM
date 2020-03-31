@@ -45,63 +45,6 @@ app-right-sidebar {
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-
-    > .users-block {
-      display: flex;
-      flex-direction: column;
-
-      > .header-block {
-        @include crm-bgcolor('layout', 'milk');
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        height: crmsize(header, height, true);
-
-        > .header-title {
-          font-size: 1em;
-          text-transform: uppercase;
-          margin: 0 0 0 1.2em;
-
-          &.mat-badge-medium .mat-badge-content {
-            width: 19px;
-            height: 19px;
-            line-height: 19px;
-            top: 0;
-            right: -2em;
-          }
-        }
-      }
-
-      > ul {
-        padding-left: 1.2em;
-        margin-bottom: 1.4rem;
-
-        &:first-of-type {
-          margin-top: 1.4em;
-        }
-
-        > li {
-          display: flex;
-          flex-direction: row;
-
-          .userpic {
-            max-height: 2.3rem;
-          }
-
-          .user-info {
-            display: flex;
-            align-items: center;
-            margin-left: 0.8em;
-
-            > .user-fullname {
-              line-height: 1;
-              font-size: 0.95em;
-              font-weight: 400;
-            }
-          }
-        }
-      }
-    }
   }
 
   > .btn-wrapper {

@@ -7,8 +7,8 @@ import { User } from '@/modules/users';
     <section
       class="app-content-box"
       [title]="title"
-      [cssClass]="'border border-secondary mt-3 mt-sm-0'"
-      [contentCssClass]="'p-0'"
+      [cssClass]="boxCss"
+      contentCssClass="p-0"
       [disableShadow]="true"
       [counter]="users.length"
     >
@@ -25,6 +25,7 @@ export class TemplatesBoxUserListSmComponent implements OnInit {
   @Input() title: string;
   @Output() addClick = new EventEmitter();
   @Output() removeClick = new EventEmitter();
+  @Input() boxCss = 'border border-secondary mt-3 mt-sm-0';
 
   constructor() {}
 

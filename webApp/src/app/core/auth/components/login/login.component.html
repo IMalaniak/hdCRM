@@ -36,26 +36,23 @@
                 <!-- TODO FA-ICON -->
               </mat-form-field>
               <div class="d-flex flex-row justify-content-between align-items-center">
-                <button
-                  mat-button
+                <atoms-icon-button
+                  color="basic"
+                  [matType]="flat"
                   type="button"
                   class="text-muted"
                   routerLink="/auth/request-new-password/"
-                  i18n="@@loginComponentActionsForgotYourPassword"
                 >
                   Forgot password?
-                </button>
-                <button
-                  mat-raised-button
-                  color="primary"
-                  class="crm-button"
+                </atoms-icon-button>
+
+                <atoms-icon-button
                   type="submit"
                   [disabled]="isLoading$ | async"
+                  [icon]="!(isLoading$ | async) ? ['fas', 'key'] : ['fas', 'ban']"
                 >
-                  <fa-icon *ngIf="!(isLoading$ | async)" [icon]="['fas', 'key']"></fa-icon>
-                  <fa-icon *ngIf="isLoading$ | async" [icon]="['fas', 'ban']"></fa-icon>
-                  <span i18n="@@loginComponentFormActionsLogIn">Login</span>
-                </button>
+                  Login
+                </atoms-icon-button>
               </div>
               <!-- <div class="separator-wrapper my-4">
                 <div class="line"></div>
@@ -104,19 +101,12 @@
                 <input matInput [(ngModel)]="user.login" type="text" autocomplete="username" name="login" required />
               </mat-form-field>
               <div class="d-flex justify-content-between">
-                <button mat-raised-button class="crm-button mr-1" type="reset" routerLink="/auth/login">
-                  <fa-icon [icon]="['fas', 'times']"></fa-icon><span i18n="@@globalActionsCancelEdit">Cancel</span>
-                </button>
-                <button
-                  mat-raised-button
-                  color="primary"
-                  class="crm-button ml-1"
-                  type="submit"
-                  [disabled]="isLoading$ | async"
-                >
-                  <fa-icon [icon]="['fas', 'arrow-right']"></fa-icon
-                  ><span i18n="@@loginComponentActionsResetPassword">Reset password</span>
-                </button>
+                <atoms-icon-button color="basic" type="reset" routerLink="/auth/login" [icon]="['fas', 'times']">
+                  Cancel
+                </atoms-icon-button>
+                <atoms-icon-button type="submit" [disabled]="isLoading$ | async" [icon]="['fas', 'arrow-right']">
+                  Reset password
+                </atoms-icon-button>
               </div>
             </mat-card-content>
           </mat-card>
@@ -192,19 +182,13 @@
                 </mat-error>
               </mat-form-field>
               <div class="d-flex flex-row justify-content-between mt-1">
-                <button mat-stroked-button class="crm-button mr-1" routerLink="/auth/login">
-                  <fa-icon [icon]="['fas', 'times']"></fa-icon><span i18n="@@globalActionsCancelEdit">Cancel</span>
-                </button>
-                <button
-                  mat-raised-button
-                  color="primary"
-                  type="submit"
-                  class="crm-button ml-1"
-                  [disabled]="newPasswordForm.invalid"
-                >
-                  <fa-icon [icon]="['fas', 'check']"></fa-icon
-                  ><span i18n="@@loginComponentFormActionsSubmit">Submit</span>
-                </button>
+                <atoms-icon-button color="basic" type="reset" routerLink="/auth/login" [icon]="['fas', 'times']">
+                  Cancel
+                </atoms-icon-button>
+
+                <atoms-icon-button type="submit" [disabled]="newPasswordForm.invalid" [icon]="['fas', 'check']">
+                  Submit
+                </atoms-icon-button>
               </div>
             </mat-card-content>
           </mat-card>
@@ -249,10 +233,10 @@
         <div class="d-flex flex-column text-white">
           <h2>New to HDCRM?</h2>
           <p>Create an account and do management.</p>
-          <button mat-raised-button color="primary" class="crm-button" [routerLink]="['/auth/register']">
-            <fa-icon [icon]="['fas', 'arrow-right']"></fa-icon
-            ><span i18n="@@loginComponentActionsCreateAnAccount">Create an account</span>
-          </button>
+
+          <atoms-icon-button [routerLink]="['/auth/register']" [icon]="['fas', 'arrow-right']">
+            Create an account
+          </atoms-icon-button>
         </div>
       </div>
     </div>

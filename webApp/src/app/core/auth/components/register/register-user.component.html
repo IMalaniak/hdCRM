@@ -105,10 +105,9 @@
                     </div>
                   </div>
                   <div class="d-flex justify-content-end pt-3">
-                    <button mat-stroked-button matStepperNext color="primary" class="crm-button" type="button">
-                      <fa-icon [icon]="['fas', 'arrow-right']"></fa-icon
-                      ><span i18n="@@registerUserComponentStepperActionsNext">Next</span>
-                    </button>
+                    <atoms-icon-button matType="stroked" type="button" (click)="stepper.next()" [icon]="['fas', 'arrow-right']">
+                      Next
+                    </atoms-icon-button>
                   </div>
                 </mat-step>
                 <mat-step formGroupName="1" [stepControl]="formArray?.get([1])">
@@ -178,14 +177,12 @@
                     </div>
                   </div>
                   <div class="d-flex justify-content-between">
-                    <button mat-stroked-button matStepperPrevious class="crm-button" type="button">
-                      <fa-icon [icon]="['fas', 'arrow-left']"></fa-icon
-                      ><span i18n="@@registerUserComponentStepperActionsBack">Back</span>
-                    </button>
-                    <button mat-stroked-button matStepperNext color="primary" class="crm-button" type="button">
-                      <fa-icon [icon]="['fas', 'arrow-right']"></fa-icon
-                      ><span i18n="@@registerUserComponentStepperActionsNext">Next</span>
-                    </button>
+                    <atoms-icon-button matType="stroked" (click)="stepper.previous()" [icon]="['fas', 'arrow-left']">
+                      Back
+                    </atoms-icon-button>
+                    <atoms-icon-button matType="stroked" (click)="stepper.next()" [icon]="['fas', 'arrow-right']">
+                      Next
+                    </atoms-icon-button>
                   </div>
                 </mat-step>
                 <mat-step formGroupName="2" [stepControl]="formArray?.get([2])">
@@ -314,28 +311,28 @@
                     </mat-accordion>
                   </div>
                   <div class="d-flex justify-content-between">
-                    <button mat-stroked-button matStepperPrevious class="crm-button" type="button">
-                      <fa-icon [icon]="['fas', 'arrow-left']"></fa-icon
-                      ><span i18n="@@registerUserComponentStepperActionsBack">Back</span>
-                    </button>
-                    <button mat-stroked-button color="warn" class="crm-button" (click)="stepper.reset()" type="button">
-                      <fa-icon [icon]="['fas', 'trash-alt']"></fa-icon
-                      ><span i18n="@@registerUserComponentStepperActionsResetAll">Reset all</span>
-                    </button>
+                    <atoms-icon-button matType="stroked" (click)="stepper.previous()" [icon]="['fas', 'arrow-left']">
+                      Back
+                    </atoms-icon-button>
+                    <atoms-icon-button
+                      matType="stroked"
+                      color="warn"
+                      (click)="stepper.reset()"
+                      [icon]="['fas', 'trash-alt']"
+                    >
+                      Reset all
+                    </atoms-icon-button>
                   </div>
                 </mat-step>
               </mat-vertical-stepper>
               <div class="d-flex justify-content-end btn-register">
-                <button
-                  mat-raised-button
-                  color="primary"
-                  class="crm-button"
+                <atoms-icon-button
                   [disabled]="userData.invalid || submitDisabled"
                   (click)="onRegisterSubmit()"
+                  [icon]="['fas', 'paper-plane']"
                 >
-                  <fa-icon [icon]="['fas', 'paper-plane']"></fa-icon>
-                  <span i18n="@@registerUserComponentStepperActionsSubmit">Submit</span>
-                </button>
+                  Submit
+                </atoms-icon-button>
               </div>
             </mat-card-content>
           </mat-card>
@@ -345,10 +342,9 @@
         <div class="d-flex flex-column text-white">
           <h2>Already registered?</h2>
           <p>Instantly go back into your HDCRM dashboard below.</p>
-          <button mat-raised-button color="primary" class="crm-button" [routerLink]="['/auth/login']">
-            <fa-icon [icon]="['fas', 'arrow-right']"></fa-icon
-            ><span i18n="@@loginComponentActionsGoToLogin">Log in</span>
-          </button>
+          <atoms-icon-button [routerLink]="['/auth/login']" [icon]="['fas', 'arrow-right']">
+            Log in
+          </atoms-icon-button>
         </div>
       </div>
     </div>

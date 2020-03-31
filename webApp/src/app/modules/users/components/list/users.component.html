@@ -74,7 +74,7 @@
       <ng-container matColumnDef="avatar">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let user">
-          <atoms-user-pic [avatar]="user.avatar"></atoms-user-pic>
+          <atoms-user-pic [avatar]="user.avatar" [userOnline]="user.online"></atoms-user-pic>
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="login">
