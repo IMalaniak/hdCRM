@@ -1,21 +1,18 @@
-import * as _atoms from './components/atoms';
-import * as _molecules from './components/molecules';
-import * as _organisms from './components/organisms';
-import * as _templates from './components/templates';
+import * as _components from './components';
 
 const ATOMS = [
-    _atoms.AtomsIconButtonComponent,
-    _atoms.AtomsUserPicComponent
+    _components.AtomsIconButtonComponent,
+    _components.AtomsUserPicComponent
 ];
 const MOLECULES = [
-    _molecules.MoleculesUserListSmItemComponent
+    _components.MoleculesUserListSmItemComponent
 ];
 const ORGANISMS = [
-    _organisms.ContentBoxComponent,
-    _organisms.OrganismsUserListSmComponent
+    _components.ContentBoxComponent,
+    _components.OrganismsUserListSmComponent
 ];
 const TEMPLATES = [
-    _templates.TemplatesBoxUserListSmComponent
+    _components.TemplatesBoxUserListSmComponent
 ];
 
 export const COMPONENTS = [...ATOMS, ...MOLECULES, ...ORGANISMS, ...TEMPLATES];
