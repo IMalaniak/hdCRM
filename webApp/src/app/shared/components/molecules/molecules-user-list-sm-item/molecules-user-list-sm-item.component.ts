@@ -12,8 +12,7 @@ import { User } from '@/modules/users/models';
       <fa-icon *ngIf="editMode" [icon]="['fas', 'trash']" class="text-danger cursor-pointer" (click)="onRemoveClick(user.id)"></fa-icon>
       <mat-divider></mat-divider>
     </mat-list-item>
-  `,
-  styleUrls: ['./molecules-user-list-sm-item.component.scss']
+  `
 })
 export class MoleculesUserListSmItemComponent implements OnInit {
   @Input() user: User;

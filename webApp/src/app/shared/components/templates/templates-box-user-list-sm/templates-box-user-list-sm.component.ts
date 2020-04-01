@@ -16,8 +16,7 @@ import { User } from '@/modules/users';
 
       <organisms-user-list-sm content [editMode]="editMode" [users]="users" (removeClick)="onRemoveClick($event)"></organisms-user-list-sm>
     </section>
-  `,
-  styleUrls: ['./templates-box-user-list-sm.component.scss']
+  `
 })
 export class TemplatesBoxUserListSmComponent implements OnInit {
   @Input() editMode = false;

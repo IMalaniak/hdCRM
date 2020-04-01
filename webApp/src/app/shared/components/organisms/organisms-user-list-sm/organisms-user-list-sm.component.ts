@@ -7,8 +7,7 @@ import { User } from '@/modules/users';
     <mat-list>
       <molecules-user-list-sm-item *ngFor="let user of users" [editMode]="editMode" [user]="user" (removeClick)="onRemoveClick($event)"></molecules-user-list-sm-item>
     </mat-list>
-  `,
-  styleUrls: ['./organisms-user-list-sm.component.scss']
+  `
 })
 export class OrganismsUserListSmComponent implements OnInit {
   @Input() editMode = false;
