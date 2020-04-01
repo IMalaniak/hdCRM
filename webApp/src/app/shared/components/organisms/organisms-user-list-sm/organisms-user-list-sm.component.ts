@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { User } from '@/modules/users';
 
 @Component({
@@ -9,14 +9,12 @@ import { User } from '@/modules/users';
     </mat-list>
   `
 })
-export class OrganismsUserListSmComponent implements OnInit {
+export class OrganismsUserListSmComponent {
   @Input() editMode = false;
   @Input() users: User[];
   @Output() removeClick = new EventEmitter();
 
   constructor() {}
-
-  ngOnInit(): void {}
 
   onRemoveClick(id: number) {
     this.removeClick.emit(id);

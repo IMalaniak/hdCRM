@@ -1,6 +1,4 @@
-import { Component, OnInit, Input, ContentChild, ElementRef, ViewEncapsulation } from '@angular/core';
-
-import { Observable } from 'rxjs';
+import { Component, Input, ContentChild, ElementRef, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: '.app-content-box',
@@ -8,7 +6,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./content-box.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ContentBoxComponent implements OnInit {
+export class ContentBoxComponent {
   @Input() title: string;
   @Input() cssClass: string;
   @Input() contentCssClass: string;
@@ -23,5 +21,4 @@ export class ContentBoxComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
 }

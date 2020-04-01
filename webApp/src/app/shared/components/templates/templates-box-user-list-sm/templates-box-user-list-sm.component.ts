@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { User } from '@/modules/users';
 
 @Component({
@@ -18,7 +18,7 @@ import { User } from '@/modules/users';
     </section>
   `
 })
-export class TemplatesBoxUserListSmComponent implements OnInit {
+export class TemplatesBoxUserListSmComponent {
   @Input() editMode = false;
   @Input() users: User[];
   @Input() title: string;
@@ -27,8 +27,6 @@ export class TemplatesBoxUserListSmComponent implements OnInit {
   @Input() boxCss = 'border border-secondary mt-3 mt-sm-0';
 
   constructor() {}
-
-  ngOnInit(): void {}
 
   onAddClick() {
     this.addClick.emit();

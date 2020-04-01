@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostBinding } from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'atoms-icon-button',
@@ -10,7 +10,7 @@ import { Component, OnInit, Input, HostBinding } from '@angular/core';
   `,
   styleUrls: ['./atoms-icon-button.component.scss']
 })
-export class AtomsIconButtonComponent implements OnInit {
+export class AtomsIconButtonComponent {
   @Input() color = 'primary';
   @Input() icon: string;
   @Input() type = 'button';
@@ -20,6 +20,4 @@ export class AtomsIconButtonComponent implements OnInit {
   @HostBinding('class.d-inline-block') displayInline = true;
 
   constructor() {}
-
-  ngOnInit(): void {}
 }
