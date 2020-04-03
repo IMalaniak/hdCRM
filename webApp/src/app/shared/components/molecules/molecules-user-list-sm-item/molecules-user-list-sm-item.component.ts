@@ -7,7 +7,7 @@ import { User } from '@/modules/users/models';
     <mat-list-item>
       <atoms-user-pic matListAvatar [avatar]="user.avatar" [userOnline]="user.online"></atoms-user-pic>
       <h3 matLine>
-        <a href="#">{{ user.fullname }}</a>
+        <a [routerLink]="['/users/details/', user.id]">{{ user.fullname }}</a>
       </h3>
       <fa-icon *ngIf="editMode" [icon]="['fas', 'trash']" class="text-danger cursor-pointer" (click)="onRemoveClick(user.id)"></fa-icon>
       <mat-divider></mat-divider>

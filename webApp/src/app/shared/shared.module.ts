@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { AppMaterialModule } from './modules/app-material.module';
 import { AttachmentsModule } from './modules/attachments/attachments.module';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -24,7 +25,7 @@ import {
 import { COMPONENTS } from './imports';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, AppMaterialModule, FontAwesomeModule, AttachmentsModule],
+  imports: [CommonModule, FormsModule, RouterModule, AppMaterialModule, FontAwesomeModule, AttachmentsModule],
   declarations: [...COMPONENTS],
   exports: [...COMPONENTS, AppMaterialModule]
 })
