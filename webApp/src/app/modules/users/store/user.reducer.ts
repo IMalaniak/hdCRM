@@ -7,6 +7,7 @@ export interface UsersState extends EntityState<User> {
   allUsersLoaded: boolean;
   error: string;
   loading: boolean;
+  editing: boolean;
   pages: number;
   countAll: number;
 }
@@ -28,12 +29,17 @@ const initialState: UsersState = adapter.getInitialState({
   allUsersLoaded: false,
   error: null,
   loading: false,
+  editing: false,
   pages: null,
   countAll: null
 });
 
 const usersReducer = createReducer(
   initialState,
+  on(UserActions.changeIsEditingState, (state, { isEditing }) => ({
+    ...state,
+    editing: isEditing
+  })),
   on(UserActions.userLoaded, (state, { user }) => adapter.addOne(user, state)),
   on(UserActions.listPageRequested, state => ({ ...state, loading: true })),
   on(UserActions.listPageLoaded, (state, { response }) =>
@@ -62,7 +68,11 @@ const usersReducer = createReducer(
       ...state
     })
   ),
-  on(UserActions.userSaved, (state, { user }) => adapter.updateOne(user, state)),
+  on(UserActions.updateUserRequested, state => ({ ...state, loading: true })),
+  on(UserActions.updateUserCancelled, state => ({ ...state, loading: false })), // TODO: show error
+  on(UserActions.updateUserSuccess, (state, { user }) =>
+    adapter.updateOne(user, { ...state, loading: false, editing: false })
+  ),
   on(UserActions.deleteUser, (state, { id }) =>
     adapter.removeOne(id, {
       ...state,

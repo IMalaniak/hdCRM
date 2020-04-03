@@ -49,15 +49,17 @@
     </p>
   </section>
 
-  <div content *ngIf="uploaderVisible">
-    <file-pond #uploader [options]="uploaderOptions"></file-pond>
-  </div>
+  <app-uploader-list content *ngIf="uploaderVisible"
+    [url]="apiUrl"
+    (deleteFileCall)="handleDeleteFile($event)"
+    (addFileCall)="handleAddFile($event)"
+  ></app-uploader-list>
 
   <div buttons>
     <atoms-icon-button *ngIf="!uploaderVisible" (click)="onClickAddFiles()" [icon]="['fas', 'folder-plus']">
       Add files
     </atoms-icon-button>
-    <atoms-icon-button *ngIf="uploaderVisible" (click)="onClickAddFilesDone()" [icon]="['fas', 'check']">
+    <atoms-icon-button color="basic" *ngIf="uploaderVisible" (click)="onClickAddFilesDone()" [icon]="['fas', 'check']">
       Done
     </atoms-icon-button>
   </div>

@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { Asset, TempAddedAsset } from '@/shared';
-import { AttachmentService } from '../../services';
+import { Asset, TempAddedAsset } from '@/shared/models';
 import { environment } from 'environments/environment';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
@@ -8,30 +7,23 @@ import { getToken } from '@/core/auth/store/auth.selectors';
 import { FilePond } from 'filepond';
 
 @Component({
-  selector: 'app-attachments',
-  templateUrl: './attachments.component.html',
-  styleUrls: ['./attachments.component.scss']
+  selector: 'app-uploader-list',
+  template: `
+    <file-pond #uploader [options]="uploaderOptions"></file-pond>
+  `,
+  styleUrls: ['./uploader-list.component.scss']
 })
-export class AttachmentsComponent implements OnInit {
+export class UploaderListComponent implements OnInit {
   @ViewChild('uploader') uploader: FilePond;
-  @Input() attachments: Asset[];
-  @Input() apiUrl: string;
-  @Input() editForm: boolean;
-  @Output() deleteFileCall: EventEmitter<any> = new EventEmitter();
+  @Input() url: string;
   @Output() addFileCall: EventEmitter<any> = new EventEmitter();
-  displayedColumns: string[] = ['icon', 'title', 'type', 'createdAt', 'updatedAt', 'actions'];
   uploaderOptions: any; // TODO FilePondOptionProps
   token: string;
   tempFiles: TempAddedAsset[] = [];
-  uploaderVisible = false;
 
-  constructor(private attachmentService: AttachmentService, private store$: Store<AppState>) {}
+  constructor(private store$: Store<AppState>) {}
 
   ngOnInit() {
-    if (!this.attachments) {
-      this.attachments = [];
-    }
-
     this.store$.pipe(select(getToken)).subscribe(token => {
       this.token = token;
     });
@@ -39,9 +31,9 @@ export class AttachmentsComponent implements OnInit {
     this.uploaderOptions = {
       name: 'uploader',
       server: {
-        url: environment.baseUrl,
+        url: environment.apiUrl,
         process: {
-          url: this.apiUrl,
+          url: this.url,
           headers: {
             Authorization: this.token
           },
@@ -87,37 +79,5 @@ export class AttachmentsComponent implements OnInit {
     }, 3000);
   }
 
-  fileTypeIcon(file: string): string {
-    return `file${this.attachmentService.getIcon(file)}`;
-  }
 
-  downloadFile(fileId: number, filename: string = null): void {
-    this.attachmentService.download(fileId).subscribe((response: any) => {
-      console.log(response);
-      const dataType = response.type;
-      const binaryData = [];
-      binaryData.push(response);
-      const downloadLink = document.createElement('a');
-      downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, { type: dataType }));
-      if (filename) {
-        downloadLink.setAttribute('download', filename);
-      }
-      downloadLink.setAttribute('target', '_blank');
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      downloadLink.remove();
-    });
-  }
-
-  handleDeleteFile(id: number): void {
-    this.deleteFileCall.emit(id);
-  }
-
-  onClickAddFiles(): void {
-    this.uploaderVisible = true;
-  }
-
-  onClickAddFilesDone(): void {
-    this.uploaderVisible = false;
-  }
 }

@@ -3,11 +3,15 @@ import { User, UserServerResponse } from '../models';
 import { Update } from '@ngrx/entity';
 import { PageQuery } from '@/shared';
 
+export const changeIsEditingState = createAction('[User Details] Change Is Editing State', props<{ isEditing: boolean }>());
+
 export const userRequested = createAction('[User Details] User Requested', props<{ id: number }>());
 
 export const userLoaded = createAction('[Users API] User Loaded', props<{ user: User }>());
 
-export const userSaved = createAction('[User Details] User Changes Saved', props<{ user: Update<User> }>());
+export const updateUserRequested = createAction('[User Details] Update User Requested', props<{ user: User }>());
+export const updateUserCancelled = createAction('[Users API] Update User Cancelled');
+export const updateUserSuccess = createAction('[User API] Update User Success', props<{ user: Update<User> }>());
 
 export const deleteUser = createAction('[User List] Delete User', props<{ id: number }>());
 

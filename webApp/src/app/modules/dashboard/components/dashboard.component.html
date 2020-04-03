@@ -2,8 +2,7 @@
   <div class="col-sm-6 col-md-4 col-xl-3 mb-xs-3">
     <div class="card shadow user-card">
       <div class="card-body">
-        <img *ngIf="appUser.avatar" src="{{ appUser.avatar.getUrl }}" alt="{{ appUser.avatar.title }}" />
-        <img *ngIf="!appUser.avatar" src="./assets/images/userpic/noimage.png" alt="noimage" />
+        <atoms-profile-pic [avatar]="appUser.avatar"></atoms-profile-pic>
         <ul>
           <li>
             <h5>{{ appUser.fullname }}</h5>

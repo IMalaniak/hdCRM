@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AttachmentsComponent, ProfilepicComponent } from './components';
-import { SharedModule } from '@/shared';
+import { UploaderListComponent, ProfilepicUploaderComponent } from './components';
+import { AttachmentService } from './services';
 
 // import filepond module
 import { FilePondModule, registerPlugin } from 'ngx-filepond';
@@ -32,15 +32,14 @@ import {
   faFile,
   faTrashAlt,
   faFolderPlus,
-  faCheck,
-  faPencilAlt,
-  faTimes
+  faCheck
 } from '@fortawesome/free-solid-svg-icons';
 
 @NgModule({
-  imports: [CommonModule, SharedModule, FilePondModule, FontAwesomeModule],
-  declarations: [AttachmentsComponent, ProfilepicComponent],
-  exports: [AttachmentsComponent, ProfilepicComponent]
+  imports: [CommonModule, FilePondModule, FontAwesomeModule],
+  declarations: [UploaderListComponent, ProfilepicUploaderComponent],
+  exports: [UploaderListComponent, ProfilepicUploaderComponent],
+  providers: [AttachmentService],
 })
 export class AttachmentsModule {
   constructor(library: FaIconLibrary) {
@@ -54,9 +53,7 @@ export class AttachmentsModule {
       faFileArchive,
       faTrashAlt,
       faFolderPlus,
-      faCheck,
-      faPencilAlt,
-      faTimes
+      faCheck
     );
   }
 }

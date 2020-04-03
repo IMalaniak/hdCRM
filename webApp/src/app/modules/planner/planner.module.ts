@@ -11,7 +11,6 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 import { PlannerRoutingModule } from './planner-routing.module';
 import { SharedModule } from '@/shared';
-import { AttachmentsModule } from '@/shared/modules/attachments/attachments.module';
 import { UsersModule } from '@/modules/users/users.module';
 
 // TODO: delete
@@ -45,7 +44,6 @@ import { StageEffects } from './store/stage.effects';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    AttachmentsModule,
     DragDropModule,
     PlannerRoutingModule.forRoot(),
     SweetAlert2Module,

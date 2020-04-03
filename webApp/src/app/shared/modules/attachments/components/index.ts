@@ -1,2 +1,2 @@
-export * from './list/attachments.component';
-export * from './profile-pic/profile-pic.component';
+export * from './uploader-list/uploader-list.component';
+export * from './profile-pic/profile-pic-uploader.component';

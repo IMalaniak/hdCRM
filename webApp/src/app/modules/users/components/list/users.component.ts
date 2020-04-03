@@ -14,7 +14,7 @@ import { UserService, UsersDataSource } from '../../services';
 import { User } from '../../models';
 
 import { AppState } from '@/core/reducers';
-import { selectUsersLoading, selectUsersTotalCount } from '../../store/user.selectors';
+import { selectIsLoading, selectUsersTotalCount } from '../../store/user.selectors';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { deleteUser } from '../../store/user.actions';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
@@ -67,7 +67,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     this.editUserPrivilege$ = this.store.pipe(select(isPrivileged('user-edit')));
     this.addUserPrivilege$ = this.store.pipe(select(isPrivileged('user-add')));
 
-    this.loading$ = this.store.pipe(select(selectUsersLoading));
+    this.loading$ = this.store.pipe(select(selectIsLoading));
     this.resultsLength$ = this.store.pipe(select(selectUsersTotalCount));
 
     this.currentUser$ = this.store.pipe(select(currentUser));

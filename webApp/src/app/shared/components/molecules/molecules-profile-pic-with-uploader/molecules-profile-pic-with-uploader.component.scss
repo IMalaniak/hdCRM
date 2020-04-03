@@ -5,12 +5,9 @@
 .img-avatar {
   position: relative;
 
-  > img {
-    display: block;
+  atoms-profile-pic {
     width: 55%;
     border-radius: 50%;
-    border: 0.25rem solid crmcolor('layout', 'milk', true);
-    position: relative;
     margin-top: -28%;
     margin-bottom: 1.5em;
     @include media-breakpoint-up(sm) {
@@ -24,7 +21,7 @@
     }
   }
 
-  file-pond {
+  app-profile-pic-uploader {
     width: 65%;
     margin-top: -33%;
     margin-bottom: 0;

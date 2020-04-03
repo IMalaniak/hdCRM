@@ -3,20 +3,19 @@ import { environment } from 'environments/environment';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { getToken } from '@/core/auth/store/auth.selectors';
-import { Asset } from '@/shared';
+import { Asset } from '@/shared/models';
 import { FilePond } from 'filepond';
 
 @Component({
-  selector: 'app-profile-pic',
-  templateUrl: './profile-pic.component.html',
-  styleUrls: ['./profile-pic.component.scss']
+  selector: 'app-profile-pic-uploader',
+  template: `
+    <file-pond #picuploader [options]="uploaderOptions"></file-pond>
+  `
 })
-export class ProfilepicComponent implements OnInit {
+export class ProfilepicUploaderComponent implements OnInit {
   @ViewChild('picuploader') picuploader: FilePond;
-  @Input() avatar: Asset;
-  @Input() apiUrl: string;
+  @Input() url: string;
   @Output() addFileCall: EventEmitter<any> = new EventEmitter();
-  changePic: boolean;
   uploaderOptions: any; // TODO: FilePondOptionProps;
   token: string;
 
@@ -30,16 +29,16 @@ export class ProfilepicComponent implements OnInit {
     this.uploaderOptions = {
       name: 'profile-pic-uploader',
       server: {
-        url: environment.baseUrl,
+        url: environment.apiUrl,
         process: {
-          url: this.apiUrl,
+          url: this.url,
           headers: {
             Authorization: this.token
           },
           onload: res => this.uploaderHandleAddFile(res)
         },
         revert: {
-          url: this.apiUrl,
+          url: this.url,
           method: 'DELETE',
           headers: {
             Authorization: this.token

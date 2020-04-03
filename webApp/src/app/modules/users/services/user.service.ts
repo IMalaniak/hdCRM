@@ -35,8 +35,7 @@ export class UserService {
           .set('pageSize', pageSize.toString())
           .set('sortIndex', sortIndex)
           .set('sortDirection', sortDirection)
-      })
-      .pipe(map(res => new UserServerResponse(res)));
+      });
   }
 
   listOnline() {
@@ -44,7 +43,7 @@ export class UserService {
   }
 
   getUser(id: number): Observable<User> {
-    return this.http.get<User>(`${this.api}/${id}`).pipe(map(res => new User(res)));
+    return this.http.get<User>(`${this.api}/${id}`);
   }
 
   updateUser(user: User): Observable<User> {
@@ -76,19 +75,20 @@ export class UserService {
   }
 
   formatBeforeSend(user: User): User {
-    if (user.State) {
+    const formated = {...user};
+    if (formated.State) {
       const state = new State({
         id: user.State.id
       });
-      user.State = state;
+      formated.State = state;
     }
-    if (user.Roles) {
-      user.Roles = user.Roles.map(role => {
+    if (formated.Roles) {
+      formated.Roles = formated.Roles.map(role => {
         return new Role({
           id: role.id
         });
       });
     }
-    return user;
+    return formated as User;
   }
 }

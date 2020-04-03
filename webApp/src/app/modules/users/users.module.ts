@@ -37,7 +37,6 @@ import * as fromUser from './store/user.reducer';
 import * as fromState from './store/state.reducer';
 import { UserEffects } from './store/user.effects';
 import { StateEffects } from './store/state.effects';
-import { AttachmentsModule } from '@/shared/modules/attachments/attachments.module';
 
 @NgModule({
   imports: [
@@ -46,7 +45,6 @@ import { AttachmentsModule } from '@/shared/modules/attachments/attachments.modu
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    AttachmentsModule,
     FontAwesomeModule,
     UsersRoutingModule.forRoot(),
     StoreModule.forFeature(fromUser.usersFeatureKey, fromUser.reducer),

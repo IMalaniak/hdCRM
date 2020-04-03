@@ -205,13 +205,12 @@
   </div>
 </section>
 
-<app-attachments
+<templates-attachments-list
   [attachments]="plan.Documents"
   [apiUrl]="'/plans/documents/' + plan.id"
-  [editForm]="editForm"
   (deleteFileCall)="deleteDoc($event)"
   (addFileCall)="addDoc($event)"
-></app-attachments>
+></templates-attachments-list>
 
 <swal
   #onUpdatePlanStagesSubmit

@@ -9,6 +9,7 @@ import { AppState } from '@/core/reducers';
 import { UserServerResponse, User } from '../models';
 
 import Swal from 'sweetalert2';
+import { Update } from '@ngrx/entity';
 
 @Injectable()
 export class UserEffects {
@@ -37,6 +38,42 @@ export class UserEffects {
     )
   );
 
+  updateUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(userActions.updateUserRequested),
+      map(payload => payload.user),
+      mergeMap(toUpdate =>
+        this.userService.updateUser(toUpdate).pipe(
+          catchError(err => {
+            userActions.updateUserCancelled();
+            return of(
+              Swal.fire({
+                text: 'Ooops, something went wrong!',
+                icon: 'error',
+                timer: 3000
+              })
+            );
+          })
+        )
+      ),
+      map((data: User) => {
+        const user: Update<User> = {
+          id: data.id,
+          changes: data
+        };
+        Swal.fire({
+          text: 'User updated!',
+          icon: 'success',
+          timer: 6000,
+          toast: true,
+          showConfirmButton: false,
+          position: 'bottom-end'
+        });
+        return userActions.updateUserSuccess({ user });
+      })
+    )
+  );
+
   listOnlineUsers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(userActions.OnlineUserListRequested),
@@ -45,18 +82,18 @@ export class UserEffects {
       }),
       mergeMap(() => {
         return this.userService.onlineUsersListed$.pipe(
-          map(onlineUsers => userActions.OnlineUserListLoaded({ list: onlineUsers.map(user => new User(user)) }))
+          map(list => userActions.OnlineUserListLoaded({ list }))
         );
       })
     )
   );
 
   userOnline$ = createEffect(() =>
-    this.userService.userOnline$.pipe(map(user => userActions.userOnline({ user: new User(user) })))
+    this.userService.userOnline$.pipe(map(user => userActions.userOnline({ user })))
   );
 
   userOffline$ = createEffect(() =>
-    this.userService.userOffline$.pipe(map(user => userActions.userOffline({ user: new User(user) })))
+    this.userService.userOffline$.pipe(map(user => userActions.userOffline({ user })))
   );
 
   deleteUser$ = createEffect(

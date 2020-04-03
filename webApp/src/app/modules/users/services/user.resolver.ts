@@ -10,7 +10,7 @@ import { tap, filter, first } from 'rxjs/operators';
 import { userRequested } from '../store/user.actions';
 
 @Injectable()
-export class UserResolver implements Resolve<User> {
+export class UserResolver implements Resolve<Observable<User>> {
   constructor(private store: Store<AppState>) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<User> {
