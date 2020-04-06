@@ -151,70 +151,11 @@ main {
   }
 }
 
-.userpic {
-  max-height: crmsize(userpic, null, true);
-  border-radius: 50%;
-
-  .list-group-item & {
-    margin-right: crmsize(spacer, null, true);
-  }
-}
-
-.user-status-icon {
-  position: absolute;
-  bottom: -0.2em;
-  right: -0.3em;
-  display: block;
-  width: 1em;
-  height: 1em;
-  border: 2px solid $white;
-  border-radius: 50%;
-}
-
 .mat-checkbox {
   margin-bottom: -0.5rem;
 
   .mat-checkbox-layout {
     margin: 0;
-  }
-}
-
-.crm-button {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  display: block;
-
-  .mat-button-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  fa-icon {
-    margin-right: 0.8em;
-
-    @include media-breakpoint-down(sm) {
-      margin-right: 0;
-      font-size: 1.25em;
-
-      + span {
-        display: none;
-      }
-    }
-
-    + span {
-      &:before {
-        content: '';
-        display: inline;
-        border-left: 1px solid;
-        margin-right: 0.6em;
-
-        @include media-breakpoint-down(sm) {
-          display: none;
-        }
-      }
-    }
   }
 }
 

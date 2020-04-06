@@ -6,12 +6,11 @@ import { tap, map, switchMap, catchError } from 'rxjs/operators';
 
 import * as authActions from './auth.actions';
 
-import { AuthenticationService } from '../_services';
+import { AuthenticationService } from '../services';
 import Swal from 'sweetalert2';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { SocketService } from '@/_shared/services/socket.service';
-import { SocketEvent } from '@/_shared/models/socketEvent';
+import { SocketService, SocketEvent } from '@/shared';
 const jwtHelper = new JwtHelperService();
 
 @Injectable()

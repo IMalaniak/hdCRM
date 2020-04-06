@@ -1,6 +1,6 @@
 import { props, createAction } from '@ngrx/store';
-import { User } from '@/_modules/users/_models';
-import { ApiResponse } from '@/core/_models';
+import { User } from '@/modules/users/models';
+import { ApiResponse } from '@/shared';
 
 export const logIn = createAction(
   '[Auth] Login',

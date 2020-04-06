@@ -1,0 +1,119 @@
+<section class="row dashboard-cards mt-3" *ngIf="appUser$ | async as appUser">
+  <div class="col-sm-6 col-md-4 col-xl-3 mb-xs-3">
+    <div class="card shadow user-card">
+      <div class="card-body">
+        <atoms-profile-pic [avatar]="appUser.avatar"></atoms-profile-pic>
+        <ul>
+          <li>
+            <h5>{{ appUser.fullname }}</h5>
+            <span>({{ appUser.login }})</span>
+          </li>
+          <li *ngIf="appUser.Department">
+            <a routerLink="/departments/details/{{ appUser.Department.id }}"
+              ><span>{{ appUser.Department.title }}</span></a
+            >
+          </li>
+          <li class="roles" *ngIf="appUser.Roles">
+            <span *ngFor="let role of appUser.Roles; last as isLast">{{ role.keyString }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-4 col-xl-3 mb-xs-3">
+    <div class="card shadow user-card">
+      <div class="card-body">
+        <h5 class="card-title" i18n="@@dashboardCardsUserSessionData">
+          Session data
+        </h5>
+        <ul class="sessionData">
+          <li *ngIf="appUser.PasswordAttributes && appUser.PasswordAttributes.passwordExpire">
+            <div>
+              <small i18n="@@dashboardCardsUserPasswordExpireDate">Password expire date:</small
+              ><small>{{ appUser.PasswordAttributes.passwordExpire | date: 'medium' }}</small>
+            </div>
+          </li>
+          <li *ngIf="appUser.PasswordAttributes && appUser.PasswordAttributes.updatedAt">
+            <div>
+              <small i18n="@@dashboardCardsUserPasswordUpdatedDate">Last password update:</small
+              ><small>{{ appUser.PasswordAttributes.updatedAt | date: 'medium' }}</small>
+            </div>
+          </li>
+          <li *ngIf="appUser.lastSessionData && appUser.lastSessionData.dateLastLoggedIn">
+            <div>
+              <small i18n="@@dashboardCardsUserDateLastLoggedIn">Last session:</small
+              ><small>{{ appUser.lastSessionData.dateLastLoggedIn | date: 'medium' }}</small>
+            </div>
+          </li>
+          <li *ngIf="appUser.lastSessionData && appUser.lastSessionData.dateUnsuccessfulLogIn">
+            <div>
+              <small i18n="@@dashboardCardsUserDateUnsuccessfulLogIn">Unsuccessful login:</small
+              ><small>{{ appUser.lastSessionData.dateUnsuccessfulLogIn | date: 'medium' }}</small>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-6 col-xl-6" *ngIf="rolesChart">
+    <div class="card shadow roles-card charts">
+      <div class="card-body">
+        <h5 class="card-title" i18n="@@dashboardCardsRolesTitle">Roles</h5>
+        <div class="chart-wrapper">
+          <ngx-charts-bar-vertical
+            [results]="rolesChart"
+            [scheme]="'aqua'"
+            [gradient]="true"
+            [xAxis]="true"
+            [yAxis]="true"
+            [legend]="false"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [xAxisLabel]="'Roles'"
+            [yAxisLabel]="'Number of users'"
+          >
+          </ngx-charts-bar-vertical>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="row my-3">
+  <div class="col-sm-12 col-md-6 col-xl-6 mb-xs-3" *ngIf="planStagesChart">
+    <div class="card shadow plan-stages-card charts">
+      <div class="card-body">
+        <h5 class="card-title" i18n="@@dashboardCardsPlansByStageTitle">
+          Plans by stage
+        </h5>
+        <div class="chart-wrapper">
+          <ngx-charts-advanced-pie-chart [results]="planStagesChart" [scheme]="'aqua'" [gradient]="true">
+          </ngx-charts-advanced-pie-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-6 col-xl-6" *ngIf="departmentsChart">
+    <div class="card shadow departments-card charts">
+      <div class="card-body">
+        <h5 class="card-title" i18n="@@dashboardCardsDepartmentsTitle">
+          Departments
+        </h5>
+        <div class="chart-wrapper">
+          <ngx-charts-bar-vertical
+            [results]="departmentsChart"
+            [scheme]="'aqua'"
+            [gradient]="true"
+            [xAxis]="true"
+            [yAxis]="true"
+            [legend]="false"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [xAxisLabel]="'Departments'"
+            [yAxisLabel]="'Number of workers'"
+          >
+          </ngx-charts-bar-vertical>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

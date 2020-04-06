@@ -1,0 +1,352 @@
+<section class="register-section">
+  <!-- <h3 class="crm-brand">Crm company</h3> -->
+  <div class="container-fluid h-100">
+    <div class="row h-100">
+      <div class="col-sm-12 col-md-8 register-block">
+        <form [formGroup]="userData">
+          <mat-card>
+            <mat-card-content>
+              <h3 i18n="@@registerUserComponentFormHeaderTitleRegister">
+                Register your HDCRM Account
+              </h3>
+              <mat-vertical-stepper linear #stepper formArrayName="formArray" mobileQuery.matches>
+                <mat-step formGroupName="0" [stepControl]="formArray?.get([0])">
+                  <div class="row d-flex flex-column">
+                    <div class="col col-md">
+                      <ng-template matStepLabel i18n=" @@registerUserComponentStepperLabelsGeneralInformation "
+                        >General information</ng-template
+                      >
+                      <mat-form-field appearance="outline">
+                        <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderLogin ">Login</mat-label>
+                        <input matInput formControlName="login" type="text" name="login" required />
+                        <mat-error *ngIf="login.invalid">
+                          <mat-error
+                            *ngIf="login.errors.required"
+                            i18n=" @@registerUserComponentStepperInputErrorsLoginRequired "
+                          >
+                            Login is required!
+                          </mat-error>
+                          <mat-error
+                            *ngIf="login.errors.minlength"
+                            i18n=" @@registerUserComponentStepperInputErrorsLoginIsTooShort "
+                          >
+                            Login is too short!
+                          </mat-error>
+                          <mat-error
+                            *ngIf="login.errors.maxlength"
+                            i18n=" @@registerUserComponentStepperInputErrorsLoginIsTooLong "
+                          >
+                            Login is too long!
+                          </mat-error>
+                          <mat-error
+                            *ngIf="login.errors.pattern"
+                            i18n=" @@registerUserComponentStepperInputErrorsLoginIsInvalid "
+                          >
+                            Unallowed symbols are used!
+                          </mat-error>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col col-md">
+                      <mat-form-field appearance="outline">
+                        <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderEmail ">Email</mat-label>
+                        <input matInput formControlName="email" type="email" name="email" required />
+                        <mat-error *ngIf="email.invalid">
+                          <mat-error
+                            *ngIf="email.errors.required"
+                            i18n=" @@registerUserComponentStepperInputErrorsEmailRequired "
+                          >
+                            Email is required!
+                          </mat-error>
+                          <mat-error
+                            *ngIf="email.errors.pattern"
+                            i18n=" @@registerUserComponentStepperInputErrorsBadEmail "
+                          >
+                            Invalid email address!
+                          </mat-error>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col col-md">
+                      <mat-form-field appearance="outline" class="password-field" *ngIf="!generatePassword.value">
+                        <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderPassword ">Password</mat-label>
+                        <input
+                          matInput
+                          formControlName="password"
+                          name="password"
+                          [type]="hidePassword ? 'password' : 'text'"
+                        />
+                        <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{
+                          hidePassword ? 'visibility_off' : 'visibility'
+                        }}</mat-icon>
+                        <mat-error *ngIf="password.invalid">
+                          <mat-error
+                            *ngIf="password.errors.required"
+                            i18n=" @@registerUserComponentStepperInputErrorsPasswordRequired "
+                          >
+                            Password is required!
+                          </mat-error>
+                          <mat-error
+                            *ngIf="password.errors.minlength"
+                            i18n=" @@registerUserComponentStepperInputErrorsPasswordIsTooShort "
+                          >
+                            Password is too short!
+                          </mat-error>
+                        </mat-error>
+                      </mat-form-field>
+                      <div class="d-flex flex-row align-items-center">
+                        <mat-checkbox
+                          color="warn"
+                          formControlName="generatePassword"
+                          name="generatePassword"
+                        ></mat-checkbox>
+                        <span>Generate password for me and send it to my email</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-end pt-3">
+                    <atoms-icon-button matType="stroked" type="button" (click)="stepper.next()" [icon]="['fas', 'arrow-right']">
+                      Next
+                    </atoms-icon-button>
+                  </div>
+                </mat-step>
+                <mat-step formGroupName="1" [stepControl]="formArray?.get([1])">
+                  <div class="row d-flex flex-column">
+                    <div class="col col-md">
+                      <ng-template matStepLabel i18n=" @@registerUserComponentStepperLabelsContactInformation "
+                        >Contact information</ng-template
+                      >
+                      <mat-form-field appearance="outline">
+                        <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderName ">Name</mat-label>
+                        <input matInput formControlName="name" type="text" name="name" required />
+                        <mat-error *ngIf="name.invalid">
+                          <mat-error
+                            *ngIf="name.errors.required"
+                            i18n=" @@registerUserComponentStepperInputErrorsNameRequired "
+                          >
+                            Name is required!
+                          </mat-error>
+                          <mat-error
+                            *ngIf="name.errors.maxlength"
+                            i18n=" @@registerUserComponentStepperInputErrorsNameIsTooShort "
+                          >
+                            Name is too long!
+                          </mat-error>
+                          <mat-error
+                            *ngIf="name.errors.pattern"
+                            i18n=" @@registerUserComponentStepperInputErrorsNameIsInvalid "
+                          >
+                            Unallowed symbols are used!
+                          </mat-error>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col col-md">
+                      <mat-form-field appearance="outline">
+                        <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderSurname ">Surname</mat-label>
+                        <input matInput formControlName="surname" type="text" name="surname" required />
+                        <mat-error *ngIf="surname.invalid">
+                          <mat-error
+                            *ngIf="surname.errors.required"
+                            i18n=" @@registerUserComponentStepperInputErrorsSurnameRequired "
+                          >
+                            Surname is required!
+                          </mat-error>
+                          <mat-error
+                            *ngIf="surname.errors.pattern"
+                            i18n=" @@registerUserComponentStepperInputErrorsSurnameIsInvalid "
+                          >
+                            Unallowed symbols are used!
+                          </mat-error>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col col-md">
+                      <mat-form-field appearance="outline">
+                        <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderPhone ">Phone</mat-label>
+                        <input matInput formControlName="phone" type="tel" name="phone" />
+                        <mat-error *ngIf="phone.invalid">
+                          <mat-error
+                            *ngIf="phone.errors.pattern"
+                            i18n=" @@registerUserComponentStepperInputErrorsPhoneIsInvalid "
+                          >
+                            Unallowed symbols are used!
+                          </mat-error>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <atoms-icon-button matType="stroked" (click)="stepper.previous()" [icon]="['fas', 'arrow-left']">
+                      Back
+                    </atoms-icon-button>
+                    <atoms-icon-button matType="stroked" (click)="stepper.next()" [icon]="['fas', 'arrow-right']">
+                      Next
+                    </atoms-icon-button>
+                  </div>
+                </mat-step>
+                <mat-step formGroupName="2" [stepControl]="formArray?.get([2])">
+                  <div class="row d-flex flex-column">
+                    <div class="col col-md mt-1 mb-4">
+                      <ng-template matStepLabel i18n="@@registerUserComponentStepperLabelsOrganizationInformation"
+                        >Organization information</ng-template
+                      >
+                      <mat-radio-group formControlName="organizationType">
+                        <mat-radio-button class="mr-4" color="warn" value="company">Company</mat-radio-button>
+                        <mat-radio-button color="warn" value="private">Private</mat-radio-button>
+                      </mat-radio-group>
+                    </div>
+                    <mat-form-field appearance="outline" *ngIf="organizationType.value === 'company'">
+                      <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderCompanyTitle"
+                        >Company name</mat-label
+                      >
+                      <input matInput formControlName="title" name="title" type="text" required />
+                      <mat-error *ngIf="title.invalid">
+                        <mat-error
+                          *ngIf="title.errors.required"
+                          i18n=" @@registerUserComponentStepperInputErrorsCompanyTitleRequired"
+                        >
+                          Company name is required!
+                        </mat-error>
+                        <mat-error
+                          *ngIf="title.errors.maxlength"
+                          i18n=" @@registerUserComponentStepperInputErrorsCompanyTitleIsTooLong "
+                        >
+                          Company name is too long!
+                        </mat-error>
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" *ngIf="organizationType.value">
+                      <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderSiteUrl "
+                        >Web site address</mat-label
+                      >
+                      <input matInput formControlName="website" name="website" type="url" required />
+                      <mat-error *ngIf="website.invalid">
+                        <mat-error
+                          *ngIf="website.errors.required"
+                          i18n=" @@registerUserComponentStepperInputErrorsWebSiteUrlRequired "
+                        >
+                          Web site is required!
+                        </mat-error>
+                        <mat-error
+                          *ngIf="website.errors.pattern"
+                          i18n=" @@registerUserComponentStepperInputErrorsWebSiteIsInvalid "
+                        >
+                          Web site is invalid!
+                        </mat-error>
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-accordion *ngIf="organizationType.value === 'company'">
+                      <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            Company information
+                          </mat-panel-title>
+                          <mat-panel-description>
+                            You can fill in this fields later
+                          </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <mat-form-field appearance="outline">
+                          <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderCompanyEmployees "
+                            >Number of employees</mat-label
+                          >
+                          <mat-select formControlName="employees" name="employees">
+                            <mat-option value="1-10">1-10</mat-option>
+                            <mat-option value="11-50">11-50</mat-option>
+                            <mat-option value="51-250">51-250</mat-option>
+                            <mat-option value="250+">250+</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                          <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderCompanyСountry "
+                            >Country</mat-label
+                          >
+                          <input matInput formControlName="country" name="country" type="text" />
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                          <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderOrganizationСity "
+                            >City</mat-label
+                          >
+                          <input matInput formControlName="city" name="city" type="text" />
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                          <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderOrganizationСity "
+                            >Address</mat-label
+                          >
+                          <input matInput formControlName="address" name="address" type="text" />
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                          <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderOrganizationPostcode "
+                            >Postcode</mat-label
+                          >
+                          <input matInput formControlName="postcode" name="postcode" type="text" />
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                          <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderPhone ">Phone</mat-label>
+                          <input matInput formControlName="organizationPhone" type="tel" name="organizationPhone" />
+                          <mat-error *ngIf="organizationPhone.invalid">
+                            <mat-error
+                              *ngIf="organizationPhone.errors.pattern"
+                              i18n=" @@registerUserComponentStepperInputErrorsOrganizationPhoneIsInvalid "
+                            >
+                              Unallowed symbols are used!
+                            </mat-error>
+                          </mat-error>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                          <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderOrganizationEmail "
+                            >Email</mat-label
+                          >
+                          <input matInput formControlName="organizationEmail" type="email" name="organizationEmail" />
+                          <mat-error *ngIf="organizationEmail.invalid">
+                            <mat-error
+                              *ngIf="organizationEmail.errors.pattern"
+                              i18n=" @@registerUserComponentStepperInputErrorsBadOrganizationEmail "
+                            >
+                              Invalid email address!
+                            </mat-error>
+                          </mat-error>
+                        </mat-form-field>
+                      </mat-expansion-panel>
+                    </mat-accordion>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <atoms-icon-button matType="stroked" (click)="stepper.previous()" [icon]="['fas', 'arrow-left']">
+                      Back
+                    </atoms-icon-button>
+                    <atoms-icon-button
+                      matType="stroked"
+                      color="warn"
+                      (click)="stepper.reset()"
+                      [icon]="['fas', 'trash-alt']"
+                    >
+                      Reset all
+                    </atoms-icon-button>
+                  </div>
+                </mat-step>
+              </mat-vertical-stepper>
+              <div class="d-flex justify-content-end btn-register">
+                <atoms-icon-button
+                  [disabled]="userData.invalid || submitDisabled"
+                  (click)="onRegisterSubmit()"
+                  [icon]="['fas', 'paper-plane']"
+                >
+                  Submit
+                </atoms-icon-button>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </form>
+      </div>
+      <div class="col-sm-12 col-md-4 bg-block">
+        <div class="d-flex flex-column text-white">
+          <h2>Already registered?</h2>
+          <p>Instantly go back into your HDCRM dashboard below.</p>
+          <atoms-icon-button [routerLink]="['/auth/login']" [icon]="['fas', 'arrow-right']">
+            Log in
+          </atoms-icon-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>{{ data.title }}</h1>
+<section mat-dialog-content>
+  <app-users></app-users>
+</section>
+<div mat-dialog-actions class="justify-content-end">
+  <atoms-icon-button (click)="onNoClick()" [icon]="['fas', 'times']" color="basic">
+    Cancel
+  </atoms-icon-button>
+
+  <atoms-icon-button [icon]="['fas', 'save']" [mat-dialog-close]="usersComponent.selection.selected" cdkFocusInitial>
+    Save
+  </atoms-icon-button>
+</div>

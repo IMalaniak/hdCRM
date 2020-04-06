@@ -3,11 +3,10 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthRoutingModule } from './auth-routing.module';
-import { LoginComponent, RegisterUserComponent } from './_components';
-import { AuthenticationService } from './_services';
+import { LoginComponent, RegisterUserComponent } from './components';
+import { AuthenticationService } from './services';
 import * as fromAuth from './store/auth.reducer';
 import { AuthEffects } from './store/auth.effects';
-import { AppMaterialModule } from '@/_shared/modules';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
@@ -23,6 +22,7 @@ import {
   faCheck,
   faPlus
 } from '@fortawesome/free-solid-svg-icons';
+import { SharedModule } from '@/shared';
 
 @NgModule({
   imports: [
@@ -30,7 +30,7 @@ import {
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    AppMaterialModule,
+    SharedModule,
     AuthRoutingModule,
     FontAwesomeModule,
     StoreModule.forFeature(fromAuth.authFeatureKey, fromAuth.reducer),

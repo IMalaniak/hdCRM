@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '@/core/_guards';
-import { PublicViewComponent, PrivateViewComponent } from './_view-components';
-import { PageNotFoundComponent } from './_components';
+import { PublicViewComponent, PrivateViewComponent } from './view-containers';
+import { PageNotFoundComponent } from './components';
 
 const routes: Routes = [
   {
@@ -13,7 +13,7 @@ const routes: Routes = [
       {
         path: 'home',
         data: { breadcrumb: 'Home' },
-        loadChildren: () => import('../../_modules/home/home.module').then(m => m.HomeModule)
+        loadChildren: () => import('../../modules/home/home.module').then(m => m.HomeModule)
       }
     ]
   },
@@ -26,22 +26,22 @@ const routes: Routes = [
       {
         path: 'planner',
         data: { breadcrumb: 'Planner', animation: 'PlannerPage' },
-        loadChildren: () => import('../../_modules/planner/planner.module').then(m => m.PlannerModule)
+        loadChildren: () => import('../../modules/planner/planner.module').then(m => m.PlannerModule)
       },
       {
         path: 'users',
         data: { breadcrumb: 'App Users', animation: 'UsersPage' },
-        loadChildren: () => import('../../_modules/users/users.module').then(m => m.UsersModule)
+        loadChildren: () => import('../../modules/users/users.module').then(m => m.UsersModule)
       },
       {
         path: 'roles',
         data: { breadcrumb: 'App Roles', animation: 'RolesPage' },
-        loadChildren: () => import('../../_modules/roles/roles.module').then(m => m.RolesModule)
+        loadChildren: () => import('../../modules/roles/roles.module').then(m => m.RolesModule)
       },
       {
         path: 'dashboard',
         data: { animation: 'DashboardPage' },
-        loadChildren: () => import('../../_modules/dashboard/dashboard.module').then(m => m.DashboardModule)
+        loadChildren: () => import('../../modules/dashboard/dashboard.module').then(m => m.DashboardModule)
       },
       {
         path: 'departments',
@@ -49,12 +49,12 @@ const routes: Routes = [
           breadcrumb: 'Departments',
           animation: 'DepartmentsPage'
         },
-        loadChildren: () => import('../../_modules/departments/departments.module').then(m => m.DepartmentsModule)
+        loadChildren: () => import('../../modules/departments/departments.module').then(m => m.DepartmentsModule)
       },
       {
         path: 'chats',
         data: { breadcrumb: 'Chat', animation: 'ChatsPage' },
-        loadChildren: () => import('../../_modules/chat/chat.module').then(m => m.ChatModule)
+        loadChildren: () => import('../../modules/chat/chat.module').then(m => m.ChatModule)
       }
     ],
     data: { animation: 'PrivateView' }

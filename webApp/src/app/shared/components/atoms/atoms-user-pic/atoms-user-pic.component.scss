@@ -1,0 +1,25 @@
+@import 'variables';
+@import 'mixins';
+
+.userpic {
+  max-height: crmsize(userpic, null, true);
+  max-width: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+
+  .list-group-item & {
+    margin-right: crmsize(spacer, null, true);
+  }
+}
+
+.user-status-icon {
+  position: absolute;
+  bottom: -0.1rem;
+  right: -0.2rem;
+  display: block;
+  width: 1em;
+  height: 1em;
+  border: 2px solid $white;
+  background-color: $gray-100;
+  border-radius: 50%;
+}

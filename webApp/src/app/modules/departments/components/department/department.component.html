@@ -1,0 +1,187 @@
+<section
+  class="app-content-box"
+  [title]="department.title + ' ' + 'department'"
+  [cssClass]="'bg-secondary border-0'"
+  [contentCssClass]="'bg-light'"
+  [headCssClass]="'text-white'"
+  *ngIf="department"
+>
+  <div content class="row">
+    <div class="col-md-6">
+      <section
+        class="app-content-box"
+        [title]="'Details'"
+        [cssClass]="'border border-secondary mt-0 mb-0'"
+        [contentCssClass]="'p-0'"
+        [disableShadow]="true"
+      >
+        <form content class="d-flex flex-column px-3 pt-3" *ngIf="editForm">
+          <mat-form-field appearance="outline">
+            <mat-label i18n="@@departmentComponentDetailsTitle">Title</mat-label>
+            <input matInput [(ngModel)]="department.title" name="title" type="text" required />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label i18n="@@departmentComponentDetailsDescription">Write a description</mat-label>
+            <textarea matInput [(ngModel)]="department.description" name="description" type="text" required></textarea>
+          </mat-form-field>
+        </form>
+        <mat-list content class="w-100" *ngIf="!editForm">
+          <mat-list-item>
+            <section>
+              <div>
+                <span i18n="@@departmentСomponentDetailsTitle">Title:</span>
+              </div>
+              <div>
+                <span>{{ department.title }}</span>
+              </div>
+            </section>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <section>
+              <div>
+                <span i18n="@@departmentСomponentDetailsDateCreated">Date created:</span>
+              </div>
+              <div>
+                <span>{{ department.createdAt | date: 'short' }}</span>
+              </div>
+            </section>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <section>
+              <div>
+                <span i18n="@@departmentСomponentDetailsDateUpdated">Date updated:</span>
+              </div>
+              <div>
+                <span>{{ department.createdAt | date: 'short' }}</span>
+              </div>
+            </section>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <div class="w-100 px-3 mt-2">
+            <span i18n="@@departmentСomponentDetailsDescription">Description:</span>
+            <p class="pt-2">{{ department.description }}</p>
+          </div>
+        </mat-list>
+      </section>
+    </div>
+    <div class="col-md-6">
+      <section
+        class="app-content-box"
+        [title]="'Manager'"
+        [cssClass]="'border border-secondary mt-3 mt-md-0 mb-0'"
+        [contentCssClass]="'p-0'"
+        [disableShadow]="true"
+      >
+        <button
+          buttons
+          mat-stroked-button
+          color="primary"
+          class="crm-button"
+          (click)="openManagerDialog()"
+          *ngIf="editForm"
+        >
+          <fa-icon [icon]="['fas', 'user-plus']"></fa-icon
+          ><span i18n="@@DepartmentComponentActionsChangeManager">Change manager</span>
+        </button>
+
+        <mat-list content>
+          <mat-list-item *ngIf="department.Manager">
+            <img
+              matListAvatar
+              *ngIf="department.Manager.avatar"
+              src="{{ department.Manager.avatar.getThumbnailsUrl }}"
+              alt="{{ department.Manager.avatar.title }}"
+            />
+            <img
+              matListAvatar
+              *ngIf="!department.Manager.avatar"
+              src="./assets/images/userpic/noimage_croped.png"
+              alt="noimage"
+            />
+            <h3 matLine>{{ department.Manager.fullname }}</h3>
+          </mat-list-item>
+        </mat-list>
+      </section>
+    </div>
+  </div>
+  <div content class="row">
+    <div class="col-md-6 mt-3">
+      <templates-box-user-list-sm
+        [users]="department.Workers"
+        title="Workers"
+        [editMode]="editForm"
+        (addClick)="addWorkersDialog()"
+        (removeClick)="removeWorker($event)"
+      ></templates-box-user-list-sm>
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-sm-6 col-md-12 col-lg-6">
+          <section
+            class="app-content-box"
+            [title]="'Parent department'"
+            [cssClass]="'border border-secondary mt-3 mb-0'"
+            [contentCssClass]="'p-0'"
+            [disableShadow]="true"
+          >
+            <button buttons mat-stroked-button color="primary" class="crm-button" *ngIf="editForm">
+              <fa-icon [icon]="['fas', 'plus']"></fa-icon
+              ><span i18n="@@departmentComponentActionsAddParentDepartment">Add parent department</span>
+            </button>
+            <!-- <mat-list content>
+              <mat-list-item *ngFor="">
+                <h3 matLine>{{}}</h3>
+                <mat-divider></mat-divider>
+              </mat-list-item>
+            </mat-list> -->
+          </section>
+        </div>
+        <div class="col-sm-6 col-md-12 col-lg-6">
+          <section
+            class="app-content-box"
+            [title]="'Sub departments'"
+            [cssClass]="'border border-secondary mt-3 mb-0'"
+            [contentCssClass]="'p-0'"
+            [disableShadow]="true"
+            [counter]="department.SubDepartments ? department.SubDepartments.length : 0"
+          >
+            <button buttons mat-stroked-button color="primary" class="crm-button" *ngIf="editForm">
+              <fa-icon [icon]="['fas', 'plus']"></fa-icon
+              ><span i18n="@@departmentComponentActionsAddSubDepartments">Add sub departments</span>
+            </button>
+            <!-- <mat-list content>
+              <mat-list-item *ngFor="">
+                <h3 matLine>{{}}</h3>
+                <mat-divider></mat-divider>
+              </mat-list-item>
+            </mat-list> -->
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div buttons *ngIf="canEditDepartment$ | async">
+    <atoms-icon-button *ngIf="!editForm" (click)="onClickEdit()" [icon]="['fas', 'edit']">
+      Edit
+    </atoms-icon-button>
+    <atoms-icon-button *ngIf="editForm" [swal]="updateDepartmentSwal" [icon]="['fas', 'save']">
+      Save
+    </atoms-icon-button>
+    <atoms-icon-button *ngIf="editForm" (click)="onClickCancelEdit()" [icon]="['fas', 'times']">
+      Cancel
+    </atoms-icon-button>
+  </div>
+</section>
+
+<swal
+  #updateDepartmentSwal
+  title="You are about to update department"
+  text="Are you sure you want to update department details?"
+  icon="question"
+  [showCancelButton]="true"
+  (confirm)="updateDepartment()"
+  [swalOptions]="{ confirmButtonText: 'OK', cancelButtonText: 'Cancel' }"
+>
+</swal>

@@ -1,6 +1,6 @@
 import * as AuthActions from './auth.actions';
-import { User } from '@/_modules/users';
-import { ApiResponse } from '@/core/_models';
+import { User } from '@/modules/users';
+import { ApiResponse } from '@/shared';
 import { createReducer, Action, on } from '@ngrx/store';
 
 export interface AuthState {

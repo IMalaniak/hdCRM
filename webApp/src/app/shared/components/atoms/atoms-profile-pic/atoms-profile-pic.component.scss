@@ -1,0 +1,9 @@
+@import 'variables';
+@import 'mixins';
+
+img {
+  display: block;
+  width: 100%;
+  border-radius: 50%;
+  border: 0.25rem solid crmcolor('layout', 'milk', true);
+}

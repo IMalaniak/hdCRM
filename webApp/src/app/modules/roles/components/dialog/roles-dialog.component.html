@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>{{ data.title }}</h1>
+<section mat-dialog-content>
+  <app-roles></app-roles>
+</section>
+<div mat-dialog-actions class="justify-content-end">
+  <atoms-icon-button (click)="onNoClick()" [icon]="['fas', 'times']" color="basic">
+    Cancel
+  </atoms-icon-button>
+  <atoms-icon-button
+    [icon]="['fas', 'plus']"
+    [mat-dialog-close]="rolesComponent.selection.selected"
+    cdkFocusInitial
+  >
+    Ok
+  </atoms-icon-button>
+</div>

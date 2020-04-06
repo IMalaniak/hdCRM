@@ -2,8 +2,8 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { AuthState, authFeatureKey } from './auth.reducer';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { User } from '@/_modules/users/_models';
-import { Privilege } from '@/_modules/roles';
+import { User } from '@/modules/users/models';
+import { Privilege } from '@/modules/roles';
 const jwtHelper = new JwtHelperService();
 
 export const selectAuthState = createFeatureSelector<AuthState>(authFeatureKey);
