@@ -22,16 +22,14 @@ export class TemplatesBoxUserListSmComponent {
   @Input() editMode = false;
   @Input() users: User[];
   @Input() title: string;
-  @Output() addClick = new EventEmitter();
-  @Output() removeClick = new EventEmitter();
+  @Output() addClick: EventEmitter<any> = new EventEmitter();
+  @Output() removeClick: EventEmitter<number> = new EventEmitter();
   @Input() boxCss = 'border border-secondary mt-3 mt-sm-0';
 
-  constructor() {}
-
-  onAddClick() {
+  onAddClick(): void {
     this.addClick.emit();
   }
-  onRemoveClick(id: number) {
+  onRemoveClick(id: number): void {
     this.removeClick.emit(id);
   }
 

@@ -14,7 +14,4 @@ export class AtomsUserPicComponent  {
   @Input() userOnline: false;
 
   @HostBinding('class.position-relative') posRelative = true;
-
-  constructor() {}
-
 }

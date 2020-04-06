@@ -12,11 +12,9 @@ import { User } from '@/modules/users';
 export class OrganismsUserListSmComponent {
   @Input() editMode = false;
   @Input() users: User[];
-  @Output() removeClick = new EventEmitter();
+  @Output() removeClick: EventEmitter<number> = new EventEmitter();
 
-  constructor() {}
-
-  onRemoveClick(id: number) {
+  onRemoveClick(id: number): void {
     this.removeClick.emit(id);
   }
 }

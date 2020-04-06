@@ -17,11 +17,9 @@ import { User } from '@/modules/users/models';
 export class MoleculesUserListSmItemComponent {
   @Input() user: User;
   @Input() editMode = false;
-  @Output() removeClick = new EventEmitter();
+  @Output() removeClick: EventEmitter<number> = new EventEmitter();
 
-  constructor() {}
-
-  onRemoveClick(id: number) {
+  onRemoveClick(id: number): void {
     this.removeClick.emit(id);
   }
 }

@@ -18,6 +18,4 @@ export class AtomsIconButtonComponent {
   @Input() disabled = false;
 
   @HostBinding('class.d-inline-block') displayInline = true;
-
-  constructor() {}
 }

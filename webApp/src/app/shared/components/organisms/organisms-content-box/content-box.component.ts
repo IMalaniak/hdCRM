@@ -19,6 +19,4 @@ export class ContentBoxComponent {
   @ContentChild('buttons') buttons: ElementRef;
   @ContentChild('boxFooter') boxFooter: ElementRef;
 
-  constructor() {}
-
 }
