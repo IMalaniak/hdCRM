@@ -2,7 +2,7 @@ import { Privilege } from './privilege';
 import { User } from '@/modules/users/models';
 import { ApiResponse } from '@/shared';
 
-export class Role {
+export interface Role {
   id: number;
   keyString: string;
   Privileges: Privilege[];
@@ -10,23 +10,10 @@ export class Role {
   createdAt: Date;
   updatedAt: Date;
   selected: boolean;
-
-  constructor(input?: any) {
-    if (input) {
-      Object.assign(this, input);
-    }
-  }
 }
 
-export class RoleServerResponse extends ApiResponse {
+export interface RoleServerResponse extends ApiResponse {
   list: Role[];
   role: Role;
   pages: number;
-
-  constructor(input?: any) {
-    super();
-    if (input) {
-      Object.assign(this, input);
-    }
-  }
 }

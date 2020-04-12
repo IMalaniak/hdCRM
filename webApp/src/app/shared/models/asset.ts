@@ -1,8 +1,8 @@
-import { environment } from 'environments/environment';
+// import { environment } from 'environments/environment';
 
-const baseUrl = environment.baseUrl;
+// const baseUrl = environment.baseUrl;
 
-export class Asset {
+export interface Asset {
   id: number;
   title: string;
   location: string;
@@ -10,24 +10,20 @@ export class Asset {
   createdAt: string;
   updatedAt: string;
 
-  constructor(input?: any) {
-    Object.assign(this, input);
-  }
+  // get getThumbnailsUrl(): string {
+  //   return baseUrl + this.location + '/thumbnails/' + this.title;
+  // }
 
-  get getThumbnailsUrl(): string {
-    return baseUrl + this.location + '/thumbnails/' + this.title;
-  }
+  // get getUrl(): string {
+  //   return baseUrl + this.location + '/' + this.title;
+  // }
 
-  get getUrl(): string {
-    return baseUrl + this.location + '/' + this.title;
-  }
-
-  get downloadLink(): string {
-    return `${baseUrl}/files/download/${this.id}`;
-  }
+  // get downloadLink(): string {
+  //   return `${baseUrl}/files/download/${this.id}`;
+  // }
 }
 
-export class FileTypes {
+export interface FileTypes {
   msWord: string[];
   msPPoint: string[];
   image: string[];

@@ -1,4 +1,4 @@
-export class ApiResponse {
+export interface ApiResponse {
   success: boolean;
   statusCode: number;
   message: string;

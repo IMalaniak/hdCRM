@@ -6,7 +6,7 @@ import { State } from './state';
 import { Asset, ApiResponse } from '@/shared/models';
 import { Organization } from './organization';
 
-export class User {
+export interface User {
   id: number;
   name: string;
   surname: string;
@@ -37,23 +37,10 @@ export class User {
   activeSockets?: string[];
   OrgRoom: string;
   rooms?: string[];
-
-  constructor(input?: any) {
-    if (input) {
-      Object.assign(this, input);
-    }
-  }
 }
 
-export class UserServerResponse extends ApiResponse {
+export interface UserServerResponse extends ApiResponse {
   list: User[];
   user: User;
   pages: number;
-
-  constructor(input?: any) {
-    super();
-    if (input) {
-      Object.assign(this, input);
-    }
-  }
 }

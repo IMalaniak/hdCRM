@@ -1,4 +1,4 @@
-export class PlanStage {
+export interface PlanStage {
   id: number;
   PlanId: number;
   StageId: number;
@@ -8,10 +8,4 @@ export class PlanStage {
   completed: boolean;
   createdAt: Date;
   updatedAt: Date;
-
-  constructor(input?: any) {
-    if (input) {
-      Object.assign(this, input);
-    }
-  }
 }

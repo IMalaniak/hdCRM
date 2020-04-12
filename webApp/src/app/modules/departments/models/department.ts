@@ -1,7 +1,7 @@
 import { User } from '@/modules/users';
 import { ApiResponse } from '@/shared';
 
-export class Department {
+export interface Department {
   id: number;
   title: string;
   description: string;
@@ -13,23 +13,10 @@ export class Department {
   SubDepartments: Department[];
   Workers: User[];
   Manager: User;
-
-  constructor(input?: any) {
-    if (input) {
-      Object.assign(this, input);
-    }
-  }
 }
 
-export class DepartmentServerResponse extends ApiResponse {
+export interface DepartmentServerResponse extends ApiResponse {
   list: Department[];
   department: Department;
   pages: number;
-
-  constructor(input?: any) {
-    super();
-    if (input) {
-      Object.assign(this, input);
-    }
-  }
 }

@@ -1,8 +1,8 @@
 import { User } from '@/modules/users';
 import { Stage } from './stage';
-import { Asset, ApiResponse } from '@/shared';
+import { Asset, ApiResponse } from '@/shared/models';
 
-export class Plan {
+export interface Plan {
   id: number;
   title: string;
   description: string;
@@ -18,23 +18,10 @@ export class Plan {
   Documents: Asset[];
   createdAt: Date;
   updatedAt: Date;
-
-  constructor(input?: any) {
-    if (input) {
-      Object.assign(this, input);
-    }
-  }
 }
 
-export class PlanServerResponse extends ApiResponse {
+export interface PlanServerResponse extends ApiResponse {
   list: Plan[];
   plan: Plan;
   pages: number;
-
-  constructor(input?: any) {
-    super();
-    if (input) {
-      Object.assign(this, input);
-    }
-  }
 }

@@ -3,7 +3,7 @@ import { Plan } from '@/modules/planner/models';
 import { Role } from '@/modules/roles/models';
 import { User } from './user';
 
-export class Organization {
+export interface Organization {
   id: number;
   title: string;
   type: string;
@@ -24,9 +24,4 @@ export class Organization {
   Roles: Role[];
   Users: User[];
 
-  constructor(input?: any) {
-    if (input) {
-      Object.assign(this, input);
-    }
-  }
 }
