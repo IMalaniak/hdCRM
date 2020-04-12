@@ -10,6 +10,7 @@ export class User {
   id: number;
   name: string;
   surname: string;
+  fullname: string;
   login: string;
   email: string;
   phone: string;
@@ -44,14 +45,6 @@ export class User {
         this.avatar = new Asset(input.avatar);
       }
     }
-  }
-
-  get fullname(): string {
-    return this.name + ' ' + this.surname;
-  }
-
-  set fullname(fullname: string) {
-    [this.name, this.surname] = [...fullname.split(' ')];
   }
 }
 

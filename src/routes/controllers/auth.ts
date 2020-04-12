@@ -316,6 +316,7 @@ export class AuthController {
             login: user.login,
             name: user.name,
             surname: user.surname,
+            fullname: user.fullname,
             email: user.email,
             defaultLang: user.defaultLang,
             avatar: user.avatar,

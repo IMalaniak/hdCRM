@@ -297,7 +297,7 @@ export class UserController {
         user.salt = passwordData.salt;
         user.OrganizationId = req.user.OrganizationId;
         user.StateId = 1;
-        user.login = `${user.name}_${user.surname}`;
+        user.login = user.fullname.replace(' ', '_');
         this.userDbCtrl.create(user)
           .then(u => {
             const token = Crypt.genTimeLimitedToken(24 * 60);
@@ -332,37 +332,6 @@ export class UserController {
     .catch((error: any) => {
       Logger.Err(error);
       return res.status(BAD_REQUEST).json(error.toString());
-    });
-  }
-
-  private findUserById(userId: number | string): Promise<db.User> {
-    return db.User.findByPk(userId, {
-      attributes: { exclude: ['passwordHash', 'salt'] },
-      include: [
-        {
-          model: db.Role,
-          through: {
-            attributes: []
-          }
-        },
-        {
-          model: db.UserLoginHistory
-        },
-        {
-          model: db.State
-        },
-        {
-          model: db.Asset
-        },
-        {
-          model: db.Asset,
-          as: 'avatar'
-        },
-        {
-          model: db.Department,
-          required: false
-        }
-      ]
     });
   }
 }
