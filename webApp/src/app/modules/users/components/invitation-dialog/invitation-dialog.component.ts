@@ -51,7 +51,7 @@ export class InvitationDialogComponent implements OnInit, OnDestroy {
       this.errorInvitations = true;
       setTimeout(() => (this.errorInvitations = false), 3000);
     } else {
-      this.invitedUsers.push(new User(user));
+      this.invitedUsers.push(user);
       this.userData.reset();
     }
   }

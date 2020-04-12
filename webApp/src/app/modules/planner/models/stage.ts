@@ -11,9 +11,6 @@ export class Stage {
   constructor(input?: any) {
     if (input) {
       Object.assign(this, input);
-      if (input.Details) {
-        this.Details = new PlanStage(input.Details);
-      }
     }
   }
 }
@@ -26,6 +23,5 @@ export class StageServerResponse extends ApiResponse {
   constructor() {
     super();
     this.list = [];
-    this.stage = new Stage();
   }
 }

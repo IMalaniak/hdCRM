@@ -17,8 +17,9 @@ export class RegisterUserComponent implements OnInit {
   submitDisabled = false;
 
   constructor(private authService: AuthenticationService, private _formBuilder: FormBuilder) {
-    this.user = new User();
-    this.user.Organization = new Organization();
+    // TODO
+    this.user = {} as User;
+    this.user.Organization = {} as Organization;
   }
 
   ngOnInit() {

@@ -34,6 +34,5 @@ export class PrivilegeServerResponse extends ApiResponse {
   constructor() {
     super();
     this.list = [];
-    this.privilege = new Privilege();
   }
 }

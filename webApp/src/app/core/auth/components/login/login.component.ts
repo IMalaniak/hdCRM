@@ -18,7 +18,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  user: User = new User();
+  user: User;
   hidePassword = true;
   serverResponse: ApiResponse;
   currentPath: string;
@@ -32,7 +32,12 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private _formBuilder: FormBuilder,
     private store: Store<AppState>
-  ) {}
+  ) {
+    // TODO: convert to Forms
+    this.user = {} as User;
+    this.user.login = null;
+    this.user.password = null;
+  }
 
   ngOnInit() {
     this.isLoading$ = this.store.pipe(select(authSelectors.isLoading));

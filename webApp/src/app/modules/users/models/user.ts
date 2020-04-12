@@ -41,9 +41,6 @@ export class User {
   constructor(input?: any) {
     if (input) {
       Object.assign(this, input);
-      if (input.avatar) {
-        this.avatar = new Asset(input.avatar);
-      }
     }
   }
 }
@@ -57,11 +54,6 @@ export class UserServerResponse extends ApiResponse {
     super();
     if (input) {
       Object.assign(this, input);
-      if (input.list && input.list.length > 0) {
-        this.list = input.list.map(user => {
-          return new User(user);
-        });
-      }
     }
   }
 }

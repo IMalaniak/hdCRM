@@ -25,8 +25,7 @@ export class PlanService {
           .set('pageSize', pageSize.toString())
           .set('sortIndex', sortIndex)
           .set('sortDirection', sortDirection)
-      })
-      .pipe(map(res => new PlanServerResponse(res)));
+      });
   }
 
   getListByStage(stage: number, pageIndex = 0, pageSize = 5): Observable<Plan[]> {
@@ -37,7 +36,7 @@ export class PlanService {
   }
 
   getOne(id: number): Observable<Plan> {
-    return this.http.get<Plan>(`${this.api}/${id}`).pipe(map(res => new Plan(res)));
+    return this.http.get<Plan>(`${this.api}/${id}`);
   }
 
   updateOne(plan: Plan): Observable<Plan> {
@@ -65,16 +64,16 @@ export class PlanService {
 
   formatBeforeSend(plan: Plan): Plan {
     if (plan.Creator) {
-      const creator = new User({
+      const creator = {
         id: plan.Creator.id
-      });
+      } as User;
       plan.Creator = creator;
     }
     if (plan.Participants && plan.Participants.length > 0) {
       plan.Participants = plan.Participants.map(participant => {
-        return new User({
+        return <User>{
           id: participant.id
-        });
+        };
       });
     }
     return plan;

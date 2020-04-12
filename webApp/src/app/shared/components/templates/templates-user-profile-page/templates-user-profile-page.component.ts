@@ -31,7 +31,7 @@ export class TemplatesUserProfilePageComponent implements OnInit {
     this.store.dispatch(allStatesRequested());
     this.states$ = this.store.pipe(select(selectAllStates));
     this.editForm$ = this.store.pipe(select(selectIsEditing));
-    this.userInitial = new User(cloneDeep(this.user));
+    this.userInitial = cloneDeep(this.user);
 
     if (this.canEdit) {
       let isEditing = this.route.snapshot.queryParams['edit'];

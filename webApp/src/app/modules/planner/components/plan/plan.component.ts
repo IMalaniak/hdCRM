@@ -51,8 +51,8 @@ export class PlanComponent implements OnInit, OnDestroy {
     this.editPlanPrivilege$ = this.store.pipe(select(isPrivileged('plan-edit')));
     this.configStagesPrivilege$ = this.store.pipe(select(isPrivileged('stage-edit')));
 
-    this.plan = new Plan(cloneDeep(this.route.snapshot.data['plan']));
-    this.planInitial = new Plan(cloneDeep(this.route.snapshot.data['plan']));
+    this.plan = cloneDeep(this.route.snapshot.data['plan']);
+    this.planInitial = cloneDeep(this.route.snapshot.data['plan']);
     this.canEditPlan$.pipe(takeUntil(this.unsubscribe)).subscribe(canEdit => {
       if (canEdit) {
         const edit = this.route.snapshot.queryParams['edit'];
@@ -223,17 +223,17 @@ export class PlanComponent implements OnInit, OnDestroy {
 
         removeUnchecked.then(res => {
           // add checked if no such
-          result.forEach((el, i) => {
+          result.forEach((el: Stage, i) => {
             const tmp = this.plan.Stages.filter(stage => {
               return stage.id === el.id;
             });
             if (tmp.length === 0) {
-              const newStage = new Stage(el);
-              newStage.Details = new PlanStage({
+              const newStage = el;
+              newStage.Details = {
                 order: i,
                 completed: false,
                 description: ''
-              });
+              } as PlanStage;
               this.plan.Stages.push(newStage);
             }
           });
@@ -244,9 +244,8 @@ export class PlanComponent implements OnInit, OnDestroy {
   dragDropStages(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.plan.Stages, event.previousIndex, event.currentIndex);
     this.plan.Stages = this.plan.Stages.map((stage, i) => {
-      const newStage = new Stage(stage);
-      newStage.Details.order = i;
-      return newStage;
+      stage.Details.order = i;
+      return stage;
     });
   }
 
@@ -317,11 +316,11 @@ export class PlanComponent implements OnInit, OnDestroy {
   }
 
   updatePlanStore(data: Plan): void {
-    this.plan = new Plan(cloneDeep(data));
-    this.planInitial = new Plan(cloneDeep(data));
+    this.plan = cloneDeep(data);
+    this.planInitial = cloneDeep(data);
     const plan: Update<Plan> = {
       id: this.plan.id,
-      changes: new Plan(data)
+      changes: data
     };
     this.store.dispatch(planSaved({ plan }));
   }

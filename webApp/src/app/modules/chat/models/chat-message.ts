@@ -10,9 +10,6 @@ export class ChatMessage {
   constructor(input?: any) {
     if (input) {
       Object.assign(this, input);
-      if (input.sender) {
-        this.sender = new User(input.sender);
-      }
     }
   }
 }

@@ -10,11 +10,6 @@ export class Chat {
   constructor(input?: any) {
     if (input) {
       Object.assign(this, input);
-      if (input.messages && input.messages.length > 0) {
-        this.messages = input.messages.map(message => {
-          return new ChatMessage(message);
-        });
-      }
     }
   }
 }

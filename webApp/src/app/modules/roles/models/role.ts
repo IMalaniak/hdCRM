@@ -14,16 +14,6 @@ export class Role {
   constructor(input?: any) {
     if (input) {
       Object.assign(this, input);
-      if (input.Privileges && input.Privileges.length > 0) {
-        this.Privileges = input.Privileges.map(privilege => {
-          return new Privilege(privilege);
-        });
-      }
-      if (input.Users && input.Users.length > 0) {
-        this.Users = input.Users.map(user => {
-          return new User(user);
-        });
-      }
     }
   }
 }
@@ -37,11 +27,6 @@ export class RoleServerResponse extends ApiResponse {
     super();
     if (input) {
       Object.assign(this, input);
-      if (input.list && input.list.length > 0) {
-        this.list = input.list.map(role => {
-          return new Role(role);
-        });
-      }
     }
   }
 }

@@ -20,7 +20,7 @@ export class AuthenticationService {
   }
 
   login(loginUser: User) {
-    return this.http.post<any>(`${this.api}/authenticate`, loginUser).pipe(map(res => new User(res)));
+    return this.http.post<any>(`${this.api}/authenticate`, loginUser);
   }
 
   activateAccount(token: string): Observable<ApiResponse> {

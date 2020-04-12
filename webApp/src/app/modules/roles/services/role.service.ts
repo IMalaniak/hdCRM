@@ -37,8 +37,7 @@ export class RoleService {
           .set('pageSize', pageSize.toString())
           .set('sortIndex', sortIndex)
           .set('sortDirection', sortDirection)
-      })
-      .pipe(map(res => new RoleServerResponse(res)));
+      });
   }
 
   getDashboardData(): Observable<RoleServerResponse> {
@@ -48,9 +47,9 @@ export class RoleService {
   formatBeforeSend(role: Role): Role {
     if (role.Users) {
       role.Users = role.Users.map(user => {
-        return new User({
+        return <User>{
           id: user.id
-        });
+        };
       });
     }
     return role;
