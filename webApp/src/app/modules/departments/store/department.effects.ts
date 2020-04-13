@@ -60,7 +60,7 @@ export class DepartmentEffects {
         this.departmentService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
           catchError(err => {
             this.store.dispatch(depActions.listPageCancelled());
-            return of(new DepartmentServerResponse());
+            return of({});
           })
         )
       ),

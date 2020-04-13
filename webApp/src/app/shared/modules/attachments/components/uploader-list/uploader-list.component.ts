@@ -69,7 +69,7 @@ export class UploaderListComponent implements OnInit {
   }
 
   uploaderHandleAddFile(data: any) {
-    const asset = new Asset(JSON.parse(data));
+    const asset = JSON.parse(data) as Asset;
     this.addFileCall.emit(asset);
     setTimeout(() => {
       const toRemove = this.tempFiles.find(item => {

@@ -1,4 +1,4 @@
-export class UserLoginHistory {
+export interface UserLoginHistory {
   id: number;
   IP: string;
   dateLastLoggedIn: Date;

@@ -67,9 +67,9 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(result => {
+      .subscribe((result: Privilege) => {
         if (result) {
-          const privilege = new Privilege(result);
+          const privilege = result;
           this.store.dispatch(createPrivilege({ privilege }));
         }
       });

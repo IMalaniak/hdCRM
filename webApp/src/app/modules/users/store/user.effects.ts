@@ -30,7 +30,7 @@ export class UserEffects {
         this.userService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
           catchError(err => {
             this.store.dispatch(userActions.listPageCancelled());
-            return of(new UserServerResponse());
+            return of({});
           })
         )
       ),

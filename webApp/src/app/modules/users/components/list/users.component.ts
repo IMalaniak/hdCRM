@@ -137,8 +137,8 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  changeUserState(user, state): void {
-    const userState = new User();
+  changeUserState(user: User, state: any): void {
+    const userState = {} as User;
     userState.id = user.id;
     userState.StateId = state;
     this.userService.updateUserState(userState).subscribe(

@@ -57,8 +57,8 @@ export class RoleComponent implements OnInit, OnDestroy {
   }
 
   getRoleData(): void {
-    this.role = new Role(cloneDeep(this.route.snapshot.data['role']));
-    this.roleInitial = new Role(cloneDeep(this.route.snapshot.data['role']));
+    this.role = cloneDeep(this.route.snapshot.data['role']);
+    this.roleInitial = cloneDeep(this.route.snapshot.data['role']);
   }
 
   addParticipantDialog(): void {
@@ -113,13 +113,13 @@ export class RoleComponent implements OnInit, OnDestroy {
             return privilege.id === el.id;
           });
           if (tmp.length === 0) {
-            const newPrivilege = new Privilege(el);
-            newPrivilege.RolePrivilege = new RolePrivilege({
+            const newPrivilege = el;
+            newPrivilege.RolePrivilege = {
               add: false,
               view: false,
               edit: false,
               delete: false
-            });
+            } as RolePrivilege;
             this.role.Privileges.push(newPrivilege);
           }
         });
@@ -145,11 +145,11 @@ export class RoleComponent implements OnInit, OnDestroy {
   updateRole(): void {
     this.roleService.updateRole(this.role).subscribe(
       data => {
-        this.roleInitial = new Role(cloneDeep(data));
-        this.role = new Role(cloneDeep(data));
+        this.roleInitial = cloneDeep(data);
+        this.role = cloneDeep(data);
         const role: Update<Role> = {
           id: this.role.id,
-          changes: new Role(data)
+          changes: data
         };
         this.store.dispatch(roleSaved({ role }));
         this.disableEdit();

@@ -1,7 +1,6 @@
 <section class="profile-container" *ngIf="user">
   <div class="img-header">
-    <img *ngIf="user.avatar" src="{{ user.avatar.getUrl }}" alt="{{ user.avatar.title }}" />
-    <img *ngIf="!user.avatar" src="./assets/images/userpic/noimage.png" alt="noimage" />
+    <img src="{{ coverUrl }}" alt="{{ coverTitle }}" />
     <div class="row name">
       <div class="col-sm-12 col-md-4 col-lg-3"></div>
       <div class="col-sm-12 col-md-8 col-lg-9">

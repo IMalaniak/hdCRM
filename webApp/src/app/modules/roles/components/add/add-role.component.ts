@@ -19,7 +19,7 @@ import { createRole } from '../../store/role.actions';
 })
 export class AddRoleComponent implements OnInit {
   keyString: FormControl;
-  role = new Role();
+  role = {} as Role;
   displayedColumns = ['title', 'view', 'add', 'edit', 'delete'];
 
   @ViewChild(MatTable) privilegesTable: MatTable<any>;
@@ -86,18 +86,18 @@ export class AddRoleComponent implements OnInit {
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: Privilege[]) => {
-        result.forEach((el, i) => {
+        result.forEach((el: Privilege, i) => {
           const tmp = this.role.Privileges.filter(privilege => {
             return privilege.id === el.id;
           });
           if (tmp.length === 0) {
-            const newPrivilege = new Privilege(el);
-            newPrivilege.RolePrivilege = new RolePrivilege({
+            const newPrivilege = el;
+            newPrivilege.RolePrivilege = {
               add: false,
               view: false,
               edit: false,
               delete: false
-            });
+            } as RolePrivilege;
             this.role.Privileges.push(newPrivilege);
           }
         });

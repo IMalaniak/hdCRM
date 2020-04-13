@@ -8,18 +8,14 @@ import { cloneDeep } from 'lodash';
 export const selectUsersState = createFeatureSelector<fromUser.UsersState>(fromUser.usersFeatureKey);
 
 export const selectUserById = (userId: number) =>
-  createSelector(selectUsersState, usersState =>
-    usersState.entities[userId] ? new User(usersState.entities[userId]) : null
-  );
+  createSelector(selectUsersState, usersState => usersState.entities[userId]);
 
 export const selectAllUsers = createSelector(selectUsersState, fromUser.selectAll);
 
 export const selectUsersByState = (stateId: number) =>
-  createSelector(selectAllUsers, users => users.filter(user => user.StateId === stateId).map(user => new User(user)));
+  createSelector(selectAllUsers, users => users.filter(user => user.StateId === stateId));
 
-export const selectUsersOnline = createSelector(selectAllUsers, users =>
-  users.filter(user => user.online).map(user => new User(user))
-);
+export const selectUsersOnline = createSelector(selectAllUsers, users => users.filter(user => user.online));
 
 export const allUsersLoaded = createSelector(selectUsersState, userState => userState.allUsersLoaded);
 
@@ -37,6 +33,6 @@ export const selectUsersPage = (page: PageQuery) =>
     } else {
       const start = page.pageIndex * page.pageSize,
         end = start + page.pageSize;
-      return allUsers.slice(start, end).map(user => new User(user));
+      return allUsers.slice(start, end);
     }
   });

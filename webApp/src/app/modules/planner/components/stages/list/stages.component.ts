@@ -68,7 +68,7 @@ export class StagesComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(result => {
         if (result) {
-          const stage = new Stage({ keyString: result });
+          const stage = { keyString: result } as Stage;
           this.store.dispatch(createStage({ stage }));
         }
       });

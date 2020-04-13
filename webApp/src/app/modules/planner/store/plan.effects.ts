@@ -57,7 +57,7 @@ export class PlanEffects {
         this.planService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
           catchError(err => {
             this.store.dispatch(planActions.listPageCancelled());
-            return of(new PlanServerResponse());
+            return of({});
           })
         )
       ),

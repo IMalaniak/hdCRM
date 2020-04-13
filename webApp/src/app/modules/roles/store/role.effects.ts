@@ -59,7 +59,7 @@ export class RoleEffects {
           catchError(err => {
             console.log('error loading a roles page ', err);
             this.store.dispatch(roleActions.listPageCancelled());
-            return of(new RoleServerResponse());
+            return of({});
           })
         )
       ),

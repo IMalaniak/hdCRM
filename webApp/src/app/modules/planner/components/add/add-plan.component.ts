@@ -17,7 +17,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
   styleUrls: ['./add-plan.component.scss']
 })
 export class AddPlanComponent implements OnInit, OnDestroy {
-  plan = new Plan();
+  plan = {} as Plan;
   planData: FormGroup;
   appUser: User;
 

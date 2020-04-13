@@ -52,7 +52,7 @@ export class DepartmentService {
     }
 
     if (dep.Manager && dep.Manager.id) {
-      const manager = new User();
+      const manager = {} as User;
       manager.id = dep.Manager.id;
       dep.Manager = manager;
     }

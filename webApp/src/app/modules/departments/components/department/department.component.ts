@@ -49,8 +49,8 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     this.appUser$ = this.store.pipe(select(currentUser));
     this.editDepartmentPrivilege$ = this.store.pipe(select(isPrivileged('department-edit')));
 
-    this.departmentInitial = new Department(cloneDeep(this.route.snapshot.data['department']));
-    this.department = new Department(cloneDeep(this.route.snapshot.data['department']));
+    this.departmentInitial = cloneDeep(this.route.snapshot.data['department']);
+    this.department = cloneDeep(this.route.snapshot.data['department']);
     this.canEditDepartment$.pipe(takeUntil(this.unsubscribe)).subscribe(canEdit => {
       if (canEdit) {
         const edit = this.route.snapshot.queryParams['edit'];
@@ -124,11 +124,11 @@ export class DepartmentComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(
         data => {
-          this.department = new Department(cloneDeep(data));
-          this.departmentInitial = new Department(cloneDeep(data));
+          this.department = cloneDeep(data);
+          this.departmentInitial = cloneDeep(data);
           const department: Update<Department> = {
             id: this.department.id,
-            changes: new Department(data)
+            changes: data
           };
           this.store.dispatch(departmentSaved({ department }));
           this.editForm = false;

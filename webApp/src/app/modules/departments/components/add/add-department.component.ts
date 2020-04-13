@@ -16,7 +16,7 @@ import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms'
   styleUrls: ['./add-department.component.scss']
 })
 export class AddDepartmentComponent implements OnInit {
-  department = new Department();
+  department = {} as Department;
   departmentData: FormGroup;
 
   private unsubscribe: Subject<void> = new Subject();

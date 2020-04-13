@@ -2,7 +2,7 @@ import { Privilege } from './privilege';
 import { User } from '@/modules/users/models';
 import { ApiResponse } from '@/shared';
 
-export class Role {
+export interface Role {
   id: number;
   keyString: string;
   Privileges: Privilege[];
@@ -10,38 +10,10 @@ export class Role {
   createdAt: Date;
   updatedAt: Date;
   selected: boolean;
-
-  constructor(input?: any) {
-    if (input) {
-      Object.assign(this, input);
-      if (input.Privileges && input.Privileges.length > 0) {
-        this.Privileges = input.Privileges.map(privilege => {
-          return new Privilege(privilege);
-        });
-      }
-      if (input.Users && input.Users.length > 0) {
-        this.Users = input.Users.map(user => {
-          return new User(user);
-        });
-      }
-    }
-  }
 }
 
-export class RoleServerResponse extends ApiResponse {
+export interface RoleServerResponse extends ApiResponse {
   list: Role[];
   role: Role;
   pages: number;
-
-  constructor(input?: any) {
-    super();
-    if (input) {
-      Object.assign(this, input);
-      if (input.list && input.list.length > 0) {
-        this.list = input.list.map(role => {
-          return new Role(role);
-        });
-      }
-    }
-  }
 }

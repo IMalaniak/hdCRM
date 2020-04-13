@@ -11,6 +11,7 @@ import { Asset } from '@/shared/models';
 import { ActivatedRoute } from '@angular/router';
 import { updateUserRequested, changeIsEditingState } from '@/modules/users/store/user.actions';
 import { selectIsEditing } from '@/modules/users/store/user.selectors';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'templates-user-profile-page',
@@ -18,9 +19,12 @@ import { selectIsEditing } from '@/modules/users/store/user.selectors';
   styleUrls: ['./templates-user-profile-page.component.scss']
 })
 export class TemplatesUserProfilePageComponent implements OnInit {
+  baseUrl = environment.baseUrl;
   @Input() user: User;
   @Input() canEdit = false;
   editForm$: Observable<boolean>;
+  coverUrl = './assets/images/userpic/noimage_croped.png';
+  coverTitle = 'noimage';
 
   userInitial: User;
   states$: Observable<State[]>;
@@ -31,7 +35,11 @@ export class TemplatesUserProfilePageComponent implements OnInit {
     this.store.dispatch(allStatesRequested());
     this.states$ = this.store.pipe(select(selectAllStates));
     this.editForm$ = this.store.pipe(select(selectIsEditing));
-    this.userInitial = new User(cloneDeep(this.user));
+    this.userInitial = cloneDeep(this.user);
+    if (!!this.user.avatar) {
+      this.coverUrl = this.baseUrl + this.user.avatar.location + '/thumbnails/' + this.user.avatar.title;
+      this.coverTitle = this.user.avatar.title;
+    }
 
     if (this.canEdit) {
       let isEditing = this.route.snapshot.queryParams['edit'];

@@ -1,8 +1,8 @@
 import { User } from '@/modules/users';
 import { Stage } from './stage';
-import { Asset, ApiResponse } from '@/shared';
+import { Asset, ApiResponse } from '@/shared/models';
 
-export class Plan {
+export interface Plan {
   id: number;
   title: string;
   description: string;
@@ -18,46 +18,10 @@ export class Plan {
   Documents: Asset[];
   createdAt: Date;
   updatedAt: Date;
-
-  constructor(input?: any) {
-    if (input) {
-      Object.assign(this, input);
-      if (input.Creator) {
-        this.Creator = new User(input.Creator);
-      }
-      if (input.Participants) {
-        this.Participants = input.Participants.map((user: any) => {
-          return new User(user);
-        });
-      }
-      if (input.Stages) {
-        this.Stages = input.Stages.map((stage: any) => {
-          return new Stage(stage);
-        });
-      }
-      if (input.Documents) {
-        this.Documents = input.Documents.map((doc: any) => {
-          return new Asset(doc);
-        });
-      }
-    }
-  }
 }
 
-export class PlanServerResponse extends ApiResponse {
+export interface PlanServerResponse extends ApiResponse {
   list: Plan[];
   plan: Plan;
   pages: number;
-
-  constructor(input?: any) {
-    super();
-    if (input) {
-      Object.assign(this, input);
-      if (input.list && input.list.length > 0) {
-        this.list = input.list.map(plan => {
-          return new Plan(plan);
-        });
-      }
-    }
-  }
 }

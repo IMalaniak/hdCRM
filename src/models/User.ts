@@ -35,6 +35,7 @@ export class User extends Model {
   public login!: string;
   public name!: string;
   public surname!: string;
+  public readonly fullname!: string;
   public phone!: string;
   public passwordHash!: string;
   public salt!: string;
@@ -141,6 +142,15 @@ export const UserFactory = (sequelize: Sequelize): void => {
       surname: {
         type: new DataTypes.STRING(50),
         allowNull: false
+      },
+      fullname: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          return `${this.name} ${this.surname}`;
+        },
+        set(value: string) {
+          return [this.name, this.surname] = [...value.split(' ')];
+        }
       },
       phone: {
         type: new DataTypes.CHAR(15)

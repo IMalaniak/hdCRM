@@ -77,16 +77,16 @@ export class UserService {
   formatBeforeSend(user: User): User {
     const formated = {...user};
     if (formated.State) {
-      const state = new State({
+      const state = {
         id: user.State.id
-      });
+      } as State;
       formated.State = state;
     }
     if (formated.Roles) {
       formated.Roles = formated.Roles.map(role => {
-        return new Role({
+        return <Role>{
           id: role.id
-        });
+        };
       });
     }
     return formated as User;

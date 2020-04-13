@@ -1,10 +1,4 @@
-export class State {
+export interface State {
   id: number;
   keyString: string;
-
-  constructor(input?: any) {
-    if (input) {
-      Object.assign(this, input);
-    }
-  }
 }

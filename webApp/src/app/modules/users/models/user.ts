@@ -6,10 +6,11 @@ import { State } from './state';
 import { Asset, ApiResponse } from '@/shared/models';
 import { Organization } from './organization';
 
-export class User {
+export interface User {
   id: number;
   name: string;
   surname: string;
+  fullname: string;
   login: string;
   email: string;
   phone: string;
@@ -36,39 +37,10 @@ export class User {
   activeSockets?: string[];
   OrgRoom: string;
   rooms?: string[];
-
-  constructor(input?: any) {
-    if (input) {
-      Object.assign(this, input);
-      if (input.avatar) {
-        this.avatar = new Asset(input.avatar);
-      }
-    }
-  }
-
-  get fullname(): string {
-    return this.name + ' ' + this.surname;
-  }
-
-  set fullname(fullname: string) {
-    [this.name, this.surname] = [...fullname.split(' ')];
-  }
 }
 
-export class UserServerResponse extends ApiResponse {
+export interface UserServerResponse extends ApiResponse {
   list: User[];
   user: User;
   pages: number;
-
-  constructor(input?: any) {
-    super();
-    if (input) {
-      Object.assign(this, input);
-      if (input.list && input.list.length > 0) {
-        this.list = input.list.map(user => {
-          return new User(user);
-        });
-      }
-    }
-  }
 }

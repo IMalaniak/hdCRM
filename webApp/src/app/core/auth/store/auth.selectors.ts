@@ -2,7 +2,6 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { AuthState, authFeatureKey } from './auth.reducer';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { User } from '@/modules/users/models';
 import { Privilege } from '@/modules/roles';
 const jwtHelper = new JwtHelperService();
 
@@ -12,9 +11,9 @@ export const getApiResponse = createSelector(selectAuthState, auth => auth.apiRe
 
 export const isLoading = createSelector(selectAuthState, auth => auth.loading);
 
-export const currentUser = createSelector(selectAuthState, auth => new User(auth.currentUser));
+export const currentUser = createSelector(selectAuthState, auth => auth.currentUser);
 
-export const getToken = createSelector(currentUser, user => user.token);
+export const getToken = createSelector(currentUser, user => (!!user ? user.token : null));
 
 export const isValidToken = createSelector(getToken, token => (token ? !jwtHelper.isTokenExpired(token) : false));
 
