@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { LayoutRoutingModule } from './layout-routing.module';
 import { PublicViewComponent, PrivateViewComponent } from './view-containers';
 import {
   BreadcrumbsComponent,
@@ -47,7 +46,6 @@ import { UserService } from '@/modules/users';
   imports: [
     CommonModule,
     RouterModule,
-    LayoutRoutingModule,
     SharedModule,
     MessageModule,
     StoreModule.forFeature(fromLayout.layoutFeatureKey, fromLayout.reducer),
