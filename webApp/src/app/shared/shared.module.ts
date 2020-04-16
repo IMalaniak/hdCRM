@@ -10,24 +10,33 @@ import {
   faUserPlus,
   faEdit,
   faBan,
+  faEnvelope,
+  faTimes,
+  faSave,
+  faPencilAlt,
+  faInfo,
+  faPlus,
+  faTrash,
+  faKey,
+  faArrowRight,
+  faArrowLeft,
+  faTrashAlt,
+  faCheck,
+  faPaperPlane,
   faIdBadge,
   faUserEdit,
   faArchive,
   faUserCheck,
   faUserSlash,
   faUserTimes,
-  faEnvelope,
-  faPhone,
-  faTimes,
-  faSave,
-  faPencilAlt
+  faPhone
 } from '@fortawesome/free-solid-svg-icons';
 import { COMPONENTS } from './imports';
 
 @NgModule({
   imports: [CommonModule, FormsModule, RouterModule, AppMaterialModule, FontAwesomeModule, AttachmentsModule],
   declarations: [...COMPONENTS],
-  exports: [...COMPONENTS, AppMaterialModule]
+  exports: [...COMPONENTS, AppMaterialModule, FontAwesomeModule]
 })
 export class SharedModule {
   constructor(library: FaIconLibrary) {
@@ -36,17 +45,27 @@ export class SharedModule {
       faUserPlus,
       faEdit,
       faBan,
+      faEnvelope,
+      faTimes,
+      faSave,
+      faPencilAlt,
+      faInfo,
+      faPlus,
+      faTrash,
+      faKey,
+      faArrowRight,
+      faArrowLeft,
+      faTrashAlt,
+      faCheck,
+      faPaperPlane,
+      // user icons need to preload for dialog...todo check
       faIdBadge,
       faUserEdit,
       faArchive,
       faUserCheck,
       faUserSlash,
       faUserTimes,
-      faEnvelope,
-      faPhone,
-      faTimes,
-      faSave,
-      faPencilAlt
+      faPhone
     );
   }
 }

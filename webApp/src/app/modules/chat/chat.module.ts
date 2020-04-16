@@ -4,9 +4,6 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChatRoutingModule } from './chat-routing.module';
 import { SharedModule } from '@/shared';
-import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faPlus, faEllipsisV, faInfo, faSignInAlt, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-
 import { ChatListComponent, ChatComponent, CreateChatDialogComponent } from './components';
 
 import { ChatService } from './services';
@@ -18,6 +15,8 @@ import { ChatShellComponent, GroupChatComponent, PrivateChatComponent } from './
 import * as fromUser from '../users/store/user.reducer';
 import { UserEffects } from '../users/store/user.effects';
 import { UserService } from '../users';
+import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 
 @NgModule({
   imports: [
@@ -26,7 +25,6 @@ import { UserService } from '../users';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    FontAwesomeModule,
     ChatRoutingModule.forRoot(),
     StoreModule.forFeature(fromChat.chatsFeatureKey, fromChat.reducer),
     StoreModule.forFeature(fromUser.usersFeatureKey, fromUser.reducer),
@@ -39,11 +37,6 @@ import { UserService } from '../users';
 export class ChatModule {
   constructor(library: FaIconLibrary) {
     library.addIcons(
-      faEllipsisV,
-      faInfo,
-      faPlus,
-      faSignInAlt,
-      faPaperPlane
-    );
+      faSignInAlt    );
   }
 }
