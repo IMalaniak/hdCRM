@@ -10,7 +10,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 import { PlannerRoutingModule } from './planner-routing.module';
-import { SharedModule } from '@/shared';
+import { SharedModule } from '@/shared/shared.module';
 
 import {
   AddPlanComponent,

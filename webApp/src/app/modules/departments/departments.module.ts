@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DepartmentsRoutingModule } from './departments-routing.module';
-import { SharedModule } from '@/shared';
+import { SharedModule } from '@/shared/shared.module';
 
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 

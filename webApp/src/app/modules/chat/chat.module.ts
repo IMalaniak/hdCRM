@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChatRoutingModule } from './chat-routing.module';
-import { SharedModule } from '@/shared';
+import { SharedModule } from '@/shared/shared.module';
 import { ChatListComponent, ChatComponent, CreateChatDialogComponent } from './components';
 
 import { ChatService } from './services';

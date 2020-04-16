@@ -11,8 +11,8 @@ import {
   LeftSidebarComponent,
   RightSidebarComponent
 } from './components';
-import { SharedModule } from '@/shared';
-import { MessageModule } from '@/modules';
+import { SharedModule } from '@/shared/shared.module';
+import { MessageModule } from '@/modules/messages/messages.module';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import * as fromLayout from './store/layout.reducer';

@@ -10,7 +10,7 @@ import { AuthEffects } from './store/auth.effects';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { SharedModule } from '@/shared';
+import { SharedModule } from '@/shared/shared.module';
 
 @NgModule({
   imports: [
