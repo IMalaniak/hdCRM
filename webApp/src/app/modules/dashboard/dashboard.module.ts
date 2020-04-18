@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './components/dashboard.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { SharedModule } from '@/shared';
+import { SharedModule } from '@/shared/shared.module';
 
 import { StageService } from '@/modules/planner/services';
 import { EffectsModule } from '@ngrx/effects';

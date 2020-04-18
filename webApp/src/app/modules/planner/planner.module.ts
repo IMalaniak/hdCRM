@@ -10,17 +10,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 import { PlannerRoutingModule } from './planner-routing.module';
-import { SharedModule } from '@/shared';
-import { UsersModule } from '@/modules/users/users.module';
-
-// TODO: delete
-import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import {
-  faEllipsisV,
-  faInfo,
-  faEdit,
-  faTrash
-} from '@fortawesome/free-solid-svg-icons';
+import { SharedModule } from '@/shared/shared.module';
 
 import {
   AddPlanComponent,
@@ -47,8 +37,6 @@ import { StageEffects } from './store/stage.effects';
     DragDropModule,
     PlannerRoutingModule.forRoot(),
     SweetAlert2Module,
-    UsersModule,
-    FontAwesomeModule,
     StoreModule.forFeature(fromPlan.plansFeatureKey, fromPlan.reducer),
     StoreModule.forFeature(fromStage.stagesFeatureKey, fromStage.reducer),
     EffectsModule.forFeature([PlanEffects, StageEffects])
@@ -71,13 +59,4 @@ import { StageEffects } from './store/stage.effects';
     StagesComponent
   ]
 })
-export class PlannerModule {
-  constructor(library: FaIconLibrary) {
-    library.addIcons(
-      faEllipsisV,
-      faInfo,
-      faEdit,
-      faTrash
-    );
-  }
-}
+export class PlannerModule {}

@@ -3,15 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RolesRoutingModule } from './roles-routing.module';
-import { SharedModule } from '@/shared';
-
-import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import {
-  faEllipsisV,
-  faInfo,
-  faEdit,
-  faTrash
-} from '@fortawesome/free-solid-svg-icons';
+import { SharedModule } from '@/shared/shared.module';
 
 import {
   RolesComponent,
@@ -40,7 +32,6 @@ import { PrivilegeEffects } from './store/privilege.effects';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    FontAwesomeModule,
     RolesRoutingModule.forRoot(),
     StoreModule.forFeature(fromRole.rolesFeatureKey, fromRole.reducer),
     StoreModule.forFeature(fromPrivilege.privilegesFeatureKey, fromPrivilege.reducer),
@@ -67,8 +58,4 @@ import { PrivilegeEffects } from './store/privilege.effects';
     AddPrivilegeDialogComponent
   ]
 })
-export class RolesModule {
-  constructor(library: FaIconLibrary) {
-    library.addIcons(faEllipsisV, faInfo, faEdit, faTrash);
-  }
-}
+export class RolesModule {}

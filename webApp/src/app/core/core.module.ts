@@ -1,4 +1,4 @@
-import { NgModule, Optional, SkipSelf } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
@@ -7,9 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
-
-import { EnsureModuleLoadedOnceGuard } from './ensureModuleLoadedOnceGuard';
+import { RouterStateSerializer, StoreRouterConnectingModule, DefaultRouterStateSerializer } from '@ngrx/router-store';
 
 import { httpInterceptorsProviders } from './_interceptors';
 
@@ -40,7 +38,7 @@ import { environment } from 'environments/environment';
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([]),
-    StoreRouterConnectingModule.forRoot({ stateKey: 'router' })
+    StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer, stateKey: 'router' })
   ],
   exports: [RouterModule, HttpClientModule, FormsModule, ReactiveFormsModule, LayoutModule],
   providers: [
@@ -52,10 +50,4 @@ import { environment } from 'environments/environment';
     { provide: RouterStateSerializer, useClass: CustomSerializer }
   ]
 })
-export class CoreModule extends EnsureModuleLoadedOnceGuard {
-  // Ensure that CoreModule is only loaded into AppModule
-  // Looks for the module in the parent injector to see if it's already been loaded (only want it loaded once)
-  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
-    super(parentModule);
-  }
-}
+export class CoreModule {}

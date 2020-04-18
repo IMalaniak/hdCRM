@@ -3,24 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsersRoutingModule } from './users-routing.module';
-import { SharedModule } from '@/shared';
-import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import {
-  faEllipsisV,
-  faUserPlus,
-  faEdit,
-  faBan,
-  faIdBadge,
-  faUserEdit,
-  faArchive,
-  faUserCheck,
-  faUserSlash,
-  faUserTimes,
-  faEnvelope,
-  faPhone,
-  faTimes,
-  faSave
-} from '@fortawesome/free-solid-svg-icons';
+import { SharedModule } from '@/shared/shared.module';
 
 import {
   ProfileComponent,
@@ -38,6 +21,7 @@ import * as fromState from './store/state.reducer';
 import { UserEffects } from './store/user.effects';
 import { StateEffects } from './store/state.effects';
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -45,7 +29,6 @@ import { StateEffects } from './store/state.effects';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    FontAwesomeModule,
     UsersRoutingModule.forRoot(),
     StoreModule.forFeature(fromUser.usersFeatureKey, fromUser.reducer),
     StoreModule.forFeature(fromState.statesFeatureKey, fromState.reducer),
@@ -55,23 +38,4 @@ import { StateEffects } from './store/state.effects';
   providers: [UserService, StateService],
   exports: [ProfileComponent, UserComponent, UsersComponent, UsersDialogComponent]
 })
-export class UsersModule {
-  constructor(library: FaIconLibrary) {
-    library.addIcons(
-      faEllipsisV,
-      faUserPlus,
-      faEdit,
-      faBan,
-      faIdBadge,
-      faUserEdit,
-      faArchive,
-      faUserCheck,
-      faUserSlash,
-      faUserTimes,
-      faEnvelope,
-      faPhone,
-      faTimes,
-      faSave
-    );
-  }
-}
+export class UsersModule {}

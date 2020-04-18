@@ -10,8 +10,7 @@ import { isPrivileged } from '@/core/auth/store/auth.selectors';
 
 @Component({
   selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss']
+  templateUrl: './user.component.html'
 })
 export class UserComponent implements OnInit {
   user: User;

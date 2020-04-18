@@ -10,19 +10,7 @@ import { AuthEffects } from './store/auth.effects';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import {
-  faKey,
-  faArrowRight,
-  faArrowLeft,
-  faTrashAlt,
-  faPaperPlane,
-  faBan,
-  faTimes,
-  faCheck,
-  faPlus
-} from '@fortawesome/free-solid-svg-icons';
-import { SharedModule } from '@/shared';
+import { SharedModule } from '@/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -32,7 +20,6 @@ import { SharedModule } from '@/shared';
     ReactiveFormsModule,
     SharedModule,
     AuthRoutingModule,
-    FontAwesomeModule,
     StoreModule.forFeature(fromAuth.authFeatureKey, fromAuth.reducer),
     EffectsModule.forFeature([AuthEffects])
   ],
@@ -45,8 +32,5 @@ export class AuthModule {
       ngModule: AuthModule,
       providers: [AuthenticationService]
     };
-  }
-  constructor(library: FaIconLibrary) {
-    library.addIcons(faKey, faBan, faArrowRight, faCheck, faTrashAlt, faArrowLeft, faPaperPlane, faTimes, faPlus);
   }
 }
