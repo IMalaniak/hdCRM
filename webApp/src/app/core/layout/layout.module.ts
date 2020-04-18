@@ -41,6 +41,7 @@ import * as fromUser from '@/modules/users/store/user.reducer';
 import { UserEffects } from '@/modules/users/store/user.effects';
 import { UserService } from '@/modules/users';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { TaskManagerModule } from '@/modules/task-manager/task-manager.module';
 
 @NgModule({
   imports: [
@@ -50,7 +51,8 @@ import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
     MessageModule,
     StoreModule.forFeature(fromLayout.layoutFeatureKey, fromLayout.reducer),
     StoreModule.forFeature(fromUser.usersFeatureKey, fromUser.reducer),
-    EffectsModule.forFeature([LayoutEffects, UserEffects])
+    EffectsModule.forFeature([LayoutEffects, UserEffects]),
+    TaskManagerModule
   ],
   declarations: [
     PublicViewComponent,
