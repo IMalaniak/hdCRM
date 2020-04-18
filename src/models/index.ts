@@ -13,6 +13,7 @@ import { PlanStage, PlanStageFactory } from './PlanStage';
 import { Department, DepartmentFactory } from './Department';
 import { RolePrivilege, RolePrivilegeFactory } from './RolePrivileges';
 import { OrganizationFactory, Organization } from './Organization';
+import { TaskFactory, Task } from './Task';
 
 class DataBase {
   sequelize: Sequelize;
@@ -36,6 +37,7 @@ class DataBase {
     StateFactory(this.sequelize);
     UserFactory(this.sequelize);
     UserLoginHistoryFactory(this.sequelize);
+    TaskFactory(this.sequelize);
 
     // associations
     Organization.hasMany(Department, {
@@ -71,6 +73,7 @@ class DataBase {
       foreignKey: 'UserId',
       onDelete: 'cascade'
     });
+    User.hasMany(Task, { foreignKey: 'CreatorId' });
     UserLoginHistory.belongsTo(User);
     PasswordAttribute.belongsTo(User);
     State.hasMany(User);
@@ -128,6 +131,8 @@ class DataBase {
       foreignKey: 'parentDepId'
     });
 
+    Task.belongsTo(User, { as: 'Creator' });
+
     Logger.Info(`DataBase inited`);
   }
 
@@ -152,5 +157,6 @@ export {
   User,
   UserLoginHistory,
   Organization,
+  Task,
   Sequelize
 };

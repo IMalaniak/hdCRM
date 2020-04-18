@@ -9,7 +9,8 @@ import {
   RoleController,
   StageController,
   StateController,
-  ChatController
+  ChatController,
+  TaskController
 } from './controllers';
 import { Request, Response } from 'express';
 import { OK } from 'http-status-codes';
@@ -26,7 +27,8 @@ import { OK } from 'http-status-codes';
   new RoleController(),
   new StageController(),
   new StateController(),
-  new UserController()
+  new UserController(),
+  new TaskController()
 ])
 export class ApiController {
   @Get('')

@@ -40,7 +40,7 @@ export class UserDBController {
     });
   }
 
-  public getAll(currentUser: any, queryParams: any): Promise<{ rows: db.User[]; count: number }> {
+  public getAll(currentUser: db.User, queryParams: any): Promise<{ rows: db.User[]; count: number }> {
     Logger.Info(`Selecting all users...`);
     const limit = parseInt(queryParams.pageSize);
     const offset = parseInt(queryParams.pageIndex) * limit;
