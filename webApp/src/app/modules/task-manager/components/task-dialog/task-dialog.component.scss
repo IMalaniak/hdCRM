@@ -1,0 +1,12 @@
+.task-dialog {
+  &-form-block {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.2em;
+  }
+}

@@ -1,0 +1,20 @@
+<button mat-mini-fab color="primary" class="task-add-btn" (click)="openTaskDialog()">
+  <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+</button>
+<mat-accordion *ngIf="tasks.length > 0">
+  <mat-expansion-panel *ngFor="let task of tasks">
+    <mat-expansion-panel-header>
+      <div class="mat-header-title">
+        <mat-checkbox (change)="changeTaskStatus($event, task)" [checked]="task.isCompleted"></mat-checkbox>
+        <span class="task-label" [ngClass]="{ 'task-completed': task.isCompleted }">{{ task.title }}</span>
+      </div>
+    </mat-expansion-panel-header>
+    <div class="expansion-panel-content">
+      <p class="description">{{ task.description }}</p>
+      <div class="actions-block">
+        <fa-icon [icon]="['fas', 'pencil-alt']" (click)="openTaskDialog(task)" ></fa-icon>
+        <fa-icon [icon]="['fas', 'trash']" (click)="deleteTask(task.id)" ></fa-icon>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

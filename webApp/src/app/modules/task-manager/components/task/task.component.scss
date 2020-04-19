@@ -1,0 +1,177 @@
+@import 'variables';
+@import 'mixins';
+@import '~bootstrap/scss/mixins/breakpoints';
+
+// .task {
+//   max-width: 100%;
+
+//   .task-add-btn {
+//     position: absolute;
+//     top: 0.8em;
+//     right: 1.2em;
+//     width: 25px;
+//     height: 25px;
+//     display: flex;
+//     justify-content: center;
+
+//     > span.mat-button-wrapper {
+//       padding: 0;
+//     }
+//   }
+
+//   &-block {
+//     padding: 0 0.5em 0 1.2em;
+//     margin-bottom: 0.3em;
+
+//     &:first-of-type {
+//       margin-top: 0.8em;
+//     }
+
+//     > li {
+//       display: flex;
+//       flex-direction: row;
+//       align-items: center;
+//       justify-content: space-between;
+
+//       .actions-block {
+//         display: flex;
+//         flex-direction: row;
+//         align-items: center;
+
+//         button {
+//           width: 30px;
+//           height: 30px;
+//           line-height: 30px;
+//           font-size: 11px;
+//           transition: transform $transition;
+
+//           &.button-rotate {
+//             transform: rotate(180deg);
+//             transition: transform $transition;
+//           }
+//         }
+//       }
+
+//       mat-checkbox {
+//         margin-bottom: 0;
+//         line-height: 1;
+//       }
+
+//       .task-label {
+//         line-height: 1;
+//         font-size: 14px;
+//         font-weight: 400;
+//         margin: 0 auto 0 0.8em;
+//         text-overflow: ellipsis;
+//         overflow: hidden;
+//         white-space: nowrap;
+//         cursor: pointer;
+//       }
+
+//       .task-completed {
+//         // @include crm-textcolor('layout', 'dark');
+//         color: grey;
+//         text-decoration: line-through;
+//         transition: all $transition;
+//       }
+//     }
+//     .task-desc-block {
+//       width: 100%;
+//       position: relative;
+//       height: 0;
+//       overflow: hidden;
+//       transition: all $transition;
+
+//       .description {
+//         font-size: 13px;
+//         font-style: italic;
+//         margin: 0.3em 0.4em 0 0;
+//         overflow-wrap: break-word;
+//         word-wrap: break-word;
+//         word-break: break-all;
+//       }
+//     }
+
+//     .desc-expand {
+//       height: auto;
+//     }
+//   }
+// }
+
+.task-add-btn {
+  position: absolute;
+  top: 0.8em;
+  right: 1.2em;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+
+  > span.mat-button-wrapper {
+    padding: 0;
+  }
+}
+
+.mat-expansion-panel {
+  border-radius: 0 !important;
+
+  .mat-expansion-panel-header {
+    padding: 0 1.2em;
+
+    .mat-header-title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+      padding-right: 0.5em;
+
+      mat-checkbox {
+        margin-bottom: 0;
+        line-height: 1;
+      }
+
+      .task-label {
+        font-size: 14px;
+        font-weight: 400;
+        margin-left: 0.8em;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+    }
+
+    .task-completed {
+      color: grey;
+      text-decoration: line-through;
+    }
+  }
+
+  .expansion-panel-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .description {
+      font-size: 13px;
+      font-style: italic;
+      margin: 0.3em 0.4em 0 0;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      word-break: break-all;
+    }
+
+    .actions-block {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      button {
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 11px;
+      }
+    }
+  }
+}
