@@ -24,7 +24,7 @@
         [counter]="role.Privileges.length"
       >
         <div buttons>
-          <atoms-icon-button *ngIf="editForm" (click)="addPrivilegeDialog()" [icon]="['fas', 'plus']">
+          <atoms-icon-button *ngIf="editForm" (onclick)="addPrivilegeDialog()" [icon]="['fas', 'plus']">
             Add
           </atoms-icon-button>
         </div>
@@ -107,13 +107,13 @@
     </div>
   </section>
   <div buttons *ngIf="editRolePrivilege$ | async">
-    <atoms-icon-button *ngIf="!editForm" (click)="onClickEdit()" [icon]="['fas', 'edit']">
+    <atoms-icon-button *ngIf="!editForm" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
       Edit
     </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm" (click)="onUpdateRoleSubmit()" [icon]="['fas', 'save']">
+    <atoms-icon-button *ngIf="editForm" (onclick)="onUpdateRoleSubmit()" [icon]="['fas', 'save']">
       Save
     </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm" (click)="onClickCancelEdit()" [icon]="['fas', 'times']" color="basic">
+    <atoms-icon-button *ngIf="editForm" (onclick)="onClickCancelEdit()" [icon]="['fas', 'times']" color="basic">
       Cancel
     </atoms-icon-button>
   </div>

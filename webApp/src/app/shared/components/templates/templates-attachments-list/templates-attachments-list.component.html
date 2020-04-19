@@ -56,10 +56,10 @@
   ></app-uploader-list>
 
   <div buttons>
-    <atoms-icon-button *ngIf="!uploaderVisible" (click)="onClickAddFiles()" [icon]="['fas', 'folder-plus']">
+    <atoms-icon-button *ngIf="!uploaderVisible" (onclick)="onClickAddFiles()" [icon]="['fas', 'folder-plus']">
       Add files
     </atoms-icon-button>
-    <atoms-icon-button color="basic" *ngIf="uploaderVisible" (click)="onClickAddFilesDone()" [icon]="['fas', 'check']">
+    <atoms-icon-button color="basic" *ngIf="uploaderVisible" (onclick)="onClickAddFilesDone()" [icon]="['fas', 'check']">
       Done
     </atoms-icon-button>
   </div>

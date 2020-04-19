@@ -34,7 +34,7 @@
       >
         <atoms-icon-button
           buttons
-          (click)="addPrivilegeDialog()"
+          (onclick)="addPrivilegeDialog()"
           [icon]="['fas', 'plus']"
           matType="stroked"
         >
@@ -90,7 +90,7 @@
   </section>
   <atoms-icon-button
     buttons
-    (click)="onRegisterSubmit()"
+    (onclick)="onRegisterSubmit()"
     [icon]="['fas', 'save']"
     [disabled]="keyString.invalid"
   >

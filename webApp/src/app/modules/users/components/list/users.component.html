@@ -14,7 +14,7 @@
   <atoms-icon-button
     buttons
     *ngIf="addUserPrivilege$ | async"
-    (click)="openInvitationDialog()"
+    (onclick)="openInvitationDialog()"
     [icon]="['fas', 'user-plus']"
   >
     Invite users

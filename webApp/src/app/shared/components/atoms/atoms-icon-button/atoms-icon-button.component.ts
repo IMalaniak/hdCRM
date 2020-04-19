@@ -1,9 +1,16 @@
-import { Component, Input, HostBinding } from '@angular/core';
+import { Component, Input, HostBinding, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'atoms-icon-button',
   template: `
-    <button type="{{type}}" mat-button color="{{ color }}" class="crm-button mat-{{ matType }}-button" [disabled]="disabled">
+    <button
+      type="{{ type }}"
+      mat-button
+      color="{{ color }}"
+      (click)="onClick($event)"
+      class="crm-button mat-{{ matType }}-button"
+      [disabled]="disabled"
+    >
       <fa-icon *ngIf="icon" [icon]="icon"></fa-icon>
       <span><ng-content></ng-content></span>
     </button>
@@ -18,4 +25,10 @@ export class AtomsIconButtonComponent {
   @Input() disabled = false;
 
   @HostBinding('class.d-inline-block') displayInline = true;
+
+  @Output() onclick = new EventEmitter<MouseEvent>();
+
+  onClick(event: MouseEvent): void {
+    this.onclick.emit(event);
+  }
 }
