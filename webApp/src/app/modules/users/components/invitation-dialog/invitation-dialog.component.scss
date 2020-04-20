@@ -25,12 +25,11 @@
       width: 100%;
     }
 
-    button {
+    atoms-icon-button {
       width: max-content;
       margin-left: auto;
       @include media-breakpoint-up(md) {
-        height: 4.15em;
-        margin-bottom: 1.5em;
+        margin-bottom: 1.34375em;
       }
     }
   }

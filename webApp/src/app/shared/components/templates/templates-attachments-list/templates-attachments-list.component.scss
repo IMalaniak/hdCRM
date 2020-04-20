@@ -2,24 +2,18 @@
 @import 'mixins';
 
 .table-attachments {
-    width: 100%;
-  
-    .mat-column-icon {
-      fa-icon {
-        font-size: 1.3em;
-      }
-    }
-  
-    .mat-column-title {
-      span {
-        cursor: pointer;
-        color: $link-color;
-      }
-    }
-  
-    .mat-column-actions {
-      .trash {
-        @include crm-textcolor('theme', 'warn');
-      }
+  width: 100%;
+
+  .mat-column-icon {
+    fa-icon {
+      font-size: 1.3em;
     }
   }
+
+  .mat-column-title {
+    span {
+      cursor: pointer;
+      color: $link-color;
+    }
+  }
+}

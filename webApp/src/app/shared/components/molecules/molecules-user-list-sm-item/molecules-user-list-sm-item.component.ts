@@ -9,7 +9,14 @@ import { User } from '@/modules/users/models';
       <h3 matLine>
         <a [routerLink]="['/users/details/', user.id]">{{ user.fullname }}</a>
       </h3>
-      <fa-icon *ngIf="editMode" [icon]="['fas', 'trash']" class="text-danger cursor-pointer" (click)="onRemoveClick(user.id)"></fa-icon>
+      <atoms-icon-button
+        *ngIf="editMode"
+        color="warn"
+        [icon]="['fas', 'trash']"
+        matType="icon"
+        (onclick)="onRemoveClick(user.id)"
+      >
+      </atoms-icon-button>
       <mat-divider></mat-divider>
     </mat-list-item>
   `
