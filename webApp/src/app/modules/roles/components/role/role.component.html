@@ -83,11 +83,13 @@
             <ng-container matColumnDef="actions">
               <mat-header-cell *matHeaderCellDef> </mat-header-cell>
               <mat-cell *matCellDef="let privilege">
-                <fa-icon
+                <atoms-icon-button
+                  color="warn"
                   [icon]="['fas', 'trash']"
-                  class="text-danger cursor-pointer"
-                  (click)="removePriv(privilege.id)"
-                ></fa-icon>
+                  matType="icon"
+                  (onclick)="removePriv(privilege.id)"
+                >
+                </atoms-icon-button>
               </mat-cell>
             </ng-container>
             <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
