@@ -33,9 +33,8 @@
       <ng-container matColumnDef="actions" stickyEnd>
         <mat-header-cell *matHeaderCellDef i18n="@@globalsListActions"></mat-header-cell>
         <mat-cell *matCellDef="let item">
-          <button class="trash" mat-icon-button (click)="handleDeleteFile(item.id)">
-            <fa-icon [icon]="['fas', 'trash-alt']"></fa-icon>
-          </button>
+          <atoms-icon-button color="warn" [icon]="['fas', 'trash-alt']" matType="icon" (onclick)="handleDeleteFile(item.id)">
+          </atoms-icon-button>
         </mat-cell>
       </ng-container>
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -56,10 +55,10 @@
   ></app-uploader-list>
 
   <div buttons>
-    <atoms-icon-button *ngIf="!uploaderVisible" (click)="onClickAddFiles()" [icon]="['fas', 'folder-plus']">
+    <atoms-icon-button *ngIf="!uploaderVisible" (onclick)="onClickAddFiles()" [icon]="['fas', 'folder-plus']">
       Add files
     </atoms-icon-button>
-    <atoms-icon-button color="basic" *ngIf="uploaderVisible" (click)="onClickAddFilesDone()" [icon]="['fas', 'check']">
+    <atoms-icon-button color="basic" *ngIf="uploaderVisible" (onclick)="onClickAddFilesDone()" [icon]="['fas', 'check']">
       Done
     </atoms-icon-button>
   </div>

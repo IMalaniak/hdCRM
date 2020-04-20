@@ -77,9 +77,8 @@
       <ng-container matColumnDef="actions" stickyEnd>
         <mat-header-cell *matHeaderCellDef i18n="@@globalsListActions"></mat-header-cell>
         <mat-cell *matCellDef="let plan">
-          <button mat-icon-button [matMenuTriggerFor]="menu">
-            <fa-icon [icon]="['fas', 'ellipsis-v']"></fa-icon>
-          </button>
+          <atoms-icon-button [matMenuTriggerFor]="menu" color="basic" [icon]="['fas', 'ellipsis-v']" matType="icon">
+          </atoms-icon-button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="onPlanSelect(plan.id)">
               <fa-icon [icon]="['fas', 'info']"></fa-icon>

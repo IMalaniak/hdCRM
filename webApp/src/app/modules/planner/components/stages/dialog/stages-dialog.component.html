@@ -3,11 +3,11 @@
   <app-stages></app-stages>
 </section>
 <div mat-dialog-actions class="justify-content-end">
-  <atoms-icon-button (click)="onNoClick()" [icon]="['fas', 'times']" color="basic">
+  <atoms-icon-button (onclick)="onNoClick()" [icon]="['fas', 'times']" color="basic">
     Cancel
   </atoms-icon-button>
 
-  <atoms-icon-button [mat-dialog-close]="stagesComponent.selection.selected" [icon]="['fas', 'save']" cdkFocusInitial>
+  <atoms-icon-button [mat-dialog-close]="stagesComponent.selection.selected" [icon]="['fas', 'save']">
     Save
   </atoms-icon-button>
 </div>
