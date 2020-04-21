@@ -159,10 +159,16 @@ main {
   }
 }
 
-.mat-icon-button {
-  .mat-button-wrapper {
-    fa-icon {
-      font-size: 1.25em;
+.mat-dialog-actions {
+  atoms-icon-button {
+    margin: 0 0.5 * crmsize(spacer, null, true);
+
+    &:first-of-type {
+      margin-left: 0;
+    }
+
+    &:last-of-type {
+      margin-right: 0;
     }
   }
 }

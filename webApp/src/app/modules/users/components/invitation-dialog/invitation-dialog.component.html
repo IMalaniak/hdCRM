@@ -59,14 +59,13 @@
         </mat-error>
       </mat-error>
     </mat-form-field>
-    <button
-      mat-raised-button
-      color="primary"
+    <atoms-icon-button
+      (onclick)="addUserToInvitation(userData.value)"
+      [icon]="['fas', 'plus']"
+      matType="fab"
       [disabled]="userData.invalid || errorInvitations === true"
-      (click)="addUserToInvitation(userData.value)"
     >
-      <fa-icon [icon]="['fas', 'plus']"></fa-icon>
-    </button>
+    </atoms-icon-button>
   </form>
 </div>
 <div class="rounded text-center w-100 mb-3 py-3 failed-message" *ngIf="errorInvitations">
@@ -77,10 +76,10 @@
 </div>
 <mat-divider class="mt-4 mt-md-0"></mat-divider>
 <div mat-dialog-actions class="justify-content-end mb-1 mt-3">
-  <atoms-icon-button (click)="onNoClick()" [icon]="['fas', 'times']" color="basic">
+  <atoms-icon-button (onclick)="onNoClick()" [icon]="['fas', 'times']" color="basic">
     Cancel
   </atoms-icon-button>
-  <atoms-icon-button [disabled]="invitedUsers.length === 0" (click)="sendInvitation()" [icon]="['fas', 'envelope']">
+  <atoms-icon-button [disabled]="invitedUsers.length === 0" (onclick)="sendInvitation()" [icon]="['fas', 'envelope']">
     Send invitations
   </atoms-icon-button>
 </div>

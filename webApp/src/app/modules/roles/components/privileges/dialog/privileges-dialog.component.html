@@ -3,13 +3,12 @@
   <app-privileges></app-privileges>
 </section>
 <div mat-dialog-actions class="justify-content-end">
-  <atoms-icon-button (click)="onNoClick()" [icon]="['fas', 'times']" color="basic">
+  <atoms-icon-button (onclick)="onNoClick()" [icon]="['fas', 'times']" color="basic">
     Cancel
   </atoms-icon-button>
   <atoms-icon-button
     [icon]="['fas', 'save']"
     [mat-dialog-close]="privilegesComponent.selection.selected"
-    cdkFocusInitial
   >
     Save
   </atoms-icon-button>

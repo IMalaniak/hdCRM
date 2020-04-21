@@ -105,7 +105,7 @@
                     </div>
                   </div>
                   <div class="d-flex justify-content-end pt-3">
-                    <atoms-icon-button matType="stroked" type="button" (click)="stepper.next()" [icon]="['fas', 'arrow-right']">
+                    <atoms-icon-button matType="stroked" type="button" (onclick)="stepper.next()" [icon]="['fas', 'arrow-right']">
                       Next
                     </atoms-icon-button>
                   </div>
@@ -177,10 +177,10 @@
                     </div>
                   </div>
                   <div class="d-flex justify-content-between">
-                    <atoms-icon-button matType="stroked" (click)="stepper.previous()" [icon]="['fas', 'arrow-left']">
+                    <atoms-icon-button matType="stroked" (onclick)="stepper.previous()" [icon]="['fas', 'arrow-left']">
                       Back
                     </atoms-icon-button>
-                    <atoms-icon-button matType="stroked" (click)="stepper.next()" [icon]="['fas', 'arrow-right']">
+                    <atoms-icon-button matType="stroked" (onclick)="stepper.next()" [icon]="['fas', 'arrow-right']">
                       Next
                     </atoms-icon-button>
                   </div>
@@ -311,13 +311,13 @@
                     </mat-accordion>
                   </div>
                   <div class="d-flex justify-content-between">
-                    <atoms-icon-button matType="stroked" (click)="stepper.previous()" [icon]="['fas', 'arrow-left']">
+                    <atoms-icon-button matType="stroked" (onclick)="stepper.previous()" [icon]="['fas', 'arrow-left']">
                       Back
                     </atoms-icon-button>
                     <atoms-icon-button
                       matType="stroked"
                       color="warn"
-                      (click)="stepper.reset()"
+                      (onclick)="stepper.reset()"
                       [icon]="['fas', 'trash-alt']"
                     >
                       Reset all
@@ -328,7 +328,7 @@
               <div class="d-flex justify-content-end btn-register">
                 <atoms-icon-button
                   [disabled]="userData.invalid || submitDisabled"
-                  (click)="onRegisterSubmit()"
+                  (onclick)="onRegisterSubmit()"
                   [icon]="['fas', 'paper-plane']"
                 >
                   Submit

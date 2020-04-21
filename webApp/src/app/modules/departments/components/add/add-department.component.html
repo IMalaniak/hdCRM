@@ -58,6 +58,7 @@
       </form>
     </div>
     <div class="col-md-6">
+    <!-- TODO -->
       <section
         class="app-content-box"
         [title]="'Manager'"
@@ -146,7 +147,7 @@
   </div>
   <atoms-icon-button
     buttons
-    (click)="onClickSubmit()"
+    (onclick)="onClickSubmit()"
     [icon]="['fas', 'paper-plane']"
     [disabled]="departmentData.invalid"
   >
