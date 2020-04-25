@@ -27,13 +27,12 @@ export class TaskDialogComponent implements OnInit {
   ngOnInit() {
     this.buildTaskForm();
     this.setDataIfTaskExist();
-    console.log(this.data.task);
   }
 
   buildTaskForm(): void {
     this.taskData = this.fb.group({
-      title: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
-      description: new FormControl(null, Validators.maxLength(75)),
+      title: new FormControl(null, [Validators.required, Validators.maxLength(75)]),
+      description: new FormControl(null, Validators.maxLength(100)),
       isCompleted: new FormControl(null),
       priority: new FormControl(null, Validators.required)
     });
@@ -44,15 +43,6 @@ export class TaskDialogComponent implements OnInit {
       this.taskData.addControl('id', new FormControl(null));
       this.taskData.addControl('CreatorId', new FormControl(null));
 
-      // TODO: delete if new works better
-      // // tslint:disable-next-line:forin
-      // for (const formKey in this.taskData.value) {
-      //   for (const taskKey in this.data.task) {
-      //     if (formKey === taskKey) {
-      //       this.taskData.patchValue({ ...this.taskData, [formKey]: this.data.task[taskKey] });
-      //     }
-      //   }
-      // }
       for (let formKey of Object.keys(this.taskData.value)) {
         for (let taskKey of Object.keys(this.data.task)) {
           if (formKey === taskKey) {
@@ -68,14 +58,12 @@ export class TaskDialogComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.taskData.get('priority').patchValue(+this.taskData.get('priority').value);
     if (!isEmpty(this.data.task)) {
       this.dialogRef.close({ ...this.taskData.value });
-      console.log(this.taskData.value);
     } else {
-      // TODO: change priority to number
       this.taskData.get('isCompleted').patchValue(false);
       this.dialogRef.close({ ...this.taskData.value });
-      console.log(this.taskData.value);
     }
   }
 

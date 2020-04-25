@@ -29,38 +29,6 @@ app-right-sidebar {
     right: 0;
     bottom: 0;
   }
-  // @include crm-bgcolor('layout', 'background');
-  // position: fixed;
-  // top: crmsize(header, height, true);
-  // right: 0;
-  // bottom: 0;
-  // min-width: 100%;
-  // transition: all $transition;
-  // z-index: 100;
-
-  // &.minimized {
-  //   right: -100%;
-  // }
-
-  // @include media-breakpoint-up(md) {
-  //   min-width: crmsize(sidebar, width, true);
-  //   flex-basis: crmsize(sidebar, width, true);
-
-  //   &.minimized {
-  //     right: -(crmsize(sidebar, width, true));
-  //   }
-  // }
-
-  // @include media-breakpoint-up(lg) {
-  //   position: sticky;
-  //   top: 0;
-  //   right: 0;
-  //   bottom: 0;
-
-  //   &.minimized {
-  //     left: 100%;
-  //   }
-  // }
 }
 
 .sidebar-wrapper {
@@ -77,72 +45,6 @@ app-right-sidebar {
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-
-    // .header-block {
-    //   @include crm-bgcolor('layout', 'milk');
-    //   display: flex;
-    //   flex-direction: row;
-    //   justify-content: space-between;
-    //   align-items: center;
-    //   height: crmsize(header, height, true);
-    //   padding: 0 1em;
-
-    //   > .header-title {
-    //     font-size: 1em;
-    //     text-transform: uppercase;
-    //     margin: 0;
-
-    //     &.mat-badge-medium .mat-badge-content {
-    //       width: 19px;
-    //       height: 19px;
-    //       line-height: 19px;
-    //       top: 0;
-    //       right: -2em;
-    //     }
-    //   }
-    // }
-
-    // > .users-block {
-    //   display: flex;
-    //   flex-direction: column;
-
-    //   > ul {
-    //     padding-left: 1.2em;
-    //     margin-bottom: 1.4rem;
-
-    //     &:first-of-type {
-    //       margin-top: 1.4em;
-    //     }
-
-    //     > li {
-    //       display: flex;
-    //       flex-direction: row;
-
-    //       .userpic {
-    //         max-height: 2.3rem;
-    //       }
-
-    //       .user-info {
-    //         display: flex;
-    //         align-items: center;
-    //         margin-left: 0.8em;
-
-    //         > .user-fullname {
-    //           line-height: 1;
-    //           font-size: 0.95em;
-    //           font-weight: 400;
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
-
-    // .task {
-    //   &-block {
-    //     display: flex;
-    //     flex-direction: column;
-    //   }
-    // }
   }
 
   > .btn-wrapper {

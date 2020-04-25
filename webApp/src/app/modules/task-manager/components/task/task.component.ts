@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { Task } from '../../models';
 import { Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
 import { MediaqueryService } from '@/shared';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-task',
@@ -23,7 +24,6 @@ export class TaskComponent implements OnDestroy {
 
   task: Task;
   taskInitial: Task;
-  title: string;
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
@@ -33,28 +33,10 @@ export class TaskComponent implements OnDestroy {
     private mediaQuery: MediaqueryService
   ) {}
 
-  // TODO: event type
-  changeTaskStatus(event: any, task: Task): void {
-    this.task = { ...task, isCompleted: event.checked };
-
-    this.taskService
-      .updateOne(this.task)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(data => {
-        this.task = cloneDeep(data);
-        const task: Update<Task> = {
-          id: this.task.id,
-          changes: data
-        };
-
-        this.store.dispatch(updateTask({ task }));
-      });
-  }
-
   openTaskDialog(task?: Task): void {
     let title: string;
-    task ? (title = 'Update task') : ((title = 'Add new task'), (task = this.task));
-    console.log(this.task);
+    let newTask: Task;
+    task ? (title = 'Update task') : ((title = 'Add new task'), (task = newTask));
 
     const dialogRef = this.dialog.open(TaskDialogComponent, {
       ...this.mediaQuery.smallPopupSize,
@@ -114,6 +96,23 @@ export class TaskComponent implements OnDestroy {
 
   deleteTask(id: number): void {
     this.store.dispatch(deleteTask({ id }));
+  }
+
+  changeTaskStatus(event: MatCheckboxChange, task: Task): void {
+    this.task = { ...task, isCompleted: event.checked };
+
+    this.taskService
+      .updateOne(this.task)
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(data => {
+        this.task = cloneDeep(data);
+        const task: Update<Task> = {
+          id: this.task.id,
+          changes: data
+        };
+
+        this.store.dispatch(updateTask({ task }));
+      });
   }
 
   ngOnDestroy() {

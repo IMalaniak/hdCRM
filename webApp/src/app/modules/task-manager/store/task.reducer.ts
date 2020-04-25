@@ -7,7 +7,20 @@ export interface TaskState extends EntityState<Task> {
   loading: boolean;
 }
 
-export const adapter: EntityAdapter<Task> = createEntityAdapter<Task>({});
+function sortByIdAndPriority(t1: Task, t2: Task) {
+  const compareByPriority = t2.priority - t1.priority;
+  const compareById = t2.id - t1.id;
+
+  if (compareByPriority !== 0) {
+    return compareByPriority;
+  } else if (t1.priority === t2.priority) {
+    return compareById;
+  }
+}
+
+export const adapter: EntityAdapter<Task> = createEntityAdapter<Task>({
+  sortComparer: sortByIdAndPriority
+});
 
 export const initialTaskState: TaskState = adapter.getInitialState({
   loading: false

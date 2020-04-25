@@ -7,6 +7,7 @@ import { selectUsersOnline } from '@/modules/users/store/user.selectors';
 import { OnlineUserListRequested } from '@/modules/users/store/user.actions';
 import { Task } from '@/modules/task-manager';
 import { selectAllTasks } from '@/modules/task-manager/store/task.selectors';
+import { taskListRequested } from '@/modules/task-manager/store/task.actions';
 
 @Component({
   selector: 'app-right-sidebar',
@@ -31,6 +32,7 @@ export class RightSidebarComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(OnlineUserListRequested());
+    this.store.dispatch(taskListRequested());
     this.onlineUsers$ = this.store.pipe(select(selectUsersOnline));
     this.tasks$ = this.store.pipe(select(selectAllTasks));
   }

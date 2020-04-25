@@ -4,6 +4,11 @@
     flex-direction: column;
   }
 
+  &-description-area {
+    resize: vertical;
+    max-height: 5.8em;
+  }
+
   &-actions {
     display: flex;
     justify-content: flex-end;

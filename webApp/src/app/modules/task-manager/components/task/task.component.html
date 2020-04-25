@@ -1,20 +1,65 @@
-<button mat-mini-fab color="primary" class="task-add-btn" (click)="openTaskDialog()">
-  <fa-icon [icon]="['fas', 'plus']"></fa-icon>
-</button>
-<mat-accordion *ngIf="tasks.length > 0">
-  <mat-expansion-panel *ngFor="let task of tasks">
-    <mat-expansion-panel-header>
-      <div class="mat-header-title">
-        <mat-checkbox (change)="changeTaskStatus($event, task)" [checked]="task.isCompleted"></mat-checkbox>
-        <span class="task-label" [ngClass]="{ 'task-completed': task.isCompleted }">{{ task.title }}</span>
-      </div>
-    </mat-expansion-panel-header>
-    <div class="expansion-panel-content">
-      <p class="description">{{ task.description }}</p>
-      <div class="actions-block">
-        <fa-icon [icon]="['fas', 'pencil-alt']" (click)="openTaskDialog(task)" ></fa-icon>
-        <fa-icon [icon]="['fas', 'trash']" (click)="deleteTask(task.id)" ></fa-icon>
-      </div>
-    </div>
-  </mat-expansion-panel>
-</mat-accordion>
+<section
+  class="app-content-box"
+  [title]="'Tasks'"
+  [cssClass]="'border-0 my-0'"
+  [contentCssClass]="'bg-light p-0'"
+  [headCssClass]="'text-black text-uppercase'"
+  [counter]="tasks.length"
+>
+  <div buttons>
+    <atoms-icon-button
+      matType="icon"
+      (click)="openTaskDialog()"
+      [icon]="['fas', 'plus']"
+      color="primary"
+      matTooltip="{{ 'Add new task' }}"
+      matTooltipPosition="above"
+    >
+    </atoms-icon-button>
+  </div>
+
+  <div content>
+    <mat-accordion *ngIf="tasks.length > 0">
+      <mat-expansion-panel *ngFor="let task of tasks">
+        <mat-expansion-panel-header>
+          <div class="mat-header">
+            <mat-checkbox
+              (change)="changeTaskStatus($event, task)"
+              [checked]="task.isCompleted"
+              (click)="$event.stopPropagation()"
+            ></mat-checkbox>
+            <span class="task-label" [ngClass]="{ 'task-completed': task.isCompleted }">{{ task.title }}</span>
+            <fa-icon
+              [icon]="['fab', 'font-awesome-flag']"
+              class="task-priority-flag"
+              [ngClass]="{
+                'task-priority-1': task.priority === 1,
+                'task-priority-2': task.priority === 2,
+                'task-priority-3': task.priority === 3,
+                'task-priority-4': task.priority === 4
+              }"
+            >
+            </fa-icon>
+          </div>
+        </mat-expansion-panel-header>
+        <div class="expansion-panel-content">
+          <p class="description" *ngIf="task.description; else noDesc">{{ task.description }}</p>
+          <ng-template #noDesc
+            ><p class="description" i18n=" @@taskComponentNoDescription ">No description..</p></ng-template
+          >
+          <div class="d-flex" [ngStyle]="{ 'flex-direction': task.description ? 'column' : 'row' }">
+            <atoms-icon-button
+              matType="icon"
+              (onclick)="openTaskDialog(task)"
+              [icon]="['fas', 'pencil-alt']"
+              color="basic"
+            >
+            </atoms-icon-button>
+            <atoms-icon-button matType="icon" (onclick)="deleteTask(task.id)" [icon]="['fas', 'trash']" color="warn">
+            </atoms-icon-button>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</section>

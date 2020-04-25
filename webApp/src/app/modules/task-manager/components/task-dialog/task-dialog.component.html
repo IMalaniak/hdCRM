@@ -25,19 +25,13 @@
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label i18n="@@taskDialogСomponentInputLableDescription">Description:</mat-label>
-      <input matInput formControlName="description" type="text" />
+      <textarea matInput formControlName="description" type="text" class="task-dialog-description-area"></textarea>
       <mat-error
         *ngIf="
           taskData.controls['description'].invalid &&
           (taskData.controls['description'].dirty || taskData.controls['description'].touched)
         "
       >
-        <mat-error
-          *ngIf="taskData.controls['description'].errors.required"
-          i18n=" @@taskDialogСomponentInputErrorsDescriptionRequired "
-        >
-          Description is required!
-        </mat-error>
         <mat-error
           *ngIf="taskData.controls['description'].errors.maxlength"
           i18n=" @@taskDialogСomponentInputErrorsDescriptionTooLong "
@@ -49,9 +43,10 @@
     <mat-form-field appearance="outline">
       <mat-label i18n=" @@taskDialogСomponentInputLablePriority ">Priority:</mat-label>
       <mat-select formControlName="priority">
-        <mat-option value="1">1</mat-option>
-        <mat-option value="2">2</mat-option>
-        <mat-option value="3">3</mat-option>
+        <mat-option value="1">Not urgent or important</mat-option>
+        <mat-option value="2">Urgent not important</mat-option>
+        <mat-option value="3">Important not urgent</mat-option>
+        <mat-option value="4">Urgent and important</mat-option>
       </mat-select>
       <mat-error
         *ngIf="
@@ -73,7 +68,7 @@
   <atoms-icon-button (click)="onNoClick()" [icon]="['fas', 'times']" color="basic">
     Cancel
   </atoms-icon-button>
-  <atoms-icon-button [disabled]="taskData.invalid" (action)="onSubmit()" [icon]="['fas', 'save']" color="basic">
+  <atoms-icon-button [disabled]="taskData.invalid" (onclick)="onSubmit()" [icon]="['fas', 'save']" color="primary">
     Save
   </atoms-icon-button>
 </div>

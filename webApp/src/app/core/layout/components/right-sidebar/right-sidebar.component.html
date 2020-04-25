@@ -7,21 +7,7 @@
       boxCss="border-0 mt-3 mt-sm-0"
     ></templates-box-user-list-sm>
 
-    <div class="task task-block position-relative">
-      <div class="header-block position-relative">
-        <h5
-          i18n="@@rightSidebarComponentTasksTitle"
-          class="header-title"
-          matBadge="{{ (tasks$ | async).length }}"
-          matBadgeOverlap="false"
-        >
-          Tasks
-        </h5>
-      </div>
-
-      <app-task [tasks]="tasks$ | async"></app-task>
-    </div>
-
+    <app-task [tasks]="tasks$ | async" *ngIf="(tasks$ | async).length > 0"></app-task>
   </div>
   <div class="btn-wrapper">
     <div class="btn-expand-wrapper" (click)="toggleRightSidebar()">
