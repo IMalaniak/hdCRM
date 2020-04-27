@@ -7,10 +7,10 @@ export class TaskDBController {
     return db.Task.findByPk(taskId);
   }
 
-  public getAll(currentUser: db.User): Promise<{ rows: db.Task[] }> {
+  public getAll(currentUser: db.User): Promise<db.Task[]> {
     Logger.Info(`Selecting all tasks...`);
 
-    return db.Task.findAndCountAll({
+    return db.Task.findAll({
       where: {
         CreatorId: currentUser.id
       }

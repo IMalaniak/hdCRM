@@ -15,8 +15,8 @@ export class TaskController {
   private getAll(req: Request, res: Response) {
     this.taskDbCtrl
       .getAll(req.user)
-      .then(data => {
-        return res.status(OK).json({ list: data.rows });
+      .then(tasks => {
+        return res.status(OK).json(tasks);
       })
       .catch((err: any) => {
         Logger.Err(err);
@@ -27,7 +27,7 @@ export class TaskController {
   @Post('')
   @Middleware([Passport.authenticate()])
   private create(req: Request, res: Response) {
-    req.body.CreatorId =  req.user.id;
+    req.body.CreatorId = req.user.id;
 
     this.taskDbCtrl
       .create(req.body)

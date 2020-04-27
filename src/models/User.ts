@@ -147,7 +147,7 @@ export class User extends Model {
     ManagedDepartment: Association<User, Department>;
     Department: Association<User, Department>;
     PasswordAttributes: Association<User, PasswordAttribute>;
-    Task: Association<User, Task>;
+    Tasks: Association<User, Task>;
   };
 }
 
@@ -173,7 +173,7 @@ export const UserFactory = (sequelize: Sequelize): void => {
           return `${this.name} ${this.surname}`;
         },
         set(value: string) {
-          return [this.name, this.surname] = [...value.split(' ')];
+          return ([this.name, this.surname] = [...value.split(' ')]);
         }
       },
       phone: {

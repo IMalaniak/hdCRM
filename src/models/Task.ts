@@ -1,12 +1,4 @@
-import {
-  Sequelize,
-  Model,
-  DataTypes,
-  Association,
-  BelongsToCreateAssociationMixin,
-  BelongsToGetAssociationMixin,
-  BelongsToSetAssociationMixin
-} from 'sequelize';
+import { Sequelize, Model, DataTypes, Association, BelongsToGetAssociationMixin } from 'sequelize';
 import { User } from './User';
 
 export class Task extends Model {
@@ -23,9 +15,7 @@ export class Task extends Model {
   // from assotiations
   public CreatorId!: number;
 
-  public createCreator!: BelongsToCreateAssociationMixin<User>;
   public getCreator!: BelongsToGetAssociationMixin<User>;
-  public setCreator!: BelongsToSetAssociationMixin<User, number>;
 
   public readonly Creator?: User;
 
@@ -43,7 +33,7 @@ export const TaskFactory = (sequelize: Sequelize): void => {
         primaryKey: true
       },
       title: {
-        type: new DataTypes.STRING(255),
+        type: new DataTypes.STRING(75),
         allowNull: false
       },
       description: {
