@@ -43,10 +43,7 @@
     <mat-form-field appearance="outline">
       <mat-label i18n=" @@taskDialogСomponentInputLablePriority ">Priority:</mat-label>
       <mat-select formControlName="priority">
-        <mat-option value="1">Not urgent or important</mat-option>
-        <mat-option value="2">Urgent not important</mat-option>
-        <mat-option value="3">Important not urgent</mat-option>
-        <mat-option value="4">Urgent and important</mat-option>
+        <mat-option *ngFor="let priority of priorityValues" [value]="priority.value">{{ priority.label }}</mat-option>
       </mat-select>
       <mat-error
         *ngIf="

@@ -28,9 +28,9 @@ $priorityRules: (
       }
 
       .task-label {
-        font-size: 14px;
-        font-weight: 400;
         margin-left: 0.8em;
+        font-size: 0.95em;
+        font-weight: 400;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
@@ -63,19 +63,11 @@ $priorityRules: (
     justify-content: space-between;
 
     .description {
-      font-size: 13px;
+      font-size: 0.9em;
       font-style: italic;
       margin: 0.2em auto 0 0;
       overflow-wrap: break-word;
       word-wrap: break-word;
     }
   }
-}
-
-::ng-deep .mat-menu-panel {
-  min-width: fit-content !important;
-}
-
-::ng-deep .mat-expansion-panel-body {
-  padding: 0 4px 16px 18px !important;
 }

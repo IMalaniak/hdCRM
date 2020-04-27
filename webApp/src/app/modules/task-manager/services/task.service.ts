@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Task, TaskServerResponse } from '../models';
+import { Task } from '../models';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -17,7 +17,7 @@ export class TaskService {
     return this.http.post<any>(this.api, task);
   }
 
-  updateOne(task: Task): Observable<Task> {
+  updateTask(task: Task): Observable<Task> {
     return this.http.put<Task>(`${this.api}/${task.id}`, task);
   }
 
@@ -25,7 +25,7 @@ export class TaskService {
     return this.http.delete<any>(`${this.api}/${id}`);
   }
 
-  getList(): Observable<TaskServerResponse> {
-    return this.http.get<TaskServerResponse>(this.api);
+  getList(): Observable<Task[]> {
+    return this.http.get<Task[]>(this.api);
   }
 }

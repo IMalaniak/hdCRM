@@ -7,7 +7,7 @@
       boxCss="border-0 mt-3 mt-sm-0"
     ></templates-box-user-list-sm>
 
-    <app-task [tasks]="tasks$ | async" *ngIf="(tasks$ | async).length > 0"></app-task>
+    <task-manager></task-manager>
   </div>
   <div class="btn-wrapper">
     <div class="btn-expand-wrapper" (click)="toggleRightSidebar()">

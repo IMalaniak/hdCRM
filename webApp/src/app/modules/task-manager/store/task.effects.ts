@@ -4,8 +4,9 @@ import { of } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 import { TaskService } from '../services';
 import * as TaskActions from './task.actions';
-import { Task, TaskServerResponse } from '../models';
+import { Task } from '../models';
 import Swal from 'sweetalert2';
+import { Update } from '@ngrx/entity';
 
 @Injectable()
 export class TaskEffects {
@@ -15,12 +16,12 @@ export class TaskEffects {
       mergeMap(() =>
         this.taskService.getList().pipe(
           catchError(err => {
-            console.log('error loading a tasks page ', err);
+            console.log('error loading a tasks list ', err);
             return of({});
           })
         )
       ),
-      map((response: TaskServerResponse) => TaskActions.taskListLoaded({ response }))
+      map((tasks: Task[]) => TaskActions.taskListLoaded({ tasks }))
     )
   );
 
@@ -56,6 +57,42 @@ export class TaskEffects {
           })
         )
       )
+    )
+  );
+
+  updateTask$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TaskActions.updateTaskRequested),
+      map(payload => payload.task),
+      mergeMap(toUpdate =>
+        this.taskService.updateTask(toUpdate).pipe(
+          catchError(err => {
+            TaskActions.updateTaskCancelled();
+            return of(
+              Swal.fire({
+                text: 'Ooops, something went wrong!',
+                icon: 'error',
+                timer: 3000
+              })
+            );
+          })
+        )
+      ),
+      map((data: Task) => {
+        const task: Update<Task> = {
+          id: data.id,
+          changes: data
+        };
+        Swal.fire({
+          text: 'Task updated!',
+          icon: 'success',
+          timer: 2500,
+          toast: true,
+          showConfirmButton: false,
+          position: 'bottom-end'
+        });
+        return TaskActions.updateTaskSuccess({ task });
+      })
     )
   );
 

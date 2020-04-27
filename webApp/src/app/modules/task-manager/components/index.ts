@@ -1,2 +1,2 @@
-export * from './task/task.component';
-export * from './task-dialog/task-dialog.component'
+export * from './task-manager/task-manager.component';
+export * from './organisms';
