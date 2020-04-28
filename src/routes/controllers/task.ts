@@ -49,7 +49,7 @@ export class TaskController {
         if (!!result) {
           this.taskDbCtrl
             .getById(req.body.id)
-            .then(user => res.status(OK).json(user))
+            .then(task => res.status(OK).json(task))
             .catch((error: any) => {
               Logger.Err(error);
               return res.status(BAD_REQUEST).json(error.toString());
