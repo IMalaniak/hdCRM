@@ -29,8 +29,11 @@ import {
   faUserCheck,
   faUserSlash,
   faUserTimes,
-  faPhone
+  faPhone,
+  faCompressArrowsAlt,
+  faExpandArrowsAlt
 } from '@fortawesome/free-solid-svg-icons';
+import { faFontAwesomeFlag } from '@fortawesome/free-brands-svg-icons';
 import { COMPONENTS } from './imports';
 
 @NgModule({
@@ -65,7 +68,10 @@ export class SharedModule {
       faUserCheck,
       faUserSlash,
       faUserTimes,
-      faPhone
+      faPhone,
+      faFontAwesomeFlag,
+      faCompressArrowsAlt,
+      faExpandArrowsAlt
     );
   }
 }

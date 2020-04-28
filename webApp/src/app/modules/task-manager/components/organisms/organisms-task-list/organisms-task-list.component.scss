@@ -1,0 +1,75 @@
+@import 'variables';
+@import 'mixins';
+@import '~bootstrap/scss/mixins/breakpoints';
+
+$priorityRules: (
+  1: gray,
+  2: $yellow,
+  3: $orange,
+  4: $red
+);
+
+.task {
+  &-panel {
+    border-radius: 0 !important;
+  }
+
+  &-panel-header {
+    padding: 0 1.2em;
+  }
+
+  &-panel-header-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    padding-right: 0.4em;
+
+    mat-checkbox {
+      margin-bottom: 0;
+      line-height: 1;
+    }
+
+    .task-label {
+      margin-left: 0.8em;
+      font-size: 0.95em;
+      font-weight: 400;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .task-priority-flag {
+      margin-left: auto;
+      padding: 0 0.6em;
+      font-size: 1.15em;
+      line-height: 1;
+
+      @each $num, $color in $priorityRules {
+        &.task-priority-#{$num} {
+          color: $color;
+        }
+      }
+    }
+  }
+
+  &-panel-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .description {
+      font-size: 0.9em;
+      font-style: italic;
+      margin: 0.2em auto 0 0;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+    }
+  }
+
+  &-completed {
+    text-decoration: line-through;
+    color: gray;
+  }
+}

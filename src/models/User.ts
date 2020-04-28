@@ -18,7 +18,17 @@ import {
   BelongsToSetAssociationMixin,
   HasOneCreateAssociationMixin,
   HasOneGetAssociationMixin,
-  HasOneSetAssociationMixin
+  HasOneSetAssociationMixin,
+  HasManyAddAssociationMixin,
+  HasManyAddAssociationsMixin,
+  HasManyCreateAssociationMixin,
+  HasManyHasAssociationsMixin,
+  HasManyCountAssociationsMixin,
+  HasManyHasAssociationMixin,
+  HasManyGetAssociationsMixin,
+  HasManyRemoveAssociationsMixin,
+  HasManyRemoveAssociationMixin,
+  HasManySetAssociationsMixin
 } from 'sequelize';
 import { UserLoginHistory } from './UserLoginHistory';
 import { PasswordAttribute } from './PasswordAttribute';
@@ -28,6 +38,7 @@ import { Plan } from './Plan';
 import { Asset } from './Asset';
 import { Department } from './Department';
 import { Organization } from './Organization';
+import { Task } from './Task';
 
 export class User extends Model {
   public id!: number;
@@ -102,6 +113,17 @@ export class User extends Model {
   public getPasswordAttributes!: HasOneGetAssociationMixin<PasswordAttribute>;
   public setPasswordAttributes!: HasOneSetAssociationMixin<PasswordAttribute, number>;
 
+  public addTask!: HasManyAddAssociationMixin<Task, number>;
+  public addTasks!: HasManyAddAssociationsMixin<Task, number>;
+  public countTasks!: HasManyCountAssociationsMixin;
+  public createTask!: HasManyCreateAssociationMixin<Task>;
+  public getTasks!: HasManyGetAssociationsMixin<Task>;
+  public hasTask!: HasManyHasAssociationMixin<Task, number>;
+  public hasTasks!: HasManyHasAssociationsMixin<Task, number>;
+  public removeTask!: HasManyRemoveAssociationMixin<Task, number>;
+  public removeTasks!: HasManyRemoveAssociationsMixin<Task, number>;
+  public setTasks!: HasManySetAssociationsMixin<Task, number>;
+
   public readonly Organization?: Organization;
   public readonly Roles?: Role[];
   public readonly Assets?: Asset[];
@@ -112,6 +134,7 @@ export class User extends Model {
   public readonly ManagedDepartment?: Department;
   public readonly Department?: Department;
   public readonly PasswordAttributes?: PasswordAttribute;
+  public readonly Tasks?: Task[];
 
   public static associations: {
     Organization: Association<User, Organization>;
@@ -124,6 +147,7 @@ export class User extends Model {
     ManagedDepartment: Association<User, Department>;
     Department: Association<User, Department>;
     PasswordAttributes: Association<User, PasswordAttribute>;
+    Tasks: Association<User, Task>;
   };
 }
 
@@ -149,7 +173,7 @@ export const UserFactory = (sequelize: Sequelize): void => {
           return `${this.name} ${this.surname}`;
         },
         set(value: string) {
-          return [this.name, this.surname] = [...value.split(' ')];
+          return ([this.name, this.surname] = [...value.split(' ')]);
         }
       },
       phone: {

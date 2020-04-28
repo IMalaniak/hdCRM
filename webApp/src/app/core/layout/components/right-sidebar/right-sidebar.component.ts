@@ -22,7 +22,7 @@ export class RightSidebarComponent implements OnInit {
     return this.rightSidebarMinimized;
   }
 
-  onlineUsers$: Observable<Array<User>>;
+  onlineUsers$: Observable<User[]>;
 
   constructor(private store: Store<AppState>) {}
 
