@@ -7,19 +7,18 @@ export interface TaskState extends EntityState<Task> {
   loading: boolean;
 }
 
-function sortByIdAndPriority(t1: Task, t2: Task) {
+function sortByCreatedAtAndPriority(t1: Task, t2: Task) {
   const compareByPriority = t2.priority - t1.priority;
-  const compareById = t2.id - t1.id;
 
   if (compareByPriority !== 0) {
     return compareByPriority;
   } else {
-    return compareById;
+    return +t2.createdAt - +t1.createdAt;
   }
 }
 
 export const adapter: EntityAdapter<Task> = createEntityAdapter<Task>({
-  sortComparer: sortByIdAndPriority
+  sortComparer: sortByCreatedAtAndPriority
 });
 
 export const initialTaskState: TaskState = adapter.getInitialState({
@@ -36,7 +35,7 @@ const taskReducer = createReducer(
   on(TaskActions.createTaskFail, (state, { error }) => ({ ...state, error })),
   on(TaskActions.updateTaskRequested, state => ({ ...state, loading: true })),
   on(TaskActions.updateTaskCancelled, state => ({ ...state, loading: false })),
-  on(TaskActions.updateTaskSuccess, (state, { task }) => adapter.updateOne(task, { ...state })),
+  on(TaskActions.updateTaskSuccess, (state, { task }) => adapter.updateOne(task, { ...state, loading: false })),
   on(TaskActions.deleteTask, (state, { id }) => {
     return adapter.removeOne(id, { ...state });
   })

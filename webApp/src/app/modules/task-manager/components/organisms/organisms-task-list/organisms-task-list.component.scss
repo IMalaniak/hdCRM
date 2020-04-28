@@ -9,54 +9,51 @@ $priorityRules: (
   4: $red
 );
 
-.mat-expansion-panel {
-  border-radius: 0 !important;
+.task {
+  &-panel {
+    border-radius: 0 !important;
+  }
 
-  .mat-expansion-panel-header {
+  &-panel-header {
     padding: 0 1.2em;
+  }
 
-    .mat-header {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      width: 100%;
-      padding-right: 0.4em;
+  &-panel-header-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    padding-right: 0.4em;
 
-      mat-checkbox {
-        margin-bottom: 0;
-        line-height: 1;
-      }
+    mat-checkbox {
+      margin-bottom: 0;
+      line-height: 1;
+    }
 
-      .task-label {
-        margin-left: 0.8em;
-        font-size: 0.95em;
-        font-weight: 400;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-      }
+    .task-label {
+      margin-left: 0.8em;
+      font-size: 0.95em;
+      font-weight: 400;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
 
-      .task-priority-flag {
-        margin-left: auto;
-        padding: 0 0.6em;
-        font-size: 1.15em;
-        line-height: 1;
+    .task-priority-flag {
+      margin-left: auto;
+      padding: 0 0.6em;
+      font-size: 1.15em;
+      line-height: 1;
 
-        @each $num, $color in $priorityRules {
-          &.task-priority-#{$num} {
-            color: $color;
-          }
+      @each $num, $color in $priorityRules {
+        &.task-priority-#{$num} {
+          color: $color;
         }
       }
     }
-
-    .task-completed {
-      color: gray;
-      text-decoration: line-through;
-    }
   }
 
-  .expansion-panel-content {
+  &-panel-content {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -69,5 +66,10 @@ $priorityRules: (
       overflow-wrap: break-word;
       word-wrap: break-word;
     }
+  }
+
+  &-completed {
+    text-decoration: line-through;
+    color: gray;
   }
 }

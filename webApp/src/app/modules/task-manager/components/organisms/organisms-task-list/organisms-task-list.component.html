@@ -18,11 +18,11 @@
     </atoms-icon-button>
   </div>
 
-  <div content>
+  <div content class="task">
     <mat-accordion *ngIf="tasks.length > 0">
-      <mat-expansion-panel *ngFor="let task of tasks">
-        <mat-expansion-panel-header>
-          <div class="mat-header">
+      <mat-expansion-panel *ngFor="let task of tasks" class="task-panel">
+        <mat-expansion-panel-header class="task-panel-header">
+          <div class="task-panel-header-content">
             <mat-checkbox
               (change)="changeTaskStatus($event, task)"
               [checked]="task.isCompleted"
@@ -43,12 +43,12 @@
             </fa-icon>
           </div>
         </mat-expansion-panel-header>
-        <div class="expansion-panel-content">
+        <div class="task-panel-content">
           <p class="description" *ngIf="task.description; else noDesc">{{ task.description }}</p>
           <ng-template #noDesc
             ><p class="description" i18n=" @@taskListComponentNoDescription ">No description..</p></ng-template
           >
-          <div class="d-flex" [ngStyle]="{ 'flex-direction': task.description ? 'column' : 'row' }">
+          <div class="d-flex" [ngClass]="[task.description ? 'flex-column' : 'flex-row']">
             <atoms-icon-button
               matType="icon"
               (onclick)="openTaskDialog(task)"
