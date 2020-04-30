@@ -9,7 +9,7 @@ const MOLECULES = [_components.MoleculesProfilePicWithUploaderComponent, _compon
 const ORGANISMS = [
   _components.ContentBoxComponent,
   _components.OrganismsUserListSmComponent,
-  _components.OrganismsDashboardCardComponent
+  _components.OrganismsCardComponent
 ];
 const TEMPLATES = [
   _components.TemplatesAttachmentsListComponent,

@@ -80,14 +80,12 @@
   }
 }
 
-.charts {
-  .chart-wrapper {
-    height: 20em;
-    display: flex;
-    overflow: hidden;
+.chart-wrapper {
+  height: 20em;
+  display: flex;
+  overflow: hidden;
 
-    > div {
-      height: 100% !important;
-    }
+  > div {
+    height: 100% !important;
   }
 }

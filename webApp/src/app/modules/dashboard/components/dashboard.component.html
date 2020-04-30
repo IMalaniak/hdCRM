@@ -1,97 +1,89 @@
 <section class="row dashboard-cards mt-3" *ngIf="appUser$ | async as appUser">
   <div class="col-sm-6 col-md-4 col-xl-3 mb-xs-3">
-    <organisms-dashboard-card>
-      <div class="user-card">
-        <atoms-profile-pic [avatar]="appUser.avatar"></atoms-profile-pic>
-        <ul>
-          <li>
-            <h5>{{ appUser.fullname }}</h5>
-            <span>({{ appUser.login }})</span>
-          </li>
-          <li *ngIf="appUser.Department">
-            <a routerLink="/departments/details/{{ appUser.Department.id }}"
-              ><span>{{ appUser.Department.title }}</span></a
-            >
-          </li>
-          <li class="roles" *ngIf="appUser.Roles">
-            <span *ngFor="let role of appUser.Roles; last as isLast">{{ role.keyString }}</span>
-          </li>
-        </ul>
-      </div>
-    </organisms-dashboard-card>
+    <organisms-card class="user-card">
+      <atoms-profile-pic [avatar]="appUser.avatar"></atoms-profile-pic>
+      <ul>
+        <li>
+          <h5>{{ appUser.fullname }}</h5>
+          <span>({{ appUser.login }})</span>
+        </li>
+        <li *ngIf="appUser.Department">
+          <a routerLink="/departments/details/{{ appUser.Department.id }}"
+            ><span>{{ appUser.Department.title }}</span></a
+          >
+        </li>
+        <li class="roles" *ngIf="appUser.Roles">
+          <span *ngFor="let role of appUser.Roles; last as isLast">{{ role.keyString }}</span>
+        </li>
+      </ul>
+    </organisms-card>
   </div>
 
   <div class="col-sm-6 col-md-4 col-xl-3 mb-xs-3">
-    <organisms-dashboard-card [title]="'Session data'">
-      <div class="user-card">
-        <ul class="sessionData">
-          <li *ngIf="appUser.PasswordAttributes && appUser.PasswordAttributes.passwordExpire">
-            <div>
-              <small i18n="@@dashboardCardsUserPasswordExpireDate">Password expire date:</small
-              ><small>{{ appUser.PasswordAttributes.passwordExpire | date: 'medium' }}</small>
-            </div>
-          </li>
-          <li *ngIf="appUser.PasswordAttributes && appUser.PasswordAttributes.updatedAt">
-            <div>
-              <small i18n="@@dashboardCardsUserPasswordUpdatedDate">Last password update:</small
-              ><small>{{ appUser.PasswordAttributes.updatedAt | date: 'medium' }}</small>
-            </div>
-          </li>
-          <li *ngIf="appUser.lastSessionData && appUser.lastSessionData.dateLastLoggedIn">
-            <div>
-              <small i18n="@@dashboardCardsUserDateLastLoggedIn">Last session:</small
-              ><small>{{ appUser.lastSessionData.dateLastLoggedIn | date: 'medium' }}</small>
-            </div>
-          </li>
-          <li *ngIf="appUser.lastSessionData && appUser.lastSessionData.dateUnsuccessfulLogIn">
-            <div>
-              <small i18n="@@dashboardCardsUserDateUnsuccessfulLogIn">Unsuccessful login:</small
-              ><small>{{ appUser.lastSessionData.dateUnsuccessfulLogIn | date: 'medium' }}</small>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </organisms-dashboard-card>
+    <organisms-card title="Session data" class="user-card">
+      <ul class="sessionData">
+        <li *ngIf="appUser.PasswordAttributes && appUser.PasswordAttributes.passwordExpire">
+          <div>
+            <small i18n="@@dashboardCardsUserPasswordExpireDate">Password expire date:</small
+            ><small>{{ appUser.PasswordAttributes.passwordExpire | date: 'medium' }}</small>
+          </div>
+        </li>
+        <li *ngIf="appUser.PasswordAttributes && appUser.PasswordAttributes.updatedAt">
+          <div>
+            <small i18n="@@dashboardCardsUserPasswordUpdatedDate">Last password update:</small
+            ><small>{{ appUser.PasswordAttributes.updatedAt | date: 'medium' }}</small>
+          </div>
+        </li>
+        <li *ngIf="appUser.lastSessionData && appUser.lastSessionData.dateLastLoggedIn">
+          <div>
+            <small i18n="@@dashboardCardsUserDateLastLoggedIn">Last session:</small
+            ><small>{{ appUser.lastSessionData.dateLastLoggedIn | date: 'medium' }}</small>
+          </div>
+        </li>
+        <li *ngIf="appUser.lastSessionData && appUser.lastSessionData.dateUnsuccessfulLogIn">
+          <div>
+            <small i18n="@@dashboardCardsUserDateUnsuccessfulLogIn">Unsuccessful login:</small
+            ><small>{{ appUser.lastSessionData.dateUnsuccessfulLogIn | date: 'medium' }}</small>
+          </div>
+        </li>
+      </ul>
+    </organisms-card>
   </div>
 
   <div class="col-sm-12 col-md-6 col-xl-6" *ngIf="rolesChart">
-    <organisms-dashboard-card [title]="'Roles'">
-      <div class="charts">
-        <div class="chart-wrapper">
-          <ngx-charts-bar-vertical
-            [results]="rolesChart"
-            [scheme]="'aqua'"
-            [gradient]="true"
-            [xAxis]="true"
-            [yAxis]="true"
-            [legend]="false"
-            [showXAxisLabel]="true"
-            [showYAxisLabel]="true"
-            [xAxisLabel]="'Roles'"
-            [yAxisLabel]="'Number of users'"
-          >
-          </ngx-charts-bar-vertical>
-        </div>
+    <organisms-card title="Roles">
+      <div class="chart-wrapper">
+        <ngx-charts-bar-vertical
+          [results]="rolesChart"
+          [scheme]="'aqua'"
+          [gradient]="true"
+          [xAxis]="true"
+          [yAxis]="true"
+          [legend]="false"
+          [showXAxisLabel]="true"
+          [showYAxisLabel]="true"
+          [xAxisLabel]="'Roles'"
+          [yAxisLabel]="'Number of users'"
+        >
+        </ngx-charts-bar-vertical>
       </div>
-    </organisms-dashboard-card>
+    </organisms-card>
   </div>
 </section>
 
 <section class="row my-3">
   <div class="col-sm-12 col-md-6 col-xl-6 mb-xs-3" *ngIf="planStagesChart">
-    <organisms-dashboard-card [title]="'Plans by stage'">
-      <div class="charts">
-        <div class="chart-wrapper">
-          <ngx-charts-advanced-pie-chart [results]="planStagesChart" [scheme]="'natural'" [gradient]="true">
-          </ngx-charts-advanced-pie-chart>
-        </div>
+    <organisms-card title="Plans by stage">
+      <div class="chart-wrapper">
+        <ngx-charts-advanced-pie-chart [results]="planStagesChart" [scheme]="'natural'" [gradient]="true">
+        </ngx-charts-advanced-pie-chart>
       </div>
-    </organisms-dashboard-card>
+    </organisms-card>
   </div>
 
   <div class="col-sm-12 col-md-6 col-xl-6" *ngIf="departmentsChart">
     <div class="departments-card charts">
-      <organisms-dashboard-card [title]="'Departments'">
+      <organisms-card title="Departments">
         <div class="chart-wrapper">
           <ngx-charts-bar-vertical
             [results]="departmentsChart"
@@ -107,7 +99,7 @@
           >
           </ngx-charts-bar-vertical>
         </div>
-      </organisms-dashboard-card>
+      </organisms-card>
     </div>
   </div>
 </section>

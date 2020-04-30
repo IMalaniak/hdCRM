@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'organisms-dashboard-card',
+  selector: 'organisms-card',
   template: `
     <div class="card" [ngClass]="{ shadow: !disableShadow }">
       <h5 *ngIf="title" class="card-title">{{ title }}</h5>
@@ -10,9 +10,9 @@ import { Component, Input } from '@angular/core';
       </div>
     </div>
   `,
-  styleUrls: ['./organisms-dashboard-card.component.scss']
+  styleUrls: ['./organisms-card.component.scss']
 })
-export class OrganismsDashboardCardComponent {
+export class OrganismsCardComponent {
   @Input() title: string;
   @Input() disableShadow = false;
 }
