@@ -5,7 +5,11 @@ const ATOMS = [
   _components.AtomsProfilePicComponent,
   _components.AtomsUserPicComponent
 ];
-const MOLECULES = [_components.MoleculesProfilePicWithUploaderComponent, _components.MoleculesUserListSmItemComponent];
+const MOLECULES = [
+  _components.MoleculesProfilePicWithUploaderComponent,
+  _components.MoleculesUserListSmItemComponent,
+  _components.MoleculesChartComponent
+];
 const ORGANISMS = [
   _components.ContentBoxComponent,
   _components.OrganismsUserListSmComponent,

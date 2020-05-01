@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { AppMaterialModule } from './modules/app-material.module';
 import { AttachmentsModule } from './modules/attachments/attachments.module';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import {
   faEllipsisV,
   faUserPlus,
@@ -37,7 +38,15 @@ import { faFontAwesomeFlag } from '@fortawesome/free-brands-svg-icons';
 import { COMPONENTS } from './imports';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, RouterModule, AppMaterialModule, FontAwesomeModule, AttachmentsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    AppMaterialModule,
+    FontAwesomeModule,
+    AttachmentsModule,
+    NgxChartsModule
+  ],
   declarations: [...COMPONENTS],
   exports: [...COMPONENTS, AppMaterialModule, FontAwesomeModule]
 })
