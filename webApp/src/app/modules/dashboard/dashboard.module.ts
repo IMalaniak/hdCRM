@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './components/dashboard.component';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { SharedModule } from '@/shared/shared.module';
 
 import { StageService } from '@/modules/planner/services';
@@ -30,7 +29,6 @@ const routes: Routes = [
     CommonModule,
     SharedModule,
     RouterModule.forChild(routes),
-    NgxChartsModule,
     StoreModule.forFeature(fromDep.departmentsFeatureKey, fromDep.reducer),
     StoreModule.forFeature(fromRole.rolesFeatureKey, fromRole.reducer),
     StoreModule.forFeature(fromStages.stagesFeatureKey, fromStages.reducer),

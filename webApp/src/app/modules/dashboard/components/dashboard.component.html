@@ -50,56 +50,61 @@
     </organisms-card>
   </div>
 
-  <div class="col-sm-12 col-md-6 col-xl-6" *ngIf="rolesChart">
+  <div class="col-sm-12 col-md-6 col-xl-6" *ngIf="(rolesChartData$ | async).length > 0">
     <organisms-card cardTitle="Roles">
-      <div class="chart-wrapper">
-        <ngx-charts-bar-vertical
-          [results]="rolesChart"
-          [scheme]="'aqua'"
-          [gradient]="true"
-          [xAxis]="true"
-          [yAxis]="true"
-          [legend]="false"
-          [showXAxisLabel]="true"
-          [showYAxisLabel]="true"
-          [xAxisLabel]="'Roles'"
-          [yAxisLabel]="'Number of users'"
-        >
-        </ngx-charts-bar-vertical>
-      </div>
+      <molecules-chart
+        chartType="bar-vertical"
+        paramX="keyString"
+        paramY="Users"
+        [results]="rolesChartData$ | async"
+        scheme="aqua"
+        [gradient]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        [legend]="false"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        xAxisLabel="Roles"
+        yAxisLabel="Number of users"
+      >
+      </molecules-chart>
     </organisms-card>
   </div>
 </section>
 
 <section class="row my-3">
-  <div class="col-sm-12 col-md-6 col-xl-6 mb-xs-3" *ngIf="planStagesChart">
+  <div class="col-sm-12 col-md-6 col-xl-6 mb-xs-3" *ngIf="(planStagesChartData$ | async).length > 0">
     <organisms-card cardTitle="Plans by stage">
-      <div class="chart-wrapper">
-        <ngx-charts-advanced-pie-chart [results]="planStagesChart" [scheme]="'natural'" [gradient]="true">
-        </ngx-charts-advanced-pie-chart>
-      </div>
+      <molecules-chart
+        chartType="advanced-pie-chart"
+        paramX="keyString"
+        paramY="Plans"
+        [results]="planStagesChartData$ | async"
+        scheme="natural"
+        [gradient]="true"
+      >
+      </molecules-chart>
     </organisms-card>
   </div>
 
-  <div class="col-sm-12 col-md-6 col-xl-6" *ngIf="departmentsChart">
-    <div class="departments-card charts">
-      <organisms-card cardTitle="Departments">
-        <div class="chart-wrapper">
-          <ngx-charts-bar-vertical
-            [results]="departmentsChart"
-            [scheme]="'natural'"
-            [gradient]="true"
-            [xAxis]="true"
-            [yAxis]="true"
-            [legend]="false"
-            [showXAxisLabel]="true"
-            [showYAxisLabel]="true"
-            [xAxisLabel]="'Departments'"
-            [yAxisLabel]="'Number of workers'"
-          >
-          </ngx-charts-bar-vertical>
-        </div>
-      </organisms-card>
-    </div>
+  <div class="col-sm-12 col-md-6 col-xl-6" *ngIf="(departmentsChartData$ | async).length > 0">
+    <organisms-card cardTitle="Departments">
+      <molecules-chart
+        chartType="bar-vertical"
+        paramX="title"
+        paramY="Workers"
+        [results]="departmentsChartData$ | async"
+        scheme="natural"
+        [gradient]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        [legend]="false"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        xAxisLabel="Departments"
+        yAxisLabel="Number of workers"
+      >
+      </molecules-chart>
+    </organisms-card>
   </div>
 </section>

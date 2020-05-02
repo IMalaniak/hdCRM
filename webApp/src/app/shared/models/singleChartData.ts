@@ -1,9 +1,12 @@
 export class SingleChartData {
-  name: string;
-  value: string | number;
+  data: any[]; // TODO: ArseniiIrod add type
 
-  constructor(name: string, value: string | number) {
-    this.name = name;
-    this.value = value;
+  constructor(data: any[], paramX: string, paramY: string) {
+    this.data = data.map(item => {
+      return {
+        name: item[paramX],
+        value: item[paramY].length
+      };
+    });
   }
 }
