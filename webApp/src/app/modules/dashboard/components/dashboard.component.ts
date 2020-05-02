@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { User } from '@/modules/users';
 import { AppState } from '@/core/reducers';
@@ -19,13 +19,11 @@ import { Department } from '@/modules/departments';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit {
   appUser$: Observable<User>;
   departmentsChartData$: Observable<Department[]>;
   planStagesChartData$: Observable<Stage[]>;
   rolesChartData$: Observable<Role[]>;
-
-  private unsubscribe: Subject<void> = new Subject();
 
   constructor(private store: Store<AppState>) {}
 
@@ -38,10 +36,5 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.planStagesChartData$ = this.store.pipe(select(selectAllStages));
     this.departmentsChartData$ = this.store.pipe(select(selectAllDepartments));
     this.rolesChartData$ = this.store.pipe(select(selectAllRoles));
-  }
-
-  ngOnDestroy() {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
   }
 }
