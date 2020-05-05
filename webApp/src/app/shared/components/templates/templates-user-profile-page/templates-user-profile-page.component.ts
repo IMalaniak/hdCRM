@@ -37,8 +37,7 @@ export class TemplatesUserProfilePageComponent implements OnInit {
     this.editForm$ = this.store.pipe(select(selectIsEditing));
     this.userInitial = cloneDeep(this.user);
     if (!!this.user.avatar) {
-      this.coverUrl = this.baseUrl + this.user.avatar.location + '/thumbnails/' + this.user.avatar.title;
-      this.coverTitle = this.user.avatar.title;
+      this.setCover(this.user.avatar);
     }
 
     if (this.canEdit) {
@@ -59,6 +58,11 @@ export class TemplatesUserProfilePageComponent implements OnInit {
     this.user = cloneDeep(this.userInitial);
   }
 
+  setCover(cover: Asset): void {
+    this.coverUrl = this.baseUrl + cover.location + '/' + cover.title;
+    this.coverTitle = cover.title;
+  }
+
   onUpdateUserSubmit(): void {
     Swal.fire({
       title: 'Are you sure?',
@@ -74,14 +78,13 @@ export class TemplatesUserProfilePageComponent implements OnInit {
     });
   }
 
-  onUpdateUserPic(asset: Asset): void {
-    this.user.avatar = asset;
-    this.user.avatarId = asset.id;
-    this.updateUserStore();
-  }
-
-  updateUserStore(): void {
+  updateUserStore(asset?: Asset): void {
     const user = cloneDeep(this.user);
+    if (asset) {
+      user.avatar = asset;
+      user.avatarId = asset.id;
+      this.setCover(asset);
+    }
     this.store.dispatch(updateUserRequested({ user }));
   }
 }

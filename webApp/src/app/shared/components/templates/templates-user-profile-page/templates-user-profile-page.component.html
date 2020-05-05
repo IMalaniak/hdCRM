@@ -13,7 +13,7 @@
       <molecules-profile-pic-with-uploader
         [avatar]="user.avatar"
         [apiUrl]="'/users/' + user.id + '/avatar'"
-        (addFileCall)="onUpdateUserPic($event)"
+        (addFileCall)="updateUserStore($event)"
       ></molecules-profile-pic-with-uploader>
       <h3 class="w-75 mx-auto">{{ user.fullname }}</h3>
       <div class="w-75 mx-auto mt-3 details">

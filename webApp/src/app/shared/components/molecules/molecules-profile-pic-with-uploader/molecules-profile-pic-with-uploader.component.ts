@@ -22,10 +22,9 @@ export class MoleculesProfilePicWithUploaderComponent {
 
   changePic = false;
 
-  constructor() {}
-
   onAddFile(asset: Asset): void {
     setTimeout(() => {
+      this.avatar = {...asset};
       this.changePic = false;
     }, 300);
     this.addFileCall.emit(asset);

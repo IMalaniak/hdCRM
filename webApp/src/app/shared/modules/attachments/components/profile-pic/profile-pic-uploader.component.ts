@@ -47,6 +47,7 @@ export class ProfilepicUploaderComponent implements OnInit {
       },
       multiple: false,
       allowPaste: false,
+      allowRevert: false, // TODO @JohnRostislavovich allow user to revert uploaded image
       labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span>`,
       imageCropAspectRatio: '1:1',
       imagePreviewHeight: 300,
