@@ -181,7 +181,7 @@ export class AuthController {
                               .then(() => {
                                 return res.status(OK).json({
                                   success: true,
-                                  message: 'Successful activation!'
+                                  message: 'You account has been activated successfully!'
                                 });
                               })
                               .catch((err: any) => {
@@ -210,9 +210,9 @@ export class AuthController {
               return res.status(BAD_REQUEST).json(err);
             });
         } else {
-          return res.status(BAD_REQUEST).json({
+          return res.status(BAD_REQUEST).send({
             success: false,
-            message: 'Activation token is invalid or has expired!'
+            message: 'Your activation token is invalid or has expired!'
           });
         }
       })
@@ -397,7 +397,7 @@ export class AuthController {
                   .then(() => {
                     return res.status(OK).json({
                       success: true,
-                      message: 'Activation link has been sent'
+                      message: 'A message has been sent to your email address. Follow the instructions to reset your password.'
                     });
                   })
                   .catch((err: any) => {
@@ -433,12 +433,12 @@ export class AuthController {
               return res.status(BAD_REQUEST).json(err);
             });
         } else {
-          res.status(BAD_REQUEST).json({ success: false, message: 'no_user' });
+          res.status(BAD_REQUEST).json({ success: false, message: 'The following user does not exist! Please, provide correct email or login!' });
         }
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json(err);
+        return res.status(BAD_REQUEST).json({err});
       });
   }
 
@@ -476,7 +476,7 @@ export class AuthController {
                                 .then(() => {
                                   return res.status(OK).json({
                                     success: true,
-                                    message: 'New password is set!'
+                                    message: 'You have successfully changed your password.'
                                   });
                                 })
                                 .catch((err: any) => {
@@ -510,7 +510,7 @@ export class AuthController {
         } else {
           res.status(BAD_REQUEST).json({
             success: false,
-            message: 'Password reset token is invalid or has expired!'
+            message: 'Your password reset token is invalid or has expired!'
           });
         }
       })

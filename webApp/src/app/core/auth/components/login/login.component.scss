@@ -12,12 +12,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 
     form {
       width: 100%;
       @include media-breakpoint-up(sm) {
         width: 28em;
-        margin: 0 auto;
       }
 
       mat-card {
