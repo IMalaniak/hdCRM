@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { User } from '@/modules/users';
 import { ApiResponse } from '@/shared';
 import { map } from 'rxjs/operators';
+import { NewPassword } from '../models/newPassword';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -33,7 +34,7 @@ export class AuthenticationService {
     return this.http.post<ApiResponse>(`${this.api}/forgot_password`, user);
   }
 
-  resetPassword(data: any): Observable<ApiResponse> {
+  resetPassword(data: NewPassword): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.api}/reset_password`, data);
   }
 

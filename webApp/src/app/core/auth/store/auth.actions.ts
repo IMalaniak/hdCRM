@@ -1,6 +1,7 @@
 import { props, createAction } from '@ngrx/store';
 import { User } from '@/modules/users/models';
 import { ApiResponse } from '@/shared';
+import { NewPassword } from '../models/newPassword';
 
 export const logIn = createAction(
   '[Auth] Login',
@@ -17,7 +18,12 @@ export const logInFailure = createAction(
   props<{ response: ApiResponse }>()
 );
 
-export const resetPassword = createAction(
+export const setNewPassword = createAction(
+  '[Auth] Set New Password Requested',
+  props<{ newPassword: NewPassword }>()
+);
+
+export const resetPasswordRequest = createAction(
   '[Auth] Reset Password Requested',
   props<{ user: User }>()
 );
@@ -29,6 +35,21 @@ export const resetPasswordSuccess = createAction(
 
 export const resetPasswordFailure = createAction(
   '[Auth API] Reset Password Failure',
+  props<{ response: ApiResponse }>()
+);
+
+export const activateAccount = createAction(
+  '[Auth] Account Activation Requested',
+  props<{ token: string }>()
+);
+
+export const activateAccountSuccess = createAction(
+  '[Auth API] Account Activation Success',
+  props<{ response: ApiResponse }>()
+);
+
+export const activateAccountFailure = createAction(
+  '[Auth API] Account Activation Failure',
   props<{ response: ApiResponse }>()
 );
 

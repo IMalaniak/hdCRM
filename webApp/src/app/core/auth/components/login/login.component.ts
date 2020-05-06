@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import Swal from 'sweetalert2';
-import { AuthenticationService } from '../../services';
+import { ActivatedRoute } from '@angular/router';
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
 import { ConfirmPasswordValidator, ApiResponse } from '@/shared';
-import { first } from 'rxjs/operators';
 import { AppState } from '@/core/reducers';
 import { Store, select } from '@ngrx/store';
 import * as authActions from '../../store/auth.actions';
 import * as authSelectors from '../../store/auth.selectors';
 import { Observable } from 'rxjs';
+import { NewPassword } from '../../models/newPassword';
 
 @Component({
   selector: 'app-login',
@@ -19,15 +17,13 @@ import { Observable } from 'rxjs';
 export class LoginComponent implements OnInit {
   user: FormGroup;
   hidePassword = true;
-  serverResponse: ApiResponse;
+  serverResponse$: Observable<ApiResponse>;
   currentPath: string;
   token: string;
   newPasswordForm: FormGroup;
   isLoading$: Observable<boolean>;
 
   constructor(
-    private authService: AuthenticationService,
-    private router: Router,
     private route: ActivatedRoute,
     private _formBuilder: FormBuilder,
     private store: Store<AppState>
@@ -36,16 +32,14 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.isLoading$ = this.store.pipe(select(authSelectors.isLoading));
     this.currentPath = this.route.snapshot.url[0].path;
-    // TODO: get detailed error from serv
-    this.store.pipe(select(authSelectors.getApiResponse)).subscribe(resp => {
-      this.serverResponse = resp;
-    });
+    this.serverResponse$ = this.store.pipe(select(authSelectors.getApiResponse));
 
     if (this.currentPath === 'request-new-password' || this.currentPath === 'login') {
       this.prepareUserForm();
     } else if (this.currentPath === 'password-reset' || this.currentPath === 'activate-account') {
       this.token = this.route.snapshot.paramMap.get('token');
       if (this.currentPath === 'activate-account') {
+        this.prepareUserForm();
         this.activateAccount();
       } else if (this.currentPath === 'password-reset') {
         this.preparePasswordResetForm();
@@ -67,7 +61,7 @@ export class LoginComponent implements OnInit {
     this.newPasswordForm = this._formBuilder.group(
       {
         newPassword: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(64)]),
-        confirmPassword: new FormControl('', [Validators.required])
+        verifyPassword: new FormControl('', [Validators.required])
       },
       {
         validator: ConfirmPasswordValidator.MatchPassword
@@ -76,28 +70,7 @@ export class LoginComponent implements OnInit {
   }
 
   activateAccount(): void {
-    // TODO change to ngrx totallly
-    this.authService
-      .activateAccount(this.token)
-      .pipe(first())
-      .subscribe(
-        response => {
-          this.serverResponse = response;
-          if (response.success) {
-            const self = this;
-            setTimeout(function() {
-              self.router.navigate(['/auth']);
-            }, 5000);
-          }
-        },
-        error => {
-          Swal.fire({
-            title: 'Account activation failed',
-            icon: 'error',
-            timer: 3000
-          });
-        }
-      );
+    this.store.dispatch(authActions.activateAccount({ token: this.token }));
   }
 
   onLoginSubmit() {
@@ -105,60 +78,21 @@ export class LoginComponent implements OnInit {
   }
 
   onResetPasswordRequest() {
-    // TODO change to ngrx totallly
-    this.store.dispatch(authActions.resetPassword({ user: this.user.value }));
-    this.authService
-      .requestPasswordReset(this.user.value)
-      .pipe(first())
-      .subscribe(
-        response => {
-          this.serverResponse = response;
-          this.store.dispatch(authActions.resetPasswordSuccess({ response }));
-        },
-        error => {
-          this.store.dispatch(authActions.resetPasswordFailure({ response: error }));
-          // Swal.fire({
-          //   title: 'Email or login delivery failed!',
-          //   icon: 'error',
-          //   timer: 3000
-          // });
-        }
-      );
+    this.store.dispatch(authActions.resetPasswordRequest({ user: this.user.value }));
   }
 
   get newPassword() {
     return this.newPasswordForm.get('newPassword');
   }
-  get confirmPassword() {
-    return this.newPasswordForm.get('confirmPassword');
+  get verifyPassword() {
+    return this.newPasswordForm.get('verifyPassword');
   }
 
   onResetPassword() {
-    // TODO change to ngrx totallly
-    this.authService
-      .resetPassword({
-        token: this.token,
-        newPassword: this.newPassword.value,
-        verifyPassword: this.confirmPassword.value
-      })
-      .pipe(first())
-      .subscribe(
-        response => {
-          this.serverResponse = response;
-          if (response.success) {
-            const self = this;
-            setTimeout(function() {
-              self.router.navigate(['/auth']);
-            }, 3000);
-          }
-        },
-        error => {
-          Swal.fire({
-            title: 'Ooops, something went wrong!',
-            icon: 'error',
-            timer: 1500
-          });
-        }
-      );
+    const newPassword: NewPassword = {
+      token: this.token,
+      ...this.newPasswordForm.value
+    };
+    this.store.dispatch(authActions.setNewPassword({ newPassword }));
   }
 }
