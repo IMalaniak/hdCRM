@@ -2,93 +2,99 @@
 @import 'mixins';
 @import '~bootstrap/scss/mixins/breakpoints';
 
-.profile-container {
+.profile {
   ul {
     margin: 0;
     padding: 0;
   }
 
-  .img-header {
-    height: 13em;
-    position: relative;
-
-    @include media-breakpoint-down(sm) {
-      height: 8em;
-    }
-
-    .name {
-      display: none;
-      @include media-breakpoint-up(md) {
-        display: flex;
-        position: absolute;
-        width: 100%;
-        bottom: 0;
-        @include crm-textcolor('layout', 'background');
-      }
-    }
-
-    > img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: blur(3em);
-    }
-  }
-
-  aside {
+  &-aside {
     @include crm-bgcolor('layout', 'milk');
     padding-bottom: 1em;
 
-    .img-avatar {
+    h4,
+    h5,
+    h6 {
+      margin-bottom: 0;
+    }
+
+    &-bg {
+      height: 10.5em;
+
+      @include media-breakpoint-down(sm) {
+        height: 8em;
+      }
+
       > img {
-        display: block;
-        width: 60%;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: blur(3em);
+      }
+    }
+
+    &-details {
+      width: 85%;
+      margin: 0 auto;
+      margin-top: 1.6em;
+      @include media-breakpoint-up(sm) {
+        width: 80%;
+      }
+
+      .position-flex {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         border-radius: 50%;
-        border: 0.25rem solid crmcolor('layout', 'milk', true);
-        position: relative;
-        margin-top: -30%;
-      }
-    }
 
-    h5 {
-      color: #3f51b5;
-    }
+        &-normal {
+          margin-right: 0.7em;
+          padding: 1em;
+          font-size: 1.1em;
+          width: 1.1em;
+          height: 1.1em;
+          border: 1px solid $blue;
+          @include crm-textcolor('theme', 'primary');
+        }
 
-    h3 {
-      display: block;
-      @include crm-textcolor('layout', 'dark');
-
-      @include media-breakpoint-up(md) {
-        display: none;
-      }
-    }
-
-    .details {
-      > div {
-        padding: crmsize(spacer, null, true) 0;
-      }
-    }
-
-    .roles {
-      span {
-        margin: 0 0.3em;
-
-        &:first-child {
-          margin: 0 0.3em 0 0;
+        &-mini {
+          margin-right: 0.5em;
+          padding: 0.9em;
+          font-size: 0.8em;
+          width: 0.8em;
+          height: 0.8em;
+          border: 1px solid grey;
+          color: grey;
         }
       }
-    }
 
-    .contacts {
-      span {
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
+      .role-details {
+        .role-titles {
+          margin: 0 0.3em;
+
+          &:first-child {
+            margin: 0 0.3em 0 0;
+          }
+        }
       }
 
-      fa-icon {
-        @include crm-textcolor('theme', 'primary');
-        margin-right: 0.5em;
+      .contact-details {
+        .contact-email,
+        .contact-phone {
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+      }
+
+      > div {
+        padding: crmsize(spacer, null, true) 0;
       }
     }
   }
