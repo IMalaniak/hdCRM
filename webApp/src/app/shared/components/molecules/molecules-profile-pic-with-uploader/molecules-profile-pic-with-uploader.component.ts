@@ -7,10 +7,13 @@ import { Asset } from '@/shared/models';
     <div class="img-avatar d-flex justify-content-center align-items-center">
       <atoms-profile-pic *ngIf="!changePic" [avatar]="avatar"></atoms-profile-pic>
       <div class="pencil" [ngClass]="{ cancel: changePic }" (click)="changePic = !changePic">
-        <fa-icon *ngIf="!changePic" [icon]="['fas', 'pencil-alt']"></fa-icon>
-        <fa-icon *ngIf="changePic" [icon]="['fas', 'times']"></fa-icon>
+        <fa-icon [icon]="changePic ? ['fas', 'times'] : ['fas', 'pencil-alt']"></fa-icon>
       </div>
-      <app-profile-pic-uploader *ngIf="changePic" [url]="apiUrl" (addFileCall)="onAddFile($event)"></app-profile-pic-uploader>
+      <app-profile-pic-uploader
+        *ngIf="changePic"
+        [url]="apiUrl"
+        (addFileCall)="onAddFile($event)"
+      ></app-profile-pic-uploader>
     </div>
   `,
   styleUrls: ['./molecules-profile-pic-with-uploader.component.scss']
@@ -24,7 +27,7 @@ export class MoleculesProfilePicWithUploaderComponent {
 
   onAddFile(asset: Asset): void {
     setTimeout(() => {
-      this.avatar = {...asset};
+      this.avatar = { ...asset };
       this.changePic = false;
     }, 300);
     this.addFileCall.emit(asset);
