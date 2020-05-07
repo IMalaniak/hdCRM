@@ -12,19 +12,19 @@
       ></molecules-profile-pic-with-uploader>
 
       <div class="profile-aside-details">
-        <div class="position-flex">
+        <div class="profile-captions">
           <fa-icon [icon]="['fas', 'user']" class="icon icon-normal"></fa-icon>
           <h5>{{ user.fullname }}</h5>
         </div>
-        <div class="position-flex">
+        <div class="profile-captions">
           <fa-icon [icon]="['fas', 'info']" class="icon icon-normal"></fa-icon>
           <h5 i18n="@@userСomponentAsideDetailsHeader">
             {{ 'Details' | uppercase }}
           </h5>
         </div>
         <mat-divider></mat-divider>
-        <div class="pl-1" *ngIf="user.Department">
-          <div class="position-flex mb-2">
+        <div class="details" *ngIf="user.Department">
+          <div class="profile-captions">
             <fa-icon [icon]="['fas', 'building']" class="icon icon-mini"></fa-icon>
             <h6 i18n="@@userСomponentAsideDetailsDep">
               {{ 'Department' | uppercase }}
@@ -34,8 +34,8 @@
             ><span>{{ user.Department.title }}</span></a
           >
         </div>
-        <div class="role-details pl-1" *ngIf="user.Roles && user.Roles.length">
-          <div class="position-flex mb-2">
+        <div class="details" *ngIf="user.Roles && user.Roles.length">
+          <div class="profile-captions">
             <fa-icon [icon]="['fas', 'user-tag']" class="icon icon-mini"></fa-icon>
             <h6 i18n="@@userСomponentAsideDetailsRoles">
               {{ 'Roles' | uppercase }}
@@ -47,8 +47,8 @@
             </li>
           </ul>
         </div>
-        <div class="pl-1" *ngIf="user.State">
-          <div class="position-flex mb-2">
+        <div class="details" *ngIf="user.State">
+          <div class="profile-captions">
             <fa-icon [icon]="['fas', 'toggle-on']" class="icon icon-mini"></fa-icon>
             <h6 i18n="@@userСomponentAsideDetailsStateHeader">
               {{ 'State' | uppercase }}
@@ -56,19 +56,19 @@
           </div>
           <span i18n="@@userСomponentAsideDetailsStateStatus">{{ user.State.keyString }}</span>
         </div>
-        <div class="position-flex">
+        <div class="profile-captions">
           <fa-icon [icon]="['fas', 'envelope']" class="icon icon-normal"></fa-icon>
           <h5 i18n="@@userСomponentAsideDetailsContactHeader">
             {{ 'Contact' | uppercase }}
           </h5>
         </div>
         <mat-divider></mat-divider>
-        <div class="contact-details pl-1">
-          <a class="d-flex align-items-center" *ngIf="user.email" href="mailto:{{ user.email }}">
+        <div class="details">
+          <a class="profile-captions" *ngIf="user.email" href="mailto:{{ user.email }}">
             <fa-icon [icon]="['fas', 'envelope']" class="icon icon-mini"></fa-icon
             ><span class="contact-email">{{ user.email }}</span>
           </a>
-          <div class="d-flex align-items-center mt-2" *ngIf="user.phone">
+          <div class="profile-captions" *ngIf="user.phone">
             <fa-icon [icon]="['fas', 'phone']" class="icon icon-mini"></fa-icon
             ><span class="contact-phone">{{ user.phone }}</span>
           </div>

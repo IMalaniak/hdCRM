@@ -9,6 +9,8 @@
   }
 
   &-aside {
+    $hHeight: crmsize(header, height, true);
+    min-height: calc(100vh - #{$hHeight});
     @include crm-bgcolor('layout', 'milk');
     padding-bottom: 1em;
 
@@ -41,12 +43,6 @@
         width: 80%;
       }
 
-      .position-flex {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-      }
-
       .icon {
         display: flex;
         justify-content: center;
@@ -74,8 +70,8 @@
         }
       }
 
-      .role-details {
-        .role-titles {
+      .role {
+        &-titles {
           margin: 0 0.3em;
 
           &:first-child {
@@ -84,9 +80,9 @@
         }
       }
 
-      .contact-details {
-        .contact-email,
-        .contact-phone {
+      .contact {
+        &-email,
+        &-phone {
           text-overflow: ellipsis;
           overflow: hidden;
           white-space: nowrap;
@@ -95,8 +91,22 @@
 
       > div {
         padding: crmsize(spacer, null, true) 0;
+
+        &.details {
+          padding-left: 0.25*crmsize(spacer, null, true);
+
+          .profile-captions {
+            margin-bottom: 0.25*crmsize(spacer, null, true);
+          }
+        }
       }
     }
+  }
+
+  &-captions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 
   .tabs {
