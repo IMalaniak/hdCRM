@@ -1,64 +1,81 @@
-<section class="profile-container" *ngIf="user">
-  <div class="img-header">
-    <img src="{{ coverUrl }}" alt="{{ coverTitle }}" />
-    <div class="row name">
-      <div class="col-sm-12 col-md-4 col-lg-3"></div>
-      <div class="col-sm-12 col-md-8 col-lg-9">
-        <h2>{{ user.fullname }}</h2>
-      </div>
-    </div>
-  </div>
+<section class="profile" *ngIf="user">
   <div class="row">
-    <aside class="col-sm-12 col-md-4 col-lg-3">
+    <aside class="col-sm-12 col-md-4 col-lg-3 profile-aside">
+      <div class="profile-aside-bg">
+        <img src="{{ coverUrl }}" alt="{{ coverTitle }}" />
+      </div>
+
       <molecules-profile-pic-with-uploader
         [avatar]="user.avatar"
         [apiUrl]="'/users/' + user.id + '/avatar'"
         (addFileCall)="updateUserStore($event)"
       ></molecules-profile-pic-with-uploader>
-      <h3 class="w-75 mx-auto">{{ user.fullname }}</h3>
-      <div class="w-75 mx-auto mt-3 details">
-        <h5 i18n="@@userСomponentAsideDetailsHeader">
-          {{ 'Details' | uppercase }}
-        </h5>
+
+      <div class="profile-aside-details">
+        <div class="profile-captions">
+          <fa-icon [icon]="['fas', 'user']" class="icon icon-normal"></fa-icon>
+          <h5>{{ user.fullname }}</h5>
+        </div>
+        <div class="profile-captions">
+          <fa-icon [icon]="['fas', 'info']" class="icon icon-normal"></fa-icon>
+          <h5 i18n="@@userСomponentAsideDetailsHeader">
+            {{ 'Details' | uppercase }}
+          </h5>
+        </div>
         <mat-divider></mat-divider>
-        <div class="department" *ngIf="user.Department">
-          <h6 i18n="@@userСomponentAsideDetailsDep">
-            {{ 'Department' | uppercase }}
-          </h6>
+        <div class="details" *ngIf="user.Department">
+          <div class="profile-captions">
+            <fa-icon [icon]="['fas', 'building']" class="icon icon-mini"></fa-icon>
+            <h6 i18n="@@userСomponentAsideDetailsDep">
+              {{ 'Department' | uppercase }}
+            </h6>
+          </div>
           <a routerLink="/departments/details/{{ user.Department.id }}"
             ><span>{{ user.Department.title }}</span></a
           >
         </div>
-        <div class="roles" *ngIf="user.Roles && user.Roles.length">
-          <h6 i18n="@@userСomponentAsideDetailsRoles">
-            {{ 'Roles' | uppercase }}
-          </h6>
+        <div class="details" *ngIf="user.Roles && user.Roles.length">
+          <div class="profile-captions">
+            <fa-icon [icon]="['fas', 'user-tag']" class="icon icon-mini"></fa-icon>
+            <h6 i18n="@@userСomponentAsideDetailsRoles">
+              {{ 'Roles' | uppercase }}
+            </h6>
+          </div>
           <ul>
             <li>
-              <span *ngFor="let role of user.Roles; last as isLast">{{ role.keyString }}</span>
+              <span class="role-titles" *ngFor="let role of user.Roles; last as isLast">{{ role.keyString }}</span>
             </li>
           </ul>
         </div>
-        <div *ngIf="user.State">
-          <h6 i18n="@@userСomponentAsideDetailsState">
-            {{ 'State' | uppercase }}
-          </h6>
-          <span>{{ user.State.keyString }}</span>
+        <div class="details" *ngIf="user.State">
+          <div class="profile-captions">
+            <fa-icon [icon]="['fas', 'toggle-on']" class="icon icon-mini"></fa-icon>
+            <h6 i18n="@@userСomponentAsideDetailsStateHeader">
+              {{ 'State' | uppercase }}
+            </h6>
+          </div>
+          <span i18n="@@userСomponentAsideDetailsStateStatus">{{ user.State.keyString }}</span>
         </div>
-        <h5 i18n="@@userСomponentAsideContactsHeader">
-          {{ 'Contact' | uppercase }}
-        </h5>
+        <div class="profile-captions">
+          <fa-icon [icon]="['fas', 'envelope']" class="icon icon-normal"></fa-icon>
+          <h5 i18n="@@userСomponentAsideDetailsContactHeader">
+            {{ 'Contact' | uppercase }}
+          </h5>
+        </div>
         <mat-divider></mat-divider>
-        <div class="contacts">
-          <a class="d-flex align-items-center" *ngIf="user.email" href="mailto:{{ user.email }}">
-            <fa-icon [icon]="['fas', 'envelope']"></fa-icon><span>{{ user.email }}</span>
+        <div class="details">
+          <a class="profile-captions" *ngIf="user.email" href="mailto:{{ user.email }}">
+            <fa-icon [icon]="['fas', 'envelope']" class="icon icon-mini"></fa-icon
+            ><span class="contact-email">{{ user.email }}</span>
           </a>
-          <div class="d-flex align-items-center" *ngIf="user.phone">
-            <fa-icon [icon]="['fas', 'phone']"></fa-icon><span>{{ user.phone }}</span>
+          <div class="profile-captions" *ngIf="user.phone">
+            <fa-icon [icon]="['fas', 'phone']" class="icon icon-mini"></fa-icon
+            ><span class="contact-phone">{{ user.phone }}</span>
           </div>
         </div>
       </div>
     </aside>
+
     <div class="col-sm-12 col-md-8 col-lg-9 tabs">
       <mat-tab-group mat-stretch-tabs dynamicHeight>
         <mat-tab label="Details">
@@ -67,6 +84,7 @@
             [cssClass]="'bg-secondary border-0'"
             [contentCssClass]="'bg-light p-0'"
             [headCssClass]="'text-white'"
+            [disableShadow]="true"
           >
             <div content class="row">
               <div *ngIf="!(editForm$ | async)" class="col-md-12 col-lg-6">
@@ -129,12 +147,12 @@
                   <!-- <mat-list-item>
                     <section>
                       <div>
-                        <span i18n="@@userСomponentTabDetailsLang">Language:</span> 
+                        <span i18n="@@userСomponentTabDetailsLang">Language:</span>
                       </div>
                       <div>
                         <span>{{ user.defaultLang }}</span>
                       </div>
-                    </section>  
+                    </section>
                   </mat-list-item> -->
                   <mat-divider></mat-divider>
                   <mat-list-item>
@@ -168,15 +186,33 @@
                   </mat-form-field>
                   <mat-form-field appearance="outline">
                     <mat-label i18n="@@userСomponentTabDetailsSurname">Surname</mat-label>
-                    <input matInput [(ngModel)]="user.surname" name="surname" type="text" [readonly]="!(editForm$ | async)" />
+                    <input
+                      matInput
+                      [(ngModel)]="user.surname"
+                      name="surname"
+                      type="text"
+                      [readonly]="!(editForm$ | async)"
+                    />
                   </mat-form-field>
                   <mat-form-field appearance="outline">
                     <mat-label i18n="@@userСomponentTabDetailsEmail">Email</mat-label>
-                    <input matInput [(ngModel)]="user.email" name="email" type="text" [readonly]="!(editForm$ | async)" />
+                    <input
+                      matInput
+                      [(ngModel)]="user.email"
+                      name="email"
+                      type="text"
+                      [readonly]="!(editForm$ | async)"
+                    />
                   </mat-form-field>
                   <mat-form-field appearance="outline">
                     <mat-label i18n="@@userСomponentTabDetailsPhone">Phone</mat-label>
-                    <input matInput [(ngModel)]="user.phone" name="phone" type="text" [readonly]="!(editForm$ | async)" />
+                    <input
+                      matInput
+                      [(ngModel)]="user.phone"
+                      name="phone"
+                      type="text"
+                      [readonly]="!(editForm$ | async)"
+                    />
                   </mat-form-field>
                   <!-- <mat-form-field appearance="outline" matTooltip="Language will change after next login" [matTooltipDisabled]=!(editForm$ | async)>
                     <mat-label i18n="@@userСomponentTabDetailsLang">Language</mat-label>
@@ -187,7 +223,13 @@
                   </mat-form-field> -->
                   <mat-form-field appearance="outline">
                     <mat-label i18n="@@userСomponentTabDetailsState">State</mat-label>
-                    <input matInput *ngIf="!(editForm$ | async)" value="{{ user.State.keyString }}" type="text" name="userState" />
+                    <input
+                      matInput
+                      *ngIf="!(editForm$ | async)"
+                      value="{{ user.State.keyString }}"
+                      type="text"
+                      name="userState"
+                    />
                     <mat-select [(ngModel)]="user.StateId" name="userState">
                       <mat-option *ngFor="let state of states$ | async" [value]="state.id">{{
                         state.keyString
@@ -206,7 +248,12 @@
                 Save
               </atoms-icon-button>
 
-              <atoms-icon-button *ngIf="editForm$ | async" (click)="onClickCancelEdit()" [icon]="['fas', 'times']" color="basic">
+              <atoms-icon-button
+                *ngIf="editForm$ | async"
+                (click)="onClickCancelEdit()"
+                [icon]="['fas', 'times']"
+                color="basic"
+              >
                 Cancel
               </atoms-icon-button>
             </div>
