@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AuthenticationService } from '@/core/auth/services';
 import { MessageService } from '@/modules/messages/services/message.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private authenticationService: AuthenticationService, private messageService: MessageService) {}
+  constructor(private router: Router, private messageService: MessageService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError(err => {
-        // TODO @JohnRostislavovich if 500 redirect here
-        if (err.status === 401) {
-          // this.authenticationService.logout();
+        // i put here >= sign because there is more than one type of 500 error
+        if (err.status >= 500) {
+          this.router.navigateByUrl('/server-error');
         }
 
         const error = err.message || err.statusText;

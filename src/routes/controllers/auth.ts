@@ -86,47 +86,53 @@ export class AuthController {
             adminR
               .setPrivileges(privileges)
               .then(() => {
-                adminR.getPrivileges().then(rPrivileges => {
-                  rPrivileges.forEach(privilege => {
-                    privilege.RolePrivilege.add = true;
-                    privilege.RolePrivilege.delete = true;
-                    privilege.RolePrivilege.edit = true;
-                    privilege.RolePrivilege.view = true;
-                    privilege.RolePrivilege.save();
-                  });
-                  adminR
-                  .addUser(user)
-                  .then(() => {
-                    const token = Crypt.genTimeLimitedToken(24 * 60);
-                    user
-                      .createPasswordAttributes({
-                        token: token.value,
-                        tokenExpire: token.expireDate,
-                        passwordExpire: token.expireDate
-                      })
-                      .then(pa => {
-                        Mailer.sendActivation(user, password, `${process.env.URL}/auth/activate-account/${token.value}`)
-                          .then(() => {
-                            return res.status(OK).json({
-                              success: true,
-                              message: 'Activation link has been sent'
-                            });
+                adminR
+                  .getPrivileges()
+                  .then(rPrivileges => {
+                    rPrivileges.forEach(privilege => {
+                      privilege.RolePrivilege.add = true;
+                      privilege.RolePrivilege.delete = true;
+                      privilege.RolePrivilege.edit = true;
+                      privilege.RolePrivilege.view = true;
+                      privilege.RolePrivilege.save();
+                    });
+                    adminR
+                      .addUser(user)
+                      .then(() => {
+                        const token = Crypt.genTimeLimitedToken(24 * 60);
+                        user
+                          .createPasswordAttributes({
+                            token: token.value,
+                            tokenExpire: token.expireDate,
+                            passwordExpire: token.expireDate
                           })
-                          .catch((err: any) => {
-                            Logger.Err(err);
-                            return res.status(BAD_REQUEST).json(err);
+                          .then(pa => {
+                            Mailer.sendActivation(
+                              user,
+                              password,
+                              `${process.env.URL}/auth/activate-account/${token.value}`
+                            )
+                              .then(() => {
+                                return res.status(OK).json({
+                                  success: true,
+                                  message: 'Activation link has been sent'
+                                });
+                              })
+                              .catch((err: any) => {
+                                Logger.Err(err);
+                                return res.status(BAD_REQUEST).json(err);
+                              });
                           });
+                      })
+                      .catch((err: any) => {
+                        Logger.Err(err);
+                        return res.status(BAD_REQUEST).json(err);
                       });
                   })
                   .catch((err: any) => {
                     Logger.Err(err);
                     return res.status(BAD_REQUEST).json(err);
                   });
-                })
-                .catch((err: any) => {
-                  Logger.Err(err);
-                  return res.status(BAD_REQUEST).json(err);
-                });
               })
               .catch((err: any) => {
                 Logger.Err(err);
@@ -397,7 +403,8 @@ export class AuthController {
                   .then(() => {
                     return res.status(OK).json({
                       success: true,
-                      message: 'A message has been sent to your email address. Follow the instructions to reset your password.'
+                      message:
+                        'A message has been sent to your email address. Follow the instructions to reset your password.'
                     });
                   })
                   .catch((err: any) => {
@@ -433,12 +440,17 @@ export class AuthController {
               return res.status(BAD_REQUEST).json(err);
             });
         } else {
-          res.status(BAD_REQUEST).json({ success: false, message: 'The following user does not exist! Please, provide correct email or login!' });
+          res
+            .status(BAD_REQUEST)
+            .json({
+              success: false,
+              message: 'The following user does not exist! Please, provide correct email or login!'
+            });
         }
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json({err});
+        return res.status(BAD_REQUEST).json({ err });
       });
   }
 
@@ -524,6 +536,6 @@ export class AuthController {
   private create(req: Request, res: Response) {
     Logger.Info(`Logging user out...`);
     req.logout();
-    res.status(OK).json({message: 'logged out'});
+    res.status(OK).json({ message: 'logged out' });
   }
 }

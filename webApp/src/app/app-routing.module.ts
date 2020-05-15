@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '@/core/_guards';
 import { PublicViewComponent, PrivateViewComponent } from './core/layout/view-containers';
-import { PageNotFoundComponent } from './core/layout/components';
+import { PageNotFoundComponent, InternalServerErrorComponent } from './core/layout/components';
 
 const routes: Routes = [
   {
@@ -59,6 +59,7 @@ const routes: Routes = [
     ],
     data: { animation: 'PrivateView' }
   },
+  { path: 'server-error', component: InternalServerErrorComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 
