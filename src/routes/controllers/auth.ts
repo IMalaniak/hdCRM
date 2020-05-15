@@ -43,12 +43,17 @@ export class AuthController {
     const passwordData = Crypt.saltHashPassword(password);
 
     const OrgDefaults: any = {
-      title: `PRIVATE_ORG_FOR_${req.body.name}_${req.body.surname}`,
       Roles: [
         {
           keyString: 'admin'
         }
       ]
+    };
+
+    const Organization = {
+      ...OrgDefaults,
+      ...req.body.Organization,
+      ...(!req.body.Organization.title && { title: `PRIVATE_ORG_FOR_${req.body.name}_${req.body.surname}` })
     };
 
     db.User.create(
@@ -61,7 +66,7 @@ export class AuthController {
         surname: req.body.surname,
         // defaultLang: req.body.defaultLang,
         phone: req.body.phone,
-        Organization: { ...OrgDefaults, ...req.body.Organization },
+        Organization,
         StateId: 1
       },
       {
@@ -440,12 +445,10 @@ export class AuthController {
               return res.status(BAD_REQUEST).json(err);
             });
         } else {
-          res
-            .status(BAD_REQUEST)
-            .json({
-              success: false,
-              message: 'The following user does not exist! Please, provide correct email or login!'
-            });
+          res.status(BAD_REQUEST).json({
+            success: false,
+            message: 'The following user does not exist! Please, provide correct email or login!'
+          });
         }
       })
       .catch((err: any) => {
