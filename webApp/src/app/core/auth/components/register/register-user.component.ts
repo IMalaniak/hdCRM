@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
-import Swal from 'sweetalert2';
-import { AuthenticationService } from '../../services';
+import { Store, select } from '@ngrx/store';
 import { User } from '@/modules/users';
+import { AuthState } from '../../store/auth.reducer';
+import { registerUser } from '../../store/auth.actions';
+import { isLoading } from '../../store/auth.selectors';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-register-user',
@@ -12,10 +15,11 @@ import { User } from '@/modules/users';
 export class RegisterUserComponent implements OnInit {
   registerData: FormGroup;
   hidePassword = true;
-  selectedRolesIds: number[];
-  submitDisabled = false;
+  isLoading$: Observable<boolean>;
 
-  constructor(private authService: AuthenticationService, private _formBuilder: FormBuilder) {}
+  constructor(private store: Store<AuthState>, private _formBuilder: FormBuilder) {
+    this.isLoading$ = this.store.pipe(select(isLoading));
+  }
 
   ngOnInit() {
     this.registerData = this._formBuilder.group({
@@ -163,23 +167,6 @@ export class RegisterUserComponent implements OnInit {
     const { userCredentials, userPersonalInfo, userOrganization } = this.registerData.value;
     const user: User = { ...userCredentials, ...userPersonalInfo };
     user.Organization = { ...userOrganization };
-    this.submitDisabled = true;
-    this.authService.registerUser(user).subscribe(
-      data => {
-        Swal.fire({
-          title: 'User registered!',
-          icon: 'success',
-          timer: 1500
-        });
-      },
-      error => {
-        this.submitDisabled = false;
-        Swal.fire({
-          title: 'Ooops, something went wrong!',
-          icon: 'error',
-          timer: 1500
-        });
-      }
-    );
+    this.store.dispatch(registerUser({ user }));
   }
 }

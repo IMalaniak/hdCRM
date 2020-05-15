@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent, RegisterUserComponent } from './components';
+import { LoginComponent, RegisterUserComponent, RegisterSuccessComponent } from './components';
 import { PublicGuard } from '@/core/_guards';
 
 const routes: Routes = [
@@ -34,6 +34,11 @@ const routes: Routes = [
         path: 'register',
         data: { breadcrumb: 'Register' },
         component: RegisterUserComponent
+      },
+      {
+        path: 'register-success',
+        data: { breadcrumb: 'Successfull registration' },
+        component: RegisterSuccessComponent
       }
     ]
   }

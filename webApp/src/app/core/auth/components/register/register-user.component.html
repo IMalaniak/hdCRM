@@ -331,7 +331,7 @@
             </mat-vertical-stepper>
             <div class="d-flex justify-content-end btn-register">
               <atoms-icon-button
-                [disabled]="registerData.invalid || submitDisabled"
+                [disabled]="registerData.invalid || (isLoading$ | async)"
                 (onclick)="onRegisterSubmit()"
                 [icon]="['fas', 'paper-plane']"
               >

@@ -24,6 +24,22 @@ export class AuthEffects {
     private scktService: SocketService
   ) {}
 
+  registerUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authActions.registerUser),
+      map(payload => payload.user),
+      switchMap(registerData =>
+        this.authService.registerUser(registerData).pipe(
+          map(user => authActions.registerSuccess(user)),
+          tap(() => this.router.navigateByUrl('/auth/register-success')),
+          catchError((errorResponse: HttpErrorResponse) =>
+            of(authActions.registerFailure({ response: errorResponse.error }))
+          )
+        )
+      )
+    )
+  );
+
   logIn$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authActions.logIn),
