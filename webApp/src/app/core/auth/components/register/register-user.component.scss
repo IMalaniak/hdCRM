@@ -3,12 +3,14 @@
 @import '~bootstrap/scss/mixins/_gradients';
 @import '~bootstrap/scss/mixins/_breakpoints';
 
-.register-section {
-  width: 100%;
-  height: 100vh;
-  overflow-y: auto;
+.register {
+  &-wrapper {
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+  }
 
-  .register-block {
+  &-form {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,15 +19,19 @@
       padding: 0;
     }
 
+    &-title {
+      @include media-breakpoint-down(sm) {
+        display: none;
+      }
+    }
+
     mat-card {
       width: 95%;
       box-shadow: none;
+      padding: 0;
       @include media-breakpoint-up(sm) {
         width: 80%;
         margin: 0 auto;
-      }
-      @include media-breakpoint-down(sm) {
-        padding: 0;
       }
 
       mat-card-content {
@@ -37,19 +43,13 @@
         }
       }
 
-      h3 {
-        @include media-breakpoint-down(sm) {
-          display: none;
-        }
-      }
-
       mat-form-field {
         width: 100%;
         display: block;
       }
 
       mat-checkbox {
-        margin: 0 0.5em 0 0.5em;
+        margin: 0 0.5em;
         line-height: 1;
       }
     }
@@ -60,9 +60,9 @@
     }
 
     .btn-register {
-      margin: 0.5em 1.5em 0 0;
-      @include media-breakpoint-down(sm) {
-        margin-bottom: 1em;
+      margin: 0.5em 1.5em 1em 0;
+      @include media-breakpoint-up(sm) {
+        margin-bottom: 0;
       }
     }
 
@@ -73,7 +73,7 @@
     }
   }
 
-  .bg-block {
+  &-login {
     display: flex;
     justify-content: center;
     align-items: center;

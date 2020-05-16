@@ -43,8 +43,8 @@ export const activateAccountFailure = createAction(
 
 export const logOut = createAction('[Auth] Logout');
 
-export const redirectToLogin = createAction('[Auth] Redirect to login', props<{ returnUrl: string }>());
+export const redirectToLogin = createAction('[Auth] Redirect To Login', props<{ returnUrl: string }>());
 
-export const getStatus = createAction('[Auth] GetStatus');
+export const getStatus = createAction('[Auth] Get Status');
 
-export const profileSaved = createAction('[My Profile] Profile saved', props<{ user: User }>());
+export const profileSaved = createAction('[My Profile] Profile Saved', props<{ user: User }>());

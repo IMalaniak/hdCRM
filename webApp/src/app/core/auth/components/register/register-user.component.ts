@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, FormControl, FormGroup, AbstractControl } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { User } from '@/modules/users';
 import { AuthState } from '../../store/auth.reducer';
@@ -60,12 +60,7 @@ export class RegisterUserComponent implements OnInit {
         address: new FormControl(null),
         postcode: new FormControl(null),
         phone: new FormControl(null, Validators.pattern('^[0-9]+$')),
-        email: new FormControl(
-          null,
-          Validators.pattern(
-            '^([A-Z|a-z|0-9](.|_){0,1})+[A-Z|a-z|0-9]@([A-Z|a-z|0-9])+((.){0,1}[A-Z|a-z|0-9]){2}.[a-z]{2,3}$'
-          )
-        ),
+        email: new FormControl(null, Validators.email),
         website: new FormControl(null, [
           Validators.required,
           Validators.pattern(
@@ -75,92 +70,43 @@ export class RegisterUserComponent implements OnInit {
       })
     });
 
-    this.generatePassword.valueChanges.subscribe(value => {
+    this.userCredentials.get('generatePassword').valueChanges.subscribe(value => {
       if (value) {
-        this.password.setValidators(null);
-        this.password.reset();
+        this.userCredentials.get('password').setValidators(null);
+        this.userCredentials.get('password').reset();
       } else {
-        this.password.setValidators([Validators.required, Validators.minLength(6)]);
+        this.userCredentials.get('password').setValidators([Validators.required, Validators.minLength(6)]);
       }
-      this.password.updateValueAndValidity();
+      this.userCredentials.get('password').updateValueAndValidity();
     });
 
-    this.orgType.valueChanges.subscribe(value => {
+    this.userOrganization.get('type').valueChanges.subscribe(value => {
       if (value === 'company') {
-        this.orgTitle.setValidators([
-          Validators.required,
-          Validators.maxLength(50),
-          Validators.pattern(
-            "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
-          )
-        ]);
+        this.userOrganization
+          .get('title')
+          .setValidators([
+            Validators.required,
+            Validators.maxLength(50),
+            Validators.pattern(
+              "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
+            )
+          ]);
       } else if (value === 'private') {
-        this.orgTitle.setValidators(null);
-        this.orgTitle.reset();
+        this.userOrganization.get('title').setValidators(null);
+        this.userOrganization.get('title').reset();
       }
-      this.orgTitle.updateValueAndValidity();
+      this.userOrganization.get('title').updateValueAndValidity();
     });
   }
 
-  get userCredentials() {
+  get userCredentials(): AbstractControl {
     return this.registerData.get('userCredentials');
   }
-  get userPersonalInfo() {
+  get userPersonalInfo(): AbstractControl {
     return this.registerData.get('userPersonalInfo');
   }
-  get userOrganization() {
+  get userOrganization(): AbstractControl {
     return this.registerData.get('userOrganization');
-  }
-  get login() {
-    return this.userCredentials.get('login');
-  }
-  get password() {
-    return this.userCredentials.get('password');
-  }
-  get generatePassword() {
-    return this.userCredentials.get('generatePassword');
-  }
-  get email() {
-    return this.userCredentials.get('email');
-  }
-  get name() {
-    return this.userPersonalInfo.get('name');
-  }
-  get surname() {
-    return this.userPersonalInfo.get('surname');
-  }
-  get phone() {
-    return this.userPersonalInfo.get('phone');
-  }
-  get orgType() {
-    return this.userOrganization.get('type');
-  }
-  get orgTitle() {
-    return this.userOrganization.get('title');
-  }
-  get orgEmployees() {
-    return this.userOrganization.get('employees');
-  }
-  get orgCountry() {
-    return this.userOrganization.get('country');
-  }
-  get orgCity() {
-    return this.userOrganization.get('city');
-  }
-  get orgAddress() {
-    return this.userOrganization.get('address');
-  }
-  get orgPhone() {
-    return this.userOrganization.get('phone');
-  }
-  get orgEmail() {
-    return this.userOrganization.get('email');
-  }
-  get orgPostcode() {
-    return this.userOrganization.get('postcode');
-  }
-  get orgWebsite() {
-    return this.userOrganization.get('website');
   }
 
   onRegisterSubmit() {

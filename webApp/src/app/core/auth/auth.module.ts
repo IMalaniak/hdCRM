@@ -23,8 +23,7 @@ import { SharedModule } from '@/shared/shared.module';
     StoreModule.forFeature(fromAuth.authFeatureKey, fromAuth.reducer),
     EffectsModule.forFeature([AuthEffects])
   ],
-  declarations: [LoginComponent, RegisterUserComponent, RegisterSuccessComponent],
-  exports: [LoginComponent, RegisterUserComponent]
+  declarations: [LoginComponent, RegisterUserComponent, RegisterSuccessComponent]
 })
 export class AuthModule {
   static forRoot(): ModuleWithProviders<AuthModule> {
