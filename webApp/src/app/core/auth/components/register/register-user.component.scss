@@ -3,12 +3,14 @@
 @import '~bootstrap/scss/mixins/_gradients';
 @import '~bootstrap/scss/mixins/_breakpoints';
 
-.register-section {
-  width: 100%;
-  height: 100vh;
-  overflow-y: auto;
+.register {
+  &-wrapper {
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+  }
 
-  .register-block {
+  &-form {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,66 +19,61 @@
       padding: 0;
     }
 
-    form {
+    &-title {
+      @include media-breakpoint-down(sm) {
+        display: none;
+      }
+    }
+
+    mat-card {
       width: 95%;
+      box-shadow: none;
+      padding: 0;
       @include media-breakpoint-up(sm) {
         width: 80%;
         margin: 0 auto;
       }
 
-      mat-card {
-        box-shadow: none;
-        @include media-breakpoint-down(sm) {
-          padding: 0;
+      mat-card-content {
+        @include media-breakpoint-up(xs) {
+          padding: 0.1em;
         }
-
-        mat-card-content {
-          @include media-breakpoint-up(xs) {
-            padding: 0.1em;
-          }
-          @include media-breakpoint-up(sm) {
-            padding: 1em;
-          }
-        }
-
-        h3 {
-          @include media-breakpoint-down(sm) {
-            display: none;
-          }
-        }
-
-        mat-form-field {
-          width: 100%;
-          display: block;
-        }
-
-        mat-checkbox {
-          margin: 0 0.5em 0 0.5em;
-          line-height: 1;
+        @include media-breakpoint-up(sm) {
+          padding: 1em;
         }
       }
 
-      .mat-stepper-vertical {
-        max-height: 75vh;
-        overflow-y: auto;
+      mat-form-field {
+        width: 100%;
+        display: block;
       }
 
-      .btn-register {
-        margin: 0.5em 1.5em 0 0;
-        @include media-breakpoint-down(sm) {
-          margin-bottom: 1em;
-        }
+      mat-checkbox {
+        margin: 0 0.5em;
+        line-height: 1;
       }
+    }
 
-      mat-expansion-panel {
-        margin-bottom: 2em;
-        border: 1px solid rgba(0, 0, 0, 0.12);
-        box-shadow: none;
+    .mat-stepper-vertical {
+      max-height: 75vh;
+      overflow-y: auto;
+    }
+
+    .btn-register {
+      margin: 0.5em 1.5em 1em 0;
+      @include media-breakpoint-up(sm) {
+        margin-bottom: 0;
       }
+    }
+
+    mat-expansion-panel {
+      margin-bottom: 2em;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      box-shadow: none;
     }
   }
 
-  .bg-block {
+  &-login {
     display: flex;
     justify-content: center;
     align-items: center;

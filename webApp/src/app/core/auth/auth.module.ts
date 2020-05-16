@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthRoutingModule } from './auth-routing.module';
-import { LoginComponent, RegisterUserComponent } from './components';
+import { LoginComponent, RegisterUserComponent, RegisterSuccessComponent } from './components';
 import { AuthenticationService } from './services';
 import * as fromAuth from './store/auth.reducer';
 import { AuthEffects } from './store/auth.effects';
@@ -23,8 +23,7 @@ import { SharedModule } from '@/shared/shared.module';
     StoreModule.forFeature(fromAuth.authFeatureKey, fromAuth.reducer),
     EffectsModule.forFeature([AuthEffects])
   ],
-  declarations: [LoginComponent, RegisterUserComponent],
-  exports: [LoginComponent, RegisterUserComponent]
+  declarations: [LoginComponent, RegisterUserComponent, RegisterSuccessComponent]
 })
 export class AuthModule {
   static forRoot(): ModuleWithProviders<AuthModule> {

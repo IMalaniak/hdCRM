@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import Swal from 'sweetalert2';
-import { AuthenticationService } from '../../services';
-import { User, Organization } from '@/modules/users';
+import { FormBuilder, Validators, FormControl, FormGroup, AbstractControl } from '@angular/forms';
+import { Store, select } from '@ngrx/store';
+import { User } from '@/modules/users';
+import { AuthState } from '../../store/auth.reducer';
+import { registerUser } from '../../store/auth.actions';
+import { isLoading } from '../../store/auth.selectors';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-register-user',
@@ -10,194 +13,106 @@ import { User, Organization } from '@/modules/users';
   styleUrls: ['./register-user.component.scss']
 })
 export class RegisterUserComponent implements OnInit {
-  user: User;
-  userData: FormGroup;
+  registerData: FormGroup;
   hidePassword = true;
-  selectedRolesIds: number[];
-  submitDisabled = false;
+  isLoading$: Observable<boolean>;
 
-  constructor(private authService: AuthenticationService, private _formBuilder: FormBuilder) {
-    // TODO
-    this.user = {} as User;
-    this.user.Organization = {} as Organization;
+  constructor(private store: Store<AuthState>, private _formBuilder: FormBuilder) {
+    this.isLoading$ = this.store.pipe(select(isLoading));
   }
 
   ngOnInit() {
-    this.userData = this._formBuilder.group({
-      formArray: this._formBuilder.array([
-        this._formBuilder.group({
-          login: new FormControl('', [
-            Validators.required,
-            Validators.minLength(6),
-            Validators.maxLength(25),
-            Validators.pattern('^[a-zA-Z0-9]+$')
-          ]),
-          email: new FormControl('', [Validators.required, Validators.email]),
-          password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-          generatePassword: new FormControl('')
-        }),
-        this._formBuilder.group({
-          name: new FormControl('', [
-            Validators.required,
-            Validators.maxLength(25),
-            Validators.pattern(
-              "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
-            )
-          ]),
-          surname: new FormControl('', [
-            Validators.required,
-            Validators.maxLength(25),
-            Validators.pattern(
-              "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
-            )
-          ]),
-          phone: new FormControl('', [Validators.pattern('^[0-9]+$')])
-        }),
-        this._formBuilder.group({
-          organizationType: new FormControl(''),
-          title: new FormControl('', [Validators.required, Validators.maxLength(150)]),
-          employees: new FormControl(''),
-          country: new FormControl(''),
-          city: new FormControl(''),
-          address: new FormControl(''),
-          postcode: new FormControl(''),
-          organizationPhone: new FormControl('', Validators.pattern('^[0-9]+$')),
-          organizationEmail: new FormControl(
-            '',
-            Validators.pattern(
-              '^([A-Z|a-z|0-9](.|_){0,1})+[A-Z|a-z|0-9]@([A-Z|a-z|0-9])+((.){0,1}[A-Z|a-z|0-9]){2}.[a-z]{2,3}$'
-            )
-          ),
-          website: new FormControl('', [
-            Validators.required,
-            Validators.pattern(
-              '^(http://www.|https://www.|http://|https://)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$'
-            )
-          ])
-        })
-      ])
-    });
-
-    this.generatePassword.valueChanges.subscribe(value => {
-      if (value) {
-        this.password.setValidators(null);
-        this.password.reset();
-      } else {
-        this.password.setValidators([Validators.required, Validators.minLength(6)]);
-      }
-      this.password.updateValueAndValidity();
-    });
-
-    this.organizationType.valueChanges.subscribe(value => {
-      if (value === 'company') {
-        this.title.setValidators([
+    this.registerData = this._formBuilder.group({
+      userCredentials: this._formBuilder.group({
+        login: new FormControl(null, [
           Validators.required,
-          Validators.maxLength(50),
+          Validators.minLength(6),
+          Validators.maxLength(25),
+          Validators.pattern('^[a-zA-Z0-9]+$')
+        ]),
+        email: new FormControl(null, [Validators.required, Validators.email]),
+        password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+        generatePassword: new FormControl(null)
+      }),
+      userPersonalInfo: this._formBuilder.group({
+        name: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(25),
           Validators.pattern(
             "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
           )
-        ]);
-      } else if (value === 'private') {
-        this.title.setValidators(null);
-        this.title.reset();
+        ]),
+        surname: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(25),
+          Validators.pattern(
+            "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
+          )
+        ]),
+        phone: new FormControl(null, [Validators.pattern('^[0-9]+$')])
+      }),
+      userOrganization: this._formBuilder.group({
+        type: new FormControl(null),
+        title: new FormControl(null, [Validators.required, Validators.maxLength(150)]),
+        employees: new FormControl(null),
+        country: new FormControl(null),
+        city: new FormControl(null),
+        address: new FormControl(null),
+        postcode: new FormControl(null),
+        phone: new FormControl(null, Validators.pattern('^[0-9]+$')),
+        email: new FormControl(null, Validators.email),
+        website: new FormControl(null, [
+          Validators.required,
+          Validators.pattern(
+            '^(http://www.|https://www.|http://|https://)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$'
+          )
+        ])
+      })
+    });
+
+    this.userCredentials.get('generatePassword').valueChanges.subscribe(value => {
+      if (value) {
+        this.userCredentials.get('password').setValidators(null);
+        this.userCredentials.get('password').reset();
+      } else {
+        this.userCredentials.get('password').setValidators([Validators.required, Validators.minLength(6)]);
       }
-      this.title.updateValueAndValidity();
+      this.userCredentials.get('password').updateValueAndValidity();
+    });
+
+    this.userOrganization.get('type').valueChanges.subscribe(value => {
+      if (value === 'company') {
+        this.userOrganization
+          .get('title')
+          .setValidators([
+            Validators.required,
+            Validators.maxLength(50),
+            Validators.pattern(
+              "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
+            )
+          ]);
+      } else if (value === 'private') {
+        this.userOrganization.get('title').setValidators(null);
+        this.userOrganization.get('title').reset();
+      }
+      this.userOrganization.get('title').updateValueAndValidity();
     });
   }
 
-  get formArray(): AbstractControl | null {
-    return this.userData.get('formArray');
+  get userCredentials(): AbstractControl {
+    return this.registerData.get('userCredentials');
   }
-  get login() {
-    return this.formArray.get([0]).get('login');
+  get userPersonalInfo(): AbstractControl {
+    return this.registerData.get('userPersonalInfo');
   }
-  get password() {
-    return this.formArray.get([0]).get('password');
-  }
-  get generatePassword() {
-    return this.formArray.get([0]).get('generatePassword');
-  }
-  get email() {
-    return this.formArray.get([0]).get('email');
-  }
-  get name() {
-    return this.formArray.get([1]).get('name');
-  }
-  get surname() {
-    return this.formArray.get([1]).get('surname');
-  }
-  get phone() {
-    return this.formArray.get([1]).get('phone');
-  }
-  get organizationType() {
-    return this.formArray.get([2]).get('organizationType');
-  }
-  get title() {
-    return this.formArray.get([2]).get('title');
-  }
-  get employees() {
-    return this.formArray.get([2]).get('employees');
-  }
-  get country() {
-    return this.formArray.get([2]).get('country');
-  }
-  get city() {
-    return this.formArray.get([2]).get('city');
-  }
-  get address() {
-    return this.formArray.get([2]).get('address');
-  }
-  get organizationPhone() {
-    return this.formArray.get([2]).get('organizationPhone');
-  }
-  get organizationEmail() {
-    return this.formArray.get([2]).get('organizationEmail');
-  }
-  get postcode() {
-    return this.formArray.get([2]).get('postcode');
-  }
-  get website() {
-    return this.formArray.get([2]).get('website');
+  get userOrganization(): AbstractControl {
+    return this.registerData.get('userOrganization');
   }
 
   onRegisterSubmit() {
-    this.submitDisabled = true;
-    this.user.login = this.login.value;
-    if (!this.generatePassword.value) {
-      this.user.password = this.password.value;
-    }
-    this.user.email = this.email.value;
-    this.user.name = this.name.value;
-    this.user.surname = this.surname.value;
-    this.user.phone = this.phone.value;
-    this.user.Organization.type = this.organizationType.value;
-    if (this.organizationType.value === 'company') {
-      this.user.Organization.title = this.title.value;
-      this.user.Organization.employees = this.employees.value;
-      this.user.Organization.country = this.country.value;
-      this.user.Organization.city = this.city.value;
-      this.user.Organization.address = this.address.value;
-      this.user.Organization.postcode = this.postcode.value;
-      this.user.Organization.phone = this.organizationPhone.value;
-      this.user.Organization.email = this.organizationEmail.value;
-    }
-    this.user.Organization.website = this.website.value;
-    this.authService.registerUser(this.user).subscribe(
-      data => {
-        Swal.fire({
-          title: 'User registered!',
-          icon: 'success',
-          timer: 1500
-        });
-      },
-      error => {
-        this.submitDisabled = false;
-        Swal.fire({
-          title: 'Ooops, something went wrong!',
-          icon: 'error',
-          timer: 1500
-        });
-      }
-    );
+    const { userCredentials, userPersonalInfo, userOrganization } = this.registerData.value;
+    const user: User = { ...userCredentials, ...userPersonalInfo };
+    user.Organization = { ...userOrganization };
+    this.store.dispatch(registerUser({ user }));
   }
 }
