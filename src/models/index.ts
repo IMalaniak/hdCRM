@@ -14,6 +14,7 @@ import { Department, DepartmentFactory } from './Department';
 import { RolePrivilege, RolePrivilegeFactory } from './RolePrivileges';
 import { OrganizationFactory, Organization } from './Organization';
 import { TaskFactory, Task } from './Task';
+import { TaskPriorityFactory, TaskPriority } from './TaskPriority';
 
 class DataBase {
   sequelize: Sequelize;
@@ -38,6 +39,7 @@ class DataBase {
     UserFactory(this.sequelize);
     UserLoginHistoryFactory(this.sequelize);
     TaskFactory(this.sequelize);
+    TaskPriorityFactory(this.sequelize);
 
     // associations
     Organization.hasMany(Department, {
@@ -132,6 +134,8 @@ class DataBase {
     });
 
     Task.belongsTo(User, { as: 'Creator' });
+    Task.belongsTo(TaskPriority);
+    TaskPriority.hasMany(Task);
 
     Logger.Info(`DataBase inited`);
   }
@@ -158,5 +162,6 @@ export {
   UserLoginHistory,
   Organization,
   Task,
+  TaskPriority,
   Sequelize
 };

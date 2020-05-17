@@ -1,3 +1,5 @@
+import { TaskPriority } from './task-priority';
+
 export interface Task {
   id: number;
   title: string;
@@ -7,4 +9,6 @@ export interface Task {
   isCompleted: boolean;
   priority: number;
   CreatorId: number;
+  TaskPriorityId: number;
+  TaskPriority: TaskPriority;
 }

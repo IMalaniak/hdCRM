@@ -42,17 +42,17 @@
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label i18n=" @@taskDialogСomponentInputLablePriority ">Priority:</mat-label>
-      <mat-select formControlName="priority">
-        <mat-option *ngFor="let priority of priorityValues" [value]="priority.value">{{ priority.label }}</mat-option>
+      <mat-select formControlName="TaskPriorityId">
+        <mat-option *ngFor="let priority of priorities" [value]="priority.id">{{ priority.label }}</mat-option>
       </mat-select>
       <mat-error
         *ngIf="
-          taskData.controls['priority'].invalid &&
-          (taskData.controls['priority'].dirty || taskData.controls['priority'].touched)
+          taskData.controls['TaskPriorityId'].invalid &&
+          (taskData.controls['TaskPriorityId'].dirty || taskData.controls['TaskPriorityId'].touched)
         "
       >
         <mat-error
-          *ngIf="taskData.controls['priority'].errors.required"
+          *ngIf="taskData.controls['TaskPriorityId'].errors.required"
           i18n=" @@taskDialogСomponentInputErrorsPriorityRequired "
         >
           Priority is required!

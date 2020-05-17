@@ -4,9 +4,10 @@ import { of } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 import { TaskService } from '../services';
 import * as TaskActions from './task.actions';
-import { Task } from '../models';
+import { Task, TaskPriority } from '../models';
 import Swal from 'sweetalert2';
 import { Update } from '@ngrx/entity';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class TaskEffects {
@@ -106,6 +107,20 @@ export class TaskEffects {
     {
       dispatch: false
     }
+  );
+
+  loadPriorities$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TaskActions.taskPrioritiesRequested),
+      mergeMap(() =>
+        this.taskService.getPriorities().pipe(
+          catchError((response: HttpErrorResponse) => {
+            return of(TaskActions.taskPrioritiesLoadFail({ error: response.error }));
+          })
+        )
+      ),
+      map((priorities: TaskPriority[]) => TaskActions.taskPrioritiesLoaded({ priorities }))
+    )
   );
 
   constructor(private actions$: Actions, private taskService: TaskService) {}

@@ -1,8 +1,14 @@
 import { Component, OnDestroy, OnInit, Input } from '@angular/core';
-import { Task, TaskDialogData } from '../../../models';
+import { Task, TaskDialogData, TaskPriority } from '../../../models';
 import { Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
-import { deleteTask, createTask, taskListRequested, updateTaskRequested } from '../../../store/task.actions';
+import {
+  deleteTask,
+  createTask,
+  taskListRequested,
+  updateTaskRequested,
+  taskPrioritiesRequested
+} from '../../../store/task.actions';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -17,6 +23,7 @@ import { OrganismsTaskDialogComponent } from '../organisms-task-dialog/organisms
 })
 export class OrganismsTaskListComponent implements OnInit, OnDestroy {
   @Input() tasks: Task[];
+  @Input() priorities: TaskPriority[];
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -24,10 +31,13 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(taskListRequested());
+    this.store.dispatch(taskPrioritiesRequested());
   }
 
   openTaskDialog(taskToUpdate?: Task): void {
-    let data: TaskDialogData = {} as TaskDialogData;
+    const data: TaskDialogData = {
+      priorities: this.priorities
+    } as TaskDialogData;
     taskToUpdate ? ((data.title = 'Update task'), (data.task = taskToUpdate)) : (data.title = 'Add new task');
 
     const dialogRef = this.dialog.open(OrganismsTaskDialogComponent, {
