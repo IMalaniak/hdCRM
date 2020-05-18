@@ -54,128 +54,151 @@
     padding: 0 crmsize(spacer, null, true);
     display: flex;
     align-items: center;
-
-    // &:last-of-type {
-
-    // }
-
-    // &.user-search {
-
-    // }
-
-    &.user-dropdown {
-      margin-left: auto;
-    }
   }
 
   .user-dropdown {
-    position: relative;
+    @include media-breakpoint-up(sm) {
+      position: relative;
+      margin-left: auto;
+    }
 
-    img {
+    atoms-user-pic {
+      width: 2.55em;
+      height: 2.55em;
+      // TODO: @ArseniiIrod check for better solution
+      border: 2px solid $gray-100;
+      border-radius: 50%;
       cursor: pointer;
+      transition: 0.125s all ease;
+
+      &:hover {
+        transform: scale(0.9);
+      }
     }
 
     .dropdown-content {
       $hHeight: crmsize(header, height, true);
 
+      position: absolute;
+      top: calc(#{$hHeight});
+      right: 0;
+      left: 0;
       display: flex;
       flex-direction: column;
-      opacity: 0;
-      visibility: hidden;
-      padding: crmsize(spacer, null, true);
-      @include crm-bgcolor('layout', 'dark');
-      position: absolute;
-      top: 100%;
-      right: 0;
-      width: 100vw;
-      height: calc(100vh - #{$hHeight});
-      max-height: calc(100vh - #{$hHeight});
-      transition: opacity $transition, visibility $transition;
+      width: 95%;
+      height: auto;
+      margin: 0 auto;
 
       @include media-breakpoint-up(sm) {
-        width: 20em;
-        height: auto;
-        max-height: 50vh;
+        width: 24.5em;
+        right: 0.6em;
+        left: auto;
+        margin-left: auto;
+      }
+      @include media-breakpoint-up(lg) {
+        right: 1.6em;
       }
 
-      .mat-stroked-button {
-        margin: 0.5 * crmsize(spacer, null, true);
-        border-color: currentColor;
+      .content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        padding: 1.5em 0.7em 0.7em 0.7em;
+        @include media-breakpoint-up(sm) {
+          flex-direction: row;
+          flex-flow: row-reverse;
+        }
+
+        .content-title {
+          margin: 0 0 0.5em 1.2em;
+          font-size: 0.9em;
+          color: gray;
+        }
+
+        .account-actions {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+        }
       }
 
-      .user-roles {
-        span {
-          margin: 0 0.25 * crmsize(spacer, null, true);
+      .content-footer {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        margin: 0.8em 1.6em;
+
+        #org-title {
           font-size: 0.8em;
-          font-style: italic;
+          text-transform: uppercase;
+          color: gray;
         }
       }
     }
 
-    &:hover {
-      .dropdown-content {
-        visibility: visible;
-        opacity: 1;
-      }
+    .card {
+      border-radius: 0.5em;
+      @include crm-bgcolor('layout', 'background');
     }
   }
 }
 
-.notifications-wrapper {
-  display: flex;
-  flex-direction: column;
-  padding: 0.5em;
-  margin-top: crmsize(spacer, null, true);
-  border-top: 1px currentColor solid;
+// .notifications-wrapper {
+//   display: flex;
+//   flex-direction: column;
+//   padding: 0.5em;
+//   margin-top: crmsize(spacer, null, true);
+//   border-top: 1px currentColor solid;
 
-  > div {
-    &:first-of-type {
-      padding: 0.5 * crmsize(spacer, null, true) 0.5 * crmsize(spacer, null, true) crmsize(spacer, null, true);
-    }
-    &:nth-child(2) {
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-  }
+//   > div {
+//     &:first-of-type {
+//       padding: 0.5 * crmsize(spacer, null, true) 0.5 * crmsize(spacer, null, true) crmsize(spacer, null, true);
+//     }
+//     &:nth-child(2) {
+//       overflow-y: auto;
+//       overflow-x: hidden;
+//     }
+//   }
 
-  input.notification-check[type='checkbox'] {
-    display: none;
+//   input.notification-check[type='checkbox'] {
+//     display: none;
 
-    + .notification {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+//     + .notification {
+//       display: flex;
+//       align-items: center;
+//       justify-content: space-between;
 
-      &.new {
-        // different collor
-      }
+//       &.new {
+//         // different collor
+//       }
 
-      span {
-        text-align: left;
-        font-size: 0.8em;
-      }
-    }
-    &:not(:checked) + .notification {
-      transition: height $transition;
-      height: 0;
-      padding: 0;
-      font-size: 0;
-      border: none;
-      * {
-        display: none;
-      }
-    }
-    &:checked + .notification {
-      height: 4em;
-      padding: 0.5 * crmsize(spacer, null, true);
-      border-top: 1px currentColor solid;
-    }
-  }
+//       span {
+//         text-align: left;
+//         font-size: 0.8em;
+//       }
+//     }
+//     &:not(:checked) + .notification {
+//       transition: height $transition;
+//       height: 0;
+//       padding: 0;
+//       font-size: 0;
+//       border: none;
+//       * {
+//         display: none;
+//       }
+//     }
+//     &:checked + .notification {
+//       height: 4em;
+//       padding: 0.5 * crmsize(spacer, null, true);
+//       border-top: 1px currentColor solid;
+//     }
+//   }
 
-  fa-icon {
-    cursor: pointer;
-  }
-}
+//   fa-icon {
+//     cursor: pointer;
+//   }
+// }
 
 .hamburger {
   width: 22px;

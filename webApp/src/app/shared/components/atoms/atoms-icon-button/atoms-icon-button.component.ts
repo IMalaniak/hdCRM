@@ -13,8 +13,8 @@ import { Component, Input, HostBinding, Output, EventEmitter } from '@angular/co
         [ngClass]="[classes]"
         [disabled]="disabled"
       >
-        <fa-icon *ngIf="icon" [icon]="icon"></fa-icon>
-        <span><ng-content></ng-content></span>
+        <fa-icon *ngIf="icon" [icon]="icon" [ngClass]="{ 'mr-on-sm': showButtonTextOnSm }"></fa-icon>
+        <span [ngClass]="{ 'show-on-sm': showButtonTextOnSm }"><ng-content></ng-content></span>
       </button>
 
       <button
@@ -59,6 +59,7 @@ export class AtomsIconButtonComponent {
   @Input() type = 'button';
   @Input() matType = 'raised';
   @Input() disabled = false;
+  @Input() showButtonTextOnSm = false;
 
   @HostBinding('class.d-inline-block') displayInline = true;
 
