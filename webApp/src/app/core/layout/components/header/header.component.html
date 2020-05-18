@@ -19,24 +19,85 @@
 	<fa-icon [icon]="['fas', 'question']"></fa-icon>
 </div> -->
 <div class="user-dropdown" *ngIf="currentUser">
-  <atoms-user-pic [avatar]="currentUser.avatar" [userOnline]="currentUser.online"></atoms-user-pic>
+  <atoms-user-pic
+    [avatar]="currentUser.avatar"
+    [userOnline]="currentUser.online"
+    (click)="isShowUserMenu = !isShowUserMenu"
+  ></atoms-user-pic>
 
-  <section class="dropdown-content">
-    <section class="user-data">
-      <span>{{ currentUser.fullname }}</span>
-      <div class="user-roles d-flex justify-content-center" *ngIf="currentUser.Roles">
-        <span *ngFor="let role of currentUser.Roles">{{ role.keyString }}</span>
+  <section class="dropdown-content card shadow" [@openCloseAnimation]="!!isShowUserMenu">
+    <div class="row content">
+      <div class="col-6 d-flex flex-column align-items-start mb-3 mb-sm-0">
+        <span class="content-title">Account</span>
+        <div class="account-actions">
+          <atoms-icon-button
+            matType="basic"
+            [showButtonTextOnSm]="true"
+            [routerLink]="['/users/myprofile']"
+            [icon]="['fas', 'user']"
+            class="mb-1"
+          >
+            My profile
+          </atoms-icon-button>
+          <atoms-icon-button
+            matType="basic"
+            [showButtonTextOnSm]="true"
+            color="warn"
+            (onclick)="onLogoutClick()"
+            [icon]="['fas', 'sign-out-alt']"
+          >
+            Logout
+          </atoms-icon-button>
+        </div>
       </div>
+      <mat-divider [vertical]="true"></mat-divider>
+      <div class="col-6">
+        <div class="d-flex flex-column align-items-start">
+          <span class="content-title">Availability</span>
+          <div>
+            <atoms-icon-button
+              matType="basic"
+              [showButtonTextOnSm]="true"
+              [icon]="['fas', 'chevron-down']"
+              (onclick)="isShowStatuses = !isShowStatuses"
+            >
+              Working statuses
+            </atoms-icon-button>
 
-      <div>
-        <atoms-icon-button matType="stroked" [routerLink]="['/users/myprofile']" [icon]="['fas', 'user']">
-          My Profile
-        </atoms-icon-button>
-        <atoms-icon-button matType="stroked" color="warn" (onclick)="onLogoutClick()" [icon]="['fas', 'user']">
-          Logout
-        </atoms-icon-button>
+            <div class="card" [@smoothHeightAnimation]="!!isShowStatuses">
+              <atoms-icon-button matType="basic" [showButtonTextOnSm]="true" [icon]="['fas', 'globe']">
+                Online
+              </atoms-icon-button>
+              <atoms-icon-button matType="basic" [showButtonTextOnSm]="true" [icon]="['fas', 'coffee']">
+                On break
+              </atoms-icon-button>
+              <atoms-icon-button matType="basic" [showButtonTextOnSm]="true" [icon]="['fas', 'user-clock']">
+                Away
+              </atoms-icon-button>
+              <atoms-icon-button matType="basic" [showButtonTextOnSm]="true" [icon]="['fas', 'ghost']">
+                Unvisible
+              </atoms-icon-button>
+              <atoms-icon-button matType="basic" [showButtonTextOnSm]="true" [icon]="['fas', 'minus-circle']">
+                Busy
+              </atoms-icon-button>
+            </div>
+          </div>
+
+          <atoms-icon-button
+            matType="basic"
+            [showButtonTextOnSm]="true"
+            [icon]="['fas', 'user-plus']"
+            [ngClass]="{ 'mt-1': isShowStatuses }"
+          >
+            Invite members
+          </atoms-icon-button>
+        </div>
       </div>
-    </section>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="content-footer">
+      <span id="org-title">hdcrm</span>
+    </div>
 
     <!-- <section class="notifications-wrapper">
 			<div class="d-flex justify-content-between"><span>Notifications</span><fa-icon [icon]="['fas', 'cog']"></fa-icon></div>

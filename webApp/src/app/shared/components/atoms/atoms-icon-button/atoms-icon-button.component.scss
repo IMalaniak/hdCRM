@@ -15,26 +15,37 @@
   }
 
   fa-icon {
-    margin-right: 0.8em;
+    margin-right: 0;
+    font-size: 1.25em;
 
-    @include media-breakpoint-down(sm) {
-      margin-right: 0;
-      font-size: 1.25em;
+    &.mr-on-sm {
+      margin-right: 0.8em;
+    }
 
-      + span {
-        display: none;
-      }
+    @include media-breakpoint-up(md) {
+      margin-right: 0.8em;
     }
 
     + span {
+      @include media-breakpoint-down(sm) {
+        &:not(.show-on-sm) {
+          display: none;
+        }
+      }
       &:before {
         content: '';
         display: inline;
         border-left: 1px solid;
         margin-right: 0.6em;
+      }
 
-        @include media-breakpoint-down(sm) {
+      &:not(.show-on-sm) {
+        &:before {
           display: none;
+
+          @include media-breakpoint-up(sm) {
+            display: inline;
+          }
         }
       }
     }
@@ -48,6 +59,5 @@
       margin-right: 0;
       font-size: 1.4em;
     }
-
   }
 }

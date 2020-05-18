@@ -35,7 +35,14 @@ import {
   faCog,
   faTimes,
   faSms,
-  faChevronRight
+  faChevronRight,
+  faBriefcase,
+  faMinusCircle,
+  faGhost,
+  faCoffee,
+  faGlobe,
+  faUserClock,
+  faChevronDown
 } from '@fortawesome/free-solid-svg-icons';
 import * as fromUser from '@/modules/users/store/user.reducer';
 import { UserEffects } from '@/modules/users/store/user.effects';
@@ -97,7 +104,15 @@ export class LayoutModule {
       faCog,
       faTimes,
       faSms,
-      faChevronRight
+      faChevronRight,
+      faSignOutAlt,
+      faBriefcase,
+      faMinusCircle,
+      faGhost,
+      faCoffee,
+      faGlobe,
+      faUserClock,
+      faChevronDown
     );
   }
 }
