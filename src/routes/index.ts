@@ -14,6 +14,7 @@ import {
 } from './controllers';
 import { Request, Response } from 'express';
 import { OK } from 'http-status-codes';
+import { TaskPriorityController } from './controllers/taskPriority';
 
 @Controller('api/')
 @ClassOptions({ mergeParams: true })
@@ -28,7 +29,8 @@ import { OK } from 'http-status-codes';
   new StageController(),
   new StateController(),
   new UserController(),
-  new TaskController()
+  new TaskController(),
+  new TaskPriorityController()
 ])
 export class ApiController {
   @Get('')

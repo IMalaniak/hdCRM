@@ -44,4 +44,9 @@ export class TaskDBController {
       where: { id }
     });
   }
+
+  public getPrioriities(): Promise<db.TaskPriority[]> {
+    Logger.Info(`Selecting all priorities...`);
+    return db.TaskPriority.findAll();
+  }
 }

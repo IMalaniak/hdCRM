@@ -1,14 +1,25 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import * as TaskActions from './task.actions';
-import { Task } from '../models';
+import { Task, TaskPriority } from '../models';
+import { ApiResponse } from '@/shared';
 
 export interface TaskState extends EntityState<Task> {
   loading: boolean;
 }
 
+export interface TaskPriorityState extends EntityState<TaskPriority> {
+  loading: boolean;
+}
+
+export interface TaskManagerState {
+  apiResponse: ApiResponse;
+  tasks: TaskState;
+  priorities: TaskPriorityState;
+}
+
 function sortByCreatedAtAndPriority(t1: Task, t2: Task) {
-  const compareByPriority = t2.priority - t1.priority;
+  const compareByPriority = t2.TaskPriorityId - t1.TaskPriorityId;
 
   if (compareByPriority !== 0) {
     return compareByPriority;
@@ -17,34 +28,88 @@ function sortByCreatedAtAndPriority(t1: Task, t2: Task) {
   }
 }
 
-export const adapter: EntityAdapter<Task> = createEntityAdapter<Task>({
+export const taskAdapter: EntityAdapter<Task> = createEntityAdapter<Task>({
   sortComparer: sortByCreatedAtAndPriority
 });
 
-export const initialTaskState: TaskState = adapter.getInitialState({
+export const priorityAdapter: EntityAdapter<TaskPriority> = createEntityAdapter<TaskPriority>();
+
+export const initialTaskState: TaskState = taskAdapter.getInitialState({
   loading: false
 });
 
-const taskReducer = createReducer(
-  initialTaskState,
-  on(TaskActions.taskListRequested, state => ({ ...state, loading: true })),
-  on(TaskActions.taskListLoaded, (state, { tasks }) => {
-    return adapter.addMany(tasks, { ...state, loading: false });
-  }),
-  on(TaskActions.createTaskSuccess, (state, { task }) => adapter.addOne(task, { ...state })),
-  on(TaskActions.createTaskFail, (state, { error }) => ({ ...state, error })),
-  on(TaskActions.updateTaskRequested, state => ({ ...state, loading: true })),
-  on(TaskActions.updateTaskCancelled, state => ({ ...state, loading: false })),
-  on(TaskActions.updateTaskSuccess, (state, { task }) => adapter.updateOne(task, { ...state, loading: false })),
-  on(TaskActions.deleteTask, (state, { id }) => {
-    return adapter.removeOne(id, { ...state });
-  })
+export const initialTaskPriorityState: TaskPriorityState = priorityAdapter.getInitialState({
+  loading: false
+});
+
+export const initialTaskManagerState: TaskManagerState = {
+  apiResponse: null,
+  tasks: initialTaskState,
+  priorities: initialTaskPriorityState
+};
+
+const taskManagerReducer = createReducer(
+  initialTaskManagerState,
+  on(TaskActions.taskListRequested, (state: TaskManagerState) => ({
+    ...state,
+    tasks: { ...state.tasks, loading: true }
+  })),
+  on(TaskActions.taskListLoaded, (state: TaskManagerState, { tasks }) => ({
+    ...state,
+    tasks: taskAdapter.upsertMany(tasks, { ...state.tasks, loading: false })
+  })),
+  on(TaskActions.createTaskSuccess, (state: TaskManagerState, { task }) => ({
+    ...state,
+    tasks: taskAdapter.addOne(task, { ...state.tasks })
+  })),
+  on(TaskActions.createTaskFail, (state: TaskManagerState, { error }) => ({ ...state, apiResponse: error })),
+  on(TaskActions.updateTaskRequested, (state: TaskManagerState) => ({
+    ...state,
+    tasks: { ...state.tasks, loading: true }
+  })),
+  on(TaskActions.updateTaskCancelled, (state: TaskManagerState) => ({
+    ...state,
+    tasks: { ...state.tasks, loading: false }
+  })),
+  on(TaskActions.updateTaskSuccess, (state: TaskManagerState, { task }) => ({
+    ...state,
+    tasks: taskAdapter.updateOne(task, { ...state.tasks, loading: false })
+  })),
+  on(TaskActions.deleteTask, (state: TaskManagerState, { id }) => ({
+    ...state,
+    tasks: taskAdapter.removeOne(id, { ...state.tasks })
+  })),
+  on(TaskActions.taskPrioritiesRequested, (state: TaskManagerState) => ({
+    ...state,
+    priorities: { ...state.priorities, loading: true }
+  })),
+  on(TaskActions.taskPrioritiesLoadFail, (state: TaskManagerState, { error }) => ({
+    ...state,
+    apiResponse: error,
+    priorities: { ...state.priorities, loading: false }
+  })),
+  on(TaskActions.taskPrioritiesLoaded, (state: TaskManagerState, { priorities }) => ({
+    ...state,
+    priorities: priorityAdapter.upsertMany(priorities, { ...state.priorities, loading: true })
+  }))
 );
 
-export function reducer(state: TaskState | undefined, action: Action) {
-  return taskReducer(state, action);
+export function reducer(state: TaskManagerState | undefined, action: Action) {
+  return taskManagerReducer(state, action);
 }
 
 export const taskFeatureKey = 'tasks';
 
-export const { selectAll, selectEntities, selectIds, selectTotal } = adapter.getSelectors();
+export const {
+  selectAll: selectAllTasks,
+  selectEntities: selectTaskEntities,
+  selectIds: selectTaskIds,
+  selectTotal: selectTotalTasks
+} = taskAdapter.getSelectors();
+
+export const {
+  selectAll: selectAllPriorities,
+  selectEntities: selectPriorityEntities,
+  selectIds: selectPriorityIds,
+  selectTotal: selectTotalPriority
+} = priorityAdapter.getSelectors();
