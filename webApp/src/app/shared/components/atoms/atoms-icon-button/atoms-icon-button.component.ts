@@ -13,8 +13,8 @@ import { Component, Input, HostBinding, Output, EventEmitter } from '@angular/co
         [ngClass]="[classes]"
         [disabled]="disabled"
       >
-        <fa-icon *ngIf="icon" [icon]="icon" [ngClass]="{ 'mr-on-sm': showButtonTextOnSm }"></fa-icon>
-        <span [ngClass]="{ 'show-on-sm': showButtonTextOnSm }"><ng-content></ng-content></span>
+        <fa-icon *ngIf="icon" [icon]="icon"></fa-icon>
+        <span><ng-content></ng-content></span>
       </button>
 
       <button
@@ -25,7 +25,7 @@ import { Component, Input, HostBinding, Output, EventEmitter } from '@angular/co
         (click)="onClick($event)"
         [disabled]="disabled"
       >
-        <fa-icon class="button-icon" *ngIf="icon" [icon]="icon"></fa-icon>
+        <fa-icon *ngIf="icon" [icon]="icon"></fa-icon>
       </button>
 
       <button
@@ -73,6 +73,9 @@ export class AtomsIconButtonComponent {
     let btnClass = 'crm-button';
     if (this.matType !== ('fab' || 'mini-fab')) {
       btnClass += ` mat-${this.matType}-button`;
+    }
+    if (this.showButtonTextOnSm) {
+      btnClass += ` show-button-text-sm`;
     }
     return btnClass;
   }
