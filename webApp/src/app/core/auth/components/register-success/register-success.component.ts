@@ -1,15 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-register-success',
+  selector: 'register-success',
   templateUrl: './register-success.component.html',
   styleUrls: ['./register-success.component.scss']
 })
-export class RegisterSuccessComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+export class RegisterSuccessComponent {
+  // TODO @ArseniiIrod, @IvanMalaniak add logic to get current user
 }
