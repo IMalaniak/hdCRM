@@ -27,27 +27,27 @@
     @include media-breakpoint-up(lg) {
       padding: 0 9em;
     }
-
-    #title,
-    #subtitle {
-      text-transform: uppercase;
-      font-weight: bold;
-    }
-
-    #subtitle {
-      font-size: 1.2em;
-      margin-bottom: 3em;
-    }
-
-    #subtitle-info {
-      font-size: 3em;
-      font-weight: bold;
-      @include crm-textcolor('theme', 'primary');
-    }
   }
 
   &-bg {
     height: 100vh;
     @include gradient-radial(crmcolor('theme', 'primary', true), crmcolor('layout', 'dark', true));
+  }
+
+  #title,
+  #subtitle {
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  #subtitle {
+    font-size: 1.2em;
+    margin-bottom: 3em;
+  }
+
+  #subtitle-info {
+    font-size: 3em;
+    font-weight: bold;
+    @include crm-textcolor('theme', 'primary');
   }
 }
