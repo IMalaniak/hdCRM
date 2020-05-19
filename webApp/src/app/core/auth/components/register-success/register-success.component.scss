@@ -1,0 +1,53 @@
+@import 'variables';
+@import 'mixins';
+@import '~bootstrap/scss/mixins/_gradients';
+@import '~bootstrap/scss/mixins/_breakpoints';
+
+.register {
+  &-wrapper-success {
+    width: 100vw;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  &-congrat {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    padding: 3em 1em;
+
+    @include media-breakpoint-up(sm) {
+      padding: 4em 5em;
+    }
+    @include media-breakpoint-up(md) {
+      height: 100vh;
+      padding: 0 3em;
+    }
+    @include media-breakpoint-up(lg) {
+      padding: 0 9em;
+    }
+  }
+
+  &-bg {
+    height: 100vh;
+    @include gradient-radial(crmcolor('theme', 'primary', true), crmcolor('layout', 'dark', true));
+  }
+}
+
+#title,
+#subtitle {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+#subtitle {
+  font-size: 1.2em;
+  margin-bottom: 3em;
+}
+
+#subtitle-info {
+  font-size: 3em;
+  font-weight: bold;
+  @include crm-textcolor('theme', 'primary');
+}
