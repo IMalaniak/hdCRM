@@ -92,6 +92,51 @@ export class UserController {
     return res.json(req.user);
   }
 
+  @Post('change-password')
+  @Middleware([Passport.authenticate()])
+  private changePassword(req: Request, res: Response) {
+    Logger.Info(`Changing user password...`);
+
+    if (req.body.newPassword === req.body.verifyPassword) {
+      db.User.findByPk(req.user.id)
+        .then(user => {
+          const isMatch = Crypt.validatePassword(req.body.oldPassword, user.passwordHash, user.salt);
+          if (isMatch) {
+            const passwordData = Crypt.saltHashPassword(req.body.newPassword);
+            user.passwordHash = passwordData.passwordHash;
+            user.salt = passwordData.salt;
+            user
+              .save()
+              .then(user => {
+                Mailer.sendPasswordResetConfirmation(user)
+                  .then(() => {
+                    return res.status(OK).json({
+                      success: true,
+                      message: 'You have successfully changed your password.'
+                    });
+                  })
+                  .catch((err: any) => {
+                    Logger.Err(err);
+                    return res.status(BAD_REQUEST).json(err);
+                  });
+              })
+              .catch((err: any) => {
+                Logger.Err(err);
+                return res.status(BAD_REQUEST).json(err);
+              });
+          } else {
+            return res.status(BAD_REQUEST).json({ success: false, message: 'Old password is not correct' });
+          }
+        })
+        .catch((err: any) => {
+          Logger.Err(err);
+          return res.status(BAD_REQUEST).json(err);
+        });
+    } else {
+      res.status(BAD_REQUEST).json({ success: false, message: 'Passwords do not match' });
+    }
+  }
+
   @Post(':id/avatar')
   @Middleware([Passport.authenticate(), uploads.single('profile-pic-uploader')])
   private setUserAvatar(req: Request, res: Response) {
@@ -290,48 +335,51 @@ export class UserController {
     const promises = [];
 
     req.body.forEach((user: db.User) => {
-      promises.push(new Promise((resolve, reject) => {
-        const password = Crypt.genRandomString(12);
-        const passwordData = Crypt.saltHashPassword(password);
-        user.passwordHash = passwordData.passwordHash;
-        user.salt = passwordData.salt;
-        user.OrganizationId = req.user.OrganizationId;
-        user.StateId = 1;
-        user.login = user.fullname.replace(' ', '_');
-        this.userDbCtrl.create(user)
-          .then(u => {
-            const token = Crypt.genTimeLimitedToken(24 * 60);
-            u.createPasswordAttributes({
-              token: token.value,
-              tokenExpire: token.expireDate,
-              passwordExpire: token.expireDate
-            })
-              .then(() => {
-                Mailer.sendInvitation(u, password, `${process.env.URL}/auth/activate-account/${token.value}`)
-                  .then(() => {
-                    resolve(u);
-                  })
-                  .catch((err: any) => {
-                    reject(err);
-                  });
+      promises.push(
+        new Promise((resolve, reject) => {
+          const password = Crypt.genRandomString(12);
+          const passwordData = Crypt.saltHashPassword(password);
+          user.passwordHash = passwordData.passwordHash;
+          user.salt = passwordData.salt;
+          user.OrganizationId = req.user.OrganizationId;
+          user.StateId = 1;
+          user.login = user.fullname.replace(' ', '_');
+          this.userDbCtrl
+            .create(user)
+            .then(u => {
+              const token = Crypt.genTimeLimitedToken(24 * 60);
+              u.createPasswordAttributes({
+                token: token.value,
+                tokenExpire: token.expireDate,
+                passwordExpire: token.expireDate
               })
-              .catch((err: any) => {
-                reject(err);
-              });
-          })
-          .catch((err: any) => {
-            reject(err);
-          });
-
-      }));
+                .then(() => {
+                  Mailer.sendInvitation(u, password, `${process.env.URL}/auth/activate-account/${token.value}`)
+                    .then(() => {
+                      resolve(u);
+                    })
+                    .catch((err: any) => {
+                      reject(err);
+                    });
+                })
+                .catch((err: any) => {
+                  reject(err);
+                });
+            })
+            .catch((err: any) => {
+              reject(err);
+            });
+        })
+      );
     });
 
-    Promise.all(promises).then(response => {
-      return res.status(OK).json(response);
-    })
-    .catch((error: any) => {
-      Logger.Err(error);
-      return res.status(BAD_REQUEST).json(error.toString());
-    });
+    Promise.all(promises)
+      .then(response => {
+        return res.status(OK).json(response);
+      })
+      .catch((error: any) => {
+        Logger.Err(error);
+        return res.status(BAD_REQUEST).json(error.toString());
+      });
   }
 }
