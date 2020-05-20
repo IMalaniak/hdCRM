@@ -1,7 +1,6 @@
 import { props, createAction } from '@ngrx/store';
 import { User } from '@/modules/users/models';
-import { ApiResponse } from '@/shared';
-import { NewPassword } from '../models/newPassword';
+import { ApiResponse, NewPassword } from '@/shared';
 
 export const registerUser = createAction('[Auth] Register User Requested', props<{ user: User }>());
 

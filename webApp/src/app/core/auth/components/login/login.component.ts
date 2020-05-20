@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
-import { ConfirmPasswordValidator, ApiResponse } from '@/shared';
+import { ConfirmPasswordValidator, ApiResponse, NewPassword } from '@/shared';
 import { AppState } from '@/core/reducers';
 import { Store, select } from '@ngrx/store';
 import * as authActions from '../../store/auth.actions';
 import * as authSelectors from '../../store/auth.selectors';
 import { Observable } from 'rxjs';
-import { NewPassword } from '../../models/newPassword';
 
 @Component({
   selector: 'app-login',
@@ -23,11 +22,7 @@ export class LoginComponent implements OnInit {
   newPasswordForm: FormGroup;
   isLoading$: Observable<boolean>;
 
-  constructor(
-    private route: ActivatedRoute,
-    private _formBuilder: FormBuilder,
-    private store: Store<AppState>
-  ) {}
+  constructor(private route: ActivatedRoute, private _formBuilder: FormBuilder, private store: Store<AppState>) {}
 
   ngOnInit() {
     this.isLoading$ = this.store.pipe(select(authSelectors.isLoading));
