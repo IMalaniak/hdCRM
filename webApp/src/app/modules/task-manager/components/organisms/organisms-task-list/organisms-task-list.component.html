@@ -30,16 +30,7 @@
             ></mat-checkbox>
             <span class="task-label" [ngClass]="{ 'task-completed': task.isCompleted }">{{ task.title }}</span>
             <!-- TODO @ArseniiIrod change ngClass conditions to the shorter way -->
-            <fa-icon
-              [icon]="['fab', 'font-awesome-flag']"
-              class="task-priority-flag"
-              [ngClass]="{
-                'task-priority-1': task.priority === 1,
-                'task-priority-2': task.priority === 2,
-                'task-priority-3': task.priority === 3,
-                'task-priority-4': task.priority === 4
-              }"
-            >
+            <fa-icon [icon]="['fab', 'font-awesome-flag']" class="task-priority-flag" [ngClass]="getTaskClass(task)">
             </fa-icon>
           </div>
         </mat-expansion-panel-header>
