@@ -1,10 +1,19 @@
 import * as db from '../models';
 import { Logger } from '@overnightjs/logger';
+import { IncludeOptions } from 'sequelize/types';
 
 export class TaskDBController {
+  public includes: IncludeOptions[] = [
+    {
+      model: db.TaskPriority
+    }
+  ];
+
   public getById(taskId: number | string): Promise<db.Task> {
     Logger.Info(`Selecting task by id: ${taskId}...`);
-    return db.Task.findByPk(taskId);
+    return db.Task.findByPk(taskId, {
+      include: this.includes
+    });
   }
 
   public getAll(currentUser: db.User): Promise<db.Task[]> {
@@ -13,7 +22,8 @@ export class TaskDBController {
     return db.Task.findAll({
       where: {
         CreatorId: currentUser.id
-      }
+      },
+      include: this.includes
     });
   }
 
@@ -26,11 +36,7 @@ export class TaskDBController {
     Logger.Info(`Updating task by id: ${task.id}...`);
     return db.Task.update(
       {
-        title: task.title,
-        description: task.description,
-        isCompleted: task.isCompleted,
-        priority: task.priority,
-        CreatorId: task.CreatorId
+        ...task
       },
       {
         where: { id: task.id }
