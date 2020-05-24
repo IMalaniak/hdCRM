@@ -67,6 +67,10 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
     this.store.dispatch(updateTaskRequested({ task: { ...task, isCompleted: event.checked } }));
   }
 
+  getTaskClass(task: Task): string {
+    return `task-priority-${task.TaskPriority.value}`;
+  }
+
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
