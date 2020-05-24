@@ -31,6 +31,9 @@ export class StageController {
       include: [
         {
           model: db.Plan,
+          where: {
+            OrganizationId: req.user.OrganizationId
+          },
           attributes: ['id']
         }
       ]
