@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { User, UserServerResponse, State } from '../models';
 import { map, take } from 'rxjs/operators';
 import { Role } from '@/modules/roles/models';
-import { SocketEvent, SocketService } from '@/shared';
+import { SocketEvent, SocketService, NewPassword, ApiResponse } from '@/shared';
 
 @Injectable()
 export class UserService {
@@ -15,9 +15,7 @@ export class UserService {
 
   constructor(private http: HttpClient, private socket: SocketService) {
     this.api = '/users';
-    this.onlineUsersListed$ = this.socket.onEvent(SocketEvent.USERSONLINE).pipe(
-      take(1)
-    );
+    this.onlineUsersListed$ = this.socket.onEvent(SocketEvent.USERSONLINE).pipe(take(1));
     this.userOnline$ = this.socket.onEvent(SocketEvent.ISONLINE);
     this.userOffline$ = this.socket.onEvent(SocketEvent.ISOFFLINE);
   }
@@ -28,14 +26,13 @@ export class UserService {
   }
 
   getList(pageIndex = 0, pageSize = 5, sortIndex = 'id', sortDirection = 'asc'): Observable<UserServerResponse> {
-    return this.http
-      .get<UserServerResponse>(this.api, {
-        params: new HttpParams()
-          .set('pageIndex', pageIndex.toString())
-          .set('pageSize', pageSize.toString())
-          .set('sortIndex', sortIndex)
-          .set('sortDirection', sortDirection)
-      });
+    return this.http.get<UserServerResponse>(this.api, {
+      params: new HttpParams()
+        .set('pageIndex', pageIndex.toString())
+        .set('pageSize', pageSize.toString())
+        .set('sortIndex', sortIndex)
+        .set('sortDirection', sortDirection)
+    });
   }
 
   listOnline() {
@@ -75,7 +72,7 @@ export class UserService {
   }
 
   formatBeforeSend(user: User): User {
-    const formated = {...user};
+    const formated = { ...user };
     if (formated.State) {
       const state = {
         id: user.State.id
@@ -90,5 +87,9 @@ export class UserService {
       });
     }
     return formated as User;
+  }
+
+  changeOldPassword(data: NewPassword): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.api}/change-password`, data);
   }
 }

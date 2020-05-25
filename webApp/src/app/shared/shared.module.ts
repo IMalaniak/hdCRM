@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AppMaterialModule } from './modules/app-material.module';
 import { AttachmentsModule } from './modules/attachments/attachments.module';
@@ -47,7 +47,8 @@ import { COMPONENTS } from './imports';
     AppMaterialModule,
     FontAwesomeModule,
     AttachmentsModule,
-    NgxChartsModule
+    NgxChartsModule,
+    ReactiveFormsModule
   ],
   declarations: [...COMPONENTS],
   exports: [...COMPONENTS, AppMaterialModule, FontAwesomeModule]

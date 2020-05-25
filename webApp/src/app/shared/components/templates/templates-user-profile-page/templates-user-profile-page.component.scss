@@ -93,12 +93,52 @@
         padding: crmsize(spacer, null, true) 0;
 
         &.details {
-          padding-left: 0.25*crmsize(spacer, null, true);
+          padding-left: 0.25 * crmsize(spacer, null, true);
 
           .profile-captions {
-            margin-bottom: 0.25*crmsize(spacer, null, true);
+            margin-bottom: 0.25 * crmsize(spacer, null, true);
           }
         }
+      }
+    }
+  }
+
+  .password-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 2em 0;
+    width: 17em;
+
+    mat-form-field {
+      min-width: 100%;
+    }
+
+    .success-message,
+    .failed-message,
+    .process-message {
+      box-shadow: none;
+      max-width: 23em;
+    }
+
+    .success-message {
+      background-color: #d4f5d1;
+      border: 1px solid #60d955;
+
+      span,
+      fa-icon {
+        color: #60d955;
+      }
+    }
+
+    .failed-message {
+      background-color: #fa5757;
+      border: 1px solid #ba2c3a;
+
+      span,
+      fa-icon {
+        @include crm-textcolor('layout', 'background');
       }
     }
   }
