@@ -8,6 +8,10 @@
   white-space: nowrap;
   display: block;
 
+  &.w-100 {
+    text-align: left;
+  }
+
   .mat-button-wrapper {
     display: flex;
     justify-content: center;

@@ -13,7 +13,7 @@ import { Component, Input, HostBinding, Output, EventEmitter } from '@angular/co
         [ngClass]="[classes]"
         [disabled]="disabled"
       >
-        <fa-icon *ngIf="icon" [icon]="icon"></fa-icon>
+        <fa-icon *ngIf="icon" [ngClass]="[iconClasses]" [icon]="icon"></fa-icon>
         <span><ng-content></ng-content></span>
       </button>
 
@@ -54,10 +54,12 @@ import { Component, Input, HostBinding, Output, EventEmitter } from '@angular/co
   styleUrls: ['./atoms-icon-button.component.scss']
 })
 export class AtomsIconButtonComponent {
-  @Input() color = 'primary';
-  @Input() icon: string;
   @Input() type = 'button';
   @Input() matType = 'raised';
+  @Input() color = 'primary';
+  @Input() icon: string;
+  @Input() iconColor: string;
+  @Input() fullWidth = false;
   @Input() disabled = false;
   @Input() showButtonTextOnSm = false;
 
@@ -74,9 +76,20 @@ export class AtomsIconButtonComponent {
     if (this.matType !== ('fab' || 'mini-fab')) {
       btnClass += ` mat-${this.matType}-button`;
     }
+    if (this.fullWidth) {
+      btnClass += ` w-100`;
+    }
     if (this.showButtonTextOnSm) {
       btnClass += ` show-button-text-sm`;
     }
     return btnClass;
+  }
+
+  get iconClasses(): string {
+    let iClass = ' ';
+    if (this.iconColor) {
+      iClass += this.iconColor;
+    }
+    return iClass;
   }
 }
