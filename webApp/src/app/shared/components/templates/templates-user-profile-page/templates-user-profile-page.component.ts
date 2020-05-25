@@ -33,16 +33,14 @@ export class TemplatesUserProfilePageComponent implements OnInit {
       }, 5000);
     }
   }
-  @Input() configProfileTabs: string[];
-  @Input() currentPath: string;
+  @Input() tabsToShow: string[] = ['details'];
 
-  @Output() changeOldPassword: EventEmitter<NewPassword> = new EventEmitter();
+  @Output() changePassword: EventEmitter<NewPassword> = new EventEmitter();
 
   baseUrl = environment.baseUrl;
   editForm$: Observable<boolean>;
   coverUrl = './assets/images/userpic/noimage_croped.png';
   coverTitle = 'noimage';
-
   userInitial: User;
   userNewPassword: FormGroup;
   serverResp: ApiResponse;
@@ -64,7 +62,10 @@ export class TemplatesUserProfilePageComponent implements OnInit {
         this.store.dispatch(changeIsEditingState({ isEditing }));
       }
     }
-    this.buildUserNewPassword();
+
+    if (this.isPasswordTabShow) {
+      this.buildUserNewPassword();
+    }
   }
 
   buildUserNewPassword(): void {
@@ -119,20 +120,12 @@ export class TemplatesUserProfilePageComponent implements OnInit {
     this.store.dispatch(updateUserRequested({ user }));
   }
 
-  changePassword(event: NewPassword): void {
+  changeOldPassword(event: NewPassword): void {
     this.userNewPassword.reset();
-    this.changeOldPassword.emit(event);
+    this.changePassword.emit(event);
   }
 
   get isPasswordTabShow(): boolean {
-    if (this.configProfileTabs) {
-      return this.configProfileTabs.includes('password');
-    } else {
-      return false;
-    }
-  }
-
-  get isCurrentPathMyProfile(): boolean {
-    return this.currentPath === 'myprofile';
+    return this.tabsToShow.includes('password');
   }
 }

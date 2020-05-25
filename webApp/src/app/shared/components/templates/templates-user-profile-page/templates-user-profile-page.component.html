@@ -260,7 +260,7 @@
         </mat-tab>
 
         <!-- Password -->
-        <mat-tab label="Password" *ngIf="isPasswordTabShow && isCurrentPathMyProfile">
+        <mat-tab label="Password" *ngIf="isPasswordTabShow">
           <form [formGroup]="userNewPassword" class="password-wrapper">
             <mat-card
               class="mb-3"
@@ -345,7 +345,7 @@
             <atoms-icon-button
               [icon]="['fas', 'save']"
               [disabled]="(isLoading$ | async) || userNewPassword.invalid"
-              (onclick)="changePassword(userNewPassword.value)"
+              (onclick)="changeOldPassword(userNewPassword.value)"
               color="primary"
               class="ml-auto"
             >

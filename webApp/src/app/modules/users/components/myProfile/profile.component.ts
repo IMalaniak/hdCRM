@@ -19,8 +19,7 @@ export class ProfileComponent implements OnInit {
   states$: Observable<State[]>;
   isLoading$: Observable<boolean>;
   serverResponse$: Observable<ApiResponse>;
-  configProfileTabs = ['password'];
-  currentPath: string;
+  tabsToShow: string[] = ['details', 'password'];
 
   constructor(private store: Store<AppState>, private route: ActivatedRoute) {}
 
@@ -29,11 +28,9 @@ export class ProfileComponent implements OnInit {
     this.states$ = this.store.pipe(select(selectAllStates));
     this.isLoading$ = this.store.pipe(select(selectIsLoading));
     this.serverResponse$ = this.store.pipe(select(getApiResponse));
-    this.currentPath = this.route.snapshot.url[0].path;
   }
 
-  changeOldPassword(event: NewPassword): void {
-    const newPassword: NewPassword = { ...event };
+  changePassword(newPassword: NewPassword): void {
     this.store.dispatch(changeOldPassword({ newPassword }));
   }
 }

@@ -4,7 +4,6 @@
   [canEdit]="true"
   [isLoading]="isLoading$ | async"
   [serverResponse]="serverResponse$ | async"
-  [configProfileTabs]="configProfileTabs"
-  [currentPath]="currentPath"
-  (changeOldPassword)="changeOldPassword($event)"
+  [tabsToShow]="tabsToShow"
+  (changePassword)="changePassword($event)"
 ></templates-user-profile-page>
