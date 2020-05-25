@@ -2,18 +2,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '@/modules/users';
-import { ApiResponse } from '@/shared';
-import { map } from 'rxjs/operators';
-import { NewPassword } from '../models/newPassword';
+import { ApiResponse, NewPassword } from '@/shared';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
   private api: string;
-  private apiAutocomplete: string;
 
   constructor(private http: HttpClient) {
     this.api = '/auth';
-    this.apiAutocomplete = '';
   }
 
   registerUser(user: User) {

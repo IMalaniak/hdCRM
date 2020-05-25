@@ -1,9 +1,12 @@
 import { createAction, props } from '@ngrx/store';
 import { User, UserServerResponse } from '../models';
 import { Update } from '@ngrx/entity';
-import { PageQuery } from '@/shared';
+import { PageQuery, NewPassword, ApiResponse } from '@/shared';
 
-export const changeIsEditingState = createAction('[User Details] Change Is Editing State', props<{ isEditing: boolean }>());
+export const changeIsEditingState = createAction(
+  '[User Details] Change Is Editing State',
+  props<{ isEditing: boolean }>()
+);
 
 export const userRequested = createAction('[User Details] User Requested', props<{ id: number }>());
 
@@ -32,3 +35,18 @@ export const userOffline = createAction('[User Socket API] User Offline', props<
 export const inviteUsers = createAction('[Invitation Dialog] Invite users requested', props<{ users: User[] }>());
 
 export const usersInvited = createAction('[Users API] Invite users requested', props<{ invitedUsers: User[] }>());
+
+export const changeOldPassword = createAction(
+  '[User Details] Set New Password Requested',
+  props<{ newPassword: NewPassword }>()
+);
+
+export const changePasswordSuccess = createAction(
+  '[User API] Change Password Success',
+  props<{ response: ApiResponse }>()
+);
+
+export const changePasswordFailure = createAction(
+  '[User API] Change Password Failure',
+  props<{ response: ApiResponse }>()
+);

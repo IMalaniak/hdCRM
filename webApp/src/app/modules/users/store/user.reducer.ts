@@ -2,6 +2,7 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { User } from '../models';
 import * as UserActions from './user.actions';
 import { Action, on, createReducer } from '@ngrx/store';
+import { ApiResponse } from '@/shared';
 
 export interface UsersState extends EntityState<User> {
   allUsersLoaded: boolean;
@@ -10,6 +11,7 @@ export interface UsersState extends EntityState<User> {
   editing: boolean;
   pages: number;
   countAll: number;
+  apiResp: ApiResponse;
 }
 
 function sortByIdAndActiveState(u1: User, u2: User) {
@@ -31,7 +33,8 @@ const initialState: UsersState = adapter.getInitialState({
   loading: false,
   editing: false,
   pages: null,
-  countAll: null
+  countAll: null,
+  apiResp: null
 });
 
 const usersReducer = createReducer(
@@ -84,7 +87,10 @@ const usersReducer = createReducer(
       ...state,
       countAll: state.countAll + invitedUsers.length
     })
-  )
+  ),
+  on(UserActions.changeOldPassword, state => ({ ...state, loading: true })),
+  on(UserActions.changePasswordSuccess, (state, { response }) => ({ ...state, loading: false, apiResp: response })),
+  on(UserActions.changePasswordFailure, (state, { response }) => ({ ...state, loading: false, apiResp: response }))
 );
 
 export function reducer(state: UsersState | undefined, action: Action) {

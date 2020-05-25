@@ -3,13 +3,14 @@ import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import * as userActions from './user.actions';
-import { mergeMap, map, catchError, tap } from 'rxjs/operators';
+import { mergeMap, map, catchError, tap, switchMap } from 'rxjs/operators';
 import { UserService } from '../services';
 import { AppState } from '@/core/reducers';
 import { UserServerResponse, User } from '../models';
 
 import Swal from 'sweetalert2';
 import { Update } from '@ngrx/entity';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class UserEffects {
@@ -81,20 +82,14 @@ export class UserEffects {
         this.userService.listOnline();
       }),
       mergeMap(() => {
-        return this.userService.onlineUsersListed$.pipe(
-          map(list => userActions.OnlineUserListLoaded({ list }))
-        );
+        return this.userService.onlineUsersListed$.pipe(map(list => userActions.OnlineUserListLoaded({ list })));
       })
     )
   );
 
-  userOnline$ = createEffect(() =>
-    this.userService.userOnline$.pipe(map(user => userActions.userOnline({ user })))
-  );
+  userOnline$ = createEffect(() => this.userService.userOnline$.pipe(map(user => userActions.userOnline({ user }))));
 
-  userOffline$ = createEffect(() =>
-    this.userService.userOffline$.pipe(map(user => userActions.userOffline({ user })))
-  );
+  userOffline$ = createEffect(() => this.userService.userOffline$.pipe(map(user => userActions.userOffline({ user }))));
 
   deleteUser$ = createEffect(
     () =>
@@ -129,6 +124,21 @@ export class UserEffects {
           map(invitedUsers => {
             return userActions.usersInvited({ invitedUsers });
           })
+        )
+      )
+    )
+  );
+
+  changeOldPassword$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(userActions.changeOldPassword),
+      map(payload => payload.newPassword),
+      switchMap(newPassword =>
+        this.userService.changeOldPassword(newPassword).pipe(
+          map(response => userActions.changePasswordSuccess({ response })),
+          catchError((errorResponse: HttpErrorResponse) =>
+            of(userActions.changePasswordFailure({ response: errorResponse.error }))
+          )
         )
       )
     )

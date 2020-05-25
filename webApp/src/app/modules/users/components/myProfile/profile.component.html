@@ -1,1 +1,9 @@
-<templates-user-profile-page [user]="user$ | async" [canEdit]="true"></templates-user-profile-page>
+<templates-user-profile-page
+  [user]="user$ | async"
+  [states]="states$ | async"
+  [canEdit]="true"
+  [isLoading]="isLoading$ | async"
+  [serverResponse]="serverResponse$ | async"
+  [tabsToShow]="tabsToShow"
+  (changePassword)="changePassword($event)"
+></templates-user-profile-page>

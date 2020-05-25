@@ -18,7 +18,7 @@
         </div>
         <div class="profile-captions">
           <fa-icon [icon]="['fas', 'info']" class="icon icon-normal"></fa-icon>
-          <h5 i18n="@@userСomponentAsideDetailsHeader">
+          <h5 i18n="@@userProfileComponentAsideDetailsHeader">
             {{ 'Details' | uppercase }}
           </h5>
         </div>
@@ -26,7 +26,7 @@
         <div class="details" *ngIf="user.Department">
           <div class="profile-captions">
             <fa-icon [icon]="['fas', 'building']" class="icon icon-mini"></fa-icon>
-            <h6 i18n="@@userСomponentAsideDetailsDep">
+            <h6 i18n="@@userProfileComponentAsideDetailsDep">
               {{ 'Department' | uppercase }}
             </h6>
           </div>
@@ -37,7 +37,7 @@
         <div class="details" *ngIf="user.Roles && user.Roles.length">
           <div class="profile-captions">
             <fa-icon [icon]="['fas', 'user-tag']" class="icon icon-mini"></fa-icon>
-            <h6 i18n="@@userСomponentAsideDetailsRoles">
+            <h6 i18n="@@userProfileComponentAsideDetailsRoles">
               {{ 'Roles' | uppercase }}
             </h6>
           </div>
@@ -50,15 +50,15 @@
         <div class="details" *ngIf="user.State">
           <div class="profile-captions">
             <fa-icon [icon]="['fas', 'toggle-on']" class="icon icon-mini"></fa-icon>
-            <h6 i18n="@@userСomponentAsideDetailsStateHeader">
+            <h6 i18n="@@userProfileComponentAsideDetailsStateHeader">
               {{ 'State' | uppercase }}
             </h6>
           </div>
-          <span i18n="@@userСomponentAsideDetailsStateStatus">{{ user.State.keyString }}</span>
+          <span i18n="@@userProfileComponentAsideDetailsStateStatus">{{ user.State.keyString }}</span>
         </div>
         <div class="profile-captions">
           <fa-icon [icon]="['fas', 'envelope']" class="icon icon-normal"></fa-icon>
-          <h5 i18n="@@userСomponentAsideDetailsContactHeader">
+          <h5 i18n="@@userProfileComponentAsideDetailsContactHeader">
             {{ 'Contact' | uppercase }}
           </h5>
         </div>
@@ -78,6 +78,7 @@
 
     <div class="col-sm-12 col-md-8 col-lg-9 tabs">
       <mat-tab-group mat-stretch-tabs dynamicHeight>
+        <!-- Details -->
         <mat-tab label="Details">
           <section
             class="app-content-box"
@@ -92,7 +93,7 @@
                   <mat-list-item>
                     <section>
                       <div>
-                        <span i18n="@@userСomponentTabDetailsName">Name:</span>
+                        <span i18n="@@userProfileComponentTabDetailsName">Name:</span>
                       </div>
                       <div>
                         <span>{{ user.name }}</span>
@@ -103,7 +104,7 @@
                   <mat-list-item>
                     <section>
                       <div>
-                        <span i18n="@@userСomponentTabDetailsSurname">Surname:</span>
+                        <span i18n="@@userProfileComponentTabDetailsSurname">Surname:</span>
                       </div>
                       <div>
                         <span>{{ user.surname }}</span>
@@ -114,7 +115,7 @@
                   <mat-list-item>
                     <section>
                       <div>
-                        <span i18n="@@userСomponentTabDetailsLogin">Login:</span>
+                        <span i18n="@@userProfileComponentTabDetailsLogin">Login:</span>
                       </div>
                       <div>
                         <span>{{ user.login }}</span>
@@ -125,7 +126,7 @@
                   <mat-list-item>
                     <section>
                       <div>
-                        <span i18n="@@userСomponentTabDetailsEmail">Email:</span>
+                        <span i18n="@@userProfileComponentTabDetailsEmail">Email:</span>
                       </div>
                       <div>
                         <span>{{ user.email }}</span>
@@ -136,7 +137,7 @@
                   <mat-list-item>
                     <section>
                       <div>
-                        <span i18n="@@userСomponentTabDetailsPhone">Phone:</span>
+                        <span i18n="@@userProfileComponentTabDetailsPhone">Phone:</span>
                       </div>
                       <div>
                         <span>{{ user.phone }}</span>
@@ -147,7 +148,7 @@
                   <!-- <mat-list-item>
                     <section>
                       <div>
-                        <span i18n="@@userСomponentTabDetailsLang">Language:</span>
+                        <span i18n="@@userProfileComponentTabDetailsLang">Language:</span>
                       </div>
                       <div>
                         <span>{{ user.defaultLang }}</span>
@@ -158,7 +159,7 @@
                   <mat-list-item>
                     <section>
                       <div>
-                        <span i18n="@@userСomponentTabDetailsDateCreated">Date created:</span>
+                        <span i18n="@@userProfileComponentTabDetailsDateCreated">Date created:</span>
                       </div>
                       <div>
                         <span>{{ user.createdAt | date: 'short' }}</span>
@@ -169,7 +170,7 @@
                   <mat-list-item>
                     <section>
                       <div>
-                        <span i18n="@@userСomponentTabDetailsDateUpdated">Date updated:</span>
+                        <span i18n="@@userProfileComponentTabDetailsDateUpdated">Date updated:</span>
                       </div>
                       <div>
                         <span>{{ user.updatedAt | date: 'short' }}</span>
@@ -181,11 +182,11 @@
               <div *ngIf="editForm$ | async" class="col-md-12 col-lg-6">
                 <form class="d-flex flex-column p-3">
                   <mat-form-field appearance="outline">
-                    <mat-label i18n="@@userСomponentTabDetailsName">Name</mat-label>
+                    <mat-label i18n="@@userProfileComponentTabDetailsName">Name</mat-label>
                     <input matInput [(ngModel)]="user.name" name="name" type="text" [readonly]="!(editForm$ | async)" />
                   </mat-form-field>
                   <mat-form-field appearance="outline">
-                    <mat-label i18n="@@userСomponentTabDetailsSurname">Surname</mat-label>
+                    <mat-label i18n="@@userProfileComponentTabDetailsSurname">Surname</mat-label>
                     <input
                       matInput
                       [(ngModel)]="user.surname"
@@ -195,7 +196,7 @@
                     />
                   </mat-form-field>
                   <mat-form-field appearance="outline">
-                    <mat-label i18n="@@userСomponentTabDetailsEmail">Email</mat-label>
+                    <mat-label i18n="@@userProfileComponentTabDetailsEmail">Email</mat-label>
                     <input
                       matInput
                       [(ngModel)]="user.email"
@@ -205,7 +206,7 @@
                     />
                   </mat-form-field>
                   <mat-form-field appearance="outline">
-                    <mat-label i18n="@@userСomponentTabDetailsPhone">Phone</mat-label>
+                    <mat-label i18n="@@userProfileComponentTabDetailsPhone">Phone</mat-label>
                     <input
                       matInput
                       [(ngModel)]="user.phone"
@@ -215,14 +216,14 @@
                     />
                   </mat-form-field>
                   <!-- <mat-form-field appearance="outline" matTooltip="Language will change after next login" [matTooltipDisabled]=!(editForm$ | async)>
-                    <mat-label i18n="@@userСomponentTabDetailsLang">Language</mat-label>
+                    <mat-label i18n="@@userProfileComponentTabDetailsLang">Language</mat-label>
                     <input matInput *ngIf="!(editForm$ | async)" value="{{ user.defaultLang }}"  type="text" name="defaultLang">
                     <mat-select [(ngModel)]="user.defaultLang" name="defaultLang">
                       <mat-option *ngFor="let lang of langs" [value]="lang">{{ lang }}</mat-option>
                     </mat-select>
                   </mat-form-field> -->
                   <mat-form-field appearance="outline">
-                    <mat-label i18n="@@userСomponentTabDetailsState">State</mat-label>
+                    <mat-label i18n="@@userProfileComponentTabDetailsState">State</mat-label>
                     <input
                       matInput
                       *ngIf="!(editForm$ | async)"
@@ -231,9 +232,7 @@
                       name="userState"
                     />
                     <mat-select [(ngModel)]="user.StateId" name="userState">
-                      <mat-option *ngFor="let state of states$ | async" [value]="state.id">{{
-                        state.keyString
-                      }}</mat-option>
+                      <mat-option *ngFor="let state of states" [value]="state.id">{{ state.keyString }}</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </form>
@@ -258,6 +257,101 @@
               </atoms-icon-button>
             </div>
           </section>
+        </mat-tab>
+
+        <!-- Password -->
+        <mat-tab label="Password" *ngIf="isPasswordTabShow">
+          <form [formGroup]="userNewPassword" class="password-wrapper">
+            <mat-card
+              class="mb-3"
+              *ngIf="serverResp"
+              [ngClass]="{
+                'success-message': serverResp.success,
+                'failed-message': !serverResp.success
+              }"
+            >
+              <mat-card-content class="d-flex flex-row align-items-center">
+                <fa-icon [icon]="serverResp.success ? ['fas', 'check'] : ['fas', 'times']"></fa-icon>
+                <div class="ml-3">
+                  <span>{{ serverResp.message }}</span>
+                </div>
+              </mat-card-content>
+            </mat-card>
+
+            <h5 class="mb-3 mr-auto" i18n=" @@userComponentTabPasswordTitleChangePassword ">Change password</h5>
+            <mat-form-field appearance="outline">
+              <mat-label i18n=" @@userComponentTabInputPlaceholderOldPassword ">Current Password</mat-label>
+              <input matInput formControlName="oldPassword" [type]="true ? 'password' : 'text'" />
+              <mat-error *ngIf="userNewPassword.get('oldPassword').invalid">
+                <mat-error
+                  *ngIf="userNewPassword.get('oldPassword').errors.required"
+                  i18n=" @@userComponentTabInputErrorsOldPasswordRequired "
+                >
+                  Password is required!
+                </mat-error>
+                <mat-error
+                  *ngIf="userNewPassword.get('oldPassword').errors.minlength"
+                  i18n=" @@userComponentTabInputErrorsOldPasswordIsTooShort "
+                >
+                  Password is too short!
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label i18n=" @@userComponentTabInputPlaceholderNewPassword ">New Password</mat-label>
+              <input matInput formControlName="newPassword" [type]="true ? 'password' : 'text'" />
+              <mat-error *ngIf="userNewPassword.get('newPassword').invalid">
+                <mat-error
+                  *ngIf="userNewPassword.get('newPassword').errors.required"
+                  i18n=" @@userComponentTabInputErrorsNewPasswordRequired "
+                >
+                  Password is required!
+                </mat-error>
+                <mat-error
+                  *ngIf="userNewPassword.get('newPassword').errors.minlength"
+                  i18n=" @@userComponentTabInputErrorsNewPasswordIsTooShort "
+                >
+                  Password is too short!
+                </mat-error>
+                <mat-error
+                  *ngIf="userNewPassword.get('newPassword').errors.maxlength"
+                  i18n=" @@userComponentTabInputErrorsNewPasswordIsTooLong "
+                >
+                  Password is too long!
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label i18n=" @@userComponentTabInputPlaceholderConfirmNewPassword ">Confirm new Password</mat-label>
+              <input matInput formControlName="verifyPassword" [type]="true ? 'password' : 'text'" />
+              <mat-error *ngIf="userNewPassword.get('verifyPassword').invalid">
+                <mat-error
+                  *ngIf="userNewPassword.get('verifyPassword').errors.required"
+                  i18n=" @@userComponentTabInputErrorsConfirmNewPasswordRequired "
+                >
+                  Password is required!
+                </mat-error>
+                <mat-error
+                  *ngIf="userNewPassword.get('verifyPassword').errors.ConfirmPassword"
+                  i18n="@@userComponentInputErrorsPasswordsDoesNotMatch"
+                >
+                  Passwords does not match!
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+            <mat-divider class="mb-4"></mat-divider>
+            <atoms-icon-button
+              [icon]="['fas', 'save']"
+              [disabled]="(isLoading$ | async) || userNewPassword.invalid"
+              (onclick)="changeOldPassword(userNewPassword.value)"
+              color="primary"
+              class="ml-auto"
+            >
+              Save
+            </atoms-icon-button>
+          </form>
         </mat-tab>
         <!-- <mat-tab label="Activity"></mat-tab>
         <mat-tab label="Plans"></mat-tab>
