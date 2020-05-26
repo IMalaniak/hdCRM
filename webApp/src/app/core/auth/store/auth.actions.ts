@@ -10,7 +10,7 @@ export const registerFailure = createAction('[Auth API] Register Failure', props
 
 export const logIn = createAction('[Auth] Login', props<{ user: User }>());
 
-export const logInSuccess = createAction('[Auth API] Login Success', props<{ user: User }>());
+export const logInSuccess = createAction('[Auth API] Login Success', props<{ accessToken: string }>());
 
 export const logInFailure = createAction('[Auth API] Login Failure', props<{ response: ApiResponse }>());
 
@@ -47,3 +47,9 @@ export const redirectToLogin = createAction('[Auth] Redirect To Login', props<{ 
 export const getStatus = createAction('[Auth] Get Status');
 
 export const profileSaved = createAction('[My Profile] Profile Saved', props<{ user: User }>());
+export const requestCurrentUser = createAction('[App] Current User Requested');
+export const currentUserLoaded = createAction('[Auth API] Current User Loaded', props<{ currentUser: User }>());
+export const currentUserLoadFailed = createAction(
+  '[Auth API] Current User Load Failure',
+  props<{ response: ApiResponse }>()
+);

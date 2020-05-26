@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
       select(isloggedIn),
       tap(loggedIn => {
         if (!loggedIn) {
-          this.store$.dispatch(redirectToLogin({returnUrl: state.url}));
+          this.store$.dispatch(redirectToLogin({ returnUrl: state.url }));
         }
       })
     );

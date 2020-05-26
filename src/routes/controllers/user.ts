@@ -18,6 +18,13 @@ export class UserController {
   unlinkAsync = promisify(fs.unlink);
   private userDbCtrl: UserDBController = new UserDBController();
 
+  @Get('profile/')
+  @Middleware([Passport.authenticate()])
+  private getProfile(req: Request, res: Response) {
+    Logger.Info(`Geting user profile...`);
+    return res.status(OK).json(req.user);
+  }
+
   @Get(':id')
   @Middleware([Passport.authenticate()])
   private get(req: Request, res: Response) {
@@ -83,13 +90,6 @@ export class UserController {
         Logger.Err(error);
         return res.status(BAD_REQUEST).json(error.toString());
       });
-  }
-
-  @Get('profile')
-  @Middleware([Passport.authenticate()])
-  private getProfile(req: Request, res: Response) {
-    Logger.Info(`Geting user profile...`);
-    return res.json(req.user);
   }
 
   @Post('change-password')

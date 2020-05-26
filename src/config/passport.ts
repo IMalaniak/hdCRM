@@ -1,9 +1,11 @@
 // tslint:disable: indent
 import { Strategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
 import passport from 'passport';
-import * as db from '../models';
+import { UserDBController } from '../dbControllers/usersController';
 
 export class Passport {
+  private userDbCtrl: UserDBController = new UserDBController();
+
   private opts: StrategyOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),
     secretOrKey: process.env.SECRET
@@ -25,38 +27,8 @@ export class Passport {
     // passport.session();
     passport.use(
       new Strategy(this.opts, (jwt_payload, done) => {
-        db.User.findOne({
-          where: { id: jwt_payload.id },
-          attributes: { exclude: ['passwordHash', 'salt'] },
-          include: [
-            {
-              model: db.Organization
-            },
-            {
-              model: db.Role,
-              through: {
-                attributes: []
-              },
-              required: false
-            },
-            {
-              model: db.State
-            },
-            {
-              model: db.Asset,
-              as: 'avatar',
-              required: false
-            },
-            {
-              model: db.UserLoginHistory,
-              required: false
-            },
-            {
-              model: db.Department,
-              required: false
-            }
-          ]
-        })
+        this.userDbCtrl
+          .getById(jwt_payload.userId)
           .then(user => {
             if (user) {
               return done(null, user);

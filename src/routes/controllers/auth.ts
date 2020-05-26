@@ -249,47 +249,10 @@ export class AuthController {
           }
         ]
       },
+      attributes: ['id', 'passwordHash', 'salt'],
       include: [
         {
-          model: db.Organization
-        },
-        {
-          model: db.Role,
-          through: {
-            attributes: []
-          },
-          required: false,
-          include: [
-            {
-              model: db.Privilege,
-              through: {
-                attributes: ['view', 'edit', 'add', 'delete']
-              },
-              required: false
-            }
-          ]
-        },
-        {
           model: db.State
-        },
-        {
-          model: db.Asset,
-          as: 'avatar',
-          required: false
-        },
-        {
-          model: db.UserLoginHistory,
-          required: false
-        },
-        {
-          model: db.Department,
-          required: false
-        },
-        {
-          model: db.PasswordAttribute,
-          as: 'PasswordAttributes',
-          attributes: ['updatedAt', 'passwordExpire'],
-          required: false
         }
       ]
     })
@@ -322,47 +285,19 @@ export class AuthController {
 
         const isMatch = Crypt.validatePassword(password, user.passwordHash, user.salt);
         if (isMatch) {
-          const tmpUser: any = {
-            id: user.id,
-            login: user.login,
-            name: user.name,
-            surname: user.surname,
-            fullname: user.fullname,
-            email: user.email,
-            defaultLang: user.defaultLang,
-            avatar: user.avatar,
-            phone: user.phone,
-            createdAt: user.createdAt,
-            updatedAt: user.updatedAt,
-            Organization: user.Organization,
-            OrganizationId: user.OrganizationId
+          const { id } = user;
+          const payload = {
+            userId: id
           };
 
-          if (user.Roles && user.Roles.length > 0) {
-            tmpUser.Roles = user.Roles;
-          }
-
-          if (user.UserLoginHistory) {
-            tmpUser.lastSessionData = user.UserLoginHistory;
-          }
-
-          if (user.Department) {
-            tmpUser.Department = user.Department;
-          }
-
-          if (user.PasswordAttributes) {
-            tmpUser.PasswordAttributes = user.PasswordAttributes;
-          }
-
-          const token = jwt.sign(tmpUser, process.env.SECRET, {
+          let token = jwt.sign(payload, process.env.SECRET, {
             expiresIn: 86400 // 86400s = 1 day //604800s = 1 week
           });
-
-          tmpUser.token = `JWT ${token}`;
+          token = `JWT ${token}`;
 
           this.saveLogInAttempt(req, user, true).then(() => {
-            res.cookie('jwt', token);
-            return res.status(OK).json(tmpUser);
+            // res.cookie('jwt', token);
+            return res.status(OK).json(token);
           });
         } else {
           this.saveLogInAttempt(req, user, false).then(() => {

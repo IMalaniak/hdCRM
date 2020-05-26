@@ -46,7 +46,7 @@ export class JwtInterceptor implements HttpInterceptor {
             });
           } else {
             const returnUrl = this.router.routerState.snapshot.url;
-            this.store$.dispatch(redirectToLogin({returnUrl}));
+            this.store$.dispatch(redirectToLogin({ returnUrl }));
           }
         }
         // if public request - do nothing

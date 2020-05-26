@@ -5,6 +5,7 @@ import { createReducer, Action, on } from '@ngrx/store';
 
 export interface AuthState {
   loggedIn: boolean;
+  accessToken: string;
   currentUser: User | null;
   apiResp: ApiResponse;
   loading: boolean;
@@ -12,6 +13,7 @@ export interface AuthState {
 
 const initialState: AuthState = {
   loggedIn: false,
+  accessToken: null,
   currentUser: null,
   apiResp: null,
   loading: false
@@ -23,7 +25,7 @@ const authReducer = createReducer(
   on(AuthActions.registerSuccess, state => ({ ...state, loading: false })),
   on(AuthActions.registerFailure, (state, { response }) => ({ ...state, loading: false, apiResp: response })),
   on(AuthActions.logIn, state => ({ ...state, loading: true })),
-  on(AuthActions.logInSuccess, (state, { user }) => ({ ...state, loading: false, loggedIn: true, currentUser: user })),
+  on(AuthActions.logInSuccess, (state, { accessToken }) => ({ ...state, loading: false, loggedIn: true, accessToken })),
   on(AuthActions.logInFailure, (state, { response }) => ({ ...state, loading: false, apiResp: response })),
   on(AuthActions.logOut, () => ({ ...initialState })),
   on(AuthActions.setNewPassword, state => ({ ...state, loading: true })),
@@ -33,7 +35,10 @@ const authReducer = createReducer(
   on(AuthActions.activateAccount, state => ({ ...state, loading: true })),
   on(AuthActions.activateAccountSuccess, (state, { response }) => ({ ...state, loading: false, apiResp: response })),
   on(AuthActions.activateAccountFailure, (state, { response }) => ({ ...state, loading: false, apiResp: response })),
-  on(AuthActions.profileSaved, (state, { user }) => ({ ...state, currentUser: user }))
+  on(AuthActions.profileSaved, (state, { user }) => ({ ...state, currentUser: user })),
+  on(AuthActions.requestCurrentUser, state => ({ ...state, loading: true })),
+  on(AuthActions.currentUserLoaded, (state, { currentUser }) => ({ ...state, currentUser })),
+  on(AuthActions.currentUserLoadFailed, (state, { response }) => ({ ...state, apiResp: response }))
 );
 
 export function reducer(state: AuthState | undefined, action: Action) {

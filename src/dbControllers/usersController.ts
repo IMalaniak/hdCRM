@@ -8,10 +8,26 @@ export class UserDBController {
       model: db.Role,
       through: {
         attributes: []
-      }
+      },
+      required: false,
+      include: [
+        {
+          model: db.Privilege,
+          through: {
+            attributes: ['view', 'edit', 'add', 'delete']
+          },
+          required: false
+        }
+      ]
     },
     {
       model: db.UserLoginHistory
+    },
+    {
+      model: db.PasswordAttribute,
+      as: 'PasswordAttributes',
+      attributes: ['updatedAt', 'passwordExpire'],
+      required: false
     },
     {
       model: db.State
@@ -61,22 +77,27 @@ export class UserDBController {
   public async create(body: db.User): Promise<db.User> {
     Logger.Info(`Creating new user...`);
     return new Promise((resolve, reject) => {
-      db.User.create(body).then(user => {
-        user.reload({
-          include: this.includes
-        }).then(u => {
-          resolve(u);
-        }).catch((err: any) => {
+      db.User.create(body)
+        .then(user => {
+          user
+            .reload({
+              include: this.includes
+            })
+            .then(u => {
+              resolve(u);
+            })
+            .catch((err: any) => {
+              reject(err);
+            });
+        })
+        .catch((err: any) => {
           reject(err);
         });
-      }).catch((err: any) => {
-        reject(err);
-      });
     });
   }
 
   public updateOne(user: db.User): Promise<[number, db.User[]]> {
-      // TODO: roles etc...
+    // TODO: roles etc...
     Logger.Info(`Updating user by id: ${user.id}...`);
     return db.User.update(
       {
@@ -111,5 +132,4 @@ export class UserDBController {
       where: { id }
     });
   }
-
 }
