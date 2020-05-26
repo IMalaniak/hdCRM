@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
-import { filter, take } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { Observable, Subject } from 'rxjs';
@@ -8,7 +8,7 @@ import { User } from '@/modules/users';
 import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
 import * as layoutActions from '../store/layout.actions';
 import * as fromLayout from '../store';
-import { privateRouterTransition, SocketService, SocketEvent, MediaqueryService } from '@/shared';
+import { privateRouterTransition, MediaqueryService } from '@/shared';
 
 @Component({
   selector: 'app-private',
@@ -46,7 +46,6 @@ import { privateRouterTransition, SocketService, SocketEvent, MediaqueryService 
   styles: [],
   animations: [privateRouterTransition]
 })
-
 export class PrivateViewComponent implements OnInit, OnDestroy {
   leftSidebarMinimized$: Observable<boolean>;
   rightSidebarMinimized$: Observable<boolean>;
@@ -55,8 +54,7 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private router: Router, public mediaquery: MediaqueryService, private store: Store<AppState>, private socket: SocketService) {
-  }
+  constructor(private router: Router, public mediaquery: MediaqueryService, private store: Store<AppState>) {}
 
   ngOnInit() {
     this.currentUser$ = this.store.pipe(select(currentUser));
@@ -72,24 +70,14 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
         this.toggleRightSidebar(true);
       });
     }
-    this.currentUser$.pipe(take(1)).subscribe(user => {
-      this.socket.emit(SocketEvent.ISONLINE, {
-        id: user.id,
-        name: user.name,
-        surname: user.surname,
-        avatar: user.avatar,
-        OrganizationId: user.OrganizationId
-      });
-      // this.socket.emit(SocketEvent.INITMODULE, {moduleName: 'notifications'});
-    });
   }
 
   toggleLeftSidebar(minimized: boolean): void {
-    this.store.dispatch(layoutActions.toggleLeftSidebar({minimized}));
+    this.store.dispatch(layoutActions.toggleLeftSidebar({ minimized }));
   }
 
   toggleRightSidebar(minimized: boolean): void {
-    this.store.dispatch(layoutActions.toggleRightSidebar({minimized}));
+    this.store.dispatch(layoutActions.toggleRightSidebar({ minimized }));
   }
 
   prepareRoute(outlet: RouterOutlet) {

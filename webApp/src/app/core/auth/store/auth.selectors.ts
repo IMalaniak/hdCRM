@@ -13,7 +13,7 @@ export const isLoading = createSelector(selectAuthState, auth => auth.loading);
 
 export const currentUser = createSelector(selectAuthState, auth => auth.currentUser);
 
-export const getToken = createSelector(currentUser, user => (!!user ? user.token : null));
+export const getToken = createSelector(selectAuthState, auth => auth.accessToken);
 
 export const isValidToken = createSelector(getToken, token => (token ? !jwtHelper.isTokenExpired(token) : false));
 
@@ -23,7 +23,7 @@ export const isLoggedOut = createSelector(isloggedIn, loggedIn => !loggedIn);
 
 // get an array pf currentUser privileges
 export const getPrivileges = createSelector(currentUser, user => {
-  if (user.Roles && user.Roles.length > 0) {
+  if (user && user.Roles && user.Roles.length > 0) {
     let privileges = [];
     for (const role of user.Roles) {
       privileges.push(
@@ -38,21 +38,17 @@ export const getPrivileges = createSelector(currentUser, user => {
     privileges = [].concat(...privileges);
     privileges = privileges.filter((v, i, a) => a.indexOf(v) === i);
     return privileges;
-  } else {
-    return [];
   }
 });
 
 // check if currentUser has privilege
 export const isPrivileged = (privilegeCheck: string) =>
   createSelector(getPrivileges, privileges => {
-    const [symbol, action] = privilegeCheck.split('-');
     if (privileges && privileges.length > 0) {
+      const [symbol, action] = privilegeCheck.split('-');
       const check: Privilege = privileges.find(privilege => {
         return privilege.keyString === symbol;
       });
       return check && check.RolePrivilege && check.RolePrivilege[action];
-    } else {
-      return false;
     }
   });

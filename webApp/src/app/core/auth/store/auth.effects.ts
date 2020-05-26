@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { of, defer } from 'rxjs';
-import { tap, map, switchMap, catchError, concatMap } from 'rxjs/operators';
+import { tap, map, switchMap, catchError, concatMap, combineAll } from 'rxjs/operators';
 
 import * as authActions from './auth.actions';
 
@@ -46,9 +46,9 @@ export class AuthEffects {
       map(payload => payload.user),
       switchMap(userLoginData =>
         this.authService.login(userLoginData).pipe(
-          map(user => authActions.logInSuccess({ user })),
+          map(accessToken => authActions.logInSuccess({ accessToken })),
           tap(action => {
-            localStorage.setItem('currentUser', JSON.stringify(action.user));
+            localStorage.setItem('token', action.accessToken);
             const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
             this.router.navigateByUrl(returnUrl);
           }),
@@ -67,7 +67,7 @@ export class AuthEffects {
         tap(() =>
           this.authService.logout().subscribe(() => {
             this.scktService.emit(SocketEvent.ISOFFLINE);
-            localStorage.removeItem('currentUser');
+            localStorage.removeItem('token');
             this.router.navigateByUrl('/home');
           })
         )
@@ -142,15 +142,45 @@ export class AuthEffects {
     }
   );
 
+  requestCurrentUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authActions.requestCurrentUser),
+      switchMap(() =>
+        this.authService.getProfile().pipe(
+          map(currentUser => {
+            this.scktService.emit(SocketEvent.ISONLINE, {
+              id: currentUser.id,
+              name: currentUser.name,
+              surname: currentUser.surname,
+              avatar: currentUser.avatar,
+              OrganizationId: currentUser.OrganizationId
+            });
+
+            return authActions.currentUserLoaded({ currentUser });
+          }),
+          catchError((errorResponse: HttpErrorResponse) =>
+            of(authActions.currentUserLoadFailed({ response: errorResponse.error }))
+          )
+        )
+      )
+    )
+  );
+
+  loginSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authActions.logInSuccess),
+      switchMap(() => of(authActions.requestCurrentUser()))
+    )
+  );
+
   init$ = createEffect(() =>
     defer(() => {
-      let user: any = localStorage.getItem('currentUser');
-      if (user) {
-        user = JSON.parse(user);
-        if (!jwtHelper.isTokenExpired(user.token)) {
-          return of(authActions.logInSuccess({ user }));
+      const accessToken: any = localStorage.getItem('token');
+      if (accessToken) {
+        if (!jwtHelper.isTokenExpired(accessToken)) {
+          return of(authActions.logInSuccess({ accessToken }));
         } else {
-          localStorage.removeItem('currentUser');
+          localStorage.removeItem('token');
         }
       }
     })

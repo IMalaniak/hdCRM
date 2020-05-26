@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../reducers';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, skipWhile } from 'rxjs/operators';
 import { isPrivileged } from '../auth/store/auth.selectors';
 
 @Injectable({ providedIn: 'root' })
@@ -14,6 +14,7 @@ export class PrivilegeGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.store$.pipe(
       select(isPrivileged(route.data.privilege)),
+      skipWhile(flag => flag === undefined),
       tap(privileged => {
         if (!privileged) {
           Swal.fire({

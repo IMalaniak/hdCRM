@@ -12,12 +12,16 @@ export class AuthenticationService {
     this.api = '/auth';
   }
 
+  getProfile(): Observable<User> {
+    return this.http.get<User>(`/users/profile`);
+  }
+
   registerUser(user: User) {
     return this.http.post<any>(`${this.api}/register`, user);
   }
 
   login(loginUser: User) {
-    return this.http.post<User>(`${this.api}/authenticate`, loginUser);
+    return this.http.post<string>(`${this.api}/authenticate`, loginUser);
   }
 
   activateAccount(token: string): Observable<ApiResponse> {

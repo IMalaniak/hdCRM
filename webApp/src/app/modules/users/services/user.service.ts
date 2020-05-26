@@ -20,11 +20,6 @@ export class UserService {
     this.userOffline$ = this.socket.onEvent(SocketEvent.ISOFFLINE);
   }
 
-  // redo
-  getProfile(): Observable<User> {
-    return this.http.get<User>(`${this.api}/profile`);
-  }
-
   getList(pageIndex = 0, pageSize = 5, sortIndex = 'id', sortDirection = 'asc'): Observable<UserServerResponse> {
     return this.http.get<UserServerResponse>(this.api, {
       params: new HttpParams()
