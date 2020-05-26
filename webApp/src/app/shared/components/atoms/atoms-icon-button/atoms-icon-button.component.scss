@@ -8,6 +8,10 @@
   white-space: nowrap;
   display: block;
 
+  &.w-100 {
+    text-align: left;
+  }
+
   .mat-button-wrapper {
     display: flex;
     justify-content: center;
@@ -15,49 +19,44 @@
   }
 
   fa-icon {
-    margin-right: 0;
+    display: inline-block;
+    width: 1.25em;
     font-size: 1.25em;
 
-    &.mr-on-sm {
-      margin-right: 0.8em;
-    }
-
-    @include media-breakpoint-up(md) {
-      margin-right: 0.8em;
-    }
-
     + span {
-      @include media-breakpoint-down(sm) {
-        &:not(.show-on-sm) {
-          display: none;
-        }
-      }
-      &:before {
-        content: '';
+      $divider-margin: 0.6em;
+      display: none;
+      margin-left: $divider-margin;
+
+      @include media-breakpoint-up(sm) {
         display: inline;
-        border-left: 1px solid;
-        margin-right: 0.6em;
       }
 
-      &:not(.show-on-sm) {
-        &:before {
-          display: none;
-
-          @include media-breakpoint-up(sm) {
-            display: inline;
-          }
+      &::before {
+        display: none;
+        content: '';
+        border-left: 1px solid;
+        margin-right: $divider-margin;
+        @include media-breakpoint-up(sm) {
+          display: inline;
         }
       }
-    }
-
-    &.button-icon {
-      margin-right: 0;
-      font-size: 1.25em;
     }
 
     &.fab-icon {
-      margin-right: 0;
       font-size: 1.4em;
+    }
+  }
+
+  &.show-button-text-sm {
+    fa-icon {
+      + span {
+        display: inline;
+
+        &::before {
+          display: inline;
+        }
+      }
     }
   }
 }
