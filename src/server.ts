@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import http from 'http';
 import cors from 'cors';
 import DataBase from './models';
@@ -23,7 +24,13 @@ class CrmServer extends Server {
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
     // Allow any method from any host and log requests
-    this.app.use(cors());
+    this.app.use(
+      cors({
+        credentials: true,
+        ...(process.env.NODE_ENV === 'development' && { origin: process.env.WEB_URL })
+      })
+    );
+    this.app.use(cookieParser());
     this.app.use((req, res, next) => {
       if (req.method !== 'OPTIONS') {
         Logger.Imp(`${req.ip} ${req.method} ${req.url}`);
@@ -77,7 +84,6 @@ class CrmServer extends Server {
         Logger.Info(`Server is listening on ${port}`);
       });
     }
-
   }
 }
 

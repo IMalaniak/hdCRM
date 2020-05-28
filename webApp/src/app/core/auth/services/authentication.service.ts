@@ -21,7 +21,11 @@ export class AuthenticationService {
   }
 
   login(loginUser: User) {
-    return this.http.post<string>(`${this.api}/authenticate`, loginUser);
+    return this.http.post<string>(`${this.api}/authenticate`, loginUser, { withCredentials: true });
+  }
+
+  refreshSession(): Observable<string> {
+    return this.http.get<string>(`${this.api}/refresh-session`, { withCredentials: true });
   }
 
   activateAccount(token: string): Observable<ApiResponse> {

@@ -27,6 +27,14 @@ const authReducer = createReducer(
   on(AuthActions.logIn, state => ({ ...state, loading: true })),
   on(AuthActions.logInSuccess, (state, { accessToken }) => ({ ...state, loading: false, loggedIn: true, accessToken })),
   on(AuthActions.logInFailure, (state, { response }) => ({ ...state, loading: false, apiResp: response })),
+  on(AuthActions.refreshSession, state => ({ ...state, loading: true })),
+  on(AuthActions.refreshSessionSuccess, (state, { accessToken }) => ({
+    ...state,
+    loading: false,
+    loggedIn: true,
+    accessToken
+  })),
+  on(AuthActions.refreshSessionFailure, () => ({ ...initialState })),
   on(AuthActions.logOut, () => ({ ...initialState })),
   on(AuthActions.setNewPassword, state => ({ ...state, loading: true })),
   on(AuthActions.resetPasswordRequest, state => ({ ...state, loading: true })),

@@ -48,7 +48,6 @@ export class AuthEffects {
         this.authService.login(userLoginData).pipe(
           map(accessToken => authActions.logInSuccess({ accessToken })),
           tap(action => {
-            localStorage.setItem('token', action.accessToken);
             const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
             this.router.navigateByUrl(returnUrl);
           }),
@@ -67,7 +66,6 @@ export class AuthEffects {
         tap(() =>
           this.authService.logout().subscribe(() => {
             this.scktService.emit(SocketEvent.ISOFFLINE);
-            localStorage.removeItem('token');
             this.router.navigateByUrl('/home');
           })
         )
@@ -168,21 +166,26 @@ export class AuthEffects {
 
   loginSuccess$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(authActions.logInSuccess),
+      // TODO: @IMalaniak refreshSession
+      ofType(authActions.logInSuccess, authActions.refreshSessionSuccess),
       switchMap(() => of(authActions.requestCurrentUser()))
     )
   );
 
-  init$ = createEffect(() =>
-    defer(() => {
-      const accessToken: any = localStorage.getItem('token');
-      if (accessToken) {
-        if (!jwtHelper.isTokenExpired(accessToken)) {
-          return of(authActions.logInSuccess({ accessToken }));
-        } else {
-          localStorage.removeItem('token');
-        }
-      }
-    })
+  // todo @IMalaniak redirect to login effect
+  refreshSession$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authActions.refreshSession),
+      switchMap(() =>
+        this.authService.refreshSession().pipe(
+          map(accessToken => authActions.refreshSessionSuccess({ accessToken })),
+          catchError((errorResponse: HttpErrorResponse) =>
+            of(authActions.refreshSessionFailure({ response: errorResponse.error }))
+          )
+        )
+      )
+    )
   );
+
+  init$ = createEffect(() => defer(() => of(authActions.refreshSession())));
 }

@@ -14,6 +14,18 @@ export const logInSuccess = createAction('[Auth API] Login Success', props<{ acc
 
 export const logInFailure = createAction('[Auth API] Login Failure', props<{ response: ApiResponse }>());
 
+export const refreshSession = createAction('[Auth] Refresh Session Token');
+
+export const refreshSessionSuccess = createAction(
+  '[Auth API] Refresh Session Success',
+  props<{ accessToken: string }>()
+);
+
+export const refreshSessionFailure = createAction(
+  '[Auth API] Refresh Session Failure',
+  props<{ response: ApiResponse }>()
+);
+
 export const setNewPassword = createAction('[Auth] Set New Password Requested', props<{ newPassword: NewPassword }>());
 
 export const resetPasswordRequest = createAction('[Auth] Reset Password Requested', props<{ user: User }>());

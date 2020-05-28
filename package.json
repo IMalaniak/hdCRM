@@ -21,6 +21,7 @@
   "dependencies": {
     "@overnightjs/core": "^1.6.9",
     "@overnightjs/logger": "^1.1.9",
+    "cookie-parser": "^1.4.5",
     "cors": "*",
     "dotenv": "^8.0.0",
     "email-templates": "^6.0.0",
@@ -42,6 +43,7 @@
   },
   "devDependencies": {
     "@types/bluebird": "^3.5.27",
+    "@types/cookie-parser": "^1.4.2",
     "@types/cors": "^2.8.6",
     "@types/dotenv": "^6.1.1",
     "@types/email-templates": "^6.0.0",

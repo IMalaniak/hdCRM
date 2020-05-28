@@ -354,7 +354,7 @@ export class UserController {
                 passwordExpire: token.expireDate
               })
                 .then(() => {
-                  Mailer.sendInvitation(u, password, `${process.env.URL}/auth/activate-account/${token.value}`)
+                  Mailer.sendInvitation(u, password, `${process.env.WEB_URL}/auth/activate-account/${token.value}`)
                     .then(() => {
                       resolve(u);
                     })
