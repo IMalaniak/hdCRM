@@ -9,35 +9,43 @@ app-right-sidebar {
   right: 0;
   bottom: 0;
   min-width: 100%;
-  transition: all $transition;
   z-index: 100;
+  transition: right $transition;
 
   &.minimized {
-    min-width: crmsize(sidebar, hidden, true);
-    flex-basis: crmsize(sidebar, hidden, true);
-    width: crmsize(sidebar, hidden, true);
+    right: -100%;
   }
 
   @include media-breakpoint-up(md) {
     min-width: crmsize(sidebar, width, true);
     flex-basis: crmsize(sidebar, width, true);
+
+    &.minimized {
+      right: -(crmsize(sidebar, width, true));
+    }
   }
 
   @include media-breakpoint-up(lg) {
     position: sticky;
     top: 0;
-    right: 0;
-    bottom: 0;
+    margin-right: 0;
+    min-width: crmsize(sidebar, width, true);
+    flex-basis: crmsize(sidebar, width, true);
+    transition: right $transition, margin-right $transition;
+
+    &.minimized {
+      margin-right: -(crmsize(sidebar, width, true));
+    }
   }
 }
 
-.sidebar-wrapper {
+.right-sidebar {
   position: relative;
   height: 100%;
   width: 100%;
   border-left: 1px solid lightgray;
 
-  > .sidebar-content {
+  &-content {
     position: absolute;
     top: 0;
     left: 0;
@@ -47,61 +55,61 @@ app-right-sidebar {
     overflow-x: hidden;
   }
 
-  > .btn-wrapper {
+  .btn-sidebar-toggle {
     position: absolute;
     bottom: 1em;
     left: 1em;
-    height: 2.4em;
-    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 7px 13px;
+    border: 1px solid lightgray;
+    border-radius: 20px;
+    @include crm-bgcolor('layout', 'milk');
+    cursor: pointer;
+    transition: all $transition;
 
-    > .btn-expand-wrapper {
+    &:hover {
       @include crm-bgcolor('theme', 'primary');
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 2.4em;
-      border-bottom-left-radius: 1.3em;
-      border-top-left-radius: 1.3em;
-      cursor: pointer;
-      transition: all $transition;
+      border-color: crmcolor('theme', 'primary', true);
+      padding-left: 20px;
 
-      > .btn-sidebar-toggle {
-        @include crm-bgcolor('theme', 'primary');
-        position: absolute;
-        left: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 2.4em;
-        height: 2.4em;
-        border-radius: 50%;
-        cursor: pointer;
-        transform: none;
-        transition: all $transition;
-
-        fa-icon {
-          @include crm-textcolor('layout', 'background');
-          font-size: 0.85em;
-        }
+      > .btn-icon {
+        @include crm-textcolor('layout', 'background');
       }
+    }
+
+    .btn-icon {
+      font-size: 0.85em;
+      color: grey;
+      transition: color $transition, transform $transition;
     }
   }
 
   .minimized & {
-    .btn-expand-wrapper {
+    .btn-sidebar-toggle {
+      left: -2.4em;
+      padding-right: 2.4em;
+      border-color: crmcolor('theme', 'primary', true);
       @include crm-bgcolor('theme', 'primary');
-      left: -3.5em;
-      width: 100vw;
-      transition: all $transition;
+      transition: left $transition;
 
       @include media-breakpoint-up(lg) {
-        &:hover {
-          left: -4.5em;
+        left: calc(100% - 18.9em);
+      }
+
+      &:hover {
+        padding-left: 13px;
+        left: -2.9em;
+
+        @include media-breakpoint-up(lg) {
+          left: calc(100% - 19.4em);
         }
       }
 
-      .btn-sidebar-toggle {
+      > .btn-icon {
         transform: rotate(180deg);
+        @include crm-textcolor('layout', 'background');
       }
     }
   }
