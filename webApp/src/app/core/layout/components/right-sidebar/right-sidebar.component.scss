@@ -67,7 +67,7 @@ app-right-sidebar {
     border-radius: 20px;
     @include crm-bgcolor('layout', 'milk');
     cursor: pointer;
-    transition: all $transition;
+    transition: left $transition, padding $transition, border-color $transition, background-color $transition;
 
     &:hover {
       @include crm-bgcolor('theme', 'primary');
@@ -92,10 +92,9 @@ app-right-sidebar {
       padding-right: 2.4em;
       border-color: crmcolor('theme', 'primary', true);
       @include crm-bgcolor('theme', 'primary');
-      transition: left $transition;
 
       @include media-breakpoint-up(lg) {
-        left: calc(100% - 18.9em);
+        left: calc(- ((crmsize(sidebar, width, true))) + 2.4em);
       }
 
       &:hover {
@@ -103,7 +102,7 @@ app-right-sidebar {
         left: -2.9em;
 
         @include media-breakpoint-up(lg) {
-          left: calc(100% - 19.4em);
+          left: calc(- ((crmsize(sidebar, width, true))) + 2.9em);
         }
       }
 
