@@ -1,10 +1,15 @@
-<nav class="sidebar-menu">
-  <ul *ngFor="let menuItem of sidebarMenu">
-    <li *ngIf="menuItem.privilege ? (menuItem.privilege | async) && !menuItem.disable : !menuItem.disable">
-      <a [routerLinkActive]="['active']" [routerLink]="menuItem.url"
-        ><fa-icon [icon]="menuItem.icon"></fa-icon
-        ><span class="item-title" i18n="menuItem.i18n">{{ menuItem.title }}</span></a
+<nav class="sidebar">
+  <ul class="sidebar-list">
+    <ng-container *ngFor="let menuItem of sidebarMenu">
+      <li
+        *ngIf="menuItem.privilege ? (menuItem.privilege | async) && !menuItem.disable : !menuItem.disable"
+        class="sidebar-list-item"
       >
-    </li>
+        <a [routerLinkActive]="['active']" [routerLink]="menuItem.url" class="item-btn"
+          ><fa-icon [icon]="menuItem.icon" class="item-icon"></fa-icon
+          ><span class="item-title" i18n="@@leftSidebarComponentMenuItemTitle">{{ menuItem.title }}</span></a
+        >
+      </li>
+    </ng-container>
   </ul>
 </nav>

@@ -42,7 +42,8 @@ import {
   faCoffee,
   faGlobe,
   faUserClock,
-  faChevronDown
+  faChevronDown,
+  faEllipsisH
 } from '@fortawesome/free-solid-svg-icons';
 import * as fromUser from '@/modules/users/store/user.reducer';
 import { UserEffects } from '@/modules/users/store/user.effects';
@@ -112,7 +113,8 @@ export class LayoutModule {
       faCoffee,
       faGlobe,
       faUserClock,
-      faChevronDown
+      faChevronDown,
+      faEllipsisH
     );
   }
 }

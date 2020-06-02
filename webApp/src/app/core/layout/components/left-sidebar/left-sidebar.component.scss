@@ -4,80 +4,92 @@
 
 app-left-sidebar {
   @include crm-bgcolor('layout', 'dark');
-  min-width: crmsize(sidebar, width, true);
-  flex-basis: crmsize(sidebar, width, true);
-  transition: min-width $transition, flex-basis $transition, left $transition;
+  position: fixed;
+  top: crmsize(header, height, true);
+  left: 0;
+  bottom: 0;
+  min-width: 100%;
+  z-index: 110;
+  transition: left $transition;
 
   &.minimized {
-    min-width: crmsize(sidebar, minimized, true);
-    flex-basis: crmsize(sidebar, minimized, true);
+    left: -100%;
   }
 
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-up(md) {
     min-width: crmsize(sidebar, width, true);
-    max-width: 100%;
+    flex-basis: crmsize(sidebar, width, true);
 
     &.minimized {
-      left: -100%;
+      left: -(crmsize(sidebar, width, true));
     }
-
-    position: fixed;
-    top: crmsize(header, height, true);
-    left: 0;
-    bottom: 0;
-    z-index: 110;
-    overflow-y: auto;
   }
 
-  @include media-breakpoint-down(sm) {
-    min-width: 100%;
+  @include media-breakpoint-up(lg) {
+    position: sticky;
+    min-width: crmsize(sidebar, width, true);
+    flex-basis: crmsize(sidebar, width, true);
+    transition: min-width $transition, flex-basis $transition, left $transition;
+
+    &.minimized {
+      min-width: crmsize(sidebar, minimized, true);
+      flex-basis: crmsize(sidebar, minimized, true);
+    }
   }
 }
 
-.sidebar-menu {
-  ul {
+.sidebar {
+  overflow: hidden;
+
+  &-list {
     margin: 0;
     padding: 0;
   }
-  a {
-    display: flex;
-    height: crmsize(header, height, true);
-    align-items: center;
-    padding: 0 crmsize(spacer, null, true);
-    @include crm-textcolor('layout', 'milk');
-    transition: background-color $transition, color $transition, border-width $transition;
 
-    &:hover,
-    &.active {
-      text-decoration: none;
-      @include crm-bgcolor('layout', 'milk');
-      @include crm-textcolor('theme', 'primary');
-      border-left: 8px solid;
-    }
+  &-list-item {
+    .item-btn {
+      display: flex;
+      align-items: center;
+      height: crmsize(header, height, true);
+      @include crm-textcolor('layout', 'milk');
+      transition: border-width $transition;
 
-    > mat-icon,
-    fa-icon {
-      margin-right: crmsize(spacer, null, true);
+      &:hover,
+      &.active {
+        border-left: 7px solid;
+        text-decoration: none;
+        @include crm-bgcolor('layout', 'milk');
+        @include crm-textcolor('theme', 'primary');
+      }
+
+      .item-title {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity $transition, visibility $transition;
+      }
+
+      .item-icon {
+        margin: 0 15px;
+        font-size: 17px;
+
+        > svg {
+          width: 1.3em;
+        }
+      }
     }
   }
 
   .minimized & {
-    a {
-      justify-content: center;
-
+    .item-btn {
       &:hover,
       &.active {
         border-left: none;
-        border-bottom: 4px solid;
+        border-bottom: 5px solid;
       }
 
-      span {
-        display: none;
-      }
-
-      > mat-icon,
-      fa-icon {
-        margin-right: 0;
+      .item-title {
+        opacity: 0;
+        visibility: hidden;
       }
     }
   }
