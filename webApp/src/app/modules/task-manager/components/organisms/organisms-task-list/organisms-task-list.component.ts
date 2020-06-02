@@ -68,7 +68,7 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
   }
 
   getTaskClass(task: Task): string {
-    return `task-priority-${task.TaskPriority.value}`;
+    return `task-priority-${task?.TaskPriority?.value}`;
   }
 
   ngOnDestroy() {
