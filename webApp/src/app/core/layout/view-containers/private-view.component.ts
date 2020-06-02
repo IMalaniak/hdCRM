@@ -22,6 +22,12 @@ import { privateRouterTransition, MediaqueryService } from '@/shared';
       <main>
         <app-left-sidebar [leftSidebarMinimized]="leftSidebarMinimized$ | async"></app-left-sidebar>
         <section class="content">
+          <div
+            class="overlay"
+            *ngIf="mediaquery.isMobileDevice"
+            [ngClass]="{ isVisible: (!(leftSidebarMinimized$ | async) || !(rightSidebarMinimized$ | async)) }"
+            (click)="onOverlayClick()"
+          ></div>
           <div class="wrapper">
             <section class="container-fluid position-relative" [@privateRouterAnimations]="prepareRoute(outlet)">
               <router-outlet #outlet="outlet"></router-outlet>
@@ -33,12 +39,6 @@ import { privateRouterTransition, MediaqueryService } from '@/shared';
             (hideRightSidebar)="toggleRightSidebar($event)"
           ></app-right-sidebar>
         </section>
-        <div
-          class="overlay"
-          *ngIf="mediaquery.isMobileDevice"
-          [ngClass]="{ isVisible: !leftSidebarMinimized$ | async }"
-          (click)="toggleLeftSidebar(true)"
-        ></div>
       </main>
       <!--      <section class="app-messages" *ngIf="showDebug$ | async"></section> -->
     </section>
@@ -78,6 +78,11 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
 
   toggleRightSidebar(minimized: boolean): void {
     this.store.dispatch(layoutActions.toggleRightSidebar({ minimized }));
+  }
+
+  onOverlayClick(): void {
+    this.toggleLeftSidebar(true);
+    this.toggleRightSidebar(true);
   }
 
   prepareRoute(outlet: RouterOutlet) {
