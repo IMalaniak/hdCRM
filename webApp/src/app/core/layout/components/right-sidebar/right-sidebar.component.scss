@@ -9,7 +9,7 @@ app-right-sidebar {
   right: 0;
   bottom: 0;
   min-width: 100%;
-  z-index: 100;
+  @include getZ-Index(right-sidebar);
   transition: right $transition;
 
   &.minimized {

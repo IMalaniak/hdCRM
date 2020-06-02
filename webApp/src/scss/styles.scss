@@ -63,7 +63,7 @@ main {
     bottom: 0;
     position: absolute;
     display: block;
-    z-index: 3;
+    @include getZ-Index(sidebar-overlay);
     visibility: hidden;
     transition: visibility $transition, background-color $transition;
 
@@ -83,7 +83,7 @@ main {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  z-index: 100;
+  @include getZ-Index(content);
 
   > .wrapper {
     flex-grow: 1;

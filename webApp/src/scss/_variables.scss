@@ -95,3 +95,12 @@ $crmsizes: (
   userpic: 3rem,
   spacer: 1em
 );
+
+$layer-priorities: (
+  root: 100,
+  content: 102,
+  header: 103,
+  sidebar-overlay: 103,
+  right-sidebar: 104,
+  left-sidebar: 105
+)
