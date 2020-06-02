@@ -32,7 +32,13 @@ export class TaskController {
     this.taskDbCtrl
       .create(req.body)
       .then((task: db.Task) => {
-        return res.status(OK).json(task);
+        this.taskDbCtrl.getById(task.id).then(newTask => {
+          return res.status(OK).json(newTask);
+        }).catch((err: any) => {
+          Logger.Err(err);
+          return res.status(BAD_REQUEST).json(err);
+        });
+        
       })
       .catch((err: any) => {
         Logger.Err(err);
