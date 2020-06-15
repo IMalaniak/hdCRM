@@ -10,7 +10,6 @@
   min-height: crmsize(header, height, true);
   flex-basis: crmsize(header, height, true);
   @include crm-bgcolor('layout', 'dark');
-  @include crm-textcolor('layout', 'milk');
   box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
   @include getZ-Index(header);
 
@@ -91,7 +90,7 @@
       margin: 0 auto;
 
       @include media-breakpoint-up(sm) {
-        width: 24.5em;
+        width: 25.8em;
         right: 0.6em;
         left: auto;
         margin-left: auto;
@@ -100,26 +99,20 @@
         right: 1.6em;
       }
 
-      .content {
+      .content-wrapper {
         position: relative;
         display: flex;
         flex-direction: column;
-        padding: 1.5em 0.7em 0.7em 0.7em;
+        padding: 1.5em 0.6em 0.7em 0.6em;
         @include media-breakpoint-up(sm) {
           flex-direction: row;
           flex-flow: row-reverse;
         }
 
         .content-title {
-          margin: 0 0 0.5em 1.2em;
+          margin: 0 auto 0.5em 1.1em;
           font-size: 0.9em;
           color: gray;
-        }
-
-        .account-actions {
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-start;
         }
       }
 

@@ -26,94 +26,127 @@
   ></atoms-user-pic>
 
   <section class="dropdown-content card shadow" [@openCloseAnimation]="!!isShowUserMenu">
-    <div class="row content">
-      <div class="col-6 d-flex flex-column align-items-start mb-3 mb-sm-0">
+    <div class="content-wrapper">
+      <div class="d-flex flex-column justify-content-start mb-3 mb-sm-0 w-100">
         <span class="content-title">Account</span>
-        <div class="account-actions">
-          <atoms-icon-button
-            matType="basic"
-            [showButtonTextOnSm]="true"
-            [routerLink]="['/users/myprofile']"
-            [icon]="['fas', 'user']"
-            class="mb-1"
-          >
-            My profile
-          </atoms-icon-button>
-          <atoms-icon-button
-            matType="basic"
-            [showButtonTextOnSm]="true"
-            color="warn"
-            (onclick)="onLogoutClick()"
-            [icon]="['fas', 'sign-out-alt']"
-          >
-            Logout
-          </atoms-icon-button>
-        </div>
+        <atoms-icon-button
+          matType="basic"
+          [showButtonTextOnSm]="true"
+          [routerLink]="['/users/myprofile']"
+          [fullWidth]="true"
+          [icon]="['fas', 'user']"
+          class="mb-1"
+          color="basic"
+        >
+          My profile
+        </atoms-icon-button>
+        <atoms-icon-button
+          matType="basic"
+          [showButtonTextOnSm]="true"
+          [fullWidth]="true"
+          (onclick)="onLogoutClick()"
+          [icon]="['fas', 'sign-out-alt']"
+          color="warn"
+        >
+          Logout
+        </atoms-icon-button>
       </div>
-      <mat-divider [vertical]="true"></mat-divider>
-      <div class="col-6">
-        <div class="d-flex flex-column align-items-start">
-          <span class="content-title">Availability</span>
-          <div>
+      <mat-divider [vertical]="true" class=" mx-0 mx-sm-2"></mat-divider>
+      <div class="d-flex flex-column justify-content-start w-100">
+        <span class="content-title">Availability</span>
+        <atoms-icon-button
+          matType="basic"
+          [showButtonTextOnSm]="true"
+          [icon]="['fas', 'chevron-down']"
+          [fullWidth]="true"
+          (onclick)="isShowStatuses = !isShowStatuses"
+          class="mb-1"
+          color="basic"
+        >
+          Working statuses
+        </atoms-icon-button>
+
+        <div class="card w-100" [@smoothHeightAnimation]="!!isShowStatuses">
+          <div class="d-flex flex-column p-2">
             <atoms-icon-button
               matType="basic"
               [showButtonTextOnSm]="true"
-              [icon]="['fas', 'chevron-down']"
-              (onclick)="isShowStatuses = !isShowStatuses"
+              [fullWidth]="true"
+              [icon]="['fas', 'globe']"
+              color="basic"
             >
-              Working statuses
+              Online
             </atoms-icon-button>
-
-            <div class="card" [@smoothHeightAnimation]="!!isShowStatuses">
-              <atoms-icon-button matType="basic" [showButtonTextOnSm]="true" [icon]="['fas', 'globe']">
-                Online
-              </atoms-icon-button>
-              <atoms-icon-button matType="basic" [showButtonTextOnSm]="true" [icon]="['fas', 'coffee']">
-                On break
-              </atoms-icon-button>
-              <atoms-icon-button matType="basic" [showButtonTextOnSm]="true" [icon]="['fas', 'user-clock']">
-                Away
-              </atoms-icon-button>
-              <atoms-icon-button matType="basic" [showButtonTextOnSm]="true" [icon]="['fas', 'ghost']">
-                Unvisible
-              </atoms-icon-button>
-              <atoms-icon-button matType="basic" [showButtonTextOnSm]="true" [icon]="['fas', 'minus-circle']">
-                Busy
-              </atoms-icon-button>
-            </div>
+            <atoms-icon-button
+              matType="basic"
+              [showButtonTextOnSm]="true"
+              [fullWidth]="true"
+              [icon]="['fas', 'coffee']"
+              color="basic"
+            >
+              On break
+            </atoms-icon-button>
+            <atoms-icon-button
+              matType="basic"
+              [showButtonTextOnSm]="true"
+              [fullWidth]="true"
+              [icon]="['fas', 'user-clock']"
+              color="basic"
+            >
+              Away
+            </atoms-icon-button>
+            <atoms-icon-button
+              matType="basic"
+              [showButtonTextOnSm]="true"
+              [fullWidth]="true"
+              [icon]="['fas', 'ghost']"
+              color="basic"
+            >
+              Unvisible
+            </atoms-icon-button>
+            <atoms-icon-button
+              matType="basic"
+              [showButtonTextOnSm]="true"
+              [fullWidth]="true"
+              [icon]="['fas', 'minus-circle']"
+              color="basic"
+            >
+              Busy
+            </atoms-icon-button>
           </div>
-
-          <atoms-icon-button
-            matType="basic"
-            [showButtonTextOnSm]="true"
-            [icon]="['fas', 'user-plus']"
-            [ngClass]="{ 'mt-1': isShowStatuses }"
-          >
-            Invite members
-          </atoms-icon-button>
         </div>
+
+        <atoms-icon-button
+          matType="basic"
+          [showButtonTextOnSm]="true"
+          [fullWidth]="true"
+          [icon]="['fas', 'user-plus']"
+          [ngClass]="{ 'mt-1': isShowStatuses }"
+          color="basic"
+        >
+          Invite members
+        </atoms-icon-button>
       </div>
     </div>
     <mat-divider></mat-divider>
     <div class="content-footer">
       <span id="org-title">hdcrm</span>
     </div>
-
-    <!-- <section class="notifications-wrapper">
-			<div class="d-flex justify-content-between"><span>Notifications</span><fa-icon [icon]="['fas', 'cog']"></fa-icon></div>
-			<div>
-					<input class="notification-check" type="checkbox" id="size_1" value="small" checked />
-					<label class="notification new" for="size_1"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
-					<input class="notification-check" type="checkbox" id="size_2" value="small" checked />
-					<label class="notification new" for="size_2"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
-					<input class="notification-check" type="checkbox" id="size_3" value="small" checked />
-					<label class="notification new" for="size_3"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
-					<input class="notification-check" type="checkbox" id="size_4" value="small" checked />
-					<label class="notification new" for="size_4"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
-					<input class="notification-check" type="checkbox" id="size_5" value="small" checked />
-					<label class="notification new" for="size_5"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
-			</div>
-			<a mat-button class="crm-button" [routerLink]="['/users/myprofile']"><span i18n="@@headerComponentUserDropdownActionsNotificationsMore">Show more</span></a>
-		</section> -->
   </section>
 </div>
+<!-- <section class="notifications-wrapper">
+  <div class="d-flex justify-content-between"><span>Notifications</span><fa-icon [icon]="['fas', 'cog']"></fa-icon></div>
+    <div>
+        <input class="notification-check" type="checkbox" id="size_1" value="small" checked />
+        <label class="notification new" for="size_1"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
+        <input class="notification-check" type="checkbox" id="size_2" value="small" checked />
+        <label class="notification new" for="size_2"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
+        <input class="notification-check" type="checkbox" id="size_3" value="small" checked />
+        <label class="notification new" for="size_3"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
+        <input class="notification-check" type="checkbox" id="size_4" value="small" checked />
+        <label class="notification new" for="size_4"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
+        <input class="notification-check" type="checkbox" id="size_5" value="small" checked />
+        <label class="notification new" for="size_5"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
+    </div>
+    <a mat-button class="crm-button" [routerLink]="['/users/myprofile']"><span i18n="@@headerComponentUserDropdownActionsNotificationsMore">Show more</span></a>
+  </section> -->
