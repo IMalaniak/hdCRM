@@ -46,7 +46,6 @@ import { environment } from 'environments/environment';
     ValidateService,
     MediaqueryService,
     LocalStorageService,
-    { provide: RouterStateSerializer, useClass: CustomSerializer },
     { provide: RouterStateSerializer, useClass: CustomSerializer }
   ]
 })
