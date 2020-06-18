@@ -58,13 +58,10 @@ export class DepartmentEffects {
       map(payload => payload.page),
       mergeMap(page =>
         this.departmentService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
-          catchError(err => {
-            this.store.dispatch(depActions.listPageCancelled());
-            return of({});
-          })
+          map((response: DepartmentServerResponse) => depActions.listPageLoaded({ response })),
+          catchError(err => of(depActions.listPageCancelled()))
         )
-      ),
-      map((response: DepartmentServerResponse) => depActions.listPageLoaded({ response }))
+      )
     )
   );
 

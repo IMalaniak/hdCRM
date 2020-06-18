@@ -3,7 +3,7 @@ import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import * as userActions from './user.actions';
-import { mergeMap, map, catchError, tap, switchMap } from 'rxjs/operators';
+import { mergeMap, map, catchError, tap, switchMap, retryWhen, delay } from 'rxjs/operators';
 import { UserService } from '../services';
 import { AppState } from '@/core/reducers';
 import { UserServerResponse, User } from '../models';
@@ -29,13 +29,10 @@ export class UserEffects {
       map(payload => payload.page),
       mergeMap(page =>
         this.userService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
-          catchError(err => {
-            this.store.dispatch(userActions.listPageCancelled());
-            return of({});
-          })
+          map((response: UserServerResponse) => userActions.listPageLoaded({ response })),
+          catchError(err => of(userActions.listPageCancelled())),
         )
-      ),
-      map((response: UserServerResponse) => userActions.listPageLoaded({ response }))
+      )
     )
   );
 
