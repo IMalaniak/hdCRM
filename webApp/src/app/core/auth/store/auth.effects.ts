@@ -1,27 +1,29 @@
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { of, defer } from 'rxjs';
-import { tap, map, switchMap, catchError, concatMap, combineAll } from 'rxjs/operators';
+import { Actions, ofType, createEffect, OnInitEffects } from '@ngrx/effects';
+import { of } from 'rxjs';
+import { tap, map, switchMap, catchError, concatMap, withLatestFrom, mergeMap } from 'rxjs/operators';
 
 import * as authActions from './auth.actions';
 
 import { AuthenticationService } from '../services';
 import Swal from 'sweetalert2';
 
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { SocketService, SocketEvent } from '@/shared';
 import { HttpErrorResponse } from '@angular/common/http';
-const jwtHelper = new JwtHelperService();
+import { Store, select, Action } from '@ngrx/store';
+import { getToken } from './auth.selectors';
+import { selectUrl, AppState } from '@/core/reducers';
 
 @Injectable()
-export class AuthEffects {
+export class AuthEffects implements OnInitEffects {
   constructor(
     private actions$: Actions,
     private authService: AuthenticationService,
     private router: Router,
     private route: ActivatedRoute,
-    private scktService: SocketService
+    private scktService: SocketService,
+    private store$: Store<AppState>
   ) {}
 
   registerUser$ = createEffect(() =>
@@ -124,14 +126,15 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(authActions.redirectToLogin),
-        tap(action => {
+        withLatestFrom(this.store$.pipe(select(selectUrl))),
+        map(([action, returnUrl]) => {
           Swal.fire({
             text: 'You are not authorized to see this page, or your session has been expired!',
             icon: 'error',
             timer: 3000
           });
           this.router.navigate(['/auth/login'], {
-            queryParams: { returnUrl: action.returnUrl }
+            queryParams: { returnUrl }
           });
         })
       ),
@@ -166,13 +169,11 @@ export class AuthEffects {
 
   loginSuccess$ = createEffect(() =>
     this.actions$.pipe(
-      // TODO: @IMalaniak refreshSession
       ofType(authActions.logInSuccess, authActions.refreshSessionSuccess),
       switchMap(() => of(authActions.requestCurrentUser()))
     )
   );
 
-  // todo @IMalaniak redirect to login effect
   refreshSession$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authActions.refreshSession),
@@ -187,5 +188,29 @@ export class AuthEffects {
     )
   );
 
-  init$ = createEffect(() => defer(() => of(authActions.refreshSession())));
+  checkIsTokenValid$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authActions.checkIsTokenValid),
+      withLatestFrom(this.store$.pipe(select(getToken))),
+      switchMap(([action, token]) => {
+        const isValid = this.authService.isTokenValid(token);
+        if (isValid) {
+          return of(authActions.checkIsTokenValidSuccess());
+        } else {
+          return of(authActions.checkIsTokenValidFailure());
+        }
+      })
+    )
+  );
+
+  checkIsTokenValidFailure$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authActions.checkIsTokenValidFailure),
+      mergeMap(() => of(authActions.refreshSession()))
+    )
+  );
+
+  ngrxOnInitEffects(): Action {
+    return authActions.refreshSession();
+  }
 }
