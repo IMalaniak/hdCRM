@@ -1,4 +1,4 @@
-import { OK, BAD_REQUEST, UNAUTHORIZED } from 'http-status-codes';
+import { OK, BAD_REQUEST, UNAUTHORIZED, FORBIDDEN } from 'http-status-codes';
 import { Controller, Get, Post } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
@@ -7,6 +7,7 @@ import { Op, ValidationError, UniqueConstraintError } from 'sequelize';
 import Crypt from '../../config/crypt';
 import Mailer from '../../mailer/nodeMailerTemplates';
 import JwtHelper from '../../helpers/jwtHelper';
+import { JwtPayload } from '../../models/JWTPayload';
 
 @Controller('auth/')
 export class AuthController {
@@ -301,7 +302,10 @@ export class AuthController {
               type: 'refresh',
               payload: { userId: userSession.UserId, sessionId: userSession.id }
             });
-            res.cookie('refresh_token', refreshToken, { httpOnly: true });
+            // set cookie for one year, it doest matter, because it has token that itself has an expiration date;
+            const expires = new Date();
+            expires.setFullYear(expires.getFullYear() + 1);
+            res.cookie('refresh_token', refreshToken, { httpOnly: true, expires });
             return res.status(OK).json(`JWT ${access_token}`);
           });
         } else {
@@ -325,18 +329,23 @@ export class AuthController {
     Logger.Info(`Refreshing user session...`);
     const cookies = this.parseCookies(req);
     if (cookies['refresh_token']) {
-      const payload: any = JwtHelper.getVerified({ type: 'refresh', token: cookies['refresh_token'] });
-      if (payload) {
-        const newToken = JwtHelper.generateToken({ type: 'access', payload: { userId: payload.userId } });
-
-        return res.status(OK).json(`JWT ${newToken}`);
-      }
+      JwtHelper.getVerified({ type: 'refresh', token: cookies['refresh_token'] })
+        .then(({ userId }: JwtPayload) => {
+          const newToken = JwtHelper.generateToken({ type: 'access', payload: { userId } });
+          return res.status(OK).json(`JWT ${newToken}`);
+        })
+        .catch(err => {
+          return res.status(FORBIDDEN).send({
+            success: false,
+            message: 'Refresh token expired!'
+          });
+        });
+    } else {
+      return res.status(UNAUTHORIZED).send({
+        success: false,
+        message: 'No refresh token!'
+      });
     }
-
-    return res.status(UNAUTHORIZED).send({
-      success: false,
-      message: 'Refresh token expired!'
-    });
   }
 
   @Post('forgot_password')

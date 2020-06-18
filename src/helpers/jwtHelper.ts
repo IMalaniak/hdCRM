@@ -1,5 +1,6 @@
-import jwt from 'jsonwebtoken';
+import jwt, { TokenExpiredError } from 'jsonwebtoken';
 import { JwtPayload } from '../models/JWTPayload';
+import { resolve, reject } from 'bluebird';
 
 interface TokenProps {
   type: string;
@@ -19,11 +20,19 @@ class JwtHelper {
     });
   }
 
-  getVerified({ type, token }: VerifyProps): string | object {
-    return jwt.verify(token, type === 'access' ? process.env.ACCESS_TOKEN_SECRET : process.env.REFRESH_TOKEN_SECRET, {
-      audience: process.env.WEB_URL
+  getVerified({ type, token }: VerifyProps): Promise<string | object | TokenExpiredError> {
+    return new Promise((resolve, reject) => {
+      try {
+        const decoded = jwt.verify(token, type === 'access' ? process.env.ACCESS_TOKEN_SECRET : process.env.REFRESH_TOKEN_SECRET, {
+          audience: process.env.WEB_URL
+        });
+        resolve(decoded);
+      } catch (error) {
+        reject(error);
+      }
     });
   }
+
 }
 
 export default new JwtHelper();
