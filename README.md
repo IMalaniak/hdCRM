@@ -14,7 +14,7 @@
   - [Commit Message Format](#commit-message-format)
   - [Pull Request Message Format](#pull-request-message-format)
   - [Authors](#authors)
-  - [License](#License)
+  - [License](#license)
 
 ## Introduction
 
