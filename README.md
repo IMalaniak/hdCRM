@@ -1,5 +1,21 @@
 # hdCRM
 
+## Table of contents
+
+  - [Table of contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Required Build Environment (Minimum)](#required-build-environment-minimum)
+  - [Required Development Tools](#required-development-tools)
+  - [Cloning The hdCRM Project](#cloning-the-hdcrm-project)
+  - [Local Installation](#local-installation)
+  - [Running Development](#running-development)
+  - [Building Development Instance](#building-development-instance)
+  - [Commit Message Guidelines](#commit-message-guidelines)
+  - [Commit Message Format](#commit-message-format)
+  - [Pull Request Message Format](#pull-request-message-format)
+  - [Authors](#authors)
+  - [License](#License)
+
 ## Introduction
 
 > hdCRM is an ERP software designed to streamline business operations
@@ -14,11 +30,11 @@ PostgreSQL v12.x
 
 ## Required Development Tools
 
-[Visual Studio Code](<[https://code.visualstudio.com/](https://code.visualstudio.com/)>)
+[Visual Studio Code](https://code.visualstudio.com)
 
-[Git](<[https://git-scm.com/](https://git-scm.com/)>)
+[Git](https://git-scm.com)
 
-[pgAdmin](<[https://www.pgadmin.org/](https://www.pgadmin.org/)>)
+[pgAdmin](https://www.pgadmin.org)
 
 Visual Studio Code Extensions:
 
@@ -113,22 +129,6 @@ fix(#1234): subject message
 - Fixed component etc.
 ```
 
-### Revert
-
-If the commit reverts a previous commit, it should begin with `revert:`, followed by the header of the reverted commit. In the body, it should say: `These reverts commit <hash>.`, where the hash is the SHA of the commit being reverted.
-
-```
-revert: "fix(#1234): subject message"
-
-These reverts commit <hash>.
-```
-
-### Cherry Pick
-
-```
-cherry-pick: "fix(#1234): subject message"
-```
-
 ### Scope
 
 The scope should be the id of the GitHub tasks. If we have no task, we can use `external`
@@ -145,6 +145,22 @@ feat(#1234): add new feature
 
 ```
 feat(external): change something externally
+```
+
+### Revert
+
+If the commit reverts a previous commit, it should begin with `revert:`, followed by the header of the reverted commit. In the body, it should say: `These reverts commit <hash>.`, where the hash is the SHA of the commit being reverted.
+
+```
+revert: "fix(#1234): subject message"
+
+These reverts commit <hash>.
+```
+
+### Cherry Pick
+
+```
+cherry-pick: "fix(#1234): subject message"
 ```
 
 ### Merge Commit Messages
@@ -176,3 +192,17 @@ fix/#1234-subject message
 
 - resolves #1234
 ```
+
+## Authors
+
+**Ivan Malaniak**
+
+* [github/IMalaniak](https://github.com/IMalaniak)
+
+**Arsenii Irod**
+
+* [github/ArseniiIrod](https://github.com/ArseniiIrod)
+
+### License
+
+Copyright © 2019
