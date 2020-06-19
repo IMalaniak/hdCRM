@@ -1,4 +1,4 @@
-import { OK, BAD_REQUEST } from 'http-status-codes';
+import { OK, BAD_REQUEST, UNAUTHORIZED, FORBIDDEN } from 'http-status-codes';
 import { Controller, Get, Post } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
@@ -6,13 +6,29 @@ import * as db from '../../models';
 import { Op, ValidationError, UniqueConstraintError } from 'sequelize';
 import Crypt from '../../config/crypt';
 import Mailer from '../../mailer/nodeMailerTemplates';
-import jwt from 'jsonwebtoken';
+import JwtHelper from '../../helpers/jwtHelper';
+import { JwtPayload } from '../../models/JWTPayload';
 
 @Controller('auth/')
 export class AuthController {
-  saveLogInAttempt(req: Request, user: db.User, isSuccess: boolean): Promise<void> {
+  parseCookies(request) {
+    const list = {};
+    const rc = request.headers.cookie;
+
+    if (rc) {
+      rc.split(';').forEach((cookie: string) => {
+        const parts = cookie.split('=');
+        list[parts.shift().trim()] = decodeURI(parts.join('='));
+      });
+    }
+
+    return list;
+  }
+
+  saveLogInAttempt(req: Request, user: db.User, isSuccess: boolean): Promise<db.UserLoginHistory> {
     const defaults: any = {};
-    defaults.IP = req.connection.remoteAddress;
+    defaults.IP = req.ip;
+    // defaults.browser = req.headers['user-agent'];
     if (isSuccess) {
       defaults.dateLastLoggedIn = new Date();
     } else {
@@ -25,13 +41,8 @@ export class AuthController {
       defaults
     }).then(([uLogHistItem, created]) => {
       if (!created) {
-        uLogHistItem.IP = req.connection.remoteAddress;
-        if (isSuccess) {
-          uLogHistItem.dateLastLoggedIn = new Date();
-        } else {
-          uLogHistItem.dateUnsuccessfulLogIn = new Date();
-        }
-        uLogHistItem.save();
+        uLogHistItem.set(defaults);
+        return uLogHistItem.save();
       }
     });
   }
@@ -115,7 +126,7 @@ export class AuthController {
                             Mailer.sendActivation(
                               user,
                               password,
-                              `${process.env.URL}/auth/activate-account/${token.value}`
+                              `${process.env.WEB_URL}/auth/activate-account/${token.value}`
                             )
                               .then(() => {
                                 return res.status(OK).json({
@@ -285,19 +296,17 @@ export class AuthController {
 
         const isMatch = Crypt.validatePassword(password, user.passwordHash, user.salt);
         if (isMatch) {
-          const { id } = user;
-          const payload = {
-            userId: id
-          };
-
-          let token = jwt.sign(payload, process.env.SECRET, {
-            expiresIn: 86400 // 86400s = 1 day //604800s = 1 week
-          });
-          token = `JWT ${token}`;
-
-          this.saveLogInAttempt(req, user, true).then(() => {
-            // res.cookie('jwt', token);
-            return res.status(OK).json(token);
+          this.saveLogInAttempt(req, user, true).then(userSession => {
+            const access_token = JwtHelper.generateToken({ type: 'access', payload: { userId: user.id } });
+            const refreshToken = JwtHelper.generateToken({
+              type: 'refresh',
+              payload: { userId: userSession.UserId, sessionId: userSession.id }
+            });
+            // set cookie for one year, it doest matter, because it has token that itself has an expiration date;
+            const expires = new Date();
+            expires.setFullYear(expires.getFullYear() + 1);
+            res.cookie('refresh_token', refreshToken, { httpOnly: true, expires });
+            return res.status(OK).json(`JWT ${access_token}`);
           });
         } else {
           this.saveLogInAttempt(req, user, false).then(() => {
@@ -313,6 +322,30 @@ export class AuthController {
         Logger.Err(err);
         return res.status(BAD_REQUEST).json(err);
       });
+  }
+
+  @Get('refresh-session')
+  private refreshSession(req: Request, res: Response) {
+    Logger.Info(`Refreshing user session...`);
+    const cookies = this.parseCookies(req);
+    if (cookies['refresh_token']) {
+      JwtHelper.getVerified({ type: 'refresh', token: cookies['refresh_token'] })
+        .then(({ userId }: JwtPayload) => {
+          const newToken = JwtHelper.generateToken({ type: 'access', payload: { userId } });
+          return res.status(OK).json(`JWT ${newToken}`);
+        })
+        .catch(err => {
+          return res.status(FORBIDDEN).send({
+            success: false,
+            message: 'Refresh token expired!'
+          });
+        });
+    } else {
+      return res.status(UNAUTHORIZED).send({
+        success: false,
+        message: 'No refresh token!'
+      });
+    }
   }
 
   @Post('forgot_password')
@@ -339,7 +372,7 @@ export class AuthController {
             .then(pa => {
               const token = Crypt.genTimeLimitedToken(5);
               const sendPasswordResetMail = () => {
-                Mailer.sendPasswordReset(user, `${process.env.URL}/auth/password-reset/${token.value}`)
+                Mailer.sendPasswordReset(user, `${process.env.WEB_URL}/auth/password-reset/${token.value}`)
                   .then(() => {
                     return res.status(OK).json({
                       success: true,

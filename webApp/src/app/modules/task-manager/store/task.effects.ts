@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { map, mergeMap, catchError } from 'rxjs/operators';
+import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
 import { TaskService } from '../services';
 import * as TaskActions from './task.actions';
 import { Task, TaskPriority } from '../models';
@@ -14,15 +14,14 @@ export class TaskEffects {
   loadTasks$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TaskActions.taskListRequested),
-      mergeMap(() =>
+      switchMap(() =>
         this.taskService.getList().pipe(
-          catchError(err => {
-            console.log('error loading a tasks list ', err);
-            return of({});
+          map((tasks: Task[]) => TaskActions.taskListLoaded({ tasks })),
+          catchError((errorResponse: HttpErrorResponse) => {
+            return of(TaskActions.taskListLoadFailed({ error: errorResponse.error }));
           })
         )
-      ),
-      map((tasks: Task[]) => TaskActions.taskListLoaded({ tasks }))
+      )
     )
   );
 
@@ -112,14 +111,14 @@ export class TaskEffects {
   loadPriorities$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TaskActions.taskPrioritiesRequested),
-      mergeMap(() =>
+      switchMap(() =>
         this.taskService.getPriorities().pipe(
+          map((priorities: TaskPriority[]) => TaskActions.taskPrioritiesLoaded({ priorities })),
           catchError((response: HttpErrorResponse) => {
             return of(TaskActions.taskPrioritiesLoadFail({ error: response.error }));
           })
         )
-      ),
-      map((priorities: TaskPriority[]) => TaskActions.taskPrioritiesLoaded({ priorities }))
+      )
     )
   );
 

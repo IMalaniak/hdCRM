@@ -14,6 +14,22 @@ export const logInSuccess = createAction('[Auth API] Login Success', props<{ acc
 
 export const logInFailure = createAction('[Auth API] Login Failure', props<{ response: ApiResponse }>());
 
+export const refreshSession = createAction('[Auth] Refresh Session Token');
+
+export const refreshSessionSuccess = createAction(
+  '[Auth API] Refresh Session Success',
+  props<{ accessToken: string }>()
+);
+
+export const refreshSessionFailure = createAction(
+  '[Auth API] Refresh Session Failure',
+  props<{ response: ApiResponse }>()
+);
+
+export const checkIsTokenValid = createAction('[Auth] Check Token Validity');
+export const checkIsTokenValidSuccess = createAction('[Auth Service] Check Token Validity Success');
+export const checkIsTokenValidFailure = createAction('[Auth Service] Check Token Validity Failure');
+
 export const setNewPassword = createAction('[Auth] Set New Password Requested', props<{ newPassword: NewPassword }>());
 
 export const resetPasswordRequest = createAction('[Auth] Reset Password Requested', props<{ user: User }>());
@@ -42,7 +58,7 @@ export const activateAccountFailure = createAction(
 
 export const logOut = createAction('[Auth] Logout');
 
-export const redirectToLogin = createAction('[Auth] Redirect To Login', props<{ returnUrl: string }>());
+export const redirectToLogin = createAction('[Auth] Redirect To Login');
 
 export const getStatus = createAction('[Auth] Get Status');
 

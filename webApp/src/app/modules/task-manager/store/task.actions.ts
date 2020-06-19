@@ -5,6 +5,7 @@ import { ApiResponse } from '@/shared';
 
 export const taskListRequested = createAction('[Task List] Task List Requested');
 export const taskListLoaded = createAction('[Task Api] Task List Loaded', props<{ tasks: Task[] }>());
+export const taskListLoadFailed = createAction('[Task Api] Task List Load Failed', props<{ error: ApiResponse }>());
 
 export const createTask = createAction('[Add Task] Add Task Requested', props<{ task: Task }>());
 export const createTaskSuccess = createAction('[Task API] Add Task Success', props<{ task: Task }>());

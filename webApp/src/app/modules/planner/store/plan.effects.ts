@@ -55,13 +55,10 @@ export class PlanEffects {
       map(payload => payload.page),
       mergeMap(page =>
         this.planService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
-          catchError(err => {
-            this.store.dispatch(planActions.listPageCancelled());
-            return of({});
-          })
+          map((response: PlanServerResponse) => planActions.listPageLoaded({ response })),
+          catchError(err => of(planActions.listPageCancelled()))
         )
-      ),
-      map((response: PlanServerResponse) => planActions.listPageLoaded({ response }))
+      )
     )
   );
 

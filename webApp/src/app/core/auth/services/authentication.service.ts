@@ -3,10 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '@/modules/users';
 import { ApiResponse, NewPassword } from '@/shared';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
   private api: string;
+  private jwtHelper = new JwtHelperService();
 
   constructor(private http: HttpClient) {
     this.api = '/auth';
@@ -21,7 +23,11 @@ export class AuthenticationService {
   }
 
   login(loginUser: User) {
-    return this.http.post<string>(`${this.api}/authenticate`, loginUser);
+    return this.http.post<string>(`${this.api}/authenticate`, loginUser, { withCredentials: true });
+  }
+
+  refreshSession(): Observable<string> {
+    return this.http.get<string>(`${this.api}/refresh-session`, { withCredentials: true });
   }
 
   activateAccount(token: string): Observable<ApiResponse> {
@@ -40,5 +46,9 @@ export class AuthenticationService {
 
   logout() {
     return this.http.get(`${this.api}/logout`);
+  }
+
+  isTokenValid(token: string): boolean {
+    return !this.jwtHelper.isTokenExpired(token);
   }
 }
