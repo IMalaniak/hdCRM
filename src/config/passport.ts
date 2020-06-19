@@ -13,8 +13,6 @@ export class Passport {
     audience: process.env.WEB_URL
   };
 
-  constructor() {}
-
   public authenticate() {
     return passport.authenticate('jwt', {
       session: false,
