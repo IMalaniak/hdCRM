@@ -13,8 +13,8 @@
   - [Commit Message Guidelines](#commit-message-guidelines)
   - [Commit Message Format](#commit-message-format)
   - [Pull Request Message Format](#pull-request-message-format)
+  - [Contribution Guidelines](#contribution-guidelines)
   - [Authors](#authors)
-  - [License](#license)
 
 ## Introduction
 
@@ -72,7 +72,7 @@ npm install
 
 > Note, that every change in `.env` file needs a server restart
 
-<!-- 4. run command npm run prepare-db:dev script to prepare local db -->
+<!-- 4. Run command npm run prepare-db:dev script to prepare local db -->
 
 ## Running Development
 
@@ -106,6 +106,7 @@ Must be one of the following:
 - **test**: Adding missing tests or correcting existing tests
 - **perf**: A code change that improves performance
 - **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+- **memo**: A doc writing
 
 ## Commit Message Format
 
@@ -176,22 +177,63 @@ We must create pull request message according to the following rules.
 Each pull request messages consists of a header and a body. The header has a special format that includes a type, a scope, and a subject:
 
 ```
-<type>/<#scope>-<subject>
+<type>/<scope>-<subject>
 <BLANK LINE>
 
 <body>
 <BLANK LINE>
 ```
 
-The header is mandatory and the scope should be GitHub task id or external. The body is not mandatory
+The header is mandatory and the scope should be GitHub task id or external. The body has to contain fixing keyword: **`resolves #taskId`**
 
 Example:
 
 ```
 fix/#1234-subject message
 
-- resolves #1234
+resolves #1234
 ```
+
+## Contribution Guidelines
+
+> Every contribution to project requires pull request to be created
+
+### Branch Creating Process
+
+We must create new branch according to the following rules
+
+Each new branch must be created from **`dev`** branch and need to have a special format that includes a type and a scope:
+
+```
+<type>/<scope>
+```
+
+Example:
+
+```
+feat/1234
+```
+
+Use [type](#type) examples for the **`type`**
+
+### Scope
+
+The scope should be the id of the GitHub tasks
+
+- **GitHub task id**
+
+### Pull Request Process
+   
+1. Once you published your branch to the repo, the **`Compare & pull request`** button will appear in [GitHub](https://github.com/)
+   
+2. Follow the [pull request message format](#pull-request-message-format)
+
+3. Follow next steps:
+
+   - Request responsible reviewers
+   - Assign related developers
+   - Add labels
+   - Add related project
 
 ## Authors
 
@@ -202,7 +244,3 @@ fix/#1234-subject message
 **Arsenii Irod**
 
 * [github/ArseniiIrod](https://github.com/ArseniiIrod)
-
-### License
-
-Copyright © 2019
