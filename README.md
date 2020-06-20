@@ -22,11 +22,11 @@
 
 ## Required Build Environment (Minimum)
 
-Node.js latest-v12.x
+[Node.js v12.x](https://nodejs.org/en/)
 
-npm v6.14.x
+[npm v6.14.x](https://www.npmjs.com/)
 
-PostgreSQL v12.x
+[PostgreSQL v12.x](https://www.postgresql.org/)
 
 ## Required Development Tools
 
