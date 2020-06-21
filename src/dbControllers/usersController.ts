@@ -1,6 +1,6 @@
 import * as db from '../models';
 import { Logger } from '@overnightjs/logger';
-import { IncludeOptions, FindOptions } from 'sequelize/types';
+import { IncludeOptions } from 'sequelize/types';
 
 export class UserDBController {
   public includes: IncludeOptions[] = [
@@ -131,5 +131,10 @@ export class UserDBController {
     return db.User.destroy({
       where: { id }
     });
+  }
+
+  public getSession(id: number | string) {
+    Logger.Info(`Gettind user session by id: ${id}...`);
+    return db.UserSession.findByPk(id);
   }
 }

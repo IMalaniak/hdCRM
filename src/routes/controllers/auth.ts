@@ -7,7 +7,8 @@ import { Op, ValidationError, UniqueConstraintError } from 'sequelize';
 import Crypt from '../../config/crypt';
 import Mailer from '../../mailer/nodeMailerTemplates';
 import JwtHelper from '../../helpers/jwtHelper';
-import { JwtPayload } from '../../models/JWTPayload';
+import { JwtDecoded } from '../../models/JWTPayload';
+import { TokenExpiredError } from 'jsonwebtoken';
 
 @Controller('auth/')
 export class AuthController {
@@ -319,15 +320,12 @@ export class AuthController {
     const cookies = this.parseCookies(req);
     if (cookies['refresh_token']) {
       JwtHelper.getVerified({ type: 'refresh', token: cookies['refresh_token'] })
-        .then(({ userId }: JwtPayload) => {
+        .then(({ userId }: JwtDecoded) => {
           const newToken = JwtHelper.generateToken({ type: 'access', payload: { userId } });
           return res.status(OK).json(`JWT ${newToken}`);
         })
-        .catch(err => {
-          return res.status(FORBIDDEN).send({
-            success: false,
-            message: 'Refresh token expired!'
-          });
+        .catch((err: TokenExpiredError) => {
+          return res.status(FORBIDDEN).send(err);
         });
     } else {
       return res.status(UNAUTHORIZED).send({
