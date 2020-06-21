@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize';
 import { User, UserFactory } from './User';
 import { Logger } from '@overnightjs/logger';
-import { UserLoginHistory, UserLoginHistoryFactory } from './UserLoginHistory';
+import { UserSession, UserSessionFactory } from './UserSession';
 import { PasswordAttribute, PasswordAttributeFactory } from './PasswordAttribute';
 import { State, StateFactory } from './State';
 import { Role, RoleFactory } from './Role';
@@ -37,7 +37,7 @@ class DataBase {
     StageFactory(this.sequelize);
     StateFactory(this.sequelize);
     UserFactory(this.sequelize);
-    UserLoginHistoryFactory(this.sequelize);
+    UserSessionFactory(this.sequelize);
     TaskFactory(this.sequelize);
     TaskPriorityFactory(this.sequelize);
 
@@ -63,7 +63,7 @@ class DataBase {
       foreignKey: 'UserId'
     });
     User.belongsTo(State);
-    User.hasOne(UserLoginHistory);
+    User.hasOne(UserSession);
     User.hasOne(Department, {
       as: 'ManagedDepartment',
       foreignKey: 'managerId',
@@ -76,7 +76,7 @@ class DataBase {
       onDelete: 'cascade'
     });
     User.hasMany(Task, { foreignKey: 'CreatorId' });
-    UserLoginHistory.belongsTo(User);
+    UserSession.belongsTo(User);
     PasswordAttribute.belongsTo(User);
     State.hasMany(User);
     Asset.belongsToMany(User, { through: 'UserAssets', foreignKey: 'AssetId' });
@@ -159,7 +159,7 @@ export {
   Stage,
   State,
   User,
-  UserLoginHistory,
+  UserSession,
   Organization,
   Task,
   TaskPriority,

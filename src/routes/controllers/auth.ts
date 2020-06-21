@@ -25,7 +25,7 @@ export class AuthController {
     return list;
   }
 
-  saveLogInAttempt(req: Request, user: db.User, isSuccess: boolean): Promise<db.UserLoginHistory> {
+  saveLogInAttempt(req: Request, user: db.User, isSuccess: boolean): Promise<db.UserSession> {
     const defaults: any = {};
     defaults.IP = req.ip;
     // defaults.browser = req.headers['user-agent'];
@@ -34,7 +34,7 @@ export class AuthController {
     } else {
       defaults.dateUnsuccessfulLogIn = new Date();
     }
-    return db.UserLoginHistory.findOrCreate({
+    return db.UserSession.findOrCreate({
       where: {
         UserId: user.id
       },

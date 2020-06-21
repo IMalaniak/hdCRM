@@ -1,11 +1,16 @@
 import { Sequelize, Model, DataTypes, BelongsToGetAssociationMixin, Association } from 'sequelize';
 import { User } from './User';
 
-export class UserLoginHistory extends Model {
+export class UserSession extends Model {
   public id!: number;
   public IP!: string;
   public dateLastLoggedIn!: Date;
   public dateUnsuccessfulLogIn!: Date;
+  public browser: string;
+
+  // timestamps
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
 
   // from assotiations
   public UserId!: number;
@@ -15,12 +20,12 @@ export class UserLoginHistory extends Model {
   public readonly User?: User;
 
   public static associations: {
-    User: Association<UserLoginHistory, User>;
+    User: Association<UserSession, User>;
   };
 }
 
-export const UserLoginHistoryFactory = (sequelize: Sequelize): void => {
-  const userLoginHistory = UserLoginHistory.init(
+export const UserSessionFactory = (sequelize: Sequelize): void => {
+  const userSession = UserSession.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -30,6 +35,9 @@ export const UserLoginHistoryFactory = (sequelize: Sequelize): void => {
       IP: {
         type: new DataTypes.STRING(20)
       },
+      browser: {
+        type: DataTypes.STRING
+      },
       dateLastLoggedIn: {
         type: DataTypes.DATE
       },
@@ -38,12 +46,10 @@ export const UserLoginHistoryFactory = (sequelize: Sequelize): void => {
       }
     },
     {
-      tableName: 'UserLoginHistory',
-      freezeTableName: true,
-      timestamps: false,
+      tableName: 'UserSession',
       sequelize
     }
   );
 
-  return userLoginHistory;
+  return userSession;
 };

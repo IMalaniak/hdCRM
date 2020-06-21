@@ -30,7 +30,7 @@ import {
   HasManyRemoveAssociationMixin,
   HasManySetAssociationsMixin
 } from 'sequelize';
-import { UserLoginHistory } from './UserLoginHistory';
+import { UserSession } from './UserSession';
 import { PasswordAttribute } from './PasswordAttribute';
 import { State } from './State';
 import { Role } from './Role';
@@ -98,8 +98,8 @@ export class User extends Model {
   public getState!: BelongsToGetAssociationMixin<State>;
   public setState!: BelongsToSetAssociationMixin<State, number>;
 
-  public createUserLoginHistory!: HasOneCreateAssociationMixin<UserLoginHistory>;
-  public getUserLoginHistory!: HasOneGetAssociationMixin<UserLoginHistory>;
+  public createUserSession!: HasOneCreateAssociationMixin<UserSession>;
+  public getUserSession!: HasOneGetAssociationMixin<UserSession>;
 
   public createManagedDepartment!: HasOneCreateAssociationMixin<Department>;
   public getManagedDepartment!: HasOneGetAssociationMixin<Department>;
@@ -130,7 +130,7 @@ export class User extends Model {
   public readonly avatar?: Asset;
   public readonly PlansTakesPartIn?: Plan[];
   public readonly State?: State;
-  public readonly UserLoginHistory?: UserLoginHistory;
+  public readonly UserSession?: UserSession;
   public readonly ManagedDepartment?: Department;
   public readonly Department?: Department;
   public readonly PasswordAttributes?: PasswordAttribute;
@@ -143,7 +143,7 @@ export class User extends Model {
     avatar: Association<User, Asset>;
     PlansTakesPartIn: Association<User, Plan>;
     State: Association<User, State>;
-    UserLoginHistory: Association<User, UserLoginHistory>;
+    UserSession: Association<User, UserSession>;
     ManagedDepartment: Association<User, Department>;
     Department: Association<User, Department>;
     PasswordAttributes: Association<User, PasswordAttribute>;

@@ -21,7 +21,7 @@ export class UserDBController {
       ]
     },
     {
-      model: db.UserLoginHistory
+      model: db.UserSession
     },
     {
       model: db.PasswordAttribute,
