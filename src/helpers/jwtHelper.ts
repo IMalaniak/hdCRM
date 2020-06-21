@@ -22,6 +22,17 @@ class JwtHelper {
     });
   }
 
+  getDecoded(token: string): Promise<JwtDecoded> {
+    return new Promise((resolve, reject) => {
+      try {
+        const verified = jwt.decode(token) as JwtDecoded;
+        resolve(verified);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
   getVerified({ type, token }: VerifyProps): Promise<JwtDecoded | TokenExpiredError> {
     return new Promise((resolve, reject) => {
       try {

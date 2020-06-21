@@ -9,9 +9,12 @@ import Mailer from '../../mailer/nodeMailerTemplates';
 import JwtHelper from '../../helpers/jwtHelper';
 import { JwtDecoded } from '../../models/JWTPayload';
 import { TokenExpiredError } from 'jsonwebtoken';
+import { UserDBController } from '../../dbControllers/usersController';
 
 @Controller('auth/')
 export class AuthController {
+  private userDbCtrl = new UserDBController();
+
   parseCookies(request) {
     const list = {};
     const rc = request.headers.cookie;
@@ -491,9 +494,22 @@ export class AuthController {
   }
 
   @Get('logout')
-  private create(req: Request, res: Response) {
+  private async create(req: Request, res: Response) {
     Logger.Info(`Logging user out...`);
-    req.logout();
-    res.status(OK).json({ message: 'logged out' });
+    const cookies = this.parseCookies(req);
+    const { sessionId } = await JwtHelper.getDecoded(cookies['refresh_token']);
+    this.userDbCtrl
+      .removeSession(sessionId)
+      .then(() => {
+        // force cookie expiration
+        const expires = new Date(1970);
+        res.cookie('refresh_token', null, { httpOnly: true, expires });
+        req.logout();
+        res.status(OK).json({ message: 'logged out' });
+      })
+      .catch((err: any) => {
+        Logger.Err(err);
+        return res.status(BAD_REQUEST).json(err);
+      });
   }
 }

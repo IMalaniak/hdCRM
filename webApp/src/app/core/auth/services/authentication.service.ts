@@ -45,7 +45,7 @@ export class AuthenticationService {
   }
 
   logout() {
-    return this.http.get(`${this.api}/logout`);
+    return this.http.get(`${this.api}/logout`, { withCredentials: true });
   }
 
   isTokenValid(token: string): boolean {
