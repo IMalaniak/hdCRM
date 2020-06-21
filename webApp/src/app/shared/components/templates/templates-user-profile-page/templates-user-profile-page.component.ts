@@ -51,7 +51,7 @@ export class TemplatesUserProfilePageComponent implements OnInit {
     this.store.dispatch(allStatesRequested());
     this.editForm$ = this.store.pipe(select(selectIsEditing));
     this.userInitial = cloneDeep(this.user);
-    if (!!this.user.avatar) {
+    if (!!this.user?.avatar) {
       this.setCover(this.user.avatar);
     }
 

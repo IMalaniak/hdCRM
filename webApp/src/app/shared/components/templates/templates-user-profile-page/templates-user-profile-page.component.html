@@ -80,6 +80,7 @@
       <mat-tab-group mat-stretch-tabs dynamicHeight>
         <!-- Details -->
         <mat-tab label="Details">
+          <ng-template matTabContent>
           <section
             class="app-content-box"
             [cssClass]="'bg-secondary border-0'"
@@ -183,7 +184,13 @@
                 <form class="d-flex flex-column p-3">
                   <mat-form-field appearance="outline">
                     <mat-label i18n="@@userProfileComponentTabDetailsName">Name</mat-label>
-                    <input matInput [(ngModel)]="user.name" name="name" type="text" [readonly]="!(editForm$ | async)" />
+                      <input
+                        matInput
+                        [(ngModel)]="user.name"
+                        name="name"
+                        type="text"
+                        [readonly]="!(editForm$ | async)"
+                      />
                   </mat-form-field>
                   <mat-form-field appearance="outline">
                     <mat-label i18n="@@userProfileComponentTabDetailsSurname">Surname</mat-label>
@@ -257,10 +264,12 @@
               </atoms-icon-button>
             </div>
           </section>
+          </ng-template>
         </mat-tab>
 
         <!-- Password -->
         <mat-tab label="Password" *ngIf="isPasswordTabShow">
+          <ng-template matTabContent>
           <form [formGroup]="userNewPassword" class="password-wrapper">
             <mat-card
               class="mb-3"
@@ -324,7 +333,9 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline">
-              <mat-label i18n=" @@userComponentTabInputPlaceholderConfirmNewPassword ">Confirm new Password</mat-label>
+                <mat-label i18n=" @@userComponentTabInputPlaceholderConfirmNewPassword "
+                  >Confirm new Password</mat-label
+                >
               <input matInput formControlName="verifyPassword" [type]="true ? 'password' : 'text'" />
               <mat-error *ngIf="userNewPassword.get('verifyPassword').invalid">
                 <mat-error
@@ -352,6 +363,7 @@
               Save
             </atoms-icon-button>
           </form>
+          </ng-template>
         </mat-tab>
         <!-- <mat-tab label="Activity"></mat-tab>
         <mat-tab label="Plans"></mat-tab>
