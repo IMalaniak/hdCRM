@@ -26,24 +26,13 @@ export class AuthController {
   }
 
   saveLogInAttempt(req: Request, user: db.User, isSuccess: boolean): Promise<db.UserSession> {
-    const defaults: any = {};
-    defaults.IP = req.ip;
-    // defaults.browser = req.headers['user-agent'];
-    if (isSuccess) {
-      defaults.dateLastLoggedIn = new Date();
-    } else {
-      defaults.dateUnsuccessfulLogIn = new Date();
-    }
-    return db.UserSession.findOrCreate({
-      where: {
-        UserId: user.id
-      },
-      defaults
-    }).then(([uLogHistItem, created]) => {
-      if (!created) {
-        uLogHistItem.set(defaults);
-        return uLogHistItem.save();
-      }
+    const body = {} as db.UserSession;
+    body.IP = req.ip;
+    body.UserId = user.id;
+    body.browser = req.headers['user-agent'];
+    body.isSuccess = isSuccess;
+    return db.UserSession.create({
+      ...body
     });
   }
 

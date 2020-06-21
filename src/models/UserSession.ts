@@ -4,9 +4,8 @@ import { User } from './User';
 export class UserSession extends Model {
   public id!: number;
   public IP!: string;
-  public dateLastLoggedIn!: Date;
-  public dateUnsuccessfulLogIn!: Date;
-  public browser: string;
+  public isSuccess!: boolean;
+  public browser!: string;
 
   // timestamps
   public readonly createdAt!: Date;
@@ -35,14 +34,9 @@ export const UserSessionFactory = (sequelize: Sequelize): void => {
       IP: {
         type: new DataTypes.STRING(20)
       },
+      isSuccess: DataTypes.BOOLEAN,
       browser: {
         type: DataTypes.STRING
-      },
-      dateLastLoggedIn: {
-        type: DataTypes.DATE
-      },
-      dateUnsuccessfulLogIn: {
-        type: DataTypes.DATE
       }
     },
     {

@@ -98,8 +98,13 @@ export class User extends Model {
   public getState!: BelongsToGetAssociationMixin<State>;
   public setState!: BelongsToSetAssociationMixin<State, number>;
 
-  public createUserSession!: HasOneCreateAssociationMixin<UserSession>;
-  public getUserSession!: HasOneGetAssociationMixin<UserSession>;
+  public countUserSessions!: HasManyCountAssociationsMixin;
+  public createUserSession!: HasManyCreateAssociationMixin<UserSession>;
+  public getUserSessions!: HasManyGetAssociationsMixin<UserSession>;
+  public hasUserSessionk!: HasManyHasAssociationMixin<UserSession, number>;
+  public hasUserSessions!: HasManyHasAssociationsMixin<UserSession, number>;
+  public removeUserSession!: HasManyRemoveAssociationMixin<UserSession, number>;
+  public removeUserSessions!: HasManyRemoveAssociationsMixin<UserSession, number>;
 
   public createManagedDepartment!: HasOneCreateAssociationMixin<Department>;
   public getManagedDepartment!: HasOneGetAssociationMixin<Department>;

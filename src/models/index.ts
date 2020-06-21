@@ -63,7 +63,7 @@ class DataBase {
       foreignKey: 'UserId'
     });
     User.belongsTo(State);
-    User.hasOne(UserSession);
+    User.hasMany(UserSession);
     User.hasOne(Department, {
       as: 'ManagedDepartment',
       foreignKey: 'managerId',
