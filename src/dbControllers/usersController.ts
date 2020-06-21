@@ -137,4 +137,16 @@ export class UserDBController {
     Logger.Info(`Gettind user session by id: ${id}...`);
     return db.UserSession.findByPk(id);
   }
+
+  public getSessionList(user: db.User) {
+    Logger.Info(`Gettind session list for user id: ${user.id}...`);
+    return user.getUserSessions();
+  }
+
+  public removeSession(id: number | string | number[] | string[]) {
+    Logger.Info(`Removing user session`);
+    return db.UserSession.destroy({
+      where: { id }
+    });
+  }
 }
