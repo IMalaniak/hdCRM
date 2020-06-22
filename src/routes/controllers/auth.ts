@@ -33,7 +33,7 @@ export class AuthController {
     const body = {} as db.UserSession;
     body.IP = req.ip;
     body.UserId = user.id;
-    body.browser = req.headers['user-agent'];
+    body.UA = req.headers['user-agent'];
     body.isSuccess = isSuccess;
     return db.UserSession.create({
       ...body

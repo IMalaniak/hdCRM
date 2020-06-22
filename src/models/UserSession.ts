@@ -5,7 +5,7 @@ export class UserSession extends Model {
   public id!: number;
   public IP!: string;
   public isSuccess!: boolean;
-  public browser!: string;
+  public UA!: string;
 
   // timestamps
   public readonly createdAt!: Date;
@@ -35,7 +35,7 @@ export const UserSessionFactory = (sequelize: Sequelize): void => {
         type: new DataTypes.STRING(20)
       },
       isSuccess: DataTypes.BOOLEAN,
-      browser: {
+      UA: {
         type: DataTypes.STRING
       }
     },
