@@ -1,6 +1,6 @@
 export interface JwtPayload {
   userId: number;
-  sessionId?: number;
+  sessionId: number;
 }
 
 export interface JwtDecoded {

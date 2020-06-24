@@ -26,6 +26,8 @@ export const refreshSessionFailure = createAction(
   props<{ response: ApiResponse }>()
 );
 
+export const setSessionId = createAction('[Auth Effect] Set Session Id', props<{ sessionId: number }>());
+
 export const checkIsTokenValid = createAction('[Auth] Check Token Validity');
 export const checkIsTokenValidSuccess = createAction('[Auth Service] Check Token Validity Success');
 export const checkIsTokenValidFailure = createAction('[Auth Service] Check Token Validity Failure');

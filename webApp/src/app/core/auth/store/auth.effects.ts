@@ -46,18 +46,16 @@ export class AuthEffects implements OnInitEffects {
     this.actions$.pipe(
       ofType(authActions.logIn),
       map(payload => payload.user),
-      switchMap(userLoginData =>
-        this.authService.login(userLoginData).pipe(
-          map(accessToken => authActions.logInSuccess({ accessToken })),
-          tap(action => {
-            const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
-            this.router.navigateByUrl(returnUrl);
-          }),
-          catchError((errorResponse: HttpErrorResponse) =>
-            of(authActions.logInFailure({ response: errorResponse.error }))
-          )
-        )
-      )
+      switchMap(userLoginData => this.authService.login(userLoginData)),
+      switchMap(accessToken => {
+        const sessionId = this.authService.getTokenDecoded(accessToken).sessionId;
+        return [authActions.logInSuccess({ accessToken }), authActions.setSessionId({ sessionId })];
+      }),
+      tap(() => {
+        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+        this.router.navigateByUrl(returnUrl);
+      }),
+      catchError((errorResponse: HttpErrorResponse) => of(authActions.logInFailure({ response: errorResponse.error })))
     )
   );
 
@@ -177,13 +175,13 @@ export class AuthEffects implements OnInitEffects {
   refreshSession$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authActions.refreshSession),
-      switchMap(() =>
-        this.authService.refreshSession().pipe(
-          map(accessToken => authActions.refreshSessionSuccess({ accessToken })),
-          catchError((errorResponse: HttpErrorResponse) =>
-            of(authActions.refreshSessionFailure({ response: errorResponse.error }))
-          )
-        )
+      switchMap(() => this.authService.refreshSession()),
+      switchMap(accessToken => {
+        const sessionId = this.authService.getTokenDecoded(accessToken).sessionId;
+        return [authActions.refreshSessionSuccess({ accessToken }), authActions.setSessionId({ sessionId })];
+      }),
+      catchError((errorResponse: HttpErrorResponse) =>
+        of(authActions.refreshSessionFailure({ response: errorResponse.error }))
       )
     )
   );

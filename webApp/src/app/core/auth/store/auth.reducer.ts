@@ -6,6 +6,7 @@ import { createReducer, Action, on } from '@ngrx/store';
 export interface AuthState {
   loggedIn: boolean;
   accessToken: string;
+  sessionId: number;
   isTokenValid: boolean;
   isTokenRefreshing: boolean;
   currentUser: User | null;
@@ -16,6 +17,7 @@ export interface AuthState {
 const initialState: AuthState = {
   loggedIn: false,
   accessToken: null,
+  sessionId: null,
   isTokenValid: false,
   isTokenRefreshing: false,
   currentUser: null,
@@ -29,7 +31,13 @@ const authReducer = createReducer(
   on(AuthActions.registerSuccess, state => ({ ...state, loading: false })),
   on(AuthActions.registerFailure, (state, { response }) => ({ ...state, loading: false, apiResp: response })),
   on(AuthActions.logIn, state => ({ ...state, loading: true })),
-  on(AuthActions.logInSuccess, (state, { accessToken }) => ({ ...state, loading: false, loggedIn: true, isTokenValid: true, accessToken })),
+  on(AuthActions.logInSuccess, (state, { accessToken }) => ({
+    ...state,
+    loading: false,
+    loggedIn: true,
+    isTokenValid: true,
+    accessToken
+  })),
   on(AuthActions.logInFailure, (state, { response }) => ({ ...state, loading: false, apiResp: response })),
   on(AuthActions.refreshSession, state => ({ ...state, loading: true })),
   on(AuthActions.refreshSessionSuccess, (state, { accessToken }) => ({
@@ -41,8 +49,9 @@ const authReducer = createReducer(
     accessToken
   })),
   on(AuthActions.refreshSessionFailure, () => ({ ...initialState })),
-  on(AuthActions.checkIsTokenValid, state => ({...state, loading: true})),
-  on(AuthActions.checkIsTokenValidSuccess, state => ({...state, loading: false, isTokenValid: true, loggedIn: true})),
+  on(AuthActions.setSessionId, (state, { sessionId }) => ({ ...state, sessionId })),
+  on(AuthActions.checkIsTokenValid, state => ({ ...state, loading: true })),
+  on(AuthActions.checkIsTokenValidSuccess, state => ({ ...state, loading: false, isTokenValid: true, loggedIn: true })),
   on(AuthActions.checkIsTokenValidFailure, () => ({ ...initialState })),
   on(AuthActions.logOut, () => ({ ...initialState })),
   on(AuthActions.setNewPassword, state => ({ ...state, loading: true })),

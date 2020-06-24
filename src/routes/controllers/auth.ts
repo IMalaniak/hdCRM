@@ -290,7 +290,10 @@ export class AuthController {
         const isMatch = Crypt.validatePassword(password, user.passwordHash, user.salt);
         if (isMatch) {
           this.saveLogInAttempt(req, user, true).then(userSession => {
-            const access_token = JwtHelper.generateToken({ type: 'access', payload: { userId: user.id } });
+            const access_token = JwtHelper.generateToken({
+              type: 'access',
+              payload: { userId: user.id, sessionId: userSession.id }
+            });
             const refreshToken = JwtHelper.generateToken({
               type: 'refresh',
               payload: { userId: userSession.UserId, sessionId: userSession.id }
@@ -323,8 +326,8 @@ export class AuthController {
     const cookies = this.parseCookies(req);
     if (cookies['refresh_token']) {
       JwtHelper.getVerified({ type: 'refresh', token: cookies['refresh_token'] })
-        .then(({ userId }: JwtDecoded) => {
-          const newToken = JwtHelper.generateToken({ type: 'access', payload: { userId } });
+        .then(({ userId, sessionId }: JwtDecoded) => {
+          const newToken = JwtHelper.generateToken({ type: 'access', payload: { userId, sessionId } });
           return res.status(OK).json(`JWT ${newToken}`);
         })
         .catch((err: TokenExpiredError) => {

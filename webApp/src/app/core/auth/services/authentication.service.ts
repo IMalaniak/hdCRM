@@ -51,4 +51,8 @@ export class AuthenticationService {
   isTokenValid(token: string): boolean {
     return !this.jwtHelper.isTokenExpired(token);
   }
+
+  getTokenDecoded(token: string): any {
+    return this.jwtHelper.decodeToken(token);
+  }
 }
