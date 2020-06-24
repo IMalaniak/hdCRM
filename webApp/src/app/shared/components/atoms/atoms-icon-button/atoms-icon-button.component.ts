@@ -25,7 +25,7 @@ import { Component, Input, HostBinding, Output, EventEmitter } from '@angular/co
         (click)="onClick($event)"
         [disabled]="disabled"
       >
-        <fa-icon *ngIf="icon" [icon]="icon"></fa-icon>
+        <fa-icon *ngIf="icon" [ngClass]="[iconClasses]" [icon]="icon"></fa-icon>
       </button>
 
       <button

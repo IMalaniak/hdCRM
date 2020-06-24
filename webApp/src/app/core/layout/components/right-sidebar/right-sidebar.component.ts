@@ -15,8 +15,18 @@ import { OnlineUserListRequested } from '@/modules/users/store/user.actions';
 export class RightSidebarComponent implements OnInit {
   @Input() rightSidebarMinimized: boolean;
 
+  @Input() themeModeSwitched: boolean;
+
+  @Input() fontResized: boolean;
+
   @Output()
   hideRightSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  @Output()
+  switchThemeMode: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  @Output()
+  resizeFont: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @HostBinding('class.minimized') get minimized(): boolean {
     return this.rightSidebarMinimized;
@@ -33,6 +43,18 @@ export class RightSidebarComponent implements OnInit {
 
   get sidebarTipMessage(): string {
     return this.rightSidebarMinimized ? 'Show side panel' : 'Hide side panel';
+  }
+
+  // get fontTipMessage(): string {
+  //   return this.font ? 'Zoom out font' : 'Zoom in font';
+  // }
+
+  toogleThemeMode(): void {
+    this.switchThemeMode.emit(!this.themeModeSwitched);
+  }
+
+  toogleFontSize(): void {
+    this.resizeFont.emit(!this.fontResized);
   }
 
   toggleRightSidebar(): void {

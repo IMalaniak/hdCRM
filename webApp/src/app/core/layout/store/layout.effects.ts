@@ -16,7 +16,7 @@ export class LayoutEffects {
       switchMap(minimized => {
         window.dispatchEvent(new Event('resize'));
         this.localStorage.setObjectKeyValue('layoutSettings', 'hideLeftSidebar', minimized);
-        return of(layoutActions.leftSidebarChangeState({minimized}));
+        return of(layoutActions.leftSidebarChangeState({ minimized }));
       })
     )
   );
@@ -28,7 +28,29 @@ export class LayoutEffects {
       switchMap(minimized => {
         window.dispatchEvent(new Event('resize'));
         this.localStorage.setObjectKeyValue('layoutSettings', 'hideRightSidebar', minimized);
-        return of(layoutActions.rightSidebarChangeState({minimized}));
+        return of(layoutActions.rightSidebarChangeState({ minimized }));
+      })
+    )
+  );
+
+  toogleThemeMode$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(layoutActions.toogleThemeMode),
+      map(payload => payload.switched),
+      switchMap(switched => {
+        this.localStorage.setObjectKeyValue('layoutSettings', 'darkThemeEnabled', switched);
+        return of(layoutActions.themeModeChangeState({ switched }));
+      })
+    )
+  );
+
+  toogleFontSize$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(layoutActions.toogleFontSize),
+      map(payload => payload.resized),
+      switchMap(resized => {
+        this.localStorage.setObjectKeyValue('layoutSettings', 'fontScaleEnabled', resized);
+        return of(layoutActions.fontSizeChangeState({ resized }));
       })
     )
   );
@@ -38,7 +60,7 @@ export class LayoutEffects {
       const settings = this.localStorage.getObject('layoutSettings');
 
       if (!!settings) {
-        return of(layoutActions.initLayoutSettings({settings}));
+        return of(layoutActions.initLayoutSettings({ settings }));
       }
     })
   );

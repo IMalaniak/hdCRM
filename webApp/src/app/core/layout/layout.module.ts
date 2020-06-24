@@ -43,13 +43,17 @@ import {
   faGlobe,
   faUserClock,
   faChevronDown,
-  faEllipsisH
+  faEllipsisH,
+  faFont,
+  faMoon,
+  faSun
 } from '@fortawesome/free-solid-svg-icons';
 import * as fromUser from '@/modules/users/store/user.reducer';
 import { UserEffects } from '@/modules/users/store/user.effects';
 import { UserService } from '@/modules/users';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { TaskManagerModule } from '@/modules/task-manager/task-manager.module';
+import { OverlayContainer } from '@angular/cdk/overlay';
 
 @NgModule({
   imports: [
@@ -85,36 +89,40 @@ import { TaskManagerModule } from '@/modules/task-manager/task-manager.module';
   ]
 })
 export class LayoutModule {
-  constructor(library: FaIconLibrary) {
-    library.addIcons(
-      faFacebookSquare,
-      faTwitterSquare,
-      faInstagram,
-      faHome,
-      faThLarge,
-      faUser,
-      faUsers,
-      faUserTag,
-      faListAlt,
-      faBuilding,
-      faSignOutAlt,
-      faBars,
-      faArrowLeft,
-      faSearch,
-      faQuestion,
-      faCog,
-      faTimes,
-      faSms,
-      faChevronRight,
-      faSignOutAlt,
-      faBriefcase,
-      faMinusCircle,
-      faGhost,
-      faCoffee,
-      faGlobe,
-      faUserClock,
-      faChevronDown,
-      faEllipsisH
-    );
+  constructor(library: FaIconLibrary, overlayContainer: OverlayContainer) {
+    overlayContainer.getContainerElement().classList.add('dark-theme'),
+      library.addIcons(
+        faFacebookSquare,
+        faTwitterSquare,
+        faInstagram,
+        faHome,
+        faThLarge,
+        faUser,
+        faUsers,
+        faUserTag,
+        faListAlt,
+        faBuilding,
+        faSignOutAlt,
+        faBars,
+        faArrowLeft,
+        faSearch,
+        faQuestion,
+        faCog,
+        faTimes,
+        faSms,
+        faChevronRight,
+        faSignOutAlt,
+        faBriefcase,
+        faMinusCircle,
+        faGhost,
+        faCoffee,
+        faGlobe,
+        faUserClock,
+        faChevronDown,
+        faEllipsisH,
+        faFont,
+        faMoon,
+        faSun
+      );
   }
 }

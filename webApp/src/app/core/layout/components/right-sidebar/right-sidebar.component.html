@@ -1,5 +1,20 @@
 <div class="right-sidebar">
   <div class="right-sidebar-content">
+    <div class="layout-settings">
+      <atoms-icon-button
+        matType="icon"
+        [iconColor]="themeModeSwitched ? 'text-secondary' : 'text-warning'"
+        [icon]="themeModeSwitched ? ['fas', 'moon'] : ['fas', 'sun']"
+        (onclick)="toogleThemeMode()"
+      ></atoms-icon-button>
+      <atoms-icon-button
+        matType="icon"
+        [iconColor]="fontResized ? 'text-secondary' : 'text-primary'"
+        [icon]="['fas', 'font']"
+        (onclick)="toogleFontSize()"
+      ></atoms-icon-button>
+    </div>
+
     <templates-box-user-list-sm
       *ngIf="(onlineUsers$ | async).length > 0"
       [users]="onlineUsers$ | async"

@@ -13,7 +13,7 @@ import { privateRouterTransition, MediaqueryService } from '@/shared';
 @Component({
   selector: 'app-private',
   template: `
-    <section class="grid">
+    <section class="grid" [ngClass]="{ 'dark-theme': themeModeSwitched$ | async }">
       <app-header
         [leftSidebarMinimized]="leftSidebarMinimized$ | async"
         [currentUser]="currentUser$ | async"
@@ -25,7 +25,7 @@ import { privateRouterTransition, MediaqueryService } from '@/shared';
           <div
             class="overlay"
             *ngIf="mediaquery.isMobileDevice"
-            [ngClass]="{ isVisible: (!(leftSidebarMinimized$ | async) || !(rightSidebarMinimized$ | async)) }"
+            [ngClass]="{ isVisible: !(leftSidebarMinimized$ | async) || !(rightSidebarMinimized$ | async) }"
             (click)="onOverlayClick()"
           ></div>
           <div class="wrapper">
@@ -36,19 +36,24 @@ import { privateRouterTransition, MediaqueryService } from '@/shared';
           </div>
           <app-right-sidebar
             [rightSidebarMinimized]="rightSidebarMinimized$ | async"
+            [themeModeSwitched]="themeModeSwitched$ | async"
+            [fontResized]="fontResized$ | async"
             (hideRightSidebar)="toggleRightSidebar($event)"
+            (switchThemeMode)="toogleThemeMode($event)"
+            (resizeFont)="toogleFontSize($event)"
           ></app-right-sidebar>
         </section>
       </main>
       <!--      <section class="app-messages" *ngIf="showDebug$ | async"></section> -->
     </section>
   `,
-  styles: [],
   animations: [privateRouterTransition]
 })
 export class PrivateViewComponent implements OnInit, OnDestroy {
   leftSidebarMinimized$: Observable<boolean>;
   rightSidebarMinimized$: Observable<boolean>;
+  themeModeSwitched$: Observable<boolean>;
+  fontResized$: Observable<boolean>;
   showDebug$: Observable<boolean>;
   currentUser$: Observable<User>;
 
@@ -56,10 +61,12 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router, public mediaquery: MediaqueryService, private store: Store<AppState>) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.currentUser$ = this.store.pipe(select(currentUser));
     this.leftSidebarMinimized$ = this.store.pipe(select(fromLayout.getLeftSidebarState));
     this.rightSidebarMinimized$ = this.store.pipe(select(fromLayout.getRightSidebarState));
+    this.themeModeSwitched$ = this.store.pipe(select(fromLayout.getThemeModeState));
+    this.fontResized$ = this.store.pipe(select(fromLayout.getFontState));
     this.showDebug$ = this.store.pipe(select(isPrivileged('debug-view')));
 
     if (this.mediaquery.isMobileDevice) {
@@ -78,6 +85,14 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
 
   toggleRightSidebar(minimized: boolean): void {
     this.store.dispatch(layoutActions.toggleRightSidebar({ minimized }));
+  }
+
+  toogleThemeMode(switched: boolean): void {
+    this.store.dispatch(layoutActions.toogleThemeMode({ switched }));
+  }
+
+  toogleFontSize(resized: boolean): void {
+    this.store.dispatch(layoutActions.toogleFontSize({ resized }));
   }
 
   onOverlayClick(): void {

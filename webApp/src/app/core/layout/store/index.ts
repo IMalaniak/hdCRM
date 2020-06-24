@@ -7,3 +7,5 @@ const getLayoutFeatureState = createFeatureSelector<LayoutState>(layoutFeatureKe
 
 export const getLeftSidebarState = createSelector(getLayoutFeatureState, state => state.hideLeftSidebar);
 export const getRightSidebarState = createSelector(getLayoutFeatureState, state => state.hideRightSidebar);
+export const getThemeModeState = createSelector(getLayoutFeatureState, state => state.switchThemeMode);
+export const getFontState = createSelector(getLayoutFeatureState, state => state.resizeFont);

@@ -23,6 +23,14 @@
 @include mat-core();
 @include angular-material-theme($crm-theme);
 
+.dark-theme {
+  @include angular-material-theme($dark-theme);
+}
+
+// .font-scale {
+//   font-size: 125%;
+// }
+
 body {
   margin: 0;
   height: 100vh;

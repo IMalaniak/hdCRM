@@ -21,6 +21,26 @@ export const rightSidebarChangeState = createAction(
   props<{ minimized: boolean }>()
 );
 
+export const toogleThemeMode = createAction(
+  '[Layout] Toggle Theme Mode',
+  props<{ switched: boolean }>()
+);
+
+export const themeModeChangeState = createAction(
+  '[Layout] Theme Mode State Changed',
+  props<{ switched: boolean }>()
+);
+
+export const toogleFontSize = createAction(
+  '[Layout] Toggle Font Size',
+  props<{ resized: boolean }>()
+);
+
+export const fontSizeChangeState = createAction(
+  '[Layout] Font Size State Changed',
+  props<{ resized: boolean }>()
+);
+
 export const initLayoutSettings = createAction(
   '[Layout] Init Layout Settings',
   props<{ settings: LayoutState }>()
