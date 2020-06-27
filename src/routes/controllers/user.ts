@@ -397,7 +397,7 @@ export class UserController {
       });
   }
 
-  @Delete('session-multiple/:userId')
+  @Put('session-multiple/:sessionIds')
   @Middleware([Passport.authenticate()])
   private deleteMultipleSessions(req: Request, res: Response) {
     this.userDbCtrl

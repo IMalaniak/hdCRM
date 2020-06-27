@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '@/modules/users';
@@ -56,5 +56,13 @@ export class AuthenticationService {
 
   getTokenDecoded(token: string): any {
     return this.jwtHelper.decodeToken(token);
+  }
+
+  deleteSession(id: number): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(`${this.userApi}/session/${id}`);
+  }
+
+  deleteSessionMultiple(sessionIds: number[]): Observable<ApiResponse> {
+    return this.http.put<ApiResponse>(`${this.userApi}/session-multiple/${1}`, { sessionIds });
   }
 }
