@@ -167,7 +167,7 @@ export class AuthEffects implements OnInitEffects {
 
   loginSuccess$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(authActions.logInSuccess, authActions.refreshSessionSuccess),
+      ofType(authActions.logInSuccess, authActions.refreshSessionSuccess, authActions.deleteSessionSuccess),
       switchMap(() => of(authActions.requestCurrentUser()))
     )
   );
@@ -182,6 +182,50 @@ export class AuthEffects implements OnInitEffects {
       }),
       catchError((errorResponse: HttpErrorResponse) =>
         of(authActions.refreshSessionFailure({ response: errorResponse.error }))
+      )
+    )
+  );
+
+  deleteSession$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authActions.deleteSession),
+      map(payload => payload.id),
+      switchMap(id => this.authService.deleteSession(id)),
+      map(response => {
+        Swal.fire({
+          text: 'Session is deactivated',
+          toast: true,
+          icon: 'success',
+          timer: 6000,
+          showConfirmButton: false,
+          position: 'bottom-end'
+        });
+        return authActions.deleteSessionSuccess({ response });
+      }),
+      catchError((errorResponse: HttpErrorResponse) =>
+        of(authActions.deleteSessionFailure({ response: errorResponse.error }))
+      )
+    )
+  );
+
+  deleteMultipleSessions$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authActions.deleteMultipleSession),
+      map(payload => payload.sessionIds),
+      switchMap(sessionIds => this.authService.deleteSessionMultiple(sessionIds)),
+      map(response => {
+        Swal.fire({
+          text: 'Sessions are deactivated',
+          toast: true,
+          icon: 'success',
+          timer: 6000,
+          showConfirmButton: false,
+          position: 'bottom-end'
+        });
+        return authActions.deleteSessionSuccess({ response });
+      }),
+      catchError((errorResponse: HttpErrorResponse) =>
+        of(authActions.deleteSessionFailure({ response: errorResponse.error }))
       )
     )
   );

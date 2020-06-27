@@ -27,10 +27,21 @@ const initialState: AuthState = {
 
 const authReducer = createReducer(
   initialState,
-  on(AuthActions.registerUser, state => ({ ...state, loading: true })),
-  on(AuthActions.registerSuccess, state => ({ ...state, loading: false })),
+  on(
+    AuthActions.registerUser,
+    AuthActions.logIn,
+    AuthActions.refreshSession,
+    AuthActions.deleteSession,
+    AuthActions.deleteMultipleSession,
+    AuthActions.checkIsTokenValid,
+    AuthActions.setNewPassword,
+    AuthActions.resetPasswordRequest,
+    AuthActions.activateAccount,
+    AuthActions.requestCurrentUser,
+    state => ({ ...state, loading: true })
+  ),
+  on(AuthActions.registerSuccess, AuthActions.deleteSessionSuccess, state => ({ ...state, loading: false })),
   on(AuthActions.registerFailure, (state, { response }) => ({ ...state, loading: false, apiResp: response })),
-  on(AuthActions.logIn, state => ({ ...state, loading: true })),
   on(AuthActions.logInSuccess, (state, { accessToken }) => ({
     ...state,
     loading: false,
@@ -39,7 +50,6 @@ const authReducer = createReducer(
     accessToken
   })),
   on(AuthActions.logInFailure, (state, { response }) => ({ ...state, loading: false, apiResp: response })),
-  on(AuthActions.refreshSession, state => ({ ...state, loading: true })),
   on(AuthActions.refreshSessionSuccess, (state, { accessToken }) => ({
     ...state,
     loading: false,
@@ -50,19 +60,15 @@ const authReducer = createReducer(
   })),
   on(AuthActions.refreshSessionFailure, () => ({ ...initialState })),
   on(AuthActions.setSessionId, (state, { sessionId }) => ({ ...state, sessionId })),
-  on(AuthActions.checkIsTokenValid, state => ({ ...state, loading: true })),
+  on(AuthActions.deleteSessionFailure, (state, { response }) => ({ ...state, apiResp: response })),
   on(AuthActions.checkIsTokenValidSuccess, state => ({ ...state, loading: false, isTokenValid: true, loggedIn: true })),
   on(AuthActions.checkIsTokenValidFailure, () => ({ ...initialState })),
   on(AuthActions.logOut, () => ({ ...initialState })),
-  on(AuthActions.setNewPassword, state => ({ ...state, loading: true })),
-  on(AuthActions.resetPasswordRequest, state => ({ ...state, loading: true })),
   on(AuthActions.resetPasswordSuccess, (state, { response }) => ({ ...state, loading: false, apiResp: response })),
   on(AuthActions.resetPasswordFailure, (state, { response }) => ({ ...state, loading: false, apiResp: response })),
-  on(AuthActions.activateAccount, state => ({ ...state, loading: true })),
   on(AuthActions.activateAccountSuccess, (state, { response }) => ({ ...state, loading: false, apiResp: response })),
   on(AuthActions.activateAccountFailure, (state, { response }) => ({ ...state, loading: false, apiResp: response })),
   on(AuthActions.profileSaved, (state, { user }) => ({ ...state, currentUser: user })),
-  on(AuthActions.requestCurrentUser, state => ({ ...state, loading: true })),
   on(AuthActions.currentUserLoaded, (state, { currentUser }) => ({ ...state, currentUser, loading: false })),
   on(AuthActions.currentUserLoadFailed, (state, { response }) => ({ ...state, apiResp: response, loading: false }))
 );
