@@ -34,7 +34,10 @@ import {
   faCompressArrowsAlt,
   faExpandArrowsAlt,
   faUser,
-  faToggleOn
+  faToggleOn,
+  faDesktop,
+  faMobileAlt,
+  faTabletAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { faFontAwesomeFlag } from '@fortawesome/free-brands-svg-icons';
 import { COMPONENTS } from './imports';
@@ -85,7 +88,10 @@ export class SharedModule {
       faCompressArrowsAlt,
       faExpandArrowsAlt,
       faUser,
-      faToggleOn
+      faToggleOn,
+      faDesktop,
+      faTabletAlt,
+      faMobileAlt
     );
   }
 }
