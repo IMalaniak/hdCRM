@@ -83,9 +83,10 @@
           <ng-template matTabContent>
           <section
             class="app-content-box"
-            [cssClass]="'bg-secondary border-0'"
-            [contentCssClass]="'bg-light p-0'"
-            [headCssClass]="'text-white'"
+              cssClass="bg-secondary border-0"
+              title="Details"
+              contentCssClass="bg-light p-0"
+              headCssClass="text-white"
             [disableShadow]="true"
           >
             <div content class="row">
@@ -270,7 +271,15 @@
         <!-- Password -->
         <mat-tab label="Password" *ngIf="isPasswordTabShow">
           <ng-template matTabContent>
-          <form [formGroup]="userNewPassword" class="password-wrapper">
+            <section
+              class="app-content-box"
+              cssClass="bg-secondary border-0"
+              title="Password"
+              contentCssClass="bg-light"
+              headCssClass="text-white"
+              [disableShadow]="true"
+            >
+              <form content [formGroup]="userNewPassword" class="password-wrapper">
             <mat-card
               class="mb-3"
               *ngIf="serverResp"
@@ -355,7 +364,7 @@
             <mat-divider class="mb-4"></mat-divider>
             <atoms-icon-button
               [icon]="['fas', 'save']"
-              [disabled]="(isLoading$ | async) || userNewPassword.invalid"
+                  [disabled]="isLoading || userNewPassword.invalid"
               (onclick)="changeOldPassword(userNewPassword.value)"
               color="primary"
               class="ml-auto"
@@ -363,6 +372,7 @@
               Save
             </atoms-icon-button>
           </form>
+            </section>
           </ng-template>
         </mat-tab>
         <!-- <mat-tab label="Activity"></mat-tab>
