@@ -6,6 +6,7 @@ export interface UserSession {
   UA: string;
   UserId: number;
   User: User;
+  isSuccess: boolean;
   readonly createdAt: Date;
   readonly updatedAt: Date;
 }

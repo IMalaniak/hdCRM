@@ -28,7 +28,7 @@ export interface User {
   avatar: Asset;
   selected: boolean;
   token?: string;
-  UserSessions: UserSession;
+  UserSessions: UserSession[];
   PasswordAttributes: PasswordAttributes;
   Organization: Organization;
   OrganizationId: number;
