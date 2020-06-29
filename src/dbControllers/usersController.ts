@@ -134,12 +134,12 @@ export class UserDBController {
   }
 
   public getSession(id: number | string) {
-    Logger.Info(`Gettind user session by id: ${id}...`);
+    Logger.Info(`Getting user session by id: ${id}...`);
     return db.UserSession.findByPk(id);
   }
 
   public getSessionList(user: db.User) {
-    Logger.Info(`Gettind session list for user id: ${user.id}...`);
+    Logger.Info(`Getting session list for user id: ${user.id}...`);
     return user.getUserSessions();
   }
 

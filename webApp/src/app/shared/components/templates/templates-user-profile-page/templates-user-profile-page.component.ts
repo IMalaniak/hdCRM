@@ -84,7 +84,7 @@ export class TemplatesUserProfilePageComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['user']?.currentValue && this.user) {
       this.userInitial = cloneDeep(this.user);
-      if (!!this.user?.avatar) {
+      if (this.user.avatar) {
         this.setCover(this.user.avatar);
       }
 
@@ -94,7 +94,7 @@ export class TemplatesUserProfilePageComponent implements OnInit, OnChanges {
     }
   }
 
-  mapUserSessions() {
+  mapUserSessions(): void {
     this.currentSession = this.user.UserSessions.find(uSession => uSession.id === this.currentSessionId);
     this.otherActiveSessions = this.user.UserSessions.filter(
       uSession => uSession.id !== this.currentSessionId && uSession.isSuccess
@@ -218,6 +218,6 @@ export class TemplatesUserProfilePageComponent implements OnInit, OnChanges {
   }
 
   get isShowSessionTab(): boolean {
-    return this.tabsToShow.includes('session');
+    return this.tabsToShow.includes('sessions');
   }
 }

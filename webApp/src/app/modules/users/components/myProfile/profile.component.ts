@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit {
   currentSessionId$: Observable<number>;
   isLoading$: Observable<boolean>;
   serverResponse$: Observable<ApiResponse>;
-  tabsToShow: string[] = ['details', 'password', 'session'];
+  tabsToShow: string[] = ['details', 'password', 'sessions'];
 
   constructor(private store: Store<AppState>, private route: ActivatedRoute) {}
 
@@ -39,8 +39,7 @@ export class ProfileComponent implements OnInit {
 
   removeSession(sessionIds: number | number[]): void {
     if (typeof sessionIds === 'number') {
-      const id = sessionIds as number;
-      this.store.dispatch(deleteSession({ id }));
+      this.store.dispatch(deleteSession({ id: sessionIds }));
     } else {
       this.store.dispatch(deleteMultipleSession({ sessionIds }));
     }

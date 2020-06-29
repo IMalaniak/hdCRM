@@ -2,7 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '@/modules/users';
-import { ApiResponse, NewPassword } from '@/shared';
+import { ApiResponse, NewPassword, JwtDecoded } from '@/shared';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({ providedIn: 'root' })
@@ -54,7 +54,7 @@ export class AuthenticationService {
     return !this.jwtHelper.isTokenExpired(token);
   }
 
-  getTokenDecoded(token: string): any {
+  getTokenDecoded(token: string): JwtDecoded {
     return this.jwtHelper.decodeToken(token);
   }
 
@@ -63,6 +63,7 @@ export class AuthenticationService {
   }
 
   deleteSessionMultiple(sessionIds: number[]): Observable<ApiResponse> {
+    // TODO @IMalaniak, change this to delete request with body
     return this.http.put<ApiResponse>(`${this.userApi}/session-multiple/${1}`, { sessionIds });
   }
 }
