@@ -382,4 +382,32 @@ export class UserController {
         return res.status(BAD_REQUEST).json(error.toString());
       });
   }
+
+  @Delete('session/:id')
+  @Middleware([Passport.authenticate()])
+  private deleteSession(req: Request, res: Response) {
+    this.userDbCtrl
+      .removeSession(req.params.id)
+      .then(response => {
+        return res.status(OK).json(response);
+      })
+      .catch((error: any) => {
+        Logger.Err(error);
+        return res.status(BAD_REQUEST).json(error.toString());
+      });
+  }
+
+  @Put('session-multiple/:sessionIds')
+  @Middleware([Passport.authenticate()])
+  private deleteMultipleSessions(req: Request, res: Response) {
+    this.userDbCtrl
+      .removeSession(req.body.sessionIds)
+      .then(response => {
+        return res.status(OK).json(response);
+      })
+      .catch((error: any) => {
+        Logger.Err(error);
+        return res.status(BAD_REQUEST).json(error.toString());
+      });
+  }
 }

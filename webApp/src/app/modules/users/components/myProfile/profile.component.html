@@ -1,9 +1,11 @@
 <templates-user-profile-page
   [user]="user$ | async"
+  [currentSessionId]="currentSessionId$ | async"
   [states]="states$ | async"
   [canEdit]="true"
   [isLoading]="isLoading$ | async"
   [serverResponse]="serverResponse$ | async"
   [tabsToShow]="tabsToShow"
   (changePassword)="changePassword($event)"
+  (removeSession)="removeSession($event)"
 ></templates-user-profile-page>

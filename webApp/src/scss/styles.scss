@@ -144,6 +144,7 @@ main {
     width: 3.125rem;
   }
 
+  .mat-header-cell,
   .mat-sort-header-button {
     text-transform: uppercase;
     font-style: italic;
@@ -184,6 +185,13 @@ main {
     font-size: 1.25em;
     @include crm-textcolor('theme', 'primary');
   }
+}
+
+// TODO: @IMalaniak check if we can use mat-icon with font-awesome
+.mat-list-icon svg {
+  width: inherit !important;
+  height: inherit !important;
+  vertical-align: unset;
 }
 
 .mat-sort-header-container {

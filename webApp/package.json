@@ -58,6 +58,7 @@
     "sweetalert2": "^9.7.2",
     "tslib": "^1.10.0",
     "typescript": "~3.7.5",
+    "ua-parser-js": "^0.7.21",
     "zone.js": "~0.10.3"
   },
   "devDependencies": {
@@ -67,6 +68,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^13.7.1",
     "@types/socket.io": "^2.1.4",
+    "@types/ua-parser-js": "^0.7.33",
     "codelyzer": "^5.2.1",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
