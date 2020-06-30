@@ -1,8 +1,3 @@
-export interface JwtPayload {
-  userId: number;
-  sessionId: number;
-}
-
 export interface JwtDecoded {
   readonly aud: string;
   readonly exp: number;

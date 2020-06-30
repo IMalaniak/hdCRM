@@ -13,6 +13,8 @@ export const currentUser = createSelector(selectAuthState, auth => auth.currentU
 
 export const getToken = createSelector(selectAuthState, auth => auth.accessToken);
 
+export const getSessionId = createSelector(selectAuthState, auth => auth.sessionId);
+
 export const isTokenRefreshing = createSelector(selectAuthState, auth => auth.isTokenRefreshing);
 
 export const isTokenValid = createSelector(selectAuthState, auth => auth.isTokenValid);

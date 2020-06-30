@@ -26,6 +26,21 @@ export const refreshSessionFailure = createAction(
   props<{ response: ApiResponse }>()
 );
 
+export const setSessionId = createAction('[Auth Effect] Set Session Id', props<{ sessionId: number }>());
+export const deleteSession = createAction('[Session Tab] Delete User Session', props<{ id: number }>());
+export const deleteMultipleSession = createAction(
+  '[Session Tab] Delete User Multiple Sessions',
+  props<{ sessionIds: number[] }>()
+);
+export const deleteSessionSuccess = createAction(
+  '[Users API] Delete User Session Success',
+  props<{ response: ApiResponse }>()
+);
+export const deleteSessionFailure = createAction(
+  '[Users API] Delete User Session Failure',
+  props<{ response: ApiResponse }>()
+);
+
 export const checkIsTokenValid = createAction('[Auth] Check Token Validity');
 export const checkIsTokenValidSuccess = createAction('[Auth Service] Check Token Validity Success');
 export const checkIsTokenValidFailure = createAction('[Auth Service] Check Token Validity Failure');
