@@ -3,12 +3,12 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'organisms-card',
   template: `
-    <div class="card" [ngClass]="{ shadow: !disableShadow }">
-      <h5 *ngIf="cardTitle" class="card-title">{{ cardTitle }}</h5>
-      <div class="card-body">
+    <mat-card [ngClass]="{ shadow: !disableShadow }">
+      <h5 *ngIf="cardTitle">{{ cardTitle }}</h5>
+      <mat-card-content>
         <ng-content></ng-content>
-      </div>
-    </div>
+      </mat-card-content>
+    </mat-card>
   `,
   styleUrls: ['./organisms-card.component.scss']
 })
