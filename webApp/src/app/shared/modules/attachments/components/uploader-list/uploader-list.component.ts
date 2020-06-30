@@ -15,9 +15,12 @@ import { FilePond } from 'filepond';
 })
 export class UploaderListComponent implements OnInit {
   @ViewChild('uploader') uploader: FilePond;
+
   @Input() url: string;
-  @Output() addFileCall: EventEmitter<any> = new EventEmitter();
-  uploaderOptions: any; // TODO FilePondOptionProps
+
+  @Output() addFileCall: EventEmitter<Asset> = new EventEmitter();
+
+  uploaderOptions: any; // TODO: @IMalaniak add FilePondOptionProps
   token: string;
   tempFiles: TempAddedAsset[] = [];
 
@@ -69,7 +72,8 @@ export class UploaderListComponent implements OnInit {
   }
 
   uploaderHandleAddFile(data: any) {
-    const asset = JSON.parse(data) as Asset;
+    // TODO: @IMalaniak add data type
+    const asset: Asset = JSON.parse(data);
     this.addFileCall.emit(asset);
     setTimeout(() => {
       const toRemove = this.tempFiles.find(item => {
@@ -78,6 +82,4 @@ export class UploaderListComponent implements OnInit {
       this.uploader.removeFile(toRemove.id);
     }, 3000);
   }
-
-
 }

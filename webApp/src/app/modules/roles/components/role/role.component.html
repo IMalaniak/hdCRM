@@ -1,13 +1,13 @@
 <section
   class="app-content-box"
   [title]="'Role: ' + role.keyString"
-  [cssClass]="'bg-secondary border-0'"
-  [contentCssClass]="'bg-light'"
-  [headCssClass]="'text-white'"
+  cssClass="bg-secondary border-0"
+  contentCssClass="bg-light"
+  headCssClass="text-white"
   *ngIf="role"
 >
   <section content class="row">
-    <div class="col-sm-8">
+    <div class="col-sm-12 col-md-7 col-lg-8">
       <form class="d-flex flex-column">
         <mat-form-field appearance="outline">
           <mat-label i18n="@@roleСomponentTabDetailsTitle">Title</mat-label>
@@ -17,9 +17,9 @@
       <!-- <span i18n="@@roleComponentFormLabelsPrivileges">Privileges:</span> -->
       <section
         class="app-content-box"
-        [title]="'Privileges'"
-        [cssClass]="'border border-secondary m-0'"
-        [contentCssClass]="'p-0'"
+        title="Privileges"
+        cssClass="border border-secondary m-0"
+        contentCssClass="p-0"
         [disableShadow]="true"
         [counter]="role.Privileges.length"
       >
@@ -98,7 +98,7 @@
         </div>
       </section>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-12 col-md-5 col-lg-4">
       <templates-box-user-list-sm
         [users]="role.Users"
         title="Users"
