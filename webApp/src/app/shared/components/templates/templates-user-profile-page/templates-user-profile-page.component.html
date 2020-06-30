@@ -5,75 +5,11 @@
         <img src="{{ coverUrl }}" alt="{{ coverTitle }}" />
       </div>
 
-      <molecules-profile-pic-with-uploader
-        [avatar]="user.avatar"
-        [apiUrl]="'/users/' + user.id + '/avatar'"
+      <templates-user-details
+        [user]="user"
+        [isDialog]="true"
         (addFileCall)="updateUserStore($event)"
-      ></molecules-profile-pic-with-uploader>
-
-      <div class="profile-aside-details">
-        <div class="profile-captions">
-          <fa-icon [icon]="['fas', 'user']" class="icon icon-normal"></fa-icon>
-          <h5>{{ user.fullname }}</h5>
-        </div>
-        <div class="profile-captions">
-          <fa-icon [icon]="['fas', 'info']" class="icon icon-normal"></fa-icon>
-          <h5 i18n="@@userProfileComponentAsideDetailsHeader">
-            {{ 'Details' | uppercase }}
-          </h5>
-        </div>
-        <mat-divider></mat-divider>
-        <div class="details" *ngIf="user.Department">
-          <div class="profile-captions">
-            <fa-icon [icon]="['fas', 'building']" class="icon icon-mini"></fa-icon>
-            <h6 i18n="@@userProfileComponentAsideDetailsDep">
-              {{ 'Department' | uppercase }}
-            </h6>
-          </div>
-          <a routerLink="/departments/details/{{ user.Department.id }}"
-            ><span>{{ user.Department.title }}</span></a
-          >
-        </div>
-        <div class="details" *ngIf="user.Roles && user.Roles.length">
-          <div class="profile-captions">
-            <fa-icon [icon]="['fas', 'user-tag']" class="icon icon-mini"></fa-icon>
-            <h6 i18n="@@userProfileComponentAsideDetailsRoles">
-              {{ 'Roles' | uppercase }}
-            </h6>
-          </div>
-          <ul>
-            <li>
-              <span class="role-titles" *ngFor="let role of user.Roles; last as isLast">{{ role.keyString }}</span>
-            </li>
-          </ul>
-        </div>
-        <div class="details" *ngIf="user.State">
-          <div class="profile-captions">
-            <fa-icon [icon]="['fas', 'toggle-on']" class="icon icon-mini"></fa-icon>
-            <h6 i18n="@@userProfileComponentAsideDetailsStateHeader">
-              {{ 'State' | uppercase }}
-            </h6>
-          </div>
-          <span i18n="@@userProfileComponentAsideDetailsStateStatus">{{ user.State.keyString }}</span>
-        </div>
-        <div class="profile-captions">
-          <fa-icon [icon]="['fas', 'envelope']" class="icon icon-normal"></fa-icon>
-          <h5 i18n="@@userProfileComponentAsideDetailsContactHeader">
-            {{ 'Contact' | uppercase }}
-          </h5>
-        </div>
-        <mat-divider></mat-divider>
-        <div class="details">
-          <a class="profile-captions" *ngIf="user.email" href="mailto:{{ user.email }}">
-            <fa-icon [icon]="['fas', 'envelope']" class="icon icon-mini"></fa-icon
-            ><span class="contact-email">{{ user.email }}</span>
-          </a>
-          <div class="profile-captions" *ngIf="user.phone">
-            <fa-icon [icon]="['fas', 'phone']" class="icon icon-mini"></fa-icon
-            ><span class="contact-phone">{{ user.phone }}</span>
-          </div>
-        </div>
-      </div>
+      ></templates-user-details>
     </aside>
 
     <div class="col-sm-12 col-md-8 col-lg-9 tabs">
