@@ -37,9 +37,9 @@ export class MediaqueryService {
     };
     if (this.upToPhone.matches) {
       config = {
-        height: '99vh',
-        width: '99vw',
-        maxWidth: '99vw'
+        height: 'fit-content',
+        width: '90vw',
+        maxWidth: '90vw'
       };
     }
     return config;
