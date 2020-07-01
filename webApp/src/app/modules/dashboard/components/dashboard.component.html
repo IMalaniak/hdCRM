@@ -11,7 +11,7 @@
           <atoms-link-button
             [linkLabel]="appUser.Department.title"
             linkType="router"
-            routerLink="/departments/details/{{ appUser.Department.id }}"
+            linkHref="/departments/details/{{ appUser.Department.id }}"
           ></atoms-link-button>
         </li>
         <li class="roles" *ngIf="appUser.Roles">

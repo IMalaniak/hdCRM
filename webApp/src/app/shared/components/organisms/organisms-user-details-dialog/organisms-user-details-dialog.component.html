@@ -1,12 +1,18 @@
 <mat-dialog-actions class="d-flex justify-content-end pt-0 pb-3">
-  <atoms-icon-button matType="icon" (onclick)="onNoClick()" [icon]="['fas', 'times']" color="basic">
+  <atoms-icon-button matType="icon" (onclick)="dialogRef.close()" [icon]="['fas', 'times']" color="basic">
   </atoms-icon-button>
 </mat-dialog-actions>
 <mat-dialog-content class="px-0">
-  <templates-user-details [user]="user" [isDialog]="false"></templates-user-details>
+  <templates-user-details [user]="user" [isDialog]="true"></templates-user-details>
 </mat-dialog-content>
 <mat-dialog-actions class="d-flex justify-content-end pb-4">
-  <atoms-icon-button matType="stroked" [icon]="['fas', 'arrow-right']" color="basic" (onclick)="navigateToUser()">
+  <atoms-icon-button
+    matType="stroked"
+    [icon]="['fas', 'arrow-right']"
+    color="basic"
+    (onclick)="dialogRef.close()"
+    routerLink="/users/details/{{ user.id }}"
+  >
     More details
   </atoms-icon-button>
 </mat-dialog-actions>

@@ -9,7 +9,7 @@ import { Asset } from '@/shared';
 })
 export class TemplatesUserDetailsComponent {
   @Input() user: User;
-  @Input() isDialog: boolean;
+  @Input() isDialog = false;
 
   @Output() addFileCall: EventEmitter<Asset> = new EventEmitter();
 
