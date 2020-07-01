@@ -1,1 +1,9 @@
-// Delete file, if will no need in the feature
+.card {
+  &-title {
+    padding: 1em 1em 0;
+  }
+
+  &-body {
+    padding-top: 0;
+  }
+}
