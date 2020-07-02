@@ -4,18 +4,24 @@ import { User } from '@/modules/users';
 @Component({
   selector: 'templates-box-user-list-sm',
   template: `
-    <section
-      class="app-content-box"
-      [title]="title"
-      [cssClass]="boxCss"
-      contentCssClass="p-0"
+    <organisms-card
+      [cardTitle]="title"
+      [cardClass]="boxCss"
+      contentClass="p-0"
       [disableShadow]="true"
       [counter]="users.length"
     >
-      <atoms-icon-button *ngIf="editMode" buttons type="stroked" [icon]="['fas', 'user-plus']" (click)="onAddClick()">Add</atoms-icon-button>
+      <atoms-icon-button *ngIf="editMode" buttons type="stroked" [icon]="['fas', 'user-plus']" (click)="onAddClick()"
+        >Add</atoms-icon-button
+      >
 
-      <organisms-user-list-sm content [editMode]="editMode" [users]="users" (removeClick)="onRemoveClick($event)"></organisms-user-list-sm>
-    </section>
+      <organisms-user-list-sm
+        content
+        [editMode]="editMode"
+        [users]="users"
+        (removeClick)="onRemoveClick($event)"
+      ></organisms-user-list-sm>
+    </organisms-card>
   `
 })
 export class TemplatesBoxUserListSmComponent {
@@ -32,5 +38,4 @@ export class TemplatesBoxUserListSmComponent {
   onRemoveClick(id: number): void {
     this.removeClick.emit(id);
   }
-
 }

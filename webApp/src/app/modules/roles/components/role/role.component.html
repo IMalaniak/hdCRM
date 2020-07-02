@@ -1,11 +1,4 @@
-<section
-  class="app-content-box"
-  [title]="'Role: ' + role.keyString"
-  [cssClass]="'bg-secondary border-0'"
-  [contentCssClass]="'bg-light'"
-  [headCssClass]="'text-white'"
-  *ngIf="role"
->
+<organisms-card [cardTitle]="'Role: ' + role.keyString" *ngIf="role">
   <section content class="row">
     <div class="col-sm-8">
       <form class="d-flex flex-column">
@@ -15,11 +8,9 @@
         </mat-form-field>
       </form>
       <!-- <span i18n="@@roleComponentFormLabelsPrivileges">Privileges:</span> -->
-      <section
-        class="app-content-box"
-        [title]="'Privileges'"
-        [cssClass]="'border border-secondary m-0'"
-        [contentCssClass]="'p-0'"
+      <organisms-card
+        cardTitle="Privileges"
+        cardClass="border border-secondary m-0"
         [disableShadow]="true"
         [counter]="role.Privileges.length"
       >
@@ -96,7 +87,7 @@
             <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
           </mat-table>
         </div>
-      </section>
+      </organisms-card>
     </div>
     <div class="col-sm-4">
       <templates-box-user-list-sm
@@ -119,4 +110,4 @@
       Cancel
     </atoms-icon-button>
   </div>
-</section>
+</organisms-card>

@@ -1,16 +1,4 @@
-<!--
-<section class="app-content-box" [title]="'PLANNER.Search.header'" [cssClass]="'search-advanced'">
-
-</section>
--->
-<section
-  class="app-content-box"
-  [title]="'Plan list'"
-  [cssClass]="'bg-secondary border-0'"
-  [contentCssClass]="'bg-light p-0'"
-  [headCssClass]="'text-white'"
-  [showDataLoader]="loading$ | async"
->
+<organisms-card cardTitle="Plan list" [showDataLoader]="loading$ | async">
   <div buttons *ngIf="addPlanPrivilege$ | async">
     <atoms-icon-button *ngIf="!editForm" routerLink="/planner/add" [icon]="['fas', 'plus']">
       Create a new plan
@@ -105,4 +93,4 @@
     [pageSizeOptions]="[5, 10, 15]"
     showFirstLastButtons
   ></mat-paginator>
-</section>
+</organisms-card>

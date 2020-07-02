@@ -81,14 +81,7 @@
         <!-- Details -->
         <mat-tab label="Details">
           <ng-template matTabContent>
-            <section
-              class="app-content-box"
-              cssClass="bg-secondary border-0"
-              title="Details"
-              contentCssClass="bg-light p-0"
-              headCssClass="text-white"
-              [disableShadow]="true"
-            >
+            <organisms-card cardTitle="Details" [disableShadow]="true">
               <div content class="row">
                 <div *ngIf="!(editForm$ | async)" class="col-md-12 col-lg-6">
                   <mat-list>
@@ -264,21 +257,14 @@
                   Cancel
                 </atoms-icon-button>
               </div>
-            </section>
+            </organisms-card>
           </ng-template>
         </mat-tab>
 
         <!-- Password -->
         <mat-tab label="Password" *ngIf="isPasswordTabShow">
           <ng-template matTabContent>
-            <section
-              class="app-content-box"
-              cssClass="bg-secondary border-0"
-              title="Password"
-              contentCssClass="bg-light"
-              headCssClass="text-white"
-              [disableShadow]="true"
-            >
+            <organisms-card cardTitle="Password" [disableShadow]="true">
               <form content [formGroup]="userNewPassword" class="password-wrapper">
                 <mat-card
                   class="mb-3"
@@ -361,7 +347,7 @@
                     </mat-error>
                   </mat-error>
                 </mat-form-field>
-                <mat-divider class="mb-4"></mat-divider>
+
                 <atoms-icon-button
                   [icon]="['fas', 'save']"
                   [disabled]="isLoading || userNewPassword.invalid"
@@ -372,20 +358,13 @@
                   Save
                 </atoms-icon-button>
               </form>
-            </section>
+            </organisms-card>
           </ng-template>
         </mat-tab>
 
         <mat-tab label="Sessions" *ngIf="isShowSessionTab">
           <ng-template matTabContent>
-            <section
-              class="app-content-box"
-              cssClass="bg-secondary border-0"
-              title="Sessions"
-              contentCssClass="bg-light d-flex justify-content-center"
-              headCssClass="text-white"
-              [disableShadow]="true"
-            >
+            <organisms-card cardTitle="Sessions" contentClass="d-flex justify-content-center" [disableShadow]="true">
               <mat-list content class="w-75">
                 <div mat-subheader>Current session</div>
                 <mat-list-item>
@@ -423,7 +402,7 @@
                   </mat-list-item>
                 </ng-container>
               </mat-list>
-            </section>
+            </organisms-card>
           </ng-template>
         </mat-tab>
         <!-- <mat-tab label="Activity"></mat-tab>

@@ -1,11 +1,4 @@
-<section
-  class="app-content-box"
-  [title]="'Department list'"
-  [cssClass]="'bg-secondary border-0'"
-  [contentCssClass]="'bg-light p-0'"
-  [headCssClass]="'text-white'"
-  [showDataLoader]="loading$ | async"
->
+<organisms-card cardTitle="Department list" [showDataLoader]="loading$ | async">
   <div buttons *ngIf="addDepPrivilege$ | async">
     <atoms-icon-button routerLink="/departments/add" [icon]="['fas', 'plus']">
       Create a new department
@@ -94,4 +87,4 @@
     [pageSizeOptions]="[5, 10, 15]"
     showFirstLastButtons
   ></mat-paginator>
-</section>
+</organisms-card>

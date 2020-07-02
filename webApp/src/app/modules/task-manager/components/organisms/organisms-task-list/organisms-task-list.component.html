@@ -1,11 +1,4 @@
-<section
-  class="app-content-box"
-  title="Tasks"
-  cssClass="border-0 my-0"
-  contentCssClass="bg-light p-0"
-  headCssClass="text-black text-uppercase"
-  [counter]="tasks.length"
->
+<organisms-card cardTitle="Tasks" headClass="text-uppercase" [counter]="tasks.length">
   <div buttons>
     <atoms-icon-button
       matType="icon"
@@ -53,4 +46,4 @@
       </mat-expansion-panel>
     </mat-accordion>
   </div>
-</section>
+</organisms-card>
