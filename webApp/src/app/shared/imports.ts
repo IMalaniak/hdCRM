@@ -10,11 +10,7 @@ const MOLECULES = [
   _components.MoleculesUserListSmItemComponent,
   _components.MoleculesChartComponent
 ];
-const ORGANISMS = [
-  _components.ContentBoxComponent,
-  _components.OrganismsUserListSmComponent,
-  _components.OrganismsCardComponent
-];
+const ORGANISMS = [_components.OrganismsUserListSmComponent, _components.OrganismsCardComponent];
 const TEMPLATES = [
   _components.TemplatesAttachmentsListComponent,
   _components.TemplatesBoxUserListSmComponent,
