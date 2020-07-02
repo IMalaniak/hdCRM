@@ -14,14 +14,17 @@ import { FilePond } from 'filepond';
 })
 export class ProfilepicUploaderComponent implements OnInit {
   @ViewChild('picuploader') picuploader: FilePond;
+
   @Input() url: string;
-  @Output() addFileCall: EventEmitter<any> = new EventEmitter();
-  uploaderOptions: any; // TODO: FilePondOptionProps;
+
+  @Output() addFileCall: EventEmitter<Asset> = new EventEmitter();
+
+  uploaderOptions: any; // TODO: @IMalaniak add FilePondOptionProps;
   token: string;
 
   constructor(private store$: Store<AppState>) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.store$.pipe(select(getToken)).subscribe(token => {
       this.token = token;
     });
@@ -63,7 +66,8 @@ export class ProfilepicUploaderComponent implements OnInit {
   }
 
   uploaderHandleAddFile(data: any) {
-    const asset = JSON.parse(data) as Asset;
+    // TODO: @IMalaniak add data type
+    const asset: Asset = JSON.parse(data);
     this.addFileCall.emit(asset);
   }
 }
