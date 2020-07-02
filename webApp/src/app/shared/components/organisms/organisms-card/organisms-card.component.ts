@@ -49,7 +49,7 @@ export class OrganismsCardComponent {
   }
 
   get cardClasses(): string {
-    return `card ${this.cardClass} ${this.disableShadow ? 'shadow-none' : ''}`;
+    return `card ${this.cardClass} ${this.disableShadow ? 'shadow-none' : ''}`.trim();
   }
 
   get contentClasses(): string {
