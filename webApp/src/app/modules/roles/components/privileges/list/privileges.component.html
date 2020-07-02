@@ -1,11 +1,4 @@
-<section
-  class="app-content-box"
-  [title]="'Privilege groups'"
-  [showDataLoader]="isLoading$ | async"
-  [cssClass]="'bg-secondary border-0'"
-  [contentCssClass]="'bg-light p-0'"
-  [headCssClass]="'text-white'"
->
+<organisms-card cardTitle="Privilege groups" [showDataLoader]="isLoading$ | async">
   <div buttons>
     <atoms-icon-button (onclick)="createPrivilegeDialog()" [icon]="['fas', 'plus']">
       Create
@@ -46,4 +39,4 @@
 
     <!-- <mat-paginator [length]="resultsLength$ | async" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator> -->
   </div>
-</section>
+</organisms-card>

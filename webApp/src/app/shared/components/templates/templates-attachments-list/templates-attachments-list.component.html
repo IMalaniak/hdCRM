@@ -1,9 +1,8 @@
-<section
-  class="app-content-box"
-  [title]="'Attachments'"
-  [cssClass]="'bg-secondary border-0'"
-  [contentCssClass]="'bg-light p-0'"
-  [headCssClass]="'text-white'"
+<organisms-card
+  cardTitle="Attachments"
+  cardClass="bg-secondary border-0"
+  contentClass="bg-light p-0"
+  headClass="text-white"
   [counter]="attachments.length"
 >
   <section content *ngIf="attachments && attachments.length > 0">
@@ -33,7 +32,12 @@
       <ng-container matColumnDef="actions" stickyEnd>
         <mat-header-cell *matHeaderCellDef i18n="@@globalsListActions"></mat-header-cell>
         <mat-cell *matCellDef="let item">
-          <atoms-icon-button color="warn" [icon]="['fas', 'trash-alt']" matType="icon" (onclick)="handleDeleteFile(item.id)">
+          <atoms-icon-button
+            color="warn"
+            [icon]="['fas', 'trash-alt']"
+            matType="icon"
+            (onclick)="handleDeleteFile(item.id)"
+          >
           </atoms-icon-button>
         </mat-cell>
       </ng-container>
@@ -48,7 +52,9 @@
     </p>
   </section>
 
-  <app-uploader-list content *ngIf="uploaderVisible"
+  <app-uploader-list
+    content
+    *ngIf="uploaderVisible"
     [url]="apiUrl"
     (deleteFileCall)="handleDeleteFile($event)"
     (addFileCall)="handleAddFile($event)"
@@ -58,8 +64,13 @@
     <atoms-icon-button *ngIf="!uploaderVisible" (onclick)="onClickAddFiles()" [icon]="['fas', 'folder-plus']">
       Add files
     </atoms-icon-button>
-    <atoms-icon-button color="basic" *ngIf="uploaderVisible" (onclick)="onClickAddFilesDone()" [icon]="['fas', 'check']">
+    <atoms-icon-button
+      color="basic"
+      *ngIf="uploaderVisible"
+      (onclick)="onClickAddFilesDone()"
+      [icon]="['fas', 'check']"
+    >
       Done
     </atoms-icon-button>
   </div>
-</section>
+</organisms-card>

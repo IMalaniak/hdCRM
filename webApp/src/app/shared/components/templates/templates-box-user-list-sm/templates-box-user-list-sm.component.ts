@@ -7,11 +7,10 @@ import { OrganismsUserDetailsDialogComponent } from '../../organisms/organisms-u
 @Component({
   selector: 'templates-box-user-list-sm',
   template: `
-    <section
-      class="app-content-box"
-      [title]="title"
-      [cssClass]="boxCss"
-      contentCssClass="p-0"
+    <organisms-card
+      [cardTitle]="title"
+      [cardClass]="boxCss"
+      contentClass="p-0"
       [disableShadow]="true"
       [counter]="users.length"
     >
@@ -26,7 +25,7 @@ import { OrganismsUserDetailsDialogComponent } from '../../organisms/organisms-u
         (removeClick)="onRemoveClick($event)"
         (userClick)="openUserDetailsDialog($event)"
       ></organisms-user-list-sm>
-    </section>
+    </organisms-card>
   `
 })
 export class TemplatesBoxUserListSmComponent {

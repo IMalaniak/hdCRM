@@ -12,7 +12,6 @@ const MOLECULES = [
   _components.MoleculesChartComponent
 ];
 const ORGANISMS = [
-  _components.ContentBoxComponent,
   _components.OrganismsUserListSmComponent,
   _components.OrganismsCardComponent,
   _components.OrganismsUserDetailsDialogComponent

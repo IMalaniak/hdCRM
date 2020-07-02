@@ -25,11 +25,11 @@ import { privateRouterTransition, MediaqueryService } from '@/shared';
           <div
             class="overlay"
             *ngIf="mediaquery.isMobileDevice"
-            [ngClass]="{ isVisible: (!(leftSidebarMinimized$ | async) || !(rightSidebarMinimized$ | async)) }"
+            [ngClass]="{ isVisible: !(leftSidebarMinimized$ | async) || !(rightSidebarMinimized$ | async) }"
             (click)="onOverlayClick()"
           ></div>
           <div class="wrapper">
-            <section class="container-fluid position-relative" [@privateRouterAnimations]="prepareRoute(outlet)">
+            <section class="container-fluid py-3 position-relative" [@privateRouterAnimations]="prepareRoute(outlet)">
               <router-outlet #outlet="outlet"></router-outlet>
             </section>
             <app-footer></app-footer>
