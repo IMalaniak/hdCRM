@@ -1,0 +1,79 @@
+<div class="profile-details" *ngIf="user">
+  <div class="profile-avatar" *ngIf="!isDialog">
+    <molecules-profile-pic-with-uploader
+      [avatar]="user.avatar"
+      [apiUrl]="'/users/' + user.id + '/avatar'"
+      (addFileCall)="onAddFile($event)"
+    ></molecules-profile-pic-with-uploader>
+  </div>
+
+  <atoms-profile-pic *ngIf="isDialog" [avatar]="user.avatar" picClass="w-50 mx-auto my-1"></atoms-profile-pic>
+
+  <div class="caption">
+    <fa-icon [icon]="['fas', 'user']" class="icon icon-normal"></fa-icon>
+    <h5>{{ user.fullname }}</h5>
+  </div>
+  <ng-container *ngIf="!isDialog">
+    <!-- TODO: @ArseniiIrod delete ng-container after close task #164 -->
+    <div class="caption">
+      <fa-icon [icon]="['fas', 'info']" class="icon icon-normal"></fa-icon>
+      <h5 i18n="@@templatesUserDetailsComponentProfileDetailsHeader">
+        {{ 'Details' | uppercase }}
+      </h5>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="details" *ngIf="user.Department">
+      <div class="caption">
+        <fa-icon [icon]="['fas', 'building']" class="icon icon-mini"></fa-icon>
+        <h6 i18n="@@templatesUserDetailsComponentProfileDetailsDep">
+          {{ 'Department' | uppercase }}
+        </h6>
+      </div>
+      <atoms-link-button
+        [linkLabel]="user.Department.title"
+        linkClass="pl-0"
+        linkType="router"
+        routerLink="/departments/details/{{ user.Department.id }}"
+      ></atoms-link-button>
+    </div>
+    <div class="details" *ngIf="user.Roles && user.Roles.length">
+      <div class="caption">
+        <fa-icon [icon]="['fas', 'user-tag']" class="icon icon-mini"></fa-icon>
+        <h6 i18n="@@templatesUserDetailsComponentProfileDetailsRoles">
+          {{ 'Roles' | uppercase }}
+        </h6>
+      </div>
+      <ul>
+        <li>
+          <span class="role-titles" *ngFor="let role of user.Roles; last as isLast">{{ role.keyString }}</span>
+        </li>
+      </ul>
+    </div>
+    <div class="details" *ngIf="user.State">
+      <div class="caption">
+        <fa-icon [icon]="['fas', 'toggle-on']" class="icon icon-mini"></fa-icon>
+        <h6 i18n="@@templatesUserDetailsComponentProfileDetailsStateHeader">
+          {{ 'State' | uppercase }}
+        </h6>
+      </div>
+      <span i18n="@@templatesUserDetailsComponentProfileDetailsStateStatus">{{ user.State.keyString }}</span>
+    </div>
+  </ng-container>
+  <div class="caption" *ngIf="!isDialog">
+    <fa-icon [icon]="['fas', 'envelope']" class="icon icon-normal"></fa-icon>
+    <h5 i18n="@@templatesUserDetailsComponentProfileDetailsContactHeader">
+      {{ 'Contacts' | uppercase }}
+    </h5>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="details">
+    <div class="caption" *ngIf="user.email">
+      <fa-icon [icon]="['fas', 'envelope']" class="icon icon-mini"></fa-icon>
+      <atoms-link-button [linkLabel]="user.email" linkHref="mailto:user.email" linkClass="pl-1"></atoms-link-button>
+    </div>
+    <div class="caption" *ngIf="user.phone">
+      <fa-icon [icon]="['fas', 'phone']" class="icon icon-mini"></fa-icon>
+      <atoms-link-button [linkLabel]="user.phone" linkHref="tel:user.phone" linkClass="pl-1"></atoms-link-button>
+    </div>
+  </div>
+</div>

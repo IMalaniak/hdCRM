@@ -1,67 +1,27 @@
 @import 'variables';
-@import 'mixins';
-@import '~bootstrap/scss/mixins/breakpoints';
 
-.img-avatar {
+.avatar-uploader {
   position: relative;
 
-  atoms-profile-pic {
-    width: 55%;
-    border-radius: 50%;
-    margin-top: -28%;
-    margin-bottom: 1.5em;
-    @include media-breakpoint-up(sm) {
-      width: 40%;
-      margin-top: -20%;
-    }
-    @include media-breakpoint-up(md) {
-      width: 65%;
-      margin-top: -33%;
-      margin-bottom: 0;
-    }
-  }
-
-  app-profile-pic-uploader {
-    width: 65%;
-    margin-top: -33%;
-    margin-bottom: 0;
-
-    @include media-breakpoint-up(sm) {
-      width: 40%;
-      margin-top: -20%;
-    }
-    @include media-breakpoint-up(md) {
-      width: 65%;
-      margin-top: -33%;
-    }
-  }
-
-  .pencil {
-    position: absolute;
-    bottom: 8%;
-    right: 25%;
-    width: 3em;
-    height: 3em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    @include crm-bgcolor('theme', 'primary');
-    @include crm-textcolor('layout', 'background');
-    cursor: pointer;
-    border: 0.1rem solid;
-    transform: scale(0);
-    transition: transform $transition, background $transition;
-    z-index: 1;
-
-    &.cancel {
-      @include crm-bgcolor('theme', 'warn');
-    }
-  }
-
   &:hover {
-    .pencil {
+    atoms-icon-button {
+      opacity: 1;
+      visibility: visible;
       transform: scale(1);
     }
+  }
+
+  atoms-icon-button {
+    // TODO: @ArseniiIrod find a better solution for icon position, if img change size
+    position: absolute;
+    bottom: 5%;
+    right: 7%;
+    transform: scale(0);
+    border: solid 3px $white;
+    border-radius: 50%;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1;
+    transition: transform $transition, opacity $transition, visibility $transition;
   }
 }

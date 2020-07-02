@@ -9,9 +9,11 @@
             <span>({{ appUser.login }})</span>
           </li>
           <li *ngIf="appUser.Department">
-            <a routerLink="/departments/details/{{ appUser.Department.id }}"
-              ><span>{{ appUser.Department.title }}</span></a
-            >
+            <atoms-link-button
+              [linkLabel]="appUser.Department.title"
+              linkType="router"
+              linkHref="/departments/details/{{ appUser.Department.id }}"
+            ></atoms-link-button>
           </li>
           <li class="roles" *ngIf="appUser.Roles">
             <span *ngFor="let role of appUser.Roles; last as isLast">{{ role.keyString }}</span>
