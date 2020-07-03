@@ -4,12 +4,10 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { currentUser, getSessionId } from '@/core/auth/store/auth.selectors';
 import { Observable } from 'rxjs';
-import { NewPassword, ApiResponse } from '@/shared';
-import { changeOldPassword } from '../../store/user.actions';
-import { selectIsLoading, getApiResponse } from '../../store/user.selectors';
+import { ApiResponse } from '@/shared';
+import { selectIsLoading, getApiResponse, selectIsEditing } from '../../store/user.selectors';
 import { selectAllStates } from '../../store/state.selectors';
-import { ActivatedRoute } from '@angular/router';
-import { deleteSession, deleteMultipleSession } from '@/core/auth/store/auth.actions';
+import { allStatesRequested } from '../../store/state.actions';
 
 @Component({
   selector: 'app-profile',
@@ -22,26 +20,17 @@ export class ProfileComponent implements OnInit {
   isLoading$: Observable<boolean>;
   serverResponse$: Observable<ApiResponse>;
   tabsToShow: string[] = ['details', 'password', 'sessions'];
+  editForm$: Observable<boolean>;
 
-  constructor(private store: Store<AppState>, private route: ActivatedRoute) {}
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
+    this.store.dispatch(allStatesRequested());
     this.user$ = this.store.pipe(select(currentUser));
     this.currentSessionId$ = this.store.pipe(select(getSessionId));
     this.states$ = this.store.pipe(select(selectAllStates));
     this.isLoading$ = this.store.pipe(select(selectIsLoading));
     this.serverResponse$ = this.store.pipe(select(getApiResponse));
-  }
-
-  changePassword(newPassword: NewPassword): void {
-    this.store.dispatch(changeOldPassword({ newPassword }));
-  }
-
-  removeSession(sessionIds: number | number[]): void {
-    if (typeof sessionIds === 'number') {
-      this.store.dispatch(deleteSession({ id: sessionIds }));
-    } else {
-      this.store.dispatch(deleteMultipleSession({ sessionIds }));
-    }
+    this.editForm$ = this.store.pipe(select(selectIsEditing));
   }
 }

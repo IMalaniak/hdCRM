@@ -20,7 +20,6 @@ const ORGANISMS = [
 const TEMPLATES = [
   _components.TemplatesAttachmentsListComponent,
   _components.TemplatesBoxUserListSmComponent,
-  _components.TemplatesUserProfilePageComponent,
   _components.TemplatesUserDetailsComponent
 ];
 

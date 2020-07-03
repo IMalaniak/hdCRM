@@ -1,0 +1,46 @@
+<section
+  class="app-content-box"
+  cssClass="bg-secondary border-0"
+  title="Sessions"
+  contentCssClass="bg-light d-flex justify-content-center"
+  headCssClass="text-white"
+  [disableShadow]="true"
+>
+  <mat-list content class="w-75">
+    <div mat-subheader>Current session</div>
+    <mat-list-item>
+      <fa-icon mat-list-icon [icon]="getDeviceIcon(currentSession.UA)"></fa-icon>
+      <div mat-line>{{ parseUA(currentSession.UA) }}</div>
+      <div mat-line>{{ currentSession.updatedAt | date }}, IP: {{ currentSession.IP }}</div>
+    </mat-list-item>
+    <ng-container *ngIf="otherActiveSessions.length > 0">
+      <mat-divider></mat-divider>
+      <div mat-subheader>Other active sessions</div>
+      <mat-list-item *ngFor="let uSession of otherActiveSessions">
+        <fa-icon mat-list-icon [icon]="getDeviceIcon(uSession.UA)"></fa-icon>
+        <div mat-line>{{ parseUA(uSession.UA) }}</div>
+        <div mat-line>{{ uSession.updatedAt | date }}, IP: {{ uSession.IP }}</div>
+        <atoms-icon-button
+          color="warn"
+          [icon]="['fas', 'times']"
+          matType="icon"
+          (onclick)="onRemoveSession(uSession.id)"
+        >
+        </atoms-icon-button>
+      </mat-list-item>
+      <mat-list-item>
+        <div mat-line class="d-flex justify-content-end">
+          <atoms-icon-button
+            color="warn"
+            matType="basic"
+            [icon]="['fas', 'times']"
+            (onclick)="onRemoveOtherSessions()"
+            *ngIf="otherActiveSessions.length >= 2"
+          >
+            Remove all other sessions
+          </atoms-icon-button>
+        </div>
+      </mat-list-item>
+    </ng-container>
+  </mat-list>
+</section>
