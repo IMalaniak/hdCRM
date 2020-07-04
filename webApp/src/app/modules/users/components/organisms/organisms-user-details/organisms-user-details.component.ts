@@ -5,7 +5,6 @@ import { Store } from '@ngrx/store';
 import { changeIsEditingState, updateUserRequested } from '@/modules/users/store/user.actions';
 import Swal from 'sweetalert2';
 import { ActivatedRoute } from '@angular/router';
-import { cloneDeep } from 'lodash';
 
 @Component({
   selector: 'organisms-user-details',

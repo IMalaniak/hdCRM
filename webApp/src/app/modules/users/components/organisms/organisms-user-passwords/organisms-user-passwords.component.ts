@@ -29,8 +29,6 @@ export class OrganismsUserPasswordsComponent implements OnInit {
   constructor(private store: Store<AppState>, private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    console.log(this.isLoading);
-
     this.buildUserNewPassword();
   }
 

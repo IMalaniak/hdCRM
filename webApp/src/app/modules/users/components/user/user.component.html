@@ -1,1 +1,7 @@
-<templates-user-profile [user]="user" *ngIf="user" [canEdit]="canEdit$ | async"></templates-user-profile>
+<templates-user-profile
+  *ngIf="user"
+  [user]="user"
+  [canEdit]="canEdit$ | async"
+  [isLoading]="isLoading$ | async"
+  [editForm]="editForm$ | async"
+></templates-user-profile>

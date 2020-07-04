@@ -1,11 +1,4 @@
-<section
-  class="app-content-box"
-  cssClass="bg-secondary border-0"
-  title="Details"
-  contentCssClass="bg-light p-0"
-  headCssClass="text-white"
-  [disableShadow]="true"
->
+<organisms-card cardTitle="Details" [disableShadow]="true">
   <div content class="row">
     <div *ngIf="!editForm" class="col-md-12 col-lg-6">
       <mat-list>
@@ -146,4 +139,4 @@
       Cancel
     </atoms-icon-button>
   </div>
-</section>
+</organisms-card>
