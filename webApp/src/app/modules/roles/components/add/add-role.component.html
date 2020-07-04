@@ -1,9 +1,8 @@
-<section
-  class="app-content-box"
-  [title]="'Register new role'"
-  [cssClass]="'bg-secondary border-0'"
-  [contentCssClass]="'bg-light'"
-  [headCssClass]="'text-white'"
+<organisms-card
+  cardTitle="Register new role"
+  cardClass="bg-secondary border-0"
+  contentClass="bg-light"
+  headClass="text-white"
 >
   <section content class="row">
     <div class="col-sm-8">
@@ -24,20 +23,14 @@
           </mat-error>
         </mat-form-field>
       </form>
-      <section
-        class="app-content-box"
-        [title]="'Privileges'"
-        [cssClass]="'border border-secondary m-0'"
-        [contentCssClass]="'p-0'"
+      <organisms-card
+        cardTitle="Privileges"
+        cardClass="border border-secondary m-0"
+        contentClass="p-0"
         [disableShadow]="true"
         [counter]="role.Privileges.length"
       >
-        <atoms-icon-button
-          buttons
-          (onclick)="addPrivilegeDialog()"
-          [icon]="['fas', 'plus']"
-          matType="stroked"
-        >
+        <atoms-icon-button buttons (onclick)="addPrivilegeDialog()" [icon]="['fas', 'plus']" matType="stroked">
           Add
         </atoms-icon-button>
         <div content class="table-container">
@@ -76,7 +69,7 @@
             <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
           </mat-table>
         </div>
-      </section>
+      </organisms-card>
     </div>
     <div class="col-sm-4">
       <templates-box-user-list-sm
@@ -88,12 +81,7 @@
       ></templates-box-user-list-sm>
     </div>
   </section>
-  <atoms-icon-button
-    buttons
-    (onclick)="onRegisterSubmit()"
-    [icon]="['fas', 'save']"
-    [disabled]="keyString.invalid"
-  >
+  <atoms-icon-button buttons (onclick)="onRegisterSubmit()" [icon]="['fas', 'save']" [disabled]="keyString.invalid">
     Submit
   </atoms-icon-button>
-</section>
+</organisms-card>

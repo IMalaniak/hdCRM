@@ -1,12 +1,5 @@
 <section class="row">
-  <section
-    class="app-content-box col-md-8"
-    title="Stages"
-    *ngIf="plan && plan.Stages"
-    cssClass="bg-secondary border-0 mb-3 mb-md-0"
-    contentCssClass="bg-light p-0"
-    headCssClass="text-white"
-  >
+  <organisms-card cardTitle="Stages" *ngIf="plan && plan.Stages">
     <div content class="container-fluid">
       <div class="row">
         <div class="col-md-12">
@@ -57,15 +50,8 @@
         Cancel
       </atoms-icon-button>
     </div>
-  </section>
-  <section
-    class="app-content-box col-md-4"
-    title="Actions"
-    cssClass="bg-secondary border-0 my-0 mt-md-3"
-    *ngIf="plan"
-    contentCssClass="bg-light p-0"
-    headCssClass="text-white"
-  >
+  </organisms-card>
+  <organisms-card cardTitle="Actions" *ngIf="plan">
     <div content class="d-flex p-3" *ngIf="canEditPlan$ | async">
       <atoms-icon-button
         [swal]="goToNextStageSwal"
@@ -75,25 +61,12 @@
         {{ plan.activeStage.keyString === 'finished' ? 'Finish plan' : 'Go to next stage' }}
       </atoms-icon-button>
     </div>
-  </section>
+  </organisms-card>
 </section>
-<section
-  class="app-content-box plan-details"
-  title="Details"
-  *ngIf="plan"
-  cssClass="bg-secondary border-0"
-  contentCssClass="bg-light"
-  headCssClass="text-white"
->
+<organisms-card cardTitle="Details" *ngIf="plan">
   <div content class="row">
-    <div class="col-sm-12 col-md-6 col-lg-7">
-      <section
-        class="app-content-box"
-        title="Plan details"
-        cssClass="border border-secondary m-0"
-        contentCssClass="p-0"
-        [disableShadow]="true"
-      >
+    <div class="col-md-8">
+      <organisms-card cardTitle="Plan details" cardClass="border border-secondary m-0" [disableShadow]="true">
         <mat-list content class="w-100" *ngIf="!editForm">
           <mat-list-item>
             <section>
@@ -178,7 +151,7 @@
             <mat-datepicker touchUi #picker></mat-datepicker>
           </mat-form-field>
         </form>
-      </section>
+      </organisms-card>
     </div>
     <div class="col-sm-12 col-md-6 col-lg-5">
       <templates-box-user-list-sm
@@ -201,7 +174,7 @@
       Cancel
     </atoms-icon-button>
   </div>
-</section>
+</organisms-card>
 
 <templates-attachments-list
   [attachments]="plan.Documents"

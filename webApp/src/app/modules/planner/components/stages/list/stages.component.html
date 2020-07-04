@@ -1,11 +1,4 @@
-<section
-  class="app-content-box"
-  [title]="'Stage'"
-  [cssClass]="'bg-secondary border-0'"
-  [contentCssClass]="'bg-light p-0'"
-  [headCssClass]="'text-white'"
-  [showDataLoader]="isLoading$ | async"
->
+<organisms-card cardTitle="Stage" [showDataLoader]="isLoading$ | async">
   <div buttons>
     <atoms-icon-button (onclick)="createStageDialog()" [icon]="['fas', 'plus']">
       Create
@@ -42,4 +35,4 @@
 
     <!-- <mat-paginator [length]="resultsLength$ | async" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator> -->
   </div>
-</section>
+</organisms-card>
