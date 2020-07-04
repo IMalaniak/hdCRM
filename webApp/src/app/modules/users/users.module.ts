@@ -10,7 +10,11 @@ import {
   UserComponent,
   UsersComponent,
   UsersDialogComponent,
-  InvitationDialogComponent
+  InvitationDialogComponent,
+  OrganismsUserDetailsComponent,
+  OrganismsUserSessionsComponent,
+  OrganismsUserPasswordsComponent,
+  TemplatesUserProfileComponent
 } from './components';
 
 import { UserService, StateService } from './services';
@@ -20,7 +24,6 @@ import * as fromUser from './store/user.reducer';
 import * as fromState from './store/state.reducer';
 import { UserEffects } from './store/user.effects';
 import { StateEffects } from './store/state.effects';
-
 
 @NgModule({
   imports: [
@@ -34,8 +37,27 @@ import { StateEffects } from './store/state.effects';
     StoreModule.forFeature(fromState.statesFeatureKey, fromState.reducer),
     EffectsModule.forFeature([UserEffects, StateEffects])
   ],
-  declarations: [ProfileComponent, UserComponent, UsersComponent, UsersDialogComponent, InvitationDialogComponent],
+  declarations: [
+    ProfileComponent,
+    UserComponent,
+    UsersComponent,
+    UsersDialogComponent,
+    InvitationDialogComponent,
+    OrganismsUserDetailsComponent,
+    OrganismsUserSessionsComponent,
+    OrganismsUserPasswordsComponent,
+    TemplatesUserProfileComponent
+  ],
   providers: [UserService, StateService],
-  exports: [ProfileComponent, UserComponent, UsersComponent, UsersDialogComponent]
+  exports: [
+    ProfileComponent,
+    UserComponent,
+    UsersComponent,
+    UsersDialogComponent,
+    OrganismsUserDetailsComponent,
+    OrganismsUserSessionsComponent,
+    OrganismsUserPasswordsComponent,
+    TemplatesUserProfileComponent
+  ]
 })
 export class UsersModule {}
