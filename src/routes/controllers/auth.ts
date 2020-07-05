@@ -7,10 +7,14 @@ import { Op, ValidationError, UniqueConstraintError } from 'sequelize';
 import Crypt from '../../config/crypt';
 import Mailer from '../../mailer/nodeMailerTemplates';
 import JwtHelper from '../../helpers/jwtHelper';
-import { JwtPayload } from '../../models/JWTPayload';
+import { JwtDecoded } from '../../models/JWTPayload';
+import { TokenExpiredError } from 'jsonwebtoken';
+import { UserDBController } from '../../dbControllers/usersController';
 
 @Controller('auth/')
 export class AuthController {
+  private userDbCtrl = new UserDBController();
+
   parseCookies(request) {
     const list = {};
     const rc = request.headers.cookie;
@@ -25,25 +29,14 @@ export class AuthController {
     return list;
   }
 
-  saveLogInAttempt(req: Request, user: db.User, isSuccess: boolean): Promise<db.UserLoginHistory> {
-    const defaults: any = {};
-    defaults.IP = req.ip;
-    // defaults.browser = req.headers['user-agent'];
-    if (isSuccess) {
-      defaults.dateLastLoggedIn = new Date();
-    } else {
-      defaults.dateUnsuccessfulLogIn = new Date();
-    }
-    return db.UserLoginHistory.findOrCreate({
-      where: {
-        UserId: user.id
-      },
-      defaults
-    }).then(([uLogHistItem, created]) => {
-      if (!created) {
-        uLogHistItem.set(defaults);
-        return uLogHistItem.save();
-      }
+  saveLogInAttempt(req: Request, user: db.User, isSuccess: boolean): Promise<db.UserSession> {
+    const body = {} as db.UserSession;
+    body.IP = req.ip;
+    body.UserId = user.id;
+    body.UA = req.headers['user-agent'];
+    body.isSuccess = isSuccess;
+    return db.UserSession.create({
+      ...body
     });
   }
 
@@ -297,7 +290,10 @@ export class AuthController {
         const isMatch = Crypt.validatePassword(password, user.passwordHash, user.salt);
         if (isMatch) {
           this.saveLogInAttempt(req, user, true).then(userSession => {
-            const access_token = JwtHelper.generateToken({ type: 'access', payload: { userId: user.id } });
+            const access_token = JwtHelper.generateToken({
+              type: 'access',
+              payload: { userId: user.id, sessionId: userSession.id }
+            });
             const refreshToken = JwtHelper.generateToken({
               type: 'refresh',
               payload: { userId: userSession.UserId, sessionId: userSession.id }
@@ -330,15 +326,12 @@ export class AuthController {
     const cookies = this.parseCookies(req);
     if (cookies['refresh_token']) {
       JwtHelper.getVerified({ type: 'refresh', token: cookies['refresh_token'] })
-        .then(({ userId }: JwtPayload) => {
-          const newToken = JwtHelper.generateToken({ type: 'access', payload: { userId } });
+        .then(({ userId, sessionId }: JwtDecoded) => {
+          const newToken = JwtHelper.generateToken({ type: 'access', payload: { userId, sessionId } });
           return res.status(OK).json(`JWT ${newToken}`);
         })
-        .catch(err => {
-          return res.status(FORBIDDEN).send({
-            success: false,
-            message: 'Refresh token expired!'
-          });
+        .catch((err: TokenExpiredError) => {
+          return res.status(FORBIDDEN).send(err);
         });
     } else {
       return res.status(UNAUTHORIZED).send({
@@ -504,9 +497,22 @@ export class AuthController {
   }
 
   @Get('logout')
-  private create(req: Request, res: Response) {
+  private async create(req: Request, res: Response) {
     Logger.Info(`Logging user out...`);
-    req.logout();
-    res.status(OK).json({ message: 'logged out' });
+    const cookies = this.parseCookies(req);
+    const { sessionId } = await JwtHelper.getDecoded(cookies['refresh_token']);
+    this.userDbCtrl
+      .removeSession(sessionId)
+      .then(() => {
+        // force cookie expiration
+        const expires = new Date(1970);
+        res.cookie('refresh_token', null, { httpOnly: true, expires });
+        req.logout();
+        res.status(OK).json({ message: 'logged out' });
+      })
+      .catch((err: any) => {
+        Logger.Err(err);
+        return res.status(BAD_REQUEST).json(err);
+      });
   }
 }

@@ -1,11 +1,4 @@
-<section
-  content
-  class="app-content-box"
-  [title]="'Create a new department'"
-  [cssClass]="'bg-secondary border-0'"
-  [contentCssClass]="'bg-light'"
-  [headCssClass]="'text-white'"
->
+<organisms-card cardTitle="Create a new department">
   <div content class="row">
     <div class="col-md-6">
       <form class="d-flex flex-column" [formGroup]="departmentData">
@@ -58,14 +51,8 @@
       </form>
     </div>
     <div class="col-md-6">
-    <!-- TODO -->
-      <section
-        class="app-content-box"
-        [title]="'Manager'"
-        [cssClass]="'border border-secondary my-0'"
-        [contentCssClass]="'p-0'"
-        [disableShadow]="true"
-      >
+      <!-- TODO -->
+      <organisms-card cardTitle="Manager" cardClass="border border-secondary my-0" [disableShadow]="true">
         <button buttons mat-stroked-button color="primary" class="crm-button" (click)="addManagerDialog()">
           <fa-icon [icon]="['fas', 'user-plus']"></fa-icon
           ><span i18n="@@addDepartmentComponentActionsAddManager">Add manager</span>
@@ -87,7 +74,7 @@
             <h3 matLine>{{ department.Manager.fullname }}</h3>
           </mat-list-item>
         </mat-list>
-      </section>
+      </organisms-card>
     </div>
   </div>
   <div content class="row">
@@ -103,11 +90,9 @@
     <div class="col-md-6">
       <div class="row">
         <div class="col-sm-6 col-md-12 col-lg-6">
-          <section
-            class="app-content-box"
-            [title]="'Parent department'"
-            [cssClass]="'border border-secondary mt-3 mb-0'"
-            [contentCssClass]="'p-0'"
+          <organisms-card
+            cardTitle="Parent department"
+            cardClass="border border-secondary mt-3 mb-0"
             [disableShadow]="true"
           >
             <button buttons mat-stroked-button color="primary" class="crm-button">
@@ -119,14 +104,12 @@
                 <h3 matLine>{{}}</h3>
               </mat-list-item> -->
             </mat-list>
-          </section>
+          </organisms-card>
         </div>
         <div class="col-sm-6 col-md-12 col-lg-6">
-          <section
-            class="app-content-box"
-            [title]="'Sub departments'"
-            [cssClass]="'border border-secondary mt-3 mb-0'"
-            [contentCssClass]="'p-0'"
+          <organisms-card
+            cardTitle="Sub departments"
+            cardClass="border border-secondary mt-3 mb-0"
             [disableShadow]="true"
             [counter]="department.SubDepartments.length"
           >
@@ -140,7 +123,7 @@
                 <mat-divider></mat-divider>
               </mat-list-item> -->
             </mat-list>
-          </section>
+          </organisms-card>
         </div>
       </div>
     </div>
@@ -153,4 +136,4 @@
   >
     Submit
   </atoms-icon-button>
-</section>
+</organisms-card>

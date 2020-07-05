@@ -1,0 +1,52 @@
+<section class="profile" *ngIf="user">
+  <div class="row">
+    <aside class="col-sm-12 col-md-4 col-lg-3 profile-aside">
+      <div class="profile-aside-bg">
+        <img src="{{ coverUrl }}" alt="{{ coverTitle }}" />
+      </div>
+
+      <templates-user-details
+        [user]="user"
+        [isDialog]="false"
+        (addFileCall)="updateUserStore($event)"
+      ></templates-user-details>
+    </aside>
+
+    <div class="col-sm-12 col-md-8 col-lg-9 tabs">
+      <mat-tab-group mat-stretch-tabs dynamicHeight>
+        <!-- Details -->
+        <mat-tab label="Details">
+          <ng-template matTabContent>
+            <organisms-user-details
+              [user]="user"
+              [states]="states"
+              [canEdit]="canEdit"
+              [editForm]="editForm"
+            ></organisms-user-details>
+          </ng-template>
+        </mat-tab>
+
+        <!-- Passwords -->
+        <mat-tab label="Password" *ngIf="isPasswordTabShow">
+          <ng-template matTabContent>
+            <organisms-user-passwords
+              [isLoading]="isLoading"
+              [serverResponse]="serverResponse"
+            ></organisms-user-passwords>
+          </ng-template>
+        </mat-tab>
+
+        <!-- Sessions -->
+        <mat-tab label="Sessions" *ngIf="isShowSessionTab">
+          <ng-template matTabContent>
+            <organisms-user-sessions [user]="user" [currentSessionId]="currentSessionId"></organisms-user-sessions>
+          </ng-template>
+        </mat-tab>
+
+        <!-- <mat-tab label="Preferences"></mat-tab> -->
+
+        <!-- <mat-tab label="Organization"></mat-tab> -->
+      </mat-tab-group>
+    </div>
+  </div>
+</section>

@@ -1,6 +1,6 @@
 import * as db from '../models';
 import { Logger } from '@overnightjs/logger';
-import { IncludeOptions, FindOptions } from 'sequelize/types';
+import { IncludeOptions } from 'sequelize/types';
 
 export class UserDBController {
   public includes: IncludeOptions[] = [
@@ -21,7 +21,7 @@ export class UserDBController {
       ]
     },
     {
-      model: db.UserLoginHistory
+      model: db.UserSession
     },
     {
       model: db.PasswordAttribute,
@@ -129,6 +129,23 @@ export class UserDBController {
   public deleteOne(id: number | string) {
     Logger.Info(`Deleting user by id: ${id}...`);
     return db.User.destroy({
+      where: { id }
+    });
+  }
+
+  public getSession(id: number | string) {
+    Logger.Info(`Getting user session by id: ${id}...`);
+    return db.UserSession.findByPk(id);
+  }
+
+  public getSessionList(user: db.User) {
+    Logger.Info(`Getting session list for user id: ${user.id}...`);
+    return user.getUserSessions();
+  }
+
+  public removeSession(id: number | string | number[] | string[]) {
+    Logger.Info(`Removing user session`);
+    return db.UserSession.destroy({
       where: { id }
     });
   }

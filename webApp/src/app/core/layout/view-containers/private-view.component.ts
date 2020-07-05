@@ -29,7 +29,7 @@ import { privateRouterTransition, MediaqueryService } from '@/shared';
             (click)="onOverlayClick()"
           ></div>
           <div class="wrapper">
-            <section class="container-fluid position-relative" [@privateRouterAnimations]="prepareRoute(outlet)">
+            <section class="container-fluid py-3 position-relative" [@privateRouterAnimations]="prepareRoute(outlet)">
               <router-outlet #outlet="outlet"></router-outlet>
             </section>
             <app-footer></app-footer>

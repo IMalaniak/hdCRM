@@ -5,3 +5,4 @@ export * from './singleChartData';
 export * from './multiChartData';
 export * from './pageQuery';
 export * from './newPassword';
+export * from './JWTPayload';
