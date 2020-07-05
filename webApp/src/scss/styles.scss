@@ -21,9 +21,9 @@
   @include angular-material-theme($dark-theme);
 }
 
-// .font-scale {
-//   font-size: 125%;
-// }
+.font-scale {
+  font-size: 125%;
+}
 
 body {
   margin: 0;
@@ -212,4 +212,8 @@ main {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.dark-theme-bg {
+  background-color: #212121;
 }

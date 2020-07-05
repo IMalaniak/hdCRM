@@ -38,7 +38,7 @@ export class LayoutEffects {
       ofType(layoutActions.toogleThemeMode),
       map(payload => payload.switched),
       switchMap(switched => {
-        this.localStorage.setObjectKeyValue('layoutSettings', 'darkThemeEnabled', switched);
+        this.localStorage.setObjectKeyValue('layoutSettings', 'switchThemeMode', switched);
         return of(layoutActions.themeModeChangeState({ switched }));
       })
     )
@@ -49,7 +49,7 @@ export class LayoutEffects {
       ofType(layoutActions.toogleFontSize),
       map(payload => payload.resized),
       switchMap(resized => {
-        this.localStorage.setObjectKeyValue('layoutSettings', 'fontScaleEnabled', resized);
+        this.localStorage.setObjectKeyValue('layoutSettings', 'resizeFont', resized);
         return of(layoutActions.fontSizeChangeState({ resized }));
       })
     )

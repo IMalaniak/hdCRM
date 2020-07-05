@@ -1,20 +1,5 @@
-<div class="right-sidebar">
+<div class="right-sidebar" [ngClass]="{ 'dark-theme-bg': themeModeSwitched }">
   <div class="right-sidebar-content">
-    <div class="layout-settings">
-      <atoms-icon-button
-        matType="icon"
-        [iconColor]="themeModeSwitched ? 'text-secondary' : 'text-warning'"
-        [icon]="themeModeSwitched ? ['fas', 'moon'] : ['fas', 'sun']"
-        (onclick)="toogleThemeMode()"
-      ></atoms-icon-button>
-      <atoms-icon-button
-        matType="icon"
-        [iconColor]="fontResized ? 'text-secondary' : 'text-primary'"
-        [icon]="['fas', 'font']"
-        (onclick)="toogleFontSize()"
-      ></atoms-icon-button>
-    </div>
-
     <templates-box-user-list-sm
       *ngIf="(onlineUsers$ | async).length > 0"
       [users]="onlineUsers$ | async"
@@ -25,7 +10,27 @@
     <task-manager></task-manager>
   </div>
 
-  <div class="btn-sidebar-toggle" (click)="toggleRightSidebar()" matTooltip="{{ sidebarTipMessage }}">
-    <fa-icon [icon]="['fas', 'chevron-right']" class="btn-icon"></fa-icon>
+  <div class="btn-sidebar-block">
+    <div
+      class="btn-sidebar-toggle"
+      (click)="hideRightSidebar.emit(!this.rightSidebarMinimized)"
+      matTooltip="{{ sidebarTipMessage }}"
+    >
+      <fa-icon [icon]="['fas', 'chevron-right']" class="btn-icon"></fa-icon>
+    </div>
+    <atoms-icon-button
+      matType="icon"
+      class="ml-4"
+      [iconColor]="themeModeSwitched ? 'text-secondary' : 'text-warning'"
+      [icon]="themeModeSwitched ? ['fas', 'moon'] : ['fas', 'sun']"
+      (onclick)="switchThemeMode.emit(!this.themeModeSwitched)"
+    ></atoms-icon-button>
+    <!-- // TODO: @ArseniiIrod enabled when will add typography rules -->
+    <!-- <atoms-icon-button
+      matType="icon"
+      [iconColor]="fontResized ? 'text-primary' : 'text-secondary'"
+      [icon]="['fas', 'font']"
+      (onclick)="resizeFont.emit(!this.fontResized)"
+    ></atoms-icon-button> -->
   </div>
 </div>

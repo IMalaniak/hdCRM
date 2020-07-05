@@ -13,14 +13,14 @@ import { privateRouterTransition, MediaqueryService } from '@/shared';
 @Component({
   selector: 'app-private',
   template: `
-    <section class="grid" [ngClass]="{ 'dark-theme': themeModeSwitched$ | async }">
+    <section class="grid" [ngClass]="{ 'dark-theme': themeModeSwitched$ | async, 'font-scale': fontResized$ | async }">
       <app-header
         [leftSidebarMinimized]="leftSidebarMinimized$ | async"
         [currentUser]="currentUser$ | async"
         (hideLeftSidebar)="toggleLeftSidebar($event)"
       ></app-header>
       <main>
-        <app-left-sidebar [leftSidebarMinimized]="leftSidebarMinimized$ | async"></app-left-sidebar>
+        <left-sidebar [leftSidebarMinimized]="leftSidebarMinimized$ | async"></left-sidebar>
         <section class="content">
           <div
             class="overlay"
@@ -29,19 +29,23 @@ import { privateRouterTransition, MediaqueryService } from '@/shared';
             (click)="onOverlayClick()"
           ></div>
           <div class="wrapper">
-            <section class="container-fluid py-3 position-relative" [@privateRouterAnimations]="prepareRoute(outlet)">
+            <section
+              class="container-fluid py-3 position-relative"
+              [@privateRouterAnimations]="prepareRoute(outlet)"
+              [ngClass]="{ 'dark-theme-bg': themeModeSwitched$ | async }"
+            >
               <router-outlet #outlet="outlet"></router-outlet>
             </section>
             <app-footer></app-footer>
           </div>
-          <app-right-sidebar
+          <right-sidebar
             [rightSidebarMinimized]="rightSidebarMinimized$ | async"
             [themeModeSwitched]="themeModeSwitched$ | async"
             [fontResized]="fontResized$ | async"
             (hideRightSidebar)="toggleRightSidebar($event)"
             (switchThemeMode)="toogleThemeMode($event)"
             (resizeFont)="toogleFontSize($event)"
-          ></app-right-sidebar>
+          ></right-sidebar>
         </section>
       </main>
       <!--      <section class="app-messages" *ngIf="showDebug$ | async"></section> -->

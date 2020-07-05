@@ -7,7 +7,7 @@ $crm-theme-warn: mat-palette($mat-red, 600);
 $crm-theme: mat-light-theme($crm-theme-primary, $crm-theme-accent, $crm-theme-warn);
 
 // Define an alternate dark theme
-$theme-dark-primary: mat-palette($mat-blue-grey, 400);
+$theme-dark-primary: mat-palette($mat-blue-grey, 200);
 $theme-dark-accent: mat-palette($mat-amber, A200, A100, A400);
 $theme-dark-warn: mat-palette($mat-deep-orange);
 $dark-theme: mat-dark-theme($theme-dark-primary, $theme-dark-accent, $theme-dark-warn);

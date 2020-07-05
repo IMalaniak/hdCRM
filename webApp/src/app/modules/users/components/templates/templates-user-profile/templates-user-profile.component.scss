@@ -7,7 +7,7 @@
     min-height: calc(100vh - #{$hHeight});
     padding-top: 3em;
     padding-bottom: 1em;
-    @include crm-bgcolor('layout', 'milk');
+    overflow: hidden;
 
     h4,
     h5,
@@ -29,9 +29,5 @@
         filter: blur(3em);
       }
     }
-  }
-
-  .tabs {
-    @include crm-bgcolor('layout', 'background');
   }
 }

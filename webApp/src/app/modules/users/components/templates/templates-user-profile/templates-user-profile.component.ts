@@ -1,11 +1,13 @@
-import { Component, Input, SimpleChanges, OnChanges, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, SimpleChanges, OnChanges, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { User, State } from '@/modules/users/models';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { cloneDeep } from 'lodash';
 import { Asset, ApiResponse } from '@/shared/models';
 import { updateUserRequested } from '@/modules/users/store/user.actions';
 import { environment } from 'environments/environment';
+import { Observable } from 'rxjs';
+import * as fromLayout from '../../../../../core/layout/store';
 
 @Component({
   selector: 'templates-user-profile',
@@ -13,7 +15,7 @@ import { environment } from 'environments/environment';
   styleUrls: ['./templates-user-profile.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TemplatesUserProfileComponent implements OnChanges {
+export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   @Input() user: User;
   @Input() currentSessionId: number;
   @Input() states: State[];
@@ -23,12 +25,17 @@ export class TemplatesUserProfileComponent implements OnChanges {
   @Input() editForm: boolean;
   @Input() tabsToShow: string[] = ['details'];
 
+  themeModeSwitched$: Observable<boolean>;
   baseUrl = environment.baseUrl;
   coverUrl = './assets/images/userpic/noimage_croped.png';
   coverTitle = 'noimage';
   userInitial: User;
 
   constructor(private store: Store<AppState>) {}
+
+  ngOnInit(): void {
+    this.themeModeSwitched$ = this.store.pipe(select(fromLayout.getThemeModeState));
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['user']?.currentValue && this.user) {
