@@ -25,7 +25,7 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   @Input() editForm: boolean;
   @Input() tabsToShow: string[] = ['details'];
 
-  themeModeSwitched$: Observable<boolean>;
+  enableDarkTheme$: Observable<boolean>;
   baseUrl = environment.baseUrl;
   coverUrl = './assets/images/userpic/noimage_croped.png';
   coverTitle = 'noimage';
@@ -34,7 +34,7 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.themeModeSwitched$ = this.store.pipe(select(fromLayout.getThemeModeState));
+    this.enableDarkTheme$ = this.store.pipe(select(fromLayout.getDarkThemeState));
   }
 
   ngOnChanges(changes: SimpleChanges): void {

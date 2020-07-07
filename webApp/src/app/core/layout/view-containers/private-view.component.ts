@@ -13,7 +13,7 @@ import { privateRouterTransition, MediaqueryService } from '@/shared';
 @Component({
   selector: 'app-private',
   template: `
-    <section class="grid" [ngClass]="{ 'dark-theme': themeModeSwitched$ | async, 'font-scale': fontResized$ | async }">
+    <section class="grid" [ngClass]="{ 'dark-theme': enableDarkTheme$ | async, 'font-scale': scaleFontUp$ | async }">
       <app-header
         [leftSidebarMinimized]="leftSidebarMinimized$ | async"
         [currentUser]="currentUser$ | async"
@@ -21,7 +21,7 @@ import { privateRouterTransition, MediaqueryService } from '@/shared';
       ></app-header>
       <main>
         <left-sidebar [leftSidebarMinimized]="leftSidebarMinimized$ | async"></left-sidebar>
-        <section class="content">
+        <section class="content" [ngClass]="{ 'dark-theme-bg': enableDarkTheme$ | async }">
           <div
             class="overlay"
             *ngIf="mediaquery.isMobileDevice"
@@ -29,22 +29,18 @@ import { privateRouterTransition, MediaqueryService } from '@/shared';
             (click)="onOverlayClick()"
           ></div>
           <div class="wrapper">
-            <section
-              class="container-fluid py-3 position-relative"
-              [@privateRouterAnimations]="prepareRoute(outlet)"
-              [ngClass]="{ 'dark-theme-bg': themeModeSwitched$ | async }"
-            >
+            <section class="container-fluid py-3 position-relative" [@privateRouterAnimations]="prepareRoute(outlet)">
               <router-outlet #outlet="outlet"></router-outlet>
             </section>
             <app-footer></app-footer>
           </div>
           <right-sidebar
             [rightSidebarMinimized]="rightSidebarMinimized$ | async"
-            [themeModeSwitched]="themeModeSwitched$ | async"
-            [fontResized]="fontResized$ | async"
+            [enableDarkTheme]="enableDarkTheme$ | async"
+            [scaleFontUp]="scaleFontUp$ | async"
             (hideRightSidebar)="toggleRightSidebar($event)"
-            (switchThemeMode)="toogleThemeMode($event)"
-            (resizeFont)="toogleFontSize($event)"
+            (enableThemeDark)="enableDarkTheme($event)"
+            (scaleUpFont)="scaleFontUp($event)"
           ></right-sidebar>
         </section>
       </main>
@@ -56,8 +52,8 @@ import { privateRouterTransition, MediaqueryService } from '@/shared';
 export class PrivateViewComponent implements OnInit, OnDestroy {
   leftSidebarMinimized$: Observable<boolean>;
   rightSidebarMinimized$: Observable<boolean>;
-  themeModeSwitched$: Observable<boolean>;
-  fontResized$: Observable<boolean>;
+  enableDarkTheme$: Observable<boolean>;
+  scaleFontUp$: Observable<boolean>;
   showDebug$: Observable<boolean>;
   currentUser$: Observable<User>;
 
@@ -69,8 +65,8 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
     this.currentUser$ = this.store.pipe(select(currentUser));
     this.leftSidebarMinimized$ = this.store.pipe(select(fromLayout.getLeftSidebarState));
     this.rightSidebarMinimized$ = this.store.pipe(select(fromLayout.getRightSidebarState));
-    this.themeModeSwitched$ = this.store.pipe(select(fromLayout.getThemeModeState));
-    this.fontResized$ = this.store.pipe(select(fromLayout.getFontState));
+    this.enableDarkTheme$ = this.store.pipe(select(fromLayout.getDarkThemeState));
+    this.scaleFontUp$ = this.store.pipe(select(fromLayout.getScalledFontState));
     this.showDebug$ = this.store.pipe(select(isPrivileged('debug-view')));
 
     if (this.mediaquery.isMobileDevice) {
@@ -91,12 +87,12 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
     this.store.dispatch(layoutActions.toggleRightSidebar({ minimized }));
   }
 
-  toogleThemeMode(switched: boolean): void {
-    this.store.dispatch(layoutActions.toogleThemeMode({ switched }));
+  enableDarkTheme(enabled: boolean): void {
+    this.store.dispatch(layoutActions.enableDarkTheme({ enabled }));
   }
 
-  toogleFontSize(resized: boolean): void {
-    this.store.dispatch(layoutActions.toogleFontSize({ resized }));
+  scaleFontUp(scaled: boolean): void {
+    this.store.dispatch(layoutActions.scaleFontUp({ scaled }));
   }
 
   onOverlayClick(): void {

@@ -15,18 +15,18 @@ import { OnlineUserListRequested } from '@/modules/users/store/user.actions';
 export class RightSidebarComponent implements OnInit {
   @Input() rightSidebarMinimized: boolean;
 
-  @Input() themeModeSwitched: boolean;
+  @Input() enableDarkTheme: boolean;
 
-  @Input() fontResized: boolean;
+  @Input() scaleFontUp: boolean;
 
   @Output()
   hideRightSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Output()
-  switchThemeMode: EventEmitter<boolean> = new EventEmitter<boolean>();
+  enableThemeDark: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Output()
-  resizeFont: EventEmitter<boolean> = new EventEmitter<boolean>();
+  scaleUpFont: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @HostBinding('class.minimized') get minimized(): boolean {
     return this.rightSidebarMinimized;
@@ -39,6 +39,10 @@ export class RightSidebarComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(OnlineUserListRequested());
     this.onlineUsers$ = this.store.pipe(select(selectUsersOnline));
+  }
+
+  get themeTipMessage(): string {
+    return this.enableDarkTheme ? 'Dark theme' : 'Light theme';
   }
 
   get sidebarTipMessage(): string {

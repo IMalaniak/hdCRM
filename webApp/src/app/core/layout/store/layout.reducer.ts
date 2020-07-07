@@ -4,23 +4,23 @@ import { createReducer, on, Action } from '@ngrx/store';
 export interface LayoutState {
   hideLeftSidebar: boolean;
   hideRightSidebar: boolean;
-  switchThemeMode: boolean;
-  resizeFont: boolean;
+  enableDarkTheme: boolean;
+  scaleFontUp: boolean;
 }
 
 const initialState: LayoutState = {
   hideLeftSidebar: false,
   hideRightSidebar: false,
-  switchThemeMode: false,
-  resizeFont: false
+  enableDarkTheme: false,
+  scaleFontUp: false
 };
 
 const layoutReducer = createReducer(
   initialState,
   on(LayoutActions.leftSidebarChangeState, (state, { minimized }) => ({ ...state, hideLeftSidebar: minimized })),
   on(LayoutActions.rightSidebarChangeState, (state, { minimized }) => ({ ...state, hideRightSidebar: minimized })),
-  on(LayoutActions.themeModeChangeState, (state, { switched }) => ({ ...state, switchThemeMode: switched })),
-  on(LayoutActions.fontSizeChangeState, (state, { resized }) => ({ ...state, resizeFont: resized })),
+  on(LayoutActions.darkThemeChangeState, (state, { enabled }) => ({ ...state, enableDarkTheme: enabled })),
+  on(LayoutActions.scaleFontUpChangeState, (state, { scaled }) => ({ ...state, scaleFontUp: scaled })),
   on(LayoutActions.initLayoutSettings, (state, { settings }) => ({ ...state, ...settings }))
 );
 

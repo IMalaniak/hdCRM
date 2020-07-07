@@ -33,24 +33,24 @@ export class LayoutEffects {
     )
   );
 
-  toogleThemeMode$ = createEffect(() =>
+  enableDarkTheme$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(layoutActions.toogleThemeMode),
-      map(payload => payload.switched),
-      switchMap(switched => {
-        this.localStorage.setObjectKeyValue('layoutSettings', 'switchThemeMode', switched);
-        return of(layoutActions.themeModeChangeState({ switched }));
+      ofType(layoutActions.enableDarkTheme),
+      map(payload => payload.enabled),
+      switchMap(enabled => {
+        this.localStorage.setObjectKeyValue('layoutSettings', 'enableDarkTheme', enabled);
+        return of(layoutActions.darkThemeChangeState({ enabled }));
       })
     )
   );
 
-  toogleFontSize$ = createEffect(() =>
+  scaleFontUp$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(layoutActions.toogleFontSize),
-      map(payload => payload.resized),
-      switchMap(resized => {
-        this.localStorage.setObjectKeyValue('layoutSettings', 'resizeFont', resized);
-        return of(layoutActions.fontSizeChangeState({ resized }));
+      ofType(layoutActions.scaleFontUp),
+      map(payload => payload.scaled),
+      switchMap(scaled => {
+        this.localStorage.setObjectKeyValue('layoutSettings', 'scaleFontUp', scaled);
+        return of(layoutActions.scaleFontUpChangeState({ scaled }));
       })
     )
   );
