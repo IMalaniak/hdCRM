@@ -6,7 +6,7 @@ import { AppState } from '@/core/reducers';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 
 @Component({
-  selector: 'app-left-sidebar',
+  selector: 'left-sidebar',
   templateUrl: './left-sidebar.component.html',
   styleUrls: ['./left-sidebar.component.scss'],
   encapsulation: ViewEncapsulation.None

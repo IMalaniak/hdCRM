@@ -13,15 +13,15 @@ import { privateRouterTransition, MediaqueryService } from '@/shared';
 @Component({
   selector: 'app-private',
   template: `
-    <section class="grid">
+    <section class="grid" [ngClass]="{ 'dark-theme': enableDarkTheme$ | async, 'font-scale': scaleFontUp$ | async }">
       <app-header
         [leftSidebarMinimized]="leftSidebarMinimized$ | async"
         [currentUser]="currentUser$ | async"
         (hideLeftSidebar)="toggleLeftSidebar($event)"
       ></app-header>
       <main>
-        <app-left-sidebar [leftSidebarMinimized]="leftSidebarMinimized$ | async"></app-left-sidebar>
-        <section class="content">
+        <left-sidebar [leftSidebarMinimized]="leftSidebarMinimized$ | async"></left-sidebar>
+        <section class="content" [ngClass]="{ 'dark-theme-bg': enableDarkTheme$ | async }">
           <div
             class="overlay"
             *ngIf="mediaquery.isMobileDevice"
@@ -34,21 +34,26 @@ import { privateRouterTransition, MediaqueryService } from '@/shared';
             </section>
             <app-footer></app-footer>
           </div>
-          <app-right-sidebar
+          <right-sidebar
             [rightSidebarMinimized]="rightSidebarMinimized$ | async"
+            [enableDarkTheme]="enableDarkTheme$ | async"
+            [scaleFontUp]="scaleFontUp$ | async"
             (hideRightSidebar)="toggleRightSidebar($event)"
-          ></app-right-sidebar>
+            (enableThemeDark)="enableDarkTheme($event)"
+            (scaleUpFont)="scaleFontUp($event)"
+          ></right-sidebar>
         </section>
       </main>
       <!--      <section class="app-messages" *ngIf="showDebug$ | async"></section> -->
     </section>
   `,
-  styles: [],
   animations: [privateRouterTransition]
 })
 export class PrivateViewComponent implements OnInit, OnDestroy {
   leftSidebarMinimized$: Observable<boolean>;
   rightSidebarMinimized$: Observable<boolean>;
+  enableDarkTheme$: Observable<boolean>;
+  scaleFontUp$: Observable<boolean>;
   showDebug$: Observable<boolean>;
   currentUser$: Observable<User>;
 
@@ -56,10 +61,12 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router, public mediaquery: MediaqueryService, private store: Store<AppState>) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.currentUser$ = this.store.pipe(select(currentUser));
     this.leftSidebarMinimized$ = this.store.pipe(select(fromLayout.getLeftSidebarState));
     this.rightSidebarMinimized$ = this.store.pipe(select(fromLayout.getRightSidebarState));
+    this.enableDarkTheme$ = this.store.pipe(select(fromLayout.getDarkThemeState));
+    this.scaleFontUp$ = this.store.pipe(select(fromLayout.getScalledFontState));
     this.showDebug$ = this.store.pipe(select(isPrivileged('debug-view')));
 
     if (this.mediaquery.isMobileDevice) {
@@ -78,6 +85,14 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
 
   toggleRightSidebar(minimized: boolean): void {
     this.store.dispatch(layoutActions.toggleRightSidebar({ minimized }));
+  }
+
+  enableDarkTheme(enabled: boolean): void {
+    this.store.dispatch(layoutActions.enableDarkTheme({ enabled }));
+  }
+
+  scaleFontUp(scaled: boolean): void {
+    this.store.dispatch(layoutActions.scaleFontUp({ scaled }));
   }
 
   onOverlayClick(): void {

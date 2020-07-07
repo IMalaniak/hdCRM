@@ -2,7 +2,7 @@
 @import 'mixins';
 @import '~bootstrap/scss/mixins/breakpoints';
 
-app-left-sidebar {
+left-sidebar {
   @include crm-bgcolor('layout', 'dark');
   position: fixed;
   top: crmsize(header, height, true);

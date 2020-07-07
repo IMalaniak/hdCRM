@@ -7,7 +7,7 @@ import { selectUsersOnline } from '@/modules/users/store/user.selectors';
 import { OnlineUserListRequested } from '@/modules/users/store/user.actions';
 
 @Component({
-  selector: 'app-right-sidebar',
+  selector: 'right-sidebar',
   templateUrl: './right-sidebar.component.html',
   styleUrls: ['./right-sidebar.component.scss'],
   encapsulation: ViewEncapsulation.None
@@ -15,8 +15,18 @@ import { OnlineUserListRequested } from '@/modules/users/store/user.actions';
 export class RightSidebarComponent implements OnInit {
   @Input() rightSidebarMinimized: boolean;
 
+  @Input() enableDarkTheme: boolean;
+
+  @Input() scaleFontUp: boolean;
+
   @Output()
   hideRightSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  @Output()
+  enableThemeDark: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  @Output()
+  scaleUpFont: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @HostBinding('class.minimized') get minimized(): boolean {
     return this.rightSidebarMinimized;
@@ -26,16 +36,16 @@ export class RightSidebarComponent implements OnInit {
 
   constructor(private store: Store<AppState>) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.store.dispatch(OnlineUserListRequested());
     this.onlineUsers$ = this.store.pipe(select(selectUsersOnline));
   }
 
-  get sidebarTipMessage(): string {
-    return this.rightSidebarMinimized ? 'Show side panel' : 'Hide side panel';
+  get themeTipMessage(): string {
+    return this.enableDarkTheme ? 'Dark theme' : 'Light theme';
   }
 
-  toggleRightSidebar(): void {
-    this.hideRightSidebar.emit(!this.rightSidebarMinimized);
+  get sidebarTipMessage(): string {
+    return this.rightSidebarMinimized ? 'Show side panel' : 'Hide side panel';
   }
 }

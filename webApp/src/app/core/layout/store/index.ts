@@ -7,3 +7,5 @@ const getLayoutFeatureState = createFeatureSelector<LayoutState>(layoutFeatureKe
 
 export const getLeftSidebarState = createSelector(getLayoutFeatureState, state => state.hideLeftSidebar);
 export const getRightSidebarState = createSelector(getLayoutFeatureState, state => state.hideRightSidebar);
+export const getDarkThemeState = createSelector(getLayoutFeatureState, state => state.enableDarkTheme);
+export const getScalledFontState = createSelector(getLayoutFeatureState, state => state.scaleFontUp);

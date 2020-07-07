@@ -16,7 +16,7 @@ export class LayoutEffects {
       switchMap(minimized => {
         window.dispatchEvent(new Event('resize'));
         this.localStorage.setObjectKeyValue('layoutSettings', 'hideLeftSidebar', minimized);
-        return of(layoutActions.leftSidebarChangeState({minimized}));
+        return of(layoutActions.leftSidebarChangeState({ minimized }));
       })
     )
   );
@@ -28,7 +28,29 @@ export class LayoutEffects {
       switchMap(minimized => {
         window.dispatchEvent(new Event('resize'));
         this.localStorage.setObjectKeyValue('layoutSettings', 'hideRightSidebar', minimized);
-        return of(layoutActions.rightSidebarChangeState({minimized}));
+        return of(layoutActions.rightSidebarChangeState({ minimized }));
+      })
+    )
+  );
+
+  enableDarkTheme$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(layoutActions.enableDarkTheme),
+      map(payload => payload.enabled),
+      switchMap(enabled => {
+        this.localStorage.setObjectKeyValue('layoutSettings', 'enableDarkTheme', enabled);
+        return of(layoutActions.darkThemeChangeState({ enabled }));
+      })
+    )
+  );
+
+  scaleFontUp$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(layoutActions.scaleFontUp),
+      map(payload => payload.scaled),
+      switchMap(scaled => {
+        this.localStorage.setObjectKeyValue('layoutSettings', 'scaleFontUp', scaled);
+        return of(layoutActions.scaleFontUpChangeState({ scaled }));
       })
     )
   );
@@ -38,7 +60,7 @@ export class LayoutEffects {
       const settings = this.localStorage.getObject('layoutSettings');
 
       if (!!settings) {
-        return of(layoutActions.initLayoutSettings({settings}));
+        return of(layoutActions.initLayoutSettings({ settings }));
       }
     })
   );

@@ -2,7 +2,7 @@
 @import 'mixins';
 @import '~bootstrap/scss/mixins/breakpoints';
 
-app-right-sidebar {
+right-sidebar {
   @include crm-bgcolor('layout', 'background');
   position: fixed;
   top: crmsize(header, height, true);
@@ -40,49 +40,56 @@ app-right-sidebar {
 }
 
 .right-sidebar {
-  position: relative;
+  display: flex;
+  flex-direction: column;
   height: 100%;
   width: 100%;
   border-left: 1px solid lightgray;
 
   &-content {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
   }
 
-  .btn-sidebar-toggle {
-    position: absolute;
-    bottom: 1em;
-    left: 1em;
+  .btn-sidebar-block {
     display: flex;
-    justify-content: center;
+    flex-direction: row;
     align-items: center;
-    padding: 7px 13px;
-    border: 1px solid lightgray;
-    border-radius: 20px;
-    @include crm-bgcolor('layout', 'milk');
-    cursor: pointer;
-    transition: left $transition, padding $transition, border-color $transition, background-color $transition;
+    width: 100%;
+    height: fit-content;
+    padding: 0.8em 0;
+    background-color: transparent;
 
-    &:hover {
-      @include crm-bgcolor('theme', 'primary');
-      border-color: crmcolor('theme', 'primary', true);
-      padding-left: 20px;
+    .btn-sidebar-toggle {
+      position: relative;
+      left: 1em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 7px 13px;
+      border: 1px solid lightgray;
+      border-radius: 20px;
+      @include crm-bgcolor('layout', 'milk');
+      cursor: pointer;
+      transition: left $transition, padding $transition, border-color $transition, background-color $transition;
 
-      > .btn-icon {
-        @include crm-textcolor('layout', 'background');
+      &:hover {
+        @include crm-bgcolor('theme', 'primary');
+        border-color: crmcolor('theme', 'primary', true);
+        padding-left: 20px;
+
+        > .btn-icon {
+          @include crm-textcolor('layout', 'background');
+        }
       }
-    }
 
-    .btn-icon {
-      font-size: 0.85em;
-      color: grey;
-      transition: color $transition, transform $transition;
+      .btn-icon {
+        font-size: 0.85em;
+        color: grey;
+        transition: color $transition, transform $transition;
+      }
     }
   }
 

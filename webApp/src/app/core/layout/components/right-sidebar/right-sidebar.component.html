@@ -1,4 +1,4 @@
-<div class="right-sidebar">
+<div class="right-sidebar" [ngClass]="{ 'dark-theme-bg': enableDarkTheme }">
   <div class="right-sidebar-content">
     <templates-box-user-list-sm
       *ngIf="(onlineUsers$ | async).length > 0"
@@ -10,7 +10,28 @@
     <task-manager></task-manager>
   </div>
 
-  <div class="btn-sidebar-toggle" (click)="toggleRightSidebar()" matTooltip="{{ sidebarTipMessage }}">
-    <fa-icon [icon]="['fas', 'chevron-right']" class="btn-icon"></fa-icon>
+  <div class="btn-sidebar-block">
+    <div
+      class="btn-sidebar-toggle"
+      (click)="hideRightSidebar.emit(!rightSidebarMinimized)"
+      matTooltip="{{ sidebarTipMessage }}"
+    >
+      <fa-icon [icon]="['fas', 'chevron-right']" class="btn-icon"></fa-icon>
+    </div>
+    <atoms-icon-button
+      matType="icon"
+      class="ml-4"
+      [iconColor]="enableDarkTheme ? 'text-secondary' : 'text-warning'"
+      [icon]="enableDarkTheme ? ['fas', 'moon'] : ['fas', 'sun']"
+      (onclick)="enableThemeDark.emit(!enableDarkTheme)"
+      matTooltip="{{ themeTipMessage }}"
+    ></atoms-icon-button>
+    <!-- // TODO: @ArseniiIrod enabled when will add typography rules -->
+    <!-- <atoms-icon-button
+      matType="icon"
+      [iconColor]="scaleFontUp ? 'text-primary' : 'text-secondary'"
+      [icon]="['fas', 'font']"
+      (onclick)="scaleUpFont.emit(!scaleFontUp)"
+    ></atoms-icon-button> -->
   </div>
 </div>
