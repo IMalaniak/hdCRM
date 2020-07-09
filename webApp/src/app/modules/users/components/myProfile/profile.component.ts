@@ -10,7 +10,7 @@ import { selectAllStates } from '../../store/state.selectors';
 import { allStatesRequested } from '../../store/state.actions';
 
 @Component({
-  selector: 'app-profile',
+  selector: 'user-profile',
   templateUrl: './profile.component.html'
 })
 export class ProfileComponent implements OnInit {
@@ -19,7 +19,7 @@ export class ProfileComponent implements OnInit {
   currentSessionId$: Observable<number>;
   isLoading$: Observable<boolean>;
   serverResponse$: Observable<ApiResponse>;
-  tabsToShow: string[] = ['details', 'password', 'sessions'];
+  tabsToShow: string[] = ['details', 'password', 'sessions', 'preferences'];
   editForm$: Observable<boolean>;
 
   constructor(private store: Store<AppState>) {}

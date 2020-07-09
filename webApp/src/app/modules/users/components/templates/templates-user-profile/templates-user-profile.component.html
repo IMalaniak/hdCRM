@@ -26,8 +26,15 @@
           </ng-template>
         </mat-tab>
 
+        <!-- Preferences -->
+        <mat-tab label="Preferences" *ngIf="isTabToShow('preferences')">
+          <ng-template matTabContent>
+            <organisms-user-preferences></organisms-user-preferences>
+          </ng-template>
+        </mat-tab>
+
         <!-- Passwords -->
-        <mat-tab label="Password" *ngIf="isPasswordTabShow">
+        <mat-tab label="Password" *ngIf="isTabToShow('password')">
           <ng-template matTabContent>
             <organisms-user-passwords
               [isLoading]="isLoading"
@@ -37,13 +44,11 @@
         </mat-tab>
 
         <!-- Sessions -->
-        <mat-tab label="Sessions" *ngIf="isShowSessionTab">
+        <mat-tab label="Sessions" *ngIf="isTabToShow('sessions')">
           <ng-template matTabContent>
             <organisms-user-sessions [user]="user" [currentSessionId]="currentSessionId"></organisms-user-sessions>
           </ng-template>
         </mat-tab>
-
-        <!-- <mat-tab label="Preferences"></mat-tab> -->
 
         <!-- <mat-tab label="Organization"></mat-tab> -->
       </mat-tab-group>

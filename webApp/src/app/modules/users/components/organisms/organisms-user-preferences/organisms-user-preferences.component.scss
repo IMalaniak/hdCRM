@@ -1,0 +1,47 @@
+@import 'variables';
+@import 'mixins';
+@import '~bootstrap/scss/mixins/breakpoints';
+
+.preferences {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 1em;
+  margin-top: 2em;
+  @include media-breakpoint-up(sm) {
+    flex-direction: row;
+    width: 75%;
+    margin: 2em auto 0;
+  }
+  @include media-breakpoint-up(md) {
+    width: 85%;
+  }
+  @include media-breakpoint-up(lg) {
+    justify-content: center;
+  }
+
+  &-detail {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2.5em;
+
+    mat-radio-group {
+      display: flex;
+      flex-direction: column;
+
+      mat-radio-button {
+        margin-bottom: 0.5em;
+
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  #time-zone {
+    margin-bottom: 1em;
+    width: 7.5em;
+  }
+}

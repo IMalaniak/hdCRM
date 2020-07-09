@@ -61,11 +61,7 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
     this.store.dispatch(updateUserRequested({ user }));
   }
 
-  get isPasswordTabShow(): boolean {
-    return this.tabsToShow.includes('password');
-  }
-
-  get isShowSessionTab(): boolean {
-    return this.tabsToShow.includes('sessions');
+  isTabToShow(tab: string): boolean {
+    return this.tabsToShow.includes(tab);
   }
 }
