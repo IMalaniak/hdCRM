@@ -1,0 +1,29 @@
+@import 'variables';
+@import 'mixins';
+@import '~bootstrap/scss/mixins/breakpoints';
+
+.preferences {
+  &-detail {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2.5em;
+
+    mat-radio-group {
+      display: flex;
+      flex-direction: column;
+
+      mat-radio-button {
+        margin-bottom: 0.5em;
+
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  #time-zone {
+    margin-bottom: 1em;
+    width: 7.5em;
+  }
+}

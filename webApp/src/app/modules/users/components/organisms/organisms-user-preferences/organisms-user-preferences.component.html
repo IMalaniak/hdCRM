@@ -1,0 +1,79 @@
+<organisms-card cardTitle="Preferences" contentClass="mt-4">
+  <form content class="row preferences mx-auto" [formGroup]="preferencesGroup">
+    <!-- <div class="col-6 col-sm-4 col-md-4 col-lg-4">
+      <div class="preferences-detail">
+        <h5>Time format</h5>
+        <mat-radio-group formControName="timeFormat">
+          <mat-radio-button value=""
+            >12 hours <span class="text-muted ml-1">{{ currentDate | date: 'shortTime' }}</span></mat-radio-button
+          >
+          <mat-radio-button value=""
+            >24 hours <span class="text-muted ml-1">{{ currentDate | date: 'HH:mm' }}</span></mat-radio-button
+          >
+        </mat-radio-group>
+      </div>
+
+      <h5>Time zone</h5>
+      <mat-form-field appearance="outline" id="time-zone">
+        <mat-label>Time zone</mat-label>
+        <mat-select formControlName="timeZone">
+          <mat-option *ngFor="let zone of timeZones" value="">
+            {{ zone }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="preferences-detail">
+        <h5>Date format</h5>
+        <mat-radio-group formControlName="dateFormat">
+          <mat-radio-button value="">{{ currentDate | date: 'longDate' }}</mat-radio-button>
+          <mat-radio-button value="">{{ currentDate | date: 'd MMMM, y' }}</mat-radio-button>
+          <mat-radio-button value="">{{ currentDate | date: 'fullDate' }}</mat-radio-button>
+          <mat-radio-button value="">{{ currentDate | date: 'shortDate' }}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div> -->
+
+    <div class="col-6 col-sm-4 col-md-4 col-lg-4">
+      <!-- <div class="preferences-detail">
+        <h5>Currency</h5>
+        <mat-radio-group formControlName="currency">
+          <mat-radio-button *ngFor="let currency of currencies" value="">{{ currency }}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="preferences-detail">
+        <h5>Language</h5>
+        <mat-radio-group formControlName="language">
+          <mat-radio-button *ngFor="let lang of languages" value="">{{ lang }}</mat-radio-button>
+        </mat-radio-group>
+      </div> -->
+      <div class="preferences-detail">
+        <h5>Theme</h5>
+        <mat-radio-group formControlName="theme" (change)="onThemeChange($event)">
+          <mat-radio-button *ngFor="let theme of themes" [value]="theme">{{ theme }}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+
+    <!-- <div class="col-12 col-sm-4 col-md-4 col-lg-4">
+      <div class="preferences-detail">
+        <h5>Font size</h5>
+        <mat-radio-group formControlName="fontSize">
+          <mat-radio-button *ngFor="let size of fontSizes" value="">{{ size }}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="preferences-detail">
+        <h5>List view</h5>
+        <mat-radio-group formControlName="listView">
+          <mat-radio-button *ngFor="let view of listViews" value="">{{ view }}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="preferences-detail">
+        <h5>Items per page (table)</h5>
+        <mat-radio-group formControlName="itemsPerPage">
+          <mat-radio-button *ngFor="let item of itemsPerPage" value="">{{ item }}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div> -->
+  </form>
+</organisms-card>

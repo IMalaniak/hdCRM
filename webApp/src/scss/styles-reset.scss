@@ -36,3 +36,10 @@ a:focus {
 .hover-bg-none.mat-button.mat-warn .mat-button-focus-overlay {
   background-color: transparent;
 }
+
+// TODO: @ArseniiIrod remove it and replace after creating atoms-radio-button
+.mat-radio-label-content {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
