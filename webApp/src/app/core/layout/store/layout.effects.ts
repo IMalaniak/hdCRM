@@ -4,10 +4,15 @@ import { defer, of } from 'rxjs';
 import * as layoutActions from './layout.actions';
 import { switchMap, map } from 'rxjs/operators';
 import { LocalStorageService } from '@/shared';
+import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Injectable()
 export class LayoutEffects {
-  constructor(private actions$: Actions, private localStorage: LocalStorageService) {}
+  constructor(
+    private actions$: Actions,
+    private localStorage: LocalStorageService,
+    private overlayContainer: OverlayContainer
+  ) {}
 
   toggleLeftSidebar$ = createEffect(() =>
     this.actions$.pipe(
@@ -39,6 +44,11 @@ export class LayoutEffects {
       map(payload => payload.enabled),
       switchMap(enabled => {
         this.localStorage.setObjectKeyValue('layoutSettings', 'enableDarkTheme', enabled);
+        if (enabled) {
+          this.overlayContainer.getContainerElement().classList.add('dark-theme');
+        } else {
+          this.overlayContainer.getContainerElement().classList.remove('dark-theme');
+        }
         return of(layoutActions.darkThemeChangeState({ enabled }));
       })
     )
@@ -60,6 +70,12 @@ export class LayoutEffects {
       const settings = this.localStorage.getObject('layoutSettings');
 
       if (!!settings) {
+        if (settings.enableDarkTheme) {
+          this.overlayContainer.getContainerElement().classList.add('dark-theme');
+        } else {
+          this.overlayContainer.getContainerElement().classList.remove('dark-theme');
+        }
+
         return of(layoutActions.initLayoutSettings({ settings }));
       }
     })

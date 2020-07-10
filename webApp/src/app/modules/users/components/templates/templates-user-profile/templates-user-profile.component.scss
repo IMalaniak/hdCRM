@@ -2,6 +2,8 @@
 @import 'mixins';
 
 .profile {
+  margin-top: -1em;
+
   &-aside {
     $hHeight: crmsize(header, height, true);
     min-height: calc(100vh - #{$hHeight});
