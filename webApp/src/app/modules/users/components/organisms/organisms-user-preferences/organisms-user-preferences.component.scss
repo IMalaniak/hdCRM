@@ -3,24 +3,6 @@
 @import '~bootstrap/scss/mixins/breakpoints';
 
 .preferences {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 1em;
-  margin-top: 2em;
-  @include media-breakpoint-up(sm) {
-    flex-direction: row;
-    width: 75%;
-    margin: 2em auto 0;
-  }
-  @include media-breakpoint-up(md) {
-    width: 85%;
-  }
-  @include media-breakpoint-up(lg) {
-    justify-content: center;
-  }
-
   &-detail {
     display: flex;
     flex-direction: column;

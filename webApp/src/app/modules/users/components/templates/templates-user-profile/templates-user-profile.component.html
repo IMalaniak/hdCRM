@@ -29,7 +29,7 @@
         <!-- Preferences -->
         <mat-tab label="Preferences" *ngIf="isTabToShow('preferences')">
           <ng-template matTabContent>
-            <organisms-user-preferences></organisms-user-preferences>
+            <organisms-user-preferences [enabledDarkTheme]="enableDarkTheme$ | async"></organisms-user-preferences>
           </ng-template>
         </mat-tab>
 

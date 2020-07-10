@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { MatRadioChange } from '@angular/material/radio';
+import { Store } from '@ngrx/store';
+import { AppState } from '@/core/reducers';
+import * as layoutActions from '@/core/layout/store/layout.actions';
 
 @Component({
   selector: 'organisms-user-preferences',
@@ -7,19 +11,13 @@ import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
   styleUrls: ['./organisms-user-preferences.component.scss']
 })
 export class OrganismsUserPreferencesComponent implements OnInit {
-  // @ArseniiIrod get this mock data properties from back-end
-  currentDate: Date = new Date();
-  timeZones: string[] = ['UTC', 'UTC +1', 'UTC +2', 'UTC +3'];
-  currencies: string[] = ['$', '€', '₴'];
-  languages: string[] = ['English', 'Українська'];
-  themes: string[] = ['Light theme', 'Dark theme'];
-  fontSizes: string[] = ['Small', 'Normal', 'Large'];
-  listViews: string[] = ['Card view', 'Table view'];
-  itemsPerPage: string[] = ['5', '10', '15', '20'];
+  @Input() enabledDarkTheme: boolean;
+
+  themes: string[] = ['Light theme', 'Dark theme']; // TODO: @ArseniiIrod remove it after created end-point
 
   preferencesGroup: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private store: Store<AppState>, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.buildPreferencesGroup();
@@ -32,10 +30,14 @@ export class OrganismsUserPreferencesComponent implements OnInit {
       dateFormat: new FormControl(null),
       currency: new FormControl(null),
       language: new FormControl(null),
-      theme: new FormControl(null),
+      theme: new FormControl(!this.enabledDarkTheme ? this.themes[0] : this.themes[1]),
       fontSize: new FormControl(null),
       listView: new FormControl(null),
       itemsPerPage: new FormControl(null)
     });
+  }
+
+  onThemeChange(event: MatRadioChange): void {
+    this.store.dispatch(layoutActions.enableDarkTheme({ enabled: !!(event.value === 'Dark theme') }));
   }
 }

@@ -1,6 +1,6 @@
-<organisms-card cardTitle="Preferences">
-  <form content class="preferences" [formGroup]="preferencesGroup">
-    <div class="d-flex flex-column mr-lg-5">
+<organisms-card cardTitle="Preferences" contentClass="mt-4">
+  <form content class="row preferences mx-auto" [formGroup]="preferencesGroup">
+    <!-- <div class="col-6 col-sm-4 col-md-4 col-lg-4">
       <div class="preferences-detail">
         <h5>Time format</h5>
         <mat-radio-group formControName="timeFormat">
@@ -32,26 +32,30 @@
           <mat-radio-button value="">{{ currentDate | date: 'shortDate' }}</mat-radio-button>
         </mat-radio-group>
       </div>
-      <div class="preferences-detail">
+    </div> -->
+
+    <div class="col-6 col-sm-4 col-md-4 col-lg-4">
+      <!-- <div class="preferences-detail">
         <h5>Currency</h5>
         <mat-radio-group formControlName="currency">
           <mat-radio-button *ngFor="let currency of currencies" value="">{{ currency }}</mat-radio-button>
         </mat-radio-group>
       </div>
-    </div>
-    <div class="d-flex flex-column ml-lg-5">
       <div class="preferences-detail">
         <h5>Language</h5>
         <mat-radio-group formControlName="language">
           <mat-radio-button *ngFor="let lang of languages" value="">{{ lang }}</mat-radio-button>
         </mat-radio-group>
-      </div>
+      </div> -->
       <div class="preferences-detail">
         <h5>Theme</h5>
-        <mat-radio-group formControlName="theme">
-          <mat-radio-button *ngFor="let theme of themes" value="">{{ theme }}</mat-radio-button>
+        <mat-radio-group formControlName="theme" (change)="onThemeChange($event)">
+          <mat-radio-button *ngFor="let theme of themes" [value]="theme">{{ theme }}</mat-radio-button>
         </mat-radio-group>
       </div>
+    </div>
+
+    <!-- <div class="col-12 col-sm-4 col-md-4 col-lg-4">
       <div class="preferences-detail">
         <h5>Font size</h5>
         <mat-radio-group formControlName="fontSize">
@@ -70,6 +74,6 @@
           <mat-radio-button *ngFor="let item of itemsPerPage" value="">{{ item }}</mat-radio-button>
         </mat-radio-group>
       </div>
-    </div>
+    </div> -->
   </form>
 </organisms-card>
