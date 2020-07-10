@@ -53,7 +53,6 @@ import { UserEffects } from '@/modules/users/store/user.effects';
 import { UserService } from '@/modules/users';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { TaskManagerModule } from '@/modules/task-manager/task-manager.module';
-import { OverlayContainer } from '@angular/cdk/overlay';
 
 @NgModule({
   imports: [
@@ -89,8 +88,7 @@ import { OverlayContainer } from '@angular/cdk/overlay';
   ]
 })
 export class LayoutModule {
-  constructor(library: FaIconLibrary, overlayContainer: OverlayContainer) {
-    overlayContainer.getContainerElement().classList.add('dark-theme');
+  constructor(library: FaIconLibrary) {
     library.addIcons(
       faFacebookSquare,
       faTwitterSquare,
