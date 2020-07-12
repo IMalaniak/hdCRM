@@ -36,7 +36,7 @@ export class AuthEffects implements OnInitEffects {
           map(user => authActions.registerSuccess(user)),
           tap(() => this.router.navigateByUrl('/auth/register-success')),
           catchError((errorResponse: HttpErrorResponse) =>
-            of(authActions.registerFailure({ response: errorResponse.error }))
+            of(authActions.registerFailure({ apiResp: errorResponse.error }))
           )
         )
       )
@@ -56,7 +56,7 @@ export class AuthEffects implements OnInitEffects {
         const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
         this.router.navigateByUrl(returnUrl);
       }),
-      catchError((errorResponse: HttpErrorResponse) => of(authActions.logInFailure({ response: errorResponse.error })))
+      catchError((errorResponse: HttpErrorResponse) => of(authActions.logInFailure({ apiResp: errorResponse.error })))
     )
   );
 
@@ -82,9 +82,9 @@ export class AuthEffects implements OnInitEffects {
       map(payload => payload.user),
       switchMap(user =>
         this.authService.requestPasswordReset(user).pipe(
-          map(response => authActions.resetPasswordSuccess({ response })),
+          map(apiResp => authActions.resetPasswordSuccess({ apiResp })),
           catchError((errorResponse: HttpErrorResponse) =>
-            of(authActions.resetPasswordFailure({ response: errorResponse.error }))
+            of(authActions.resetPasswordFailure({ apiResp: errorResponse.error }))
           )
         )
       )
@@ -97,9 +97,9 @@ export class AuthEffects implements OnInitEffects {
       map(payload => payload.newPassword),
       switchMap(newPassword =>
         this.authService.resetPassword(newPassword).pipe(
-          map(response => authActions.resetPasswordSuccess({ response })),
+          map(apiResp => authActions.resetPasswordSuccess({ apiResp })),
           catchError((errorResponse: HttpErrorResponse) =>
-            of(authActions.resetPasswordFailure({ response: errorResponse.error }))
+            of(authActions.resetPasswordFailure({ apiResp: errorResponse.error }))
           )
         )
       )
@@ -112,9 +112,9 @@ export class AuthEffects implements OnInitEffects {
       map(payload => payload.token),
       concatMap(token =>
         this.authService.activateAccount(token).pipe(
-          map(response => authActions.activateAccountSuccess({ response })),
+          map(apiResp => authActions.activateAccountSuccess({ apiResp })),
           catchError((errorResponse: HttpErrorResponse) =>
-            of(authActions.activateAccountFailure({ response: errorResponse.error }))
+            of(authActions.activateAccountFailure({ apiResp: errorResponse.error }))
           )
         )
       )
@@ -159,7 +159,7 @@ export class AuthEffects implements OnInitEffects {
             return authActions.currentUserLoaded({ currentUser });
           }),
           catchError((errorResponse: HttpErrorResponse) =>
-            of(authActions.currentUserLoadFailed({ response: errorResponse.error }))
+            of(authActions.currentUserLoadFailed({ apiResp: errorResponse.error }))
           )
         )
       )
@@ -182,7 +182,7 @@ export class AuthEffects implements OnInitEffects {
         return [authActions.refreshSessionSuccess({ accessToken }), authActions.setSessionId({ sessionId })];
       }),
       catchError((errorResponse: HttpErrorResponse) =>
-        of(authActions.refreshSessionFailure({ response: errorResponse.error }))
+        of(authActions.refreshSessionFailure({ apiResp: errorResponse.error }))
       )
     )
   );
@@ -192,7 +192,7 @@ export class AuthEffects implements OnInitEffects {
       ofType(authActions.deleteSession),
       map(payload => payload.id),
       switchMap(id => this.authService.deleteSession(id)),
-      map(response => {
+      map(apiResp => {
         Swal.fire({
           text: 'Session is deactivated',
           toast: true,
@@ -201,10 +201,10 @@ export class AuthEffects implements OnInitEffects {
           showConfirmButton: false,
           position: 'bottom-end'
         });
-        return authActions.deleteSessionSuccess({ response });
+        return authActions.deleteSessionSuccess({ apiResp });
       }),
       catchError((errorResponse: HttpErrorResponse) =>
-        of(authActions.deleteSessionFailure({ response: errorResponse.error }))
+        of(authActions.deleteSessionFailure({ apiResp: errorResponse.error }))
       )
     )
   );
@@ -214,7 +214,7 @@ export class AuthEffects implements OnInitEffects {
       ofType(authActions.deleteMultipleSession),
       map(payload => payload.sessionIds),
       switchMap(sessionIds => this.authService.deleteSessionMultiple(sessionIds)),
-      map(response => {
+      map(apiResp => {
         Swal.fire({
           text: 'Sessions are deactivated',
           toast: true,
@@ -223,10 +223,10 @@ export class AuthEffects implements OnInitEffects {
           showConfirmButton: false,
           position: 'bottom-end'
         });
-        return authActions.deleteSessionSuccess({ response });
+        return authActions.deleteSessionSuccess({ apiResp });
       }),
       catchError((errorResponse: HttpErrorResponse) =>
-        of(authActions.deleteSessionFailure({ response: errorResponse.error }))
+        of(authActions.deleteSessionFailure({ apiResp: errorResponse.error }))
       )
     )
   );

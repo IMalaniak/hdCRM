@@ -6,13 +6,13 @@ export const registerUser = createAction('[Auth] Register User Requested', props
 
 export const registerSuccess = createAction('[Auth API] Register Success', props<{ user: User }>());
 
-export const registerFailure = createAction('[Auth API] Register Failure', props<{ response: ApiResponse }>());
+export const registerFailure = createAction('[Auth API] Register Failure', props<{ apiResp: ApiResponse }>());
 
 export const logIn = createAction('[Auth] Login', props<{ user: User }>());
 
 export const logInSuccess = createAction('[Auth API] Login Success', props<{ accessToken: string }>());
 
-export const logInFailure = createAction('[Auth API] Login Failure', props<{ response: ApiResponse }>());
+export const logInFailure = createAction('[Auth API] Login Failure', props<{ apiResp: ApiResponse }>());
 
 export const refreshSession = createAction('[Auth] Refresh Session Token');
 
@@ -23,7 +23,7 @@ export const refreshSessionSuccess = createAction(
 
 export const refreshSessionFailure = createAction(
   '[Auth API] Refresh Session Failure',
-  props<{ response: ApiResponse }>()
+  props<{ apiResp: ApiResponse }>()
 );
 
 export const setSessionId = createAction('[Auth Effect] Set Session Id', props<{ sessionId: number }>());
@@ -34,11 +34,11 @@ export const deleteMultipleSession = createAction(
 );
 export const deleteSessionSuccess = createAction(
   '[Users API] Delete User Session Success',
-  props<{ response: ApiResponse }>()
+  props<{ apiResp: ApiResponse }>()
 );
 export const deleteSessionFailure = createAction(
   '[Users API] Delete User Session Failure',
-  props<{ response: ApiResponse }>()
+  props<{ apiResp: ApiResponse }>()
 );
 
 export const checkIsTokenValid = createAction('[Auth] Check Token Validity');
@@ -51,24 +51,24 @@ export const resetPasswordRequest = createAction('[Auth] Reset Password Requeste
 
 export const resetPasswordSuccess = createAction(
   '[Auth API] Reset Password Success',
-  props<{ response: ApiResponse }>()
+  props<{ apiResp: ApiResponse }>()
 );
 
 export const resetPasswordFailure = createAction(
   '[Auth API] Reset Password Failure',
-  props<{ response: ApiResponse }>()
+  props<{ apiResp: ApiResponse }>()
 );
 
 export const activateAccount = createAction('[Auth] Account Activation Requested', props<{ token: string }>());
 
 export const activateAccountSuccess = createAction(
   '[Auth API] Account Activation Success',
-  props<{ response: ApiResponse }>()
+  props<{ apiResp: ApiResponse }>()
 );
 
 export const activateAccountFailure = createAction(
   '[Auth API] Account Activation Failure',
-  props<{ response: ApiResponse }>()
+  props<{ apiResp: ApiResponse }>()
 );
 
 export const logOut = createAction('[Auth] Logout');
@@ -107,5 +107,5 @@ export const requestCurrentUser = createAction('[App] Current User Requested');
 export const currentUserLoaded = createAction('[Auth API] Current User Loaded', props<{ currentUser: User }>());
 export const currentUserLoadFailed = createAction(
   '[Auth API] Current User Load Failure',
-  props<{ response: ApiResponse }>()
+  props<{ apiResp: ApiResponse }>()
 );
