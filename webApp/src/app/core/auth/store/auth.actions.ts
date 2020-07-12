@@ -77,6 +77,19 @@ export const redirectToLogin = createAction('[Auth] Redirect To Login');
 
 export const getStatus = createAction('[Auth] Get Status');
 
+export const updateUserProfileRequested = createAction(
+  '[My Profile] Update User Profile Requested',
+  props<{ user: User }>()
+);
+export const updateUserProfileSuccess = createAction(
+  '[User API]  Update User Profile Success',
+  props<{ currentUser: User }>()
+);
+export const updateUserProfileFailure = createAction(
+  '[User API]  Update User Profile Failure',
+  props<{ apiResp: ApiResponse }>()
+);
+
 export const updateUserOrgRequested = createAction(
   '[My Profile] Update User Organization Requested',
   props<{ organization: Organization }>()

@@ -66,6 +66,10 @@ export class UserService {
     return this.http.put<User[]>(`${this.api}/changeStateOfSelected`, data);
   }
 
+  changeOldPassword(data: NewPassword): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.api}/change-password`, data);
+  }
+
   formatBeforeSend(user: User): User {
     const formated = { ...user };
     if (formated.State) {
@@ -82,9 +86,5 @@ export class UserService {
       });
     }
     return formated as User;
-  }
-
-  changeOldPassword(data: NewPassword): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.api}/change-password`, data);
   }
 }

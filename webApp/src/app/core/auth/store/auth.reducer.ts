@@ -39,6 +39,7 @@ const authReducer = createReducer(
     AuthActions.activateAccount,
     AuthActions.requestCurrentUser,
     AuthActions.updateUserOrgRequested,
+    AuthActions.updateUserProfileRequested,
     state => ({ ...state, loading: true })
   ),
   on(AuthActions.registerSuccess, AuthActions.deleteSessionSuccess, state => ({ ...state, loading: false })),
@@ -71,6 +72,7 @@ const authReducer = createReducer(
   on(AuthActions.activateAccountFailure, (state, { response }) => ({ ...state, loading: false, apiResp: response })),
   on(AuthActions.profileSaved, (state, { user }) => ({ ...state, currentUser: user })),
   on(AuthActions.currentUserLoaded, (state, { currentUser }) => ({ ...state, currentUser, loading: false })),
+  on(AuthActions.updateUserProfileSuccess, (state, { currentUser }) => ({ ...state, currentUser, loading: false })),
   on(AuthActions.updateUserOrgSuccess, (state: AuthState, { organization }) => {
     const currentUser = { ...state.currentUser };
     currentUser.Organization = organization;
@@ -78,6 +80,7 @@ const authReducer = createReducer(
   }),
   on(
     AuthActions.updateUserOrgFailure,
+    AuthActions.updateUserProfileFailure,
     (state, { apiResp }) => ({
       ...state,
       apiResp,

@@ -253,6 +253,28 @@ export class AuthEffects implements OnInitEffects {
     )
   );
 
+  updateProfile$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authActions.updateUserProfileRequested),
+      map(payload => payload.user),
+      switchMap(user => this.authService.updateProfile(user)),
+      switchMap(currentUser => {
+        Swal.fire({
+          text: 'Your profile is updated!',
+          icon: 'success',
+          timer: 6000,
+          toast: true,
+          showConfirmButton: false,
+          position: 'bottom-end'
+        });
+        return [authActions.updateUserProfileSuccess({ currentUser }), changeIsEditingState({ isEditing: false })];
+      }),
+      catchError((errorResponse: HttpErrorResponse) =>
+        of(authActions.updateUserOrgFailure({ apiResp: errorResponse.error }))
+      )
+    )
+  );
+
   updateUserOrg$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authActions.updateUserOrgRequested),

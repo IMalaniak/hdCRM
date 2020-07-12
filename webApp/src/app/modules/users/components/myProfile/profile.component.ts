@@ -8,13 +8,15 @@ import { ApiResponse } from '@/shared';
 import { selectIsLoading, getApiResponse, selectIsEditing } from '../../store/user.selectors';
 import { selectAllStates } from '../../store/state.selectors';
 import { allStatesRequested } from '../../store/state.actions';
+import { cloneDeep } from 'lodash';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'user-profile',
   templateUrl: './profile.component.html'
 })
 export class ProfileComponent implements OnInit {
-  user$: Observable<User>;
+  user: User;
   states$: Observable<State[]>;
   currentSessionId$: Observable<number>;
   isLoading$: Observable<boolean>;
@@ -22,11 +24,11 @@ export class ProfileComponent implements OnInit {
   tabsToShow: string[] = ['details', 'org', 'password', 'sessions', 'preferences'];
   editForm$: Observable<boolean>;
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private route: ActivatedRoute, private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.store.dispatch(allStatesRequested());
-    this.user$ = this.store.pipe(select(currentUser));
+    this.user = cloneDeep(this.route.snapshot.data['user']);
     this.currentSessionId$ = this.store.pipe(select(getSessionId));
     this.states$ = this.store.pipe(select(selectAllStates));
     this.isLoading$ = this.store.pipe(select(selectIsLoading));

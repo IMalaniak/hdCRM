@@ -8,6 +8,7 @@ import { updateUserRequested, changeIsEditingState } from '@/modules/users/store
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import * as fromLayout from '../../../../../core/layout/store';
+import { updateUserOrgRequested, updateUserProfileRequested } from '@/core/auth/store/auth.actions';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -43,7 +44,7 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
         isEditing = JSON.parse(isEditing);
         this.store.dispatch(changeIsEditingState({ isEditing }));
       }
-  }
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -67,8 +68,18 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
       user.avatarId = asset.id;
       this.setCover(asset);
     }
-    this.store.dispatch(updateUserRequested({ user }));
+    if (this.isProfilePage) {
+      this.store.dispatch(updateUserProfileRequested({ user }));
+    } else {
+      this.store.dispatch(updateUserRequested({ user }));
+    }
   }
+
+  updateUser(user: User): void {
+    this.user = user;
+    this.updateUserStore();
+  }
+
   updateUserOrg(organization: Organization): void {
     if (this.isProfilePage) {
       this.store.dispatch(updateUserOrgRequested({ organization }));
