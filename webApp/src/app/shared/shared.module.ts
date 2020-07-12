@@ -31,13 +31,13 @@ import {
   faUserSlash,
   faUserTimes,
   faPhone,
-  faCompressArrowsAlt,
-  faExpandArrowsAlt,
   faUser,
   faToggleOn,
   faDesktop,
   faMobileAlt,
-  faTabletAlt
+  faTabletAlt,
+  faExpandAlt,
+  faCompressAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { faFontAwesomeFlag } from '@fortawesome/free-brands-svg-icons';
 import { COMPONENTS } from './imports';
@@ -85,8 +85,8 @@ export class SharedModule {
       faUserTimes,
       faPhone,
       faFontAwesomeFlag,
-      faCompressArrowsAlt,
-      faExpandArrowsAlt,
+      faCompressAlt,
+      faExpandAlt,
       faUser,
       faToggleOn,
       faDesktop,
