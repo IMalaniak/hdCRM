@@ -410,4 +410,26 @@ export class UserController {
         return res.status(BAD_REQUEST).json(error.toString());
       });
   }
+
+  @Put('org/:id')
+  @Middleware([Passport.authenticate()])
+  private updateOrg(req: Request, res: Response) {
+    this.userDbCtrl
+      .editOrg(req.body)
+      .then(() => {
+        req.user
+          .getOrganization()
+          .then(org => {
+            return res.status(OK).json(org);
+          })
+          .catch((error: any) => {
+            Logger.Err(error);
+            return res.status(BAD_REQUEST).json(error.toString());
+          });
+      })
+      .catch((error: any) => {
+        Logger.Err(error);
+        return res.status(BAD_REQUEST).json(error.toString());
+      });
+  }
 }

@@ -149,4 +149,9 @@ export class UserDBController {
       where: { id }
     });
   }
+
+  public editOrg(org: db.Organization) {
+    Logger.Info(`Editing userOrg by id: ${org.id}`);
+    return db.Organization.update({ ...org }, { where: { id: org.id } });
+  }
 }
