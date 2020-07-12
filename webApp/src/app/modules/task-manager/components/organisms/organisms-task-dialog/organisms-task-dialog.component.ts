@@ -48,8 +48,4 @@ export class OrganismsTaskDialogComponent implements OnInit {
   onSubmit(): void {
     this.dialogRef.close({ ...this.taskData.value });
   }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
 }
