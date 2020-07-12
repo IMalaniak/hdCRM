@@ -44,9 +44,7 @@ a:focus {
   white-space: nowrap;
 }
 
-mat-menu {
-  .mat-menu-content {
-    display: flex;
-    flex-direction: column;
-  }
+.mat-menu-content {
+  display: flex;
+  flex-direction: column;
 }
