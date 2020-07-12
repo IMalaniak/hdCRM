@@ -14,6 +14,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Store, select, Action } from '@ngrx/store';
 import { getToken } from './auth.selectors';
 import { selectUrl, AppState } from '@/core/reducers';
+import { changeIsEditingState } from '@/modules/users/store/user.actions';
 
 @Injectable()
 export class AuthEffects implements OnInitEffects {
@@ -249,6 +250,28 @@ export class AuthEffects implements OnInitEffects {
     this.actions$.pipe(
       ofType(authActions.checkIsTokenValidFailure),
       mergeMap(() => of(authActions.refreshSession()))
+    )
+  );
+
+  updateUserOrg$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authActions.updateUserOrgRequested),
+      map(payload => payload.organization),
+      switchMap(organization => this.authService.updateOrg(organization)),
+      switchMap(organization => {
+        Swal.fire({
+          text: 'Organization is updated!',
+          icon: 'success',
+          timer: 6000,
+          toast: true,
+          showConfirmButton: false,
+          position: 'bottom-end'
+        });
+        return [authActions.updateUserOrgSuccess({ organization }), changeIsEditingState({ isEditing: false })];
+      }),
+      catchError((errorResponse: HttpErrorResponse) =>
+        of(authActions.updateUserOrgFailure({ apiResp: errorResponse.error }))
+      )
     )
   );
 

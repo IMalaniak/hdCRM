@@ -1,5 +1,5 @@
 import { props, createAction } from '@ngrx/store';
-import { User } from '@/modules/users/models';
+import { User, Organization } from '@/modules/users/models';
 import { ApiResponse, NewPassword } from '@/shared';
 
 export const registerUser = createAction('[Auth] Register User Requested', props<{ user: User }>());
@@ -77,7 +77,19 @@ export const redirectToLogin = createAction('[Auth] Redirect To Login');
 
 export const getStatus = createAction('[Auth] Get Status');
 
-export const profileSaved = createAction('[My Profile] Profile Saved', props<{ user: User }>());
+export const updateUserOrgRequested = createAction(
+  '[My Profile] Update User Organization Requested',
+  props<{ organization: Organization }>()
+);
+export const updateUserOrgSuccess = createAction(
+  '[User API] Update User Organization Success',
+  props<{ organization: Organization }>()
+);
+export const updateUserOrgFailure = createAction(
+  '[User API] Update User Organization Failure',
+  props<{ apiResp: ApiResponse }>()
+);
+
 export const requestCurrentUser = createAction('[App] Current User Requested');
 export const currentUserLoaded = createAction('[Auth API] Current User Loaded', props<{ currentUser: User }>());
 export const currentUserLoadFailed = createAction(

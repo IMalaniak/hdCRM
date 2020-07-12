@@ -38,6 +38,7 @@ const authReducer = createReducer(
     AuthActions.resetPasswordRequest,
     AuthActions.activateAccount,
     AuthActions.requestCurrentUser,
+    AuthActions.updateUserOrgRequested,
     state => ({ ...state, loading: true })
   ),
   on(AuthActions.registerSuccess, AuthActions.deleteSessionSuccess, state => ({ ...state, loading: false })),
@@ -70,7 +71,19 @@ const authReducer = createReducer(
   on(AuthActions.activateAccountFailure, (state, { response }) => ({ ...state, loading: false, apiResp: response })),
   on(AuthActions.profileSaved, (state, { user }) => ({ ...state, currentUser: user })),
   on(AuthActions.currentUserLoaded, (state, { currentUser }) => ({ ...state, currentUser, loading: false })),
-  on(AuthActions.currentUserLoadFailed, (state, { response }) => ({ ...state, apiResp: response, loading: false }))
+  on(AuthActions.updateUserOrgSuccess, (state: AuthState, { organization }) => {
+    const currentUser = { ...state.currentUser };
+    currentUser.Organization = organization;
+    return { ...state, currentUser };
+  }),
+  on(
+    AuthActions.updateUserOrgFailure,
+    (state, { apiResp }) => ({
+      ...state,
+      apiResp,
+      loading: false
+    })
+  )
 );
 
 export function reducer(state: AuthState | undefined, action: Action) {
