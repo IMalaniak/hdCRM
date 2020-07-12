@@ -15,7 +15,8 @@ import {
   OrganismsUserSessionsComponent,
   OrganismsUserPasswordsComponent,
   TemplatesUserProfileComponent,
-  OrganismsUserPreferencesComponent
+  OrganismsUserPreferencesComponent,
+  OrganismsUserOrganizationComponent
 } from './components';
 
 import { UserService, StateService } from './services';
@@ -48,7 +49,8 @@ import { StateEffects } from './store/state.effects';
     OrganismsUserSessionsComponent,
     OrganismsUserPasswordsComponent,
     TemplatesUserProfileComponent,
-    OrganismsUserPreferencesComponent
+    OrganismsUserPreferencesComponent,
+    OrganismsUserOrganizationComponent
   ],
   providers: [UserService, StateService],
   exports: [UserComponent, UsersComponent, UsersDialogComponent]

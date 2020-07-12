@@ -19,7 +19,7 @@ export class ProfileComponent implements OnInit {
   currentSessionId$: Observable<number>;
   isLoading$: Observable<boolean>;
   serverResponse$: Observable<ApiResponse>;
-  tabsToShow: string[] = ['details', 'password', 'sessions', 'preferences'];
+  tabsToShow: string[] = ['details', 'org', 'password', 'sessions', 'preferences'];
   editForm$: Observable<boolean>;
 
   constructor(private store: Store<AppState>) {}
