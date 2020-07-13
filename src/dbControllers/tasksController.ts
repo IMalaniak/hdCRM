@@ -44,7 +44,7 @@ export class TaskDBController {
     );
   }
 
-  public deleteOne(id: number | string) {
+  public deleteTask(id: number | string | number[] | string[]) {
     Logger.Info(`Deleting task by id: ${id}...`);
     return db.Task.destroy({
       where: { id }

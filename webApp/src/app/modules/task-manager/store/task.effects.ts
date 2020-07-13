@@ -108,6 +108,31 @@ export class TaskEffects {
     }
   );
 
+  deleteMultipleTask$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TaskActions.deleteMultipleTaskRequested),
+      map(payload => payload.taskIds),
+      switchMap((taskIds: number[]) =>
+        this.taskService.deleteMultipleTask(taskIds).pipe(
+          map(response => {
+            return TaskActions.deleteMultipleTaskSuccess({ taskIds });
+          }),
+          catchError(error => {
+            Swal.fire({
+              text: 'Ooops, something went wrong!',
+              icon: 'error',
+              timer: 2500,
+              toast: true,
+              showConfirmButton: false,
+              position: 'bottom-end'
+            });
+            return of(TaskActions.deleteMultipleTaskFailure({ error }));
+          })
+        )
+      )
+    )
+  );
+
   loadPriorities$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TaskActions.taskPrioritiesRequested),

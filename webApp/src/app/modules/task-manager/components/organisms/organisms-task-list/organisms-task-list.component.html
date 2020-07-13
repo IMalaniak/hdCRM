@@ -2,17 +2,60 @@
   <div buttons>
     <atoms-icon-button
       matType="icon"
-      (click)="openTaskDialog()"
-      [icon]="['fas', 'plus']"
+      [matMenuTriggerFor]="menu"
+      color="basic"
+      [icon]="['fas', 'ellipsis-v']"
+      *ngIf="tasks.length >= 2"
+    >
+    </atoms-icon-button>
+
+    <mat-menu #menu="matMenu">
+      <atoms-icon-button
+        matType="basic"
+        color="basic"
+        [showButtonTextOnSm]="true"
+        [fullWidth]="true"
+        [icon]="['fas', 'compress-alt']"
+        (onclick)="taskAccordion.closeAll()"
+      >
+        Collapse all
+      </atoms-icon-button>
+      <atoms-icon-button
+        matType="basic"
+        color="basic"
+        [showButtonTextOnSm]="true"
+        [fullWidth]="true"
+        [icon]="['fas', 'expand-alt']"
+        (onclick)="taskAccordion.openAll()"
+      >
+        Expand all
+      </atoms-icon-button>
+      <atoms-icon-button
+        matType="basic"
+        color="warn"
+        [showButtonTextOnSm]="true"
+        [fullWidth]="true"
+        [icon]="['fas', 'trash']"
+        [disabled]="!completedTasksLength"
+        (onclick)="deleteMultipleTask()"
+      >
+        Delete completed
+      </atoms-icon-button>
+    </mat-menu>
+
+    <atoms-icon-button
+      matType="icon"
       color="primary"
       matTooltip="{{ 'Add new task' }}"
       matTooltipPosition="above"
+      (click)="openTaskDialog()"
+      [icon]="['fas', 'plus']"
     >
     </atoms-icon-button>
   </div>
 
   <div content class="task">
-    <mat-accordion *ngIf="tasks.length > 0">
+    <mat-accordion *ngIf="tasks.length" multi>
       <mat-expansion-panel *ngFor="let task of tasks" class="task-panel">
         <mat-expansion-panel-header class="task-panel-header">
           <div class="task-panel-header-content">

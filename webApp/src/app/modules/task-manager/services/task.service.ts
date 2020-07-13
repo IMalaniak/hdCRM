@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Task, TaskPriority } from '../models';
 import { Observable } from 'rxjs';
+import { ApiResponse } from '@/shared/models';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,11 @@ export class TaskService {
 
   delete(id: number): Observable<any> {
     return this.http.delete<any>(`${this.tasksApi}/${id}`);
+  }
+
+  deleteMultipleTask(taskIds: number[]): Observable<ApiResponse> {
+    // TODO @ArseniiIrod, @IMalaniak change this to delete request with body
+    return this.http.put<any>(`${this.tasksApi}/task-multiple/${1}`, { taskIds });
   }
 
   getList(): Observable<Task[]> {
