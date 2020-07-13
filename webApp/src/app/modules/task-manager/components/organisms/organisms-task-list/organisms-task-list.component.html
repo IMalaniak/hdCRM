@@ -16,7 +16,7 @@
         [showButtonTextOnSm]="true"
         [fullWidth]="true"
         [icon]="['fas', 'compress-alt']"
-        (onclick)="accordion.closeAll()"
+        (onclick)="taskAccordion.closeAll()"
       >
         Collapse all
       </atoms-icon-button>
@@ -26,7 +26,7 @@
         [showButtonTextOnSm]="true"
         [fullWidth]="true"
         [icon]="['fas', 'expand-alt']"
-        (onclick)="accordion.openAll()"
+        (onclick)="taskAccordion.openAll()"
       >
         Expand all
       </atoms-icon-button>
@@ -55,7 +55,7 @@
   </div>
 
   <div content class="task">
-    <mat-accordion #taskAccordion="matAccordion" *ngIf="tasks.length > 0" multi>
+    <mat-accordion *ngIf="tasks.length" multi>
       <mat-expansion-panel *ngFor="let task of tasks" class="task-panel">
         <mat-expansion-panel-header class="task-panel-header">
           <div class="task-panel-header-content">
