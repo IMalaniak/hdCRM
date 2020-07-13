@@ -89,7 +89,8 @@ const taskManagerReducer = createReducer(
   })),
   on(TaskActions.deleteMultipleTaskFailure, (state: TaskManagerState, { error }) => ({
     ...state,
-    apiResponse: error
+    apiResponse: error,
+    tasks: { ...state.tasks, loading: false }
   })),
   on(TaskActions.taskPrioritiesRequested, (state: TaskManagerState) => ({
     ...state,
