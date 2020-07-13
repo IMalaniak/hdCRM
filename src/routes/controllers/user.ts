@@ -92,6 +92,29 @@ export class UserController {
       });
   }
 
+  // TODO @IMalaniak check for multiple routes with the same logiс
+  @Put('profile/')
+  @Middleware([Passport.authenticate()])
+  private updateProfile(req: Request, res: Response) {
+    this.userDbCtrl
+      .updateOne(req.body)
+      .then(result => {
+        if (result) {
+          this.userDbCtrl
+            .getById(req.body.id)
+            .then(user => res.status(OK).json(user))
+            .catch((error: any) => {
+              Logger.Err(error);
+              return res.status(BAD_REQUEST).json(error.toString());
+            });
+        }
+      })
+      .catch((error: any) => {
+        Logger.Err(error);
+        return res.status(BAD_REQUEST).json(error.toString());
+      });
+  }
+
   @Post('change-password')
   @Middleware([Passport.authenticate()])
   private changePassword(req: Request, res: Response) {
@@ -404,6 +427,28 @@ export class UserController {
       .removeSession(req.body.sessionIds)
       .then(response => {
         return res.status(OK).json(response);
+      })
+      .catch((error: any) => {
+        Logger.Err(error);
+        return res.status(BAD_REQUEST).json(error.toString());
+      });
+  }
+
+  @Put('org/:id')
+  @Middleware([Passport.authenticate()])
+  private updateOrg(req: Request, res: Response) {
+    this.userDbCtrl
+      .editOrg(req.body)
+      .then(() => {
+        req.user
+          .getOrganization()
+          .then(org => {
+            return res.status(OK).json(org);
+          })
+          .catch((error: any) => {
+            Logger.Err(error);
+            return res.status(BAD_REQUEST).json(error.toString());
+          });
       })
       .catch((error: any) => {
         Logger.Err(error);

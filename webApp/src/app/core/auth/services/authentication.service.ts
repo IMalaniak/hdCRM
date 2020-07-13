@@ -1,7 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '@/modules/users';
+import { User, Organization } from '@/modules/users';
 import { ApiResponse, NewPassword, JwtDecoded } from '@/shared';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
@@ -18,6 +18,14 @@ export class AuthenticationService {
 
   getProfile(): Observable<User> {
     return this.http.get<User>(`${this.userApi}/profile`);
+  }
+
+  updateProfile(user: User): Observable<User> {
+    return this.http.put<User>(`${this.userApi}/profile`, user);
+  }
+
+  updateOrg(org: Organization): Observable<Organization> {
+    return this.http.put<Organization>(`${this.userApi}/org/${org.id}`, org);
   }
 
   registerUser(user: User) {

@@ -1,13 +1,15 @@
 import { Component, Input, SimpleChanges, OnChanges, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { User, State } from '@/modules/users/models';
+import { User, State, Organization } from '@/modules/users/models';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { cloneDeep } from 'lodash';
 import { Asset, ApiResponse } from '@/shared/models';
-import { updateUserRequested } from '@/modules/users/store/user.actions';
+import { updateUserRequested, changeIsEditingState } from '@/modules/users/store/user.actions';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import * as fromLayout from '../../../../../core/layout/store';
+import { updateUserOrgRequested, updateUserProfileRequested } from '@/core/auth/store/auth.actions';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'templates-user-profile',
@@ -24,6 +26,7 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   @Input() serverResponse: ApiResponse;
   @Input() editForm: boolean;
   @Input() tabsToShow: string[] = ['details'];
+  @Input() isProfilePage = false;
 
   enableDarkTheme$: Observable<boolean>;
   baseUrl = environment.baseUrl;
@@ -31,10 +34,17 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   coverTitle = 'noimage';
   userInitial: User;
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.enableDarkTheme$ = this.store.pipe(select(fromLayout.getDarkThemeState));
+    if (this.canEdit) {
+      let isEditing = this.route.snapshot.queryParams['edit'];
+      if (isEditing) {
+        isEditing = JSON.parse(isEditing);
+        this.store.dispatch(changeIsEditingState({ isEditing }));
+      }
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -52,16 +62,35 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   }
 
   updateUserStore(asset?: Asset): void {
-    const user = cloneDeep(this.user);
     if (asset) {
-      user.avatar = asset;
-      user.avatarId = asset.id;
       this.setCover(asset);
     }
-    this.store.dispatch(updateUserRequested({ user }));
+    const user = cloneDeep({ ...this.user, ...(asset && { avatar: asset, avatarId: asset.id }) });
+    if (this.isProfilePage) {
+      this.store.dispatch(updateUserProfileRequested({ user }));
+    } else {
+      this.store.dispatch(updateUserRequested({ user }));
+    }
+  }
+
+  updateUser(user: User): void {
+    this.user = user;
+    this.updateUserStore();
+  }
+
+  updateUserOrg(organization: Organization): void {
+    if (this.isProfilePage) {
+      this.store.dispatch(updateUserOrgRequested({ organization }));
+    } else {
+      // @IMalaniak TODO update user org if needed
+    }
   }
 
   isTabToShow(tab: string): boolean {
     return this.tabsToShow.includes(tab);
+  }
+
+  setFormEdit(isEditing: boolean): void {
+    this.store.dispatch(changeIsEditingState({ isEditing }));
   }
 }

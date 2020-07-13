@@ -2,7 +2,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ProfileComponent, UserComponent, UsersComponent } from './components';
 
-import { UserResolver } from './services';
+import { UserResolver, ProfileResolver } from './services';
 import { PrivilegeGuard } from '@/core/_guards';
 
 const routes: Routes = [
@@ -31,7 +31,8 @@ const routes: Routes = [
   {
     path: 'myprofile',
     data: { breadcrumb: 'My profile', animation: 'MyProfilePage' },
-    component: ProfileComponent
+    component: ProfileComponent,
+    resolve: { user: ProfileResolver }
   }
 ];
 
@@ -43,7 +44,7 @@ export class UsersRoutingModule {
   static forRoot(): ModuleWithProviders<UsersRoutingModule> {
     return {
       ngModule: UsersRoutingModule,
-      providers: [UserResolver]
+      providers: [UserResolver, ProfileResolver]
     };
   }
 }

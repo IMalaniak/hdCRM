@@ -22,7 +22,22 @@
               [states]="states"
               [canEdit]="canEdit"
               [editForm]="editForm"
+              (setEditableForm)="setFormEdit($event)"
+              (updateUser)="updateUser($event)"
             ></organisms-user-details>
+          </ng-template>
+        </mat-tab>
+
+        <!-- Organization -->
+        <mat-tab label="Organization" *ngIf="isTabToShow('org')">
+          <ng-template matTabContent>
+            <organisms-user-organization
+              [organization]="user.Organization"
+              [canEdit]="canEdit"
+              [editForm]="editForm"
+              (setEditableForm)="setFormEdit($event)"
+              (updateOrg)="updateUserOrg($event)"
+            ></organisms-user-organization>
           </ng-template>
         </mat-tab>
 

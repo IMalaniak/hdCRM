@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { User } from '../models';
@@ -13,7 +13,7 @@ import { userRequested } from '../store/user.actions';
 export class UserResolver implements Resolve<Observable<User>> {
   constructor(private store: Store<AppState>) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<User> {
+  resolve(route: ActivatedRouteSnapshot): Observable<User> {
     const id = route.params['id'];
 
     return this.store.pipe(
