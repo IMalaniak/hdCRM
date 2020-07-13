@@ -29,7 +29,7 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
   @Input() tasks: Task[];
   @Input() priorities: TaskPriority[];
 
-  @ViewChild('taskAccordion') accordion: MatAccordion;
+  @ViewChild(MatAccordion) taskAccordion: MatAccordion;
 
   private unsubscribe: Subject<void> = new Subject();
 
