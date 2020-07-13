@@ -79,6 +79,19 @@ const taskManagerReducer = createReducer(
     ...state,
     tasks: taskAdapter.removeOne(id, { ...state.tasks })
   })),
+  on(TaskActions.deleteMultipleTaskRequested, (state: TaskManagerState) => ({
+    ...state,
+    tasks: { ...state.tasks, loading: true }
+  })),
+  on(TaskActions.deleteMultipleTaskSuccess, (state: TaskManagerState, { taskIds }) => ({
+    ...state,
+    tasks: taskAdapter.removeMany(taskIds, { ...state.tasks, loading: false })
+  })),
+  on(TaskActions.deleteMultipleTaskFailure, (state: TaskManagerState, { error }) => ({
+    ...state,
+    apiResponse: error,
+    tasks: { ...state.tasks, loading: false }
+  })),
   on(TaskActions.taskPrioritiesRequested, (state: TaskManagerState) => ({
     ...state,
     priorities: { ...state.priorities, loading: true }

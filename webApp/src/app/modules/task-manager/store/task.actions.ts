@@ -16,6 +16,18 @@ export const updateTaskCancelled = createAction('[Task API] Update Task Cancelle
 export const updateTaskSuccess = createAction('[Task API] Update Task Success', props<{ task: Update<Task> }>());
 
 export const deleteTask = createAction('[Task List] Delete Task Requested', props<{ id: number }>());
+export const deleteMultipleTaskRequested = createAction(
+  '[Task List] Delete Multiple Task Requested',
+  props<{ taskIds: number[] }>()
+);
+export const deleteMultipleTaskSuccess = createAction(
+  '[Task API] Delete Multiple Task Success',
+  props<{ taskIds: number[] }>()
+);
+export const deleteMultipleTaskFailure = createAction(
+  '[Task API] Delete Multiple Task Failure',
+  props<{ error: ApiResponse }>()
+);
 
 export const taskPrioritiesRequested = createAction('[Task Manager] Task Priorities Requested');
 export const taskPrioritiesLoaded = createAction(

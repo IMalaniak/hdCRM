@@ -43,3 +43,8 @@ a:focus {
   overflow: hidden;
   white-space: nowrap;
 }
+
+.mat-menu-content {
+  display: flex;
+  flex-direction: column;
+}
