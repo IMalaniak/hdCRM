@@ -9,7 +9,7 @@
     >
     </atoms-icon-button>
 
-    <mat-menu #menu="matMenu" class="menu-btn" backdropClass="custom__menu">
+    <mat-menu #menu="matMenu" class="menu-btn">
       <atoms-icon-button
         matType="basic"
         color="basic"
@@ -55,7 +55,7 @@
   </div>
 
   <div content class="task">
-    <mat-accordion *ngIf="tasks.length > 0" multi>
+    <mat-accordion #taskAccordion="matAccordion" *ngIf="tasks.length > 0" multi>
       <mat-expansion-panel *ngFor="let task of tasks" class="task-panel">
         <mat-expansion-panel-header class="task-panel-header">
           <div class="task-panel-header-content">

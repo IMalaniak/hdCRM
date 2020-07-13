@@ -86,7 +86,7 @@ export class TaskController {
 
   @Put('task-multiple/:taskIds')
   @Middleware([Passport.authenticate()])
-  private deleteMultipleSessions(req: Request, res: Response) {
+  private deleteMultipleTask(req: Request, res: Response) {
     this.taskDbCtrl
       .deleteTask(req.body.taskIds)
       .then(response => {
