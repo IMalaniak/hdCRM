@@ -62,12 +62,10 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   }
 
   updateUserStore(asset?: Asset): void {
-    const user = cloneDeep(this.user);
     if (asset) {
-      user.avatar = asset;
-      user.avatarId = asset.id;
       this.setCover(asset);
     }
+    const user = cloneDeep({ ...this.user, ...(asset && { avatar: asset, avatarId: asset.id }) });
     if (this.isProfilePage) {
       this.store.dispatch(updateUserProfileRequested({ user }));
     } else {

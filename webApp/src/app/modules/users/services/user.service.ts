@@ -71,20 +71,22 @@ export class UserService {
   }
 
   formatBeforeSend(user: User): User {
-    const formated = { ...user };
+    let formated = { ...user };
     if (formated.State) {
       const state = {
         id: user.State.id
       } as State;
-      formated.State = state;
+      formated = Object.assign({}, formated, { State: state });
     }
-    if (formated.Roles) {
-      formated.Roles = formated.Roles.map(role => {
-        return <Role>{
-          id: role.id
-        };
+    if (formated.Roles && formated.Roles.length) {
+      formated = Object.assign({}, formated, {
+        Roles: formated.Roles.map(role => {
+          return <Role>{
+            id: role.id
+          };
+        })
       });
     }
-    return formated as User;
+    return formated;
   }
 }

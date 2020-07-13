@@ -92,7 +92,7 @@ export class UserController {
       });
   }
 
-  // TODO @IMalaniak check for multiple routes with the same logik
+  // TODO @IMalaniak check for multiple routes with the same logiс
   @Put('profile/')
   @Middleware([Passport.authenticate()])
   private updateProfile(req: Request, res: Response) {

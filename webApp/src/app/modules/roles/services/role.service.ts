@@ -30,14 +30,13 @@ export class RoleService {
   }
 
   getList(pageIndex = 0, pageSize = 5, sortIndex = 'id', sortDirection = 'asc'): Observable<RoleServerResponse> {
-    return this.http
-      .get<RoleServerResponse>(this.api, {
-        params: new HttpParams()
-          .set('pageIndex', pageIndex.toString())
-          .set('pageSize', pageSize.toString())
-          .set('sortIndex', sortIndex)
-          .set('sortDirection', sortDirection)
-      });
+    return this.http.get<RoleServerResponse>(this.api, {
+      params: new HttpParams()
+        .set('pageIndex', pageIndex.toString())
+        .set('pageSize', pageSize.toString())
+        .set('sortIndex', sortIndex)
+        .set('sortDirection', sortDirection)
+    });
   }
 
   getDashboardData(): Observable<RoleServerResponse> {
@@ -45,13 +44,16 @@ export class RoleService {
   }
 
   formatBeforeSend(role: Role): Role {
-    if (role.Users) {
-      role.Users = role.Users.map(user => {
-        return <User>{
-          id: user.id
-        };
+    let formated = { ...role };
+    if (role.Users && role.Users.length) {
+      formated = Object.assign({}, formated, {
+        Users: formated.Users.map(user => {
+          return <User>{
+            id: user.id
+          };
+        })
       });
     }
-    return role;
+    return formated;
   }
 }

@@ -15,12 +15,8 @@ export class OrganismsUserOrganizationComponent {
   @Output() updateOrg: EventEmitter<Organization> = new EventEmitter();
   @Output() setEditableForm: EventEmitter<boolean> = new EventEmitter();
 
-  onClickEdit(): void {
-    this.setEditableForm.emit(true);
-  }
-
-  onClickCancelEdit(): void {
-    this.setEditableForm.emit(false);
+  setFormEdit(edit: boolean) {
+    this.setEditableForm.emit(edit);
   }
 
   onUpdateOrgSubmit(): void {

@@ -98,7 +98,7 @@
     </div>
   </div>
   <div buttons *ngIf="canEdit">
-    <atoms-icon-button *ngIf="!editForm" (click)="onClickEdit()" [icon]="['fas', 'edit']">
+    <atoms-icon-button *ngIf="!editForm" (click)="setFormEdit(true)" [icon]="['fas', 'edit']">
       Edit
     </atoms-icon-button>
 
@@ -106,7 +106,7 @@
       Save
     </atoms-icon-button>
 
-    <atoms-icon-button *ngIf="editForm" (click)="onClickCancelEdit()" [icon]="['fas', 'times']" color="basic">
+    <atoms-icon-button *ngIf="editForm" (click)="setFormEdit(false)" [icon]="['fas', 'times']" color="basic">
       Cancel
     </atoms-icon-button>
   </div>
