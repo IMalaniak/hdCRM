@@ -41,6 +41,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faFontAwesomeFlag } from '@fortawesome/free-brands-svg-icons';
 import { COMPONENTS } from './imports';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 @NgModule({
   imports: [
@@ -54,7 +55,7 @@ import { COMPONENTS } from './imports';
     ReactiveFormsModule
   ],
   declarations: [...COMPONENTS],
-  exports: [...COMPONENTS, AppMaterialModule, FontAwesomeModule]
+  exports: [...COMPONENTS, AppMaterialModule, FontAwesomeModule, OverlayModule]
 })
 export class SharedModule {
   constructor(library: FaIconLibrary) {
