@@ -1,26 +1,19 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { MediaqueryService, smoothHeightTransition } from '@/shared';
 import { Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { logOut } from '@/core/auth/store/auth.actions';
 import { User } from '@/modules/users';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  animations: [
-    trigger('openCloseAnimation', [
-      state('true', style({ transform: 'translate(0, 0.6em)', opacity: 1, visibility: 'visible' })),
-      state('false', style({ opacity: 0, visibility: 'hidden' })),
-      transition('false => true', animate('150ms ease')),
-      transition('true => false', animate(50))
-    ]),
-    smoothHeightTransition
-  ]
+  animations: [smoothHeightTransition]
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   @Input() leftSidebarMinimized: boolean;
   @Input() currentUser: User;
 
@@ -30,7 +23,13 @@ export class HeaderComponent {
   isShowUserMenu = false;
   isShowStatuses = false;
 
-  constructor(public mediaquery: MediaqueryService, private store: Store<AppState>) {}
+  constructor(public mediaquery: MediaqueryService, private store: Store<AppState>, private router: Router) {}
+
+  ngOnInit(): void {
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
+      this.isShowUserMenu = false;
+    });
+  }
 
   onLogoutClick(): void {
     this.store.dispatch(logOut());
