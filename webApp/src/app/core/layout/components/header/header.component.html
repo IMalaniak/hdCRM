@@ -72,7 +72,7 @@
               class="mb-1"
               color="basic"
               [showButtonTextOnSm]="true"
-              [icon]="isShowStatuses ? ['fas', 'chevron-up'] : ['fas', 'chevron-down']"
+              [icon]="['fas', 'chevron-down']"
               [fullWidth]="true"
               [matMenuTriggerFor]="userStatuses"
             >
@@ -132,7 +132,6 @@
               [showButtonTextOnSm]="true"
               [fullWidth]="true"
               [icon]="['fas', 'user-plus']"
-              [ngClass]="{ 'mt-1': isShowStatuses }"
               color="basic"
             >
               Invite members
