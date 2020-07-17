@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { MediaqueryService, smoothHeightTransition } from '@/shared';
+import { MediaqueryService } from '@/shared';
 import { Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { logOut } from '@/core/auth/store/auth.actions';
@@ -10,8 +10,7 @@ import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
-  animations: [smoothHeightTransition]
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
   @Input() leftSidebarMinimized: boolean;
@@ -21,7 +20,6 @@ export class HeaderComponent implements OnInit {
   hideLeftSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   isShowUserMenu = false;
-  isShowStatuses = false;
 
   constructor(public mediaquery: MediaqueryService, private store: Store<AppState>, private router: Router) {}
 

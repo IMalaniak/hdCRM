@@ -69,70 +69,63 @@
             <span class="content-title">Availability</span>
             <atoms-icon-button
               matType="basic"
-              [showButtonTextOnSm]="true"
-              [icon]="['fas', 'chevron-down']"
-              [fullWidth]="true"
-              (onclick)="isShowStatuses = !isShowStatuses"
               class="mb-1"
               color="basic"
+              [showButtonTextOnSm]="true"
+              [icon]="isShowStatuses ? ['fas', 'chevron-up'] : ['fas', 'chevron-down']"
+              [fullWidth]="true"
+              [matMenuTriggerFor]="userStatuses"
             >
               Working statuses
             </atoms-icon-button>
 
-            <organisms-card
-              cardClass="py-0 px-2 border"
-              contentClass="mb-2"
-              [disableShadow]="true"
-              [@smoothHeightAnimation]="!!isShowStatuses"
-            >
-              <div content class="d-flex flex-column">
-                <atoms-icon-button
-                  matType="basic"
-                  [showButtonTextOnSm]="true"
-                  [fullWidth]="true"
-                  [icon]="['fas', 'globe']"
-                  color="basic"
-                >
-                  Online
-                </atoms-icon-button>
-                <atoms-icon-button
-                  matType="basic"
-                  [showButtonTextOnSm]="true"
-                  [fullWidth]="true"
-                  [icon]="['fas', 'coffee']"
-                  color="basic"
-                >
-                  On break
-                </atoms-icon-button>
-                <atoms-icon-button
-                  matType="basic"
-                  [showButtonTextOnSm]="true"
-                  [fullWidth]="true"
-                  [icon]="['fas', 'user-clock']"
-                  color="basic"
-                >
-                  Away
-                </atoms-icon-button>
-                <atoms-icon-button
-                  matType="basic"
-                  [showButtonTextOnSm]="true"
-                  [fullWidth]="true"
-                  [icon]="['fas', 'ghost']"
-                  color="basic"
-                >
-                  Unvisible
-                </atoms-icon-button>
-                <atoms-icon-button
-                  matType="basic"
-                  [showButtonTextOnSm]="true"
-                  [fullWidth]="true"
-                  [icon]="['fas', 'minus-circle']"
-                  color="basic"
-                >
-                  Busy
-                </atoms-icon-button>
-              </div>
-            </organisms-card>
+            <mat-menu #userStatuses="matMenu">
+              <atoms-icon-button
+                matType="basic"
+                [showButtonTextOnSm]="true"
+                [fullWidth]="true"
+                [icon]="['fas', 'globe']"
+                color="basic"
+              >
+                Online
+              </atoms-icon-button>
+              <atoms-icon-button
+                matType="basic"
+                [showButtonTextOnSm]="true"
+                [fullWidth]="true"
+                [icon]="['fas', 'coffee']"
+                color="basic"
+              >
+                On break
+              </atoms-icon-button>
+              <atoms-icon-button
+                matType="basic"
+                [showButtonTextOnSm]="true"
+                [fullWidth]="true"
+                [icon]="['fas', 'user-clock']"
+                color="basic"
+              >
+                Away
+              </atoms-icon-button>
+              <atoms-icon-button
+                matType="basic"
+                [showButtonTextOnSm]="true"
+                [fullWidth]="true"
+                [icon]="['fas', 'ghost']"
+                color="basic"
+              >
+                Unvisible
+              </atoms-icon-button>
+              <atoms-icon-button
+                matType="basic"
+                [showButtonTextOnSm]="true"
+                [fullWidth]="true"
+                [icon]="['fas', 'minus-circle']"
+                color="basic"
+              >
+                Busy
+              </atoms-icon-button>
+            </mat-menu>
 
             <atoms-icon-button
               matType="basic"
