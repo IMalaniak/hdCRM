@@ -51,7 +51,7 @@
     "filepond-plugin-image-preview": "^4.6.1",
     "filepond-plugin-image-resize": "^2.0.4",
     "filepond-plugin-image-transform": "^3.7.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "ngx-filepond": "^5.0.1",
     "rxjs": "~6.5.5",
     "socket.io": "^2.3.0",
