@@ -75,59 +75,49 @@
         transform: scale(0.9);
       }
     }
+  }
+}
 
-    .dropdown-content {
-      $hHeight: crmsize(header, height, true);
+.dropdown-content {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  margin: 0 0.6em;
 
-      position: absolute;
-      top: calc(#{$hHeight});
-      right: 0;
-      left: 0;
-      display: flex;
-      flex-direction: column;
-      width: 95%;
-      height: auto;
-      margin: 0 auto;
+  @include media-breakpoint-up(sm) {
+    width: 25.8em;
+  }
+  @include media-breakpoint-up(lg) {
+    margin: 0 1.7em 0;
+  }
 
-      @include media-breakpoint-up(sm) {
-        width: 25.8em;
-        right: 0.6em;
-        left: auto;
-        margin-left: auto;
-      }
-      @include media-breakpoint-up(lg) {
-        right: 1.6em;
-      }
+  .content-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;
+    @include media-breakpoint-up(sm) {
+      flex-direction: row;
+      flex-flow: row-reverse;
+    }
 
-      .content-wrapper {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 1em;
-        @include media-breakpoint-up(sm) {
-          flex-direction: row;
-          flex-flow: row-reverse;
-        }
+    .content-title {
+      margin: 0 auto 0.5em 1.1em;
+      font-size: 1em;
+      color: gray;
+    }
+  }
 
-        .content-title {
-          margin: 0 auto 0.5em 1.1em;
-          font-size: 1em;
-          color: gray;
-        }
-      }
+  .content-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 1em 0 0.4em;
 
-      .content-footer {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        align-items: center;
-        margin: 1em 0 0.4em;
-
-        #org-title {
-          font-size: 1em;
-          text-transform: uppercase;
-          color: gray;
-        }
-      }
+    #org-title {
+      font-size: 1em;
+      text-transform: uppercase;
+      color: gray;
     }
   }
 }

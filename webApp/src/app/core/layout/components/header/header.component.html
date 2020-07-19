@@ -18,62 +18,68 @@
 <div class="user-question">
 	<fa-icon [icon]="['fas', 'question']"></fa-icon>
 </div> -->
-<div class="user-dropdown" *ngIf="currentUser">
+
+<div class="user-dropdown" *ngIf="currentUser" cdkOverlayOrigin #userMenu="cdkOverlayOrigin">
   <atoms-user-pic
     [avatar]="currentUser.avatar"
     [userOnline]="currentUser.online"
     (click)="isShowUserMenu = !isShowUserMenu"
   ></atoms-user-pic>
 
-  <organisms-card cardClass="p-2" contentClass="mb-0" class="dropdown-content" [@openCloseAnimation]="!!isShowUserMenu">
-    <ng-container content>
-      <div class="content-wrapper">
-        <div class="d-flex flex-column justify-content-start mb-3 mb-sm-0 w-100">
-          <span class="content-title">Account</span>
-          <atoms-icon-button
-            matType="basic"
-            [showButtonTextOnSm]="true"
-            [routerLink]="['/users/myprofile']"
-            [fullWidth]="true"
-            [icon]="['fas', 'user']"
-            class="mb-1"
-            color="basic"
-          >
-            My profile
-          </atoms-icon-button>
-          <atoms-icon-button
-            matType="basic"
-            [showButtonTextOnSm]="true"
-            [fullWidth]="true"
-            (onclick)="onLogoutClick()"
-            [icon]="['fas', 'sign-out-alt']"
-            color="warn"
-          >
-            Logout
-          </atoms-icon-button>
-        </div>
-        <mat-divider [vertical]="true" class="mx-0 mx-sm-2"></mat-divider>
-        <div class="d-flex flex-column justify-content-start w-100">
-          <span class="content-title">Availability</span>
-          <atoms-icon-button
-            matType="basic"
-            [showButtonTextOnSm]="true"
-            [icon]="['fas', 'chevron-down']"
-            [fullWidth]="true"
-            (onclick)="isShowStatuses = !isShowStatuses"
-            class="mb-1"
-            color="basic"
-          >
-            Working statuses
-          </atoms-icon-button>
+  <ng-template
+    cdkConnectedOverlay
+    cdkConnectedOverlayPanelClass="menu-class"
+    cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+    [cdkConnectedOverlayOrigin]="userMenu"
+    [cdkConnectedOverlayOpen]="isShowUserMenu"
+    [cdkConnectedOverlayOffsetY]="10"
+    [cdkConnectedOverlayHasBackdrop]="true"
+    [cdkConnectedOverlayFlexibleDimensions]="true"
+    (backdropClick)="isShowUserMenu = false"
+  >
+    <organisms-card cardClass="p-2" contentClass="mb-0" class="dropdown-content">
+      <ng-container content>
+        <div class="content-wrapper">
+          <div class="d-flex flex-column justify-content-start mb-3 mb-sm-0 w-100">
+            <span class="content-title">Account</span>
+            <atoms-icon-button
+              matType="basic"
+              [showButtonTextOnSm]="true"
+              [routerLink]="['/users/myprofile']"
+              [fullWidth]="true"
+              [icon]="['fas', 'user']"
+              class="mb-1"
+              color="basic"
+            >
+              My profile
+            </atoms-icon-button>
+            <atoms-icon-button
+              matType="basic"
+              [showButtonTextOnSm]="true"
+              [fullWidth]="true"
+              (onclick)="onLogoutClick()"
+              [icon]="['fas', 'sign-out-alt']"
+              color="warn"
+            >
+              Logout
+            </atoms-icon-button>
+          </div>
+          <mat-divider [vertical]="true" class="mx-0 mx-sm-2"></mat-divider>
+          <div class="d-flex flex-column justify-content-start w-100">
+            <span class="content-title">Availability</span>
+            <atoms-icon-button
+              matType="basic"
+              class="mb-1"
+              color="basic"
+              [showButtonTextOnSm]="true"
+              [icon]="['fas', 'chevron-down']"
+              [fullWidth]="true"
+              [matMenuTriggerFor]="userStatuses"
+            >
+              Working statuses
+            </atoms-icon-button>
 
-          <organisms-card
-            cardClass="py-0 px-2 border"
-            contentClass="mb-2"
-            [disableShadow]="true"
-            [@smoothHeightAnimation]="!!isShowStatuses"
-          >
-            <div content class="d-flex flex-column">
+            <mat-menu #userStatuses="matMenu">
               <atoms-icon-button
                 matType="basic"
                 [showButtonTextOnSm]="true"
@@ -119,27 +125,26 @@
               >
                 Busy
               </atoms-icon-button>
-            </div>
-          </organisms-card>
+            </mat-menu>
 
-          <atoms-icon-button
-            matType="basic"
-            [showButtonTextOnSm]="true"
-            [fullWidth]="true"
-            [icon]="['fas', 'user-plus']"
-            [ngClass]="{ 'mt-1': isShowStatuses }"
-            color="basic"
-          >
-            Invite members
-          </atoms-icon-button>
+            <atoms-icon-button
+              matType="basic"
+              [showButtonTextOnSm]="true"
+              [fullWidth]="true"
+              [icon]="['fas', 'user-plus']"
+              color="basic"
+            >
+              Invite members
+            </atoms-icon-button>
+          </div>
         </div>
-      </div>
-      <mat-divider class="position-static"></mat-divider>
-      <div class="content-footer">
-        <span id="org-title">hdcrm</span>
-      </div>
-    </ng-container>
-  </organisms-card>
+        <mat-divider class="position-static"></mat-divider>
+        <div class="content-footer">
+          <span id="org-title">hdcrm</span>
+        </div>
+      </ng-container>
+    </organisms-card>
+  </ng-template>
 </div>
 <!-- <section class="notifications-wrapper">
   <div class="d-flex justify-content-between"><span>Notifications</span><fa-icon [icon]="['fas', 'cog']"></fa-icon></div>
