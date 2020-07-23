@@ -1,5 +1,4 @@
 @import 'theme.scss';
-@import '~bootstrap/scss/mixins/breakpoints';
 
 // CRM Variables
 $transition-time: 0.3s;
@@ -24,13 +23,6 @@ $container-max-widths: (
   xl: 1140px,
   xxl: 1350px,
   xxxl: 1500px
-);
-
-$w-h-sizes: (
-  25: 25%,
-  50: 50%,
-  75: 75%,
-  100: 100%
 );
 
 // remove underline from button links
@@ -113,18 +105,3 @@ $layer-priorities: (
   right-sidebar: 104,
   left-sidebar: 105
 );
-
-// Define sizing utility to allow responsive breakpoints
-// Can be deleted after Bootstrap added this to core
-@each $breakpoint in map-keys($grid-breakpoints) {
-  @include media-breakpoint-up($breakpoint) {
-    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
-    @each $prop, $abbrev in (width: w, height: h) {
-      @each $size, $length in $w-h-sizes {
-        .#{$abbrev}#{$infix}-#{$size} {
-          #{$prop}: $length !important;
-        }
-      }
-    }
-  }
-}
