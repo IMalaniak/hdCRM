@@ -92,22 +92,22 @@
       </mat-list>
     </div>
     <div *ngIf="editForm" class="col-md-12 col-lg-6">
-      <form class="d-flex flex-column p-3">
+      <form class="d-flex flex-column p-3" [formGroup]="userForm">
         <mat-form-field appearance="outline">
           <mat-label i18n="@@userProfileComponentTabDetailsName">Name</mat-label>
-          <input matInput [(ngModel)]="user.name" name="name" type="text" [readonly]="!editForm" />
+          <input matInput formControlName="name" type="text" [readonly]="!editForm" />
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label i18n="@@userProfileComponentTabDetailsSurname">Surname</mat-label>
-          <input matInput [(ngModel)]="user.surname" name="surname" type="text" [readonly]="!editForm" />
+          <input matInput formControlName="surname" type="text" [readonly]="!editForm" />
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label i18n="@@userProfileComponentTabDetailsEmail">Email</mat-label>
-          <input matInput [(ngModel)]="user.email" name="email" type="text" [readonly]="!editForm" />
+          <input matInput formControlName="email" type="text" [readonly]="!editForm" />
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label i18n="@@userProfileComponentTabDetailsPhone">Phone</mat-label>
-          <input matInput [(ngModel)]="user.phone" name="phone" type="text" [readonly]="!editForm" />
+          <input matInput formControlName="phone" type="text" [readonly]="!editForm" />
         </mat-form-field>
         <!-- <mat-form-field appearance="outline" matTooltip="Language will change after next login" [matTooltipDisabled]=!(editForm)>
                       <mat-label i18n="@@userProfileComponentTabDetailsLang">Language</mat-label>
@@ -118,8 +118,7 @@
                     </mat-form-field> -->
         <mat-form-field appearance="outline">
           <mat-label i18n="@@userProfileComponentTabDetailsState">State</mat-label>
-          <input matInput *ngIf="!editForm" value="{{ user.State.keyString }}" type="text" name="userState" />
-          <mat-select [(ngModel)]="user.StateId" name="userState">
+          <mat-select formControlName="StateId">
             <mat-option *ngFor="let state of states" [value]="state.id">{{ state.keyString }}</mat-option>
           </mat-select>
         </mat-form-field>
