@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
 import { UsersRoutingModule } from './users-routing.module';
 import { SharedModule } from '@/shared/shared.module';
 
@@ -31,7 +30,6 @@ import { StateEffects } from './store/state.effects';
   imports: [
     CommonModule,
     RouterModule,
-    ReactiveFormsModule,
     SharedModule,
     UsersRoutingModule.forRoot(),
     StoreModule.forFeature(fromUser.usersFeatureKey, fromUser.reducer),

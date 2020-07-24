@@ -1,7 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthRoutingModule } from './auth-routing.module';
 import { LoginComponent, RegisterUserComponent, RegisterSuccessComponent } from './components';
 import { AuthenticationService } from './services';
@@ -16,8 +15,6 @@ import { SharedModule } from '@/shared/shared.module';
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule,
-    ReactiveFormsModule,
     SharedModule,
     AuthRoutingModule,
     StoreModule.forFeature(fromAuth.authFeatureKey, fromAuth.reducer),

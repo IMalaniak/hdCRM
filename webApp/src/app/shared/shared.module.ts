@@ -55,7 +55,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
     ReactiveFormsModule
   ],
   declarations: [...COMPONENTS],
-  exports: [...COMPONENTS, AppMaterialModule, FontAwesomeModule, OverlayModule]
+  exports: [...COMPONENTS, AppMaterialModule, FontAwesomeModule, OverlayModule, FormsModule, ReactiveFormsModule]
 })
 export class SharedModule {
   constructor(library: FaIconLibrary) {

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RolesRoutingModule } from './roles-routing.module';
 import { SharedModule } from '@/shared/shared.module';
 
@@ -29,8 +28,6 @@ import { PrivilegeEffects } from './store/privilege.effects';
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule,
-    ReactiveFormsModule,
     SharedModule,
     RolesRoutingModule.forRoot(),
     StoreModule.forFeature(fromRole.rolesFeatureKey, fromRole.reducer),
