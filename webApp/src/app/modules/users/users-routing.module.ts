@@ -1,8 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ProfileComponent, UserComponent, UsersComponent } from './components';
-
-import { UserResolver, ProfileResolver } from './services';
 import { PrivilegeGuard } from '@/core/_guards';
 
 const routes: Routes = [
@@ -25,14 +23,12 @@ const routes: Routes = [
       privilege: 'user-view'
     },
     canActivate: [PrivilegeGuard],
-    component: UserComponent,
-    resolve: { user: UserResolver }
+    component: UserComponent
   },
   {
     path: 'myprofile',
     data: { breadcrumb: 'My profile', animation: 'MyProfilePage' },
-    component: ProfileComponent,
-    resolve: { user: ProfileResolver }
+    component: ProfileComponent
   }
 ];
 
@@ -43,8 +39,7 @@ const routes: Routes = [
 export class UsersRoutingModule {
   static forRoot(): ModuleWithProviders<UsersRoutingModule> {
     return {
-      ngModule: UsersRoutingModule,
-      providers: [UserResolver, ProfileResolver]
+      ngModule: UsersRoutingModule
     };
   }
 }
