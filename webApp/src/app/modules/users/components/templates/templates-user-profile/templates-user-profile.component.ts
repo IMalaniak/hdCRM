@@ -7,9 +7,12 @@ import { Asset, ApiResponse } from '@/shared/models';
 import { updateUserRequested, changeIsEditingState } from '@/modules/users/store/user.actions';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
-import * as fromLayout from '../../../../../core/layout/store';
+import * as fromLayout from '@/core/layout/store';
 import { updateUserOrgRequested, updateUserProfileRequested } from '@/core/auth/store/auth.actions';
 import { ActivatedRoute } from '@angular/router';
+import { allStatesRequested } from '@/modules/users/store/state.actions';
+import { selectAllStates } from '@/modules/users/store/state.selectors';
+import { Preferences } from '@/core/reducers/preferences.reducer';
 
 @Component({
   selector: 'templates-user-profile',
@@ -19,8 +22,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   @Input() user: User;
+  @Input() userPreferences: Preferences;
   @Input() currentSessionId: number;
-  @Input() states: State[];
   @Input() canEdit: boolean;
   @Input() isLoading: boolean;
   @Input() serverResponse: ApiResponse;
@@ -28,6 +31,7 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   @Input() tabsToShow: string[] = ['details'];
   @Input() isProfilePage = false;
 
+  states$: Observable<State[]>;
   enableDarkTheme$: Observable<boolean>;
   baseUrl = environment.baseUrl;
   coverUrl = './assets/images/userpic/noimage_croped.png';
@@ -44,6 +48,8 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
         isEditing = JSON.parse(isEditing);
         this.store.dispatch(changeIsEditingState({ isEditing }));
       }
+      this.store.dispatch(allStatesRequested());
+      this.states$ = this.store.pipe(select(selectAllStates));
     }
   }
 
