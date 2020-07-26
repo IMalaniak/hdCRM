@@ -1,5 +1,7 @@
 @import 'variables';
 @import 'mixins';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins/breakpoints';
 
 .profile {
@@ -65,8 +67,8 @@
         font-size: 0.8em;
         width: 0.8em;
         height: 0.8em;
-        border: 1px solid grey;
-        color: grey;
+        border: 1px solid $gray-600;
+        color: $gray-600;
       }
     }
 

@@ -1,5 +1,7 @@
 @import 'variables';
 @import 'mixins';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins/breakpoints';
 
 right-sidebar {
@@ -44,7 +46,7 @@ right-sidebar {
   flex-direction: column;
   height: 100%;
   width: 100%;
-  border-left: 1px solid lightgray;
+  border-left: 1px solid $gray-200;
 
   &-content {
     width: 100%;
@@ -69,7 +71,7 @@ right-sidebar {
       justify-content: center;
       align-items: center;
       padding: 7px 13px;
-      border: 1px solid lightgray;
+      border: 1px solid $gray-200;
       border-radius: 20px;
       @include crm-bgcolor('layout', 'milk');
       cursor: pointer;
@@ -87,7 +89,7 @@ right-sidebar {
 
       .btn-icon {
         font-size: 0.85em;
-        color: grey;
+        color: $gray-600;
         transition: color $transition, transform $transition;
       }
     }
