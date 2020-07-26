@@ -24,6 +24,10 @@ export class UserDBController {
       model: db.UserSession
     },
     {
+      model: db.Preference,
+      required: false
+    },
+    {
       model: db.PasswordAttribute,
       as: 'PasswordAttributes',
       attributes: ['updatedAt', 'passwordExpire'],

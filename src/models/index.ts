@@ -15,6 +15,7 @@ import { RolePrivilege, RolePrivilegeFactory } from './RolePrivileges';
 import { OrganizationFactory, Organization } from './Organization';
 import { TaskFactory, Task } from './Task';
 import { TaskPriorityFactory, TaskPriority } from './TaskPriority';
+import { PreferenceFactory, Preference } from './Preference';
 
 class DataBase {
   sequelize: Sequelize;
@@ -40,6 +41,7 @@ class DataBase {
     UserSessionFactory(this.sequelize);
     TaskFactory(this.sequelize);
     TaskPriorityFactory(this.sequelize);
+    PreferenceFactory(this.sequelize);
 
     // associations
     Organization.hasMany(Department, {
@@ -76,6 +78,9 @@ class DataBase {
       onDelete: 'cascade'
     });
     User.hasMany(Task, { foreignKey: 'CreatorId' });
+    User.hasOne(Preference);
+    Preference.belongsTo(User);
+
     UserSession.belongsTo(User);
     PasswordAttribute.belongsTo(User);
     State.hasMany(User);
@@ -163,5 +168,6 @@ export {
   Organization,
   Task,
   TaskPriority,
+  Preference,
   Sequelize
 };

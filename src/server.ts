@@ -71,7 +71,7 @@ class CrmServer extends Server {
       // Sync DB
       this.dBase.sequel
         .sync({
-          alter: true
+          // alter: true
           // force: true
         })
         .then(() => {
