@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DepartmentsRoutingModule } from './departments-routing.module';
 import { SharedModule } from '@/shared/shared.module';
 
@@ -19,8 +18,6 @@ import { DepartmentEffects } from './store/department.effects';
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule,
-    ReactiveFormsModule,
     SharedModule,
     DepartmentsRoutingModule.forRoot(),
     SweetAlert2Module,

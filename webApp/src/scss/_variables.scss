@@ -24,6 +24,7 @@ $container-max-widths: (
   xxl: 1350px,
   xxxl: 1500px
 );
+
 // remove underline from button links
 $link-hover-decoration: none;
 
@@ -103,4 +104,4 @@ $layer-priorities: (
   sidebar-overlay: 103,
   right-sidebar: 104,
   left-sidebar: 105
-)
+);

@@ -1,5 +1,5 @@
 <templates-user-profile
-  [user]="user"
+  [user]="user$ | async"
   [userPreferences]="userPreferences$ | async"
   [currentSessionId]="currentSessionId$ | async"
   [canEdit]="true"

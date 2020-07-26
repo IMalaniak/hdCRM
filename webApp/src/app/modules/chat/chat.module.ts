@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChatRoutingModule } from './chat-routing.module';
 import { SharedModule } from '@/shared/shared.module';
 import { ChatListComponent, ChatComponent, CreateChatDialogComponent } from './components';
@@ -22,21 +21,25 @@ import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule,
-    ReactiveFormsModule,
     SharedModule,
     ChatRoutingModule.forRoot(),
     StoreModule.forFeature(fromChat.chatsFeatureKey, fromChat.reducer),
     StoreModule.forFeature(fromUser.usersFeatureKey, fromUser.reducer),
     EffectsModule.forFeature([ChatEffects, UserEffects])
   ],
-  declarations: [ChatListComponent, ChatComponent, ChatShellComponent, GroupChatComponent, PrivateChatComponent, CreateChatDialogComponent],
+  declarations: [
+    ChatListComponent,
+    ChatComponent,
+    ChatShellComponent,
+    GroupChatComponent,
+    PrivateChatComponent,
+    CreateChatDialogComponent
+  ],
   providers: [ChatService, UserService],
   exports: [ChatListComponent, ChatComponent]
 })
 export class ChatModule {
   constructor(library: FaIconLibrary) {
-    library.addIcons(
-      faSignInAlt    );
+    library.addIcons(faSignInAlt);
   }
 }

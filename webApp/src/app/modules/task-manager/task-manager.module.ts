@@ -4,7 +4,6 @@ import { StoreModule } from '@ngrx/store';
 import * as taskReducer from './store/task.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { TaskEffects } from './store/task.effects';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TaskService } from './services';
 import { SharedModule } from '@/shared/shared.module';
 import * as _components from './components';
@@ -17,8 +16,6 @@ import * as _components from './components';
   ],
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
     SharedModule,
     StoreModule.forFeature(taskReducer.taskFeatureKey, taskReducer.reducer),
     EffectsModule.forFeature([TaskEffects])
