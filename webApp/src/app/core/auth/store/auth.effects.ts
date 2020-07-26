@@ -15,6 +15,7 @@ import { Store, select, Action } from '@ngrx/store';
 import { getToken } from './auth.selectors';
 import { selectUrl, AppState } from '@/core/reducers';
 import { changeIsEditingState } from '@/modules/users/store/user.actions';
+import { initPreferences } from '@/core/reducers/preferences.actions';
 
 @Injectable()
 export class AuthEffects implements OnInitEffects {
@@ -145,23 +146,22 @@ export class AuthEffects implements OnInitEffects {
   requestCurrentUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authActions.requestCurrentUser),
-      switchMap(() =>
-        this.authService.getProfile().pipe(
-          map(currentUser => {
-            this.scktService.emit(SocketEvent.ISONLINE, {
-              id: currentUser.id,
-              name: currentUser.name,
-              surname: currentUser.surname,
-              avatar: currentUser.avatar,
-              OrganizationId: currentUser.OrganizationId
-            });
+      switchMap(() => this.authService.getProfile()),
+      switchMap(currentUser => {
+        this.scktService.emit(SocketEvent.ISONLINE, {
+          id: currentUser.id,
+          name: currentUser.name,
+          surname: currentUser.surname,
+          avatar: currentUser.avatar,
+          OrganizationId: currentUser.OrganizationId
+        });
 
-            return authActions.currentUserLoaded({ currentUser });
-          }),
-          catchError((errorResponse: HttpErrorResponse) =>
-            of(authActions.currentUserLoadFailed({ apiResp: errorResponse.error }))
-          )
-        )
+        const { id, UserId, createdAt, updatedAt, ...preferences } = currentUser.Preference;
+
+        return [authActions.currentUserLoaded({ currentUser }), ...(preferences && [initPreferences({ preferences })])];
+      }),
+      catchError((errorResponse: HttpErrorResponse) =>
+        of(authActions.currentUserLoadFailed({ apiResp: errorResponse.error }))
       )
     )
   );
