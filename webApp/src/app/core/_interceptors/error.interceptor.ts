@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, throwError, timer } from 'rxjs';
-import { catchError, first, retryWhen, filter, last, mergeMap, finalize } from 'rxjs/operators';
-import { MessageService } from '@/modules/messages/services/message.service';
+import { catchError, first, retryWhen, filter, last, mergeMap } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { AppState, selectUrl } from '../reducers';
 import { refreshSession, redirectToLogin } from '../auth/store/auth.actions';
@@ -32,7 +31,7 @@ const genericRetryStrategy = ({
 };
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private router: Router, private messageService: MessageService, private store$: Store<AppState>) {}
+  constructor(private router: Router, private store$: Store<AppState>) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
@@ -52,7 +51,6 @@ export class ErrorInterceptor implements HttpInterceptor {
 
         const error = err.message || err.statusText;
         // TODO @JohnRostislavovich create logger module
-        this.messageService.add(`${error}\n${err.error}`);
         return throwError(err);
       }),
       filter(ev => ev.type !== 0),
