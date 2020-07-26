@@ -1,23 +1,16 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { Chat } from '../../models';
 
 @Component({
   selector: 'app-chat-shell',
-  templateUrl: './chat-shell.component.html',
-  styleUrls: ['./chat-shell.component.css']
+  templateUrl: './chat-shell.component.html'
 })
-export class ChatShellComponent implements OnInit {
+export class ChatShellComponent {
   @Input() dataSource: Chat[];
   @Input() selectedChat: Chat;
   @Output() createChat = new EventEmitter();
   @Output() selected = new EventEmitter<Chat>();
-
-  constructor() {}
-
-  ngOnInit() {
-
-  }
 
   onCreateNewChat() {
     this.createChat.emit();

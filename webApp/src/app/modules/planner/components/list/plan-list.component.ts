@@ -19,8 +19,7 @@ import { deletePlan } from '../../store/plan.actions';
 
 @Component({
   selector: 'app-plan-list',
-  templateUrl: './plan-list.component.html',
-  styleUrls: ['./plan-list.component.scss']
+  templateUrl: './plan-list.component.html'
 })
 export class PlanListComponent implements OnInit, AfterViewInit {
   addPlanPrivilege$: Observable<boolean>;

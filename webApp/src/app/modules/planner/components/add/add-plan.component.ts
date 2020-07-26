@@ -13,8 +13,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 
 @Component({
   selector: 'app-add-plan',
-  templateUrl: './add-plan.component.html',
-  styleUrls: ['./add-plan.component.scss']
+  templateUrl: './add-plan.component.html'
 })
 export class AddPlanComponent implements OnInit, OnDestroy {
   plan = {} as Plan;
