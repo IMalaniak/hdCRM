@@ -27,7 +27,7 @@ export class OrganismsUserPreferencesComponent implements OnInit {
 
   preferencesList$: Observable<PreferencesList>;
   currentDate = new Date();
-  preferencesFrom: FormGroup;
+  preferencesForm: FormGroup;
 
   constructor(private store$: Store<AppState>, private fb: FormBuilder) {}
 
@@ -38,7 +38,7 @@ export class OrganismsUserPreferencesComponent implements OnInit {
   }
 
   buildPreferencesGroup(): void {
-    this.preferencesFrom = this.fb.group({
+    this.preferencesForm = this.fb.group({
       timeFormat: new FormControl(this.userPreferences.timeFormat),
       // timeZone: new FormControl(null),
       dateFormat: new FormControl(this.userPreferences.dateFormat),
