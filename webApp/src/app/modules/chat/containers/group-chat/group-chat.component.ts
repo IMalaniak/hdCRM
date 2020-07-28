@@ -19,8 +19,7 @@ import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-group-chat',
-  templateUrl: './group-chat.component.html',
-  styleUrls: ['./group-chat.component.css']
+  templateUrl: './group-chat.component.html'
 })
 export class GroupChatComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
@@ -53,7 +52,7 @@ export class GroupChatComponent implements OnInit, OnDestroy {
     this.selectedChat$ = this.store.pipe(select(getCurrentGChat), takeUntil(this.unsubscribe));
 
     this.scktService.onEvent(SocketEvent.NEWCHATGROUP).subscribe((chat: Chat) => {
-      this.store.dispatch(groupChatActions.newGroupChatAdded({chat}));
+      this.store.dispatch(groupChatActions.newGroupChatAdded({ chat }));
     });
   }
 
@@ -76,7 +75,7 @@ export class GroupChatComponent implements OnInit, OnDestroy {
   }
 
   chatSelected(chat: Chat): void {
-    this.store.dispatch(groupChatActions.setCurrentGroupChat({chat}));
+    this.store.dispatch(groupChatActions.setCurrentGroupChat({ chat }));
   }
 
   // clearChat(): void {

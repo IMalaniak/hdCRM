@@ -1,9 +1,11 @@
 @import 'variables';
 @import 'mixins';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins/breakpoints';
 
 $priorityRules: (
-  1: gray,
+  1: $gray-600,
   2: $yellow,
   3: $orange,
   4: $red
@@ -70,6 +72,6 @@ $priorityRules: (
 
   &-completed {
     text-decoration: line-through;
-    color: gray;
+    color: $gray-600;
   }
 }

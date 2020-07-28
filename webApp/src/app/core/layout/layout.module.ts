@@ -12,7 +12,6 @@ import {
   RightSidebarComponent
 } from './components';
 import { SharedModule } from '@/shared/shared.module';
-import { MessageModule } from '@/modules/messages/messages.module';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import * as fromLayout from './store/layout.reducer';
@@ -59,7 +58,6 @@ import { TaskManagerModule } from '@/modules/task-manager/task-manager.module';
     CommonModule,
     RouterModule,
     SharedModule,
-    MessageModule,
     StoreModule.forFeature(fromLayout.layoutFeatureKey, fromLayout.reducer),
     StoreModule.forFeature(fromUser.usersFeatureKey, fromUser.reducer),
     EffectsModule.forFeature([LayoutEffects, UserEffects]),
