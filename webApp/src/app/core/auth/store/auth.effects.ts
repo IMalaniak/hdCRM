@@ -156,6 +156,8 @@ export class AuthEffects implements OnInitEffects {
           OrganizationId: currentUser.OrganizationId
         });
 
+        currentUser = { ...currentUser, online: true };
+
         const { id, UserId, createdAt, updatedAt, ...preferences } = currentUser.Preference;
 
         return [authActions.currentUserLoaded({ currentUser }), ...(preferences && [initPreferences({ preferences })])];
