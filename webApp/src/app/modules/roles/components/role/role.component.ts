@@ -11,7 +11,7 @@ import { AppState } from '@/core/reducers';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { Observable, Subject } from 'rxjs';
 import { MediaqueryService } from '@/shared';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, skipUntil, delay } from 'rxjs/operators';
 import { cloneDeep } from 'lodash';
 import { Update } from '@ngrx/entity';
 import { roleSaved } from '../../store/role.actions';
@@ -88,39 +88,32 @@ export class RoleComponent implements OnInit, OnDestroy {
 
     dialogRef
       .afterOpened()
-      .pipe(takeUntil(this.unsubscribe))
+      .pipe(takeUntil(this.unsubscribe), skipUntil(privilegesC.isLoading$), delay(300))
       .subscribe(() => {
-        privilegesC.isLoading$.pipe(takeUntil(this.unsubscribe)).subscribe(isLoading => {
-          if (!isLoading) {
-            for (const pPrivilege of this.role.Privileges) {
-              privilegesC.privileges.find((privilege, i) => {
-                if (privilege.id === pPrivilege.id) {
-                  privilegesC.selection.select(privilege);
-                  return true; // stop searching
-                }
-              });
-            }
-          }
-        });
+        privilegesC.privileges
+          .filter(privilege => this.role.Privileges.some(rPrivilege => rPrivilege.id === privilege.id))
+          ?.forEach(selectedPrivilege => {
+            privilegesC.selection.select(selectedPrivilege);
+          });
       });
 
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: Privilege[]) => {
-        result.forEach((el, i) => {
+        result?.forEach(el => {
           const tmp = this.role.Privileges.filter(privilege => {
             return privilege.id === el.id;
           });
           if (tmp.length === 0) {
-            const newPrivilege = el;
+            const newPrivilege = { ...el };
             newPrivilege.RolePrivilege = {
               add: false,
               view: false,
               edit: false,
               delete: false
             } as RolePrivilege;
-            this.role.Privileges.push(newPrivilege);
+            this.role.Privileges = [...this.role.Privileges, newPrivilege];
           }
         });
         this.privilegesTable.renderRows();
