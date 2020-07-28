@@ -39,6 +39,7 @@ import { Asset } from './Asset';
 import { Department } from './Department';
 import { Organization } from './Organization';
 import { Task } from './Task';
+import { Preference } from './Preference';
 
 export class User extends Model {
   public id!: number;
@@ -129,6 +130,10 @@ export class User extends Model {
   public removeTasks!: HasManyRemoveAssociationsMixin<Task, number>;
   public setTasks!: HasManySetAssociationsMixin<Task, number>;
 
+  public createPreference!: HasOneCreateAssociationMixin<Preference>;
+  public getPreference!: HasOneGetAssociationMixin<Preference>;
+  public setPreference!: HasOneSetAssociationMixin<Preference, number>;
+
   public readonly Organization?: Organization;
   public readonly Roles?: Role[];
   public readonly Assets?: Asset[];
@@ -140,6 +145,7 @@ export class User extends Model {
   public readonly Department?: Department;
   public readonly PasswordAttributes?: PasswordAttribute;
   public readonly Tasks?: Task[];
+  public readonly Preference?: Preference;
 
   public static associations: {
     Organization: Association<User, Organization>;
@@ -153,6 +159,7 @@ export class User extends Model {
     Department: Association<User, Department>;
     PasswordAttributes: Association<User, PasswordAttribute>;
     Tasks: Association<User, Task>;
+    Preference: Association<User, Preference>;
   };
 }
 

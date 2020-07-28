@@ -19,7 +19,7 @@
           <ng-template matTabContent>
             <organisms-user-details
               [user]="user"
-              [states]="states"
+              [states]="states$ | async"
               [canEdit]="canEdit"
               [editForm]="editForm"
               (setEditableForm)="setFormEdit($event)"
@@ -44,7 +44,10 @@
         <!-- Preferences -->
         <mat-tab label="Preferences" *ngIf="isTabToShow('preferences')">
           <ng-template matTabContent>
-            <organisms-user-preferences [enabledDarkTheme]="enableDarkTheme$ | async"></organisms-user-preferences>
+            <organisms-user-preferences
+              [enabledDarkTheme]="enableDarkTheme$ | async"
+              [userPreferences]="userPreferences"
+            ></organisms-user-preferences>
           </ng-template>
         </mat-tab>
 
