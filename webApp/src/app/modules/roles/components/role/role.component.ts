@@ -101,22 +101,25 @@ export class RoleComponent implements OnInit, OnDestroy {
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: Privilege[]) => {
-        result?.forEach(el => {
-          const tmp = this.role.Privileges.filter(privilege => {
-            return privilege.id === el.id;
-          });
-          if (tmp.length === 0) {
-            const newPrivilege = { ...el };
+        const selectedPrivileges: Privilege[] = result
+          ?.filter(
+            selectedPrivilege => !this.role.Privileges.some(rPrivilege => rPrivilege.id === selectedPrivilege.id)
+          )
+          ?.map(selectedPrivilege => {
+            const newPrivilege = { ...selectedPrivilege };
             newPrivilege.RolePrivilege = {
               add: false,
               view: false,
               edit: false,
               delete: false
             } as RolePrivilege;
-            this.role.Privileges = [...this.role.Privileges, newPrivilege];
-          }
-        });
-        this.privilegesTable.renderRows();
+            return newPrivilege;
+          });
+
+        if (selectedPrivileges?.length) {
+          this.role.Privileges = [...this.role.Privileges, ...selectedPrivileges];
+          this.privilegesTable.renderRows();
+        }
       });
   }
 
