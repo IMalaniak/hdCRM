@@ -106,14 +106,15 @@ export class RoleComponent implements OnInit, OnDestroy {
             selectedPrivilege => !this.role.Privileges.some(rPrivilege => rPrivilege.id === selectedPrivilege.id)
           )
           ?.map(selectedPrivilege => {
-            const newPrivilege = { ...selectedPrivilege };
-            newPrivilege.RolePrivilege = {
-              add: false,
-              view: false,
-              edit: false,
-              delete: false
-            } as RolePrivilege;
-            return newPrivilege;
+            return {
+              ...selectedPrivilege,
+              RolePrivilege: {
+                add: false,
+                view: false,
+                edit: false,
+                delete: false
+              }
+            };
           });
 
         if (selectedPrivileges?.length) {
