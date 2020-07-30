@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
-import { Role, Privilege, RolePrivilege } from '../../models';
+import { Role, Privilege } from '../../models';
 import { RoleService } from '../../services';
 import { UsersDialogComponent } from '@/modules/users/components/dialog/users-dialog.component';
 import { Store, select } from '@ngrx/store';
@@ -20,7 +20,8 @@ import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialo
 @Component({
   selector: 'app-role',
   templateUrl: './role.component.html',
-  styleUrls: ['./role.component.scss']
+  styleUrls: ['./role.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoleComponent implements OnInit, OnDestroy {
   role: Role;

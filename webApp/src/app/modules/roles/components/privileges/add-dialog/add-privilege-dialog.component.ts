@@ -1,9 +1,10 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 @Component({
-  templateUrl: 'add-privilege-dialog.component.html'
+  templateUrl: 'add-privilege-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddPrivilegeDialogComponent {
   constructor(

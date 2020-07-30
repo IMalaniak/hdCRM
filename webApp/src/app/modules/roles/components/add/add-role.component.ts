@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Validators, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
@@ -15,7 +15,8 @@ import { createRole } from '../../store/role.actions';
 @Component({
   selector: 'app-add-role',
   templateUrl: './add-role.component.html',
-  styleUrls: ['./add-role.component.scss']
+  styleUrls: ['./add-role.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddRoleComponent implements OnInit {
   keyString: FormControl;
@@ -50,9 +51,7 @@ export class AddRoleComponent implements OnInit {
   }
 
   // TODO
-  removeUser(id: number): void {
-
-  }
+  removeUser(id: number): void {}
 
   addPrivilegeDialog(): void {
     const dialogRef = this.dialog.open(PrivilegesDialogComponent, {

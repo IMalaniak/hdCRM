@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RolesComponent } from '../list/roles.component';
 
@@ -6,7 +6,8 @@ export interface RolesDialogData {
   title: string;
 }
 @Component({
-  templateUrl: 'roles-dialog.component.html'
+  templateUrl: 'roles-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RolesDialogComponent {
   constructor(

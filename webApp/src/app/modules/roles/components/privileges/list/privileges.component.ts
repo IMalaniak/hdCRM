@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Privilege } from '../../../models';
@@ -14,7 +14,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 @Component({
   selector: 'app-privileges',
   templateUrl: './privileges.component.html',
-  styleUrls: ['./privileges.component.scss']
+  styleUrls: ['./privileges.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PrivilegesComponent implements OnInit, OnDestroy {
   privileges: Privilege[];
