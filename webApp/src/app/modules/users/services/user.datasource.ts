@@ -24,7 +24,6 @@ export class UsersDataSource implements DataSource<User> {
             this.store.dispatch(listPageRequested({ page }));
           }
         }),
-        catchError(() => of([]))
       )
       .subscribe();
   }

@@ -1,10 +1,11 @@
 import { Role } from '@/modules/roles';
-import { UserLoginHistory } from './userLoginHistory';
+import { UserSession } from './userSession';
 import { PasswordAttributes } from './passwordAttributes';
 import { Department } from '@/modules/departments';
 import { State } from './state';
 import { Asset, ApiResponse } from '@/shared/models';
 import { Organization } from './organization';
+import { UserPreferences } from './UserPreferences';
 
 export interface User {
   id: number;
@@ -28,7 +29,7 @@ export interface User {
   avatar: Asset;
   selected: boolean;
   token?: string;
-  lastSessionData: UserLoginHistory;
+  UserSessions: UserSession[];
   PasswordAttributes: PasswordAttributes;
   Organization: Organization;
   OrganizationId: number;
@@ -37,6 +38,7 @@ export interface User {
   activeSockets?: string[];
   OrgRoom: string;
   rooms?: string[];
+  Preference: UserPreferences;
 }
 
 export interface UserServerResponse extends ApiResponse {

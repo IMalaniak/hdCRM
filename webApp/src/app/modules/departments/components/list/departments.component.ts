@@ -22,8 +22,7 @@ import { deleteDepartment } from '../../store/department.actions';
 
 @Component({
   selector: 'app-departments',
-  templateUrl: './departments.component.html',
-  styleUrls: ['./departments.component.scss']
+  templateUrl: './departments.component.html'
 })
 export class DepartmentsComponent implements OnInit, AfterViewInit {
   addDepPrivilege$: Observable<boolean>;

@@ -30,7 +30,7 @@ import {
   HasManyRemoveAssociationMixin,
   HasManySetAssociationsMixin
 } from 'sequelize';
-import { UserLoginHistory } from './UserLoginHistory';
+import { UserSession } from './UserSession';
 import { PasswordAttribute } from './PasswordAttribute';
 import { State } from './State';
 import { Role } from './Role';
@@ -39,6 +39,7 @@ import { Asset } from './Asset';
 import { Department } from './Department';
 import { Organization } from './Organization';
 import { Task } from './Task';
+import { Preference } from './Preference';
 
 export class User extends Model {
   public id!: number;
@@ -98,8 +99,13 @@ export class User extends Model {
   public getState!: BelongsToGetAssociationMixin<State>;
   public setState!: BelongsToSetAssociationMixin<State, number>;
 
-  public createUserLoginHistory!: HasOneCreateAssociationMixin<UserLoginHistory>;
-  public getUserLoginHistory!: HasOneGetAssociationMixin<UserLoginHistory>;
+  public countUserSessions!: HasManyCountAssociationsMixin;
+  public createUserSession!: HasManyCreateAssociationMixin<UserSession>;
+  public getUserSessions!: HasManyGetAssociationsMixin<UserSession>;
+  public hasUserSessionk!: HasManyHasAssociationMixin<UserSession, number>;
+  public hasUserSessions!: HasManyHasAssociationsMixin<UserSession, number>;
+  public removeUserSession!: HasManyRemoveAssociationMixin<UserSession, number>;
+  public removeUserSessions!: HasManyRemoveAssociationsMixin<UserSession, number>;
 
   public createManagedDepartment!: HasOneCreateAssociationMixin<Department>;
   public getManagedDepartment!: HasOneGetAssociationMixin<Department>;
@@ -124,17 +130,22 @@ export class User extends Model {
   public removeTasks!: HasManyRemoveAssociationsMixin<Task, number>;
   public setTasks!: HasManySetAssociationsMixin<Task, number>;
 
+  public createPreference!: HasOneCreateAssociationMixin<Preference>;
+  public getPreference!: HasOneGetAssociationMixin<Preference>;
+  public setPreference!: HasOneSetAssociationMixin<Preference, number>;
+
   public readonly Organization?: Organization;
   public readonly Roles?: Role[];
   public readonly Assets?: Asset[];
   public readonly avatar?: Asset;
   public readonly PlansTakesPartIn?: Plan[];
   public readonly State?: State;
-  public readonly UserLoginHistory?: UserLoginHistory;
+  public readonly UserSession?: UserSession;
   public readonly ManagedDepartment?: Department;
   public readonly Department?: Department;
   public readonly PasswordAttributes?: PasswordAttribute;
   public readonly Tasks?: Task[];
+  public readonly Preference?: Preference;
 
   public static associations: {
     Organization: Association<User, Organization>;
@@ -143,11 +154,12 @@ export class User extends Model {
     avatar: Association<User, Asset>;
     PlansTakesPartIn: Association<User, Plan>;
     State: Association<User, State>;
-    UserLoginHistory: Association<User, UserLoginHistory>;
+    UserSession: Association<User, UserSession>;
     ManagedDepartment: Association<User, Department>;
     Department: Association<User, Department>;
     PasswordAttributes: Association<User, PasswordAttribute>;
     Tasks: Association<User, Task>;
+    Preference: Association<User, Preference>;
   };
 }
 

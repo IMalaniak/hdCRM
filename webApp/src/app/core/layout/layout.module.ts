@@ -12,7 +12,6 @@ import {
   RightSidebarComponent
 } from './components';
 import { SharedModule } from '@/shared/shared.module';
-import { MessageModule } from '@/modules/messages/messages.module';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import * as fromLayout from './store/layout.reducer';
@@ -42,7 +41,11 @@ import {
   faCoffee,
   faGlobe,
   faUserClock,
-  faChevronDown
+  faChevronDown,
+  faEllipsisH,
+  faFont,
+  faMoon,
+  faSun
 } from '@fortawesome/free-solid-svg-icons';
 import * as fromUser from '@/modules/users/store/user.reducer';
 import { UserEffects } from '@/modules/users/store/user.effects';
@@ -55,7 +58,6 @@ import { TaskManagerModule } from '@/modules/task-manager/task-manager.module';
     CommonModule,
     RouterModule,
     SharedModule,
-    MessageModule,
     StoreModule.forFeature(fromLayout.layoutFeatureKey, fromLayout.reducer),
     StoreModule.forFeature(fromUser.usersFeatureKey, fromUser.reducer),
     EffectsModule.forFeature([LayoutEffects, UserEffects]),
@@ -112,7 +114,11 @@ export class LayoutModule {
       faCoffee,
       faGlobe,
       faUserClock,
-      faChevronDown
+      faChevronDown,
+      faEllipsisH,
+      faFont,
+      faMoon,
+      faSun
     );
   }
 }

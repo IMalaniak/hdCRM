@@ -30,16 +30,16 @@ class Crypt {
     return testHash.passwordHash === passwordHash;
   }
 
-  setExpireMinutes = function(date: Date, minutes: number) {
+  setExpireMinutes(date: Date, minutes: number) {
     return new Date(date.getTime() + minutes * 60000);
-  };
+  }
 
-  genTimeLimitedToken = function(minutes: number) {
+  genTimeLimitedToken(minutes: number) {
     return {
       value: this.genRandomString(32),
       expireDate: this.setExpireMinutes(new Date(), minutes)
     };
-  };
+  }
 }
 
 export default new Crypt();

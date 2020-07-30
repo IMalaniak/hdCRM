@@ -8,20 +8,22 @@
 @import '~bootstrap/scss/reboot';
 @import '~bootstrap/scss/type';
 @import '~bootstrap/scss/grid';
-@import '~bootstrap/scss/card';
 @import '~bootstrap/scss/breadcrumb';
-@import '~bootstrap/scss/list-group';
-// @import '~bootstrap/scss/tables';
-@import '~bootstrap/scss/images';
-// @import '~bootstrap/scss/forms';
 @import '~bootstrap/scss/utilities';
-// @import "~bootstrap/scss/print";
 @import 'styles-reset';
 @import 'root';
 
 @import 'theme.scss';
 @include mat-core();
 @include angular-material-theme($crm-theme);
+
+.dark-theme {
+  @include angular-material-theme($dark-theme);
+}
+
+.font-scale {
+  font-size: 125%;
+}
 
 body {
   margin: 0;
@@ -63,7 +65,7 @@ main {
     bottom: 0;
     position: absolute;
     display: block;
-    z-index: 3;
+    @include getZ-Index(sidebar-overlay);
     visibility: hidden;
     transition: visibility $transition, background-color $transition;
 
@@ -83,7 +85,7 @@ main {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  z-index: 100;
+  @include getZ-Index(content);
 
   > .wrapper {
     flex-grow: 1;
@@ -144,6 +146,7 @@ main {
     width: 3.125rem;
   }
 
+  .mat-header-cell,
   .mat-sort-header-button {
     text-transform: uppercase;
     font-style: italic;
@@ -186,6 +189,13 @@ main {
   }
 }
 
+// TODO: @IMalaniak check if we can use mat-icon with font-awesome
+.mat-list-icon svg {
+  width: inherit !important;
+  height: inherit !important;
+  vertical-align: unset;
+}
+
 .mat-sort-header-container {
   align-items: baseline;
 }
@@ -202,4 +212,23 @@ main {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.dark-theme-bg {
+  background-color: $black;
+}
+
+// Define sizing utility to allow responsive breakpoints
+// Can be deleted after Bootstrap added this to core
+@each $breakpoint in map-keys($grid-breakpoints) {
+  @include media-breakpoint-up($breakpoint) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+    @each $prop, $abbrev in (width: w, height: h) {
+      @each $size, $length in $sizes {
+        .#{$abbrev}#{$infix}-#{$size} {
+          #{$prop}: $length !important;
+        }
+      }
+    }
+  }
 }

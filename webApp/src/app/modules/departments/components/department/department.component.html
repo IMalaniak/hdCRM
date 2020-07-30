@@ -1,20 +1,7 @@
-<section
-  class="app-content-box"
-  [title]="department.title + ' ' + 'department'"
-  [cssClass]="'bg-secondary border-0'"
-  [contentCssClass]="'bg-light'"
-  [headCssClass]="'text-white'"
-  *ngIf="department"
->
+<organisms-card [cardTitle]="department.title + ' department'" *ngIf="department">
   <div content class="row">
     <div class="col-md-6">
-      <section
-        class="app-content-box"
-        [title]="'Details'"
-        [cssClass]="'border border-secondary mt-0 mb-0'"
-        [contentCssClass]="'p-0'"
-        [disableShadow]="true"
-      >
+      <organisms-card cardTitle="Details" cardClass="border border-secondary mt-0 mb-0" [disableShadow]="true">
         <form content class="d-flex flex-column px-3 pt-3" *ngIf="editForm">
           <mat-form-field appearance="outline">
             <mat-label i18n="@@departmentComponentDetailsTitle">Title</mat-label>
@@ -64,17 +51,11 @@
             <p class="pt-2">{{ department.description }}</p>
           </div>
         </mat-list>
-      </section>
+      </organisms-card>
     </div>
     <div class="col-md-6">
       <!-- TODO -->
-      <section
-        class="app-content-box"
-        [title]="'Manager'"
-        [cssClass]="'border border-secondary mt-3 mt-md-0 mb-0'"
-        [contentCssClass]="'p-0'"
-        [disableShadow]="true"
-      >
+      <organisms-card cardTitle="Manager" cardClass="border border-secondary mt-3 mt-md-0 mb-0" [disableShadow]="true">
         <button
           buttons
           mat-stroked-button
@@ -104,7 +85,7 @@
             <h3 matLine>{{ department.Manager.fullname }}</h3>
           </mat-list-item>
         </mat-list>
-      </section>
+      </organisms-card>
     </div>
   </div>
   <div content class="row">
@@ -120,11 +101,9 @@
     <div class="col-md-6">
       <div class="row">
         <div class="col-sm-6 col-md-12 col-lg-6">
-          <section
-            class="app-content-box"
-            [title]="'Parent department'"
-            [cssClass]="'border border-secondary mt-3 mb-0'"
-            [contentCssClass]="'p-0'"
+          <organisms-card
+            cardTitle="Parent department"
+            cardClass="border border-secondary mt-3 mb-0"
             [disableShadow]="true"
           >
             <button buttons mat-stroked-button color="primary" class="crm-button" *ngIf="editForm">
@@ -137,14 +116,12 @@
                 <mat-divider></mat-divider>
               </mat-list-item>
             </mat-list> -->
-          </section>
+          </organisms-card>
         </div>
         <div class="col-sm-6 col-md-12 col-lg-6">
-          <section
-            class="app-content-box"
-            [title]="'Sub departments'"
-            [cssClass]="'border border-secondary mt-3 mb-0'"
-            [contentCssClass]="'p-0'"
+          <organisms-card
+            cardTitle="Sub departments"
+            cardClass="border border-secondary mt-3 mb-0"
             [disableShadow]="true"
             [counter]="department.SubDepartments ? department.SubDepartments.length : 0"
           >
@@ -158,7 +135,7 @@
                 <mat-divider></mat-divider>
               </mat-list-item>
             </mat-list> -->
-          </section>
+          </organisms-card>
         </div>
       </div>
     </div>
@@ -174,7 +151,7 @@
       Cancel
     </atoms-icon-button>
   </div>
-</section>
+</organisms-card>
 
 <swal
   #updateDepartmentSwal

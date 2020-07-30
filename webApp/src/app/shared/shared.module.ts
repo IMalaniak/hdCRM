@@ -31,13 +31,17 @@ import {
   faUserSlash,
   faUserTimes,
   faPhone,
-  faCompressArrowsAlt,
-  faExpandArrowsAlt,
   faUser,
-  faToggleOn
+  faToggleOn,
+  faDesktop,
+  faMobileAlt,
+  faTabletAlt,
+  faExpandAlt,
+  faCompressAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { faFontAwesomeFlag } from '@fortawesome/free-brands-svg-icons';
 import { COMPONENTS } from './imports';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 @NgModule({
   imports: [
@@ -51,7 +55,7 @@ import { COMPONENTS } from './imports';
     ReactiveFormsModule
   ],
   declarations: [...COMPONENTS],
-  exports: [...COMPONENTS, AppMaterialModule, FontAwesomeModule]
+  exports: [...COMPONENTS, AppMaterialModule, FontAwesomeModule, OverlayModule, FormsModule, ReactiveFormsModule]
 })
 export class SharedModule {
   constructor(library: FaIconLibrary) {
@@ -82,10 +86,13 @@ export class SharedModule {
       faUserTimes,
       faPhone,
       faFontAwesomeFlag,
-      faCompressArrowsAlt,
-      faExpandArrowsAlt,
+      faCompressAlt,
+      faExpandAlt,
       faUser,
-      faToggleOn
+      faToggleOn,
+      faDesktop,
+      faTabletAlt,
+      faMobileAlt
     );
   }
 }

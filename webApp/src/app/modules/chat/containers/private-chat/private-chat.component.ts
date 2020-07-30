@@ -9,8 +9,7 @@ import { OnlineUserListRequested } from '@/modules/users/store/user.actions';
 
 @Component({
   selector: 'app-private-chat',
-  templateUrl: './private-chat.component.html',
-  styleUrls: ['./private-chat.component.css']
+  templateUrl: './private-chat.component.html'
 })
 export class PrivateChatComponent implements OnInit {
   selectedChat$: Observable<Chat>;
@@ -24,6 +23,4 @@ export class PrivateChatComponent implements OnInit {
       console.log(users);
     });
   }
-
-
 }

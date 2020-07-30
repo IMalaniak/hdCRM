@@ -1,16 +1,4 @@
-<!--
-<section class="app-content-box" [title]="'Search'" [cssClass]="'search-advanced'" i18n="@@usersComponentHeaderSearch">
-
-</section>
--->
-<section
-  class="app-content-box"
-  [title]="'User list'"
-  [cssClass]="'bg-secondary border-0'"
-  [contentCssClass]="'bg-light p-0'"
-  [headCssClass]="'text-white'"
-  [showDataLoader]="loading$ | async"
->
+<organisms-card cardTitle="User list" [showDataLoader]="loading$ | async">
   <atoms-icon-button
     buttons
     *ngIf="addUserPrivilege$ | async"
@@ -161,4 +149,4 @@
     [pageSizeOptions]="[5, 10, 15]"
     showFirstLastButtons
   ></mat-paginator>
-</section>
+</organisms-card>

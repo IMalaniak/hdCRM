@@ -32,7 +32,15 @@ export class TaskController {
     this.taskDbCtrl
       .create(req.body)
       .then((task: db.Task) => {
-        return res.status(OK).json(task);
+        this.taskDbCtrl
+          .getById(task.id)
+          .then(newTask => {
+            return res.status(OK).json(newTask);
+          })
+          .catch((err: any) => {
+            Logger.Err(err);
+            return res.status(BAD_REQUEST).json(err);
+          });
       })
       .catch((err: any) => {
         Logger.Err(err);
@@ -66,9 +74,23 @@ export class TaskController {
   @Middleware([Passport.authenticate()])
   private deleteOne(req: Request, res: Response) {
     this.taskDbCtrl
-      .deleteOne(req.params.id)
+      .deleteTask(req.params.id)
       .then(result => {
         return res.status(OK).json(result);
+      })
+      .catch((error: any) => {
+        Logger.Err(error);
+        return res.status(BAD_REQUEST).json(error.toString());
+      });
+  }
+
+  @Put('task-multiple/:taskIds')
+  @Middleware([Passport.authenticate()])
+  private deleteMultipleTask(req: Request, res: Response) {
+    this.taskDbCtrl
+      .deleteTask(req.body.taskIds)
+      .then(response => {
+        return res.status(OK).json(response);
       })
       .catch((error: any) => {
         Logger.Err(error);

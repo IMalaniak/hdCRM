@@ -38,3 +38,5 @@ export class CustomSerializer implements RouterStateSerializer<RouterStateUrl> {
     return { url, params, queryParams };
   }
 }
+
+// TODO @IMalaniak check this file is it really needed?

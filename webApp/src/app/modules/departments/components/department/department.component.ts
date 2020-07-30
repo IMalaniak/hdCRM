@@ -21,8 +21,7 @@ import { MediaqueryService } from '@/shared';
 
 @Component({
   selector: 'app-department',
-  templateUrl: './department.component.html',
-  styleUrls: ['./department.component.scss']
+  templateUrl: './department.component.html'
 })
 export class DepartmentComponent implements OnInit, OnDestroy {
   department: Department;

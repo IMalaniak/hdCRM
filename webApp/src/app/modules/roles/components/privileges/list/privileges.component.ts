@@ -20,7 +20,7 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
   privileges: Privilege[];
   selection = new SelectionModel<Privilege>(true, []);
   resultsLength: number;
-  isLoading$: Observable<boolean>;
+  isLoading$ = this.store.pipe(select(selectPrivilegesLoading));
 
   displayedColumns = ['select', 'title', 'key'];
 
@@ -30,8 +30,6 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.store.dispatch(allPrivilegesRequested());
-
-    this.isLoading$ = this.store.pipe(select(selectPrivilegesLoading));
 
     this.store
       .pipe(

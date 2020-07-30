@@ -1,9 +1,41 @@
 .card {
-  &-title {
-    padding: 1em 1em 0;
+  .mat-card-content {
+    position: relative;
   }
 
-  &-body {
-    padding-top: 0;
+  [buttons] {
+    max-width: 50%;
+    display: flex;
+
+    atoms-icon-button {
+      + atoms-icon-button {
+        margin-left: crmsize(spacer, null, true);
+      }
+    }
+  }
+
+  .table-container {
+    overflow-x: auto;
+
+    .mat-table {
+      min-width: 57.5em;
+    }
+  }
+
+  .progress-spinner-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 101;
+
+    &:before {
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      content: '';
+    }
   }
 }

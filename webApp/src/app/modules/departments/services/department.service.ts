@@ -43,19 +43,21 @@ export class DepartmentService {
   }
 
   formatBeforeSend(dep: Department): Department {
-    if (dep.Workers && dep.Workers.length > 0) {
-      dep.Workers = dep.Workers.map(user => {
-        return <User>{
-          id: user.id
-        };
+    let formated = { ...dep };
+    if (formated.Workers && formated.Workers.length) {
+      formated = Object.assign({}, formated, {
+        Participants: formated.Workers.map(worker => {
+          return <User>{
+            id: worker.id
+          };
+        })
       });
     }
 
-    if (dep.Manager && dep.Manager.id) {
-      const manager = {} as User;
-      manager.id = dep.Manager.id;
-      dep.Manager = manager;
+    if (formated.Manager && formated.Manager.id) {
+      const manager = { id: formated.Manager.id } as User;
+      formated = Object.assign({}, formated, { Manager: manager });
     }
-    return dep;
+    return formated;
   }
 }

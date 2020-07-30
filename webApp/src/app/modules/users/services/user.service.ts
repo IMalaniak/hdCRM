@@ -66,25 +66,27 @@ export class UserService {
     return this.http.put<User[]>(`${this.api}/changeStateOfSelected`, data);
   }
 
+  changeOldPassword(data: NewPassword): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.api}/change-password`, data);
+  }
+
   formatBeforeSend(user: User): User {
-    const formated = { ...user };
+    let formated = { ...user };
     if (formated.State) {
       const state = {
         id: user.State.id
       } as State;
-      formated.State = state;
+      formated = Object.assign({}, formated, { State: state });
     }
-    if (formated.Roles) {
-      formated.Roles = formated.Roles.map(role => {
-        return <Role>{
-          id: role.id
-        };
+    if (formated.Roles && formated.Roles.length) {
+      formated = Object.assign({}, formated, {
+        Roles: formated.Roles.map(role => {
+          return <Role>{
+            id: role.id
+          };
+        })
       });
     }
-    return formated as User;
-  }
-
-  changeOldPassword(data: NewPassword): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.api}/change-password`, data);
+    return formated;
   }
 }

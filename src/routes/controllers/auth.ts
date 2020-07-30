@@ -1,4 +1,4 @@
-import { OK, BAD_REQUEST } from 'http-status-codes';
+import { OK, BAD_REQUEST, UNAUTHORIZED, FORBIDDEN } from 'http-status-codes';
 import { Controller, Get, Post } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
@@ -6,33 +6,37 @@ import * as db from '../../models';
 import { Op, ValidationError, UniqueConstraintError } from 'sequelize';
 import Crypt from '../../config/crypt';
 import Mailer from '../../mailer/nodeMailerTemplates';
-import jwt from 'jsonwebtoken';
+import JwtHelper from '../../helpers/jwtHelper';
+import { JwtDecoded } from '../../models/JWTPayload';
+import { TokenExpiredError } from 'jsonwebtoken';
+import { UserDBController } from '../../dbControllers/usersController';
 
 @Controller('auth/')
 export class AuthController {
-  saveLogInAttempt(req: Request, user: db.User, isSuccess: boolean): Promise<void> {
-    const defaults: any = {};
-    defaults.IP = req.connection.remoteAddress;
-    if (isSuccess) {
-      defaults.dateLastLoggedIn = new Date();
-    } else {
-      defaults.dateUnsuccessfulLogIn = new Date();
+  private userDbCtrl = new UserDBController();
+
+  parseCookies(request) {
+    const list = {};
+    const rc = request.headers.cookie;
+
+    if (rc) {
+      rc.split(';').forEach((cookie: string) => {
+        const parts = cookie.split('=');
+        list[parts.shift().trim()] = decodeURI(parts.join('='));
+      });
     }
-    return db.UserLoginHistory.findOrCreate({
-      where: {
-        UserId: user.id
-      },
-      defaults
-    }).then(([uLogHistItem, created]) => {
-      if (!created) {
-        uLogHistItem.IP = req.connection.remoteAddress;
-        if (isSuccess) {
-          uLogHistItem.dateLastLoggedIn = new Date();
-        } else {
-          uLogHistItem.dateUnsuccessfulLogIn = new Date();
-        }
-        uLogHistItem.save();
-      }
+
+    return list;
+  }
+
+  saveLogInAttempt(req: Request, user: db.User, isSuccess: boolean): Promise<db.UserSession> {
+    const body = {} as db.UserSession;
+    body.IP = req.ip;
+    body.UserId = user.id;
+    body.UA = req.headers['user-agent'];
+    body.isSuccess = isSuccess;
+    return db.UserSession.create({
+      ...body
     });
   }
 
@@ -115,7 +119,7 @@ export class AuthController {
                             Mailer.sendActivation(
                               user,
                               password,
-                              `${process.env.URL}/auth/activate-account/${token.value}`
+                              `${process.env.WEB_URL}/auth/activate-account/${token.value}`
                             )
                               .then(() => {
                                 return res.status(OK).json({
@@ -285,19 +289,20 @@ export class AuthController {
 
         const isMatch = Crypt.validatePassword(password, user.passwordHash, user.salt);
         if (isMatch) {
-          const { id } = user;
-          const payload = {
-            userId: id
-          };
-
-          let token = jwt.sign(payload, process.env.SECRET, {
-            expiresIn: 86400 // 86400s = 1 day //604800s = 1 week
-          });
-          token = `JWT ${token}`;
-
-          this.saveLogInAttempt(req, user, true).then(() => {
-            // res.cookie('jwt', token);
-            return res.status(OK).json(token);
+          this.saveLogInAttempt(req, user, true).then(userSession => {
+            const access_token = JwtHelper.generateToken({
+              type: 'access',
+              payload: { userId: user.id, sessionId: userSession.id }
+            });
+            const refreshToken = JwtHelper.generateToken({
+              type: 'refresh',
+              payload: { userId: userSession.UserId, sessionId: userSession.id }
+            });
+            // set cookie for one year, it doest matter, because it has token that itself has an expiration date;
+            const expires = new Date();
+            expires.setFullYear(expires.getFullYear() + 1);
+            res.cookie('refresh_token', refreshToken, { httpOnly: true, expires });
+            return res.status(OK).json(`JWT ${access_token}`);
           });
         } else {
           this.saveLogInAttempt(req, user, false).then(() => {
@@ -313,6 +318,27 @@ export class AuthController {
         Logger.Err(err);
         return res.status(BAD_REQUEST).json(err);
       });
+  }
+
+  @Get('refresh-session')
+  private refreshSession(req: Request, res: Response) {
+    Logger.Info(`Refreshing user session...`);
+    const cookies = this.parseCookies(req);
+    if (cookies['refresh_token']) {
+      JwtHelper.getVerified({ type: 'refresh', token: cookies['refresh_token'] })
+        .then(({ userId, sessionId }: JwtDecoded) => {
+          const newToken = JwtHelper.generateToken({ type: 'access', payload: { userId, sessionId } });
+          return res.status(OK).json(`JWT ${newToken}`);
+        })
+        .catch((err: TokenExpiredError) => {
+          return res.status(FORBIDDEN).send(err);
+        });
+    } else {
+      return res.status(UNAUTHORIZED).send({
+        success: false,
+        message: 'No refresh token!'
+      });
+    }
   }
 
   @Post('forgot_password')
@@ -339,7 +365,7 @@ export class AuthController {
             .then(pa => {
               const token = Crypt.genTimeLimitedToken(5);
               const sendPasswordResetMail = () => {
-                Mailer.sendPasswordReset(user, `${process.env.URL}/auth/password-reset/${token.value}`)
+                Mailer.sendPasswordReset(user, `${process.env.WEB_URL}/auth/password-reset/${token.value}`)
                   .then(() => {
                     return res.status(OK).json({
                       success: true,
@@ -471,9 +497,22 @@ export class AuthController {
   }
 
   @Get('logout')
-  private create(req: Request, res: Response) {
+  private async create(req: Request, res: Response) {
     Logger.Info(`Logging user out...`);
-    req.logout();
-    res.status(OK).json({ message: 'logged out' });
+    const cookies = this.parseCookies(req);
+    const { sessionId } = await JwtHelper.getDecoded(cookies['refresh_token']);
+    this.userDbCtrl
+      .removeSession(sessionId)
+      .then(() => {
+        // force cookie expiration
+        const expires = new Date(1970);
+        res.cookie('refresh_token', null, { httpOnly: true, expires });
+        req.logout();
+        res.status(OK).json({ message: 'logged out' });
+      })
+      .catch((err: any) => {
+        Logger.Err(err);
+        return res.status(BAD_REQUEST).json(err);
+      });
   }
 }

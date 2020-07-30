@@ -18,14 +18,13 @@ export class PlanService {
   }
 
   getList(pageIndex = 0, pageSize = 5, sortIndex = 'id', sortDirection = 'asc'): Observable<PlanServerResponse> {
-    return this.http
-      .get<PlanServerResponse>(this.api, {
-        params: new HttpParams()
-          .set('pageIndex', pageIndex.toString())
-          .set('pageSize', pageSize.toString())
-          .set('sortIndex', sortIndex)
-          .set('sortDirection', sortDirection)
-      });
+    return this.http.get<PlanServerResponse>(this.api, {
+      params: new HttpParams()
+        .set('pageIndex', pageIndex.toString())
+        .set('pageSize', pageSize.toString())
+        .set('sortIndex', sortIndex)
+        .set('sortDirection', sortDirection)
+    });
   }
 
   getListByStage(stage: number, pageIndex = 0, pageSize = 5): Observable<Plan[]> {
@@ -63,19 +62,22 @@ export class PlanService {
   }
 
   formatBeforeSend(plan: Plan): Plan {
-    if (plan.Creator) {
+    let formated = { ...plan };
+    if (formated.Creator) {
       const creator = {
-        id: plan.Creator.id
+        id: formated.Creator.id
       } as User;
-      plan.Creator = creator;
+      formated = Object.assign({}, formated, { Creator: creator });
     }
-    if (plan.Participants && plan.Participants.length > 0) {
-      plan.Participants = plan.Participants.map(participant => {
-        return <User>{
-          id: participant.id
-        };
+    if (formated.Participants && formated.Participants.length) {
+      formated = Object.assign({}, formated, {
+        Participants: formated.Participants.map(participant => {
+          return <User>{
+            id: participant.id
+          };
+        })
       });
     }
-    return plan;
+    return formated;
   }
 }

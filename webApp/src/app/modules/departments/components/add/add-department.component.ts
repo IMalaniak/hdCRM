@@ -12,8 +12,7 @@ import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms'
 
 @Component({
   selector: 'app-add-department',
-  templateUrl: './add-department.component.html',
-  styleUrls: ['./add-department.component.scss']
+  templateUrl: './add-department.component.html'
 })
 export class AddDepartmentComponent implements OnInit {
   department = {} as Department;

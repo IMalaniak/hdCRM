@@ -24,6 +24,7 @@ $container-max-widths: (
   xxl: 1350px,
   xxxl: 1500px
 );
+
 // remove underline from button links
 $link-hover-decoration: none;
 
@@ -38,6 +39,7 @@ $gray-800: #343a40;
 $gray-900: #212529;
 $light: $gray-100;
 $dark: $gray-800;
+$black: #212121;
 $blue: mat-color($crm-theme-primary, 600);
 $indigo: mat-color($mat-purple, 500);
 $purple: mat-color($mat-purple, 600);
@@ -94,4 +96,13 @@ $crmsizes: (
   ),
   userpic: 3rem,
   spacer: 1em
+);
+
+$layer-priorities: (
+  root: 100,
+  content: 102,
+  header: 103,
+  sidebar-overlay: 103,
+  right-sidebar: 104,
+  left-sidebar: 105
 );

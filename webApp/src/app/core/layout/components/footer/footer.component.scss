@@ -1,6 +1,6 @@
 @import 'variables';
 @import 'mixins';
-@import '~bootstrap/scss/mixins/_breakpoints';
+@import '~bootstrap/scss/mixins/breakpoints';
 
 footer {
   @include crm-bgcolor('layout', 'dark');

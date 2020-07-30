@@ -1,107 +1,123 @@
 @import 'variables';
 @import 'mixins';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins/breakpoints';
 
-app-right-sidebar {
+right-sidebar {
   @include crm-bgcolor('layout', 'background');
   position: fixed;
   top: crmsize(header, height, true);
   right: 0;
   bottom: 0;
   min-width: 100%;
-  transition: all $transition;
-  z-index: 100;
+  @include getZ-Index(right-sidebar);
+  transition: right $transition;
 
   &.minimized {
-    min-width: crmsize(sidebar, hidden, true);
-    flex-basis: crmsize(sidebar, hidden, true);
-    width: crmsize(sidebar, hidden, true);
+    right: -100%;
   }
 
   @include media-breakpoint-up(md) {
     min-width: crmsize(sidebar, width, true);
     flex-basis: crmsize(sidebar, width, true);
+
+    &.minimized {
+      right: -(crmsize(sidebar, width, true));
+    }
   }
 
   @include media-breakpoint-up(lg) {
     position: sticky;
     top: 0;
-    right: 0;
-    bottom: 0;
+    margin-right: 0;
+    min-width: crmsize(sidebar, width, true);
+    flex-basis: crmsize(sidebar, width, true);
+    transition: right $transition, margin-right $transition;
+
+    &.minimized {
+      margin-right: -(crmsize(sidebar, width, true));
+    }
   }
 }
 
-.sidebar-wrapper {
-  position: relative;
+.right-sidebar {
+  display: flex;
+  flex-direction: column;
   height: 100%;
   width: 100%;
-  border-left: 1px solid lightgray;
+  border-left: 1px solid $gray-200;
 
-  > .sidebar-content {
-    position: absolute;
-    top: 0;
-    left: 0;
+  &-content {
     width: 100%;
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
   }
 
-  > .btn-wrapper {
-    position: absolute;
-    bottom: 1em;
-    left: 1em;
-    height: 2.4em;
+  .btn-sidebar-block {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     width: 100%;
+    height: fit-content;
+    padding: 0.8em 0;
+    background-color: transparent;
 
-    > .btn-expand-wrapper {
-      @include crm-bgcolor('theme', 'primary');
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 2.4em;
-      border-bottom-left-radius: 1.3em;
-      border-top-left-radius: 1.3em;
+    .btn-sidebar-toggle {
+      position: relative;
+      left: 1em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 7px 13px;
+      border: 1px solid $gray-200;
+      border-radius: 20px;
+      @include crm-bgcolor('layout', 'milk');
       cursor: pointer;
-      transition: all $transition;
+      transition: left $transition, padding $transition, border-color $transition, background-color $transition;
 
-      > .btn-sidebar-toggle {
+      &:hover {
         @include crm-bgcolor('theme', 'primary');
-        position: absolute;
-        left: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 2.4em;
-        height: 2.4em;
-        border-radius: 50%;
-        cursor: pointer;
-        transform: none;
-        transition: all $transition;
+        border-color: crmcolor('theme', 'primary', true);
+        padding-left: 20px;
 
-        fa-icon {
+        > .btn-icon {
           @include crm-textcolor('layout', 'background');
-          font-size: 0.85em;
         }
+      }
+
+      .btn-icon {
+        font-size: 0.85em;
+        color: $gray-600;
+        transition: color $transition, transform $transition;
       }
     }
   }
 
   .minimized & {
-    .btn-expand-wrapper {
+    .btn-sidebar-toggle {
+      left: -2.4em;
+      padding-right: 2.4em;
+      border-color: crmcolor('theme', 'primary', true);
       @include crm-bgcolor('theme', 'primary');
-      left: -3.5em;
-      width: 100vw;
-      transition: all $transition;
 
       @include media-breakpoint-up(lg) {
-        &:hover {
-          left: -4.5em;
+        left: calc(- ((crmsize(sidebar, width, true))) + 2.4em);
+      }
+
+      &:hover {
+        padding-left: 13px;
+        left: -2.9em;
+
+        @include media-breakpoint-up(lg) {
+          left: calc(- ((crmsize(sidebar, width, true))) + 2.9em);
         }
       }
 
-      .btn-sidebar-toggle {
+      > .btn-icon {
         transform: rotate(180deg);
+        @include crm-textcolor('layout', 'background');
       }
     }
   }

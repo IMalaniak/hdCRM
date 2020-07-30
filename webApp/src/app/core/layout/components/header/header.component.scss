@@ -1,6 +1,8 @@
 @import 'variables';
-@import '_mixins';
-@import '~bootstrap/scss/mixins/_breakpoints';
+@import 'mixins';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins/breakpoints';
 
 :host {
   display: flex;
@@ -10,9 +12,8 @@
   min-height: crmsize(header, height, true);
   flex-basis: crmsize(header, height, true);
   @include crm-bgcolor('layout', 'dark');
-  @include crm-textcolor('layout', 'milk');
   box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
-  z-index: 101;
+  @include getZ-Index(header);
 
   .company-logo {
     width: crmsize(sidebar, width, true);
@@ -76,71 +77,49 @@
         transform: scale(0.9);
       }
     }
+  }
+}
 
-    .dropdown-content {
-      $hHeight: crmsize(header, height, true);
+.dropdown-content {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  margin: 0 0.6em;
 
-      position: absolute;
-      top: calc(#{$hHeight});
-      right: 0;
-      left: 0;
-      display: flex;
-      flex-direction: column;
-      width: 95%;
-      height: auto;
-      margin: 0 auto;
+  @include media-breakpoint-up(sm) {
+    width: 25.8em;
+  }
+  @include media-breakpoint-up(lg) {
+    margin: 0 1.7em 0;
+  }
 
-      @include media-breakpoint-up(sm) {
-        width: 24.5em;
-        right: 0.6em;
-        left: auto;
-        margin-left: auto;
-      }
-      @include media-breakpoint-up(lg) {
-        right: 1.6em;
-      }
-
-      .content {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        padding: 1.5em 0.7em 0.7em 0.7em;
-        @include media-breakpoint-up(sm) {
-          flex-direction: row;
-          flex-flow: row-reverse;
-        }
-
-        .content-title {
-          margin: 0 0 0.5em 1.2em;
-          font-size: 0.9em;
-          color: gray;
-        }
-
-        .account-actions {
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-start;
-        }
-      }
-
-      .content-footer {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        align-items: center;
-        margin: 0.8em 1.6em;
-
-        #org-title {
-          font-size: 0.8em;
-          text-transform: uppercase;
-          color: gray;
-        }
-      }
+  .content-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;
+    @include media-breakpoint-up(sm) {
+      flex-direction: row;
+      flex-flow: row-reverse;
     }
 
-    .card {
-      border-radius: 0.5em;
-      @include crm-bgcolor('layout', 'background');
+    .content-title {
+      margin: 0 auto 0.5em 1.1em;
+      font-size: 1em;
+      color: $gray-600;
+    }
+  }
+
+  .content-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 1em 0 0.4em;
+
+    #org-title {
+      font-size: 1em;
+      text-transform: uppercase;
+      color: $gray-600;
     }
   }
 }

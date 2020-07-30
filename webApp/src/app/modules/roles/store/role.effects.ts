@@ -56,14 +56,10 @@ export class RoleEffects {
       map(payload => payload.page),
       mergeMap(page =>
         this.roleService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
-          catchError(err => {
-            console.log('error loading a roles page ', err);
-            this.store.dispatch(roleActions.listPageCancelled());
-            return of({});
-          })
+          map((response: RoleServerResponse) => roleActions.listPageLoaded({ response })),
+          catchError(err => of(roleActions.listPageCancelled()))
         )
-      ),
-      map((response: RoleServerResponse) => roleActions.listPageLoaded({ response }))
+      )
     )
   );
 

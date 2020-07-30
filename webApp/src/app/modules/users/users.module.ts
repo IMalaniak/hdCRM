@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsersRoutingModule } from './users-routing.module';
 import { SharedModule } from '@/shared/shared.module';
 
@@ -10,7 +9,13 @@ import {
   UserComponent,
   UsersComponent,
   UsersDialogComponent,
-  InvitationDialogComponent
+  InvitationDialogComponent,
+  OrganismsUserDetailsComponent,
+  OrganismsUserSessionsComponent,
+  OrganismsUserPasswordsComponent,
+  TemplatesUserProfileComponent,
+  OrganismsUserPreferencesComponent,
+  OrganismsUserOrganizationComponent
 } from './components';
 
 import { UserService, StateService } from './services';
@@ -21,21 +26,30 @@ import * as fromState from './store/state.reducer';
 import { UserEffects } from './store/user.effects';
 import { StateEffects } from './store/state.effects';
 
-
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule,
-    ReactiveFormsModule,
     SharedModule,
     UsersRoutingModule.forRoot(),
     StoreModule.forFeature(fromUser.usersFeatureKey, fromUser.reducer),
     StoreModule.forFeature(fromState.statesFeatureKey, fromState.reducer),
     EffectsModule.forFeature([UserEffects, StateEffects])
   ],
-  declarations: [ProfileComponent, UserComponent, UsersComponent, UsersDialogComponent, InvitationDialogComponent],
+  declarations: [
+    ProfileComponent,
+    UserComponent,
+    UsersComponent,
+    UsersDialogComponent,
+    InvitationDialogComponent,
+    OrganismsUserDetailsComponent,
+    OrganismsUserSessionsComponent,
+    OrganismsUserPasswordsComponent,
+    TemplatesUserProfileComponent,
+    OrganismsUserPreferencesComponent,
+    OrganismsUserOrganizationComponent
+  ],
   providers: [UserService, StateService],
-  exports: [ProfileComponent, UserComponent, UsersComponent, UsersDialogComponent]
+  exports: [UserComponent, UsersComponent, UsersDialogComponent]
 })
 export class UsersModule {}

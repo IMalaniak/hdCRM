@@ -92,6 +92,29 @@ export class UserController {
       });
   }
 
+  // TODO @IMalaniak check for multiple routes with the same logiс
+  @Put('profile/')
+  @Middleware([Passport.authenticate()])
+  private updateProfile(req: Request, res: Response) {
+    this.userDbCtrl
+      .updateOne(req.body)
+      .then(result => {
+        if (result) {
+          this.userDbCtrl
+            .getById(req.body.id)
+            .then(user => res.status(OK).json(user))
+            .catch((error: any) => {
+              Logger.Err(error);
+              return res.status(BAD_REQUEST).json(error.toString());
+            });
+        }
+      })
+      .catch((error: any) => {
+        Logger.Err(error);
+        return res.status(BAD_REQUEST).json(error.toString());
+      });
+  }
+
   @Post('change-password')
   @Middleware([Passport.authenticate()])
   private changePassword(req: Request, res: Response) {
@@ -354,7 +377,7 @@ export class UserController {
                 passwordExpire: token.expireDate
               })
                 .then(() => {
-                  Mailer.sendInvitation(u, password, `${process.env.URL}/auth/activate-account/${token.value}`)
+                  Mailer.sendInvitation(u, password, `${process.env.WEB_URL}/auth/activate-account/${token.value}`)
                     .then(() => {
                       resolve(u);
                     })
@@ -376,6 +399,56 @@ export class UserController {
     Promise.all(promises)
       .then(response => {
         return res.status(OK).json(response);
+      })
+      .catch((error: any) => {
+        Logger.Err(error);
+        return res.status(BAD_REQUEST).json(error.toString());
+      });
+  }
+
+  @Delete('session/:id')
+  @Middleware([Passport.authenticate()])
+  private deleteSession(req: Request, res: Response) {
+    this.userDbCtrl
+      .removeSession(req.params.id)
+      .then(response => {
+        return res.status(OK).json(response);
+      })
+      .catch((error: any) => {
+        Logger.Err(error);
+        return res.status(BAD_REQUEST).json(error.toString());
+      });
+  }
+
+  @Put('session-multiple/:sessionIds')
+  @Middleware([Passport.authenticate()])
+  private deleteMultipleSessions(req: Request, res: Response) {
+    this.userDbCtrl
+      .removeSession(req.body.sessionIds)
+      .then(response => {
+        return res.status(OK).json(response);
+      })
+      .catch((error: any) => {
+        Logger.Err(error);
+        return res.status(BAD_REQUEST).json(error.toString());
+      });
+  }
+
+  @Put('org/:id')
+  @Middleware([Passport.authenticate()])
+  private updateOrg(req: Request, res: Response) {
+    this.userDbCtrl
+      .editOrg(req.body)
+      .then(() => {
+        req.user
+          .getOrganization()
+          .then(org => {
+            return res.status(OK).json(org);
+          })
+          .catch((error: any) => {
+            Logger.Err(error);
+            return res.status(BAD_REQUEST).json(error.toString());
+          });
       })
       .catch((error: any) => {
         Logger.Err(error);

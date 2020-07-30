@@ -1,9 +1,7 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { AuthState, authFeatureKey } from './auth.reducer';
 
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { Privilege } from '@/modules/roles';
-const jwtHelper = new JwtHelperService();
 
 export const selectAuthState = createFeatureSelector<AuthState>(authFeatureKey);
 
@@ -15,11 +13,15 @@ export const currentUser = createSelector(selectAuthState, auth => auth.currentU
 
 export const getToken = createSelector(selectAuthState, auth => auth.accessToken);
 
-export const isValidToken = createSelector(getToken, token => (token ? !jwtHelper.isTokenExpired(token) : false));
+export const getSessionId = createSelector(selectAuthState, auth => auth.sessionId);
 
-export const isloggedIn = createSelector(selectAuthState, isValidToken, (auth, valid) => auth.loggedIn && valid);
+export const isTokenRefreshing = createSelector(selectAuthState, auth => auth.isTokenRefreshing);
 
-export const isLoggedOut = createSelector(isloggedIn, loggedIn => !loggedIn);
+export const isTokenValid = createSelector(selectAuthState, auth => auth.isTokenValid);
+
+export const isLoggedIn = createSelector(selectAuthState, isTokenValid, (auth, valid) => auth.loggedIn && valid);
+
+export const isLoggedOut = createSelector(isLoggedIn, loggedIn => !loggedIn);
 
 // get an array pf currentUser privileges
 export const getPrivileges = createSelector(currentUser, user => {

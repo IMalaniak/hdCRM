@@ -1,10 +1,4 @@
-<section
-  class="app-content-box"
-  [title]="'Create a new plan'"
-  [cssClass]="'bg-secondary border-0'"
-  [contentCssClass]="'bg-light'"
-  [headCssClass]="'text-white'"
->
+<organisms-card cardTitle="Create a new plan">
   <div content class="row">
     <div class="col-md-8">
       <form [formGroup]="planData">
@@ -115,14 +109,9 @@
     </div>
   </div>
 
-  <atoms-icon-button
-    buttons
-    (onclick)="onClickSubmit()"
-    [icon]="['fas', 'paper-plane']"
-    [disabled]="planData.invalid"
-  >
+  <atoms-icon-button buttons (onclick)="onClickSubmit()" [icon]="['fas', 'paper-plane']" [disabled]="planData.invalid">
     Submit
   </atoms-icon-button>
-</section>
+</organisms-card>
 
 <app-attachments *ngIf="plan" [attachments]="plan.Documents" [editForm]="true"></app-attachments>

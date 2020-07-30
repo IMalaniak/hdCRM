@@ -1,0 +1,141 @@
+<organisms-card cardTitle="Details" [disableShadow]="true">
+  <div content class="row">
+    <div *ngIf="!editForm" class="col-md-12 col-lg-6">
+      <mat-list>
+        <mat-list-item>
+          <section>
+            <div>
+              <span i18n="@@userProfileComponentTabDetailsName">Name:</span>
+            </div>
+            <div>
+              <span>{{ user.name }}</span>
+            </div>
+          </section>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <section>
+            <div>
+              <span i18n="@@userProfileComponentTabDetailsSurname">Surname:</span>
+            </div>
+            <div>
+              <span>{{ user.surname }}</span>
+            </div>
+          </section>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <section>
+            <div>
+              <span i18n="@@userProfileComponentTabDetailsLogin">Login:</span>
+            </div>
+            <div>
+              <span>{{ user.login }}</span>
+            </div>
+          </section>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <section>
+            <div>
+              <span i18n="@@userProfileComponentTabDetailsEmail">Email:</span>
+            </div>
+            <div>
+              <span>{{ user.email }}</span>
+            </div>
+          </section>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <section>
+            <div>
+              <span i18n="@@userProfileComponentTabDetailsPhone">Phone:</span>
+            </div>
+            <div>
+              <span>{{ user.phone }}</span>
+            </div>
+          </section>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <!-- <mat-list-item>
+                      <section>
+                        <div>
+                          <span i18n="@@userProfileComponentTabDetailsLang">Language:</span>
+                        </div>
+                        <div>
+                          <span>{{ user.defaultLang }}</span>
+                        </div>
+                      </section>
+                    </mat-list-item> -->
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <section>
+            <div>
+              <span i18n="@@userProfileComponentTabDetailsDateCreated">Date created:</span>
+            </div>
+            <div>
+              <span>{{ user.createdAt | date: 'short' }}</span>
+            </div>
+          </section>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <section>
+            <div>
+              <span i18n="@@userProfileComponentTabDetailsDateUpdated">Date updated:</span>
+            </div>
+            <div>
+              <span>{{ user.updatedAt | date: 'short' }}</span>
+            </div>
+          </section>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div *ngIf="editForm" class="col-md-12 col-lg-6">
+      <form class="d-flex flex-column p-3" [formGroup]="userForm">
+        <mat-form-field appearance="outline">
+          <mat-label i18n="@@userProfileComponentTabDetailsName">Name</mat-label>
+          <input matInput formControlName="name" type="text" [readonly]="!editForm" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label i18n="@@userProfileComponentTabDetailsSurname">Surname</mat-label>
+          <input matInput formControlName="surname" type="text" [readonly]="!editForm" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label i18n="@@userProfileComponentTabDetailsEmail">Email</mat-label>
+          <input matInput formControlName="email" type="text" [readonly]="!editForm" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label i18n="@@userProfileComponentTabDetailsPhone">Phone</mat-label>
+          <input matInput formControlName="phone" type="text" [readonly]="!editForm" />
+        </mat-form-field>
+        <!-- <mat-form-field appearance="outline" matTooltip="Language will change after next login" [matTooltipDisabled]=!(editForm)>
+                      <mat-label i18n="@@userProfileComponentTabDetailsLang">Language</mat-label>
+                      <input matInput *ngIf="!(editForm)" value="{{ user.defaultLang }}"  type="text" name="defaultLang">
+                      <mat-select [(ngModel)]="user.defaultLang" name="defaultLang">
+                        <mat-option *ngFor="let lang of langs" [value]="lang">{{ lang }}</mat-option>
+                      </mat-select>
+                    </mat-form-field> -->
+        <mat-form-field appearance="outline">
+          <mat-label i18n="@@userProfileComponentTabDetailsState">State</mat-label>
+          <mat-select formControlName="StateId">
+            <mat-option *ngFor="let state of states" [value]="state.id">{{ state.keyString }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+  <div buttons *ngIf="canEdit">
+    <atoms-icon-button *ngIf="!editForm" (click)="onClickEdit()" [icon]="['fas', 'edit']">
+      Edit
+    </atoms-icon-button>
+
+    <atoms-icon-button *ngIf="editForm" (click)="onUpdateUserSubmit()" [icon]="['fas', 'save']">
+      Save
+    </atoms-icon-button>
+
+    <atoms-icon-button *ngIf="editForm" (click)="onClickCancelEdit()" [icon]="['fas', 'times']" color="basic">
+      Cancel
+    </atoms-icon-button>
+  </div>
+</organisms-card>

@@ -10,7 +10,8 @@ import {
   StageController,
   StateController,
   ChatController,
-  TaskController
+  TaskController,
+  PreferenceController
 } from './controllers';
 import { Request, Response } from 'express';
 import { OK } from 'http-status-codes';
@@ -30,7 +31,8 @@ import { TaskPriorityController } from './controllers/taskPriority';
   new StateController(),
   new UserController(),
   new TaskController(),
-  new TaskPriorityController()
+  new TaskPriorityController(),
+  new PreferenceController()
 ])
 export class ApiController {
   @Get('')

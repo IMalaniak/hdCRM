@@ -62,7 +62,7 @@
   </form>
 </div>
 <div mat-dialog-actions class="task-dialog-actions">
-  <atoms-icon-button (click)="onNoClick()" [icon]="['fas', 'times']" color="basic">
+  <atoms-icon-button (click)="dialogRef.close()" [icon]="['fas', 'times']" color="basic">
     Cancel
   </atoms-icon-button>
   <atoms-icon-button [disabled]="taskData.invalid" (onclick)="onSubmit()" [icon]="['fas', 'save']" color="primary">

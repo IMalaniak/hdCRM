@@ -8,12 +8,10 @@ export class Passport {
 
   private opts: StrategyOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),
-    secretOrKey: process.env.SECRET
+    secretOrKey: process.env.ACCESS_TOKEN_SECRET,
     // issuer: 'auth@mywebmaster.pp.ua',
-    // audience = 'yoursite.net';
+    audience: process.env.WEB_URL
   };
-
-  constructor() {}
 
   public authenticate() {
     return passport.authenticate('jwt', {

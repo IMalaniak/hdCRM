@@ -66,3 +66,7 @@
   background-color: crmcolor($map, $variant, true);
   background-color: crmcolor($map, $variant);
 }
+
+@mixin getZ-Index($container) {
+  z-index: map-get($layer-priorities, $container);
+}

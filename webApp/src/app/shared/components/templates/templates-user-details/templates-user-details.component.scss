@@ -1,0 +1,89 @@
+@import 'variables';
+@import 'mixins';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins/breakpoints';
+
+.profile {
+  &-avatar {
+    width: 60%;
+    margin: 0 auto;
+    @include media-breakpoint-up(sm) {
+      width: 40%;
+    }
+    @include media-breakpoint-up(md) {
+      width: 85%;
+    }
+  }
+
+  &-details {
+    width: 85%;
+    margin: 0 auto;
+    @include media-breakpoint-up(sm) {
+      width: 80%;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+    }
+
+    h4,
+    h5,
+    h6 {
+      margin-bottom: 0;
+    }
+
+    .details {
+      padding-left: 0.25 * crmsize(spacer, null, true);
+    }
+
+    .caption {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-bottom: 0.25 * crmsize(spacer, null, true);
+    }
+
+    .icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+
+      &-normal {
+        margin-right: 0.7em;
+        padding: 1em;
+        font-size: 1.1em;
+        width: 1.1em;
+        height: 1.1em;
+        border: 1px solid $blue;
+        @include crm-textcolor('theme', 'primary');
+      }
+
+      &-mini {
+        margin-right: 0.5em;
+        padding: 0.9em;
+        font-size: 0.8em;
+        width: 0.8em;
+        height: 0.8em;
+        border: 1px solid $gray-600;
+        color: $gray-600;
+      }
+    }
+
+    .role {
+      &-titles {
+        margin: 0 0.3em;
+
+        &:first-child {
+          margin: 0 0.3em 0 0;
+        }
+      }
+    }
+
+    > div {
+      padding: crmsize(spacer, null, true) 0;
+    }
+  }
+}

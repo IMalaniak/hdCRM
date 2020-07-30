@@ -8,6 +8,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { RouterStateSerializer, StoreRouterConnectingModule, DefaultRouterStateSerializer } from '@ngrx/router-store';
+import { PreferencesEffects } from './reducers/preferences.effects';
+import { reducers, metaReducers } from './reducers';
 
 import { httpInterceptorsProviders } from './_interceptors';
 
@@ -15,8 +17,6 @@ import { ValidateService, MediaqueryService, LocalStorageService, CustomSerializ
 
 import { AuthModule } from './auth/auth.module';
 import { LayoutModule } from './layout/layout.module';
-
-import { reducers, metaReducers } from './reducers';
 
 import { environment } from 'environments/environment';
 
@@ -37,7 +37,7 @@ import { environment } from 'environments/environment';
       }
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([PreferencesEffects]),
     StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer, stateKey: 'router' })
   ],
   exports: [RouterModule, HttpClientModule, FormsModule, ReactiveFormsModule, LayoutModule],
@@ -46,7 +46,6 @@ import { environment } from 'environments/environment';
     ValidateService,
     MediaqueryService,
     LocalStorageService,
-    { provide: RouterStateSerializer, useClass: CustomSerializer },
     { provide: RouterStateSerializer, useClass: CustomSerializer }
   ]
 })
