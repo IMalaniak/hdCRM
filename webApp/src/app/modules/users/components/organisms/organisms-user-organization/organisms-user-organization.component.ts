@@ -1,11 +1,12 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Organization } from '@/modules/users';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'organisms-user-organization',
   templateUrl: './organisms-user-organization.component.html',
-  styleUrls: ['./organisms-user-organization.component.scss']
+  styleUrls: ['./organisms-user-organization.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganismsUserOrganizationComponent {
   @Input() organization: Organization;

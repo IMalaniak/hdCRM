@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
 
@@ -7,7 +7,8 @@ export interface AddStageDialogData {
 }
 
 @Component({
-  templateUrl: 'add-stage-dialog.component.html'
+  templateUrl: 'add-stage-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddStageDialogComponent {
   constructor(

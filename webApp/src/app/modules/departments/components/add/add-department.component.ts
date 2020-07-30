@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UsersDialogComponent } from '@/modules/users';
 import { Department } from '../../models';
@@ -12,7 +12,8 @@ import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms'
 
 @Component({
   selector: 'app-add-department',
-  templateUrl: './add-department.component.html'
+  templateUrl: './add-department.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddDepartmentComponent implements OnInit {
   department = {} as Department;

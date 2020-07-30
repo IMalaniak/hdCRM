@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -20,7 +20,8 @@ import { MediaqueryService, Asset, ApiResponse } from '@/shared';
 @Component({
   selector: 'app-plan',
   templateUrl: './plan.component.html',
-  styleUrls: ['./plan.component.scss']
+  styleUrls: ['./plan.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlanComponent implements OnInit, OnDestroy {
   showDataLoader: boolean;

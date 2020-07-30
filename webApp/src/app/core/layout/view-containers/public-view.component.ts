@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-public',
@@ -17,6 +17,7 @@ import { Component } from '@angular/core';
         scroll-behavior: smooth;
       }
     `
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PublicViewComponent {}

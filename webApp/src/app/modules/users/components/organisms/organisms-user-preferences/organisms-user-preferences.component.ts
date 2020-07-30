@@ -1,9 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, OnChanges } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MatRadioChange } from '@angular/material/radio';
 import { Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
-import * as layoutActions from '@/core/layout/store/layout.actions';
+import { enableDarkTheme } from '@/core/layout/store/layout.actions';
 import {
   changeTimeFormat,
   changeDateFormat,
@@ -19,9 +19,10 @@ import { getPreferencesList } from '@/core/reducers/preferences.selectors';
 @Component({
   selector: 'organisms-user-preferences',
   templateUrl: './organisms-user-preferences.component.html',
-  styleUrls: ['./organisms-user-preferences.component.scss']
+  styleUrls: ['./organisms-user-preferences.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrganismsUserPreferencesComponent implements OnInit {
+export class OrganismsUserPreferencesComponent implements OnInit, OnChanges {
   @Input() enabledDarkTheme: boolean;
   @Input() userPreferences: Preferences;
 
@@ -30,6 +31,10 @@ export class OrganismsUserPreferencesComponent implements OnInit {
   preferencesForm: FormGroup;
 
   constructor(private store$: Store<AppState>, private fb: FormBuilder) {}
+
+  ngOnChanges(): void {
+    this.preferencesForm?.get('theme').patchValue(this.enabledDarkTheme);
+  }
 
   ngOnInit(): void {
     this.preferencesList$ = this.store$.pipe(select(getPreferencesList));
@@ -52,7 +57,7 @@ export class OrganismsUserPreferencesComponent implements OnInit {
   }
 
   onThemeChange(event: MatRadioChange): void {
-    this.store$.dispatch(layoutActions.enableDarkTheme({ enabled: event.value }));
+    this.store$.dispatch(enableDarkTheme({ enabled: event.value }));
   }
 
   onTimeChange(event: MatRadioChange): void {

@@ -1,4 +1,4 @@
-import { Component, Input, HostBinding, Output, EventEmitter } from '@angular/core';
+import { Component, Input, HostBinding, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'atoms-icon-button',
@@ -51,7 +51,8 @@ import { Component, Input, HostBinding, Output, EventEmitter } from '@angular/co
       </button>
     </ng-container>
   `,
-  styleUrls: ['./atoms-icon-button.component.scss']
+  styleUrls: ['./atoms-icon-button.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AtomsIconButtonComponent {
   @Input() type = 'button';

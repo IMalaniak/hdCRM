@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { User } from '@/modules/users';
 
 @Component({
@@ -14,7 +14,8 @@ import { User } from '@/modules/users';
         (userClick)="onUserClick($event)"
       ></molecules-user-list-sm-item>
     </mat-selection-list>
-  `
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganismsUserListSmComponent {
   @Input() editMode = false;

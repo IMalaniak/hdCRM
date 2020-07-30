@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
@@ -21,7 +21,8 @@ import { MediaqueryService } from '@/shared';
 
 @Component({
   selector: 'app-department',
-  templateUrl: './department.component.html'
+  templateUrl: './department.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DepartmentComponent implements OnInit, OnDestroy {
   department: Department;

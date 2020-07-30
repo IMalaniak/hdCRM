@@ -1,4 +1,13 @@
-import { Component, Input, HostBinding, ViewEncapsulation, Output, EventEmitter, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  HostBinding,
+  ViewEncapsulation,
+  Output,
+  EventEmitter,
+  OnInit,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { Observable } from 'rxjs';
@@ -10,7 +19,8 @@ import { OnlineUserListRequested } from '@/modules/users/store/user.actions';
   selector: 'right-sidebar',
   templateUrl: './right-sidebar.component.html',
   styleUrls: ['./right-sidebar.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RightSidebarComponent implements OnInit {
   @Input() rightSidebarMinimized: boolean;

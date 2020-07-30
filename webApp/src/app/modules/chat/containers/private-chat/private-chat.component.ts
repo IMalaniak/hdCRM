@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AppState } from '@/core/reducers';
 import { Store, select } from '@ngrx/store';
@@ -9,7 +9,8 @@ import { OnlineUserListRequested } from '@/modules/users/store/user.actions';
 
 @Component({
   selector: 'app-private-chat',
-  templateUrl: './private-chat.component.html'
+  templateUrl: './private-chat.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PrivateChatComponent implements OnInit {
   selectedChat$: Observable<Chat>;

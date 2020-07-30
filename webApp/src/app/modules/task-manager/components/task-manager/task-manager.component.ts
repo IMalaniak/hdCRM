@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { Observable } from 'rxjs';
@@ -7,7 +7,8 @@ import { selectAllTasks, selectAllPriorities } from '../../store/task.selectors'
 
 @Component({
   selector: 'task-manager',
-  templateUrl: './task-manager.component.html'
+  templateUrl: './task-manager.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskManagerComponent implements OnInit {
   tasks$: Observable<Task[]>;

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { User } from '@/modules/users';
 import { MatDialog } from '@angular/material/dialog';
 import { MediaqueryService } from '@/shared/services';
@@ -26,7 +26,8 @@ import { OrganismsUserDetailsDialogComponent } from '../../organisms/organisms-u
         (userClick)="openUserDetailsDialog($event)"
       ></organisms-user-list-sm>
     </organisms-card>
-  `
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TemplatesBoxUserListSmComponent {
   @Input() editMode = false;

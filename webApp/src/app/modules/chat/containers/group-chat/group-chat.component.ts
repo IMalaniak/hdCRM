@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { AppState } from '@/core/reducers';
 import { Store, select } from '@ngrx/store';
@@ -19,7 +19,8 @@ import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-group-chat',
-  templateUrl: './group-chat.component.html'
+  templateUrl: './group-chat.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroupChatComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { environment } from 'environments/environment';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
@@ -10,7 +10,8 @@ import { FilePond } from 'filepond';
   selector: 'app-profile-pic-uploader',
   template: `
     <file-pond #picuploader [options]="uploaderOptions"></file-pond>
-  `
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfilepicUploaderComponent implements OnInit {
   @ViewChild('picuploader') picuploader: FilePond;

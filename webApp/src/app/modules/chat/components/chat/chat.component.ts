@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { User } from '@/modules/users';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
@@ -12,7 +12,8 @@ import { cloneDeep } from 'lodash';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss']
+  styleUrls: ['./chat.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatComponent implements OnInit, OnChanges, OnDestroy {
   user: User;
@@ -27,9 +28,7 @@ export class ChatComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.messageContent = new FormControl('', [
-      Validators.required
-    ]);
+    this.messageContent = new FormControl('', [Validators.required]);
 
     this.chatService.onGM().subscribe((message: ChatMessage) => {
       this.chat.messages.push(message);
@@ -44,7 +43,7 @@ export class ChatComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public sendMessage(): void {
-    if (!this.messageContent.value || this.messageContent.value.length === 0)  {
+    if (!this.messageContent.value || this.messageContent.value.length === 0) {
       return;
     }
 
@@ -62,5 +61,4 @@ export class ChatComponent implements OnInit, OnChanges, OnDestroy {
       this.socketService.emit(SocketEvent.LEAVE, this.selectedChat);
     }
   }
-
 }

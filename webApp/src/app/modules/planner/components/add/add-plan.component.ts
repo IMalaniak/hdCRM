@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Plan } from '../../models';
 import { UsersDialogComponent, User } from '@/modules/users';
@@ -13,7 +13,8 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 
 @Component({
   selector: 'app-add-plan',
-  templateUrl: './add-plan.component.html'
+  templateUrl: './add-plan.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddPlanComponent implements OnInit, OnDestroy {
   plan = {} as Plan;

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Asset, TempAddedAsset } from '@/shared/models';
 import { environment } from 'environments/environment';
 import { Store, select } from '@ngrx/store';
@@ -11,7 +11,8 @@ import { FilePond } from 'filepond';
   template: `
     <file-pond #uploader [options]="uploaderOptions"></file-pond>
   `,
-  styleUrls: ['./uploader-list.component.scss']
+  styleUrls: ['./uploader-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UploaderListComponent implements OnInit {
   @ViewChild('uploader') uploader: FilePond;

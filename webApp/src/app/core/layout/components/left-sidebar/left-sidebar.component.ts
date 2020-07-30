@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Input, HostBinding } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, HostBinding, ChangeDetectionStrategy } from '@angular/core';
 import { MediaqueryService } from '@/shared';
 import { MenuItem } from './menuItem';
 import { Store, select } from '@ngrx/store';
@@ -9,7 +9,8 @@ import { isPrivileged } from '@/core/auth/store/auth.selectors';
   selector: 'left-sidebar',
   templateUrl: './left-sidebar.component.html',
   styleUrls: ['./left-sidebar.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LeftSidebarComponent implements OnInit {
   @Input() leftSidebarMinimized: boolean;
