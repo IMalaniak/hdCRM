@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'atoms-link-button',
@@ -40,8 +40,15 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
         min-width: unset;
         line-height: normal;
       }
+
+      .mat-button.mat-primary .mat-button-focus-overlay,
+      .mat-button.mat-accent .mat-button-focus-overlay,
+      .mat-button.mat-warn .mat-button-focus-overlay {
+        background-color: unset !important;
+      }
     `
-  ]
+  ],
+  encapsulation: ViewEncapsulation.None
 })
 export class AtomsLinkButtonComponent {
   @Input() linkLabel: string;
