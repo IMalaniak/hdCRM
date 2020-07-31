@@ -3,8 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
-import { Role, Privilege, RolePrivilege } from '../../models';
-import { RoleService } from '../../services';
+import { Role, Privilege } from '../../models';
 import { UsersDialogComponent } from '@/modules/users/components/dialog/users-dialog.component';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
@@ -16,6 +15,8 @@ import { cloneDeep } from 'lodash';
 import { Update } from '@ngrx/entity';
 import { roleSaved } from '../../store/role.actions';
 import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
+import { RoleService } from '../../services';
+import { User } from '@/modules/users';
 
 @Component({
   selector: 'app-role',
@@ -69,11 +70,18 @@ export class RoleComponent implements OnInit, OnDestroy {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result && result.length > 0) {
-        this.role.Users = [...new Set([...this.role.Users, ...result])];
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((result: User[]) => {
+        const selectedUsers: User[] = result?.filter(
+          selectedUser => !this.role.Users.some(user => user.id === selectedUser.id)
+        );
+
+        if (selectedUsers?.length) {
+          this.role.Users = [...this.role.Users, ...selectedUsers];
+        }
+      });
   }
 
   addPrivilegeDialog(): void {

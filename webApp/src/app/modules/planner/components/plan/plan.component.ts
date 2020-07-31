@@ -261,9 +261,13 @@ export class PlanComponent implements OnInit, OnDestroy {
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(result => {
-        if (result && result.length > 0) {
-          this.plan.Participants = [...new Set([...this.plan.Participants, ...result])];
+      .subscribe((result: User[]) => {
+        const selectedUsers: User[] = result?.filter(
+          selectedUser => !this.plan.Participants.some(user => user.id === selectedUser.id)
+        );
+
+        if (selectedUsers?.length) {
+          this.plan.Participants = [...this.plan.Participants, ...selectedUsers];
         }
       });
   }

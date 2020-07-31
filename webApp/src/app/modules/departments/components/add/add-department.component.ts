@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { UsersDialogComponent } from '@/modules/users';
+import { UsersDialogComponent, User } from '@/modules/users';
 import { Department } from '../../models';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import { AppState } from '@/core/reducers';
 import { createDepartment } from '../../store/department.actions';
 import { MediaqueryService } from '@/shared';
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
+import { cloneDeep } from 'lodash';
 
 @Component({
   selector: 'app-add-department',
@@ -48,8 +49,8 @@ export class AddDepartmentComponent implements OnInit {
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(result => {
-        if (result && result.length > 0) {
-          this.department.Manager = result[0];
+        if (result?.length) {
+          this.department.Manager = cloneDeep(result[0]);
         }
       });
   }
@@ -65,15 +66,19 @@ export class AddDepartmentComponent implements OnInit {
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(result => {
-        if (result && result.length > 0) {
-          this.department.Workers = [...new Set([...this.department.Workers, ...result])];
+      .subscribe((result: User[]) => {
+        const selectedUsers: User[] = result?.filter(
+          selectedUser => !this.department.Workers.some(user => user.id === selectedUser.id)
+        );
+
+        if (selectedUsers?.length) {
+          this.department.Workers = [...this.department.Workers, ...selectedUsers];
         }
       });
   }
 
   removeWorker(id: number): void {
-    // TODO:
+    // TODO: @ArseniiIrod, @IMalaniak add logic to remove worker
   }
 
   onClickSubmit() {
