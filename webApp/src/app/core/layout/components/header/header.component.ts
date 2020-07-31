@@ -1,4 +1,12 @@
-import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from '@angular/core';
 import { MediaqueryService } from '@/shared';
 import { Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
@@ -22,12 +30,22 @@ export class HeaderComponent implements OnInit {
 
   isShowUserMenu = false;
 
-  constructor(public mediaquery: MediaqueryService, private store: Store<AppState>, private router: Router) {}
+  constructor(
+    public mediaquery: MediaqueryService,
+    private store: Store<AppState>,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
       this.isShowUserMenu = false;
     });
+  }
+
+  closeUserMenu(): void {
+    this.isShowUserMenu = false;
+    this.cdr.detectChanges();
   }
 
   onLogoutClick(): void {

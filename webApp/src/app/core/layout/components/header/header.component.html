@@ -28,14 +28,13 @@
 
   <ng-template
     cdkConnectedOverlay
-    cdkConnectedOverlayPanelClass="menu-class"
     cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
     [cdkConnectedOverlayOrigin]="userMenu"
     [cdkConnectedOverlayOpen]="isShowUserMenu"
     [cdkConnectedOverlayOffsetY]="10"
     [cdkConnectedOverlayHasBackdrop]="true"
     [cdkConnectedOverlayFlexibleDimensions]="true"
-    (backdropClick)="isShowUserMenu = false"
+    (backdropClick)="closeUserMenu()"
   >
     <organisms-card cardClass="p-2" contentClass="mb-0" class="dropdown-content">
       <ng-container content>
