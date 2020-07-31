@@ -9,7 +9,6 @@ import { AppState } from '@/core/reducers';
 import { createDepartment } from '../../store/department.actions';
 import { MediaqueryService } from '@/shared';
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
-import { cloneDeep } from 'lodash';
 
 @Component({
   selector: 'app-add-department',
@@ -48,9 +47,9 @@ export class AddDepartmentComponent implements OnInit {
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(result => {
+      .subscribe((result: User[]) => {
         if (result?.length) {
-          this.department.Manager = cloneDeep(result[0]);
+          this.department = { ...this.department, Manager: { ...result[0] } };
         }
       });
   }
@@ -67,12 +66,12 @@ export class AddDepartmentComponent implements OnInit {
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: User[]) => {
-        const selectedUsers: User[] = result?.filter(
-          selectedUser => !this.department.Workers.some(user => user.id === selectedUser.id)
+        const selectedWorkers: User[] = result?.filter(
+          selectedWorker => !this.department.Workers.some(user => user.id === selectedWorker.id)
         );
 
-        if (selectedUsers?.length) {
-          this.department.Workers = [...this.department.Workers, ...selectedUsers];
+        if (selectedWorkers?.length) {
+          this.department.Workers = [...this.department.Workers, ...selectedWorkers];
         }
       });
   }

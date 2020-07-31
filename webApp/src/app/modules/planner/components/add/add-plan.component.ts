@@ -56,12 +56,12 @@ export class AddPlanComponent implements OnInit, OnDestroy {
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: User[]) => {
-        const selectedUsers: User[] = result?.filter(
-          selectedUser => !this.plan.Participants.some(user => user.id === selectedUser.id)
+        const selectedParticipants: User[] = result?.filter(
+          selectedParticipant => !this.plan.Participants.some(user => user.id === selectedParticipant.id)
         );
 
-        if (selectedUsers?.length) {
-          this.plan.Participants = [...this.plan.Participants, ...selectedUsers];
+        if (selectedParticipants?.length) {
+          this.plan.Participants = [...this.plan.Participants, ...selectedParticipants];
         }
       });
   }

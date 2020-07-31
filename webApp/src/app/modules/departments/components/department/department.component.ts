@@ -88,7 +88,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: User[]) => {
         if (result?.length) {
-          this.department.Manager = cloneDeep(result[0]);
+          this.department = { ...this.department, Manager: { ...result[0] } };
         }
       });
   }
@@ -105,12 +105,12 @@ export class DepartmentComponent implements OnInit, OnDestroy {
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: User[]) => {
-        const selectedUsers: User[] = result?.filter(
-          selectedUser => !this.department.Workers.some(user => user.id === selectedUser.id)
+        const selectedWorkers: User[] = result?.filter(
+          selectedWorker => !this.department.Workers.some(user => user.id === selectedWorker.id)
         );
 
-        if (selectedUsers?.length) {
-          this.department.Workers = [...this.department.Workers, ...selectedUsers];
+        if (selectedWorkers?.length) {
+          this.department.Workers = [...this.department.Workers, ...selectedWorkers];
         }
       });
   }
