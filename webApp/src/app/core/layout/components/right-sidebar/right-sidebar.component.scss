@@ -80,7 +80,7 @@ right-sidebar {
       &:hover {
         @include crm-bgcolor('theme', 'primary');
         border-color: crmcolor('theme', 'primary', true);
-        padding-left: 20px;
+        padding-left: 1.25em;
 
         > .btn-icon {
           @include crm-textcolor('layout', 'background');
@@ -102,17 +102,9 @@ right-sidebar {
       border-color: crmcolor('theme', 'primary', true);
       @include crm-bgcolor('theme', 'primary');
 
-      @include media-breakpoint-up(lg) {
-        left: calc(crmsize(sidebar, width, true) - 2.4em);
-      }
-
       &:hover {
-        padding-left: 13px;
+        padding-left: 0.8125em;
         left: -2.9em;
-
-        @include media-breakpoint-up(lg) {
-          left: calc(crmsize(sidebar, width, true) - 2.9em);
-        }
       }
 
       > .btn-icon {
