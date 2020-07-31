@@ -103,7 +103,7 @@ right-sidebar {
       @include crm-bgcolor('theme', 'primary');
 
       @include media-breakpoint-up(lg) {
-        left: calc(- ((crmsize(sidebar, width, true))) + 2.4em);
+        left: calc(crmsize(sidebar, width, true) - 2.4em);
       }
 
       &:hover {
@@ -111,7 +111,7 @@ right-sidebar {
         left: -2.9em;
 
         @include media-breakpoint-up(lg) {
-          left: calc(- ((crmsize(sidebar, width, true))) + 2.9em);
+          left: calc(crmsize(sidebar, width, true) - 2.9em);
         }
       }
 
