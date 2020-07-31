@@ -15,36 +15,41 @@
   box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
   @include getZ-Index(header);
 
-  .company-logo {
-    width: crmsize(sidebar, width, true);
-    @include crm-bgcolor('layout', 'milk');
-    @include crm-textcolor('layout', 'dark');
-    padding: 0.25 * crmsize(spacer, null, true) 0.5 * crmsize(spacer, null, true);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: width $transition;
-
-    &.minimized {
-      width: crmsize(sidebar, minimized, true);
+  .company {
+    &-logo {
+      display: flex;
+      align-items: center;
       justify-content: center;
+      width: crmsize(sidebar, minimized, true);
+      @include crm-bgcolor('theme', 'primary');
+      @include crm-textcolor('layout', 'background');
+      overflow: hidden;
+      transition: all $transition;
 
-      img {
-        display: none;
+      &.minimized {
+        width: crmsize(sidebar, minimized, true);
+        justify-content: center;
+
+        .company-title {
+          display: none;
+        }
+      }
+
+      @include media-breakpoint-up(md) {
+        width: crmsize(sidebar, width, true);
+        justify-content: space-between;
       }
     }
 
-    img {
-      max-height: 100%;
-      object-fit: contain;
-    }
+    &-title {
+      display: none;
+      margin-bottom: 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 400;
 
-    @include media-breakpoint-down(md) {
-      width: crmsize(sidebar, minimized, true);
-      justify-content: center;
-
-      img {
-        display: none;
+      @include media-breakpoint-up(md) {
+        display: block;
       }
     }
   }
@@ -181,6 +186,7 @@
 // }
 
 .hamburger {
+  margin-left: auto;
   width: 22px;
 
   label {
@@ -193,7 +199,7 @@
     width: 100%;
     border-radius: 10px;
     height: 2px;
-    @include crm-bgcolor('layout', 'dark');
+    @include crm-bgcolor('layout', 'background');
     transition: all $transition;
     position: relative;
 
