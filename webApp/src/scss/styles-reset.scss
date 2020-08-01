@@ -31,10 +31,14 @@ a:focus {
   outline: none;
 }
 
-.hover-bg-none.mat-button.mat-primary .mat-button-focus-overlay,
-.hover-bg-none.mat-button.mat-accent .mat-button-focus-overlay,
-.hover-bg-none.mat-button.mat-warn .mat-button-focus-overlay {
-  background-color: transparent;
+// TODO @ArseniiIrod try to found better solution in the feature
+.hover-bg-none .mat-button .mat-primary .mat-button-focus-overlay,
+.hover-bg-none .mat-button .mat-accent .mat-button-focus-overlay,
+.hover-bg-none .mat-button .mat-warn .mat-button-focus-overlay,
+.hover-bg-none .dark-theme .mat-button .mat-primary .mat-button-focus-overlay,
+.hover-bg-none .dark-theme .mat-button .mat-accent .mat-button-focus-overlay,
+.hover-bg-none .dark-theme .mat-button .mat-warn .mat-button-focus-overlay {
+  background-color: unset !important;
 }
 
 // TODO: @ArseniiIrod remove it and replace after creating atoms-radio-button
