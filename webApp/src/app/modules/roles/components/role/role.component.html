@@ -20,7 +20,7 @@
           </atoms-icon-button>
         </div>
         <div content class="table-container">
-          <mat-table #privilegesTable class="role-table crm-table" [dataSource]="role.Privileges">
+          <mat-table class="role-table crm-table" [dataSource]="role.Privileges">
             <ng-container matColumnDef="title" sticky>
               <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
               <mat-cell *matCellDef="let privilege">

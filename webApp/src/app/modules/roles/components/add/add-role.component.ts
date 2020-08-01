@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Validators, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTable } from '@angular/material/table';
-import { Role, Privilege, RolePrivilege } from '../../models';
+import { Role, Privilege } from '../../models';
 import { UsersDialogComponent } from '@/modules/users/components/dialog/users-dialog.component';
 import { MediaqueryService } from '@/shared';
 import { Subject } from 'rxjs';
@@ -24,11 +23,14 @@ export class AddRoleComponent implements OnInit {
   role = {} as Role;
   displayedColumns = ['title', 'view', 'add', 'edit', 'delete'];
 
-  @ViewChild(MatTable) privilegesTable: MatTable<any>;
-
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private store: Store<AppState>, private dialog: MatDialog, private mediaQuery: MediaqueryService) {}
+  constructor(
+    private store: Store<AppState>,
+    private dialog: MatDialog,
+    private mediaQuery: MediaqueryService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.keyString = new FormControl('', [Validators.required, Validators.minLength(2)]);
@@ -54,6 +56,7 @@ export class AddRoleComponent implements OnInit {
 
         if (selectedUsers?.length) {
           this.role.Users = [...this.role.Users, ...selectedUsers];
+          this.cdr.detectChanges();
         }
       });
   }
@@ -79,7 +82,7 @@ export class AddRoleComponent implements OnInit {
         privilegesC.isLoading$.pipe(takeUntil(this.unsubscribe)).subscribe(isLoading => {
           if (!isLoading) {
             for (const pPrivilege of this.role.Privileges) {
-              privilegesC.privileges.find((privilege, i) => {
+              privilegesC.privileges.find(privilege => {
                 if (privilege.id === pPrivilege.id) {
                   privilegesC.selection.select(privilege);
                   return true; // stop searching
@@ -94,22 +97,24 @@ export class AddRoleComponent implements OnInit {
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: Privilege[]) => {
-        result.forEach((el: Privilege, i) => {
-          const tmp = this.role.Privileges.filter(privilege => {
-            return privilege.id === el.id;
+        const selectedPrivileges: Privilege[] = result
+          ?.filter(selectedPrivilege => !this.role.Privileges.some(privilege => privilege.id === selectedPrivilege.id))
+          ?.map(selectedPrivilege => {
+            return {
+              ...selectedPrivilege,
+              RolePrivilege: {
+                add: false,
+                view: false,
+                edit: false,
+                delete: false
+              }
+            };
           });
-          if (tmp.length === 0) {
-            const newPrivilege = el;
-            newPrivilege.RolePrivilege = {
-              add: false,
-              view: false,
-              edit: false,
-              delete: false
-            } as RolePrivilege;
-            this.role.Privileges.push(newPrivilege);
-          }
-        });
-        this.privilegesTable.renderRows();
+
+        if (selectedPrivileges?.length) {
+          this.role.Privileges = [...this.role.Privileges, ...selectedPrivileges];
+          this.cdr.detectChanges();
+        }
       });
   }
 
