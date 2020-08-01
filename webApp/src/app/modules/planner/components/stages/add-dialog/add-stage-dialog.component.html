@@ -26,7 +26,7 @@
   </atoms-icon-button>
 
   <atoms-icon-button
-    [mat-dialog-close]="data.keyString.value"
+    (onclick)="onAddStage(data.keyString.value)"
     [icon]="['fas', 'plus']"
     [disabled]="data.keyString.invalid"
   >

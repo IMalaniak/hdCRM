@@ -1,14 +1,14 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Privilege } from '../../../models';
 import { AddPrivilegeDialogComponent } from '../add-dialog/add-privilege-dialog.component';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { allPrivilegesRequested, createPrivilege } from '@/modules/roles/store/privilege.actions';
 import { selectAllPrivileges, selectPrivilegesLoading } from '@/modules/roles/store/privilege.selectors';
-import { map, takeUntil } from 'rxjs/operators';
+import { takeUntil, map } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
@@ -27,7 +27,12 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private dialog: MatDialog, private _formBuilder: FormBuilder, private store: Store<AppState>) {}
+  constructor(
+    private dialog: MatDialog,
+    private fb: FormBuilder,
+    private store: Store<AppState>,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.store.dispatch(allPrivilegesRequested());
@@ -36,7 +41,7 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.unsubscribe),
         select(selectAllPrivileges),
-        map(data => {
+        map((data: Privilege[]) => {
           this.resultsLength = data.length;
           return data;
         })
@@ -45,8 +50,8 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
   }
 
   isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.resultsLength;
+    const numSelected: number = this.selection.selected.length;
+    const numRows: number = this.resultsLength;
     return numSelected === numRows;
   }
 
@@ -57,7 +62,7 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
 
   createPrivilegeDialog(): void {
     const dialogRef = this.dialog.open(AddPrivilegeDialogComponent, {
-      data: this._formBuilder.group({
+      data: this.fb.group({
         keyString: new FormControl('', [Validators.required, Validators.minLength(4)]),
         title: new FormControl('', [Validators.required, Validators.minLength(4)])
       })
@@ -68,8 +73,8 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: Privilege) => {
         if (result) {
-          const privilege = result;
-          this.store.dispatch(createPrivilege({ privilege }));
+          this.store.dispatch(createPrivilege({ privilege: result }));
+          this.cdr.detectChanges(); // TODO: @ArseniiIrod, @IMalaniak check if detectChanges works correctly after fixing defect #258
         }
       });
   }

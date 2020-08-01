@@ -19,4 +19,8 @@ export class AddStageDialogComponent {
   onNoClick(): void {
     this.dialogRef.close();
   }
+
+  onAddStage(keyString: string): void {
+    this.dialogRef.close(keyString);
+  }
 }

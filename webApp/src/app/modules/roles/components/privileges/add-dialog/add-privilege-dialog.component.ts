@@ -2,6 +2,11 @@ import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup } from '@angular/forms';
 
+export interface PrivilegeData {
+  keyString: string;
+  title: string;
+}
+
 @Component({
   templateUrl: 'add-privilege-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -22,5 +27,9 @@ export class AddPrivilegeDialogComponent {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  onSubmiteClick(privilege: PrivilegeData): void {
+    this.dialogRef.close(privilege);
   }
 }
