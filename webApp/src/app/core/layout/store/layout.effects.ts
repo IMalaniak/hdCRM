@@ -84,8 +84,6 @@ export class LayoutEffects implements OnInitEffects {
 
   ngrxOnInitEffects(): Action {
     const settings = this.localStorage.getObject('layoutSettings');
-    if (!!settings) {
-      return layoutActions.initLayoutSettings({ settings });
-    }
+    return layoutActions.initLayoutSettings({ settings });
   }
 }

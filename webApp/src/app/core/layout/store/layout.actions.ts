@@ -23,4 +23,4 @@ export const scaleFontUp = createAction('[Layout] Scale Font', props<{ scaled: b
 
 export const scaleFontUpChangeState = createAction('[Layout] Scale Font State Changed', props<{ scaled: boolean }>());
 
-export const initLayoutSettings = createAction('[Layout] Init Layout Settings', props<{ settings: LayoutState }>());
+export const initLayoutSettings = createAction('[Layout] Init Layout Settings', props<{ settings?: LayoutState }>());
