@@ -87,9 +87,9 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(result => {
-        if (result && result.length > 0) {
-          this.department.Manager = result[0];
+      .subscribe((result: User[]) => {
+        if (result?.length) {
+          this.department = { ...this.department, Manager: { ...result[0] } };
         }
       });
   }
@@ -105,9 +105,13 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(result => {
-        if (result && result.length > 0) {
-          this.department.Workers = [...new Set([...this.department.Workers, ...result])];
+      .subscribe((result: User[]) => {
+        const selectedWorkers: User[] = result?.filter(
+          selectedWorker => !this.department.Workers.some(user => user.id === selectedWorker.id)
+        );
+
+        if (selectedWorkers?.length) {
+          this.department.Workers = [...this.department.Workers, ...selectedWorkers];
         }
       });
   }

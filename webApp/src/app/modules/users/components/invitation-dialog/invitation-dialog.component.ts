@@ -46,13 +46,14 @@ export class InvitationDialogComponent implements OnInit, OnDestroy {
   }
 
   addUserToInvitation(user: User) {
-    const alreadyInvited = this.invitedUsers.find(invitedUser => invitedUser.email === user.email);
-    const alreadyAppUser = this.appUsers.find(appUser => appUser.email === user.email);
+    const alreadyInvited: User = this.invitedUsers.find(invitedUser => invitedUser.email === user.email);
+    const alreadyAppUser: User = this.appUsers.find(appUser => appUser.email === user.email);
+
     if (alreadyInvited || alreadyAppUser) {
       this.errorInvitations = true;
       setTimeout(() => (this.errorInvitations = false), 3000);
     } else {
-      this.invitedUsers.push(user);
+      this.invitedUsers = [...this.invitedUsers, user];
       this.userData.reset();
     }
   }
