@@ -52,11 +52,18 @@ export class AddPlanComponent implements OnInit, OnDestroy {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result && result.length > 0) {
-        this.plan.Participants = result;
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((result: User[]) => {
+        const selectedParticipants: User[] = result?.filter(
+          selectedParticipant => !this.plan.Participants.some(user => user.id === selectedParticipant.id)
+        );
+
+        if (selectedParticipants?.length) {
+          this.plan.Participants = [...this.plan.Participants, ...selectedParticipants];
+        }
+      });
   }
 
   onClickSubmit() {
@@ -65,7 +72,7 @@ export class AddPlanComponent implements OnInit, OnDestroy {
   }
 
   removeParticipant(id: number) {
-    // TODO
+    // TODO: @ArseniiIrod, @IMalaniak add logic to remove participant
   }
 
   ngOnDestroy() {
