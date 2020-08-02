@@ -5,7 +5,7 @@ import { UsersDialogComponent, User } from '@/modules/users';
 import { AppState } from '@/core/reducers';
 import { Store, select } from '@ngrx/store';
 import { currentUser } from '@/core/auth/store/auth.selectors';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, skipUntil, delay } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { createPlan } from '../../store/plan.actions';
 import { MediaqueryService } from '@/shared';
@@ -51,6 +51,19 @@ export class AddPlanComponent implements OnInit, OnDestroy {
         title: 'Select participants'
       }
     });
+
+    const userC = dialogRef.componentInstance.usersComponent;
+
+    dialogRef
+      .afterOpened()
+      .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
+      .subscribe(() => {
+        userC.users
+          .filter(user => this.plan.Participants.some(participant => participant.id === user.id))
+          ?.forEach(selectedParticipant => {
+            userC.selection.select(selectedParticipant);
+          });
+      });
 
     dialogRef
       .afterClosed()

@@ -6,7 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subject, merge } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, takeUntil, map } from 'rxjs/operators';
 
 import Swal from 'sweetalert2';
 
@@ -14,7 +14,7 @@ import { UserService, UsersDataSource } from '../../services';
 import { User } from '../../models';
 
 import { AppState } from '@/core/reducers';
-import { selectIsLoading, selectUsersTotalCount } from '../../store/user.selectors';
+import { selectIsLoading, selectUsersTotalCount, selectAllUsers, allUsersLoaded } from '../../store/user.selectors';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { deleteUser } from '../../store/user.actions';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
@@ -25,17 +25,19 @@ import { PageQuery, MediaqueryService } from '@/shared';
   templateUrl: './users.component.html'
 })
 export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
-  currentUser$: Observable<User>;
-  dataSource: UsersDataSource;
-  selection = new SelectionModel<User>(true, []);
-  deleteUserPrivilege$: Observable<boolean>;
-  editUserPrivilege$: Observable<boolean>;
-  addUserPrivilege$: Observable<boolean>;
-  resultsLength$: Observable<number>;
-  loading$: Observable<boolean>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  currentUser$: Observable<User> = this.store.pipe(select(currentUser));
+  loading$: Observable<boolean> = this.store.pipe(select(selectIsLoading));
+  resultsLength$: Observable<number> = this.store.pipe(select(selectUsersTotalCount));
+  addUserPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-add')));
+  editUserPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-edit')));
+  deleteUserPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-delete')));
+
+  selection = new SelectionModel<User>(true, []);
+  dataSource: UsersDataSource = new UsersDataSource(this.store);
+  users: User[];
   displayedColumns = [
     'select',
     'avatar',
@@ -62,25 +64,14 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   ngOnInit() {
-    this.deleteUserPrivilege$ = this.store.pipe(select(isPrivileged('user-delete')));
-    this.editUserPrivilege$ = this.store.pipe(select(isPrivileged('user-edit')));
-    this.addUserPrivilege$ = this.store.pipe(select(isPrivileged('user-add')));
-
-    this.loading$ = this.store.pipe(select(selectIsLoading));
-    this.resultsLength$ = this.store.pipe(select(selectUsersTotalCount));
-
-    this.currentUser$ = this.store.pipe(select(currentUser));
-
-    this.dataSource = new UsersDataSource(this.store);
-
     const initialPage: PageQuery = {
       pageIndex: 0,
       pageSize: 5,
       sortIndex: 'id',
       sortDirection: 'asc'
     };
-
     this.dataSource.loadUsers(initialPage);
+    this.store.pipe(takeUntil(this.unsubscribe), select(selectAllUsers)).subscribe(users => (this.users = users));
   }
 
   ngAfterViewInit() {
