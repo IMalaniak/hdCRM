@@ -4,12 +4,15 @@ const ATOMS = [
   _components.AtomsIconButtonComponent,
   _components.AtomsProfilePicComponent,
   _components.AtomsUserPicComponent,
-  _components.AtomsLinkButtonComponent
+  _components.AtomsLinkButtonComponent,
+  _components.AtomsLabeledFormFieldComponent,
+  _components.AtomsReadonlyLabeledFormFieldComponent
 ];
 const MOLECULES = [
   _components.MoleculesProfilePicWithUploaderComponent,
   _components.MoleculesUserListSmItemComponent,
-  _components.MoleculesChartComponent
+  _components.MoleculesChartComponent,
+  _components.MoleculesFormFieldComponent
 ];
 const ORGANISMS = [
   _components.OrganismsUserListSmComponent,

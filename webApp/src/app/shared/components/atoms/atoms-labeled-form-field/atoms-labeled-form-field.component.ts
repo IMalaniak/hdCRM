@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { IFieldType } from '@/shared/models/FieldType';
 
 @Component({
   selector: 'atoms-labeled-form-field',
@@ -10,18 +11,22 @@ import { FormControl } from '@angular/forms';
         <input matInput [formControl]="control" />
       </mat-form-field>
 
-      <mat-form-field *ngSwitchCase="'select'" appearance="outline">
-        <mat-label i18n="@@userСomponentTabDetailsState">State</mat-label>
-        <mat-select [(ngModel)]="user.StateId" name="userState">
-          <mat-option *ngFor="let state of states$ | async" [value]="state.id">{{ state.keyString }}</mat-option>
+      <mat-form-field *ngSwitchCase="fieldTypes.SELECT" class="w-100" appearance="outline">
+        <mat-label>{{ label }}</mat-label>
+        <mat-select [formControl]="control">
+          <mat-option *ngFor="let option of options" [value]="option.id">{{ option.keyString }}</mat-option>
         </mat-select>
       </mat-form-field>
     </ng-container>
   `,
-  styleUrls: ['./atoms-labeled-form-field.component.scss']
+  styleUrls: ['./atoms-labeled-form-field.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AtomsLabeledFormFieldComponent {
+  @Input() options?: any;
   @Input() label: string;
-  @Input() fType: string;
+  @Input() fType: IFieldType;
   @Input() control: FormControl;
+
+  fieldTypes = IFieldType;
 }

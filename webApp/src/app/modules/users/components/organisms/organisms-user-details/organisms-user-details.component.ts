@@ -2,6 +2,7 @@ import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
 import { User, State } from '@/modules/users';
 import Swal from 'sweetalert2';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { IFieldType } from '@/shared/models/FieldType';
 
 @Component({
   selector: 'organisms-user-details',
@@ -18,6 +19,7 @@ export class OrganismsUserDetailsComponent implements OnInit {
   @Output() setEditableForm: EventEmitter<boolean> = new EventEmitter();
 
   userForm: FormGroup;
+  fieldTypes = IFieldType;
 
   constructor(private fb: FormBuilder) {}
 
