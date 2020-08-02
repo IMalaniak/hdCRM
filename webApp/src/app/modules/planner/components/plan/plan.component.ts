@@ -270,6 +270,7 @@ export class PlanComponent implements OnInit, OnDestroy {
 
         if (selectedParticipants?.length) {
           this.plan.Participants = [...this.plan.Participants, ...selectedParticipants];
+          this.cdr.detectChanges();
         }
       });
   }

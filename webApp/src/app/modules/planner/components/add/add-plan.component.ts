@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Plan } from '../../models';
 import { UsersDialogComponent, User } from '@/modules/users';
@@ -27,22 +27,26 @@ export class AddPlanComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private store: Store<AppState>,
     private mediaQuery: MediaqueryService,
-    private formBuilder: FormBuilder
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    this.planData = this.formBuilder.group({
+    this.store.pipe(select(currentUser), takeUntil(this.unsubscribe)).subscribe(user => {
+      this.appUser = user;
+    });
+    this.buildPlanForm();
+
+    this.plan.Participants = [];
+  }
+
+  buildPlanForm(): void {
+    this.planData = this.fb.group({
       title: new FormControl('', [Validators.required, Validators.maxLength(100)]),
       budget: new FormControl('', [Validators.required, Validators.min(0)]),
       description: new FormControl('', [Validators.required, Validators.maxLength(2500)]),
       deadline: new FormControl('', Validators.required)
     });
-
-    this.store.pipe(select(currentUser), takeUntil(this.unsubscribe)).subscribe(user => {
-      this.appUser = user;
-    });
-
-    this.plan.Participants = [];
   }
 
   addParticipantDialog(): void {
@@ -63,12 +67,15 @@ export class AddPlanComponent implements OnInit, OnDestroy {
 
         if (selectedParticipants?.length) {
           this.plan.Participants = [...this.plan.Participants, ...selectedParticipants];
+          this.cdr.detectChanges();
         }
       });
   }
 
   onClickSubmit() {
-    this.plan.CreatorId = this.appUser.id;
+    this.plan = { ...this.plan, CreatorId: this.appUser.id };
+    console.log({ plan: { ...this.plan, ...this.planData.value } });
+
     this.store.dispatch(createPlan({ plan: { ...this.plan, ...this.planData.value } }));
   }
 
