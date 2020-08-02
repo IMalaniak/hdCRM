@@ -57,8 +57,8 @@ export class AddRoleComponent implements OnInit {
       });
   }
 
-  removeUser(id: number): void {
-    // TODO: @ArseniiIrod, @IMalaniak add logic to remove user
+  removeUser(userId: number): void {
+    this.role = { ...this.role, Users: this.role.Users.filter(user => user.id !== userId) };
   }
 
   addPrivilegeDialog(): void {

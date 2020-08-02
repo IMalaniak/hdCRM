@@ -176,16 +176,12 @@ export class RoleComponent implements OnInit, OnDestroy {
     );
   }
 
-  removePriv(privilegeId: number): void {
-    this.role.Privileges = this.role.Privileges.filter(rPriv => {
-      return rPriv.id !== privilegeId;
-    });
+  removePrivilege(privilegeId: number): void {
+    this.role = { ...this.role, Privileges: this.role.Privileges.filter(privilege => privilege.id !== privilegeId) };
   }
 
   removeUser(userId: number): void {
-    this.role.Users = this.role.Users.filter(rUser => {
-      return rUser.id !== userId;
-    });
+    this.role = { ...this.role, Users: this.role.Users.filter(user => user.id !== userId) };
   }
 
   onClickEdit(): void {
