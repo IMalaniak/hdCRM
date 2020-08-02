@@ -66,13 +66,13 @@ export class AddPlanComponent implements OnInit, OnDestroy {
       });
   }
 
+  removeParticipant(userId: number): void {
+    this.plan.Participants = this.plan.Participants.filter(participant => participant.id !== userId);
+  }
+
   onClickSubmit() {
     this.plan.CreatorId = this.appUser.id;
     this.store.dispatch(createPlan({ plan: { ...this.plan, ...this.planData.value } }));
-  }
-
-  removeParticipant(id: number) {
-    // TODO: @ArseniiIrod, @IMalaniak add logic to remove participant
   }
 
   ngOnDestroy() {

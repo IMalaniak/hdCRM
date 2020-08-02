@@ -76,8 +76,8 @@ export class AddDepartmentComponent implements OnInit {
       });
   }
 
-  removeWorker(id: number): void {
-    // TODO: @ArseniiIrod, @IMalaniak add logic to remove worker
+  removeWorker(userId: number): void {
+    this.department.Workers = this.department.Workers.filter(worker => worker.id !== userId);
   }
 
   onClickSubmit() {
