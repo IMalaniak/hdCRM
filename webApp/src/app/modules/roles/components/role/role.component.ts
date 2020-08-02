@@ -70,6 +70,19 @@ export class RoleComponent implements OnInit, OnDestroy {
       }
     });
 
+    const userC = dialogRef.componentInstance.usersComponent;
+
+    dialogRef
+      .afterOpened()
+      .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
+      .subscribe(() => {
+        userC.users
+          .filter(user => this.role.Users.some(rUser => rUser.id === user.id))
+          ?.forEach(selectedParticipant => {
+            userC.selection.select(selectedParticipant);
+          });
+      });
+
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
