@@ -16,7 +16,7 @@ import { User } from '@/modules/users/models';
           color="warn"
           [icon]="['fas', 'trash']"
           class="ml-auto"
-          (onclick)="onRemoveClick(user.id)"
+          (onclick)="onRemoveClick(user.id); $event.stopPropagation()"
         >
         </atoms-icon-button>
       </div>
