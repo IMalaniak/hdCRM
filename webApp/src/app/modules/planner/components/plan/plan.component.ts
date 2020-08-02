@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -40,7 +40,8 @@ export class PlanComponent implements OnInit, OnDestroy {
     private planService: PlanService,
     private dialog: MatDialog,
     private store: Store<AppState>,
-    private mediaQuery: MediaqueryService
+    private mediaQuery: MediaqueryService,
+    private cdr: ChangeDetectorRef
   ) {
     this.editForm = false;
     this.configPlanStages = false;
@@ -301,6 +302,8 @@ export class PlanComponent implements OnInit, OnDestroy {
                 return doc.id !== docId;
               });
               this.updatePlanStore(this.plan);
+              this.cdr.detectChanges();
+
               Swal.fire({
                 text: 'You have successfully removed a document from plan',
                 icon: 'success',
