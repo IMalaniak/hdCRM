@@ -116,7 +116,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   }
 
   removeWorker(userId: number): void {
-    this.department.Workers = this.department.Workers.filter(worker => worker.id !== userId);
+    this.department = { ...this.department, Workers: this.department.Workers.filter(worker => worker.id !== userId) };
   }
 
   updateDepartment(): void {

@@ -67,7 +67,7 @@ export class AddPlanComponent implements OnInit, OnDestroy {
   }
 
   removeParticipant(userId: number): void {
-    this.plan.Participants = this.plan.Participants.filter(participant => participant.id !== userId);
+    this.plan = { ...this.plan, Participants: this.plan.Participants.filter(participant => participant.id !== userId) };
   }
 
   onClickSubmit() {
