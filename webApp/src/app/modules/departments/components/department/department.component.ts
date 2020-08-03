@@ -75,7 +75,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     this.department = cloneDeep(this.departmentInitial);
   }
 
-  openManagerDialog(): void {
+  addManagerDialog(): void {
     const dialogRef = this.dialog.open(UsersDialogComponent, {
       ...this.mediaQuery.deFaultPopupSize,
       data: {
@@ -113,6 +113,10 @@ export class DepartmentComponent implements OnInit, OnDestroy {
           this.department.Workers = [...this.department.Workers, ...selectedWorkers];
         }
       });
+  }
+
+  removeManager(): void {
+    this.department = { ...this.department, Manager: null };
   }
 
   removeWorker(userId: number): void {

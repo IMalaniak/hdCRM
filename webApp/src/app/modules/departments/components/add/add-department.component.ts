@@ -48,10 +48,10 @@ export class AddDepartmentComponent implements OnInit {
 
     dialogRef
       .afterOpened()
-      .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
+      .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$))
       .subscribe(() => {
         userC.users
-          .filter(user => this.department.Manager.id === user.id)
+          .filter(user => this.department.Manager?.id === user.id)
           ?.forEach(selectedManager => {
             userC.selection.select(selectedManager);
           });
@@ -79,7 +79,7 @@ export class AddDepartmentComponent implements OnInit {
 
     dialogRef
       .afterOpened()
-      .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
+      .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$))
       .subscribe(() => {
         userC.users
           .filter(user => this.department.Workers.some(workers => workers.id === user.id))
@@ -100,6 +100,10 @@ export class AddDepartmentComponent implements OnInit {
           this.department.Workers = [...this.department.Workers, ...selectedWorkers];
         }
       });
+  }
+
+  removeManager(): void {
+    this.department = { ...this.department, Manager: null };
   }
 
   removeWorker(userId: number): void {

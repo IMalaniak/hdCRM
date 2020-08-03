@@ -51,37 +51,20 @@
       </form>
     </div>
     <div class="col-md-6">
-      <!-- TODO -->
-      <organisms-card cardTitle="Manager" cardClass="border border-secondary my-0" [disableShadow]="true">
-        <button buttons mat-stroked-button color="primary" class="crm-button" (click)="addManagerDialog()">
-          <fa-icon [icon]="['fas', 'user-plus']"></fa-icon
-          ><span i18n="@@addDepartmentComponentActionsAddManager">Add manager</span>
-        </button>
-        <mat-list content>
-          <mat-list-item *ngIf="department.Manager">
-            <img
-              matListAvatar
-              *ngIf="department.Manager.avatar"
-              src="{{ department.Manager.avatar.getThumbnailsUrl }}"
-              alt="{{ department.Manager.avatar.title }}"
-            />
-            <img
-              matListAvatar
-              *ngIf="!department.Manager.avatar"
-              src="./assets/images/userpic/noimage_croped.png"
-              alt="noimage"
-            />
-            <h3 matLine>{{ department.Manager.fullname }}</h3>
-          </mat-list-item>
-        </mat-list>
-      </organisms-card>
+      <templates-box-user-list-sm
+        title="Manager"
+        [user]="department.Manager"
+        [editMode]="true"
+        (addClick)="addManagerDialog()"
+        (removeClick)="removeManager()"
+      ></templates-box-user-list-sm>
     </div>
   </div>
   <div content class="row">
     <div class="col-md-6">
       <templates-box-user-list-sm
-        [users]="department.Workers"
         title="Workers"
+        [users]="department.Workers"
         [editMode]="true"
         (addClick)="addWorkersDialog()"
         (removeClick)="removeWorker($event)"
