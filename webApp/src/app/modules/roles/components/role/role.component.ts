@@ -69,6 +69,19 @@ export class RoleComponent implements OnInit, OnDestroy {
       }
     });
 
+    const userC = dialogRef.componentInstance.usersComponent;
+
+    dialogRef
+      .afterOpened()
+      .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
+      .subscribe(() => {
+        userC.users
+          .filter(user => this.role.Users.some(rUser => rUser.id === user.id))
+          ?.forEach(selectedParticipant => {
+            userC.selection.select(selectedParticipant);
+          });
+      });
+
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
@@ -176,16 +189,12 @@ export class RoleComponent implements OnInit, OnDestroy {
     );
   }
 
-  removePriv(privilegeId: number): void {
-    this.role.Privileges = this.role.Privileges.filter(rPriv => {
-      return rPriv.id !== privilegeId;
-    });
+  removePrivilege(privilegeId: number): void {
+    this.role = { ...this.role, Privileges: this.role.Privileges.filter(privilege => privilege.id !== privilegeId) };
   }
 
   removeUser(userId: number): void {
-    this.role.Users = this.role.Users.filter(rUser => {
-      return rUser.id !== userId;
-    });
+    this.role = { ...this.role, Users: this.role.Users.filter(user => user.id !== userId) };
   }
 
   onClickEdit(): void {

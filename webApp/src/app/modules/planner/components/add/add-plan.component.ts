@@ -5,7 +5,7 @@ import { UsersDialogComponent, User } from '@/modules/users';
 import { AppState } from '@/core/reducers';
 import { Store, select } from '@ngrx/store';
 import { currentUser } from '@/core/auth/store/auth.selectors';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, skipUntil, delay } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { createPlan } from '../../store/plan.actions';
 import { MediaqueryService } from '@/shared';
@@ -57,6 +57,19 @@ export class AddPlanComponent implements OnInit, OnDestroy {
       }
     });
 
+    const userC = dialogRef.componentInstance.usersComponent;
+
+    dialogRef
+      .afterOpened()
+      .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
+      .subscribe(() => {
+        userC.users
+          .filter(user => this.plan.Participants.some(participant => participant.id === user.id))
+          ?.forEach(selectedParticipant => {
+            userC.selection.select(selectedParticipant);
+          });
+      });
+
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
@@ -72,15 +85,15 @@ export class AddPlanComponent implements OnInit, OnDestroy {
       });
   }
 
+  removeParticipant(userId: number): void {
+    this.plan = { ...this.plan, Participants: this.plan.Participants.filter(participant => participant.id !== userId) };
+  }
+
   onClickSubmit() {
     this.plan = { ...this.plan, CreatorId: this.appUser.id };
     console.log({ plan: { ...this.plan, ...this.planData.value } });
 
     this.store.dispatch(createPlan({ plan: { ...this.plan, ...this.planData.value } }));
-  }
-
-  removeParticipant(id: number) {
-    // TODO: @ArseniiIrod, @IMalaniak add logic to remove participant
   }
 
   ngOnDestroy() {

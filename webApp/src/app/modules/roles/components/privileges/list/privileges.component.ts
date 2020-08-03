@@ -18,11 +18,11 @@ import { SelectionModel } from '@angular/cdk/collections';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PrivilegesComponent implements OnInit, OnDestroy {
-  privileges: Privilege[];
-  selection = new SelectionModel<Privilege>(true, []);
-  resultsLength: number;
-  isLoading$ = this.store.pipe(select(selectPrivilegesLoading));
+  isLoading$: Observable<boolean> = this.store.pipe(select(selectPrivilegesLoading));
 
+  selection = new SelectionModel<Privilege>(true, []);
+  privileges: Privilege[];
+  resultsLength: number;
   displayedColumns = ['select', 'title', 'key'];
 
   private unsubscribe: Subject<void> = new Subject();

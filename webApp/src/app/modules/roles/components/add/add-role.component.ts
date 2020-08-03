@@ -6,7 +6,7 @@ import { UsersDialogComponent } from '@/modules/users/components/dialog/users-di
 import { MediaqueryService } from '@/shared';
 import { Subject } from 'rxjs';
 import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, skipUntil, delay } from 'rxjs/operators';
 import { AppState } from '@/core/reducers';
 import { Store } from '@ngrx/store';
 import { createRole } from '../../store/role.actions';
@@ -46,6 +46,19 @@ export class AddRoleComponent implements OnInit {
       }
     });
 
+    const userC = dialogRef.componentInstance.usersComponent;
+
+    dialogRef
+      .afterOpened()
+      .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
+      .subscribe(() => {
+        userC.users
+          .filter(user => this.role.Users.some(rUser => rUser.id === user.id))
+          ?.forEach(selecteduser => {
+            userC.selection.select(selecteduser);
+          });
+      });
+
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
@@ -61,8 +74,8 @@ export class AddRoleComponent implements OnInit {
       });
   }
 
-  removeUser(id: number): void {
-    // TODO: @ArseniiIrod, @IMalaniak add logic to remove user
+  removeUser(userId: number): void {
+    this.role = { ...this.role, Users: this.role.Users.filter(user => user.id !== userId) };
   }
 
   addPrivilegeDialog(): void {
@@ -77,20 +90,13 @@ export class AddRoleComponent implements OnInit {
 
     dialogRef
       .afterOpened()
-      .pipe(takeUntil(this.unsubscribe))
+      .pipe(takeUntil(this.unsubscribe), skipUntil(privilegesC.isLoading$), delay(300))
       .subscribe(() => {
-        privilegesC.isLoading$.pipe(takeUntil(this.unsubscribe)).subscribe(isLoading => {
-          if (!isLoading) {
-            for (const pPrivilege of this.role.Privileges) {
-              privilegesC.privileges.find(privilege => {
-                if (privilege.id === pPrivilege.id) {
-                  privilegesC.selection.select(privilege);
-                  return true; // stop searching
-                }
-              });
-            }
-          }
-        });
+        privilegesC.privileges
+          .filter(privilege => this.role.Privileges.some(rPrivilege => rPrivilege.id === privilege.id))
+          ?.forEach(selectedPrivilege => {
+            privilegesC.selection.select(selectedPrivilege);
+          });
       });
 
     dialogRef

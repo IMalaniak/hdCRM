@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UsersDialogComponent, User } from '@/modules/users';
 import { Department } from '../../models';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, skipUntil, delay } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { createDepartment } from '../../store/department.actions';
@@ -46,6 +46,19 @@ export class AddDepartmentComponent implements OnInit {
       }
     });
 
+    const userC = dialogRef.componentInstance.usersComponent;
+
+    dialogRef
+      .afterOpened()
+      .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
+      .subscribe(() => {
+        userC.users
+          .filter(user => this.department.Manager.id === user.id)
+          ?.forEach(selectedManager => {
+            userC.selection.select(selectedManager);
+          });
+      });
+
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
@@ -65,6 +78,19 @@ export class AddDepartmentComponent implements OnInit {
       }
     });
 
+    const userC = dialogRef.componentInstance.usersComponent;
+
+    dialogRef
+      .afterOpened()
+      .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
+      .subscribe(() => {
+        userC.users
+          .filter(user => this.department.Workers.some(workers => workers.id === user.id))
+          ?.forEach(selectedWorker => {
+            userC.selection.select(selectedWorker);
+          });
+      });
+
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
@@ -80,8 +106,8 @@ export class AddDepartmentComponent implements OnInit {
       });
   }
 
-  removeWorker(id: number): void {
-    // TODO: @ArseniiIrod, @IMalaniak add logic to remove worker
+  removeWorker(userId: number): void {
+    this.department = { ...this.department, Workers: this.department.Workers.filter(worker => worker.id !== userId) };
   }
 
   onClickSubmit() {
