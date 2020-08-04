@@ -17,19 +17,19 @@ export class AddPrivilegeDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: FormGroup
   ) {}
 
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  onSubmitClick(): void {
+    this.dialogRef.close(this.data.value);
+  }
+
   get title() {
     return this.data.get('title');
   }
 
   get keyString() {
     return this.data.get('keyString');
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-  onSubmiteClick(privilege: PrivilegeData): void {
-    this.dialogRef.close(privilege);
   }
 }

@@ -20,7 +20,7 @@ export class AddStageDialogComponent {
     this.dialogRef.close();
   }
 
-  onAddStage(keyString: string): void {
-    this.dialogRef.close(keyString);
+  onAddStage(): void {
+    this.dialogRef.close(this.data.keyString.value);
   }
 }

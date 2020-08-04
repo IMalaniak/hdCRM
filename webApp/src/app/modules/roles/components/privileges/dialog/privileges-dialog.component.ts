@@ -1,7 +1,6 @@
 import { Component, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PrivilegesComponent } from '../list/privileges.component';
-import { Privilege } from '@/modules/roles/models';
 
 export interface PrivilegesDialogData {
   title: string;
@@ -23,7 +22,7 @@ export class PrivilegesDialogComponent {
     this.dialogRef.close();
   }
 
-  onSubmiteClick(privileges: Privilege[]): void {
-    this.dialogRef.close(privileges);
+  onSubmitClick(): void {
+    this.dialogRef.close(this.privilegesComponent.selection.selected);
   }
 }

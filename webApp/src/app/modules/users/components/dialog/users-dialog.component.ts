@@ -1,7 +1,6 @@
 import { Component, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UsersComponent } from '../list/users.component';
-import { User } from '../../models/user';
 
 export interface UsersDialogData {
   title: string;
@@ -23,7 +22,7 @@ export class UsersDialogComponent {
     this.dialogRef.close();
   }
 
-  onSubmitClick(user: User[]): void {
-    this.dialogRef.close(user);
+  onSubmitClick(): void {
+    this.dialogRef.close(this.usersComponent.selection.selected);
   }
 }
