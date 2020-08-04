@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { SingleChartData } from '@/shared/models';
 
 @Component({
@@ -31,7 +31,8 @@ import { SingleChartData } from '@/shared/models';
       </div>
     </ng-container>
   `,
-  styleUrls: ['./molecules-chart.component.scss']
+  styleUrls: ['./molecules-chart.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MoleculesChartComponent implements OnInit {
   @Input() chartType: string;

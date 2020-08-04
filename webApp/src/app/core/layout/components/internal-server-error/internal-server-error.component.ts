@@ -1,12 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-internal-server-error',
   templateUrl: './internal-server-error.component.html',
-  styleUrls: ['./internal-server-error.component.scss']
+  styleUrls: ['./internal-server-error.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InternalServerErrorComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit() {}
-}
+export class InternalServerErrorComponent {}

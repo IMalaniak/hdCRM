@@ -1,12 +1,14 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RolesComponent } from '../list/roles.component';
+import { Role } from '../../models/role';
 
 export interface RolesDialogData {
   title: string;
 }
 @Component({
-  templateUrl: 'roles-dialog.component.html'
+  templateUrl: 'roles-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RolesDialogComponent {
   constructor(
@@ -19,5 +21,9 @@ export class RolesDialogComponent {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  onSubmiteClick(roles: Role[]): void {
+    this.dialogRef.close(roles);
   }
 }

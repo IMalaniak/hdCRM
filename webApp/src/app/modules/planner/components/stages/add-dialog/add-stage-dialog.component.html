@@ -25,11 +25,7 @@
     Cancel
   </atoms-icon-button>
 
-  <atoms-icon-button
-    [mat-dialog-close]="data.keyString.value"
-    [icon]="['fas', 'plus']"
-    [disabled]="data.keyString.invalid"
-  >
+  <atoms-icon-button (onclick)="onAddStage()" [icon]="['fas', 'plus']" [disabled]="data.keyString.invalid">
     Add stage
   </atoms-icon-button>
 </div>

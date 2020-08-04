@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Plan } from '../../models';
@@ -19,7 +19,8 @@ import { deletePlan } from '../../store/plan.actions';
 
 @Component({
   selector: 'app-plan-list',
-  templateUrl: './plan-list.component.html'
+  templateUrl: './plan-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlanListComponent implements OnInit, AfterViewInit {
   addPlanPrivilege$: Observable<boolean>;

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { User } from '../../models';
@@ -12,7 +12,8 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-invitation-dialog',
   templateUrl: './invitation-dialog.component.html',
-  styleUrls: ['./invitation-dialog.component.scss']
+  styleUrls: ['./invitation-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InvitationDialogComponent implements OnInit, OnDestroy {
   userData: FormGroup;

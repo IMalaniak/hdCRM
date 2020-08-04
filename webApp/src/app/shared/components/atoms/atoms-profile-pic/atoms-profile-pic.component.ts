@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { AtomsUserPicComponent } from '../atoms-user-pic/atoms-user-pic.component';
 
 @Component({
@@ -6,7 +6,8 @@ import { AtomsUserPicComponent } from '../atoms-user-pic/atoms-user-pic.componen
   template: `
     <img class="userpic" src="{{ src }}" alt="{{ title }}" [ngClass]="[classes]" />
   `,
-  styleUrls: ['./atoms-profile-pic.component.scss']
+  styleUrls: ['./atoms-profile-pic.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AtomsProfilePicComponent extends AtomsUserPicComponent implements OnInit {
   @Input() picClass: string;

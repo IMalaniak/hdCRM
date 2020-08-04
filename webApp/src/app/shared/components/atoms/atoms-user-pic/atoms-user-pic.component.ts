@@ -1,4 +1,4 @@
-import { Component, Input, HostBinding, OnInit } from '@angular/core';
+import { Component, Input, HostBinding, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Asset } from '@/shared/models';
 import { environment } from 'environments/environment';
 
@@ -8,7 +8,8 @@ import { environment } from 'environments/environment';
     <img class="userpic" src="{{ src }}" alt="{{ title }}" />
     <span class="user-status-icon" [ngClass]="{ 'bg-success': userOnline }"></span>
   `,
-  styleUrls: ['./atoms-user-pic.component.scss']
+  styleUrls: ['./atoms-user-pic.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AtomsUserPicComponent implements OnInit {
   baseUrl = environment.baseUrl;

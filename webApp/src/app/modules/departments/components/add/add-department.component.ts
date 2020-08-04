@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UsersDialogComponent, User } from '@/modules/users';
 import { Department } from '../../models';
@@ -12,7 +12,8 @@ import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms'
 
 @Component({
   selector: 'app-add-department',
-  templateUrl: './add-department.component.html'
+  templateUrl: './add-department.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddDepartmentComponent implements OnInit {
   department = {} as Department;
@@ -24,11 +25,12 @@ export class AddDepartmentComponent implements OnInit {
     private dialog: MatDialog,
     private store: Store<AppState>,
     private mediaQuery: MediaqueryService,
-    private formBuilder: FormBuilder
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    this.departmentData = this.formBuilder.group({
+    this.departmentData = this.fb.group({
       title: new FormControl('', [Validators.required, Validators.maxLength(100)]),
       description: new FormControl('', [Validators.required, Validators.maxLength(2500)])
     });
@@ -63,6 +65,7 @@ export class AddDepartmentComponent implements OnInit {
       .subscribe((result: User[]) => {
         if (result?.length) {
           this.department = { ...this.department, Manager: { ...result[0] } };
+          this.cdr.detectChanges();
         }
       });
   }
@@ -98,6 +101,7 @@ export class AddDepartmentComponent implements OnInit {
 
         if (selectedWorkers?.length) {
           this.department.Workers = [...this.department.Workers, ...selectedWorkers];
+          this.cdr.detectChanges();
         }
       });
   }
