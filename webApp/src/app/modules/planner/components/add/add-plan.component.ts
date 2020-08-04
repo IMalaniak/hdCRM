@@ -90,9 +90,8 @@ export class AddPlanComponent implements OnInit, OnDestroy {
   }
 
   onClickSubmit() {
+    // TODO: @IMalaniak create logic on BE side to set CreatorId, after this delete CreatorId prop below
     this.plan = { ...this.plan, CreatorId: this.appUser.id };
-    console.log({ plan: { ...this.plan, ...this.planData.value } });
-
     this.store.dispatch(createPlan({ plan: { ...this.plan, ...this.planData.value } }));
   }
 
