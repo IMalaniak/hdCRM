@@ -12,16 +12,17 @@ import { OrganismsUserDetailsDialogComponent } from '../../organisms/organisms-u
       [cardClass]="boxCss"
       contentClass="p-0"
       [disableShadow]="true"
-      [counter]="users.length"
+      [counter]="users?.length"
     >
-      <atoms-icon-button *ngIf="editMode" buttons type="stroked" [icon]="['fas', 'user-plus']" (click)="onAddClick()"
-        >Add</atoms-icon-button
-      >
+      <atoms-icon-button *ngIf="editMode" buttons type="stroked" [icon]="['fas', 'user-plus']" (click)="onAddClick()">{{
+        users?.length || user ? 'Change' : 'Add'
+      }}</atoms-icon-button>
 
       <organisms-user-list-sm
         content
         [editMode]="editMode"
         [users]="users"
+        [user]="user"
         (removeClick)="onRemoveClick($event)"
         (userClick)="openUserDetailsDialog($event)"
       ></organisms-user-list-sm>
@@ -32,6 +33,7 @@ import { OrganismsUserDetailsDialogComponent } from '../../organisms/organisms-u
 export class TemplatesBoxUserListSmComponent {
   @Input() editMode = false;
   @Input() users: User[];
+  @Input() user: User;
   @Input() title: string;
   @Input() boxCss = 'border border-secondary mt-3 mt-sm-0';
 
