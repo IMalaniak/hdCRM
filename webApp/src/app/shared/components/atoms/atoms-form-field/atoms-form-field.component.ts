@@ -1,9 +1,9 @@
-import { Component, Input, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { IFieldType } from '@/shared/models/FieldType';
 
 @Component({
-  selector: 'atoms-labeled-form-field',
+  selector: 'atoms-form-field',
   template: `
     <ng-container [ngSwitch]="fType">
       <mat-form-field *ngSwitchDefault class="w-100" appearance="outline">
@@ -19,10 +19,9 @@ import { IFieldType } from '@/shared/models/FieldType';
       </mat-form-field>
     </ng-container>
   `,
-  styleUrls: ['./atoms-labeled-form-field.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AtomsLabeledFormFieldComponent {
+export class AtomsFormFieldComponent {
   @Input() options?: any;
   @Input() label: string;
   @Input() fType: IFieldType;

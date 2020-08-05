@@ -5,8 +5,8 @@ const ATOMS = [
   _components.AtomsProfilePicComponent,
   _components.AtomsUserPicComponent,
   _components.AtomsLinkButtonComponent,
-  _components.AtomsLabeledFormFieldComponent,
-  _components.AtomsReadonlyLabeledFormFieldComponent
+  _components.AtomsFormFieldComponent,
+  _components.AtomsReadonlyFormFieldComponent
 ];
 const MOLECULES = [
   _components.MoleculesProfilePicWithUploaderComponent,

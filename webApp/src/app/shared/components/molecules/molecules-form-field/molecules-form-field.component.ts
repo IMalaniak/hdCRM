@@ -5,18 +5,14 @@ import { IFieldType } from '@/shared/models/FieldType';
 @Component({
   selector: 'molecules-form-field',
   template: `
-    <atoms-labeled-form-field
+    <atoms-form-field
       *ngIf="editForm && editable"
       [label]="label"
       [options]="options"
       [control]="control"
       [fType]="fType"
-    ></atoms-labeled-form-field>
-    <atoms-readonly-labeled-form-field
-      *ngIf="!editForm"
-      [label]="label"
-      [value]="value"
-    ></atoms-readonly-labeled-form-field>
+    ></atoms-form-field>
+    <atoms-readonly-form-field *ngIf="!editForm" [label]="label" [value]="value"></atoms-readonly-form-field>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
