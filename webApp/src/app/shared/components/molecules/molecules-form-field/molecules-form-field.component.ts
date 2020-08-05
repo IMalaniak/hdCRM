@@ -1,6 +1,5 @@
 import { Component, Input, HostBinding, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { IFieldType } from '@/shared/models/FieldType';
+import { AtomsFormFieldComponent } from '../../atoms';
 
 @Component({
   selector: 'molecules-form-field',
@@ -9,6 +8,8 @@ import { IFieldType } from '@/shared/models/FieldType';
       *ngIf="editForm && editable"
       [label]="label"
       [options]="options"
+      [bindOptLabel]="bindOptLabel"
+      [bindOptValue]="bindOptValue"
       [control]="control"
       [fType]="fType"
     ></atoms-form-field>
@@ -16,12 +17,8 @@ import { IFieldType } from '@/shared/models/FieldType';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MoleculesFormFieldComponent implements OnInit {
+export class MoleculesFormFieldComponent extends AtomsFormFieldComponent implements OnInit {
   // @IMalaniak use genericType for value and for options
-  @Input() fType: IFieldType = IFieldType.INPUT;
-  @Input() options?: any;
-  @Input() label: string;
-  @Input() control: FormControl;
   @Input() value: any;
   @Input() editForm = false;
   @Input() editable = true;

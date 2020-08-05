@@ -14,7 +14,9 @@ import { IFieldType } from '@/shared/models/FieldType';
       <mat-form-field *ngSwitchCase="fieldTypes.SELECT" class="w-100" appearance="outline">
         <mat-label>{{ label }}</mat-label>
         <mat-select [formControl]="control">
-          <mat-option *ngFor="let option of options" [value]="option.id">{{ option.keyString }}</mat-option>
+          <mat-option *ngFor="let option of options" [value]="option[bindOptValue]">{{
+            option[bindOptLabel]
+          }}</mat-option>
         </mat-select>
       </mat-form-field>
     </ng-container>
@@ -23,6 +25,8 @@ import { IFieldType } from '@/shared/models/FieldType';
 })
 export class AtomsFormFieldComponent {
   @Input() options?: any;
+  @Input() bindOptValue?: string;
+  @Input() bindOptLabel?: string;
   @Input() label: string;
   @Input() fType: IFieldType;
   @Input() control: FormControl;
