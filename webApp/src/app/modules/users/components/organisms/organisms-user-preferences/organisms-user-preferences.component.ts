@@ -52,7 +52,8 @@ export class OrganismsUserPreferencesComponent implements OnInit, OnChanges {
       theme: new FormControl(this.enabledDarkTheme),
       // fontSize: new FormControl(null),
       listView: new FormControl(this.userPreferences.listView),
-      itemsPerPage: new FormControl(this.userPreferences.itemsPerPage)
+      itemsPerPage: new FormControl(this.userPreferences.itemsPerPage),
+      example: new FormControl(20)
     });
   }
 
@@ -74,5 +75,15 @@ export class OrganismsUserPreferencesComponent implements OnInit, OnChanges {
 
   onListViewChange(event: MatRadioChange): void {
     this.store$.dispatch(changeListView({ listView: event.value }));
+  }
+
+  // FOR TEST RADIO BUTTON
+  onExampleChange($event: MatRadioChange) {
+    console.log('EVENT FORM HTML:', $event);
+    console.log(this.preferencesForm.get('example').value);
+  }
+
+  onClick($event) {
+    console.log('CLICK FORM HTML:', $event);
   }
 }

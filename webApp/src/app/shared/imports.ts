@@ -4,12 +4,14 @@ const ATOMS = [
   _components.AtomsIconButtonComponent,
   _components.AtomsProfilePicComponent,
   _components.AtomsUserPicComponent,
-  _components.AtomsLinkButtonComponent
+  _components.AtomsLinkButtonComponent,
+  _components.AtomsRadioButtonComponent
 ];
 const MOLECULES = [
   _components.MoleculesProfilePicWithUploaderComponent,
   _components.MoleculesUserListSmItemComponent,
-  _components.MoleculesChartComponent
+  _components.MoleculesChartComponent,
+  _components.MoleculesRadioButtonGroupComponent
 ];
 const ORGANISMS = [
   _components.OrganismsUserListSmComponent,

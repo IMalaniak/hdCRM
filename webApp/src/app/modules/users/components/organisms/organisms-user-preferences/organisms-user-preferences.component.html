@@ -27,6 +27,11 @@
             currentDate | date: dateFormat
           }}</mat-radio-button>
         </mat-radio-group>
+
+        <!-- FOR TEST RADIO BUTTON-->
+        <atoms-radio-button formControlName="example" [value]="20" (onchange)="onExampleChange($event)">
+          {{ 'Example' }}
+        </atoms-radio-button>
       </div>
     </div>
 
