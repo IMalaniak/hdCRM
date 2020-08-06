@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PrivilegesComponent } from '../list/privileges.component';
 
@@ -6,7 +6,8 @@ export interface PrivilegesDialogData {
   title: string;
 }
 @Component({
-  templateUrl: 'privileges-dialog.component.html'
+  templateUrl: 'privileges-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PrivilegesDialogComponent {
   constructor(
@@ -19,5 +20,9 @@ export class PrivilegesDialogComponent {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  onSubmitClick(): void {
+    this.dialogRef.close(this.privilegesComponent.selection.selected);
   }
 }

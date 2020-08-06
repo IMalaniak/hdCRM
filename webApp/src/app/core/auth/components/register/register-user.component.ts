@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, Validators, FormControl, FormGroup, AbstractControl } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { User } from '@/modules/users';
@@ -10,7 +10,8 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-register-user',
   templateUrl: './register-user.component.html',
-  styleUrls: ['./register-user.component.scss']
+  styleUrls: ['./register-user.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterUserComponent implements OnInit {
   registerData: FormGroup;

@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { User, State } from '@/modules/users';
 import Swal from 'sweetalert2';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
@@ -7,7 +7,8 @@ import { IFieldType } from '@/shared/models/FieldType';
 @Component({
   selector: 'organisms-user-details',
   templateUrl: './organisms-user-details.component.html',
-  styleUrls: ['./organisms-user-details.component.scss']
+  styleUrls: ['./organisms-user-details.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganismsUserDetailsComponent implements OnInit {
   @Input() user: User;

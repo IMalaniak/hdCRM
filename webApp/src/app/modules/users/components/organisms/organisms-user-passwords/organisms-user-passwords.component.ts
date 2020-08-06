@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { ApiResponse, NewPassword } from '@/shared/models';
 import { ConfirmPasswordValidator } from '@/shared/validators';
@@ -9,7 +9,8 @@ import { changeOldPassword } from '@/modules/users/store/user.actions';
 @Component({
   selector: 'organisms-user-passwords',
   templateUrl: './organisms-user-passwords.component.html',
-  styleUrls: ['./organisms-user-passwords.component.scss']
+  styleUrls: ['./organisms-user-passwords.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganismsUserPasswordsComponent implements OnInit {
   @Input() isLoading: boolean;

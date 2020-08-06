@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -22,7 +22,8 @@ import { deleteDepartment } from '../../store/department.actions';
 
 @Component({
   selector: 'app-departments',
-  templateUrl: './departments.component.html'
+  templateUrl: './departments.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DepartmentsComponent implements OnInit, AfterViewInit {
   addDepPrivilege$: Observable<boolean>;

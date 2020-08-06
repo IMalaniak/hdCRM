@@ -1,11 +1,12 @@
-import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, ChangeDetectionStrategy } from '@angular/core';
 import { AttachmentService } from '@/shared/modules/attachments/services';
 import { Asset } from '@/shared/models';
 
 @Component({
   selector: 'templates-attachments-list',
   templateUrl: './templates-attachments-list.component.html',
-  styleUrls: ['./templates-attachments-list.component.scss']
+  styleUrls: ['./templates-attachments-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TemplatesAttachmentsListComponent implements OnInit {
   @Input() apiUrl: string;
@@ -15,10 +16,9 @@ export class TemplatesAttachmentsListComponent implements OnInit {
   uploaderVisible = false;
   displayedColumns: string[] = ['icon', 'title', 'type', 'createdAt', 'updatedAt', 'actions'];
 
-  constructor(private attachmentService: AttachmentService) { }
+  constructor(private attachmentService: AttachmentService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onClickAddFiles(): void {
     this.uploaderVisible = true;
@@ -56,5 +56,4 @@ export class TemplatesAttachmentsListComponent implements OnInit {
   handleDeleteFile(id: number): void {
     this.deleteFileCall.emit(id);
   }
-
 }

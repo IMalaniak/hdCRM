@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
@@ -12,7 +12,8 @@ import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'user',
-  templateUrl: './user.component.html'
+  templateUrl: './user.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserComponent implements OnInit {
   user$: Observable<User>;

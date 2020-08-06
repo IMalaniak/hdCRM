@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { User } from '@/modules/users/models';
 
 @Component({
@@ -16,13 +16,14 @@ import { User } from '@/modules/users/models';
           color="warn"
           [icon]="['fas', 'trash']"
           class="ml-auto"
-          (onclick)="onRemoveClick(user.id)"
+          (onclick)="onRemoveClick(user.id); $event.stopPropagation()"
         >
         </atoms-icon-button>
       </div>
       <mat-divider *ngIf="!isLast"></mat-divider>
     </mat-list-option>
-  `
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MoleculesUserListSmItemComponent {
   @Input() user: User;

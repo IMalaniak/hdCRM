@@ -1,4 +1,4 @@
-import { Component, OnChanges, Input, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, Input, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { UserSession, User } from '@/modules/users';
 import { AppState } from '@/core/reducers';
 import { Store } from '@ngrx/store';
@@ -9,7 +9,8 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'organisms-user-sessions',
   templateUrl: './organisms-user-sessions.component.html',
-  styleUrls: ['./organisms-user-sessions.component.scss']
+  styleUrls: ['./organisms-user-sessions.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganismsUserSessionsComponent implements OnChanges {
   @Input() user: User;

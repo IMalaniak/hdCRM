@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
 
@@ -8,7 +8,8 @@ export interface CreateChatDialogData {
 }
 
 @Component({
-  templateUrl: 'create-chat-dialog.component.html'
+  templateUrl: 'create-chat-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateChatDialogComponent {
   constructor(
@@ -18,5 +19,9 @@ export class CreateChatDialogComponent {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  onCreateClick(title: string): void {
+    this.dialogRef.close(title);
   }
 }

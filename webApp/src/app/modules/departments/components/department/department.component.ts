@@ -1,27 +1,24 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
-
 import Swal from 'sweetalert2';
 import { takeUntil, map } from 'rxjs/operators';
 import { cloneDeep } from 'lodash';
-
 import { Department } from '../../models';
 import { UsersDialogComponent, User } from '@/modules/users';
 import { Subject, Observable, combineLatest } from 'rxjs';
 import { DepartmentService } from '../../services';
-
 import { AppState } from '@/core/reducers';
-
 import { departmentSaved } from '../../store/department.actions';
 import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
 import { MediaqueryService } from '@/shared';
 
 @Component({
   selector: 'app-department',
-  templateUrl: './department.component.html'
+  templateUrl: './department.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DepartmentComponent implements OnInit, OnDestroy {
   department: Department;
@@ -38,7 +35,8 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private store: Store<AppState>,
-    private mediaQuery: MediaqueryService
+    private mediaQuery: MediaqueryService,
+    private cdr: ChangeDetectorRef
   ) {
     this.editForm = false;
     this.showDataLoader = true;
@@ -75,7 +73,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     this.department = cloneDeep(this.departmentInitial);
   }
 
-  openManagerDialog(): void {
+  addManagerDialog(): void {
     const dialogRef = this.dialog.open(UsersDialogComponent, {
       ...this.mediaQuery.deFaultPopupSize,
       data: {
@@ -89,6 +87,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
       .subscribe((result: User[]) => {
         if (result?.length) {
           this.department = { ...this.department, Manager: { ...result[0] } };
+          this.cdr.detectChanges();
         }
       });
   }
@@ -111,14 +110,17 @@ export class DepartmentComponent implements OnInit, OnDestroy {
 
         if (selectedWorkers?.length) {
           this.department.Workers = [...this.department.Workers, ...selectedWorkers];
+          this.cdr.detectChanges();
         }
       });
   }
 
+  removeManager(): void {
+    this.department = { ...this.department, Manager: null };
+  }
+
   removeWorker(userId: number): void {
-    this.department.Workers = this.department.Workers.filter(worker => {
-      return worker.id !== userId;
-    });
+    this.department = { ...this.department, Workers: this.department.Workers.filter(worker => worker.id !== userId) };
   }
 
   updateDepartment(): void {

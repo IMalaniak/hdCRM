@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Update } from '@ngrx/entity';
 import { Store, select } from '@ngrx/store';
 import { Subject, Observable, combineLatest } from 'rxjs';
-import { takeUntil, map } from 'rxjs/operators';
+import { takeUntil, map, skipUntil, delay } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { cloneDeep } from 'lodash';
 import { StagesDialogComponent } from '../../components/stages/dialog/stages-dialog.component';
@@ -20,7 +20,8 @@ import { MediaqueryService, Asset, ApiResponse } from '@/shared';
 @Component({
   selector: 'app-plan',
   templateUrl: './plan.component.html',
-  styleUrls: ['./plan.component.scss']
+  styleUrls: ['./plan.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlanComponent implements OnInit, OnDestroy {
   showDataLoader: boolean;
@@ -39,7 +40,8 @@ export class PlanComponent implements OnInit, OnDestroy {
     private planService: PlanService,
     private dialog: MatDialog,
     private store: Store<AppState>,
-    private mediaQuery: MediaqueryService
+    private mediaQuery: MediaqueryService,
+    private cdr: ChangeDetectorRef
   ) {
     this.editForm = false;
     this.configPlanStages = false;
@@ -114,9 +116,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   }
 
   removeParticipant(userId: number): void {
-    this.plan.Participants = this.plan.Participants.filter(participant => {
-      return participant.id !== userId;
-    });
+    this.plan = { ...this.plan, Participants: this.plan.Participants.filter(participant => participant.id !== userId) };
   }
 
   updatePlanStages(): void {
@@ -172,74 +172,68 @@ export class PlanComponent implements OnInit, OnDestroy {
       );
   }
 
-  addStageDialog(): void {
-    this.showDataLoader = false;
-    const dialogRef = this.dialog.open(StagesDialogComponent, {
-      ...this.mediaQuery.deFaultPopupSize,
-      data: {
-        title: 'Select stages'
-      }
-    });
+  // TODO: @ArseniiIrod, @IMalaniak remake logic
+  // addStageDialog(): void {
+  //   this.showDataLoader = false;
+  //   const dialogRef = this.dialog.open(StagesDialogComponent, {
+  //     ...this.mediaQuery.deFaultPopupSize,
+  //     data: {
+  //       title: 'Select stages'
+  //     }
+  //   });
 
-    const stagesC = dialogRef.componentInstance.stagesComponent;
+  //   const stagesC = dialogRef.componentInstance.stagesComponent;
 
-    dialogRef
-      .afterOpened()
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => {
-        stagesC.isLoading$.pipe(takeUntil(this.unsubscribe)).subscribe(isLoading => {
-          if (!isLoading) {
-            for (const pStage of this.plan.Stages) {
-              stagesC.stages.find((stage, i) => {
-                if (stage.id === pStage.id) {
-                  stagesC.selection.select(stage);
-                  return true; // stop searching
-                }
-              });
-            }
-          }
-        });
-      });
+  //   dialogRef
+  //     .afterOpened()
+  //     .pipe(takeUntil(this.unsubscribe), skipUntil(stagesC.isLoading$), delay(300))
+  //     .subscribe(() => {
+  //       stagesC.stages
+  //         .filter(user => this.plan.Participants.some(participant => participant.id === user.id))
+  //         ?.forEach(selectedParticipant => {
+  //           stagesC.selection.select(selectedParticipant);
+  //         });
+  //     });
 
-    dialogRef
-      .afterClosed()
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: Stage[]) => {
-        // remove unchecked
-        const removeUnchecked = new Promise((resolve, reject) => {
-          const pStages = this.plan.Stages;
-          pStages.forEach((stage, i) => {
-            const tmp = result.filter(el => {
-              return stage.id === el.id;
-            });
-            if (tmp.length === 0) {
-              this.plan.Stages.splice(i, 1);
-            }
-            if (i === this.plan.Stages.length - 1) {
-              resolve();
-            }
-          });
-        });
+  //   dialogRef
+  //     .afterClosed()
+  //     .pipe(takeUntil(this.unsubscribe))
+  //     .subscribe((result: Stage[]) => {
+  //       // remove unchecked
+  //       const removeUnchecked = new Promise((resolve, reject) => {
+  //         const pStages = this.plan.Stages;
+  //         pStages.forEach((stage, i) => {
+  //           const tmp = result.filter(el => {
+  //             return stage.id === el.id;
+  //           });
+  //           if (tmp.length === 0) {
+  //             this.plan.Stages.splice(i, 1);
+  //           }
+  //           if (i === this.plan.Stages.length - 1) {
+  //             resolve();
+  //           }
+  //         });
+  //       });
 
-        removeUnchecked.then(res => {
-          // add checked if no such
-          result.forEach((el: Stage, i) => {
-            const tmp = this.plan.Stages.filter(stage => {
-              return stage.id === el.id;
-            });
-            if (tmp.length === 0) {
-              const newStage = el;
-              newStage.Details = {
-                order: i,
-                completed: false,
-                description: ''
-              } as PlanStage;
-              this.plan.Stages.push(newStage);
-            }
-          });
-        });
-      });
-  }
+  //       removeUnchecked.then(res => {
+  //         // add checked if no such
+  //         result.forEach((el: Stage, i) => {
+  //           const tmp = this.plan.Stages.filter(stage => {
+  //             return stage.id === el.id;
+  //           });
+  //           if (tmp.length === 0) {
+  //             const newStage = el;
+  //             newStage.Details = {
+  //               order: i,
+  //               completed: false,
+  //               description: ''
+  //             } as PlanStage;
+  //             this.plan.Stages.push(newStage);
+  //           }
+  //         });
+  //       });
+  //     });
+  // }
 
   dragDropStages(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.plan.Stages, event.previousIndex, event.currentIndex);
@@ -258,6 +252,19 @@ export class PlanComponent implements OnInit, OnDestroy {
       }
     });
 
+    const userC = dialogRef.componentInstance.usersComponent;
+
+    dialogRef
+      .afterOpened()
+      .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
+      .subscribe(() => {
+        userC.users
+          .filter(user => this.plan.Participants.some(participant => participant.id === user.id))
+          ?.forEach(selectedParticipant => {
+            userC.selection.select(selectedParticipant);
+          });
+      });
+
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
@@ -268,6 +275,7 @@ export class PlanComponent implements OnInit, OnDestroy {
 
         if (selectedParticipants?.length) {
           this.plan.Participants = [...this.plan.Participants, ...selectedParticipants];
+          this.cdr.detectChanges();
         }
       });
   }
@@ -300,6 +308,8 @@ export class PlanComponent implements OnInit, OnDestroy {
                 return doc.id !== docId;
               });
               this.updatePlanStore(this.plan);
+              this.cdr.detectChanges();
+
               Swal.fire({
                 text: 'You have successfully removed a document from plan',
                 icon: 'success',

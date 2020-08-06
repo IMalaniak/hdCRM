@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Asset } from '@/shared/models';
 
 @Component({
@@ -21,7 +21,8 @@ import { Asset } from '@/shared/models';
       ></app-profile-pic-uploader>
     </div>
   `,
-  styleUrls: ['./molecules-profile-pic-with-uploader.component.scss']
+  styleUrls: ['./molecules-profile-pic-with-uploader.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MoleculesProfilePicWithUploaderComponent {
   @Input() avatar: Asset;

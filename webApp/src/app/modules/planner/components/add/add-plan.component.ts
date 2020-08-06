@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Plan } from '../../models';
 import { UsersDialogComponent, User } from '@/modules/users';
 import { AppState } from '@/core/reducers';
 import { Store, select } from '@ngrx/store';
 import { currentUser } from '@/core/auth/store/auth.selectors';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, skipUntil, delay } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { createPlan } from '../../store/plan.actions';
 import { MediaqueryService } from '@/shared';
@@ -13,7 +13,8 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 
 @Component({
   selector: 'app-add-plan',
-  templateUrl: './add-plan.component.html'
+  templateUrl: './add-plan.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddPlanComponent implements OnInit, OnDestroy {
   plan = {} as Plan;
@@ -26,22 +27,26 @@ export class AddPlanComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private store: Store<AppState>,
     private mediaQuery: MediaqueryService,
-    private formBuilder: FormBuilder
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    this.planData = this.formBuilder.group({
+    this.store.pipe(select(currentUser), takeUntil(this.unsubscribe)).subscribe(user => {
+      this.appUser = user;
+    });
+    this.buildPlanForm();
+
+    this.plan.Participants = [];
+  }
+
+  buildPlanForm(): void {
+    this.planData = this.fb.group({
       title: new FormControl('', [Validators.required, Validators.maxLength(100)]),
       budget: new FormControl('', [Validators.required, Validators.min(0)]),
       description: new FormControl('', [Validators.required, Validators.maxLength(2500)]),
       deadline: new FormControl('', Validators.required)
     });
-
-    this.store.pipe(select(currentUser), takeUntil(this.unsubscribe)).subscribe(user => {
-      this.appUser = user;
-    });
-
-    this.plan.Participants = [];
   }
 
   addParticipantDialog(): void {
@@ -51,6 +56,19 @@ export class AddPlanComponent implements OnInit, OnDestroy {
         title: 'Select participants'
       }
     });
+
+    const userC = dialogRef.componentInstance.usersComponent;
+
+    dialogRef
+      .afterOpened()
+      .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
+      .subscribe(() => {
+        userC.users
+          .filter(user => this.plan.Participants.some(participant => participant.id === user.id))
+          ?.forEach(selectedParticipant => {
+            userC.selection.select(selectedParticipant);
+          });
+      });
 
     dialogRef
       .afterClosed()
@@ -62,17 +80,19 @@ export class AddPlanComponent implements OnInit, OnDestroy {
 
         if (selectedParticipants?.length) {
           this.plan.Participants = [...this.plan.Participants, ...selectedParticipants];
+          this.cdr.detectChanges();
         }
       });
   }
 
-  onClickSubmit() {
-    this.plan.CreatorId = this.appUser.id;
-    this.store.dispatch(createPlan({ plan: { ...this.plan, ...this.planData.value } }));
+  removeParticipant(userId: number): void {
+    this.plan = { ...this.plan, Participants: this.plan.Participants.filter(participant => participant.id !== userId) };
   }
 
-  removeParticipant(id: number) {
-    // TODO: @ArseniiIrod, @IMalaniak add logic to remove participant
+  onClickSubmit() {
+    // TODO: @IMalaniak create logic on BE side to set CreatorId, after this delete CreatorId prop below
+    this.plan = { ...this.plan, CreatorId: this.appUser.id };
+    this.store.dispatch(createPlan({ plan: { ...this.plan, ...this.planData.value } }));
   }
 
   ngOnDestroy() {

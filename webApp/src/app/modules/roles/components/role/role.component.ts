@@ -1,6 +1,5 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTable } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Role, Privilege } from '../../models';
@@ -21,7 +20,8 @@ import { User } from '@/modules/users';
 @Component({
   selector: 'app-role',
   templateUrl: './role.component.html',
-  styleUrls: ['./role.component.scss']
+  styleUrls: ['./role.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoleComponent implements OnInit, OnDestroy {
   role: Role;
@@ -30,8 +30,6 @@ export class RoleComponent implements OnInit, OnDestroy {
   editRolePrivilege$: Observable<boolean>;
   displayedColumns = ['title', 'view', 'add', 'edit', 'delete'];
 
-  @ViewChild(MatTable) privilegesTable: MatTable<any>;
-
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
@@ -39,7 +37,8 @@ export class RoleComponent implements OnInit, OnDestroy {
     private roleService: RoleService,
     private dialog: MatDialog,
     private store: Store<AppState>,
-    private mediaQuery: MediaqueryService
+    private mediaQuery: MediaqueryService,
+    private cdr: ChangeDetectorRef
   ) {
     this.editForm = false;
   }
@@ -70,6 +69,19 @@ export class RoleComponent implements OnInit, OnDestroy {
       }
     });
 
+    const userC = dialogRef.componentInstance.usersComponent;
+
+    dialogRef
+      .afterOpened()
+      .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
+      .subscribe(() => {
+        userC.users
+          .filter(user => this.role.Users.some(rUser => rUser.id === user.id))
+          ?.forEach(selectedParticipant => {
+            userC.selection.select(selectedParticipant);
+          });
+      });
+
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
@@ -80,6 +92,7 @@ export class RoleComponent implements OnInit, OnDestroy {
 
         if (selectedUsers?.length) {
           this.role.Users = [...this.role.Users, ...selectedUsers];
+          this.cdr.detectChanges();
         }
       });
   }
@@ -127,7 +140,7 @@ export class RoleComponent implements OnInit, OnDestroy {
 
         if (selectedPrivileges?.length) {
           this.role.Privileges = [...this.role.Privileges, ...selectedPrivileges];
-          this.privilegesTable.renderRows();
+          this.cdr.detectChanges();
         }
       });
   }
@@ -176,16 +189,12 @@ export class RoleComponent implements OnInit, OnDestroy {
     );
   }
 
-  removePriv(privilegeId: number): void {
-    this.role.Privileges = this.role.Privileges.filter(rPriv => {
-      return rPriv.id !== privilegeId;
-    });
+  removePrivilege(privilegeId: number): void {
+    this.role = { ...this.role, Privileges: this.role.Privileges.filter(privilege => privilege.id !== privilegeId) };
   }
 
   removeUser(userId: number): void {
-    this.role.Users = this.role.Users.filter(rUser => {
-      return rUser.id !== userId;
-    });
+    this.role = { ...this.role, Users: this.role.Users.filter(user => user.id !== userId) };
   }
 
   onClickEdit(): void {
