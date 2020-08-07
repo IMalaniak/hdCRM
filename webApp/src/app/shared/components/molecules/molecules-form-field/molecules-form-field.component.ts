@@ -17,17 +17,11 @@ import { AtomsFormFieldComponent } from '../../atoms';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MoleculesFormFieldComponent extends AtomsFormFieldComponent implements OnInit {
+export class MoleculesFormFieldComponent extends AtomsFormFieldComponent {
   // @IMalaniak use genericType for value and for options
   @Input() value: any;
   @Input() editForm = false;
   @Input() editable = true;
 
   @HostBinding('class.w-100') fullWidth = true;
-
-  ngOnInit(): void {
-    if (this.control) {
-      this.value = this.control.value;
-    }
-  }
 }

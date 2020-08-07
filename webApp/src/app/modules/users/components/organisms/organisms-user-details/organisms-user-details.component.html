@@ -4,11 +4,13 @@
       <form class="d-flex flex-column p-3" [formGroup]="userForm">
         <molecules-form-field
           [control]="userForm.get('name')"
+          [value]="user.name"
           label="Name"
           [editForm]="editForm"
         ></molecules-form-field>
         <molecules-form-field
           [control]="userForm.get('surname')"
+          [value]="user.surname"
           label="Surname"
           [editForm]="editForm"
         ></molecules-form-field>
@@ -20,11 +22,13 @@
         ></molecules-form-field>
         <molecules-form-field
           [control]="userForm.get('email')"
+          [value]="user.email"
           label="Email"
           [editForm]="editForm"
         ></molecules-form-field>
         <molecules-form-field
           [control]="userForm.get('phone')"
+          [value]="user.phone"
           label="Phone"
           [editForm]="editForm"
         ></molecules-form-field>
