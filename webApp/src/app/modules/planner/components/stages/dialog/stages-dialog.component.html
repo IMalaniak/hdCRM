@@ -7,7 +7,7 @@
     Cancel
   </atoms-icon-button>
 
-  <atoms-icon-button [mat-dialog-close]="stagesComponent.selection.selected" [icon]="['fas', 'save']">
+  <atoms-icon-button [icon]="['fas', 'save']" (onclick)="onSubmitClick()">
     Save
   </atoms-icon-button>
 </div>

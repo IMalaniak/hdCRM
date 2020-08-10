@@ -1,4 +1,4 @@
-import { Component, Input, ContentChild, ElementRef } from '@angular/core';
+import { Component, Input, ContentChild, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'organisms-card',
@@ -28,7 +28,8 @@ import { Component, Input, ContentChild, ElementRef } from '@angular/core';
       </mat-card-footer>
     </mat-card>
   `,
-  styleUrls: ['./organisms-card.component.scss']
+  styleUrls: ['./organisms-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganismsCardComponent {
   @Input() cardTitle: string;

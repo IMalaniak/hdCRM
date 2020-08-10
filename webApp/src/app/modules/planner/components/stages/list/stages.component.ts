@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { Stage } from '../../../models';
@@ -14,7 +14,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 @Component({
   selector: 'app-stages',
   templateUrl: './stages.component.html',
-  styleUrls: ['./stages.component.scss']
+  styleUrls: ['./stages.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StagesComponent implements OnInit, OnDestroy {
   stages: Stage[];

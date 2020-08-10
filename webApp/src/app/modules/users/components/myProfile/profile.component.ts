@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { User } from '../../models';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
@@ -11,7 +11,8 @@ import { Preferences } from '@/core/reducers/preferences.reducer';
 
 @Component({
   selector: 'user-profile',
-  templateUrl: './profile.component.html'
+  templateUrl: './profile.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileComponent implements OnInit {
   user$: Observable<User>;

@@ -6,10 +6,7 @@
   <atoms-icon-button (onclick)="onNoClick()" [icon]="['fas', 'times']" color="basic">
     Cancel
   </atoms-icon-button>
-  <atoms-icon-button
-    [icon]="['fas', 'plus']"
-    [mat-dialog-close]="rolesComponent.selection.selected"
-  >
+  <atoms-icon-button [icon]="['fas', 'plus']" (onclick)="onSubmiteClick(rolesComponent.selection.selected)">
     Ok
   </atoms-icon-button>
 </div>

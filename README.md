@@ -164,12 +164,6 @@ These reverts commit <hash>.
 cherry-pick: "fix(#1234): subject message"
 ```
 
-### Merge Commit Messages
-
-```
-merged commit <commit id> into <branch>
-```
-
 ## Pull Request Message Format
 
 We must create pull request message according to the following rules.
@@ -177,7 +171,7 @@ We must create pull request message according to the following rules.
 Each pull request messages consists of a header and a body. The header has a special format that includes a type, a scope, and a subject:
 
 ```
-<type>/<scope>-<subject>
+<type>(<scope>): <subject>
 <BLANK LINE>
 
 <body>
@@ -189,7 +183,7 @@ The header is mandatory and the scope should be GitHub task id or external. The 
 Example:
 
 ```
-fix/#1234-subject message
+fix(#1234): subject message
 
 resolves #1234
 ```
@@ -211,7 +205,7 @@ Each new branch must be created from **`dev`** branch and need to have a special
 Example:
 
 ```
-feat/1234
+feat/#1234
 ```
 
 Use [type](#type) examples for the **`type`**
@@ -237,10 +231,10 @@ The scope should be the id of the GitHub tasks
 
 ## Authors
 
-**Ivan Malaniak**
 
-* [github/IMalaniak](https://github.com/IMalaniak)
 
-**Arsenii Irod**
-
-* [github/ArseniiIrod](https://github.com/ArseniiIrod)
+| ![Ivan Malaniak](https://github.com/IMalaniak.png?size=200) | ![Arsenii Irod](https://github.com/ArseniiIrod.png?size=200) |
+|--|--|
+| **Ivan Malaniak**| **Arsenii Irod** |
+|[github/IMalaniak](https://github.com/IMalaniak)| [github/ArseniiIrod](https://github.com/ArseniiIrod) |
+| [ivanmalaniak.pp.ua](https://ivanmalaniak.pp.ua) ||

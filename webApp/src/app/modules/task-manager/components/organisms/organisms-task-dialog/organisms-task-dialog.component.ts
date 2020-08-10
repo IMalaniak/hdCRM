@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TaskDialogData, TaskPriority } from '@/modules/task-manager/models';
@@ -6,7 +6,8 @@ import { TaskDialogData, TaskPriority } from '@/modules/task-manager/models';
 @Component({
   selector: 'organisms-task-dialog',
   templateUrl: './organisms-task-dialog.component.html',
-  styleUrls: ['./organisms-task-dialog.component.scss']
+  styleUrls: ['./organisms-task-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganismsTaskDialogComponent implements OnInit {
   taskData: FormGroup;

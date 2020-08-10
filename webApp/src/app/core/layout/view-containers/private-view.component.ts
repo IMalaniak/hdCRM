@@ -47,7 +47,8 @@ import { privateRouterTransition, MediaqueryService } from '@/shared';
       <!--      <section class="app-messages" *ngIf="showDebug$ | async"></section> -->
     </section>
   `,
-  animations: [privateRouterTransition]
+  animations: [privateRouterTransition],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PrivateViewComponent implements OnInit, OnDestroy {
   @ViewChild('contentWrapper', { static: false })

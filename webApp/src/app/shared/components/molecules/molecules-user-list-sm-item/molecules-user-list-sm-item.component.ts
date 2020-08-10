@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { User } from '@/modules/users/models';
 
 @Component({
@@ -22,7 +22,8 @@ import { User } from '@/modules/users/models';
       </div>
       <mat-divider *ngIf="!isLast"></mat-divider>
     </mat-list-option>
-  `
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MoleculesUserListSmItemComponent {
   @Input() user: User;
