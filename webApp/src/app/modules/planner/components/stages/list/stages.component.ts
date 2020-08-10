@@ -8,7 +8,7 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { allStagesRequestedFromDialogWindow, createStage } from '@/modules/planner/store/stage.actions';
 import { selectAllStages, selectStagesLoading } from '@/modules/planner/store/stage.selectors';
-import { map, catchError, takeUntil } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
@@ -18,22 +18,19 @@ import { SelectionModel } from '@angular/cdk/collections';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StagesComponent implements OnInit, OnDestroy {
-  stages: Stage[];
-  selection = new SelectionModel<Stage>(true, []);
-  resultsLength: number;
-  isLoading$: Observable<boolean>;
+  isLoading$: Observable<boolean> = this.store.pipe(select(selectStagesLoading));
 
-  displayedColumns = ['select', 'title'];
+  stages: Stage[];
+  resultsLength: number;
+  displayedColumns: string[] = ['select', 'title'];
+  selection = new SelectionModel<Stage>(true, []);
 
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(private dialog: MatDialog, private store: Store<AppState>) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.store.dispatch(allStagesRequestedFromDialogWindow());
-
-    this.isLoading$ = this.store.pipe(select(selectStagesLoading));
-
     this.store
       .pipe(
         takeUntil(this.unsubscribe),
@@ -46,14 +43,14 @@ export class StagesComponent implements OnInit, OnDestroy {
       .subscribe(data => (this.stages = data));
   }
 
-  isAllSelected() {
+  isAllSelected(): boolean {
     const numSelected = this.selection.selected.length;
     const numRows = this.resultsLength;
     return numSelected === numRows;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
+  masterToggle(): void {
     this.isAllSelected() ? this.selection.clear() : this.stages.forEach(row => this.selection.select(row));
   }
 
@@ -75,7 +72,7 @@ export class StagesComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }

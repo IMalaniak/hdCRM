@@ -25,12 +25,19 @@ export class InvitationDialogComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialogRef: MatDialogRef<InvitationDialogComponent>,
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
     private store$: Store<AppState>
   ) {}
 
-  ngOnInit() {
-    this.userData = this.formBuilder.group({
+  ngOnInit(): void {
+    this.store$.pipe(select(selectAllUsers), takeUntil(this.unsubscribe)).subscribe(users => {
+      this.appUsers = users;
+    });
+    this.buildUserFormGroup();
+  }
+
+  buildUserFormGroup(): void {
+    this.userData = this.fb.group({
       fullname: new FormControl('', [
         Validators.required,
         Validators.maxLength(25),
@@ -40,12 +47,9 @@ export class InvitationDialogComponent implements OnInit, OnDestroy {
       ]),
       email: new FormControl('', [Validators.required, Validators.email])
     });
-    this.store$.pipe(select(selectAllUsers), takeUntil(this.unsubscribe)).subscribe(users => {
-      this.appUsers = users;
-    });
   }
 
-  addUserToInvitation(user: User) {
+  addUserToInvitation(user: User): void {
     const alreadyInvited: User = this.invitedUsers.find(invitedUser => invitedUser.email === user.email);
     const alreadyAppUser: User = this.appUsers.find(appUser => appUser.email === user.email);
 
@@ -58,7 +62,7 @@ export class InvitationDialogComponent implements OnInit, OnDestroy {
     }
   }
 
-  sendInvitation() {
+  sendInvitation(): void {
     this.store$.dispatch(inviteUsers({ users: this.invitedUsers }));
     this.dialogRef.close();
   }
@@ -67,7 +71,7 @@ export class InvitationDialogComponent implements OnInit, OnDestroy {
     this.dialogRef.close();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }

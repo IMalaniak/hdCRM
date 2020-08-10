@@ -15,20 +15,19 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit {
+  isLoading$: Observable<boolean> = this.store.pipe(select(authSelectors.isLoading));
+  serverResponse$: Observable<ApiResponse> = this.store.pipe(select(authSelectors.getApiResponse));
+
   user: FormGroup;
-  hidePassword = true;
-  serverResponse$: Observable<ApiResponse>;
-  currentPath: string;
-  token: string;
   newPasswordForm: FormGroup;
-  isLoading$: Observable<boolean>;
+  currentPath: string;
+  hidePassword = true;
+  token: string;
 
-  constructor(private route: ActivatedRoute, private _formBuilder: FormBuilder, private store: Store<AppState>) {}
+  constructor(private route: ActivatedRoute, private fb: FormBuilder, private store: Store<AppState>) {}
 
-  ngOnInit() {
-    this.isLoading$ = this.store.pipe(select(authSelectors.isLoading));
+  ngOnInit(): void {
     this.currentPath = this.route.snapshot.url[0].path;
-    this.serverResponse$ = this.store.pipe(select(authSelectors.getApiResponse));
 
     if (this.currentPath === 'request-new-password' || this.currentPath === 'login') {
       this.prepareUserForm();
@@ -44,7 +43,7 @@ export class LoginComponent implements OnInit {
   }
 
   prepareUserForm(): void {
-    this.user = this._formBuilder.group({
+    this.user = this.fb.group({
       login: new FormControl('', [Validators.required]),
       password: new FormControl('')
     });
@@ -54,7 +53,7 @@ export class LoginComponent implements OnInit {
   }
 
   preparePasswordResetForm(): void {
-    this.newPasswordForm = this._formBuilder.group(
+    this.newPasswordForm = this.fb.group(
       {
         newPassword: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(64)]),
         verifyPassword: new FormControl('', [Validators.required])

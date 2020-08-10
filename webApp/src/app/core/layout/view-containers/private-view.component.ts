@@ -105,7 +105,7 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }

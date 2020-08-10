@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { User } from '../../models';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
@@ -14,23 +14,15 @@ import { Preferences } from '@/core/reducers/preferences.reducer';
   templateUrl: './profile.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProfileComponent implements OnInit {
-  user$: Observable<User>;
-  userPreferences$: Observable<Preferences>;
-  currentSessionId$: Observable<number>;
-  isLoading$: Observable<boolean>;
-  serverResponse$: Observable<ApiResponse>;
+export class ProfileComponent {
+  user$: Observable<User> = this.store.pipe(select(currentUser));
+  editForm$: Observable<boolean> = this.store.pipe(select(selectIsEditing));
+  isLoading$: Observable<boolean> = this.store.pipe(select(selectIsLoading));
+  currentSessionId$: Observable<number> = this.store.pipe(select(getSessionId));
+  serverResponse$: Observable<ApiResponse> = this.store.pipe(select(getApiResponse));
+  userPreferences$: Observable<Preferences> = this.store.pipe(select(getPreferencesState));
+
   tabsToShow: string[] = ['details', 'org', 'password', 'sessions', 'preferences'];
-  editForm$: Observable<boolean>;
 
   constructor(private store: Store<AppState>) {}
-
-  ngOnInit(): void {
-    this.user$ = this.store.pipe(select(currentUser));
-    this.userPreferences$ = this.store.pipe(select(getPreferencesState));
-    this.currentSessionId$ = this.store.pipe(select(getSessionId));
-    this.isLoading$ = this.store.pipe(select(selectIsLoading));
-    this.serverResponse$ = this.store.pipe(select(getApiResponse));
-    this.editForm$ = this.store.pipe(select(selectIsEditing));
-  }
 }

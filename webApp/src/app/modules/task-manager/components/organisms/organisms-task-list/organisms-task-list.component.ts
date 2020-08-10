@@ -97,7 +97,7 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
     return this.tasks?.length ? this.tasks.filter(task => task.isCompleted).length >= 2 : true;
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }

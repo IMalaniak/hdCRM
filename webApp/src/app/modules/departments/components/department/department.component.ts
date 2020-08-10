@@ -21,12 +21,13 @@ import { MediaqueryService } from '@/shared';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DepartmentComponent implements OnInit, OnDestroy {
+  appUser$: Observable<User> = this.store.pipe(select(currentUser));
+  editDepartmentPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('department-edit')));
+
   department: Department;
-  appUser$: Observable<User>;
   departmentInitial: Department;
-  showDataLoader: boolean;
-  editForm: boolean;
-  editDepartmentPrivilege$: Observable<boolean>;
+  showDataLoader = true;
+  editForm = false;
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -37,15 +38,9 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private mediaQuery: MediaqueryService,
     private cdr: ChangeDetectorRef
-  ) {
-    this.editForm = false;
-    this.showDataLoader = true;
-  }
+  ) {}
 
-  ngOnInit() {
-    this.appUser$ = this.store.pipe(select(currentUser));
-    this.editDepartmentPrivilege$ = this.store.pipe(select(isPrivileged('department-edit')));
-
+  ngOnInit(): void {
     this.departmentInitial = cloneDeep(this.route.snapshot.data['department']);
     this.department = cloneDeep(this.route.snapshot.data['department']);
     this.canEditDepartment$.pipe(takeUntil(this.unsubscribe)).subscribe(canEdit => {
@@ -56,12 +51,6 @@ export class DepartmentComponent implements OnInit, OnDestroy {
         }
       }
     });
-  }
-
-  get canEditDepartment$(): Observable<boolean> {
-    // combine 2 observables and compare values => return boolean
-    const combine = combineLatest([this.editDepartmentPrivilege$, this.appUser$]);
-    return combine.pipe(map(([editPriv, appUser]) => editPriv || appUser.id === this.department.managerId));
   }
 
   onClickEdit(): void {
@@ -155,7 +144,13 @@ export class DepartmentComponent implements OnInit, OnDestroy {
       );
   }
 
-  ngOnDestroy() {
+  get canEditDepartment$(): Observable<boolean> {
+    // combine 2 observables and compare values => return boolean
+    const combine = combineLatest([this.editDepartmentPrivilege$, this.appUser$]);
+    return combine.pipe(map(([editPriv, appUser]) => editPriv || appUser.id === this.department.managerId));
+  }
+
+  ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }

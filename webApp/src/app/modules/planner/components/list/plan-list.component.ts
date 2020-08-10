@@ -4,9 +4,7 @@ import Swal from 'sweetalert2';
 import { Plan } from '../../models';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
-
 import { PlansDataSource } from '../../services/plan.datasource';
-
 import { selectPlansLoading, selectPlansTotalCount } from '../../store/plan.selectors';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -23,49 +21,48 @@ import { deletePlan } from '../../store/plan.actions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlanListComponent implements OnInit, AfterViewInit {
-  addPlanPrivilege$: Observable<boolean>;
-  editPlanPrivilege$: Observable<boolean>;
-  deletePlanPrivilege$: Observable<boolean>;
-  plans$: Observable<Plan[]>;
-  dataSource: PlansDataSource;
-  loading$: Observable<boolean>;
+  dataSource: PlansDataSource = new PlansDataSource(this.store);
+  loading$: Observable<boolean> = this.store.pipe(select(selectPlansLoading));
+  resultsLength$: Observable<number> = this.store.pipe(select(selectPlansTotalCount));
+  addPlanPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('plan-add')));
+  editPlanPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('plan-edit')));
+  deletePlanPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('plan-delete')));
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns = ['title', 'creator', 'stage', 'participants', 'createdAt', 'updatedAt', 'deadline', 'actions'];
-  resultsLength$: Observable<number>;
-
   selection = new SelectionModel<Plan>(true, []);
+  displayedColumns: string[] = [
+    'title',
+    'creator',
+    'stage',
+    'participants',
+    'createdAt',
+    'updatedAt',
+    'deadline',
+    'actions'
+  ];
 
   constructor(private router: Router, private store: Store<AppState>) {}
 
-  ngOnInit() {
-    this.addPlanPrivilege$ = this.store.pipe(select(isPrivileged('plan-add')));
-    this.editPlanPrivilege$ = this.store.pipe(select(isPrivileged('plan-edit')));
-    this.deletePlanPrivilege$ = this.store.pipe(select(isPrivileged('plan-delete')));
-
-    this.loading$ = this.store.pipe(select(selectPlansLoading));
-    this.resultsLength$ = this.store.pipe(select(selectPlansTotalCount));
-    this.dataSource = new PlansDataSource(this.store);
-
+  ngOnInit(): void {
     const initialPage: PageQuery = {
       pageIndex: 0,
       pageSize: 5,
       sortIndex: 'id',
       sortDirection: 'asc'
     };
-
     this.dataSource.loadPlans(initialPage);
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.paginator.page.pipe(tap(() => this.loadPlansPage())).subscribe();
 
     // TODO: check for other solution
     this.sort.sortChange.pipe(tap(() => this.loadPlansPage())).subscribe();
   }
 
-  loadPlansPage() {
+  loadPlansPage(): void {
     const newPage: PageQuery = {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,

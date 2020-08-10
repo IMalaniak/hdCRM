@@ -24,11 +24,12 @@ import { User } from '@/modules/users';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoleComponent implements OnInit, OnDestroy {
+  editRolePrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('role-edit')));
+
   role: Role;
   roleInitial: Role;
-  editForm: boolean;
-  editRolePrivilege$: Observable<boolean>;
-  displayedColumns = ['title', 'view', 'add', 'edit', 'delete'];
+  editForm = false;
+  displayedColumns: string[] = ['title', 'view', 'add', 'edit', 'delete'];
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -39,12 +40,9 @@ export class RoleComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private mediaQuery: MediaqueryService,
     private cdr: ChangeDetectorRef
-  ) {
-    this.editForm = false;
-  }
+  ) {}
 
-  ngOnInit() {
-    this.editRolePrivilege$ = this.store.pipe(select(isPrivileged('role-edit')));
+  ngOnInit(): void {
     this.editRolePrivilege$.pipe(takeUntil(this.unsubscribe)).subscribe(canEdit => {
       if (canEdit) {
         const edit = this.route.snapshot.queryParams['edit'];
@@ -53,6 +51,7 @@ export class RoleComponent implements OnInit, OnDestroy {
         }
       }
     });
+
     this.getRoleData();
   }
 
@@ -214,7 +213,7 @@ export class RoleComponent implements OnInit, OnDestroy {
     this.disableEdit();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }

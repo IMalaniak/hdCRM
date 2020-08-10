@@ -14,17 +14,22 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterUserComponent implements OnInit {
+  isLoading$: Observable<boolean> = this.store.pipe(select(isLoading));
+
   registerData: FormGroup;
   hidePassword = true;
-  isLoading$: Observable<boolean>;
 
-  constructor(private store: Store<AuthState>, private _formBuilder: FormBuilder) {
-    this.isLoading$ = this.store.pipe(select(isLoading));
+  constructor(private store: Store<AuthState>, private fb: FormBuilder) {}
+
+  ngOnInit(): void {
+    this.buildRegisterFormGroup();
+    this.validateUserCredentials();
+    this.validateUserOrganization();
   }
 
-  ngOnInit() {
-    this.registerData = this._formBuilder.group({
-      userCredentials: this._formBuilder.group({
+  buildRegisterFormGroup(): void {
+    this.registerData = this.fb.group({
+      userCredentials: this.fb.group({
         login: new FormControl(null, [
           Validators.required,
           Validators.minLength(6),
@@ -35,7 +40,7 @@ export class RegisterUserComponent implements OnInit {
         password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
         generatePassword: new FormControl(null)
       }),
-      userPersonalInfo: this._formBuilder.group({
+      userPersonalInfo: this.fb.group({
         name: new FormControl(null, [
           Validators.required,
           Validators.maxLength(25),
@@ -52,7 +57,7 @@ export class RegisterUserComponent implements OnInit {
         ]),
         phone: new FormControl(null, [Validators.pattern('^[0-9]+$')])
       }),
-      userOrganization: this._formBuilder.group({
+      userOrganization: this.fb.group({
         type: new FormControl(null),
         title: new FormControl(null, [Validators.required, Validators.maxLength(150)]),
         employees: new FormControl(null),
@@ -70,7 +75,9 @@ export class RegisterUserComponent implements OnInit {
         ])
       })
     });
+  }
 
+  validateUserCredentials(): void {
     this.userCredentials.get('generatePassword').valueChanges.subscribe(value => {
       if (value) {
         this.userCredentials.get('password').setValidators(null);
@@ -80,7 +87,9 @@ export class RegisterUserComponent implements OnInit {
       }
       this.userCredentials.get('password').updateValueAndValidity();
     });
+  }
 
+  validateUserOrganization(): void {
     this.userOrganization.get('type').valueChanges.subscribe(value => {
       if (value === 'company') {
         this.userOrganization
@@ -110,7 +119,7 @@ export class RegisterUserComponent implements OnInit {
     return this.registerData.get('userOrganization');
   }
 
-  onRegisterSubmit() {
+  onRegisterSubmit(): void {
     const { userCredentials, userPersonalInfo, userOrganization } = this.registerData.value;
     const user: User = { ...userCredentials, ...userPersonalInfo };
     user.Organization = { ...userOrganization };

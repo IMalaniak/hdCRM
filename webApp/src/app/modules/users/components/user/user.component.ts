@@ -17,9 +17,9 @@ import { filter } from 'rxjs/operators';
 })
 export class UserComponent implements OnInit {
   user$: Observable<User>;
-  canEdit$: Observable<boolean>;
-  isLoading$: Observable<boolean>;
-  editForm$: Observable<boolean>;
+  editForm$: Observable<boolean> = this.store.pipe(select(selectIsEditing));
+  isLoading$: Observable<boolean> = this.store.pipe(select(selectIsLoading));
+  canEdit$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-edit')));
 
   constructor(private route: ActivatedRoute, private store: Store<AppState>) {}
 
@@ -35,8 +35,5 @@ export class UserComponent implements OnInit {
       }),
       filter(user => !!user)
     );
-    this.canEdit$ = this.store.pipe(select(isPrivileged('user-edit')));
-    this.isLoading$ = this.store.pipe(select(selectIsLoading));
-    this.editForm$ = this.store.pipe(select(selectIsEditing));
   }
 }

@@ -23,10 +23,11 @@ import { getPreferencesList } from '@/core/reducers/preferences.selectors';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganismsUserPreferencesComponent implements OnInit, OnChanges {
+  preferencesList$: Observable<PreferencesList> = this.store$.pipe(select(getPreferencesList));
+
   @Input() enabledDarkTheme: boolean;
   @Input() userPreferences: Preferences;
 
-  preferencesList$: Observable<PreferencesList>;
   currentDate = new Date();
   preferencesForm: FormGroup;
 
@@ -37,7 +38,6 @@ export class OrganismsUserPreferencesComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.preferencesList$ = this.store$.pipe(select(getPreferencesList));
     this.store$.dispatch(preferencesListRequested());
     this.buildPreferencesGroup();
   }

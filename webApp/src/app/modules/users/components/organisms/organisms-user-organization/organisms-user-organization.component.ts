@@ -16,7 +16,7 @@ export class OrganismsUserOrganizationComponent {
   @Output() updateOrg: EventEmitter<Organization> = new EventEmitter();
   @Output() setEditableForm: EventEmitter<boolean> = new EventEmitter();
 
-  setFormEdit(edit: boolean) {
+  setFormEdit(edit: boolean): void {
     this.setEditableForm.emit(edit);
   }
 
