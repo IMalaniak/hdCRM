@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
@@ -21,7 +21,7 @@ import { privateRouterTransition, MediaqueryService } from '@/shared';
       ></app-header>
       <main>
         <left-sidebar [leftSidebarMinimized]="leftSidebarMinimized$ | async"></left-sidebar>
-        <section class="content" [ngClass]="{ 'dark-theme-bg': enableDarkTheme$ | async }">
+        <section #contentWrapper class="content" [ngClass]="{ 'dark-theme-bg': enableDarkTheme$ | async }">
           <div
             class="overlay"
             *ngIf="mediaquery.isMobileDevice"
@@ -50,6 +50,9 @@ import { privateRouterTransition, MediaqueryService } from '@/shared';
   animations: [privateRouterTransition]
 })
 export class PrivateViewComponent implements OnInit, OnDestroy {
+  @ViewChild('contentWrapper', { static: false })
+  contentWrapper: ElementRef;
+
   leftSidebarMinimized$: Observable<boolean>;
   rightSidebarMinimized$: Observable<boolean>;
   enableDarkTheme$: Observable<boolean>;
@@ -69,14 +72,14 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
     this.scaleFontUp$ = this.store.pipe(select(fromLayout.getScalledFontState));
     this.showDebug$ = this.store.pipe(select(isPrivileged('debug-view')));
 
-    if (this.mediaquery.isMobileDevice) {
-      this.toggleLeftSidebar(true);
-      this.toggleRightSidebar(true);
-      this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
+      if (this.mediaquery.isMobileDevice) {
         this.toggleLeftSidebar(true);
         this.toggleRightSidebar(true);
-      });
-    }
+      }
+
+      this.contentWrapper.nativeElement.scrollTo(0, 0);
+    });
   }
 
   toggleLeftSidebar(minimized: boolean): void {
