@@ -8,8 +8,8 @@ import { DepartmentService } from '../services';
 import { AppState } from '@/core/reducers';
 import { DepartmentServerResponse, Department } from '../models';
 import { selectDashboardDepDataLoaded } from './department.selectors';
-import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { ToastMessageService } from '@/shared';
 
 @Injectable()
 export class DepartmentEffects {
@@ -20,22 +20,14 @@ export class DepartmentEffects {
       mergeMap((department: Department) =>
         this.departmentService.create(department).pipe(
           map(newDepartment => {
-            Swal.fire({
-              title: 'Department created!',
-              icon: 'success',
-              timer: 1500
-            });
+            this.toastMessageService.popup('Department created!', 'success', 1500);
             this.router.navigate(['/departments']);
             return depActions.createDepartmentSuccess({
               department: newDepartment
             });
           }),
           catchError(error => {
-            Swal.fire({
-              title: 'Ooops, something went wrong!',
-              icon: 'error',
-              timer: 1500
-            });
+            this.toastMessageService.popup('Ooops, something went wrong!', 'error', 1500);
             return of(depActions.createDepartmentFail(error));
           })
         )
@@ -71,18 +63,7 @@ export class DepartmentEffects {
         ofType(depActions.deleteDepartment),
         map(payload => payload.id),
         mergeMap(id => this.departmentService.delete(id)),
-        map(() =>
-          of(
-            Swal.fire({
-              text: `Department deleted`,
-              icon: 'success',
-              timer: 6000,
-              toast: true,
-              showConfirmButton: false,
-              position: 'bottom-end'
-            })
-          )
-        )
+        map(() => of(this.toastMessageService.toast('Department deleted!', 'success')))
       ),
     {
       dispatch: false
@@ -106,6 +87,7 @@ export class DepartmentEffects {
     private actions$: Actions,
     private store: Store<AppState>,
     private departmentService: DepartmentService,
-    private router: Router
+    private router: Router,
+    private toastMessageService: ToastMessageService
   ) {}
 }

@@ -1,14 +1,13 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import Swal from 'sweetalert2';
 import { Role, Privilege } from '../../models';
 import { UsersDialogComponent } from '@/modules/users/components/dialog/users-dialog.component';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { Observable, Subject } from 'rxjs';
-import { MediaqueryService } from '@/shared';
+import { MediaqueryService, ToastMessageService } from '@/shared';
 import { takeUntil, skipUntil, delay } from 'rxjs/operators';
 import { cloneDeep } from 'lodash';
 import { Update } from '@ngrx/entity';
@@ -38,7 +37,8 @@ export class RoleComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private store: Store<AppState>,
     private mediaQuery: MediaqueryService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private toastMessageService: ToastMessageService
   ) {
     this.editForm = false;
   }
@@ -146,18 +146,13 @@ export class RoleComponent implements OnInit, OnDestroy {
   }
 
   onUpdateRoleSubmit(): void {
-    Swal.fire({
-      title: 'You are about to update role',
-      text: 'Are You sure You want to update role? Changes cannot be undone.',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'Cancel'
-    }).then(result => {
-      if (result.value) {
-        this.updateRole();
-      }
-    });
+    this.toastMessageService
+      .confirm('You are about to update role', 'Are You sure You want to update role? Changes cannot be undone.')
+      .then(result => {
+        if (result.value) {
+          this.updateRole();
+        }
+      });
   }
 
   updateRole(): void {
@@ -171,20 +166,10 @@ export class RoleComponent implements OnInit, OnDestroy {
         };
         this.store.dispatch(roleSaved({ role }));
         this.disableEdit();
-        Swal.fire({
-          text: 'Role updated!',
-          icon: 'success',
-          timer: 6000,
-          toast: true,
-          showConfirmButton: false,
-          position: 'bottom-end'
-        });
+        this.toastMessageService.toast('Role updated!', 'success');
       },
       error => {
-        Swal.fire({
-          text: 'Server Error',
-          icon: 'error'
-        });
+        this.toastMessageService.popup('Server Error!', 'error', 2500);
       }
     );
   }

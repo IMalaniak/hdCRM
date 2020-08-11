@@ -8,7 +8,7 @@ import { StageService } from '../services';
 import { AppState } from '@/core/reducers';
 import { Stage } from '../models';
 import { allStagesLoaded } from './stage.selectors';
-import Swal from 'sweetalert2';
+import { ToastMessageService } from '@/shared/services';
 
 @Injectable()
 export class StageEffects {
@@ -30,21 +30,13 @@ export class StageEffects {
       mergeMap((stage: Stage) =>
         this.stageService.create(stage).pipe(
           map(newStage => {
-            Swal.fire({
-              title: 'Stage created!',
-              icon: 'success',
-              timer: 1500
-            });
+            this.toastMessageService.popup('Stage created!', 'success', 1500);
             return stageActions.createStageSuccess({
               stage: newStage
             });
           }),
           catchError(error => {
-            Swal.fire({
-              title: 'Ooops, something went wrong!',
-              icon: 'error',
-              timer: 1500
-            });
+            this.toastMessageService.popup('Ooops, something went wrong!', 'success', 1500);
             return of(stageActions.createStageFail({ error }));
           })
         )
@@ -52,5 +44,10 @@ export class StageEffects {
     )
   );
 
-  constructor(private actions$: Actions, private store: Store<AppState>, private stageService: StageService) {}
+  constructor(
+    private actions$: Actions,
+    private store: Store<AppState>,
+    private stageService: StageService,
+    private toastMessageService: ToastMessageService
+  ) {}
 }

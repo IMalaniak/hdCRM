@@ -7,8 +7,8 @@ import { mergeMap, map, catchError } from 'rxjs/operators';
 import { PlanService } from '../services';
 import { AppState } from '@/core/reducers';
 import { PlanServerResponse, Plan } from '../models';
-import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { ToastMessageService } from '@/shared';
 
 @Injectable()
 export class PlanEffects {
@@ -19,20 +19,12 @@ export class PlanEffects {
       mergeMap((plan: Plan) =>
         this.planService.create(plan).pipe(
           map(newPlan => {
-            Swal.fire({
-              title: 'Plan created!',
-              icon: 'success',
-              timer: 1500
-            });
+            this.toastMessageService.popup('Plan created!', 'success', 1500);
             this.router.navigate(['/planner']);
             return planActions.createPlanSuccess({ plan: newPlan });
           }),
           catchError(error => {
-            Swal.fire({
-              title: 'Ooops, something went wrong!',
-              icon: 'error',
-              timer: 1500
-            });
+            this.toastMessageService.popup('Ooops, something went wrong!', 'error', 1500);
             return of(planActions.createPlanFail({ error }));
           })
         )
@@ -68,18 +60,7 @@ export class PlanEffects {
         ofType(planActions.deletePlan),
         map(payload => payload.id),
         mergeMap(id => this.planService.delete(id)),
-        map(() =>
-          of(
-            Swal.fire({
-              text: `Plan deleted`,
-              icon: 'success',
-              timer: 6000,
-              toast: true,
-              showConfirmButton: false,
-              position: 'bottom-end'
-            })
-          )
-        )
+        map(() => of(this.toastMessageService.toast('Plan deleted!', 'success')))
       ),
     {
       dispatch: false
@@ -90,6 +71,7 @@ export class PlanEffects {
     private actions$: Actions,
     private store: Store<AppState>,
     private planService: PlanService,
-    private router: Router
+    private router: Router,
+    private toastMessageService: ToastMessageService
   ) {}
 }

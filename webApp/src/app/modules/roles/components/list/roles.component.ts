@@ -13,10 +13,8 @@ import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { RolesDataSource } from '../../services/role.datasource';
 import { Role } from '../../models';
 import { selectRolesTotalCount, selectRolesLoading } from '../../store/role.selectors';
-import { PageQuery } from '@/shared';
+import { PageQuery, ToastMessageService } from '@/shared';
 import { deleteRole } from '../../store/role.actions';
-
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-roles',
@@ -39,7 +37,11 @@ export class RolesComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private store: Store<AppState>, private router: Router) {}
+  constructor(
+    private store: Store<AppState>,
+    private router: Router,
+    private toastMessageService: ToastMessageService
+  ) {}
 
   ngOnInit() {
     this.addRolePrivilege$ = this.store.pipe(select(isPrivileged('role-add')));
@@ -85,18 +87,13 @@ export class RolesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   deleteRole(id: number): void {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'Do you really want to delete role? You will not be able to recover!',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'Cancel'
-    }).then(result => {
-      if (result.value) {
-        this.store.dispatch(deleteRole({ id }));
-      }
-    });
+    this.toastMessageService
+      .confirm('Are you sure?', 'Do you really want to delete role? You will not be able to recover!')
+      .then(result => {
+        if (result.value) {
+          this.store.dispatch(deleteRole({ id }));
+        }
+      });
   }
 
   ngOnDestroy() {

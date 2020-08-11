@@ -7,9 +7,9 @@ import { mergeMap, map, catchError, withLatestFrom, filter } from 'rxjs/operator
 import { RoleService } from '../services';
 import { AppState } from '@/core/reducers';
 import { RoleServerResponse, Role } from '../models';
-import Swal from 'sweetalert2';
 import { selectRolesDashboardDataLoaded } from './role.selectors';
 import { Router } from '@angular/router';
+import { ToastMessageService } from '@/shared/services';
 
 @Injectable()
 export class RoleEffects {
@@ -20,20 +20,12 @@ export class RoleEffects {
       mergeMap((role: Role) =>
         this.roleService.create({ ...role }).pipe(
           map(newRole => {
-            Swal.fire({
-              title: 'Role created!',
-              icon: 'success',
-              timer: 1500
-            });
+            this.toastMessageService.popup('Role created!', 'success', 1500);
             this.router.navigate(['/roles']);
             return roleActions.createRoleSuccess({ role: newRole });
           }),
           catchError(error => {
-            Swal.fire({
-              title: 'Ooops, something went wrong!',
-              icon: 'error',
-              timer: 1500
-            });
+            this.toastMessageService.popup('Ooops, something went wrong!', 'error', 1500);
             return of(roleActions.createRoleFail({ error }));
           })
         )
@@ -69,18 +61,7 @@ export class RoleEffects {
         ofType(roleActions.deleteRole),
         map(payload => payload.id),
         mergeMap(id => this.roleService.delete(id)),
-        map(() =>
-          of(
-            Swal.fire({
-              text: `Role deleted`,
-              icon: 'success',
-              timer: 6000,
-              toast: true,
-              showConfirmButton: false,
-              position: 'bottom-end'
-            })
-          )
-        )
+        map(() => of(this.toastMessageService.toast('Role deleted!', 'success')))
       ),
     {
       dispatch: false
@@ -104,6 +85,7 @@ export class RoleEffects {
     private actions$: Actions,
     private store: Store<AppState>,
     private router: Router,
-    private roleService: RoleService
+    private roleService: RoleService,
+    private toastMessageService: ToastMessageService
   ) {}
 }

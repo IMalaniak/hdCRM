@@ -5,9 +5,9 @@ import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
 import { TaskService } from '../services';
 import * as TaskActions from './task.actions';
 import { Task, TaskPriority } from '../models';
-import Swal from 'sweetalert2';
 import { Update } from '@ngrx/entity';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ToastMessageService } from '@/shared/services';
 
 @Injectable()
 export class TaskEffects {
@@ -32,27 +32,13 @@ export class TaskEffects {
       mergeMap((task: Task) =>
         this.taskService.create(task).pipe(
           map(newTask => {
-            Swal.fire({
-              text: 'Task created!',
-              icon: 'success',
-              timer: 2500,
-              toast: true,
-              showConfirmButton: false,
-              position: 'bottom-end'
-            });
+            this.toastMessageService.toast('Task created!', 'success', 2500);
             return TaskActions.createTaskSuccess({
               task: newTask
             });
           }),
           catchError(error => {
-            Swal.fire({
-              text: 'Ooops, something went wrong!',
-              icon: 'error',
-              timer: 2500,
-              toast: true,
-              showConfirmButton: false,
-              position: 'bottom-end'
-            });
+            this.toastMessageService.toast('Ooops, something went wrong!', 'error', 2500);
             return of(TaskActions.createTaskFail({ error }));
           })
         )
@@ -68,13 +54,7 @@ export class TaskEffects {
         this.taskService.updateTask(toUpdate).pipe(
           catchError(err => {
             TaskActions.updateTaskCancelled();
-            return of(
-              Swal.fire({
-                text: 'Ooops, something went wrong!',
-                icon: 'error',
-                timer: 3000
-              })
-            );
+            return of(this.toastMessageService.popup('Ooops, something went wrong!', 'error', 3000));
           })
         )
       ),
@@ -83,14 +63,7 @@ export class TaskEffects {
           id: data.id,
           changes: data
         };
-        Swal.fire({
-          text: 'Task updated!',
-          icon: 'success',
-          timer: 2500,
-          toast: true,
-          showConfirmButton: false,
-          position: 'bottom-end'
-        });
+        this.toastMessageService.toast('Task updated!', 'success', 2500);
         return TaskActions.updateTaskSuccess({ task });
       })
     )
@@ -118,14 +91,7 @@ export class TaskEffects {
             return TaskActions.deleteMultipleTaskSuccess({ taskIds });
           }),
           catchError(error => {
-            Swal.fire({
-              text: 'Ooops, something went wrong!',
-              icon: 'error',
-              timer: 2500,
-              toast: true,
-              showConfirmButton: false,
-              position: 'bottom-end'
-            });
+            this.toastMessageService.toast('Ooops, something went wrong!', 'error', 2500);
             return of(TaskActions.deleteMultipleTaskFailure({ error }));
           })
         )
@@ -147,5 +113,9 @@ export class TaskEffects {
     )
   );
 
-  constructor(private actions$: Actions, private taskService: TaskService) {}
+  constructor(
+    private actions$: Actions,
+    private taskService: TaskService,
+    private toastMessageService: ToastMessageService
+  ) {}
 }
