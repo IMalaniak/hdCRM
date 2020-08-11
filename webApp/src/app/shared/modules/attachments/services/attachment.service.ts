@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AttachmentService {
-  private api: string;
+  private api = '/files';
   fileTypesMap: FileTypes = {
     msWord: ['doc', 'docx'],
     msPPoint: ['ppt', 'pptx'],
@@ -17,9 +17,7 @@ export class AttachmentService {
     compressed: ['zip', 'rar']
   };
 
-  constructor(private http: HttpClient) {
-    this.api = '/files';
-  }
+  constructor(private http: HttpClient) {}
 
   getIcon(filename: string): void {
     let icon;

@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Plan, Stage, PlanServerResponse } from '../models';
+import { Plan, PlanServerResponse } from '../models';
 import { User } from '@/modules/users';
-import { map } from 'rxjs/operators';
 
 @Injectable()
 export class PlanService {
-  private api: string;
+  private api = '/plans';
 
-  constructor(private http: HttpClient) {
-    this.api = '/plans';
-  }
+  constructor(private http: HttpClient) {}
 
   create(plan: Plan) {
     return this.http.post<any>(this.api, this.formatBeforeSend(plan));

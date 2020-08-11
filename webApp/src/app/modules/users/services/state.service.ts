@@ -5,10 +5,9 @@ import { State } from '../models';
 
 @Injectable()
 export class StateService {
-  private api: string;
-  constructor(private http: HttpClient) {
-    this.api = '/states';
-  }
+  private api = '/states';
+
+  constructor(private http: HttpClient) {}
 
   getList(): Observable<State[]> {
     return this.http.get<State[]>(this.api);

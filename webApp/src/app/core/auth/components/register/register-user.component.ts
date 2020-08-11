@@ -23,8 +23,8 @@ export class RegisterUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildRegisterFormGroup();
-    this.validateUserCredentials();
-    this.validateUserOrganization();
+    this.initPasswordValidation();
+    this.initOrganizationValidation();
   }
 
   buildRegisterFormGroup(): void {
@@ -77,7 +77,7 @@ export class RegisterUserComponent implements OnInit {
     });
   }
 
-  validateUserCredentials(): void {
+  initPasswordValidation(): void {
     this.userCredentials.get('generatePassword').valueChanges.subscribe(value => {
       if (value) {
         this.userCredentials.get('password').setValidators(null);
@@ -89,7 +89,7 @@ export class RegisterUserComponent implements OnInit {
     });
   }
 
-  validateUserOrganization(): void {
+  initOrganizationValidation(): void {
     this.userOrganization.get('type').valueChanges.subscribe(value => {
       if (value === 'company') {
         this.userOrganization

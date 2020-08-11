@@ -6,14 +6,11 @@ import { MatDialogConfig } from '@angular/material/dialog';
   providedIn: 'root'
 })
 export class MediaqueryService {
-  private upToTablet: MediaQueryList;
-  private upToPhone: MediaQueryList;
+  private upToPhone: MediaQueryList = this.media.matchMedia('(max-width: 576px)');
+  private upToTablet: MediaQueryList = this.media.matchMedia('(max-width: 992px)');
   popupDefaultOptions: MatDialogConfig;
 
-  constructor(private media: MediaMatcher) {
-    this.upToTablet = this.media.matchMedia('(max-width: 992px)');
-    this.upToPhone = this.media.matchMedia('(max-width: 576px)');
-  }
+  constructor(private media: MediaMatcher) {}
 
   public get deFaultPopupSize(): MatDialogConfig {
     let config: MatDialogConfig = {

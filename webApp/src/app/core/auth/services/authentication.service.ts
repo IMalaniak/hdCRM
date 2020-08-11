@@ -7,14 +7,11 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  private authApi: string;
-  private userApi: string;
   private jwtHelper = new JwtHelperService();
+  private authApi = '/auth';
+  private userApi = '/users';
 
-  constructor(private http: HttpClient) {
-    this.authApi = '/auth';
-    this.userApi = '/users';
-  }
+  constructor(private http: HttpClient) {}
 
   getProfile(): Observable<User> {
     return this.http.get<User>(`${this.userApi}/profile`);

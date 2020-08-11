@@ -19,8 +19,7 @@ export class LocalStorageService {
 
   public setObjectKeyValue(obj: string, key: string, value: any) {
     let json = this.getObject(obj);
-    if (json) {
-    } else {
+    if (!json) {
       json = {};
     }
     json[key] = value;

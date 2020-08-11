@@ -2,16 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Role, RoleServerResponse } from '../models';
-import { map } from 'rxjs/operators';
 import { User } from '@/modules/users/models';
 
 @Injectable()
 export class RoleService {
-  private api: string;
+  private api = '/roles';
 
-  constructor(private http: HttpClient) {
-    this.api = '/roles';
-  }
+  constructor(private http: HttpClient) {}
 
   create(role: Role) {
     return this.http.post<any>(this.api, this.formatBeforeSend(role));
