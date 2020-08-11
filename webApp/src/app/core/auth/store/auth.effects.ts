@@ -158,9 +158,15 @@ export class AuthEffects implements OnInitEffects {
 
         currentUser = { ...currentUser, online: true };
 
-        const { id, UserId, createdAt, updatedAt, ...preferences } = currentUser.Preference;
-
-        return [authActions.currentUserLoaded({ currentUser }), ...(preferences && [initPreferences({ preferences })])];
+        if (currentUser.Preference) {
+          const { id, UserId, createdAt, updatedAt, ...preferences } = currentUser.Preference;
+          return [
+            authActions.currentUserLoaded({ currentUser }),
+            ...(preferences && [initPreferences({ preferences })])
+          ];
+        } else {
+          return [authActions.currentUserLoaded({ currentUser })];
+        }
       }),
       catchError((errorResponse: HttpErrorResponse) =>
         of(authActions.currentUserLoadFailed({ apiResp: errorResponse.error }))
