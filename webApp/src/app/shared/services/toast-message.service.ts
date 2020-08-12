@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MoleculesErrorMessageComponent } from '../components';
+import { MoleculesErrorMessageComponent } from '../components/molecules';
 import { ApiResponse } from '../models';
 
 @Injectable({
