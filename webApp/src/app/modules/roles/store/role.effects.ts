@@ -20,12 +20,12 @@ export class RoleEffects {
       mergeMap((role: Role) =>
         this.roleService.create({ ...role }).pipe(
           map(newRole => {
-            this.toastMessageService.popup('Role created!', 'success', 1500);
+            this.toastMessageService.toast('Role created!');
             this.router.navigate(['/roles']);
             return roleActions.createRoleSuccess({ role: newRole });
           }),
           catchError(error => {
-            this.toastMessageService.popup('Ooops, something went wrong!', 'error', 1500);
+            this.toastMessageService.popup('Ooops, something went wrong!', 'error');
             return of(roleActions.createRoleFail({ error }));
           })
         )
@@ -61,7 +61,7 @@ export class RoleEffects {
         ofType(roleActions.deleteRole),
         map(payload => payload.id),
         mergeMap(id => this.roleService.delete(id)),
-        map(() => of(this.toastMessageService.toast('Role deleted!', 'success')))
+        map(() => of(this.toastMessageService.toast('Role deleted!')))
       ),
     {
       dispatch: false

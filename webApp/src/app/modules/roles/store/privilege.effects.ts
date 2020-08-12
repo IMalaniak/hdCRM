@@ -37,13 +37,13 @@ export class PrivilegeEffects {
       mergeMap((privilege: Privilege) =>
         this.privilegeService.create(privilege).pipe(
           map(newPrivilege => {
-            this.toastMessageService.popup('Privilege created!', 'success', 1500);
+            this.toastMessageService.toast('Privilege created!');
             return privilegeActions.createPrivilegeSuccess({
               privilege: newPrivilege
             });
           }),
           catchError(error => {
-            this.toastMessageService.popup('Ooops, something went wrong!', 'error', 1500);
+            this.toastMessageService.popup('Ooops, something went wrong!', 'error');
             return of(privilegeActions.createPrivilegeFail({ error }));
           })
         )

@@ -16,7 +16,7 @@ export class ToastMessageService {
     });
   }
 
-  toast(title: string, icon: SweetAlertIcon, timer: number = 6000) {
+  toast(title: string, icon: SweetAlertIcon = 'success', timer: number = 2500) {
     return Swal.fire({
       title,
       toast: true,
@@ -28,7 +28,7 @@ export class ToastMessageService {
     });
   }
 
-  popup(title: string, icon: SweetAlertIcon, timer: number) {
+  popup(title: string, icon: SweetAlertIcon, timer: number = 2500) {
     return Swal.fire({
       title,
       icon,

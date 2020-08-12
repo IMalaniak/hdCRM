@@ -30,13 +30,13 @@ export class StageEffects {
       mergeMap((stage: Stage) =>
         this.stageService.create(stage).pipe(
           map(newStage => {
-            this.toastMessageService.popup('Stage created!', 'success', 1500);
+            this.toastMessageService.toast('Stage created!');
             return stageActions.createStageSuccess({
               stage: newStage
             });
           }),
           catchError(error => {
-            this.toastMessageService.popup('Ooops, something went wrong!', 'success', 1500);
+            this.toastMessageService.popup('Ooops, something went wrong!', 'success');
             return of(stageActions.createStageFail({ error }));
           })
         )

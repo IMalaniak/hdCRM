@@ -129,10 +129,10 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     this.userService.updateUserState(userState).subscribe(
       userData => {
         user.State = userData.State;
-        this.toastMessageService.toast(`User state was changed to: ${state.keyString}`, 'success');
+        this.toastMessageService.toast(`User state was changed to: ${state.keyString}`);
       },
       error => {
-        this.toastMessageService.popup('Ooops, something went wrong!', 'error', 1500);
+        this.toastMessageService.popup('Ooops, something went wrong!', 'error');
       }
     );
   }
@@ -160,11 +160,11 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   //         this.users[i].State = user.State = state;
   //       }
   //       this.resetSelected();
-  //       this.toastMessageService.toast('User state was changed to: ${state.keyString', 'success');
+  //       this.toastMessageService.toast('User state was changed to: ${state.keyString}');
   //
   //     },
   //     error => {
-  //        this.toastMessageService.popup('Ooops, something went wrong!', 'error', 1500);
+  //        this.toastMessageService.popup('Ooops, something went wrong!', 'error');
   //     }
   //   );
   // }

@@ -43,7 +43,7 @@ export class UserEffects {
         this.userService.updateUser(toUpdate).pipe(
           catchError(err => {
             userActions.updateUserCancelled();
-            return of(this.toastMessageService.popup('Ooops, something went wrong!', 'error', 3000));
+            return of(this.toastMessageService.popup('Ooops, something went wrong!', 'error'));
           })
         )
       ),
@@ -52,7 +52,7 @@ export class UserEffects {
           id: data.id,
           changes: data
         };
-        this.toastMessageService.toast('User updated!', 'success');
+        this.toastMessageService.toast('User updated!');
         return userActions.updateUserSuccess({ user });
       })
     )
@@ -80,7 +80,7 @@ export class UserEffects {
         ofType(userActions.deleteUser),
         map(payload => payload.id),
         mergeMap(id => this.userService.delete(id)),
-        map(() => of(this.toastMessageService.toast('User deleted!', 'success')))
+        map(() => of(this.toastMessageService.toast('User deleted!')))
       ),
     {
       dispatch: false

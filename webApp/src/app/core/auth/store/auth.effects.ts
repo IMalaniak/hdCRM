@@ -127,8 +127,7 @@ export class AuthEffects implements OnInitEffects {
         map(([action, returnUrl]) => {
           this.toastMessageService.popup(
             'You are not authorized to see this page, or your session has been expired!',
-            'error',
-            3000
+            'error'
           );
           this.router.navigate(['/auth/login'], {
             queryParams: { returnUrl }
@@ -198,7 +197,7 @@ export class AuthEffects implements OnInitEffects {
       map(payload => payload.id),
       switchMap(id => this.authService.deleteSession(id)),
       map(apiResp => {
-        this.toastMessageService.toast('Session is deactivated', 'success');
+        this.toastMessageService.toast('Session is deactivated');
         return authActions.deleteSessionSuccess({ apiResp });
       }),
       catchError((errorResponse: HttpErrorResponse) =>
@@ -213,7 +212,7 @@ export class AuthEffects implements OnInitEffects {
       map(payload => payload.sessionIds),
       switchMap(sessionIds => this.authService.deleteSessionMultiple(sessionIds)),
       map(apiResp => {
-        this.toastMessageService.toast('Session is deactivated', 'success');
+        this.toastMessageService.toast('Sessions is deactivated');
         return authActions.deleteSessionSuccess({ apiResp });
       }),
       catchError((errorResponse: HttpErrorResponse) =>
@@ -250,7 +249,7 @@ export class AuthEffects implements OnInitEffects {
       map(payload => payload.user),
       switchMap(user => this.authService.updateProfile(user)),
       switchMap(currentUser => {
-        this.toastMessageService.toast('Your profile is updated!', 'success');
+        this.toastMessageService.toast('Your profile is updated!');
         return [authActions.updateUserProfileSuccess({ currentUser }), changeIsEditingState({ isEditing: false })];
       }),
       catchError((errorResponse: HttpErrorResponse) =>
@@ -265,7 +264,7 @@ export class AuthEffects implements OnInitEffects {
       map(payload => payload.organization),
       switchMap(organization => this.authService.updateOrg(organization)),
       switchMap(organization => {
-        this.toastMessageService.toast('Organization is updated!', 'success');
+        this.toastMessageService.toast('Organization is updated!');
         return [authActions.updateUserOrgSuccess({ organization }), changeIsEditingState({ isEditing: false })];
       }),
       catchError((errorResponse: HttpErrorResponse) =>

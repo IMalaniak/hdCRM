@@ -20,14 +20,14 @@ export class DepartmentEffects {
       mergeMap((department: Department) =>
         this.departmentService.create(department).pipe(
           map(newDepartment => {
-            this.toastMessageService.popup('Department created!', 'success', 1500);
+            this.toastMessageService.popup('Department created!', 'success');
             this.router.navigate(['/departments']);
             return depActions.createDepartmentSuccess({
               department: newDepartment
             });
           }),
           catchError(error => {
-            this.toastMessageService.popup('Ooops, something went wrong!', 'error', 1500);
+            this.toastMessageService.popup('Ooops, something went wrong!', 'error');
             return of(depActions.createDepartmentFail(error));
           })
         )
@@ -63,7 +63,7 @@ export class DepartmentEffects {
         ofType(depActions.deleteDepartment),
         map(payload => payload.id),
         mergeMap(id => this.departmentService.delete(id)),
-        map(() => of(this.toastMessageService.toast('Department deleted!', 'success')))
+        map(() => of(this.toastMessageService.toast('Department deleted!')))
       ),
     {
       dispatch: false

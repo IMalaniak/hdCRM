@@ -32,13 +32,13 @@ export class TaskEffects {
       mergeMap((task: Task) =>
         this.taskService.create(task).pipe(
           map(newTask => {
-            this.toastMessageService.toast('Task created!', 'success', 2500);
+            this.toastMessageService.toast('Task created!');
             return TaskActions.createTaskSuccess({
               task: newTask
             });
           }),
           catchError(error => {
-            this.toastMessageService.toast('Ooops, something went wrong!', 'error', 2500);
+            this.toastMessageService.toast('Ooops, something went wrong!', 'error');
             return of(TaskActions.createTaskFail({ error }));
           })
         )
@@ -54,7 +54,7 @@ export class TaskEffects {
         this.taskService.updateTask(toUpdate).pipe(
           catchError(err => {
             TaskActions.updateTaskCancelled();
-            return of(this.toastMessageService.popup('Ooops, something went wrong!', 'error', 3000));
+            return of(this.toastMessageService.popup('Ooops, something went wrong!', 'error'));
           })
         )
       ),
@@ -63,7 +63,7 @@ export class TaskEffects {
           id: data.id,
           changes: data
         };
-        this.toastMessageService.toast('Task updated!', 'success', 2500);
+        this.toastMessageService.toast('Task updated!');
         return TaskActions.updateTaskSuccess({ task });
       })
     )
@@ -91,7 +91,7 @@ export class TaskEffects {
             return TaskActions.deleteMultipleTaskSuccess({ taskIds });
           }),
           catchError(error => {
-            this.toastMessageService.toast('Ooops, something went wrong!', 'error', 2500);
+            this.toastMessageService.toast('Ooops, something went wrong!', 'error');
             return of(TaskActions.deleteMultipleTaskFailure({ error }));
           })
         )

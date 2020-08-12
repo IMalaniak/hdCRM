@@ -17,7 +17,7 @@ export class PrivilegeGuard implements CanActivate {
       skipWhile(flag => flag === undefined),
       tap(privileged => {
         if (!privileged) {
-          this.toastMessageService.popup('Sorry, You have no rights to see this page!', 'error', 3000).then(() => {
+          this.toastMessageService.popup('Sorry, You have no rights to see this page!', 'error').then(() => {
             return false;
           });
         }

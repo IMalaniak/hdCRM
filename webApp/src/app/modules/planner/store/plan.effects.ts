@@ -19,12 +19,12 @@ export class PlanEffects {
       mergeMap((plan: Plan) =>
         this.planService.create(plan).pipe(
           map(newPlan => {
-            this.toastMessageService.popup('Plan created!', 'success', 1500);
+            this.toastMessageService.popup('Plan created!', 'success');
             this.router.navigate(['/planner']);
             return planActions.createPlanSuccess({ plan: newPlan });
           }),
           catchError(error => {
-            this.toastMessageService.popup('Ooops, something went wrong!', 'error', 1500);
+            this.toastMessageService.popup('Ooops, something went wrong!', 'error');
             return of(planActions.createPlanFail({ error }));
           })
         )
@@ -60,7 +60,7 @@ export class PlanEffects {
         ofType(planActions.deletePlan),
         map(payload => payload.id),
         mergeMap(id => this.planService.delete(id)),
-        map(() => of(this.toastMessageService.toast('Plan deleted!', 'success')))
+        map(() => of(this.toastMessageService.toast('Plan deleted!')))
       ),
     {
       dispatch: false

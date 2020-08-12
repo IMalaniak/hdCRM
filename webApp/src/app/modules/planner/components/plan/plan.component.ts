@@ -83,10 +83,10 @@ export class PlanComponent implements OnInit, OnDestroy {
               data => {
                 this.updatePlanStore(data);
                 this.configPlanStages = false;
-                this.toastMessageService.toast('Stages updated!', 'success');
+                this.toastMessageService.toast('Stages updated!');
               },
               error => {
-                this.toastMessageService.popup('Ooops, something went wrong!', 'error', 2500);
+                this.toastMessageService.popup('Ooops, something went wrong!', 'error');
               }
             );
         }
@@ -127,10 +127,10 @@ export class PlanComponent implements OnInit, OnDestroy {
               data => {
                 this.updatePlanStore(data);
                 this.configPlanStages = false;
-                this.toastMessageService.toast('Stages updated!', 'success');
+                this.toastMessageService.toast('Stages updated!');
               },
               error => {
-                this.toastMessageService.popup('Ooops, something went wrong!', 'error', 2500);
+                this.toastMessageService.popup('Ooops, something went wrong!', 'error');
               }
             );
         }
@@ -149,10 +149,10 @@ export class PlanComponent implements OnInit, OnDestroy {
               data => {
                 this.updatePlanStore(data);
                 this.editForm = false;
-                this.toastMessageService.toast('Plan updated!', 'success');
+                this.toastMessageService.toast('Plan updated!');
               },
               error => {
-                this.toastMessageService.popup('Ooops, something went wrong!', 'error', 2500);
+                this.toastMessageService.popup('Ooops, something went wrong!', 'error');
               }
             );
         }
@@ -292,9 +292,9 @@ export class PlanComponent implements OnInit, OnDestroy {
                 this.updatePlanStore(this.plan);
                 this.cdr.detectChanges();
 
-                this.toastMessageService.toast('Stages updated!', 'success');
+                this.toastMessageService.toast('Stages updated!');
               } else {
-                this.toastMessageService.popup('Ooops, something went wrong!', 'error', 2500);
+                this.toastMessageService.popup('Ooops, something went wrong!', 'error');
               }
             });
         }

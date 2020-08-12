@@ -141,10 +141,10 @@ export class DepartmentComponent implements OnInit, OnDestroy {
                 };
                 this.store.dispatch(departmentSaved({ department }));
                 this.editForm = false;
-                this.toastMessageService.toast('Department updated!', 'success');
+                this.toastMessageService.toast('Department updated!');
               },
               error => {
-                this.toastMessageService.popup('Ooops, something went wrong!', 'error', 2500);
+                this.toastMessageService.popup('Ooops, something went wrong!', 'error');
               }
             );
         }
