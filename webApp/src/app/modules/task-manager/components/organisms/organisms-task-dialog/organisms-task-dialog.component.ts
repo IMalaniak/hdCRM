@@ -18,7 +18,7 @@ export class OrganismsTaskDialogComponent implements OnInit {
     private fb: FormBuilder
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.buildTaskForm();
     this.setDataIfTaskExist();
   }

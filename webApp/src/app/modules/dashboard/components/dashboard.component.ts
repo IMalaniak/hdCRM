@@ -21,21 +21,16 @@ import { Department } from '@/modules/departments';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {
-  appUser$: Observable<User>;
-  departmentsChartData$: Observable<Department[]>;
-  planStagesChartData$: Observable<Stage[]>;
-  rolesChartData$: Observable<Role[]>;
+  appUser$: Observable<User> = this.store.pipe(select(currentUser));
+  rolesChartData$: Observable<Role[]> = this.store.pipe(select(selectAllRoles));
+  planStagesChartData$: Observable<Stage[]> = this.store.pipe(select(selectAllStages));
+  departmentsChartData$: Observable<Department[]> = this.store.pipe(select(selectAllDepartments));
 
   constructor(private store: Store<AppState>) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.store.dispatch(allStagesRequestedFromDashboard());
     this.store.dispatch(depDashboardDataRequested());
     this.store.dispatch(roleDashboardDataRequested());
-
-    this.appUser$ = this.store.pipe(select(currentUser));
-    this.planStagesChartData$ = this.store.pipe(select(selectAllStages));
-    this.departmentsChartData$ = this.store.pipe(select(selectAllDepartments));
-    this.rolesChartData$ = this.store.pipe(select(selectAllRoles));
   }
 }

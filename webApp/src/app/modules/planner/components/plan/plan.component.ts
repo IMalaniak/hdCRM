@@ -7,8 +7,7 @@ import { Store, select } from '@ngrx/store';
 import { Subject, Observable, combineLatest } from 'rxjs';
 import { takeUntil, map, skipUntil, delay } from 'rxjs/operators';
 import { cloneDeep } from 'lodash';
-import { StagesDialogComponent } from '../../components/stages/dialog/stages-dialog.component';
-import { Plan, Stage, PlanStage } from '../../models';
+import { Plan } from '../../models';
 import { PlanService } from '../../services';
 import { UsersDialogComponent, User } from '@/modules/users';
 import { AppState } from '@/core/reducers';
@@ -23,14 +22,15 @@ import { MediaqueryService, Asset, ApiResponse, ToastMessageService } from '@/sh
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlanComponent implements OnInit, OnDestroy {
-  showDataLoader: boolean;
-  appUser$: Observable<User>;
+  appUser$: Observable<User> = this.store.pipe(select(currentUser));
+  editPlanPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('plan-edit')));
+  configStagesPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('stage-edit')));
+
   plan: Plan;
   planInitial: Plan;
-  editForm: boolean;
-  configPlanStages: boolean;
-  editPlanPrivilege$: Observable<boolean>;
-  configStagesPrivilege$: Observable<boolean>;
+  editForm = false;
+  showDataLoader = true;
+  configPlanStages = false;
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -42,17 +42,9 @@ export class PlanComponent implements OnInit, OnDestroy {
     private mediaQuery: MediaqueryService,
     private cdr: ChangeDetectorRef,
     private toastMessageService: ToastMessageService
-  ) {
-    this.editForm = false;
-    this.configPlanStages = false;
-    this.showDataLoader = true;
-  }
+  ) {}
 
-  ngOnInit() {
-    this.appUser$ = this.store.pipe(select(currentUser));
-    this.editPlanPrivilege$ = this.store.pipe(select(isPrivileged('plan-edit')));
-    this.configStagesPrivilege$ = this.store.pipe(select(isPrivileged('stage-edit')));
-
+  ngOnInit(): void {
     this.plan = cloneDeep(this.route.snapshot.data['plan']);
     this.planInitial = cloneDeep(this.route.snapshot.data['plan']);
     this.canEditPlan$.pipe(takeUntil(this.unsubscribe)).subscribe(canEdit => {
@@ -63,12 +55,6 @@ export class PlanComponent implements OnInit, OnDestroy {
         }
       }
     });
-  }
-
-  get canEditPlan$(): Observable<boolean> {
-    // combine 3 observables and compare values => return boolean
-    const combine = combineLatest([this.editPlanPrivilege$, this.configStagesPrivilege$, this.appUser$]);
-    return combine.pipe(map(res => (res[0] && res[1]) || res[2].id === this.plan.CreatorId));
   }
 
   goToNextStage(): void {
@@ -311,7 +297,13 @@ export class PlanComponent implements OnInit, OnDestroy {
     this.store.dispatch(planSaved({ plan }));
   }
 
-  ngOnDestroy() {
+  get canEditPlan$(): Observable<boolean> {
+    // combine 3 observables and compare values => return boolean
+    const combine = combineLatest([this.editPlanPrivilege$, this.configStagesPrivilege$, this.appUser$]);
+    return combine.pipe(map(res => (res[0] && res[1]) || res[2].id === this.plan.CreatorId));
+  }
+
+  ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }

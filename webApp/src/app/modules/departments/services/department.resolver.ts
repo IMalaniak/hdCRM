@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
-
 import { Department } from '../models';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';

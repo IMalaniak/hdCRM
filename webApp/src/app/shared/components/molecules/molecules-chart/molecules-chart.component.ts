@@ -48,6 +48,7 @@ export class MoleculesChartComponent implements OnInit {
   @Input() showYAxisLabel: boolean;
   @Input() xAxisLabel: string;
   @Input() yAxisLabel: string;
+
   chart: SingleChartData;
 
   ngOnInit(): void {

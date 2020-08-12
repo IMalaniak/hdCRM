@@ -42,13 +42,12 @@ export class RightSidebarComponent implements OnInit {
     return this.rightSidebarMinimized;
   }
 
-  onlineUsers$: Observable<User[]>;
+  onlineUsers$: Observable<User[]> = this.store.pipe(select(selectUsersOnline));
 
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.store.dispatch(OnlineUserListRequested());
-    this.onlineUsers$ = this.store.pipe(select(selectUsersOnline));
   }
 
   get themeTipMessage(): string {

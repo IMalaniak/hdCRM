@@ -8,11 +8,7 @@ import { environment } from 'environments/environment';
   providedIn: 'root'
 })
 export class SocketService {
-  private socket: socketIo.Socket;
-
-  constructor() {
-    this.socket = socketIo(environment.baseUrl);
-  }
+  private socket: socketIo.Socket = socketIo(environment.baseUrl);
 
   // TODO type declaration?
   public emit(event: SocketEvent, params?: any) {
@@ -21,7 +17,7 @@ export class SocketService {
 
   public onEvent(event: SocketEvent): Observable<any> {
     return new Observable<SocketEvent>(observer => {
-      this.socket.on(event, (params) => observer.next(params));
+      this.socket.on(event, params => observer.next(params));
     });
   }
 }

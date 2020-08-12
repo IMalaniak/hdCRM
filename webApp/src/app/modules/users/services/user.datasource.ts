@@ -1,7 +1,7 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable, BehaviorSubject, of } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { User } from '../models/';
-import { catchError, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { listPageRequested } from '../store/user.actions';
 import { selectUsersPage } from '../store/user.selectors';
@@ -23,7 +23,7 @@ export class UsersDataSource implements DataSource<User> {
           } else {
             this.store.dispatch(listPageRequested({ page }));
           }
-        }),
+        })
       )
       .subscribe();
   }

@@ -21,6 +21,8 @@ import { Preferences } from '@/core/reducers/preferences.reducer';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TemplatesUserProfileComponent implements OnInit, OnChanges {
+  enableDarkTheme$: Observable<boolean> = this.store.pipe(select(fromLayout.getDarkThemeState));
+
   @Input() user: User;
   @Input() userPreferences: Preferences;
   @Input() currentSessionId: number;
@@ -32,7 +34,6 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   @Input() isProfilePage = false;
 
   states$: Observable<State[]>;
-  enableDarkTheme$: Observable<boolean>;
   baseUrl = environment.baseUrl;
   coverUrl = './assets/images/userpic/noimage_croped.png';
   coverTitle = 'noimage';
@@ -41,7 +42,6 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   constructor(private store: Store<AppState>, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.enableDarkTheme$ = this.store.pipe(select(fromLayout.getDarkThemeState));
     if (this.canEdit) {
       let isEditing = this.route.snapshot.queryParams['edit'];
       if (isEditing) {

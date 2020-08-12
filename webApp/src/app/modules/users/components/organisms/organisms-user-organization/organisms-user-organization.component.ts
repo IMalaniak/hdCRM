@@ -18,7 +18,7 @@ export class OrganismsUserOrganizationComponent {
 
   constructor(private toastMessageService: ToastMessageService) {}
 
-  setFormEdit(edit: boolean) {
+  setFormEdit(edit: boolean): void {
     this.setEditableForm.emit(edit);
   }
 
