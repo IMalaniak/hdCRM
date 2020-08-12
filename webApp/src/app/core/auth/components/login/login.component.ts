@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
 import { ConfirmPasswordValidator, NewPassword, ToastMessageService } from '@/shared';
@@ -6,7 +6,8 @@ import { AppState } from '@/core/reducers';
 import { Store, select } from '@ngrx/store';
 import * as authActions from '../../store/auth.actions';
 import * as authSelectors from '../../store/auth.selectors';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -14,13 +15,15 @@ import { Observable } from 'rxjs';
   styleUrls: ['./login.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   user: FormGroup;
   hidePassword = true;
   currentPath: string;
   token: string;
   newPasswordForm: FormGroup;
   isLoading$: Observable<boolean>;
+
+  private unsubscribe: Subject<void> = new Subject();
 
   constructor(
     private route: ActivatedRoute,
@@ -32,7 +35,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.isLoading$ = this.store.pipe(select(authSelectors.isLoading));
     this.currentPath = this.route.snapshot.url[0].path;
-    this.store.pipe(select(authSelectors.getApiResponse)).subscribe(serverResponse => {
+    this.store.pipe(select(authSelectors.getApiResponse), takeUntil(this.unsubscribe)).subscribe(serverResponse => {
       if (serverResponse) {
         this.toastMessageService.snack(serverResponse, 5000);
       }
@@ -98,5 +101,10 @@ export class LoginComponent implements OnInit {
       ...this.newPasswordForm.value
     };
     this.store.dispatch(authActions.setNewPassword({ newPassword }));
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }
