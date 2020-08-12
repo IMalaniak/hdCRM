@@ -9,7 +9,8 @@ const ATOMS = [
 const MOLECULES = [
   _components.MoleculesProfilePicWithUploaderComponent,
   _components.MoleculesUserListSmItemComponent,
-  _components.MoleculesChartComponent
+  _components.MoleculesChartComponent,
+  _components.MoleculesErrorMessageComponent
 ];
 const ORGANISMS = [
   _components.OrganismsUserListSmComponent,
