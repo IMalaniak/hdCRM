@@ -1,10 +1,15 @@
 import { Injectable } from '@angular/core';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MoleculesErrorMessageComponent } from '../components/molecules';
+import { ApiResponse } from '../models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ToastMessageService {
+  constructor(public snackBar: MatSnackBar) {}
+
   confirm(title: string, text: string) {
     return Swal.fire({
       title,
@@ -33,6 +38,14 @@ export class ToastMessageService {
       title,
       icon,
       timer
+    });
+  }
+
+  snack(serverResponse: ApiResponse, duration: number): void {
+    this.snackBar.openFromComponent(MoleculesErrorMessageComponent, {
+      data: serverResponse,
+      duration,
+      panelClass: 'p-0'
     });
   }
 }

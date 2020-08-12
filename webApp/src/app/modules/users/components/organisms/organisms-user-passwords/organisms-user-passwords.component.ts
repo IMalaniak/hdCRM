@@ -5,6 +5,7 @@ import { ConfirmPasswordValidator } from '@/shared/validators';
 import { AppState } from '@/core/reducers';
 import { Store } from '@ngrx/store';
 import { changeOldPassword } from '@/modules/users/store/user.actions';
+import { ToastMessageService } from '@/shared';
 
 @Component({
   selector: 'organisms-user-passwords',
@@ -17,17 +18,17 @@ export class OrganismsUserPasswordsComponent implements OnInit {
   @Input()
   set serverResponse(serverResponse: ApiResponse) {
     if (serverResponse) {
-      this.serverResp = serverResponse;
-      setTimeout(() => {
-        this.serverResp = null;
-      }, 5000);
+      this.toastMessageService.snack(serverResponse, 5000);
     }
   }
 
   userNewPassword: FormGroup;
-  serverResp: ApiResponse;
 
-  constructor(private store: Store<AppState>, private fb: FormBuilder) {}
+  constructor(
+    private store: Store<AppState>,
+    private fb: FormBuilder,
+    private toastMessageService: ToastMessageService
+  ) {}
 
   ngOnInit(): void {
     this.buildUserNewPassword();
