@@ -7,10 +7,9 @@ import { mergeMap, map, catchError, tap, switchMap, retryWhen, delay } from 'rxj
 import { UserService } from '../services';
 import { AppState } from '@/core/reducers';
 import { UserServerResponse, User } from '../models';
-
-import Swal from 'sweetalert2';
 import { Update } from '@ngrx/entity';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ToastMessageService } from '@/shared/services';
 
 @Injectable()
 export class UserEffects {
@@ -30,7 +29,7 @@ export class UserEffects {
       mergeMap(page =>
         this.userService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
           map((response: UserServerResponse) => userActions.listPageLoaded({ response })),
-          catchError(err => of(userActions.listPageCancelled())),
+          catchError(err => of(userActions.listPageCancelled()))
         )
       )
     )
@@ -44,13 +43,7 @@ export class UserEffects {
         this.userService.updateUser(toUpdate).pipe(
           catchError(err => {
             userActions.updateUserCancelled();
-            return of(
-              Swal.fire({
-                text: 'Ooops, something went wrong!',
-                icon: 'error',
-                timer: 3000
-              })
-            );
+            return of(this.toastMessageService.popup('Ooops, something went wrong!', 'error'));
           })
         )
       ),
@@ -59,14 +52,7 @@ export class UserEffects {
           id: data.id,
           changes: data
         };
-        Swal.fire({
-          text: 'User updated!',
-          icon: 'success',
-          timer: 6000,
-          toast: true,
-          showConfirmButton: false,
-          position: 'bottom-end'
-        });
+        this.toastMessageService.toast('User updated!');
         return userActions.updateUserSuccess({ user });
       })
     )
@@ -94,18 +80,7 @@ export class UserEffects {
         ofType(userActions.deleteUser),
         map(payload => payload.id),
         mergeMap(id => this.userService.delete(id)),
-        map(() =>
-          of(
-            Swal.fire({
-              text: `User deleted`,
-              icon: 'success',
-              timer: 6000,
-              toast: true,
-              showConfirmButton: false,
-              position: 'bottom-end'
-            })
-          )
-        )
+        map(() => of(this.toastMessageService.toast('User deleted!')))
       ),
     {
       dispatch: false
@@ -141,5 +116,10 @@ export class UserEffects {
     )
   );
 
-  constructor(private actions$: Actions, private store: Store<AppState>, private userService: UserService) {}
+  constructor(
+    private actions$: Actions,
+    private store: Store<AppState>,
+    private userService: UserService,
+    private toastMessageService: ToastMessageService
+  ) {}
 }

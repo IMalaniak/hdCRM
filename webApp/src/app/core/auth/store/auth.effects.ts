@@ -3,13 +3,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Actions, ofType, createEffect, OnInitEffects } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { tap, map, switchMap, catchError, concatMap, withLatestFrom, mergeMap } from 'rxjs/operators';
-
 import * as authActions from './auth.actions';
-
 import { AuthenticationService } from '../services';
-import Swal from 'sweetalert2';
-
-import { SocketService, SocketEvent } from '@/shared';
+import { SocketService, SocketEvent, ToastMessageService } from '@/shared';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Store, select, Action } from '@ngrx/store';
 import { getToken } from './auth.selectors';
@@ -25,7 +21,8 @@ export class AuthEffects implements OnInitEffects {
     private router: Router,
     private route: ActivatedRoute,
     private scktService: SocketService,
-    private store$: Store<AppState>
+    private store$: Store<AppState>,
+    private toastMessageService: ToastMessageService
   ) {}
 
   registerUser$ = createEffect(() =>
@@ -128,11 +125,10 @@ export class AuthEffects implements OnInitEffects {
         ofType(authActions.redirectToLogin),
         withLatestFrom(this.store$.pipe(select(selectUrl))),
         map(([action, returnUrl]) => {
-          Swal.fire({
-            text: 'You are not authorized to see this page, or your session has been expired!',
-            icon: 'error',
-            timer: 3000
-          });
+          this.toastMessageService.popup(
+            'You are not authorized to see this page, or your session has been expired!',
+            'error'
+          );
           this.router.navigate(['/auth/login'], {
             queryParams: { returnUrl }
           });
@@ -201,14 +197,7 @@ export class AuthEffects implements OnInitEffects {
       map(payload => payload.id),
       switchMap(id => this.authService.deleteSession(id)),
       map(apiResp => {
-        Swal.fire({
-          text: 'Session is deactivated',
-          toast: true,
-          icon: 'success',
-          timer: 6000,
-          showConfirmButton: false,
-          position: 'bottom-end'
-        });
+        this.toastMessageService.toast('Session is deactivated');
         return authActions.deleteSessionSuccess({ apiResp });
       }),
       catchError((errorResponse: HttpErrorResponse) =>
@@ -223,14 +212,7 @@ export class AuthEffects implements OnInitEffects {
       map(payload => payload.sessionIds),
       switchMap(sessionIds => this.authService.deleteSessionMultiple(sessionIds)),
       map(apiResp => {
-        Swal.fire({
-          text: 'Sessions are deactivated',
-          toast: true,
-          icon: 'success',
-          timer: 6000,
-          showConfirmButton: false,
-          position: 'bottom-end'
-        });
+        this.toastMessageService.toast('Sessions are deactivated');
         return authActions.deleteSessionSuccess({ apiResp });
       }),
       catchError((errorResponse: HttpErrorResponse) =>
@@ -267,14 +249,7 @@ export class AuthEffects implements OnInitEffects {
       map(payload => payload.user),
       switchMap(user => this.authService.updateProfile(user)),
       switchMap(currentUser => {
-        Swal.fire({
-          text: 'Your profile is updated!',
-          icon: 'success',
-          timer: 6000,
-          toast: true,
-          showConfirmButton: false,
-          position: 'bottom-end'
-        });
+        this.toastMessageService.toast('Your profile is updated!');
         return [authActions.updateUserProfileSuccess({ currentUser }), changeIsEditingState({ isEditing: false })];
       }),
       catchError((errorResponse: HttpErrorResponse) =>
@@ -289,14 +264,7 @@ export class AuthEffects implements OnInitEffects {
       map(payload => payload.organization),
       switchMap(organization => this.authService.updateOrg(organization)),
       switchMap(organization => {
-        Swal.fire({
-          text: 'Organization is updated!',
-          icon: 'success',
-          timer: 6000,
-          toast: true,
-          showConfirmButton: false,
-          position: 'bottom-end'
-        });
+        this.toastMessageService.toast('Organization is updated!');
         return [authActions.updateUserOrgSuccess({ organization }), changeIsEditingState({ isEditing: false })];
       }),
       catchError((errorResponse: HttpErrorResponse) =>

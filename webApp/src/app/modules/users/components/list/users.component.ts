@@ -8,8 +8,6 @@ import { Store, select } from '@ngrx/store';
 import { Observable, Subject, merge } from 'rxjs';
 import { tap, takeUntil, map } from 'rxjs/operators';
 
-import Swal from 'sweetalert2';
-
 import { UserService, UsersDataSource } from '../../services';
 import { User } from '../../models';
 
@@ -18,7 +16,7 @@ import { selectIsLoading, selectUsersTotalCount, selectAllUsers, allUsersLoaded 
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { deleteUser } from '../../store/user.actions';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
-import { PageQuery, MediaqueryService } from '@/shared';
+import { PageQuery, MediaqueryService, ToastMessageService } from '@/shared';
 
 @Component({
   selector: 'app-users',
@@ -61,7 +59,8 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     private userService: UserService,
     private store: Store<AppState>,
     public dialog: MatDialog,
-    private mediaQuery: MediaqueryService
+    private mediaQuery: MediaqueryService,
+    private toastMessageService: ToastMessageService
   ) {}
 
   ngOnInit() {
@@ -114,18 +113,13 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   // }
 
   deleteUser(id: number): void {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'Do you really want to delete user? You will not be able to recover!',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'Cancel'
-    }).then(result => {
-      if (result.value) {
-        this.store.dispatch(deleteUser({ id }));
-      }
-    });
+    this.toastMessageService
+      .confirm('Are you sure?', 'Do you really want to delete user? You will not be able to recover!')
+      .then(result => {
+        if (result.value) {
+          this.store.dispatch(deleteUser({ id }));
+        }
+      });
   }
 
   changeUserState(user: User, state: any): void {
@@ -135,21 +129,10 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     this.userService.updateUserState(userState).subscribe(
       userData => {
         user.State = userData.State;
-        Swal.fire({
-          text: `User state was changed to: ${state.keyString}`,
-          icon: 'success',
-          timer: 6000,
-          toast: true,
-          showConfirmButton: false,
-          position: 'bottom-end'
-        });
+        this.toastMessageService.toast(`User state was changed to: ${state.keyString}`);
       },
       error => {
-        Swal.fire({
-          text: 'Ooops, something went wrong!',
-          icon: 'error',
-          timer: 1500
-        });
+        this.toastMessageService.popup('Ooops, something went wrong!', 'error');
       }
     );
   }
@@ -177,21 +160,11 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   //         this.users[i].State = user.State = state;
   //       }
   //       this.resetSelected();
-  //       Swal.fire({
-  //         text: `User state was changed to: ${state.keyString}`,
-  //         icon: 'success',
-  //         timer: 6000,
-  //         toast: true,
-  //         showConfirmButton: false,
-  //         position: 'bottom-end'
-  //       });
+  //       this.toastMessageService.toast('User state was changed to: ${state.keyString}');
+  //
   //     },
   //     error => {
-  //       Swal.fire({
-  //         text: 'Ooops, something went wrong!',
-  //         icon: 'error',
-  //         timer: 1500
-  //       });
+  //        this.toastMessageService.popup('Ooops, something went wrong!', 'error');
   //     }
   //   );
   // }

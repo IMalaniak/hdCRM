@@ -6,7 +6,6 @@ import { Update } from '@ngrx/entity';
 import { Store, select } from '@ngrx/store';
 import { Subject, Observable, combineLatest } from 'rxjs';
 import { takeUntil, map, skipUntil, delay } from 'rxjs/operators';
-import Swal from 'sweetalert2';
 import { cloneDeep } from 'lodash';
 import { StagesDialogComponent } from '../../components/stages/dialog/stages-dialog.component';
 import { Plan, Stage, PlanStage } from '../../models';
@@ -15,7 +14,7 @@ import { UsersDialogComponent, User } from '@/modules/users';
 import { AppState } from '@/core/reducers';
 import { planSaved } from '../../store/plan.actions';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
-import { MediaqueryService, Asset, ApiResponse } from '@/shared';
+import { MediaqueryService, Asset, ApiResponse, ToastMessageService } from '@/shared';
 
 @Component({
   selector: 'app-plan',
@@ -41,7 +40,8 @@ export class PlanComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private store: Store<AppState>,
     private mediaQuery: MediaqueryService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private toastMessageService: ToastMessageService
   ) {
     this.editForm = false;
     this.configPlanStages = false;
@@ -72,29 +72,25 @@ export class PlanComponent implements OnInit, OnDestroy {
   }
 
   goToNextStage(): void {
-    this.planService
-      .toNextStage(this.plan.id)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(
-        data => {
-          this.updatePlanStore(data);
-          this.configPlanStages = false;
-          Swal.fire({
-            text: 'Stages updated!',
-            icon: 'success',
-            timer: 6000,
-            toast: true,
-            showConfirmButton: false,
-            position: 'bottom-end'
-          });
-        },
-        error => {
-          Swal.fire({
-            text: 'Ooops, something went wrong!',
-            icon: 'error'
-          });
+    this.toastMessageService
+      .confirm('You are about to pass stage.', 'Are you sure you want to go to next plan stage?')
+      .then(result => {
+        if (result.value) {
+          this.planService
+            .toNextStage(this.plan.id)
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe(
+              data => {
+                this.updatePlanStore(data);
+                this.configPlanStages = false;
+                this.toastMessageService.toast('Stages updated!');
+              },
+              error => {
+                this.toastMessageService.popup('Ooops, something went wrong!', 'error');
+              }
+            );
         }
-      );
+      });
   }
 
   onClickEdit(): void {
@@ -120,56 +116,47 @@ export class PlanComponent implements OnInit, OnDestroy {
   }
 
   updatePlanStages(): void {
-    this.planService
-      .updatePlanStages(this.plan)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(
-        data => {
-          this.updatePlanStore(data);
-          this.configPlanStages = false;
-          Swal.fire({
-            text: 'Stages updated!',
-            icon: 'success',
-            timer: 6000,
-            toast: true,
-            showConfirmButton: false,
-            position: 'bottom-end'
-          });
-        },
-        error => {
-          Swal.fire({
-            text: 'Ooops, something went wrong!',
-            icon: 'error'
-          });
+    this.toastMessageService
+      .confirm('You are about to save stages configuration.', 'Are you sure you want update stages configuration?')
+      .then(result => {
+        if (result.value) {
+          this.planService
+            .updatePlanStages(this.plan)
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe(
+              data => {
+                this.updatePlanStore(data);
+                this.configPlanStages = false;
+                this.toastMessageService.toast('Stages updated!');
+              },
+              error => {
+                this.toastMessageService.popup('Ooops, something went wrong!', 'error');
+              }
+            );
         }
-      );
+      });
   }
 
   updatePlan(): void {
-    // Update plan
-    this.planService
-      .updateOne(this.plan)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(
-        data => {
-          this.updatePlanStore(data);
-          this.editForm = false;
-          Swal.fire({
-            text: 'Plan updated!',
-            icon: 'success',
-            timer: 6000,
-            toast: true,
-            showConfirmButton: false,
-            position: 'bottom-end'
-          });
-        },
-        error => {
-          Swal.fire({
-            text: 'Ooops, something went wrong!',
-            icon: 'error'
-          });
+    this.toastMessageService
+      .confirm('You are about to update plan', 'Are you sure you want to update plan details?')
+      .then(result => {
+        if (result.value) {
+          this.planService
+            .updateOne(this.plan)
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe(
+              data => {
+                this.updatePlanStore(data);
+                this.editForm = false;
+                this.toastMessageService.toast('Plan updated!');
+              },
+              error => {
+                this.toastMessageService.popup('Ooops, something went wrong!', 'error');
+              }
+            );
         }
-      );
+      });
   }
 
   // TODO: @ArseniiIrod, @IMalaniak remake logic
@@ -286,47 +273,32 @@ export class PlanComponent implements OnInit, OnDestroy {
   }
 
   deleteDoc(docId: number): void {
-    Swal.fire({
-      title: 'You are going to delete document',
-      text: 'Are you sure you want to delete document from plan, changes cannot be undone?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Confirm',
-      cancelButtonText: 'Cancel'
-    }).then(result => {
-      if (result.value) {
-        const req = {
-          planId: this.plan.id,
-          docId: docId
-        };
-        this.planService
-          .deleteDoc(req)
-          .pipe(takeUntil(this.unsubscribe))
-          .subscribe((response: ApiResponse) => {
-            if (response.success) {
-              this.plan.Documents = this.plan.Documents.filter(doc => {
-                return doc.id !== docId;
-              });
-              this.updatePlanStore(this.plan);
-              this.cdr.detectChanges();
+    this.toastMessageService
+      .confirm('Stages updated!', 'Are you sure you want to delete document from plan, changes cannot be undone?')
+      .then(result => {
+        if (result.value) {
+          const req = {
+            planId: this.plan.id,
+            docId: docId
+          };
+          this.planService
+            .deleteDoc(req)
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe((response: ApiResponse) => {
+              if (response.success) {
+                this.plan.Documents = this.plan.Documents.filter(doc => {
+                  return doc.id !== docId;
+                });
+                this.updatePlanStore(this.plan);
+                this.cdr.detectChanges();
 
-              Swal.fire({
-                text: 'You have successfully removed a document from plan',
-                icon: 'success',
-                timer: 6000,
-                toast: true,
-                showConfirmButton: false,
-                position: 'bottom-end'
-              });
-            } else {
-              Swal.fire({
-                text: 'Ooops, something went wrong!',
-                icon: 'error'
-              });
-            }
-          });
-      }
-    });
+                this.toastMessageService.toast('Stages updated!');
+              } else {
+                this.toastMessageService.popup('Ooops, something went wrong!', 'error');
+              }
+            });
+        }
+      });
   }
 
   updatePlanStore(data: Plan): void {

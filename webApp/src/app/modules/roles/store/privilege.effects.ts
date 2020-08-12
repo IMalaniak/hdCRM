@@ -7,8 +7,8 @@ import { mergeMap, map, catchError, withLatestFrom, filter, tap } from 'rxjs/ope
 import { PrivilegeService } from '../services';
 import { AppState } from '@/core/reducers';
 import { Privilege } from '../models';
-import Swal from 'sweetalert2';
 import { allPrivilegesLoaded } from './privilege.selectors';
+import { ToastMessageService } from '@/shared';
 
 @Injectable()
 export class PrivilegeEffects {
@@ -37,21 +37,13 @@ export class PrivilegeEffects {
       mergeMap((privilege: Privilege) =>
         this.privilegeService.create(privilege).pipe(
           map(newPrivilege => {
-            Swal.fire({
-              title: 'Privilege created!',
-              icon: 'success',
-              timer: 1500
-            });
+            this.toastMessageService.toast('Privilege created!');
             return privilegeActions.createPrivilegeSuccess({
               privilege: newPrivilege
             });
           }),
           catchError(error => {
-            Swal.fire({
-              title: 'Ooops, something went wrong!',
-              icon: 'error',
-              timer: 1500
-            });
+            this.toastMessageService.popup('Ooops, something went wrong!', 'error');
             return of(privilegeActions.createPrivilegeFail({ error }));
           })
         )
@@ -59,5 +51,10 @@ export class PrivilegeEffects {
     )
   );
 
-  constructor(private actions$: Actions, private store: Store<AppState>, private privilegeService: PrivilegeService) {}
+  constructor(
+    private actions$: Actions,
+    private store: Store<AppState>,
+    private privilegeService: PrivilegeService,
+    private toastMessageService: ToastMessageService
+  ) {}
 }
