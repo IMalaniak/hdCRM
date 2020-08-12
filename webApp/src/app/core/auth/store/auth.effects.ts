@@ -212,7 +212,7 @@ export class AuthEffects implements OnInitEffects {
       map(payload => payload.sessionIds),
       switchMap(sessionIds => this.authService.deleteSessionMultiple(sessionIds)),
       map(apiResp => {
-        this.toastMessageService.toast('Sessions is deactivated');
+        this.toastMessageService.toast('Sessions are deactivated');
         return authActions.deleteSessionSuccess({ apiResp });
       }),
       catchError((errorResponse: HttpErrorResponse) =>
