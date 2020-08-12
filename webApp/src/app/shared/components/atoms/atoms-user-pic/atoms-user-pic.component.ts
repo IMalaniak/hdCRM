@@ -12,15 +12,16 @@ import { environment } from 'environments/environment';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AtomsUserPicComponent implements OnInit {
-  baseUrl = environment.baseUrl;
   @Input() avatar: Asset = null;
   @Input() userOnline: false;
-  src = './assets/images/userpic/noimage_croped.png';
-  title = 'noimage';
 
   @HostBinding('class.position-relative') posRelative = true;
 
-  ngOnInit() {
+  baseUrl = environment.baseUrl;
+  src = './assets/images/userpic/noimage_croped.png';
+  title = 'noimage';
+
+  ngOnInit(): void {
     if (!!this.avatar) {
       this.src = this.baseUrl + this.avatar.location + '/thumbnails/' + this.avatar.title;
       this.title = this.avatar.title;

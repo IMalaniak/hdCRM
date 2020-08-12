@@ -23,7 +23,7 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
   selection = new SelectionModel<Privilege>(true, []);
   privileges: Privilege[];
   resultsLength: number;
-  displayedColumns = ['select', 'title', 'key'];
+  displayedColumns: string[] = ['select', 'title', 'key'];
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -34,9 +34,8 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.store.dispatch(allPrivilegesRequested());
-
     this.store
       .pipe(
         takeUntil(this.unsubscribe),
@@ -49,14 +48,14 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
       .subscribe(data => (this.privileges = data));
   }
 
-  isAllSelected() {
+  isAllSelected(): boolean {
     const numSelected: number = this.selection.selected.length;
     const numRows: number = this.resultsLength;
     return numSelected === numRows;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
+  masterToggle(): void {
     this.isAllSelected() ? this.selection.clear() : this.privileges.forEach(row => this.selection.select(row));
   }
 
@@ -79,7 +78,7 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }

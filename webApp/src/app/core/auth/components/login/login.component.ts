@@ -16,24 +16,24 @@ import { takeUntil } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  isLoading$: Observable<boolean> = this.store.pipe(select(authSelectors.isLoading));
+
   user: FormGroup;
-  hidePassword = true;
-  currentPath: string;
-  token: string;
   newPasswordForm: FormGroup;
-  isLoading$: Observable<boolean>;
+  currentPath: string;
+  hidePassword = true;
+  token: string;
 
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
     private route: ActivatedRoute,
-    private _formBuilder: FormBuilder,
+    private fb: FormBuilder,
     private store: Store<AppState>,
     private toastMessageService: ToastMessageService
   ) {}
 
-  ngOnInit() {
-    this.isLoading$ = this.store.pipe(select(authSelectors.isLoading));
+  ngOnInit(): void {
     this.currentPath = this.route.snapshot.url[0].path;
     this.store.pipe(select(authSelectors.getApiResponse), takeUntil(this.unsubscribe)).subscribe(serverResponse => {
       if (serverResponse) {
@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   prepareUserForm(): void {
-    this.user = this._formBuilder.group({
+    this.user = this.fb.group({
       login: new FormControl('', [Validators.required]),
       password: new FormControl('')
     });
@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   preparePasswordResetForm(): void {
-    this.newPasswordForm = this._formBuilder.group(
+    this.newPasswordForm = this.fb.group(
       {
         newPassword: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(64)]),
         verifyPassword: new FormControl('', [Validators.required])

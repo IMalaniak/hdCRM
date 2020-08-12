@@ -5,7 +5,6 @@ import { MatSort } from '@angular/material/sort';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { DepartmentsDataSource } from '../../services';
-import { Department } from '../../models';
 import { PageQuery, ToastMessageService } from '@/shared';
 import { AppState } from '@/core/reducers';
 import { selectDepartmentsTotalCount, selectDepartmentsLoading } from '../../store/department.selectors';
@@ -19,18 +18,17 @@ import { deleteDepartment } from '../../store/department.actions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DepartmentsComponent implements OnInit, AfterViewInit {
-  addDepPrivilege$: Observable<boolean>;
-  editDepPrivilege$: Observable<boolean>;
-  deleteDepPrivilege$: Observable<boolean>;
-  departments$: Observable<Department[]>;
-  dataSource: DepartmentsDataSource;
-  loading$: Observable<boolean>;
-  resultsLength$: Observable<number>;
+  dataSource: DepartmentsDataSource = new DepartmentsDataSource(this.store);
+  loading$: Observable<boolean> = this.store.pipe(select(selectDepartmentsLoading));
+  resultsLength$: Observable<number> = this.store.pipe(select(selectDepartmentsTotalCount));
+  addDepPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('department-add')));
+  editDepPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('department-edit')));
+  deleteDepPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('department-delete')));
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns = ['title', 'manager', 'workers', 'createdAt', 'updatedAt', 'actions'];
+  displayedColumns: string[] = ['title', 'manager', 'workers', 'createdAt', 'updatedAt', 'actions'];
 
   constructor(
     private store: Store<AppState>,
@@ -38,32 +36,24 @@ export class DepartmentsComponent implements OnInit, AfterViewInit {
     private toastMessageService: ToastMessageService
   ) {}
 
-  ngOnInit() {
-    this.addDepPrivilege$ = this.store.pipe(select(isPrivileged('department-add')));
-    this.editDepPrivilege$ = this.store.pipe(select(isPrivileged('department-edit')));
-    this.deleteDepPrivilege$ = this.store.pipe(select(isPrivileged('department-delete')));
-    this.loading$ = this.store.pipe(select(selectDepartmentsLoading));
-    this.resultsLength$ = this.store.pipe(select(selectDepartmentsTotalCount));
-    this.dataSource = new DepartmentsDataSource(this.store);
-
+  ngOnInit(): void {
     const initialPage: PageQuery = {
       pageIndex: 0,
       pageSize: 5,
       sortIndex: 'id',
       sortDirection: 'asc'
     };
-
     this.dataSource.loadDepartments(initialPage);
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.paginator.page.pipe(tap(() => this.loadDepartmentsPage())).subscribe();
 
-    // TODO: check for other solution
+    // TODO: @IMalaniak @ArseniiIrod check for other solution
     this.sort.sortChange.pipe(tap(() => this.loadDepartmentsPage())).subscribe();
   }
 
-  loadDepartmentsPage() {
+  loadDepartmentsPage(): void {
     const newPage: PageQuery = {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,

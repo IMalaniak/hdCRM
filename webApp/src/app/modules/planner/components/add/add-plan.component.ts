@@ -31,12 +31,12 @@ export class AddPlanComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.store.pipe(select(currentUser), takeUntil(this.unsubscribe)).subscribe(user => {
       this.appUser = user;
     });
-    this.buildPlanForm();
 
+    this.buildPlanForm();
     this.plan.Participants = [];
   }
 
@@ -89,13 +89,13 @@ export class AddPlanComponent implements OnInit, OnDestroy {
     this.plan = { ...this.plan, Participants: this.plan.Participants.filter(participant => participant.id !== userId) };
   }
 
-  onClickSubmit() {
+  onClickSubmit(): void {
     // TODO: @IMalaniak create logic on BE side to set CreatorId, after this delete CreatorId prop below
     this.plan = { ...this.plan, CreatorId: this.appUser.id };
     this.store.dispatch(createPlan({ plan: { ...this.plan, ...this.planData.value } }));
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }

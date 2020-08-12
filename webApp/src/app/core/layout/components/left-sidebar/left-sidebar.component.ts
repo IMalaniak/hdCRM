@@ -23,7 +23,7 @@ export class LeftSidebarComponent implements OnInit {
 
   constructor(public mediaquery: MediaqueryService, private store: Store<AppState>) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.generateMenu();
   }
 
@@ -32,7 +32,7 @@ export class LeftSidebarComponent implements OnInit {
   // <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/myplans']"><span class="item-title" i18n="@@sidebarMenuMyPlans">My Plans</span></a></li>
   // <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/calendar']"><span class="item-title" i18n="@@sidebarMenuCalendar">Calendar</span></a></li>
 
-  generateMenu() {
+  generateMenu(): void {
     this.sidebarMenu = [
       {
         url: ['/home'],

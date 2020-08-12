@@ -6,13 +6,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subject, merge } from 'rxjs';
-import { tap, takeUntil, map } from 'rxjs/operators';
-
+import { tap, takeUntil } from 'rxjs/operators';
 import { UserService, UsersDataSource } from '../../services';
 import { User } from '../../models';
-
 import { AppState } from '@/core/reducers';
-import { selectIsLoading, selectUsersTotalCount, selectAllUsers, allUsersLoaded } from '../../store/user.selectors';
+import { selectIsLoading, selectUsersTotalCount, selectAllUsers } from '../../store/user.selectors';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { deleteUser } from '../../store/user.actions';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
@@ -24,9 +22,6 @@ import { PageQuery, MediaqueryService, ToastMessageService } from '@/shared';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
   currentUser$: Observable<User> = this.store.pipe(select(currentUser));
   loading$: Observable<boolean> = this.store.pipe(select(selectIsLoading));
   resultsLength$: Observable<number> = this.store.pipe(select(selectUsersTotalCount));
@@ -34,10 +29,13 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   editUserPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-edit')));
   deleteUserPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-delete')));
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   selection = new SelectionModel<User>(true, []);
   dataSource: UsersDataSource = new UsersDataSource(this.store);
   users: User[];
-  displayedColumns = [
+  displayedColumns: string[] = [
     'select',
     'avatar',
     'login',
@@ -63,7 +61,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     private toastMessageService: ToastMessageService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     const initialPage: PageQuery = {
       pageIndex: 0,
       pageSize: 5,
@@ -74,7 +72,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     this.store.pipe(takeUntil(this.unsubscribe), select(selectAllUsers)).subscribe(users => (this.users = users));
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     // this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 
     merge(this.sort.sortChange, this.paginator.page)
@@ -82,7 +80,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe();
   }
 
-  loadUsersPage() {
+  loadUsersPage(): void {
     const newPage: PageQuery = {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,
@@ -169,7 +167,7 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   //   );
   // }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }

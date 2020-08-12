@@ -5,11 +5,9 @@ import { Privilege, PrivilegeServerResponse } from '../models';
 
 @Injectable()
 export class PrivilegeService {
-  private api: string;
+  private api = '/privileges';
 
-  constructor(private http: HttpClient) {
-    this.api = '/privileges';
-  }
+  constructor(private http: HttpClient) {}
 
   create(privilege: Privilege): Observable<Privilege> {
     return this.http.post<Privilege>(this.api, privilege);
