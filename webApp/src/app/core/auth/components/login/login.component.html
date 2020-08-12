@@ -3,19 +3,6 @@
   <div class="container-fluid h-100">
     <div class="row h-100">
       <div class="col-sm-12 col-md-8 login-block">
-        <mat-card
-          class="mb-3"
-          *ngIf="serverResponse$ | async as serverResponse"
-          [ngClass]="{ 'success-message': serverResponse.success, 'failed-message': !serverResponse.success }"
-        >
-          <mat-card-content class="d-flex flex-row align-items-center">
-            <fa-icon [icon]="serverResponse.success ? ['fas', 'check'] : ['fas', 'times']"></fa-icon>
-            <div class="ml-3">
-              <span>{{ serverResponse.message }}</span>
-            </div>
-          </mat-card-content>
-        </mat-card>
-
         <form
           (submit)="onLoginSubmit()"
           [formGroup]="user"

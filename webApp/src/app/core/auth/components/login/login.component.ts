@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
-import { ConfirmPasswordValidator, ApiResponse, NewPassword } from '@/shared';
+import { ConfirmPasswordValidator, NewPassword, ToastMessageService } from '@/shared';
 import { AppState } from '@/core/reducers';
 import { Store, select } from '@ngrx/store';
 import * as authActions from '../../store/auth.actions';
@@ -17,18 +17,26 @@ import { Observable } from 'rxjs';
 export class LoginComponent implements OnInit {
   user: FormGroup;
   hidePassword = true;
-  serverResponse$: Observable<ApiResponse>;
   currentPath: string;
   token: string;
   newPasswordForm: FormGroup;
   isLoading$: Observable<boolean>;
 
-  constructor(private route: ActivatedRoute, private _formBuilder: FormBuilder, private store: Store<AppState>) {}
+  constructor(
+    private route: ActivatedRoute,
+    private _formBuilder: FormBuilder,
+    private store: Store<AppState>,
+    private toastMessageService: ToastMessageService
+  ) {}
 
   ngOnInit() {
     this.isLoading$ = this.store.pipe(select(authSelectors.isLoading));
     this.currentPath = this.route.snapshot.url[0].path;
-    this.serverResponse$ = this.store.pipe(select(authSelectors.getApiResponse));
+    this.store.pipe(select(authSelectors.getApiResponse)).subscribe(serverResponse => {
+      if (serverResponse) {
+        this.toastMessageService.snack(serverResponse, 5000);
+      }
+    });
 
     if (this.currentPath === 'request-new-password' || this.currentPath === 'login') {
       this.prepareUserForm();
