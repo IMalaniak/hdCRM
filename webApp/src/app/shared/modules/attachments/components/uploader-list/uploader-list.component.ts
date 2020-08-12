@@ -15,11 +15,11 @@ import { FilePond } from 'filepond';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UploaderListComponent implements OnInit {
-  @ViewChild('uploader') uploader: FilePond;
-
   @Input() url: string;
 
   @Output() addFileCall: EventEmitter<Asset> = new EventEmitter();
+
+  @ViewChild('uploader') uploader: FilePond;
 
   uploaderOptions: any; // TODO: @IMalaniak add FilePondOptionProps
   token: string;
@@ -27,11 +27,14 @@ export class UploaderListComponent implements OnInit {
 
   constructor(private store$: Store<AppState>) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.store$.pipe(select(getToken)).subscribe(token => {
       this.token = token;
     });
+    this.setUploaderOptions();
+  }
 
+  setUploaderOptions(): void {
     this.uploaderOptions = {
       name: 'uploader',
       server: {
@@ -72,7 +75,7 @@ export class UploaderListComponent implements OnInit {
     };
   }
 
-  uploaderHandleAddFile(data: any) {
+  uploaderHandleAddFile(data: any): void {
     // TODO: @IMalaniak add data type
     const asset: Asset = JSON.parse(data);
     this.addFileCall.emit(asset);

@@ -64,9 +64,9 @@ export class AtomsIconButtonComponent {
   @Input() disabled = false;
   @Input() showButtonTextOnSm = false;
 
-  @HostBinding('class.d-inline-block') displayInline = true;
-
   @Output() onclick = new EventEmitter<MouseEvent>();
+
+  @HostBinding('class.d-inline-block') displayInline = true;
 
   onClick(event: MouseEvent): void {
     this.onclick.emit(event);

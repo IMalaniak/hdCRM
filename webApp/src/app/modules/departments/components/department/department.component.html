@@ -119,7 +119,7 @@
     <atoms-icon-button *ngIf="!editForm" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
       Edit
     </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm" [swal]="updateDepartmentSwal" [icon]="['fas', 'save']">
+    <atoms-icon-button *ngIf="editForm" (onclick)="updateDepartment()" [icon]="['fas', 'save']">
       Save
     </atoms-icon-button>
     <atoms-icon-button *ngIf="editForm" (onclick)="onClickCancelEdit()" [icon]="['fas', 'times']">
@@ -127,14 +127,3 @@
     </atoms-icon-button>
   </div>
 </organisms-card>
-
-<swal
-  #updateDepartmentSwal
-  title="You are about to update department"
-  text="Are you sure you want to update department details?"
-  icon="question"
-  [showCancelButton]="true"
-  (confirm)="updateDepartment()"
-  [swalOptions]="{ confirmButtonText: 'OK', cancelButtonText: 'Cancel' }"
->
-</swal>

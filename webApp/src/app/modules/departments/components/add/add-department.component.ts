@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UsersDialogComponent, User } from '@/modules/users';
 import { Department } from '../../models';
 import { Subject } from 'rxjs';
-import { takeUntil, skipUntil, delay } from 'rxjs/operators';
+import { takeUntil, skipUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { createDepartment } from '../../store/department.actions';
@@ -29,13 +29,17 @@ export class AddDepartmentComponent implements OnInit {
     private cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.buildDepartmentFormGroup();
+    this.department.SubDepartments = [];
+    this.department.Workers = [];
+  }
+
+  buildDepartmentFormGroup(): void {
     this.departmentData = this.fb.group({
       title: new FormControl('', [Validators.required, Validators.maxLength(100)]),
       description: new FormControl('', [Validators.required, Validators.maxLength(2500)])
     });
-    this.department.SubDepartments = [];
-    this.department.Workers = [];
   }
 
   addManagerDialog(): void {

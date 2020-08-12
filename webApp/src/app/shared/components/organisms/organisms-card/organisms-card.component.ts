@@ -40,6 +40,7 @@ export class OrganismsCardComponent {
   @Input() disableShadow = false;
   @Input() counter: number;
   @Input() alignButtons = 'end';
+
   @ContentChild('content') content: ElementRef;
   @ContentChild('subheader') subheader: ElementRef;
   @ContentChild('buttons') buttons: ElementRef;

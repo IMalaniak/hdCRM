@@ -13,7 +13,7 @@ export class BreadcrumbsComponent implements OnInit {
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.setBreadcrumbs();
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
       this.setBreadcrumbs();

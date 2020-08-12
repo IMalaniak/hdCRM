@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
-import Swal from 'sweetalert2';
 import { takeUntil, map } from 'rxjs/operators';
 import { cloneDeep } from 'lodash';
 import { Department } from '../../models';
@@ -13,7 +12,7 @@ import { DepartmentService } from '../../services';
 import { AppState } from '@/core/reducers';
 import { departmentSaved } from '../../store/department.actions';
 import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
-import { MediaqueryService } from '@/shared';
+import { MediaqueryService, ToastMessageService } from '@/shared';
 
 @Component({
   selector: 'app-department',
@@ -21,12 +20,13 @@ import { MediaqueryService } from '@/shared';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DepartmentComponent implements OnInit, OnDestroy {
+  appUser$: Observable<User> = this.store.pipe(select(currentUser));
+  editDepartmentPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('department-edit')));
+
   department: Department;
-  appUser$: Observable<User>;
   departmentInitial: Department;
-  showDataLoader: boolean;
-  editForm: boolean;
-  editDepartmentPrivilege$: Observable<boolean>;
+  showDataLoader = true;
+  editForm = false;
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -36,16 +36,11 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private store: Store<AppState>,
     private mediaQuery: MediaqueryService,
-    private cdr: ChangeDetectorRef
-  ) {
-    this.editForm = false;
-    this.showDataLoader = true;
-  }
+    private cdr: ChangeDetectorRef,
+    private toastMessageService: ToastMessageService
+  ) {}
 
-  ngOnInit() {
-    this.appUser$ = this.store.pipe(select(currentUser));
-    this.editDepartmentPrivilege$ = this.store.pipe(select(isPrivileged('department-edit')));
-
+  ngOnInit(): void {
     this.departmentInitial = cloneDeep(this.route.snapshot.data['department']);
     this.department = cloneDeep(this.route.snapshot.data['department']);
     this.canEditDepartment$.pipe(takeUntil(this.unsubscribe)).subscribe(canEdit => {
@@ -56,12 +51,6 @@ export class DepartmentComponent implements OnInit, OnDestroy {
         }
       }
     });
-  }
-
-  get canEditDepartment$(): Observable<boolean> {
-    // combine 2 observables and compare values => return boolean
-    const combine = combineLatest([this.editDepartmentPrivilege$, this.appUser$]);
-    return combine.pipe(map(([editPriv, appUser]) => editPriv || appUser.id === this.department.managerId));
   }
 
   onClickEdit(): void {
@@ -124,38 +113,40 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   }
 
   updateDepartment(): void {
-    this.departmentService
-      .updateOne(this.department)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(
-        data => {
-          this.department = cloneDeep(data);
-          this.departmentInitial = cloneDeep(data);
-          const department: Update<Department> = {
-            id: this.department.id,
-            changes: data
-          };
-          this.store.dispatch(departmentSaved({ department }));
-          this.editForm = false;
-          Swal.fire({
-            text: 'Department updated!',
-            icon: 'success',
-            timer: 6000,
-            toast: true,
-            showConfirmButton: false,
-            position: 'bottom-end'
-          });
-        },
-        error => {
-          Swal.fire({
-            text: 'Ooops, something went wrong!',
-            icon: 'error'
-          });
+    this.toastMessageService
+      .confirm('You are about to update department', 'Are you sure you want to update department details?')
+      .then(result => {
+        if (result.value) {
+          this.departmentService
+            .updateOne(this.department)
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe(
+              data => {
+                this.department = cloneDeep(data);
+                this.departmentInitial = cloneDeep(data);
+                const department: Update<Department> = {
+                  id: this.department.id,
+                  changes: data
+                };
+                this.store.dispatch(departmentSaved({ department }));
+                this.editForm = false;
+                this.toastMessageService.toast('Department updated!');
+              },
+              error => {
+                this.toastMessageService.popup('Ooops, something went wrong!', 'error');
+              }
+            );
         }
-      );
+      });
   }
 
-  ngOnDestroy() {
+  get canEditDepartment$(): Observable<boolean> {
+    // combine 2 observables and compare values => return boolean
+    const combine = combineLatest([this.editDepartmentPrivilege$, this.appUser$]);
+    return combine.pipe(map(([editPriv, appUser]) => editPriv || appUser.id === this.department.managerId));
+  }
+
+  ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }

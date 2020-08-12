@@ -8,11 +8,9 @@ import { UserPreferences } from '@/modules/users/models';
   providedIn: 'root'
 })
 export class PreferencesService {
-  private preferencesApi: string;
+  private preferencesApi = '/preferences';
 
-  constructor(private http: HttpClient) {
-    this.preferencesApi = '/preferences';
-  }
+  constructor(private http: HttpClient) {}
 
   getList(): Observable<PreferencesList> {
     return this.http.get<PreferencesList>(this.preferencesApi);

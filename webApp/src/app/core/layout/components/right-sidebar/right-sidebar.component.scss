@@ -46,7 +46,11 @@ right-sidebar {
   flex-direction: column;
   height: 100%;
   width: 100%;
-  border-left: 1px solid $gray-200;
+  max-width: 100%;
+  @include media-breakpoint-up(md) {
+    max-width: crmsize(sidebar, width, true);
+    border-left: 1px solid $gray-200;
+  }
 
   &-content {
     width: 100%;

@@ -1,12 +1,13 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
-import { ConfirmPasswordValidator, ApiResponse, NewPassword } from '@/shared';
+import { ConfirmPasswordValidator, NewPassword, ToastMessageService } from '@/shared';
 import { AppState } from '@/core/reducers';
 import { Store, select } from '@ngrx/store';
 import * as authActions from '../../store/auth.actions';
 import * as authSelectors from '../../store/auth.selectors';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -14,21 +15,31 @@ import { Observable } from 'rxjs';
   styleUrls: ['./login.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
+  isLoading$: Observable<boolean> = this.store.pipe(select(authSelectors.isLoading));
+
   user: FormGroup;
-  hidePassword = true;
-  serverResponse$: Observable<ApiResponse>;
-  currentPath: string;
-  token: string;
   newPasswordForm: FormGroup;
-  isLoading$: Observable<boolean>;
+  currentPath: string;
+  hidePassword = true;
+  token: string;
 
-  constructor(private route: ActivatedRoute, private _formBuilder: FormBuilder, private store: Store<AppState>) {}
+  private unsubscribe: Subject<void> = new Subject();
 
-  ngOnInit() {
-    this.isLoading$ = this.store.pipe(select(authSelectors.isLoading));
+  constructor(
+    private route: ActivatedRoute,
+    private fb: FormBuilder,
+    private store: Store<AppState>,
+    private toastMessageService: ToastMessageService
+  ) {}
+
+  ngOnInit(): void {
     this.currentPath = this.route.snapshot.url[0].path;
-    this.serverResponse$ = this.store.pipe(select(authSelectors.getApiResponse));
+    this.store.pipe(select(authSelectors.getApiResponse), takeUntil(this.unsubscribe)).subscribe(serverResponse => {
+      if (serverResponse) {
+        this.toastMessageService.snack(serverResponse, 5000);
+      }
+    });
 
     if (this.currentPath === 'request-new-password' || this.currentPath === 'login') {
       this.prepareUserForm();
@@ -44,7 +55,7 @@ export class LoginComponent implements OnInit {
   }
 
   prepareUserForm(): void {
-    this.user = this._formBuilder.group({
+    this.user = this.fb.group({
       login: new FormControl('', [Validators.required]),
       password: new FormControl('')
     });
@@ -54,7 +65,7 @@ export class LoginComponent implements OnInit {
   }
 
   preparePasswordResetForm(): void {
-    this.newPasswordForm = this._formBuilder.group(
+    this.newPasswordForm = this.fb.group(
       {
         newPassword: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(64)]),
         verifyPassword: new FormControl('', [Validators.required])
@@ -90,5 +101,10 @@ export class LoginComponent implements OnInit {
       ...this.newPasswordForm.value
     };
     this.store.dispatch(authActions.setNewPassword({ newPassword }));
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }
