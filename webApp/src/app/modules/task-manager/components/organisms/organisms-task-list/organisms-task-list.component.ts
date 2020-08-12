@@ -13,11 +13,10 @@ import {
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { MediaqueryService } from '@/shared';
+import { MediaqueryService, ToastMessageService } from '@/shared';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { OrganismsTaskDialogComponent } from '../organisms-task-dialog/organisms-task-dialog.component';
 import { MatAccordion } from '@angular/material/expansion';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'organisms-task-list',
@@ -33,7 +32,12 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private store: Store<AppState>, public dialog: MatDialog, private mediaQuery: MediaqueryService) {}
+  constructor(
+    private store: Store<AppState>,
+    public dialog: MatDialog,
+    private mediaQuery: MediaqueryService,
+    private toastMessageService: ToastMessageService
+  ) {}
 
   ngOnInit(): void {
     this.store.dispatch(taskListRequested());
@@ -70,19 +74,14 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
   }
 
   deleteMultipleTask(): void {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'Do you really want to delete all comleted tasks?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'Cancel'
-    }).then(result => {
-      if (result.value) {
-        const taskIds: number[] = this.tasks.filter(task => task.isCompleted).map(task => task.id);
-        this.store.dispatch(deleteMultipleTaskRequested({ taskIds }));
-      }
-    });
+    this.toastMessageService
+      .confirm('Are you sure?', 'Do you really want to delete all comleted tasks?')
+      .then(result => {
+        if (result.value) {
+          const taskIds: number[] = this.tasks.filter(task => task.isCompleted).map(task => task.id);
+          this.store.dispatch(deleteMultipleTaskRequested({ taskIds }));
+        }
+      });
   }
 
   changeTaskStatus(event: MatCheckboxChange, task: Task): void {

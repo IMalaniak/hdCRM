@@ -1,6 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
-import Swal from 'sweetalert2';
 import { Plan } from '../../models';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
@@ -11,7 +10,7 @@ import { MatSort } from '@angular/material/sort';
 import { tap } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
-import { PageQuery } from '@/shared';
+import { PageQuery, ToastMessageService } from '@/shared';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { deletePlan } from '../../store/plan.actions';
 
@@ -43,7 +42,11 @@ export class PlanListComponent implements OnInit, AfterViewInit {
     'actions'
   ];
 
-  constructor(private router: Router, private store: Store<AppState>) {}
+  constructor(
+    private router: Router,
+    private store: Store<AppState>,
+    private toastMessageService: ToastMessageService
+  ) {}
 
   ngOnInit(): void {
     const initialPage: PageQuery = {
@@ -80,17 +83,12 @@ export class PlanListComponent implements OnInit, AfterViewInit {
   }
 
   deletePlan(id: number): void {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'Do you really want to delete plan? You will not be able to recover!',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'Cancel'
-    }).then(result => {
-      if (result.value) {
-        this.store.dispatch(deletePlan({ id }));
-      }
-    });
+    this.toastMessageService
+      .confirm('Are you sure?', 'Do you really want to delete plan? You will not be able to recover!')
+      .then(result => {
+        if (result.value) {
+          this.store.dispatch(deletePlan({ id }));
+        }
+      });
   }
 }

@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
-import Swal from 'sweetalert2';
 import { takeUntil, map } from 'rxjs/operators';
 import { cloneDeep } from 'lodash';
 import { Department } from '../../models';
@@ -13,7 +12,7 @@ import { DepartmentService } from '../../services';
 import { AppState } from '@/core/reducers';
 import { departmentSaved } from '../../store/department.actions';
 import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
-import { MediaqueryService } from '@/shared';
+import { MediaqueryService, ToastMessageService } from '@/shared';
 
 @Component({
   selector: 'app-department',
@@ -37,7 +36,8 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private store: Store<AppState>,
     private mediaQuery: MediaqueryService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private toastMessageService: ToastMessageService
   ) {}
 
   ngOnInit(): void {
@@ -113,35 +113,31 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   }
 
   updateDepartment(): void {
-    this.departmentService
-      .updateOne(this.department)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(
-        data => {
-          this.department = cloneDeep(data);
-          this.departmentInitial = cloneDeep(data);
-          const department: Update<Department> = {
-            id: this.department.id,
-            changes: data
-          };
-          this.store.dispatch(departmentSaved({ department }));
-          this.editForm = false;
-          Swal.fire({
-            text: 'Department updated!',
-            icon: 'success',
-            timer: 6000,
-            toast: true,
-            showConfirmButton: false,
-            position: 'bottom-end'
-          });
-        },
-        error => {
-          Swal.fire({
-            text: 'Ooops, something went wrong!',
-            icon: 'error'
-          });
+    this.toastMessageService
+      .confirm('You are about to update department', 'Are you sure you want to update department details?')
+      .then(result => {
+        if (result.value) {
+          this.departmentService
+            .updateOne(this.department)
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe(
+              data => {
+                this.department = cloneDeep(data);
+                this.departmentInitial = cloneDeep(data);
+                const department: Update<Department> = {
+                  id: this.department.id,
+                  changes: data
+                };
+                this.store.dispatch(departmentSaved({ department }));
+                this.editForm = false;
+                this.toastMessageService.toast('Department updated!');
+              },
+              error => {
+                this.toastMessageService.popup('Ooops, something went wrong!', 'error');
+              }
+            );
         }
-      );
+      });
   }
 
   get canEditDepartment$(): Observable<boolean> {
