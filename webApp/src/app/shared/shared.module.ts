@@ -40,7 +40,7 @@ import {
   faCompressAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { faFontAwesomeFlag } from '@fortawesome/free-brands-svg-icons';
-import { COMPONENTS } from './imports';
+import { COMPONENTS, PIPES } from './imports';
 import { OverlayModule } from '@angular/cdk/overlay';
 
 @NgModule({
@@ -54,8 +54,17 @@ import { OverlayModule } from '@angular/cdk/overlay';
     NgxChartsModule,
     ReactiveFormsModule
   ],
-  declarations: [...COMPONENTS],
-  exports: [...COMPONENTS, AppMaterialModule, FontAwesomeModule, OverlayModule, FormsModule, ReactiveFormsModule]
+  declarations: [...COMPONENTS, ...PIPES],
+  exports: [
+    ...COMPONENTS,
+    ...PIPES,
+    AppMaterialModule,
+    FontAwesomeModule,
+    OverlayModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  providers: [...PIPES]
 })
 export class SharedModule {
   constructor(library: FaIconLibrary) {

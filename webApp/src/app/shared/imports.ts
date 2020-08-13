@@ -1,4 +1,5 @@
 import * as _components from './components';
+import * as _pipes from './pipes';
 
 const ATOMS = [
   _components.AtomsIconButtonComponent,
@@ -24,3 +25,4 @@ const TEMPLATES = [
 ];
 
 export const COMPONENTS = [...ATOMS, ...MOLECULES, ...ORGANISMS, ...TEMPLATES];
+export const PIPES = [_pipes.MemoizePipe];
