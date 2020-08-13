@@ -12,6 +12,7 @@ import { AtomsFormFieldComponent } from '../../atoms';
       [bindOptValue]="bindOptValue"
       [control]="control"
       [fType]="fType"
+      (fieldChange)="onFieldChange($event)"
     ></atoms-form-field>
     <atoms-readonly-form-field *ngIf="!editForm" [label]="label" [value]="value"></atoms-readonly-form-field>
   `,

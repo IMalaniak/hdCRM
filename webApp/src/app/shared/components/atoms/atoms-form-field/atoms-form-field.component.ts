@@ -1,6 +1,9 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { IFieldType } from '@/shared/models/FieldType';
+import { MatRadioChange } from '@angular/material/radio';
+import { MatSelectChange } from '@angular/material/select';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'atoms-form-field',
@@ -19,8 +22,22 @@ import { IFieldType } from '@/shared/models/FieldType';
           }}</mat-option>
         </mat-select>
       </mat-form-field>
+
+      <ng-container *ngSwitchCase="fieldTypes.RADIOGROUP">
+        <h5>{{ label }}</h5>
+        <mat-radio-group
+          [formControl]="control"
+          (change)="onFieldChange($event)"
+          [ngClass]="{ 'd-flex flex-column': optionsColumn }"
+        >
+          <mat-radio-button *ngFor="let option of options" [value]="option[bindOptValue]">{{
+            option[bindOptLabel]
+          }}</mat-radio-button>
+        </mat-radio-group>
+      </ng-container>
     </ng-container>
   `,
+  styleUrls: ['./atoms-form-field.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AtomsFormFieldComponent {
@@ -30,6 +47,13 @@ export class AtomsFormFieldComponent {
   @Input() label: string;
   @Input() fType: IFieldType;
   @Input() control: FormControl;
+  @Input() optionsColumn = true;
+
+  @Output() fieldChange: EventEmitter<MatRadioChange | MatSelectChange | MatCheckboxChange> = new EventEmitter();
 
   fieldTypes = IFieldType;
+
+  onFieldChange(event: MatRadioChange | MatSelectChange | MatCheckboxChange) {
+    this.fieldChange.emit(event);
+  }
 }
