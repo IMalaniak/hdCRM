@@ -27,7 +27,6 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   @Input() userPreferences: Preferences;
   @Input() currentSessionId: number;
   @Input() canEdit: boolean;
-  @Input() isLoading: boolean;
   @Input() serverResponse: ApiResponse;
   @Input() editForm: boolean;
   @Input() tabsToShow: string[] = ['details'];

@@ -14,7 +14,6 @@ import { ToastMessageService } from '@/shared';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganismsUserPasswordsComponent implements OnInit {
-  @Input() isLoading: boolean;
   @Input()
   set serverResponse(serverResponse: ApiResponse) {
     if (serverResponse) {
