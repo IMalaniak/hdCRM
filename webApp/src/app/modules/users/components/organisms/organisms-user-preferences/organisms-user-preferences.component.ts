@@ -15,6 +15,7 @@ import { PreferencesList, Preferences } from '@/core/reducers/preferences.reduce
 import { Observable } from 'rxjs';
 import { select } from '@ngrx/store';
 import { getPreferencesList } from '@/core/reducers/preferences.selectors';
+import { IFieldType } from '@/shared/models/FieldType';
 
 @Component({
   selector: 'organisms-user-preferences',
@@ -28,12 +29,27 @@ export class OrganismsUserPreferencesComponent implements OnInit, OnChanges {
   @Input() enabledDarkTheme: boolean;
   @Input() userPreferences: Preferences;
 
+  // TODO: @IMalaniak this we change to come from BE
+  themes = [
+    {
+      value: true,
+      label: 'Dark'
+    },
+    {
+      value: false,
+      label: 'Light'
+    }
+  ];
+  fieldTypes = IFieldType;
+
   currentDate = new Date();
   preferencesForm: FormGroup;
 
   constructor(private store$: Store<AppState>, private fb: FormBuilder) {}
 
   ngOnChanges(): void {
+    console.log(this.enabledDarkTheme);
+
     this.preferencesForm?.get('theme').patchValue(this.enabledDarkTheme);
   }
 
