@@ -7,6 +7,7 @@ import { AtomsFormFieldComponent } from '../../atoms';
     <atoms-form-field
       *ngIf="editForm && editable"
       [label]="label"
+      [color]="color"
       [options]="options"
       [bindOptLabel]="bindOptLabel"
       [bindOptValue]="bindOptValue"

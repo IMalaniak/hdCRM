@@ -26,6 +26,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
       <ng-container *ngSwitchCase="fieldTypes.RADIOGROUP">
         <h5>{{ label }}</h5>
         <mat-radio-group
+          [color]="color"
           [formControl]="control"
           (change)="onFieldChange($event)"
           [ngClass]="{ 'd-flex flex-column': optionsColumn }"
@@ -35,6 +36,15 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
           }}</mat-radio-button>
         </mat-radio-group>
       </ng-container>
+
+      <mat-checkbox
+        [color]="color"
+        *ngSwitchCase="fieldTypes.CHECKBOX"
+        [formControl]="control"
+        (change)="onFieldChange($event)"
+      >
+        {{ label }}
+      </mat-checkbox>
     </ng-container>
   `,
   styleUrls: ['./atoms-form-field.component.scss'],
@@ -44,6 +54,7 @@ export class AtomsFormFieldComponent {
   @Input() options?: any;
   @Input() bindOptValue?: string;
   @Input() bindOptLabel?: string;
+  @Input() color: string;
   @Input() label: string;
   @Input() fType: IFieldType;
   @Input() control: FormControl;
