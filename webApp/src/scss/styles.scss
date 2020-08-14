@@ -218,6 +218,13 @@ main {
   background-color: $black;
 }
 
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  appearance: none;
+}
+
 // Define sizing utility to allow responsive breakpoints
 // Can be deleted after Bootstrap added this to core
 @each $breakpoint in map-keys($grid-breakpoints) {
