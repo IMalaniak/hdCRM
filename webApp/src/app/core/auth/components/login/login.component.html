@@ -109,14 +109,23 @@
                 <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{
                   hidePassword ? 'visibility_off' : 'visibility'
                 }}</mat-icon>
-                <mat-error *ngIf="newPassword.invalid">
-                  <mat-error *ngIf="newPassword.errors.minlength" i18n="@@loginComponentInputErrorsPasswordIsTooShort">
+                <mat-error *ngIf="newPasswordForm.get('newPassword').invalid">
+                  <mat-error
+                    *ngIf="newPasswordForm.get('newPassword').errors.minlength"
+                    i18n="@@loginComponentInputErrorsPasswordIsTooShort"
+                  >
                     Password is too short!
                   </mat-error>
-                  <mat-error *ngIf="newPassword.errors.required" i18n="@@loginComponentdInputErrorsPasswordRequired">
+                  <mat-error
+                    *ngIf="newPasswordForm.get('newPassword').errors.required"
+                    i18n="@@loginComponentdInputErrorsPasswordRequired"
+                  >
                     Password is reqired!
                   </mat-error>
-                  <mat-error *ngIf="newPassword.errors.maxlength" i18n="@@loginComponentInputErrorsPasswordIsTooLong">
+                  <mat-error
+                    *ngIf="newPasswordForm.get('newPassword').errors.maxlength"
+                    i18n="@@loginComponentInputErrorsPasswordIsTooLong"
+                  >
                     Password is too long!
                   </mat-error>
                 </mat-error>
@@ -127,15 +136,15 @@
                 <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{
                   hidePassword ? 'visibility_off' : 'visibility'
                 }}</mat-icon>
-                <mat-error *ngIf="verifyPassword.invalid">
+                <mat-error *ngIf="newPasswordForm.get('verifyPassword').invalid">
                   <mat-error
-                    *ngIf="verifyPassword.errors.ConfirmPassword && (verifyPassword.dirty || verifyPassword.touched)"
+                    *ngIf="newPasswordForm.get('verifyPassword').errors.ConfirmPassword"
                     i18n="@@loginComponentInputErrorsPasswordsDoesNotMatch"
                   >
                     Passwords does not match!
                   </mat-error>
                   <mat-error
-                    *ngIf="verifyPassword.errors.required"
+                    *ngIf="newPasswordForm.get('verifyPassword').errors.required"
                     i18n="@@loginComponentInputErrorsConfirmPasswordRequired"
                   >
                     Password is reqired!

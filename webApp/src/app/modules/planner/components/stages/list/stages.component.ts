@@ -44,8 +44,8 @@ export class StagesComponent implements OnInit, OnDestroy {
   }
 
   isAllSelected(): boolean {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.resultsLength;
+    const numSelected: number = this.selection.selected.length;
+    const numRows: number = this.resultsLength;
     return numSelected === numRows;
   }
 
