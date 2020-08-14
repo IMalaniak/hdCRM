@@ -3,55 +3,55 @@
     <div class="col-md-12 col-lg-6">
       <form class="d-flex flex-column p-3" [formGroup]="userForm">
         <molecules-form-field
+          label="Name"
           [control]="userForm.get('name')"
           [value]="user.name"
-          label="Name"
           [editForm]="editForm"
         ></molecules-form-field>
         <molecules-form-field
+          label="Surname"
           [control]="userForm.get('surname')"
           [value]="user.surname"
-          label="Surname"
           [editForm]="editForm"
         ></molecules-form-field>
         <molecules-form-field
+          label="Login"
           [editForm]="editForm"
           [editable]="false"
-          label="Login"
           [value]="user.login"
         ></molecules-form-field>
         <molecules-form-field
+          label="Email"
           [control]="userForm.get('email')"
           [value]="user.email"
-          label="Email"
           [editForm]="editForm"
         ></molecules-form-field>
         <molecules-form-field
+          label="Phone"
           [control]="userForm.get('phone')"
           [value]="user.phone"
-          label="Phone"
           [editForm]="editForm"
         ></molecules-form-field>
         <molecules-form-field
           *ngIf="editForm"
-          [editForm]="editForm"
-          [control]="userForm.get('StateId')"
           label="State"
-          [fType]="fieldTypes.SELECT"
-          [options]="states"
           bindOptLabel="keyString"
           bindOptValue="id"
+          [options]="states"
+          [editForm]="editForm"
+          [control]="userForm.get('StateId')"
+          [fType]="fieldTypes.SELECT"
         ></molecules-form-field>
         <molecules-form-field
+          label="Date created"
           [editForm]="editForm"
           [editable]="false"
-          label="Date created"
           [value]="user.createdAt | date: 'short'"
         ></molecules-form-field>
         <molecules-form-field
+          label="Date updated"
           [editForm]="editForm"
           [editable]="false"
-          label="Date updated"
           [value]="user.updatedAt | date: 'short'"
         ></molecules-form-field>
       </form>

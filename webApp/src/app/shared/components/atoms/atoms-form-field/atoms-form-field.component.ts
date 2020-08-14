@@ -64,7 +64,7 @@ export class AtomsFormFieldComponent {
 
   fieldTypes = IFieldType;
 
-  onFieldChange(event: MatRadioChange | MatSelectChange | MatCheckboxChange) {
+  onFieldChange(event: MatRadioChange | MatSelectChange | MatCheckboxChange): void {
     this.fieldChange.emit(event);
   }
 }

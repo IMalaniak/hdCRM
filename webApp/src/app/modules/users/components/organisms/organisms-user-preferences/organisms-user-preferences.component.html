@@ -44,13 +44,13 @@
         </mat-radio-group>
       </div> -->
       <molecules-form-field
-        [editForm]="true"
-        [control]="preferencesForm.get('theme')"
         label="Theme"
-        [fType]="fieldTypes.RADIOGROUP"
-        [options]="themes"
         bindOptLabel="label"
         bindOptValue="value"
+        [options]="themes"
+        [editForm]="true"
+        [control]="preferencesForm.get('theme')"
+        [fType]="fieldTypes.RADIOGROUP"
         (fieldChange)="onThemeChange($event)"
       ></molecules-form-field>
     </div>

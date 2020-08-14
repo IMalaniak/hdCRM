@@ -48,8 +48,6 @@ export class OrganismsUserPreferencesComponent implements OnInit, OnChanges {
   constructor(private store$: Store<AppState>, private fb: FormBuilder) {}
 
   ngOnChanges(): void {
-    console.log(this.enabledDarkTheme);
-
     this.preferencesForm?.get('theme').patchValue(this.enabledDarkTheme);
   }
 
