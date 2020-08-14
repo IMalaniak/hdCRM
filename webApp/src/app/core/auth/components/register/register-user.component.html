@@ -96,14 +96,14 @@
                         </mat-error>
                       </mat-error>
                     </mat-form-field>
-                    <div class="d-flex flex-row align-items-center">
-                      <mat-checkbox
-                        color="warn"
-                        formControlName="generatePassword"
-                        name="generatePassword"
-                      ></mat-checkbox>
-                      <span>Generate password for me and send it to my email</span>
-                    </div>
+
+                    <molecules-form-field
+                      [editForm]="true"
+                      color="warn"
+                      [control]="userCredentials.get('generatePassword')"
+                      label="Generate password for me and send it to my email"
+                      [fType]="fieldTypes.CHECKBOX"
+                    ></molecules-form-field>
                   </div>
                 </form>
                 <div class="d-flex justify-content-end pt-3">

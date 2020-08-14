@@ -43,13 +43,16 @@
           <mat-radio-button *ngFor="let lang of languages" value="">{{ lang }}</mat-radio-button>
         </mat-radio-group>
       </div> -->
-      <div class="preferences-detail">
-        <h5>Theme</h5>
-        <mat-radio-group formControlName="theme" (change)="onThemeChange($event)">
-          <mat-radio-button [value]="true">Dark</mat-radio-button>
-          <mat-radio-button [value]="false">Light</mat-radio-button>
-        </mat-radio-group>
-      </div>
+      <molecules-form-field
+        label="Theme"
+        bindOptLabel="label"
+        bindOptValue="value"
+        [options]="themes"
+        [editForm]="true"
+        [control]="preferencesForm.get('theme')"
+        [fType]="fieldTypes.RADIOGROUP"
+        (fieldChange)="onThemeChange($event)"
+      ></molecules-form-field>
     </div>
 
     <div class="col-12 col-sm-4 col-md-4 col-lg-4">
