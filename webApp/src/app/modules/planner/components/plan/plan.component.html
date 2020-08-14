@@ -34,7 +34,7 @@
         </div>
       </div>
     </div>
-    <div buttons *ngIf="null | memoize: canEditPlan$: this">
+    <div buttons *ngIf="canEditPlan$ | async">
       <atoms-icon-button *ngIf="!configPlanStages" (onclick)="onClickConfigureStages()" [icon]="['fas', 'cog']">
         Configure stages
       </atoms-icon-button>
@@ -52,7 +52,7 @@
     </div>
   </organisms-card> -->
   <!-- <organisms-card cardTitle="Actions" *ngIf="plan">
-    <div content class="d-flex p-3" *ngIf="null | memoize: canEditPlan$: this">
+    <div content class="d-flex p-3" *ngIf="canEditPlan$ | async">
       <atoms-icon-button
         (onclick)="goToNextStageSwal"
         [icon]="plan.activeStage.keyString === 'finished' ? ['fas', 'check'] : ['fas', 'arrow-right']"
@@ -163,7 +163,7 @@
       ></templates-box-user-list-sm>
     </div>
   </div>
-  <div buttons *ngIf="null | memoize: canEditPlan$: this">
+  <div buttons *ngIf="canEditPlan$ | async">
     <atoms-icon-button *ngIf="!editForm" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
       Edit
     </atoms-icon-button>

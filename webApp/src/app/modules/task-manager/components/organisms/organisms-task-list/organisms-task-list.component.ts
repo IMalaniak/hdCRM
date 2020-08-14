@@ -92,8 +92,8 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
     return `task-priority-${task?.TaskPriority?.value}`;
   }
 
-  completedTasksLength(): boolean {
-    return this.tasks?.length ? this.tasks.filter(task => task.isCompleted).length >= 2 : true;
+  get completedTasksLength(): boolean {
+    return this.tasks?.length ? this.tasks.filter(task => task.isCompleted).length > 0 : true;
   }
 
   ngOnDestroy(): void {

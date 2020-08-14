@@ -78,9 +78,9 @@ export class RegisterUserComponent implements OnInit {
   }
 
   initPasswordValidation(): void {
-    const password: AbstractControl = this.getUserControl('userCredentials', 'password');
+    const password: AbstractControl = this.getControl('userCredentials', 'password');
 
-    this.getUserControl('userCredentials', 'generatePassword').valueChanges.subscribe(value => {
+    this.getControl('userCredentials', 'generatePassword').valueChanges.subscribe(value => {
       if (value) {
         password.setValidators(null);
         password.reset();
@@ -92,9 +92,9 @@ export class RegisterUserComponent implements OnInit {
   }
 
   initOrganizationValidation(): void {
-    const title: AbstractControl = this.getUserControl('userOrganization', 'title');
+    const title: AbstractControl = this.getControl('userOrganization', 'title');
 
-    this.getUserControl('userOrganization', 'type').valueChanges.subscribe(value => {
+    this.getControl('userOrganization', 'type').valueChanges.subscribe(value => {
       if (value === 'company') {
         title.setValidators([
           Validators.required,
@@ -111,7 +111,7 @@ export class RegisterUserComponent implements OnInit {
     });
   }
 
-  getUserControl(formGroup: string, formControl: string): AbstractControl {
+  getControl(formGroup: string, formControl: string): AbstractControl {
     return this.registerData.get(formGroup).get(formControl);
   }
 

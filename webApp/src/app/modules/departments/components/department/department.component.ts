@@ -43,16 +43,14 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.departmentInitial = cloneDeep(this.route.snapshot.data['department']);
     this.department = cloneDeep(this.route.snapshot.data['department']);
-    this.canEditDepartment$()
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(canEdit => {
-        if (canEdit) {
-          const edit = this.route.snapshot.queryParams['edit'];
-          if (edit) {
-            this.editForm = JSON.parse(edit);
-          }
+    this.canEditDepartment$.pipe(takeUntil(this.unsubscribe)).subscribe(canEdit => {
+      if (canEdit) {
+        const edit = this.route.snapshot.queryParams['edit'];
+        if (edit) {
+          this.editForm = JSON.parse(edit);
         }
-      });
+      }
+    });
   }
 
   onClickEdit(): void {
@@ -142,9 +140,8 @@ export class DepartmentComponent implements OnInit, OnDestroy {
       });
   }
 
-  canEditDepartment$(): Observable<boolean> {
-    // TODO: @IMalaniak check if works correctly
-    // combine 2 observables and compare values => return boolean
+  get canEditDepartment$(): Observable<boolean> {
+    // @IMalaniak change it to Observable, not a function
     const combine = combineLatest([this.editDepartmentPrivilege$, this.appUser$]);
     return combine.pipe(map(([editPriv, appUser]) => editPriv || appUser.id === this.department.managerId));
   }

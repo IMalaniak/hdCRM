@@ -36,7 +36,7 @@
         [showButtonTextOnSm]="true"
         [fullWidth]="true"
         [icon]="['fas', 'trash']"
-        [disabled]="!(null | memoize: completedTasksLength: this)"
+        [disabled]="!completedTasksLength"
         (onclick)="deleteMultipleTask()"
       >
         Delete completed
