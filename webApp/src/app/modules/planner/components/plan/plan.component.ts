@@ -47,14 +47,16 @@ export class PlanComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.plan = cloneDeep(this.route.snapshot.data['plan']);
     this.planInitial = cloneDeep(this.route.snapshot.data['plan']);
-    this.canEditPlan$.pipe(takeUntil(this.unsubscribe)).subscribe(canEdit => {
-      if (canEdit) {
-        const edit = this.route.snapshot.queryParams['edit'];
-        if (edit) {
-          this.editForm = JSON.parse(edit);
+    this.canEditPlan$()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(canEdit => {
+        if (canEdit) {
+          const edit = this.route.snapshot.queryParams['edit'];
+          if (edit) {
+            this.editForm = JSON.parse(edit);
+          }
         }
-      }
-    });
+      });
   }
 
   goToNextStage(): void {
@@ -208,7 +210,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   //     });
   // }
 
-  dragDropStages(event: CdkDragDrop<string[]>) {
+  dragDropStages(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.plan.Stages, event.previousIndex, event.currentIndex);
     this.plan.Stages = this.plan.Stages.map((stage, i) => {
       stage.Details.order = i;
@@ -254,7 +256,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   }
 
   addDoc(doc: Asset): void {
-    this.plan.Documents.push(doc);
+    this.plan.Documents = [...this.plan.Documents, doc];
     this.updatePlanStore(this.plan);
   }
 
@@ -297,8 +299,9 @@ export class PlanComponent implements OnInit, OnDestroy {
     this.store.dispatch(planSaved({ plan }));
   }
 
-  get canEditPlan$(): Observable<boolean> {
+  canEditPlan$(): Observable<boolean> {
     // combine 3 observables and compare values => return boolean
+    // TODO: @IMalaniak check if works correctly
     const combine = combineLatest([this.editPlanPrivilege$, this.configStagesPrivilege$, this.appUser$]);
     return combine.pipe(map(res => (res[0] && res[1]) || res[2].id === this.plan.CreatorId));
   }

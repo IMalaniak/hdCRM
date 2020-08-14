@@ -29,7 +29,7 @@
         </mat-tab>
 
         <!-- Organization -->
-        <mat-tab label="Organization" *ngIf="isTabToShow('org')">
+        <mat-tab label="Organization" *ngIf="'org' | memoize: isTabToShow: this">
           <ng-template matTabContent>
             <organisms-user-organization
               [organization]="user.Organization"
@@ -42,7 +42,7 @@
         </mat-tab>
 
         <!-- Preferences -->
-        <mat-tab label="Preferences" *ngIf="isTabToShow('preferences')">
+        <mat-tab label="Preferences" *ngIf="'preferences' | memoize: isTabToShow: this">
           <ng-template matTabContent>
             <organisms-user-preferences
               [enabledDarkTheme]="enableDarkTheme$ | async"
@@ -52,7 +52,7 @@
         </mat-tab>
 
         <!-- Passwords -->
-        <mat-tab label="Password" *ngIf="isTabToShow('password')">
+        <mat-tab label="Password" *ngIf="'password' | memoize: isTabToShow: this">
           <ng-template matTabContent>
             <organisms-user-passwords
               [isLoading]="isLoading"
@@ -62,7 +62,7 @@
         </mat-tab>
 
         <!-- Sessions -->
-        <mat-tab label="Sessions" *ngIf="isTabToShow('sessions')">
+        <mat-tab label="Sessions" *ngIf="'sessions' | memoize: isTabToShow: this">
           <ng-template matTabContent>
             <organisms-user-sessions [user]="user" [currentSessionId]="currentSessionId"></organisms-user-sessions>
           </ng-template>

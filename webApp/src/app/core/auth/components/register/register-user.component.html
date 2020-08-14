@@ -8,36 +8,36 @@
               Register your HDCRM Account
             </h3>
             <mat-vertical-stepper linear #stepper>
-              <mat-step [stepControl]="userCredentials">
+              <mat-step [stepControl]="registerData.get('userCredentials')">
                 <ng-template matStepLabel i18n=" @@registerUserComponentStepperLabelsGeneralInformation "
                   >General information</ng-template
                 >
-                <form [formGroup]="userCredentials" class="row d-flex flex-column">
+                <form [formGroup]="registerData.get('userCredentials')" class="row d-flex flex-column">
                   <div class="col col-md">
                     <mat-form-field appearance="outline">
                       <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderLogin ">Login</mat-label>
                       <input matInput formControlName="login" type="text" name="login" required />
-                      <mat-error *ngIf="userCredentials.get('login').invalid">
+                      <mat-error *ngIf="getUserControl('userCredentials', 'login').invalid">
                         <mat-error
-                          *ngIf="userCredentials.get('login').errors.required"
+                          *ngIf="getUserControl('userCredentials', 'login').errors.required"
                           i18n=" @@registerUserComponentStepperInputErrorsLoginRequired "
                         >
                           Login is required!
                         </mat-error>
                         <mat-error
-                          *ngIf="userCredentials.get('login').errors.minlength"
+                          *ngIf="getUserControl('userCredentials', 'login').errors.minlength"
                           i18n=" @@registerUserComponentStepperInputErrorsLoginIsTooShort "
                         >
                           Login is too short!
                         </mat-error>
                         <mat-error
-                          *ngIf="userCredentials.get('login').errors.maxlength"
+                          *ngIf="getUserControl('userCredentials', 'login').errors.maxlength"
                           i18n=" @@registerUserComponentStepperInputErrorsLoginIsTooLong "
                         >
                           Login is too long!
                         </mat-error>
                         <mat-error
-                          *ngIf="userCredentials.get('login').errors.pattern"
+                          *ngIf="getUserControl('userCredentials', 'login').errors.pattern"
                           i18n=" @@registerUserComponentStepperInputErrorsLoginIsInvalid "
                         >
                           Unallowed symbols are used!
@@ -49,15 +49,15 @@
                     <mat-form-field appearance="outline">
                       <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderEmail ">Email</mat-label>
                       <input matInput formControlName="email" type="email" name="email" required />
-                      <mat-error *ngIf="userCredentials.get('email').invalid">
+                      <mat-error *ngIf="getUserControl('userCredentials', 'email').invalid">
                         <mat-error
-                          *ngIf="userCredentials.get('email').errors.required"
+                          *ngIf="getUserControl('userCredentials', 'email').errors.required"
                           i18n=" @@registerUserComponentStepperInputErrorsEmailRequired "
                         >
                           Email is required!
                         </mat-error>
                         <mat-error
-                          *ngIf="userCredentials.get('email').errors.pattern"
+                          *ngIf="getUserControl('userCredentials', 'email').errors.pattern"
                           i18n=" @@registerUserComponentStepperInputErrorsBadEmail "
                         >
                           Invalid email address!
@@ -69,7 +69,7 @@
                     <mat-form-field
                       appearance="outline"
                       class="password-field"
-                      *ngIf="!userCredentials.get('generatePassword').value"
+                      *ngIf="!getUserControl('userCredentials', 'generatePassword').value"
                     >
                       <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderPassword ">Password</mat-label>
                       <input
@@ -81,15 +81,15 @@
                       <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{
                         hidePassword ? 'visibility_off' : 'visibility'
                       }}</mat-icon>
-                      <mat-error *ngIf="userCredentials.get('password').invalid">
+                      <mat-error *ngIf="getUserControl('userCredentials', 'generatePassword').invalid">
                         <mat-error
-                          *ngIf="userCredentials.get('password').errors.required"
+                          *ngIf="getUserControl('userCredentials', 'generatePassword').errors.required"
                           i18n=" @@registerUserComponentStepperInputErrorsPasswordRequired "
                         >
                           Password is required!
                         </mat-error>
                         <mat-error
-                          *ngIf="userCredentials.get('password').errors.minlength"
+                          *ngIf="getUserControl('userCredentials', 'generatePassword').errors.minlength"
                           i18n=" @@registerUserComponentStepperInputErrorsPasswordIsTooShort "
                         >
                           Password is too short!
@@ -117,30 +117,30 @@
                   </atoms-icon-button>
                 </div>
               </mat-step>
-              <mat-step [stepControl]="userPersonalInfo">
+              <mat-step [stepControl]="registerData.get('userPersonalInfo')">
                 <ng-template matStepLabel i18n=" @@registerUserComponentStepperLabelsContactInformation "
                   >Contact information</ng-template
                 >
-                <form [formGroup]="userPersonalInfo" class="row d-flex flex-column">
+                <form [formGroup]="registerData.get('userPersonalInfo')" class="row d-flex flex-column">
                   <div class="col col-md">
                     <mat-form-field appearance="outline">
                       <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderName ">Name</mat-label>
                       <input matInput formControlName="name" type="text" name="name" required />
-                      <mat-error *ngIf="userPersonalInfo.get('name').invalid">
+                      <mat-error *ngIf="getUserControl('userPersonalInfo', 'name').invalid">
                         <mat-error
-                          *ngIf="userPersonalInfo.get('name').errors.required"
+                          *ngIf="getUserControl('userPersonalInfo', 'name').errors.required"
                           i18n=" @@registerUserComponentStepperInputErrorsNameRequired "
                         >
                           Name is required!
                         </mat-error>
                         <mat-error
-                          *ngIf="userPersonalInfo.get('name').errors.maxlength"
+                          *ngIf="getUserControl('userPersonalInfo', 'name').errors.maxlength"
                           i18n=" @@registerUserComponentStepperInputErrorsNameIsTooShort "
                         >
                           Name is too long!
                         </mat-error>
                         <mat-error
-                          *ngIf="userPersonalInfo.get('name').errors.pattern"
+                          *ngIf="getUserControl('userPersonalInfo', 'name').errors.pattern"
                           i18n=" @@registerUserComponentStepperInputErrorsNameIsInvalid "
                         >
                           Unallowed symbols are used!
@@ -152,15 +152,15 @@
                     <mat-form-field appearance="outline">
                       <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderSurname ">Surname</mat-label>
                       <input matInput formControlName="surname" type="text" name="surname" required />
-                      <mat-error *ngIf="userPersonalInfo.get('surname').invalid">
+                      <mat-error *ngIf="getUserControl('userPersonalInfo', 'surname').invalid">
                         <mat-error
-                          *ngIf="userPersonalInfo.get('surname').errors.required"
+                          *ngIf="getUserControl('userPersonalInfo', 'surname').errors.required"
                           i18n=" @@registerUserComponentStepperInputErrorsSurnameRequired "
                         >
                           Surname is required!
                         </mat-error>
                         <mat-error
-                          *ngIf="userPersonalInfo.get('surname').errors.pattern"
+                          *ngIf="getUserControl('userPersonalInfo', 'surname').errors.pattern"
                           i18n=" @@registerUserComponentStepperInputErrorsSurnameIsInvalid "
                         >
                           Unallowed symbols are used!
@@ -172,9 +172,9 @@
                     <mat-form-field appearance="outline">
                       <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderPhone ">Phone</mat-label>
                       <input matInput formControlName="phone" type="tel" name="phone" />
-                      <mat-error *ngIf="userPersonalInfo.get('phone').invalid">
+                      <mat-error *ngIf="getUserControl('userPersonalInfo', 'phone').invalid">
                         <mat-error
-                          *ngIf="userPersonalInfo.get('phone').errors.pattern"
+                          *ngIf="getUserControl('userPersonalInfo', 'phone').errors.pattern"
                           i18n=" @@registerUserComponentStepperInputErrorsPhoneIsInvalid "
                         >
                           Unallowed symbols are used!
@@ -192,58 +192,61 @@
                   </atoms-icon-button>
                 </div>
               </mat-step>
-              <mat-step [stepControl]="userOrganization">
+              <mat-step [stepControl]="registerData.get('userOrganization')">
                 <ng-template matStepLabel i18n="@@registerUserComponentStepperLabelsOrganizationInformation"
                   >Organization information</ng-template
                 >
-                <form [formGroup]="userOrganization" class="row d-flex flex-column">
+                <form [formGroup]="registerData.get('userOrganization')" class="row d-flex flex-column">
                   <div class="col col-md mt-1 mb-4">
                     <mat-radio-group formControlName="type">
                       <mat-radio-button class="mr-4" color="warn" value="company">Company</mat-radio-button>
                       <mat-radio-button color="warn" value="private">Private</mat-radio-button>
                     </mat-radio-group>
                   </div>
-                  <mat-form-field appearance="outline" *ngIf="userOrganization.get('type').value === 'company'">
+                  <mat-form-field
+                    appearance="outline"
+                    *ngIf="getUserControl('userOrganization', 'type').value === 'company'"
+                  >
                     <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderCompanyTitle"
                       >Company name</mat-label
                     >
                     <input matInput formControlName="title" name="orgTitle" type="text" required />
-                    <mat-error *ngIf="userOrganization.get('title').invalid">
+                    <mat-error *ngIf="getUserControl('userOrganization', 'title').invalid">
                       <mat-error
-                        *ngIf="userOrganization.get('title').errors.required"
+                        *ngIf="getUserControl('userOrganization', 'title').errors.required"
                         i18n=" @@registerUserComponentStepperInputErrorsCompanyTitleRequired"
                       >
                         Company name is required!
                       </mat-error>
                       <mat-error
-                        *ngIf="userOrganization.get('title').errors.maxlength"
+                        *ngIf="getUserControl('userOrganization', 'title').errors.maxlength"
                         i18n=" @@registerUserComponentStepperInputErrorsCompanyTitleIsTooLong "
                       >
                         Company name is too long!
                       </mat-error>
                     </mat-error>
                   </mat-form-field>
-                  <mat-form-field appearance="outline" *ngIf="userOrganization.get('type').value">
+                  <mat-form-field appearance="outline" *ngIf="getUserControl('userOrganization', 'title').value">
                     <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderSiteUrl "
                       >Web site address</mat-label
                     >
                     <input matInput formControlName="website" name="orgWebsite" type="url" required />
-                    <mat-error *ngIf="userOrganization.get('website').invalid">
+                    <mat-error *ngIf="getUserControl('userOrganization', 'website').invalid">
                       <mat-error
-                        *ngIf="userOrganization.get('website').errors.required"
+                        *ngIf="getUserControl('userOrganization', 'website').errors.required"
                         i18n=" @@registerUserComponentStepperInputErrorsWebSiteUrlRequired "
                       >
                         Web site is required!
                       </mat-error>
                       <mat-error
-                        *ngIf="userOrganization.get('website').errors.pattern"
+                        *ngIf="getUserControl('userOrganization', 'website').errors.pattern"
                         i18n=" @@registerUserComponentStepperInputErrorsWebSiteIsInvalid "
                       >
                         Web site is invalid!
                       </mat-error>
                     </mat-error>
                   </mat-form-field>
-                  <mat-accordion *ngIf="userOrganization.get('type').value === 'company'">
+                  <mat-accordion *ngIf="getUserControl('userOrganization', 'type').value === 'company'">
                     <mat-expansion-panel>
                       <mat-expansion-panel-header>
                         <mat-panel-title>
@@ -291,9 +294,9 @@
                       <mat-form-field appearance="outline">
                         <mat-label i18n=" @@registerUserComponentStepperInputPlaceholderPhone ">Phone</mat-label>
                         <input matInput formControlName="phone" type="tel" name="orgPhone" />
-                        <mat-error *ngIf="userOrganization.get('phone').invalid">
+                        <mat-error *ngIf="getUserControl('userOrganization', 'phone').invalid">
                           <mat-error
-                            *ngIf="userOrganization.get('phone').errors.pattern"
+                            *ngIf="getUserControl('userOrganization', 'phone').errors.pattern"
                             i18n=" @@registerUserComponentStepperInputErrorsOrganizationPhoneIsInvalid "
                           >
                             Unallowed symbols are used!
@@ -305,9 +308,9 @@
                           >Email</mat-label
                         >
                         <input matInput formControlName="email" type="email" name="orgEmail" />
-                        <mat-error *ngIf="userOrganization.get('email').invalid">
+                        <mat-error *ngIf="getUserControl('userOrganization', 'email').invalid">
                           <mat-error
-                            *ngIf="userOrganization.get('email').errors.pattern"
+                            *ngIf="getUserControl('userOrganization', 'email').errors.pattern"
                             i18n=" @@registerUserComponentStepperInputErrorsBadOrganizationEmail "
                           >
                             Invalid email address!

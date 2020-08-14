@@ -38,11 +38,7 @@ export class OrganismsTaskDialogComponent implements OnInit {
     }
   }
 
-  get title(): string {
-    return this.data.title;
-  }
-
-  get priorities(): TaskPriority[] {
+  getPriorities(): TaskPriority[] {
     return this.data.priorities;
   }
 

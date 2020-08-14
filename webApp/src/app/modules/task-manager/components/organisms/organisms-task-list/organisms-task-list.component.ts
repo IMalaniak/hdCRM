@@ -92,7 +92,7 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
     return `task-priority-${task?.TaskPriority?.value}`;
   }
 
-  get completedTasksLength(): boolean {
+  completedTasksLength(): boolean {
     return this.tasks?.length ? this.tasks.filter(task => task.isCompleted).length >= 2 : true;
   }
 
