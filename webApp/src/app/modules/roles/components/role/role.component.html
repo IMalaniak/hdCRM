@@ -99,7 +99,7 @@
       ></templates-box-user-list-sm>
     </div>
   </section>
-  <div buttons *ngIf="editRolePrivilege$ | async">
+  <div buttons *ngIf="canEditRole$ | async">
     <atoms-icon-button *ngIf="!editForm" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
       Edit
     </atoms-icon-button>

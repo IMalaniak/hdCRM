@@ -25,9 +25,9 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   currentUser$: Observable<User> = this.store.pipe(select(currentUser));
   loading$: Observable<boolean> = this.store.pipe(select(selectIsLoading));
   resultsLength$: Observable<number> = this.store.pipe(select(selectUsersTotalCount));
-  addUserPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-add')));
-  editUserPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-edit')));
-  deleteUserPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-delete')));
+  canAddUser$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-add')));
+  canEditUser$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-edit')));
+  canDeleteUser$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-delete')));
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -140,32 +140,6 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
       queryParams: { edit }
     });
   }
-
-  // changeStateOfSelected(stateTitle: string = 'active'): void {
-  //   let state;
-  //   for (state of this.states) {
-  //     if (state.keyString === stateTitle) {
-  //       break;
-  //     }
-  //   }
-
-  //   this.userService.changeStateOfSelected(this.selectedUsers, state).subscribe(
-  //     response => {
-  //       for (const user of this.selectedUsers) {
-  //         const i = this.users.indexOf(user);
-  //         this.users[i].selected = user.selected = false;
-  //         this.users[i].StateId = user.StateId = state.id;
-  //         this.users[i].State = user.State = state;
-  //       }
-  //       this.resetSelected();
-  //       this.toastMessageService.toast('User state was changed to: ${state.keyString}');
-  //
-  //     },
-  //     error => {
-  //        this.toastMessageService.popup('Ooops, something went wrong!', 'error');
-  //     }
-  //   );
-  // }
 
   ngOnDestroy(): void {
     this.unsubscribe.next();

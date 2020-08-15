@@ -1,6 +1,10 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { User } from '@/modules/users';
 import { Asset } from '@/shared';
+import { Observable } from 'rxjs/internal/Observable';
+import { isPrivileged } from '@/core/auth/store/auth.selectors';
+import { select, Store } from '@ngrx/store';
+import { AppState } from '@/core/reducers';
 
 @Component({
   selector: 'templates-user-details',
@@ -9,6 +13,10 @@ import { Asset } from '@/shared';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TemplatesUserDetailsComponent {
+  canViewDepartment$: Observable<boolean> = this.store$.pipe(select(isPrivileged('department-view')));
+
+  constructor(private store$: Store<AppState>) {}
+
   @Input() user: User;
   @Input() isDialog = false;
 

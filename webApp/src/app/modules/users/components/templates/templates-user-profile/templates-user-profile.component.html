@@ -29,7 +29,7 @@
         </mat-tab>
 
         <!-- Organization -->
-        <mat-tab label="Organization" *ngIf="'org' | memoize: isTabToShow: this">
+        <mat-tab label="Organization" *ngIf="('org' | memoize: isTabToShow: this)  && (canViewOrganization$ | async)">
           <ng-template matTabContent>
             <organisms-user-organization
               [organization]="user.Organization"
@@ -42,7 +42,10 @@
         </mat-tab>
 
         <!-- Preferences -->
-        <mat-tab label="Preferences" *ngIf="'preferences' | memoize: isTabToShow: this">
+        <mat-tab
+          label="Preferences"
+          *ngIf="('preferences' | memoize: isTabToShow: this) && (canViewPreferences$ | async)"
+        >
           <ng-template matTabContent>
             <organisms-user-preferences
               [enabledDarkTheme]="enableDarkTheme$ | async"

@@ -22,9 +22,13 @@ import { MediaqueryService, Asset, ApiResponse, ToastMessageService } from '@/sh
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlanComponent implements OnInit, OnDestroy {
-  appUser$: Observable<User> = this.store.pipe(select(currentUser));
-  editPlanPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('plan-edit')));
-  configStagesPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('stage-edit')));
+  canEditPlan$: Observable<boolean> = combineLatest([
+    this.store.pipe(select(isPrivileged('plan-edit'))),
+    this.store.pipe(select(currentUser))
+  ]).pipe(map(([editPriv, appUser]) => editPriv || appUser.id === this.plan.CreatorId));
+  canAddAttachment$: Observable<boolean> = this.store.pipe(select(isPrivileged('planAttachment-add')));
+  // configStages$: Observable<boolean> = this.store.pipe(select(isPrivileged('stage-edit')));
+  canDeleteAttachment$: Observable<boolean> = this.store.pipe(select(isPrivileged('planAttachment-delete')));
 
   plan: Plan;
   planInitial: Plan;
@@ -295,12 +299,6 @@ export class PlanComponent implements OnInit, OnDestroy {
       changes: data
     };
     this.store.dispatch(planSaved({ plan }));
-  }
-
-  get canEditPlan$(): Observable<boolean> {
-    // @IMalaniak change it to Observable, not a function
-    const combine = combineLatest([this.editPlanPrivilege$, this.configStagesPrivilege$, this.appUser$]);
-    return combine.pipe(map(res => (res[0] && res[1]) || res[2].id === this.plan.CreatorId));
   }
 
   ngOnDestroy(): void {

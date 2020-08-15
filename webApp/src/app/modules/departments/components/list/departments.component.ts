@@ -21,9 +21,9 @@ export class DepartmentsComponent implements OnInit, AfterViewInit {
   dataSource: DepartmentsDataSource = new DepartmentsDataSource(this.store);
   loading$: Observable<boolean> = this.store.pipe(select(selectDepartmentsLoading));
   resultsLength$: Observable<number> = this.store.pipe(select(selectDepartmentsTotalCount));
-  addDepPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('department-add')));
-  editDepPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('department-edit')));
-  deleteDepPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('department-delete')));
+  canAddDep$: Observable<boolean> = this.store.pipe(select(isPrivileged('department-add')));
+  canEditDep$: Observable<boolean> = this.store.pipe(select(isPrivileged('department-edit')));
+  canDeleteDep$: Observable<boolean> = this.store.pipe(select(isPrivileged('department-delete')));
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;

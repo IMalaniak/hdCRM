@@ -29,12 +29,18 @@
           {{ 'Department' | uppercase }}
         </h6>
       </div>
-      <atoms-link-button
-        [linkLabel]="user.Department.title"
-        linkClass="pl-0"
-        linkType="router"
-        routerLink="/departments/details/{{ user.Department.id }}"
-      ></atoms-link-button>
+      <ng-container *ngIf="user.Department">
+        <atoms-link-button
+          *ngIf="canViewDepartment$ | async; else depTitle"
+          [linkLabel]="user.Department.title"
+          linkClass="pl-0"
+          linkType="router"
+          linkHref="/departments/details/{{ user.Department.id }}"
+        ></atoms-link-button>
+        <ng-template #depTitle>
+          <span>{{ user.Department.title }}</span>
+        </ng-template>
+      </ng-container>
     </div>
     <div class="details" *ngIf="user.Roles && user.Roles.length">
       <div class="caption">
