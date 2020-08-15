@@ -25,9 +25,9 @@ export class DashboardComponent implements OnInit {
   rolesChartData$: Observable<Role[]> = this.store.pipe(select(selectAllRoles));
   planStagesChartData$: Observable<Stage[]> = this.store.pipe(select(selectAllStages));
   departmentsChartData$: Observable<Department[]> = this.store.pipe(select(selectAllDepartments));
-  canViewRolesChart$: Observable<boolean> = this.store.pipe(select(isPrivileged('role-view')));
-  canViewPlanStagesChart$: Observable<boolean> = this.store.pipe(select(isPrivileged('stage-view')));
-  canViewDepartmentsChart$: Observable<boolean> = this.store.pipe(select(isPrivileged('department-view')));
+  canViewRoles$: Observable<boolean> = this.store.pipe(select(isPrivileged('role-view')));
+  canViewPlan$: Observable<boolean> = this.store.pipe(select(isPrivileged('plan-view')));
+  canViewDepartments$: Observable<boolean> = this.store.pipe(select(isPrivileged('department-view')));
 
   constructor(private store: Store<AppState>) {}
 

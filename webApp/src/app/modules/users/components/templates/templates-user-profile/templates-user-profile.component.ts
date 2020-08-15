@@ -23,8 +23,8 @@ import { isPrivileged } from '@/core/auth/store/auth.selectors';
 })
 export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   enableDarkTheme$: Observable<boolean> = this.store.pipe(select(fromLayout.getDarkThemeState));
-  canViewPreferences$: Observable<Preferences> = this.store.pipe(select(isPrivileged('preference-view')));
-  canViewOrganization$: Observable<Preferences> = this.store.pipe(select(isPrivileged('organization-view')));
+  canViewPreferences$: Observable<boolean> = this.store.pipe(select(isPrivileged('preferenceTab-view')));
+  canViewOrganization$: Observable<boolean> = this.store.pipe(select(isPrivileged('organizationTab-view')));
 
   @Input() user: User;
   @Input() userPreferences: Preferences;

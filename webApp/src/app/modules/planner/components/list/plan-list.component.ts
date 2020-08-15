@@ -23,9 +23,9 @@ export class PlanListComponent implements OnInit, AfterViewInit {
   dataSource: PlansDataSource = new PlansDataSource(this.store);
   loading$: Observable<boolean> = this.store.pipe(select(selectPlansLoading));
   resultsLength$: Observable<number> = this.store.pipe(select(selectPlansTotalCount));
-  canAddPlanPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('plan-add')));
-  canEditPlanPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('plan-edit')));
-  canDeletePlanPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('plan-delete')));
+  canAddPlan$: Observable<boolean> = this.store.pipe(select(isPrivileged('plan-add')));
+  canEditPlan$: Observable<boolean> = this.store.pipe(select(isPrivileged('plan-edit')));
+  canDeletePlan$: Observable<boolean> = this.store.pipe(select(isPrivileged('plan-delete')));
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;

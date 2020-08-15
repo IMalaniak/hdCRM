@@ -24,9 +24,9 @@ export class RolesComponent implements OnInit, OnDestroy, AfterViewInit {
   dataSource: RolesDataSource = new RolesDataSource(this.store);
   loading$: Observable<boolean> = this.store.pipe(select(selectRolesLoading));
   resultsLength$: Observable<number> = this.store.pipe(select(selectRolesTotalCount));
-  canAddRolePrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('role-add')));
-  canEditRolePrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('role-edit')));
-  canDeleteRolePrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('role-delete')));
+  canAddRole$: Observable<boolean> = this.store.pipe(select(isPrivileged('role-add')));
+  canEditRole$: Observable<boolean> = this.store.pipe(select(isPrivileged('role-edit')));
+  canDeleteRole$: Observable<boolean> = this.store.pipe(select(isPrivileged('role-delete')));
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;

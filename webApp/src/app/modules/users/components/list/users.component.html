@@ -1,7 +1,7 @@
 <organisms-card cardTitle="User list" [showDataLoader]="loading$ | async">
   <atoms-icon-button
     buttons
-    *ngIf="canAddUserPrivilege$ | async"
+    *ngIf="canAddUser$ | async"
     (onclick)="openInvitationDialog()"
     [icon]="['fas', 'user-plus']"
   >
@@ -84,12 +84,12 @@
               <fa-icon [icon]="['fas', 'id-badge']"></fa-icon>
               <span i18n="@@usersComponentListActionsView">Details</span>
             </button>
-            <button *ngIf="canEditUserPrivilege$ | async" mat-menu-item (click)="onUserSelect(user.id, true)">
+            <button *ngIf="canEditUser$ | async" mat-menu-item (click)="onUserSelect(user.id, true)">
               <fa-icon [icon]="['fas', 'user-edit']"></fa-icon>
               <span i18n="@@usersComponentListActionsEdit">Edit</span>
             </button>
             <button
-              *ngIf="(canEditUserPrivilege$ | async) && user.State.id === 2 && user.id !== (currentUser$ | async).id"
+              *ngIf="(canEditUser$ | async) && user.State.id === 2 && user.id !== (currentUser$ | async).id"
               mat-menu-item
               (click)="changeUserState(user, 3)"
             >
@@ -97,7 +97,7 @@
               <span i18n="@@usersComponentListActionsDeactivate">Deactivate user</span>
             </button>
             <button
-              *ngIf="(canEditUserPrivilege$ | async) && (user.State.id === 1 || user.State.id === 3)"
+              *ngIf="(canEditUser$ | async) && (user.State.id === 1 || user.State.id === 3)"
               mat-menu-item
               (click)="changeUserState(user, 2)"
             >
@@ -105,7 +105,7 @@
               <span i18n="@@usersComponentListActionsActivate">Activate user</span>
             </button>
             <button
-              *ngIf="(canEditUserPrivilege$ | async) && user.State.id === 4 && user.id !== (currentUser$ | async).id"
+              *ngIf="(canEditUser$ | async) && user.State.id === 4 && user.id !== (currentUser$ | async).id"
               mat-menu-item
               (click)="changeUserState(user, 4)"
             >
@@ -113,7 +113,7 @@
               <span i18n="@@usersComponentListActionsArchive">Archive user</span>
             </button>
             <button
-              *ngIf="(canDeleteUserPrivilege$ | async) && user.id !== (currentUser$ | async).id"
+              *ngIf="(canDeleteUser$ | async) && user.id !== (currentUser$ | async).id"
               mat-menu-item
               (click)="deleteUser(user.id)"
             >

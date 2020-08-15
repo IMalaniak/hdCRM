@@ -31,13 +31,13 @@
         <!-- Organization -->
         <mat-tab label="Organization" *ngIf="isTabToShow('org') && canViewOrganization$ | async">
           <ng-template matTabContent>
-            <organisms-user-organizations
+            <organisms-user-organization
               [organization]="user.Organization"
               [canEdit]="canEdit"
               [editForm]="editForm"
               (setEditableForm)="setFormEdit($event)"
               (updateOrg)="updateUserOrg($event)"
-            ></organisms-user-organizations>
+            ></organisms-user-organization>
           </ng-template>
         </mat-tab>
 

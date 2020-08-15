@@ -24,7 +24,7 @@ import { Observable } from 'rxjs/internal/Observable';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {
-  canUserAdd$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-add')));
+  canAddUser$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-add')));
 
   @Input() leftSidebarMinimized: boolean;
   @Input() currentUser: User;

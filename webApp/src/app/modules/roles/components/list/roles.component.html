@@ -1,6 +1,6 @@
 <organisms-card cardTitle="Roles List" [showDataLoader]="loading$ | async">
-  <div buttons *ngIf="canAddRolePrivilege$ | async">
-    <atoms-icon-button *ngIf="!editForm" routerLink="/roles/add" [icon]="['fas', 'plus']">
+  <div buttons *ngIf="canAddRole$ | async">
+    <atoms-icon-button routerLink="/roles/add" [icon]="['fas', 'plus']">
       Create
     </atoms-icon-button>
   </div>
@@ -59,15 +59,11 @@
               <fa-icon [icon]="['fas', 'info']"></fa-icon>
               <span i18n="@@rolesComponentListActionsView">Details</span>
             </button>
-            <button *ngIf="canEditRolePrivilege$ | async" mat-menu-item (click)="onRoleSelect(role.id, true)">
+            <button *ngIf="canEditRole$ | async" mat-menu-item (click)="onRoleSelect(role.id, true)">
               <fa-icon [icon]="['fas', 'edit']"></fa-icon>
               <span i18n="@@rolesComponentListActionsEdit">Edit</span>
             </button>
-            <button
-              *ngIf="(canDeleteRolePrivilege$ | async) && role.id !== 1"
-              mat-menu-item
-              (click)="deleteRole(role.id)"
-            >
+            <button *ngIf="(canDeleteRole$ | async) && role.id !== 1" mat-menu-item (click)="deleteRole(role.id)">
               <fa-icon [icon]="['fas', 'trash']" class="text-danger"></fa-icon>
               <span i18n="@@rolesComponentListActionsDelete">Delete</span>
             </button>

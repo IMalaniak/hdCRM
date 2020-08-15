@@ -25,9 +25,9 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   currentUser$: Observable<User> = this.store.pipe(select(currentUser));
   loading$: Observable<boolean> = this.store.pipe(select(selectIsLoading));
   resultsLength$: Observable<number> = this.store.pipe(select(selectUsersTotalCount));
-  canAddUserPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-add')));
-  canEditUserPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-edit')));
-  canDeleteUserPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-delete')));
+  canAddUser$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-add')));
+  canEditUser$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-edit')));
+  canDeleteUser$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-delete')));
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;

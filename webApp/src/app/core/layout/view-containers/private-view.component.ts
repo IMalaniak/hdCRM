@@ -5,7 +5,7 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { Observable, Subject } from 'rxjs';
 import { User } from '@/modules/users';
-import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
+import { currentUser } from '@/core/auth/store/auth.selectors';
 import * as layoutActions from '../store/layout.actions';
 import * as fromLayout from '../store';
 import { privateRouterTransition, MediaqueryService } from '@/shared';
@@ -44,7 +44,6 @@ import { privateRouterTransition, MediaqueryService } from '@/shared';
           ></right-sidebar>
         </section>
       </main>
-      <!--      <section class="app-messages" *ngIf="canShowDebug$ | async"></section> -->
     </section>
   `,
   animations: [privateRouterTransition],
@@ -52,7 +51,6 @@ import { privateRouterTransition, MediaqueryService } from '@/shared';
 })
 export class PrivateViewComponent implements OnInit, OnDestroy {
   currentUser$: Observable<User> = this.store.pipe(select(currentUser));
-  canShowDebug$: Observable<boolean> = this.store.pipe(select(isPrivileged('debug-view')));
   scaleFontUp$: Observable<boolean> = this.store.pipe(select(fromLayout.getScalledFontState));
   enableDarkTheme$: Observable<boolean> = this.store.pipe(select(fromLayout.getDarkThemeState));
   leftSidebarMinimized$: Observable<boolean> = this.store.pipe(select(fromLayout.getLeftSidebarState));
