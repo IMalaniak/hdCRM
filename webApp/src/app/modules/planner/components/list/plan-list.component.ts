@@ -61,7 +61,7 @@ export class PlanListComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.paginator.page.pipe(tap(() => this.loadPlansPage())).subscribe();
 
-    // TODO: check for other solution
+    // TODO: @IMalaniak, @ArseniiIrod check for other solution
     this.sort.sortChange.pipe(tap(() => this.loadPlansPage())).subscribe();
   }
 

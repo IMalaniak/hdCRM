@@ -1,35 +1,32 @@
-import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormGroup } from '@angular/forms';
-
-export interface PrivilegeData {
-  keyString: string;
-  title: string;
-}
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 @Component({
   templateUrl: 'add-privilege-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddPrivilegeDialogComponent {
-  constructor(
-    public dialogRef: MatDialogRef<AddPrivilegeDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: FormGroup
-  ) {}
+export class AddPrivilegeDialogComponent implements OnInit {
+  privilegeGroup: FormGroup;
+
+  constructor(public dialogRef: MatDialogRef<AddPrivilegeDialogComponent>, private fb: FormBuilder) {}
+
+  ngOnInit(): void {
+    this.buildPrivilegeFormGroup();
+  }
+
+  buildPrivilegeFormGroup(): void {
+    this.privilegeGroup = this.fb.group({
+      keyString: new FormControl(null, [Validators.required, Validators.minLength(4)]),
+      title: new FormControl(null, [Validators.required, Validators.minLength(4)])
+    });
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
   onSubmitClick(): void {
-    this.dialogRef.close(this.data.value);
-  }
-
-  get title() {
-    return this.data.get('title');
-  }
-
-  get keyString() {
-    return this.data.get('keyString');
+    this.dialogRef.close(this.privilegeGroup.value);
   }
 }

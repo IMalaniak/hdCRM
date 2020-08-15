@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { Privilege } from '../../../models';
 import { AddPrivilegeDialogComponent } from '../add-dialog/add-privilege-dialog.component';
 import { Subject, Observable } from 'rxjs';
@@ -60,12 +60,7 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
   }
 
   createPrivilegeDialog(): void {
-    const dialogRef = this.dialog.open(AddPrivilegeDialogComponent, {
-      data: this.fb.group({
-        keyString: new FormControl('', [Validators.required, Validators.minLength(4)]),
-        title: new FormControl('', [Validators.required, Validators.minLength(4)])
-      })
-    });
+    const dialogRef = this.dialog.open(AddPrivilegeDialogComponent);
 
     dialogRef
       .afterClosed()

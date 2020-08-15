@@ -212,7 +212,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   //     });
   // }
 
-  dragDropStages(event: CdkDragDrop<string[]>) {
+  dragDropStages(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.plan.Stages, event.previousIndex, event.currentIndex);
     this.plan.Stages = this.plan.Stages.map((stage, i) => {
       stage.Details.order = i;
@@ -258,7 +258,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   }
 
   addDoc(doc: Asset): void {
-    this.plan.Documents.push(doc);
+    this.plan.Documents = [...this.plan.Documents, doc];
     this.updatePlanStore(this.plan);
   }
 
