@@ -5,12 +5,15 @@ const ATOMS = [
   _components.AtomsIconButtonComponent,
   _components.AtomsProfilePicComponent,
   _components.AtomsUserPicComponent,
-  _components.AtomsLinkButtonComponent
+  _components.AtomsLinkButtonComponent,
+  _components.AtomsFormFieldComponent,
+  _components.AtomsReadonlyFormFieldComponent
 ];
 const MOLECULES = [
   _components.MoleculesProfilePicWithUploaderComponent,
   _components.MoleculesUserListSmItemComponent,
   _components.MoleculesChartComponent,
+  _components.MoleculesFormFieldComponent,
   _components.MoleculesErrorMessageComponent
 ];
 const ORGANISMS = [

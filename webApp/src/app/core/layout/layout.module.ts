@@ -16,41 +16,9 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import * as fromLayout from './store/layout.reducer';
 import { LayoutEffects } from './store/layout.effects';
-
-import { faFacebookSquare, faTwitterSquare, faInstagram } from '@fortawesome/free-brands-svg-icons';
-import {
-  faHome,
-  faThLarge,
-  faUser,
-  faUsers,
-  faUserTag,
-  faListAlt,
-  faBuilding,
-  faSignOutAlt,
-  faBars,
-  faArrowLeft,
-  faSearch,
-  faQuestion,
-  faCog,
-  faTimes,
-  faSms,
-  faChevronRight,
-  faBriefcase,
-  faMinusCircle,
-  faGhost,
-  faCoffee,
-  faGlobe,
-  faUserClock,
-  faChevronDown,
-  faEllipsisH,
-  faFont,
-  faMoon,
-  faSun
-} from '@fortawesome/free-solid-svg-icons';
 import * as fromUser from '@/modules/users/store/user.reducer';
 import { UserEffects } from '@/modules/users/store/user.effects';
 import { UserService } from '@/modules/users';
-import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { TaskManagerModule } from '@/modules/task-manager/task-manager.module';
 
 @NgModule({
@@ -85,40 +53,4 @@ import { TaskManagerModule } from '@/modules/task-manager/task-manager.module';
     InternalServerErrorComponent
   ]
 })
-export class LayoutModule {
-  constructor(library: FaIconLibrary) {
-    library.addIcons(
-      faFacebookSquare,
-      faTwitterSquare,
-      faInstagram,
-      faHome,
-      faThLarge,
-      faUser,
-      faUsers,
-      faUserTag,
-      faListAlt,
-      faBuilding,
-      faSignOutAlt,
-      faBars,
-      faArrowLeft,
-      faSearch,
-      faQuestion,
-      faCog,
-      faTimes,
-      faSms,
-      faChevronRight,
-      faSignOutAlt,
-      faBriefcase,
-      faMinusCircle,
-      faGhost,
-      faCoffee,
-      faGlobe,
-      faUserClock,
-      faChevronDown,
-      faEllipsisH,
-      faFont,
-      faMoon,
-      faSun
-    );
-  }
-}
+export class LayoutModule {}
