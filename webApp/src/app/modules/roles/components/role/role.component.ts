@@ -183,14 +183,12 @@ export class RoleComponent implements OnInit, OnDestroy {
 
   onClickEdit(): void {
     this.editForm = true;
-    this.displayedColumns.push('actions');
+    this.displayedColumns = [...this.displayedColumns, 'actions'];
   }
 
   disableEdit(): void {
     this.editForm = false;
-    this.displayedColumns = this.displayedColumns.filter(col => {
-      return col !== 'actions';
-    });
+    this.displayedColumns = this.displayedColumns.filter(col => col !== 'actions');
   }
 
   onClickCancelEdit(): void {

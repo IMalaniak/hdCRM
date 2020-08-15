@@ -50,11 +50,11 @@ export class RightSidebarComponent implements OnInit {
     this.store.dispatch(OnlineUserListRequested());
   }
 
-  get themeTipMessage(): string {
-    return this.enableDarkTheme ? 'Dark theme' : 'Light theme';
+  themeTipMessage(enableDarkTheme: boolean): string {
+    return enableDarkTheme ? 'Dark theme' : 'Light theme';
   }
 
-  get sidebarTipMessage(): string {
-    return this.rightSidebarMinimized ? 'Show side panel' : 'Hide side panel';
+  sidebarTipMessage(rightSidebarMinimized: boolean): string {
+    return rightSidebarMinimized ? 'Show side panel' : 'Hide side panel';
   }
 }

@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { AppMaterialModule } from './modules/app-material.module';
 import { AttachmentsModule } from './modules/attachments/attachments.module';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { COMPONENTS } from './imports';
+import { COMPONENTS, PIPES } from './imports';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { IconModule } from './modules/icon.module';
 
@@ -20,7 +20,8 @@ import { IconModule } from './modules/icon.module';
     ReactiveFormsModule,
     IconModule
   ],
-  declarations: [...COMPONENTS],
+  declarations: [...COMPONENTS, ...PIPES],
+  providers: [...PIPES],
   exports: [...COMPONENTS, AppMaterialModule, OverlayModule, FormsModule, ReactiveFormsModule, IconModule]
 })
 export class SharedModule {}

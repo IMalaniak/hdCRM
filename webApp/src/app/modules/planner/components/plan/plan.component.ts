@@ -208,7 +208,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   //     });
   // }
 
-  dragDropStages(event: CdkDragDrop<string[]>) {
+  dragDropStages(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.plan.Stages, event.previousIndex, event.currentIndex);
     this.plan.Stages = this.plan.Stages.map((stage, i) => {
       stage.Details.order = i;
@@ -254,7 +254,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   }
 
   addDoc(doc: Asset): void {
-    this.plan.Documents.push(doc);
+    this.plan.Documents = [...this.plan.Documents, doc];
     this.updatePlanStore(this.plan);
   }
 
@@ -298,7 +298,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   }
 
   get canEditPlan$(): Observable<boolean> {
-    // combine 3 observables and compare values => return boolean
+    // @IMalaniak change it to Observable, not a function
     const combine = combineLatest([this.editPlanPrivilege$, this.configStagesPrivilege$, this.appUser$]);
     return combine.pipe(map(res => (res[0] && res[1]) || res[2].id === this.plan.CreatorId));
   }

@@ -141,7 +141,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   }
 
   get canEditDepartment$(): Observable<boolean> {
-    // combine 2 observables and compare values => return boolean
+    // @IMalaniak change it to Observable, not a function
     const combine = combineLatest([this.editDepartmentPrivilege$, this.appUser$]);
     return combine.pipe(map(([editPriv, appUser]) => editPriv || appUser.id === this.department.managerId));
   }

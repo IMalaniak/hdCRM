@@ -14,7 +14,7 @@
     <div
       class="btn-sidebar-toggle"
       (click)="hideRightSidebar.emit(!rightSidebarMinimized)"
-      matTooltip="{{ sidebarTipMessage }}"
+      matTooltip="{{ 'rightSidebarMinimized' | memoize: sidebarTipMessage: this }}"
     >
       <fa-icon [icon]="['fas', 'chevron-right']" class="btn-icon"></fa-icon>
     </div>
@@ -24,7 +24,7 @@
       [iconColor]="enableDarkTheme ? 'text-secondary' : 'text-warning'"
       [icon]="enableDarkTheme ? ['fas', 'moon'] : ['fas', 'sun']"
       (onclick)="enableThemeDark.emit(!enableDarkTheme)"
-      matTooltip="{{ themeTipMessage }}"
+      matTooltip="{{ 'enableDarkTheme' | memoize: themeTipMessage: this }}"
     ></atoms-icon-button>
     <!-- // TODO: @ArseniiIrod enabled when will add typography rules -->
     <!-- <atoms-icon-button

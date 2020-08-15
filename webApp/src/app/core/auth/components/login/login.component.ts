@@ -56,8 +56,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   prepareUserForm(): void {
     this.user = this.fb.group({
-      login: new FormControl('', [Validators.required]),
-      password: new FormControl('')
+      login: new FormControl(null, [Validators.required]),
+      password: new FormControl(null)
     });
     if (this.currentPath === 'login') {
       this.user.get('password').setValidators([Validators.required, Validators.minLength(6)]);
@@ -67,8 +67,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   preparePasswordResetForm(): void {
     this.newPasswordForm = this.fb.group(
       {
-        newPassword: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(64)]),
-        verifyPassword: new FormControl('', [Validators.required])
+        newPassword: new FormControl(null, [Validators.required, Validators.minLength(6), Validators.maxLength(64)]),
+        verifyPassword: new FormControl(null, [Validators.required])
       },
       {
         validator: ConfirmPasswordValidator.MatchPassword
@@ -86,13 +86,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onResetPasswordRequest() {
     this.store.dispatch(authActions.resetPasswordRequest({ user: this.user.value }));
-  }
-
-  get newPassword() {
-    return this.newPasswordForm.get('newPassword');
-  }
-  get verifyPassword() {
-    return this.newPasswordForm.get('verifyPassword');
   }
 
   onResetPassword() {
