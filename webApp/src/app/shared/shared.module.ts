@@ -21,7 +21,6 @@ import { IconModule } from './modules/icon.module';
     IconModule
   ],
   declarations: [...COMPONENTS, ...PIPES],
-  providers: [...PIPES],
-  exports: [...COMPONENTS, AppMaterialModule, OverlayModule, FormsModule, ReactiveFormsModule, IconModule]
+  exports: [...COMPONENTS, ...PIPES, AppMaterialModule, OverlayModule, FormsModule, ReactiveFormsModule, IconModule]
 })
 export class SharedModule {}

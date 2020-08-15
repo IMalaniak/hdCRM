@@ -23,6 +23,8 @@ import { OnlineUserListRequested } from '@/modules/users/store/user.actions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RightSidebarComponent implements OnInit {
+  onlineUsers$: Observable<User[]> = this.store.pipe(select(selectUsersOnline));
+
   @Input() rightSidebarMinimized: boolean;
 
   @Input() enableDarkTheme: boolean;
@@ -42,19 +44,17 @@ export class RightSidebarComponent implements OnInit {
     return this.rightSidebarMinimized;
   }
 
-  onlineUsers$: Observable<User[]> = this.store.pipe(select(selectUsersOnline));
-
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.store.dispatch(OnlineUserListRequested());
   }
 
-  themeTipMessage(enableDarkTheme: boolean): string {
-    return enableDarkTheme ? 'Dark theme' : 'Light theme';
+  themeTipMessage(): string {
+    return this.enableDarkTheme ? 'Dark theme' : 'Light theme';
   }
 
-  sidebarTipMessage(rightSidebarMinimized: boolean): string {
-    return rightSidebarMinimized ? 'Show side panel' : 'Hide side panel';
+  sidebarTipMessage(): string {
+    return this.rightSidebarMinimized ? 'Show side panel' : 'Hide side panel';
   }
 }
