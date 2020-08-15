@@ -1,5 +1,5 @@
 <organisms-card cardTitle="Plan list" [showDataLoader]="loading$ | async">
-  <div buttons *ngIf="addPlanPrivilege$ | async">
+  <div buttons *ngIf="canAddPlanPrivilege$ | async">
     <atoms-icon-button *ngIf="!editForm" routerLink="/planner/add" [icon]="['fas', 'plus']">
       Create a new plan
     </atoms-icon-button>
@@ -72,11 +72,11 @@
               <fa-icon [icon]="['fas', 'info']"></fa-icon>
               <span i18n="@@plannerComponentListActionsView">Details</span>
             </button>
-            <button *ngIf="editPlanPrivilege$ | async" mat-menu-item (click)="onPlanSelect(plan.id, true)">
+            <button *ngIf="canEditPlanPrivilege$ | async" mat-menu-item (click)="onPlanSelect(plan.id, true)">
               <fa-icon [icon]="['fas', 'edit']"></fa-icon>
               <span i18n="@@plannerComponentListActionsEdit">Edit</span>
             </button>
-            <button *ngIf="deletePlanPrivilege$ | async" mat-menu-item (click)="deletePlan(plan.id)">
+            <button *ngIf="canDeletePlanPrivilege$ | async" mat-menu-item (click)="deletePlan(plan.id)">
               <fa-icon [icon]="['fas', 'trash']" class="text-danger"></fa-icon>
               <span i18n="@@plannerComponentListActionsDelete">Delete</span>
             </button>

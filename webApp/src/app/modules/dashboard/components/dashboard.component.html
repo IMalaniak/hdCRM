@@ -8,13 +8,20 @@
             <h5>{{ appUser.fullname }}</h5>
             <span>({{ appUser.login }})</span>
           </li>
-          <li *ngIf="appUser.Department">
-            <atoms-link-button
-              [linkLabel]="appUser.Department.title"
-              linkType="router"
-              linkHref="/departments/details/{{ appUser.Department.id }}"
-            ></atoms-link-button>
-          </li>
+          <ng-container *ngIf="appUser.Department">
+            <li *ngIf="canViewDepartmentsChart$ | async; else depTitle">
+              <atoms-link-button
+                [linkLabel]="appUser.Department.title"
+                linkType="router"
+                linkHref="/departments/details/{{ appUser.Department.id }}"
+              ></atoms-link-button>
+            </li>
+            <ng-template #depTitle>
+              <li>
+                <span>{{ appUser.Department.title }}</span>
+              </li>
+            </ng-template>
+          </ng-container>
           <li class="roles" *ngIf="appUser.Roles">
             <span *ngFor="let role of appUser.Roles; last as isLast">{{ role.keyString }}</span>
           </li>
@@ -56,7 +63,7 @@
     </organisms-card>
   </div>
 
-  <div class="col-sm-12 col-md-6 col-xl-6" *ngIf="(rolesChartData$ | async).length > 0">
+  <div class="col-sm-12 col-md-6 col-xl-6" *ngIf="(rolesChartData$ | async).length && canViewRolesChart$ | async">
     <organisms-card cardTitle="Roles">
       <section content>
         <molecules-chart
@@ -81,7 +88,10 @@
 </section>
 
 <section class="row my-3">
-  <div class="col-sm-12 col-md-6 col-xl-6 mb-xs-3" *ngIf="(planStagesChartData$ | async).length > 0">
+  <div
+    class="col-sm-12 col-md-6 col-xl-6 mb-xs-3"
+    *ngIf="(planStagesChartData$ | async).length && canViewPlanStagesChart$ | async"
+  >
     <organisms-card cardTitle="Plans by stage">
       <section content>
         <molecules-chart
@@ -97,7 +107,10 @@
     </organisms-card>
   </div>
 
-  <div class="col-sm-12 col-md-6 col-xl-6" *ngIf="(departmentsChartData$ | async).length > 0">
+  <div
+    class="col-sm-12 col-md-6 col-xl-6"
+    *ngIf="(departmentsChartData$ | async).length && canViewDepartmentsChart$ | async"
+  >
     <organisms-card cardTitle="Departments">
       <section content>
         <molecules-chart

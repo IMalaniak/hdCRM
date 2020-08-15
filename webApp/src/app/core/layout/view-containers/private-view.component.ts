@@ -44,35 +44,28 @@ import { privateRouterTransition, MediaqueryService } from '@/shared';
           ></right-sidebar>
         </section>
       </main>
-      <!--      <section class="app-messages" *ngIf="showDebug$ | async"></section> -->
+      <!--      <section class="app-messages" *ngIf="canShowDebug$ | async"></section> -->
     </section>
   `,
   animations: [privateRouterTransition],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PrivateViewComponent implements OnInit, OnDestroy {
+  currentUser$: Observable<User> = this.store.pipe(select(currentUser));
+  canShowDebug$: Observable<boolean> = this.store.pipe(select(isPrivileged('debug-view')));
+  scaleFontUp$: Observable<boolean> = this.store.pipe(select(fromLayout.getScalledFontState));
+  enableDarkTheme$: Observable<boolean> = this.store.pipe(select(fromLayout.getDarkThemeState));
+  leftSidebarMinimized$: Observable<boolean> = this.store.pipe(select(fromLayout.getLeftSidebarState));
+  rightSidebarMinimized$: Observable<boolean> = this.store.pipe(select(fromLayout.getRightSidebarState));
+
   @ViewChild('contentWrapper', { static: false })
   contentWrapper: ElementRef;
-
-  leftSidebarMinimized$: Observable<boolean>;
-  rightSidebarMinimized$: Observable<boolean>;
-  enableDarkTheme$: Observable<boolean>;
-  scaleFontUp$: Observable<boolean>;
-  showDebug$: Observable<boolean>;
-  currentUser$: Observable<User>;
 
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(private router: Router, public mediaquery: MediaqueryService, private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.currentUser$ = this.store.pipe(select(currentUser));
-    this.leftSidebarMinimized$ = this.store.pipe(select(fromLayout.getLeftSidebarState));
-    this.rightSidebarMinimized$ = this.store.pipe(select(fromLayout.getRightSidebarState));
-    this.enableDarkTheme$ = this.store.pipe(select(fromLayout.getDarkThemeState));
-    this.scaleFontUp$ = this.store.pipe(select(fromLayout.getScalledFontState));
-    this.showDebug$ = this.store.pipe(select(isPrivileged('debug-view')));
-
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
       if (this.mediaquery.isMobileDevice) {
         this.toggleLeftSidebar(true);

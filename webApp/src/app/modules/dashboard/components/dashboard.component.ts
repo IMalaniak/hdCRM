@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { User } from '@/modules/users';
 import { AppState } from '@/core/reducers';
-import { currentUser } from '@/core/auth/store/auth.selectors';
+import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
 import { depDashboardDataRequested } from '@/modules/departments/store/department.actions';
 import { selectAllDepartments } from '@/modules/departments/store/department.selectors';
 import { allStagesRequestedFromDashboard } from '@/modules/planner/store/stage.actions';
@@ -25,6 +25,9 @@ export class DashboardComponent implements OnInit {
   rolesChartData$: Observable<Role[]> = this.store.pipe(select(selectAllRoles));
   planStagesChartData$: Observable<Stage[]> = this.store.pipe(select(selectAllStages));
   departmentsChartData$: Observable<Department[]> = this.store.pipe(select(selectAllDepartments));
+  canViewRolesChart$: Observable<boolean> = this.store.pipe(select(isPrivileged('role-view')));
+  canViewPlanStagesChart$: Observable<boolean> = this.store.pipe(select(isPrivileged('stage-view')));
+  canViewDepartmentsChart$: Observable<boolean> = this.store.pipe(select(isPrivileged('department-view')));
 
   constructor(private store: Store<AppState>) {}
 

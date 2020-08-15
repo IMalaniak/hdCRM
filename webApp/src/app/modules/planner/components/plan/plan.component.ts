@@ -24,7 +24,9 @@ import { MediaqueryService, Asset, ApiResponse, ToastMessageService } from '@/sh
 export class PlanComponent implements OnInit, OnDestroy {
   appUser$: Observable<User> = this.store.pipe(select(currentUser));
   editPlanPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('plan-edit')));
+  canAddAttachment$: Observable<boolean> = this.store.pipe(select(isPrivileged('planAttachment-add')));
   configStagesPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('stage-edit')));
+  canDeleteAttachment$: Observable<boolean> = this.store.pipe(select(isPrivileged('planAttachment-delete')));
 
   plan: Plan;
   planInitial: Plan;

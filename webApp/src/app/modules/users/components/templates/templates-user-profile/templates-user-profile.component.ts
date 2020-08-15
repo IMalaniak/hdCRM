@@ -13,6 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 import { allStatesRequested } from '@/modules/users/store/state.actions';
 import { selectAllStates } from '@/modules/users/store/state.selectors';
 import { Preferences } from '@/core/reducers/preferences.reducer';
+import { isPrivileged } from '@/core/auth/store/auth.selectors';
 
 @Component({
   selector: 'templates-user-profile',
@@ -22,6 +23,8 @@ import { Preferences } from '@/core/reducers/preferences.reducer';
 })
 export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   enableDarkTheme$: Observable<boolean> = this.store.pipe(select(fromLayout.getDarkThemeState));
+  canViewPreferences$: Observable<Preferences> = this.store.pipe(select(isPrivileged('preference-view')));
+  canViewOrganization$: Observable<Preferences> = this.store.pipe(select(isPrivileged('organization-view')));
 
   @Input() user: User;
   @Input() userPreferences: Preferences;

@@ -8,12 +8,14 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 import { MediaqueryService } from '@/shared';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { logOut } from '@/core/auth/store/auth.actions';
 import { User } from '@/modules/users';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { isPrivileged } from '@/core/auth/store/auth.selectors';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'app-header',
@@ -22,6 +24,8 @@ import { filter } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {
+  canUserAdd$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-add')));
+
   @Input() leftSidebarMinimized: boolean;
   @Input() currentUser: User;
 

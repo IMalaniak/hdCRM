@@ -128,6 +128,7 @@
             </mat-menu>
 
             <atoms-icon-button
+              *ngIf="canUserAdd$ | async"
               matType="basic"
               [showButtonTextOnSm]="true"
               [fullWidth]="true"

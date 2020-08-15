@@ -63,7 +63,7 @@
     </div>
   </organisms-card> -->
 </section>
-<organisms-card cardTitle="Details" *ngIf="plan">
+<organisms-card cardTitle="Details" *ngIf="plan" cardClass="mb-3">
   <div content class="row">
     <div class="col-sm-12 col-md-8 col-lg-7">
       <organisms-card cardTitle="Plan details" cardClass="border border-secondary m-0" [disableShadow]="true">
@@ -177,6 +177,8 @@
 </organisms-card>
 
 <templates-attachments-list
+  [canAdd]="canAddAttachment$ | async"
+  [canDelete]="canDeleteAttachment$ | async"
   [attachments]="plan.Documents"
   [apiUrl]="'/plans/documents/' + plan.id"
   (deleteFileCall)="deleteDoc($event)"

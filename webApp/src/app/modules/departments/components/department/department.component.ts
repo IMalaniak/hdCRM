@@ -21,7 +21,7 @@ import { MediaqueryService, ToastMessageService } from '@/shared';
 })
 export class DepartmentComponent implements OnInit, OnDestroy {
   appUser$: Observable<User> = this.store.pipe(select(currentUser));
-  editDepartmentPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('department-edit')));
+  canEditDepartmentPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('department-edit')));
 
   department: Department;
   departmentInitial: Department;
@@ -142,7 +142,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
 
   get canEditDepartment$(): Observable<boolean> {
     // combine 2 observables and compare values => return boolean
-    const combine = combineLatest([this.editDepartmentPrivilege$, this.appUser$]);
+    const combine = combineLatest([this.canEditDepartmentPrivilege$, this.appUser$]);
     return combine.pipe(map(([editPriv, appUser]) => editPriv || appUser.id === this.department.managerId));
   }
 

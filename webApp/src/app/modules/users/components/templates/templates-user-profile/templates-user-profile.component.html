@@ -29,20 +29,20 @@
         </mat-tab>
 
         <!-- Organization -->
-        <mat-tab label="Organization" *ngIf="isTabToShow('org')">
+        <mat-tab label="Organization" *ngIf="isTabToShow('org') && canViewOrganization$ | async">
           <ng-template matTabContent>
-            <organisms-user-organization
+            <organisms-user-organizations
               [organization]="user.Organization"
               [canEdit]="canEdit"
               [editForm]="editForm"
               (setEditableForm)="setFormEdit($event)"
               (updateOrg)="updateUserOrg($event)"
-            ></organisms-user-organization>
+            ></organisms-user-organizations>
           </ng-template>
         </mat-tab>
 
         <!-- Preferences -->
-        <mat-tab label="Preferences" *ngIf="isTabToShow('preferences')">
+        <mat-tab label="Preferences" *ngIf="isTabToShow('preferences') && canViewPreferences$ | async">
           <ng-template matTabContent>
             <organisms-user-preferences
               [enabledDarkTheme]="enableDarkTheme$ | async"
