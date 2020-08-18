@@ -67,21 +67,6 @@
       position: relative;
       margin-left: auto;
     }
-
-    atoms-user-pic {
-      width: 2.55em;
-      height: 2.55em;
-      // TODO: @ArseniiIrod check for better solution
-      border: 2px solid $gray-100;
-      border-radius: 50%;
-      cursor: pointer;
-      transform: scale(1);
-      transition: transform $transition;
-
-      &:hover {
-        transform: scale(0.9);
-      }
-    }
   }
 }
 
