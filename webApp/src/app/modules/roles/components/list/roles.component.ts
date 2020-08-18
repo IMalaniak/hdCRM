@@ -6,17 +6,13 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subject, merge } from 'rxjs';
 import { tap } from 'rxjs/operators';
-
 import { AppState } from '@/core/reducers';
-
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { RolesDataSource } from '../../services/role.datasource';
 import { Role } from '../../models';
 import { selectRolesTotalCount, selectRolesLoading } from '../../store/role.selectors';
-import { PageQuery } from '@/shared';
+import { PageQuery, ToastMessageService } from '@/shared';
 import { deleteRole } from '../../store/role.actions';
-
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-roles',
@@ -25,30 +21,28 @@ import Swal from 'sweetalert2';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RolesComponent implements OnInit, OnDestroy, AfterViewInit {
-  addRolePrivilege$: Observable<boolean>;
-  editRolePrivilege$: Observable<boolean>;
-  deleteRolePrivilege$: Observable<boolean>;
-  dataSource: RolesDataSource;
-  selection = new SelectionModel<Role>(true, []);
-  loading$: Observable<boolean>;
-  resultsLength$: Observable<number>;
+  dataSource: RolesDataSource = new RolesDataSource(this.store);
+  loading$: Observable<boolean> = this.store.pipe(select(selectRolesLoading));
+  resultsLength$: Observable<number> = this.store.pipe(select(selectRolesTotalCount));
+  canAddRole$: Observable<boolean> = this.store.pipe(select(isPrivileged('role-add')));
+  canEditRole$: Observable<boolean> = this.store.pipe(select(isPrivileged('role-edit')));
+  canDeleteRole$: Observable<boolean> = this.store.pipe(select(isPrivileged('role-delete')));
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns = ['select', 'title', 'users', 'privileges', 'createdAt', 'updatedAt', 'actions'];
+  selection = new SelectionModel<Role>(true, []);
+  displayedColumns: string[] = ['select', 'title', 'users', 'privileges', 'createdAt', 'updatedAt', 'actions'];
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private store: Store<AppState>, private router: Router) {}
+  constructor(
+    private store: Store<AppState>,
+    private router: Router,
+    private toastMessageService: ToastMessageService
+  ) {}
 
-  ngOnInit() {
-    this.addRolePrivilege$ = this.store.pipe(select(isPrivileged('role-add')));
-    this.editRolePrivilege$ = this.store.pipe(select(isPrivileged('role-edit')));
-    this.deleteRolePrivilege$ = this.store.pipe(select(isPrivileged('role-delete')));
-    this.loading$ = this.store.pipe(select(selectRolesLoading));
-    this.resultsLength$ = this.store.pipe(select(selectRolesTotalCount));
-    this.dataSource = new RolesDataSource(this.store);
-
+  ngOnInit(): void {
     const initialPage: PageQuery = {
       pageIndex: 0,
       pageSize: 5,
@@ -59,7 +53,7 @@ export class RolesComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dataSource.loadRoles(initialPage);
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     // this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 
     merge(this.sort.sortChange, this.paginator.page)
@@ -67,7 +61,7 @@ export class RolesComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe();
   }
 
-  loadRolesPage() {
+  loadRolesPage(): void {
     const newPage: PageQuery = {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,
@@ -85,21 +79,16 @@ export class RolesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   deleteRole(id: number): void {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'Do you really want to delete role? You will not be able to recover!',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'Cancel'
-    }).then(result => {
-      if (result.value) {
-        this.store.dispatch(deleteRole({ id }));
-      }
-    });
+    this.toastMessageService
+      .confirm('Are you sure?', 'Do you really want to delete role? You will not be able to recover!')
+      .then(result => {
+        if (result.value) {
+          this.store.dispatch(deleteRole({ id }));
+        }
+      });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }

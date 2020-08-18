@@ -3,21 +3,13 @@ import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Store, select } from '@ngrx/store';
-
 import { Observable } from 'rxjs';
-
 import { DepartmentsDataSource } from '../../services';
-
-import { Department } from '../../models';
-import { PageQuery } from '@/shared';
-
+import { PageQuery, ToastMessageService } from '@/shared';
 import { AppState } from '@/core/reducers';
-
 import { selectDepartmentsTotalCount, selectDepartmentsLoading } from '../../store/department.selectors';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { tap } from 'rxjs/operators';
-
-import Swal from 'sweetalert2';
 import { deleteDepartment } from '../../store/department.actions';
 
 @Component({
@@ -26,47 +18,42 @@ import { deleteDepartment } from '../../store/department.actions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DepartmentsComponent implements OnInit, AfterViewInit {
-  addDepPrivilege$: Observable<boolean>;
-  editDepPrivilege$: Observable<boolean>;
-  deleteDepPrivilege$: Observable<boolean>;
-  departments$: Observable<Department[]>;
-  dataSource: DepartmentsDataSource;
-  loading$: Observable<boolean>;
-  resultsLength$: Observable<number>;
+  dataSource: DepartmentsDataSource = new DepartmentsDataSource(this.store);
+  loading$: Observable<boolean> = this.store.pipe(select(selectDepartmentsLoading));
+  resultsLength$: Observable<number> = this.store.pipe(select(selectDepartmentsTotalCount));
+  canAddDep$: Observable<boolean> = this.store.pipe(select(isPrivileged('department-add')));
+  canEditDep$: Observable<boolean> = this.store.pipe(select(isPrivileged('department-edit')));
+  canDeleteDep$: Observable<boolean> = this.store.pipe(select(isPrivileged('department-delete')));
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns = ['title', 'manager', 'workers', 'createdAt', 'updatedAt', 'actions'];
+  displayedColumns: string[] = ['title', 'manager', 'workers', 'createdAt', 'updatedAt', 'actions'];
 
-  constructor(private store: Store<AppState>, private router: Router) {}
+  constructor(
+    private store: Store<AppState>,
+    private router: Router,
+    private toastMessageService: ToastMessageService
+  ) {}
 
-  ngOnInit() {
-    this.addDepPrivilege$ = this.store.pipe(select(isPrivileged('department-add')));
-    this.editDepPrivilege$ = this.store.pipe(select(isPrivileged('department-edit')));
-    this.deleteDepPrivilege$ = this.store.pipe(select(isPrivileged('department-delete')));
-    this.loading$ = this.store.pipe(select(selectDepartmentsLoading));
-    this.resultsLength$ = this.store.pipe(select(selectDepartmentsTotalCount));
-    this.dataSource = new DepartmentsDataSource(this.store);
-
+  ngOnInit(): void {
     const initialPage: PageQuery = {
       pageIndex: 0,
       pageSize: 5,
       sortIndex: 'id',
       sortDirection: 'asc'
     };
-
     this.dataSource.loadDepartments(initialPage);
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.paginator.page.pipe(tap(() => this.loadDepartmentsPage())).subscribe();
 
-    // TODO: check for other solution
+    // TODO: @IMalaniak @ArseniiIrod check for other solution
     this.sort.sortChange.pipe(tap(() => this.loadDepartmentsPage())).subscribe();
   }
 
-  loadDepartmentsPage() {
+  loadDepartmentsPage(): void {
     const newPage: PageQuery = {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,
@@ -84,17 +71,12 @@ export class DepartmentsComponent implements OnInit, AfterViewInit {
   }
 
   deleteDepartment(id: number): void {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'Do you really want to delete department? You will not be able to recover!',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'Cancel'
-    }).then(result => {
-      if (result.value) {
-        this.store.dispatch(deleteDepartment({ id }));
-      }
-    });
+    this.toastMessageService
+      .confirm('Are you sure?', 'Do you really want to delete department? You will not be able to recover!')
+      .then(result => {
+        if (result.value) {
+          this.store.dispatch(deleteDepartment({ id }));
+        }
+      });
   }
 }

@@ -14,11 +14,11 @@ import { FilePond } from 'filepond';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfilepicUploaderComponent implements OnInit {
-  @ViewChild('picuploader') picuploader: FilePond;
-
   @Input() url: string;
 
   @Output() addFileCall: EventEmitter<Asset> = new EventEmitter();
+
+  @ViewChild('picuploader') picuploader: FilePond;
 
   uploaderOptions: any; // TODO: @IMalaniak add FilePondOptionProps;
   token: string;
@@ -29,7 +29,10 @@ export class ProfilepicUploaderComponent implements OnInit {
     this.store$.pipe(select(getToken)).subscribe(token => {
       this.token = token;
     });
+    this.setUploaderOptions();
+  }
 
+  setUploaderOptions(): void {
     this.uploaderOptions = {
       name: 'profile-pic-uploader',
       server: {

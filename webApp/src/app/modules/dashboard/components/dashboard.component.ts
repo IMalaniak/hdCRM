@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { User } from '@/modules/users';
 import { AppState } from '@/core/reducers';
-import { currentUser } from '@/core/auth/store/auth.selectors';
+import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
 import { depDashboardDataRequested } from '@/modules/departments/store/department.actions';
 import { selectAllDepartments } from '@/modules/departments/store/department.selectors';
 import { allStagesRequestedFromDashboard } from '@/modules/planner/store/stage.actions';
@@ -21,21 +21,19 @@ import { Department } from '@/modules/departments';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {
-  appUser$: Observable<User>;
-  departmentsChartData$: Observable<Department[]>;
-  planStagesChartData$: Observable<Stage[]>;
-  rolesChartData$: Observable<Role[]>;
+  appUser$: Observable<User> = this.store.pipe(select(currentUser));
+  rolesChartData$: Observable<Role[]> = this.store.pipe(select(selectAllRoles));
+  planStagesChartData$: Observable<Stage[]> = this.store.pipe(select(selectAllStages));
+  departmentsChartData$: Observable<Department[]> = this.store.pipe(select(selectAllDepartments));
+  canViewRoles$: Observable<boolean> = this.store.pipe(select(isPrivileged('role-view')));
+  canViewPlan$: Observable<boolean> = this.store.pipe(select(isPrivileged('plan-view')));
+  canViewDepartments$: Observable<boolean> = this.store.pipe(select(isPrivileged('department-view')));
 
   constructor(private store: Store<AppState>) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.store.dispatch(allStagesRequestedFromDashboard());
     this.store.dispatch(depDashboardDataRequested());
     this.store.dispatch(roleDashboardDataRequested());
-
-    this.appUser$ = this.store.pipe(select(currentUser));
-    this.planStagesChartData$ = this.store.pipe(select(selectAllStages));
-    this.departmentsChartData$ = this.store.pipe(select(selectAllDepartments));
-    this.rolesChartData$ = this.store.pipe(select(selectAllRoles));
   }
 }

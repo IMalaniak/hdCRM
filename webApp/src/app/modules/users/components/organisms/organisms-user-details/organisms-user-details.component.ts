@@ -1,7 +1,8 @@
 import { Component, Input, EventEmitter, Output, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { User, State } from '@/modules/users';
-import Swal from 'sweetalert2';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { IFieldType } from '@/shared/models/FieldType';
+import { ToastMessageService } from '@/shared';
 
 @Component({
   selector: 'organisms-user-details',
@@ -19,8 +20,9 @@ export class OrganismsUserDetailsComponent implements OnInit {
   @Output() setEditableForm: EventEmitter<boolean> = new EventEmitter();
 
   userForm: FormGroup;
+  fieldTypes = IFieldType;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private toastMessageService: ToastMessageService) {}
 
   ngOnInit(): void {
     this.buildUserFormGroup();
@@ -42,20 +44,16 @@ export class OrganismsUserDetailsComponent implements OnInit {
 
   onClickCancelEdit(): void {
     this.setEditableForm.emit(false);
+    this.userForm.reset(this.user);
   }
 
   onUpdateUserSubmit(): void {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'Do you really want to save changes? You will not be able to recover this!',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'Cancel'
-    }).then(result => {
-      if (result.value) {
-        this.updateUser.emit({ ...this.user, ...this.userForm.value });
-      }
-    });
+    this.toastMessageService
+      .confirm('Are you sure?', 'Do you really want to save changes? You will not be able to recover this!')
+      .then(result => {
+        if (result.value) {
+          this.updateUser.emit({ ...this.user, ...this.userForm.value });
+        }
+      });
   }
 }

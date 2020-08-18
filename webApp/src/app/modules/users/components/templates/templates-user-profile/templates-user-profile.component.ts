@@ -13,6 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 import { allStatesRequested } from '@/modules/users/store/state.actions';
 import { selectAllStates } from '@/modules/users/store/state.selectors';
 import { Preferences } from '@/core/reducers/preferences.reducer';
+import { isPrivileged } from '@/core/auth/store/auth.selectors';
 
 @Component({
   selector: 'templates-user-profile',
@@ -21,6 +22,10 @@ import { Preferences } from '@/core/reducers/preferences.reducer';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TemplatesUserProfileComponent implements OnInit, OnChanges {
+  enableDarkTheme$: Observable<boolean> = this.store.pipe(select(fromLayout.getDarkThemeState));
+  canViewPreferences$: Observable<boolean> = this.store.pipe(select(isPrivileged('preferenceTab-view')));
+  canViewOrganization$: Observable<boolean> = this.store.pipe(select(isPrivileged('organizationTab-view')));
+
   @Input() user: User;
   @Input() userPreferences: Preferences;
   @Input() currentSessionId: number;
@@ -32,7 +37,6 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   @Input() isProfilePage = false;
 
   states$: Observable<State[]>;
-  enableDarkTheme$: Observable<boolean>;
   baseUrl = environment.baseUrl;
   coverUrl = './assets/images/userpic/noimage_croped.png';
   coverTitle = 'noimage';
@@ -41,7 +45,6 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   constructor(private store: Store<AppState>, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.enableDarkTheme$ = this.store.pipe(select(fromLayout.getDarkThemeState));
     if (this.canEdit) {
       let isEditing = this.route.snapshot.queryParams['edit'];
       if (isEditing) {

@@ -6,6 +6,7 @@ import { AuthState } from '../../store/auth.reducer';
 import { registerUser } from '../../store/auth.actions';
 import { isLoading } from '../../store/auth.selectors';
 import { Observable } from 'rxjs';
+import { IFieldType } from '@/shared/models/FieldType';
 
 @Component({
   selector: 'app-register-user',
@@ -14,17 +15,23 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterUserComponent implements OnInit {
+  isLoading$: Observable<boolean> = this.store.pipe(select(isLoading));
+
   registerData: FormGroup;
   hidePassword = true;
-  isLoading$: Observable<boolean>;
+  fieldTypes = IFieldType;
 
-  constructor(private store: Store<AuthState>, private _formBuilder: FormBuilder) {
-    this.isLoading$ = this.store.pipe(select(isLoading));
+  constructor(private store: Store<AuthState>, private fb: FormBuilder) {}
+
+  ngOnInit(): void {
+    this.buildRegisterFormGroup();
+    this.initPasswordValidation();
+    this.initOrganizationValidation();
   }
 
-  ngOnInit() {
-    this.registerData = this._formBuilder.group({
-      userCredentials: this._formBuilder.group({
+  buildRegisterFormGroup(): void {
+    this.registerData = this.fb.group({
+      userCredentials: this.fb.group({
         login: new FormControl(null, [
           Validators.required,
           Validators.minLength(6),
@@ -35,7 +42,7 @@ export class RegisterUserComponent implements OnInit {
         password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
         generatePassword: new FormControl(null)
       }),
-      userPersonalInfo: this._formBuilder.group({
+      userPersonalInfo: this.fb.group({
         name: new FormControl(null, [
           Validators.required,
           Validators.maxLength(25),
@@ -52,7 +59,7 @@ export class RegisterUserComponent implements OnInit {
         ]),
         phone: new FormControl(null, [Validators.pattern('^[0-9]+$')])
       }),
-      userOrganization: this._formBuilder.group({
+      userOrganization: this.fb.group({
         type: new FormControl(null),
         title: new FormControl(null, [Validators.required, Validators.maxLength(150)]),
         employees: new FormControl(null),
@@ -70,50 +77,49 @@ export class RegisterUserComponent implements OnInit {
         ])
       })
     });
+  }
 
-    this.userCredentials.get('generatePassword').valueChanges.subscribe(value => {
+  initPasswordValidation(): void {
+    const password: AbstractControl = this.getControl('userCredentials', 'password');
+
+    this.getControl('userCredentials', 'generatePassword').valueChanges.subscribe(value => {
       if (value) {
-        this.userCredentials.get('password').setValidators(null);
-        this.userCredentials.get('password').reset();
+        password.setValidators(null);
+        password.reset();
       } else {
-        this.userCredentials.get('password').setValidators([Validators.required, Validators.minLength(6)]);
+        password.setValidators([Validators.required, Validators.minLength(6)]);
       }
-      this.userCredentials.get('password').updateValueAndValidity();
+      password.updateValueAndValidity();
     });
+  }
 
-    this.userOrganization.get('type').valueChanges.subscribe(value => {
+  initOrganizationValidation(): void {
+    const title: AbstractControl = this.getControl('userOrganization', 'title');
+
+    this.getControl('userOrganization', 'type').valueChanges.subscribe(value => {
       if (value === 'company') {
-        this.userOrganization
-          .get('title')
-          .setValidators([
-            Validators.required,
-            Validators.maxLength(50),
-            Validators.pattern(
-              "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
-            )
-          ]);
+        title.setValidators([
+          Validators.required,
+          Validators.maxLength(50),
+          Validators.pattern(
+            "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
+          )
+        ]);
       } else if (value === 'private') {
-        this.userOrganization.get('title').setValidators(null);
-        this.userOrganization.get('title').reset();
+        title.setValidators(null);
+        title.reset();
       }
-      this.userOrganization.get('title').updateValueAndValidity();
+      title.updateValueAndValidity();
     });
   }
 
-  get userCredentials(): AbstractControl {
-    return this.registerData.get('userCredentials');
-  }
-  get userPersonalInfo(): AbstractControl {
-    return this.registerData.get('userPersonalInfo');
-  }
-  get userOrganization(): AbstractControl {
-    return this.registerData.get('userOrganization');
+  getControl(formGroup: string, formControl: string): AbstractControl {
+    return this.registerData.get(formGroup).get(formControl);
   }
 
-  onRegisterSubmit() {
+  onRegisterSubmit(): void {
     const { userCredentials, userPersonalInfo, userOrganization } = this.registerData.value;
-    const user: User = { ...userCredentials, ...userPersonalInfo };
-    user.Organization = { ...userOrganization };
+    const user: User = { ...userCredentials, ...userPersonalInfo, Organization: userOrganization };
     this.store.dispatch(registerUser({ user }));
   }
 }

@@ -38,7 +38,7 @@
       <atoms-icon-button *ngIf="!configPlanStages" (onclick)="onClickConfigureStages()" [icon]="['fas', 'cog']">
         Configure stages
       </atoms-icon-button>
-      <atoms-icon-button *ngIf="configPlanStages" [swal]="onUpdatePlanStagesSubmit" [icon]="['fas', 'save']">
+      <atoms-icon-button *ngIf="configPlanStages" (onclick)="onUpdatePlanStagesSubmit" [icon]="['fas', 'save']">
         Save
       </atoms-icon-button>
       <atoms-icon-button
@@ -54,7 +54,7 @@
   <!-- <organisms-card cardTitle="Actions" *ngIf="plan">
     <div content class="d-flex p-3" *ngIf="canEditPlan$ | async">
       <atoms-icon-button
-        [swal]="goToNextStageSwal"
+        (onclick)="goToNextStageSwal"
         [icon]="plan.activeStage.keyString === 'finished' ? ['fas', 'check'] : ['fas', 'arrow-right']"
         matType="stroked"
       >
@@ -63,7 +63,7 @@
     </div>
   </organisms-card> -->
 </section>
-<organisms-card cardTitle="Details" *ngIf="plan">
+<organisms-card cardTitle="Details" *ngIf="plan" cardClass="mb-3">
   <div content class="row">
     <div class="col-sm-12 col-md-8 col-lg-7">
       <organisms-card cardTitle="Plan details" cardClass="border border-secondary m-0" [disableShadow]="true">
@@ -167,7 +167,7 @@
     <atoms-icon-button *ngIf="!editForm" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
       Edit
     </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm" [swal]="updatePlanSwal" [icon]="['fas', 'save']">
+    <atoms-icon-button *ngIf="editForm" (onclick)="updatePlan()" [icon]="['fas', 'save']">
       Save
     </atoms-icon-button>
     <atoms-icon-button *ngIf="editForm" (onclick)="onClickCancelEdit()" [icon]="['fas', 'times']" color="basic">
@@ -177,41 +177,10 @@
 </organisms-card>
 
 <templates-attachments-list
+  [canAdd]="canAddAttachment$ | async"
+  [canDelete]="canDeleteAttachment$ | async"
   [attachments]="plan.Documents"
   [apiUrl]="'/plans/documents/' + plan.id"
   (deleteFileCall)="deleteDoc($event)"
   (addFileCall)="addDoc($event)"
 ></templates-attachments-list>
-
-<swal
-  #onUpdatePlanStagesSubmit
-  title="You are about to save stages configuration."
-  text="Are you sure you want update stages configuration?"
-  icon="question"
-  [showCancelButton]="true"
-  (confirm)="updatePlanStages()"
-  [swalOptions]="{ confirmButtonText: 'OK', cancelButtonText: 'Cancel' }"
->
-</swal>
-
-<swal
-  #goToNextStageSwal
-  title="You are about to pass stage."
-  text="Are you sure you want to go to next plan stage?"
-  icon="question"
-  [showCancelButton]="true"
-  (confirm)="goToNextStage()"
-  [swalOptions]="{ confirmButtonText: 'OK', cancelButtonText: 'Cancel' }"
->
-</swal>
-
-<swal
-  #updatePlanSwal
-  title="You are about to update plan"
-  text="Are you sure you want to update plan details?"
-  icon="question"
-  [showCancelButton]="true"
-  (confirm)="updatePlan()"
-  [swalOptions]="{ confirmButtonText: 'OK', cancelButtonText: 'Cancel' }"
->
-</swal>

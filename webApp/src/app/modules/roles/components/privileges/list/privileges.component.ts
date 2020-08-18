@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { Privilege } from '../../../models';
 import { AddPrivilegeDialogComponent } from '../add-dialog/add-privilege-dialog.component';
 import { Subject, Observable } from 'rxjs';
@@ -23,7 +23,7 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
   selection = new SelectionModel<Privilege>(true, []);
   privileges: Privilege[];
   resultsLength: number;
-  displayedColumns = ['select', 'title', 'key'];
+  displayedColumns: string[] = ['select', 'title', 'key'];
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -34,9 +34,8 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.store.dispatch(allPrivilegesRequested());
-
     this.store
       .pipe(
         takeUntil(this.unsubscribe),
@@ -49,24 +48,19 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
       .subscribe(data => (this.privileges = data));
   }
 
-  isAllSelected() {
+  isAllSelected(): boolean {
     const numSelected: number = this.selection.selected.length;
     const numRows: number = this.resultsLength;
     return numSelected === numRows;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
+  masterToggle(): void {
     this.isAllSelected() ? this.selection.clear() : this.privileges.forEach(row => this.selection.select(row));
   }
 
   createPrivilegeDialog(): void {
-    const dialogRef = this.dialog.open(AddPrivilegeDialogComponent, {
-      data: this.fb.group({
-        keyString: new FormControl('', [Validators.required, Validators.minLength(4)]),
-        title: new FormControl('', [Validators.required, Validators.minLength(4)])
-      })
-    });
+    const dialogRef = this.dialog.open(AddPrivilegeDialogComponent);
 
     dialogRef
       .afterClosed()
@@ -79,7 +73,7 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }

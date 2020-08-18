@@ -1,4 +1,4 @@
-import { Component, Input, HostBinding, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Asset } from '@/shared/models';
 import { environment } from 'environments/environment';
 
@@ -13,16 +13,16 @@ import { environment } from 'environments/environment';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AtomsUserPicComponent implements OnInit {
-  baseUrl = environment.baseUrl;
   @Input() avatar: Asset = null;
+
   @Input() userOnline: false;
+
+  baseUrl = environment.baseUrl;
   src = './assets/images/userpic/noimage_croped.png';
   title = 'noimage';
   isLoading = true;
 
-  @HostBinding('class.position-relative') posRelative = true;
-
-  ngOnInit() {
+  ngOnInit(): void {
     if (!!this.avatar) {
       this.src = this.baseUrl + this.avatar.location + '/thumbnails/' + this.avatar.title;
       this.title = this.avatar.title;

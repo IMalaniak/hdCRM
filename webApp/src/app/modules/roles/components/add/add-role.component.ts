@@ -19,9 +19,9 @@ import { User } from '@/modules/users/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddRoleComponent implements OnInit {
-  keyString: FormControl;
   role = {} as Role;
-  displayedColumns = ['title', 'view', 'add', 'edit', 'delete'];
+  keyString: FormControl;
+  displayedColumns: string[] = ['title', 'view', 'add', 'edit', 'delete'];
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -32,7 +32,7 @@ export class AddRoleComponent implements OnInit {
     private cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.keyString = new FormControl('', [Validators.required, Validators.minLength(2)]);
     this.role.Privileges = [];
     this.role.Users = [];
@@ -124,7 +124,7 @@ export class AddRoleComponent implements OnInit {
       });
   }
 
-  onRegisterSubmit() {
+  onRegisterSubmit(): void {
     this.role = { ...this.role, keyString: this.keyString.value };
     this.store.dispatch(createRole({ role: this.role }));
   }

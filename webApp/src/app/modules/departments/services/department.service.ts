@@ -6,11 +6,9 @@ import { User } from '@/modules/users/models';
 
 @Injectable()
 export class DepartmentService {
-  private api: string;
+  private api = '/departments';
 
-  constructor(private http: HttpClient) {
-    this.api = '/departments';
-  }
+  constructor(private http: HttpClient) {}
 
   create(department: Department) {
     return this.http.post<any>(this.api, this.formatBeforeSend(department));

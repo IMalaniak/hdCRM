@@ -5,6 +5,7 @@ import { PrivilegesComponent } from '../list/privileges.component';
 export interface PrivilegesDialogData {
   title: string;
 }
+
 @Component({
   templateUrl: 'privileges-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush

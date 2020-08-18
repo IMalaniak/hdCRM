@@ -1,5 +1,5 @@
 <organisms-card cardTitle="Department list" [showDataLoader]="loading$ | async">
-  <div buttons *ngIf="addDepPrivilege$ | async">
+  <div buttons *ngIf="canAddDep$ | async">
     <atoms-icon-button routerLink="/departments/add" [icon]="['fas', 'plus']">
       Create a new department
     </atoms-icon-button>
@@ -66,11 +66,11 @@
               <fa-icon [icon]="['fas', 'info']"></fa-icon>
               <span i18n="@@departmentsComponentListActionsView">Details</span>
             </button>
-            <button *ngIf="editDepPrivilege$ | async" mat-menu-item (click)="onDepSelect(dep.id, true)">
+            <button *ngIf="canEditDep$ | async" mat-menu-item (click)="onDepSelect(dep.id, true)">
               <fa-icon [icon]="['fas', 'edit']"></fa-icon>
               <span i18n="@@departmentsComponentListActionsEdit">Edit</span>
             </button>
-            <button *ngIf="deleteDepPrivilege$ | async" mat-menu-item (click)="deleteDepartment(dep.id)">
+            <button *ngIf="canDeleteDep$ | async" mat-menu-item (click)="deleteDepartment(dep.id)">
               <fa-icon [icon]="['fas', 'trash']" class="text-danger"></fa-icon>
               <span i18n="@@departmentsComponentListActionsDelete">Delete</span>
             </button>

@@ -15,6 +15,7 @@ import { PreferencesList, Preferences } from '@/core/reducers/preferences.reduce
 import { Observable } from 'rxjs';
 import { select } from '@ngrx/store';
 import { getPreferencesList } from '@/core/reducers/preferences.selectors';
+import { IFieldType } from '@/shared/models/FieldType';
 
 @Component({
   selector: 'organisms-user-preferences',
@@ -23,10 +24,24 @@ import { getPreferencesList } from '@/core/reducers/preferences.selectors';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganismsUserPreferencesComponent implements OnInit, OnChanges {
+  preferencesList$: Observable<PreferencesList> = this.store$.pipe(select(getPreferencesList));
+
   @Input() enabledDarkTheme: boolean;
   @Input() userPreferences: Preferences;
 
-  preferencesList$: Observable<PreferencesList>;
+  // TODO: @IMalaniak this we change to come from BE
+  themes = [
+    {
+      value: true,
+      label: 'Dark'
+    },
+    {
+      value: false,
+      label: 'Light'
+    }
+  ];
+  fieldTypes = IFieldType;
+
   currentDate = new Date();
   preferencesForm: FormGroup;
 
@@ -37,7 +52,6 @@ export class OrganismsUserPreferencesComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.preferencesList$ = this.store$.pipe(select(getPreferencesList));
     this.store$.dispatch(preferencesListRequested());
     this.buildPreferencesGroup();
   }

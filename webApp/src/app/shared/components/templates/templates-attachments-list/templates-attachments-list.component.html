@@ -5,7 +5,7 @@
   headClass="text-white"
   [counter]="attachments.length"
 >
-  <section content *ngIf="attachments && attachments.length > 0">
+  <section content *ngIf="attachments && attachments.length">
     <mat-table [dataSource]="attachments" class="mat-elevation-z8 table-attachments crm-table">
       <ng-container matColumnDef="icon">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
@@ -33,6 +33,7 @@
         <mat-header-cell *matHeaderCellDef i18n="@@globalsListActions"></mat-header-cell>
         <mat-cell *matCellDef="let item">
           <atoms-icon-button
+            *ngIf="canDelete"
             color="warn"
             [icon]="['fas', 'trash-alt']"
             matType="icon"
@@ -61,7 +62,11 @@
   ></app-uploader-list>
 
   <div buttons>
-    <atoms-icon-button *ngIf="!uploaderVisible" (onclick)="onClickAddFiles()" [icon]="['fas', 'folder-plus']">
+    <atoms-icon-button
+      *ngIf="!uploaderVisible && !canAdd"
+      (onclick)="onClickAddFiles()"
+      [icon]="['fas', 'folder-plus']"
+    >
       Add files
     </atoms-icon-button>
     <atoms-icon-button

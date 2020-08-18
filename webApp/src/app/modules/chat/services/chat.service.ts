@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ChatMessage } from '../models';
 import { SocketService, SocketEvent } from '@/shared';
@@ -7,14 +6,10 @@ import { take } from 'rxjs/operators';
 
 @Injectable()
 export class ChatService {
-  private api: string;
   groupChatListed$: Observable<any>;
 
-  constructor(private http: HttpClient, private socket: SocketService) {
-    this.api = '/chats';
-    this.groupChatListed$ = this.socket.onEvent(SocketEvent.GROUPCHATLIST).pipe(
-      take(1),
-    );
+  constructor(private socket: SocketService) {
+    this.groupChatListed$ = this.socket.onEvent(SocketEvent.GROUPCHATLIST).pipe(take(1));
   }
 
   getGroupChatList(): void {
