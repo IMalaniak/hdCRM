@@ -4,6 +4,16 @@
 img {
   display: block;
   width: 100%;
+  opacity: 0;
+  visibility: hidden;
   border-radius: 50%;
   border: 0.35rem solid crmcolor('layout', 'milk', true);
+  transform: scale(0.4);
+  transition: transform $transition, opacity $transition, visibility $transition;
+
+  &.visible {
+    transform: scale(1);
+    opacity: 1;
+    visibility: visible;
+  }
 }
