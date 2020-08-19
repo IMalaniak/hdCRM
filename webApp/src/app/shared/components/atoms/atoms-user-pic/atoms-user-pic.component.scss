@@ -2,12 +2,7 @@
 @import 'mixins';
 
 :host {
-  transform: scale(1);
-  transition: transform $transition;
-
-  &:hover {
-    transform: scale(0.95);
-  }
+  position: relative;
 }
 
 img {
@@ -16,8 +11,6 @@ img {
   width: 2.5em;
   border: 2px solid $gray-100;
   border-radius: 50%;
-  transform: scale(1);
-  transition: transform $transition;
   cursor: pointer;
 }
 

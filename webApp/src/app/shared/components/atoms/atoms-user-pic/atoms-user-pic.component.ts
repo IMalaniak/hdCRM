@@ -5,9 +5,9 @@ import { environment } from 'environments/environment';
 @Component({
   selector: 'atoms-user-pic',
   template: `
-    <img src="{{ src }}" alt="{{ title }}" [hidden]="isLoading" (load)="isLoading = false" />
-    <span *ngIf="!isLoading" class="user-status-icon" [ngClass]="{ 'bg-success': userOnline }"></span>
-    <mat-spinner *ngIf="isLoading" [diameter]="35" [strokeWidth]="2"></mat-spinner>
+    <img src="{{ src }}" alt="{{ title }}" [hidden]="imageIsLoading" (load)="imageIsLoading = false" />
+    <span *ngIf="!imageIsLoading" class="user-status-icon" [ngClass]="{ 'bg-success': userOnline }"></span>
+    <mat-spinner *ngIf="imageIsLoading" [diameter]="35" [strokeWidth]="2"></mat-spinner>
   `,
   styleUrls: ['./atoms-user-pic.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -20,7 +20,7 @@ export class AtomsUserPicComponent implements OnInit {
   baseUrl = environment.baseUrl;
   src = './assets/images/userpic/noimage_croped.png';
   title = 'noimage';
-  isLoading = true;
+  imageIsLoading = true;
 
   ngOnInit(): void {
     if (!!this.avatar) {

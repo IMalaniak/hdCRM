@@ -8,10 +8,10 @@ import { AtomsUserPicComponent } from '../atoms-user-pic/atoms-user-pic.componen
       src="{{ src }}"
       alt="{{ title }}"
       [class]="classes"
-      [ngClass]="{ show: !isLoading }"
-      (load)="isLoading = false; isLoad.emit()"
+      [ngClass]="{ visible: !imageIsLoading }"
+      (load)="imageIsLoading = false; imageLoad.emit()"
     />
-    <mat-spinner class="mx-auto mb-5" *ngIf="isLoading" [diameter]="90" [strokeWidth]="5"></mat-spinner>
+    <mat-spinner class="mx-auto mb-5" *ngIf="imageIsLoading" [diameter]="90" [strokeWidth]="5"></mat-spinner>
   `,
   styleUrls: ['./atoms-profile-pic.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -19,7 +19,7 @@ import { AtomsUserPicComponent } from '../atoms-user-pic/atoms-user-pic.componen
 export class AtomsProfilePicComponent extends AtomsUserPicComponent implements OnInit {
   @Input() picClass: string;
 
-  @Output() isLoad = new EventEmitter();
+  @Output() imageLoad = new EventEmitter();
 
   ngOnInit(): void {
     if (!!this.avatar) {

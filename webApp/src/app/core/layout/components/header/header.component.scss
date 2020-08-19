@@ -67,6 +67,14 @@
       position: relative;
       margin-left: auto;
     }
+
+    atoms-user-pic {
+      transition: transform $transition;
+
+      &:hover {
+        transform: scale(0.9);
+      }
+    }
   }
 }
 
