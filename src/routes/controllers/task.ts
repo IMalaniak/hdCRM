@@ -59,7 +59,7 @@ export class TaskController {
         if (!!result) {
           this.taskDbCtrl
             .getById(req.body.id)
-            .then(task => res.status(OK).json({ success: true, message: 'Task is created successfully!', data: task }))
+            .then(task => res.status(OK).json({ success: true, message: 'Task is updated successfully!', data: task }))
             .catch((error: any) => {
               Logger.Err(error);
               return res.status(INTERNAL_SERVER_ERROR).json(error.toString());
