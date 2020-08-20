@@ -1,5 +1,4 @@
 import { User } from '@/modules/users';
-import { ApiResponse } from '@/shared';
 
 export interface Department {
   id: number;
@@ -13,10 +12,4 @@ export interface Department {
   SubDepartments: Department[];
   Workers: User[];
   Manager: User;
-}
-
-export interface DepartmentServerResponse extends ApiResponse {
-  list: Department[];
-  department: Department;
-  pages: number;
 }

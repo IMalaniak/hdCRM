@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Privilege, PrivilegeServerResponse } from '../models';
+import { Privilege } from '../models';
+import { CollectionApiResponse, ItemApiResponse } from '@/shared/models';
 
 @Injectable()
 export class PrivilegeService {
@@ -9,21 +10,11 @@ export class PrivilegeService {
 
   constructor(private http: HttpClient) {}
 
-  create(privilege: Privilege): Observable<Privilege> {
-    return this.http.post<Privilege>(this.api, privilege);
+  create(privilege: Privilege): Observable<ItemApiResponse<Privilege>> {
+    return this.http.post<ItemApiResponse<Privilege>>(this.api, privilege);
   }
 
-  getUserPrivileges(user): Observable<string[]> {
-    const url = `${this.api}/availableForUser/${user.id}`;
-    return this.http.get<string[]>(url);
-  }
-
-  getPrivilegesListForRole(roleId: number): Observable<Privilege[]> {
-    const url = `${this.api}/${roleId}`;
-    return this.http.get<Privilege[]>(url);
-  }
-
-  getFullList(): Observable<PrivilegeServerResponse> {
-    return this.http.get<PrivilegeServerResponse>(this.api);
+  getFullList(): Observable<CollectionApiResponse<Privilege>> {
+    return this.http.get<CollectionApiResponse<Privilege>>(this.api);
   }
 }

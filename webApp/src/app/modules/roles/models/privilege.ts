@@ -1,5 +1,3 @@
-import { ApiResponse } from '@/shared';
-
 export interface RolePrivilege {
   add: boolean;
   view: boolean;
@@ -12,10 +10,4 @@ export interface Privilege {
   keyString: string;
   selected: boolean;
   RolePrivilege: RolePrivilege;
-}
-
-export interface PrivilegeServerResponse extends ApiResponse {
-  list: Privilege[];
-  privilege: Privilege;
-  pages: number;
 }

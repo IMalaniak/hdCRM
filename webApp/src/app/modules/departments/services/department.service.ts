@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Department, DepartmentServerResponse } from '../models';
+import { Department } from '../models';
 import { User } from '@/modules/users/models';
+import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '@/shared';
 
 @Injectable()
 export class DepartmentService {
@@ -10,24 +11,32 @@ export class DepartmentService {
 
   constructor(private http: HttpClient) {}
 
-  create(department: Department) {
-    return this.http.post<any>(this.api, this.formatBeforeSend(department));
+  create(department: Department): Observable<ItemApiResponse<Department>> {
+    return this.http.post<ItemApiResponse<Department>>(this.api, this.formatBeforeSend(department));
   }
 
-  getOne(id: number): Observable<Department> {
-    return this.http.get<Department>(`${this.api}/${id}`);
+  getOne(id: number): Observable<ItemApiResponse<Department>> {
+    return this.http.get<ItemApiResponse<Department>>(`${this.api}/${id}`);
   }
 
-  updateOne(department: Department): Observable<Department> {
-    return this.http.put<Department>(`${this.api}/${department.id}`, this.formatBeforeSend(department));
+  updateOne(department: Department): Observable<ItemApiResponse<Department>> {
+    return this.http.put<ItemApiResponse<Department>>(
+      `${this.api}/${department.id}`,
+      this.formatBeforeSend(department)
+    );
   }
 
-  delete(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.api}/${id}`);
+  delete(id: number): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(`${this.api}/${id}`);
   }
 
-  getList(pageIndex = 0, pageSize = 5, sortIndex = 'id', sortDirection = 'asc'): Observable<DepartmentServerResponse> {
-    return this.http.get<DepartmentServerResponse>(this.api, {
+  getList(
+    pageIndex = 0,
+    pageSize = 5,
+    sortIndex = 'id',
+    sortDirection = 'asc'
+  ): Observable<CollectionApiResponse<Department>> {
+    return this.http.get<CollectionApiResponse<Department>>(this.api, {
       params: new HttpParams()
         .set('pageIndex', pageIndex.toString())
         .set('pageSize', pageSize.toString())
@@ -36,15 +45,15 @@ export class DepartmentService {
     });
   }
 
-  getDashboardData(): Observable<DepartmentServerResponse> {
-    return this.http.get<DepartmentServerResponse>(`${this.api}/dashboard`);
+  getDashboardData(): Observable<CollectionApiResponse<Department>> {
+    return this.http.get<CollectionApiResponse<Department>>(`${this.api}/dashboard`);
   }
 
   formatBeforeSend(dep: Department): Department {
     let formated = { ...dep };
     if (formated.Workers && formated.Workers.length) {
       formated = Object.assign({}, formated, {
-        Participants: formated.Workers.map(worker => {
+        Workers: formated.Workers.map(worker => {
           return <User>{
             id: worker.id
           };

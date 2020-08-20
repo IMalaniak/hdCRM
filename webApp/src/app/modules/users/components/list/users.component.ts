@@ -124,9 +124,10 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
     const userState = {} as User;
     userState.id = user.id;
     userState.StateId = state;
+    // TODO: @IMalaniak recreate this to store
     this.userService.updateUserState(userState).subscribe(
-      userData => {
-        user.State = userData.State;
+      response => {
+        user.State = response.data.State;
         this.toastMessageService.toast(`User state was changed to: ${state.keyString}`);
       },
       error => {

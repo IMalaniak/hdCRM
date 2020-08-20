@@ -1,6 +1,5 @@
 import * as AuthActions from './auth.actions';
 import { User } from '@/modules/users';
-import { ApiResponse } from '@/shared';
 import { createReducer, Action, on } from '@ngrx/store';
 
 export interface AuthState {
@@ -10,7 +9,6 @@ export interface AuthState {
   isTokenValid: boolean;
   isTokenRefreshing: boolean;
   currentUser: User | null;
-  apiResp: ApiResponse;
   loading: boolean;
 }
 
@@ -21,7 +19,6 @@ const initialState: AuthState = {
   isTokenValid: false,
   isTokenRefreshing: false,
   currentUser: null,
-  apiResp: null,
   loading: false
 };
 
@@ -73,23 +70,10 @@ const authReducer = createReducer(
     currentUser.Organization = organization;
     return { ...state, currentUser };
   }),
-  on(
-    AuthActions.registerFailure,
-    AuthActions.logInFailure,
-    AuthActions.updateUserOrgFailure,
-    AuthActions.updateUserProfileFailure,
-    AuthActions.deleteSessionFailure,
-    AuthActions.resetPasswordSuccess,
-    AuthActions.resetPasswordFailure,
-    AuthActions.activateAccountSuccess,
-    AuthActions.activateAccountFailure,
-    AuthActions.currentUserLoadFailed,
-    (state, { apiResp }) => ({
-      ...state,
-      apiResp,
-      loading: false
-    })
-  )
+  on(AuthActions.resetPasswordSuccess, AuthActions.activateAccountSuccess, AuthActions.authApiError, state => ({
+    ...state,
+    loading: false
+  }))
 );
 
 export function reducer(state: AuthState | undefined, action: Action) {

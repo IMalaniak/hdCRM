@@ -3,7 +3,7 @@ import { UserSession } from './userSession';
 import { PasswordAttributes } from './passwordAttributes';
 import { Department } from '@/modules/departments';
 import { State } from './state';
-import { Asset, ApiResponse } from '@/shared/models';
+import { Asset } from '@/shared/models';
 import { Organization } from './organization';
 import { UserPreferences } from './UserPreferences';
 
@@ -39,10 +39,4 @@ export interface User {
   OrgRoom: string;
   rooms?: string[];
   Preference: UserPreferences;
-}
-
-export interface UserServerResponse extends ApiResponse {
-  list: User[];
-  user: User;
-  pages: number;
 }

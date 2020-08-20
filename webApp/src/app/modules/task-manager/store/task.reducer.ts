@@ -13,7 +13,6 @@ export interface TaskPriorityState extends EntityState<TaskPriority> {
 }
 
 export interface TaskManagerState {
-  apiResponse: ApiResponse;
   tasks: TaskState;
   priorities: TaskPriorityState;
 }
@@ -43,7 +42,6 @@ export const initialTaskPriorityState: TaskPriorityState = priorityAdapter.getIn
 });
 
 export const initialTaskManagerState: TaskManagerState = {
-  apiResponse: null,
   tasks: initialTaskState,
   priorities: initialTaskPriorityState
 };
@@ -62,14 +60,9 @@ const taskManagerReducer = createReducer(
     ...state,
     tasks: taskAdapter.addOne(task, { ...state.tasks })
   })),
-  on(TaskActions.createTaskFail, (state: TaskManagerState, { error }) => ({ ...state, apiResponse: error })),
   on(TaskActions.updateTaskRequested, (state: TaskManagerState) => ({
     ...state,
     tasks: { ...state.tasks, loading: true }
-  })),
-  on(TaskActions.updateTaskCancelled, (state: TaskManagerState) => ({
-    ...state,
-    tasks: { ...state.tasks, loading: false }
   })),
   on(TaskActions.updateTaskSuccess, (state: TaskManagerState, { task }) => ({
     ...state,
@@ -87,23 +80,17 @@ const taskManagerReducer = createReducer(
     ...state,
     tasks: taskAdapter.removeMany(taskIds, { ...state.tasks, loading: false })
   })),
-  on(TaskActions.deleteMultipleTaskFailure, (state: TaskManagerState, { error }) => ({
-    ...state,
-    apiResponse: error,
-    tasks: { ...state.tasks, loading: false }
-  })),
   on(TaskActions.taskPrioritiesRequested, (state: TaskManagerState) => ({
     ...state,
     priorities: { ...state.priorities, loading: true }
   })),
-  on(TaskActions.taskPrioritiesLoadFail, (state: TaskManagerState, { error }) => ({
-    ...state,
-    apiResponse: error,
-    priorities: { ...state.priorities, loading: false }
-  })),
   on(TaskActions.taskPrioritiesLoaded, (state: TaskManagerState, { priorities }) => ({
     ...state,
     priorities: priorityAdapter.upsertMany(priorities, { ...state.priorities, loading: true })
+  })),
+  on(TaskActions.tasksApiError, (state: TaskManagerState) => ({
+    ...state,
+    tasks: { ...state.tasks, loading: false }
   }))
 );
 

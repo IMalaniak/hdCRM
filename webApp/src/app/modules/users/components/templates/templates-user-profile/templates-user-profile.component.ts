@@ -3,7 +3,7 @@ import { User, State, Organization } from '@/modules/users/models';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { cloneDeep } from 'lodash';
-import { Asset, ApiResponse } from '@/shared/models';
+import { Asset } from '@/shared/models';
 import { updateUserRequested, changeIsEditingState } from '@/modules/users/store/user.actions';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
@@ -28,7 +28,6 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   @Input() currentSessionId: number;
   @Input() canEdit: boolean;
   @Input() isLoading: boolean;
-  @Input() serverResponse: ApiResponse;
   @Input() editForm: boolean;
   @Input() tabsToShow: string[] = ['details'];
   @Input() isProfilePage = false;

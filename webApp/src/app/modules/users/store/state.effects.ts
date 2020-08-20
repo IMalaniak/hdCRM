@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { throwError } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import * as stateActions from './state.actions';
@@ -7,6 +6,7 @@ import { mergeMap, map, withLatestFrom, filter, catchError } from 'rxjs/operator
 import { StateService } from '../services';
 import { AppState } from '@/core/reducers';
 import { allStatesLoaded } from './state.selectors';
+import { of } from 'rxjs';
 
 @Injectable()
 export class StateEffects {
@@ -14,12 +14,10 @@ export class StateEffects {
     this.actions$.pipe(
       ofType(stateActions.allStatesRequested),
       withLatestFrom(this.store.pipe(select(allStatesLoaded))),
-      filter(([action, allStatesLoaded]) => !allStatesLoaded),
-      mergeMap(() => this.stateService.getList()),
-      map(list => stateActions.allStatesLoaded({ list })),
-      catchError(err => {
-        return throwError(err);
-      })
+      filter(([_, allStatesLoaded]) => !allStatesLoaded),
+      mergeMap(() => this.stateService.getList().pipe()),
+      map(response => stateActions.allStatesLoaded({ list: response.data })),
+      catchError(() => of(stateActions.statesApiError()))
     )
   );
 

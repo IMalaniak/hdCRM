@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import * as depActions from './department.actions';
 import { mergeMap, map, catchError, withLatestFrom, filter } from 'rxjs/operators';
 import { DepartmentService } from '../services';
 import { AppState } from '@/core/reducers';
-import { DepartmentServerResponse, Department } from '../models';
+import { Department } from '../models';
 import { selectDashboardDepDataLoaded } from './department.selectors';
 import { Router } from '@angular/router';
-import { ToastMessageService } from '@/shared';
+import { ToastMessageService, CollectionApiResponse } from '@/shared';
 
 @Injectable()
 export class DepartmentEffects {
@@ -19,17 +19,14 @@ export class DepartmentEffects {
       map(payload => payload.department),
       mergeMap((department: Department) =>
         this.departmentService.create(department).pipe(
-          map(newDepartment => {
-            this.toastMessageService.popup('Department created!', 'success');
+          map(response => {
+            this.toastMessageService.snack(response);
             this.router.navigate(['/departments']);
             return depActions.createDepartmentSuccess({
-              department: newDepartment
+              department: response.data
             });
           }),
-          catchError(error => {
-            this.toastMessageService.popup('Ooops, something went wrong!', 'error');
-            return of(depActions.createDepartmentFail(error));
-          })
+          catchError(() => of(depActions.departmentApiError()))
         )
       )
     )
@@ -40,7 +37,8 @@ export class DepartmentEffects {
       ofType(depActions.departmentRequested),
       map(payload => payload.id),
       mergeMap(id => this.departmentService.getOne(id)),
-      map(department => depActions.departmentLoaded({ department }))
+      map(res => depActions.departmentLoaded({ department: res.data })),
+      catchError(() => of(depActions.departmentApiError()))
     )
   );
 
@@ -50,8 +48,8 @@ export class DepartmentEffects {
       map(payload => payload.page),
       mergeMap(page =>
         this.departmentService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
-          map((response: DepartmentServerResponse) => depActions.listPageLoaded({ response })),
-          catchError(err => of(depActions.listPageCancelled()))
+          map((response: CollectionApiResponse<Department>) => depActions.listPageLoaded({ response })),
+          catchError(() => of(depActions.departmentApiError()))
         )
       )
     )
@@ -63,7 +61,8 @@ export class DepartmentEffects {
         ofType(depActions.deleteDepartment),
         map(payload => payload.id),
         mergeMap(id => this.departmentService.delete(id)),
-        map(() => of(this.toastMessageService.toast('Department deleted!')))
+        map(res => this.toastMessageService.snack(res)),
+        catchError(() => of(depActions.departmentApiError()))
       ),
     {
       dispatch: false
@@ -77,9 +76,7 @@ export class DepartmentEffects {
       filter(([action, selectDashboardDepDataLoaded]) => !selectDashboardDepDataLoaded),
       mergeMap(() => this.departmentService.getDashboardData()),
       map(response => depActions.depDashboardDataLoaded({ response })),
-      catchError(err => {
-        return throwError(err);
-      })
+      catchError(() => of(depActions.departmentApiError()))
     )
   );
 

@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { Store } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import * as planActions from './plan.actions';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 import { PlanService } from '../services';
-import { AppState } from '@/core/reducers';
-import { PlanServerResponse, Plan } from '../models';
+import { Plan } from '../models';
 import { Router } from '@angular/router';
-import { ToastMessageService } from '@/shared';
+import { ToastMessageService, CollectionApiResponse } from '@/shared';
 
 @Injectable()
 export class PlanEffects {
@@ -18,15 +16,12 @@ export class PlanEffects {
       map(payload => payload.plan),
       mergeMap((plan: Plan) =>
         this.planService.create(plan).pipe(
-          map(newPlan => {
-            this.toastMessageService.popup('Plan created!', 'success');
+          map(res => {
+            this.toastMessageService.snack(res);
             this.router.navigate(['/planner']);
-            return planActions.createPlanSuccess({ plan: newPlan });
+            return planActions.createPlanSuccess({ plan: res.data });
           }),
-          catchError(error => {
-            this.toastMessageService.popup('Ooops, something went wrong!', 'error');
-            return of(planActions.createPlanFail({ error }));
-          })
+          catchError(() => of(planActions.planApiError()))
         )
       )
     )
@@ -37,7 +32,8 @@ export class PlanEffects {
       ofType(planActions.planRequested),
       map(payload => payload.id),
       mergeMap(id => this.planService.getOne(id)),
-      map(plan => planActions.planLoaded({ plan }))
+      map(res => planActions.planLoaded({ plan: res.data })),
+      catchError(() => of(planActions.planApiError()))
     )
   );
 
@@ -47,20 +43,22 @@ export class PlanEffects {
       map(payload => payload.page),
       mergeMap(page =>
         this.planService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
-          map((response: PlanServerResponse) => planActions.listPageLoaded({ response })),
-          catchError(err => of(planActions.listPageCancelled()))
+          map((response: CollectionApiResponse<Plan>) => planActions.listPageLoaded({ response })),
+          catchError(() => of(planActions.planApiError()))
         )
       )
     )
   );
 
+  // TODO @IMalaniak recreate this
   deletePlan$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(planActions.deletePlan),
         map(payload => payload.id),
         mergeMap(id => this.planService.delete(id)),
-        map(() => of(this.toastMessageService.toast('Plan deleted!')))
+        map(() => of(this.toastMessageService.toast('Plan deleted!'))),
+        catchError(() => of(planActions.planApiError()))
       ),
     {
       dispatch: false
@@ -69,7 +67,6 @@ export class PlanEffects {
 
   constructor(
     private actions$: Actions,
-    private store: Store<AppState>,
     private planService: PlanService,
     private router: Router,
     private toastMessageService: ToastMessageService

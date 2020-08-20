@@ -19,7 +19,7 @@ export class StageEffects {
       filter(([action, allStagesLoaded]) => !allStagesLoaded),
       mergeMap(() => this.stageService.getList()),
       map(response => stageActions.allStagesLoaded({ response })),
-      catchError(err => throwError(err))
+      catchError(() => of(stageActions.stageApiError()))
     )
   );
 
@@ -29,16 +29,13 @@ export class StageEffects {
       map(payload => payload.stage),
       mergeMap((stage: Stage) =>
         this.stageService.create(stage).pipe(
-          map(newStage => {
+          map(response => {
             this.toastMessageService.toast('Stage created!');
             return stageActions.createStageSuccess({
-              stage: newStage
+              stage: response.data
             });
           }),
-          catchError(error => {
-            this.toastMessageService.popup('Ooops, something went wrong!', 'success');
-            return of(stageActions.createStageFail({ error }));
-          })
+          catchError(() => of(stageActions.stageApiError()))
         )
       )
     )

@@ -154,9 +154,10 @@ export class RoleComponent implements OnInit, OnDestroy {
       });
   }
 
+  // TODO: @IMalaniak recreate this to store
   updateRole(): void {
     this.roleService.updateRole(this.role).subscribe(
-      data => {
+      ({ data }) => {
         this.roleInitial = cloneDeep(data);
         this.role = cloneDeep(data);
         const role: Update<Role> = {

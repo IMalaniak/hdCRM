@@ -5,8 +5,6 @@ import { Privilege } from '@/modules/roles';
 
 export const selectAuthState = createFeatureSelector<AuthState>(authFeatureKey);
 
-export const getApiResponse = createSelector(selectAuthState, auth => auth.apiResp);
-
 export const isLoading = createSelector(selectAuthState, auth => auth.loading);
 
 export const currentUser = createSelector(selectAuthState, auth => auth.currentUser);

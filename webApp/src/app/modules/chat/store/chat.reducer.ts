@@ -3,6 +3,7 @@ import { Chat } from '../models';
 import * as groupChatActionTypes from './group-chat.actions';
 import * as privateChatActionTypes from './private-chat.actions';
 import { createReducer, Action, on } from '@ngrx/store';
+import { ApiResponse } from '@/shared';
 
 export interface GroupChatsState extends EntityState<Chat> {
   allChatsLoaded: boolean;
@@ -18,7 +19,7 @@ export interface PrivateChatsState extends EntityState<Chat> {
 
 export interface ChatsState {
   loading: boolean;
-  error: string;
+  apiResp: ApiResponse;
   groupChats: GroupChatsState;
   privateChats: PrivateChatsState;
 }
@@ -40,7 +41,7 @@ const privateChatInitialState: PrivateChatsState = privateChatAdapter.getInitial
 
 const initialChatsState: ChatsState = {
   loading: false,
-  error: null,
+  apiResp: null,
   groupChats: groupChatInitialState,
   privateChats: privateChatInitialState
 };
@@ -55,6 +56,11 @@ const chatsReducer = createReducer(
       ...state.groupChats,
       allChatsLoaded: true
     })
+  })),
+  on(groupChatActionTypes.groupChatListCancelled, (state, { apiResp }) => ({
+    ...state,
+    loading: false,
+    apiResp
   })),
   on(groupChatActionTypes.newGroupChatAdded, (state, { chat }) => ({
     ...state,

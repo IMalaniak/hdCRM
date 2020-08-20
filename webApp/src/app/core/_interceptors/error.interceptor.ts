@@ -10,18 +10,24 @@ import { refreshSession, redirectToLogin } from '../auth/store/auth.actions';
 const genericRetryStrategy = ({
   maxRetryAttempts = 3,
   scalingDuration = 1000,
-  excludedStatusCodes = []
+  excludedStatusCodes = [],
+  excludeUrl = ['refresh-session']
 }: {
   maxRetryAttempts?: number;
   scalingDuration?: number;
   excludedStatusCodes?: number[];
+  excludeUrl?: string[];
 } = {}) => (attempts: Observable<any>) => {
   return attempts.pipe(
     mergeMap((error, i) => {
       const retryAttempt = i + 1;
       // if maximum number of retries have been met
       // or response is a status code we don't wish to retry, throw error
-      if (retryAttempt > maxRetryAttempts || excludedStatusCodes.find(e => e === error.status)) {
+      if (
+        retryAttempt > maxRetryAttempts ||
+        excludedStatusCodes.find(e => e === error.status) ||
+        excludeUrl.find(e => error.url.includes(e))
+      ) {
         return throwError(error);
       }
       // retry after 1s, 2s, etc...
@@ -58,7 +64,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         genericRetryStrategy({
           maxRetryAttempts: 2,
           scalingDuration: 1000,
-          excludedStatusCodes: [500, 403]
+          excludedStatusCodes: [500, 403, 400]
         })
       ),
       last()

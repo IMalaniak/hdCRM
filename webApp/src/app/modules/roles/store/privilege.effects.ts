@@ -17,15 +17,15 @@ export class PrivilegeEffects {
     this.actions$.pipe(
       ofType(privilegeActions.allPrivilegesRequested),
       withLatestFrom(this.store.pipe(select(allPrivilegesLoaded))),
-      tap(([action, allPrivilegesLoaded]) => {
+      tap(([_, allPrivilegesLoaded]) => {
         if (allPrivilegesLoaded) {
           this.store.dispatch(privilegeActions.allPrivilegesRequestCanceled());
         }
       }),
-      filter(([action, allPrivilegesLoaded]) => !allPrivilegesLoaded),
+      filter(([_, allPrivilegesLoaded]) => !allPrivilegesLoaded),
       mergeMap(() => this.privilegeService.getFullList()),
       map(response => privilegeActions.allPrivilegesLoaded({ response })),
-      catchError(err => throwError(err))
+      catchError(() => of(privilegeActions.privilegeApiError()))
     )
   );
 
@@ -36,16 +36,13 @@ export class PrivilegeEffects {
       map(payload => payload.privilege),
       mergeMap((privilege: Privilege) =>
         this.privilegeService.create(privilege).pipe(
-          map(newPrivilege => {
-            this.toastMessageService.toast('Privilege created!');
+          map(response => {
+            this.toastMessageService.snack(response);
             return privilegeActions.createPrivilegeSuccess({
-              privilege: newPrivilege
+              privilege: response.data
             });
           }),
-          catchError(error => {
-            this.toastMessageService.popup('Ooops, something went wrong!', 'error');
-            return of(privilegeActions.createPrivilegeFail({ error }));
-          })
+          catchError(() => of(privilegeActions.privilegeApiError()))
         )
       )
     )
