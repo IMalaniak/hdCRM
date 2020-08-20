@@ -10,7 +10,7 @@ const MOLECULES = [
   _components.MoleculesProfilePicWithUploaderComponent,
   _components.MoleculesUserListSmItemComponent,
   _components.MoleculesChartComponent,
-  _components.MoleculesErrorMessageComponent
+  _components.MoleculesServerMessageComponent
 ];
 const ORGANISMS = [
   _components.OrganismsUserListSmComponent,
