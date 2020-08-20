@@ -110,7 +110,10 @@ export class UserEffects {
       map(payload => payload.newPassword),
       switchMap(newPassword =>
         this.userService.changeOldPassword(newPassword).pipe(
-          map(response => userActions.changePasswordSuccess({ response })),
+          map(response => {
+            this.toastMessageService.snack(response);
+            return userActions.changePasswordSuccess();
+          }),
           catchError(() => of(userActions.userApiError()))
         )
       )

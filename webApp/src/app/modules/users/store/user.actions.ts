@@ -36,9 +36,6 @@ export const changeOldPassword = createAction(
   props<{ newPassword: NewPassword }>()
 );
 
-export const changePasswordSuccess = createAction(
-  '[User API] Change Password Success',
-  props<{ response: ApiResponse }>()
-);
+export const changePasswordSuccess = createAction('[User API] Change Password Success');
 
 export const userApiError = createAction('[Users API] Failed Executing Request');
