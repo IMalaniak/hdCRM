@@ -1,25 +1,27 @@
-import { OK, BAD_REQUEST } from 'http-status-codes';
+import { OK, INTERNAL_SERVER_ERROR } from 'http-status-codes';
 import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import * as db from '../../models';
+import { Department, User, Asset } from '../../models';
 import { Op } from 'sequelize';
 import Passport from '../../config/passport';
+import { ApiResponse, CollectionApiResponse, ItemApiResponse } from '../../models/apiResponse';
+import { CollectionQuery, RequestWithQuery, RequestWithBody } from '../../models/apiRequest';
 
 @Controller('departments/')
 export class DepartmentController {
   @Get('dashboard')
   @Middleware([Passport.authenticate()])
-  private getDashboardData(req: Request, res: Response) {
+  private getDashboardData(req: Request, res: Response<CollectionApiResponse<Department>>) {
     Logger.Info(`Geting departments dashboard data...`);
-    db.Department.findAndCountAll({
+    Department.findAndCountAll({
       attributes: ['title', 'id'],
       where: {
         OrganizationId: req.user.OrganizationId
       },
       include: [
         {
-          model: db.User,
+          model: User,
           as: 'Workers',
           attributes: ['id'],
           required: false
@@ -28,70 +30,70 @@ export class DepartmentController {
       order: [['id', 'ASC']]
     })
       .then(data => {
-        res.status(OK).json({ list: data.rows, count: data.count });
+        res.status(OK).json({ success: true, data: data.rows, resultsNum: data.count });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(BAD_REQUEST).json(error.toString());
+        return res.status(INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
   @Get(':id')
   @Middleware([Passport.authenticate()])
-  private get(req: Request, res: Response) {
+  private get(req: Request<{ id: string }>, res: Response<ItemApiResponse<Department>>) {
     Logger.Info(`Selecting department by id: ${req.params.id}...`);
     this.findDepByPk(req.params.id)
-      .then((dep: db.Department) => {
-        return res.status(OK).json(dep);
+      .then((dep: Department) => {
+        return res.status(OK).json({ success: true, data: dep });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json(err.toString());
+        return res.status(INTERNAL_SERVER_ERROR).json(err);
       });
   }
 
   @Get('')
   @Middleware([Passport.authenticate()])
-  private getAll(req: Request, res: Response) {
+  private getAll(req: RequestWithQuery<CollectionQuery>, res: Response<CollectionApiResponse<Department>>) {
     Logger.Info(`Selecting all departments...`);
-    const queryParams = req.query;
-    const limit = parseInt(queryParams.pageSize);
-    const offset = parseInt(queryParams.pageIndex) * limit;
+    const { pageSize, pageIndex, sortDirection, sortIndex } = req.query;
+    const limit = parseInt(pageSize);
+    const offset = parseInt(pageIndex) * limit;
 
-    db.Department.findAndCountAll({
+    Department.findAndCountAll({
       where: {
         OrganizationId: req.user.OrganizationId
       },
       include: [
         {
-          model: db.Department,
+          model: Department,
           as: 'ParentDepartment',
           required: false
         },
         {
-          model: db.Department,
+          model: Department,
           as: 'SubDepartments',
           required: false
         },
         {
-          model: db.User,
+          model: User,
           as: 'Workers',
           attributes: { exclude: ['passwordHash', 'salt'] },
           include: [
             {
-              model: db.Asset,
+              model: Asset,
               as: 'avatar'
             }
           ],
           required: false
         },
         {
-          model: db.User,
+          model: User,
           as: 'Manager',
           attributes: { exclude: ['passwordHash', 'salt'] },
           include: [
             {
-              model: db.Asset,
+              model: Asset,
               as: 'avatar'
             }
           ],
@@ -100,24 +102,24 @@ export class DepartmentController {
       ],
       limit,
       offset,
-      order: [[queryParams.sortIndex, queryParams.sortDirection.toUpperCase()]],
+      order: [[sortIndex, sortDirection.toUpperCase()]],
       distinct: true
     })
       .then(data => {
         const pages = Math.ceil(data.count / limit);
-        res.status(OK).json({ list: data.rows, count: data.count, pages });
+        res.status(OK).json({ success: true, data: data.rows, resultsNum: data.count, pages });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json(err.toString());
+        return res.status(INTERNAL_SERVER_ERROR).json(err.toString());
       });
   }
 
   @Post('')
   @Middleware([Passport.authenticate()])
-  private create(req: Request, res: Response) {
+  private create(req: RequestWithBody<Partial<Department>>, res: Response<ItemApiResponse<Department>>) {
     Logger.Info(`Creating new department...`);
-    db.Department.create({
+    Department.create({
       title: req.body.title,
       description: req.body.description,
       managerId: req.body.Manager.id,
@@ -140,29 +142,29 @@ export class DepartmentController {
           .then(() => {
             this.findDepByPk(dep.id)
               .then(dep => {
-                res.status(OK).json(dep);
+                res.status(OK).json({ success: true, message: 'Department created successfully!', data: dep });
               })
               .catch((err: any) => {
                 Logger.Err(err);
-                return res.status(BAD_REQUEST).json(err);
+                return res.status(INTERNAL_SERVER_ERROR).json(err);
               });
           })
           .catch((err: any) => {
             Logger.Err(err);
-            return res.status(BAD_REQUEST).json(err);
+            return res.status(INTERNAL_SERVER_ERROR).json(err);
           });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json(err);
+        return res.status(INTERNAL_SERVER_ERROR).json(err);
       });
   }
 
   @Put(':id')
   @Middleware([Passport.authenticate()])
-  private updateOne(req: Request, res: Response) {
+  private updateOne(req: RequestWithBody<Partial<Department>>, res: Response<ItemApiResponse<Department>>) {
     Logger.Info(`Updating department by id: ${req.params.id}...`);
-    db.Department.update(
+    Department.update(
       {
         title: req.body.title,
         description: req.body.description,
@@ -172,7 +174,7 @@ export class DepartmentController {
         where: { id: req.body.id }
       }
     )
-      .then(dep => {
+      .then(() => {
         this.findDepByPk(req.body.id)
           .then(dep => {
             const addParentDepPromise = req.body.ParentDepartment
@@ -188,80 +190,80 @@ export class DepartmentController {
                 : Promise.resolve(true);
 
             Promise.all([addParentDepPromise, addSubDepartmentsPromise, addWorkersPromise])
-              .then(values => {
+              .then(() => {
                 this.findDepByPk(req.body.id)
                   .then(dep => {
-                    res.status(OK).json(dep);
+                    res.status(OK).json({ success: true, message: 'Department updated successfully!', data: dep });
                   })
                   .catch((error: any) => {
                     Logger.Err(error);
-                    return res.status(BAD_REQUEST).json(error.toString());
+                    return res.status(INTERNAL_SERVER_ERROR).json(error);
                   });
               })
               .catch((error: any) => {
                 Logger.Err(error);
-                return res.status(BAD_REQUEST).json(error.toString());
+                return res.status(INTERNAL_SERVER_ERROR).json(error);
               });
           })
           .catch((error: any) => {
             Logger.Err(error);
-            return res.status(BAD_REQUEST).json(error.toString());
+            return res.status(INTERNAL_SERVER_ERROR).json(error);
           });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(BAD_REQUEST).json(error.toString());
+        return res.status(INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
   @Delete(':id')
   @Middleware([Passport.authenticate()])
-  private deleteOne(req: Request, res: Response) {
+  private deleteOne(req: Request<{ id: string }>, res: Response<ApiResponse>) {
     Logger.Info(`Deleting department by id: ${req.params.id}...`);
-    db.Department.destroy({
+    Department.destroy({
       where: { id: req.params.id }
     })
       .then(result => {
-        return res.status(OK).json(result);
+        return res.status(OK).json({ success: true, message: `Deleted ${result} department` });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(BAD_REQUEST).json(error.toString());
+        return res.status(INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
-  private findDepByPk(id: number | string): Promise<db.Department> {
-    return db.Department.findByPk(id, {
+  private findDepByPk(id: number | string): Promise<Department> {
+    return Department.findByPk(id, {
       include: [
         {
-          model: db.Department,
+          model: Department,
           as: 'ParentDepartment',
           required: false
         },
         {
-          model: db.Department,
+          model: Department,
           as: 'SubDepartments',
           required: false
         },
         {
-          model: db.User,
+          model: User,
           as: 'Workers',
           attributes: { exclude: ['passwordHash', 'salt'] },
           include: [
             {
-              model: db.Asset,
+              model: Asset,
               as: 'avatar'
             }
           ],
           required: false
         },
         {
-          model: db.User,
+          model: User,
           as: 'Manager',
           attributes: { exclude: ['passwordHash', 'salt'] },
           include: [
             {
-              model: db.Asset,
+              model: Asset,
               as: 'avatar'
             }
           ],
@@ -271,7 +273,7 @@ export class DepartmentController {
     });
   }
 
-  private addParentDepPr(dep: db.Department, parentDepartment: db.Department): Promise<any | Error> {
+  private addParentDepPr(dep: Department, parentDepartment: Department): Promise<any | Error> {
     return new Promise((resolve, reject) => {
       dep
         .setParentDepartment(parentDepartment.id)
@@ -284,9 +286,9 @@ export class DepartmentController {
     });
   }
 
-  private addSubDepartmentsPr(dep: db.Department, subDepartments: number[]): Promise<any | Error> {
+  private addSubDepartmentsPr(dep: Department, subDepartments: Array<{ id: number }>): Promise<any | Error> {
     return new Promise((resolve, reject) => {
-      db.Department.findAll({
+      Department.findAll({
         where: {
           [Op.or]: subDepartments
         }
@@ -307,9 +309,9 @@ export class DepartmentController {
     });
   }
 
-  private addWorkersPr(dep: db.Department, workers: number[]): Promise<any | Error> {
+  private addWorkersPr(dep: Department, workers: Array<{ id: number }>): Promise<any | Error> {
     return new Promise((resolve, reject) => {
-      db.User.findAll({
+      User.findAll({
         where: {
           [Op.or]: workers
         }

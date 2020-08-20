@@ -1,6 +1,6 @@
 import socketIO from 'socket.io';
 import { Logger } from '@overnightjs/logger';
-import * as db from '../models';
+import { User } from '../models';
 import { ChatHelper } from '../helpers/chatHelper';
 
 export enum GlobalEvents {
@@ -34,7 +34,7 @@ export class SocketRouter {
     this.io = io;
     this.io.on(GlobalEvents.CONNECT, (socket: socketIO.Socket) => {
       Logger.Info(`Global: Client connected, socketId: ${socket.id}`);
-      socket.on(GlobalEvents.ISONLINE, (user: db.User) => {
+      socket.on(GlobalEvents.ISONLINE, (user: User) => {
         Logger.Info(`Global: Client online, userId: ${user.id}`);
         const OrgRoom = `ORG_ROOM_${user.OrganizationId.toString()}`;
         socket.join(OrgRoom);
@@ -125,13 +125,9 @@ export class SocketRouter {
 
   private initPrivateChat(socket: socketIO.Socket) {
     Logger.Info(`PrivateChat: Module inited for socketId: ${socket.id}`);
-    socket.on('join', (params: any) => {
+    socket.on('join', (params: any) => {});
 
-    });
-
-    socket.on(GropChatEvents.PRIVATEMESSAGE, (m: any) => {
-
-    });
+    socket.on(GropChatEvents.PRIVATEMESSAGE, (m: any) => {});
   }
 
   private initNotifications(socket: socketIO.Socket) {
