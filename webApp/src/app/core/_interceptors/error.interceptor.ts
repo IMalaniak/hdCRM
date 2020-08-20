@@ -55,7 +55,7 @@ export class ErrorInterceptor implements HttpInterceptor {
           });
         }
 
-        const error = err.message || err.statusText;
+        // const error = err.message || err.statusText;
         // TODO @JohnRostislavovich create logger module
         return throwError(err);
       }),

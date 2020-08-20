@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { Store } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import * as userActions from './user.actions';
 import { mergeMap, map, catchError, tap, switchMap } from 'rxjs/operators';
 import { UserService } from '../services';
-import { AppState } from '@/core/reducers';
 import { User } from '../models';
 import { Update } from '@ngrx/entity';
-import { HttpErrorResponse } from '@angular/common/http';
 import { ToastMessageService } from '@/shared/services';
 import { CollectionApiResponse } from '@/shared';
 

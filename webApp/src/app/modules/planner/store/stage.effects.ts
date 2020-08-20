@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { throwError, of } from 'rxjs';
+import { of } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import * as stageActions from './stage.actions';
@@ -16,7 +16,7 @@ export class StageEffects {
     this.actions$.pipe(
       ofType(stageActions.allStagesRequestedFromDashboard, stageActions.allStagesRequestedFromDialogWindow),
       withLatestFrom(this.store.pipe(select(allStagesLoaded))),
-      filter(([action, allStagesLoaded]) => !allStagesLoaded),
+      filter(([_, allStagesLoaded]) => !allStagesLoaded),
       mergeMap(() => this.stageService.getList()),
       map(response => stageActions.allStagesLoaded({ response })),
       catchError(() => of(stageActions.stageApiError()))

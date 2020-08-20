@@ -2,7 +2,6 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { User } from '../models';
 import * as UserActions from './user.actions';
 import { Action, on, createReducer } from '@ngrx/store';
-import { ApiResponse } from '@/shared';
 
 export interface UsersState extends EntityState<User> {
   allUsersLoaded: boolean;

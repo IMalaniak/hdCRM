@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { Actions, Effect, ofType, createEffect } from '@ngrx/effects';
 import * as privilegeActions from './privilege.actions';

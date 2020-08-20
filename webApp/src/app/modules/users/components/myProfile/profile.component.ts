@@ -4,7 +4,6 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { getSessionId, currentUser } from '@/core/auth/store/auth.selectors';
 import { Observable } from 'rxjs';
-import { ApiResponse } from '@/shared';
 import { selectIsLoading, selectIsEditing } from '../../store/user.selectors';
 import { getPreferencesState } from '@/core/reducers/preferences.selectors';
 import { Preferences } from '@/core/reducers/preferences.reducer';

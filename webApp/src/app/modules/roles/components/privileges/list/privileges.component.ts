@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { FormBuilder } from '@angular/forms';
 import { Privilege } from '../../../models';
 import { AddPrivilegeDialogComponent } from '../add-dialog/add-privilege-dialog.component';
 import { Subject, Observable } from 'rxjs';
@@ -27,12 +26,7 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(
-    private dialog: MatDialog,
-    private fb: FormBuilder,
-    private store: Store<AppState>,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private dialog: MatDialog, private store: Store<AppState>, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.store.dispatch(allPrivilegesRequested());
