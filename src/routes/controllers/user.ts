@@ -1,4 +1,4 @@
-import { OK, BAD_REQUEST } from 'http-status-codes';
+import { OK, BAD_REQUEST, FORBIDDEN } from 'http-status-codes';
 import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
@@ -12,6 +12,10 @@ import jimp from 'jimp';
 import { UserDBController } from '../../dbControllers/usersController';
 import Crypt from '../../config/crypt';
 import Mailer from '../../mailer/nodeMailerTemplates';
+import { parseCookies } from '../../utils/parseCookies';
+import JwtHelper from '../../helpers/jwtHelper';
+import { JwtDecoded } from '../../models/JWTPayload';
+import { TokenExpiredError } from 'jsonwebtoken';
 
 @Controller('users/')
 export class UserController {
@@ -123,6 +127,20 @@ export class UserController {
     if (req.body.newPassword === req.body.verifyPassword) {
       db.User.findByPk(req.user.id)
         .then(user => {
+          const sendPasswordResetConfirmation = () => {
+            Mailer.sendPasswordResetConfirmation(user)
+              .then(() => {
+                return res.status(OK).json({
+                  success: true,
+                  message: 'You have successfully changed your password.'
+                });
+              })
+              .catch((err: any) => {
+                Logger.Err(err);
+                return res.status(BAD_REQUEST).json(err);
+              });
+          };
+
           const isMatch = Crypt.validatePassword(req.body.oldPassword, user.passwordHash, user.salt);
           if (isMatch) {
             const passwordData = Crypt.saltHashPassword(req.body.newPassword);
@@ -131,17 +149,23 @@ export class UserController {
             user
               .save()
               .then(user => {
-                Mailer.sendPasswordResetConfirmation(user)
-                  .then(() => {
-                    return res.status(OK).json({
-                      success: true,
-                      message: 'You have successfully changed your password.'
-                    });
-                  })
-                  .catch((err: any) => {
-                    Logger.Err(err);
-                    return res.status(BAD_REQUEST).json(err);
-                  });
+                if (req.body.deleteSessions) {
+                  const cookies = parseCookies(req);
+
+                  if (cookies['refresh_session']) {
+                    JwtHelper.getVerified({ type: 'refresh', token: cookies['refresh_token'] })
+                      .then(({ userId, sessionId }: JwtDecoded) => {
+                        this.userDbCtrl.removeUserSessionsExept(userId, sessionId).then(() => {
+                          sendPasswordResetConfirmation();
+                        });
+                      })
+                      .catch((err: TokenExpiredError) => {
+                        return res.status(FORBIDDEN).send(err);
+                      });
+                  }
+                } else {
+                  sendPasswordResetConfirmation();
+                }
               })
               .catch((err: any) => {
                 Logger.Err(err);
