@@ -51,8 +51,7 @@ export class OrganismsUserPasswordsComponent implements OnInit {
   }
 
   changePassword(newPassword: NewPassword): void {
-    this.userNewPassword.reset();
+    this.userNewPassword.reset({ deleteSessions: true });
     this.store.dispatch(changeOldPassword({ newPassword }));
-    this.userNewPassword.get('deleteSessions').patchValue(true);
   }
 }

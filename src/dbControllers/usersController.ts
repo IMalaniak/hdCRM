@@ -155,10 +155,10 @@ export class UserDBController {
     });
   }
 
-  public removeUserSessionsExept(userId: number, currentSessionId: number) {
+  public removeUserSessionsExept(UserId: number, id: number) {
     Logger.Info(`Removing user sessions`);
     return db.UserSession.destroy({
-      where: { userId, [Op.not]: [{ sessionId: currentSessionId }] }
+      where: { UserId, [Op.not]: [{ id }] }
     });
   }
 

@@ -152,12 +152,18 @@ export class UserController {
                 if (req.body.deleteSessions) {
                   const cookies = parseCookies(req);
 
-                  if (cookies['refresh_session']) {
+                  if (cookies['refresh_token']) {
                     JwtHelper.getVerified({ type: 'refresh', token: cookies['refresh_token'] })
                       .then(({ userId, sessionId }: JwtDecoded) => {
-                        this.userDbCtrl.removeUserSessionsExept(userId, sessionId).then(() => {
-                          sendPasswordResetConfirmation();
-                        });
+                        this.userDbCtrl
+                          .removeUserSessionsExept(userId, sessionId)
+                          .then(() => {
+                            sendPasswordResetConfirmation();
+                          })
+                          .catch((err: any) => {
+                            Logger.Err(err);
+                            return res.status(BAD_REQUEST).json(err);
+                          });
                       })
                       .catch((err: TokenExpiredError) => {
                         return res.status(FORBIDDEN).send(err);
