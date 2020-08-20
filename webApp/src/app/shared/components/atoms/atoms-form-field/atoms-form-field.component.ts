@@ -54,7 +54,7 @@ export class AtomsFormFieldComponent {
   @Input() options?: any;
   @Input() bindOptValue?: string;
   @Input() bindOptLabel?: string;
-  @Input() color: string;
+  @Input() color = 'accent';
   @Input() label: string;
   @Input() fType: IFieldType;
   @Input() control: FormControl;

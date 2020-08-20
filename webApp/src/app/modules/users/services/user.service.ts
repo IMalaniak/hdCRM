@@ -63,7 +63,7 @@ export class UserService {
   }
 
   changeOldPassword(data: NewPassword): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.api}/change-password`, data);
+    return this.http.post<ApiResponse>(`${this.api}/change-password`, data, { withCredentials: true });
   }
 
   formatBeforeSend(user: User): User {

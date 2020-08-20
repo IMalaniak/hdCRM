@@ -1,6 +1,7 @@
 import * as db from '../models';
 import { Logger } from '@overnightjs/logger';
 import { IncludeOptions } from 'sequelize/types';
+import { Op } from 'sequelize';
 
 export class UserDBController {
   public includes: IncludeOptions[] = [
@@ -151,6 +152,13 @@ export class UserDBController {
     Logger.Info(`Removing user session`);
     return db.UserSession.destroy({
       where: { id }
+    });
+  }
+
+  public removeUserSessionsExept(UserId: number, id: number) {
+    Logger.Info(`Removing user sessions`);
+    return db.UserSession.destroy({
+      where: { UserId, [Op.not]: [{ id }] }
     });
   }
 
