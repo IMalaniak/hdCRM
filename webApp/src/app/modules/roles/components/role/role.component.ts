@@ -23,7 +23,7 @@ import { User } from '@/modules/users';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoleComponent implements OnInit, OnDestroy {
-  editRolePrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('role-edit')));
+  canEditRole$: Observable<boolean> = this.store.pipe(select(isPrivileged('role-edit')));
 
   role: Role;
   roleInitial: Role;
@@ -43,7 +43,7 @@ export class RoleComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.editRolePrivilege$.pipe(takeUntil(this.unsubscribe)).subscribe(canEdit => {
+    this.canEditRole$.pipe(takeUntil(this.unsubscribe)).subscribe(canEdit => {
       if (canEdit) {
         const edit = this.route.snapshot.queryParams['edit'];
         if (edit) {
@@ -184,14 +184,12 @@ export class RoleComponent implements OnInit, OnDestroy {
 
   onClickEdit(): void {
     this.editForm = true;
-    this.displayedColumns.push('actions');
+    this.displayedColumns = [...this.displayedColumns, 'actions'];
   }
 
   disableEdit(): void {
     this.editForm = false;
-    this.displayedColumns = this.displayedColumns.filter(col => {
-      return col !== 'actions';
-    });
+    this.displayedColumns = this.displayedColumns.filter(col => col !== 'actions');
   }
 
   onClickCancelEdit(): void {

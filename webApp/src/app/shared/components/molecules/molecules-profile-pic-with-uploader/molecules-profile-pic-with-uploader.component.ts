@@ -5,9 +5,14 @@ import { Asset } from '@/shared/models';
   selector: 'molecules-profile-pic-with-uploader',
   template: `
     <div class="avatar-uploader">
-      <atoms-profile-pic *ngIf="!changePic" [avatar]="avatar"></atoms-profile-pic>
+      <atoms-profile-pic
+        *ngIf="!changePic"
+        [avatar]="avatar"
+        (imageLoad)="changePicButtonVisible = true"
+      ></atoms-profile-pic>
 
       <atoms-icon-button
+        *ngIf="changePicButtonVisible"
         matType="mini-fab"
         [icon]="changePic ? ['fas', 'times'] : ['fas', 'pencil-alt']"
         [color]="changePic ? 'warn' : 'primary'"
@@ -31,6 +36,7 @@ export class MoleculesProfilePicWithUploaderComponent {
   @Output() addFileCall: EventEmitter<any> = new EventEmitter();
 
   changePic = false;
+  changePicButtonVisible = false;
 
   onAddFile(asset: Asset): void {
     setTimeout(() => {

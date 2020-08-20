@@ -5,6 +5,7 @@ import { ConfirmPasswordValidator } from '@/shared/validators';
 import { AppState } from '@/core/reducers';
 import { Store } from '@ngrx/store';
 import { changeOldPassword } from '@/modules/users/store/user.actions';
+import { IFieldType } from '@/shared/models/FieldType';
 
 @Component({
   selector: 'organisms-user-passwords',
@@ -16,6 +17,7 @@ export class OrganismsUserPasswordsComponent implements OnInit {
   @Input() isLoading: boolean;
 
   userNewPassword: FormGroup;
+  fieldTypes = IFieldType;
 
   constructor(private store: Store<AppState>, private fb: FormBuilder) {}
 
@@ -28,7 +30,8 @@ export class OrganismsUserPasswordsComponent implements OnInit {
       {
         oldPassword: new FormControl(null, Validators.required),
         newPassword: new FormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(64)]),
-        verifyPassword: new FormControl(null, Validators.required)
+        verifyPassword: new FormControl(null, Validators.required),
+        deleteSessions: new FormControl(true)
       },
       {
         validator: ConfirmPasswordValidator.MatchPassword
@@ -37,7 +40,7 @@ export class OrganismsUserPasswordsComponent implements OnInit {
   }
 
   changePassword(newPassword: NewPassword): void {
-    this.userNewPassword.reset();
+    this.userNewPassword.reset({ deleteSessions: true });
     this.store.dispatch(changeOldPassword({ newPassword }));
   }
 }

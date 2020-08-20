@@ -21,22 +21,23 @@
     width: 80%;
     margin: 0 auto;
     text-align: center;
-  }
 
-  li {
-    padding: 0.5em 0;
-    border-bottom: 1px solid crmcolor('theme', 'light', true);
+    li {
+      padding: 0.5em 0;
+      border-bottom: 1px solid crmcolor('theme', 'light', true);
 
-    &:last-of-type {
-      border-bottom: none;
-    }
+      &:last-of-type {
+        border-bottom: none;
+      }
 
-    > h5 {
-      margin: 0;
+      > h5 {
+        margin: 0;
+      }
     }
 
     .roles {
       > span {
+        display: inline-block;
         margin: 0 0.3em;
         font-style: italic;
       }

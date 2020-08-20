@@ -1,6 +1,7 @@
 import { Component, Input, EventEmitter, Output, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { User, State } from '@/modules/users';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { IFieldType } from '@/shared/models/FieldType';
 import { ToastMessageService } from '@/shared';
 
 @Component({
@@ -19,6 +20,7 @@ export class OrganismsUserDetailsComponent implements OnInit {
   @Output() setEditableForm: EventEmitter<boolean> = new EventEmitter();
 
   userForm: FormGroup;
+  fieldTypes = IFieldType;
 
   constructor(private fb: FormBuilder, private toastMessageService: ToastMessageService) {}
 
@@ -42,6 +44,7 @@ export class OrganismsUserDetailsComponent implements OnInit {
 
   onClickCancelEdit(): void {
     this.setEditableForm.emit(false);
+    this.userForm.reset(this.user);
   }
 
   onUpdateUserSubmit(): void {

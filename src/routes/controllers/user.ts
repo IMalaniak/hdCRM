@@ -1,4 +1,4 @@
-import { OK, INTERNAL_SERVER_ERROR } from 'http-status-codes';
+import { OK, INTERNAL_SERVER_ERROR, FORBIDDEN } from 'http-status-codes';
 import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
@@ -14,6 +14,10 @@ import Crypt from '../../config/crypt';
 import Mailer from '../../mailer/nodeMailerTemplates';
 import { CollectionApiResponse, ApiResponse, ItemApiResponse } from 'src/models/apiResponse';
 import { RequestWithQuery, CollectionQuery, RequestWithBody } from 'src/models/apiRequest';
+import { parseCookies } from '../../utils/parseCookies';
+import JwtHelper from '../../helpers/jwtHelper';
+import { JwtDecoded } from '../../models/JWTPayload';
+import { TokenExpiredError } from 'jsonwebtoken';
 
 @Controller('users/')
 export class UserController {
@@ -126,14 +130,28 @@ export class UserController {
   @Post('change-password')
   @Middleware([Passport.authenticate()])
   private changePassword(
-    req: RequestWithBody<{ newPassword: string; verifyPassword: string; oldPassword: string }>,
-    res: Response<ApiResponse>
+    req: RequestWithBody<{ newPassword: string; verifyPassword: string; oldPassword: string; deleteSessions: boolean }>,
+    res: Response<ApiResponse | TokenExpiredError>
   ) {
     Logger.Info(`Changing user password...`);
 
     if (req.body.newPassword === req.body.verifyPassword) {
       User.findByPk(req.user.id)
         .then(user => {
+          const sendPasswordResetConfirmation = () => {
+            Mailer.sendPasswordResetConfirmation(user)
+              .then(() => {
+                return res.status(OK).json({
+                  success: true,
+                  message: 'You have successfully changed your password.'
+                });
+              })
+              .catch((err: any) => {
+                Logger.Err(err);
+                return res.status(INTERNAL_SERVER_ERROR).json(err);
+              });
+          };
+
           const isMatch = Crypt.validatePassword(req.body.oldPassword, user.passwordHash, user.salt);
           if (isMatch) {
             const passwordData = Crypt.saltHashPassword(req.body.newPassword);
@@ -142,17 +160,29 @@ export class UserController {
             user
               .save()
               .then(user => {
-                Mailer.sendPasswordResetConfirmation(user)
-                  .then(() => {
-                    return res.status(OK).json({
-                      success: true,
-                      message: 'You have successfully changed your password.'
-                    });
-                  })
-                  .catch((err: any) => {
-                    Logger.Err(err);
-                    return res.status(INTERNAL_SERVER_ERROR).json(err);
-                  });
+                if (req.body.deleteSessions) {
+                  const cookies = parseCookies(req);
+
+                  if (cookies['refresh_token']) {
+                    JwtHelper.getVerified({ type: 'refresh', token: cookies['refresh_token'] })
+                      .then(({ userId, sessionId }: JwtDecoded) => {
+                        this.userDbCtrl
+                          .removeUserSessionsExept(userId, sessionId)
+                          .then(() => {
+                            sendPasswordResetConfirmation();
+                          })
+                          .catch((err: any) => {
+                            Logger.Err(err);
+                            return res.status(INTERNAL_SERVER_ERROR).json(err);
+                          });
+                      })
+                      .catch((err: TokenExpiredError) => {
+                        return res.status(FORBIDDEN).send(err);
+                      });
+                  }
+                } else {
+                  sendPasswordResetConfirmation();
+                }
               })
               .catch((err: any) => {
                 Logger.Err(err);

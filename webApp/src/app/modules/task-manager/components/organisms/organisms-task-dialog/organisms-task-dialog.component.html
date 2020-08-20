@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>{{ title }}</h1>
+<h1 mat-dialog-title>{{ data.title }}</h1>
 <div mat-dialog-content class="task-dialog">
   <form [formGroup]="taskData" class="task-dialog-form-block">
     <mat-form-field appearance="outline">
@@ -43,7 +43,7 @@
     <mat-form-field appearance="outline">
       <mat-label i18n=" @@taskDialogСomponentInputLablePriority ">Priority:</mat-label>
       <mat-select formControlName="TaskPriorityId">
-        <mat-option *ngFor="let priority of priorities" [value]="priority.id">{{ priority.label }}</mat-option>
+        <mat-option *ngFor="let priority of data.priorities" [value]="priority.id">{{ priority.label }}</mat-option>
       </mat-select>
       <mat-error
         *ngIf="

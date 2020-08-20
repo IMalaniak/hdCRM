@@ -11,6 +11,8 @@ import { Asset } from '@/shared/models';
 export class TemplatesAttachmentsListComponent {
   @Input() apiUrl: string;
   @Input() attachments: Asset[];
+  @Input() canAdd: boolean;
+  @Input() canDelete: boolean;
 
   @Output() deleteFileCall: EventEmitter<any> = new EventEmitter();
   @Output() addFileCall: EventEmitter<any> = new EventEmitter();

@@ -11,24 +11,11 @@ import { JwtDecoded } from '../../models/JWTPayload';
 import { TokenExpiredError } from 'jsonwebtoken';
 import { UserDBController } from '../../dbControllers/usersController';
 import { ApiResponse } from '../../models/apiResponse';
+import { parseCookies } from '../../utils/parseCookies';
 
 @Controller('auth/')
 export class AuthController {
   private userDbCtrl = new UserDBController();
-
-  parseCookies(request) {
-    const list = {};
-    const rc = request.headers.cookie;
-
-    if (rc) {
-      rc.split(';').forEach((cookie: string) => {
-        const parts = cookie.split('=');
-        list[parts.shift().trim()] = decodeURI(parts.join('='));
-      });
-    }
-
-    return list;
-  }
 
   saveLogInAttempt(req: Request, user: User, isSuccess: boolean): Promise<UserSession> {
     const body = {} as UserSession;
@@ -322,7 +309,7 @@ export class AuthController {
   @Get('refresh-session')
   private refreshSession(req: Request, res: Response<ApiResponse | TokenExpiredError | string>) {
     Logger.Info(`Refreshing user session...`);
-    const cookies = this.parseCookies(req);
+    const cookies = parseCookies(req);
     if (cookies['refresh_token']) {
       JwtHelper.getVerified({ type: 'refresh', token: cookies['refresh_token'] })
         .then(({ userId, sessionId }: JwtDecoded) => {
@@ -498,7 +485,7 @@ export class AuthController {
   @Get('logout')
   private async create(req: Request, res: Response<ApiResponse>) {
     Logger.Info(`Logging user out...`);
-    const cookies = this.parseCookies(req);
+    const cookies = parseCookies(req);
     const { sessionId } = await JwtHelper.getDecoded(cookies['refresh_token']);
     this.userDbCtrl
       .removeSession(sessionId)

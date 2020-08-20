@@ -20,8 +20,10 @@ import { MediaqueryService, ToastMessageService } from '@/shared';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DepartmentComponent implements OnInit, OnDestroy {
-  appUser$: Observable<User> = this.store.pipe(select(currentUser));
-  editDepartmentPrivilege$: Observable<boolean> = this.store.pipe(select(isPrivileged('department-edit')));
+  canEditDepartment$: Observable<boolean> = combineLatest([
+    this.store.pipe(select(isPrivileged('department-edit'))),
+    this.store.pipe(select(currentUser))
+  ]).pipe(map(([editPriv, appUser]) => editPriv || appUser.id === this.department.managerId));
 
   department: Department;
   departmentInitial: Department;
@@ -139,12 +141,6 @@ export class DepartmentComponent implements OnInit, OnDestroy {
             );
         }
       });
-  }
-
-  get canEditDepartment$(): Observable<boolean> {
-    // combine 2 observables and compare values => return boolean
-    const combine = combineLatest([this.editDepartmentPrivilege$, this.appUser$]);
-    return combine.pipe(map(([editPriv, appUser]) => editPriv || appUser.id === this.department.managerId));
   }
 
   ngOnDestroy(): void {

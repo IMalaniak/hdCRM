@@ -2,6 +2,7 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { AuthState, authFeatureKey } from './auth.reducer';
 
 import { Privilege } from '@/modules/roles';
+import { User } from '@/modules/users';
 
 export const selectAuthState = createFeatureSelector<AuthState>(authFeatureKey);
 
@@ -22,7 +23,7 @@ export const isLoggedIn = createSelector(selectAuthState, isTokenValid, (auth, v
 export const isLoggedOut = createSelector(isLoggedIn, loggedIn => !loggedIn);
 
 // get an array pf currentUser privileges
-export const getPrivileges = createSelector(currentUser, user => {
+export const getPrivileges = createSelector<object, User, Privilege[]>(currentUser, user => {
   if (user && user.Roles && user.Roles.length > 0) {
     let privileges = [];
     for (const role of user.Roles) {
@@ -43,7 +44,7 @@ export const getPrivileges = createSelector(currentUser, user => {
 
 // check if currentUser has privilege
 export const isPrivileged = (privilegeCheck: string) =>
-  createSelector(getPrivileges, privileges => {
+  createSelector<object, Privilege[], boolean>(getPrivileges, privileges => {
     if (privileges && privileges.length > 0) {
       const [symbol, action] = privilegeCheck.split('-');
       const check: Privilege = privileges.find(privilege => {

@@ -7,7 +7,7 @@
 .profile {
   &-avatar {
     width: 60%;
-    margin: 0 auto;
+    margin: 0 auto 1em;
     @include media-breakpoint-up(sm) {
       width: 40%;
     }
@@ -74,6 +74,7 @@
 
     .role {
       &-titles {
+        display: inline-block;
         margin: 0 0.3em;
 
         &:first-child {

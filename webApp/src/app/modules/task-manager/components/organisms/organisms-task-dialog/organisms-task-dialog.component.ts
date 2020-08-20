@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TaskDialogData, TaskPriority } from '@/modules/task-manager/models';
+import { TaskDialogData } from '@/modules/task-manager/models';
 
 @Component({
   selector: 'organisms-task-dialog',
@@ -36,14 +36,6 @@ export class OrganismsTaskDialogComponent implements OnInit {
     if (this.data.task) {
       this.taskData.patchValue(this.data.task);
     }
-  }
-
-  get title(): string {
-    return this.data.title;
-  }
-
-  get priorities(): TaskPriority[] {
-    return this.data.priorities;
   }
 
   onSubmit(): void {
