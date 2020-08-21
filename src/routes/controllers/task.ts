@@ -1,4 +1,4 @@
-import { OK, INTERNAL_SERVER_ERROR } from 'http-status-codes';
+import { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } from 'http-status-codes';
 import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
@@ -46,7 +46,7 @@ export class TaskController {
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(INTERNAL_SERVER_ERROR).json(err);
+        return res.status(BAD_REQUEST).json({ success: false, message: 'There are some missing params!', data: null });
       });
   }
 
@@ -62,13 +62,13 @@ export class TaskController {
             .then(task => res.status(OK).json({ success: true, message: 'Task is updated successfully!', data: task }))
             .catch((error: any) => {
               Logger.Err(error);
-              return res.status(INTERNAL_SERVER_ERROR).json(error.toString());
+              return res.status(INTERNAL_SERVER_ERROR).json(error);
             });
         }
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error.toString());
+        return res.status(INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
@@ -82,7 +82,7 @@ export class TaskController {
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error.toString());
+        return res.status(INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
@@ -96,7 +96,7 @@ export class TaskController {
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error.toString());
+        return res.status(INTERNAL_SERVER_ERROR).json(error);
       });
   }
 }

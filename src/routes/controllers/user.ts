@@ -1,4 +1,4 @@
-import { OK, INTERNAL_SERVER_ERROR, FORBIDDEN } from 'http-status-codes';
+import { OK, INTERNAL_SERVER_ERROR, FORBIDDEN, BAD_REQUEST } from 'http-status-codes';
 import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
@@ -72,7 +72,7 @@ export class UserController {
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(INTERNAL_SERVER_ERROR).json(err);
+        return res.status(BAD_REQUEST).json({ success: false, message: 'There are some missing params!', data: null });
       });
   }
 
@@ -159,7 +159,7 @@ export class UserController {
             user.salt = passwordData.salt;
             user
               .save()
-              .then(user => {
+              .then(() => {
                 if (req.body.deleteSessions) {
                   const cookies = parseCookies(req);
 
@@ -189,7 +189,7 @@ export class UserController {
                 return res.status(INTERNAL_SERVER_ERROR).json(err);
               });
           } else {
-            return res.status(INTERNAL_SERVER_ERROR).json({ success: false, message: 'Old password is not correct' });
+            return res.status(BAD_REQUEST).json({ success: false, message: 'Old password is not correct' });
           }
         })
         .catch((err: any) => {
@@ -197,7 +197,7 @@ export class UserController {
           return res.status(INTERNAL_SERVER_ERROR).json(err);
         });
     } else {
-      res.status(INTERNAL_SERVER_ERROR).json({ success: false, message: 'Passwords do not match' });
+      res.status(BAD_REQUEST).json({ success: false, message: 'Passwords do not match' });
     }
   }
 
@@ -452,7 +452,7 @@ export class UserController {
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(BAD_REQUEST).json({ success: false, message: 'There are some missing params!', data: null });
       });
   }
 

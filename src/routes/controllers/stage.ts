@@ -1,4 +1,4 @@
-import { OK, INTERNAL_SERVER_ERROR } from 'http-status-codes';
+import { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } from 'http-status-codes';
 import { Controller, Middleware, Get, Post } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
@@ -21,7 +21,7 @@ export class StageController {
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(INTERNAL_SERVER_ERROR).json(err.toString());
+        return res.status(BAD_REQUEST).json({ success: false, message: 'There are some missing params!', data: null });
       });
   }
 

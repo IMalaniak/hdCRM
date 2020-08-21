@@ -1,4 +1,4 @@
-import { OK, INTERNAL_SERVER_ERROR } from 'http-status-codes';
+import { OK, INTERNAL_SERVER_ERROR, NOT_FOUND, BAD_REQUEST } from 'http-status-codes';
 import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
@@ -44,7 +44,12 @@ export class DepartmentController {
     Logger.Info(`Selecting department by id: ${req.params.id}...`);
     this.findDepByPk(req.params.id)
       .then((dep: Department) => {
-        return res.status(OK).json({ success: true, data: dep });
+        if (dep) {
+          return res.status(OK).json({ success: true, data: dep });
+        } else {
+          // TODO: make the same check everywhere when we will update sequelize
+          return res.status(NOT_FOUND).json({ success: false, message: 'No department with such id', data: null });
+        }
       })
       .catch((err: any) => {
         Logger.Err(err);
@@ -111,7 +116,7 @@ export class DepartmentController {
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(INTERNAL_SERVER_ERROR).json(err.toString());
+        return res.status(INTERNAL_SERVER_ERROR).json(err);
       });
   }
 
@@ -156,7 +161,7 @@ export class DepartmentController {
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(INTERNAL_SERVER_ERROR).json(err);
+        return res.status(BAD_REQUEST).json({ success: false, message: 'There are some missing params!', data: null });
       });
   }
 
@@ -202,7 +207,9 @@ export class DepartmentController {
               })
               .catch((error: any) => {
                 Logger.Err(error);
-                return res.status(INTERNAL_SERVER_ERROR).json(error);
+                return res
+                  .status(BAD_REQUEST)
+                  .json({ success: false, message: 'Sorry, unexpected error happened.', data: null });
               });
           })
           .catch((error: any) => {
