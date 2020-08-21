@@ -22,17 +22,17 @@ export class IntegrationsEffects {
       ofType(integrationsActions.toggleGoogleDriveIntegration),
       withLatestFrom(this.store$.pipe(select(getGoogleDriveIntegrationState))),
       mergeMap(([_, googleDriveIntegrationState]) => {
-        if (googleDriveIntegrationState) {
+        if (!googleDriveIntegrationState) {
           return this.integrationsService.getGoogleDriveToken().pipe(
             map(googleDriveToken => {
-              this.toastMessageService.toast('Google drive integration is enabled!', 'success');
+              this.toastMessageService.toast('Google Drive integration is enabled!', 'success');
               return integrationsActions.googleDriveIntegrationLoaded({ googleDriveToken });
             })
           );
         } else {
           return this.integrationsService.removeGoogleDriveToken().pipe(
             map(() => {
-              this.toastMessageService.toast('Google drive integration is disabled!', 'success');
+              this.toastMessageService.toast('Google Drive integration is disabled!', 'info');
               return integrationsActions.googleDriveIntegrationDisable();
             })
           );

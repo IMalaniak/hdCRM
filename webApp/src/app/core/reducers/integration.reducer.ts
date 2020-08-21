@@ -20,7 +20,7 @@ const integrationsReducer = createReducer(
   })),
   on(IntegrationActions.googleDriveIntegrationDisable, state => ({
     ...state,
-    token: null,
+    googleDriveToken: null,
     enableGoogleDriveIntegration: false
   }))
 );
