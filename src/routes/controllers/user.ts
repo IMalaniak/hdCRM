@@ -189,7 +189,9 @@ export class UserController {
                 return res.status(INTERNAL_SERVER_ERROR).json(err);
               });
           } else {
-            return res.status(BAD_REQUEST).json({ success: false, message: 'Old password is not correct' });
+            return res
+              .status(BAD_REQUEST)
+              .json({ success: false, message: 'Current password you provided is not correct!' });
           }
         })
         .catch((err: any) => {
@@ -197,7 +199,7 @@ export class UserController {
           return res.status(INTERNAL_SERVER_ERROR).json(err);
         });
     } else {
-      res.status(BAD_REQUEST).json({ success: false, message: 'Passwords do not match' });
+      res.status(BAD_REQUEST).json({ success: false, message: 'New passwords do not match!' });
     }
   }
 
