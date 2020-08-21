@@ -73,9 +73,8 @@
 
         <mat-tab
           label="Integrations"
-          *ngIf="('integrations' | memoize: isTabToShow: this) || (!canViewIntegrations$ | async)"
+          *ngIf="('integrations' | memoize: isTabToShow: this) && (canViewIntegrations$ | async)"
         >
-          <!-- TODO: change to && canViewIntegrations without ! -->
           <ng-template matTabContent>
             <organisms-user-integrations></organisms-user-integrations>
           </ng-template>
