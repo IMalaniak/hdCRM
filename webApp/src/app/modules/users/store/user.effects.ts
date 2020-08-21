@@ -8,6 +8,7 @@ import { User } from '../models';
 import { Update } from '@ngrx/entity';
 import { ToastMessageService } from '@/shared/services';
 import { CollectionApiResponse } from '@/shared';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class UserEffects {
@@ -111,7 +112,10 @@ export class UserEffects {
             this.toastMessageService.snack(response);
             return userActions.changePasswordSuccess();
           }),
-          catchError(() => of(userActions.userApiError()))
+          catchError((errorResponse: HttpErrorResponse) => {
+            this.toastMessageService.snack(errorResponse.error);
+            return of(userActions.userApiError());
+          })
         )
       )
     )

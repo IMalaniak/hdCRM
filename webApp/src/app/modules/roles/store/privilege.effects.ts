@@ -9,6 +9,7 @@ import { AppState } from '@/core/reducers';
 import { Privilege } from '../models';
 import { allPrivilegesLoaded } from './privilege.selectors';
 import { ToastMessageService } from '@/shared';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class PrivilegeEffects {
@@ -42,7 +43,10 @@ export class PrivilegeEffects {
               privilege: response.data
             });
           }),
-          catchError(() => of(privilegeActions.privilegeApiError()))
+          catchError((errorResponse: HttpErrorResponse) => {
+            this.toastMessageService.snack(errorResponse.error);
+            return of(privilegeActions.privilegeApiError());
+          })
         )
       )
     )

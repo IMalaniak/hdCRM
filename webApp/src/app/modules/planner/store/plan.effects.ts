@@ -7,6 +7,7 @@ import { PlanService } from '../services';
 import { Plan } from '../models';
 import { Router } from '@angular/router';
 import { ToastMessageService, CollectionApiResponse } from '@/shared';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class PlanEffects {
@@ -21,7 +22,10 @@ export class PlanEffects {
             this.router.navigate(['/planner']);
             return planActions.createPlanSuccess({ plan: res.data });
           }),
-          catchError(() => of(planActions.planApiError()))
+          catchError((errorResponse: HttpErrorResponse) => {
+            this.toastMessageService.snack(errorResponse.error);
+            return of(planActions.planApiError());
+          })
         )
       )
     )
@@ -57,7 +61,7 @@ export class PlanEffects {
         ofType(planActions.deletePlan),
         map(payload => payload.id),
         mergeMap(id => this.planService.delete(id)),
-        map(() => of(this.toastMessageService.toast('Plan deleted!'))),
+        map(response => of(this.toastMessageService.snack(response))),
         catchError(() => of(planActions.planApiError()))
       ),
     {

@@ -11,6 +11,7 @@ import { selectRolesDashboardDataLoaded } from './role.selectors';
 import { Router } from '@angular/router';
 import { ToastMessageService } from '@/shared/services';
 import { CollectionApiResponse } from '@/shared/models';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class RoleEffects {
@@ -25,7 +26,10 @@ export class RoleEffects {
             this.router.navigate(['/roles']);
             return roleActions.createRoleSuccess({ role: response.data });
           }),
-          catchError(() => of(roleActions.rolesApiError()))
+          catchError((errorResponse: HttpErrorResponse) => {
+            this.toastMessageService.snack(errorResponse.error);
+            return of(roleActions.rolesApiError());
+          })
         )
       )
     )

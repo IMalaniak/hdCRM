@@ -10,6 +10,7 @@ import { Department } from '../models';
 import { selectDashboardDepDataLoaded } from './department.selectors';
 import { Router } from '@angular/router';
 import { ToastMessageService, CollectionApiResponse } from '@/shared';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class DepartmentEffects {
@@ -26,7 +27,10 @@ export class DepartmentEffects {
               department: response.data
             });
           }),
-          catchError(() => of(depActions.departmentApiError()))
+          catchError((errorResponse: HttpErrorResponse) => {
+            this.toastMessageService.snack(errorResponse.error);
+            return of(depActions.departmentApiError());
+          })
         )
       )
     )

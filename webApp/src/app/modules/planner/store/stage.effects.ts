@@ -9,6 +9,7 @@ import { AppState } from '@/core/reducers';
 import { Stage } from '../models';
 import { allStagesLoaded } from './stage.selectors';
 import { ToastMessageService } from '@/shared/services';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class StageEffects {
@@ -30,12 +31,15 @@ export class StageEffects {
       mergeMap((stage: Stage) =>
         this.stageService.create(stage).pipe(
           map(response => {
-            this.toastMessageService.toast('Stage created!');
+            this.toastMessageService.snack(response);
             return stageActions.createStageSuccess({
               stage: response.data
             });
           }),
-          catchError(() => of(stageActions.stageApiError()))
+          catchError((errorResponse: HttpErrorResponse) => {
+            this.toastMessageService.snack(errorResponse.error);
+            return of(stageActions.stageApiError());
+          })
         )
       )
     )

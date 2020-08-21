@@ -7,6 +7,7 @@ import * as TaskActions from './task.actions';
 import { Task } from '../models';
 import { Update } from '@ngrx/entity';
 import { ToastMessageService } from '@/shared/services';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class TaskEffects {
@@ -34,7 +35,10 @@ export class TaskEffects {
               task: response.data
             });
           }),
-          catchError(() => of(TaskActions.tasksApiError()))
+          catchError((errorResponse: HttpErrorResponse) => {
+            this.toastMessageService.snack(errorResponse.error);
+            return of(TaskActions.tasksApiError());
+          })
         )
       )
     )
