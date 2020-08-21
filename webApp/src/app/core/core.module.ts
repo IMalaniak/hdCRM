@@ -14,6 +14,7 @@ import { MediaqueryService, LocalStorageService, CustomSerializer } from '@/shar
 import { AuthModule } from './auth/auth.module';
 import { LayoutModule } from './layout/layout.module';
 import { environment } from 'environments/environment';
+import { IntegrationsEffects } from './reducers/integration.effects';
 
 @NgModule({
   imports: [
@@ -32,7 +33,7 @@ import { environment } from 'environments/environment';
       }
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([PreferencesEffects]),
+    EffectsModule.forRoot([PreferencesEffects, IntegrationsEffects]),
     StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer, stateKey: 'router' })
   ],
   exports: [RouterModule, HttpClientModule, FormsModule, ReactiveFormsModule, LayoutModule],

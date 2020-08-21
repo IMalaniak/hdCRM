@@ -3,15 +3,18 @@ import { environment } from 'environments/environment';
 
 import * as fromRouter from '@ngrx/router-store';
 import * as fromPreferences from './preferences.reducer';
+import * as fromIntegrations from './integration.reducer';
 
 export interface AppState {
   router: fromRouter.RouterReducerState<any>;
   preferences: fromPreferences.PreferencesState;
+  integrations: fromIntegrations.IntegrationsState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
-  preferences: fromPreferences.reducer
+  preferences: fromPreferences.reducer,
+  integrations: fromIntegrations.reducer
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [] : [];
