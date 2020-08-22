@@ -71,7 +71,14 @@
           </ng-template>
         </mat-tab>
 
-        <!-- <mat-tab label="Organization"></mat-tab> -->
+        <mat-tab
+          label="Integrations"
+          *ngIf="('integrations' | memoize: isTabToShow: this) && (canViewIntegrations$ | async)"
+        >
+          <ng-template matTabContent>
+            <organisms-user-integrations></organisms-user-integrations>
+          </ng-template>
+        </mat-tab>
       </mat-tab-group>
     </div>
   </div>

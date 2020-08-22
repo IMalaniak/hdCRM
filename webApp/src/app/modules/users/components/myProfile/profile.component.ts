@@ -22,7 +22,7 @@ export class ProfileComponent {
   serverResponse$: Observable<ApiResponse> = this.store.pipe(select(getApiResponse));
   userPreferences$: Observable<Preferences> = this.store.pipe(select(getPreferencesState));
 
-  tabsToShow: string[] = ['details', 'org', 'password', 'sessions', 'preferences'];
+  tabsToShow: string[] = ['details', 'org', 'password', 'sessions', 'preferences', 'integrations'];
 
   constructor(private store: Store<AppState>) {}
 }

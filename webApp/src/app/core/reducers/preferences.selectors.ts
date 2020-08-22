@@ -1,6 +1,6 @@
 /* NgRx */
 import { createSelector } from '@ngrx/store';
-import { AppState } from '.';
+import { AppState } from '../reducers/index';
 
 // Selector functions
 export const getPreferencesState = (state: AppState) => state.preferences;
