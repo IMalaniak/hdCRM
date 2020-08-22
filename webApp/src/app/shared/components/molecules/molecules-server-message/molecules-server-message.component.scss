@@ -4,35 +4,20 @@
 .success-message,
 .failed-message,
 .process-message {
-  box-shadow: none;
+  span,
+  fa-icon {
+    @include crm-textcolor('theme', 'light');
+  }
 }
 
 .success-message {
-  background-color: #d4f5d1;
-  border: 1px solid #60d955;
-
-  span,
-  fa-icon {
-    color: #60d955;
-  }
+  @include crm-bgcolor('theme', 'accent');
 }
 
 .failed-message {
-  background-color: #fa5757;
-  border: 1px solid #ba2c3a;
-
-  span,
-  fa-icon {
-    @include crm-textcolor('layout', 'background');
-  }
+  @include crm-bgcolor('theme', 'warn');
 }
 
 .process-message {
-  background-color: rgb(255, 238, 0);
-  border: 1px solid rgb(218, 214, 0);
-
-  span,
-  fa-icon {
-    @include crm-textcolor('layout', 'background');
-  }
+  @include crm-bgcolor('theme', 'secondary');
 }
