@@ -15,7 +15,7 @@ export class OrganismsUserIntegrationsComponent {
 
   constructor(private store$: Store<AppState>) {}
 
-  enableGoogleDriveIntegration(): void {
+  toggleGoogleDriveIntegration(): void {
     this.store$.dispatch(toggleGoogleDriveIntegration());
   }
 }

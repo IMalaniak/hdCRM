@@ -2,12 +2,12 @@ import * as IntegrationActions from './integration.actions';
 import { createReducer, on, Action } from '@ngrx/store';
 
 export interface IntegrationsState {
-  enableGoogleDriveIntegration: boolean;
+  enabledGoogleDriveIntegration: boolean;
   isLoading: boolean;
 }
 
 const initialState: IntegrationsState = {
-  enableGoogleDriveIntegration: false,
+  enabledGoogleDriveIntegration: false,
   isLoading: false
 };
 
@@ -16,12 +16,12 @@ const integrationsReducer = createReducer(
   on(IntegrationActions.googleDriveIntegrationLoaded, (state, { googleDriveToken }) => ({
     ...state,
     googleDriveToken,
-    enableGoogleDriveIntegration: true
+    enabledGoogleDriveIntegration: true
   })),
   on(IntegrationActions.googleDriveIntegrationDisable, state => ({
     ...state,
     googleDriveToken: null,
-    enableGoogleDriveIntegration: false
+    enabledGoogleDriveIntegration: false
   }))
 );
 

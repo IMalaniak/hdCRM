@@ -1,6 +1,6 @@
 import { props, createAction } from '@ngrx/store';
 
-export const toggleGoogleDriveIntegration = createAction('[Integrations] Google Drive Integration Toogle');
+export const toggleGoogleDriveIntegration = createAction('[Integrations] Toggle Google Drive Integration');
 
 export const googleDriveIntegrationLoaded = createAction(
   '[Integrations API] Google Drive Integration Loaded',
