@@ -1,14 +1,15 @@
-<organisms-card cardTitle="Integrations" [disableShadow]="true" class="integrations" contentClass="mx-3 pt-3">
+<organisms-card cardTitle="Integrations" [disableShadow]="true" contentClass="mx-3 pt-3">
   <form content>
     <div class="row">
       <div class="col-6 col-sm-4 com-md-4 col-lg-3">
-        <div id="google-drive" class="integrations-card" (click)="toggleGDriveIntegration()">
-          <img
-            src="./assets/images/integrations/google-drive-logo.svg"
-            alt="Google Drive"
-            [ngClass]="{ 'not-active': !(googleDriveIntegrationState$ | async) }"
-          />
-        </div>
+        <atoms-integration-card
+          src="./assets/images/integrations/google-drive-logo.svg"
+          alt="Google Drive"
+          bgColor="white"
+          [imgMWidth]="60"
+          [isEnabled]="!(googleDriveIntegrationState$ | async)"
+          (onclick)="toggleGDriveIntegration()"
+        ></atoms-integration-card>
       </div>
     </div>
   </form>
