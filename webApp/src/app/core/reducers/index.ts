@@ -4,17 +4,20 @@ import { environment } from 'environments/environment';
 import * as fromRouter from '@ngrx/router-store';
 import * as fromPreferences from './preferences.reducer';
 import * as fromIntegrations from './integration.reducer';
+import * as fromDynamicForm from './/dynamic-form/dynamic-form.reducer';
 
 export interface AppState {
   router: fromRouter.RouterReducerState<any>;
   preferences: fromPreferences.PreferencesState;
   integrations: fromIntegrations.IntegrationsState;
+  forms: fromDynamicForm.DynamicFormState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
   preferences: fromPreferences.reducer,
-  integrations: fromIntegrations.reducer
+  integrations: fromIntegrations.reducer,
+  forms: fromDynamicForm.reducer
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [] : [];
