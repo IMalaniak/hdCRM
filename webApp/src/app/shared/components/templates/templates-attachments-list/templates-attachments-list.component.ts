@@ -1,6 +1,11 @@
 import { Component, EventEmitter, Output, Input, ChangeDetectionStrategy } from '@angular/core';
 import { AttachmentService } from '@/shared/modules/attachments/services';
 import { Asset } from '@/shared/models';
+import { Observable } from 'rxjs/internal/Observable';
+import { AppState } from '@/core/reducers';
+import { Store, select } from '@ngrx/store';
+import { getGoogleDriveIntegrationState } from '@/core/reducers/integration.selectors';
+import { toggleGoogleDriveIntegration } from '@/core/reducers/integration.actions';
 
 @Component({
   selector: 'templates-attachments-list',
@@ -9,6 +14,8 @@ import { Asset } from '@/shared/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TemplatesAttachmentsListComponent {
+  googleDriveIntegrationState$: Observable<boolean> = this.store$.pipe(select(getGoogleDriveIntegrationState));
+
   @Input() apiUrl: string;
   @Input() attachments: Asset[];
   @Input() canAdd: boolean;
@@ -20,7 +27,7 @@ export class TemplatesAttachmentsListComponent {
   uploaderVisible = false;
   displayedColumns: string[] = ['icon', 'title', 'type', 'createdAt', 'updatedAt', 'actions'];
 
-  constructor(private attachmentService: AttachmentService) {}
+  constructor(private store$: Store<AppState>, private attachmentService: AttachmentService) {}
 
   onClickAddFiles(): void {
     this.uploaderVisible = true;
@@ -57,5 +64,9 @@ export class TemplatesAttachmentsListComponent {
 
   handleDeleteFile(id: number): void {
     this.deleteFileCall.emit(id);
+  }
+
+  enableGoogleDriveIntegration(): void {
+    this.store$.dispatch(toggleGoogleDriveIntegration());
   }
 }

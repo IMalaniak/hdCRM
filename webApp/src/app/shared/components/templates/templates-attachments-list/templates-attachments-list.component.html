@@ -1,10 +1,4 @@
-<organisms-card
-  cardTitle="Attachments"
-  cardClass="border-0"
-  contentClass="p-0"
-  headClass="text-white"
-  [counter]="attachments.length"
->
+<organisms-card cardTitle="Attachments" cardClass="border-0" contentClass="p-0" [counter]="attachments.length">
   <section content *ngIf="attachments && attachments.length">
     <mat-table [dataSource]="attachments" class="mat-elevation-z8 table-attachments crm-table">
       <ng-container matColumnDef="icon">
@@ -55,11 +49,28 @@
 
   <app-uploader-list
     content
-    *ngIf="uploaderVisible"
+    *ngIf="uploaderVisible && googleDriveIntegrationState$ | async"
     [url]="apiUrl"
     (deleteFileCall)="handleDeleteFile($event)"
     (addFileCall)="handleAddFile($event)"
   ></app-uploader-list>
+
+  <div
+    content
+    *ngIf="uploaderVisible && !(googleDriveIntegrationState$ | async)"
+    class="d-flex flex-column justify-content-center align-items-center mt-5"
+  >
+    <h5>Please, integrate your Google Drive in order to upload files</h5>
+    <atoms-integration-card
+      src="./assets/images/integrations/google-drive-logo.svg"
+      alt="Google Drive"
+      bgColor="white"
+      cardClass="my-3"
+      [imgMWidth]="60"
+      [isEnabled]="!(googleDriveIntegrationState$ | async)"
+      (onclick)="enableGoogleDriveIntegration()"
+    ></atoms-integration-card>
+  </div>
 
   <div buttons>
     <atoms-icon-button
