@@ -9,6 +9,7 @@
   width: 100%;
   padding: 1.5em 0;
   border-radius: 0.5em;
+  background-color: $white;
   user-select: none;
   cursor: pointer;
   transition: filter $transition;
@@ -37,12 +38,12 @@
     transition: opacity $transition;
   }
 
-  &:hover::before {
-    opacity: 1;
-  }
-
   &:hover {
     filter: brightness(95%);
+
+    &::before {
+      opacity: 1;
+    }
   }
 
   &:active {
@@ -51,10 +52,12 @@
 
   img {
     height: auto;
+    max-width: 60%;
   }
-}
 
-.not-active {
-  filter: grayscale(100%);
-  transition: filter $transition;
+  &.active {
+    img {
+      filter: grayscale(100%);
+    }
+  }
 }

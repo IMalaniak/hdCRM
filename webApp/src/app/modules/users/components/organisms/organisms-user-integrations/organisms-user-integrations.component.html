@@ -5,8 +5,6 @@
         <atoms-integration-card
           src="./assets/images/integrations/google-drive-logo.svg"
           title="Google Drive"
-          bgColor="white"
-          [imgMWidth]="60"
           [isEnabled]="!(googleDriveIntegrationState$ | async)"
           (onclick)="toggleGDriveIntegration()"
         ></atoms-integration-card>
