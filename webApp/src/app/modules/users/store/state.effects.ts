@@ -7,6 +7,8 @@ import { StateService } from '../services';
 import { AppState } from '@/core/reducers';
 import { allStatesLoaded } from './state.selectors';
 import { of } from 'rxjs';
+import { CollectionApiResponse } from '@/shared';
+import { State } from '../models';
 
 @Injectable()
 export class StateEffects {
@@ -16,7 +18,7 @@ export class StateEffects {
       withLatestFrom(this.store.pipe(select(allStatesLoaded))),
       filter(([_, allStatesLoaded]) => !allStatesLoaded),
       mergeMap(() => this.stateService.getList().pipe()),
-      map(response => stateActions.allStatesLoaded({ list: response.data })),
+      map((response: CollectionApiResponse<State>) => stateActions.allStatesLoaded({ list: response.data })),
       catchError(() => of(stateActions.statesApiError()))
     )
   );

@@ -10,6 +10,7 @@ import { Stage } from '../models';
 import { allStagesLoaded } from './stage.selectors';
 import { ToastMessageService } from '@/shared/services';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CollectionApiResponse, ItemApiResponse } from '@/shared';
 
 @Injectable()
 export class StageEffects {
@@ -19,7 +20,7 @@ export class StageEffects {
       withLatestFrom(this.store.pipe(select(allStagesLoaded))),
       filter(([_, allStagesLoaded]) => !allStagesLoaded),
       mergeMap(() => this.stageService.getList()),
-      map(response => stageActions.allStagesLoaded({ response })),
+      map((response: CollectionApiResponse<Stage>) => stageActions.allStagesLoaded({ response })),
       catchError(() => of(stageActions.stageApiError()))
     )
   );
@@ -30,7 +31,7 @@ export class StageEffects {
       map(payload => payload.stage),
       mergeMap((stage: Stage) =>
         this.stageService.create(stage).pipe(
-          map(response => {
+          map((response: ItemApiResponse<Stage>) => {
             this.toastMessageService.snack(response);
             return stageActions.createStageSuccess({
               stage: response.data

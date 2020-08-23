@@ -7,7 +7,7 @@ import { UserService } from '../services';
 import { User } from '../models';
 import { Update } from '@ngrx/entity';
 import { ToastMessageService } from '@/shared/services';
-import { CollectionApiResponse } from '@/shared';
+import { CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class UserEffects {
       ofType(userActions.userRequested),
       map(payload => payload.id),
       mergeMap(id => this.userService.getUser(id)),
-      map(response => userActions.userLoaded({ user: response.data })),
+      map((response: ItemApiResponse<User>) => userActions.userLoaded({ user: response.data })),
       catchError(() => of(userActions.userApiError()))
     )
   );
@@ -41,7 +41,7 @@ export class UserEffects {
       map(payload => payload.user),
       mergeMap(toUpdate =>
         this.userService.updateUser(toUpdate).pipe(
-          map(response => {
+          map((response: ItemApiResponse<User>) => {
             const user: Update<User> = {
               id: response.data.id,
               changes: response.data
@@ -78,7 +78,7 @@ export class UserEffects {
         ofType(userActions.deleteUser),
         map(payload => payload.id),
         mergeMap(id => this.userService.delete(id)),
-        map(response => of(this.toastMessageService.snack(response))),
+        map((response: ApiResponse) => of(this.toastMessageService.snack(response))),
         catchError(() => of(userActions.userApiError()))
       ),
     {
@@ -92,7 +92,7 @@ export class UserEffects {
       map(payload => payload.users),
       mergeMap((users: User[]) =>
         this.userService.inviteUsers(users).pipe(
-          map(response => {
+          map((response: CollectionApiResponse<User>) => {
             this.toastMessageService.snack(response);
             return userActions.usersInvited({ invitedUsers: response.data });
           })
@@ -108,7 +108,7 @@ export class UserEffects {
       map(payload => payload.newPassword),
       switchMap(newPassword =>
         this.userService.changeOldPassword(newPassword).pipe(
-          map(response => {
+          map((response: ApiResponse) => {
             this.toastMessageService.snack(response);
             return userActions.changePasswordSuccess();
           }),

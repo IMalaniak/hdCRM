@@ -10,7 +10,7 @@ import { Role } from '../models';
 import { selectRolesDashboardDataLoaded } from './role.selectors';
 import { Router } from '@angular/router';
 import { ToastMessageService } from '@/shared/services';
-import { CollectionApiResponse } from '@/shared/models';
+import { CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared/models';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class RoleEffects {
       map(payload => payload.role),
       mergeMap((role: Role) =>
         this.roleService.create({ ...role }).pipe(
-          map(response => {
+          map((response: ItemApiResponse<Role>) => {
             this.toastMessageService.snack(response);
             this.router.navigate(['/roles']);
             return roleActions.createRoleSuccess({ role: response.data });
@@ -40,7 +40,7 @@ export class RoleEffects {
       ofType(roleActions.roleRequested),
       map(payload => payload.id),
       mergeMap(id => this.roleService.getRole(id)),
-      map(response => roleActions.roleLoaded({ role: response.data })),
+      map((response: ItemApiResponse<Role>) => roleActions.roleLoaded({ role: response.data })),
       catchError(() => of(roleActions.rolesApiError()))
     )
   );
@@ -65,7 +65,7 @@ export class RoleEffects {
         ofType(roleActions.deleteRole),
         map(payload => payload.id),
         mergeMap(id => this.roleService.delete(id)),
-        map(response => of(this.toastMessageService.snack(response))),
+        map((response: ApiResponse) => of(this.toastMessageService.snack(response))),
         catchError(() => of(roleActions.rolesApiError()))
       ),
     {

@@ -4,10 +4,11 @@ import { of } from 'rxjs';
 import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
 import { TaskService } from '../services';
 import * as TaskActions from './task.actions';
-import { Task } from '../models';
+import { Task, TaskPriority } from '../models';
 import { Update } from '@ngrx/entity';
 import { ToastMessageService } from '@/shared/services';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared';
 
 @Injectable()
 export class TaskEffects {
@@ -16,7 +17,7 @@ export class TaskEffects {
       ofType(TaskActions.taskListRequested),
       switchMap(() =>
         this.taskService.getList().pipe(
-          map(response => TaskActions.taskListLoaded({ tasks: response.data })),
+          map((response: CollectionApiResponse<Task>) => TaskActions.taskListLoaded({ tasks: response.data })),
           catchError(() => of(TaskActions.tasksApiError()))
         )
       )
@@ -29,7 +30,7 @@ export class TaskEffects {
       map(payload => payload.task),
       mergeMap((task: Task) =>
         this.taskService.create(task).pipe(
-          map(response => {
+          map((response: ItemApiResponse<Task>) => {
             this.toastMessageService.snack(response);
             return TaskActions.createTaskSuccess({
               task: response.data
@@ -50,7 +51,7 @@ export class TaskEffects {
       map(payload => payload.task),
       mergeMap(toUpdate =>
         this.taskService.updateTask(toUpdate).pipe(
-          map(response => {
+          map((response: ItemApiResponse<Task>) => {
             const task: Update<Task> = {
               id: response.data.id,
               changes: response.data
@@ -71,6 +72,7 @@ export class TaskEffects {
         ofType(TaskActions.deleteTask),
         map(payload => payload.id),
         mergeMap(id => this.taskService.delete(id)),
+        map((response: ApiResponse) => of(this.toastMessageService.snack(response))),
         catchError(() => of(TaskActions.tasksApiError()))
       ),
     {
@@ -84,7 +86,7 @@ export class TaskEffects {
       map(payload => payload.taskIds),
       switchMap((taskIds: number[]) =>
         this.taskService.deleteMultipleTask(taskIds).pipe(
-          map(response => {
+          map((response: ApiResponse) => {
             this.toastMessageService.snack(response);
             return TaskActions.deleteMultipleTaskSuccess({ taskIds });
           }),
@@ -99,7 +101,9 @@ export class TaskEffects {
       ofType(TaskActions.taskPrioritiesRequested),
       switchMap(() =>
         this.taskService.getPriorities().pipe(
-          map(response => TaskActions.taskPrioritiesLoaded({ priorities: response.data })),
+          map((response: CollectionApiResponse<TaskPriority>) =>
+            TaskActions.taskPrioritiesLoaded({ priorities: response.data })
+          ),
           catchError(() => of(TaskActions.tasksApiError()))
         )
       )

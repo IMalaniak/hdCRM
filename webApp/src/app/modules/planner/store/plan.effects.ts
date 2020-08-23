@@ -6,7 +6,7 @@ import { mergeMap, map, catchError } from 'rxjs/operators';
 import { PlanService } from '../services';
 import { Plan } from '../models';
 import { Router } from '@angular/router';
-import { ToastMessageService, CollectionApiResponse } from '@/shared';
+import { ToastMessageService, CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
@@ -17,10 +17,10 @@ export class PlanEffects {
       map(payload => payload.plan),
       mergeMap((plan: Plan) =>
         this.planService.create(plan).pipe(
-          map(res => {
-            this.toastMessageService.snack(res);
+          map((response: ItemApiResponse<Plan>) => {
+            this.toastMessageService.snack(response);
             this.router.navigate(['/planner']);
-            return planActions.createPlanSuccess({ plan: res.data });
+            return planActions.createPlanSuccess({ plan: response.data });
           }),
           catchError((errorResponse: HttpErrorResponse) => {
             this.toastMessageService.snack(errorResponse.error);
@@ -36,7 +36,7 @@ export class PlanEffects {
       ofType(planActions.planRequested),
       map(payload => payload.id),
       mergeMap(id => this.planService.getOne(id)),
-      map(res => planActions.planLoaded({ plan: res.data })),
+      map((response: ItemApiResponse<Plan>) => planActions.planLoaded({ plan: response.data })),
       catchError(() => of(planActions.planApiError()))
     )
   );
@@ -61,7 +61,7 @@ export class PlanEffects {
         ofType(planActions.deletePlan),
         map(payload => payload.id),
         mergeMap(id => this.planService.delete(id)),
-        map(response => of(this.toastMessageService.snack(response))),
+        map((response: ApiResponse) => of(this.toastMessageService.snack(response))),
         catchError(() => of(planActions.planApiError()))
       ),
     {

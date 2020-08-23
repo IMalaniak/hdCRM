@@ -9,7 +9,7 @@ import { AppState } from '@/core/reducers';
 import { Department } from '../models';
 import { selectDashboardDepDataLoaded } from './department.selectors';
 import { Router } from '@angular/router';
-import { ToastMessageService, CollectionApiResponse } from '@/shared';
+import { ToastMessageService, CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class DepartmentEffects {
       map(payload => payload.department),
       mergeMap((department: Department) =>
         this.departmentService.create(department).pipe(
-          map(response => {
+          map((response: ItemApiResponse<Department>) => {
             this.toastMessageService.snack(response);
             this.router.navigate(['/departments']);
             return depActions.createDepartmentSuccess({
@@ -41,7 +41,7 @@ export class DepartmentEffects {
       ofType(depActions.departmentRequested),
       map(payload => payload.id),
       mergeMap(id => this.departmentService.getOne(id)),
-      map(res => depActions.departmentLoaded({ department: res.data })),
+      map((response: ItemApiResponse<Department>) => depActions.departmentLoaded({ department: response.data })),
       catchError(() => of(depActions.departmentApiError()))
     )
   );
@@ -65,7 +65,7 @@ export class DepartmentEffects {
         ofType(depActions.deleteDepartment),
         map(payload => payload.id),
         mergeMap(id => this.departmentService.delete(id)),
-        map(res => this.toastMessageService.snack(res)),
+        map((res: ApiResponse) => this.toastMessageService.snack(res)),
         catchError(() => of(depActions.departmentApiError()))
       ),
     {
@@ -79,7 +79,7 @@ export class DepartmentEffects {
       withLatestFrom(this.store.pipe(select(selectDashboardDepDataLoaded))),
       filter(([action, selectDashboardDepDataLoaded]) => !selectDashboardDepDataLoaded),
       mergeMap(() => this.departmentService.getDashboardData()),
-      map(response => depActions.depDashboardDataLoaded({ response })),
+      map((response: CollectionApiResponse<Department>) => depActions.depDashboardDataLoaded({ response })),
       catchError(() => of(depActions.departmentApiError()))
     )
   );

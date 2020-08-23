@@ -5,13 +5,14 @@ import { of } from 'rxjs';
 import { tap, map, switchMap, catchError, concatMap, withLatestFrom, mergeMap } from 'rxjs/operators';
 import * as authActions from './auth.actions';
 import { AuthenticationService } from '../services';
-import { SocketService, SocketEvent, ToastMessageService } from '@/shared';
+import { SocketService, SocketEvent, ToastMessageService, ApiResponse, ItemApiResponse } from '@/shared';
 import { Store, select, Action } from '@ngrx/store';
 import { getToken } from './auth.selectors';
 import { selectUrl, AppState } from '@/core/reducers';
 import { changeIsEditingState } from '@/modules/users/store/user.actions';
 import { initPreferences } from '@/core/reducers/preferences.actions';
 import { HttpErrorResponse } from '@angular/common/http';
+import { User, Organization } from '@/modules/users';
 
 @Injectable()
 export class AuthEffects implements OnInitEffects {
@@ -82,7 +83,7 @@ export class AuthEffects implements OnInitEffects {
       map(payload => payload.user),
       switchMap(user =>
         this.authService.requestPasswordReset(user).pipe(
-          map(apiResp => {
+          map((apiResp: ApiResponse) => {
             this.toastMessageService.snack(apiResp);
             return authActions.resetPasswordSuccess();
           }),
@@ -101,7 +102,7 @@ export class AuthEffects implements OnInitEffects {
       map(payload => payload.newPassword),
       switchMap(newPassword =>
         this.authService.resetPassword(newPassword).pipe(
-          map(apiResp => {
+          map((apiResp: ApiResponse) => {
             this.toastMessageService.snack(apiResp);
             return authActions.resetPasswordSuccess();
           }),
@@ -120,7 +121,7 @@ export class AuthEffects implements OnInitEffects {
       map(payload => payload.token),
       concatMap(token =>
         this.authService.activateAccount(token).pipe(
-          map(apiResp => {
+          map((apiResp: ApiResponse) => {
             this.toastMessageService.snack(apiResp);
             return authActions.activateAccountSuccess();
           }),
@@ -208,7 +209,7 @@ export class AuthEffects implements OnInitEffects {
       ofType(authActions.deleteSession),
       map(payload => payload.id),
       switchMap(id => this.authService.deleteSession(id)),
-      map(apiResp => {
+      map((apiResp: ApiResponse) => {
         this.toastMessageService.snack(apiResp);
         return authActions.deleteSessionSuccess();
       }),
@@ -221,7 +222,7 @@ export class AuthEffects implements OnInitEffects {
       ofType(authActions.deleteMultipleSession),
       map(payload => payload.sessionIds),
       switchMap(sessionIds => this.authService.deleteSessionMultiple(sessionIds)),
-      map(apiResp => {
+      map((apiResp: ApiResponse) => {
         this.toastMessageService.snack(apiResp);
         return authActions.deleteSessionSuccess();
       }),
@@ -233,7 +234,7 @@ export class AuthEffects implements OnInitEffects {
     this.actions$.pipe(
       ofType(authActions.checkIsTokenValid),
       withLatestFrom(this.store$.pipe(select(getToken))),
-      switchMap(([action, token]) => {
+      switchMap(([_, token]) => {
         const isValid = this.authService.isTokenValid(token);
         if (isValid) {
           return of(authActions.checkIsTokenValidSuccess());
@@ -256,7 +257,7 @@ export class AuthEffects implements OnInitEffects {
       ofType(authActions.updateUserProfileRequested),
       map(payload => payload.user),
       switchMap(user => this.authService.updateProfile(user)),
-      switchMap(response => {
+      switchMap((response: ItemApiResponse<User>) => {
         this.toastMessageService.snack(response);
         return [
           authActions.updateUserProfileSuccess({ currentUser: response.data }),
@@ -272,7 +273,7 @@ export class AuthEffects implements OnInitEffects {
       ofType(authActions.updateUserOrgRequested),
       map(payload => payload.organization),
       switchMap(organization => this.authService.updateOrg(organization)),
-      switchMap(response => {
+      switchMap((response: ItemApiResponse<Organization>) => {
         this.toastMessageService.snack(response);
         return [
           authActions.updateUserOrgSuccess({ organization: response.data }),
