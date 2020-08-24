@@ -5,7 +5,7 @@
         <atoms-integration-card
           src="google-drive-logo.svg"
           imgTitle="Google Drive"
-          [isEnabled]="!(googleDriveIntegrationState$ | async)"
+          [isEnabled]="googleDriveIntegrationState$ | async"
           (onclick)="toggleGDriveIntegration()"
         ></atoms-integration-card>
       </div>

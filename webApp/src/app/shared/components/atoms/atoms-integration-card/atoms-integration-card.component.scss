@@ -12,6 +12,7 @@
   background-color: $white;
   user-select: none;
   cursor: pointer;
+  filter: grayscale(100%);
   transition: filter $transition;
 
   &::after {
@@ -38,16 +39,8 @@
     transition: opacity $transition;
   }
 
-  &:hover {
-    filter: brightness(95%);
-
-    &::before {
-      opacity: 1;
-    }
-  }
-
-  &:active {
-    transform: scale(0.99);
+  &:hover::before {
+    opacity: 1;
   }
 
   img {
@@ -56,6 +49,6 @@
   }
 
   &.active {
-    filter: grayscale(100%);
+    filter: grayscale(0);
   }
 }
