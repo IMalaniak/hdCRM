@@ -1,0 +1,23 @@
+@import 'variables';
+@import 'mixins';
+
+.success-message,
+.failed-message,
+.process-message {
+  span,
+  fa-icon {
+    @include crm-textcolor('theme', 'light');
+  }
+}
+
+.success-message {
+  @include crm-bgcolor('theme', 'accent');
+}
+
+.failed-message {
+  @include crm-bgcolor('theme', 'warn');
+}
+
+.process-message {
+  @include crm-bgcolor('theme', 'secondary');
+}

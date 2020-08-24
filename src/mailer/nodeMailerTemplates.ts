@@ -1,5 +1,5 @@
 import Email from 'email-templates';
-import * as db from '../models';
+import { User } from '../models';
 import path from 'path';
 
 class Mailer {
@@ -28,7 +28,7 @@ class Mailer {
 
   constructor() {}
 
-  sendPasswordReset(user: db.User, tokenUrl: string): Promise<Email> {
+  sendPasswordReset(user: User, tokenUrl: string): Promise<Email> {
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'resetPassword'),
       message: {
@@ -43,7 +43,7 @@ class Mailer {
     });
   }
 
-  sendPasswordResetConfirmation(user: db.User): Promise<Email> {
+  sendPasswordResetConfirmation(user: User): Promise<Email> {
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'resetPasswordConfirmation'),
       message: {
@@ -57,7 +57,7 @@ class Mailer {
     });
   }
 
-  sendActivation(user: db.User, tmpPassword: string, url: string) {
+  sendActivation(user: User, tmpPassword: string, url: string) {
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'initActivation'),
       message: {
@@ -73,7 +73,7 @@ class Mailer {
     });
   }
 
-  sendActivationConfirmation(user: db.User) {
+  sendActivationConfirmation(user: User) {
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'confirmActivation'),
       message: {
@@ -87,7 +87,7 @@ class Mailer {
     });
   }
 
-  sendInvitation(user: db.User, tmpPassword: string, url: string) {
+  sendInvitation(user: User, tmpPassword: string, url: string) {
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'userInvitation'),
       message: {
@@ -104,7 +104,6 @@ class Mailer {
       }
     });
   }
-
 }
 
 export default new Mailer();

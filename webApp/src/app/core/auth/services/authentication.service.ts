@@ -2,7 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User, Organization } from '@/modules/users';
-import { ApiResponse, NewPassword, JwtDecoded } from '@/shared';
+import { ApiResponse, NewPassword, JwtDecoded, ItemApiResponse } from '@/shared';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({ providedIn: 'root' })
@@ -17,24 +17,24 @@ export class AuthenticationService {
     return this.http.get<User>(`${this.userApi}/profile`);
   }
 
-  updateProfile(user: User): Observable<User> {
-    return this.http.put<User>(`${this.userApi}/profile`, user);
+  updateProfile(user: User): Observable<ItemApiResponse<User>> {
+    return this.http.put<ItemApiResponse<User>>(`${this.userApi}/profile`, user);
   }
 
-  updateOrg(org: Organization): Observable<Organization> {
-    return this.http.put<Organization>(`${this.userApi}/org/${org.id}`, org);
+  updateOrg(org: Organization): Observable<ItemApiResponse<Organization>> {
+    return this.http.put<ItemApiResponse<Organization>>(`${this.userApi}/org/${org.id}`, org);
   }
 
-  registerUser(user: User) {
-    return this.http.post<any>(`${this.authApi}/register`, user);
+  registerUser(user: User): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.authApi}/register`, user);
   }
 
-  login(loginUser: User) {
-    return this.http.post<string>(`${this.authApi}/authenticate`, loginUser, { withCredentials: true });
+  login(loginUser: User): Observable<ApiResponse | string> {
+    return this.http.post<ApiResponse | string>(`${this.authApi}/authenticate`, loginUser, { withCredentials: true });
   }
 
-  refreshSession(): Observable<string> {
-    return this.http.get<string>(`${this.authApi}/refresh-session`, { withCredentials: true });
+  refreshSession(): Observable<ApiResponse | string> {
+    return this.http.get<ApiResponse | string>(`${this.authApi}/refresh-session`, { withCredentials: true });
   }
 
   activateAccount(token: string): Observable<ApiResponse> {
@@ -51,8 +51,8 @@ export class AuthenticationService {
     return this.http.post<ApiResponse>(`${this.authApi}/reset_password`, data);
   }
 
-  logout() {
-    return this.http.get(`${this.authApi}/logout`, { withCredentials: true });
+  logout(): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(`${this.authApi}/logout`, { withCredentials: true });
   }
 
   isTokenValid(token: string): boolean {

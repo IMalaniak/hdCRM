@@ -5,13 +5,14 @@ import { of } from 'rxjs';
 import { tap, map, switchMap, catchError, concatMap, withLatestFrom, mergeMap } from 'rxjs/operators';
 import * as authActions from './auth.actions';
 import { AuthenticationService } from '../services';
-import { SocketService, SocketEvent, ToastMessageService } from '@/shared';
-import { HttpErrorResponse } from '@angular/common/http';
+import { SocketService, SocketEvent, ToastMessageService, ApiResponse, ItemApiResponse } from '@/shared';
 import { Store, select, Action } from '@ngrx/store';
 import { getToken } from './auth.selectors';
 import { selectUrl, AppState } from '@/core/reducers';
 import { changeIsEditingState } from '@/modules/users/store/user.actions';
 import { initPreferences } from '@/core/reducers/preferences.actions';
+import { HttpErrorResponse } from '@angular/common/http';
+import { User, Organization } from '@/modules/users';
 
 @Injectable()
 export class AuthEffects implements OnInitEffects {
@@ -31,11 +32,9 @@ export class AuthEffects implements OnInitEffects {
       map(payload => payload.user),
       switchMap(registerData =>
         this.authService.registerUser(registerData).pipe(
-          map(user => authActions.registerSuccess(user)),
+          map(() => authActions.registerSuccess()),
           tap(() => this.router.navigateByUrl('/auth/register-success')),
-          catchError((errorResponse: HttpErrorResponse) =>
-            of(authActions.registerFailure({ apiResp: errorResponse.error }))
-          )
+          catchError(() => of(authActions.authApiError()))
         )
       )
     )
@@ -46,7 +45,7 @@ export class AuthEffects implements OnInitEffects {
       ofType(authActions.logIn),
       map(payload => payload.user),
       switchMap(userLoginData => this.authService.login(userLoginData)),
-      switchMap(accessToken => {
+      switchMap((accessToken: string) => {
         const sessionId = this.authService.getTokenDecoded(accessToken).sessionId;
         return [authActions.logInSuccess({ accessToken }), authActions.setSessionId({ sessionId })];
       }),
@@ -54,7 +53,10 @@ export class AuthEffects implements OnInitEffects {
         const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
         this.router.navigateByUrl(returnUrl);
       }),
-      catchError((errorResponse: HttpErrorResponse) => of(authActions.logInFailure({ apiResp: errorResponse.error })))
+      catchError((errorResponse: HttpErrorResponse) => {
+        this.toastMessageService.snack(errorResponse.error);
+        return of(authActions.authApiError());
+      })
     )
   );
 
@@ -64,6 +66,7 @@ export class AuthEffects implements OnInitEffects {
         ofType(authActions.logOut),
         tap(() =>
           this.authService.logout().subscribe(() => {
+            // TODO check if this is unsubscribed
             this.scktService.emit(SocketEvent.ISOFFLINE);
             this.router.navigateByUrl('/home');
           })
@@ -80,10 +83,14 @@ export class AuthEffects implements OnInitEffects {
       map(payload => payload.user),
       switchMap(user =>
         this.authService.requestPasswordReset(user).pipe(
-          map(apiResp => authActions.resetPasswordSuccess({ apiResp })),
-          catchError((errorResponse: HttpErrorResponse) =>
-            of(authActions.resetPasswordFailure({ apiResp: errorResponse.error }))
-          )
+          map((apiResp: ApiResponse) => {
+            this.toastMessageService.snack(apiResp);
+            return authActions.resetPasswordSuccess();
+          }),
+          catchError((errorResponse: HttpErrorResponse) => {
+            this.toastMessageService.snack(errorResponse.error);
+            return of(authActions.authApiError());
+          })
         )
       )
     )
@@ -95,10 +102,14 @@ export class AuthEffects implements OnInitEffects {
       map(payload => payload.newPassword),
       switchMap(newPassword =>
         this.authService.resetPassword(newPassword).pipe(
-          map(apiResp => authActions.resetPasswordSuccess({ apiResp })),
-          catchError((errorResponse: HttpErrorResponse) =>
-            of(authActions.resetPasswordFailure({ apiResp: errorResponse.error }))
-          )
+          map((apiResp: ApiResponse) => {
+            this.toastMessageService.snack(apiResp);
+            return authActions.resetPasswordSuccess();
+          }),
+          catchError((errorResponse: HttpErrorResponse) => {
+            this.toastMessageService.snack(errorResponse.error);
+            return of(authActions.authApiError());
+          })
         )
       )
     )
@@ -110,10 +121,14 @@ export class AuthEffects implements OnInitEffects {
       map(payload => payload.token),
       concatMap(token =>
         this.authService.activateAccount(token).pipe(
-          map(apiResp => authActions.activateAccountSuccess({ apiResp })),
-          catchError((errorResponse: HttpErrorResponse) =>
-            of(authActions.activateAccountFailure({ apiResp: errorResponse.error }))
-          )
+          map((apiResp: ApiResponse) => {
+            this.toastMessageService.snack(apiResp);
+            return authActions.activateAccountSuccess();
+          }),
+          catchError((errorResponse: HttpErrorResponse) => {
+            this.toastMessageService.snack(errorResponse.error);
+            return of(authActions.authApiError());
+          })
         )
       )
     )
@@ -124,7 +139,7 @@ export class AuthEffects implements OnInitEffects {
       this.actions$.pipe(
         ofType(authActions.redirectToLogin),
         withLatestFrom(this.store$.pipe(select(selectUrl))),
-        map(([action, returnUrl]) => {
+        map(([_, returnUrl]) => {
           this.toastMessageService.popup(
             'You are not authorized to see this page, or your session has been expired!',
             'error'
@@ -164,9 +179,7 @@ export class AuthEffects implements OnInitEffects {
           return [authActions.currentUserLoaded({ currentUser })];
         }
       }),
-      catchError((errorResponse: HttpErrorResponse) =>
-        of(authActions.currentUserLoadFailed({ apiResp: errorResponse.error }))
-      )
+      catchError(() => of(authActions.authApiError()))
     )
   );
 
@@ -181,13 +194,13 @@ export class AuthEffects implements OnInitEffects {
     this.actions$.pipe(
       ofType(authActions.refreshSession),
       switchMap(() => this.authService.refreshSession()),
-      switchMap(accessToken => {
+      switchMap((accessToken: string) => {
         const sessionId = this.authService.getTokenDecoded(accessToken).sessionId;
         return [authActions.refreshSessionSuccess({ accessToken }), authActions.setSessionId({ sessionId })];
       }),
-      catchError((errorResponse: HttpErrorResponse) =>
-        of(authActions.refreshSessionFailure({ apiResp: errorResponse.error }))
-      )
+      catchError(() => {
+        return of(authActions.refreshSessionFailure());
+      })
     )
   );
 
@@ -196,13 +209,11 @@ export class AuthEffects implements OnInitEffects {
       ofType(authActions.deleteSession),
       map(payload => payload.id),
       switchMap(id => this.authService.deleteSession(id)),
-      map(apiResp => {
-        this.toastMessageService.toast('Session is deactivated');
-        return authActions.deleteSessionSuccess({ apiResp });
+      map((apiResp: ApiResponse) => {
+        this.toastMessageService.snack(apiResp);
+        return authActions.deleteSessionSuccess();
       }),
-      catchError((errorResponse: HttpErrorResponse) =>
-        of(authActions.deleteSessionFailure({ apiResp: errorResponse.error }))
-      )
+      catchError(() => of(authActions.authApiError()))
     )
   );
 
@@ -211,13 +222,11 @@ export class AuthEffects implements OnInitEffects {
       ofType(authActions.deleteMultipleSession),
       map(payload => payload.sessionIds),
       switchMap(sessionIds => this.authService.deleteSessionMultiple(sessionIds)),
-      map(apiResp => {
-        this.toastMessageService.toast('Sessions are deactivated');
-        return authActions.deleteSessionSuccess({ apiResp });
+      map((apiResp: ApiResponse) => {
+        this.toastMessageService.snack(apiResp);
+        return authActions.deleteSessionSuccess();
       }),
-      catchError((errorResponse: HttpErrorResponse) =>
-        of(authActions.deleteSessionFailure({ apiResp: errorResponse.error }))
-      )
+      catchError(() => of(authActions.authApiError()))
     )
   );
 
@@ -225,7 +234,7 @@ export class AuthEffects implements OnInitEffects {
     this.actions$.pipe(
       ofType(authActions.checkIsTokenValid),
       withLatestFrom(this.store$.pipe(select(getToken))),
-      switchMap(([action, token]) => {
+      switchMap(([_, token]) => {
         const isValid = this.authService.isTokenValid(token);
         if (isValid) {
           return of(authActions.checkIsTokenValidSuccess());
@@ -248,13 +257,14 @@ export class AuthEffects implements OnInitEffects {
       ofType(authActions.updateUserProfileRequested),
       map(payload => payload.user),
       switchMap(user => this.authService.updateProfile(user)),
-      switchMap(currentUser => {
-        this.toastMessageService.toast('Your profile is updated!');
-        return [authActions.updateUserProfileSuccess({ currentUser }), changeIsEditingState({ isEditing: false })];
+      switchMap((response: ItemApiResponse<User>) => {
+        this.toastMessageService.snack(response);
+        return [
+          authActions.updateUserProfileSuccess({ currentUser: response.data }),
+          changeIsEditingState({ isEditing: false })
+        ];
       }),
-      catchError((errorResponse: HttpErrorResponse) =>
-        of(authActions.updateUserOrgFailure({ apiResp: errorResponse.error }))
-      )
+      catchError(() => of(authActions.authApiError()))
     )
   );
 
@@ -263,13 +273,14 @@ export class AuthEffects implements OnInitEffects {
       ofType(authActions.updateUserOrgRequested),
       map(payload => payload.organization),
       switchMap(organization => this.authService.updateOrg(organization)),
-      switchMap(organization => {
-        this.toastMessageService.toast('Organization is updated!');
-        return [authActions.updateUserOrgSuccess({ organization }), changeIsEditingState({ isEditing: false })];
+      switchMap((response: ItemApiResponse<Organization>) => {
+        this.toastMessageService.snack(response);
+        return [
+          authActions.updateUserOrgSuccess({ organization: response.data }),
+          changeIsEditingState({ isEditing: false })
+        ];
       }),
-      catchError((errorResponse: HttpErrorResponse) =>
-        of(authActions.updateUserOrgFailure({ apiResp: errorResponse.error }))
-      )
+      catchError(() => of(authActions.authApiError()))
     )
   );
 

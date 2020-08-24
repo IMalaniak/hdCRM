@@ -1,13 +1,12 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
-import { ConfirmPasswordValidator, NewPassword, ToastMessageService } from '@/shared';
+import { ConfirmPasswordValidator, NewPassword } from '@/shared';
 import { AppState } from '@/core/reducers';
 import { Store, select } from '@ngrx/store';
 import * as authActions from '../../store/auth.actions';
 import * as authSelectors from '../../store/auth.selectors';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -26,20 +25,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(
-    private route: ActivatedRoute,
-    private fb: FormBuilder,
-    private store: Store<AppState>,
-    private toastMessageService: ToastMessageService
-  ) {}
+  constructor(private route: ActivatedRoute, private fb: FormBuilder, private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.currentPath = this.route.snapshot.url[0].path;
-    this.store.pipe(select(authSelectors.getApiResponse), takeUntil(this.unsubscribe)).subscribe(serverResponse => {
-      if (serverResponse) {
-        this.toastMessageService.snack(serverResponse, 5000);
-      }
-    });
 
     if (this.currentPath === 'request-new-password' || this.currentPath === 'login') {
       this.prepareUserForm();

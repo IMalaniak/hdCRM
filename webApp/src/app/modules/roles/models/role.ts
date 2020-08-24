@@ -1,6 +1,5 @@
 import { Privilege } from './privilege';
 import { User } from '@/modules/users/models';
-import { ApiResponse } from '@/shared';
 
 export interface Role {
   id: number;
@@ -10,10 +9,4 @@ export interface Role {
   createdAt: Date;
   updatedAt: Date;
   selected: boolean;
-}
-
-export interface RoleServerResponse extends ApiResponse {
-  list: Role[];
-  role: Role;
-  pages: number;
 }

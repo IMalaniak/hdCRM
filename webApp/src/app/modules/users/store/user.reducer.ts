@@ -2,16 +2,13 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { User } from '../models';
 import * as UserActions from './user.actions';
 import { Action, on, createReducer } from '@ngrx/store';
-import { ApiResponse } from '@/shared';
 
 export interface UsersState extends EntityState<User> {
   allUsersLoaded: boolean;
-  error: string;
   loading: boolean;
   editing: boolean;
   pages: number;
   countAll: number;
-  apiResp: ApiResponse;
 }
 
 function sortByIdAndActiveState(u1: User, u2: User) {
@@ -29,12 +26,10 @@ const adapter: EntityAdapter<User> = createEntityAdapter<User>({
 
 const initialState: UsersState = adapter.getInitialState({
   allUsersLoaded: false,
-  error: null,
   loading: false,
   editing: false,
   pages: null,
-  countAll: null,
-  apiResp: null
+  countAll: null
 });
 
 const usersReducer = createReducer(
@@ -45,15 +40,14 @@ const usersReducer = createReducer(
   })),
   on(UserActions.userLoaded, (state, { user }) => adapter.addOne(user, state)),
   on(UserActions.listPageRequested, state => ({ ...state, loading: true })),
-  on(UserActions.listPageLoaded, (state, { response }) =>
-    adapter.upsertMany(response.list, {
+  on(UserActions.listPageLoaded, (state, { response: { data, pages, resultsNum } }) =>
+    adapter.upsertMany(data, {
       ...state,
       loading: false,
-      pages: response.pages,
-      countAll: response.count
+      pages: pages,
+      countAll: resultsNum
     })
   ),
-  on(UserActions.listPageCancelled, state => ({ ...state, loading: false })),
   on(UserActions.OnlineUserListRequested, state => ({ ...state, loading: true })),
   on(UserActions.OnlineUserListLoaded, (state, { list }) =>
     adapter.upsertMany(list, {
@@ -72,7 +66,6 @@ const usersReducer = createReducer(
     })
   ),
   on(UserActions.updateUserRequested, state => ({ ...state, loading: true })),
-  on(UserActions.updateUserCancelled, state => ({ ...state, loading: false })), // TODO: show error
   on(UserActions.updateUserSuccess, (state, { user }) =>
     adapter.updateOne(user, { ...state, loading: false, editing: false })
   ),
@@ -89,8 +82,8 @@ const usersReducer = createReducer(
     })
   ),
   on(UserActions.changeOldPassword, state => ({ ...state, loading: true })),
-  on(UserActions.changePasswordSuccess, (state, { response }) => ({ ...state, loading: false, apiResp: response })),
-  on(UserActions.changePasswordFailure, (state, { response }) => ({ ...state, loading: false, apiResp: response }))
+  on(UserActions.changePasswordSuccess, state => ({ ...state, loading: false })),
+  on(UserActions.userApiError, state => ({ ...state, loading: false }))
 );
 
 export function reducer(state: UsersState | undefined, action: Action) {

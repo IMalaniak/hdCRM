@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Task, TaskPriority } from '../models';
 import { Observable } from 'rxjs';
-import { ApiResponse } from '@/shared/models';
+import { ApiResponse, CollectionApiResponse, ItemApiResponse } from '@/shared/models';
 
 @Injectable({
   providedIn: 'root'
@@ -13,16 +13,16 @@ export class TaskService {
 
   constructor(private http: HttpClient) {}
 
-  create(task: Task) {
-    return this.http.post<any>(this.tasksApi, task);
+  create(task: Task): Observable<ItemApiResponse<Task>> {
+    return this.http.post<ItemApiResponse<Task>>(this.tasksApi, task);
   }
 
-  updateTask(task: Task): Observable<Task> {
-    return this.http.put<Task>(`${this.tasksApi}/${task.id}`, task);
+  updateTask(task: Task): Observable<ItemApiResponse<Task>> {
+    return this.http.put<ItemApiResponse<Task>>(`${this.tasksApi}/${task.id}`, task);
   }
 
-  delete(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.tasksApi}/${id}`);
+  delete(id: number): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(`${this.tasksApi}/${id}`);
   }
 
   deleteMultipleTask(taskIds: number[]): Observable<ApiResponse> {
@@ -30,11 +30,11 @@ export class TaskService {
     return this.http.put<any>(`${this.tasksApi}/task-multiple/${1}`, { taskIds });
   }
 
-  getList(): Observable<Task[]> {
-    return this.http.get<Task[]>(this.tasksApi);
+  getList(): Observable<CollectionApiResponse<Task>> {
+    return this.http.get<CollectionApiResponse<Task>>(this.tasksApi);
   }
 
-  getPriorities(): Observable<TaskPriority[]> {
-    return this.http.get<TaskPriority[]>(this.prioritiesApi);
+  getPriorities(): Observable<CollectionApiResponse<TaskPriority>> {
+    return this.http.get<CollectionApiResponse<TaskPriority>>(this.prioritiesApi);
   }
 }

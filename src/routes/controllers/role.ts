@@ -1,25 +1,27 @@
-import { OK, BAD_REQUEST } from 'http-status-codes';
+import { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } from 'http-status-codes';
 import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import * as db from '../../models';
+import { Role, User, Privilege, Asset } from '../../models';
 import Passport from '../../config/passport';
 import { Op } from 'sequelize';
+import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '../../models/apiResponse';
+import { RequestWithBody, CollectionQuery, RequestWithQuery } from 'src/models/apiRequest';
 
 @Controller('roles/')
 export class RoleController {
   @Get('dashboard')
   @Middleware([Passport.authenticate()])
-  private getDashboardData(req: Request, res: Response) {
+  private getDashboardData(req: Request, res: Response<CollectionApiResponse<Role>>) {
     Logger.Info(`Geting roles dashboard data...`);
-    db.Role.findAndCountAll({
+    Role.findAndCountAll({
       attributes: ['keyString', 'id'],
       where: {
         OrganizationId: req.user.OrganizationId
       },
       include: [
         {
-          model: db.User,
+          model: User,
           attributes: ['id'],
           required: true
         }
@@ -27,19 +29,19 @@ export class RoleController {
       order: [['id', 'ASC']]
     })
       .then(data => {
-        res.status(OK).json({ list: data.rows, count: data.count });
+        res.status(OK).json({ success: true, data: data.rows, resultsNum: data.count });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(BAD_REQUEST).json(error.toString());
+        return res.status(INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
   @Post('')
   @Middleware([Passport.authenticate()])
-  private create(req: Request, res: Response) {
+  private create(req: RequestWithBody<Partial<Role>>, res: Response<ItemApiResponse<Role>>) {
     Logger.Info(`Creating new role...`);
-    db.Role.create({
+    Role.create({
       keyString: req.body.keyString,
       OrganizationId: req.user.OrganizationId
     })
@@ -53,7 +55,7 @@ export class RoleController {
                 };
               });
 
-              db.Privilege.findAll({
+              Privilege.findAll({
                 where: {
                   [Op.or]: privIds
                 }
@@ -67,9 +69,9 @@ export class RoleController {
                   });
                   role.setPrivileges(privileges).then(() => {
                     if (req.body.Users) {
-                      db.User.findAll({
+                      User.findAll({
                         where: {
-                          [Op.or]: req.body.Users
+                          [Op.or]: req.body.Users as Array<{ id: number }>
                         }
                       })
                         .then(users => {
@@ -78,79 +80,83 @@ export class RoleController {
                             .then(() => {
                               this.findRoleById(createdRole.id)
                                 .then(role => {
-                                  return res.status(OK).json(role);
+                                  return res
+                                    .status(OK)
+                                    .json({ success: true, message: 'Role created successfully!', data: role });
                                 })
                                 .catch((err: any) => {
                                   Logger.Err(err);
-                                  return res.status(BAD_REQUEST).json(err.toString());
+                                  return res.status(INTERNAL_SERVER_ERROR).json(err);
                                 });
                             })
                             .catch((err: any) => {
                               Logger.Err(err);
-                              return res.status(BAD_REQUEST).json(err.toString());
+                              return res.status(INTERNAL_SERVER_ERROR).json(err);
                             });
                         })
                         .catch((err: any) => {
                           Logger.Err(err);
-                          return res.status(BAD_REQUEST).json(err.toString());
+                          return res.status(INTERNAL_SERVER_ERROR).json(err);
                         });
                     } else {
                       this.findRoleById(createdRole.id)
                         .then(role => {
-                          return res.status(OK).json(role);
+                          return res
+                            .status(OK)
+                            .json({ success: true, message: 'Role created successfully!', data: role });
                         })
                         .catch((err: any) => {
                           Logger.Err(err);
-                          return res.status(BAD_REQUEST).json(err.toString());
+                          return res.status(INTERNAL_SERVER_ERROR).json(err);
                         });
                     }
                   });
                 })
                 .catch((err: any) => {
                   Logger.Err(err);
-                  return res.status(BAD_REQUEST).json(err.toString());
+                  return res.status(INTERNAL_SERVER_ERROR).json(err);
                 });
             } else {
-              return res.status(OK).json(role);
+              return res.status(OK).json({ success: true, message: 'Role created successfully!', data: role });
             }
           })
           .catch((err: any) => {
             Logger.Err(err);
-            return res.status(BAD_REQUEST).json(err.toString());
+            return res.status(INTERNAL_SERVER_ERROR).json(err);
           });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json(err.toString());
+        return res.status(BAD_REQUEST).json({ success: false, message: 'There are some missing params!', data: null });
       });
   }
 
   @Get('')
   @Middleware([Passport.authenticate()])
-  private getList(req: Request, res: Response) {
+  private getList(req: RequestWithQuery<CollectionQuery>, res: Response<CollectionApiResponse<Role>>) {
     Logger.Info(`Selecting roles list...`);
-    const queryParams = req.query;
-    const limit = parseInt(queryParams.pageSize);
-    const offset = parseInt(queryParams.pageIndex) * limit;
+    const { pageIndex, pageSize, sortDirection, sortIndex } = req.query;
+    const limit = parseInt(pageSize);
+    const offset = parseInt(pageIndex) * limit;
 
-    db.Role.findAndCountAll({
+    Role.findAndCountAll({
       where: {
         OrganizationId: req.user.OrganizationId
       },
       include: [
         {
-          model: db.Privilege,
+          model: Privilege,
           through: {
             attributes: ['view', 'edit', 'add', 'delete']
           },
           required: false
         },
         {
-          model: db.User,
+          model: User,
           attributes: { exclude: ['passwordHash', 'salt'] },
           include: [
             {
-              model: db.Asset,
+              model: Asset,
               as: 'avatar',
               required: false
             }
@@ -160,38 +166,38 @@ export class RoleController {
       ],
       limit,
       offset,
-      order: [[queryParams.sortIndex, queryParams.sortDirection.toUpperCase()]],
+      order: [[sortIndex, sortDirection.toUpperCase()]],
       distinct: true
     })
       .then(data => {
         const pages = Math.ceil(data.count / limit);
-        return res.status(OK).json({ list: data.rows, count: data.count, pages: pages });
+        return res.status(OK).json({ success: true, data: data.rows, resultsNum: data.count, pages });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json(err.toString());
+        return res.status(INTERNAL_SERVER_ERROR).json(err);
       });
   }
 
   @Get(':id')
   @Middleware([Passport.authenticate()])
-  private getOne(req: Request, res: Response) {
+  private getOne(req: Request, res: Response<ItemApiResponse<Role>>) {
     Logger.Info(`Selecting Role by roleId: ${req.params.id}...`);
     this.findRoleById(req.params.id)
       .then(role => {
-        return res.status(OK).json(role);
+        return res.status(OK).json({ success: true, data: role });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json(err.toString());
+        return res.status(INTERNAL_SERVER_ERROR).json(err);
       });
   }
 
   @Put(':id')
   @Middleware([Passport.authenticate()])
-  private updateOne(req: Request, res: Response) {
+  private updateOne(req: RequestWithBody<Partial<Role>>, res: Response<ItemApiResponse<Role>>) {
     Logger.Info(`Updating Role by Id: ${req.body.id}...`);
-    db.Role.update(
+    Role.update(
       {
         keyString: req.body.keyString
       },
@@ -209,7 +215,7 @@ export class RoleController {
                 };
               });
 
-              db.Privilege.findAll({
+              Privilege.findAll({
                 where: {
                   [Op.or]: privIds
                 }
@@ -223,9 +229,9 @@ export class RoleController {
                   });
                   role.setPrivileges(privileges).then(() => {
                     if (req.body.Users) {
-                      db.User.findAll({
+                      User.findAll({
                         where: {
-                          [Op.or]: req.body.Users
+                          [Op.or]: req.body.Users as Array<{ id: number }>
                         }
                       })
                         .then(users => {
@@ -234,84 +240,88 @@ export class RoleController {
                             .then(result => {
                               this.findRoleById(req.body.id)
                                 .then(role => {
-                                  return res.status(OK).json(role);
+                                  return res
+                                    .status(OK)
+                                    .json({ success: true, message: 'Role updated successfully!', data: role });
                                 })
                                 .catch((err: any) => {
                                   Logger.Err(err);
-                                  return res.status(BAD_REQUEST).json(err.toString());
+                                  return res.status(INTERNAL_SERVER_ERROR).json(err);
                                 });
                             })
                             .catch((err: any) => {
                               Logger.Err(err);
-                              return res.status(BAD_REQUEST).json(err.toString());
+                              return res.status(INTERNAL_SERVER_ERROR).json(err);
                             });
                         })
                         .catch((err: any) => {
                           Logger.Err(err);
-                          return res.status(BAD_REQUEST).json(err.toString());
+                          return res.status(INTERNAL_SERVER_ERROR).json(err);
                         });
                     } else {
                       this.findRoleById(req.body.id)
                         .then(role => {
-                          return res.status(OK).json(role);
+                          return res
+                            .status(OK)
+                            .json({ success: true, message: 'Role updated successfully!', data: role });
                         })
                         .catch((err: any) => {
                           Logger.Err(err);
-                          return res.status(BAD_REQUEST).json(err.toString());
+                          return res.status(INTERNAL_SERVER_ERROR).json(err);
                         });
                     }
                   });
                 })
                 .catch((err: any) => {
                   Logger.Err(err);
-                  return res.status(BAD_REQUEST).json(err.toString());
+                  return res.status(INTERNAL_SERVER_ERROR).json(err);
                 });
             } else {
-              return res.status(OK).json(role);
+              return res.status(OK).json({ success: true, message: 'Role updated successfully!', data: role });
             }
           })
           .catch((err: any) => {
             Logger.Err(err);
-            return res.status(BAD_REQUEST).json(err.toString());
+            return res.status(INTERNAL_SERVER_ERROR).json(err);
           });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json(err.toString());
+        return res.status(INTERNAL_SERVER_ERROR).json(err);
       });
   }
 
   @Delete(':id')
   @Middleware([Passport.authenticate()])
-  private deleteOne(req: Request, res: Response) {
+  private deleteOne(req: Request, res: Response<ApiResponse>) {
     Logger.Info(`Deleting role by id: ${req.params.id}...`);
-    db.Role.destroy({
+    Role.destroy({
       where: { id: req.params.id }
     })
       .then(result => {
-        return res.status(OK).json(result);
+        return res.status(OK).json({ success: true, message: `Deleted ${result} role` });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(BAD_REQUEST).json(error.toString());
+        return res.status(INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
-  private findRoleById(roleId: number | string): Promise<db.Role> {
-    return db.Role.findByPk(roleId, {
+  private findRoleById(roleId: number | string): Promise<Role> {
+    return Role.findByPk(roleId, {
       include: [
         {
-          model: db.User,
+          model: User,
           attributes: { exclude: ['passwordHash', 'salt'] },
           include: [
             {
-              model: db.Asset,
+              model: Asset,
               as: 'avatar'
             }
           ]
         },
         {
-          model: db.Privilege,
+          model: Privilege,
           through: {
             attributes: ['view', 'edit', 'add', 'delete']
           },

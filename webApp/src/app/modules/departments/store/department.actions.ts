@@ -1,12 +1,9 @@
 import { createAction, props } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
-import { Department, DepartmentServerResponse } from '../models';
-import { PageQuery } from '@/shared';
+import { Department } from '../models';
+import { PageQuery, CollectionApiResponse } from '@/shared';
 
-export const departmentRequested = createAction(
-  '[Department Details] Department Requested',
-  props<{ id: number }>()
-);
+export const departmentRequested = createAction('[Department Details] Department Requested', props<{ id: number }>());
 
 export const departmentLoaded = createAction(
   '[Departments API] Department Loaded',
@@ -28,15 +25,7 @@ export const createDepartmentSuccess = createAction(
   props<{ department: Department }>()
 );
 
-export const createDepartmentFail = createAction(
-  '[Departments API] Add Department Fail',
-  props<{ error: string }>()
-);
-
-export const deleteDepartment = createAction(
-  '[Department List] Delete Department Requested',
-  props<{ id: number }>()
-);
+export const deleteDepartment = createAction('[Department List] Delete Department Requested', props<{ id: number }>());
 
 export const listPageRequested = createAction(
   '[Departments List] Departments Page Requested',
@@ -45,18 +34,14 @@ export const listPageRequested = createAction(
 
 export const listPageLoaded = createAction(
   '[Departments API] Departments Page Loaded',
-  props<{ response: DepartmentServerResponse }>()
+  props<{ response: CollectionApiResponse<Department> }>()
 );
 
-export const listPageCancelled = createAction(
-  '[Departments API] Departments Page Cancelled'
-);
-
-export const depDashboardDataRequested = createAction(
-  '[Dashboard] Department Data Requested',
-);
+export const depDashboardDataRequested = createAction('[Dashboard] Department Data Requested');
 
 export const depDashboardDataLoaded = createAction(
   '[Dashboard] Department Data Loaded',
-  props<{ response: DepartmentServerResponse }>()
+  props<{ response: CollectionApiResponse<Department> }>()
 );
+
+export const departmentApiError = createAction('[Departments API] Failed Executing Request');

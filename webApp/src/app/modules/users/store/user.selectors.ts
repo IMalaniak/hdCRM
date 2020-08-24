@@ -19,8 +19,6 @@ export const allUsersLoaded = createSelector(selectUsersState, userState => user
 
 export const selectIsLoading = createSelector(selectUsersState, usersState => usersState.loading);
 
-export const getApiResponse = createSelector(selectUsersState, usersState => usersState.apiResp);
-
 export const selectIsEditing = createSelector(selectUsersState, usersState => usersState.editing);
 
 export const selectUsersPagesCount = createSelector(selectUsersState, usersState => usersState.pages);

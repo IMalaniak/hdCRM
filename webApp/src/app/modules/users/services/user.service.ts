@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User, UserServerResponse, State } from '../models';
+import { User, State } from '../models';
 import { take } from 'rxjs/operators';
 import { Role } from '@/modules/roles/models';
-import { SocketEvent, SocketService, NewPassword, ApiResponse } from '@/shared';
+import { SocketEvent, SocketService, NewPassword, ApiResponse, CollectionApiResponse, ItemApiResponse } from '@/shared';
 
 @Injectable()
 export class UserService {
@@ -16,8 +16,13 @@ export class UserService {
 
   constructor(private http: HttpClient, private socket: SocketService) {}
 
-  getList(pageIndex = 0, pageSize = 5, sortIndex = 'id', sortDirection = 'asc'): Observable<UserServerResponse> {
-    return this.http.get<UserServerResponse>(this.api, {
+  getList(
+    pageIndex = 0,
+    pageSize = 5,
+    sortIndex = 'id',
+    sortDirection = 'asc'
+  ): Observable<CollectionApiResponse<User>> {
+    return this.http.get<CollectionApiResponse<User>>(this.api, {
       params: new HttpParams()
         .set('pageIndex', pageIndex.toString())
         .set('pageSize', pageSize.toString())
@@ -30,26 +35,27 @@ export class UserService {
     this.socket.emit(SocketEvent.USERSONLINE);
   }
 
-  getUser(id: number): Observable<User> {
-    return this.http.get<User>(`${this.api}/${id}`);
+  getUser(id: number): Observable<ItemApiResponse<User>> {
+    return this.http.get<ItemApiResponse<User>>(`${this.api}/${id}`);
   }
 
-  updateUser(user: User): Observable<User> {
-    return this.http.put<User>(`${this.api}/${user.id}`, this.formatBeforeSend(user));
+  updateUser(user: User): Observable<ItemApiResponse<User>> {
+    return this.http.put<ItemApiResponse<User>>(`${this.api}/${user.id}`, this.formatBeforeSend(user));
   }
 
-  delete(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.api}/${id}`);
+  delete(id: number): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(`${this.api}/${id}`);
   }
 
-  inviteUsers(users: User[]): Observable<User[]> {
-    return this.http.post<User[]>(`${this.api}/invite`, users);
+  inviteUsers(users: User[]): Observable<CollectionApiResponse<User>> {
+    return this.http.post<CollectionApiResponse<User>>(`${this.api}/invite`, users);
   }
 
-  updateUserState(user: User): Observable<User> {
-    return this.http.put<User>(`${this.api}/updateUserState`, user);
+  updateUserState(user: User): Observable<ItemApiResponse<User>> {
+    return this.http.put<ItemApiResponse<User>>(`${this.api}/updateUserState`, user);
   }
 
+  // TODO @IMalaniak recreate this
   changeStateOfSelected(users: User[], state: State): Observable<User[]> {
     let userIds: number[] = [];
     for (const user of users) {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MoleculesErrorMessageComponent } from '../components/molecules';
+import { MoleculesServerMessageComponent } from '../components/molecules';
 import { ApiResponse } from '../models';
 
 @Injectable({
@@ -29,6 +29,7 @@ export class ToastMessageService {
       timer,
       showCancelButton: false,
       showCloseButton: false,
+      showConfirmButton: false,
       position: 'bottom-end'
     });
   }
@@ -41,8 +42,8 @@ export class ToastMessageService {
     });
   }
 
-  snack(serverResponse: ApiResponse, duration: number): void {
-    this.snackBar.openFromComponent(MoleculesErrorMessageComponent, {
+  snack(serverResponse: ApiResponse, duration = 5000): void {
+    this.snackBar.openFromComponent(MoleculesServerMessageComponent, {
       data: serverResponse,
       duration,
       panelClass: 'p-0'

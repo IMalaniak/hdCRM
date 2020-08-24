@@ -3,7 +3,7 @@ import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { ApiResponse } from '@/shared/models';
 
 @Component({
-  selector: 'app-molecules-error-message',
+  selector: 'molecules-server-message',
   template: `
     <mat-card [ngClass]="{ 'success-message': serverResponse.success, 'failed-message': !serverResponse.success }">
       <mat-card-content class="d-flex flex-row align-items-center p-1">
@@ -14,8 +14,8 @@ import { ApiResponse } from '@/shared/models';
       </mat-card-content>
     </mat-card>
   `,
-  styleUrls: ['./molecules-error-message.component.scss']
+  styleUrls: ['./molecules-server-message.component.scss']
 })
-export class MoleculesErrorMessageComponent {
+export class MoleculesServerMessageComponent {
   constructor(@Inject(MAT_SNACK_BAR_DATA) public serverResponse: ApiResponse) {}
 }

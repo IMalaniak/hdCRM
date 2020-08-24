@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import * as roleActions from './role.actions';
 import { mergeMap, map, catchError, withLatestFrom, filter } from 'rxjs/operators';
 import { RoleService } from '../services';
 import { AppState } from '@/core/reducers';
-import { RoleServerResponse, Role } from '../models';
+import { Role } from '../models';
 import { selectRolesDashboardDataLoaded } from './role.selectors';
 import { Router } from '@angular/router';
 import { ToastMessageService } from '@/shared/services';
+import { CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared/models';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class RoleEffects {
@@ -19,14 +21,14 @@ export class RoleEffects {
       map(payload => payload.role),
       mergeMap((role: Role) =>
         this.roleService.create({ ...role }).pipe(
-          map(newRole => {
-            this.toastMessageService.toast('Role created!');
+          map((response: ItemApiResponse<Role>) => {
+            this.toastMessageService.snack(response);
             this.router.navigate(['/roles']);
-            return roleActions.createRoleSuccess({ role: newRole });
+            return roleActions.createRoleSuccess({ role: response.data });
           }),
-          catchError(error => {
-            this.toastMessageService.popup('Ooops, something went wrong!', 'error');
-            return of(roleActions.createRoleFail({ error }));
+          catchError((errorResponse: HttpErrorResponse) => {
+            this.toastMessageService.snack(errorResponse.error);
+            return of(roleActions.rolesApiError());
           })
         )
       )
@@ -38,7 +40,8 @@ export class RoleEffects {
       ofType(roleActions.roleRequested),
       map(payload => payload.id),
       mergeMap(id => this.roleService.getRole(id)),
-      map(role => roleActions.roleLoaded({ role }))
+      map((response: ItemApiResponse<Role>) => roleActions.roleLoaded({ role: response.data })),
+      catchError(() => of(roleActions.rolesApiError()))
     )
   );
 
@@ -48,20 +51,22 @@ export class RoleEffects {
       map(payload => payload.page),
       mergeMap(page =>
         this.roleService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
-          map((response: RoleServerResponse) => roleActions.listPageLoaded({ response })),
-          catchError(err => of(roleActions.listPageCancelled()))
+          map((response: CollectionApiResponse<Role>) => roleActions.listPageLoaded({ response })),
+          catchError(() => of(roleActions.rolesApiError()))
         )
       )
     )
   );
 
+  // TODO: @IMalaniak recreate this
   deleteRole$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(roleActions.deleteRole),
         map(payload => payload.id),
         mergeMap(id => this.roleService.delete(id)),
-        map(() => of(this.toastMessageService.toast('Role deleted!')))
+        map((response: ApiResponse) => of(this.toastMessageService.snack(response))),
+        catchError(() => of(roleActions.rolesApiError()))
       ),
     {
       dispatch: false
@@ -72,12 +77,10 @@ export class RoleEffects {
     this.actions$.pipe(
       ofType(roleActions.roleDashboardDataRequested),
       withLatestFrom(this.store.pipe(select(selectRolesDashboardDataLoaded))),
-      filter(([action, rolesDashboardDataLoaded]) => !rolesDashboardDataLoaded),
+      filter(([_, rolesDashboardDataLoaded]) => !rolesDashboardDataLoaded),
       mergeMap(() => this.roleService.getDashboardData()),
       map(response => roleActions.roleDashboardDataLoaded({ response })),
-      catchError(err => {
-        return throwError(err);
-      })
+      catchError(() => of(roleActions.rolesApiError()))
     )
   );
 

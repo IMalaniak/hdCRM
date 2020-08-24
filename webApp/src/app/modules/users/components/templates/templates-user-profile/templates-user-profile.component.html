@@ -57,10 +57,7 @@
         <!-- Passwords -->
         <mat-tab label="Password" *ngIf="'password' | memoize: isTabToShow: this">
           <ng-template matTabContent>
-            <organisms-user-passwords
-              [isLoading]="isLoading"
-              [serverResponse]="serverResponse"
-            ></organisms-user-passwords>
+            <organisms-user-passwords [isLoading]="isLoading"></organisms-user-passwords>
           </ng-template>
         </mat-tab>
 

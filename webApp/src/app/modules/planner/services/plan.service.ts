@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Plan, PlanServerResponse } from '../models';
+import { Plan } from '../models';
 import { User } from '@/modules/users';
+import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '@/shared/models';
 
 @Injectable()
 export class PlanService {
@@ -10,12 +11,17 @@ export class PlanService {
 
   constructor(private http: HttpClient) {}
 
-  create(plan: Plan) {
-    return this.http.post<any>(this.api, this.formatBeforeSend(plan));
+  create(plan: Plan): Observable<ItemApiResponse<Plan>> {
+    return this.http.post<ItemApiResponse<Plan>>(this.api, this.formatBeforeSend(plan));
   }
 
-  getList(pageIndex = 0, pageSize = 5, sortIndex = 'id', sortDirection = 'asc'): Observable<PlanServerResponse> {
-    return this.http.get<PlanServerResponse>(this.api, {
+  getList(
+    pageIndex = 0,
+    pageSize = 5,
+    sortIndex = 'id',
+    sortDirection = 'asc'
+  ): Observable<CollectionApiResponse<Plan>> {
+    return this.http.get<CollectionApiResponse<Plan>>(this.api, {
       params: new HttpParams()
         .set('pageIndex', pageIndex.toString())
         .set('pageSize', pageSize.toString())
@@ -24,36 +30,36 @@ export class PlanService {
     });
   }
 
-  getListByStage(stage: number, pageIndex = 0, pageSize = 5): Observable<Plan[]> {
-    const url = `${this.api}/stageList/${stage}`;
-    return this.http.get<Plan[]>(url, {
-      params: new HttpParams().set('pageIndex', pageIndex.toString()).set('pageSize', pageSize.toString())
-    });
+  // getListByStage(stage: number, pageIndex = 0, pageSize = 5): Observable<Plan[]> {
+  //   const url = `${this.api}/stageList/${stage}`;
+  //   return this.http.get<Plan[]>(url, {
+  //     params: new HttpParams().set('pageIndex', pageIndex.toString()).set('pageSize', pageSize.toString())
+  //   });
+  // }
+
+  getOne(id: number): Observable<ItemApiResponse<Plan>> {
+    return this.http.get<ItemApiResponse<Plan>>(`${this.api}/${id}`);
   }
 
-  getOne(id: number): Observable<Plan> {
-    return this.http.get<Plan>(`${this.api}/${id}`);
+  updateOne(plan: Plan): Observable<ItemApiResponse<Plan>> {
+    return this.http.put<ItemApiResponse<Plan>>(`${this.api}/${plan.id}`, this.formatBeforeSend(plan));
   }
 
-  updateOne(plan: Plan): Observable<Plan> {
-    return this.http.put<Plan>(`${this.api}/${plan.id}`, this.formatBeforeSend(plan));
+  delete(id: number): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(`${this.api}/${id}`);
   }
 
-  delete(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.api}/${id}`);
+  updatePlanStages(plan: Plan): Observable<ItemApiResponse<Plan>> {
+    return this.http.put<ItemApiResponse<Plan>>(`${this.api}/updatePlanStages`, this.formatBeforeSend(plan));
   }
 
-  updatePlanStages(plan: Plan): Observable<Plan> {
-    return this.http.put<Plan>(`${this.api}/updatePlanStages`, this.formatBeforeSend(plan));
-  }
-
-  toNextStage(id: number): Observable<Plan> {
+  toNextStage(id: number): Observable<ItemApiResponse<Plan>> {
     const url = `${this.api}/toNextStage/${id}`;
-    return this.http.get<Plan>(url);
+    return this.http.get<ItemApiResponse<Plan>>(url);
   }
 
-  deleteDoc(req: any) {
-    return this.http.delete<any | Plan>(`${this.api}/documents`, {
+  deleteDoc(req: any): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(`${this.api}/documents`, {
       params: new HttpParams().set('docId', req.docId.toString()).set('planId', req.planId.toString())
     });
   }
