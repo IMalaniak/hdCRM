@@ -71,6 +71,7 @@
           </ng-template>
         </mat-tab>
 
+        <!-- Integrations -->
         <mat-tab
           label="Integrations"
           *ngIf="('integrations' | memoize: isTabToShow: this) && (canViewIntegrations$ | async)"
