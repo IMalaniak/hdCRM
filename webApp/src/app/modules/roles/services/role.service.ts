@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Role, RoleServerResponse } from '../models';
+import { Role } from '../models';
 import { User } from '@/modules/users/models';
+import { CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared/models';
 
 @Injectable()
 export class RoleService {
@@ -10,24 +11,29 @@ export class RoleService {
 
   constructor(private http: HttpClient) {}
 
-  create(role: Role) {
-    return this.http.post<any>(this.api, this.formatBeforeSend(role));
+  create(role: Role): Observable<ItemApiResponse<Role>> {
+    return this.http.post<ItemApiResponse<Role>>(this.api, this.formatBeforeSend(role));
   }
 
-  getRole(id: number): Observable<Role> {
-    return this.http.get<Role>(`${this.api}/${id}`);
+  getRole(id: number): Observable<ItemApiResponse<Role>> {
+    return this.http.get<ItemApiResponse<Role>>(`${this.api}/${id}`);
   }
 
-  updateRole(role: Role): Observable<Role> {
-    return this.http.put<Role>(`${this.api}/${role.id}`, this.formatBeforeSend(role));
+  updateRole(role: Role): Observable<ItemApiResponse<Role>> {
+    return this.http.put<ItemApiResponse<Role>>(`${this.api}/${role.id}`, this.formatBeforeSend(role));
   }
 
-  delete(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.api}/${id}`);
+  delete(id: number): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(`${this.api}/${id}`);
   }
 
-  getList(pageIndex = 0, pageSize = 5, sortIndex = 'id', sortDirection = 'asc'): Observable<RoleServerResponse> {
-    return this.http.get<RoleServerResponse>(this.api, {
+  getList(
+    pageIndex = 0,
+    pageSize = 5,
+    sortIndex = 'id',
+    sortDirection = 'asc'
+  ): Observable<CollectionApiResponse<Role>> {
+    return this.http.get<CollectionApiResponse<Role>>(this.api, {
       params: new HttpParams()
         .set('pageIndex', pageIndex.toString())
         .set('pageSize', pageSize.toString())
@@ -36,8 +42,8 @@ export class RoleService {
     });
   }
 
-  getDashboardData(): Observable<RoleServerResponse> {
-    return this.http.get<RoleServerResponse>(`${this.api}/dashboard`);
+  getDashboardData(): Observable<CollectionApiResponse<Role>> {
+    return this.http.get<CollectionApiResponse<Role>>(`${this.api}/dashboard`);
   }
 
   formatBeforeSend(role: Role): Role {

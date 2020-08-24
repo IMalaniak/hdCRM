@@ -61,6 +61,7 @@ export class PlanComponent implements OnInit, OnDestroy {
     });
   }
 
+  // TODO: @IMalaniak recreate store logic
   goToNextStage(): void {
     this.toastMessageService
       .confirm('You are about to pass stage.', 'Are you sure you want to go to next plan stage?')
@@ -70,7 +71,7 @@ export class PlanComponent implements OnInit, OnDestroy {
             .toNextStage(this.plan.id)
             .pipe(takeUntil(this.unsubscribe))
             .subscribe(
-              data => {
+              ({ data }) => {
                 this.updatePlanStore(data);
                 this.configPlanStages = false;
                 this.toastMessageService.toast('Stages updated!');
@@ -105,6 +106,7 @@ export class PlanComponent implements OnInit, OnDestroy {
     this.plan = { ...this.plan, Participants: this.plan.Participants.filter(participant => participant.id !== userId) };
   }
 
+  // TODO: @IMalaniak recreate store logic
   updatePlanStages(): void {
     this.toastMessageService
       .confirm('You are about to save stages configuration.', 'Are you sure you want update stages configuration?')
@@ -114,7 +116,7 @@ export class PlanComponent implements OnInit, OnDestroy {
             .updatePlanStages(this.plan)
             .pipe(takeUntil(this.unsubscribe))
             .subscribe(
-              data => {
+              ({ data }) => {
                 this.updatePlanStore(data);
                 this.configPlanStages = false;
                 this.toastMessageService.toast('Stages updated!');
@@ -127,6 +129,7 @@ export class PlanComponent implements OnInit, OnDestroy {
       });
   }
 
+  // TODO: @IMalaniak recreate store logic
   updatePlan(): void {
     this.toastMessageService
       .confirm('You are about to update plan', 'Are you sure you want to update plan details?')
@@ -136,7 +139,7 @@ export class PlanComponent implements OnInit, OnDestroy {
             .updateOne(this.plan)
             .pipe(takeUntil(this.unsubscribe))
             .subscribe(
-              data => {
+              ({ data }) => {
                 this.updatePlanStore(data);
                 this.editForm = false;
                 this.toastMessageService.toast('Plan updated!');

@@ -114,6 +114,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     this.department = { ...this.department, Workers: this.department.Workers.filter(worker => worker.id !== userId) };
   }
 
+  // TODO: @IMalaniak recreate store logic
   updateDepartment(): void {
     this.toastMessageService
       .confirm('You are about to update department', 'Are you sure you want to update department details?')
@@ -123,7 +124,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
             .updateOne(this.department)
             .pipe(takeUntil(this.unsubscribe))
             .subscribe(
-              data => {
+              ({ data }) => {
                 this.department = cloneDeep(data);
                 this.departmentInitial = cloneDeep(data);
                 const department: Update<Department> = {

@@ -1,11 +1,10 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { ApiResponse, NewPassword } from '@/shared/models';
+import { NewPassword } from '@/shared/models';
 import { ConfirmPasswordValidator } from '@/shared/validators';
 import { AppState } from '@/core/reducers';
 import { Store } from '@ngrx/store';
 import { changeOldPassword } from '@/modules/users/store/user.actions';
-import { ToastMessageService } from '@/shared';
 import { IFieldType } from '@/shared/models/FieldType';
 
 @Component({
@@ -16,21 +15,11 @@ import { IFieldType } from '@/shared/models/FieldType';
 })
 export class OrganismsUserPasswordsComponent implements OnInit {
   @Input() isLoading: boolean;
-  @Input()
-  set serverResponse(serverResponse: ApiResponse) {
-    if (serverResponse) {
-      this.toastMessageService.snack(serverResponse, 5000);
-    }
-  }
 
   userNewPassword: FormGroup;
   fieldTypes = IFieldType;
 
-  constructor(
-    private store: Store<AppState>,
-    private fb: FormBuilder,
-    private toastMessageService: ToastMessageService
-  ) {}
+  constructor(private store: Store<AppState>, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.buildUserNewPassword();

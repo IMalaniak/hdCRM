@@ -2,7 +2,7 @@ import { OK, BAD_REQUEST, UNAUTHORIZED, FORBIDDEN } from 'http-status-codes';
 import { Controller, Get, Post } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import * as db from '../../models';
+import { User, UserSession, Privilege, PasswordAttribute, State } from '../../models';
 import { Op, ValidationError, UniqueConstraintError } from 'sequelize';
 import Crypt from '../../config/crypt';
 import Mailer from '../../mailer/nodeMailerTemplates';
@@ -10,25 +10,26 @@ import JwtHelper from '../../helpers/jwtHelper';
 import { JwtDecoded } from '../../models/JWTPayload';
 import { TokenExpiredError } from 'jsonwebtoken';
 import { UserDBController } from '../../dbControllers/usersController';
+import { ApiResponse } from '../../models/apiResponse';
 import { parseCookies } from '../../utils/parseCookies';
 
 @Controller('auth/')
 export class AuthController {
   private userDbCtrl = new UserDBController();
 
-  saveLogInAttempt(req: Request, user: db.User, isSuccess: boolean): Promise<db.UserSession> {
-    const body = {} as db.UserSession;
+  saveLogInAttempt(req: Request, user: User, isSuccess: boolean): Promise<UserSession> {
+    const body = {} as UserSession;
     body.IP = req.ip;
     body.UserId = user.id;
     body.UA = req.headers['user-agent'];
     body.isSuccess = isSuccess;
-    return db.UserSession.create({
+    return UserSession.create({
       ...body
     });
   }
 
   @Post('register')
-  private register(req: Request, res: Response) {
+  private register(req: Request, res: Response<ApiResponse | ValidationError | UniqueConstraintError>) {
     Logger.Info(`Registering new user...`);
     const password = req.body.password ? req.body.password : Crypt.genRandomString(12);
     const passwordData = Crypt.saltHashPassword(password);
@@ -47,7 +48,7 @@ export class AuthController {
       ...(!req.body.Organization.title && { title: `PRIVATE_ORG_FOR_${req.body.name}_${req.body.surname}` })
     };
 
-    db.User.create(
+    User.create(
       {
         email: req.body.email,
         login: req.body.login,
@@ -63,10 +64,10 @@ export class AuthController {
       {
         include: [
           {
-            association: db.User.associations.Organization,
+            association: User.associations.Organization,
             include: [
               {
-                association: db.Organization.associations.Roles
+                association: Organization.associations.Roles
               }
             ]
           }
@@ -77,7 +78,7 @@ export class AuthController {
         // TODO: maybe change this, manually add privileges by root user.
         const adminR = user.Organization.Roles[0];
 
-        db.Privilege.findAll()
+        Privilege.findAll()
           .then(privileges => {
             adminR
               .setPrivileges(privileges)
@@ -102,7 +103,7 @@ export class AuthController {
                             tokenExpire: token.expireDate,
                             passwordExpire: token.expireDate
                           })
-                          .then(pa => {
+                          .then(() => {
                             Mailer.sendActivation(
                               user,
                               password,
@@ -146,16 +147,16 @@ export class AuthController {
         Logger.Err(error);
         return res.status(BAD_REQUEST).json(error);
       })
-      .catch((err: any) => {
+      .catch(err => {
         Logger.Err(err);
         return res.status(BAD_REQUEST).json(err);
       });
   }
 
   @Post('activate_account')
-  private activateAccount(req: Request, res: Response) {
+  private activateAccount(req: Request, res: Response<ApiResponse>) {
     Logger.Info(`Creating new user...`);
-    db.PasswordAttribute.findOne({
+    PasswordAttribute.findOne({
       where: {
         token: req.body.token,
         tokenExpire: {
@@ -225,11 +226,11 @@ export class AuthController {
   }
 
   @Post('authenticate')
-  private authenticate(req: Request, res: Response) {
+  private authenticate(req: Request, res: Response<ApiResponse | string>) {
     Logger.Info(`Authenticating web client...`);
     const loginOrEmail = req.body.login;
     const password = req.body.password;
-    db.User.findOne({
+    User.findOne({
       where: {
         [Op.or]: [
           {
@@ -243,7 +244,7 @@ export class AuthController {
       attributes: ['id', 'passwordHash', 'salt'],
       include: [
         {
-          model: db.State
+          model: State
         }
       ]
     })
@@ -251,8 +252,7 @@ export class AuthController {
         if (!user) {
           return res.status(BAD_REQUEST).json({
             success: false,
-            message: 'No user, or no user data!',
-            statusCode: 3
+            message: 'Sorry, there are no user with this email or login!'
           });
         }
 
@@ -260,16 +260,15 @@ export class AuthController {
           this.saveLogInAttempt(req, user, false).then(() => {
             return res.status(BAD_REQUEST).json({
               success: false,
-              message: 'Account is not activated!',
-              statusCode: 1
+              message:
+                'Sorry, Your account is not activated, please use activation link we sent You or contact administrator!'
             });
           });
         } else if (user.State.id === 3) {
           this.saveLogInAttempt(req, user, false).then(() => {
             return res.status(BAD_REQUEST).json({
               success: false,
-              message: 'Account is disabled!',
-              statusCode: 2
+              message: 'Sorry, Your account have been disabled, please contact administrator!'
             });
           });
         }
@@ -295,8 +294,8 @@ export class AuthController {
           this.saveLogInAttempt(req, user, false).then(() => {
             return res.status(BAD_REQUEST).json({
               success: false,
-              message: 'Password is not correct!',
-              statusCode: 4
+              message:
+                'Password that You provided is not correct, please make sure you have the right password or contact administrator!'
             });
           });
         }
@@ -308,7 +307,7 @@ export class AuthController {
   }
 
   @Get('refresh-session')
-  private refreshSession(req: Request, res: Response) {
+  private refreshSession(req: Request, res: Response<ApiResponse | TokenExpiredError | string>) {
     Logger.Info(`Refreshing user session...`);
     const cookies = parseCookies(req);
     if (cookies['refresh_token']) {
@@ -329,11 +328,11 @@ export class AuthController {
   }
 
   @Post('forgot_password')
-  private forgotPassword(req: Request, res: Response) {
+  private forgotPassword(req: Request, res: Response<ApiResponse>) {
     Logger.Info(`Forget password requesting...`);
     const loginOrEmail = req.body.login;
 
-    db.User.findOne({
+    User.findOne({
       where: {
         [Op.or]: [
           {
@@ -401,14 +400,14 @@ export class AuthController {
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json({ err });
+        return res.status(BAD_REQUEST).json(err);
       });
   }
 
   @Post('reset_password')
-  private resetPassword(req: Request, res: Response) {
+  private resetPassword(req: Request, res: Response<ApiResponse>) {
     Logger.Info(`Reseting new password...`);
-    db.PasswordAttribute.findOne({
+    PasswordAttribute.findOne({
       where: {
         token: req.body.token,
         tokenExpire: {
@@ -420,7 +419,7 @@ export class AuthController {
         if (pa) {
           if (req.body.newPassword === req.body.verifyPassword) {
             pa.getUser()
-              .then((user: db.User) => {
+              .then((user: User) => {
                 const passwordData = Crypt.saltHashPassword(req.body.newPassword);
                 user.passwordHash = passwordData.passwordHash;
                 user.salt = passwordData.salt;
@@ -484,7 +483,7 @@ export class AuthController {
   }
 
   @Get('logout')
-  private async create(req: Request, res: Response) {
+  private async create(req: Request, res: Response<ApiResponse>) {
     Logger.Info(`Logging user out...`);
     const cookies = parseCookies(req);
     const { sessionId } = await JwtHelper.getDecoded(cookies['refresh_token']);
@@ -495,7 +494,7 @@ export class AuthController {
         const expires = new Date(1970);
         res.cookie('refresh_token', null, { httpOnly: true, expires });
         req.logout();
-        res.status(OK).json({ message: 'logged out' });
+        res.status(OK).json({ success: true, message: 'logged out' });
       })
       .catch((err: any) => {
         Logger.Err(err);

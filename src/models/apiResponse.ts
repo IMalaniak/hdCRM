@@ -1,13 +1,14 @@
 export interface ApiResponse {
-  readonly success: boolean;
-  readonly message: string;
+  success: boolean;
+  message?: string;
 }
 
 export interface CollectionApiResponse<T> extends ApiResponse {
-  readonly resultsNum?: number;
-  readonly pages?: number;
-  readonly data: T[];
+  resultsNum?: number;
+  pages?: number;
+  data: T[] | T;
 }
+
 export interface ItemApiResponse<T> extends ApiResponse {
-  readonly data: T;
+  data: T;
 }

@@ -8,7 +8,6 @@ export interface RolesState extends EntityState<Role> {
   pages: number;
   countAll: number;
   dashboardDataLoaded: boolean;
-  error: string;
 }
 
 const adapter: EntityAdapter<Role> = createEntityAdapter<Role>({});
@@ -17,8 +16,7 @@ const initialState: RolesState = adapter.getInitialState({
   loading: false,
   pages: null,
   countAll: null,
-  dashboardDataLoaded: false,
-  error: null
+  dashboardDataLoaded: false
 });
 
 const rolesReducer = createReducer(
@@ -29,18 +27,16 @@ const rolesReducer = createReducer(
       countAll: state.countAll + 1
     })
   ),
-  on(RoleActions.createRoleFail, (state, { error }) => ({ ...state, error })),
   on(RoleActions.roleLoaded, (state, { role }) => adapter.addOne(role, state)),
   on(RoleActions.listPageRequested, state => ({ ...state, loading: true })),
-  on(RoleActions.listPageLoaded, (state, { response }) =>
-    adapter.upsertMany(response.list, {
+  on(RoleActions.listPageLoaded, (state, { response: { data, pages, resultsNum } }) =>
+    adapter.upsertMany(data, {
       ...state,
       loading: false,
-      pages: response.pages,
-      countAll: response.count
+      pages: pages,
+      countAll: resultsNum
     })
   ),
-  on(RoleActions.listPageCancelled, state => ({ ...state, loading: false })),
   on(RoleActions.deleteRole, (state, { id }) =>
     adapter.removeOne(id, {
       ...state,
@@ -48,13 +44,14 @@ const rolesReducer = createReducer(
     })
   ),
   on(RoleActions.roleSaved, (state, { role }) => adapter.updateOne(role, state)),
-  on(RoleActions.roleDashboardDataLoaded, (state, { response }) =>
-    adapter.upsertMany(response.list, {
+  on(RoleActions.roleDashboardDataLoaded, (state, { response: { data, resultsNum } }) =>
+    adapter.upsertMany(data, {
       ...state,
-      countAll: response.count,
+      countAll: resultsNum,
       dashboardDataLoaded: true
     })
-  )
+  ),
+  on(RoleActions.rolesApiError, state => ({ ...state, loading: false }))
 );
 
 export function reducer(state: RolesState | undefined, action: Action) {

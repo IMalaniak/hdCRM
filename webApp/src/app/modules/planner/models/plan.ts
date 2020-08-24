@@ -1,6 +1,6 @@
 import { User } from '@/modules/users';
 import { Stage } from './stage';
-import { Asset, ApiResponse } from '@/shared/models';
+import { Asset } from '@/shared/models';
 
 export interface Plan {
   id: number;
@@ -18,10 +18,4 @@ export interface Plan {
   Documents: Asset[];
   createdAt: Date;
   updatedAt: Date;
-}
-
-export interface PlanServerResponse extends ApiResponse {
-  list: Plan[];
-  plan: Plan;
-  pages: number;
 }

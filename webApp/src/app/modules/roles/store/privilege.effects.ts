@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { Actions, Effect, ofType, createEffect } from '@ngrx/effects';
 import * as privilegeActions from './privilege.actions';
@@ -8,7 +8,8 @@ import { PrivilegeService } from '../services';
 import { AppState } from '@/core/reducers';
 import { Privilege } from '../models';
 import { allPrivilegesLoaded } from './privilege.selectors';
-import { ToastMessageService } from '@/shared';
+import { ToastMessageService, CollectionApiResponse, ItemApiResponse } from '@/shared';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class PrivilegeEffects {
@@ -17,15 +18,15 @@ export class PrivilegeEffects {
     this.actions$.pipe(
       ofType(privilegeActions.allPrivilegesRequested),
       withLatestFrom(this.store.pipe(select(allPrivilegesLoaded))),
-      tap(([action, allPrivilegesLoaded]) => {
+      tap(([_, allPrivilegesLoaded]) => {
         if (allPrivilegesLoaded) {
           this.store.dispatch(privilegeActions.allPrivilegesRequestCanceled());
         }
       }),
-      filter(([action, allPrivilegesLoaded]) => !allPrivilegesLoaded),
+      filter(([_, allPrivilegesLoaded]) => !allPrivilegesLoaded),
       mergeMap(() => this.privilegeService.getFullList()),
-      map(response => privilegeActions.allPrivilegesLoaded({ response })),
-      catchError(err => throwError(err))
+      map((response: CollectionApiResponse<Privilege>) => privilegeActions.allPrivilegesLoaded({ response })),
+      catchError(() => of(privilegeActions.privilegeApiError()))
     )
   );
 
@@ -36,15 +37,15 @@ export class PrivilegeEffects {
       map(payload => payload.privilege),
       mergeMap((privilege: Privilege) =>
         this.privilegeService.create(privilege).pipe(
-          map(newPrivilege => {
-            this.toastMessageService.toast('Privilege created!');
+          map((response: ItemApiResponse<Privilege>) => {
+            this.toastMessageService.snack(response);
             return privilegeActions.createPrivilegeSuccess({
-              privilege: newPrivilege
+              privilege: response.data
             });
           }),
-          catchError(error => {
-            this.toastMessageService.popup('Ooops, something went wrong!', 'error');
-            return of(privilegeActions.createPrivilegeFail({ error }));
+          catchError((errorResponse: HttpErrorResponse) => {
+            this.toastMessageService.snack(errorResponse.error);
+            return of(privilegeActions.privilegeApiError());
           })
         )
       )

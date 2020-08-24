@@ -1,12 +1,6 @@
-import { StoreModule, ActionReducerMap } from '@ngrx/store';
 import { Params, RouterStateSnapshot } from '@angular/router';
-import {
-  StoreRouterConnectingModule,
-  routerReducer,
-  RouterReducerState,
-  RouterStateSerializer
-} from '@ngrx/router-store';
-import { Injectable } from "@angular/core";
+import { RouterReducerState, RouterStateSerializer } from '@ngrx/router-store';
+import { Injectable } from '@angular/core';
 
 export interface RouterStateUrl {
   url: string;
@@ -38,5 +32,3 @@ export class CustomSerializer implements RouterStateSerializer<RouterStateUrl> {
     return { url, params, queryParams };
   }
 }
-
-// TODO @IMalaniak check this file is it really needed?

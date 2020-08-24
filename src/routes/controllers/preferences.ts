@@ -1,35 +1,37 @@
-import { OK, BAD_REQUEST } from 'http-status-codes';
+import { OK, BAD_REQUEST, INTERNAL_SERVER_ERROR } from 'http-status-codes';
 import { Controller, Middleware, Get, Post } from '@overnightjs/core';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import * as db from '../../models';
+import { Preference } from '../../models';
 import Passport from '../../config/passport';
+import { RequestWithBody } from 'src/models/apiRequest';
+import { ApiResponse } from 'src/models/apiResponse';
 
 @Controller('preferences/')
 export class PreferenceController {
   @Get('')
   @Middleware([Passport.authenticate()])
-  private getList(req: Request, res: Response) {
+  private getList(_, res: Response) {
     Logger.Info(`Selecting preferences list...`);
     try {
-      const preferencesList = Object.keys(db.Preference.rawAttributes)
-        .filter(key => db.Preference.rawAttributes[key].values)
+      const preferencesList = Object.keys(Preference.rawAttributes)
+        .filter(key => Preference.rawAttributes[key].values)
         .reduce((acc, key) => {
           return {
             ...acc,
-            [key]: db.Preference.rawAttributes[key].values
+            [key]: Preference.rawAttributes[key].values
           };
         }, {});
 
       res.status(OK).json(preferencesList);
     } catch (error) {
-      res.status(BAD_REQUEST).json(error);
+      res.status(INTERNAL_SERVER_ERROR).json(error);
     }
   }
 
   @Post('')
   @Middleware([Passport.authenticate()])
-  private async setPreference(req: Request, res: Response) {
+  private async setPreference(req: RequestWithBody<Partial<Preference>>, res: Response<Preference | ApiResponse>) {
     Logger.Info(`Setting user preferences, userId: ${req.user.id}`);
     const user = req.user;
     const userPreference = await user.getPreference();
@@ -39,7 +41,7 @@ export class PreferenceController {
         : await req.user.createPreference(req.body);
       res.status(OK).json(response);
     } catch (error) {
-      res.status(BAD_REQUEST).json(error);
+      res.status(BAD_REQUEST).json({ success: false, message: 'Sorry, there was some problem setting preferences' });
     }
   }
 }

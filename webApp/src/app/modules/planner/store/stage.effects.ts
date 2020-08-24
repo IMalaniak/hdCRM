@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { throwError, of } from 'rxjs';
+import { of } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import * as stageActions from './stage.actions';
@@ -9,6 +9,8 @@ import { AppState } from '@/core/reducers';
 import { Stage } from '../models';
 import { allStagesLoaded } from './stage.selectors';
 import { ToastMessageService } from '@/shared/services';
+import { HttpErrorResponse } from '@angular/common/http';
+import { CollectionApiResponse, ItemApiResponse } from '@/shared';
 
 @Injectable()
 export class StageEffects {
@@ -16,10 +18,10 @@ export class StageEffects {
     this.actions$.pipe(
       ofType(stageActions.allStagesRequestedFromDashboard, stageActions.allStagesRequestedFromDialogWindow),
       withLatestFrom(this.store.pipe(select(allStagesLoaded))),
-      filter(([action, allStagesLoaded]) => !allStagesLoaded),
+      filter(([_, allStagesLoaded]) => !allStagesLoaded),
       mergeMap(() => this.stageService.getList()),
-      map(response => stageActions.allStagesLoaded({ response })),
-      catchError(err => throwError(err))
+      map((response: CollectionApiResponse<Stage>) => stageActions.allStagesLoaded({ response })),
+      catchError(() => of(stageActions.stageApiError()))
     )
   );
 
@@ -29,15 +31,15 @@ export class StageEffects {
       map(payload => payload.stage),
       mergeMap((stage: Stage) =>
         this.stageService.create(stage).pipe(
-          map(newStage => {
-            this.toastMessageService.toast('Stage created!');
+          map((response: ItemApiResponse<Stage>) => {
+            this.toastMessageService.snack(response);
             return stageActions.createStageSuccess({
-              stage: newStage
+              stage: response.data
             });
           }),
-          catchError(error => {
-            this.toastMessageService.popup('Ooops, something went wrong!', 'success');
-            return of(stageActions.createStageFail({ error }));
+          catchError((errorResponse: HttpErrorResponse) => {
+            this.toastMessageService.snack(errorResponse.error);
+            return of(stageActions.stageApiError());
           })
         )
       )

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Stage } from '../models';
 
-import { Stage, StageServerResponse } from '../models';
+import { CollectionApiResponse, ItemApiResponse } from '@/shared/models';
 
 @Injectable()
 export class StageService {
@@ -10,15 +11,11 @@ export class StageService {
 
   constructor(private http: HttpClient) {}
 
-  create(stage: Stage): Observable<Stage> {
-    return this.http.post<Stage>(this.api, stage);
+  create(stage: Stage): Observable<ItemApiResponse<Stage>> {
+    return this.http.post<ItemApiResponse<Stage>>(this.api, stage);
   }
 
-  getList(): Observable<StageServerResponse> {
-    return this.http.get<StageServerResponse>(this.api);
-  }
-
-  countPlansByStage(): Observable<Stage[]> {
-    return this.http.get<Stage[]>(`${this.api}/countPlans`);
+  getList(): Observable<CollectionApiResponse<Stage>> {
+    return this.http.get<CollectionApiResponse<Stage>>(this.api);
   }
 }

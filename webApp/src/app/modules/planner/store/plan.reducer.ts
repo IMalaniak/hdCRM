@@ -7,7 +7,6 @@ export interface PlansState extends EntityState<Plan> {
   loading: boolean;
   pages: number;
   countAll: number;
-  error: string;
 }
 
 function sortByIdAndActiveStage(p1: Plan, p2: Plan) {
@@ -26,8 +25,7 @@ const adapter: EntityAdapter<Plan> = createEntityAdapter<Plan>({
 const initialState: PlansState = adapter.getInitialState({
   loading: false,
   pages: null,
-  countAll: null,
-  error: null
+  countAll: null
 });
 
 const plansReducer = createReducer(
@@ -38,7 +36,6 @@ const plansReducer = createReducer(
       countAll: state.countAll + 1
     })
   ),
-  on(PlanActions.createPlanFail, (state, { error }) => ({ ...state, error })),
   on(PlanActions.deletePlan, (state, { id }) =>
     adapter.removeOne(id, {
       ...state,
@@ -47,16 +44,16 @@ const plansReducer = createReducer(
   ),
   on(PlanActions.planLoaded, (state, { plan }) => adapter.addOne(plan, state)),
   on(PlanActions.listPageRequested, state => ({ ...state, loading: true })),
-  on(PlanActions.listPageLoaded, (state, { response }) =>
-    adapter.upsertMany(response.list, {
+  on(PlanActions.listPageLoaded, (state, { response: { data, pages, resultsNum } }) =>
+    adapter.upsertMany(data, {
       ...state,
       loading: false,
-      pages: response.pages,
-      countAll: response.count
+      pages: pages,
+      countAll: resultsNum
     })
   ),
-  on(PlanActions.listPageCancelled, state => ({ ...state, loading: false })),
-  on(PlanActions.planSaved, (state, { plan }) => adapter.updateOne(plan, state))
+  on(PlanActions.planSaved, (state, { plan }) => adapter.updateOne(plan, state)),
+  on(PlanActions.planApiError, state => ({ ...state, loading: false }))
 );
 
 export function reducer(state: PlansState | undefined, action: Action) {

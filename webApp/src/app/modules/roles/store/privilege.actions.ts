@@ -1,18 +1,15 @@
 import { createAction, props } from '@ngrx/store';
-import { PrivilegeServerResponse, Privilege } from '../models';
+import { Privilege } from '../models';
 import { Update } from '@ngrx/entity';
+import { CollectionApiResponse } from '@/shared/models';
 
-export const allPrivilegesRequested = createAction(
-  '[Privileges List] Privileges List Requested'
-);
+export const allPrivilegesRequested = createAction('[Privileges List] Privileges List Requested');
 
-export const allPrivilegesRequestCanceled = createAction(
-  '[Privileges List] Privileges List Request Canceled',
-);
+export const allPrivilegesRequestCanceled = createAction('[Privileges List] Privileges List Request Canceled');
 
 export const allPrivilegesLoaded = createAction(
   '[Privileges API] Privileges List Loaded',
-  props<{ response: PrivilegeServerResponse }>()
+  props<{ response: CollectionApiResponse<Privilege> }>()
 );
 
 export const privilegeSaved = createAction(
@@ -30,7 +27,4 @@ export const createPrivilegeSuccess = createAction(
   props<{ privilege: Privilege }>()
 );
 
-export const createPrivilegeFail = createAction(
-  '[Privileges API] Create Privilege Fail',
-  props<{ error: string }>()
-);
+export const privilegeApiError = createAction('[Privileges API] Failed Executing Request');

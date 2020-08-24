@@ -1,4 +1,4 @@
-import { Component, Input, HostBinding, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, Input, HostBinding, ChangeDetectionStrategy } from '@angular/core';
 import { AtomsFormFieldComponent } from '../../atoms';
 
 @Component({

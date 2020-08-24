@@ -8,7 +8,6 @@ export interface DepartmentsState extends EntityState<Department> {
   pages: number;
   countAll: number;
   dashboardDataLoaded: boolean;
-  error: string;
 }
 
 const adapter: EntityAdapter<Department> = createEntityAdapter<Department>({});
@@ -17,8 +16,7 @@ const initialState: DepartmentsState = adapter.getInitialState({
   loading: false,
   pages: null,
   countAll: null,
-  dashboardDataLoaded: false,
-  error: null
+  dashboardDataLoaded: false
 });
 
 const departmentsReducer = createReducer(
@@ -29,7 +27,6 @@ const departmentsReducer = createReducer(
       countAll: state.countAll + 1
     })
   ),
-  on(departmentActions.createDepartmentFail, (state, { error }) => ({ ...state, error })),
   on(departmentActions.deleteDepartment, (state, { id }) =>
     adapter.removeOne(id, {
       ...state,
@@ -39,22 +36,22 @@ const departmentsReducer = createReducer(
   on(departmentActions.departmentLoaded, (state, { department }) => adapter.addOne(department, state)),
   on(departmentActions.listPageRequested, state => ({ ...state, loading: true })),
   on(departmentActions.listPageLoaded, (state, { response }) =>
-    adapter.upsertMany(response.list, {
+    adapter.upsertMany(response.data, {
       ...state,
       loading: false,
       pages: response.pages,
-      countAll: response.count
+      countAll: response.resultsNum
     })
   ),
-  on(departmentActions.listPageCancelled, state => ({ ...state, loading: false })),
   on(departmentActions.departmentSaved, (state, { department }) => adapter.updateOne(department, state)),
   on(departmentActions.depDashboardDataLoaded, (state, { response }) =>
-    adapter.upsertMany(response.list, {
+    adapter.upsertMany(response.data, {
       ...state,
-      countAll: response.count,
+      countAll: response.resultsNum,
       dashboardDataLoaded: true
     })
-  )
+  ),
+  on(departmentActions.departmentApiError, state => ({ ...state, loading: false }))
 );
 
 export function reducer(state: DepartmentsState | undefined, action: Action) {

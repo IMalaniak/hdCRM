@@ -9,6 +9,7 @@ import { AppState } from '@/core/reducers';
 import { Chat } from '../models';
 import { SocketService, SocketEvent } from '@/shared';
 import { selectAllGChatsLoaded } from './chat.selectors';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class ChatEffects {
@@ -32,7 +33,9 @@ export class ChatEffects {
           map((chatList: Chat[]) => groupChatActions.groupChatListLoaded({ chatList }))
         );
       }),
-      catchError(err => throwError(err))
+      catchError((errorResponse: HttpErrorResponse) =>
+        of(groupChatActions.groupChatListCancelled({ apiResp: errorResponse.error }))
+      )
     )
   );
 

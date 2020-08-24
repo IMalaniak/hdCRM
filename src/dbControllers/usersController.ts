@@ -1,19 +1,31 @@
-import * as db from '../models';
+import {
+  User,
+  UserSession,
+  Role,
+  Privilege,
+  Preference,
+  PasswordAttribute,
+  State,
+  Asset,
+  Department,
+  Organization
+} from '../models';
 import { Logger } from '@overnightjs/logger';
 import { IncludeOptions } from 'sequelize/types';
+import { CollectionQuery } from 'src/models/apiRequest';
 import { Op } from 'sequelize';
 
 export class UserDBController {
   public includes: IncludeOptions[] = [
     {
-      model: db.Role,
+      model: Role,
       through: {
         attributes: []
       },
       required: false,
       include: [
         {
-          model: db.Privilege,
+          model: Privilege,
           through: {
             attributes: ['view', 'edit', 'add', 'delete']
           },
@@ -22,51 +34,54 @@ export class UserDBController {
       ]
     },
     {
-      model: db.UserSession
+      model: UserSession
     },
     {
-      model: db.Preference,
+      model: Preference,
       required: false
     },
     {
-      model: db.PasswordAttribute,
+      model: PasswordAttribute,
       as: 'PasswordAttributes',
       attributes: ['updatedAt', 'passwordExpire'],
       required: false
     },
     {
-      model: db.State
+      model: State
     },
     {
-      model: db.Asset
+      model: Asset
     },
     {
-      model: db.Asset,
+      model: Asset,
       as: 'avatar'
     },
     {
-      model: db.Department,
+      model: Department,
       required: false
     },
     {
-      model: db.Organization
+      model: Organization
     }
   ];
 
-  public getById(userId: number | string): Promise<db.User> {
+  public getById(userId: number | string): Promise<User> {
     Logger.Info(`Selecting user by id: ${userId}...`);
-    return db.User.findByPk(userId, {
+    return User.findByPk(userId, {
       attributes: { exclude: ['passwordHash', 'salt'] },
       include: this.includes
     });
   }
 
-  public getAll(currentUser: db.User, queryParams: any): Promise<{ rows: db.User[]; count: number }> {
+  public getAll(
+    currentUser: User,
+    { pageIndex, pageSize, sortIndex, sortDirection }: CollectionQuery
+  ): Promise<{ rows: User[]; count: number }> {
     Logger.Info(`Selecting all users...`);
-    const limit = parseInt(queryParams.pageSize);
-    const offset = parseInt(queryParams.pageIndex) * limit;
+    const limit = parseInt(pageSize);
+    const offset = parseInt(pageIndex) * limit;
 
-    return db.User.findAndCountAll({
+    return User.findAndCountAll({
       attributes: { exclude: ['passwordHash', 'salt'] },
       where: {
         OrganizationId: currentUser.OrganizationId
@@ -74,15 +89,15 @@ export class UserDBController {
       include: this.includes,
       limit,
       offset,
-      order: [[queryParams.sortIndex, queryParams.sortDirection.toUpperCase()]],
+      order: [[sortIndex, sortDirection.toUpperCase()]],
       distinct: true
     });
   }
 
-  public async create(body: db.User): Promise<db.User> {
+  public async create(body: Partial<User>): Promise<User> {
     Logger.Info(`Creating new user...`);
     return new Promise((resolve, reject) => {
-      db.User.create(body)
+      User.create(body)
         .then(user => {
           user
             .reload({
@@ -101,10 +116,10 @@ export class UserDBController {
     });
   }
 
-  public updateOne(user: db.User): Promise<[number, db.User[]]> {
+  public updateOne(user: Partial<User>): Promise<[number, User[]]> {
     // TODO: roles etc...
     Logger.Info(`Updating user by id: ${user.id}...`);
-    return db.User.update(
+    return User.update(
       {
         name: user.name,
         surname: user.surname,
@@ -119,9 +134,9 @@ export class UserDBController {
     );
   }
 
-  public updateUserState(user: db.User): Promise<[number, db.User[]]> {
+  public updateUserState(user: Partial<User>): Promise<[number, User[]]> {
     Logger.Info(`Updating user state by id: ${user.id}...`);
-    return db.User.update(
+    return User.update(
       {
         StateId: user.StateId
       },
@@ -133,37 +148,37 @@ export class UserDBController {
 
   public deleteOne(id: number | string) {
     Logger.Info(`Deleting user by id: ${id}...`);
-    return db.User.destroy({
+    return User.destroy({
       where: { id }
     });
   }
 
   public getSession(id: number | string) {
     Logger.Info(`Getting user session by id: ${id}...`);
-    return db.UserSession.findByPk(id);
+    return UserSession.findByPk(id);
   }
 
-  public getSessionList(user: db.User) {
+  public getSessionList(user: User) {
     Logger.Info(`Getting session list for user id: ${user.id}...`);
     return user.getUserSessions();
   }
 
   public removeSession(id: number | string | number[] | string[]) {
     Logger.Info(`Removing user session`);
-    return db.UserSession.destroy({
+    return UserSession.destroy({
       where: { id }
     });
   }
 
-  public removeUserSessionsExept(UserId: number, id: number) {
+  public removeUserSessionsExept(UserId: number, currentSessionId: number) {
     Logger.Info(`Removing user sessions`);
-    return db.UserSession.destroy({
-      where: { UserId, [Op.not]: [{ id }] }
+    return UserSession.destroy({
+      where: { UserId, [Op.not]: [{ id: currentSessionId }] }
     });
   }
 
-  public editOrg(org: db.Organization) {
+  public editOrg(org: Partial<Organization>) {
     Logger.Info(`Editing userOrg by id: ${org.id}`);
-    return db.Organization.update({ ...org }, { where: { id: org.id } });
+    return Organization.update({ ...org }, { where: { id: org.id } });
   }
 }
