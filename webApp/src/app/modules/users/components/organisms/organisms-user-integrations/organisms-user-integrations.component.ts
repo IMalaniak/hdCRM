@@ -7,8 +7,7 @@ import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'organisms-user-integrations',
-  templateUrl: './organisms-user-integrations.component.html',
-  styleUrls: ['./organisms-user-integrations.component.scss']
+  templateUrl: './organisms-user-integrations.component.html'
 })
 export class OrganismsUserIntegrationsComponent {
   googleDriveIntegrationState$: Observable<boolean> = this.store$.pipe(select(getGoogleDriveIntegrationState));
