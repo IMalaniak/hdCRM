@@ -4,7 +4,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   selector: 'atoms-integration-card',
   template: `
     <div class="integration-card" [ngClass]="[classes]" (click)="onClick($event)">
-      <img src="{{ src }}" alt="{{ title }}" />
+      <img src="{{ './assets/images/integrations/' + src }}" alt="{{ imgTitle }}" />
     </div>
   `,
   styleUrls: ['./atoms-integration-card.component.scss']
@@ -12,7 +12,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class AtomsIntegrationCardComponent {
   @Input() src: string;
 
-  @Input() title = 'noimage';
+  @Input() imgTitle = 'noimage';
 
   @Input() cardClass = '';
 
@@ -25,7 +25,6 @@ export class AtomsIntegrationCardComponent {
   }
 
   get classes(): string {
-    let active = this.isEnabled ? 'active' : '';
-    return (active += ` ${this.cardClass}`);
+    return `${this.cardClass} ` + (this.isEnabled ? 'active' : '');
   }
 }

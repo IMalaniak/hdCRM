@@ -3,8 +3,8 @@
     <div class="row">
       <div class="col-6 col-sm-4 com-md-4 col-lg-3">
         <atoms-integration-card
-          src="./assets/images/integrations/google-drive-logo.svg"
-          title="Google Drive"
+          src="google-drive-logo.svg"
+          imgTitle="Google Drive"
           [isEnabled]="!(googleDriveIntegrationState$ | async)"
           (onclick)="toggleGDriveIntegration()"
         ></atoms-integration-card>
