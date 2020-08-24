@@ -13,7 +13,7 @@
   user-select: none;
   cursor: pointer;
   filter: grayscale(100%);
-  transition: filter $transition;
+  transition: filter $transition, background-color $transition;
 
   &::after {
     content: ' ';
@@ -24,6 +24,8 @@
     bottom: 0;
     left: 0;
     border-radius: 0.5em;
+    background-color: rgba(255, 255, 255, 0.25);
+    transition: background-color $transition;
   }
 
   &::before {
@@ -39,8 +41,12 @@
     transition: opacity $transition;
   }
 
-  &:hover::before {
-    opacity: 1;
+  &:hover {
+    background-color: $gray-200;
+
+    &::before {
+      opacity: 1;
+    }
   }
 
   img {
@@ -50,5 +56,9 @@
 
   &.active {
     filter: grayscale(0);
+
+    &::after {
+      background-color: transparent;
+    }
   }
 }

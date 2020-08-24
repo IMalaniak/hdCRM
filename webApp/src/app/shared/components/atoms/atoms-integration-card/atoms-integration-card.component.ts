@@ -3,7 +3,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'atoms-integration-card',
   template: `
-    <div matRipple class="integration-card" [ngClass]="[classes]" (click)="onClick($event)">
+    <div class="integration-card" [ngClass]="[classes]" (click)="onClick($event)">
       <img src="{{ './assets/images/integrations/' + src }}" alt="{{ imgTitle }}" />
     </div>
   `,
