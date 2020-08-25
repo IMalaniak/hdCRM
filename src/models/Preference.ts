@@ -15,16 +15,16 @@ export enum IListView {
 }
 
 export enum ITimeFormat {
-  SHORT_TIME = 'shortTime',
-  MEDIUM_TIME = 'mediumTime',
-  LONG_TIME = 'longTime'
+  SHORT_TIME = 'h:mm a',
+  MEDIUM_TIME = 'h:mm:ss a',
+  LONG_TIME = 'h:mm:ss a z'
 }
 
 export enum IDateFormat {
-  SHORT_DATE = 'shortDate',
-  MEDIUM_DATE = 'mediumDate',
-  LONG_DATE = 'longDate',
-  FULL_DATE = 'fullDate'
+  SHORT_DATE = 'M/d/yy',
+  MEDIUM_DATE = 'MMM d, y',
+  LONG_DATE = 'MMMM d, y',
+  FULL_DATE = 'EEEE, MMMM d, y'
 }
 
 export enum IItemsPerPage {
