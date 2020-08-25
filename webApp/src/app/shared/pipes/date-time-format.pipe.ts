@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform, Inject, LOCALE_ID } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { AppState } from '@/core/reducers';
 import { Store, select } from '@ngrx/store';
 import { Observable, combineLatest, of } from 'rxjs';
@@ -31,7 +31,7 @@ export class DateTimeFormatPipe implements PipeTransform {
 
   transform(value: string | Date | null): Observable<string> {
     if (!(value == null || value === '' || value !== value)) {
-      return combineLatest(this.dateFormatState$, this.timeFormatState$).pipe(
+      return combineLatest([this.dateFormatState$, this.timeFormatState$]).pipe(
         map(([dateFormat, timeFormat]) => this.datePipe.transform(value, `${dateFormat}, ${timeFormat}`))
       );
     }
