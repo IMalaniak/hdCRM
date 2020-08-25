@@ -37,26 +37,26 @@
           <li *ngIf="appUser.PasswordAttributes && appUser.PasswordAttributes.passwordExpire">
             <div>
               <small i18n="@@dashboardCardsUserPasswordExpireDate">Password expire date:</small
-              ><small>{{ appUser.PasswordAttributes.passwordExpire | date: 'medium' }}</small>
+              ><small>{{ appUser.PasswordAttributes.passwordExpire | customDate }}</small>
             </div>
           </li>
           <li *ngIf="appUser.PasswordAttributes && appUser.PasswordAttributes.updatedAt">
             <div>
               <small i18n="@@dashboardCardsUserPasswordUpdatedDate">Last password update:</small
-              ><small>{{ appUser.PasswordAttributes.updatedAt | date: 'medium' }}</small>
+              ><small>{{ appUser.PasswordAttributes.updatedAt | dateTimeFormat | async }}</small>
             </div>
           </li>
           <!-- TODO @IMalaniak change this -->
           <!-- <li *ngIf="appUser.lastSessionData && appUser.lastSessionData.dateLastLoggedIn">
             <div>
               <small i18n="@@dashboardCardsUserDateLastLoggedIn">Last session:</small
-              ><small>{{ appUser.lastSessionData.dateLastLoggedIn | date: 'medium' }}</small>
+              ><small>{{ appUser.lastSessionData.dateLastLoggedIn | dateTimeFormat | async }}</small>
             </div>
           </li>
           <li *ngIf="appUser.lastSessionData && appUser.lastSessionData.dateUnsuccessfulLogIn">
             <div>
               <small i18n="@@dashboardCardsUserDateUnsuccessfulLogIn">Unsuccessful login:</small
-              ><small>{{ appUser.lastSessionData.dateUnsuccessfulLogIn | date: 'medium' }}</small>
+              ><small>{{ appUser.lastSessionData.dateUnsuccessfulLogIn | dateTimeFormat | async }}</small>
             </div>
           </li> -->
         </ul>

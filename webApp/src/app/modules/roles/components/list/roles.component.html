@@ -41,13 +41,13 @@
         <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@rolesComponentListCreatedAt"
           >Date created
         </mat-header-cell>
-        <mat-cell *matCellDef="let role">{{ role.createdAt | date: 'short' }}</mat-cell>
+        <mat-cell *matCellDef="let role">{{ role.createdAt | dateTimeFormat | async }}</mat-cell>
       </ng-container>
       <ng-container matColumnDef="updatedAt">
         <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@rolesComponentListUpdatedAt"
           >Date updated
         </mat-header-cell>
-        <mat-cell *matCellDef="let role">{{ role.updatedAt | date: 'short' }}</mat-cell>
+        <mat-cell *matCellDef="let role">{{ role.updatedAt | dateTimeFormat | async }}</mat-cell>
       </ng-container>
       <ng-container matColumnDef="actions" stickyEnd>
         <mat-header-cell *matHeaderCellDef></mat-header-cell>

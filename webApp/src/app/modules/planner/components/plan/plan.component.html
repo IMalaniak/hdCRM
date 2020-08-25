@@ -96,7 +96,7 @@
                 <span i18n="@@planСomponentDetailsDateDeadline">Deadline:</span>
               </div>
               <div>
-                <span>{{ plan.deadline | date: 'short' }}</span>
+                <span>{{ plan.deadline | dateTimeFormat | async }}</span>
               </div>
             </section>
           </mat-list-item>
@@ -107,7 +107,7 @@
                 <span i18n="@@planСomponentDetailsDateCreated">Date created:</span>
               </div>
               <div>
-                <span>{{ plan.createdAt | date: 'short' }}</span>
+                <span>{{ plan.createdAt | dateTimeFormat | async }}</span>
               </div>
             </section>
           </mat-list-item>
@@ -118,7 +118,7 @@
                 <span i18n="@@planСomponentDetailsDateUpdated">Date updated:</span>
               </div>
               <div>
-                <span>{{ plan.updatedAt | date: 'short' }}</span>
+                <span>{{ plan.updatedAt | dateTimeFormat | async }}</span>
               </div>
             </section>
           </mat-list-item>

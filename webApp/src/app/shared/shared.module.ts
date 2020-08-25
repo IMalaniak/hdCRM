@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -21,6 +21,7 @@ import { IconModule } from './modules/icon.module';
     IconModule
   ],
   declarations: [...COMPONENTS, ...PIPES],
-  exports: [...COMPONENTS, ...PIPES, AppMaterialModule, OverlayModule, FormsModule, ReactiveFormsModule, IconModule]
+  exports: [...COMPONENTS, ...PIPES, AppMaterialModule, OverlayModule, FormsModule, ReactiveFormsModule, IconModule],
+  providers: [DatePipe]
 })
 export class SharedModule {}
