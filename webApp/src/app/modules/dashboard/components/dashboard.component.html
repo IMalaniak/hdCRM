@@ -37,7 +37,7 @@
           <li *ngIf="appUser.PasswordAttributes && appUser.PasswordAttributes.passwordExpire">
             <div>
               <small i18n="@@dashboardCardsUserPasswordExpireDate">Password expire date:</small
-              ><small>{{ appUser.PasswordAttributes.passwordExpire | customDate }}</small>
+              ><small>{{ appUser.PasswordAttributes.passwordExpire | dateTimeFormat | async }}</small>
             </div>
           </li>
           <li *ngIf="appUser.PasswordAttributes && appUser.PasswordAttributes.updatedAt">
