@@ -4,7 +4,7 @@
     <mat-list-item>
       <fa-icon mat-list-icon [icon]="getDeviceIcon(currentSession.UA)"></fa-icon>
       <div mat-line>{{ parseUA(currentSession.UA) }}</div>
-      <div mat-line>{{ currentSession.updatedAt | date }}, IP: {{ currentSession.IP }}</div>
+      <div mat-line>{{ currentSession.updatedAt | dateTimeFormat | async }}, IP: {{ currentSession.IP }}</div>
     </mat-list-item>
     <ng-container *ngIf="otherActiveSessions.length">
       <mat-divider></mat-divider>
@@ -13,7 +13,7 @@
         <mat-list-item *ngFor="let uSession of otherActiveSessions">
           <fa-icon mat-list-icon [icon]="getDeviceIcon(uSession.UA)"></fa-icon>
           <div mat-line>{{ parseUA(uSession.UA) }}</div>
-          <div mat-line>{{ uSession.updatedAt | date }}, IP: {{ uSession.IP }}</div>
+          <div mat-line>{{ uSession.updatedAt | dateTimeFormat | async }}, IP: {{ uSession.IP }}</div>
           <atoms-icon-button
             color="warn"
             [icon]="['fas', 'times']"

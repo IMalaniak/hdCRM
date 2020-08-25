@@ -48,19 +48,19 @@
         <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@plannerComponentListCreatedAt"
           >Created At</mat-header-cell
         >
-        <mat-cell *matCellDef="let plan">{{ plan.createdAt | date: 'short' }}</mat-cell>
+        <mat-cell *matCellDef="let plan">{{ plan.createdAt | dateTimeFormat | async }}</mat-cell>
       </ng-container>
       <ng-container matColumnDef="updatedAt">
         <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@plannerComponentListUpdatedAt"
           >Updated At</mat-header-cell
         >
-        <mat-cell *matCellDef="let plan">{{ plan.updatedAt | date: 'short' }}</mat-cell>
+        <mat-cell *matCellDef="let plan">{{ plan.updatedAt | dateTimeFormat | async }}</mat-cell>
       </ng-container>
       <ng-container matColumnDef="deadline">
         <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@plannerComponentListDeadLine"
           >Deadline</mat-header-cell
         >
-        <mat-cell *matCellDef="let plan">{{ plan.deadline | date: 'short' }}</mat-cell>
+        <mat-cell *matCellDef="let plan">{{ plan.deadline | dateTimeFormat | async }}</mat-cell>
       </ng-container>
       <ng-container matColumnDef="actions" stickyEnd>
         <mat-header-cell *matHeaderCellDef i18n="@@globalsListActions"></mat-header-cell>

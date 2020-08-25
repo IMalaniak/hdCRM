@@ -19,7 +19,7 @@
       }}</span>
       <div class="d-flex flex-column chat-message">
         <span class="chat-message-content">{{ chatMessage.content }}</span>
-        <span class="chat-message-time">{{ chatMessage.createdAt | date: 'medium' }}</span>
+        <span class="chat-message-time">{{ chatMessage.createdAt | dateTimeFormat | async }}</span>
       </div>
     </div>
   </div>

@@ -4,8 +4,10 @@
     <mat-cell *matCellDef="let chat">{{ chat.name }}</mat-cell>
   </ng-container>
   <ng-container matColumnDef="messages">
-    <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@chatListComponentListMessages">Created At</mat-header-cell>
-    <mat-cell *matCellDef="let chat">{{ chat.createdAt | date: 'short' }}</mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@chatListComponentListMessages"
+      >Created At</mat-header-cell
+    >
+    <mat-cell *matCellDef="let chat">{{ chat.createdAt | dateTimeFormat | async }}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="actions" stickyEnd>

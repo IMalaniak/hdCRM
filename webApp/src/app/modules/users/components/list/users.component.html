@@ -66,13 +66,13 @@
         <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListCreatedAt"
           >Date created</mat-header-cell
         >
-        <mat-cell *matCellDef="let user">{{ user.createdAt | date: 'short' }}</mat-cell>
+        <mat-cell *matCellDef="let user">{{ user.createdAt | dateTimeFormat | async }}</mat-cell>
       </ng-container>
       <ng-container matColumnDef="updatedAt">
         <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListUpdatedAt"
           >Date updated</mat-header-cell
         >
-        <mat-cell *matCellDef="let user">{{ user.updatedAt | date: 'short' }}</mat-cell>
+        <mat-cell *matCellDef="let user">{{ user.updatedAt | dateTimeFormat | async }}</mat-cell>
       </ng-container>
       <ng-container matColumnDef="actions" stickyEnd>
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
