@@ -1,9 +1,9 @@
-import { Component, OnInit, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
-// import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { Store, select } from '@ngrx/store';
-
+import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Chat } from '../../models';
+import { pageSizeOptions, IItemsPerPage } from '@/shared/models';
+import { Observable } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import { AppState } from '@/core/reducers';
 
 @Component({
@@ -12,20 +12,22 @@ import { AppState } from '@/core/reducers';
   styleUrls: ['./chat-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChatListComponent implements OnInit {
-  // TODO
+export class ChatListComponent {
+  itemsPerPageState$: Observable<IItemsPerPage> = this.store$.pipe(select(getItemsPerPageState));
+
+  // TODO @IMalaniak, @ArseniiIrod
   @Input() dataSource: any;
+
   @Input() isLoading: boolean;
-  displayedColumns = ['id', 'actions'];
 
   @Input() selectedChat: Chat;
+
   @Output() selected = new EventEmitter<Chat>();
 
-  constructor(
-    private store: Store<AppState> // private router: Router
-  ) {}
+  displayedColumns = ['id', 'actions'];
+  pageSizeOptions: number[] = pageSizeOptions;
 
-  ngOnInit() {}
+  constructor(private store$: Store<AppState>) {}
 
   chatSelected(chat: Chat): void {
     this.selected.emit(chat);

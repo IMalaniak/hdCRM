@@ -89,8 +89,9 @@
   </div>
   <mat-paginator
     content
-    [length]="resultsLength$ | async"
-    [pageSizeOptions]="[5, 10, 15]"
     showFirstLastButtons
+    [length]="resultsLength$ | async"
+    [pageSizeOptions]="pageSizeOptions"
+    [pageSize]="itemsPerPageState$ | async"
   ></mat-paginator>
 </organisms-card>

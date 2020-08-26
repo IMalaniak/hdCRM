@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnDestroy, ViewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,30 +10,33 @@ import { tap, takeUntil } from 'rxjs/operators';
 import { UserService, UsersDataSource } from '../../services';
 import { User } from '../../models';
 import { AppState } from '@/core/reducers';
-import { selectIsLoading, selectUsersTotalCount, selectAllUsers } from '../../store/user.selectors';
+import { selectIsLoading, selectUsersTotalCount } from '../../store/user.selectors';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { deleteUser } from '../../store/user.actions';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
-import { PageQuery, MediaqueryService, ToastMessageService } from '@/shared';
+import { PageQuery, MediaqueryService, ToastMessageService, IItemsPerPage, pageSizeOptions } from '@/shared';
+import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
-  currentUser$: Observable<User> = this.store.pipe(select(currentUser));
-  loading$: Observable<boolean> = this.store.pipe(select(selectIsLoading));
-  resultsLength$: Observable<number> = this.store.pipe(select(selectUsersTotalCount));
-  canAddUser$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-add')));
-  canEditUser$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-edit')));
-  canDeleteUser$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-delete')));
+export class UsersComponent implements OnDestroy, AfterViewInit {
+  currentUser$: Observable<User> = this.store$.pipe(select(currentUser));
+  loading$: Observable<boolean> = this.store$.pipe(select(selectIsLoading));
+  resultsLength$: Observable<number> = this.store$.pipe(select(selectUsersTotalCount));
+  canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged('user-add')));
+  canEditUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged('user-edit')));
+  canDeleteUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged('user-delete')));
+  itemsPerPageState$: Observable<IItemsPerPage> = this.store$.pipe(select(getItemsPerPageState));
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   selection = new SelectionModel<User>(true, []);
-  dataSource: UsersDataSource = new UsersDataSource(this.store);
+  dataSource: UsersDataSource = new UsersDataSource(this.store$);
+  pageSizeOptions: number[] = pageSizeOptions;
   users: User[];
   displayedColumns: string[] = [
     'select',
@@ -55,29 +58,21 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private router: Router,
     private userService: UserService,
-    private store: Store<AppState>,
+    private store$: Store<AppState>,
     public dialog: MatDialog,
     private mediaQuery: MediaqueryService,
     private toastMessageService: ToastMessageService
   ) {}
 
-  ngOnInit(): void {
-    const initialPage: PageQuery = {
-      pageIndex: 0,
-      pageSize: 5,
-      sortIndex: 'id',
-      sortDirection: 'asc'
-    };
-    this.dataSource.loadUsers(initialPage);
-    this.store.pipe(takeUntil(this.unsubscribe), select(selectAllUsers)).subscribe(users => (this.users = users));
-  }
-
   ngAfterViewInit(): void {
-    // this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
     merge(this.sort.sortChange, this.paginator.page)
-      .pipe(tap(() => this.loadUsersPage()))
+      .pipe(
+        takeUntil(this.unsubscribe),
+        tap(() => this.loadUsersPage())
+      )
       .subscribe();
+
+    this.loadUsersPage();
   }
 
   loadUsersPage(): void {
@@ -115,20 +110,19 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewInit {
       .confirm('Are you sure?', 'Do you really want to delete user? You will not be able to recover!')
       .then(result => {
         if (result.value) {
-          this.store.dispatch(deleteUser({ id }));
+          this.store$.dispatch(deleteUser({ id }));
         }
       });
   }
 
-  changeUserState(user: User, state: any): void {
-    const userState = {} as User;
-    userState.id = user.id;
-    userState.StateId = state;
+  changeUserState(user: User, state: number): void {
+    const userState = { id: user.id, StateId: state } as User;
+
     // TODO: @IMalaniak recreate this to store
     this.userService.updateUserState(userState).subscribe(
       response => {
-        user.State = response.data.State;
-        this.toastMessageService.toast(`User state was changed to: ${state.keyString}`);
+        user = { ...user, State: response.data.State };
+        this.toastMessageService.toast(`User state was changed to: ${response.data.State.keyString}`);
       },
       error => {
         this.toastMessageService.popup('Ooops, something went wrong!', 'error');
