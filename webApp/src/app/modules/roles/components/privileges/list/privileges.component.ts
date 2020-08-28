@@ -39,7 +39,10 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
           return data;
         })
       )
-      .subscribe(data => (this.privileges = data));
+      .subscribe(data => {
+        this.privileges = data;
+        this.cdr.detectChanges();
+      });
   }
 
   isAllSelected(): boolean {
@@ -59,10 +62,9 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: Privilege) => {
-        if (result) {
-          this.store.dispatch(createPrivilege({ privilege: result }));
-          this.cdr.detectChanges(); // TODO: @ArseniiIrod, @IMalaniak check if detectChanges works correctly after fixing defect #258
+      .subscribe((privilege: Privilege) => {
+        if (privilege) {
+          this.store.dispatch(createPrivilege({ privilege }));
         }
       });
   }

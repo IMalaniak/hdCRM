@@ -13,7 +13,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class PrivilegeEffects {
-  @Effect()
   loadAllPrivilege$ = createEffect(() =>
     this.actions$.pipe(
       ofType(privilegeActions.allPrivilegesRequested),
@@ -30,7 +29,6 @@ export class PrivilegeEffects {
     )
   );
 
-  @Effect()
   createPrivilege$ = createEffect(() =>
     this.actions$.pipe(
       ofType(privilegeActions.createPrivilege),
