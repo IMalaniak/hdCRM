@@ -17,7 +17,7 @@ export interface DynamicFormItem {
   multiple?: boolean;
 }
 
-export interface DymanicForm {
+export interface DynamicForm {
   formName: string;
   formItems: DynamicFormItem[];
 }

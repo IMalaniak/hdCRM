@@ -1,6 +1,6 @@
 import { Component, Input, EventEmitter, Output, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { User } from '@/modules/users';
-import { ToastMessageService, DymanicForm } from '@/shared';
+import { ToastMessageService, DynamicForm } from '@/shared';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { Observable } from 'rxjs';
@@ -23,7 +23,7 @@ export class OrganismsUserDetailsComponent implements OnInit {
 
   userFormValues: User;
 
-  userFormJson$: Observable<DymanicForm> = this.store$.pipe(select(selectFormByName('user')));
+  userFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName('user')));
 
   constructor(private toastMessageService: ToastMessageService, private store$: Store<AppState>) {}
 

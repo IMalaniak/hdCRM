@@ -1,16 +1,16 @@
 import * as dynamicFormActions from './dynamic-form.actions';
 import { createReducer, on, Action } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { DymanicForm } from '@/shared/models';
+import { DynamicForm } from '@/shared/models';
 
-export interface DynamicFormState extends EntityState<DymanicForm> {
+export interface DynamicFormState extends EntityState<DynamicForm> {
   isLoading: boolean;
 }
 
-export function selectFormId(a: DymanicForm): string {
+export function selectFormId(a: DynamicForm): string {
   return a.formName;
 }
-const adapter: EntityAdapter<DymanicForm> = createEntityAdapter<DymanicForm>({
+const adapter: EntityAdapter<DynamicForm> = createEntityAdapter<DynamicForm>({
   selectId: selectFormId
 });
 

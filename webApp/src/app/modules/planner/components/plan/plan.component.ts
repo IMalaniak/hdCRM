@@ -13,7 +13,7 @@ import { UsersDialogComponent, User } from '@/modules/users';
 import { AppState } from '@/core/reducers';
 import { planSaved } from '../../store/plan.actions';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
-import { MediaqueryService, Asset, ApiResponse, ToastMessageService, DymanicForm } from '@/shared';
+import { MediaqueryService, Asset, ApiResponse, ToastMessageService, DynamicForm } from '@/shared';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
 
@@ -31,7 +31,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   canAddAttachment$: Observable<boolean> = this.store.pipe(select(isPrivileged('planAttachment-add')));
   // configStages$: Observable<boolean> = this.store.pipe(select(isPrivileged('stage-edit')));
   canDeleteAttachment$: Observable<boolean> = this.store.pipe(select(isPrivileged('planAttachment-delete')));
-  planFormJson$: Observable<DymanicForm> = this.store.pipe(select(selectFormByName('plan')));
+  planFormJson$: Observable<DynamicForm> = this.store.pipe(select(selectFormByName('plan')));
 
   plan: Plan;
   planInitial: Plan;

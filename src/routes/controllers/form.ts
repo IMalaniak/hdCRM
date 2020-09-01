@@ -33,7 +33,7 @@ export interface DynamicFormItem {
   multiple?: boolean;
 }
 
-export interface DymanicForm {
+export interface DynamicForm {
   formName: string;
   formItems: DynamicFormItem[];
 }
@@ -42,13 +42,13 @@ export interface DymanicForm {
 export class FormController {
   @Get(':formName')
   @Middleware([Passport.authenticate()])
-  private async getOne(req: RequestWithQuery<{ formName: string }>, res: Response<ItemApiResponse<DymanicForm>>) {
+  private async getOne(req: RequestWithQuery<{ formName: string }>, res: Response<ItemApiResponse<DynamicForm>>) {
     const { formName } = req.params;
     Logger.Info(`Selecting ${formName} form...`);
 
     const states = await State.findAll();
 
-    const forms: DymanicForm[] = [
+    const forms: DynamicForm[] = [
       {
         formName: 'user',
         formItems: [

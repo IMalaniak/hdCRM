@@ -12,7 +12,7 @@ import { DynamicFormService } from '@/core/services/dynamic-form.service';
 import { FormGroup } from '@angular/forms';
 import { takeUntil, debounceTime } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { DymanicForm } from '@/shared/models';
+import { DynamicForm } from '@/shared/models';
 
 @Component({
   selector: 'organisms-dynamic-form',
@@ -38,7 +38,7 @@ import { DymanicForm } from '@/shared/models';
 export class OrganismsDynamicFormComponent implements OnChanges, OnDestroy {
   // TODO change this to have a type
   @Input() data: any;
-  @Input() formJson: DymanicForm;
+  @Input() formJson: DynamicForm;
   @Input() editForm: boolean;
 
   // TODO change this to have a type same as data
