@@ -29,4 +29,4 @@ const TEMPLATES = [
 ];
 
 export const COMPONENTS = [...ATOMS, ...MOLECULES, ...ORGANISMS, ...TEMPLATES];
-export const PIPES = [_pipes.MemoizePipe];
+export const PIPES = [_pipes.MemoizePipe, _pipes.DateTimeFormatPipe];

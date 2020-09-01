@@ -30,7 +30,7 @@
                 <span i18n="@@departmentСomponentDetailsDateCreated">Date created:</span>
               </div>
               <div>
-                <span>{{ department.createdAt | date: 'short' }}</span>
+                <span>{{ department.createdAt | dateTimeFormat | async }}</span>
               </div>
             </section>
           </mat-list-item>
@@ -41,7 +41,7 @@
                 <span i18n="@@departmentСomponentDetailsDateUpdated">Date updated:</span>
               </div>
               <div>
-                <span>{{ department.createdAt | date: 'short' }}</span>
+                <span>{{ department.createdAt | dateTimeFormat | async }}</span>
               </div>
             </section>
           </mat-list-item>

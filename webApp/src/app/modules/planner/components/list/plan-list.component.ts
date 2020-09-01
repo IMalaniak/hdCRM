@@ -1,5 +1,5 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, AfterViewInit, ViewChild, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Observable, Subject, merge } from 'rxjs';
 import { Plan } from '../../models';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
@@ -7,30 +7,33 @@ import { PlansDataSource } from '../../services/plan.datasource';
 import { selectPlansLoading, selectPlansTotalCount } from '../../store/plan.selectors';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { tap } from 'rxjs/operators';
+import { tap, takeUntil } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
-import { PageQuery, ToastMessageService } from '@/shared';
+import { PageQuery, ToastMessageService, IItemsPerPage, pageSizeOptions } from '@/shared';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { deletePlan } from '../../store/plan.actions';
+import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 
 @Component({
-  selector: 'app-plan-list',
+  selector: 'plan-list',
   templateUrl: './plan-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PlanListComponent implements OnInit, AfterViewInit {
-  dataSource: PlansDataSource = new PlansDataSource(this.store);
-  loading$: Observable<boolean> = this.store.pipe(select(selectPlansLoading));
-  resultsLength$: Observable<number> = this.store.pipe(select(selectPlansTotalCount));
-  canAddPlan$: Observable<boolean> = this.store.pipe(select(isPrivileged('plan-add')));
-  canEditPlan$: Observable<boolean> = this.store.pipe(select(isPrivileged('plan-edit')));
-  canDeletePlan$: Observable<boolean> = this.store.pipe(select(isPrivileged('plan-delete')));
+export class PlanListComponent implements AfterViewInit, OnDestroy {
+  dataSource: PlansDataSource = new PlansDataSource(this.store$);
+  loading$: Observable<boolean> = this.store$.pipe(select(selectPlansLoading));
+  resultsLength$: Observable<number> = this.store$.pipe(select(selectPlansTotalCount));
+  canAddPlan$: Observable<boolean> = this.store$.pipe(select(isPrivileged('plan-add')));
+  canEditPlan$: Observable<boolean> = this.store$.pipe(select(isPrivileged('plan-edit')));
+  canDeletePlan$: Observable<boolean> = this.store$.pipe(select(isPrivileged('plan-delete')));
+  itemsPerPageState$: Observable<IItemsPerPage> = this.store$.pipe(select(getItemsPerPageState));
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   selection = new SelectionModel<Plan>(true, []);
+  pageSizeOptions: number[] = pageSizeOptions;
   displayedColumns: string[] = [
     'title',
     'creator',
@@ -41,28 +44,23 @@ export class PlanListComponent implements OnInit, AfterViewInit {
     'deadline',
     'actions'
   ];
+  private unsubscribe: Subject<void> = new Subject();
 
   constructor(
     private router: Router,
-    private store: Store<AppState>,
+    private store$: Store<AppState>,
     private toastMessageService: ToastMessageService
   ) {}
 
-  ngOnInit(): void {
-    const initialPage: PageQuery = {
-      pageIndex: 0,
-      pageSize: 5,
-      sortIndex: 'id',
-      sortDirection: 'asc'
-    };
-    this.dataSource.loadPlans(initialPage);
-  }
-
   ngAfterViewInit(): void {
-    this.paginator.page.pipe(tap(() => this.loadPlansPage())).subscribe();
+    merge(this.sort.sortChange, this.paginator.page)
+      .pipe(
+        takeUntil(this.unsubscribe),
+        tap(() => this.loadPlansPage())
+      )
+      .subscribe();
 
-    // TODO: @IMalaniak, @ArseniiIrod check for other solution
-    this.sort.sortChange.pipe(tap(() => this.loadPlansPage())).subscribe();
+    this.loadPlansPage();
   }
 
   loadPlansPage(): void {
@@ -87,8 +85,13 @@ export class PlanListComponent implements OnInit, AfterViewInit {
       .confirm('Are you sure?', 'Do you really want to delete plan? You will not be able to recover!')
       .then(result => {
         if (result.value) {
-          this.store.dispatch(deletePlan({ id }));
+          this.store$.dispatch(deletePlan({ id }));
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }

@@ -4,8 +4,10 @@
     <mat-cell *matCellDef="let chat">{{ chat.name }}</mat-cell>
   </ng-container>
   <ng-container matColumnDef="messages">
-    <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@chatListComponentListMessages">Created At</mat-header-cell>
-    <mat-cell *matCellDef="let chat">{{ chat.createdAt | date: 'short' }}</mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@chatListComponentListMessages"
+      >Created At</mat-header-cell
+    >
+    <mat-cell *matCellDef="let chat">{{ chat.createdAt | dateTimeFormat | async }}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="actions" stickyEnd>
@@ -27,4 +29,10 @@
   <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 </mat-table>
 
-<!-- <mat-paginator content [length]="resultsLength$ | async" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator> -->
+<!-- <mat-paginator
+  content
+  showFirstLastButtons
+  [length]="resultsLength$ | async"
+  [pageSize]="itemsPerPageState$ | async"
+  [pageSizeOptions]="pageSizeOptions"
+></mat-paginator> -->

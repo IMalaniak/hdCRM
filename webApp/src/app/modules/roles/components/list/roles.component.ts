@@ -1,18 +1,19 @@
-import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subject, merge } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, takeUntil } from 'rxjs/operators';
 import { AppState } from '@/core/reducers';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { RolesDataSource } from '../../services/role.datasource';
 import { Role } from '../../models';
 import { selectRolesTotalCount, selectRolesLoading } from '../../store/role.selectors';
-import { PageQuery, ToastMessageService } from '@/shared';
+import { PageQuery, ToastMessageService, IItemsPerPage, pageSizeOptions } from '@/shared';
 import { deleteRole } from '../../store/role.actions';
+import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 
 @Component({
   selector: 'app-roles',
@@ -20,45 +21,38 @@ import { deleteRole } from '../../store/role.actions';
   styleUrls: ['./roles.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RolesComponent implements OnInit, OnDestroy, AfterViewInit {
-  dataSource: RolesDataSource = new RolesDataSource(this.store);
-  loading$: Observable<boolean> = this.store.pipe(select(selectRolesLoading));
-  resultsLength$: Observable<number> = this.store.pipe(select(selectRolesTotalCount));
-  canAddRole$: Observable<boolean> = this.store.pipe(select(isPrivileged('role-add')));
-  canEditRole$: Observable<boolean> = this.store.pipe(select(isPrivileged('role-edit')));
-  canDeleteRole$: Observable<boolean> = this.store.pipe(select(isPrivileged('role-delete')));
+export class RolesComponent implements OnDestroy, AfterViewInit {
+  dataSource: RolesDataSource = new RolesDataSource(this.store$);
+  loading$: Observable<boolean> = this.store$.pipe(select(selectRolesLoading));
+  resultsLength$: Observable<number> = this.store$.pipe(select(selectRolesTotalCount));
+  canAddRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged('role-add')));
+  canEditRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged('role-edit')));
+  canDeleteRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged('role-delete')));
+  itemsPerPageState$: Observable<IItemsPerPage> = this.store$.pipe(select(getItemsPerPageState));
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   selection = new SelectionModel<Role>(true, []);
   displayedColumns: string[] = ['select', 'title', 'users', 'privileges', 'createdAt', 'updatedAt', 'actions'];
-
+  pageSizeOptions: number[] = pageSizeOptions;
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
-    private store: Store<AppState>,
+    private store$: Store<AppState>,
     private router: Router,
     private toastMessageService: ToastMessageService
   ) {}
 
-  ngOnInit(): void {
-    const initialPage: PageQuery = {
-      pageIndex: 0,
-      pageSize: 5,
-      sortIndex: 'id',
-      sortDirection: 'asc'
-    };
-
-    this.dataSource.loadRoles(initialPage);
-  }
-
   ngAfterViewInit(): void {
-    // this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
     merge(this.sort.sortChange, this.paginator.page)
-      .pipe(tap(() => this.loadRolesPage()))
+      .pipe(
+        takeUntil(this.unsubscribe),
+        tap(() => this.loadRolesPage())
+      )
       .subscribe();
+
+    this.loadRolesPage();
   }
 
   loadRolesPage(): void {
@@ -83,7 +77,7 @@ export class RolesComponent implements OnInit, OnDestroy, AfterViewInit {
       .confirm('Are you sure?', 'Do you really want to delete role? You will not be able to recover!')
       .then(result => {
         if (result.value) {
-          this.store.dispatch(deleteRole({ id }));
+          this.store$.dispatch(deleteRole({ id }));
         }
       });
   }

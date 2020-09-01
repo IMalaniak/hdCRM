@@ -60,7 +60,7 @@
       <mat-list-item>
         <section>
           <span i18n="@@userProfileComponentTabOrgLastUpdate">Last update:</span>
-          <span>{{ organization.updatedAt | date: 'short' }}</span>
+          <span>{{ organization.updatedAt | dateTimeFormat | async }}</span>
         </section>
       </mat-list-item>
     </mat-list>

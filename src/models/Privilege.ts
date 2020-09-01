@@ -51,7 +51,11 @@ export const PrivilegeFactory = (sequelize: Sequelize): void => {
       },
       keyString: {
         type: new DataTypes.STRING(50),
-        allowNull: false
+        allowNull: false,
+        unique: true,
+        validate: {
+          notEmpty: true
+        }
       },
       title: {
         type: new DataTypes.STRING(50)
