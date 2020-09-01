@@ -1,27 +1,7 @@
 import * as dynamicFormActions from './dynamic-form.actions';
 import { createReducer, on, Action } from '@ngrx/store';
-import { IFieldType } from '@/shared/models/FieldType';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-
-export interface DynamicFormItemOption<T> {
-  value: T;
-  label: string;
-}
-
-export interface DynamicFormItem {
-  type: IFieldType;
-  label: string;
-  isEditable: boolean;
-  required: boolean;
-  color?: string;
-  options?: DynamicFormItemOption<boolean | number | string>[];
-  multiple?: boolean;
-}
-
-export interface DymanicForm {
-  formName: string;
-  formItems: DynamicFormItem[];
-}
+import { DymanicForm } from '@/shared/models';
 
 export interface DynamicFormState extends EntityState<DymanicForm> {
   isLoading: boolean;

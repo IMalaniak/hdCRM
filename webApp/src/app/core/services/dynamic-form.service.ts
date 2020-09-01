@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DymanicForm } from '../reducers/dynamic-form/dynamic-form.reducer';
+import { ItemApiResponse, DymanicForm } from '@/shared';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,22 @@ export class DynamicFormService {
 
   constructor(private http: HttpClient) {}
 
-  // TODO: change this to ItemApiResponse
-  getOne(formName: string): Observable<DymanicForm> {
-    return this.http.get<DymanicForm>(`${this.api}/${formName}`);
+  getOne(formName: string): Observable<ItemApiResponse<DymanicForm>> {
+    return this.http.get<ItemApiResponse<DymanicForm>>(`${this.api}/${formName}`);
+  }
+
+  generateFormGroupFrom(json: DymanicForm, data?: any): FormGroup {
+    const group = {};
+    json.formItems.forEach(fieldTemplate => {
+      group[fieldTemplate.controlName] = new FormControl('');
+      if (fieldTemplate.required) {
+        group[fieldTemplate.controlName].setValidators([Validators.required]);
+      }
+    });
+    const formGroup = new FormGroup(group);
+    if (data) {
+      formGroup.patchValue(data);
+    }
+    return formGroup;
   }
 }
