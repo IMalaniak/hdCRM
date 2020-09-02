@@ -14,12 +14,28 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
         <input matInput [formControl]="control" />
       </mat-form-field>
 
+      <mat-form-field *ngSwitchCase="fieldTypes.TEXTAREA" class="w-100" appearance="outline">
+        <mat-label>{{ label }}</mat-label>
+        <textarea matInput [formControl]="control" rows="5"></textarea>
+      </mat-form-field>
+
+      <mat-form-field *ngSwitchCase="fieldTypes.DATE" class="w-100" appearance="outline">
+        <mat-label>{{ label }}</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          [formControl]="control"
+          [value]="control.value | dateTimeFormat | async"
+          type="datetime"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker touchUi #picker></mat-datepicker>
+      </mat-form-field>
+
       <mat-form-field *ngSwitchCase="fieldTypes.SELECT" class="w-100" appearance="outline">
         <mat-label>{{ label }}</mat-label>
         <mat-select [formControl]="control">
-          <mat-option *ngFor="let option of options" [value]="option[bindOptValue]">{{
-            option[bindOptLabel]
-          }}</mat-option>
+          <mat-option *ngFor="let option of options" [value]="option.value">{{ option.label }}</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -31,9 +47,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
           (change)="onFieldChange($event)"
           [ngClass]="{ 'd-flex flex-column': optionsColumn }"
         >
-          <mat-radio-button *ngFor="let option of options" [value]="option[bindOptValue]">{{
-            option[bindOptLabel]
-          }}</mat-radio-button>
+          <mat-radio-button *ngFor="let option of options" [value]="option.value">{{ option.label }}</mat-radio-button>
         </mat-radio-group>
       </ng-container>
 

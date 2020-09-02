@@ -13,7 +13,9 @@ import { UsersDialogComponent, User } from '@/modules/users';
 import { AppState } from '@/core/reducers';
 import { planSaved } from '../../store/plan.actions';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
-import { MediaqueryService, Asset, ApiResponse, ToastMessageService } from '@/shared';
+import { MediaqueryService, Asset, ApiResponse, ToastMessageService, DynamicForm } from '@/shared';
+import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
+import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
 
 @Component({
   selector: 'app-plan',
@@ -29,9 +31,11 @@ export class PlanComponent implements OnInit, OnDestroy {
   canAddAttachment$: Observable<boolean> = this.store.pipe(select(isPrivileged('planAttachment-add')));
   // configStages$: Observable<boolean> = this.store.pipe(select(isPrivileged('stage-edit')));
   canDeleteAttachment$: Observable<boolean> = this.store.pipe(select(isPrivileged('planAttachment-delete')));
+  planFormJson$: Observable<DynamicForm> = this.store.pipe(select(selectFormByName('plan')));
 
   plan: Plan;
   planInitial: Plan;
+  planFormValues: Plan;
   editForm = false;
   showDataLoader = true;
   configPlanStages = false;
@@ -49,6 +53,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.store.dispatch(formRequested({ formName: 'plan' }));
     this.plan = cloneDeep(this.route.snapshot.data['plan']);
     this.planInitial = cloneDeep(this.route.snapshot.data['plan']);
     this.canEditPlan$.pipe(takeUntil(this.unsubscribe)).subscribe(canEdit => {
@@ -59,6 +64,10 @@ export class PlanComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+
+  planFormValueChanges(formVal: User): void {
+    this.planFormValues = { ...this.planFormValues, ...formVal };
   }
 
   // TODO: @IMalaniak recreate store logic

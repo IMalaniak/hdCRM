@@ -15,7 +15,12 @@ import { AtomsFormFieldComponent } from '../../atoms';
       [fType]="fType"
       (fieldChange)="onFieldChange($event)"
     ></atoms-form-field>
-    <atoms-readonly-form-field *ngIf="!editForm" [label]="label" [value]="value"></atoms-readonly-form-field>
+    <atoms-readonly-form-field
+      *ngIf="!editForm && !editOnly"
+      [label]="label"
+      [value]="value"
+      [fType]="fType"
+    ></atoms-readonly-form-field>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -24,6 +29,7 @@ export class MoleculesFormFieldComponent extends AtomsFormFieldComponent {
   @Input() value: any;
   @Input() editForm = false;
   @Input() editable = true;
+  @Input() editOnly?: boolean;
 
   @HostBinding('class.w-100') fullWidth = true;
 }

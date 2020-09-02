@@ -15,6 +15,7 @@ import { AuthModule } from './auth/auth.module';
 import { LayoutModule } from './layout/layout.module';
 import { environment } from 'environments/environment';
 import { IntegrationsEffects } from './reducers/integration.effects';
+import { DynamicFormEffects } from './reducers/dynamic-form/dynamic-form.effects';
 
 @NgModule({
   imports: [
@@ -33,7 +34,7 @@ import { IntegrationsEffects } from './reducers/integration.effects';
       }
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([PreferencesEffects, IntegrationsEffects]),
+    EffectsModule.forRoot([PreferencesEffects, IntegrationsEffects, DynamicFormEffects]),
     StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer, stateKey: 'router' })
   ],
   exports: [RouterModule, HttpClientModule, FormsModule, ReactiveFormsModule, LayoutModule],

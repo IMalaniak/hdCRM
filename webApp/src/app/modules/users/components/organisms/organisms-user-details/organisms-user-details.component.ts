@@ -1,8 +1,11 @@
 import { Component, Input, EventEmitter, Output, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { User, State } from '@/modules/users';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { IFieldType } from '@/shared/models/FieldType';
-import { ToastMessageService } from '@/shared';
+import { User } from '@/modules/users';
+import { ToastMessageService, DynamicForm } from '@/shared';
+import { select, Store } from '@ngrx/store';
+import { AppState } from '@/core/reducers';
+import { Observable } from 'rxjs';
+import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
+import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
 
 @Component({
   selector: 'organisms-user-details',
@@ -12,30 +15,24 @@ import { ToastMessageService } from '@/shared';
 })
 export class OrganismsUserDetailsComponent implements OnInit {
   @Input() user: User;
-  @Input() states: State[];
   @Input() canEdit = false;
   @Input() editForm: boolean;
 
   @Output() updateUser: EventEmitter<User> = new EventEmitter();
   @Output() setEditableForm: EventEmitter<boolean> = new EventEmitter();
 
-  userForm: FormGroup;
-  fieldTypes = IFieldType;
+  userFormValues: User;
 
-  constructor(private fb: FormBuilder, private toastMessageService: ToastMessageService) {}
+  userFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName('user')));
+
+  constructor(private toastMessageService: ToastMessageService, private store$: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.buildUserFormGroup();
+    this.store$.dispatch(formRequested({ formName: 'user' }));
   }
 
-  buildUserFormGroup(): void {
-    this.userForm = this.fb.group({
-      name: new FormControl(this.user.name),
-      surname: new FormControl(this.user.surname),
-      email: new FormControl(this.user.email),
-      phone: new FormControl(this.user.phone),
-      StateId: new FormControl(this.user.StateId)
-    });
+  userFormValueChanges(formVal: User): void {
+    this.userFormValues = { ...this.userFormValues, ...formVal };
   }
 
   onClickEdit(): void {
@@ -44,7 +41,7 @@ export class OrganismsUserDetailsComponent implements OnInit {
 
   onClickCancelEdit(): void {
     this.setEditableForm.emit(false);
-    this.userForm.reset(this.user);
+    // this.userForm.reset(this.user);
   }
 
   onUpdateUserSubmit(): void {
@@ -52,7 +49,7 @@ export class OrganismsUserDetailsComponent implements OnInit {
       .confirm('Are you sure?', 'Do you really want to save changes? You will not be able to recover this!')
       .then(result => {
         if (result.value) {
-          this.updateUser.emit({ ...this.user, ...this.userForm.value });
+          this.updateUser.emit({ ...this.user, ...this.userFormValues });
         }
       });
   }

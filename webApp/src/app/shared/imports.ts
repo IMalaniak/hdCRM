@@ -20,7 +20,8 @@ const MOLECULES = [
 const ORGANISMS = [
   _components.OrganismsUserListSmComponent,
   _components.OrganismsCardComponent,
-  _components.OrganismsUserDetailsDialogComponent
+  _components.OrganismsUserDetailsDialogComponent,
+  _components.OrganismsDynamicFormComponent
 ];
 const TEMPLATES = [
   _components.TemplatesAttachmentsListComponent,

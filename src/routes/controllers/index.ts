@@ -10,3 +10,4 @@ export * from './state';
 export * from './user';
 export * from './task';
 export * from './preferences';
+export * from './form';

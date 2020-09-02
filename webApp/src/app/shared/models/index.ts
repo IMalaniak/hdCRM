@@ -10,3 +10,4 @@ export * from './dateFormat';
 export * from './itemsPerPage';
 export * from './listView';
 export * from './timeFormat';
+export * from './dynamicForm';

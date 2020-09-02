@@ -1,7 +1,8 @@
 export enum IFieldType {
-  INPUT,
-  SELECT,
-  TEXTAREA,
-  CHECKBOX,
-  RADIOGROUP
+  INPUT = 'input',
+  SELECT = 'select',
+  TEXTAREA = 'textarea',
+  CHECKBOX = 'checkbox',
+  RADIOGROUP = 'radiogroup',
+  DATE = 'date'
 }

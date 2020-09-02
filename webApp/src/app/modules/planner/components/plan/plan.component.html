@@ -67,90 +67,14 @@
   <div content class="row">
     <div class="col-sm-12 col-md-8 col-lg-7">
       <organisms-card cardTitle="Plan details" cardClass="border border-secondary m-0" [disableShadow]="true">
-        <mat-list content class="w-100" *ngIf="!editForm">
-          <mat-list-item>
-            <section>
-              <div>
-                <span i18n="@@planСomponentDetailsTitle">Title:</span>
-              </div>
-              <div>
-                <span>{{ plan.title }}</span>
-              </div>
-            </section>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item>
-            <section>
-              <div>
-                <span i18n="@@planСomponentDetailsDateBudget">Budget:</span>
-              </div>
-              <div>
-                <span>{{ plan.budget | currency }}</span>
-              </div>
-            </section>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item>
-            <section>
-              <div>
-                <span i18n="@@planСomponentDetailsDateDeadline">Deadline:</span>
-              </div>
-              <div>
-                <span>{{ plan.deadline | dateTimeFormat | async }}</span>
-              </div>
-            </section>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item>
-            <section>
-              <div>
-                <span i18n="@@planСomponentDetailsDateCreated">Date created:</span>
-              </div>
-              <div>
-                <span>{{ plan.createdAt | dateTimeFormat | async }}</span>
-              </div>
-            </section>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item>
-            <section>
-              <div>
-                <span i18n="@@planСomponentDetailsDateUpdated">Date updated:</span>
-              </div>
-              <div>
-                <span>{{ plan.updatedAt | dateTimeFormat | async }}</span>
-              </div>
-            </section>
-          </mat-list-item>
-        </mat-list>
-        <form content class="d-flex flex-column p-3" *ngIf="editForm">
-          <mat-form-field appearance="outline">
-            <mat-label i18n="@@planComponentDetailsTitle">Title</mat-label>
-            <input matInput [(ngModel)]="plan.title" name="title" type="text" required />
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label i18n="@@planComponentDetailsBudget">Title</mat-label>
-            <input matInput [(ngModel)]="plan.budget" name="budget" type="text" required />
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label i18n="@@planComponentDetailsDescription">Write a description</mat-label>
-            <textarea matInput [(ngModel)]="plan.description" name="description" type="text" required></textarea>
-          </mat-form-field>
-          <mat-form-field color="primary" appearance="outline">
-            <mat-label i18n="@@planComponentDetailsDeadline">Deadline</mat-label>
-            <input
-              matInput
-              [min]="plan.createdAt"
-              [matDatepicker]="picker"
-              [(ngModel)]="plan.deadline"
-              type="datetime"
-              name="deadline"
-              required
-            />
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker touchUi #picker></mat-datepicker>
-          </mat-form-field>
-        </form>
+        <section content>
+          <organisms-dynamic-form
+            [data]="plan"
+            [formJson]="planFormJson$ | async"
+            [editForm]="editForm"
+            (formChanges)="planFormValueChanges($event)"
+          ></organisms-dynamic-form>
+        </section>
       </organisms-card>
     </div>
     <div class="col-sm-12 col-md-4 col-lg-5">

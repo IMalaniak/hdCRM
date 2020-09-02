@@ -1,60 +1,12 @@
 <organisms-card cardTitle="Details" [disableShadow]="true">
   <div content class="row">
     <div class="col-md-12 col-lg-6">
-      <form class="d-flex flex-column p-3" [formGroup]="userForm">
-        <molecules-form-field
-          label="Name"
-          [control]="userForm.get('name')"
-          [value]="user.name"
-          [editForm]="editForm"
-        ></molecules-form-field>
-        <molecules-form-field
-          label="Surname"
-          [control]="userForm.get('surname')"
-          [value]="user.surname"
-          [editForm]="editForm"
-        ></molecules-form-field>
-        <molecules-form-field
-          label="Login"
-          [editForm]="editForm"
-          [editable]="false"
-          [value]="user.login"
-        ></molecules-form-field>
-        <molecules-form-field
-          label="Email"
-          [control]="userForm.get('email')"
-          [value]="user.email"
-          [editForm]="editForm"
-        ></molecules-form-field>
-        <molecules-form-field
-          label="Phone"
-          [control]="userForm.get('phone')"
-          [value]="user.phone"
-          [editForm]="editForm"
-        ></molecules-form-field>
-        <molecules-form-field
-          *ngIf="editForm"
-          label="State"
-          bindOptLabel="keyString"
-          bindOptValue="id"
-          [options]="states"
-          [editForm]="editForm"
-          [control]="userForm.get('StateId')"
-          [fType]="fieldTypes.SELECT"
-        ></molecules-form-field>
-        <molecules-form-field
-          label="Date created"
-          [editForm]="editForm"
-          [editable]="false"
-          [value]="user.createdAt | dateTimeFormat | async"
-        ></molecules-form-field>
-        <molecules-form-field
-          label="Date updated"
-          [editForm]="editForm"
-          [editable]="false"
-          [value]="user.updatedAt | dateTimeFormat | async"
-        ></molecules-form-field>
-      </form>
+      <organisms-dynamic-form
+        [data]="user"
+        [formJson]="userFormJson$ | async"
+        [editForm]="editForm"
+        (formChanges)="userFormValueChanges($event)"
+      ></organisms-dynamic-form>
     </div>
   </div>
   <div buttons *ngIf="canEdit">
