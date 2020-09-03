@@ -2,8 +2,8 @@ import { parallel, series } from 'gulp';
 
 import { doRun, lint, task } from './gulpfile.functions';
 
-const modules = ['server', 'webApp', 'gulp'];
-const artifactModules = ['server', 'webApp'];
+const modules = ['server', 'web', 'gulp'];
+const artifactModules = ['server', 'web'];
 
 modules.forEach((it) => {
   const cwd = it === 'gulp' ? '.' : it;
@@ -15,14 +15,14 @@ modules.forEach((it) => {
 
   task({
     name: `${it}:format`,
-    alias: `${it[0]}f`, // e.g. 'wf' === 'webApp:format'
+    alias: `${it[0]}f`, // e.g. 'wf' === 'web:format'
     fct: lint(cwd, true),
     desc: `Formats (force --fix for linting) ${it}`
   });
 
   task({
     name: `${it}:install`,
-    alias: `${it[0]}i`, // e.g. 'wi' === 'webApp:install'
+    alias: `${it[0]}i`, // e.g. 'wi' === 'web:install'
     fct: doRun('npm install', { cwd }),
     desc: `Runs 'npm install' on ${it}`
   });
@@ -43,7 +43,7 @@ artifactModules.forEach((it) => {
 });
 
 // tslint:disable:no-var-requires
-require('./gulpfile.webApp');
+require('./gulpfile.web');
 require('./gulpfile.server');
 // tslint:enable:no-var-requires
 
@@ -53,7 +53,7 @@ require('./gulpfile.server');
 
 // task({
 //   name: 'testAll',
-//   fct: series('webApp:test', 'server:test'),
+//   fct: series('web:test', 'server:test'),
 // });
 
 task({

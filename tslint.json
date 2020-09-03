@@ -1,7 +1,7 @@
 {
   "extends": ["tslint:recommended", "tslint-config-prettier"],
   "linterOptions": {
-    "exclude": ["node_modules", "**/*.json", "webApp/**", "server/**"]
+    "exclude": ["node_modules", "**/*.json", "web/**", "server/**"]
   },
   "rules": {
     "arrow-parens": [false],

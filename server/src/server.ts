@@ -58,11 +58,11 @@ class CrmServer extends Server {
 
   private setupStaticFolders(): void {
     // Set static folder
-    this.app.use(express.static(path.join(__dirname, '../webApp/dist')));
+    this.app.use(express.static(path.join(__dirname, '../web/dist')));
     this.app.use('/images/userpic', express.static(path.join(__dirname, '../uploads/images/userpic/')));
 
     this.app.get('/*', (_, res) => {
-      res.sendFile(path.join(__dirname, '../webApp/dist/index.html'));
+      res.sendFile(path.join(__dirname, '../web/dist/index.html'));
     });
   }
 

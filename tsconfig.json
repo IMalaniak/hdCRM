@@ -4,5 +4,5 @@
     "moduleResolution": "node",
     "resolveJsonModule": true
   },
-  "exclude": ["node_modules", "**/*.json", "webApp/**", "server/**"]
+  "exclude": ["node_modules", "**/*.json", "web/**", "server/**"]
 }
