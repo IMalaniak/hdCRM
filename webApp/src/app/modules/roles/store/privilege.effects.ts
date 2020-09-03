@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import { Actions, Effect, ofType, createEffect } from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import * as privilegeActions from './privilege.actions';
 import { mergeMap, map, catchError, withLatestFrom, filter, tap } from 'rxjs/operators';
 import { PrivilegeService } from '../services';

@@ -168,7 +168,7 @@ export class RoleComponent implements OnInit, OnDestroy {
         this.disableEdit();
         this.toastMessageService.toast('Role updated!');
       },
-      (error) => {
+      () => {
         this.toastMessageService.popup('Server Error!', 'error');
       }
     );

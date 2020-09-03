@@ -124,7 +124,7 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
         user = { ...user, State: response.data.State };
         this.toastMessageService.toast(`User state was changed to: ${response.data.State.keyString}`);
       },
-      (error) => {
+      () => {
         this.toastMessageService.popup('Ooops, something went wrong!', 'error');
       }
     );

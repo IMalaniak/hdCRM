@@ -15,7 +15,7 @@ export class BreadcrumbsComponent implements OnInit {
 
   ngOnInit(): void {
     this.setBreadcrumbs();
-    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event) => {
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       this.setBreadcrumbs();
     });
   }

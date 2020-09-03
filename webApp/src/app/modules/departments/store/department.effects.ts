@@ -77,7 +77,7 @@ export class DepartmentEffects {
     this.actions$.pipe(
       ofType(depActions.depDashboardDataRequested),
       withLatestFrom(this.store.pipe(select(selectDashboardDepDataLoaded))),
-      filter(([action, selectDashboardDepDataLoaded]) => !selectDashboardDepDataLoaded),
+      filter(([_, selectDashboardDepDataLoaded]) => !selectDashboardDepDataLoaded),
       mergeMap(() => this.departmentService.getDashboardData()),
       map((response: CollectionApiResponse<Department>) => depActions.depDashboardDataLoaded({ response })),
       catchError(() => of(depActions.departmentApiError()))

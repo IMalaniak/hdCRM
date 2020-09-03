@@ -85,7 +85,7 @@ export class PlanComponent implements OnInit, OnDestroy {
                 this.configPlanStages = false;
                 this.toastMessageService.toast('Stages updated!');
               },
-              (error) => {
+              () => {
                 this.toastMessageService.popup('Ooops, something went wrong!', 'error');
               }
             );
@@ -133,7 +133,7 @@ export class PlanComponent implements OnInit, OnDestroy {
                 this.configPlanStages = false;
                 this.toastMessageService.toast('Stages updated!');
               },
-              (error) => {
+              () => {
                 this.toastMessageService.popup('Ooops, something went wrong!', 'error');
               }
             );
@@ -156,7 +156,7 @@ export class PlanComponent implements OnInit, OnDestroy {
                 this.editForm = false;
                 this.toastMessageService.toast('Plan updated!');
               },
-              (error) => {
+              () => {
                 this.toastMessageService.popup('Ooops, something went wrong!', 'error');
               }
             );

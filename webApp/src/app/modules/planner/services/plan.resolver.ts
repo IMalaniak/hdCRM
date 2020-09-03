@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { Plan } from '../models';
@@ -13,7 +13,7 @@ import { planRequested } from '../store/plan.actions';
 export class PlanResolver implements Resolve<Plan> {
   constructor(private store: Store<AppState>) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Plan> {
+  resolve(route: ActivatedRouteSnapshot): Observable<Plan> {
     const id = route.params['id'];
 
     return this.store.pipe(

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot } from '@angular/router';
+import { Router, CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../reducers';
@@ -10,7 +10,7 @@ import { tap, skipWhile } from 'rxjs/operators';
 export class PublicGuard implements CanActivate {
   constructor(private store: Store<AppState>, private router: Router) {}
 
-  canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
+  canActivate(): Observable<boolean> {
     return this.store.pipe(
       skipWhile(isLoading),
       select(isLoggedOut),

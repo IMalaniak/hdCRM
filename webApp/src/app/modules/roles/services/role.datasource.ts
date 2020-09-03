@@ -1,4 +1,4 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
+import { DataSource } from '@angular/cdk/collections';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { Role } from '../models/';
 import { catchError, tap } from 'rxjs/operators';
@@ -29,11 +29,11 @@ export class RolesDataSource implements DataSource<Role> {
       .subscribe();
   }
 
-  connect(collectionViewer: CollectionViewer): Observable<Role[]> {
+  connect(): Observable<Role[]> {
     return this.rolesSubject.asObservable();
   }
 
-  disconnect(collectionViewer: CollectionViewer): void {
+  disconnect(): void {
     this.rolesSubject.complete();
   }
 }

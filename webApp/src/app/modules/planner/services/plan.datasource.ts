@@ -1,4 +1,4 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
+import { DataSource } from '@angular/cdk/collections';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { Plan } from '../models/';
 import { catchError, tap } from 'rxjs/operators';
@@ -29,40 +29,40 @@ export class PlansDataSource implements DataSource<Plan> {
       .subscribe();
   }
 
-  connect(collectionViewer: CollectionViewer): Observable<Plan[]> {
+  connect(): Observable<Plan[]> {
     return this.plansSubject.asObservable();
   }
 
-  disconnect(collectionViewer: CollectionViewer): void {
+  disconnect(): void {
     this.plansSubject.complete();
   }
 }
 
 // TODO check for better solution
-function sortData(data, page: PageQuery) {
-  if (!page.sortIndex || page.sortDirection === '') {
-    return data;
-  }
+// function sortData(data, page: PageQuery) {
+//   if (!page.sortIndex || page.sortDirection === '') {
+//     return data;
+//   }
 
-  return data.sort((a: Plan, b: Plan) => {
-    const isAsc = page.sortDirection === 'asc';
-    switch (page.sortIndex) {
-      case 'id':
-        return compare(a.id, b.id, isAsc);
-      case 'title':
-        return compare(a.title, b.title, isAsc);
-      case 'deadline':
-        return compare(a.deadline, b.deadline, isAsc);
-      case 'createdAt':
-        return compare(a.createdAt, b.createdAt, isAsc);
-      case 'updatedAt':
-        return compare(a.updatedAt, b.updatedAt, isAsc);
-      default:
-        return 0;
-    }
-  });
-}
+//   return data.sort((a: Plan, b: Plan) => {
+//     const isAsc = page.sortDirection === 'asc';
+//     switch (page.sortIndex) {
+//       case 'id':
+//         return compare(a.id, b.id, isAsc);
+//       case 'title':
+//         return compare(a.title, b.title, isAsc);
+//       case 'deadline':
+//         return compare(a.deadline, b.deadline, isAsc);
+//       case 'createdAt':
+//         return compare(a.createdAt, b.createdAt, isAsc);
+//       case 'updatedAt':
+//         return compare(a.updatedAt, b.updatedAt, isAsc);
+//       default:
+//         return 0;
+//     }
+//   });
+// }
 
-function compare(a, b, isAsc) {
-  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-}
+// function compare(a, b, isAsc) {
+//   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+// }

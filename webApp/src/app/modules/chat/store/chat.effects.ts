@@ -24,7 +24,7 @@ export class ChatEffects {
     this.actions$.pipe(
       ofType(groupChatActions.groupChatListRequested),
       withLatestFrom(this.store.pipe(select(selectAllGChatsLoaded))),
-      filter(([action, allGChatsLoaded]) => !allGChatsLoaded),
+      filter(([_, allGChatsLoaded]) => !allGChatsLoaded),
       tap(() => {
         this.chatService.getGroupChatList();
       }),

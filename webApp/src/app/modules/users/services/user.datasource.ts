@@ -1,4 +1,4 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
+import { DataSource } from '@angular/cdk/collections';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { User } from '../models/';
 import { tap } from 'rxjs/operators';
@@ -28,11 +28,11 @@ export class UsersDataSource implements DataSource<User> {
       .subscribe();
   }
 
-  connect(collectionViewer: CollectionViewer): Observable<User[]> {
+  connect(): Observable<User[]> {
     return this.usersSubject.asObservable();
   }
 
-  disconnect(collectionViewer: CollectionViewer): void {
+  disconnect(): void {
     this.usersSubject.complete();
   }
 }

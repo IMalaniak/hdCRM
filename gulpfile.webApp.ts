@@ -8,33 +8,21 @@ const devOptions = {
 };
 
 task({
-  name: 'webApp:checkTypes',
-  fct: doRun('node_modules/.bin/tsc --noEmit', { ...cwd, ...devOptions }),
-  desc: 'Check the webApp code typings (run tsc)'
-});
-
-task({
   name: 'webApp:compile',
-  fct: series(
-    'webApp:checkTypes',
-    doRun('NODE_ENV=production node_modules/.bin/webpack', {
-      ...cwd,
-      ...devOptions
-    })
-  ),
-  desc: 'Build the webApp application (run webpack)'
+  fct: doRun('node_modules/.bin/ng build --prod', {
+    ...cwd,
+    ...devOptions
+  }),
+  desc: 'Build the webApp application (run ng build)'
 });
 
 task({
   name: 'webApp:compile-dev',
-  fct: series(
-    'webApp:checkTypes',
-    doRun('NODE_ENV=development node_modules/.bin/webpack', {
-      ...cwd,
-      ...devOptions
-    })
-  ),
-  desc: 'Build the webApp application in development mode (run webpack)'
+  fct: doRun('node_modules/.bin/ng build', {
+    ...cwd,
+    ...devOptions
+  }),
+  desc: 'Build the webApp application in development mode'
 });
 
 task({
@@ -52,12 +40,6 @@ task({
 task({
   name: 'webApp:dev',
   alias: 'cd',
-  fct: series(
-    'webApp:checkTypes',
-    doRun(
-      'NODE_ENV=development node_modules/.bin/webpack-dev-server --host 0.0.0.0 --inline --watch --hot --port 3333',
-      { ...cwd, ...devOptions }
-    )
-  ),
+  fct: doRun('node_modules/.bin/ng serve -o', { ...cwd, ...devOptions }),
   desc: 'Start the webApp dev server on port 3333'
 });

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Department } from '../models';
 import { Store, select } from '@ngrx/store';
@@ -12,7 +12,7 @@ import { departmentRequested } from '../store/department.actions';
 export class DepartmentResolver implements Resolve<Department> {
   constructor(private store: Store<AppState>) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Department> {
+  resolve(route: ActivatedRouteSnapshot): Observable<Department> {
     const id = route.params['id'];
 
     return this.store.pipe(
