@@ -123,16 +123,16 @@ export class SocketRouter {
     });
   }
 
-  private initPrivateChat(socket: socketIO.Socket) {
-    Logger.Info(`PrivateChat: Module inited for socketId: ${socket.id}`);
-    socket.on('join', (params: any) => {});
+  // private initPrivateChat(socket: socketIO.Socket) {
+  //   Logger.Info(`PrivateChat: Module inited for socketId: ${socket.id}`);
+  //   socket.on('join', (params: any) => {});
 
-    socket.on(GropChatEvents.PRIVATEMESSAGE, (m: any) => {});
-  }
+  //   socket.on(GropChatEvents.PRIVATEMESSAGE, (m: any) => {});
+  // }
 
   private initNotifications(socket: socketIO.Socket) {
     Logger.Info(`Notifications: Module inited for socketId: ${socket.id}`);
   }
 
-  public onEventWithParams(event: string) {}
+  // public onEventWithParams(event: string) {}
 }

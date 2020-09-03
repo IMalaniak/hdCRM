@@ -42,6 +42,7 @@ export class InvitationDialogComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.maxLength(25),
         Validators.pattern(
+          // tslint:disable-next-line: quotemark
           "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
         )
       ]),

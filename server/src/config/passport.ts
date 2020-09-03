@@ -24,9 +24,9 @@ export class Passport {
     passport.initialize();
     // passport.session();
     passport.use(
-      new Strategy(this.opts, (jwt_payload, done) => {
+      new Strategy(this.opts, (jwtPayload, done) => {
         this.userDbCtrl
-          .getById(jwt_payload.userId)
+          .getById(jwtPayload.userId)
           .then((user) => {
             if (user) {
               return done(null, user);

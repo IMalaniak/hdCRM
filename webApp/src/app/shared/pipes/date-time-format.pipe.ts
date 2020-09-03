@@ -10,8 +10,6 @@ import { map } from 'rxjs/operators';
 /**
  * @description CustomDateTimePipe pipe for date and time formatted
  * @usage {{ value | dateTimeFormat | async }}
- * @class CustomDateTimePipe
- * @implements {PipeTransform}
  */
 
 @Pipe({

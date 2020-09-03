@@ -154,7 +154,7 @@ export class FormController {
       }
     ];
 
-    const form = forms.find((form) => form.formName === formName);
+    const form = forms.find((formItem) => formItem.formName === formName);
 
     res.status(OK).json({ success: true, data: form });
   }

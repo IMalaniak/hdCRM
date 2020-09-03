@@ -171,16 +171,17 @@ export class AuthController {
               user.StateId = 2;
               user
                 .save()
-                .then((user) => {
-                  user
+                .then((updatedUser) => {
+                  updatedUser
                     .getPasswordAttributes()
-                    .then((pa) => {
-                      if (pa) {
-                        pa.token = null;
-                        pa.tokenExpire = null;
-                        pa.save()
+                    .then((updatedPa) => {
+                      if (updatedPa) {
+                        updatedPa.token = null;
+                        updatedPa.tokenExpire = null;
+                        updatedPa
+                          .save()
                           .then(() => {
-                            Mailer.sendActivationConfirmation(user)
+                            Mailer.sendActivationConfirmation(updatedUser)
                               .then(() => {
                                 return res.status(OK).json({
                                   success: true,
@@ -276,7 +277,7 @@ export class AuthController {
         const isMatch = Crypt.validatePassword(password, user.passwordHash, user.salt);
         if (isMatch) {
           this.saveLogInAttempt(req, user, true).then((userSession) => {
-            const access_token = JwtHelper.generateToken({
+            const accessToken = JwtHelper.generateToken({
               type: 'access',
               payload: { userId: user.id, sessionId: userSession.id }
             });
@@ -288,7 +289,7 @@ export class AuthController {
             const expires = new Date();
             expires.setFullYear(expires.getFullYear() + 1);
             res.cookie('refresh_token', refreshToken, { httpOnly: true, expires });
-            return res.status(OK).json(`JWT ${access_token}`);
+            return res.status(OK).json(`JWT ${accessToken}`);
           });
         } else {
           this.saveLogInAttempt(req, user, false).then(() => {
@@ -309,7 +310,7 @@ export class AuthController {
   @Get('refresh-session')
   private refreshSession(req: Request, res: Response<ApiResponse | TokenExpiredError | string>) {
     Logger.Info(`Refreshing user session...`);
-    const cookies = parseCookies(req);
+    const cookies = parseCookies(req) as any;
     if (cookies.refresh_token) {
       JwtHelper.getVerified({ type: 'refresh', token: cookies.refresh_token })
         .then(({ userId, sessionId }: JwtDecoded) => {
@@ -382,7 +383,7 @@ export class AuthController {
                     token: token.value,
                     tokenExpire: token.expireDate
                   })
-                  .then((pa) => {
+                  .then(() => {
                     sendPasswordResetMail();
                   });
               }
@@ -425,16 +426,17 @@ export class AuthController {
                 user.salt = passwordData.salt;
                 user
                   .save()
-                  .then((user) => {
-                    user
+                  .then((updatedUser) => {
+                    updatedUser
                       .getPasswordAttributes()
-                      .then((pa) => {
-                        if (pa) {
-                          pa.token = null;
-                          pa.tokenExpire = null;
-                          pa.save()
+                      .then((updatedPa) => {
+                        if (updatedPa) {
+                          updatedPa.token = null;
+                          updatedPa.tokenExpire = null;
+                          updatedPa
+                            .save()
                             .then(() => {
-                              Mailer.sendPasswordResetConfirmation(user)
+                              Mailer.sendPasswordResetConfirmation(updatedUser)
                                 .then(() => {
                                   return res.status(OK).json({
                                     success: true,
@@ -485,7 +487,7 @@ export class AuthController {
   @Get('logout')
   private async create(req: Request, res: Response<ApiResponse>) {
     Logger.Info(`Logging user out...`);
-    const cookies = parseCookies(req);
+    const cookies = parseCookies(req) as any;
     const { sessionId } = await JwtHelper.getDecoded(cookies.refresh_token);
     this.userDbCtrl
       .removeSession(sessionId)

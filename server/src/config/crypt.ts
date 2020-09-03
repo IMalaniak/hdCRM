@@ -1,8 +1,6 @@
 import crypto from 'crypto';
 
 class Crypt {
-  constructor() {}
-
   genRandomString(length: number) {
     return crypto
       .randomBytes(Math.ceil(length / 2))

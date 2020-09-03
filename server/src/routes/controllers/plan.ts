@@ -241,10 +241,10 @@ export class PlanController {
                   .then((users) => {
                     plan.setParticipants(users).then(() => {
                       this.findPlanById(req.body.id)
-                        .then((plan) => {
+                        .then((updatedPlan) => {
                           return res
                             .status(OK)
-                            .json({ success: true, message: 'Plan is updated successfully!', data: plan });
+                            .json({ success: true, message: 'Plan is updated successfully!', data: updatedPlan });
                         })
                         .catch((err: any) => {
                           Logger.Err(err);
@@ -303,8 +303,10 @@ export class PlanController {
               .setStages(stages)
               .then(() => {
                 this.findPlanById(req.body.id)
-                  .then((plan) => {
-                    return res.status(OK).json({ success: true, message: 'Plan is updated successfully!', data: plan });
+                  .then((updatedPlan) => {
+                    return res
+                      .status(OK)
+                      .json({ success: true, message: 'Plan is updated successfully!', data: updatedPlan });
                   })
                   .catch((error: any) => {
                     Logger.Err(error);
@@ -353,14 +355,14 @@ export class PlanController {
           if (stage.id === plan.activeStageId) {
             stage.Details.completed = true;
             stage.Details.save()
-              .then((stage) => {
+              .then(() => {
                 if (plan.Stages[i + 1]) {
                   plan
                     .setActiveStage(plan.Stages[i + 1].id)
                     .then(() => {
                       this.findPlanById(req.params.id)
-                        .then((plan) => {
-                          return res.status(OK).json(plan);
+                        .then((updatedPlan) => {
+                          return res.status(OK).json(updatedPlan);
                         })
                         .catch((error: any) => {
                           Logger.Err(error);
@@ -373,8 +375,8 @@ export class PlanController {
                     });
                 } else {
                   this.findPlanById(req.params.id)
-                    .then((plan) => {
-                      return res.status(OK).json(plan);
+                    .then((updatedPlan) => {
+                      return res.status(OK).json(updatedPlan);
                     })
                     .catch((error: any) => {
                       Logger.Err(error);

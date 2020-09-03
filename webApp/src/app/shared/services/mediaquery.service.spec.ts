@@ -6,7 +6,7 @@ describe('MediaqueryService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: MediaqueryService = TestBed.get(MediaqueryService);
+    const service: MediaqueryService = TestBed.inject(MediaqueryService);
     expect(service).toBeTruthy();
   });
 });

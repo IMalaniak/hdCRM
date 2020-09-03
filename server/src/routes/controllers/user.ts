@@ -12,8 +12,8 @@ import jimp from 'jimp';
 import { UserDBController } from '../../dbControllers/usersController';
 import Crypt from '../../config/crypt';
 import Mailer from '../../mailer/nodeMailerTemplates';
-import { CollectionApiResponse, ApiResponse, ItemApiResponse } from 'src/models/apiResponse';
-import { RequestWithQuery, CollectionQuery, RequestWithBody } from 'src/models/apiRequest';
+import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '../../models/apiResponse';
+import { RequestWithQuery, CollectionQuery, RequestWithBody } from '../../models/apiRequest';
 import { parseCookies } from '../../utils/parseCookies';
 import JwtHelper from '../../helpers/jwtHelper';
 import { JwtDecoded } from '../../models/JWTPayload';
@@ -161,7 +161,7 @@ export class UserController {
               .save()
               .then(() => {
                 if (req.body.deleteSessions) {
-                  const cookies = parseCookies(req);
+                  const cookies = parseCookies(req) as any;
 
                   if (cookies.refresh_token) {
                     JwtHelper.getVerified({ type: 'refresh', token: cookies.refresh_token })
@@ -224,9 +224,9 @@ export class UserController {
                 where: { id: avatar.id }
               })
                 .then(() => {
-                  const uploads = path.join(__dirname, '../../../uploads');
-                  const destination = uploads + avatar.location + '/' + avatar.title;
-                  const thumbDestination = uploads + avatar.location + '/thumbnails/' + avatar.title;
+                  const uploadsPath = path.join(__dirname, '../../../uploads');
+                  const destination = uploadsPath + avatar.location + '/' + avatar.title;
+                  const thumbDestination = uploadsPath + avatar.location + '/thumbnails/' + avatar.title;
                   this.unlinkAsync(destination)
                     .then(() => {
                       this.unlinkAsync(thumbDestination)
@@ -307,9 +307,9 @@ export class UserController {
                 where: { id: avatar.id }
               })
                 .then(() => {
-                  const uploads = path.join(__dirname, '../../../uploads');
-                  const destination = uploads + avatar.location + '/' + avatar.title;
-                  const thumbDestination = uploads + avatar.location + '/thumbnails/' + avatar.title;
+                  const uploadsPath = path.join(__dirname, '../../../uploads');
+                  const destination = uploadsPath + avatar.location + '/' + avatar.title;
+                  const thumbDestination = uploadsPath + avatar.location + '/thumbnails/' + avatar.title;
                   this.unlinkAsync(destination)
                     .then(() => {
                       this.unlinkAsync(thumbDestination)

@@ -130,22 +130,22 @@ export class DepartmentController {
       managerId: req.body.Manager.id,
       OrganizationId: req.user.OrganizationId
     })
-      .then((dep) => {
+      .then((createdDep) => {
         const addParentDepPromise = req.body.ParentDepartment
-          ? this.addParentDepPr(dep, req.body.ParentDepartment)
+          ? this.addParentDepPr(createdDep, req.body.ParentDepartment)
           : Promise.resolve(true);
         const addSubDepartmentsPromise =
           req.body.SubDepartments && req.body.SubDepartments.length > 0
-            ? this.addSubDepartmentsPr(dep, req.body.SubDepartments)
+            ? this.addSubDepartmentsPr(createdDep, req.body.SubDepartments)
             : Promise.resolve(true);
         const addWorkersPromise =
           req.body.Workers && req.body.Workers.length > 0
-            ? this.addWorkersPr(dep, req.body.Workers)
+            ? this.addWorkersPr(createdDep, req.body.Workers)
             : Promise.resolve(true);
 
         Promise.all([addParentDepPromise, addSubDepartmentsPromise, addWorkersPromise])
           .then(() => {
-            this.findDepByPk(dep.id)
+            this.findDepByPk(createdDep.id)
               .then((dep) => {
                 res.status(OK).json({ success: true, message: 'Department created successfully!', data: dep });
               })
@@ -181,17 +181,17 @@ export class DepartmentController {
     )
       .then(() => {
         this.findDepByPk(req.body.id)
-          .then((dep) => {
+          .then((updatedDep) => {
             const addParentDepPromise = req.body.ParentDepartment
-              ? this.addParentDepPr(dep, req.body.ParentDepartment)
+              ? this.addParentDepPr(updatedDep, req.body.ParentDepartment)
               : Promise.resolve(true);
             const addSubDepartmentsPromise =
               req.body.SubDepartments && req.body.SubDepartments.length > 0
-                ? this.addSubDepartmentsPr(dep, req.body.SubDepartments)
+                ? this.addSubDepartmentsPr(updatedDep, req.body.SubDepartments)
                 : Promise.resolve(true);
             const addWorkersPromise =
               req.body.Workers && req.body.Workers.length > 0
-                ? this.addWorkersPr(dep, req.body.Workers)
+                ? this.addWorkersPr(updatedDep, req.body.Workers)
                 : Promise.resolve(true);
 
             Promise.all([addParentDepPromise, addSubDepartmentsPromise, addWorkersPromise])

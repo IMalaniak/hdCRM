@@ -26,8 +26,6 @@ class Mailer {
     }
   });
 
-  constructor() {}
-
   sendPasswordReset(user: User, tokenUrl: string): Promise<Email> {
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'resetPassword'),

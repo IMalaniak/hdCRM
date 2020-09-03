@@ -6,7 +6,7 @@ import { Role, User, Privilege, Asset } from '../../models';
 import Passport from '../../config/passport';
 import { Op } from 'sequelize';
 import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '../../models/apiResponse';
-import { RequestWithBody, CollectionQuery, RequestWithQuery } from 'src/models/apiRequest';
+import { RequestWithBody, CollectionQuery, RequestWithQuery } from '../../models/apiRequest';
 
 @Controller('roles/')
 export class RoleController {
@@ -46,48 +46,41 @@ export class RoleController {
       OrganizationId: req.user.OrganizationId
     })
       .then((createdRole) => {
-        this.findRoleById(createdRole.id)
-          .then((role) => {
-            if (req.body.Privileges) {
-              const privIds = req.body.Privileges.map((priv) => {
-                return {
-                  id: priv.id
-                };
-              });
+        if (req.body.Privileges) {
+          const privIds = req.body.Privileges.map((priv) => {
+            return {
+              id: priv.id
+            };
+          });
 
-              Privilege.findAll({
-                where: {
-                  [Op.or]: privIds
-                }
-              })
-                .then((privileges) => {
-                  privileges = privileges.map((privilege) => {
-                    privilege.RolePrivilege = req.body.Privileges.find(
-                      (reqPriv) => reqPriv.id === privilege.id
-                    ).RolePrivilege;
-                    return privilege;
-                  });
-                  role.setPrivileges(privileges).then(() => {
-                    if (req.body.Users) {
-                      User.findAll({
-                        where: {
-                          [Op.or]: req.body.Users as { id: number }[]
-                        }
-                      })
-                        .then((users) => {
-                          role
-                            .setUsers(users)
-                            .then(() => {
-                              this.findRoleById(createdRole.id)
-                                .then((role) => {
-                                  return res
-                                    .status(OK)
-                                    .json({ success: true, message: 'Role created successfully!', data: role });
-                                })
-                                .catch((err: any) => {
-                                  Logger.Err(err);
-                                  return res.status(INTERNAL_SERVER_ERROR).json(err);
-                                });
+          Privilege.findAll({
+            where: {
+              [Op.or]: privIds
+            }
+          })
+            .then((privileges) => {
+              privileges = privileges.map((privilege) => {
+                privilege.RolePrivilege = req.body.Privileges.find(
+                  (reqPriv) => reqPriv.id === privilege.id
+                ).RolePrivilege;
+                return privilege;
+              });
+              createdRole.setPrivileges(privileges).then(() => {
+                if (req.body.Users) {
+                  User.findAll({
+                    where: {
+                      [Op.or]: req.body.Users as { id: number }[]
+                    }
+                  })
+                    .then((users) => {
+                      createdRole
+                        .setUsers(users)
+                        .then(() => {
+                          this.findRoleById(createdRole.id)
+                            .then((role) => {
+                              return res
+                                .status(OK)
+                                .json({ success: true, message: 'Role created successfully!', data: role });
                             })
                             .catch((err: any) => {
                               Logger.Err(err);
@@ -98,32 +91,30 @@ export class RoleController {
                           Logger.Err(err);
                           return res.status(INTERNAL_SERVER_ERROR).json(err);
                         });
-                    } else {
-                      this.findRoleById(createdRole.id)
-                        .then((role) => {
-                          return res
-                            .status(OK)
-                            .json({ success: true, message: 'Role created successfully!', data: role });
-                        })
-                        .catch((err: any) => {
-                          Logger.Err(err);
-                          return res.status(INTERNAL_SERVER_ERROR).json(err);
-                        });
-                    }
-                  });
-                })
-                .catch((err: any) => {
-                  Logger.Err(err);
-                  return res.status(INTERNAL_SERVER_ERROR).json(err);
-                });
-            } else {
-              return res.status(OK).json({ success: true, message: 'Role created successfully!', data: role });
-            }
-          })
-          .catch((err: any) => {
-            Logger.Err(err);
-            return res.status(INTERNAL_SERVER_ERROR).json(err);
-          });
+                    })
+                    .catch((err: any) => {
+                      Logger.Err(err);
+                      return res.status(INTERNAL_SERVER_ERROR).json(err);
+                    });
+                } else {
+                  this.findRoleById(createdRole.id)
+                    .then((role) => {
+                      return res.status(OK).json({ success: true, message: 'Role created successfully!', data: role });
+                    })
+                    .catch((err: any) => {
+                      Logger.Err(err);
+                      return res.status(INTERNAL_SERVER_ERROR).json(err);
+                    });
+                }
+              });
+            })
+            .catch((err: any) => {
+              Logger.Err(err);
+              return res.status(INTERNAL_SERVER_ERROR).json(err);
+            });
+        } else {
+          return res.status(OK).json({ success: true, message: 'Role created successfully!', data: createdRole });
+        }
       })
       .catch((err: any) => {
         Logger.Err(err);
@@ -237,12 +228,12 @@ export class RoleController {
                         .then((users) => {
                           role
                             .setUsers(users)
-                            .then((result) => {
+                            .then(() => {
                               this.findRoleById(req.body.id)
-                                .then((role) => {
+                                .then((updatedRole) => {
                                   return res
                                     .status(OK)
-                                    .json({ success: true, message: 'Role updated successfully!', data: role });
+                                    .json({ success: true, message: 'Role updated successfully!', data: updatedRole });
                                 })
                                 .catch((err: any) => {
                                   Logger.Err(err);
@@ -260,10 +251,10 @@ export class RoleController {
                         });
                     } else {
                       this.findRoleById(req.body.id)
-                        .then((role) => {
+                        .then((updatedRole) => {
                           return res
                             .status(OK)
-                            .json({ success: true, message: 'Role updated successfully!', data: role });
+                            .json({ success: true, message: 'Role updated successfully!', data: updatedRole });
                         })
                         .catch((err: any) => {
                           Logger.Err(err);
