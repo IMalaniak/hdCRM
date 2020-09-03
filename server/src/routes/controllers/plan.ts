@@ -2,15 +2,15 @@ import { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } from 'http-status-codes';
 import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { Plan, User, Asset, Stage, Sequelize } from '../../models';
+import { Plan, User, Asset, Stage, Sequelize } from '@/models';
 import { Op, IncludeThroughOptions } from 'sequelize';
-import Passport from '../../config/passport';
-import uploads from '../../multer/multerConfig';
+import Passport from '@/config/passport';
+import uploads from '@/multer/multerConfig';
 import path from 'path';
 import fs from 'fs';
 import { promisify } from 'util';
-import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '../../models/apiResponse';
-import { RequestWithQuery, CollectionQuery, RequestWithBody } from '../../models/apiRequest';
+import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '@/models/apiResponse';
+import { RequestWithQuery, CollectionQuery, RequestWithBody } from '@/models/apiRequest';
 
 @Controller('plans/')
 export class PlanController {
@@ -18,7 +18,7 @@ export class PlanController {
 
   @Get(':id')
   @Middleware([Passport.authenticate()])
-  private get(req: Request<{ id: string }>, res: Response<ItemApiResponse<Plan>>) {
+  get(req: Request<{ id: string }>, res: Response<ItemApiResponse<Plan>>) {
     Logger.Info(`Selecting plan by id: ${req.params.id}...`);
     this.findPlanById(req.params.id)
       .then((plan: Plan) => {
@@ -32,7 +32,7 @@ export class PlanController {
 
   @Get('')
   @Middleware([Passport.authenticate()])
-  private getAll(req: RequestWithQuery<CollectionQuery>, res: Response<CollectionApiResponse<Plan>>) {
+  getAll(req: RequestWithQuery<CollectionQuery>, res: Response<CollectionApiResponse<Plan>>) {
     Logger.Info(`Selecting all plans...`);
 
     const { pageIndex, pageSize, sortIndex, sortDirection } = req.query;
@@ -119,7 +119,7 @@ export class PlanController {
 
   @Post('')
   @Middleware([Passport.authenticate()])
-  private create(req: RequestWithBody<Partial<Plan>>, res: Response<ItemApiResponse<Plan>>) {
+  create(req: RequestWithBody<Partial<Plan>>, res: Response<ItemApiResponse<Plan>>) {
     Logger.Info(`Creating new plan...`);
     const finish = (planId: number) => {
       this.findPlanById(planId)
@@ -215,7 +215,7 @@ export class PlanController {
 
   @Put(':id')
   @Middleware([Passport.authenticate()])
-  private updateOne(req: RequestWithBody<Partial<Plan>>, res: Response<ItemApiResponse<Plan>>) {
+  updateOne(req: RequestWithBody<Partial<Plan>>, res: Response<ItemApiResponse<Plan>>) {
     Logger.Info(`Updating plan by id: ${req.params.id}...`);
     Plan.update(
       {
@@ -274,7 +274,7 @@ export class PlanController {
 
   @Put('updatePlanStages')
   @Middleware([Passport.authenticate()])
-  private updatePlanStages(req: RequestWithBody<Partial<Plan>>, res: Response<ItemApiResponse<Plan>>) {
+  updatePlanStages(req: RequestWithBody<Partial<Plan>>, res: Response<ItemApiResponse<Plan>>) {
     Logger.Info(`Updating plan stages...`);
     Plan.findByPk(req.body.id)
       .then((plan) => {
@@ -331,7 +331,7 @@ export class PlanController {
 
   @Get('toNextStage/:id')
   @Middleware([Passport.authenticate()])
-  private toNextStage(req: Request, res: Response) {
+  toNextStage(req: Request, res: Response) {
     Plan.findByPk(req.params.id, {
       attributes: ['id', 'activeStageId'],
       include: [
@@ -399,7 +399,7 @@ export class PlanController {
 
   @Post('documents/:planId')
   @Middleware([Passport.authenticate(), uploads.single('uploader')])
-  private setPlanDocument(req: Request, res: Response<ItemApiResponse<Asset>>) {
+  setPlanDocument(req: Request, res: Response<ItemApiResponse<Asset>>) {
     Logger.Info(`Uploading plan document: ${req.file.originalname}...`);
     // we use single because filepond send file by one
     const file = {
@@ -432,7 +432,7 @@ export class PlanController {
 
   @Delete('documents')
   @Middleware([Passport.authenticate()])
-  private deletePlanDocument(req: RequestWithQuery<{ planId: string; docId: string }>, res: Response<ApiResponse>) {
+  deletePlanDocument(req: RequestWithQuery<{ planId: string; docId: string }>, res: Response<ApiResponse>) {
     Logger.Info(`Deleting plan document by id: ${req.query.docId} where plan id: ${req.query.planId}...`);
     Plan.findByPk(req.query.planId, {
       attributes: ['id'],
@@ -456,7 +456,7 @@ export class PlanController {
         })
           .then(() => {
             // REDO to file server
-            let destination = path.join(__dirname, '../../../uploads');
+            let destination = path.join(__dirname, '@/uploads');
             destination = destination + docToDelete.location + '/' + docToDelete.title;
             this.unlinkAsync(destination)
               .then(() => {
@@ -480,7 +480,7 @@ export class PlanController {
 
   @Delete(':id')
   @Middleware([Passport.authenticate()])
-  private deleteOne(req: Request, res: Response<ApiResponse>) {
+  deleteOne(req: Request, res: Response<ApiResponse>) {
     Logger.Info(`Deleting plan by id: ${req.params.id}...`);
     Plan.destroy({
       where: { id: req.params.id }

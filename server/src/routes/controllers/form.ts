@@ -2,10 +2,10 @@ import { OK } from 'http-status-codes';
 import { Controller, Middleware, Get } from '@overnightjs/core';
 import { Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { State } from '../../models';
-import Passport from '../../config/passport';
-import { RequestWithQuery } from 'src/models/apiRequest';
-import { ItemApiResponse } from 'src/models/apiResponse';
+import { State } from '@/models';
+import Passport from '@/config/passport';
+import { RequestWithQuery } from '@/models/apiRequest';
+import { ItemApiResponse } from '@/models/apiResponse';
 
 export enum IFieldType {
   INPUT = 'input',
@@ -42,7 +42,7 @@ export interface DynamicForm {
 export class FormController {
   @Get(':formName')
   @Middleware([Passport.authenticate()])
-  private async getOne(req: RequestWithQuery<{ formName: string }>, res: Response<ItemApiResponse<DynamicForm>>) {
+  async getOne(req: RequestWithQuery<{ formName: string }>, res: Response<ItemApiResponse<DynamicForm>>) {
     const { formName } = req.params;
     Logger.Info(`Selecting ${formName} form...`);
 

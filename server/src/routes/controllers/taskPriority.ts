@@ -2,10 +2,10 @@ import { OK, INTERNAL_SERVER_ERROR } from 'http-status-codes';
 import { Controller, Middleware, Get } from '@overnightjs/core';
 import { Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import Passport from '../../config/passport';
-import { TaskDBController } from '../../dbControllers/tasksController';
-import { CollectionApiResponse } from 'src/models/apiResponse';
-import { TaskPriority } from '../../models';
+import Passport from '@/config/passport';
+import { TaskDBController } from '@/dbControllers/tasksController';
+import { CollectionApiResponse } from '@/models/apiResponse';
+import { TaskPriority } from '@/models';
 
 @Controller('task-priorities/')
 export class TaskPriorityController {
@@ -13,7 +13,7 @@ export class TaskPriorityController {
 
   @Get('')
   @Middleware([Passport.authenticate()])
-  private getAll(_, res: Response<CollectionApiResponse<TaskPriority>>) {
+  getAll(_, res: Response<CollectionApiResponse<TaskPriority>>) {
     this.taskDbCtrl
       .getPrioriities()
       .then((priorities) => {

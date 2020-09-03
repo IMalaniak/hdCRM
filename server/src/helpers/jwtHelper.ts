@@ -1,6 +1,6 @@
 import jwt, { TokenExpiredError } from 'jsonwebtoken';
-import { JwtPayload, JwtDecoded } from '../models/JWTPayload';
-import { UserDBController } from '../dbControllers/usersController';
+import { JwtPayload, JwtDecoded } from '@/models/JWTPayload';
+import { UserDBController } from '@/dbControllers/usersController';
 
 interface TokenProps {
   type: string;

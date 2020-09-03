@@ -2,16 +2,16 @@ import { OK, BAD_REQUEST, INTERNAL_SERVER_ERROR } from 'http-status-codes';
 import { Controller, Middleware, Get, Post } from '@overnightjs/core';
 import { Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { Preference } from '../../models';
-import Passport from '../../config/passport';
-import { RequestWithBody } from 'src/models/apiRequest';
-import { ApiResponse } from 'src/models/apiResponse';
+import { Preference } from '@/models';
+import Passport from '@/config/passport';
+import { RequestWithBody } from '@/models/apiRequest';
+import { ApiResponse } from '@/models/apiResponse';
 
 @Controller('preferences/')
 export class PreferenceController {
   @Get('')
   @Middleware([Passport.authenticate()])
-  private getList(_, res: Response) {
+  getList(_, res: Response) {
     Logger.Info(`Selecting preferences list...`);
     try {
       const preferencesList = Object.keys(Preference.rawAttributes)
@@ -31,7 +31,7 @@ export class PreferenceController {
 
   @Post('')
   @Middleware([Passport.authenticate()])
-  private async setPreference(req: RequestWithBody<Partial<Preference>>, res: Response<Preference | ApiResponse>) {
+  async setPreference(req: RequestWithBody<Partial<Preference>>, res: Response<Preference | ApiResponse>) {
     Logger.Info(`Setting user preferences, userId: ${req.user.id}`);
     const user = req.user;
     const userPreference = await user.getPreference();

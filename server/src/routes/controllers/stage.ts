@@ -2,16 +2,16 @@ import { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } from 'http-status-codes';
 import { Controller, Middleware, Get, Post } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { Plan, Stage } from '../../models';
-import Passport from '../../config/passport';
-import { RequestWithBody } from 'src/models/apiRequest';
-import { CollectionApiResponse, ItemApiResponse } from 'src/models/apiResponse';
+import { Plan, Stage } from '@/models';
+import Passport from '@/config/passport';
+import { RequestWithBody } from '@/models/apiRequest';
+import { CollectionApiResponse, ItemApiResponse } from '@/models/apiResponse';
 
 @Controller('stages/')
 export class StageController {
   @Post('')
   @Middleware([Passport.authenticate()])
-  private create(req: RequestWithBody<Partial<Stage>>, res: Response<ItemApiResponse<Stage>>) {
+  create(req: RequestWithBody<Partial<Stage>>, res: Response<ItemApiResponse<Stage>>) {
     Logger.Info(`Creating new stage...`);
     Stage.create({
       ...req.body
@@ -27,7 +27,7 @@ export class StageController {
 
   @Get('')
   @Middleware([Passport.authenticate()])
-  private getList(req: Request, res: Response<CollectionApiResponse<Stage>>) {
+  getList(req: Request, res: Response<CollectionApiResponse<Stage>>) {
     Logger.Info(`Selecting stages list...`);
     Stage.findAndCountAll({
       include: [

@@ -38,7 +38,7 @@ import { TaskPriorityController } from './controllers/taskPriority';
 ])
 export class ApiController {
   @Get('')
-  private connectionCheck(req: Request, res: Response) {
+  connectionCheck(_: Request, res: Response) {
     res.status(OK).json({ success: true, message: 'Connected!' });
   }
 }

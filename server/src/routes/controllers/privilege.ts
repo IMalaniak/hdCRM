@@ -2,16 +2,16 @@ import { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } from 'http-status-codes';
 import { Controller, Middleware, Get, Post } from '@overnightjs/core';
 import { Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { Privilege } from '../../models';
-import Passport from '../../config/passport';
-import { RequestWithBody } from '../../models/apiRequest';
-import { CollectionApiResponse, ItemApiResponse } from '../../models/apiResponse';
+import { Privilege } from '@/models';
+import Passport from '@/config/passport';
+import { RequestWithBody } from '@/models/apiRequest';
+import { CollectionApiResponse, ItemApiResponse } from '@/models/apiResponse';
 
 @Controller('privileges/')
 export class PrivilegeController {
   @Post('')
   @Middleware([Passport.authenticate()])
-  private create(req: RequestWithBody<Partial<Privilege>>, res: Response<ItemApiResponse<Privilege>>) {
+  create(req: RequestWithBody<Partial<Privilege>>, res: Response<ItemApiResponse<Privilege>>) {
     Logger.Info(`Creating new privilege...`);
     Privilege.create({
       keyString: req.body.keyString,
@@ -28,7 +28,7 @@ export class PrivilegeController {
 
   @Get('')
   @Middleware([Passport.authenticate()])
-  private getList(_, res: Response<CollectionApiResponse<Privilege>>) {
+  getList(_, res: Response<CollectionApiResponse<Privilege>>) {
     Logger.Info(`Selecting privileges list...`);
     Privilege.findAndCountAll()
       .then((data) => {

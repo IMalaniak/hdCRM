@@ -2,17 +2,17 @@ import { OK, INTERNAL_SERVER_ERROR, NOT_FOUND, BAD_REQUEST } from 'http-status-c
 import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { Department, User, Asset } from '../../models';
+import { Department, User, Asset } from '@/models';
 import { Op } from 'sequelize';
-import Passport from '../../config/passport';
-import { ApiResponse, CollectionApiResponse, ItemApiResponse } from '../../models/apiResponse';
-import { CollectionQuery, RequestWithQuery, RequestWithBody } from '../../models/apiRequest';
+import Passport from '@/config/passport';
+import { ApiResponse, CollectionApiResponse, ItemApiResponse } from '@/models/apiResponse';
+import { CollectionQuery, RequestWithQuery, RequestWithBody } from '@/models/apiRequest';
 
 @Controller('departments/')
 export class DepartmentController {
   @Get('dashboard')
   @Middleware([Passport.authenticate()])
-  private getDashboardData(req: Request, res: Response<CollectionApiResponse<Department>>) {
+  getDashboardData(req: Request, res: Response<CollectionApiResponse<Department>>) {
     Logger.Info(`Geting departments dashboard data...`);
     Department.findAndCountAll({
       attributes: ['title', 'id'],
@@ -40,7 +40,7 @@ export class DepartmentController {
 
   @Get(':id')
   @Middleware([Passport.authenticate()])
-  private get(req: Request<{ id: string }>, res: Response<ItemApiResponse<Department>>) {
+  get(req: Request<{ id: string }>, res: Response<ItemApiResponse<Department>>) {
     Logger.Info(`Selecting department by id: ${req.params.id}...`);
     this.findDepByPk(req.params.id)
       .then((dep: Department) => {
@@ -59,7 +59,7 @@ export class DepartmentController {
 
   @Get('')
   @Middleware([Passport.authenticate()])
-  private getAll(req: RequestWithQuery<CollectionQuery>, res: Response<CollectionApiResponse<Department>>) {
+  getAll(req: RequestWithQuery<CollectionQuery>, res: Response<CollectionApiResponse<Department>>) {
     Logger.Info(`Selecting all departments...`);
     const { pageSize, pageIndex, sortDirection, sortIndex } = req.query;
     const limit = parseInt(pageSize);
@@ -122,7 +122,7 @@ export class DepartmentController {
 
   @Post('')
   @Middleware([Passport.authenticate()])
-  private create(req: RequestWithBody<Partial<Department>>, res: Response<ItemApiResponse<Department>>) {
+  create(req: RequestWithBody<Partial<Department>>, res: Response<ItemApiResponse<Department>>) {
     Logger.Info(`Creating new department...`);
     Department.create({
       title: req.body.title,
@@ -167,7 +167,7 @@ export class DepartmentController {
 
   @Put(':id')
   @Middleware([Passport.authenticate()])
-  private updateOne(req: RequestWithBody<Partial<Department>>, res: Response<ItemApiResponse<Department>>) {
+  updateOne(req: RequestWithBody<Partial<Department>>, res: Response<ItemApiResponse<Department>>) {
     Logger.Info(`Updating department by id: ${req.params.id}...`);
     Department.update(
       {
@@ -225,7 +225,7 @@ export class DepartmentController {
 
   @Delete(':id')
   @Middleware([Passport.authenticate()])
-  private deleteOne(req: Request<{ id: string }>, res: Response<ApiResponse>) {
+  deleteOne(req: Request<{ id: string }>, res: Response<ApiResponse>) {
     Logger.Info(`Deleting department by id: ${req.params.id}...`);
     Department.destroy({
       where: { id: req.params.id }

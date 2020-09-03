@@ -8,7 +8,6 @@
     "start:dev": "node --inspect=5858 -r dotenv/config -r ts-node/register ./src/index.ts",
     "dev": "concurrently \"nodemon\" \"cd webApp && npm start\"",
     "start:watch": "nodemon",
-    "build:dev": "concurrently \"tsc\" \"cd webApp && npm run build\"",
     "migrate-db": "node_modules/.bin/sequelize db:migrate",
     "prepare-db": "sequelize db:seed:all --env='production'",
     "heroku-postbuild": "cd webApp && npm i && npm run build"

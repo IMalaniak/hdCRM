@@ -2,17 +2,17 @@ import { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } from 'http-status-codes';
 import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { Role, User, Privilege, Asset } from '../../models';
-import Passport from '../../config/passport';
+import { Role, User, Privilege, Asset } from '@/models';
+import Passport from '@/config/passport';
 import { Op } from 'sequelize';
-import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '../../models/apiResponse';
-import { RequestWithBody, CollectionQuery, RequestWithQuery } from '../../models/apiRequest';
+import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '@/models/apiResponse';
+import { RequestWithBody, CollectionQuery, RequestWithQuery } from '@/models/apiRequest';
 
 @Controller('roles/')
 export class RoleController {
   @Get('dashboard')
   @Middleware([Passport.authenticate()])
-  private getDashboardData(req: Request, res: Response<CollectionApiResponse<Role>>) {
+  getDashboardData(req: Request, res: Response<CollectionApiResponse<Role>>) {
     Logger.Info(`Geting roles dashboard data...`);
     Role.findAndCountAll({
       attributes: ['keyString', 'id'],
@@ -39,7 +39,7 @@ export class RoleController {
 
   @Post('')
   @Middleware([Passport.authenticate()])
-  private create(req: RequestWithBody<Partial<Role>>, res: Response<ItemApiResponse<Role>>) {
+  create(req: RequestWithBody<Partial<Role>>, res: Response<ItemApiResponse<Role>>) {
     Logger.Info(`Creating new role...`);
     Role.create({
       keyString: req.body.keyString,
@@ -124,7 +124,7 @@ export class RoleController {
 
   @Get('')
   @Middleware([Passport.authenticate()])
-  private getList(req: RequestWithQuery<CollectionQuery>, res: Response<CollectionApiResponse<Role>>) {
+  getList(req: RequestWithQuery<CollectionQuery>, res: Response<CollectionApiResponse<Role>>) {
     Logger.Info(`Selecting roles list...`);
     const { pageIndex, pageSize, sortDirection, sortIndex } = req.query;
     const limit = parseInt(pageSize);
@@ -172,7 +172,7 @@ export class RoleController {
 
   @Get(':id')
   @Middleware([Passport.authenticate()])
-  private getOne(req: Request, res: Response<ItemApiResponse<Role>>) {
+  getOne(req: Request, res: Response<ItemApiResponse<Role>>) {
     Logger.Info(`Selecting Role by roleId: ${req.params.id}...`);
     this.findRoleById(req.params.id)
       .then((role) => {
@@ -186,7 +186,7 @@ export class RoleController {
 
   @Put(':id')
   @Middleware([Passport.authenticate()])
-  private updateOne(req: RequestWithBody<Partial<Role>>, res: Response<ItemApiResponse<Role>>) {
+  updateOne(req: RequestWithBody<Partial<Role>>, res: Response<ItemApiResponse<Role>>) {
     Logger.Info(`Updating Role by Id: ${req.body.id}...`);
     Role.update(
       {
@@ -284,7 +284,7 @@ export class RoleController {
 
   @Delete(':id')
   @Middleware([Passport.authenticate()])
-  private deleteOne(req: Request, res: Response<ApiResponse>) {
+  deleteOne(req: Request, res: Response<ApiResponse>) {
     Logger.Info(`Deleting role by id: ${req.params.id}...`);
     Role.destroy({
       where: { id: req.params.id }

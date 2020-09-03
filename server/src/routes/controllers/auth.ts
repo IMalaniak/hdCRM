@@ -2,16 +2,16 @@ import { OK, BAD_REQUEST, UNAUTHORIZED, FORBIDDEN } from 'http-status-codes';
 import { Controller, Get, Post } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { User, UserSession, Privilege, PasswordAttribute, State } from '../../models';
+import { User, UserSession, Privilege, PasswordAttribute, State } from '@/models';
 import { Op, ValidationError, UniqueConstraintError } from 'sequelize';
-import Crypt from '../../config/crypt';
-import Mailer from '../../mailer/nodeMailerTemplates';
-import JwtHelper from '../../helpers/jwtHelper';
-import { JwtDecoded } from '../../models/JWTPayload';
+import Crypt from '@/config/crypt';
+import Mailer from '@/mailer/nodeMailerTemplates';
+import JwtHelper from '@/helpers/jwtHelper';
+import { JwtDecoded } from '@/models/JWTPayload';
 import { TokenExpiredError } from 'jsonwebtoken';
-import { UserDBController } from '../../dbControllers/usersController';
-import { ApiResponse } from '../../models/apiResponse';
-import { parseCookies } from '../../utils/parseCookies';
+import { UserDBController } from '@/dbControllers/usersController';
+import { ApiResponse } from '@/models/apiResponse';
+import { parseCookies } from '@/utils/parseCookies';
 
 @Controller('auth/')
 export class AuthController {
@@ -29,7 +29,7 @@ export class AuthController {
   }
 
   @Post('register')
-  private register(req: Request, res: Response<ApiResponse | ValidationError | UniqueConstraintError>) {
+  register(req: Request, res: Response<ApiResponse | ValidationError | UniqueConstraintError>) {
     Logger.Info(`Registering new user...`);
     const password = req.body.password ? req.body.password : Crypt.genRandomString(12);
     const passwordData = Crypt.saltHashPassword(password);
@@ -154,7 +154,7 @@ export class AuthController {
   }
 
   @Post('activate_account')
-  private activateAccount(req: Request, res: Response<ApiResponse>) {
+  activateAccount(req: Request, res: Response<ApiResponse>) {
     Logger.Info(`Creating new user...`);
     PasswordAttribute.findOne({
       where: {
@@ -227,7 +227,7 @@ export class AuthController {
   }
 
   @Post('authenticate')
-  private authenticate(req: Request, res: Response<ApiResponse | string>) {
+  authenticate(req: Request, res: Response<ApiResponse | string>) {
     Logger.Info(`Authenticating web client...`);
     const loginOrEmail = req.body.login;
     const password = req.body.password;
@@ -308,7 +308,7 @@ export class AuthController {
   }
 
   @Get('refresh-session')
-  private refreshSession(req: Request, res: Response<ApiResponse | TokenExpiredError | string>) {
+  refreshSession(req: Request, res: Response<ApiResponse | TokenExpiredError | string>) {
     Logger.Info(`Refreshing user session...`);
     const cookies = parseCookies(req) as any;
     if (cookies.refresh_token) {
@@ -329,7 +329,7 @@ export class AuthController {
   }
 
   @Post('forgot_password')
-  private forgotPassword(req: Request, res: Response<ApiResponse>) {
+  forgotPassword(req: Request, res: Response<ApiResponse>) {
     Logger.Info(`Forget password requesting...`);
     const loginOrEmail = req.body.login;
 
@@ -406,7 +406,7 @@ export class AuthController {
   }
 
   @Post('reset_password')
-  private resetPassword(req: Request, res: Response<ApiResponse>) {
+  resetPassword(req: Request, res: Response<ApiResponse>) {
     Logger.Info(`Reseting new password...`);
     PasswordAttribute.findOne({
       where: {
@@ -485,7 +485,7 @@ export class AuthController {
   }
 
   @Get('logout')
-  private async create(req: Request, res: Response<ApiResponse>) {
+  async create(req: Request, res: Response<ApiResponse>) {
     Logger.Info(`Logging user out...`);
     const cookies = parseCookies(req) as any;
     const { sessionId } = await JwtHelper.getDecoded(cookies.refresh_token);

@@ -2,38 +2,38 @@ import { OK, INTERNAL_SERVER_ERROR, FORBIDDEN, BAD_REQUEST } from 'http-status-c
 import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { User, Organization, Asset } from '../../models';
-import Passport from '../../config/passport';
-import uploads from '../../multer/multerConfig';
+import { User, Organization, Asset } from '@/models';
+import Passport from '@/config/passport';
+import uploads from '@/multer/multerConfig';
 import path from 'path';
 import fs from 'fs';
 import { promisify } from 'util';
 import jimp from 'jimp';
-import { UserDBController } from '../../dbControllers/usersController';
-import Crypt from '../../config/crypt';
-import Mailer from '../../mailer/nodeMailerTemplates';
-import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '../../models/apiResponse';
-import { RequestWithQuery, CollectionQuery, RequestWithBody } from '../../models/apiRequest';
-import { parseCookies } from '../../utils/parseCookies';
-import JwtHelper from '../../helpers/jwtHelper';
-import { JwtDecoded } from '../../models/JWTPayload';
+import { UserDBController } from '@/dbControllers/usersController';
+import Crypt from '@/config/crypt';
+import Mailer from '@/mailer/nodeMailerTemplates';
+import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '@/models/apiResponse';
+import { RequestWithQuery, CollectionQuery, RequestWithBody } from '@/models/apiRequest';
+import { parseCookies } from '@/utils/parseCookies';
+import JwtHelper from '@/helpers/jwtHelper';
+import { JwtDecoded } from '@/models/JWTPayload';
 import { TokenExpiredError } from 'jsonwebtoken';
 
 @Controller('users/')
 export class UserController {
-  unlinkAsync = promisify(fs.unlink);
+  private unlinkAsync = promisify(fs.unlink);
   private userDbCtrl: UserDBController = new UserDBController();
 
   @Get('profile/')
   @Middleware([Passport.authenticate()])
-  private getProfile(req: Request, res: Response<User>) {
+  getProfile(req: Request, res: Response<User>) {
     Logger.Info(`Geting user profile...`);
     return res.status(OK).json(req.user);
   }
 
   @Get(':id')
   @Middleware([Passport.authenticate()])
-  private get(req: Request, res: Response<ItemApiResponse<User>>) {
+  get(req: Request, res: Response<ItemApiResponse<User>>) {
     this.userDbCtrl
       .getById(req.params.id)
       .then((user: User) => {
@@ -47,7 +47,7 @@ export class UserController {
 
   @Get('')
   @Middleware([Passport.authenticate()])
-  private getAll(req: RequestWithQuery<CollectionQuery>, res: Response<CollectionApiResponse<User>>) {
+  getAll(req: RequestWithQuery<CollectionQuery>, res: Response<CollectionApiResponse<User>>) {
     const queryParams = req.query;
     const limit = parseInt(queryParams.pageSize);
     this.userDbCtrl
@@ -64,7 +64,7 @@ export class UserController {
 
   @Post('')
   @Middleware([Passport.authenticate()])
-  private create(req: RequestWithBody<Partial<User>>, res: Response<ItemApiResponse<User>>) {
+  create(req: RequestWithBody<Partial<User>>, res: Response<ItemApiResponse<User>>) {
     this.userDbCtrl
       .create(req.body)
       .then((user: User) => {
@@ -78,7 +78,7 @@ export class UserController {
 
   @Put(':id')
   @Middleware([Passport.authenticate()])
-  private updateOne(req: RequestWithBody<Partial<User>>, res: Response<ItemApiResponse<User>>) {
+  updateOne(req: RequestWithBody<Partial<User>>, res: Response<ItemApiResponse<User>>) {
     this.userDbCtrl
       .updateOne(req.body)
       .then((result) => {
@@ -103,7 +103,7 @@ export class UserController {
   // TODO @IMalaniak check for multiple routes with the same logiс
   @Put('profile/')
   @Middleware([Passport.authenticate()])
-  private updateProfile(req: RequestWithBody<Partial<User>>, res: Response<ItemApiResponse<User>>) {
+  updateProfile(req: RequestWithBody<Partial<User>>, res: Response<ItemApiResponse<User>>) {
     this.userDbCtrl
       .updateOne(req.body)
       .then((result) => {
@@ -129,7 +129,7 @@ export class UserController {
 
   @Post('change-password')
   @Middleware([Passport.authenticate()])
-  private changePassword(
+  changePassword(
     req: RequestWithBody<{ newPassword: string; verifyPassword: string; oldPassword: string; deleteSessions: boolean }>,
     res: Response<ApiResponse | TokenExpiredError>
   ) {
@@ -205,7 +205,7 @@ export class UserController {
 
   @Post(':id/avatar')
   @Middleware([Passport.authenticate(), uploads.single('profile-pic-uploader')])
-  private setUserAvatar(req: Request, res: Response<ItemApiResponse<Asset>>) {
+  setUserAvatar(req: Request, res: Response<ItemApiResponse<Asset>>) {
     if (req.file) {
       jimp.read(req.file.path).then((tpl) =>
         tpl
@@ -224,7 +224,7 @@ export class UserController {
                 where: { id: avatar.id }
               })
                 .then(() => {
-                  const uploadsPath = path.join(__dirname, '../../../uploads');
+                  const uploadsPath = path.join(__dirname, '@/uploads');
                   const destination = uploadsPath + avatar.location + '/' + avatar.title;
                   const thumbDestination = uploadsPath + avatar.location + '/thumbnails/' + avatar.title;
                   this.unlinkAsync(destination)
@@ -296,7 +296,7 @@ export class UserController {
 
   @Delete(':id/avatar')
   @Middleware([Passport.authenticate()])
-  private deleteUserAvatar(req: Request, res: Response<ApiResponse>) {
+  deleteUserAvatar(req: Request, res: Response<ApiResponse>) {
     User.findByPk(req.params.id)
       .then((user) => {
         user
@@ -307,7 +307,7 @@ export class UserController {
                 where: { id: avatar.id }
               })
                 .then(() => {
-                  const uploadsPath = path.join(__dirname, '../../../uploads');
+                  const uploadsPath = path.join(__dirname, '@/uploads');
                   const destination = uploadsPath + avatar.location + '/' + avatar.title;
                   const thumbDestination = uploadsPath + avatar.location + '/thumbnails/' + avatar.title;
                   this.unlinkAsync(destination)
@@ -345,7 +345,7 @@ export class UserController {
 
   @Put('updateUserState')
   @Middleware([Passport.authenticate()])
-  private updateUserState(req: RequestWithBody<Partial<User>>, res: Response<ItemApiResponse<User>>) {
+  updateUserState(req: RequestWithBody<Partial<User>>, res: Response<ItemApiResponse<User>>) {
     this.userDbCtrl
       .updateUserState(req.body)
       .then((result) => {
@@ -370,7 +370,7 @@ export class UserController {
   // TODO: @IMalaniak recreate this
   @Put('changeStateOfSelected')
   @Middleware([Passport.authenticate()])
-  private changeStateOfSelected(req: Request, res: Response<ApiResponse>) {
+  changeStateOfSelected(req: Request, res: Response<ApiResponse>) {
     Logger.Info(`Changing state of selected users...`);
     const promises = [];
     req.body.userIds.forEach((userId) => {
@@ -378,7 +378,7 @@ export class UserController {
     });
 
     return Promise.all(promises)
-      .then((result) => {
+      .then(() => {
         return res.status(OK).json({ success: true, message: 'Changed state of selected users!' });
       })
       .catch((error: any) => {
@@ -389,7 +389,7 @@ export class UserController {
 
   @Delete(':id')
   @Middleware([Passport.authenticate()])
-  private deleteOne(req: Request, res: Response<ApiResponse>) {
+  deleteOne(req: Request, res: Response<ApiResponse>) {
     this.userDbCtrl
       .deleteOne(req.params.id)
       .then((result) => {
@@ -403,7 +403,7 @@ export class UserController {
 
   @Post('invite/')
   @Middleware([Passport.authenticate()])
-  private inviteMany(req: RequestWithBody<Partial<User>[]>, res: Response<CollectionApiResponse<User>>) {
+  inviteMany(req: RequestWithBody<Partial<User>[]>, res: Response<CollectionApiResponse<User>>) {
     Logger.Info(`Inviting users...`);
     const promises = [];
 
@@ -460,7 +460,7 @@ export class UserController {
 
   @Delete('session/:id')
   @Middleware([Passport.authenticate()])
-  private deleteSession(req: Request, res: Response<ApiResponse>) {
+  deleteSession(req: Request, res: Response<ApiResponse>) {
     this.userDbCtrl
       .removeSession(req.params.id)
       .then(() => {
@@ -474,7 +474,7 @@ export class UserController {
 
   @Put('session-multiple/:sessionIds')
   @Middleware([Passport.authenticate()])
-  private deleteMultipleSessions(req: Request, res: Response<ApiResponse>) {
+  deleteMultipleSessions(req: Request, res: Response<ApiResponse>) {
     this.userDbCtrl
       .removeSession(req.body.sessionIds)
       .then((num) => {
@@ -488,7 +488,7 @@ export class UserController {
 
   @Put('org/:id')
   @Middleware([Passport.authenticate()])
-  private updateOrg(req: RequestWithBody<Partial<Organization>>, res: Response<ItemApiResponse<Organization>>) {
+  updateOrg(req: RequestWithBody<Partial<Organization>>, res: Response<ItemApiResponse<Organization>>) {
     this.userDbCtrl
       .editOrg(req.body)
       .then(() => {

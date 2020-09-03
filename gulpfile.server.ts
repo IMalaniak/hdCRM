@@ -24,13 +24,13 @@ const devOptions = {
 
 task({
   name: 'server:start',
-  fct: series('server:compile', doRun('node dist/src', devOptions)),
+  fct: series('server:compile', doRun('node dist/index.js', devOptions)),
   desc: 'Starts the server'
 });
 
 task({
   name: 'server:dev',
   alias: 'sd',
-  fct: series('server:compile', doRun('node_modules/.bin/nodemon', devOptions)),
+  fct: doRun('node_modules/.bin/nodemon', devOptions),
   desc: 'Start the dev server'
 });

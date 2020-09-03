@@ -1,19 +1,4 @@
-import {
-  Sequelize,
-  Model,
-  DataTypes,
-  Association,
-  BelongsToManyAddAssociationMixin,
-  BelongsToManyAddAssociationsMixin,
-  BelongsToManyCountAssociationsMixin,
-  BelongsToManyCreateAssociationMixin,
-  BelongsToManyGetAssociationsMixin,
-  BelongsToManyHasAssociationMixin,
-  BelongsToManyHasAssociationsMixin,
-  BelongsToManyRemoveAssociationMixin,
-  BelongsToManyRemoveAssociationsMixin,
-  BelongsToManySetAssociationsMixin
-} from 'sequelize';
+import { Sequelize, Model, DataTypes, Association } from 'sequelize';
 import { Role } from './Role';
 import { Privilege } from './Privilege';
 

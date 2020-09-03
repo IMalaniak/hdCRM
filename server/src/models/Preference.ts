@@ -6,7 +6,7 @@ import {
   BelongsToSetAssociationMixin,
   Association
 } from 'sequelize';
-import { enumToArray } from '../utils/EnumToArray';
+import { enumToArray } from '@/utils/EnumToArray';
 import { User } from './User';
 
 export enum IListView {

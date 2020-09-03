@@ -1,4 +1,4 @@
-import { Task, TaskPriority, User } from '../models';
+import { Task, TaskPriority, User } from '@/models';
 import { Logger } from '@overnightjs/logger';
 import { IncludeOptions } from 'sequelize/types';
 

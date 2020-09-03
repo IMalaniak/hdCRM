@@ -31,7 +31,7 @@ class CrmServer extends Server {
       })
     );
     this.app.use(cookieParser());
-    this.app.use((req, res, next) => {
+    this.app.use((req, _, next) => {
       if (req.method !== 'OPTIONS') {
         Logger.Imp(`${req.ip} ${req.method} ${req.url}`);
         next();
@@ -61,7 +61,7 @@ class CrmServer extends Server {
     this.app.use(express.static(path.join(__dirname, '../webApp/dist')));
     this.app.use('/images/userpic', express.static(path.join(__dirname, '../uploads/images/userpic/')));
 
-    this.app.get('/*', (req, res) => {
+    this.app.get('/*', (_, res) => {
       res.sendFile(path.join(__dirname, '../webApp/dist/index.html'));
     });
   }

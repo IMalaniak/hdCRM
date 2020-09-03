@@ -15,10 +15,7 @@ import {
   Association,
   BelongsToCreateAssociationMixin,
   BelongsToGetAssociationMixin,
-  BelongsToSetAssociationMixin,
-  HasOneCreateAssociationMixin,
-  HasOneGetAssociationMixin,
-  HasOneSetAssociationMixin
+  BelongsToSetAssociationMixin
 } from 'sequelize';
 import { User } from './User';
 import { Asset } from './Asset';

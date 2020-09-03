@@ -2,19 +2,19 @@ import { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } from 'http-status-codes';
 import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { Task } from '../../models';
-import Passport from '../../config/passport';
-import { TaskDBController } from '../../dbControllers/tasksController';
-import { CollectionApiResponse, ApiResponse, ItemApiResponse } from 'src/models/apiResponse';
-import { RequestWithBody } from 'src/models/apiRequest';
+import { Task } from '@/models';
+import Passport from '@/config/passport';
+import { TaskDBController } from '@/dbControllers/tasksController';
+import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '@/models/apiResponse';
+import { RequestWithBody } from '@/models/apiRequest';
 
 @Controller('tasks/')
 export class TaskController {
-  private taskDbCtrl: TaskDBController = new TaskDBController();
+  taskDbCtrl: TaskDBController = new TaskDBController();
 
   @Get('')
   @Middleware([Passport.authenticate()])
-  private getAll(req: Request, res: Response<CollectionApiResponse<Task>>) {
+  getAll(req: Request, res: Response<CollectionApiResponse<Task>>) {
     this.taskDbCtrl
       .getAll(req.user)
       .then((tasks) => {
@@ -28,7 +28,7 @@ export class TaskController {
 
   @Post('')
   @Middleware([Passport.authenticate()])
-  private create(req: RequestWithBody<Partial<Task>>, res: Response<ItemApiResponse<Task>>) {
+  create(req: RequestWithBody<Partial<Task>>, res: Response<ItemApiResponse<Task>>) {
     req.body.CreatorId = req.user.id;
 
     this.taskDbCtrl
@@ -52,7 +52,7 @@ export class TaskController {
 
   @Put(':id')
   @Middleware([Passport.authenticate()])
-  private updateOne(req: RequestWithBody<Partial<Task>>, res: Response<ItemApiResponse<Task>>) {
+  updateOne(req: RequestWithBody<Partial<Task>>, res: Response<ItemApiResponse<Task>>) {
     this.taskDbCtrl
       .updateOne(req.body)
       .then((result) => {
@@ -76,7 +76,7 @@ export class TaskController {
 
   @Delete(':id')
   @Middleware([Passport.authenticate()])
-  private deleteOne(req: Request, res: Response<ApiResponse>) {
+  deleteOne(req: Request, res: Response<ApiResponse>) {
     this.taskDbCtrl
       .deleteTask(req.params.id)
       .then((result) => {
@@ -90,7 +90,7 @@ export class TaskController {
 
   @Put('task-multiple/:taskIds')
   @Middleware([Passport.authenticate()])
-  private deleteMultipleTask(req: Request, res: Response<ApiResponse>) {
+  deleteMultipleTask(req: Request, res: Response<ApiResponse>) {
     this.taskDbCtrl
       .deleteTask(req.body.taskIds)
       .then((result) => {
