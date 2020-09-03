@@ -1,8 +1,6 @@
 <organisms-card cardTitle="Roles List" [showDataLoader]="loading$ | async">
   <div buttons *ngIf="canAddRole$ | async">
-    <atoms-icon-button routerLink="/roles/add" [icon]="['fas', 'plus']">
-      Create
-    </atoms-icon-button>
+    <atoms-icon-button routerLink="/roles/add" [icon]="['fas', 'plus']"> Create </atoms-icon-button>
   </div>
 
   <div content class="table-container">

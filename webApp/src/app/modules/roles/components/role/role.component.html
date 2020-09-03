@@ -100,9 +100,7 @@
     </div>
   </section>
   <div buttons *ngIf="canEditRole$ | async">
-    <atoms-icon-button *ngIf="!editForm" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
-      Edit
-    </atoms-icon-button>
+    <atoms-icon-button *ngIf="!editForm" (onclick)="onClickEdit()" [icon]="['fas', 'edit']"> Edit </atoms-icon-button>
     <atoms-icon-button *ngIf="editForm" (onclick)="onUpdateRoleSubmit()" [icon]="['fas', 'save']">
       Save
     </atoms-icon-button>

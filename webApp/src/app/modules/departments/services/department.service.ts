@@ -53,7 +53,7 @@ export class DepartmentService {
     let formated = { ...dep };
     if (formated.Workers && formated.Workers.length) {
       formated = Object.assign({}, formated, {
-        Workers: formated.Workers.map(worker => {
+        Workers: formated.Workers.map((worker) => {
           return <User>{
             id: worker.id
           };

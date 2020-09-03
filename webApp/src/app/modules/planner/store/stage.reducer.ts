@@ -18,7 +18,7 @@ const initialState: StagesState = adapter.getInitialState({
 const stagesReducer = createReducer(
   initialState,
   on(StageActions.createStageSuccess, (state, { stage }) => adapter.addOne(stage, state)),
-  on(StageActions.allStagesRequestedFromDashboard || StageActions.allStagesRequestedFromDialogWindow, state => ({
+  on(StageActions.allStagesRequestedFromDashboard || StageActions.allStagesRequestedFromDialogWindow, (state) => ({
     ...state,
     loading: true
   })),
@@ -30,7 +30,7 @@ const stagesReducer = createReducer(
     })
   ),
   on(StageActions.stageSaved, (state, { stage }) => adapter.updateOne(stage, state)),
-  on(StageActions.stageApiError, state => ({ ...state, loading: false }))
+  on(StageActions.stageApiError, (state) => ({ ...state, loading: false }))
 );
 
 export function reducer(state: StagesState | undefined, action: Action) {

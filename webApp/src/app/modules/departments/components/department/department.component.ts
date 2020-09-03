@@ -45,7 +45,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.departmentInitial = cloneDeep(this.route.snapshot.data['department']);
     this.department = cloneDeep(this.route.snapshot.data['department']);
-    this.canEditDepartment$.pipe(takeUntil(this.unsubscribe)).subscribe(canEdit => {
+    this.canEditDepartment$.pipe(takeUntil(this.unsubscribe)).subscribe((canEdit) => {
       if (canEdit) {
         const edit = this.route.snapshot.queryParams['edit'];
         if (edit) {
@@ -96,7 +96,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: User[]) => {
         const selectedWorkers: User[] = result?.filter(
-          selectedWorker => !this.department.Workers.some(user => user.id === selectedWorker.id)
+          (selectedWorker) => !this.department.Workers.some((user) => user.id === selectedWorker.id)
         );
 
         if (selectedWorkers?.length) {
@@ -111,14 +111,14 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   }
 
   removeWorker(userId: number): void {
-    this.department = { ...this.department, Workers: this.department.Workers.filter(worker => worker.id !== userId) };
+    this.department = { ...this.department, Workers: this.department.Workers.filter((worker) => worker.id !== userId) };
   }
 
   // TODO: @IMalaniak recreate store logic
   updateDepartment(): void {
     this.toastMessageService
       .confirm('You are about to update department', 'Are you sure you want to update department details?')
-      .then(result => {
+      .then((result) => {
         if (result.value) {
           this.departmentService
             .updateOne(this.department)
@@ -135,7 +135,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
                 this.editForm = false;
                 this.toastMessageService.toast('Department updated!');
               },
-              error => {
+              (error) => {
                 this.toastMessageService.popup('Ooops, something went wrong!', 'error');
               }
             );

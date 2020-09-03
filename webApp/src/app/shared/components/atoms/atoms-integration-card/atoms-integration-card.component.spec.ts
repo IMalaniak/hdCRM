@@ -8,9 +8,8 @@ describe('AtomsIntegrationCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AtomsIntegrationCardComponent ]
-    })
-    .compileComponents();
+      declarations: [AtomsIntegrationCardComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

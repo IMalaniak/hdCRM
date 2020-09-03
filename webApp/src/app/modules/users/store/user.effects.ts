@@ -15,8 +15,8 @@ export class UserEffects {
   loadUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(userActions.userRequested),
-      map(payload => payload.id),
-      mergeMap(id => this.userService.getUser(id)),
+      map((payload) => payload.id),
+      mergeMap((id) => this.userService.getUser(id)),
       map((response: ItemApiResponse<User>) => userActions.userLoaded({ user: response.data })),
       catchError(() => of(userActions.userApiError()))
     )
@@ -25,8 +25,8 @@ export class UserEffects {
   loadUsers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(userActions.listPageRequested),
-      map(payload => payload.page),
-      mergeMap(page =>
+      map((payload) => payload.page),
+      mergeMap((page) =>
         this.userService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
           map((response: CollectionApiResponse<User>) => userActions.listPageLoaded({ response })),
           catchError(() => of(userActions.userApiError()))
@@ -38,8 +38,8 @@ export class UserEffects {
   updateUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(userActions.updateUserRequested),
-      map(payload => payload.user),
-      mergeMap(toUpdate =>
+      map((payload) => payload.user),
+      mergeMap((toUpdate) =>
         this.userService.updateUser(toUpdate).pipe(
           map((response: ItemApiResponse<User>) => {
             const user: Update<User> = {
@@ -62,22 +62,24 @@ export class UserEffects {
         this.userService.listOnline();
       }),
       mergeMap(() => {
-        return this.userService.onlineUsersListed$.pipe(map(list => userActions.OnlineUserListLoaded({ list })));
+        return this.userService.onlineUsersListed$.pipe(map((list) => userActions.OnlineUserListLoaded({ list })));
       })
     )
   );
 
-  userOnline$ = createEffect(() => this.userService.userOnline$.pipe(map(user => userActions.userOnline({ user }))));
+  userOnline$ = createEffect(() => this.userService.userOnline$.pipe(map((user) => userActions.userOnline({ user }))));
 
-  userOffline$ = createEffect(() => this.userService.userOffline$.pipe(map(user => userActions.userOffline({ user }))));
+  userOffline$ = createEffect(() =>
+    this.userService.userOffline$.pipe(map((user) => userActions.userOffline({ user })))
+  );
 
   // TODO @IMalaniak recreate this
   deleteUser$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(userActions.deleteUser),
-        map(payload => payload.id),
-        mergeMap(id => this.userService.delete(id)),
+        map((payload) => payload.id),
+        mergeMap((id) => this.userService.delete(id)),
         map((response: ApiResponse) => of(this.toastMessageService.snack(response))),
         catchError(() => of(userActions.userApiError()))
       ),
@@ -89,7 +91,7 @@ export class UserEffects {
   inviteUsers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(userActions.inviteUsers),
-      map(payload => payload.users),
+      map((payload) => payload.users),
       mergeMap((users: User[]) =>
         this.userService.inviteUsers(users).pipe(
           map((response: CollectionApiResponse<User>) => {
@@ -105,8 +107,8 @@ export class UserEffects {
   changeOldPassword$ = createEffect(() =>
     this.actions$.pipe(
       ofType(userActions.changeOldPassword),
-      map(payload => payload.newPassword),
-      switchMap(newPassword =>
+      map((payload) => payload.newPassword),
+      switchMap((newPassword) =>
         this.userService.changeOldPassword(newPassword).pipe(
           map((response: ApiResponse) => {
             this.toastMessageService.snack(response);

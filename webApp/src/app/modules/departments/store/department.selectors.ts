@@ -3,26 +3,28 @@ import * as fromDepartment from './department.reducer';
 import { Department } from '../models';
 import { PageQuery } from '@/shared';
 
-export const selectDepartmentsState = createFeatureSelector<fromDepartment.DepartmentsState>(fromDepartment.departmentsFeatureKey);
+export const selectDepartmentsState = createFeatureSelector<fromDepartment.DepartmentsState>(
+  fromDepartment.departmentsFeatureKey
+);
 
 export const selectDepartmentById = (departmentId: number) =>
-  createSelector(selectDepartmentsState, departmentsState => departmentsState.entities[departmentId]);
+  createSelector(selectDepartmentsState, (departmentsState) => departmentsState.entities[departmentId]);
 
 export const selectAllDepartments = createSelector(selectDepartmentsState, fromDepartment.selectAll);
 
 export const selectDepartmentsLoading = createSelector(
   selectDepartmentsState,
-  departmentsState => departmentsState.loading
+  (departmentsState) => departmentsState.loading
 );
 
 export const selectDepartmentsPagesCount = createSelector(
   selectDepartmentsState,
-  departmentsState => departmentsState.pages
+  (departmentsState) => departmentsState.pages
 );
 
 export const selectDepartmentsTotalCount = createSelector(
   selectDepartmentsState,
-  departmentsState => departmentsState.countAll
+  (departmentsState) => departmentsState.countAll
 );
 
 export const selectDepartmentsPage = (page: PageQuery) =>
@@ -42,5 +44,5 @@ export const selectDepartmentsPage = (page: PageQuery) =>
 
 export const selectDashboardDepDataLoaded = createSelector(
   selectDepartmentsState,
-  departmentsState => departmentsState.dashboardDataLoaded
+  (departmentsState) => departmentsState.dashboardDataLoaded
 );

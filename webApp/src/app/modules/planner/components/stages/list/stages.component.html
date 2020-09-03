@@ -1,8 +1,6 @@
 <organisms-card cardTitle="Stage" [showDataLoader]="isLoading$ | async">
   <div buttons>
-    <atoms-icon-button (onclick)="createStageDialog()" [icon]="['fas', 'plus']">
-      Create
-    </atoms-icon-button>
+    <atoms-icon-button (onclick)="createStageDialog()" [icon]="['fas', 'plus']"> Create </atoms-icon-button>
   </div>
 
   <div content class="mat-elevation-z8 stages-table-container" *ngIf="stages">

@@ -39,7 +39,7 @@ import {
   imports: [CommonModule, FilePondModule, FontAwesomeModule],
   declarations: [UploaderListComponent, ProfilepicUploaderComponent],
   exports: [UploaderListComponent, ProfilepicUploaderComponent],
-  providers: [AttachmentService],
+  providers: [AttachmentService]
 })
 export class AttachmentsModule {
   constructor(library: FaIconLibrary) {

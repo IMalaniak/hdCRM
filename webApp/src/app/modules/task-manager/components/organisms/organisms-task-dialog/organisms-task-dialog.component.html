@@ -11,13 +11,13 @@
       >
         <mat-error
           *ngIf="taskData.controls['title'].errors.required"
-          i18n=" @@taskDialogСomponentInputErrorsTitleRequired "
+          i18n="@@taskDialogСomponentInputErrorsTitleRequired"
         >
           Title is required!
         </mat-error>
         <mat-error
           *ngIf="taskData.controls['title'].errors.maxlength"
-          i18n=" @@taskDialogСomponentInputErrorsTitleTooLong "
+          i18n="@@taskDialogСomponentInputErrorsTitleTooLong"
         >
           Title name is too long!
         </mat-error>
@@ -34,14 +34,14 @@
       >
         <mat-error
           *ngIf="taskData.controls['description'].errors.maxlength"
-          i18n=" @@taskDialogСomponentInputErrorsDescriptionTooLong "
+          i18n="@@taskDialogСomponentInputErrorsDescriptionTooLong"
         >
           Description name is too long!
         </mat-error>
       </mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
-      <mat-label i18n=" @@taskDialogСomponentInputLablePriority ">Priority:</mat-label>
+      <mat-label i18n="@@taskDialogСomponentInputLablePriority">Priority:</mat-label>
       <mat-select formControlName="TaskPriorityId">
         <mat-option *ngFor="let priority of data.priorities" [value]="priority.id">{{ priority.label }}</mat-option>
       </mat-select>
@@ -53,7 +53,7 @@
       >
         <mat-error
           *ngIf="taskData.controls['TaskPriorityId'].errors.required"
-          i18n=" @@taskDialogСomponentInputErrorsPriorityRequired "
+          i18n="@@taskDialogСomponentInputErrorsPriorityRequired"
         >
           Priority is required!
         </mat-error>
@@ -62,9 +62,7 @@
   </form>
 </div>
 <div mat-dialog-actions class="task-dialog-actions">
-  <atoms-icon-button (click)="dialogRef.close()" [icon]="['fas', 'times']" color="basic">
-    Cancel
-  </atoms-icon-button>
+  <atoms-icon-button (click)="dialogRef.close()" [icon]="['fas', 'times']" color="basic"> Cancel </atoms-icon-button>
   <atoms-icon-button [disabled]="taskData.invalid" (onclick)="onSubmit()" [icon]="['fas', 'save']" color="primary">
     Save
   </atoms-icon-button>

@@ -18,12 +18,12 @@ export class RoleResolver implements Resolve<Role> {
 
     return this.store.pipe(
       select(selectRoleById(id)),
-      tap(role => {
+      tap((role) => {
         if (!role) {
           this.store.dispatch(roleRequested({ id }));
         }
       }),
-      filter(role => !!role),
+      filter((role) => !!role),
       first()
     );
   }

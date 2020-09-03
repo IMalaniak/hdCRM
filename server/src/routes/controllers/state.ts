@@ -16,7 +16,7 @@ export class StateController {
     State.create({
       ...req.body
     })
-      .then(state => {
+      .then((state) => {
         return res.status(OK).json({ success: true, message: 'State is created successfully!', data: state });
       })
       .catch((err: any) => {
@@ -30,7 +30,7 @@ export class StateController {
   private getList(_: Request, res: Response<CollectionApiResponse<State>>) {
     Logger.Info(`Selecting states list...`);
     State.findAll()
-      .then(states => {
+      .then((states) => {
         res.status(OK).json({ success: true, data: states });
       })
       .catch((err: any) => {

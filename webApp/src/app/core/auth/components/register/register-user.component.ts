@@ -47,6 +47,7 @@ export class RegisterUserComponent implements OnInit {
           Validators.required,
           Validators.maxLength(25),
           Validators.pattern(
+            // tslint:disable-next-line: quotemark
             "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
           )
         ]),
@@ -54,6 +55,7 @@ export class RegisterUserComponent implements OnInit {
           Validators.required,
           Validators.maxLength(25),
           Validators.pattern(
+            // tslint:disable-next-line: quotemark
             "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
           )
         ]),
@@ -82,7 +84,7 @@ export class RegisterUserComponent implements OnInit {
   initPasswordValidation(): void {
     const password: AbstractControl = this.getControl('userCredentials', 'password');
 
-    this.getControl('userCredentials', 'generatePassword').valueChanges.subscribe(value => {
+    this.getControl('userCredentials', 'generatePassword').valueChanges.subscribe((value) => {
       if (value) {
         password.setValidators(null);
         password.reset();
@@ -96,12 +98,13 @@ export class RegisterUserComponent implements OnInit {
   initOrganizationValidation(): void {
     const title: AbstractControl = this.getControl('userOrganization', 'title');
 
-    this.getControl('userOrganization', 'type').valueChanges.subscribe(value => {
+    this.getControl('userOrganization', 'type').valueChanges.subscribe((value) => {
       if (value === 'company') {
         title.setValidators([
           Validators.required,
           Validators.maxLength(50),
           Validators.pattern(
+            // tslint:disable-next-line: quotemark
             "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
           )
         ]);

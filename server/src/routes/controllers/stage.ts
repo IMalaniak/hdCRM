@@ -16,7 +16,7 @@ export class StageController {
     Stage.create({
       ...req.body
     })
-      .then(stage => {
+      .then((stage) => {
         return res.status(OK).json({ success: true, message: 'Stage created successfull!', data: stage });
       })
       .catch((err: any) => {
@@ -40,7 +40,7 @@ export class StageController {
         }
       ]
     })
-      .then(data => {
+      .then((data) => {
         return res.status(OK).json({ success: true, data: data.rows, resultsNum: data.count });
       })
       .catch((err: any) => {

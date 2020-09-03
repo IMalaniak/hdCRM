@@ -37,9 +37,9 @@ const authReducer = createReducer(
     AuthActions.requestCurrentUser,
     AuthActions.updateUserOrgRequested,
     AuthActions.updateUserProfileRequested,
-    state => ({ ...state, loading: true })
+    (state) => ({ ...state, loading: true })
   ),
-  on(AuthActions.registerSuccess, AuthActions.deleteSessionSuccess, state => ({
+  on(AuthActions.registerSuccess, AuthActions.deleteSessionSuccess, (state) => ({
     ...state,
     loading: false
   })),
@@ -60,7 +60,12 @@ const authReducer = createReducer(
   })),
   on(AuthActions.refreshSessionFailure, () => ({ ...initialState })),
   on(AuthActions.setSessionId, (state, { sessionId }) => ({ ...state, sessionId })),
-  on(AuthActions.checkIsTokenValidSuccess, state => ({ ...state, loading: false, isTokenValid: true, loggedIn: true })),
+  on(AuthActions.checkIsTokenValidSuccess, (state) => ({
+    ...state,
+    loading: false,
+    isTokenValid: true,
+    loggedIn: true
+  })),
   on(AuthActions.checkIsTokenValidFailure, () => ({ ...initialState })),
   on(AuthActions.logOut, () => ({ ...initialState })),
   on(AuthActions.currentUserLoaded, (state, { currentUser }) => ({ ...state, currentUser, loading: false })),
@@ -70,7 +75,7 @@ const authReducer = createReducer(
     currentUser.Organization = organization;
     return { ...state, currentUser };
   }),
-  on(AuthActions.resetPasswordSuccess, AuthActions.activateAccountSuccess, AuthActions.authApiError, state => ({
+  on(AuthActions.resetPasswordSuccess, AuthActions.activateAccountSuccess, AuthActions.authApiError, (state) => ({
     ...state,
     loading: false
   }))

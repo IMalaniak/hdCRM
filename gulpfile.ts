@@ -10,21 +10,21 @@ modules.forEach((it) => {
   task({
     name: `${it}:lint`,
     fct: lint(cwd, false),
-    desc: `Lints ${it}`,
+    desc: `Lints ${it}`
   });
 
   task({
     name: `${it}:format`,
     alias: `${it[0]}f`, // e.g. 'wf' === 'webApp:format'
     fct: lint(cwd, true),
-    desc: `Formats (force --fix for linting) ${it}`,
+    desc: `Formats (force --fix for linting) ${it}`
   });
 
   task({
     name: `${it}:install`,
     alias: `${it[0]}i`, // e.g. 'wi' === 'webApp:install'
     fct: doRun('npm install', { cwd }),
-    desc: `Runs 'npm install' on ${it}`,
+    desc: `Runs 'npm install' on ${it}`
   });
 
   // task({
@@ -38,7 +38,7 @@ artifactModules.forEach((it) => {
   task({
     name: `${it}:pre-build`,
     fct: series(`${it}:lint`),
-    desc: `Lints ${it}`,
+    desc: `Lints ${it}`
   });
 });
 
@@ -58,20 +58,20 @@ require('./gulpfile.server');
 
 task({
   name: 'lintAll',
-  fct: parallel(modules.map((it) => `${it}:lint`)),
+  fct: parallel(modules.map((it) => `${it}:lint`))
 });
 
 task({
   name: 'formatAll',
   alias: 'fa',
-  fct: parallel(modules.map((it) => `${it}:format`)),
+  fct: parallel(modules.map((it) => `${it}:format`))
 });
 
 task({
   name: 'installAll',
   alias: 'ia',
   fct: parallel(modules.map((it) => `${it}:install`)),
-  desc: "runs 'npm install' on all submodules",
+  desc: "runs 'npm install' on all submodules"
 });
 
 // task({
@@ -82,5 +82,5 @@ task({
 
 task({
   name: 'buildAll',
-  fct: parallel(artifactModules.map((it) => `${it}:build`)),
+  fct: parallel(artifactModules.map((it) => `${it}:build`))
 });

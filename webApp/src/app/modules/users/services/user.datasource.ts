@@ -17,7 +17,7 @@ export class UsersDataSource implements DataSource<User> {
     this.store
       .pipe(
         select(selectUsersPage(page)),
-        tap(users => {
+        tap((users) => {
           if (users.length > 0) {
             this.usersSubject.next(users);
           } else {

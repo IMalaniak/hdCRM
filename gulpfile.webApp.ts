@@ -4,13 +4,13 @@ import { doRun, task } from './gulpfile.functions';
 const cwd = { cwd: 'webApp' };
 const devTimeoutSeconds = 24 * 60 * 60;
 const devOptions = {
-  commandTimeoutSeconds: devTimeoutSeconds,
+  commandTimeoutSeconds: devTimeoutSeconds
 };
 
 task({
   name: 'webApp:checkTypes',
   fct: doRun('node_modules/.bin/tsc --noEmit', { ...cwd, ...devOptions }),
-  desc: 'Check the webApp code typings (run tsc)',
+  desc: 'Check the webApp code typings (run tsc)'
 });
 
 task({
@@ -19,10 +19,10 @@ task({
     'webApp:checkTypes',
     doRun('NODE_ENV=production node_modules/.bin/webpack', {
       ...cwd,
-      ...devOptions,
+      ...devOptions
     })
   ),
-  desc: 'Build the webApp application (run webpack)',
+  desc: 'Build the webApp application (run webpack)'
 });
 
 task({
@@ -31,22 +31,22 @@ task({
     'webApp:checkTypes',
     doRun('NODE_ENV=development node_modules/.bin/webpack', {
       ...cwd,
-      ...devOptions,
+      ...devOptions
     })
   ),
-  desc: 'Build the webApp application in development mode (run webpack)',
+  desc: 'Build the webApp application in development mode (run webpack)'
 });
 
 task({
   name: 'webApp:build',
   fct: series('webApp:install', 'webApp:compile'),
-  desc: 'Install all dependencies and compile the application',
+  desc: 'Install all dependencies and compile the application'
 });
 
 task({
   name: 'webApp:build-dev',
   fct: series('webApp:install', 'webApp:compile-dev'),
-  desc: 'Install all dependencies and compile the application in development mode',
+  desc: 'Install all dependencies and compile the application in development mode'
 });
 
 task({
@@ -59,5 +59,5 @@ task({
       { ...cwd, ...devOptions }
     )
   ),
-  desc: 'Start the webApp dev server on port 3333',
+  desc: 'Start the webApp dev server on port 3333'
 });

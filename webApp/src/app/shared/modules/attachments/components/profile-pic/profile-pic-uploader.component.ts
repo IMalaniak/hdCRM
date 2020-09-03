@@ -8,9 +8,7 @@ import { FilePond } from 'filepond';
 
 @Component({
   selector: 'app-profile-pic-uploader',
-  template: `
-    <file-pond #picuploader [options]="uploaderOptions"></file-pond>
-  `,
+  template: ` <file-pond #picuploader [options]="uploaderOptions"></file-pond> `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfilepicUploaderComponent implements OnInit {
@@ -26,7 +24,7 @@ export class ProfilepicUploaderComponent implements OnInit {
   constructor(private store$: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.store$.pipe(select(getToken)).subscribe(token => {
+    this.store$.pipe(select(getToken)).subscribe((token) => {
       this.token = token;
     });
     this.setUploaderOptions();
@@ -42,7 +40,7 @@ export class ProfilepicUploaderComponent implements OnInit {
           headers: {
             Authorization: this.token
           },
-          onload: res => this.uploaderHandleAddFile(res)
+          onload: (res) => this.uploaderHandleAddFile(res)
         },
         revert: {
           url: this.url,

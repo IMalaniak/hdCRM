@@ -23,19 +23,14 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/scss/styles.scss",
               "./node_modules/filepond/dist/filepond.min.css",
               "./node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "src/scss"
-              ]
+              "includePaths": ["src/scss"]
             },
             "scripts": []
           },
@@ -94,31 +89,19 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
-            "styles": [
-              "src/scss/styles.scss"
-            ],
+            "styles": ["src/scss/styles.scss"],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "src/scss"
-              ]
+              "includePaths": ["src/scss"]
             },
             "scripts": [],
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ]
+            "assets": ["src/favicon.ico", "src/assets"]
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -144,9 +127,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }

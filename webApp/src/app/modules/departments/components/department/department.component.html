@@ -116,9 +116,7 @@
     </div>
   </div>
   <div buttons *ngIf="canEditDepartment$ | async">
-    <atoms-icon-button *ngIf="!editForm" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
-      Edit
-    </atoms-icon-button>
+    <atoms-icon-button *ngIf="!editForm" (onclick)="onClickEdit()" [icon]="['fas', 'edit']"> Edit </atoms-icon-button>
     <atoms-icon-button *ngIf="editForm" (onclick)="updateDepartment()" [icon]="['fas', 'save']">
       Save
     </atoms-icon-button>

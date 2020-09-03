@@ -14,7 +14,7 @@ export class PlanEffects {
   createPlan$ = createEffect(() =>
     this.actions$.pipe(
       ofType(planActions.createPlan),
-      map(payload => payload.plan),
+      map((payload) => payload.plan),
       mergeMap((plan: Plan) =>
         this.planService.create(plan).pipe(
           map((response: ItemApiResponse<Plan>) => {
@@ -34,8 +34,8 @@ export class PlanEffects {
   loadPlan$ = createEffect(() =>
     this.actions$.pipe(
       ofType(planActions.planRequested),
-      map(payload => payload.id),
-      mergeMap(id => this.planService.getOne(id)),
+      map((payload) => payload.id),
+      mergeMap((id) => this.planService.getOne(id)),
       map((response: ItemApiResponse<Plan>) => planActions.planLoaded({ plan: response.data })),
       catchError(() => of(planActions.planApiError()))
     )
@@ -44,8 +44,8 @@ export class PlanEffects {
   loadPlans$ = createEffect(() =>
     this.actions$.pipe(
       ofType(planActions.listPageRequested),
-      map(payload => payload.page),
-      mergeMap(page =>
+      map((payload) => payload.page),
+      mergeMap((page) =>
         this.planService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
           map((response: CollectionApiResponse<Plan>) => planActions.listPageLoaded({ response })),
           catchError(() => of(planActions.planApiError()))
@@ -59,8 +59,8 @@ export class PlanEffects {
     () =>
       this.actions$.pipe(
         ofType(planActions.deletePlan),
-        map(payload => payload.id),
-        mergeMap(id => this.planService.delete(id)),
+        map((payload) => payload.id),
+        mergeMap((id) => this.planService.delete(id)),
         map((response: ApiResponse) => of(this.toastMessageService.snack(response))),
         catchError(() => of(planActions.planApiError()))
       ),

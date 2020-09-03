@@ -17,7 +17,7 @@ export class DepartmentsDataSource implements DataSource<Department> {
     this.store
       .pipe(
         select(selectDepartmentsPage(page)),
-        tap(departments => {
+        tap((departments) => {
           if (departments.length > 0) {
             this.departmentsSubject.next(departments);
           } else {

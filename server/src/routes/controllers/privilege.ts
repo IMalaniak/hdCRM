@@ -17,7 +17,7 @@ export class PrivilegeController {
       keyString: req.body.keyString,
       title: req.body.title
     })
-      .then(privilege => {
+      .then((privilege) => {
         return res.status(OK).json({ success: true, message: 'Privilege is created successfully!', data: privilege });
       })
       .catch((err: any) => {
@@ -31,7 +31,7 @@ export class PrivilegeController {
   private getList(_, res: Response<CollectionApiResponse<Privilege>>) {
     Logger.Info(`Selecting privileges list...`);
     Privilege.findAndCountAll()
-      .then(data => {
+      .then((data) => {
         return res.status(OK).json({ success: true, data: data.rows, resultsNum: data.count });
       })
       .catch((err: any) => {

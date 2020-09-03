@@ -3,9 +3,7 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
-      "@/*": [
-          "app/*"
-      ]
+      "@/*": ["app/*"]
     },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
@@ -16,14 +14,8 @@
     "experimentalDecorators": true,
     "target": "es5",
     "downlevelIteration": true,
-    "typeRoots": [
-      "./typings",
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
-    ]
+    "typeRoots": ["./typings", "node_modules/@types"],
+    "lib": ["es2018", "dom"]
   },
   "exclude": ["node_modules", "typings"]
 }

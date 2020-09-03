@@ -37,7 +37,7 @@ export class ChatHelper {
   }
 
   public addUser(newUser: UserOnline) {
-    const userExist = this.userList.find(user => user.id === newUser.id);
+    const userExist = this.userList.find((user) => user.id === newUser.id);
     if (userExist) {
       userExist.activeSockets.push(newUser.lastSocketId);
     } else {
@@ -47,7 +47,7 @@ export class ChatHelper {
   }
 
   public removeActiveSocket(lastSocketId: string) {
-    const userExist = this.userList.find(user => user.activeSockets.includes(lastSocketId));
+    const userExist = this.userList.find((user) => user.activeSockets.includes(lastSocketId));
     if (userExist) {
       if (userExist.activeSockets.length >= 2) {
         const i = userExist.activeSockets.indexOf(lastSocketId);
@@ -60,23 +60,23 @@ export class ChatHelper {
   }
 
   public removeUser(lastSocketId: string) {
-    const userExist = this.userList.find(user => user.activeSockets.includes(lastSocketId));
+    const userExist = this.userList.find((user) => user.activeSockets.includes(lastSocketId));
     if (userExist) {
-        this.userList = this.userList.filter(user => user.id !== userExist.id);
+      this.userList = this.userList.filter((user) => user.id !== userExist.id);
     }
     return userExist;
   }
 
   public getUser(lastSocketId: string) {
-    return this.userList.find(user => user.activeSockets.includes(lastSocketId));
+    return this.userList.find((user) => user.activeSockets.includes(lastSocketId));
   }
 
   public getUsersList(room: string) {
-    return this.userList.filter(user => user.rooms.includes(room));
+    return this.userList.filter((user) => user.rooms.includes(room));
   }
 
   public getOthersInRoom(currentUserId: number, room: string) {
-    return this.getUsersList(room).filter(user => user.id !== currentUserId);
+    return this.getUsersList(room).filter((user) => user.id !== currentUserId);
   }
 
   public createGroupChat(name: string, OrgRoom: string) {
@@ -93,11 +93,11 @@ export class ChatHelper {
   }
 
   public getGroupChatList(OrgRoom: string) {
-    return this.groupChatList.filter(chat => chat.OrgRoom === OrgRoom);
+    return this.groupChatList.filter((chat) => chat.OrgRoom === OrgRoom);
   }
 
   public getGroupChat(room: string) {
-    return this.groupChatList.find(chat => chat.room === room);
+    return this.groupChatList.find((chat) => chat.room === room);
   }
 
   public createChatMessage(message: ChatMessage) {
@@ -107,5 +107,4 @@ export class ChatHelper {
   // public joinRoom(user: UserOnline, room: string) {
   //   user.rooms.push(room);
   // }
-
 }

@@ -35,7 +35,7 @@ export class GroupChatComponent implements OnInit, OnDestroy {
     this.store
       .pipe(
         select(getGroupChatSocketInited),
-        map(groupChatSocketInited => {
+        map((groupChatSocketInited) => {
           if (!groupChatSocketInited) {
             this.store.dispatch(groupChatActions.initGroupChatSocket());
           }
@@ -68,7 +68,7 @@ export class GroupChatComponent implements OnInit, OnDestroy {
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(result => {
+      .subscribe((result) => {
         if (result) {
           this.scktService.emit(SocketEvent.NEWCHATGROUP, result);
         }

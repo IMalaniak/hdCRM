@@ -8,9 +8,8 @@ describe('MoleculesUserListSmItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MoleculesUserListSmItemComponent ]
-    })
-    .compileComponents();
+      declarations: [MoleculesUserListSmItemComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

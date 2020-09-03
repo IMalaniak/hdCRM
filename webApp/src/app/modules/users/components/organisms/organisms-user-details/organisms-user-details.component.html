@@ -10,9 +10,7 @@
     </div>
   </div>
   <div buttons *ngIf="canEdit">
-    <atoms-icon-button *ngIf="!editForm" (click)="onClickEdit()" [icon]="['fas', 'edit']">
-      Edit
-    </atoms-icon-button>
+    <atoms-icon-button *ngIf="!editForm" (click)="onClickEdit()" [icon]="['fas', 'edit']"> Edit </atoms-icon-button>
 
     <atoms-icon-button *ngIf="editForm" (click)="onUpdateUserSubmit()" [icon]="['fas', 'save']">
       Save

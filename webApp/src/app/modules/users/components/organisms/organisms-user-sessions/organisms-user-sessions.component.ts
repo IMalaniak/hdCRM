@@ -28,9 +28,9 @@ export class OrganismsUserSessionsComponent implements OnChanges {
   }
 
   mapUserSessions(): void {
-    this.currentSession = this.user.UserSessions.find(uSession => uSession.id === this.currentSessionId);
+    this.currentSession = this.user.UserSessions.find((uSession) => uSession.id === this.currentSessionId);
     this.otherActiveSessions = this.user.UserSessions.filter(
-      uSession => uSession.id !== this.currentSessionId && uSession.isSuccess
+      (uSession) => uSession.id !== this.currentSessionId && uSession.isSuccess
     );
   }
 
@@ -61,7 +61,7 @@ export class OrganismsUserSessionsComponent implements OnChanges {
   onRemoveSession(sessionId: number): void {
     this.toastMessageService
       .confirm('Are you sure?', 'Do you really want to deactivate this session? You will not be able to recover this!')
-      .then(result => {
+      .then((result) => {
         if (result.value) {
           this.removeSession(sessionId);
         }
@@ -74,9 +74,9 @@ export class OrganismsUserSessionsComponent implements OnChanges {
         'Are you sure?',
         'Do you really want to deactivate all other active sessions? Current session will stay active!'
       )
-      .then(result => {
+      .then((result) => {
         if (result.value) {
-          const sessionIds: number[] = this.otherActiveSessions.map(session => session.id);
+          const sessionIds: number[] = this.otherActiveSessions.map((session) => session.id);
           this.removeSession(sessionIds);
         }
       });

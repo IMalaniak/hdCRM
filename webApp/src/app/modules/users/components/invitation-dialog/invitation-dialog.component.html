@@ -19,19 +19,19 @@
       >
         <mat-error
           *ngIf="userData.controls['fullname'].errors.required"
-          i18n=" @@invitationDialogСomponentInputErrorsFullnameRequired "
+          i18n="@@invitationDialogСomponentInputErrorsFullnameRequired"
         >
           Full name is required!
         </mat-error>
         <mat-error
           *ngIf="userData.controls['fullname'].errors.maxlength"
-          i18n=" @@invitationDialogСomponentInputErrorsFullnameTooLong "
+          i18n="@@invitationDialogСomponentInputErrorsFullnameTooLong"
         >
           Full name is too long!
         </mat-error>
         <mat-error
           *ngIf="userData.controls['fullname'].errors.pattern"
-          i18n=" @@invitationDialogСomponentInputErrorsFullnameInvalid "
+          i18n="@@invitationDialogСomponentInputErrorsFullnameInvalid"
         >
           Full name is invalid!
         </mat-error>
@@ -47,13 +47,13 @@
       >
         <mat-error
           *ngIf="userData.controls['email'].errors.required"
-          i18n=" @@invitationDialogСomponentInputErrorsEmailRequired "
+          i18n="@@invitationDialogСomponentInputErrorsEmailRequired"
         >
           Email is required!
         </mat-error>
         <mat-error
           *ngIf="userData.controls['email'].errors.pattern"
-          i18n=" @@invitationDialogСomponentInputErrorsEmailInvalid "
+          i18n="@@invitationDialogСomponentInputErrorsEmailInvalid"
         >
           Invalid email address!
         </mat-error>
@@ -76,9 +76,7 @@
 </div>
 <mat-divider class="mt-4 mt-md-0"></mat-divider>
 <div mat-dialog-actions class="justify-content-end mb-1 mt-3">
-  <atoms-icon-button (onclick)="onNoClick()" [icon]="['fas', 'times']" color="basic">
-    Cancel
-  </atoms-icon-button>
+  <atoms-icon-button (onclick)="onNoClick()" [icon]="['fas', 'times']" color="basic"> Cancel </atoms-icon-button>
   <atoms-icon-button [disabled]="invitedUsers.length === 0" (onclick)="sendInvitation()" [icon]="['fas', 'envelope']">
     Send invitations
   </atoms-icon-button>

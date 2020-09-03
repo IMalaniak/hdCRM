@@ -6,18 +6,18 @@ import { Plan } from '../models';
 export const selectPlansState = createFeatureSelector<fromPlan.PlansState>(fromPlan.plansFeatureKey);
 
 export const selectPlanById = (planId: number) =>
-  createSelector(selectPlansState, plansState => plansState.entities[planId]);
+  createSelector(selectPlansState, (plansState) => plansState.entities[planId]);
 
 export const selectAllPlans = createSelector(selectPlansState, fromPlan.selectAll);
 
 export const selectPlansByStage = (stageId: number) =>
-  createSelector(selectAllPlans, plans => plans.filter(plan => plan.activeStageId === stageId));
+  createSelector(selectAllPlans, (plans) => plans.filter((plan) => plan.activeStageId === stageId));
 
-export const selectPlansLoading = createSelector(selectPlansState, plansState => plansState.loading);
+export const selectPlansLoading = createSelector(selectPlansState, (plansState) => plansState.loading);
 
-export const selectPlansPagesCount = createSelector(selectPlansState, plansState => plansState.pages);
+export const selectPlansPagesCount = createSelector(selectPlansState, (plansState) => plansState.pages);
 
-export const selectPlansTotalCount = createSelector(selectPlansState, plansState => plansState.countAll);
+export const selectPlansTotalCount = createSelector(selectPlansState, (plansState) => plansState.countAll);
 
 export const selectPlansPage = (page: PageQuery) =>
   createSelector(selectAllPlans, selectPlansPagesCount, (allPlans: Plan[], pagesCount: number) => {

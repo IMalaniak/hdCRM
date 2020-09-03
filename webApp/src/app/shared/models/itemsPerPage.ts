@@ -4,4 +4,4 @@ export enum IItemsPerPage {
   FIFTEEN = '15'
 }
 
-export const pageSizeOptions = Object.values(IItemsPerPage).map(val => parseInt(val, 0));
+export const pageSizeOptions = Object.values(IItemsPerPage).map((val) => parseInt(val, 0));

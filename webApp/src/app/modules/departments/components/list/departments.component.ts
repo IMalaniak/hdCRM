@@ -71,7 +71,7 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
   deleteDepartment(id: number): void {
     this.toastMessageService
       .confirm('Are you sure?', 'Do you really want to delete department? You will not be able to recover!')
-      .then(result => {
+      .then((result) => {
         if (result.value) {
           this.store$.dispatch(deleteDepartment({ id }));
         }

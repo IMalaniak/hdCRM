@@ -82,7 +82,7 @@ export class UserService {
     }
     if (formated.Roles && formated.Roles.length) {
       formated = Object.assign({}, formated, {
-        Roles: formated.Roles.map(role => {
+        Roles: formated.Roles.map((role) => {
           return <Role>{
             id: role.id
           };

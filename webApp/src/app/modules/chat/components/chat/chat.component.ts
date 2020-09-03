@@ -22,7 +22,7 @@ export class ChatComponent implements OnInit, OnChanges, OnDestroy {
   messageContent: FormControl;
 
   constructor(private chatService: ChatService, private socketService: SocketService, private store$: Store<AppState>) {
-    this.store$.pipe(select(currentUser)).subscribe(systemUser => {
+    this.store$.pipe(select(currentUser)).subscribe((systemUser) => {
       this.user = systemUser;
     });
   }

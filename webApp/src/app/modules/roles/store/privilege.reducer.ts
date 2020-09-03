@@ -18,8 +18,8 @@ const initialState: PrivilegesState = adapter.getInitialState({
 const privilegesReducer = createReducer(
   initialState,
   on(PrivilegeActions.createPrivilegeSuccess, (state, { privilege }) => adapter.addOne(privilege, state)),
-  on(PrivilegeActions.allPrivilegesRequested, state => ({ ...state, loading: true })),
-  on(PrivilegeActions.allPrivilegesRequestCanceled, state => ({ ...state, loading: false })),
+  on(PrivilegeActions.allPrivilegesRequested, (state) => ({ ...state, loading: true })),
+  on(PrivilegeActions.allPrivilegesRequestCanceled, (state) => ({ ...state, loading: false })),
   on(PrivilegeActions.allPrivilegesLoaded, (state, { response }) =>
     adapter.setAll(response.data, {
       ...state,
@@ -28,7 +28,7 @@ const privilegesReducer = createReducer(
     })
   ),
   on(PrivilegeActions.privilegeSaved, (state, { privilege }) => adapter.updateOne(privilege, state)),
-  on(PrivilegeActions.privilegeApiError, state => ({ ...state }))
+  on(PrivilegeActions.privilegeApiError, (state) => ({ ...state }))
 );
 
 export function reducer(state: PrivilegesState | undefined, action: Action) {

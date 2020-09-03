@@ -74,7 +74,7 @@ export class PlanService {
     }
     if (formated.Participants && formated.Participants.length) {
       formated = Object.assign({}, formated, {
-        Participants: formated.Participants.map(participant => {
+        Participants: formated.Participants.map((participant) => {
           return <User>{
             id: participant.id
           };

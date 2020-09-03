@@ -29,8 +29,8 @@ export class AuthEffects implements OnInitEffects {
   registerUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authActions.registerUser),
-      map(payload => payload.user),
-      switchMap(registerData =>
+      map((payload) => payload.user),
+      switchMap((registerData) =>
         this.authService.registerUser(registerData).pipe(
           map(() => authActions.registerSuccess()),
           tap(() => this.router.navigateByUrl('/auth/register-success')),
@@ -43,8 +43,8 @@ export class AuthEffects implements OnInitEffects {
   logIn$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authActions.logIn),
-      map(payload => payload.user),
-      switchMap(userLoginData => this.authService.login(userLoginData)),
+      map((payload) => payload.user),
+      switchMap((userLoginData) => this.authService.login(userLoginData)),
       switchMap((accessToken: string) => {
         const sessionId = this.authService.getTokenDecoded(accessToken).sessionId;
         return [authActions.logInSuccess({ accessToken }), authActions.setSessionId({ sessionId })];
@@ -80,8 +80,8 @@ export class AuthEffects implements OnInitEffects {
   resetPassword$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authActions.resetPasswordRequest),
-      map(payload => payload.user),
-      switchMap(user =>
+      map((payload) => payload.user),
+      switchMap((user) =>
         this.authService.requestPasswordReset(user).pipe(
           map((apiResp: ApiResponse) => {
             this.toastMessageService.snack(apiResp);
@@ -99,8 +99,8 @@ export class AuthEffects implements OnInitEffects {
   setNewPassword$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authActions.setNewPassword),
-      map(payload => payload.newPassword),
-      switchMap(newPassword =>
+      map((payload) => payload.newPassword),
+      switchMap((newPassword) =>
         this.authService.resetPassword(newPassword).pipe(
           map((apiResp: ApiResponse) => {
             this.toastMessageService.snack(apiResp);
@@ -118,8 +118,8 @@ export class AuthEffects implements OnInitEffects {
   activateAccount$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authActions.activateAccount),
-      map(payload => payload.token),
-      concatMap(token =>
+      map((payload) => payload.token),
+      concatMap((token) =>
         this.authService.activateAccount(token).pipe(
           map((apiResp: ApiResponse) => {
             this.toastMessageService.snack(apiResp);
@@ -158,7 +158,7 @@ export class AuthEffects implements OnInitEffects {
     this.actions$.pipe(
       ofType(authActions.requestCurrentUser),
       switchMap(() => this.authService.getProfile()),
-      switchMap(currentUser => {
+      switchMap((currentUser) => {
         this.scktService.emit(SocketEvent.ISONLINE, {
           id: currentUser.id,
           name: currentUser.name,
@@ -207,8 +207,8 @@ export class AuthEffects implements OnInitEffects {
   deleteSession$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authActions.deleteSession),
-      map(payload => payload.id),
-      switchMap(id => this.authService.deleteSession(id)),
+      map((payload) => payload.id),
+      switchMap((id) => this.authService.deleteSession(id)),
       map((apiResp: ApiResponse) => {
         this.toastMessageService.snack(apiResp);
         return authActions.deleteSessionSuccess();
@@ -220,8 +220,8 @@ export class AuthEffects implements OnInitEffects {
   deleteMultipleSessions$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authActions.deleteMultipleSession),
-      map(payload => payload.sessionIds),
-      switchMap(sessionIds => this.authService.deleteSessionMultiple(sessionIds)),
+      map((payload) => payload.sessionIds),
+      switchMap((sessionIds) => this.authService.deleteSessionMultiple(sessionIds)),
       map((apiResp: ApiResponse) => {
         this.toastMessageService.snack(apiResp);
         return authActions.deleteSessionSuccess();
@@ -255,8 +255,8 @@ export class AuthEffects implements OnInitEffects {
   updateProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authActions.updateUserProfileRequested),
-      map(payload => payload.user),
-      switchMap(user => this.authService.updateProfile(user)),
+      map((payload) => payload.user),
+      switchMap((user) => this.authService.updateProfile(user)),
       switchMap((response: ItemApiResponse<User>) => {
         this.toastMessageService.snack(response);
         return [
@@ -271,8 +271,8 @@ export class AuthEffects implements OnInitEffects {
   updateUserOrg$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authActions.updateUserOrgRequested),
-      map(payload => payload.organization),
-      switchMap(organization => this.authService.updateOrg(organization)),
+      map((payload) => payload.organization),
+      switchMap((organization) => this.authService.updateOrg(organization)),
       switchMap((response: ItemApiResponse<Organization>) => {
         this.toastMessageService.snack(response);
         return [

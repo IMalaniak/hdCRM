@@ -74,19 +74,19 @@ export class AuthController {
         ]
       }
     )
-      .then(user => {
+      .then((user) => {
         // TODO: maybe change this, manually add privileges by root user.
         const adminR = user.Organization.Roles[0];
 
         Privilege.findAll()
-          .then(privileges => {
+          .then((privileges) => {
             adminR
               .setPrivileges(privileges)
               .then(() => {
                 adminR
                   .getPrivileges()
-                  .then(rPrivileges => {
-                    rPrivileges.forEach(privilege => {
+                  .then((rPrivileges) => {
+                    rPrivileges.forEach((privilege) => {
                       privilege.RolePrivilege.add = true;
                       privilege.RolePrivilege.delete = true;
                       privilege.RolePrivilege.edit = true;
@@ -141,13 +141,13 @@ export class AuthController {
             return res.status(BAD_REQUEST).json(err);
           });
       })
-      .catch(ValidationError, UniqueConstraintError, error => {
+      .catch(ValidationError, UniqueConstraintError, (error) => {
         Logger.Err(ValidationError);
         Logger.Err(UniqueConstraintError);
         Logger.Err(error);
         return res.status(BAD_REQUEST).json(error);
       })
-      .catch(err => {
+      .catch((err) => {
         Logger.Err(err);
         return res.status(BAD_REQUEST).json(err);
       });
@@ -164,17 +164,17 @@ export class AuthController {
         }
       }
     })
-      .then(pa => {
+      .then((pa) => {
         if (pa) {
           pa.getUser()
-            .then(user => {
+            .then((user) => {
               user.StateId = 2;
               user
                 .save()
-                .then(user => {
+                .then((user) => {
                   user
                     .getPasswordAttributes()
-                    .then(pa => {
+                    .then((pa) => {
                       if (pa) {
                         pa.token = null;
                         pa.tokenExpire = null;
@@ -248,7 +248,7 @@ export class AuthController {
         }
       ]
     })
-      .then(user => {
+      .then((user) => {
         if (!user) {
           return res.status(BAD_REQUEST).json({
             success: false,
@@ -275,7 +275,7 @@ export class AuthController {
 
         const isMatch = Crypt.validatePassword(password, user.passwordHash, user.salt);
         if (isMatch) {
-          this.saveLogInAttempt(req, user, true).then(userSession => {
+          this.saveLogInAttempt(req, user, true).then((userSession) => {
             const access_token = JwtHelper.generateToken({
               type: 'access',
               payload: { userId: user.id, sessionId: userSession.id }
@@ -310,8 +310,8 @@ export class AuthController {
   private refreshSession(req: Request, res: Response<ApiResponse | TokenExpiredError | string>) {
     Logger.Info(`Refreshing user session...`);
     const cookies = parseCookies(req);
-    if (cookies['refresh_token']) {
-      JwtHelper.getVerified({ type: 'refresh', token: cookies['refresh_token'] })
+    if (cookies.refresh_token) {
+      JwtHelper.getVerified({ type: 'refresh', token: cookies.refresh_token })
         .then(({ userId, sessionId }: JwtDecoded) => {
           const newToken = JwtHelper.generateToken({ type: 'access', payload: { userId, sessionId } });
           return res.status(OK).json(`JWT ${newToken}`);
@@ -344,11 +344,11 @@ export class AuthController {
         ]
       }
     })
-      .then(user => {
+      .then((user) => {
         if (user) {
           user
             .getPasswordAttributes()
-            .then(pa => {
+            .then((pa) => {
               const token = Crypt.genTimeLimitedToken(5);
               const sendPasswordResetMail = () => {
                 Mailer.sendPasswordReset(user, `${process.env.WEB_URL}/auth/password-reset/${token.value}`)
@@ -382,7 +382,7 @@ export class AuthController {
                     token: token.value,
                     tokenExpire: token.expireDate
                   })
-                  .then(pa => {
+                  .then((pa) => {
                     sendPasswordResetMail();
                   });
               }
@@ -415,7 +415,7 @@ export class AuthController {
         }
       }
     })
-      .then(pa => {
+      .then((pa) => {
         if (pa) {
           if (req.body.newPassword === req.body.verifyPassword) {
             pa.getUser()
@@ -425,10 +425,10 @@ export class AuthController {
                 user.salt = passwordData.salt;
                 user
                   .save()
-                  .then(user => {
+                  .then((user) => {
                     user
                       .getPasswordAttributes()
-                      .then(pa => {
+                      .then((pa) => {
                         if (pa) {
                           pa.token = null;
                           pa.tokenExpire = null;
@@ -486,7 +486,7 @@ export class AuthController {
   private async create(req: Request, res: Response<ApiResponse>) {
     Logger.Info(`Logging user out...`);
     const cookies = parseCookies(req);
-    const { sessionId } = await JwtHelper.getDecoded(cookies['refresh_token']);
+    const { sessionId } = await JwtHelper.getDecoded(cookies.refresh_token);
     this.userDbCtrl
       .removeSession(sessionId)
       .then(() => {

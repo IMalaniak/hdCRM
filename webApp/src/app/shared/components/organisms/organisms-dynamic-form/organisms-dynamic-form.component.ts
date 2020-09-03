@@ -55,7 +55,7 @@ export class OrganismsDynamicFormComponent implements OnChanges, OnDestroy {
       this.form = this.dynamicFormService.generateFormGroupFrom(this.formJson, this.data);
       this.form.valueChanges
         .pipe(takeUntil(this.unsubscribe), debounceTime(300))
-        .subscribe(values => this.formChanges.emit(values));
+        .subscribe((values) => this.formChanges.emit(values));
     }
   }
 

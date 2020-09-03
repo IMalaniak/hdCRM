@@ -43,7 +43,7 @@ const plansReducer = createReducer(
     })
   ),
   on(PlanActions.planLoaded, (state, { plan }) => adapter.addOne(plan, state)),
-  on(PlanActions.listPageRequested, state => ({ ...state, loading: true })),
+  on(PlanActions.listPageRequested, (state) => ({ ...state, loading: true })),
   on(PlanActions.listPageLoaded, (state, { response: { data, pages, resultsNum } }) =>
     adapter.upsertMany(data, {
       ...state,
@@ -53,7 +53,7 @@ const plansReducer = createReducer(
     })
   ),
   on(PlanActions.planSaved, (state, { plan }) => adapter.updateOne(plan, state)),
-  on(PlanActions.planApiError, state => ({ ...state, loading: false }))
+  on(PlanActions.planApiError, (state) => ({ ...state, loading: false }))
 );
 
 export function reducer(state: PlansState | undefined, action: Action) {

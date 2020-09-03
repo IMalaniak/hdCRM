@@ -90,7 +90,7 @@ export class FormController {
             label: 'State',
             isEditable: true,
             editOnly: true,
-            options: states.map(state => {
+            options: states.map((state) => {
               return {
                 label: state.keyString,
                 value: state.id
@@ -154,7 +154,7 @@ export class FormController {
       }
     ];
 
-    const form = forms.find(form => form.formName === formName);
+    const form = forms.find((form) => form.formName === formName);
 
     res.status(OK).json({ success: true, data: form });
   }

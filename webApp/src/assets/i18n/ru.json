@@ -1,218 +1,218 @@
 {
-    "GLOBAL": {
-      "PopUps": {
-        "confirmButtonText": "Да",
-        "cancelButtonText": "Нет, оставить",
-        "nextButtonText": "Дальше &rarr;",
-        "serverError": "Ой, что-то не так!"
-      },
-      "States": {
-        "initialized": "Создан",
-        "disabled": "Неактивный",
-        "active": "Активный"
-      },
-      "Stages": {
-        "created": "Создан",
-        "inProgress": "В процессе",
-        "finished": "Завершен"
-      },
-      "Privileges": {
-        "editUser": "Редактировать Пользователя",
-        "deleteUser": "Удалять Пользователя",
-        "addUser": "Создавать Пользователя",
-        "editPlan": "Редактировать План",
-        "deletePlan": "Удалять План",
-        "addPlan": "Создавать План",
-        "editRole": "Редактировать Роль",
-        "deleteRole": "Удалять Роль",
-        "addRole": "Создавать Роль"
-      },
-      "Languages": {
-        "labels": {
-          "uk": "Українська",
-          "ru": "Русский",
-          "pl": "Polski",
-          "en": "English"
-        }
-      },
-      "List": {
-        "createdAt": "Дата создания",
-        "updatedAt": "Дата модификации"
-      },
-      "Actions": {
-        "edit": "Редактировать",
-        "saveChanges": "Сохранить",
-        "cancelEdit": "Отмена"
+  "GLOBAL": {
+    "PopUps": {
+      "confirmButtonText": "Да",
+      "cancelButtonText": "Нет, оставить",
+      "nextButtonText": "Дальше &rarr;",
+      "serverError": "Ой, что-то не так!"
+    },
+    "States": {
+      "initialized": "Создан",
+      "disabled": "Неактивный",
+      "active": "Активный"
+    },
+    "Stages": {
+      "created": "Создан",
+      "inProgress": "В процессе",
+      "finished": "Завершен"
+    },
+    "Privileges": {
+      "editUser": "Редактировать Пользователя",
+      "deleteUser": "Удалять Пользователя",
+      "addUser": "Создавать Пользователя",
+      "editPlan": "Редактировать План",
+      "deletePlan": "Удалять План",
+      "addPlan": "Создавать План",
+      "editRole": "Редактировать Роль",
+      "deleteRole": "Удалять Роль",
+      "addRole": "Создавать Роль"
+    },
+    "Languages": {
+      "labels": {
+        "uk": "Українська",
+        "ru": "Русский",
+        "pl": "Polski",
+        "en": "English"
       }
     },
-    "MAIN": {
-  		"Title": "myCo",
-  		"Search": {
-  			"placeholder": "Поиск",
-  			"button": "Поиск"
-  		},
-  		"UserDropdown": {
-  			"logout": "Выйти",
-        "login": "Войти"
-  		},
-  		"Footer": {
-  			"toTop": "Вверх",
-  			"signature": "Проект:&nbsp; <a href='http://mywebmaster.pp.ua' data-toggle='tooltip' title='MyWebMaster Web Studio - web sites projects'>mywebmaster</a><br>All right reserved."
-  		}
+    "List": {
+      "createdAt": "Дата создания",
+      "updatedAt": "Дата модификации"
     },
-    "SIDEBAR": {
-      "Menu": {
-        "administration": {
-          "header": "Администрация",
-          "myProfile": "Мой профиль",
-          "users": "Пользователи",
-          "translations": "Языки",
-          "roles": "Роли"
-        },
-        "planning": {
-          "header": "Планирование",
-          "plans": "Планы",
-          "myPlans": "Мои планы",
-          "calendar": "Календарь"
-        }
-      }
+    "Actions": {
+      "edit": "Редактировать",
+      "saveChanges": "Сохранить",
+      "cancelEdit": "Отмена"
+    }
+  },
+  "MAIN": {
+    "Title": "myCo",
+    "Search": {
+      "placeholder": "Поиск",
+      "button": "Поиск"
     },
-    "REGISTERUSERCOMPONENT": {
-      "Header": "Зарегистрировать нового пользователя",
-      "Form": {
-        "labels": {
-          "login": "Логин",
-          "email": "Электронная почта",
-          "name": "Имя",
-          "surname": "Фамилия",
-          "role": "Роли",
-          "password": "Пароль"
-        },
-        "placeholders": {
-          "login": "Введите логин сюда",
-          "email": "Введите электронную почту сюда",
-          "name": "Введите имя сюда",
-          "surname": "Введите фамилию сюда"
-        }
-      },
-      "Alerts": {
-        "fieldsError": "Введите все!",
-        "badEmail": "Электронный адрес неверный!",
-        "userRegistered": "Пользователь зарегестрирован!"
-      }
+    "UserDropdown": {
+      "logout": "Выйти",
+      "login": "Войти"
     },
-    "PROFILECOMPONENT": {
-      "Header": "Мой профиль",
-      "Actions": {
-        "edit": "Редактировать"
-      }
-    },
-    "USERSCOMPONENT": {
-      "Search": {
-        "header": "Поиск пользователей"
-      },
-      "Actions": {
-        "register": "Зарегистрировать нового пользователя",
-        "exportUserList": "Экспорт"
-      },
-      "List": {
-        "header": "Список пользователей",
-        "login": "Логин",
-        "email": "Электронная почта",
-        "name": "Имя",
-        "surname": "Фамилия",
-        "phone": "Телефон",
-        "state": "Статус",
-        "defaultLang": "Язык",
-        "actions": {
-          "activate": "Активировать пользователя",
-          "deactivate": "Заблокировать пользователя"
-        }
-      },
-      "PopUps": {
-        "stateUpdatedTo": "Статус пользователя изменен на: "
-      }
-    },
-    "USERCOMPONENT": {
-      "Header": "Детали",
-      "User": {
-        "name": "Имя",
-        "surname": "Фамилия",
-        "login": "Логин",
-        "email": "Электронная почта",
-        "phone": "Телефон",
-        "state": "Статус",
-        "role": "Роли",
-        "defaultLang": "Язык"
-      },
-      "Actions": {
-        "edit": "Редактировать"
-      },
-      "PopUps": {
-        "udpateUserTitle": "Ты уверен?",
-        "udpateUserText": "Ты действительно хочешь сохранить изменения? Ты не сможешь это восстановить!",
-        "udpateUserSuccess": "Пользователь обновлен!",
-        "udpateUserError": "Ой, что-то не так!"
-      }
-    },
-    "ROLESCOMPONENT": {
-      "Actions": {
-        "create": "Создать новую роль",
-        "exportRoleList": "Експортировать список ролей"
-      },
-      "List": {
-        "header": "Список ролей",
-        "title": "Название",
-        "usersCount": "Пользователи",
-        "privilegesCount": "Привилегии"
-      }
-    },
-    "ROLECOMPONENT": {
-      "Header": "Детали роли",
-      "Role": {
+    "Footer": {
+      "toTop": "Вверх",
+      "signature": "Проект:&nbsp; <a href='http://mywebmaster.pp.ua' data-toggle='tooltip' title='MyWebMaster Web Studio - web sites projects'>mywebmaster</a><br>All right reserved."
+    }
+  },
+  "SIDEBAR": {
+    "Menu": {
+      "administration": {
+        "header": "Администрация",
+        "myProfile": "Мой профиль",
         "users": "Пользователи",
-        "privileges": "Привилегии"
+        "translations": "Языки",
+        "roles": "Роли"
       },
-      "Actions": {
-        "edit": "Редактировать роль",
-        "addUser": "Добавить пользователя к роли"
-      },
-      "PopUps": {
-        "udpateRoleTitle": "Ты уверен?",
-        "udpateRoleText": "Ты действительно хочешь сохранить изменения? Ты не сможешь это восстановить!",
-        "udpateRoleSuccess": "Роль обновлена!",
-        "udpateRoleError": "Ой, что-то не так!"
-      }
-    },
-    "PLANNERCOMPONENT": {
-      "List": {
-        "header": "Список планов",
-        "title": "Название",
-        "creator": "Создатель",
-        "stage": "Этап",
-        "participants": "Участники",
-        "deadline": "Крайний срок"
-      },
-      "Actions": {
-        "create": "Создать новой план"
-      }
-    },
-    "PLANCOMPONENT": {
-      "Header": "Детали плана",
-      "Plan": {
-        "title": "Название",
-        "creator": "Создатель",
-        "budget": "Бюджет",
-        "decsription": "Описание",
-        "stage": "Этап",
-        "participants": "Участники",
-        "deadline": "Крайний срок",
-        "createdAt": "Дата создания",
-        "updatedAt": "Последние изменения"
-      },
-      "Actions": {
-        "edit": "Редактировать план",
-        "addParticipant": "Добавить участников"
+      "planning": {
+        "header": "Планирование",
+        "plans": "Планы",
+        "myPlans": "Мои планы",
+        "calendar": "Календарь"
       }
     }
+  },
+  "REGISTERUSERCOMPONENT": {
+    "Header": "Зарегистрировать нового пользователя",
+    "Form": {
+      "labels": {
+        "login": "Логин",
+        "email": "Электронная почта",
+        "name": "Имя",
+        "surname": "Фамилия",
+        "role": "Роли",
+        "password": "Пароль"
+      },
+      "placeholders": {
+        "login": "Введите логин сюда",
+        "email": "Введите электронную почту сюда",
+        "name": "Введите имя сюда",
+        "surname": "Введите фамилию сюда"
+      }
+    },
+    "Alerts": {
+      "fieldsError": "Введите все!",
+      "badEmail": "Электронный адрес неверный!",
+      "userRegistered": "Пользователь зарегестрирован!"
+    }
+  },
+  "PROFILECOMPONENT": {
+    "Header": "Мой профиль",
+    "Actions": {
+      "edit": "Редактировать"
+    }
+  },
+  "USERSCOMPONENT": {
+    "Search": {
+      "header": "Поиск пользователей"
+    },
+    "Actions": {
+      "register": "Зарегистрировать нового пользователя",
+      "exportUserList": "Экспорт"
+    },
+    "List": {
+      "header": "Список пользователей",
+      "login": "Логин",
+      "email": "Электронная почта",
+      "name": "Имя",
+      "surname": "Фамилия",
+      "phone": "Телефон",
+      "state": "Статус",
+      "defaultLang": "Язык",
+      "actions": {
+        "activate": "Активировать пользователя",
+        "deactivate": "Заблокировать пользователя"
+      }
+    },
+    "PopUps": {
+      "stateUpdatedTo": "Статус пользователя изменен на: "
+    }
+  },
+  "USERCOMPONENT": {
+    "Header": "Детали",
+    "User": {
+      "name": "Имя",
+      "surname": "Фамилия",
+      "login": "Логин",
+      "email": "Электронная почта",
+      "phone": "Телефон",
+      "state": "Статус",
+      "role": "Роли",
+      "defaultLang": "Язык"
+    },
+    "Actions": {
+      "edit": "Редактировать"
+    },
+    "PopUps": {
+      "udpateUserTitle": "Ты уверен?",
+      "udpateUserText": "Ты действительно хочешь сохранить изменения? Ты не сможешь это восстановить!",
+      "udpateUserSuccess": "Пользователь обновлен!",
+      "udpateUserError": "Ой, что-то не так!"
+    }
+  },
+  "ROLESCOMPONENT": {
+    "Actions": {
+      "create": "Создать новую роль",
+      "exportRoleList": "Експортировать список ролей"
+    },
+    "List": {
+      "header": "Список ролей",
+      "title": "Название",
+      "usersCount": "Пользователи",
+      "privilegesCount": "Привилегии"
+    }
+  },
+  "ROLECOMPONENT": {
+    "Header": "Детали роли",
+    "Role": {
+      "users": "Пользователи",
+      "privileges": "Привилегии"
+    },
+    "Actions": {
+      "edit": "Редактировать роль",
+      "addUser": "Добавить пользователя к роли"
+    },
+    "PopUps": {
+      "udpateRoleTitle": "Ты уверен?",
+      "udpateRoleText": "Ты действительно хочешь сохранить изменения? Ты не сможешь это восстановить!",
+      "udpateRoleSuccess": "Роль обновлена!",
+      "udpateRoleError": "Ой, что-то не так!"
+    }
+  },
+  "PLANNERCOMPONENT": {
+    "List": {
+      "header": "Список планов",
+      "title": "Название",
+      "creator": "Создатель",
+      "stage": "Этап",
+      "participants": "Участники",
+      "deadline": "Крайний срок"
+    },
+    "Actions": {
+      "create": "Создать новой план"
+    }
+  },
+  "PLANCOMPONENT": {
+    "Header": "Детали плана",
+    "Plan": {
+      "title": "Название",
+      "creator": "Создатель",
+      "budget": "Бюджет",
+      "decsription": "Описание",
+      "stage": "Этап",
+      "participants": "Участники",
+      "deadline": "Крайний срок",
+      "createdAt": "Дата создания",
+      "updatedAt": "Последние изменения"
+    },
+    "Actions": {
+      "edit": "Редактировать план",
+      "addParticipant": "Добавить участников"
+    }
+  }
 }

@@ -52,7 +52,7 @@ export class UserController {
     const limit = parseInt(queryParams.pageSize);
     this.userDbCtrl
       .getAll(req.user, queryParams)
-      .then(data => {
+      .then((data) => {
         const pages = Math.ceil(data.count / limit);
         return res.status(OK).json({ success: true, data: data.rows, resultsNum: data.count, pages });
       })
@@ -81,7 +81,7 @@ export class UserController {
   private updateOne(req: RequestWithBody<Partial<User>>, res: Response<ItemApiResponse<User>>) {
     this.userDbCtrl
       .updateOne(req.body)
-      .then(result => {
+      .then((result) => {
         if (result) {
           this.userDbCtrl
             .getById(req.body.id)
@@ -106,7 +106,7 @@ export class UserController {
   private updateProfile(req: RequestWithBody<Partial<User>>, res: Response<ItemApiResponse<User>>) {
     this.userDbCtrl
       .updateOne(req.body)
-      .then(result => {
+      .then((result) => {
         if (result) {
           this.userDbCtrl
             .getById(req.body.id)
@@ -137,7 +137,7 @@ export class UserController {
 
     if (req.body.newPassword === req.body.verifyPassword) {
       User.findByPk(req.user.id)
-        .then(user => {
+        .then((user) => {
           const sendPasswordResetConfirmation = () => {
             Mailer.sendPasswordResetConfirmation(user)
               .then(() => {
@@ -163,8 +163,8 @@ export class UserController {
                 if (req.body.deleteSessions) {
                   const cookies = parseCookies(req);
 
-                  if (cookies['refresh_token']) {
-                    JwtHelper.getVerified({ type: 'refresh', token: cookies['refresh_token'] })
+                  if (cookies.refresh_token) {
+                    JwtHelper.getVerified({ type: 'refresh', token: cookies.refresh_token })
                       .then(({ userId, sessionId }: JwtDecoded) => {
                         this.userDbCtrl
                           .removeUserSessionsExept(userId, sessionId)
@@ -207,7 +207,7 @@ export class UserController {
   @Middleware([Passport.authenticate(), uploads.single('profile-pic-uploader')])
   private setUserAvatar(req: Request, res: Response<ItemApiResponse<Asset>>) {
     if (req.file) {
-      jimp.read(req.file.path).then(tpl =>
+      jimp.read(req.file.path).then((tpl) =>
         tpl
           .clone()
           .resize(100, jimp.AUTO)
@@ -215,10 +215,10 @@ export class UserController {
       );
     }
     User.findByPk(req.params.id)
-      .then(user => {
+      .then((user) => {
         user
           .getAvatar()
-          .then(avatar => {
+          .then((avatar) => {
             if (avatar) {
               Asset.destroy({
                 where: { id: avatar.id }
@@ -238,7 +238,7 @@ export class UserController {
                           };
                           user
                             .createAvatar(av)
-                            .then(newAv => {
+                            .then((newAv) => {
                               return res.status(OK).json({
                                 success: true,
                                 message: 'User profile picture is updated successfully!',
@@ -272,7 +272,7 @@ export class UserController {
               };
               user
                 .createAvatar(av)
-                .then(newAv => {
+                .then((newAv) => {
                   return res
                     .status(OK)
                     .json({ success: true, message: 'User profile picture is added successfully!', data: newAv });
@@ -298,10 +298,10 @@ export class UserController {
   @Middleware([Passport.authenticate()])
   private deleteUserAvatar(req: Request, res: Response<ApiResponse>) {
     User.findByPk(req.params.id)
-      .then(user => {
+      .then((user) => {
         user
           .getAvatar()
-          .then(avatar => {
+          .then((avatar) => {
             if (avatar) {
               Asset.destroy({
                 where: { id: avatar.id }
@@ -348,11 +348,11 @@ export class UserController {
   private updateUserState(req: RequestWithBody<Partial<User>>, res: Response<ItemApiResponse<User>>) {
     this.userDbCtrl
       .updateUserState(req.body)
-      .then(result => {
+      .then((result) => {
         if (result) {
           this.userDbCtrl
             .getById(req.body.id)
-            .then(user => {
+            .then((user) => {
               return res.status(OK).json({ success: true, message: 'User state is updated successfully!', data: user });
             })
             .catch((error: any) => {
@@ -373,12 +373,12 @@ export class UserController {
   private changeStateOfSelected(req: Request, res: Response<ApiResponse>) {
     Logger.Info(`Changing state of selected users...`);
     const promises = [];
-    req.body.userIds.forEach(userId => {
+    req.body.userIds.forEach((userId) => {
       promises.push(this.userDbCtrl.updateUserState(userId));
     });
 
     return Promise.all(promises)
-      .then(result => {
+      .then((result) => {
         return res.status(OK).json({ success: true, message: 'Changed state of selected users!' });
       })
       .catch((error: any) => {
@@ -392,7 +392,7 @@ export class UserController {
   private deleteOne(req: Request, res: Response<ApiResponse>) {
     this.userDbCtrl
       .deleteOne(req.params.id)
-      .then(result => {
+      .then((result) => {
         return res.status(OK).json({ success: true, message: `Deleted ${result} user` });
       })
       .catch((error: any) => {
@@ -403,7 +403,7 @@ export class UserController {
 
   @Post('invite/')
   @Middleware([Passport.authenticate()])
-  private inviteMany(req: RequestWithBody<Array<Partial<User>>>, res: Response<CollectionApiResponse<User>>) {
+  private inviteMany(req: RequestWithBody<Partial<User>[]>, res: Response<CollectionApiResponse<User>>) {
     Logger.Info(`Inviting users...`);
     const promises = [];
 
@@ -419,7 +419,7 @@ export class UserController {
           user.login = user.fullname.replace(' ', '_');
           this.userDbCtrl
             .create(user)
-            .then(u => {
+            .then((u) => {
               const token = Crypt.genTimeLimitedToken(24 * 60);
               u.createPasswordAttributes({
                 token: token.value,
@@ -477,7 +477,7 @@ export class UserController {
   private deleteMultipleSessions(req: Request, res: Response<ApiResponse>) {
     this.userDbCtrl
       .removeSession(req.body.sessionIds)
-      .then(num => {
+      .then((num) => {
         return res.status(OK).json({ success: true, message: `${num} sessions have been removed!` });
       })
       .catch((error: any) => {
@@ -494,7 +494,7 @@ export class UserController {
       .then(() => {
         req.user
           .getOrganization()
-          .then(org => {
+          .then((org) => {
             return res.status(OK).json({ success: true, message: 'Organization is updated successfully!', data: org });
           })
           .catch((error: any) => {

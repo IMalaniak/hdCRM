@@ -16,8 +16,8 @@ export class SocketService {
   }
 
   public onEvent(event: SocketEvent): Observable<any> {
-    return new Observable<SocketEvent>(observer => {
-      this.socket.on(event, params => observer.next(params));
+    return new Observable<SocketEvent>((observer) => {
+      this.socket.on(event, (params) => observer.next(params));
     });
   }
 }

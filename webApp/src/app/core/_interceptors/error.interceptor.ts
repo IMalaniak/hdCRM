@@ -25,8 +25,8 @@ const genericRetryStrategy = ({
       // or response is a status code we don't wish to retry, throw error
       if (
         retryAttempt > maxRetryAttempts ||
-        excludedStatusCodes.some(e => e === error.status) ||
-        excludeUrl.some(e => error.url.includes(e))
+        excludedStatusCodes.some((e) => e === error.status) ||
+        excludeUrl.some((e) => error.url.includes(e))
       ) {
         return throwError(error);
       }
@@ -41,14 +41,14 @@ export class ErrorInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
-      catchError(err => {
+      catchError((err) => {
         // i put here >= sign because there is more than one type of 500 error
         if (err.status >= 500) {
           this.router.navigateByUrl('/server-error');
         } else if (err.status === 401 && !request.url.includes('refresh-session')) {
           this.store$.dispatch(refreshSession());
         } else if (err.status === 403 && request.url.includes('refresh-session')) {
-          this.store$.pipe(select(selectUrl), first()).subscribe(url => {
+          this.store$.pipe(select(selectUrl), first()).subscribe((url) => {
             if (url && !url.includes('home') && !url.includes('auth')) {
               this.store$.dispatch(redirectToLogin());
             }
@@ -59,7 +59,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         // TODO @JohnRostislavovich create logger module
         return throwError(err);
       }),
-      filter(ev => ev.type !== 0),
+      filter((ev) => ev.type !== 0),
       retryWhen(
         genericRetryStrategy({
           maxRetryAttempts: 2,

@@ -32,7 +32,7 @@ export class PrivilegeEffects {
   createPrivilege$ = createEffect(() =>
     this.actions$.pipe(
       ofType(privilegeActions.createPrivilege),
-      map(payload => payload.privilege),
+      map((payload) => payload.privilege),
       mergeMap((privilege: Privilege) =>
         this.privilegeService.create(privilege).pipe(
           map((response: ItemApiResponse<Privilege>) => {

@@ -18,12 +18,12 @@ export class PlanResolver implements Resolve<Plan> {
 
     return this.store.pipe(
       select(selectPlanById(id)),
-      tap(plan => {
+      tap((plan) => {
         if (!plan) {
           this.store.dispatch(planRequested({ id }));
         }
       }),
-      filter(plan => !!plan),
+      filter((plan) => !!plan),
       first()
     );
   }

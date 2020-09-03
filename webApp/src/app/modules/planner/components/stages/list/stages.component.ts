@@ -35,12 +35,12 @@ export class StagesComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.unsubscribe),
         select(selectAllStages),
-        map(data => {
+        map((data) => {
           this.resultsLength = data.length;
           return data;
         })
       )
-      .subscribe(data => (this.stages = data));
+      .subscribe((data) => (this.stages = data));
   }
 
   isAllSelected(): boolean {
@@ -51,7 +51,7 @@ export class StagesComponent implements OnInit, OnDestroy {
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle(): void {
-    this.isAllSelected() ? this.selection.clear() : this.stages.forEach(row => this.selection.select(row));
+    this.isAllSelected() ? this.selection.clear() : this.stages.forEach((row) => this.selection.select(row));
   }
 
   createStageDialog(): void {
@@ -64,7 +64,7 @@ export class StagesComponent implements OnInit, OnDestroy {
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(result => {
+      .subscribe((result) => {
         if (result) {
           const stage = { keyString: result } as Stage;
           this.store.dispatch(createStage({ stage }));

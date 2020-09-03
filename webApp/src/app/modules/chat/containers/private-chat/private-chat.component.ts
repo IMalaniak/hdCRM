@@ -20,7 +20,7 @@ export class PrivateChatComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(OnlineUserListRequested());
-    this.store.pipe(select(selectUsersOnline)).subscribe(users => {
+    this.store.pipe(select(selectUsersOnline)).subscribe((users) => {
       console.log(users);
     });
   }

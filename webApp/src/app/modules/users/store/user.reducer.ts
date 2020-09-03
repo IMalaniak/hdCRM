@@ -39,7 +39,7 @@ const usersReducer = createReducer(
     editing: isEditing
   })),
   on(UserActions.userLoaded, (state, { user }) => adapter.addOne(user, state)),
-  on(UserActions.listPageRequested, state => ({ ...state, loading: true })),
+  on(UserActions.listPageRequested, (state) => ({ ...state, loading: true })),
   on(UserActions.listPageLoaded, (state, { response: { data, pages, resultsNum } }) =>
     adapter.upsertMany(data, {
       ...state,
@@ -48,7 +48,7 @@ const usersReducer = createReducer(
       countAll: resultsNum
     })
   ),
-  on(UserActions.OnlineUserListRequested, state => ({ ...state, loading: true })),
+  on(UserActions.OnlineUserListRequested, (state) => ({ ...state, loading: true })),
   on(UserActions.OnlineUserListLoaded, (state, { list }) =>
     adapter.upsertMany(list, {
       ...state,
@@ -65,7 +65,7 @@ const usersReducer = createReducer(
       ...state
     })
   ),
-  on(UserActions.updateUserRequested, state => ({ ...state, loading: true })),
+  on(UserActions.updateUserRequested, (state) => ({ ...state, loading: true })),
   on(UserActions.updateUserSuccess, (state, { user }) =>
     adapter.updateOne(user, { ...state, loading: false, editing: false })
   ),
@@ -81,9 +81,9 @@ const usersReducer = createReducer(
       countAll: state.countAll + invitedUsers.length
     })
   ),
-  on(UserActions.changeOldPassword, state => ({ ...state, loading: true })),
-  on(UserActions.changePasswordSuccess, state => ({ ...state, loading: false })),
-  on(UserActions.userApiError, state => ({ ...state, loading: false }))
+  on(UserActions.changeOldPassword, (state) => ({ ...state, loading: true })),
+  on(UserActions.changePasswordSuccess, (state) => ({ ...state, loading: false })),
+  on(UserActions.userApiError, (state) => ({ ...state, loading: false }))
 );
 
 export function reducer(state: UsersState | undefined, action: Action) {

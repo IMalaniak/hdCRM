@@ -14,8 +14,8 @@ export class PrivilegeGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.store$.pipe(
       select(isPrivileged(route.data.privilege)),
-      skipWhile(flag => flag === undefined),
-      tap(privileged => {
+      skipWhile((flag) => flag === undefined),
+      tap((privileged) => {
         if (!privileged) {
           this.toastMessageService.popup('Sorry, You have no rights to see this page!', 'error').then(() => {
             return false;

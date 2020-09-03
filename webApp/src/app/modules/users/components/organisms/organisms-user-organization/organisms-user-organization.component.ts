@@ -25,7 +25,7 @@ export class OrganismsUserOrganizationComponent {
   onUpdateOrgSubmit(): void {
     this.toastMessageService
       .confirm('Are you sure?', 'Do you really want to save changes? You will not be able to recover this!')
-      .then(result => {
+      .then((result) => {
         if (result.value) {
           this.updateOrg.emit(this.organization);
         }

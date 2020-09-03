@@ -17,7 +17,7 @@ export class RolesDataSource implements DataSource<Role> {
     this.store
       .pipe(
         select(selectRolesPage(page)),
-        tap(roles => {
+        tap((roles) => {
           if (roles.length > 0) {
             this.rolesSubject.next(roles);
           } else {

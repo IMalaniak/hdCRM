@@ -1,305 +1,305 @@
 {
-	"BREADCRUMBS": {
-		"administration": "",
-		"dashboard": "",
-		"home": "",
-		"login": "",
-		"myprofile": "",
-		"planAdd": "",
-		"planDetails": "",
-		"planner": "",
-		"roleAdd": "",
-		"roleDetails": "",
-		"roles": "",
-		"translations": "",
-		"userDetails": "",
-		"userRegister": "",
-		"users": ""
-	},
-	"GLOBAL": {
-		"Actions": {
-			"cancelEdit": "Скасувати",
-			"edit": "Редагувати",
-			"saveChanges": "Зберегти зміни"
-		},
-		"Languages": {
-			"labels": {
-			  "uk": "Українська",
-			  "ru": "Русский",
-			  "pl": "Polski",
-			  "en": "English"
-			}
-		},
-		"List": {
-			"createdAt": "Дата створення",
-			"updatedAt": "Дата редагування"
-		},
-		"PopUps": {
-			"cancelButtonText": "Ні",
-			"confirmButtonText": "Так",
-			"nextButtonText": "Далі &rarr;",
-			"serverError": "Ой, щось пішло не так!"
-		},
-		"Privileges": {
-			"addPlan": "Додавати План",
-			"addRole": "Додавати Роль",
-			"addUser": "Додавати Користувача",
-			"deletePlan": "Видаляти План",
-			"deleteRole": "Видаляти Роль",
-			"deleteUser": "Видаляти Користувача",
-			"editPlan": "Редагувати План",
-			"editRole": "Редагувати Роль",
-			"editUser": "Редагувати Користувача",
-			"showDebug": "Показати налагодження"
-		},
-		"Stages": {
-			"created": "Створений",
-			"finished": "Завершений",
-			"inProgress": "В процесі"
-		},
-		"States": {
-			"active": "Активний",
-			"archive": "",
-			"disabled": "Неактивний",
-			"initialized": "Створений"
-		},
-		"StatesPlural": {
-			"active": "",
-			"archive": "",
-			"disabled": "",
-			"initialized": ""
-		}
-	},
-	"MAIN": {
-		"Footer": {
-			"signature": "Проект:&nbsp; <a href='http://mywebmaster.pp.ua' data-toggle='tooltip' title='Веб студія MyWebMaster - проектування та дизайн веб сайтів'>mywebmaster</a><br>Всі права захищено.",
-			"toTop": "Вгору"
-		},
-		"Search": {
-			"button": "Пошук",
-			"placeholder": "Пошук"
-		},
-		"Title": "myCo",
-		"UserDropdown": {
-			"login": "Увійти",
-			"logout": "Вийти"
-		}
-	},
-	"PLANCOMPONENT": {
-		"Actions": {
-			"addParticipant": "Додати учасників",
-			"edit": "Редагувати план"
-		},
-		"Header": "Деталі плану",
-		"Plan": {
-			"budget": "Бюджет",
-			"createdAt": "Дата створення",
-			"creator": "Ініціатор",
-			"deadline": "Дедлайн",
-			"decsription": "Опис",
-			"participants": "Учасники",
-			"stage": "Етап",
-			"title": "Назва",
-			"updatedAt": "Останні зміни"
-		}
-	},
-	"PLANNERCOMPONENT": {
-		"Actions": {
-			"create": "Створити новий план"
-		},
-		"List": {
-			"creator": "Ініціатор",
-			"deadline": "Дедлайн",
-			"header": "Список планів",
-			"participants": "Учасники",
-			"stage": "Стадія",
-			"title": "Назва"
-		}
-	},
-	"PROFILECOMPONENT": {
-		"Actions": {
-			"edit": "Редагувати"
-		},
-		"Header": "Мій профіль",
-		"User": {
-			"defaultLangWarning": ""
-		}
-	},
-	"REGISTERROLECOMPONENT": {
-		"Actions": {
-			"addUser": "",
-			"submit": ""
-		},
-		"Form": {
-			"labels": {
-				"name": "",
-				"privileges": ""
-			},
-			"placeholders": {
-				"title": ""
-			}
-		},
-		"Header": "",
-		"PopUps": {
-			"selectUsersTitle": ""
-		},
-		"Users": ""
-	},
-	"REGISTERUSERCOMPONENT": {
-		"Actions": {
-			"submit": ""
-		},
-		"Alerts": {
-			"badEmail": "Електронна пошта не відповідає дійсності!",
-			"fieldsError": "Будь ласка, заповніть всі поля!",
-			"userRegistered": "Користувач зареєстрований!"
-		},
-		"Form": {
-			"labels": {
-				"defaultLang": "",
-				"email": "Електронна пошта",
-				"login": "Логін",
-				"name": "Ім'я",
-				"password": "Пароль",
-				"phone": "",
-				"role": "Роль",
-				"surname": "Прізвище"
-			},
-			"placeholders": {
-				"email": "Введіть сюди електронну пошту",
-				"login": "Введіть логін сюди",
-				"name": "Введіть ім'я тут",
-				"phone": "",
-				"surname": "Введіть прізвище тут"
-			}
-		},
-		"Header": "Зареєструвати нового користувача"
-	},
-	"ROLECOMPONENT": {
-		"Actions": {
-			"addUser": "Додати користувача до ролі",
-			"edit": "Редагувати роль"
-		},
-		"Form": {
-			"labels": {
-				"name": ""
-			}
-		},
-		"Header": "Деталі ролі",
-		"PopUps": {
-			"selectUsersTitle": "",
-			"udpateRoleError": "Ой, щось пішло не так!",
-			"udpateRoleSuccess": "Дані ролі змінено!",
-			"udpateRoleText": "Справді хочеш зберегти зміни? Не можна буде відновити попередні дані!",
-			"udpateRoleTitle": "Чи Ти впевнений?"
-		},
-		"Role": {
-			"privileges": "Привілеї",
-			"users": "Користувачі"
-		}
-	},
-	"ROLESCOMPONENT": {
-		"Actions": {
-			"create": "Додати нову роль",
-			"exportRoleList": "Експортувати список"
-		},
-		"List": {
-			"header": "Список ролей",
-			"privilegesCount": "Привілеї",
-			"title": "Назва",
-			"usersCount": "Користувачі"
-		}
-	},
-	"ROLESCOMPONENTDIALOG": {
-		"Actions": {
-			"cancel": "",
-			"ok": ""
-		}
-	},
-	"SIDEBAR": {
-		"Menu": {
-			"administration": {
-				"header": "Адміністрація",
-				"myProfile": "Мій профіль",
-				"roles": "Ролі",
-				"translations": "Переклади",
-				"users": "Користувачі"
-			},
-			"dashboard": "",
-			"home": "",
-			"planning": {
-				"calendar": "Календар",
-				"header": "Планування",
-				"myPlans": "Мої плани",
-				"plans": "Плани"
-			}
-		}
-	},
-	"USERCOMPONENT": {
-		"Actions": {
-			"addRole": "",
-			"edit": "Редагувати"
-		},
-		"Header": "Деталі користувача",
-		"PopUps": {
-			"selectRolesTitle": "",
-			"udpateUserError": "Не вдалося редагувати користувача...",
-			"udpateUserSuccess": "Дані користувача змінено!",
-			"udpateUserText": "Справді хочеш зберегти зміни? Не можна буде відновити попередні дані!",
-			"udpateUserTitle": "Чи Ти впевнений?"
-		},
-		"User": {
-			"defaultLang": "Мова",
-			"defaultLangWarning": "",
-			"email": "Електронна пошта",
-			"login": "Логін",
-			"name": "Ім'я",
-			"phone": "Телефон",
-			"role": "Роль",
-			"state": "Стан",
-			"surname": "Прізвище"
-		}
-	},
-	"USERSCOMPONENT": {
-		"Actions": {
-			"exportUserList": "Експортувати таблицю користувачів",
-			"register": "Додати користувача"
-		},
-		"BulkSection": {
-			"actions": {
-				"activate": "",
-				"archive": "",
-				"deactivate": ""
-			},
-			"actionsWithSelected": "",
-			"selected": ""
-		},
-		"List": {
-			"actions": {
-				"activate": "Активувати користувача",
-				"archive": "",
-				"deactivate": "Деактивувати користувача"
-			},
-			"defaultLang": "Мова",
-			"email": "Електронна пошта",
-			"header": "Список користувачів",
-			"login": "Логін",
-			"name": "Ім'я",
-			"phone": "Телефон",
-			"state": "Стан",
-			"surname": "Прізвище"
-		},
-		"PopUps": {
-			"stateUpdatedTo": "Стан користувача змінено на: "
-		},
-		"Search": {
-			"header": "Пошук користувачів"
-		}
-	},
-	"USERSCOMPONENTDIALOG": {
-		"Actions": {
-			"cancel": "",
-			"ok": ""
-		}
-	}
+  "BREADCRUMBS": {
+    "administration": "",
+    "dashboard": "",
+    "home": "",
+    "login": "",
+    "myprofile": "",
+    "planAdd": "",
+    "planDetails": "",
+    "planner": "",
+    "roleAdd": "",
+    "roleDetails": "",
+    "roles": "",
+    "translations": "",
+    "userDetails": "",
+    "userRegister": "",
+    "users": ""
+  },
+  "GLOBAL": {
+    "Actions": {
+      "cancelEdit": "Скасувати",
+      "edit": "Редагувати",
+      "saveChanges": "Зберегти зміни"
+    },
+    "Languages": {
+      "labels": {
+        "uk": "Українська",
+        "ru": "Русский",
+        "pl": "Polski",
+        "en": "English"
+      }
+    },
+    "List": {
+      "createdAt": "Дата створення",
+      "updatedAt": "Дата редагування"
+    },
+    "PopUps": {
+      "cancelButtonText": "Ні",
+      "confirmButtonText": "Так",
+      "nextButtonText": "Далі &rarr;",
+      "serverError": "Ой, щось пішло не так!"
+    },
+    "Privileges": {
+      "addPlan": "Додавати План",
+      "addRole": "Додавати Роль",
+      "addUser": "Додавати Користувача",
+      "deletePlan": "Видаляти План",
+      "deleteRole": "Видаляти Роль",
+      "deleteUser": "Видаляти Користувача",
+      "editPlan": "Редагувати План",
+      "editRole": "Редагувати Роль",
+      "editUser": "Редагувати Користувача",
+      "showDebug": "Показати налагодження"
+    },
+    "Stages": {
+      "created": "Створений",
+      "finished": "Завершений",
+      "inProgress": "В процесі"
+    },
+    "States": {
+      "active": "Активний",
+      "archive": "",
+      "disabled": "Неактивний",
+      "initialized": "Створений"
+    },
+    "StatesPlural": {
+      "active": "",
+      "archive": "",
+      "disabled": "",
+      "initialized": ""
+    }
+  },
+  "MAIN": {
+    "Footer": {
+      "signature": "Проект:&nbsp; <a href='http://mywebmaster.pp.ua' data-toggle='tooltip' title='Веб студія MyWebMaster - проектування та дизайн веб сайтів'>mywebmaster</a><br>Всі права захищено.",
+      "toTop": "Вгору"
+    },
+    "Search": {
+      "button": "Пошук",
+      "placeholder": "Пошук"
+    },
+    "Title": "myCo",
+    "UserDropdown": {
+      "login": "Увійти",
+      "logout": "Вийти"
+    }
+  },
+  "PLANCOMPONENT": {
+    "Actions": {
+      "addParticipant": "Додати учасників",
+      "edit": "Редагувати план"
+    },
+    "Header": "Деталі плану",
+    "Plan": {
+      "budget": "Бюджет",
+      "createdAt": "Дата створення",
+      "creator": "Ініціатор",
+      "deadline": "Дедлайн",
+      "decsription": "Опис",
+      "participants": "Учасники",
+      "stage": "Етап",
+      "title": "Назва",
+      "updatedAt": "Останні зміни"
+    }
+  },
+  "PLANNERCOMPONENT": {
+    "Actions": {
+      "create": "Створити новий план"
+    },
+    "List": {
+      "creator": "Ініціатор",
+      "deadline": "Дедлайн",
+      "header": "Список планів",
+      "participants": "Учасники",
+      "stage": "Стадія",
+      "title": "Назва"
+    }
+  },
+  "PROFILECOMPONENT": {
+    "Actions": {
+      "edit": "Редагувати"
+    },
+    "Header": "Мій профіль",
+    "User": {
+      "defaultLangWarning": ""
+    }
+  },
+  "REGISTERROLECOMPONENT": {
+    "Actions": {
+      "addUser": "",
+      "submit": ""
+    },
+    "Form": {
+      "labels": {
+        "name": "",
+        "privileges": ""
+      },
+      "placeholders": {
+        "title": ""
+      }
+    },
+    "Header": "",
+    "PopUps": {
+      "selectUsersTitle": ""
+    },
+    "Users": ""
+  },
+  "REGISTERUSERCOMPONENT": {
+    "Actions": {
+      "submit": ""
+    },
+    "Alerts": {
+      "badEmail": "Електронна пошта не відповідає дійсності!",
+      "fieldsError": "Будь ласка, заповніть всі поля!",
+      "userRegistered": "Користувач зареєстрований!"
+    },
+    "Form": {
+      "labels": {
+        "defaultLang": "",
+        "email": "Електронна пошта",
+        "login": "Логін",
+        "name": "Ім'я",
+        "password": "Пароль",
+        "phone": "",
+        "role": "Роль",
+        "surname": "Прізвище"
+      },
+      "placeholders": {
+        "email": "Введіть сюди електронну пошту",
+        "login": "Введіть логін сюди",
+        "name": "Введіть ім'я тут",
+        "phone": "",
+        "surname": "Введіть прізвище тут"
+      }
+    },
+    "Header": "Зареєструвати нового користувача"
+  },
+  "ROLECOMPONENT": {
+    "Actions": {
+      "addUser": "Додати користувача до ролі",
+      "edit": "Редагувати роль"
+    },
+    "Form": {
+      "labels": {
+        "name": ""
+      }
+    },
+    "Header": "Деталі ролі",
+    "PopUps": {
+      "selectUsersTitle": "",
+      "udpateRoleError": "Ой, щось пішло не так!",
+      "udpateRoleSuccess": "Дані ролі змінено!",
+      "udpateRoleText": "Справді хочеш зберегти зміни? Не можна буде відновити попередні дані!",
+      "udpateRoleTitle": "Чи Ти впевнений?"
+    },
+    "Role": {
+      "privileges": "Привілеї",
+      "users": "Користувачі"
+    }
+  },
+  "ROLESCOMPONENT": {
+    "Actions": {
+      "create": "Додати нову роль",
+      "exportRoleList": "Експортувати список"
+    },
+    "List": {
+      "header": "Список ролей",
+      "privilegesCount": "Привілеї",
+      "title": "Назва",
+      "usersCount": "Користувачі"
+    }
+  },
+  "ROLESCOMPONENTDIALOG": {
+    "Actions": {
+      "cancel": "",
+      "ok": ""
+    }
+  },
+  "SIDEBAR": {
+    "Menu": {
+      "administration": {
+        "header": "Адміністрація",
+        "myProfile": "Мій профіль",
+        "roles": "Ролі",
+        "translations": "Переклади",
+        "users": "Користувачі"
+      },
+      "dashboard": "",
+      "home": "",
+      "planning": {
+        "calendar": "Календар",
+        "header": "Планування",
+        "myPlans": "Мої плани",
+        "plans": "Плани"
+      }
+    }
+  },
+  "USERCOMPONENT": {
+    "Actions": {
+      "addRole": "",
+      "edit": "Редагувати"
+    },
+    "Header": "Деталі користувача",
+    "PopUps": {
+      "selectRolesTitle": "",
+      "udpateUserError": "Не вдалося редагувати користувача...",
+      "udpateUserSuccess": "Дані користувача змінено!",
+      "udpateUserText": "Справді хочеш зберегти зміни? Не можна буде відновити попередні дані!",
+      "udpateUserTitle": "Чи Ти впевнений?"
+    },
+    "User": {
+      "defaultLang": "Мова",
+      "defaultLangWarning": "",
+      "email": "Електронна пошта",
+      "login": "Логін",
+      "name": "Ім'я",
+      "phone": "Телефон",
+      "role": "Роль",
+      "state": "Стан",
+      "surname": "Прізвище"
+    }
+  },
+  "USERSCOMPONENT": {
+    "Actions": {
+      "exportUserList": "Експортувати таблицю користувачів",
+      "register": "Додати користувача"
+    },
+    "BulkSection": {
+      "actions": {
+        "activate": "",
+        "archive": "",
+        "deactivate": ""
+      },
+      "actionsWithSelected": "",
+      "selected": ""
+    },
+    "List": {
+      "actions": {
+        "activate": "Активувати користувача",
+        "archive": "",
+        "deactivate": "Деактивувати користувача"
+      },
+      "defaultLang": "Мова",
+      "email": "Електронна пошта",
+      "header": "Список користувачів",
+      "login": "Логін",
+      "name": "Ім'я",
+      "phone": "Телефон",
+      "state": "Стан",
+      "surname": "Прізвище"
+    },
+    "PopUps": {
+      "stateUpdatedTo": "Стан користувача змінено на: "
+    },
+    "Search": {
+      "header": "Пошук користувачів"
+    }
+  },
+  "USERSCOMPONENTDIALOG": {
+    "Actions": {
+      "cancel": "",
+      "ok": ""
+    }
+  }
 }

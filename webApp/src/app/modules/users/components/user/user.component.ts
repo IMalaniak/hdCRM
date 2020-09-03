@@ -28,12 +28,12 @@ export class UserComponent implements OnInit {
 
     this.user$ = this.store.pipe(
       select(selectUserById(id)),
-      tap(user => {
+      tap((user) => {
         if (!user) {
           this.store.dispatch(userRequested({ id }));
         }
       }),
-      filter(user => !!user)
+      filter((user) => !!user)
     );
   }
 }

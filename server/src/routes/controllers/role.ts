@@ -28,7 +28,7 @@ export class RoleController {
       ],
       order: [['id', 'ASC']]
     })
-      .then(data => {
+      .then((data) => {
         res.status(OK).json({ success: true, data: data.rows, resultsNum: data.count });
       })
       .catch((error: any) => {
@@ -45,11 +45,11 @@ export class RoleController {
       keyString: req.body.keyString,
       OrganizationId: req.user.OrganizationId
     })
-      .then(createdRole => {
+      .then((createdRole) => {
         this.findRoleById(createdRole.id)
-          .then(role => {
+          .then((role) => {
             if (req.body.Privileges) {
-              const privIds = req.body.Privileges.map(priv => {
+              const privIds = req.body.Privileges.map((priv) => {
                 return {
                   id: priv.id
                 };
@@ -60,10 +60,10 @@ export class RoleController {
                   [Op.or]: privIds
                 }
               })
-                .then(privileges => {
-                  privileges = privileges.map(privilege => {
+                .then((privileges) => {
+                  privileges = privileges.map((privilege) => {
                     privilege.RolePrivilege = req.body.Privileges.find(
-                      reqPriv => reqPriv.id === privilege.id
+                      (reqPriv) => reqPriv.id === privilege.id
                     ).RolePrivilege;
                     return privilege;
                   });
@@ -71,15 +71,15 @@ export class RoleController {
                     if (req.body.Users) {
                       User.findAll({
                         where: {
-                          [Op.or]: req.body.Users as Array<{ id: number }>
+                          [Op.or]: req.body.Users as { id: number }[]
                         }
                       })
-                        .then(users => {
+                        .then((users) => {
                           role
                             .setUsers(users)
                             .then(() => {
                               this.findRoleById(createdRole.id)
-                                .then(role => {
+                                .then((role) => {
                                   return res
                                     .status(OK)
                                     .json({ success: true, message: 'Role created successfully!', data: role });
@@ -100,7 +100,7 @@ export class RoleController {
                         });
                     } else {
                       this.findRoleById(createdRole.id)
-                        .then(role => {
+                        .then((role) => {
                           return res
                             .status(OK)
                             .json({ success: true, message: 'Role created successfully!', data: role });
@@ -169,7 +169,7 @@ export class RoleController {
       order: [[sortIndex, sortDirection.toUpperCase()]],
       distinct: true
     })
-      .then(data => {
+      .then((data) => {
         const pages = Math.ceil(data.count / limit);
         return res.status(OK).json({ success: true, data: data.rows, resultsNum: data.count, pages });
       })
@@ -184,7 +184,7 @@ export class RoleController {
   private getOne(req: Request, res: Response<ItemApiResponse<Role>>) {
     Logger.Info(`Selecting Role by roleId: ${req.params.id}...`);
     this.findRoleById(req.params.id)
-      .then(role => {
+      .then((role) => {
         return res.status(OK).json({ success: true, data: role });
       })
       .catch((err: any) => {
@@ -207,9 +207,9 @@ export class RoleController {
     )
       .then(() => {
         this.findRoleById(req.body.id)
-          .then(role => {
+          .then((role) => {
             if (req.body.Privileges) {
-              const privIds = req.body.Privileges.map(priv => {
+              const privIds = req.body.Privileges.map((priv) => {
                 return {
                   id: priv.id
                 };
@@ -220,10 +220,10 @@ export class RoleController {
                   [Op.or]: privIds
                 }
               })
-                .then(privileges => {
-                  privileges = privileges.map(privilege => {
+                .then((privileges) => {
+                  privileges = privileges.map((privilege) => {
                     privilege.RolePrivilege = req.body.Privileges.find(
-                      reqPriv => reqPriv.id === privilege.id
+                      (reqPriv) => reqPriv.id === privilege.id
                     ).RolePrivilege;
                     return privilege;
                   });
@@ -231,15 +231,15 @@ export class RoleController {
                     if (req.body.Users) {
                       User.findAll({
                         where: {
-                          [Op.or]: req.body.Users as Array<{ id: number }>
+                          [Op.or]: req.body.Users as { id: number }[]
                         }
                       })
-                        .then(users => {
+                        .then((users) => {
                           role
                             .setUsers(users)
-                            .then(result => {
+                            .then((result) => {
                               this.findRoleById(req.body.id)
-                                .then(role => {
+                                .then((role) => {
                                   return res
                                     .status(OK)
                                     .json({ success: true, message: 'Role updated successfully!', data: role });
@@ -260,7 +260,7 @@ export class RoleController {
                         });
                     } else {
                       this.findRoleById(req.body.id)
-                        .then(role => {
+                        .then((role) => {
                           return res
                             .status(OK)
                             .json({ success: true, message: 'Role updated successfully!', data: role });
@@ -298,7 +298,7 @@ export class RoleController {
     Role.destroy({
       where: { id: req.params.id }
     })
-      .then(result => {
+      .then((result) => {
         return res.status(OK).json({ success: true, message: `Deleted ${result} role` });
       })
       .catch((error: any) => {

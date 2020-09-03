@@ -30,7 +30,7 @@ export class InvitationDialogComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.store$.pipe(select(selectAllUsers), takeUntil(this.unsubscribe)).subscribe(users => {
+    this.store$.pipe(select(selectAllUsers), takeUntil(this.unsubscribe)).subscribe((users) => {
       this.appUsers = users;
     });
     this.buildUserFormGroup();
@@ -50,8 +50,8 @@ export class InvitationDialogComponent implements OnInit, OnDestroy {
   }
 
   addUserToInvitation(user: User): void {
-    const alreadyInvited: User = this.invitedUsers.find(invitedUser => invitedUser.email === user.email);
-    const alreadyAppUser: User = this.appUsers.find(appUser => appUser.email === user.email);
+    const alreadyInvited: User = this.invitedUsers.find((invitedUser) => invitedUser.email === user.email);
+    const alreadyAppUser: User = this.appUsers.find((appUser) => appUser.email === user.email);
 
     if (alreadyInvited || alreadyAppUser) {
       this.errorInvitations = true;

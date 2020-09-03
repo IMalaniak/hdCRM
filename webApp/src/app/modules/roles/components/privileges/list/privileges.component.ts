@@ -39,7 +39,7 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
           return data;
         })
       )
-      .subscribe(data => {
+      .subscribe((data) => {
         this.privileges = data;
         this.cdr.detectChanges();
       });
@@ -53,7 +53,7 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle(): void {
-    this.isAllSelected() ? this.selection.clear() : this.privileges.forEach(row => this.selection.select(row));
+    this.isAllSelected() ? this.selection.clear() : this.privileges.forEach((row) => this.selection.select(row));
   }
 
   createPrivilegeDialog(): void {

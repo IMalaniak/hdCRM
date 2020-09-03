@@ -1,4 +1,4 @@
-export const parseCookies = request => {
+export const parseCookies = (request) => {
   const list = {};
   const rc = request.headers.cookie;
 

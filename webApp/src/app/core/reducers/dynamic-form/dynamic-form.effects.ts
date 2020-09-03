@@ -11,8 +11,8 @@ export class DynamicFormEffects {
   loadForm$ = createEffect(() =>
     this.actions$.pipe(
       ofType(dynamicFormActions.formRequested),
-      map(payload => payload.formName),
-      mergeMap(formName => this.dynamicFormService.getOne(formName)),
+      map((payload) => payload.formName),
+      mergeMap((formName) => this.dynamicFormService.getOne(formName)),
       map((response: ItemApiResponse<DynamicForm>) => dynamicFormActions.formLoaded({ form: response.data })),
       catchError(() => of(dynamicFormActions.formsApiError()))
     )

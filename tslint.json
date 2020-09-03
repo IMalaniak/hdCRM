@@ -6,6 +6,8 @@
   "rules": {
     "arrow-parens": [false],
     "object-literal-sort-keys": false,
-    "variable-name": ["allow-leading-underscore"]
+    "variable-name": {
+      "options": ["allow-leading-underscore"]
+    }
   }
 }

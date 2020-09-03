@@ -5,4 +5,4 @@ export const selectStatesState = createFeatureSelector<fromState.StatesState>(fr
 
 export const selectAllStates = createSelector(selectStatesState, fromState.selectAll);
 
-export const allStatesLoaded = createSelector(selectStatesState, stateState => stateState.allStatesLoaded);
+export const allStatesLoaded = createSelector(selectStatesState, (stateState) => stateState.allStatesLoaded);

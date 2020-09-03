@@ -44,7 +44,7 @@ export class ChatEffects {
       this.actions$.pipe(
         ofType(groupChatActions.initGroupChatSocket),
         mergeMap(() => of(this.scktService.emit(SocketEvent.INITMODULE, { moduleName: 'group-chat' }))),
-        catchError(err => throwError(err))
+        catchError((err) => throwError(err))
       ),
     {
       dispatch: false

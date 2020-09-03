@@ -20,14 +20,14 @@ const initialState: DynamicFormState = adapter.getInitialState({
 
 const dynamicFormReducer = createReducer(
   initialState,
-  on(dynamicFormActions.formRequested, state => ({ ...state, isLoading: true })),
+  on(dynamicFormActions.formRequested, (state) => ({ ...state, isLoading: true })),
   on(dynamicFormActions.formLoaded, (state, { form }) =>
     adapter.addOne(form, {
       ...state,
       isLoading: false
     })
   ),
-  on(dynamicFormActions.formsApiError, state => ({ ...state, isLoading: false }))
+  on(dynamicFormActions.formsApiError, (state) => ({ ...state, isLoading: false }))
 );
 
 export function reducer(state: DynamicFormState | undefined, action: Action) {

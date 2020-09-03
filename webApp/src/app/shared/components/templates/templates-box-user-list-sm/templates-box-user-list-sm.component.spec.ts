@@ -8,9 +8,8 @@ describe('TemplatesBoxUserListSmComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TemplatesBoxUserListSmComponent ]
-    })
-    .compileComponents();
+      declarations: [TemplatesBoxUserListSmComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

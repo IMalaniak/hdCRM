@@ -15,7 +15,7 @@ export class BreadcrumbsComponent implements OnInit {
 
   ngOnInit(): void {
     this.setBreadcrumbs();
-    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event) => {
       this.setBreadcrumbs();
     });
   }
@@ -52,7 +52,7 @@ export class BreadcrumbsComponent implements OnInit {
       }
 
       // get the route's URL segment
-      const routeURL: string = child.snapshot.url.map(segment => segment.path).join('/');
+      const routeURL: string = child.snapshot.url.map((segment) => segment.path).join('/');
 
       // append route URL to URL
       url += `/${routeURL}`;

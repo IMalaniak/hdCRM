@@ -75,7 +75,7 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
   deleteRole(id: number): void {
     this.toastMessageService
       .confirm('Are you sure?', 'Do you really want to delete role? You will not be able to recover!')
-      .then(result => {
+      .then((result) => {
         if (result.value) {
           this.store$.dispatch(deleteRole({ id }));
         }

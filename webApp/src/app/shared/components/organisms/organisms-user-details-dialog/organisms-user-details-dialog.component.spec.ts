@@ -8,9 +8,8 @@ describe('OrganismsUserDetailsDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OrganismsUserDetailsDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [OrganismsUserDetailsDialogComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

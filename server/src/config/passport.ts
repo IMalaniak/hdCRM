@@ -27,14 +27,14 @@ export class Passport {
       new Strategy(this.opts, (jwt_payload, done) => {
         this.userDbCtrl
           .getById(jwt_payload.userId)
-          .then(user => {
+          .then((user) => {
             if (user) {
               return done(null, user);
             } else {
               return done(null, false);
             }
           })
-          .catch(error => {
+          .catch((error) => {
             return done(error, false);
           });
       })

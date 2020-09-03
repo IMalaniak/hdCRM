@@ -8,9 +8,8 @@ describe('OrganismsUserListSmComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OrganismsUserListSmComponent ]
-    })
-    .compileComponents();
+      declarations: [OrganismsUserListSmComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

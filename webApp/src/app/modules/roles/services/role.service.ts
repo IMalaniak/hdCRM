@@ -50,7 +50,7 @@ export class RoleService {
     let formated = { ...role };
     if (role.Users && role.Users.length) {
       formated = Object.assign({}, formated, {
-        Users: formated.Users.map(user => {
+        Users: formated.Users.map((user) => {
           return <User>{
             id: user.id
           };

@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '../reducers';
 import { Observable } from 'rxjs';
 import { tap, skipWhile } from 'rxjs/operators';
-import { isLoggedIn, isLoading} from '../auth/store/auth.selectors';
+import { isLoggedIn, isLoading } from '../auth/store/auth.selectors';
 
 import { redirectToLogin, checkIsTokenValid } from '../auth/store/auth.actions';
 
@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
     return this.store$.pipe(
       skipWhile(isLoading),
       select(isLoggedIn),
-      tap(loggedIn => {
+      tap((loggedIn) => {
         if (!loggedIn) {
           this.store$.dispatch(redirectToLogin());
         }

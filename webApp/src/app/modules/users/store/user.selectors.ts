@@ -6,24 +6,24 @@ import { User } from '../models';
 export const selectUsersState = createFeatureSelector<fromUser.UsersState>(fromUser.usersFeatureKey);
 
 export const selectUserById = (userId: number) =>
-  createSelector(selectUsersState, usersState => usersState.entities[userId]);
+  createSelector(selectUsersState, (usersState) => usersState.entities[userId]);
 
 export const selectAllUsers = createSelector(selectUsersState, fromUser.selectAll);
 
 export const selectUsersByState = (stateId: number) =>
-  createSelector(selectAllUsers, users => users.filter(user => user.StateId === stateId));
+  createSelector(selectAllUsers, (users) => users.filter((user) => user.StateId === stateId));
 
-export const selectUsersOnline = createSelector(selectAllUsers, users => users.filter(user => user.online));
+export const selectUsersOnline = createSelector(selectAllUsers, (users) => users.filter((user) => user.online));
 
-export const allUsersLoaded = createSelector(selectUsersState, userState => userState.allUsersLoaded);
+export const allUsersLoaded = createSelector(selectUsersState, (userState) => userState.allUsersLoaded);
 
-export const selectIsLoading = createSelector(selectUsersState, usersState => usersState.loading);
+export const selectIsLoading = createSelector(selectUsersState, (usersState) => usersState.loading);
 
-export const selectIsEditing = createSelector(selectUsersState, usersState => usersState.editing);
+export const selectIsEditing = createSelector(selectUsersState, (usersState) => usersState.editing);
 
-export const selectUsersPagesCount = createSelector(selectUsersState, usersState => usersState.pages);
+export const selectUsersPagesCount = createSelector(selectUsersState, (usersState) => usersState.pages);
 
-export const selectUsersTotalCount = createSelector(selectUsersState, usersState => usersState.countAll);
+export const selectUsersTotalCount = createSelector(selectUsersState, (usersState) => usersState.countAll);
 
 export const selectUsersPage = (page: PageQuery) =>
   createSelector(selectAllUsers, selectUsersPagesCount, (allUsers: User[], pagesCount: number) => {

@@ -28,7 +28,7 @@ const rolesReducer = createReducer(
     })
   ),
   on(RoleActions.roleLoaded, (state, { role }) => adapter.addOne(role, state)),
-  on(RoleActions.listPageRequested, state => ({ ...state, loading: true })),
+  on(RoleActions.listPageRequested, (state) => ({ ...state, loading: true })),
   on(RoleActions.listPageLoaded, (state, { response: { data, pages, resultsNum } }) =>
     adapter.upsertMany(data, {
       ...state,
@@ -51,7 +51,7 @@ const rolesReducer = createReducer(
       dashboardDataLoaded: true
     })
   ),
-  on(RoleActions.rolesApiError, state => ({ ...state, loading: false }))
+  on(RoleActions.rolesApiError, (state) => ({ ...state, loading: false }))
 );
 
 export function reducer(state: RolesState | undefined, action: Action) {

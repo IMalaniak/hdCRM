@@ -36,7 +36,7 @@ export function doRun(command, options: RunOptions = {}): () => Promise<void> {
           timeout: (options.commandTimeoutSeconds || DEFAULT_COMMAND_TIMEOUT_SECONDS) * 1000,
           killSignal: 'SIGKILL',
           maxBuffer: 100 * 1000 * 1000,
-          env,
+          env
         },
         (error) => {
           if (error) {
@@ -71,7 +71,7 @@ function tslint({ cwd, fix = false }) {
   } --config ${prettierConfigPath}.prettierrc '**/*.{json,ts,html,scss}'`;
   return doRun(`node_modules/.bin/tslint -p tsconfig.json -c tslint.json ${fixParam} && ${prettier}`, {
     cwd,
-    commandTimeoutSeconds: 300,
+    commandTimeoutSeconds: 300
   });
 }
 

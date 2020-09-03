@@ -58,7 +58,7 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(task => {
+      .subscribe((task) => {
         if (task) {
           if (taskToUpdate) {
             this.store.dispatch(updateTaskRequested({ task }));
@@ -76,9 +76,9 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
   deleteMultipleTask(): void {
     this.toastMessageService
       .confirm('Are you sure?', 'Do you really want to delete all comleted tasks?')
-      .then(result => {
+      .then((result) => {
         if (result.value) {
-          const taskIds: number[] = this.tasks.filter(task => task.isCompleted).map(task => task.id);
+          const taskIds: number[] = this.tasks.filter((task) => task.isCompleted).map((task) => task.id);
           this.store.dispatch(deleteMultipleTaskRequested({ taskIds }));
         }
       });
@@ -93,7 +93,7 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
   }
 
   get completedTasksLength(): boolean {
-    return this.tasks?.length ? this.tasks.filter(task => task.isCompleted).length > 0 : true;
+    return this.tasks?.length ? this.tasks.filter((task) => task.isCompleted).length > 0 : true;
   }
 
   ngOnDestroy(): void {

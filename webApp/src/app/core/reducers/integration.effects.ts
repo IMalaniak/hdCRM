@@ -24,7 +24,7 @@ export class IntegrationsEffects {
       mergeMap(([_, googleDriveIntegrationState]) => {
         if (!googleDriveIntegrationState) {
           return this.integrationsService.getGoogleDriveToken().pipe(
-            map(googleDriveToken => {
+            map((googleDriveToken) => {
               this.toastMessageService.toast('Google Drive integration is enabled!', 'success');
               return integrationsActions.googleDriveIntegrationLoaded({ googleDriveToken });
             })

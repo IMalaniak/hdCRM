@@ -72,7 +72,7 @@
         <div class="task-panel-content">
           <p class="description" *ngIf="task.description; else noDesc">{{ task.description }}</p>
           <ng-template #noDesc
-            ><p class="description" i18n=" @@taskListComponentNoDescription ">No description..</p></ng-template
+            ><p class="description" i18n="@@taskListComponentNoDescription">No description..</p></ng-template
           >
           <div class="d-flex" [ngClass]="[task.description ? 'flex-column' : 'flex-row']">
             <atoms-icon-button

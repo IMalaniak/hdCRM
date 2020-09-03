@@ -57,8 +57,8 @@ export class AddDepartmentComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$))
       .subscribe(() => {
         userC.users
-          .filter(user => this.department.Manager?.id === user.id)
-          ?.forEach(selectedManager => {
+          .filter((user) => this.department.Manager?.id === user.id)
+          ?.forEach((selectedManager) => {
             userC.selection.select(selectedManager);
           });
       });
@@ -89,8 +89,8 @@ export class AddDepartmentComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$))
       .subscribe(() => {
         userC.users
-          .filter(user => this.department.Workers.some(workers => workers.id === user.id))
-          ?.forEach(selectedWorker => {
+          .filter((user) => this.department.Workers.some((workers) => workers.id === user.id))
+          ?.forEach((selectedWorker) => {
             userC.selection.select(selectedWorker);
           });
       });
@@ -100,7 +100,7 @@ export class AddDepartmentComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: User[]) => {
         const selectedWorkers: User[] = result?.filter(
-          selectedWorker => !this.department.Workers.some(user => user.id === selectedWorker.id)
+          (selectedWorker) => !this.department.Workers.some((user) => user.id === selectedWorker.id)
         );
 
         if (selectedWorkers?.length) {
@@ -115,7 +115,7 @@ export class AddDepartmentComponent implements OnInit {
   }
 
   removeWorker(userId: number): void {
-    this.department = { ...this.department, Workers: this.department.Workers.filter(worker => worker.id !== userId) };
+    this.department = { ...this.department, Workers: this.department.Workers.filter((worker) => worker.id !== userId) };
   }
 
   onClickSubmit() {

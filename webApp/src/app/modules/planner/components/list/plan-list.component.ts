@@ -83,7 +83,7 @@ export class PlanListComponent implements AfterViewInit, OnDestroy {
   deletePlan(id: number): void {
     this.toastMessageService
       .confirm('Are you sure?', 'Do you really want to delete plan? You will not be able to recover!')
-      .then(result => {
+      .then((result) => {
         if (result.value) {
           this.store$.dispatch(deletePlan({ id }));
         }

@@ -28,7 +28,7 @@ export class StageEffects {
   createStage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(stageActions.createStage),
-      map(payload => payload.stage),
+      map((payload) => payload.stage),
       mergeMap((stage: Stage) =>
         this.stageService.create(stage).pipe(
           map((response: ItemApiResponse<Stage>) => {

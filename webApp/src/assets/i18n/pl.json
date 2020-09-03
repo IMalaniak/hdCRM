@@ -1,218 +1,218 @@
 {
-    "GLOBAL": {
-      "PopUps": {
-        "confirmButtonText": "Tak",
-        "cancelButtonText": "Nie, cofnij",
-        "nextButtonText": "Dalej &rarr;",
-        "serverError": "Coś poszło nie tak!"
-      },
-      "States": {
-        "initialized": "Utworzony",
-        "disabled": "Nieaktywny",
-        "active": "Aktywny"
-      },
-      "Stages": {
-        "created": "Utworzony",
-        "inProgress": "W procesie",
-        "finished": "Zakończony"
-      },
-      "Privileges": {
-        "editUser": "Edytować Użytkownika",
-        "deleteUser": "Usuwać Użytkownika",
-        "addUser": "Dodawać Użytkownika",
-        "editPlan": "Edytować Plan",
-        "deletePlan": "Usuwać Plan",
-        "addPlan": "Dodawać Plan",
-        "editRole": "Edytować Role",
-        "deleteRole": "Usuwać Role",
-        "addRole": "Dodawać Role"
-      },
-      "Languages": {
-        "labels": {
-          "uk": "Українська",
-          "ru": "Русский",
-          "pl": "Polski",
-          "en": "English"
-        }
-      },
-      "List": {
-        "createdAt": "Data utworzenia",
-        "updatedAt": "Data modyfikacji"
-      },
-      "Actions": {
-        "edit": "Edytuj",
-        "saveChanges": "Zapisz",
-        "cancelEdit": "Anuluj"
+  "GLOBAL": {
+    "PopUps": {
+      "confirmButtonText": "Tak",
+      "cancelButtonText": "Nie, cofnij",
+      "nextButtonText": "Dalej &rarr;",
+      "serverError": "Coś poszło nie tak!"
+    },
+    "States": {
+      "initialized": "Utworzony",
+      "disabled": "Nieaktywny",
+      "active": "Aktywny"
+    },
+    "Stages": {
+      "created": "Utworzony",
+      "inProgress": "W procesie",
+      "finished": "Zakończony"
+    },
+    "Privileges": {
+      "editUser": "Edytować Użytkownika",
+      "deleteUser": "Usuwać Użytkownika",
+      "addUser": "Dodawać Użytkownika",
+      "editPlan": "Edytować Plan",
+      "deletePlan": "Usuwać Plan",
+      "addPlan": "Dodawać Plan",
+      "editRole": "Edytować Role",
+      "deleteRole": "Usuwać Role",
+      "addRole": "Dodawać Role"
+    },
+    "Languages": {
+      "labels": {
+        "uk": "Українська",
+        "ru": "Русский",
+        "pl": "Polski",
+        "en": "English"
       }
     },
-    "MAIN": {
-  		"Title": "myCo",
-  		"Search": {
-  			"placeholder": "Szukaj",
-  			"button": "Szukaj"
-  		},
-  		"UserDropdown": {
-  			"logout": "Wyloguj",
-        "login": "Zaloguj"
-  		},
-  		"Footer": {
-  			"toTop": "Do góry",
-  			"signature": "Projekt:&nbsp; <a href='http://mywebmaster.pp.ua' data-toggle='tooltip' title='MyWebMaster Web Studio - web sites projects'>mywebmaster</a><br>All right reserved."
-  		}
+    "List": {
+      "createdAt": "Data utworzenia",
+      "updatedAt": "Data modyfikacji"
     },
-    "SIDEBAR": {
-      "Menu": {
-        "administration": {
-          "header": "Administracja",
-          "myProfile": "Mój profil",
-          "users": "Użytkownicy",
-          "translations": "Wersje językowe",
-          "roles": "Role"
-        },
-        "planning": {
-          "header": "Planowanie",
-          "plans": "Plany",
-          "myPlans": "Moje plany",
-          "calendar": "Kalendar"
-        }
-      }
+    "Actions": {
+      "edit": "Edytuj",
+      "saveChanges": "Zapisz",
+      "cancelEdit": "Anuluj"
+    }
+  },
+  "MAIN": {
+    "Title": "myCo",
+    "Search": {
+      "placeholder": "Szukaj",
+      "button": "Szukaj"
     },
-    "REGISTERUSERCOMPONENT": {
-      "Header": "Dodaj nowego użytkownika",
-      "Form": {
-        "labels": {
-          "login": "Login",
-          "email": "Email",
-          "name": "Imię",
-          "surname": "Nazwisko",
-          "role": "Role",
-          "password": "Hasło"
-        },
-        "placeholders": {
-          "login": "Wpisz login tutaj",
-          "email": "Wpisz email tutaj",
-          "name": "Wpisz imię tutaj",
-          "surname": "Wpisz nazwisko tutaj"
-        }
-      },
-      "Alerts": {
-        "fieldsError": "Proszę wypełnić wszystkie pola!",
-        "badEmail": "Email jest nieprawidłowy!",
-        "userRegistered": "Dodano nowego użytkownika!"
-      }
+    "UserDropdown": {
+      "logout": "Wyloguj",
+      "login": "Zaloguj"
     },
-    "PROFILECOMPONENT": {
-      "Header": "Mój profil",
-      "Actions": {
-        "edit": "Edytuj"
-      }
-    },
-    "USERSCOMPONENT": {
-      "Search": {
-        "header": "Wyszukiwarka użytkowników"
+    "Footer": {
+      "toTop": "Do góry",
+      "signature": "Projekt:&nbsp; <a href='http://mywebmaster.pp.ua' data-toggle='tooltip' title='MyWebMaster Web Studio - web sites projects'>mywebmaster</a><br>All right reserved."
+    }
+  },
+  "SIDEBAR": {
+    "Menu": {
+      "administration": {
+        "header": "Administracja",
+        "myProfile": "Mój profil",
+        "users": "Użytkownicy",
+        "translations": "Wersje językowe",
+        "roles": "Role"
       },
-      "Actions": {
-        "register": "Dodaj nowego użytkownika",
-        "exportUserList": "Eksportuj listę użytkowników"
-      },
-      "List": {
-        "header": "Lista użytkowników",
-        "login": "Login",
-        "email": "Email",
-        "name": "Imię",
-        "surname": "Nazwisko",
-        "phone": "Telefon",
-        "state": "Status",
-        "defaultLang": "Język",
-        "actions": {
-          "activate": "Aktywuj użytkownika",
-          "deactivate": "Zablokuj użytkownika"
-        }
-      },
-      "PopUps": {
-        "stateUpdatedTo": "Status użytkownika zmieniono na: "
-      }
-    },
-    "USERCOMPONENT": {
-      "Header": "Szczegóły",
-      "User": {
-        "name": "Imię",
-        "surname": "Nazwisko",
-        "login": "Login",
-        "email": "Email",
-        "phone": "Telefon",
-        "state": "Status",
-        "role": "Role",
-        "defaultLang": "Język"
-      },
-      "Actions": {
-        "edit": "Edytuj"
-      },
-      "PopUps": {
-        "udpateUserTitle": "Jesteś pewny?",
-        "udpateUserText": "Czy na pewno chcesz zapisać zmiany? Nie będziesz w stanie tego odzyskać!",
-        "udpateUserSuccess": "Użytkownik został zmodyfikowany!",
-        "udpateUserError": "Coś poszło nie tak!"
-      }
-    },
-    "ROLESCOMPONENT": {
-      "Actions": {
-        "create": "Dodaj nową role",
-        "exportRoleList": "Eksportuj listę"
-      },
-      "List": {
-        "header": "Lista",
-        "title": "Nazwa",
-        "usersCount": "Użytkownicy",
-        "privilegesCount": "P"
-      }
-    },
-    "ROLECOMPONENT": {
-      "Header": "Role details",
-      "Role": {
-        "users": "Users",
-        "privileges": "Przywileje"
-      },
-      "Actions": {
-        "edit": "Edytuj Role",
-        "addUser": "Dodaj użytkownika do roli"
-      },
-      "PopUps": {
-        "udpateRoleTitle": "Jesteś pewny?",
-        "udpateRoleText": "Czy na pewno chcesz zapisać zmiany? Nie będziesz w stanie tego odzyskać!",
-        "udpateRoleSuccess": "Rola została zmodyfikowana!",
-        "udpateRoleError": "Coś poszło nie tak!"
-      }
-    },
-    "PLANNERCOMPONENT": {
-      "List": {
-        "header": "Lista płanów",
-        "title": "Nazwa",
-        "creator": "Twórca",
-        "stage": "Etap",
-        "participants": "Uczestnicy",
-        "deadline": "Ostateczny termin"
-      },
-      "Actions": {
-        "create": "Create a New Plan"
-      }
-    },
-    "PLANCOMPONENT": {
-      "Header": "Szczegóły Planu",
-      "Plan": {
-        "title": "Nazwa",
-        "creator": "Twórca",
-        "budget": "Budżet",
-        "decsription": "Opis",
-        "stage": "Etap",
-        "participants": "Uczestnicy",
-        "deadline": "Ostateczny termin",
-        "createdAt": "Data utworzenia",
-        "updatedAt": "Ostatnia zmiana"
-      },
-      "Actions": {
-        "edit": "Edytuj Plan",
-        "addParticipant": "Dodaj uczestników"
+      "planning": {
+        "header": "Planowanie",
+        "plans": "Plany",
+        "myPlans": "Moje plany",
+        "calendar": "Kalendar"
       }
     }
+  },
+  "REGISTERUSERCOMPONENT": {
+    "Header": "Dodaj nowego użytkownika",
+    "Form": {
+      "labels": {
+        "login": "Login",
+        "email": "Email",
+        "name": "Imię",
+        "surname": "Nazwisko",
+        "role": "Role",
+        "password": "Hasło"
+      },
+      "placeholders": {
+        "login": "Wpisz login tutaj",
+        "email": "Wpisz email tutaj",
+        "name": "Wpisz imię tutaj",
+        "surname": "Wpisz nazwisko tutaj"
+      }
+    },
+    "Alerts": {
+      "fieldsError": "Proszę wypełnić wszystkie pola!",
+      "badEmail": "Email jest nieprawidłowy!",
+      "userRegistered": "Dodano nowego użytkownika!"
+    }
+  },
+  "PROFILECOMPONENT": {
+    "Header": "Mój profil",
+    "Actions": {
+      "edit": "Edytuj"
+    }
+  },
+  "USERSCOMPONENT": {
+    "Search": {
+      "header": "Wyszukiwarka użytkowników"
+    },
+    "Actions": {
+      "register": "Dodaj nowego użytkownika",
+      "exportUserList": "Eksportuj listę użytkowników"
+    },
+    "List": {
+      "header": "Lista użytkowników",
+      "login": "Login",
+      "email": "Email",
+      "name": "Imię",
+      "surname": "Nazwisko",
+      "phone": "Telefon",
+      "state": "Status",
+      "defaultLang": "Język",
+      "actions": {
+        "activate": "Aktywuj użytkownika",
+        "deactivate": "Zablokuj użytkownika"
+      }
+    },
+    "PopUps": {
+      "stateUpdatedTo": "Status użytkownika zmieniono na: "
+    }
+  },
+  "USERCOMPONENT": {
+    "Header": "Szczegóły",
+    "User": {
+      "name": "Imię",
+      "surname": "Nazwisko",
+      "login": "Login",
+      "email": "Email",
+      "phone": "Telefon",
+      "state": "Status",
+      "role": "Role",
+      "defaultLang": "Język"
+    },
+    "Actions": {
+      "edit": "Edytuj"
+    },
+    "PopUps": {
+      "udpateUserTitle": "Jesteś pewny?",
+      "udpateUserText": "Czy na pewno chcesz zapisać zmiany? Nie będziesz w stanie tego odzyskać!",
+      "udpateUserSuccess": "Użytkownik został zmodyfikowany!",
+      "udpateUserError": "Coś poszło nie tak!"
+    }
+  },
+  "ROLESCOMPONENT": {
+    "Actions": {
+      "create": "Dodaj nową role",
+      "exportRoleList": "Eksportuj listę"
+    },
+    "List": {
+      "header": "Lista",
+      "title": "Nazwa",
+      "usersCount": "Użytkownicy",
+      "privilegesCount": "P"
+    }
+  },
+  "ROLECOMPONENT": {
+    "Header": "Role details",
+    "Role": {
+      "users": "Users",
+      "privileges": "Przywileje"
+    },
+    "Actions": {
+      "edit": "Edytuj Role",
+      "addUser": "Dodaj użytkownika do roli"
+    },
+    "PopUps": {
+      "udpateRoleTitle": "Jesteś pewny?",
+      "udpateRoleText": "Czy na pewno chcesz zapisać zmiany? Nie będziesz w stanie tego odzyskać!",
+      "udpateRoleSuccess": "Rola została zmodyfikowana!",
+      "udpateRoleError": "Coś poszło nie tak!"
+    }
+  },
+  "PLANNERCOMPONENT": {
+    "List": {
+      "header": "Lista płanów",
+      "title": "Nazwa",
+      "creator": "Twórca",
+      "stage": "Etap",
+      "participants": "Uczestnicy",
+      "deadline": "Ostateczny termin"
+    },
+    "Actions": {
+      "create": "Create a New Plan"
+    }
+  },
+  "PLANCOMPONENT": {
+    "Header": "Szczegóły Planu",
+    "Plan": {
+      "title": "Nazwa",
+      "creator": "Twórca",
+      "budget": "Budżet",
+      "decsription": "Opis",
+      "stage": "Etap",
+      "participants": "Uczestnicy",
+      "deadline": "Ostateczny termin",
+      "createdAt": "Data utworzenia",
+      "updatedAt": "Ostatnia zmiana"
+    },
+    "Actions": {
+      "edit": "Edytuj Plan",
+      "addParticipant": "Dodaj uczestników"
+    }
+  }
 }

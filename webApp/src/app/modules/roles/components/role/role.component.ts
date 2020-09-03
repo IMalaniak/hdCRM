@@ -43,7 +43,7 @@ export class RoleComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.canEditRole$.pipe(takeUntil(this.unsubscribe)).subscribe(canEdit => {
+    this.canEditRole$.pipe(takeUntil(this.unsubscribe)).subscribe((canEdit) => {
       if (canEdit) {
         const edit = this.route.snapshot.queryParams['edit'];
         if (edit) {
@@ -75,8 +75,8 @@ export class RoleComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
       .subscribe(() => {
         userC.users
-          .filter(user => this.role.Users.some(rUser => rUser.id === user.id))
-          ?.forEach(selectedParticipant => {
+          .filter((user) => this.role.Users.some((rUser) => rUser.id === user.id))
+          ?.forEach((selectedParticipant) => {
             userC.selection.select(selectedParticipant);
           });
       });
@@ -86,7 +86,7 @@ export class RoleComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: User[]) => {
         const selectedUsers: User[] = result?.filter(
-          selectedUser => !this.role.Users.some(user => user.id === selectedUser.id)
+          (selectedUser) => !this.role.Users.some((user) => user.id === selectedUser.id)
         );
 
         if (selectedUsers?.length) {
@@ -111,8 +111,8 @@ export class RoleComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe), skipUntil(privilegesC.isLoading$), delay(300))
       .subscribe(() => {
         privilegesC.privileges
-          .filter(privilege => this.role.Privileges.some(rPrivilege => rPrivilege.id === privilege.id))
-          ?.forEach(selectedPrivilege => {
+          .filter((privilege) => this.role.Privileges.some((rPrivilege) => rPrivilege.id === privilege.id))
+          ?.forEach((selectedPrivilege) => {
             privilegesC.selection.select(selectedPrivilege);
           });
       });
@@ -123,9 +123,9 @@ export class RoleComponent implements OnInit, OnDestroy {
       .subscribe((result: Privilege[]) => {
         const selectedPrivileges: Privilege[] = result
           ?.filter(
-            selectedPrivilege => !this.role.Privileges.some(rPrivilege => rPrivilege.id === selectedPrivilege.id)
+            (selectedPrivilege) => !this.role.Privileges.some((rPrivilege) => rPrivilege.id === selectedPrivilege.id)
           )
-          ?.map(selectedPrivilege => {
+          ?.map((selectedPrivilege) => {
             return {
               ...selectedPrivilege,
               RolePrivilege: {
@@ -147,7 +147,7 @@ export class RoleComponent implements OnInit, OnDestroy {
   onUpdateRoleSubmit(): void {
     this.toastMessageService
       .confirm('You are about to update role', 'Are You sure You want to update role? Changes cannot be undone.')
-      .then(result => {
+      .then((result) => {
         if (result.value) {
           this.updateRole();
         }
@@ -168,18 +168,18 @@ export class RoleComponent implements OnInit, OnDestroy {
         this.disableEdit();
         this.toastMessageService.toast('Role updated!');
       },
-      error => {
+      (error) => {
         this.toastMessageService.popup('Server Error!', 'error');
       }
     );
   }
 
   removePrivilege(privilegeId: number): void {
-    this.role = { ...this.role, Privileges: this.role.Privileges.filter(privilege => privilege.id !== privilegeId) };
+    this.role = { ...this.role, Privileges: this.role.Privileges.filter((privilege) => privilege.id !== privilegeId) };
   }
 
   removeUser(userId: number): void {
-    this.role = { ...this.role, Users: this.role.Users.filter(user => user.id !== userId) };
+    this.role = { ...this.role, Users: this.role.Users.filter((user) => user.id !== userId) };
   }
 
   onClickEdit(): void {
@@ -189,7 +189,7 @@ export class RoleComponent implements OnInit, OnDestroy {
 
   disableEdit(): void {
     this.editForm = false;
-    this.displayedColumns = this.displayedColumns.filter(col => col !== 'actions');
+    this.displayedColumns = this.displayedColumns.filter((col) => col !== 'actions');
   }
 
   onClickCancelEdit(): void {

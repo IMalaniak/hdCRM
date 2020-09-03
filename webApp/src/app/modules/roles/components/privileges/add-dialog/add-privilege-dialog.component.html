@@ -1,6 +1,4 @@
-<h1 mat-dialog-title i18n="@@addPrivilegeComponentDialogHeaderCreatePrivilege">
-  Create privilege
-</h1>
+<h1 mat-dialog-title i18n="@@addPrivilegeComponentDialogHeaderCreatePrivilege">Create privilege</h1>
 <div mat-dialog-content>
   <form [formGroup]="privilegeGroup" class="d-flex flex-column justify-content-center">
     <mat-form-field appearance="outline">
@@ -48,9 +46,7 @@
   </form>
 </div>
 <div mat-dialog-actions class="justify-content-center">
-  <atoms-icon-button (onclick)="onNoClick()" [icon]="['fas', 'times']" color="basic">
-    Cancel
-  </atoms-icon-button>
+  <atoms-icon-button (onclick)="onNoClick()" [icon]="['fas', 'times']" color="basic"> Cancel </atoms-icon-button>
   <atoms-icon-button [icon]="['fas', 'plus']" (onclick)="onSubmitClick()" [disabled]="privilegeGroup.invalid">
     Add privilege
   </atoms-icon-button>

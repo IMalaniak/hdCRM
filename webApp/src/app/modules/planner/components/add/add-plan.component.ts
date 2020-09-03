@@ -32,7 +32,7 @@ export class AddPlanComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.store.pipe(select(currentUser), takeUntil(this.unsubscribe)).subscribe(user => {
+    this.store.pipe(select(currentUser), takeUntil(this.unsubscribe)).subscribe((user) => {
       this.appUser = user;
     });
 
@@ -64,8 +64,8 @@ export class AddPlanComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
       .subscribe(() => {
         userC.users
-          .filter(user => this.plan.Participants.some(participant => participant.id === user.id))
-          ?.forEach(selectedParticipant => {
+          .filter((user) => this.plan.Participants.some((participant) => participant.id === user.id))
+          ?.forEach((selectedParticipant) => {
             userC.selection.select(selectedParticipant);
           });
       });
@@ -75,7 +75,7 @@ export class AddPlanComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: User[]) => {
         const selectedParticipants: User[] = result?.filter(
-          selectedParticipant => !this.plan.Participants.some(user => user.id === selectedParticipant.id)
+          (selectedParticipant) => !this.plan.Participants.some((user) => user.id === selectedParticipant.id)
         );
 
         if (selectedParticipants?.length) {
@@ -86,7 +86,10 @@ export class AddPlanComponent implements OnInit, OnDestroy {
   }
 
   removeParticipant(userId: number): void {
-    this.plan = { ...this.plan, Participants: this.plan.Participants.filter(participant => participant.id !== userId) };
+    this.plan = {
+      ...this.plan,
+      Participants: this.plan.Participants.filter((participant) => participant.id !== userId)
+    };
   }
 
   onClickSubmit(): void {

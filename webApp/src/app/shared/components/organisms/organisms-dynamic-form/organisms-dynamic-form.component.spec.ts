@@ -8,9 +8,8 @@ describe('OrganismsDynamicFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OrganismsDynamicFormComponent ]
-    })
-    .compileComponents();
+      declarations: [OrganismsDynamicFormComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

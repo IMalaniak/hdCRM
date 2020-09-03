@@ -64,7 +64,7 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
   constructor(private router: Router, public mediaquery: MediaqueryService, private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event) => {
       if (this.mediaquery.isMobileDevice) {
         this.toggleLeftSidebar(true);
         this.toggleRightSidebar(true);

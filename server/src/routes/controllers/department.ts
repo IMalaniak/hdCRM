@@ -29,7 +29,7 @@ export class DepartmentController {
       ],
       order: [['id', 'ASC']]
     })
-      .then(data => {
+      .then((data) => {
         res.status(OK).json({ success: true, data: data.rows, resultsNum: data.count });
       })
       .catch((error: any) => {
@@ -110,7 +110,7 @@ export class DepartmentController {
       order: [[sortIndex, sortDirection.toUpperCase()]],
       distinct: true
     })
-      .then(data => {
+      .then((data) => {
         const pages = Math.ceil(data.count / limit);
         res.status(OK).json({ success: true, data: data.rows, resultsNum: data.count, pages });
       })
@@ -130,7 +130,7 @@ export class DepartmentController {
       managerId: req.body.Manager.id,
       OrganizationId: req.user.OrganizationId
     })
-      .then(dep => {
+      .then((dep) => {
         const addParentDepPromise = req.body.ParentDepartment
           ? this.addParentDepPr(dep, req.body.ParentDepartment)
           : Promise.resolve(true);
@@ -146,7 +146,7 @@ export class DepartmentController {
         Promise.all([addParentDepPromise, addSubDepartmentsPromise, addWorkersPromise])
           .then(() => {
             this.findDepByPk(dep.id)
-              .then(dep => {
+              .then((dep) => {
                 res.status(OK).json({ success: true, message: 'Department created successfully!', data: dep });
               })
               .catch((err: any) => {
@@ -181,7 +181,7 @@ export class DepartmentController {
     )
       .then(() => {
         this.findDepByPk(req.body.id)
-          .then(dep => {
+          .then((dep) => {
             const addParentDepPromise = req.body.ParentDepartment
               ? this.addParentDepPr(dep, req.body.ParentDepartment)
               : Promise.resolve(true);
@@ -197,7 +197,7 @@ export class DepartmentController {
             Promise.all([addParentDepPromise, addSubDepartmentsPromise, addWorkersPromise])
               .then(() => {
                 this.findDepByPk(req.body.id)
-                  .then(dep => {
+                  .then((dep) => {
                     res.status(OK).json({ success: true, message: 'Department updated successfully!', data: dep });
                   })
                   .catch((error: any) => {
@@ -230,7 +230,7 @@ export class DepartmentController {
     Department.destroy({
       where: { id: req.params.id }
     })
-      .then(result => {
+      .then((result) => {
         return res.status(OK).json({ success: true, message: `Deleted ${result} department` });
       })
       .catch((error: any) => {
@@ -284,56 +284,56 @@ export class DepartmentController {
     return new Promise((resolve, reject) => {
       dep
         .setParentDepartment(parentDepartment.id)
-        .then(resp => {
+        .then((resp) => {
           resolve(resp);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
   }
 
-  private addSubDepartmentsPr(dep: Department, subDepartments: Array<{ id: number }>): Promise<any | Error> {
+  private addSubDepartmentsPr(dep: Department, subDepartments: { id: number }[]): Promise<any | Error> {
     return new Promise((resolve, reject) => {
       Department.findAll({
         where: {
           [Op.or]: subDepartments
         }
       })
-        .then(deps => {
+        .then((deps) => {
           dep
             .setSubDepartments(deps)
-            .then(resp => {
+            .then((resp) => {
               resolve(resp);
             })
-            .catch(error => {
+            .catch((error) => {
               reject(error);
             });
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
   }
 
-  private addWorkersPr(dep: Department, workers: Array<{ id: number }>): Promise<any | Error> {
+  private addWorkersPr(dep: Department, workers: { id: number }[]): Promise<any | Error> {
     return new Promise((resolve, reject) => {
       User.findAll({
         where: {
           [Op.or]: workers
         }
       })
-        .then(users => {
+        .then((users) => {
           dep
             .setWorkers(users)
-            .then(resp => {
+            .then((resp) => {
               resolve(resp);
             })
-            .catch(error => {
+            .catch((error) => {
               reject(error);
             });
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });

@@ -27,7 +27,7 @@ export class TaskEffects {
   createTask$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TaskActions.createTask),
-      map(payload => payload.task),
+      map((payload) => payload.task),
       mergeMap((task: Task) =>
         this.taskService.create(task).pipe(
           map((response: ItemApiResponse<Task>) => {
@@ -48,8 +48,8 @@ export class TaskEffects {
   updateTask$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TaskActions.updateTaskRequested),
-      map(payload => payload.task),
-      mergeMap(toUpdate =>
+      map((payload) => payload.task),
+      mergeMap((toUpdate) =>
         this.taskService.updateTask(toUpdate).pipe(
           map((response: ItemApiResponse<Task>) => {
             const task: Update<Task> = {
@@ -70,8 +70,8 @@ export class TaskEffects {
     () =>
       this.actions$.pipe(
         ofType(TaskActions.deleteTask),
-        map(payload => payload.id),
-        mergeMap(id => this.taskService.delete(id)),
+        map((payload) => payload.id),
+        mergeMap((id) => this.taskService.delete(id)),
         map((response: ApiResponse) => of(this.toastMessageService.snack(response))),
         catchError(() => of(TaskActions.tasksApiError()))
       ),
@@ -83,7 +83,7 @@ export class TaskEffects {
   deleteMultipleTask$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TaskActions.deleteMultipleTaskRequested),
-      map(payload => payload.taskIds),
+      map((payload) => payload.taskIds),
       switchMap((taskIds: number[]) =>
         this.taskService.deleteMultipleTask(taskIds).pipe(
           map((response: ApiResponse) => {

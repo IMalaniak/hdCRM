@@ -17,7 +17,7 @@ export class TaskController {
   private getAll(req: Request, res: Response<CollectionApiResponse<Task>>) {
     this.taskDbCtrl
       .getAll(req.user)
-      .then(tasks => {
+      .then((tasks) => {
         return res.status(OK).json({ success: true, data: tasks });
       })
       .catch((err: any) => {
@@ -36,7 +36,7 @@ export class TaskController {
       .then((task: Task) => {
         this.taskDbCtrl
           .getById(task.id)
-          .then(newTask => {
+          .then((newTask) => {
             return res.status(OK).json({ success: true, message: 'Task is created successfully!', data: newTask });
           })
           .catch((err: any) => {
@@ -55,11 +55,13 @@ export class TaskController {
   private updateOne(req: RequestWithBody<Partial<Task>>, res: Response<ItemApiResponse<Task>>) {
     this.taskDbCtrl
       .updateOne(req.body)
-      .then(result => {
+      .then((result) => {
         if (!!result) {
           this.taskDbCtrl
             .getById(req.body.id)
-            .then(task => res.status(OK).json({ success: true, message: 'Task is updated successfully!', data: task }))
+            .then((task) =>
+              res.status(OK).json({ success: true, message: 'Task is updated successfully!', data: task })
+            )
             .catch((error: any) => {
               Logger.Err(error);
               return res.status(INTERNAL_SERVER_ERROR).json(error);
@@ -77,7 +79,7 @@ export class TaskController {
   private deleteOne(req: Request, res: Response<ApiResponse>) {
     this.taskDbCtrl
       .deleteTask(req.params.id)
-      .then(result => {
+      .then((result) => {
         return res.status(OK).json({ success: true, message: `Deleted ${result} task` });
       })
       .catch((error: any) => {
@@ -91,7 +93,7 @@ export class TaskController {
   private deleteMultipleTask(req: Request, res: Response<ApiResponse>) {
     this.taskDbCtrl
       .deleteTask(req.body.taskIds)
-      .then(result => {
+      .then((result) => {
         return res.status(OK).json({ success: true, message: `Deleted ${result} tasks` });
       })
       .catch((error: any) => {

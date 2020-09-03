@@ -23,5 +23,4 @@ export interface Organization {
   Plans: Plan[];
   Roles: Role[];
   Users: User[];
-
 }

@@ -53,8 +53,8 @@ export class AddRoleComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
       .subscribe(() => {
         userC.users
-          .filter(user => this.role.Users.some(rUser => rUser.id === user.id))
-          ?.forEach(selecteduser => {
+          .filter((user) => this.role.Users.some((rUser) => rUser.id === user.id))
+          ?.forEach((selecteduser) => {
             userC.selection.select(selecteduser);
           });
       });
@@ -64,7 +64,7 @@ export class AddRoleComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: User[]) => {
         const selectedUsers: User[] = result?.filter(
-          selectedUser => !this.role.Users.some(user => user.id === selectedUser.id)
+          (selectedUser) => !this.role.Users.some((user) => user.id === selectedUser.id)
         );
 
         if (selectedUsers?.length) {
@@ -75,7 +75,7 @@ export class AddRoleComponent implements OnInit {
   }
 
   removeUser(userId: number): void {
-    this.role = { ...this.role, Users: this.role.Users.filter(user => user.id !== userId) };
+    this.role = { ...this.role, Users: this.role.Users.filter((user) => user.id !== userId) };
   }
 
   addPrivilegeDialog(): void {
@@ -93,8 +93,8 @@ export class AddRoleComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe), skipUntil(privilegesC.isLoading$), delay(300))
       .subscribe(() => {
         privilegesC.privileges
-          .filter(privilege => this.role.Privileges.some(rPrivilege => rPrivilege.id === privilege.id))
-          ?.forEach(selectedPrivilege => {
+          .filter((privilege) => this.role.Privileges.some((rPrivilege) => rPrivilege.id === privilege.id))
+          ?.forEach((selectedPrivilege) => {
             privilegesC.selection.select(selectedPrivilege);
           });
       });
@@ -104,8 +104,10 @@ export class AddRoleComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: Privilege[]) => {
         const selectedPrivileges: Privilege[] = result
-          ?.filter(selectedPrivilege => !this.role.Privileges.some(privilege => privilege.id === selectedPrivilege.id))
-          ?.map(selectedPrivilege => {
+          ?.filter(
+            (selectedPrivilege) => !this.role.Privileges.some((privilege) => privilege.id === selectedPrivilege.id)
+          )
+          ?.map((selectedPrivilege) => {
             return {
               ...selectedPrivilege,
               RolePrivilege: {

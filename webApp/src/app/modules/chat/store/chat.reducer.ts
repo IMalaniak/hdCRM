@@ -48,7 +48,7 @@ const initialChatsState: ChatsState = {
 
 const chatsReducer = createReducer(
   initialChatsState,
-  on(groupChatActionTypes.groupChatListRequested, state => ({ ...state, loading: true })),
+  on(groupChatActionTypes.groupChatListRequested, (state) => ({ ...state, loading: true })),
   on(groupChatActionTypes.groupChatListLoaded, (state, { chatList }) => ({
     ...state,
     loading: false,
@@ -72,16 +72,16 @@ const chatsReducer = createReducer(
     ...state,
     groupChats: { ...state.groupChats, currentChatId: chat.id }
   })),
-  on(groupChatActionTypes.clearCurrentGroupChat, state => ({
+  on(groupChatActionTypes.clearCurrentGroupChat, (state) => ({
     ...state,
     groupChats: { ...state.groupChats, currentChatId: null }
   })),
-  on(groupChatActionTypes.initGroupChatSocket, state => ({
+  on(groupChatActionTypes.initGroupChatSocket, (state) => ({
     ...state,
     groupChats: { ...state.groupChats, groupChatSocketInited: true }
   })),
 
-  on(privateChatActionTypes.privateChatListRequested, state => ({ ...state, loading: true })),
+  on(privateChatActionTypes.privateChatListRequested, (state) => ({ ...state, loading: true })),
   on(privateChatActionTypes.privateChatListLoaded, (state, { chatList }) => ({
     ...state,
     loading: false,
@@ -100,11 +100,11 @@ const chatsReducer = createReducer(
     ...state,
     privateChats: { ...state.privateChats, currentChatId: chat.id }
   })),
-  on(privateChatActionTypes.clearCurrentPrivateChat, state => ({
+  on(privateChatActionTypes.clearCurrentPrivateChat, (state) => ({
     ...state,
     privateChats: { ...state.privateChats, currentChatId: null }
   })),
-  on(privateChatActionTypes.initPrivateChatSocket, state => ({
+  on(privateChatActionTypes.initPrivateChatSocket, (state) => ({
     ...state,
     privateChats: { ...state.privateChats, privateChatSocketInited: true }
   }))

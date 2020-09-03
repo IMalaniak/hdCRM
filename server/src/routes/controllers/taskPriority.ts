@@ -16,7 +16,7 @@ export class TaskPriorityController {
   private getAll(_, res: Response<CollectionApiResponse<TaskPriority>>) {
     this.taskDbCtrl
       .getPrioriities()
-      .then(priorities => {
+      .then((priorities) => {
         return res.status(OK).json({ success: true, data: priorities, resultsNum: priorities.length });
       })
       .catch((err: any) => {

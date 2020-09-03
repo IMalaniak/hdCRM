@@ -15,7 +15,7 @@ export class PreferenceController {
     Logger.Info(`Selecting preferences list...`);
     try {
       const preferencesList = Object.keys(Preference.rawAttributes)
-        .filter(key => Preference.rawAttributes[key].values)
+        .filter((key) => Preference.rawAttributes[key].values)
         .reduce((acc, key) => {
           return {
             ...acc,

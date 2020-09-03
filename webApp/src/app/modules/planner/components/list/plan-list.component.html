@@ -1,8 +1,6 @@
 <organisms-card cardTitle="Plan list" [showDataLoader]="loading$ | async">
   <div buttons *ngIf="canAddPlan$ | async">
-    <atoms-icon-button routerLink="/planner/add" [icon]="['fas', 'plus']">
-      Create a new plan
-    </atoms-icon-button>
+    <atoms-icon-button routerLink="/planner/add" [icon]="['fas', 'plus']"> Create a new plan </atoms-icon-button>
   </div>
 
   <div content class="table-container">

@@ -10,9 +10,7 @@
         >
           <mat-card>
             <mat-card-content class="d-flex justify-content-center flex-column p-3">
-              <h2 i18n="@@loginComponentFormHeaderTitleLogin" class="pb-3">
-                Login
-              </h2>
+              <h2 i18n="@@loginComponentFormHeaderTitleLogin" class="pb-3">Login</h2>
               <mat-form-field appearance="outline">
                 <mat-label i18n="@@loginComponentFormLoginOrEmailLabel">Login/Email</mat-label>
                 <input matInput formControlName="login" name="login" autocomplete="username" type="text" />
@@ -68,9 +66,7 @@
         <form (submit)="onResetPasswordRequest()" [formGroup]="user" *ngIf="currentPath === 'request-new-password'">
           <mat-card>
             <mat-card-content class="d-flex justify-content-center flex-column p-3">
-              <h3 i18n="@@loginComponentFormRequestNewPasswordHeader" class="pb-2">
-                Your email or login
-              </h3>
+              <h3 i18n="@@loginComponentFormRequestNewPasswordHeader" class="pb-2">Your email or login</h3>
               <mat-form-field appearance="outline">
                 <mat-label i18n="@@loginComponentFormLoginOrEmailLabel">Login/Email</mat-label>
                 <input matInput formControlName="login" type="text" autocomplete="username" name="login" required />
@@ -93,9 +89,7 @@
         <form (submit)="onResetPassword()" [formGroup]="newPasswordForm" *ngIf="currentPath === 'password-reset'">
           <mat-card>
             <mat-card-content class="d-flex justify-content-center flex-column p-3">
-              <h3 i18n="@@loginComponentFormPasswordResetHeader" class="pb-2">
-                Reset password
-              </h3>
+              <h3 i18n="@@loginComponentFormPasswordResetHeader" class="pb-2">Reset password</h3>
               <mat-form-field appearance="outline">
                 <mat-label i18n="@@loginComponentFormResetNewPasswordLabel">New password</mat-label>
                 <input

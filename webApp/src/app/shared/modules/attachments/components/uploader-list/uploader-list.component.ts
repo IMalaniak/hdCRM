@@ -8,9 +8,7 @@ import { FilePond } from 'filepond';
 
 @Component({
   selector: 'app-uploader-list',
-  template: `
-    <file-pond #uploader [options]="uploaderOptions"></file-pond>
-  `,
+  template: ` <file-pond #uploader [options]="uploaderOptions"></file-pond> `,
   styleUrls: ['./uploader-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -28,7 +26,7 @@ export class UploaderListComponent implements OnInit {
   constructor(private store$: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.store$.pipe(select(getToken)).subscribe(token => {
+    this.store$.pipe(select(getToken)).subscribe((token) => {
       this.token = token;
     });
     this.setUploaderOptions();
@@ -44,10 +42,10 @@ export class UploaderListComponent implements OnInit {
           headers: {
             Authorization: this.token
           },
-          onload: res => this.uploaderHandleAddFile(res)
+          onload: (res) => this.uploaderHandleAddFile(res)
         }
       },
-      onaddfilestart: file =>
+      onaddfilestart: (file) =>
         this.tempFiles.push({
           id: file.id,
           name: file.filename
@@ -80,7 +78,7 @@ export class UploaderListComponent implements OnInit {
     const asset: Asset = JSON.parse(data);
     this.addFileCall.emit(asset);
     setTimeout(() => {
-      const toRemove = this.tempFiles.find(item => {
+      const toRemove = this.tempFiles.find((item) => {
         return item.name === asset.title;
       });
       this.uploader.removeFile(toRemove.id);

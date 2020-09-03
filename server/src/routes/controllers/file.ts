@@ -18,7 +18,7 @@ export class FileController {
   private get(req: Request<{ fileID: string }>, res: Response) {
     Logger.Info(`Selecting file by id: ${req.params.fileID}...`);
     Asset.findByPk(req.params.fileID)
-      .then(file => {
+      .then((file) => {
         const filepath = this.destination + file.location + '/' + file.title;
         res.download(filepath);
       })

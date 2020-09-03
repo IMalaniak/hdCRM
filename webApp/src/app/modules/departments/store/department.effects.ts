@@ -17,7 +17,7 @@ export class DepartmentEffects {
   createDepartment$ = createEffect(() =>
     this.actions$.pipe(
       ofType(depActions.createDepartment),
-      map(payload => payload.department),
+      map((payload) => payload.department),
       mergeMap((department: Department) =>
         this.departmentService.create(department).pipe(
           map((response: ItemApiResponse<Department>) => {
@@ -39,8 +39,8 @@ export class DepartmentEffects {
   loadDepartment$ = createEffect(() =>
     this.actions$.pipe(
       ofType(depActions.departmentRequested),
-      map(payload => payload.id),
-      mergeMap(id => this.departmentService.getOne(id)),
+      map((payload) => payload.id),
+      mergeMap((id) => this.departmentService.getOne(id)),
       map((response: ItemApiResponse<Department>) => depActions.departmentLoaded({ department: response.data })),
       catchError(() => of(depActions.departmentApiError()))
     )
@@ -49,8 +49,8 @@ export class DepartmentEffects {
   loadDepartments$ = createEffect(() =>
     this.actions$.pipe(
       ofType(depActions.listPageRequested),
-      map(payload => payload.page),
-      mergeMap(page =>
+      map((payload) => payload.page),
+      mergeMap((page) =>
         this.departmentService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
           map((response: CollectionApiResponse<Department>) => depActions.listPageLoaded({ response })),
           catchError(() => of(depActions.departmentApiError()))
@@ -63,8 +63,8 @@ export class DepartmentEffects {
     () =>
       this.actions$.pipe(
         ofType(depActions.deleteDepartment),
-        map(payload => payload.id),
-        mergeMap(id => this.departmentService.delete(id)),
+        map((payload) => payload.id),
+        mergeMap((id) => this.departmentService.delete(id)),
         map((res: ApiResponse) => this.toastMessageService.snack(res)),
         catchError(() => of(depActions.departmentApiError()))
       ),

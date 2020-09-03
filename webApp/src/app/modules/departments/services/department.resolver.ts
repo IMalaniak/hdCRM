@@ -17,12 +17,12 @@ export class DepartmentResolver implements Resolve<Department> {
 
     return this.store.pipe(
       select(selectDepartmentById(id)),
-      tap(department => {
+      tap((department) => {
         if (!department) {
           this.store.dispatch(departmentRequested({ id }));
         }
       }),
-      filter(department => !!department),
+      filter((department) => !!department),
       first()
     );
   }

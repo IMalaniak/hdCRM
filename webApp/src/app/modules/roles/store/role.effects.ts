@@ -18,7 +18,7 @@ export class RoleEffects {
   createRole$ = createEffect(() =>
     this.actions$.pipe(
       ofType(roleActions.createRole),
-      map(payload => payload.role),
+      map((payload) => payload.role),
       mergeMap((role: Role) =>
         this.roleService.create({ ...role }).pipe(
           map((response: ItemApiResponse<Role>) => {
@@ -38,8 +38,8 @@ export class RoleEffects {
   loadRole$ = createEffect(() =>
     this.actions$.pipe(
       ofType(roleActions.roleRequested),
-      map(payload => payload.id),
-      mergeMap(id => this.roleService.getRole(id)),
+      map((payload) => payload.id),
+      mergeMap((id) => this.roleService.getRole(id)),
       map((response: ItemApiResponse<Role>) => roleActions.roleLoaded({ role: response.data })),
       catchError(() => of(roleActions.rolesApiError()))
     )
@@ -48,8 +48,8 @@ export class RoleEffects {
   loadRoles$ = createEffect(() =>
     this.actions$.pipe(
       ofType(roleActions.listPageRequested),
-      map(payload => payload.page),
-      mergeMap(page =>
+      map((payload) => payload.page),
+      mergeMap((page) =>
         this.roleService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
           map((response: CollectionApiResponse<Role>) => roleActions.listPageLoaded({ response })),
           catchError(() => of(roleActions.rolesApiError()))
@@ -63,8 +63,8 @@ export class RoleEffects {
     () =>
       this.actions$.pipe(
         ofType(roleActions.deleteRole),
-        map(payload => payload.id),
-        mergeMap(id => this.roleService.delete(id)),
+        map((payload) => payload.id),
+        mergeMap((id) => this.roleService.delete(id)),
         map((response: ApiResponse) => of(this.toastMessageService.snack(response))),
         catchError(() => of(roleActions.rolesApiError()))
       ),
@@ -79,7 +79,7 @@ export class RoleEffects {
       withLatestFrom(this.store.pipe(select(selectRolesDashboardDataLoaded))),
       filter(([_, rolesDashboardDataLoaded]) => !rolesDashboardDataLoaded),
       mergeMap(() => this.roleService.getDashboardData()),
-      map(response => roleActions.roleDashboardDataLoaded({ response })),
+      map((response) => roleActions.roleDashboardDataLoaded({ response })),
       catchError(() => of(roleActions.rolesApiError()))
     )
   );

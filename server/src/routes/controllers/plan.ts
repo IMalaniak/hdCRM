@@ -98,13 +98,13 @@ export class PlanController {
       ],
       distinct: true
     })
-      .then(data => {
+      .then((data) => {
         const pages = Math.ceil(data.count / limit);
         // TODO: sort with sequelize query
         function sortByOrder(a, b) {
           return a.Details.order - b.Details.order;
         }
-        data.rows.forEach(plan => {
+        data.rows.forEach((plan) => {
           if (plan.Stages && plan.Stages.length > 0) {
             plan.Stages = plan.Stages.sort(sortByOrder);
           }
@@ -123,7 +123,7 @@ export class PlanController {
     Logger.Info(`Creating new plan...`);
     const finish = (planId: number) => {
       this.findPlanById(planId)
-        .then(plan => {
+        .then((plan) => {
           return res.status(OK).json({ success: true, message: 'Plan created successfully', data: plan });
         })
         .catch((err: any) => {
@@ -140,9 +140,9 @@ export class PlanController {
       progress: 0,
       OrganizationId: req.user.OrganizationId
     })
-      .then(plan => {
+      .then((plan) => {
         User.findByPk(req.body.CreatorId)
-          .then(user => {
+          .then((user) => {
             plan
               .setCreator(user)
               .then(() => {
@@ -153,7 +153,7 @@ export class PlanController {
                     }
                   }
                 })
-                  .then(stages => {
+                  .then((stages) => {
                     // tslint:disable-next-line: forin
                     for (const i in stages) {
                       if (stages[i].keyString === 'created') {
@@ -170,10 +170,10 @@ export class PlanController {
                     if (req.body.Participants) {
                       User.findAll({
                         where: {
-                          [Op.or]: req.body.Participants as Array<{ id: number }>
+                          [Op.or]: req.body.Participants as { id: number }[]
                         }
                       })
-                        .then(users => {
+                        .then((users) => {
                           plan
                             .setParticipants(users)
                             .then(() => {
@@ -228,20 +228,20 @@ export class PlanController {
         where: { id: req.body.id }
       }
     )
-      .then(result => {
+      .then((result) => {
         if (result) {
           Plan.findByPk(req.body.id)
-            .then(plan => {
+            .then((plan) => {
               if (req.body.Participants) {
                 User.findAll({
                   where: {
-                    [Op.or]: req.body.Participants as Array<{ id: number }>
+                    [Op.or]: req.body.Participants as { id: number }[]
                   }
                 })
-                  .then(users => {
+                  .then((users) => {
                     plan.setParticipants(users).then(() => {
                       this.findPlanById(req.body.id)
-                        .then(plan => {
+                        .then((plan) => {
                           return res
                             .status(OK)
                             .json({ success: true, message: 'Plan is updated successfully!', data: plan });
@@ -277,8 +277,8 @@ export class PlanController {
   private updatePlanStages(req: RequestWithBody<Partial<Plan>>, res: Response<ItemApiResponse<Plan>>) {
     Logger.Info(`Updating plan stages...`);
     Plan.findByPk(req.body.id)
-      .then(plan => {
-        const stageIds = req.body.Stages.map(stage => {
+      .then((plan) => {
+        const stageIds = req.body.Stages.map((stage) => {
           return { id: stage.id };
         });
         Stage.findAll({
@@ -286,7 +286,7 @@ export class PlanController {
             [Op.or]: stageIds
           }
         })
-          .then(stages => {
+          .then((stages) => {
             // TODO: stage details
             // stages = stages.map(stage => {
             //     const planStage = req.body.Stages.filter(reqStage => {
@@ -303,7 +303,7 @@ export class PlanController {
               .setStages(stages)
               .then(() => {
                 this.findPlanById(req.body.id)
-                  .then(plan => {
+                  .then((plan) => {
                     return res.status(OK).json({ success: true, message: 'Plan is updated successfully!', data: plan });
                   })
                   .catch((error: any) => {
@@ -348,18 +348,18 @@ export class PlanController {
       ],
       order: [Sequelize.col('order')]
     })
-      .then(plan => {
+      .then((plan) => {
         plan.Stages.forEach((stage, i) => {
           if (stage.id === plan.activeStageId) {
             stage.Details.completed = true;
             stage.Details.save()
-              .then(stage => {
+              .then((stage) => {
                 if (plan.Stages[i + 1]) {
                   plan
                     .setActiveStage(plan.Stages[i + 1].id)
                     .then(() => {
                       this.findPlanById(req.params.id)
-                        .then(plan => {
+                        .then((plan) => {
                           return res.status(OK).json(plan);
                         })
                         .catch((error: any) => {
@@ -373,7 +373,7 @@ export class PlanController {
                     });
                 } else {
                   this.findPlanById(req.params.id)
-                    .then(plan => {
+                    .then((plan) => {
                       return res.status(OK).json(plan);
                     })
                     .catch((error: any) => {
@@ -409,10 +409,10 @@ export class PlanController {
     Plan.findByPk(req.params.planId, {
       attributes: ['id']
     })
-      .then(plan => {
+      .then((plan) => {
         plan
           .createDocument(file)
-          .then(doc => {
+          .then((doc) => {
             return res.status(OK).json({ success: true, message: 'Doccument added!', data: doc });
           })
           .catch((error: any) => {
@@ -445,7 +445,7 @@ export class PlanController {
         }
       ]
     })
-      .then(plan => {
+      .then((plan) => {
         const docToDelete = plan.Documents[0];
         Asset.destroy({
           where: {
@@ -483,7 +483,7 @@ export class PlanController {
     Plan.destroy({
       where: { id: req.params.id }
     })
-      .then(result => {
+      .then((result) => {
         return res.status(OK).json({ success: true, message: `Deleted ${result} plan` });
       })
       .catch((error: any) => {

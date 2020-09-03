@@ -17,7 +17,7 @@ const initialState: StatesState = adapter.getInitialState({
 
 const statesReducer = createReducer(
   initialState,
-  on(StateActions.allStatesRequested, state => ({ ...state, loading: true })),
+  on(StateActions.allStatesRequested, (state) => ({ ...state, loading: true })),
   on(StateActions.allStatesLoaded, (state, { list }) =>
     adapter.setAll(list, {
       ...state,
@@ -25,7 +25,7 @@ const statesReducer = createReducer(
       loading: false
     })
   ),
-  on(StateActions.statesApiError, state => ({ ...state, loading: false }))
+  on(StateActions.statesApiError, (state) => ({ ...state, loading: false }))
 );
 
 export function reducer(state: StatesState | undefined, action: Action) {

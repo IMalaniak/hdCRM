@@ -98,9 +98,7 @@
     </div>
   </div>
   <div buttons *ngIf="canEdit">
-    <atoms-icon-button *ngIf="!editForm" (click)="setFormEdit(true)" [icon]="['fas', 'edit']">
-      Edit
-    </atoms-icon-button>
+    <atoms-icon-button *ngIf="!editForm" (click)="setFormEdit(true)" [icon]="['fas', 'edit']"> Edit </atoms-icon-button>
 
     <atoms-icon-button *ngIf="editForm" (click)="onUpdateOrgSubmit()" [icon]="['fas', 'save']">
       Save

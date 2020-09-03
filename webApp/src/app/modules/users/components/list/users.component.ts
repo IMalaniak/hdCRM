@@ -108,7 +108,7 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
   deleteUser(id: number): void {
     this.toastMessageService
       .confirm('Are you sure?', 'Do you really want to delete user? You will not be able to recover!')
-      .then(result => {
+      .then((result) => {
         if (result.value) {
           this.store$.dispatch(deleteUser({ id }));
         }
@@ -120,11 +120,11 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
 
     // TODO: @IMalaniak recreate this to store
     this.userService.updateUserState(userState).subscribe(
-      response => {
+      (response) => {
         user = { ...user, State: response.data.State };
         this.toastMessageService.toast(`User state was changed to: ${response.data.State.keyString}`);
       },
-      error => {
+      (error) => {
         this.toastMessageService.popup('Ooops, something went wrong!', 'error');
       }
     );

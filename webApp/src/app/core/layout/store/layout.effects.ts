@@ -21,8 +21,8 @@ export class LayoutEffects implements OnInitEffects {
   toggleLeftSidebar$ = createEffect(() =>
     this.actions$.pipe(
       ofType(layoutActions.toggleLeftSidebar),
-      map(payload => payload.minimized),
-      switchMap(minimized => {
+      map((payload) => payload.minimized),
+      switchMap((minimized) => {
         window.dispatchEvent(new Event('resize'));
         this.localStorage.setObjectKeyValue('layoutSettings', 'hideLeftSidebar', minimized);
         return of(layoutActions.leftSidebarChangeState({ minimized }));
@@ -33,8 +33,8 @@ export class LayoutEffects implements OnInitEffects {
   toggleRightSidebar$ = createEffect(() =>
     this.actions$.pipe(
       ofType(layoutActions.toggleRightSidebar),
-      map(payload => payload.minimized),
-      switchMap(minimized => {
+      map((payload) => payload.minimized),
+      switchMap((minimized) => {
         window.dispatchEvent(new Event('resize'));
         this.localStorage.setObjectKeyValue('layoutSettings', 'hideRightSidebar', minimized);
         return of(layoutActions.rightSidebarChangeState({ minimized }));
@@ -45,8 +45,8 @@ export class LayoutEffects implements OnInitEffects {
   enableDarkTheme$ = createEffect(() =>
     this.actions$.pipe(
       ofType(layoutActions.enableDarkTheme),
-      map(payload => payload.enabled),
-      switchMap(enabled => {
+      map((payload) => payload.enabled),
+      switchMap((enabled) => {
         this.localStorage.setObjectKeyValue('layoutSettings', 'enableDarkTheme', enabled);
         return of(layoutActions.darkThemeChangeState({ enabled }));
       })
@@ -56,8 +56,8 @@ export class LayoutEffects implements OnInitEffects {
   scaleFontUp$ = createEffect(() =>
     this.actions$.pipe(
       ofType(layoutActions.scaleFontUp),
-      map(payload => payload.scaled),
-      switchMap(scaled => {
+      map((payload) => payload.scaled),
+      switchMap((scaled) => {
         this.localStorage.setObjectKeyValue('layoutSettings', 'scaleFontUp', scaled);
         return of(layoutActions.scaleFontUpChangeState({ scaled }));
       })

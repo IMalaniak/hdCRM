@@ -8,9 +8,8 @@ describe('MoleculesProfilePicWithUploaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MoleculesProfilePicWithUploaderComponent ]
-    })
-    .compileComponents();
+      declarations: [MoleculesProfilePicWithUploaderComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

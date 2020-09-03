@@ -29,7 +29,7 @@
         </mat-tab>
 
         <!-- Organization -->
-        <mat-tab label="Organization" *ngIf="('org' | memoize: isTabToShow: this) && (canViewOrganization$ | async)">
+        <mat-tab label="Organization" *ngIf="('org' | memoize: isTabToShow:this) && (canViewOrganization$ | async)">
           <ng-template matTabContent>
             <organisms-user-organization
               [organization]="user.Organization"
@@ -44,7 +44,7 @@
         <!-- Preferences -->
         <mat-tab
           label="Preferences"
-          *ngIf="('preferences' | memoize: isTabToShow: this) && (canViewPreferences$ | async)"
+          *ngIf="('preferences' | memoize: isTabToShow:this) && (canViewPreferences$ | async)"
         >
           <ng-template matTabContent>
             <organisms-user-preferences
@@ -55,14 +55,14 @@
         </mat-tab>
 
         <!-- Passwords -->
-        <mat-tab label="Password" *ngIf="'password' | memoize: isTabToShow: this">
+        <mat-tab label="Password" *ngIf="'password' | memoize: isTabToShow:this">
           <ng-template matTabContent>
             <organisms-user-passwords [isLoading]="isLoading"></organisms-user-passwords>
           </ng-template>
         </mat-tab>
 
         <!-- Sessions -->
-        <mat-tab label="Sessions" *ngIf="'sessions' | memoize: isTabToShow: this">
+        <mat-tab label="Sessions" *ngIf="'sessions' | memoize: isTabToShow:this">
           <ng-template matTabContent>
             <organisms-user-sessions [user]="user" [currentSessionId]="currentSessionId"></organisms-user-sessions>
           </ng-template>
@@ -71,7 +71,7 @@
         <!-- Integrations -->
         <mat-tab
           label="Integrations"
-          *ngIf="('integrations' | memoize: isTabToShow: this) && (canViewIntegrations$ | async)"
+          *ngIf="('integrations' | memoize: isTabToShow:this) && (canViewIntegrations$ | async)"
         >
           <ng-template matTabContent>
             <organisms-user-integrations></organisms-user-integrations>

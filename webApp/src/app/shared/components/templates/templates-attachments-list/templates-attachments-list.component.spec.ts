@@ -8,9 +8,8 @@ describe('TemplatesAttachmentsListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TemplatesAttachmentsListComponent ]
-    })
-    .compileComponents();
+      declarations: [TemplatesAttachmentsListComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

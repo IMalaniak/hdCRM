@@ -98,12 +98,12 @@ export class UserDBController {
     Logger.Info(`Creating new user...`);
     return new Promise((resolve, reject) => {
       User.create(body)
-        .then(user => {
+        .then((user) => {
           user
             .reload({
               include: this.includes
             })
-            .then(u => {
+            .then((u) => {
               resolve(u);
             })
             .catch((err: any) => {

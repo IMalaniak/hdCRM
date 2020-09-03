@@ -56,7 +56,7 @@ export class PlanComponent implements OnInit, OnDestroy {
     this.store.dispatch(formRequested({ formName: 'plan' }));
     this.plan = cloneDeep(this.route.snapshot.data['plan']);
     this.planInitial = cloneDeep(this.route.snapshot.data['plan']);
-    this.canEditPlan$.pipe(takeUntil(this.unsubscribe)).subscribe(canEdit => {
+    this.canEditPlan$.pipe(takeUntil(this.unsubscribe)).subscribe((canEdit) => {
       if (canEdit) {
         const edit = this.route.snapshot.queryParams['edit'];
         if (edit) {
@@ -74,7 +74,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   goToNextStage(): void {
     this.toastMessageService
       .confirm('You are about to pass stage.', 'Are you sure you want to go to next plan stage?')
-      .then(result => {
+      .then((result) => {
         if (result.value) {
           this.planService
             .toNextStage(this.plan.id)
@@ -85,7 +85,7 @@ export class PlanComponent implements OnInit, OnDestroy {
                 this.configPlanStages = false;
                 this.toastMessageService.toast('Stages updated!');
               },
-              error => {
+              (error) => {
                 this.toastMessageService.popup('Ooops, something went wrong!', 'error');
               }
             );
@@ -112,14 +112,17 @@ export class PlanComponent implements OnInit, OnDestroy {
   }
 
   removeParticipant(userId: number): void {
-    this.plan = { ...this.plan, Participants: this.plan.Participants.filter(participant => participant.id !== userId) };
+    this.plan = {
+      ...this.plan,
+      Participants: this.plan.Participants.filter((participant) => participant.id !== userId)
+    };
   }
 
   // TODO: @IMalaniak recreate store logic
   updatePlanStages(): void {
     this.toastMessageService
       .confirm('You are about to save stages configuration.', 'Are you sure you want update stages configuration?')
-      .then(result => {
+      .then((result) => {
         if (result.value) {
           this.planService
             .updatePlanStages(this.plan)
@@ -130,7 +133,7 @@ export class PlanComponent implements OnInit, OnDestroy {
                 this.configPlanStages = false;
                 this.toastMessageService.toast('Stages updated!');
               },
-              error => {
+              (error) => {
                 this.toastMessageService.popup('Ooops, something went wrong!', 'error');
               }
             );
@@ -142,7 +145,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   updatePlan(): void {
     this.toastMessageService
       .confirm('You are about to update plan', 'Are you sure you want to update plan details?')
-      .then(result => {
+      .then((result) => {
         if (result.value) {
           this.planService
             .updateOne(this.plan)
@@ -153,7 +156,7 @@ export class PlanComponent implements OnInit, OnDestroy {
                 this.editForm = false;
                 this.toastMessageService.toast('Plan updated!');
               },
-              error => {
+              (error) => {
                 this.toastMessageService.popup('Ooops, something went wrong!', 'error');
               }
             );
@@ -248,8 +251,8 @@ export class PlanComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
       .subscribe(() => {
         userC.users
-          .filter(user => this.plan.Participants.some(participant => participant.id === user.id))
-          ?.forEach(selectedParticipant => {
+          .filter((user) => this.plan.Participants.some((participant) => participant.id === user.id))
+          ?.forEach((selectedParticipant) => {
             userC.selection.select(selectedParticipant);
           });
       });
@@ -259,7 +262,7 @@ export class PlanComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: User[]) => {
         const selectedParticipants: User[] = result?.filter(
-          selectedParticipant => !this.plan.Participants.some(user => user.id === selectedParticipant.id)
+          (selectedParticipant) => !this.plan.Participants.some((user) => user.id === selectedParticipant.id)
         );
 
         if (selectedParticipants?.length) {
@@ -277,7 +280,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   deleteDoc(docId: number): void {
     this.toastMessageService
       .confirm('Stages updated!', 'Are you sure you want to delete document from plan, changes cannot be undone?')
-      .then(result => {
+      .then((result) => {
         if (result.value) {
           const req = {
             planId: this.plan.id,
@@ -288,7 +291,7 @@ export class PlanComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.unsubscribe))
             .subscribe((response: ApiResponse) => {
               if (response.success) {
-                this.plan.Documents = this.plan.Documents.filter(doc => {
+                this.plan.Documents = this.plan.Documents.filter((doc) => {
                   return doc.id !== docId;
                 });
                 this.updatePlanStore(this.plan);

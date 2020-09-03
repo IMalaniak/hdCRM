@@ -34,7 +34,7 @@ const departmentsReducer = createReducer(
     })
   ),
   on(departmentActions.departmentLoaded, (state, { department }) => adapter.addOne(department, state)),
-  on(departmentActions.listPageRequested, state => ({ ...state, loading: true })),
+  on(departmentActions.listPageRequested, (state) => ({ ...state, loading: true })),
   on(departmentActions.listPageLoaded, (state, { response }) =>
     adapter.upsertMany(response.data, {
       ...state,
@@ -51,7 +51,7 @@ const departmentsReducer = createReducer(
       dashboardDataLoaded: true
     })
   ),
-  on(departmentActions.departmentApiError, state => ({ ...state, loading: false }))
+  on(departmentActions.departmentApiError, (state) => ({ ...state, loading: false }))
 );
 
 export function reducer(state: DepartmentsState | undefined, action: Action) {

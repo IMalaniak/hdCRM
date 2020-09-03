@@ -48,27 +48,27 @@ class JwtHelper {
         if (type === 'access') {
           this.userDbController
             .getById(verified.userId)
-            .then(user => {
+            .then((user) => {
               if (user) {
                 resolve(verified);
               } else {
                 reject({ success: false, message: 'no user registered' });
               }
             })
-            .catch(error => {
+            .catch((error) => {
               reject(error);
             });
         } else {
           this.userDbController
             .getSession(verified.sessionId)
-            .then(session => {
+            .then((session) => {
               if (session) {
                 resolve(verified);
               } else {
                 reject({ success: false, message: 'no session registered' });
               }
             })
-            .catch(error => {
+            .catch((error) => {
               reject(error);
             });
         }

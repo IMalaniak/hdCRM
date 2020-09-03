@@ -17,7 +17,7 @@ export class PlansDataSource implements DataSource<Plan> {
     this.store
       .pipe(
         select(selectPlansPage(page)),
-        tap(plans => {
+        tap((plans) => {
           if (plans.length > 0) {
             this.plansSubject.next(plans);
           } else {

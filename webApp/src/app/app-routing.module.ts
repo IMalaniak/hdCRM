@@ -13,7 +13,7 @@ const routes: Routes = [
       {
         path: 'home',
         data: { breadcrumb: 'Home' },
-        loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)
+        loadChildren: () => import('./modules/home/home.module').then((m) => m.HomeModule)
       }
     ]
   },
@@ -27,25 +27,25 @@ const routes: Routes = [
         path: 'planner',
         canActivate: [AuthGuard],
         data: { breadcrumb: 'Planner', animation: 'PlannerPage' },
-        loadChildren: () => import('./modules/planner/planner.module').then(m => m.PlannerModule)
+        loadChildren: () => import('./modules/planner/planner.module').then((m) => m.PlannerModule)
       },
       {
         path: 'users',
         canActivate: [AuthGuard],
         data: { breadcrumb: 'App Users', animation: 'UsersPage' },
-        loadChildren: () => import('./modules/users/users.module').then(m => m.UsersModule)
+        loadChildren: () => import('./modules/users/users.module').then((m) => m.UsersModule)
       },
       {
         path: 'roles',
         canActivate: [AuthGuard],
         data: { breadcrumb: 'App Roles', animation: 'RolesPage' },
-        loadChildren: () => import('./modules/roles/roles.module').then(m => m.RolesModule)
+        loadChildren: () => import('./modules/roles/roles.module').then((m) => m.RolesModule)
       },
       {
         path: 'dashboard',
         canActivate: [AuthGuard],
         data: { animation: 'DashboardPage' },
-        loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule)
+        loadChildren: () => import('./modules/dashboard/dashboard.module').then((m) => m.DashboardModule)
       },
       {
         path: 'departments',
@@ -54,13 +54,13 @@ const routes: Routes = [
           breadcrumb: 'Departments',
           animation: 'DepartmentsPage'
         },
-        loadChildren: () => import('./modules/departments/departments.module').then(m => m.DepartmentsModule)
+        loadChildren: () => import('./modules/departments/departments.module').then((m) => m.DepartmentsModule)
       },
       {
         path: 'chats',
         canActivate: [AuthGuard],
         data: { breadcrumb: 'Chat', animation: 'ChatsPage' },
-        loadChildren: () => import('./modules/chat/chat.module').then(m => m.ChatModule)
+        loadChildren: () => import('./modules/chat/chat.module').then((m) => m.ChatModule)
       }
     ],
     data: { animation: 'PrivateView' }
