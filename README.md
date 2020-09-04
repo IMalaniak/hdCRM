@@ -9,9 +9,11 @@
   - [Cloning The hdCRM Project](#cloning-the-hdcrm-project)
   - [Local Installation](#local-installation)
   - [Running Development](#running-development)
+  - [Gulp Tasks](#gulp-tasks)
   - [Building Development Instance](#building-development-instance)
   - [Commit Message Guidelines](#commit-message-guidelines)
   - [Commit Message Format](#commit-message-format)
+  - [Pushing to the repository](#pushing-to-the-repository)
   - [Pull Request Message Format](#pull-request-message-format)
   - [Contribution Guidelines](#contribution-guidelines)
   - [Authors](#authors)
@@ -26,6 +28,8 @@
 
 [npm v6.14.x](https://www.npmjs.com/)
 
+[Gulp](https://gulpjs.com/)
+
 [PostgreSQL v12.x](https://www.postgresql.org/)
 
 ## Required Development Tools
@@ -34,7 +38,7 @@
 
 [Git](https://git-scm.com)
 
-[pgAdmin](https://www.pgadmin.org)
+[pgAdmin](https://www.pgadmin.org) (will be installed with PostgreSQL)
 
 Visual Studio Code Extensions:
 
@@ -60,15 +64,20 @@ or use the following link:
 
 ## Local Installation
 
-1. This app will install all the required dependencies automatically. Just start the commands below in the root folder where you stored the package and in the `./webApp` folder
+1. Navigate to the root folder of the repository and run the following command:
 
 ```
-npm install
+npx gulp installAll
 ```
+or with alias
+```
+npx gulp ia
+```
+> This will install all of the dependencies of server and web applications.
 
 2. Run the `pgAdmin` tool and create a new database
 
-3. Create file `.env` in the root folder and configure it as an example of `.env.sample` providing database credentials and database name
+3. Create file `.env` in the server folder and configure it as an example of `.env.sample` providing database credentials and database name
 
 > Note, that every change in `.env` file needs a server restart
 
@@ -76,21 +85,55 @@ npm install
 
 ## Running Development
 
-Use the following command to run Server App and Web App in one command:
+1) Use the following command to run Server locally
 
 ```
-npm run dev
+npx gulp server:dev
 ```
 
-This will open browser automatically on localhost:4200
+> This will run server locally on http://localhost:3000
+
+2) Use the following command to run Web Client locally
+
+```
+npx gulp client:dev
+```
+
+> This will open browser automatically on http://localhost:4200
+
+## Gulp Tasks
+
+Use the following command to get all available gulp tasks:
+
+```
+npx gulp --tasks
+```
+
+### The most common used tasks to remember
+
+```
+npx gulp lintAll              // Lints all project
+npx gulp formatAll            // Formats all project
+npx gulp installAll           // Runs npm install on all project
+
+npx gulp server:lint          // Lints server
+npx gulp server:format        // Formats server
+npx gulp server:install       // Runs npm install on server
+
+npx gulp web:lint             // Lints web client
+npx gulp web:format           // Formats web client
+npx gulp web:install          // Runs npm install on web client
+```
 
 ## Building Development Instance
 
-For building dev environment run:
+To build server and client applications you can run the following command:
 
 ```
-npm build:dev
+npx gulp buildAll
 ```
+
+> This will create bundles in the `dist` folders accordingly in server and web folders.
 
 ## Commit Message Guidelines
 
@@ -164,6 +207,14 @@ These reverts commit <hash>.
 cherry-pick: "fix(#1234): subject message"
 ```
 
+## Pushing to the repository
+
+When pushing to the repo there is a Husky tool configured to check prettier style and tslint rules are passed, whenever some exceptions it will be not possible to push the branch.
+
+There are only two possible issues:
+- code is not formatted or does not meet the tslint requirements
+- somewhere you have `dist` folder and you have to delete it, we will add the ignore rule for the dist folders for prettier in the future
+
 ## Pull Request Message Format
 
 We must create pull request message according to the following rules.
@@ -234,7 +285,7 @@ The scope should be the id of the GitHub tasks
 
 
 | ![Ivan Malaniak](https://github.com/IMalaniak.png?size=200) | ![Arsenii Irod](https://github.com/ArseniiIrod.png?size=200) |
-|--|--|
-| **Ivan Malaniak**| **Arsenii Irod** |
-|[github/IMalaniak](https://github.com/IMalaniak)| [github/ArseniiIrod](https://github.com/ArseniiIrod) |
-| [ivanmalaniak.pp.ua](https://ivanmalaniak.pp.ua) ||
+| ----------------------------------------------------------- | ------------------------------------------------------------ |
+| **Ivan Malaniak**                                           | **Arsenii Irod**                                             |
+| [github/IMalaniak](https://github.com/IMalaniak)            | [github/ArseniiIrod](https://github.com/ArseniiIrod)         |
+| [ivanmalaniak.pp.ua](https://ivanmalaniak.pp.ua)            |                                                              |
