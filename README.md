@@ -215,6 +215,12 @@ There are only two possible issues:
 - code is not formatted or does not meet the tslint requirements
 - somewhere you have `dist` folder and you have to delete it, we will add the ignore rule for the dist folders for prettier in the future
 
+Sometimes you may want to push changes to the repo and skip Husky verifying process that is HIGHLY NOT RECOMENDED, but anyway, if there is a situation, you can use the following command:
+
+```
+git push --no-verify
+```
+
 ## Pull Request Message Format
 
 We must create pull request message according to the following rules.
