@@ -1,9 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
-    "paths": {
-      "@/*": ["*"]
-    },
     "target": "es2018",
     "module": "commonjs",
     "lib": ["esnext"],
@@ -16,9 +12,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "typeRoots": ["types", "node_modules/@types"]
   },
-  "include": ["src/**/*", "test/**/*", "scripts/**/*"],
+  "include": ["./src/**/*"],
   "exclude": ["node_modules"]
 }

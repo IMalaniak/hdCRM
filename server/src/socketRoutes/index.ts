@@ -1,7 +1,7 @@
 import socketIO from 'socket.io';
 import { Logger } from '@overnightjs/logger';
-import { User } from '@/models';
-import { ChatHelper } from '@/helpers/chatHelper';
+import { User } from '../models';
+import { ChatHelper } from '../helpers/chatHelper';
 
 export enum GlobalEvents {
   CONNECT = 'connect',

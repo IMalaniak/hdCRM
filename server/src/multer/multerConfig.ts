@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs';
 import { Request } from 'express';
 
-const uploadsFolder = path.join(__dirname, '@/uploads');
+const uploadsFolder = path.join(__dirname, '../uploads');
 
 const store = multer.diskStorage({
   destination: (req: Request, file, cb) => {

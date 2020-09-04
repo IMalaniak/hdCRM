@@ -2,10 +2,10 @@ import { OK, BAD_REQUEST, INTERNAL_SERVER_ERROR } from 'http-status-codes';
 import { Controller, Middleware, Get, Post } from '@overnightjs/core';
 import { Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { Preference } from '@/models';
-import Passport from '@/config/passport';
-import { RequestWithBody } from '@/models/apiRequest';
-import { ApiResponse } from '@/models/apiResponse';
+import { Preference } from '../../models';
+import Passport from '../../config/passport';
+import { RequestWithBody } from '../../models/apiRequest';
+import { ApiResponse } from '../../models/apiResponse';
 
 @Controller('preferences/')
 export class PreferenceController {

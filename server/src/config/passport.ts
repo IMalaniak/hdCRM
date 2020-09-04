@@ -1,7 +1,7 @@
 // tslint:disable: indent
 import { Strategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
 import passport from 'passport';
-import { UserDBController } from '@/dbControllers/usersController';
+import { UserDBController } from '../dbControllers/usersController';
 
 export class Passport {
   private userDbCtrl: UserDBController = new UserDBController();

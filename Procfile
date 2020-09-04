@@ -1,1 +1,1 @@
-web: node ./dist/index.js
+web: node node_modules/gulp/bin/gulp buildAll

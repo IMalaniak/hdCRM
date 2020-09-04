@@ -2,11 +2,11 @@ import { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } from 'http-status-codes';
 import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { Task } from '@/models';
-import Passport from '@/config/passport';
-import { TaskDBController } from '@/dbControllers/tasksController';
-import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '@/models/apiResponse';
-import { RequestWithBody } from '@/models/apiRequest';
+import { Task } from '../../models';
+import Passport from '../../config/passport';
+import { TaskDBController } from '../../dbControllers/tasksController';
+import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '../../models/apiResponse';
+import { RequestWithBody } from '../../models/apiRequest';
 
 @Controller('tasks/')
 export class TaskController {

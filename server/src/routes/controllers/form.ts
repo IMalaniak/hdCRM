@@ -2,10 +2,10 @@ import { OK } from 'http-status-codes';
 import { Controller, Middleware, Get } from '@overnightjs/core';
 import { Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { State } from '@/models';
-import Passport from '@/config/passport';
-import { RequestWithQuery } from '@/models/apiRequest';
-import { ItemApiResponse } from '@/models/apiResponse';
+import { State } from '../../models';
+import Passport from '../../config/passport';
+import { RequestWithQuery } from '../../models/apiRequest';
+import { ItemApiResponse } from '../../models/apiResponse';
 
 export enum IFieldType {
   INPUT = 'input',

@@ -2,11 +2,11 @@ import { OK, INTERNAL_SERVER_ERROR, NOT_FOUND, BAD_REQUEST } from 'http-status-c
 import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { Department, User, Asset } from '@/models';
+import { Department, User, Asset } from '../../models';
 import { Op } from 'sequelize';
-import Passport from '@/config/passport';
-import { ApiResponse, CollectionApiResponse, ItemApiResponse } from '@/models/apiResponse';
-import { CollectionQuery, RequestWithQuery, RequestWithBody } from '@/models/apiRequest';
+import Passport from '../../config/passport';
+import { ApiResponse, CollectionApiResponse, ItemApiResponse } from '../../models/apiResponse';
+import { CollectionQuery, RequestWithQuery, RequestWithBody } from '../../models/apiRequest';
 
 @Controller('departments/')
 export class DepartmentController {

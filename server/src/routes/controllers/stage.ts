@@ -2,10 +2,10 @@ import { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } from 'http-status-codes';
 import { Controller, Middleware, Get, Post } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { Plan, Stage } from '@/models';
-import Passport from '@/config/passport';
-import { RequestWithBody } from '@/models/apiRequest';
-import { CollectionApiResponse, ItemApiResponse } from '@/models/apiResponse';
+import { Plan, Stage } from '../../models';
+import Passport from '../../config/passport';
+import { RequestWithBody } from '../../models/apiRequest';
+import { CollectionApiResponse, ItemApiResponse } from '../../models/apiResponse';
 
 @Controller('stages/')
 export class StageController {

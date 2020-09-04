@@ -2,8 +2,8 @@ import { INTERNAL_SERVER_ERROR } from 'http-status-codes';
 import { Controller, Middleware, Get } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { Asset } from '@/models';
-import Passport from '@/config/passport';
+import { Asset } from '../../models';
+import Passport from '../../config/passport';
 import path from 'path';
 import fs from 'fs';
 import { promisify } from 'util';
@@ -11,7 +11,7 @@ import { promisify } from 'util';
 @Controller('files/')
 export class FileController {
   unlinkAsync = promisify(fs.unlink);
-  destination = path.join(__dirname, '@/uploads');
+  destination = path.join(__dirname, '../../uploads');
 
   @Get('download/:fileID')
   @Middleware([Passport.authenticate()])

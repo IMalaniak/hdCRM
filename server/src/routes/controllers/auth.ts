@@ -2,16 +2,16 @@ import { OK, BAD_REQUEST, UNAUTHORIZED, FORBIDDEN } from 'http-status-codes';
 import { Controller, Get, Post } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { User, UserSession, Privilege, PasswordAttribute, State } from '@/models';
+import { User, UserSession, Privilege, PasswordAttribute, State } from '../../models';
 import { Op, ValidationError, UniqueConstraintError } from 'sequelize';
-import Crypt from '@/config/crypt';
-import Mailer from '@/mailer/nodeMailerTemplates';
-import JwtHelper from '@/helpers/jwtHelper';
-import { JwtDecoded } from '@/models/JWTPayload';
+import Crypt from '../../config/crypt';
+import Mailer from '../../mailer/nodeMailerTemplates';
+import JwtHelper from '../../helpers/jwtHelper';
+import { JwtDecoded } from '../../models/JWTPayload';
 import { TokenExpiredError } from 'jsonwebtoken';
-import { UserDBController } from '@/dbControllers/usersController';
-import { ApiResponse } from '@/models/apiResponse';
-import { parseCookies } from '@/utils/parseCookies';
+import { UserDBController } from '../../dbControllers/usersController';
+import { ApiResponse } from '../../models/apiResponse';
+import { parseCookies } from '../../utils/parseCookies';
 
 @Controller('auth/')
 export class AuthController {

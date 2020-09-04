@@ -1,7 +1,7 @@
 import { Controller, Middleware, Get } from '@overnightjs/core';
 import { Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import Passport from '@/config/passport';
+import Passport from '../../config/passport';
 
 @Controller('chats/')
 export class ChatController {

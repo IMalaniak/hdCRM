@@ -9,10 +9,10 @@ import {
   Asset,
   Department,
   Organization
-} from '@/models';
+} from '../models';
 import { Logger } from '@overnightjs/logger';
 import { IncludeOptions } from 'sequelize/types';
-import { CollectionQuery } from '@/models/apiRequest';
+import { CollectionQuery } from '../models/apiRequest';
 import { Op } from 'sequelize';
 
 export class UserDBController {

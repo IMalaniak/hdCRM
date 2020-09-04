@@ -2,11 +2,11 @@ import { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } from 'http-status-codes';
 import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { Role, User, Privilege, Asset } from '@/models';
-import Passport from '@/config/passport';
+import { Role, User, Privilege, Asset } from '../../models';
+import Passport from '../../config/passport';
 import { Op } from 'sequelize';
-import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '@/models/apiResponse';
-import { RequestWithBody, CollectionQuery, RequestWithQuery } from '@/models/apiRequest';
+import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '../../models/apiResponse';
+import { RequestWithBody, CollectionQuery, RequestWithQuery } from '../../models/apiRequest';
 
 @Controller('roles/')
 export class RoleController {

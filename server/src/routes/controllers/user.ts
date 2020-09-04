@@ -2,21 +2,21 @@ import { OK, INTERNAL_SERVER_ERROR, FORBIDDEN, BAD_REQUEST } from 'http-status-c
 import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { User, Organization, Asset } from '@/models';
-import Passport from '@/config/passport';
-import uploads from '@/multer/multerConfig';
+import { User, Organization, Asset } from '../../models';
+import Passport from '../../config/passport';
+import uploads from '../../multer/multerConfig';
 import path from 'path';
 import fs from 'fs';
 import { promisify } from 'util';
 import jimp from 'jimp';
-import { UserDBController } from '@/dbControllers/usersController';
-import Crypt from '@/config/crypt';
-import Mailer from '@/mailer/nodeMailerTemplates';
-import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '@/models/apiResponse';
-import { RequestWithQuery, CollectionQuery, RequestWithBody } from '@/models/apiRequest';
-import { parseCookies } from '@/utils/parseCookies';
-import JwtHelper from '@/helpers/jwtHelper';
-import { JwtDecoded } from '@/models/JWTPayload';
+import { UserDBController } from '../../dbControllers/usersController';
+import Crypt from '../../config/crypt';
+import Mailer from '../../mailer/nodeMailerTemplates';
+import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '../../models/apiResponse';
+import { RequestWithQuery, CollectionQuery, RequestWithBody } from '../../models/apiRequest';
+import { parseCookies } from '../../utils/parseCookies';
+import JwtHelper from '../../helpers/jwtHelper';
+import { JwtDecoded } from '../../models/JWTPayload';
 import { TokenExpiredError } from 'jsonwebtoken';
 
 @Controller('users/')
@@ -224,7 +224,7 @@ export class UserController {
                 where: { id: avatar.id }
               })
                 .then(() => {
-                  const uploadsPath = path.join(__dirname, '@/uploads');
+                  const uploadsPath = path.join(__dirname, '../../uploads');
                   const destination = uploadsPath + avatar.location + '/' + avatar.title;
                   const thumbDestination = uploadsPath + avatar.location + '/thumbnails/' + avatar.title;
                   this.unlinkAsync(destination)
@@ -307,7 +307,7 @@ export class UserController {
                 where: { id: avatar.id }
               })
                 .then(() => {
-                  const uploadsPath = path.join(__dirname, '@/uploads');
+                  const uploadsPath = path.join(__dirname, '../../uploads');
                   const destination = uploadsPath + avatar.location + '/' + avatar.title;
                   const thumbDestination = uploadsPath + avatar.location + '/thumbnails/' + avatar.title;
                   this.unlinkAsync(destination)

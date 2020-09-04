@@ -2,15 +2,15 @@ import { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } from 'http-status-codes';
 import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { Plan, User, Asset, Stage, Sequelize } from '@/models';
+import { Plan, User, Asset, Stage, Sequelize } from '../../models';
 import { Op, IncludeThroughOptions } from 'sequelize';
-import Passport from '@/config/passport';
-import uploads from '@/multer/multerConfig';
+import Passport from '../../config/passport';
+import uploads from '../../multer/multerConfig';
 import path from 'path';
 import fs from 'fs';
 import { promisify } from 'util';
-import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '@/models/apiResponse';
-import { RequestWithQuery, CollectionQuery, RequestWithBody } from '@/models/apiRequest';
+import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '../../models/apiResponse';
+import { RequestWithQuery, CollectionQuery, RequestWithBody } from '../../models/apiRequest';
 
 @Controller('plans/')
 export class PlanController {
@@ -456,7 +456,7 @@ export class PlanController {
         })
           .then(() => {
             // REDO to file server
-            let destination = path.join(__dirname, '@/uploads');
+            let destination = path.join(__dirname, '../../uploads');
             destination = destination + docToDelete.location + '/' + docToDelete.title;
             this.unlinkAsync(destination)
               .then(() => {
