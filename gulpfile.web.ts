@@ -9,7 +9,7 @@ const devOptions = {
 
 task({
   name: 'web:compile',
-  fct: doRun('ng build --prod', {
+  fct: doRun('node_modules/.bin/ng build --prod', {
     ...cwd,
     ...devOptions
   }),
@@ -18,7 +18,7 @@ task({
 
 task({
   name: 'web:compile-dev',
-  fct: doRun('ng build', {
+  fct: doRun('node_modules/.bin/ng build', {
     ...cwd,
     ...devOptions
   }),
