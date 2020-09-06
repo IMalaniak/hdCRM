@@ -6,7 +6,7 @@ const devTimeoutSeconds = 24 * 60 * 60;
 task({
   name: 'server:compile',
   alias: 'sc',
-  fct: doRun('node_modules/.bin/tsc', { cwd: 'server' }),
+  fct: doRun('tsc', { cwd: `${__dirname}/server` }),
   desc: 'Compiles *.ts => *.js'
 });
 
@@ -18,7 +18,7 @@ task({
 });
 
 const devOptions = {
-  cwd: 'server',
+  cwd: `${__dirname}/server`,
   commandTimeoutSeconds: devTimeoutSeconds
 };
 
@@ -31,6 +31,6 @@ task({
 task({
   name: 'server:dev',
   alias: 'sd',
-  fct: doRun('node_modules/.bin/nodemon', devOptions),
+  fct: doRun('nodemon', devOptions),
   desc: 'Start the dev server'
 });

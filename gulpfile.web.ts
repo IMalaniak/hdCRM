@@ -1,7 +1,7 @@
 import { series } from 'gulp';
 import { doRun, task } from './gulpfile.functions';
 
-const cwd = { cwd: 'web' };
+const cwd = { cwd: `${__dirname}/web` };
 const devTimeoutSeconds = 24 * 60 * 60;
 const devOptions = {
   commandTimeoutSeconds: devTimeoutSeconds
@@ -9,7 +9,7 @@ const devOptions = {
 
 task({
   name: 'web:compile',
-  fct: doRun('node_modules/.bin/ng build --prod', {
+  fct: doRun('ng build --prod', {
     ...cwd,
     ...devOptions
   }),
@@ -18,7 +18,7 @@ task({
 
 task({
   name: 'web:compile-dev',
-  fct: doRun('node_modules/.bin/ng build', {
+  fct: doRun('ng build', {
     ...cwd,
     ...devOptions
   }),
@@ -40,6 +40,6 @@ task({
 task({
   name: 'web:dev',
   alias: 'cd',
-  fct: doRun('node_modules/.bin/ng serve -o', { ...cwd, ...devOptions }),
+  fct: doRun('ng serve -o', { ...cwd, ...devOptions }),
   desc: 'Start the web dev server on port 3333'
 });
