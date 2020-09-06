@@ -66,10 +66,10 @@ function findSourceFoldersIn(dir) {
 function tslint({ cwd, fix = false }) {
   const fixParam = fix ? '--fix --force' : '';
   const prettierConfigPath = cwd === '.' ? '' : '../';
-  const prettier = `./node_modules/.bin/prettier ${
+  const prettier = `node_modules/.bin/prettier ${
     fix ? '--write' : '--check'
   } --config ${prettierConfigPath}.prettierrc '**/*.{json,ts,html,scss}'`;
-  return doRun(`./node_modules/.bin/tslint -p tsconfig.json -c tslint.json ${fixParam} && ${prettier}`, {
+  return doRun(`node_modules/.bin/tslint -p tsconfig.json -c tslint.json ${fixParam} && ${prettier}`, {
     cwd,
     commandTimeoutSeconds: 300
   });
@@ -79,7 +79,7 @@ function eslint({ glob, cwd, fix = false, ignoreSubfolders = false }) {
   const folders = ignoreSubfolders ? [glob] : [...findSourceFoldersIn(cwd).map((dir) => `${dir}/**/${glob}`), glob];
   const files = folders.map((it) => `'${it}'`).join(' ');
   const fixParam = fix ? '--fix' : '';
-  return doRun(`./node_modules/.bin/eslint ${files} ${fixParam}`, { cwd });
+  return doRun(`node_modules/.bin/eslint ${files} ${fixParam}`, { cwd });
 }
 
 export function lint(cwd, fix = false) {
