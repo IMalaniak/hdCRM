@@ -2,21 +2,21 @@
 
 ## Table of contents
 
-  - [Table of contents](#table-of-contents)
-  - [Introduction](#introduction)
-  - [Required Build Environment (Minimum)](#required-build-environment-minimum)
-  - [Required Development Tools](#required-development-tools)
-  - [Cloning The hdCRM Project](#cloning-the-hdcrm-project)
-  - [Local Installation](#local-installation)
-  - [Running Development](#running-development)
-  - [Gulp Tasks](#gulp-tasks)
-  - [Building Development Instance](#building-development-instance)
-  - [Commit Message Guidelines](#commit-message-guidelines)
-  - [Commit Message Format](#commit-message-format)
-  - [Pushing to the repository](#pushing-to-the-repository)
-  - [Pull Request Message Format](#pull-request-message-format)
-  - [Contribution Guidelines](#contribution-guidelines)
-  - [Authors](#authors)
+- [Table of contents](#table-of-contents)
+- [Introduction](#introduction)
+- [Required Build Environment (Minimum)](#required-build-environment-minimum)
+- [Required Development Tools](#required-development-tools)
+- [Cloning The hdCRM Project](#cloning-the-hdcrm-project)
+- [Local Installation](#local-installation)
+- [Running Development](#running-development)
+- [Gulp Tasks](#gulp-tasks)
+- [Building Development Instance](#building-development-instance)
+- [Commit Message Guidelines](#commit-message-guidelines)
+- [Commit Message Format](#commit-message-format)
+- [Pushing to the repository](#pushing-to-the-repository)
+- [Pull Request Message Format](#pull-request-message-format)
+- [Contribution Guidelines](#contribution-guidelines)
+- [Authors](#authors)
 
 ## Introduction
 
@@ -24,7 +24,7 @@
 
 ## Required Build Environment (Minimum)
 
-[Node.js v12.x](https://nodejs.org/en/)
+[Node.js v14.x](https://nodejs.org/en/)
 
 [npm v6.14.x](https://www.npmjs.com/)
 
@@ -67,17 +67,26 @@ or use the following link:
 1. Navigate to the root folder of the repository and run the following command:
 
 ```
+npm install
+```
+
+2. After installing root packages run the following command to install server and web dependencies:
+
+```
 npx gulp installAll
 ```
+
 or with alias
+
 ```
 npx gulp ia
 ```
+
 > This will install all of the dependencies of server and web applications.
 
-2. Run the `pgAdmin` tool and create a new database
+3. Run the `pgAdmin` tool and create a new database
 
-3. Create file `.env` in the server folder and configure it as an example of `.env.sample` providing database credentials and database name
+4. Create file `.env` in the server folder and configure it as an example of `.env.sample` providing database credentials and database name
 
 > Note, that every change in `.env` file needs a server restart
 
@@ -85,7 +94,7 @@ npx gulp ia
 
 ## Running Development
 
-1) Use the following command to run Server locally
+1. Use the following command to run Server locally
 
 ```
 npx gulp server:dev
@@ -93,10 +102,10 @@ npx gulp server:dev
 
 > This will run server locally on http://localhost:3000
 
-2) Use the following command to run Web Client locally
+2. Use the following command to run Web Client locally
 
 ```
-npx gulp client:dev
+npx gulp web:dev
 ```
 
 > This will open browser automatically on http://localhost:4200
@@ -212,6 +221,7 @@ cherry-pick: "fix(#1234): subject message"
 When pushing to the repo there is a Husky tool configured to check prettier style and tslint rules are passed, whenever some exceptions it will be not possible to push the branch.
 
 There are only two possible issues:
+
 - code is not formatted or does not meet the tslint requirements
 - somewhere you have `dist` folder and you have to delete it, we will add the ignore rule for the dist folders for prettier in the future
 
@@ -274,9 +284,8 @@ The scope should be the id of the GitHub tasks
 - **GitHub task id**
 
 ### Pull Request Process
-   
+
 1. Once you published your branch to the repo, the **`Compare & pull request`** button will appear in [GitHub](https://github.com/)
-   
 2. Follow the [pull request message format](#pull-request-message-format)
 
 3. Follow next steps:
@@ -287,8 +296,6 @@ The scope should be the id of the GitHub tasks
    - Add related project
 
 ## Authors
-
-
 
 | ![Ivan Malaniak](https://github.com/IMalaniak.png?size=200) | ![Arsenii Irod](https://github.com/ArseniiIrod.png?size=200) |
 | ----------------------------------------------------------- | ------------------------------------------------------------ |
