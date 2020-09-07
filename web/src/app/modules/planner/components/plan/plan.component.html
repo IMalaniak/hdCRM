@@ -1,0 +1,106 @@
+<section class="row">
+  <!-- <organisms-card cardTitle="Stages" *ngIf="plan && plan.Stages">
+    <div content class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div
+            cdkDropList
+            cdkDropListOrientation="horizontal"
+            class="list-group stages-wrapper py-3"
+            (cdkDropListDropped)="dragDropStages($event)"
+            [cdkDropListDisabled]="!configPlanStages"
+          >
+            <div
+              *ngFor="let stage of plan.Stages"
+              class="stages-item"
+              [ngClass]="{
+                active: stage.id === plan.activeStageId,
+                passed: stage.Details.completed
+              }"
+              matTooltip="{{ stage.Details.description }}"
+              cdkDrag
+            >
+              <span>{{ stage.keyString | uppercase }}</span>
+            </div>
+            <div
+              *ngIf="configPlanStages"
+              class="stages-item addStage"
+              (click)="addStageDialog()"
+              i18n="@@globalStagesAddStage"
+            >
+              Add stage
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div buttons *ngIf="canEditPlan$ | async">
+      <atoms-icon-button *ngIf="!configPlanStages" (onclick)="onClickConfigureStages()" [icon]="['fas', 'cog']">
+        Configure stages
+      </atoms-icon-button>
+      <atoms-icon-button *ngIf="configPlanStages" (onclick)="onUpdatePlanStagesSubmit" [icon]="['fas', 'save']">
+        Save
+      </atoms-icon-button>
+      <atoms-icon-button
+        *ngIf="configPlanStages"
+        (onclick)="onClickCancelEditStages()"
+        [icon]="['fas', 'times']"
+        color="basic"
+      >
+        Cancel
+      </atoms-icon-button>
+    </div>
+  </organisms-card> -->
+  <!-- <organisms-card cardTitle="Actions" *ngIf="plan">
+    <div content class="d-flex p-3" *ngIf="canEditPlan$ | async">
+      <atoms-icon-button
+        (onclick)="goToNextStageSwal"
+        [icon]="plan.activeStage.keyString === 'finished' ? ['fas', 'check'] : ['fas', 'arrow-right']"
+        matType="stroked"
+      >
+        {{ plan.activeStage.keyString === 'finished' ? 'Finish plan' : 'Go to next stage' }}
+      </atoms-icon-button>
+    </div>
+  </organisms-card> -->
+</section>
+<organisms-card cardTitle="Details" *ngIf="plan" cardClass="mb-3">
+  <div content class="row">
+    <div class="col-sm-12 col-md-8 col-lg-7">
+      <organisms-card cardTitle="Plan details" cardClass="border border-secondary m-0" [disableShadow]="true">
+        <section content>
+          <organisms-dynamic-form
+            [data]="plan"
+            [formJson]="planFormJson$ | async"
+            [editForm]="editForm"
+            (formChanges)="planFormValueChanges($event)"
+          ></organisms-dynamic-form>
+        </section>
+      </organisms-card>
+    </div>
+    <div class="col-sm-12 col-md-4 col-lg-5">
+      <templates-box-user-list-sm
+        [users]="plan.Participants"
+        title="Participants"
+        [editMode]="editForm"
+        (addClick)="addParticipantDialog()"
+        (removeClick)="removeParticipant($event)"
+      ></templates-box-user-list-sm>
+    </div>
+  </div>
+  <div buttons *ngIf="canEditPlan$ | async">
+    <atoms-icon-button *ngIf="!editForm" (onclick)="onClickEdit()" [icon]="['fas', 'edit']"> Edit </atoms-icon-button>
+    <atoms-icon-button *ngIf="editForm" (onclick)="updatePlan()" [icon]="['fas', 'save']"> Save </atoms-icon-button>
+    <atoms-icon-button *ngIf="editForm" (onclick)="onClickCancelEdit()" [icon]="['fas', 'times']" color="basic">
+      Cancel
+    </atoms-icon-button>
+  </div>
+</organisms-card>
+
+<templates-attachments-list
+  [canAdd]="canAddAttachment$ | async"
+  [canDelete]="canDeleteAttachment$ | async"
+  [attachments]="plan.Documents"
+  [apiUrl]="'/plans/documents/' + plan.id"
+  (deleteFileCall)="deleteDoc($event)"
+  (addFileCall)="addDoc($event)"
+></templates-attachments-list>

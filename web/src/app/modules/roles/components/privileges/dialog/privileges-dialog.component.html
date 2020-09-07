@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>{{ data.title }}</h1>
+<section mat-dialog-content>
+  <app-privileges></app-privileges>
+</section>
+<div mat-dialog-actions class="justify-content-end">
+  <atoms-icon-button (onclick)="onNoClick()" [icon]="['fas', 'times']" color="basic"> Cancel </atoms-icon-button>
+  <atoms-icon-button [icon]="['fas', 'save']" (onclick)="onSubmitClick()"> Save </atoms-icon-button>
+</div>

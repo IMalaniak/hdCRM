@@ -1,0 +1,14 @@
+{
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
+  "linterOptions": {
+    "exclude": ["node_modules", "**/*.json", "test/**"]
+  },
+  "rules": {
+    "arrow-parens": [false],
+    "object-literal-sort-keys": false,
+    "radix": false,
+    "variable-name": {
+      "options": ["allow-leading-underscore", "allow-pascal-case"]
+    }
+  }
+}

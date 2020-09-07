@@ -1,0 +1,84 @@
+<organisms-card cardTitle="Roles List" [showDataLoader]="loading$ | async">
+  <div buttons *ngIf="canAddRole$ | async">
+    <atoms-icon-button routerLink="/roles/add" [icon]="['fas', 'plus']"> Create </atoms-icon-button>
+  </div>
+
+  <div content class="table-container">
+    <mat-table class="roles-table crm-table" [dataSource]="dataSource" matSort matSortDisabled>
+      <ng-container matColumnDef="select" sticky>
+        <mat-header-cell *matHeaderCellDef>
+          <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox> -->
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)"
+          >
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@rolesComponentListTitle">Title</mat-header-cell>
+        <mat-cell *matCellDef="let role">{{ role.keyString }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="users">
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@rolesComponentListUserCount">Users</mat-header-cell>
+        <mat-cell *matCellDef="let role">{{ role.Users.length }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="privileges">
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@rolesComponentListPrivilegesCount"
+          >Privileges
+        </mat-header-cell>
+        <mat-cell *matCellDef="let role">{{ role.Privileges.length }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="createdAt">
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@rolesComponentListCreatedAt"
+          >Date created
+        </mat-header-cell>
+        <mat-cell *matCellDef="let role">{{ role.createdAt | dateTimeFormat | async }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="updatedAt">
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@rolesComponentListUpdatedAt"
+          >Date updated
+        </mat-header-cell>
+        <mat-cell *matCellDef="let role">{{ role.updatedAt | dateTimeFormat | async }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="actions" stickyEnd>
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let role">
+          <atoms-icon-button [matMenuTriggerFor]="menu" color="basic" [icon]="['fas', 'ellipsis-v']" matType="icon">
+          </atoms-icon-button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="onRoleSelect(role.id)">
+              <fa-icon [icon]="['fas', 'info']"></fa-icon>
+              <span i18n="@@rolesComponentListActionsView">Details</span>
+            </button>
+            <button *ngIf="canEditRole$ | async" mat-menu-item (click)="onRoleSelect(role.id, true)">
+              <fa-icon [icon]="['fas', 'edit']"></fa-icon>
+              <span i18n="@@rolesComponentListActionsEdit">Edit</span>
+            </button>
+            <button *ngIf="(canDeleteRole$ | async) && role.id !== 1" mat-menu-item (click)="deleteRole(role.id)">
+              <fa-icon [icon]="['fas', 'trash']" class="text-danger"></fa-icon>
+              <span i18n="@@rolesComponentListActionsDelete">Delete</span>
+            </button>
+          </mat-menu>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+  </div>
+  <mat-paginator
+    content
+    [length]="resultsLength$ | async"
+    [pageSizeOptions]="pageSizeOptions"
+    [pageSize]="itemsPerPageState$ | async"
+    showFirstLastButtons
+  >
+  </mat-paginator>
+</organisms-card>

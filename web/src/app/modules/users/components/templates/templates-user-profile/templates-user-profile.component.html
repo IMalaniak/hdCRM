@@ -1,0 +1,83 @@
+<section class="profile" *ngIf="user">
+  <div class="row">
+    <aside class="col-sm-12 col-md-4 col-lg-3 profile-aside" [ngClass]="{ 'text-white': enableDarkTheme$ | async }">
+      <div class="profile-aside-bg">
+        <img src="{{ coverUrl }}" alt="{{ coverTitle }}" />
+      </div>
+
+      <templates-user-details
+        [user]="user"
+        [isDialog]="false"
+        (addFileCall)="updateUserStore($event)"
+      ></templates-user-details>
+    </aside>
+
+    <div class="col-sm-12 col-md-8 col-lg-9 tabs">
+      <mat-tab-group mat-stretch-tabs dynamicHeight>
+        <!-- Details -->
+        <mat-tab label="Details">
+          <ng-template matTabContent>
+            <organisms-user-details
+              [user]="user"
+              [states]="states$ | async"
+              [canEdit]="canEdit"
+              [editForm]="editForm"
+              (setEditableForm)="setFormEdit($event)"
+              (updateUser)="updateUser($event)"
+            ></organisms-user-details>
+          </ng-template>
+        </mat-tab>
+
+        <!-- Organization -->
+        <mat-tab label="Organization" *ngIf="('org' | memoize: isTabToShow:this) && (canViewOrganization$ | async)">
+          <ng-template matTabContent>
+            <organisms-user-organization
+              [organization]="user.Organization"
+              [canEdit]="canEdit"
+              [editForm]="editForm"
+              (setEditableForm)="setFormEdit($event)"
+              (updateOrg)="updateUserOrg($event)"
+            ></organisms-user-organization>
+          </ng-template>
+        </mat-tab>
+
+        <!-- Preferences -->
+        <mat-tab
+          label="Preferences"
+          *ngIf="('preferences' | memoize: isTabToShow:this) && (canViewPreferences$ | async)"
+        >
+          <ng-template matTabContent>
+            <organisms-user-preferences
+              [enabledDarkTheme]="enableDarkTheme$ | async"
+              [userPreferences]="userPreferences"
+            ></organisms-user-preferences>
+          </ng-template>
+        </mat-tab>
+
+        <!-- Passwords -->
+        <mat-tab label="Password" *ngIf="'password' | memoize: isTabToShow:this">
+          <ng-template matTabContent>
+            <organisms-user-passwords [isLoading]="isLoading"></organisms-user-passwords>
+          </ng-template>
+        </mat-tab>
+
+        <!-- Sessions -->
+        <mat-tab label="Sessions" *ngIf="'sessions' | memoize: isTabToShow:this">
+          <ng-template matTabContent>
+            <organisms-user-sessions [user]="user" [currentSessionId]="currentSessionId"></organisms-user-sessions>
+          </ng-template>
+        </mat-tab>
+
+        <!-- Integrations -->
+        <mat-tab
+          label="Integrations"
+          *ngIf="('integrations' | memoize: isTabToShow:this) && (canViewIntegrations$ | async)"
+        >
+          <ng-template matTabContent>
+            <organisms-user-integrations></organisms-user-integrations>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</section>

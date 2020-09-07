@@ -1,0 +1,305 @@
+{
+  "GLOBAL": {
+    "PopUps": {
+      "confirmButtonText": "Yes",
+      "cancelButtonText": "Cancel",
+      "nextButtonText": "Next &rarr;",
+      "serverError": "Ooops, something went wrong!"
+    },
+    "States": {
+      "initialized": "Created",
+      "disabled": "Disabled",
+      "active": "Active",
+      "archive": "Archive"
+    },
+    "StatesPlural": {
+      "initialized": "Created",
+      "disabled": "Disabled",
+      "active": "Active",
+      "archive": "Archive"
+    },
+    "Stages": {
+      "created": "Created",
+      "inProgress": "In progress",
+      "finished": "Finished"
+    },
+    "Privileges": {
+      "editUser": "Edit User",
+      "deleteUser": "Delete User",
+      "addUser": "Add User",
+      "editPlan": "Edit Plan",
+      "deletePlan": "Delete Plan",
+      "addPlan": "Add Plan",
+      "editRole": "Edit Role",
+      "deleteRole": "Delete Role",
+      "addRole": "Add Role",
+      "showDebug": "Show Debug"
+    },
+    "Languages": {
+      "labels": {
+        "uk": "Українська",
+        "ru": "Русский",
+        "pl": "Polski",
+        "en": "English"
+      }
+    },
+    "List": {
+      "createdAt": "Date created",
+      "updatedAt": "Date updated"
+    },
+    "Actions": {
+      "edit": "Edit",
+      "saveChanges": "Save changes",
+      "cancelEdit": "Cancel"
+    }
+  },
+  "MAIN": {
+    "Title": "myCo",
+    "Search": {
+      "placeholder": "Search",
+      "button": "Search"
+    },
+    "UserDropdown": {
+      "logout": "Log Out",
+      "login": "Log In"
+    },
+    "Footer": {
+      "toTop": "To Top",
+      "signature": "Project by:&nbsp; <a href='http://mywebmaster.pp.ua' data-toggle='tooltip' title='MyWebMaster Web Studio - web sites projects'>myWebMaster</a>"
+    }
+  },
+  "SIDEBAR": {
+    "Menu": {
+      "home": "Home",
+      "dashboard": "Dashboard",
+      "administration": {
+        "header": "Administration",
+        "myProfile": "My Profile",
+        "users": "Users",
+        "translations": "Translations",
+        "roles": "Roles"
+      },
+      "planning": {
+        "header": "Planning",
+        "plans": "Plans",
+        "myPlans": "My plans",
+        "calendar": "Calendar"
+      }
+    }
+  },
+  "BREADCRUMBS": {
+    "login": "Login",
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "administration": "Administration",
+    "myprofile": "My profile",
+    "users": "Users",
+    "userDetails": "User details",
+    "userRegister": "Register",
+    "translations": "Translations",
+    "roles": "Roles",
+    "roleDetails": "Role details",
+    "roleAdd": "Add role",
+    "planner": "Planning",
+    "planDetails": "Plan details",
+    "planAdd": "Add plan"
+  },
+  "REGISTERUSERCOMPONENT": {
+    "Header": "Register a new user",
+    "Form": {
+      "labels": {
+        "login": "Login",
+        "email": "Email",
+        "phone": "Phone",
+        "name": "Name",
+        "surname": "Surname",
+        "role": "Role",
+        "password": "Password",
+        "defaultLang": "Language"
+      },
+      "placeholders": {
+        "login": "Enter login here",
+        "email": "Enter email here",
+        "name": "Enter name here",
+        "surname": "Enter surname here",
+        "phone": "Enter phone here"
+      }
+    },
+    "Alerts": {
+      "fieldsError": "Please, fill in all fields!",
+      "badEmail": "Email address is not correct!",
+      "userRegistered": "User registered!"
+    },
+    "Actions": {
+      "submit": "Submit"
+    }
+  },
+  "PROFILECOMPONENT": {
+    "Header": "My profile",
+    "Actions": {
+      "edit": "Edit"
+    },
+    "User": {
+      "defaultLangWarning": "Language will change after next login"
+    }
+  },
+  "USERSCOMPONENT": {
+    "Search": {
+      "header": "Search for users"
+    },
+    "Actions": {
+      "register": "Register a new user",
+      "exportUserList": "Export user list"
+    },
+    "List": {
+      "header": "Userlist",
+      "login": "Login",
+      "email": "Email",
+      "name": "Name",
+      "surname": "Surname",
+      "phone": "Phone",
+      "state": "State",
+      "defaultLang": "Language",
+      "actions": {
+        "activate": "Activate user",
+        "deactivate": "Deactivate user",
+        "archive": "Archivate user"
+      }
+    },
+    "BulkSection": {
+      "selected": "Selected users",
+      "actionsWithSelected": "Actions with selected",
+      "actions": {
+        "activate": "Activate",
+        "deactivate": "Deactivate",
+        "archive": "Archivate"
+      }
+    },
+    "PopUps": {
+      "stateUpdatedTo": "User state was changed to: "
+    }
+  },
+  "USERSCOMPONENTDIALOG": {
+    "Actions": {
+      "cancel": "Cancel",
+      "ok": "Ok"
+    }
+  },
+  "USERCOMPONENT": {
+    "Header": "User details",
+    "User": {
+      "name": "Name",
+      "surname": "Surname",
+      "login": "Login",
+      "email": "Email",
+      "phone": "Phone",
+      "state": "State",
+      "role": "Role",
+      "defaultLang": "Language",
+      "defaultLangWarning": "Language will change after next login"
+    },
+    "Actions": {
+      "edit": "Edit User",
+      "addRole": "Add Role"
+    },
+    "PopUps": {
+      "udpateUserTitle": "Are You sure?",
+      "udpateUserText": "Do you really want to save changes? You will not be able to recover this!",
+      "udpateUserSuccess": "User updated!",
+      "udpateUserError": "Somth went wrong!",
+      "selectRolesTitle": "Select roles"
+    }
+  },
+  "ROLESCOMPONENT": {
+    "Actions": {
+      "create": "Add a new role",
+      "exportRoleList": "Export role list"
+    },
+    "List": {
+      "header": "Rolelist",
+      "title": "Title",
+      "usersCount": "Users",
+      "privilegesCount": "Privileges"
+    }
+  },
+  "ROLESCOMPONENTDIALOG": {
+    "Actions": {
+      "cancel": "Cancel",
+      "ok": "Ok"
+    }
+  },
+  "ROLECOMPONENT": {
+    "Header": "Role details",
+    "Form": {
+      "labels": {
+        "name": "Key"
+      }
+    },
+    "Role": {
+      "users": "Users",
+      "privileges": "Privileges"
+    },
+    "Actions": {
+      "edit": "Edit Role",
+      "addUser": "Add User to Role"
+    },
+    "PopUps": {
+      "udpateRoleTitle": "Are You sure?",
+      "udpateRoleText": "Do you really want to save changes? You will not be able to recover this!",
+      "udpateRoleSuccess": "Role updated!",
+      "udpateRoleError": "Somth went wrong!",
+      "selectUsersTitle": "Select users"
+    }
+  },
+  "REGISTERROLECOMPONENT": {
+    "Header": "Add role",
+    "Form": {
+      "labels": {
+        "name": "Key",
+        "privileges": "Privileges"
+      },
+      "placeholders": {
+        "title": "Enter key name here"
+      }
+    },
+    "Users": "Users",
+    "Actions": {
+      "addUser": "Add User",
+      "submit": "Submit"
+    },
+    "PopUps": {
+      "selectUsersTitle": "Select users"
+    }
+  },
+  "PLANNERCOMPONENT": {
+    "List": {
+      "header": "Planlist",
+      "title": "Title",
+      "creator": "Creator",
+      "stage": "Stage",
+      "participants": "Participants",
+      "deadline": "Deadline"
+    },
+    "Actions": {
+      "create": "Create a New Plan"
+    }
+  },
+  "PLANCOMPONENT": {
+    "Header": "Plan Details",
+    "Plan": {
+      "title": "Title",
+      "creator": "Creator",
+      "budget": "Budget",
+      "decsription": "Decsription",
+      "stage": "Stage",
+      "participants": "Participants",
+      "deadline": "Deadline",
+      "createdAt": "Date of creation",
+      "updatedAt": "Last update"
+    },
+    "Actions": {
+      "edit": "Edit Plan",
+      "addParticipant": "Add Participants"
+    }
+  }
+}
