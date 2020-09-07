@@ -10,12 +10,17 @@ export const departmentLoaded = createAction(
   props<{ department: Department }>()
 );
 
-export const departmentSaved = createAction(
-  '[Department Details] Department Changes Saved',
+export const updateDepartmentRequested = createAction(
+  '[Department Details] Update Department Requsted',
+  props<{ department: Department }>()
+);
+
+export const updateDepartmentSuccess = createAction(
+  '[Department API] Update Department Success',
   props<{ department: Update<Department> }>()
 );
 
-export const createDepartment = createAction(
+export const createDepartmentRequested = createAction(
   '[Add Department] Add Department Requested',
   props<{ department: Department }>()
 );

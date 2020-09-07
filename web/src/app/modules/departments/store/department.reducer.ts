@@ -43,7 +43,10 @@ const departmentsReducer = createReducer(
       countAll: response.resultsNum
     })
   ),
-  on(departmentActions.departmentSaved, (state, { department }) => adapter.updateOne(department, state)),
+  on(departmentActions.updateDepartmentRequested, (state) => ({ ...state, loading: true })),
+  on(departmentActions.updateDepartmentSuccess, (state, { department }) =>
+    adapter.updateOne(department, { ...state, loading: false })
+  ),
   on(departmentActions.depDashboardDataLoaded, (state, { response }) =>
     adapter.upsertMany(response.data, {
       ...state,
