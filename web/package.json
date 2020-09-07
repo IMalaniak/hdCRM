@@ -65,7 +65,7 @@
     "@ngrx/schematics": "9.1.0",
     "@types/jasmine": "2.8.16",
     "@types/jasminewd2": "2.0.8",
-    "@types/node": "13.7.1",
+    "@types/node": "13.13.16",
     "@types/socket.io": "2.1.4",
     "@types/ua-parser-js": "0.7.33",
     "codelyzer": "5.2.1",
