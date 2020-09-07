@@ -6,8 +6,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-
 import { PlannerRoutingModule } from './planner-routing.module';
 import { SharedModule } from '@/shared/shared.module';
 
@@ -33,7 +31,6 @@ import { StageEffects } from './store/stage.effects';
     SharedModule,
     DragDropModule,
     PlannerRoutingModule.forRoot(),
-    SweetAlert2Module,
     StoreModule.forFeature(fromPlan.plansFeatureKey, fromPlan.reducer),
     StoreModule.forFeature(fromStage.stagesFeatureKey, fromStage.reducer),
     EffectsModule.forFeature([PlanEffects, StageEffects])
