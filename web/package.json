@@ -39,7 +39,6 @@
     "@ngrx/router-store": "9.1.0",
     "@ngrx/store": "9.1.0",
     "@ngrx/store-devtools": "9.1.0",
-    "@sweetalert2/ngx-sweetalert2": "7.4.0",
     "@swimlane/ngx-charts": "13.0.2",
     "bootstrap": "4.4.1",
     "core-js": "2.6.11",

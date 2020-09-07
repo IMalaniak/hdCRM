@@ -4,8 +4,6 @@ import { RouterModule } from '@angular/router';
 import { DepartmentsRoutingModule } from './departments-routing.module';
 import { SharedModule } from '@/shared/shared.module';
 
-import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-
 import { AddDepartmentComponent, DepartmentComponent, DepartmentsComponent } from './components';
 
 import { DepartmentService } from './services';
@@ -20,7 +18,6 @@ import { DepartmentEffects } from './store/department.effects';
     RouterModule,
     SharedModule,
     DepartmentsRoutingModule.forRoot(),
-    SweetAlert2Module,
     StoreModule.forFeature(fromDep.departmentsFeatureKey, fromDep.reducer),
     EffectsModule.forFeature([DepartmentEffects])
   ],
