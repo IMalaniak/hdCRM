@@ -21,10 +21,17 @@ const initialState: DepartmentsState = adapter.getInitialState({
 
 const departmentsReducer = createReducer(
   initialState,
+  on(
+    departmentActions.createDepartmentRequested,
+    departmentActions.listPageRequested,
+    departmentActions.updateDepartmentRequested,
+    (state) => ({ ...state, loading: true })
+  ),
   on(departmentActions.createDepartmentSuccess, (state, { department }) =>
     adapter.addOne(department, {
       ...state,
-      countAll: state.countAll + 1
+      countAll: state.countAll + 1,
+      loading: false
     })
   ),
   on(departmentActions.deleteDepartment, (state, { id }) =>
@@ -34,7 +41,6 @@ const departmentsReducer = createReducer(
     })
   ),
   on(departmentActions.departmentLoaded, (state, { department }) => adapter.addOne(department, state)),
-  on(departmentActions.listPageRequested, (state) => ({ ...state, loading: true })),
   on(departmentActions.listPageLoaded, (state, { response }) =>
     adapter.upsertMany(response.data, {
       ...state,
@@ -43,7 +49,9 @@ const departmentsReducer = createReducer(
       countAll: response.resultsNum
     })
   ),
-  on(departmentActions.departmentSaved, (state, { department }) => adapter.updateOne(department, state)),
+  on(departmentActions.updateDepartmentSuccess, (state, { department }) =>
+    adapter.updateOne(department, { ...state, loading: false })
+  ),
   on(departmentActions.depDashboardDataLoaded, (state, { response }) =>
     adapter.upsertMany(response.data, {
       ...state,

@@ -9,14 +9,15 @@ import { AppState } from '@/core/reducers';
 import { Department } from '../models';
 import { selectDashboardDepDataLoaded } from './department.selectors';
 import { Router } from '@angular/router';
-import { ToastMessageService, CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared';
+import { ToastMessageService, CollectionApiResponse, ItemApiResponse, ApiResponse, PageQuery } from '@/shared';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Update } from '@ngrx/entity';
 
 @Injectable()
 export class DepartmentEffects {
   createDepartment$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(depActions.createDepartment),
+      ofType(depActions.createDepartmentRequested),
       map((payload) => payload.department),
       mergeMap((department: Department) =>
         this.departmentService.create(department).pipe(
@@ -40,7 +41,7 @@ export class DepartmentEffects {
     this.actions$.pipe(
       ofType(depActions.departmentRequested),
       map((payload) => payload.id),
-      mergeMap((id) => this.departmentService.getOne(id)),
+      mergeMap((id: number) => this.departmentService.getOne(id)),
       map((response: ItemApiResponse<Department>) => depActions.departmentLoaded({ department: response.data })),
       catchError(() => of(depActions.departmentApiError()))
     )
@@ -50,10 +51,33 @@ export class DepartmentEffects {
     this.actions$.pipe(
       ofType(depActions.listPageRequested),
       map((payload) => payload.page),
-      mergeMap((page) =>
+      mergeMap((page: PageQuery) =>
         this.departmentService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
           map((response: CollectionApiResponse<Department>) => depActions.listPageLoaded({ response })),
           catchError(() => of(depActions.departmentApiError()))
+        )
+      )
+    )
+  );
+
+  updateDepartment$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(depActions.updateDepartmentRequested),
+      map((payload) => payload.department),
+      mergeMap((department: Department) =>
+        this.departmentService.updateOne(department).pipe(
+          map((response: ItemApiResponse<Department>) => {
+            const department: Update<Department> = {
+              id: response.data.id,
+              changes: response.data
+            };
+            this.toastMessageService.snack(response);
+            return depActions.updateDepartmentSuccess({ department });
+          }),
+          catchError((errorResponse: HttpErrorResponse) => {
+            this.toastMessageService.snack(errorResponse.error);
+            return of(depActions.departmentApiError());
+          })
         )
       )
     )
@@ -64,7 +88,7 @@ export class DepartmentEffects {
       this.actions$.pipe(
         ofType(depActions.deleteDepartment),
         map((payload) => payload.id),
-        mergeMap((id) => this.departmentService.delete(id)),
+        mergeMap((id: number) => this.departmentService.delete(id)),
         map((res: ApiResponse) => this.toastMessageService.snack(res)),
         catchError(() => of(depActions.departmentApiError()))
       ),
@@ -76,7 +100,7 @@ export class DepartmentEffects {
   loadDashboardData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(depActions.depDashboardDataRequested),
-      withLatestFrom(this.store.pipe(select(selectDashboardDepDataLoaded))),
+      withLatestFrom(this.store$.pipe(select(selectDashboardDepDataLoaded))),
       filter(([_, selectDashboardDepDataLoaded]) => !selectDashboardDepDataLoaded),
       mergeMap(() => this.departmentService.getDashboardData()),
       map((response: CollectionApiResponse<Department>) => depActions.depDashboardDataLoaded({ response })),
@@ -86,7 +110,7 @@ export class DepartmentEffects {
 
   constructor(
     private actions$: Actions,
-    private store: Store<AppState>,
+    private store$: Store<AppState>,
     private departmentService: DepartmentService,
     private router: Router,
     private toastMessageService: ToastMessageService

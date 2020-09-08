@@ -2,17 +2,15 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRe
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
-import { Update } from '@ngrx/entity';
 import { takeUntil, map } from 'rxjs/operators';
 import { cloneDeep } from 'lodash';
 import { Department } from '../../models';
 import { UsersDialogComponent, User } from '@/modules/users';
 import { Subject, Observable, combineLatest } from 'rxjs';
-import { DepartmentService } from '../../services';
 import { AppState } from '@/core/reducers';
-import { departmentSaved } from '../../store/department.actions';
 import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
 import { MediaqueryService, ToastMessageService } from '@/shared';
+import { updateDepartmentRequested } from '../../store/department.actions';
 
 @Component({
   selector: 'app-department',
@@ -21,8 +19,8 @@ import { MediaqueryService, ToastMessageService } from '@/shared';
 })
 export class DepartmentComponent implements OnInit, OnDestroy {
   canEditDepartment$: Observable<boolean> = combineLatest([
-    this.store.pipe(select(isPrivileged('department-edit'))),
-    this.store.pipe(select(currentUser))
+    this.store$.pipe(select(isPrivileged('department-edit'))),
+    this.store$.pipe(select(currentUser))
   ]).pipe(map(([editPriv, appUser]) => editPriv || appUser.id === this.department.managerId));
 
   department: Department;
@@ -33,10 +31,9 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
-    private departmentService: DepartmentService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private store: Store<AppState>,
+    private store$: Store<AppState>,
     private mediaQuery: MediaqueryService,
     private cdr: ChangeDetectorRef,
     private toastMessageService: ToastMessageService
@@ -114,31 +111,12 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     this.department = { ...this.department, Workers: this.department.Workers.filter((worker) => worker.id !== userId) };
   }
 
-  // TODO: @IMalaniak recreate store logic
   updateDepartment(): void {
     this.toastMessageService
       .confirm('You are about to update department', 'Are you sure you want to update department details?')
       .then((result) => {
         if (result.value) {
-          this.departmentService
-            .updateOne(this.department)
-            .pipe(takeUntil(this.unsubscribe))
-            .subscribe(
-              ({ data }) => {
-                this.department = cloneDeep(data);
-                this.departmentInitial = cloneDeep(data);
-                const department: Update<Department> = {
-                  id: this.department.id,
-                  changes: data
-                };
-                this.store.dispatch(departmentSaved({ department }));
-                this.editForm = false;
-                this.toastMessageService.toast('Department updated!');
-              },
-              () => {
-                this.toastMessageService.popup('Ooops, something went wrong!', 'error');
-              }
-            );
+          this.store$.dispatch(updateDepartmentRequested({ department: this.department }));
         }
       });
   }
