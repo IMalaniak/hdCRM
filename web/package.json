@@ -52,7 +52,7 @@
     "filepond-plugin-image-transform": "3.7.4",
     "lodash": "4.17.20",
     "ngx-filepond": "5.0.1",
-    "rxjs": "6.5.5",
+    "rxjs": "6.6.3",
     "socket.io": "2.3.0",
     "sweetalert2": "9.7.2",
     "tslib": "1.10.0",
