@@ -25,6 +25,7 @@ const departmentsReducer = createReducer(
     departmentActions.createDepartmentRequested,
     departmentActions.listPageRequested,
     departmentActions.updateDepartmentRequested,
+    departmentActions.deleteDepartmentRequested,
     (state) => ({ ...state, loading: true })
   ),
   on(departmentActions.createDepartmentSuccess, (state, { department }) =>
@@ -34,10 +35,11 @@ const departmentsReducer = createReducer(
       loading: false
     })
   ),
-  on(departmentActions.deleteDepartment, (state, { id }) =>
+  on(departmentActions.deleteDepartmentSuccess, (state, { id }) =>
     adapter.removeOne(id, {
       ...state,
-      countAll: state.countAll - 1
+      countAll: state.countAll - 1,
+      loading: false
     })
   ),
   on(departmentActions.departmentLoaded, (state, { department }) => adapter.addOne(department, state)),

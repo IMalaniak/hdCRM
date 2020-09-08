@@ -1,7 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Role } from '../models';
-import * as RoleActions from './role.actions';
+import * as roleActions from './role.actions';
 
 export interface RolesState extends EntityState<Role> {
   loading: boolean;
@@ -21,15 +21,25 @@ const initialState: RolesState = adapter.getInitialState({
 
 const rolesReducer = createReducer(
   initialState,
-  on(RoleActions.createRoleSuccess, (state, { role }) =>
-    adapter.addOne(role, {
+  on(
+    roleActions.listPageRequested,
+    roleActions.createRoleRequested,
+    roleActions.updateRoleRequested,
+    roleActions.createRoleRequested,
+    (state) => ({
       ...state,
-      countAll: state.countAll + 1
+      loading: true
     })
   ),
-  on(RoleActions.roleLoaded, (state, { role }) => adapter.addOne(role, state)),
-  on(RoleActions.listPageRequested, (state) => ({ ...state, loading: true })),
-  on(RoleActions.listPageLoaded, (state, { response: { data, pages, resultsNum } }) =>
+  on(roleActions.createRoleSuccess, (state, { role }) =>
+    adapter.addOne(role, {
+      ...state,
+      countAll: state.countAll + 1,
+      loading: false
+    })
+  ),
+  on(roleActions.roleLoaded, (state, { role }) => adapter.addOne(role, state)),
+  on(roleActions.listPageLoaded, (state, { response: { data, pages, resultsNum } }) =>
     adapter.upsertMany(data, {
       ...state,
       loading: false,
@@ -37,21 +47,22 @@ const rolesReducer = createReducer(
       countAll: resultsNum
     })
   ),
-  on(RoleActions.deleteRole, (state, { id }) =>
+  on(roleActions.deleteRoleSuccess, (state, { id }) =>
     adapter.removeOne(id, {
       ...state,
-      countAll: state.countAll - 1
+      countAll: state.countAll - 1,
+      loading: false
     })
   ),
-  on(RoleActions.roleSaved, (state, { role }) => adapter.updateOne(role, state)),
-  on(RoleActions.roleDashboardDataLoaded, (state, { response: { data, resultsNum } }) =>
+  on(roleActions.updateRoleSuccess, (state, { role }) => adapter.updateOne(role, { ...state, loading: false })),
+  on(roleActions.roleDashboardDataLoaded, (state, { response: { data, resultsNum } }) =>
     adapter.upsertMany(data, {
       ...state,
       countAll: resultsNum,
       dashboardDataLoaded: true
     })
   ),
-  on(RoleActions.rolesApiError, (state) => ({ ...state, loading: false }))
+  on(roleActions.rolesApiError, (state) => ({ ...state, loading: false }))
 );
 
 export function reducer(state: RolesState | undefined, action: Action) {

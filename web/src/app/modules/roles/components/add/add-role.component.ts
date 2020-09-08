@@ -9,7 +9,7 @@ import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialo
 import { takeUntil, skipUntil, delay } from 'rxjs/operators';
 import { AppState } from '@/core/reducers';
 import { Store } from '@ngrx/store';
-import { createRole } from '../../store/role.actions';
+import { createRoleRequested } from '../../store/role.actions';
 import { User } from '@/modules/users/models';
 
 @Component({
@@ -128,6 +128,6 @@ export class AddRoleComponent implements OnInit {
 
   onRegisterSubmit(): void {
     this.role = { ...this.role, keyString: this.keyString.value };
-    this.store.dispatch(createRole({ role: this.role }));
+    this.store.dispatch(createRoleRequested({ role: this.role }));
   }
 }

@@ -30,7 +30,15 @@ export const createDepartmentSuccess = createAction(
   props<{ department: Department }>()
 );
 
-export const deleteDepartment = createAction('[Department List] Delete Department Requested', props<{ id: number }>());
+export const deleteDepartmentRequested = createAction(
+  '[Department List] Delete Department Requested',
+  props<{ id: number }>()
+);
+
+export const deleteDepartmentSuccess = createAction(
+  '[Department API] Delete Department Success',
+  props<{ id: number }>()
+);
 
 export const listPageRequested = createAction(
   '[Departments List] Departments Page Requested',

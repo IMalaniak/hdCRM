@@ -101,11 +101,11 @@
   </section>
   <div buttons *ngIf="canEditRole$ | async">
     <atoms-icon-button *ngIf="!editForm" (onclick)="onClickEdit()" [icon]="['fas', 'edit']"> Edit </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm" (onclick)="onUpdateRoleSubmit()" [icon]="['fas', 'save']">
-      Save
-    </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm" (onclick)="onClickCancelEdit()" [icon]="['fas', 'times']" color="basic">
+    <atoms-icon-button *ngIf="editForm" color="basic" (onclick)="onClickCancelEdit()" [icon]="['fas', 'times']">
       Cancel
+    </atoms-icon-button>
+    <atoms-icon-button *ngIf="editForm" class="ml-2" (onclick)="updateRole()" [icon]="['fas', 'save']">
+      Save
     </atoms-icon-button>
   </div>
 </organisms-card>

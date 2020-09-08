@@ -10,10 +10,8 @@ import { Observable, Subject } from 'rxjs';
 import { MediaqueryService, ToastMessageService } from '@/shared';
 import { takeUntil, skipUntil, delay } from 'rxjs/operators';
 import { cloneDeep } from 'lodash';
-import { Update } from '@ngrx/entity';
-import { roleSaved } from '../../store/role.actions';
+import { updateRoleRequested } from '../../store/role.actions';
 import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
-import { RoleService } from '../../services';
 import { User } from '@/modules/users';
 
 @Component({
@@ -23,7 +21,7 @@ import { User } from '@/modules/users';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoleComponent implements OnInit, OnDestroy {
-  canEditRole$: Observable<boolean> = this.store.pipe(select(isPrivileged('role-edit')));
+  canEditRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged('role-edit')));
 
   role: Role;
   roleInitial: Role;
@@ -34,9 +32,8 @@ export class RoleComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private roleService: RoleService,
     private dialog: MatDialog,
-    private store: Store<AppState>,
+    private store$: Store<AppState>,
     private mediaQuery: MediaqueryService,
     private cdr: ChangeDetectorRef,
     private toastMessageService: ToastMessageService
@@ -144,36 +141,6 @@ export class RoleComponent implements OnInit, OnDestroy {
       });
   }
 
-  onUpdateRoleSubmit(): void {
-    this.toastMessageService
-      .confirm('You are about to update role', 'Are You sure You want to update role? Changes cannot be undone.')
-      .then((result) => {
-        if (result.value) {
-          this.updateRole();
-        }
-      });
-  }
-
-  // TODO: @IMalaniak recreate this to store
-  updateRole(): void {
-    this.roleService.updateRole(this.role).subscribe(
-      ({ data }) => {
-        this.roleInitial = cloneDeep(data);
-        this.role = cloneDeep(data);
-        const role: Update<Role> = {
-          id: this.role.id,
-          changes: data
-        };
-        this.store.dispatch(roleSaved({ role }));
-        this.disableEdit();
-        this.toastMessageService.toast('Role updated!');
-      },
-      () => {
-        this.toastMessageService.popup('Server Error!', 'error');
-      }
-    );
-  }
-
   removePrivilege(privilegeId: number): void {
     this.role = { ...this.role, Privileges: this.role.Privileges.filter((privilege) => privilege.id !== privilegeId) };
   }
@@ -195,6 +162,17 @@ export class RoleComponent implements OnInit, OnDestroy {
   onClickCancelEdit(): void {
     this.role = cloneDeep(this.roleInitial);
     this.disableEdit();
+  }
+
+  updateRole(): void {
+    this.toastMessageService
+      .confirm('You are about to update role', 'Are you sure you want to update department details?')
+      .then((result) => {
+        if (result.value) {
+          this.store$.dispatch(updateRoleRequested({ role: this.role }));
+          this.disableEdit();
+        }
+      });
   }
 
   ngOnDestroy(): void {

@@ -12,7 +12,7 @@ import { RolesDataSource } from '../../services/role.datasource';
 import { Role } from '../../models';
 import { selectRolesTotalCount, selectRolesLoading } from '../../store/role.selectors';
 import { PageQuery, ToastMessageService, IItemsPerPage, pageSizeOptions } from '@/shared';
-import { deleteRole } from '../../store/role.actions';
+import { deleteRoleRequested } from '../../store/role.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 
 @Component({
@@ -77,7 +77,7 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
       .confirm('Are you sure?', 'Do you really want to delete role? You will not be able to recover!')
       .then((result) => {
         if (result.value) {
-          this.store$.dispatch(deleteRole({ id }));
+          this.store$.dispatch(deleteRoleRequested({ id }));
         }
       });
   }
