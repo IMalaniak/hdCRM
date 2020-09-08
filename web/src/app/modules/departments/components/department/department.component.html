@@ -2,7 +2,7 @@
   <div content class="row">
     <div class="col-md-6">
       <organisms-card cardTitle="Details" cardClass="border border-secondary mt-0 mb-0" [disableShadow]="true">
-        <form content class="d-flex flex-column px-3 pt-3" *ngIf="editForm">
+        <form content class="d-flex flex-column px-3 pt-3" *ngIf="editForm$ | async">
           <mat-form-field appearance="outline">
             <mat-label i18n="@@departmentComponentDetailsTitle">Title</mat-label>
             <input matInput [(ngModel)]="department.title" name="title" type="text" required />
@@ -12,7 +12,7 @@
             <textarea matInput [(ngModel)]="department.description" name="description" type="text" required></textarea>
           </mat-form-field>
         </form>
-        <mat-list content class="w-100" *ngIf="!editForm">
+        <mat-list content class="w-100" *ngIf="!(editForm$ | async)">
           <mat-list-item>
             <section>
               <div>
@@ -57,7 +57,7 @@
       <templates-box-user-list-sm
         title="Manager"
         [user]="department.Manager"
-        [editMode]="editForm"
+        [editMode]="editForm$ | async"
         (addClick)="addManagerDialog()"
         (removeClick)="removeManager()"
       ></templates-box-user-list-sm>
@@ -68,7 +68,7 @@
       <templates-box-user-list-sm
         [users]="department.Workers"
         title="Workers"
-        [editMode]="editForm"
+        [editMode]="editForm$ | async"
         (addClick)="addWorkersDialog()"
         (removeClick)="removeWorker($event)"
       ></templates-box-user-list-sm>
@@ -81,7 +81,7 @@
             cardClass="border border-secondary mt-3 mb-0"
             [disableShadow]="true"
           >
-            <button buttons mat-stroked-button color="primary" class="crm-button" *ngIf="editForm">
+            <button buttons mat-stroked-button color="primary" class="crm-button" *ngIf="editForm$ | async">
               <fa-icon [icon]="['fas', 'plus']"></fa-icon
               ><span i18n="@@departmentComponentActionsAddParentDepartment">Add parent department</span>
             </button>
@@ -100,7 +100,7 @@
             [disableShadow]="true"
             [counter]="department.SubDepartments ? department.SubDepartments.length : 0"
           >
-            <button buttons mat-stroked-button color="primary" class="crm-button" *ngIf="editForm">
+            <button buttons mat-stroked-button color="primary" class="crm-button" *ngIf="editForm$ | async">
               <fa-icon [icon]="['fas', 'plus']"></fa-icon
               ><span i18n="@@departmentComponentActionsAddSubDepartments">Add sub departments</span>
             </button>
@@ -116,11 +116,18 @@
     </div>
   </div>
   <div buttons *ngIf="canEditDepartment$ | async">
-    <atoms-icon-button *ngIf="!editForm" (onclick)="onClickEdit()" [icon]="['fas', 'edit']"> Edit </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm" color="basic" [icon]="['fas', 'times']" (onclick)="onClickCancelEdit()">
+    <atoms-icon-button *ngIf="!(editForm$ | async)" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
+      Edit
+    </atoms-icon-button>
+    <atoms-icon-button
+      *ngIf="editForm$ | async"
+      color="basic"
+      [icon]="['fas', 'times']"
+      (onclick)="onClickCancelEdit()"
+    >
       Cancel
     </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm" class="ml-2" [icon]="['fas', 'save']" (onclick)="updateDepartment()">
+    <atoms-icon-button *ngIf="editForm$ | async" class="ml-2" [icon]="['fas', 'save']" (onclick)="updateDepartment()">
       Save
     </atoms-icon-button>
   </div>

@@ -7,6 +7,7 @@ export interface RolesState extends EntityState<Role> {
   loading: boolean;
   pages: number;
   countAll: number;
+  editing: boolean;
   dashboardDataLoaded: boolean;
 }
 
@@ -16,11 +17,16 @@ const initialState: RolesState = adapter.getInitialState({
   loading: false,
   pages: null,
   countAll: null,
+  editing: false,
   dashboardDataLoaded: false
 });
 
 const rolesReducer = createReducer(
   initialState,
+  on(roleActions.changeIsEditingState, (state, { isEditing }) => ({
+    ...state,
+    editing: isEditing
+  })),
   on(
     roleActions.listPageRequested,
     roleActions.createRoleRequested,
@@ -54,7 +60,9 @@ const rolesReducer = createReducer(
       loading: false
     })
   ),
-  on(roleActions.updateRoleSuccess, (state, { role }) => adapter.updateOne(role, { ...state, loading: false })),
+  on(roleActions.updateRoleSuccess, (state, { role }) =>
+    adapter.updateOne(role, { ...state, loading: false, editing: false })
+  ),
   on(roleActions.roleDashboardDataLoaded, (state, { response: { data, resultsNum } }) =>
     adapter.upsertMany(data, {
       ...state,

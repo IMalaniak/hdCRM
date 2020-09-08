@@ -10,14 +10,16 @@ import { Subject, Observable, combineLatest } from 'rxjs';
 import { AppState } from '@/core/reducers';
 import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
 import { MediaqueryService, ToastMessageService } from '@/shared';
-import { updateDepartmentRequested } from '../../store/department.actions';
+import { updateDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
+import { selectIsEditing } from '../../store/department.selectors';
 
 @Component({
-  selector: 'app-department',
+  selector: 'department',
   templateUrl: './department.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DepartmentComponent implements OnInit, OnDestroy {
+  editForm$: Observable<boolean> = this.store$.pipe(select(selectIsEditing));
   canEditDepartment$: Observable<boolean> = combineLatest([
     this.store$.pipe(select(isPrivileged('department-edit'))),
     this.store$.pipe(select(currentUser))
@@ -25,8 +27,6 @@ export class DepartmentComponent implements OnInit, OnDestroy {
 
   department: Department;
   departmentInitial: Department;
-  showDataLoader = true;
-  editForm = false;
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -42,22 +42,14 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.departmentInitial = cloneDeep(this.route.snapshot.data['department']);
     this.department = cloneDeep(this.route.snapshot.data['department']);
-    this.canEditDepartment$.pipe(takeUntil(this.unsubscribe)).subscribe((canEdit) => {
-      if (canEdit) {
-        const edit = this.route.snapshot.queryParams['edit'];
-        if (edit) {
-          this.editForm = JSON.parse(edit);
-        }
-      }
-    });
   }
 
   onClickEdit(): void {
-    this.editForm = true;
+    this.store$.dispatch(changeIsEditingState({ isEditing: true }));
   }
 
   onClickCancelEdit(): void {
-    this.editForm = false;
+    this.store$.dispatch(changeIsEditingState({ isEditing: false }));
     this.department = cloneDeep(this.departmentInitial);
   }
 

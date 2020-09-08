@@ -46,3 +46,5 @@ export const selectDashboardDepDataLoaded = createSelector(
   selectDepartmentsState,
   (departmentsState) => departmentsState.dashboardDataLoaded
 );
+
+export const selectIsEditing = createSelector(selectDepartmentsState, (departmentsState) => departmentsState.editing);

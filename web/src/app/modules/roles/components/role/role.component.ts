@@ -10,22 +10,23 @@ import { Observable, Subject } from 'rxjs';
 import { MediaqueryService, ToastMessageService } from '@/shared';
 import { takeUntil, skipUntil, delay } from 'rxjs/operators';
 import { cloneDeep } from 'lodash';
-import { updateRoleRequested } from '../../store/role.actions';
+import { updateRoleRequested, changeIsEditingState } from '../../store/role.actions';
 import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
 import { User } from '@/modules/users';
+import { selectIsEditing } from '../../store/role.selectors';
 
 @Component({
-  selector: 'app-role',
+  selector: 'role',
   templateUrl: './role.component.html',
   styleUrls: ['./role.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoleComponent implements OnInit, OnDestroy {
+  editForm$: Observable<boolean> = this.store$.pipe(select(selectIsEditing));
   canEditRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged('role-edit')));
 
   role: Role;
   roleInitial: Role;
-  editForm = false;
   displayedColumns: string[] = ['title', 'view', 'add', 'edit', 'delete'];
 
   private unsubscribe: Subject<void> = new Subject();
@@ -40,15 +41,6 @@ export class RoleComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.canEditRole$.pipe(takeUntil(this.unsubscribe)).subscribe((canEdit) => {
-      if (canEdit) {
-        const edit = this.route.snapshot.queryParams['edit'];
-        if (edit) {
-          this.editForm = JSON.parse(edit);
-        }
-      }
-    });
-
     this.getRoleData();
   }
 
@@ -150,18 +142,18 @@ export class RoleComponent implements OnInit, OnDestroy {
   }
 
   onClickEdit(): void {
-    this.editForm = true;
+    this.store$.dispatch(changeIsEditingState({ isEditing: true }));
     this.displayedColumns = [...this.displayedColumns, 'actions'];
   }
 
-  disableEdit(): void {
-    this.editForm = false;
-    this.displayedColumns = this.displayedColumns.filter((col) => col !== 'actions');
-  }
-
   onClickCancelEdit(): void {
+    this.store$.dispatch(changeIsEditingState({ isEditing: false }));
     this.role = cloneDeep(this.roleInitial);
     this.disableEdit();
+  }
+
+  disableEdit(): void {
+    this.displayedColumns = this.displayedColumns.filter((col) => col !== 'actions');
   }
 
   updateRole(): void {

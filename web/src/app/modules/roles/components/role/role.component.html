@@ -4,7 +4,7 @@
       <form class="d-flex flex-column">
         <mat-form-field appearance="outline">
           <mat-label i18n="@@roleСomponentTabDetailsTitle">Title</mat-label>
-          <input matInput [(ngModel)]="role.keyString" name="name" type="text" [readonly]="!editForm" />
+          <input matInput [(ngModel)]="role.keyString" name="name" type="text" [readonly]="!(editForm$ | async)" />
         </mat-form-field>
       </form>
       <!-- <span i18n="@@roleComponentFormLabelsPrivileges">Privileges:</span> -->
@@ -15,7 +15,7 @@
         [counter]="role.Privileges.length"
       >
         <div buttons>
-          <atoms-icon-button *ngIf="editForm" (onclick)="addPrivilegeDialog()" [icon]="['fas', 'plus']">
+          <atoms-icon-button *ngIf="editForm$ | async" (onclick)="addPrivilegeDialog()" [icon]="['fas', 'plus']">
             Add
           </atoms-icon-button>
         </div>
@@ -30,9 +30,9 @@
             <ng-container matColumnDef="view">
               <mat-header-cell *matHeaderCellDef> View </mat-header-cell>
               <mat-cell *matCellDef="let privilege">
-                <mat-checkbox *ngIf="editForm" [(ngModel)]="privilege.RolePrivilege.view"></mat-checkbox>
+                <mat-checkbox *ngIf="editForm$ | async" [(ngModel)]="privilege.RolePrivilege.view"></mat-checkbox>
                 <fa-icon
-                  *ngIf="!editForm"
+                  *ngIf="!(editForm$ | async)"
                   [icon]="privilege.RolePrivilege.view ? ['fas', 'check'] : ['fas', 'times']"
                   [classes]="[privilege.RolePrivilege.view ? 'text-success' : 'text-danger']"
                 ></fa-icon>
@@ -41,9 +41,9 @@
             <ng-container matColumnDef="add">
               <mat-header-cell *matHeaderCellDef> Add </mat-header-cell>
               <mat-cell *matCellDef="let privilege">
-                <mat-checkbox *ngIf="editForm" [(ngModel)]="privilege.RolePrivilege.add"></mat-checkbox>
+                <mat-checkbox *ngIf="editForm$ | async" [(ngModel)]="privilege.RolePrivilege.add"></mat-checkbox>
                 <fa-icon
-                  *ngIf="!editForm"
+                  *ngIf="!(editForm$ | async)"
                   [icon]="privilege.RolePrivilege.add ? ['fas', 'check'] : ['fas', 'times']"
                   [classes]="[privilege.RolePrivilege.add ? 'text-success' : 'text-danger']"
                 ></fa-icon>
@@ -52,9 +52,9 @@
             <ng-container matColumnDef="edit">
               <mat-header-cell *matHeaderCellDef> Edit </mat-header-cell>
               <mat-cell *matCellDef="let privilege">
-                <mat-checkbox *ngIf="editForm" [(ngModel)]="privilege.RolePrivilege.edit"></mat-checkbox>
+                <mat-checkbox *ngIf="editForm$ | async" [(ngModel)]="privilege.RolePrivilege.edit"></mat-checkbox>
                 <fa-icon
-                  *ngIf="!editForm"
+                  *ngIf="!(editForm$ | async)"
                   [icon]="privilege.RolePrivilege.edit ? ['fas', 'check'] : ['fas', 'times']"
                   [classes]="[privilege.RolePrivilege.edit ? 'text-success' : 'text-danger']"
                 ></fa-icon>
@@ -63,9 +63,9 @@
             <ng-container matColumnDef="delete">
               <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
               <mat-cell *matCellDef="let privilege">
-                <mat-checkbox *ngIf="editForm" [(ngModel)]="privilege.RolePrivilege.delete"></mat-checkbox>
+                <mat-checkbox *ngIf="editForm$ | async" [(ngModel)]="privilege.RolePrivilege.delete"></mat-checkbox>
                 <fa-icon
-                  *ngIf="!editForm"
+                  *ngIf="!(editForm$ | async)"
                   [icon]="privilege.RolePrivilege.delete ? ['fas', 'check'] : ['fas', 'times']"
                   [classes]="[privilege.RolePrivilege.delete ? 'text-success' : 'text-danger']"
                 ></fa-icon>
@@ -93,18 +93,25 @@
       <templates-box-user-list-sm
         [users]="role.Users"
         title="Users"
-        [editMode]="editForm"
+        [editMode]="editForm$ | async"
         (addClick)="addParticipantDialog()"
         (removeClick)="removeUser($event)"
       ></templates-box-user-list-sm>
     </div>
   </section>
   <div buttons *ngIf="canEditRole$ | async">
-    <atoms-icon-button *ngIf="!editForm" (onclick)="onClickEdit()" [icon]="['fas', 'edit']"> Edit </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm" color="basic" (onclick)="onClickCancelEdit()" [icon]="['fas', 'times']">
+    <atoms-icon-button *ngIf="!(editForm$ | async)" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
+      Edit
+    </atoms-icon-button>
+    <atoms-icon-button
+      *ngIf="editForm$ | async"
+      color="basic"
+      (onclick)="onClickCancelEdit()"
+      [icon]="['fas', 'times']"
+    >
       Cancel
     </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm" class="ml-2" (onclick)="updateRole()" [icon]="['fas', 'save']">
+    <atoms-icon-button *ngIf="editForm$ | async" class="ml-2" (onclick)="updateRole()" [icon]="['fas', 'save']">
       Save
     </atoms-icon-button>
   </div>

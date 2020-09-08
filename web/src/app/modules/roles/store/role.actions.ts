@@ -27,4 +27,9 @@ export const roleDashboardDataLoaded = createAction(
   props<{ response: CollectionApiResponse<Role> }>()
 );
 
+export const changeIsEditingState = createAction(
+  '[Role Details] Change Is Editing State',
+  props<{ isEditing: boolean }>()
+);
+
 export const rolesApiError = createAction('[Roles API] Failed Executing Request');

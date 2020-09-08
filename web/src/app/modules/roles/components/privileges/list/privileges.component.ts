@@ -5,7 +5,7 @@ import { AddPrivilegeDialogComponent } from '../add-dialog/add-privilege-dialog.
 import { Subject, Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
-import { allPrivilegesRequested, createPrivilege } from '@/modules/roles/store/privilege.actions';
+import { allPrivilegesRequested, createPrivilegeRequested } from '@/modules/roles/store/privilege.actions';
 import { selectAllPrivileges, selectPrivilegesLoading } from '@/modules/roles/store/privilege.selectors';
 import { takeUntil, map } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -64,7 +64,7 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((privilege: Privilege) => {
         if (privilege) {
-          this.store.dispatch(createPrivilege({ privilege }));
+          this.store.dispatch(createPrivilegeRequested({ privilege }));
         }
       });
   }

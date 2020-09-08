@@ -57,4 +57,9 @@ export const depDashboardDataLoaded = createAction(
   props<{ response: CollectionApiResponse<Department> }>()
 );
 
+export const changeIsEditingState = createAction(
+  '[Department Details] Change Is Editing State',
+  props<{ isEditing: boolean }>()
+);
+
 export const departmentApiError = createAction('[Departments API] Failed Executing Request');
