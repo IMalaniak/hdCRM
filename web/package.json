@@ -79,7 +79,7 @@
     "prettier": "2.1.1",
     "protractor": "5.4.4",
     "ts-node": "7.0.1",
-    "tslint": "5.11.0",
+    "tslint": "5.20.1",
     "tslint-config-prettier": "1.18.0",
     "webpack-bundle-analyzer": "3.7.0"
   }
