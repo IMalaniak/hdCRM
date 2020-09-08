@@ -45,7 +45,7 @@
     "d3": "5.16.0",
     "filepond": "4.20.1",
     "filepond-plugin-file-validate-type": "1.2.4",
-    "filepond-plugin-image-crop": "2.0.3",
+    "filepond-plugin-image-crop": "2.0.4",
     "filepond-plugin-image-exif-orientation": "1.0.6",
     "filepond-plugin-image-preview": "4.6.1",
     "filepond-plugin-image-resize": "2.0.4",
