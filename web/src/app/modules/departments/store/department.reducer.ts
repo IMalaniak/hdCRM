@@ -21,7 +21,12 @@ const initialState: DepartmentsState = adapter.getInitialState({
 
 const departmentsReducer = createReducer(
   initialState,
-  on(departmentActions.createDepartmentRequested, (state) => ({ ...state, loading: true })),
+  on(
+    departmentActions.createDepartmentRequested,
+    departmentActions.listPageRequested,
+    departmentActions.updateDepartmentRequested,
+    (state) => ({ ...state, loading: true })
+  ),
   on(departmentActions.createDepartmentSuccess, (state, { department }) =>
     adapter.addOne(department, {
       ...state,
@@ -36,7 +41,6 @@ const departmentsReducer = createReducer(
     })
   ),
   on(departmentActions.departmentLoaded, (state, { department }) => adapter.addOne(department, state)),
-  on(departmentActions.listPageRequested, (state) => ({ ...state, loading: true })),
   on(departmentActions.listPageLoaded, (state, { response }) =>
     adapter.upsertMany(response.data, {
       ...state,
@@ -45,7 +49,6 @@ const departmentsReducer = createReducer(
       countAll: response.resultsNum
     })
   ),
-  on(departmentActions.updateDepartmentRequested, (state) => ({ ...state, loading: true })),
   on(departmentActions.updateDepartmentSuccess, (state, { department }) =>
     adapter.updateOne(department, { ...state, loading: false })
   ),
