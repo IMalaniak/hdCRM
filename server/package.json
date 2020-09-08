@@ -50,7 +50,7 @@
     "@types/node": "12.12.25",
     "@types/passport": "1.0.2",
     "@types/passport-jwt": "3.0.3",
-    "@types/sequelize": "4.28.8",
+    "@types/sequelize": "4.28.9",
     "@types/socket.io": "2.1.4",
     "@types/validator": "10.11.3",
     "nodemon": "2.0.4",
