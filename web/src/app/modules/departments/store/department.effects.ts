@@ -71,7 +71,7 @@ export class DepartmentEffects {
               id: response.data.id,
               changes: response.data
             };
-            this.toastMessageService.toast('Department updated!');
+            this.toastMessageService.snack(response);
             return depActions.updateDepartmentSuccess({ department });
           }),
           catchError((errorResponse: HttpErrorResponse) => {

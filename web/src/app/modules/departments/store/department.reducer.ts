@@ -21,10 +21,12 @@ const initialState: DepartmentsState = adapter.getInitialState({
 
 const departmentsReducer = createReducer(
   initialState,
+  on(departmentActions.createDepartmentRequested, (state) => ({ ...state, loading: true })),
   on(departmentActions.createDepartmentSuccess, (state, { department }) =>
     adapter.addOne(department, {
       ...state,
-      countAll: state.countAll + 1
+      countAll: state.countAll + 1,
+      loading: false
     })
   ),
   on(departmentActions.deleteDepartment, (state, { id }) =>
