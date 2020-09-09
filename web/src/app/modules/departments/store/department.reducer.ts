@@ -6,6 +6,7 @@ import { createReducer, on, Action } from '@ngrx/store';
 export interface DepartmentsState extends EntityState<Department> {
   loading: boolean;
   pages: number;
+  editing: boolean;
   countAll: number;
   dashboardDataLoaded: boolean;
 }
@@ -15,16 +16,22 @@ const adapter: EntityAdapter<Department> = createEntityAdapter<Department>({});
 const initialState: DepartmentsState = adapter.getInitialState({
   loading: false,
   pages: null,
+  editing: false,
   countAll: null,
   dashboardDataLoaded: false
 });
 
 const departmentsReducer = createReducer(
   initialState,
+  on(departmentActions.changeIsEditingState, (state, { isEditing }) => ({
+    ...state,
+    editing: isEditing
+  })),
   on(
     departmentActions.createDepartmentRequested,
     departmentActions.listPageRequested,
     departmentActions.updateDepartmentRequested,
+    departmentActions.deleteDepartmentRequested,
     (state) => ({ ...state, loading: true })
   ),
   on(departmentActions.createDepartmentSuccess, (state, { department }) =>
@@ -34,10 +41,11 @@ const departmentsReducer = createReducer(
       loading: false
     })
   ),
-  on(departmentActions.deleteDepartment, (state, { id }) =>
+  on(departmentActions.deleteDepartmentSuccess, (state, { id }) =>
     adapter.removeOne(id, {
       ...state,
-      countAll: state.countAll - 1
+      countAll: state.countAll - 1,
+      loading: false
     })
   ),
   on(departmentActions.departmentLoaded, (state, { department }) => adapter.addOne(department, state)),
@@ -50,7 +58,7 @@ const departmentsReducer = createReducer(
     })
   ),
   on(departmentActions.updateDepartmentSuccess, (state, { department }) =>
-    adapter.updateOne(department, { ...state, loading: false })
+    adapter.updateOne(department, { ...state, loading: false, editing: false })
   ),
   on(departmentActions.depDashboardDataLoaded, (state, { response }) =>
     adapter.upsertMany(response.data, {

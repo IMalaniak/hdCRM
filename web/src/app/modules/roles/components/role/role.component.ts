@@ -10,48 +10,37 @@ import { Observable, Subject } from 'rxjs';
 import { MediaqueryService, ToastMessageService } from '@/shared';
 import { takeUntil, skipUntil, delay } from 'rxjs/operators';
 import { cloneDeep } from 'lodash';
-import { Update } from '@ngrx/entity';
-import { roleSaved } from '../../store/role.actions';
+import { updateRoleRequested, changeIsEditingState } from '../../store/role.actions';
 import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
-import { RoleService } from '../../services';
 import { User } from '@/modules/users';
+import { selectIsEditing } from '../../store/role.selectors';
 
 @Component({
-  selector: 'app-role',
+  selector: 'role',
   templateUrl: './role.component.html',
   styleUrls: ['./role.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoleComponent implements OnInit, OnDestroy {
-  canEditRole$: Observable<boolean> = this.store.pipe(select(isPrivileged('role-edit')));
+  editForm$: Observable<boolean> = this.store$.pipe(select(selectIsEditing));
+  canEditRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged('role-edit')));
 
   role: Role;
   roleInitial: Role;
-  editForm = false;
   displayedColumns: string[] = ['title', 'view', 'add', 'edit', 'delete'];
 
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
     private route: ActivatedRoute,
-    private roleService: RoleService,
     private dialog: MatDialog,
-    private store: Store<AppState>,
+    private store$: Store<AppState>,
     private mediaQuery: MediaqueryService,
     private cdr: ChangeDetectorRef,
     private toastMessageService: ToastMessageService
   ) {}
 
   ngOnInit(): void {
-    this.canEditRole$.pipe(takeUntil(this.unsubscribe)).subscribe((canEdit) => {
-      if (canEdit) {
-        const edit = this.route.snapshot.queryParams['edit'];
-        if (edit) {
-          this.editForm = JSON.parse(edit);
-        }
-      }
-    });
-
     this.getRoleData();
   }
 
@@ -144,36 +133,6 @@ export class RoleComponent implements OnInit, OnDestroy {
       });
   }
 
-  onUpdateRoleSubmit(): void {
-    this.toastMessageService
-      .confirm('You are about to update role', 'Are You sure You want to update role? Changes cannot be undone.')
-      .then((result) => {
-        if (result.value) {
-          this.updateRole();
-        }
-      });
-  }
-
-  // TODO: @IMalaniak recreate this to store
-  updateRole(): void {
-    this.roleService.updateRole(this.role).subscribe(
-      ({ data }) => {
-        this.roleInitial = cloneDeep(data);
-        this.role = cloneDeep(data);
-        const role: Update<Role> = {
-          id: this.role.id,
-          changes: data
-        };
-        this.store.dispatch(roleSaved({ role }));
-        this.disableEdit();
-        this.toastMessageService.toast('Role updated!');
-      },
-      () => {
-        this.toastMessageService.popup('Server Error!', 'error');
-      }
-    );
-  }
-
   removePrivilege(privilegeId: number): void {
     this.role = { ...this.role, Privileges: this.role.Privileges.filter((privilege) => privilege.id !== privilegeId) };
   }
@@ -183,18 +142,29 @@ export class RoleComponent implements OnInit, OnDestroy {
   }
 
   onClickEdit(): void {
-    this.editForm = true;
+    this.store$.dispatch(changeIsEditingState({ isEditing: true }));
     this.displayedColumns = [...this.displayedColumns, 'actions'];
   }
 
+  onClickCancelEdit(): void {
+    this.store$.dispatch(changeIsEditingState({ isEditing: false }));
+    this.role = cloneDeep(this.roleInitial);
+    this.disableEdit();
+  }
+
   disableEdit(): void {
-    this.editForm = false;
     this.displayedColumns = this.displayedColumns.filter((col) => col !== 'actions');
   }
 
-  onClickCancelEdit(): void {
-    this.role = cloneDeep(this.roleInitial);
-    this.disableEdit();
+  updateRole(): void {
+    this.toastMessageService
+      .confirm('You are about to update role', 'Are you sure you want to update department details?')
+      .then((result) => {
+        if (result.value) {
+          this.store$.dispatch(updateRoleRequested({ role: this.role }));
+          this.disableEdit();
+        }
+      });
   }
 
   ngOnDestroy(): void {

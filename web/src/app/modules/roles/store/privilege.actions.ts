@@ -17,7 +17,7 @@ export const privilegeSaved = createAction(
   props<{ privilege: Update<Privilege> }>()
 );
 
-export const createPrivilege = createAction(
+export const createPrivilegeRequested = createAction(
   '[Privileges Dialog Window] New Privilege Creation Initialized',
   props<{ privilege: Privilege }>()
 );

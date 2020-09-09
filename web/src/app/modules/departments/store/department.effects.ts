@@ -83,18 +83,23 @@ export class DepartmentEffects {
     )
   );
 
-  deleteDepartment$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(depActions.deleteDepartment),
-        map((payload) => payload.id),
-        mergeMap((id: number) => this.departmentService.delete(id)),
-        map((res: ApiResponse) => this.toastMessageService.snack(res)),
-        catchError(() => of(depActions.departmentApiError()))
-      ),
-    {
-      dispatch: false
-    }
+  deleteDepartment$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(depActions.deleteDepartmentRequested),
+      map((payload) => payload.id),
+      mergeMap((id: number) =>
+        this.departmentService.delete(id).pipe(
+          map((response: ApiResponse) => {
+            this.toastMessageService.snack(response);
+            return depActions.deleteDepartmentSuccess({ id });
+          }),
+          catchError((errorResponse: HttpErrorResponse) => {
+            this.toastMessageService.snack(errorResponse.error);
+            return of(depActions.departmentApiError());
+          })
+        )
+      )
+    )
   );
 
   loadDashboardData$ = createEffect(() =>

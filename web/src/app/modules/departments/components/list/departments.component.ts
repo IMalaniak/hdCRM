@@ -10,11 +10,11 @@ import { AppState } from '@/core/reducers';
 import { selectDepartmentsTotalCount, selectDepartmentsLoading } from '../../store/department.selectors';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { tap, takeUntil } from 'rxjs/operators';
-import { deleteDepartment } from '../../store/department.actions';
+import { deleteDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 
 @Component({
-  selector: 'app-departments',
+  selector: 'departments',
   templateUrl: './departments.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -63,9 +63,8 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
   }
 
   onDepSelect(id: number, edit: boolean = false): void {
-    this.router.navigate([`/departments/details/${id}`], {
-      queryParams: { edit }
-    });
+    this.router.navigate([`/departments/details/${id}`]);
+    this.store$.dispatch(changeIsEditingState({ isEditing: edit }));
   }
 
   deleteDepartment(id: number): void {
@@ -73,7 +72,7 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
       .confirm('Are you sure?', 'Do you really want to delete department? You will not be able to recover!')
       .then((result) => {
         if (result.value) {
-          this.store$.dispatch(deleteDepartment({ id }));
+          this.store$.dispatch(deleteDepartmentRequested({ id }));
         }
       });
   }

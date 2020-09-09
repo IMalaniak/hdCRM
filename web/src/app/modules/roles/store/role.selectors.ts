@@ -31,3 +31,5 @@ export const selectRolesDashboardDataLoaded = createSelector(
   selectRolesState,
   (roleState) => roleState.dashboardDataLoaded
 );
+
+export const selectIsEditing = createSelector(selectRolesState, (roleState) => roleState.editing);

@@ -30,7 +30,15 @@ export const createDepartmentSuccess = createAction(
   props<{ department: Department }>()
 );
 
-export const deleteDepartment = createAction('[Department List] Delete Department Requested', props<{ id: number }>());
+export const deleteDepartmentRequested = createAction(
+  '[Department List] Delete Department Requested',
+  props<{ id: number }>()
+);
+
+export const deleteDepartmentSuccess = createAction(
+  '[Department API] Delete Department Success',
+  props<{ id: number }>()
+);
 
 export const listPageRequested = createAction(
   '[Departments List] Departments Page Requested',
@@ -47,6 +55,11 @@ export const depDashboardDataRequested = createAction('[Dashboard] Department Da
 export const depDashboardDataLoaded = createAction(
   '[Dashboard] Department Data Loaded',
   props<{ response: CollectionApiResponse<Department> }>()
+);
+
+export const changeIsEditingState = createAction(
+  '[Department Details] Change Is Editing State',
+  props<{ isEditing: boolean }>()
 );
 
 export const departmentApiError = createAction('[Departments API] Failed Executing Request');

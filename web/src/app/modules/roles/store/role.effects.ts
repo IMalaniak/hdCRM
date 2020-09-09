@@ -12,12 +12,13 @@ import { Router } from '@angular/router';
 import { ToastMessageService } from '@/shared/services';
 import { CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared/models';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Update } from '@ngrx/entity';
 
 @Injectable()
 export class RoleEffects {
   createRole$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(roleActions.createRole),
+      ofType(roleActions.createRoleRequested),
       map((payload) => payload.role),
       mergeMap((role: Role) =>
         this.roleService.create({ ...role }).pipe(
@@ -58,19 +59,46 @@ export class RoleEffects {
     )
   );
 
-  // TODO: @IMalaniak recreate this
-  deleteRole$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(roleActions.deleteRole),
-        map((payload) => payload.id),
-        mergeMap((id) => this.roleService.delete(id)),
-        map((response: ApiResponse) => of(this.toastMessageService.snack(response))),
-        catchError(() => of(roleActions.rolesApiError()))
-      ),
-    {
-      dispatch: false
-    }
+  updateRole$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(roleActions.updateRoleRequested),
+      map((payload) => payload.role),
+      mergeMap((role: Role) =>
+        this.roleService.updateRole(role).pipe(
+          map((response: ItemApiResponse<Role>) => {
+            const role: Update<Role> = {
+              id: response.data.id,
+              changes: response.data
+            };
+            this.toastMessageService.snack(response);
+            return roleActions.updateRoleSuccess({ role });
+          }),
+          catchError((errorResponse: HttpErrorResponse) => {
+            this.toastMessageService.snack(errorResponse.error);
+            return of(roleActions.rolesApiError());
+          })
+        )
+      )
+    )
+  );
+
+  deleteRole$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(roleActions.deleteRoleRequested),
+      map((payload) => payload.id),
+      mergeMap((id: number) =>
+        this.roleService.delete(id).pipe(
+          map((response: ApiResponse) => {
+            this.toastMessageService.snack(response);
+            return roleActions.deleteRoleSuccess({ id });
+          }),
+          catchError((errorResponse: HttpErrorResponse) => {
+            this.toastMessageService.snack(errorResponse.error);
+            return of(roleActions.rolesApiError());
+          })
+        )
+      )
+    )
   );
 
   loadDashboardData$ = createEffect(() =>
