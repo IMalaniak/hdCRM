@@ -98,7 +98,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   // }
 
   onClickCancelEdit(): void {
-    this.store$.dispatch(changeIsEditingState({ isEditing: true }));
+    this.store$.dispatch(changeIsEditingState({ isEditing: false }));
     this.plan = cloneDeep(this.planInitial);
   }
 
