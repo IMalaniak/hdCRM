@@ -14,6 +14,7 @@ import { updateRoleRequested, changeIsEditingState } from '../../store/role.acti
 import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
 import { User } from '@/modules/users';
 import { selectIsEditing } from '../../store/role.selectors';
+import { DIALOG } from '@/shared/constants';
 
 @Component({
   selector: 'role',
@@ -158,7 +159,7 @@ export class RoleComponent implements OnInit, OnDestroy {
 
   updateRole(): void {
     this.toastMessageService
-      .confirm('You are about to update role', 'Are you sure you want to update department details?')
+      .confirm(DIALOG.CONFIRM, 'Are you sure you want to update department details?')
       .then((result) => {
         if (result.value) {
           this.store$.dispatch(updateRoleRequested({ role: this.role }));

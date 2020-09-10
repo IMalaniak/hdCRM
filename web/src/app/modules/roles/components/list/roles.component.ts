@@ -14,6 +14,7 @@ import { selectRolesTotalCount, selectRolesLoading } from '../../store/role.sele
 import { PageQuery, ToastMessageService, IItemsPerPage, pageSizeOptions } from '@/shared';
 import { deleteRoleRequested, changeIsEditingState } from '../../store/role.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
+import { DIALOG } from '@/shared/constants';
 
 @Component({
   selector: 'roles',
@@ -73,7 +74,7 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
 
   deleteRole(id: number): void {
     this.toastMessageService
-      .confirm('Are you sure?', 'Do you really want to delete role? You will not be able to recover!')
+      .confirm(DIALOG.CONFIRM, 'Do you really want to delete role? You will not be able to recover!')
       .then((result) => {
         if (result.value) {
           this.store$.dispatch(deleteRoleRequested({ id }));

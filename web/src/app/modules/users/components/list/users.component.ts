@@ -16,6 +16,7 @@ import { deleteUser } from '../../store/user.actions';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
 import { PageQuery, MediaqueryService, ToastMessageService, IItemsPerPage, pageSizeOptions } from '@/shared';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
+import { DIALOG } from '@/shared/constants';
 
 @Component({
   selector: 'app-users',
@@ -107,7 +108,7 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
 
   deleteUser(id: number): void {
     this.toastMessageService
-      .confirm('Are you sure?', 'Do you really want to delete user? You will not be able to recover!')
+      .confirm(DIALOG.CONFIRM, 'Do you really want to delete user? You will not be able to recover!')
       .then((result) => {
         if (result.value) {
           this.store$.dispatch(deleteUser({ id }));

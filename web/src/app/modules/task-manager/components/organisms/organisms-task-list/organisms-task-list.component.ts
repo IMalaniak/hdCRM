@@ -17,6 +17,7 @@ import { MediaqueryService, ToastMessageService } from '@/shared';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { OrganismsTaskDialogComponent } from '../organisms-task-dialog/organisms-task-dialog.component';
 import { MatAccordion } from '@angular/material/expansion';
+import { DIALOG } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-task-list',
@@ -75,7 +76,7 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
 
   deleteMultipleTask(): void {
     this.toastMessageService
-      .confirm('Are you sure?', 'Do you really want to delete all comleted tasks?')
+      .confirm(DIALOG.CONFIRM, 'Do you really want to delete all comleted tasks?')
       .then((result) => {
         if (result.value) {
           const taskIds: number[] = this.tasks.filter((task) => task.isCompleted).map((task) => task.id);

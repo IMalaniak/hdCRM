@@ -14,6 +14,7 @@ import { PageQuery, ToastMessageService, IItemsPerPage, pageSizeOptions } from '
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { deletePlan } from '../../store/plan.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
+import { DIALOG } from '@/shared/constants';
 
 @Component({
   selector: 'plan-list',
@@ -82,7 +83,7 @@ export class PlanListComponent implements AfterViewInit, OnDestroy {
 
   deletePlan(id: number): void {
     this.toastMessageService
-      .confirm('Are you sure?', 'Do you really want to delete plan? You will not be able to recover!')
+      .confirm(DIALOG.CONFIRM, 'Do you really want to delete plan? You will not be able to recover!')
       .then((result) => {
         if (result.value) {
           this.store$.dispatch(deletePlan({ id }));

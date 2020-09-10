@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Organization } from '@/modules/users';
 import { ToastMessageService } from '@/shared/services';
+import { DIALOG } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-user-organization',
@@ -24,7 +25,7 @@ export class OrganismsUserOrganizationComponent {
 
   onUpdateOrgSubmit(): void {
     this.toastMessageService
-      .confirm('Are you sure?', 'Do you really want to save changes? You will not be able to recover this!')
+      .confirm(DIALOG.CONFIRM, 'Do you really want to save changes? You will not be able to recover this!')
       .then((result) => {
         if (result.value) {
           this.updateOrg.emit(this.organization);

@@ -16,6 +16,7 @@ import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { MediaqueryService, Asset, ApiResponse, ToastMessageService, DynamicForm } from '@/shared';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
+import { DIALOG } from '@/shared/constants';
 
 @Component({
   selector: 'app-plan',
@@ -73,7 +74,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   // TODO: @IMalaniak recreate store logic
   goToNextStage(): void {
     this.toastMessageService
-      .confirm('You are about to pass stage.', 'Are you sure you want to go to next plan stage?')
+      .confirm(DIALOG.CONFIRM, 'Are you sure you want to go to next plan stage?')
       .then((result) => {
         if (result.value) {
           this.planService
@@ -121,7 +122,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   // TODO: @IMalaniak recreate store logic
   updatePlanStages(): void {
     this.toastMessageService
-      .confirm('You are about to save stages configuration.', 'Are you sure you want update stages configuration?')
+      .confirm(DIALOG.CONFIRM, 'Are you sure you want update stages configuration?')
       .then((result) => {
         if (result.value) {
           this.planService
@@ -143,25 +144,23 @@ export class PlanComponent implements OnInit, OnDestroy {
 
   // TODO: @IMalaniak recreate store logic
   updatePlan(): void {
-    this.toastMessageService
-      .confirm('You are about to update plan', 'Are you sure you want to update plan details?')
-      .then((result) => {
-        if (result.value) {
-          this.planService
-            .updateOne(this.plan)
-            .pipe(takeUntil(this.unsubscribe))
-            .subscribe(
-              ({ data }) => {
-                this.updatePlanStore(data);
-                this.editForm = false;
-                this.toastMessageService.toast('Plan updated!');
-              },
-              () => {
-                this.toastMessageService.popup('Ooops, something went wrong!', 'error');
-              }
-            );
-        }
-      });
+    this.toastMessageService.confirm(DIALOG.CONFIRM, 'Are you sure you want to update plan details?').then((result) => {
+      if (result.value) {
+        this.planService
+          .updateOne(this.plan)
+          .pipe(takeUntil(this.unsubscribe))
+          .subscribe(
+            ({ data }) => {
+              this.updatePlanStore(data);
+              this.editForm = false;
+              this.toastMessageService.toast('Plan updated!');
+            },
+            () => {
+              this.toastMessageService.popup('Ooops, something went wrong!', 'error');
+            }
+          );
+      }
+    });
   }
 
   // TODO: @ArseniiIrod, @IMalaniak remake logic
@@ -279,7 +278,7 @@ export class PlanComponent implements OnInit, OnDestroy {
 
   deleteDoc(docId: number): void {
     this.toastMessageService
-      .confirm('Stages updated!', 'Are you sure you want to delete document from plan, changes cannot be undone?')
+      .confirm(DIALOG.CONFIRM, 'Are you sure you want to delete document from plan, changes cannot be undone?')
       .then((result) => {
         if (result.value) {
           const req = {

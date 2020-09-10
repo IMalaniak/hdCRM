@@ -12,6 +12,7 @@ import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
 import { MediaqueryService, ToastMessageService } from '@/shared';
 import { updateDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
 import { selectIsEditing } from '../../store/department.selectors';
+import { DIALOG } from '@/shared/constants';
 
 @Component({
   selector: 'department',
@@ -105,7 +106,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
 
   updateDepartment(): void {
     this.toastMessageService
-      .confirm('You are about to update department', 'Are you sure you want to update department details?')
+      .confirm(DIALOG.CONFIRM, 'Are you sure you want to update department details?')
       .then((result) => {
         if (result.value) {
           this.store$.dispatch(updateDepartmentRequested({ department: this.department }));

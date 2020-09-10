@@ -12,6 +12,7 @@ import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { tap, takeUntil } from 'rxjs/operators';
 import { deleteDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
+import { DIALOG } from '@/shared/constants';
 
 @Component({
   selector: 'departments',
@@ -69,7 +70,7 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
 
   deleteDepartment(id: number): void {
     this.toastMessageService
-      .confirm('Are you sure?', 'Do you really want to delete department? You will not be able to recover!')
+      .confirm(DIALOG.CONFIRM, 'Do you really want to delete department? You will not be able to recover!')
       .then((result) => {
         if (result.value) {
           this.store$.dispatch(deleteDepartmentRequested({ id }));

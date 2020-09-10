@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { deleteSession, deleteMultipleSession } from '@/core/auth/store/auth.actions';
 import { UAParser } from 'ua-parser-js';
 import { ToastMessageService } from '@/shared/services';
+import { DIALOG } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-user-sessions',
@@ -60,7 +61,7 @@ export class OrganismsUserSessionsComponent implements OnChanges {
 
   onRemoveSession(sessionId: number): void {
     this.toastMessageService
-      .confirm('Are you sure?', 'Do you really want to deactivate this session? You will not be able to recover this!')
+      .confirm(DIALOG.CONFIRM, 'Do you really want to deactivate this session? You will not be able to recover this!')
       .then((result) => {
         if (result.value) {
           this.removeSession(sessionId);
@@ -71,7 +72,7 @@ export class OrganismsUserSessionsComponent implements OnChanges {
   onRemoveOtherSessions(): void {
     this.toastMessageService
       .confirm(
-        'Are you sure?',
+        DIALOG.CONFIRM,
         'Do you really want to deactivate all other active sessions? Current session will stay active!'
       )
       .then((result) => {

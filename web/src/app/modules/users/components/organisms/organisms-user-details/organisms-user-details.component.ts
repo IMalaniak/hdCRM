@@ -6,6 +6,7 @@ import { AppState } from '@/core/reducers';
 import { Observable } from 'rxjs';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
+import { DIALOG } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-user-details',
@@ -46,7 +47,7 @@ export class OrganismsUserDetailsComponent implements OnInit {
 
   onUpdateUserSubmit(): void {
     this.toastMessageService
-      .confirm('Are you sure?', 'Do you really want to save changes? You will not be able to recover this!')
+      .confirm(DIALOG.CONFIRM, 'Do you really want to save changes? You will not be able to recover this!')
       .then((result) => {
         if (result.value) {
           this.updateUser.emit({ ...this.user, ...this.userFormValues });
