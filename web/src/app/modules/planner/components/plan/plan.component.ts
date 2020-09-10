@@ -72,27 +72,27 @@ export class PlanComponent implements OnInit, OnDestroy {
   }
 
   // TODO: @IMalaniak recreate store logic
-  goToNextStage(): void {
-    this.toastMessageService
-      .confirm(DIALOG.CONFIRM, 'Are you sure you want to go to next plan stage?')
-      .then((result) => {
-        if (result.value) {
-          this.planService
-            .toNextStage(this.plan.id)
-            .pipe(takeUntil(this.unsubscribe))
-            .subscribe(
-              ({ data }) => {
-                this.updatePlanStore(data);
-                this.configPlanStages = false;
-                this.toastMessageService.toast('Stages updated!');
-              },
-              () => {
-                this.toastMessageService.popup('Ooops, something went wrong!', 'error');
-              }
-            );
-        }
-      });
-  }
+  // goToNextStage(): void {
+  //   this.toastMessageService
+  //     .confirm(DIALOG.CONFIRM, 'Are you sure you want to go to next plan stage?')
+  //     .then((result) => {
+  //       if (result.value) {
+  //         this.planService
+  //           .toNextStage(this.plan.id)
+  //           .pipe(takeUntil(this.unsubscribe))
+  //           .subscribe(
+  //             ({ data }) => {
+  //               this.updatePlanStore(data);
+  //               this.configPlanStages = false;
+  //               this.toastMessageService.toast('Stages updated!');
+  //             },
+  //             () => {
+  //               this.toastMessageService.popup('Ooops, something went wrong!', 'error');
+  //             }
+  //           );
+  //       }
+  //     });
+  // }
 
   onClickEdit(): void {
     this.editForm = true;
@@ -120,27 +120,27 @@ export class PlanComponent implements OnInit, OnDestroy {
   }
 
   // TODO: @IMalaniak recreate store logic
-  updatePlanStages(): void {
-    this.toastMessageService
-      .confirm(DIALOG.CONFIRM, 'Are you sure you want update stages configuration?')
-      .then((result) => {
-        if (result.value) {
-          this.planService
-            .updatePlanStages(this.plan)
-            .pipe(takeUntil(this.unsubscribe))
-            .subscribe(
-              ({ data }) => {
-                this.updatePlanStore(data);
-                this.configPlanStages = false;
-                this.toastMessageService.toast('Stages updated!');
-              },
-              () => {
-                this.toastMessageService.popup('Ooops, something went wrong!', 'error');
-              }
-            );
-        }
-      });
-  }
+  // updatePlanStages(): void {
+  //   this.toastMessageService
+  //     .confirm(DIALOG.CONFIRM, 'Are you sure you want update stages configuration?')
+  //     .then((result) => {
+  //       if (result.value) {
+  //         this.planService
+  //           .updatePlanStages(this.plan)
+  //           .pipe(takeUntil(this.unsubscribe))
+  //           .subscribe(
+  //             ({ data }) => {
+  //               this.updatePlanStore(data);
+  //               this.configPlanStages = false;
+  //               this.toastMessageService.toast('Stages updated!');
+  //             },
+  //             () => {
+  //               this.toastMessageService.popup('Ooops, something went wrong!', 'error');
+  //             }
+  //           );
+  //       }
+  //     });
+  // }
 
   // TODO: @IMalaniak recreate store logic
   updatePlan(): void {

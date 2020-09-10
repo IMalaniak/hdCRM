@@ -4,5 +4,6 @@
   "prettier.bracketSpacing": true,
   "prettier.printWidth": 120,
   "prettier.jsxBracketSameLine": true,
-  "prettier.trailingComma": "none"
+  "prettier.trailingComma": "none",
+  "editor.tabSize": 2
 }

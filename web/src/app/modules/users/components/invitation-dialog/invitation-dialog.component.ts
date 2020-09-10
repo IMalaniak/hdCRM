@@ -8,7 +8,7 @@ import { inviteUsers } from '../../store/user.actions';
 import { selectAllUsers } from '../../store/user.selectors';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ONLY_TEXT_REGEX } from '@/shared/constants';
+import { CONSTANTS } from '@/shared/constants';
 
 @Component({
   selector: 'app-invitation-dialog',
@@ -42,7 +42,7 @@ export class InvitationDialogComponent implements OnInit, OnDestroy {
       fullname: new FormControl(null, [
         Validators.required,
         Validators.maxLength(25),
-        Validators.pattern(ONLY_TEXT_REGEX)
+        Validators.pattern(CONSTANTS.ONLY_TEXT_REGEX)
       ]),
       email: new FormControl(null, [Validators.required, Validators.email])
     });

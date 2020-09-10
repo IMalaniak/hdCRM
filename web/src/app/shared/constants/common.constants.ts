@@ -79,10 +79,14 @@ export enum BUTTON_TYPE {
   RESET = 'reset'
 }
 
-export const NO_IMAGE = './assets/images/userpic/noimage_croped.png';
-export const NO_IMAGE_TITLE = 'noimage';
+export class CONSTANTS {
+  // no image
+  static NO_IMAGE_URL = './assets/images/userpic/noimage_croped.png';
+  static NO_IMAGE_TITLE = 'noimage';
 
-export const PHONE_REGEX: RegExp = /^[0-9]+$/;
-export const LOGIN_REGEX: RegExp = /^[a-zA-Z0-9]+$/;
-export const WWW_REGEX: RegExp = /^(http:\/\/www.|https:\/\/www.|http:\/\/|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
-export const ONLY_TEXT_REGEX: RegExp = /^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/;
+  // regex
+  static PHONE_REGEX: RegExp = /^[0-9]+$/;
+  static LOGIN_REGEX: RegExp = /^[a-zA-Z0-9]+$/;
+  static WWW_REGEX: RegExp = /^(http:\/\/www.|https:\/\/www.|http:\/\/|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
+  static ONLY_TEXT_REGEX: RegExp = /^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/;
+}
