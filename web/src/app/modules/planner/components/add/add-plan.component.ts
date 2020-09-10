@@ -12,7 +12,7 @@ import { MediaqueryService } from '@/shared';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'plan',
+  selector: 'add-plan',
   templateUrl: './add-plan.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
