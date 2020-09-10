@@ -14,7 +14,7 @@ import { selectRolesTotalCount, selectRolesLoading } from '../../store/role.sele
 import { PageQuery, ToastMessageService, IItemsPerPage, pageSizeOptions } from '@/shared';
 import { deleteRoleRequested, changeIsEditingState } from '../../store/role.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
-import { DIALOG, ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES } from '@/shared/constants';
+import { DIALOG, ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_NAMES } from '@/shared/constants';
 
 @Component({
   selector: 'roles',
@@ -35,7 +35,15 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
 
   selection = new SelectionModel<Role>(true, []);
-  displayedColumns: string[] = ['select', 'title', 'users', 'privileges', 'createdAt', 'updatedAt', 'actions'];
+  displayedColumns: COLUMN_NAMES[] = [
+    COLUMN_NAMES.SELECT,
+    COLUMN_NAMES.TITLE,
+    COLUMN_NAMES.USERS,
+    COLUMN_NAMES.PRIVILEGES,
+    COLUMN_NAMES.CREATED_AT,
+    COLUMN_NAMES.UPDATED_AT,
+    COLUMN_NAMES.ACTIONS
+  ];
   pageSizeOptions: number[] = pageSizeOptions;
   private unsubscribe: Subject<void> = new Subject();
 

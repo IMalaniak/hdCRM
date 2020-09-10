@@ -45,6 +45,15 @@ export enum COLUMN_NAMES {
   TYPE = 'type'
 }
 
+export enum TAB_NAMES {
+  DETAILS = 'details',
+  ORGANIZATION = 'org',
+  PASSWORD = 'password',
+  SESSIONS = 'sessions',
+  PREFERENCES = 'preferences',
+  INTEGRATIONS = 'integrations'
+}
+
 export const PHONE_REGEX: RegExp = /^[0-9]+$/;
 export const LOGIN_REGEX: RegExp = /^[a-zA-Z0-9]+$/;
 export const WWW_REGEX: RegExp = /^(http:\/\/www.|https:\/\/www.|http:\/\/|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;

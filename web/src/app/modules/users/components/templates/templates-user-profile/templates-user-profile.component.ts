@@ -14,7 +14,7 @@ import { allStatesRequested } from '@/modules/users/store/state.actions';
 import { selectAllStates } from '@/modules/users/store/state.selectors';
 import { Preferences } from '@/core/reducers/preferences.reducer';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
-import { TAB_PRIVILEGES } from '@/shared/constants';
+import { TAB_PRIVILEGES, TAB_NAMES } from '@/shared/constants';
 
 @Component({
   selector: 'templates-user-profile',
@@ -34,7 +34,7 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   @Input() canEdit: boolean;
   @Input() isLoading: boolean;
   @Input() editForm: boolean;
-  @Input() tabsToShow: string[] = ['details'];
+  @Input() tabsToShow: TAB_NAMES[] = [TAB_NAMES.DETAILS];
   @Input() isProfilePage = false;
 
   states$: Observable<State[]>;
@@ -96,7 +96,7 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
     }
   }
 
-  isTabToShow(tab: string): boolean {
+  isTabToShow(tab: TAB_NAMES): boolean {
     return this.tabsToShow.includes(tab);
   }
 
