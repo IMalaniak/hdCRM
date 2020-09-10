@@ -29,3 +29,5 @@ export const selectPlansPage = (page: PageQuery) =>
       return allPlans.slice(start, end);
     }
   });
+
+export const selectIsEditing = createSelector(selectPlansState, (plansState) => plansState.editing);
