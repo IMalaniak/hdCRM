@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { mergeMap, first } from 'rxjs/operators';
 import { getToken } from '../auth/store/auth.selectors';
 import { AppState } from '../reducers';
+import { APIS } from '@/shared/constants';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -18,7 +19,7 @@ export class JwtInterceptor implements HttpInterceptor {
       select(getToken),
       first(),
       mergeMap((token: string) => {
-        if (token && !request.url.includes('refresh-session')) {
+        if (token && !request.url.includes(APIS.REFRESH_SESSION)) {
           request = request.clone({
             setHeaders: {
               Authorization: `${token}`

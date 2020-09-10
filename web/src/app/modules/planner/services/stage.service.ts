@@ -4,18 +4,17 @@ import { Observable } from 'rxjs';
 import { Stage } from '../models';
 
 import { CollectionApiResponse, ItemApiResponse } from '@/shared/models';
+import { APIS } from '@/shared/constants';
 
 @Injectable()
 export class StageService {
-  private api = '/stages';
-
   constructor(private http: HttpClient) {}
 
   create(stage: Stage): Observable<ItemApiResponse<Stage>> {
-    return this.http.post<ItemApiResponse<Stage>>(this.api, stage);
+    return this.http.post<ItemApiResponse<Stage>>(APIS.STAGES, stage);
   }
 
   getList(): Observable<CollectionApiResponse<Stage>> {
-    return this.http.get<CollectionApiResponse<Stage>>(this.api);
+    return this.http.get<CollectionApiResponse<Stage>>(APIS.STAGES);
   }
 }

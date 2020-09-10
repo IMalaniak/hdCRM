@@ -4,15 +4,14 @@ import { Observable } from 'rxjs';
 import { Plan } from '../models';
 import { User } from '@/modules/users';
 import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '@/shared/models';
+import { APIS } from '@/shared/constants';
 
 @Injectable()
 export class PlanService {
-  private api = '/plans';
-
   constructor(private http: HttpClient) {}
 
   create(plan: Plan): Observable<ItemApiResponse<Plan>> {
-    return this.http.post<ItemApiResponse<Plan>>(this.api, this.formatBeforeSend(plan));
+    return this.http.post<ItemApiResponse<Plan>>(APIS.PLANS, this.formatBeforeSend(plan));
   }
 
   getList(
@@ -21,7 +20,7 @@ export class PlanService {
     sortIndex = 'id',
     sortDirection = 'asc'
   ): Observable<CollectionApiResponse<Plan>> {
-    return this.http.get<CollectionApiResponse<Plan>>(this.api, {
+    return this.http.get<CollectionApiResponse<Plan>>(APIS.PLANS, {
       params: new HttpParams()
         .set('pageIndex', pageIndex.toString())
         .set('pageSize', pageSize.toString())
@@ -38,28 +37,28 @@ export class PlanService {
   // }
 
   getOne(id: number): Observable<ItemApiResponse<Plan>> {
-    return this.http.get<ItemApiResponse<Plan>>(`${this.api}/${id}`);
+    return this.http.get<ItemApiResponse<Plan>>(`${APIS.PLANS}/${id}`);
   }
 
   updateOne(plan: Plan): Observable<ItemApiResponse<Plan>> {
-    return this.http.put<ItemApiResponse<Plan>>(`${this.api}/${plan.id}`, this.formatBeforeSend(plan));
+    return this.http.put<ItemApiResponse<Plan>>(`${APIS.PLANS}/${plan.id}`, this.formatBeforeSend(plan));
   }
 
   delete(id: number): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(`${this.api}/${id}`);
+    return this.http.delete<ApiResponse>(`${APIS.PLANS}/${id}`);
   }
 
-  updatePlanStages(plan: Plan): Observable<ItemApiResponse<Plan>> {
-    return this.http.put<ItemApiResponse<Plan>>(`${this.api}/updatePlanStages`, this.formatBeforeSend(plan));
-  }
+  // updatePlanStages(plan: Plan): Observable<ItemApiResponse<Plan>> {
+  //   return this.http.put<ItemApiResponse<Plan>>(`${this.api}/updatePlanStages`, this.formatBeforeSend(plan));
+  // }
 
-  toNextStage(id: number): Observable<ItemApiResponse<Plan>> {
-    const url = `${this.api}/toNextStage/${id}`;
-    return this.http.get<ItemApiResponse<Plan>>(url);
-  }
+  // toNextStage(id: number): Observable<ItemApiResponse<Plan>> {
+  //   const url = `${this.api}/toNextStage/${id}`;
+  //   return this.http.get<ItemApiResponse<Plan>>(url);
+  // }
 
   deleteDoc(req: any): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(`${this.api}/documents`, {
+    return this.http.delete<ApiResponse>(APIS.PLANS_DOCUMENTS, {
       params: new HttpParams().set('docId', req.docId.toString()).set('planId', req.planId.toString())
     });
   }

@@ -3,14 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { State } from '../models';
 import { CollectionApiResponse } from '@/shared';
+import { APIS } from '@/shared/constants';
 
 @Injectable()
 export class StateService {
-  private api = '/states';
-
   constructor(private http: HttpClient) {}
 
   getList(): Observable<CollectionApiResponse<State>> {
-    return this.http.get<CollectionApiResponse<State>>(this.api);
+    return this.http.get<CollectionApiResponse<State>>(APIS.STATES);
   }
 }

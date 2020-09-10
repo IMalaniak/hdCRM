@@ -4,30 +4,29 @@ import { Observable } from 'rxjs';
 import { Department } from '../models';
 import { User } from '@/modules/users/models';
 import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '@/shared';
+import { APIS } from '@/shared/constants';
 
 @Injectable()
 export class DepartmentService {
-  private api = '/departments';
-
   constructor(private http: HttpClient) {}
 
   create(department: Department): Observable<ItemApiResponse<Department>> {
-    return this.http.post<ItemApiResponse<Department>>(this.api, this.formatBeforeSend(department));
+    return this.http.post<ItemApiResponse<Department>>(APIS.DEPARTMENTS, this.formatBeforeSend(department));
   }
 
   getOne(id: number): Observable<ItemApiResponse<Department>> {
-    return this.http.get<ItemApiResponse<Department>>(`${this.api}/${id}`);
+    return this.http.get<ItemApiResponse<Department>>(`${APIS.DEPARTMENTS}/${id}`);
   }
 
   updateOne(department: Department): Observable<ItemApiResponse<Department>> {
     return this.http.put<ItemApiResponse<Department>>(
-      `${this.api}/${department.id}`,
+      `${APIS.DEPARTMENTS}/${department.id}`,
       this.formatBeforeSend(department)
     );
   }
 
   delete(id: number): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(`${this.api}/${id}`);
+    return this.http.delete<ApiResponse>(`${APIS.DEPARTMENTS}/${id}`);
   }
 
   getList(
@@ -36,7 +35,7 @@ export class DepartmentService {
     sortIndex = 'id',
     sortDirection = 'asc'
   ): Observable<CollectionApiResponse<Department>> {
-    return this.http.get<CollectionApiResponse<Department>>(this.api, {
+    return this.http.get<CollectionApiResponse<Department>>(APIS.DEPARTMENTS, {
       params: new HttpParams()
         .set('pageIndex', pageIndex.toString())
         .set('pageSize', pageSize.toString())
@@ -46,7 +45,7 @@ export class DepartmentService {
   }
 
   getDashboardData(): Observable<CollectionApiResponse<Department>> {
-    return this.http.get<CollectionApiResponse<Department>>(`${this.api}/dashboard`);
+    return this.http.get<CollectionApiResponse<Department>>(APIS.DEPARTMENTS_DASHBOARD);
   }
 
   formatBeforeSend(dep: Department): Department {
