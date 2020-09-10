@@ -16,7 +16,14 @@ import { deleteUser } from '../../store/user.actions';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
 import { PageQuery, MediaqueryService, ToastMessageService, IItemsPerPage, pageSizeOptions } from '@/shared';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
-import { DIALOG, ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_NAMES } from '@/shared/constants';
+import {
+  DIALOG,
+  ADD_PRIVILEGES,
+  EDIT_PRIVILEGES,
+  DELETE_PRIVILEGES,
+  SORT_DIRECTION,
+  COLUMN_NAMES
+} from '@/shared/constants';
 
 @Component({
   selector: 'app-users',
@@ -81,7 +88,7 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,
       sortIndex: this.sort.active,
-      sortDirection: this.sort.direction || 'asc'
+      sortDirection: this.sort.direction || SORT_DIRECTION.ASC
     };
 
     this.dataSource.loadUsers(newPage);

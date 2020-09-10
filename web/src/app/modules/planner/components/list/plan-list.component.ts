@@ -14,7 +14,14 @@ import { PageQuery, ToastMessageService, IItemsPerPage, pageSizeOptions } from '
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { deletePlan } from '../../store/plan.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
-import { DIALOG, ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_NAMES } from '@/shared/constants';
+import {
+  DIALOG,
+  SORT_DIRECTION,
+  ADD_PRIVILEGES,
+  EDIT_PRIVILEGES,
+  DELETE_PRIVILEGES,
+  COLUMN_NAMES
+} from '@/shared/constants';
 
 @Component({
   selector: 'plan-list',
@@ -69,7 +76,7 @@ export class PlanListComponent implements AfterViewInit, OnDestroy {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,
       sortIndex: this.sort.active,
-      sortDirection: this.sort.direction || 'asc'
+      sortDirection: this.sort.direction || SORT_DIRECTION.ASC
     };
 
     this.dataSource.loadPlans(newPage);

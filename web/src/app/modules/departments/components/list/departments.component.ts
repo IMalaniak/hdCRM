@@ -12,7 +12,14 @@ import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { tap, takeUntil } from 'rxjs/operators';
 import { deleteDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
-import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, DIALOG, COLUMN_NAMES } from '@/shared/constants';
+import {
+  ADD_PRIVILEGES,
+  EDIT_PRIVILEGES,
+  DELETE_PRIVILEGES,
+  DIALOG,
+  SORT_DIRECTION,
+  COLUMN_NAMES
+} from '@/shared/constants';
 
 @Component({
   selector: 'departments',
@@ -64,7 +71,7 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,
       sortIndex: this.sort.active,
-      sortDirection: this.sort.direction || 'asc'
+      sortDirection: this.sort.direction || SORT_DIRECTION.ASC
     };
 
     this.dataSource.loadDepartments(newPage);

@@ -1,3 +1,9 @@
+export enum SORT_DIRECTION {
+  ASC = 'asc',
+  DESC = 'desc',
+  NONE = ''
+}
+
 export enum DIALOG {
   CONFIRM = 'Are You sure?',
   OK = 'OK',
