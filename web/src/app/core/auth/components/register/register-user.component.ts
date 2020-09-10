@@ -7,6 +7,7 @@ import { registerUser } from '../../store/auth.actions';
 import { isLoading } from '../../store/auth.selectors';
 import { Observable } from 'rxjs';
 import { IFieldType } from '@/shared/models/FieldType';
+import { ONLY_TEXT_REGEX, WWW_REGEX, LOGIN_REGEX, PHONE_REGEX } from '@/shared/constants';
 
 @Component({
   selector: 'app-register-user',
@@ -36,7 +37,7 @@ export class RegisterUserComponent implements OnInit {
           Validators.required,
           Validators.minLength(6),
           Validators.maxLength(25),
-          Validators.pattern('^[a-zA-Z0-9]+$')
+          Validators.pattern(LOGIN_REGEX)
         ]),
         email: new FormControl(null, [Validators.required, Validators.email]),
         password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
@@ -46,20 +47,14 @@ export class RegisterUserComponent implements OnInit {
         name: new FormControl(null, [
           Validators.required,
           Validators.maxLength(25),
-          Validators.pattern(
-            // tslint:disable-next-line: quotemark
-            "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
-          )
+          Validators.pattern(ONLY_TEXT_REGEX)
         ]),
         surname: new FormControl(null, [
           Validators.required,
           Validators.maxLength(25),
-          Validators.pattern(
-            // tslint:disable-next-line: quotemark
-            "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
-          )
+          Validators.pattern(ONLY_TEXT_REGEX)
         ]),
-        phone: new FormControl(null, [Validators.pattern('^[0-9]+$')])
+        phone: new FormControl(null, [Validators.pattern(PHONE_REGEX)])
       }),
       userOrganization: this.fb.group({
         type: new FormControl(null),
@@ -69,14 +64,9 @@ export class RegisterUserComponent implements OnInit {
         city: new FormControl(null),
         address: new FormControl(null),
         postcode: new FormControl(null),
-        phone: new FormControl(null, Validators.pattern('^[0-9]+$')),
+        phone: new FormControl(null, Validators.pattern(PHONE_REGEX)),
         email: new FormControl(null, Validators.email),
-        website: new FormControl(null, [
-          Validators.required,
-          Validators.pattern(
-            '^(http://www.|https://www.|http://|https://)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$'
-          )
-        ])
+        website: new FormControl(null, [Validators.required, Validators.pattern(WWW_REGEX)])
       })
     });
   }
@@ -100,14 +90,7 @@ export class RegisterUserComponent implements OnInit {
 
     this.getControl('userOrganization', 'type').valueChanges.subscribe((value) => {
       if (value === 'company') {
-        title.setValidators([
-          Validators.required,
-          Validators.maxLength(50),
-          Validators.pattern(
-            // tslint:disable-next-line: quotemark
-            "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
-          )
-        ]);
+        title.setValidators([Validators.required, Validators.maxLength(50), Validators.pattern(ONLY_TEXT_REGEX)]);
       } else if (value === 'private') {
         title.setValidators(null);
         title.reset();

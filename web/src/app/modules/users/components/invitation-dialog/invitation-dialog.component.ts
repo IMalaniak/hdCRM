@@ -8,6 +8,7 @@ import { inviteUsers } from '../../store/user.actions';
 import { selectAllUsers } from '../../store/user.selectors';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ONLY_TEXT_REGEX } from '@/shared/constants';
 
 @Component({
   selector: 'app-invitation-dialog',
@@ -38,15 +39,12 @@ export class InvitationDialogComponent implements OnInit, OnDestroy {
 
   buildUserFormGroup(): void {
     this.userData = this.fb.group({
-      fullname: new FormControl('', [
+      fullname: new FormControl(null, [
         Validators.required,
         Validators.maxLength(25),
-        Validators.pattern(
-          // tslint:disable-next-line: quotemark
-          "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
-        )
+        Validators.pattern(ONLY_TEXT_REGEX)
       ]),
-      email: new FormControl('', [Validators.required, Validators.email])
+      email: new FormControl(null, [Validators.required, Validators.email])
     });
   }
 
