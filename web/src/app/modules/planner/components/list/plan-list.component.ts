@@ -14,7 +14,7 @@ import { PageQuery, ToastMessageService, IItemsPerPage, pageSizeOptions } from '
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { deletePlan } from '../../store/plan.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
-import { DIALOG } from '@/shared/constants';
+import { DIALOG, ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES } from '@/shared/constants';
 
 @Component({
   selector: 'plan-list',
@@ -25,9 +25,9 @@ export class PlanListComponent implements AfterViewInit, OnDestroy {
   dataSource: PlansDataSource = new PlansDataSource(this.store$);
   loading$: Observable<boolean> = this.store$.pipe(select(selectPlansLoading));
   resultsLength$: Observable<number> = this.store$.pipe(select(selectPlansTotalCount));
-  canAddPlan$: Observable<boolean> = this.store$.pipe(select(isPrivileged('plan-add')));
-  canEditPlan$: Observable<boolean> = this.store$.pipe(select(isPrivileged('plan-edit')));
-  canDeletePlan$: Observable<boolean> = this.store$.pipe(select(isPrivileged('plan-delete')));
+  canAddPlan$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.PLAN)));
+  canEditPlan$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.PLAN)));
+  canDeletePlan$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.PLAN)));
   itemsPerPageState$: Observable<IItemsPerPage> = this.store$.pipe(select(getItemsPerPageState));
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

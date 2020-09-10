@@ -13,6 +13,7 @@ import { selectAllRoles } from '@/modules/roles/store/role.selectors';
 import { Role } from '@/modules/roles';
 import { Stage } from '@/modules/planner';
 import { Department } from '@/modules/departments';
+import { VIEW_PRIVILEGES } from '@/shared/constants';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,9 +26,9 @@ export class DashboardComponent implements OnInit {
   rolesChartData$: Observable<Role[]> = this.store.pipe(select(selectAllRoles));
   planStagesChartData$: Observable<Stage[]> = this.store.pipe(select(selectAllStages));
   departmentsChartData$: Observable<Department[]> = this.store.pipe(select(selectAllDepartments));
-  canViewRoles$: Observable<boolean> = this.store.pipe(select(isPrivileged('role-view')));
-  canViewPlan$: Observable<boolean> = this.store.pipe(select(isPrivileged('plan-view')));
-  canViewDepartments$: Observable<boolean> = this.store.pipe(select(isPrivileged('department-view')));
+  canViewRoles$: Observable<boolean> = this.store.pipe(select(isPrivileged(VIEW_PRIVILEGES.ROLE)));
+  canViewPlan$: Observable<boolean> = this.store.pipe(select(isPrivileged(VIEW_PRIVILEGES.PLAN)));
+  canViewDepartments$: Observable<boolean> = this.store.pipe(select(isPrivileged(VIEW_PRIVILEGES.DEPARTMENT)));
 
   constructor(private store: Store<AppState>) {}
 

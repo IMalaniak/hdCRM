@@ -14,6 +14,7 @@ import { allStatesRequested } from '@/modules/users/store/state.actions';
 import { selectAllStates } from '@/modules/users/store/state.selectors';
 import { Preferences } from '@/core/reducers/preferences.reducer';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
+import { TAB_PRIVILEGES } from '@/shared/constants';
 
 @Component({
   selector: 'templates-user-profile',
@@ -23,9 +24,9 @@ import { isPrivileged } from '@/core/auth/store/auth.selectors';
 })
 export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   enableDarkTheme$: Observable<boolean> = this.store.pipe(select(fromLayout.getDarkThemeState));
-  canViewPreferences$: Observable<boolean> = this.store.pipe(select(isPrivileged('preferenceTab-view')));
-  canViewIntegrations$: Observable<boolean> = this.store.pipe(select(isPrivileged('integrationTab-view')));
-  canViewOrganization$: Observable<boolean> = this.store.pipe(select(isPrivileged('organizationTab-view')));
+  canViewPreferences$: Observable<boolean> = this.store.pipe(select(isPrivileged(TAB_PRIVILEGES.PREFERENCE)));
+  canViewIntegrations$: Observable<boolean> = this.store.pipe(select(isPrivileged(TAB_PRIVILEGES.INTEGRATION)));
+  canViewOrganization$: Observable<boolean> = this.store.pipe(select(isPrivileged(TAB_PRIVILEGES.ORGANIZATION)));
 
   @Input() user: User;
   @Input() userPreferences: Preferences;

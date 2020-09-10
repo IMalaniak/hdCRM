@@ -12,7 +12,7 @@ import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
 import { MediaqueryService, ToastMessageService } from '@/shared';
 import { updateDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
 import { selectIsEditing } from '../../store/department.selectors';
-import { DIALOG } from '@/shared/constants';
+import { EDIT_PRIVILEGES, DIALOG } from '@/shared/constants';
 
 @Component({
   selector: 'department',
@@ -22,7 +22,7 @@ import { DIALOG } from '@/shared/constants';
 export class DepartmentComponent implements OnInit, OnDestroy {
   editForm$: Observable<boolean> = this.store$.pipe(select(selectIsEditing));
   canEditDepartment$: Observable<boolean> = combineLatest([
-    this.store$.pipe(select(isPrivileged('department-edit'))),
+    this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.DEPARTMENT))),
     this.store$.pipe(select(currentUser))
   ]).pipe(map(([editPriv, appUser]) => editPriv || appUser.id === this.department.managerId));
 

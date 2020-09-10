@@ -12,7 +12,7 @@ import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { tap, takeUntil } from 'rxjs/operators';
 import { deleteDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
-import { DIALOG } from '@/shared/constants';
+import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, DIALOG } from '@/shared/constants';
 
 @Component({
   selector: 'departments',
@@ -23,9 +23,9 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
   dataSource: DepartmentsDataSource = new DepartmentsDataSource(this.store$);
   loading$: Observable<boolean> = this.store$.pipe(select(selectDepartmentsLoading));
   resultsLength$: Observable<number> = this.store$.pipe(select(selectDepartmentsTotalCount));
-  canAddDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged('department-add')));
-  canEditDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged('department-edit')));
-  canDeleteDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged('department-delete')));
+  canAddDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.DEPARTMENT)));
+  canEditDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.DEPARTMENT)));
+  canDeleteDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.DEPARTMENT)));
   itemsPerPageState$: Observable<IItemsPerPage> = this.store$.pipe(select(getItemsPerPageState));
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

@@ -14,7 +14,7 @@ import { selectRolesTotalCount, selectRolesLoading } from '../../store/role.sele
 import { PageQuery, ToastMessageService, IItemsPerPage, pageSizeOptions } from '@/shared';
 import { deleteRoleRequested, changeIsEditingState } from '../../store/role.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
-import { DIALOG } from '@/shared/constants';
+import { DIALOG, ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES } from '@/shared/constants';
 
 @Component({
   selector: 'roles',
@@ -26,9 +26,9 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
   dataSource: RolesDataSource = new RolesDataSource(this.store$);
   loading$: Observable<boolean> = this.store$.pipe(select(selectRolesLoading));
   resultsLength$: Observable<number> = this.store$.pipe(select(selectRolesTotalCount));
-  canAddRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged('role-add')));
-  canEditRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged('role-edit')));
-  canDeleteRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged('role-delete')));
+  canAddRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.ROLE)));
+  canEditRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.ROLE)));
+  canDeleteRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.ROLE)));
   itemsPerPageState$: Observable<IItemsPerPage> = this.store$.pipe(select(getItemsPerPageState));
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

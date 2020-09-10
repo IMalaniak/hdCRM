@@ -16,7 +16,7 @@ import { deleteUser } from '../../store/user.actions';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
 import { PageQuery, MediaqueryService, ToastMessageService, IItemsPerPage, pageSizeOptions } from '@/shared';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
-import { DIALOG } from '@/shared/constants';
+import { DIALOG, ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES } from '@/shared/constants';
 
 @Component({
   selector: 'app-users',
@@ -27,9 +27,9 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
   currentUser$: Observable<User> = this.store$.pipe(select(currentUser));
   loading$: Observable<boolean> = this.store$.pipe(select(selectIsLoading));
   resultsLength$: Observable<number> = this.store$.pipe(select(selectUsersTotalCount));
-  canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged('user-add')));
-  canEditUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged('user-edit')));
-  canDeleteUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged('user-delete')));
+  canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.USER)));
+  canEditUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.USER)));
+  canDeleteUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.USER)));
   itemsPerPageState$: Observable<IItemsPerPage> = this.store$.pipe(select(getItemsPerPageState));
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

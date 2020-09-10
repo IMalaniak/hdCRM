@@ -14,7 +14,7 @@ import { updateRoleRequested, changeIsEditingState } from '../../store/role.acti
 import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
 import { User } from '@/modules/users';
 import { selectIsEditing } from '../../store/role.selectors';
-import { DIALOG } from '@/shared/constants';
+import { EDIT_PRIVILEGES, DIALOG } from '@/shared/constants';
 
 @Component({
   selector: 'role',
@@ -24,7 +24,7 @@ import { DIALOG } from '@/shared/constants';
 })
 export class RoleComponent implements OnInit, OnDestroy {
   editForm$: Observable<boolean> = this.store$.pipe(select(selectIsEditing));
-  canEditRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged('role-edit')));
+  canEditRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.ROLE)));
 
   role: Role;
   roleInitial: Role;

@@ -16,7 +16,7 @@ import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { MediaqueryService, Asset, ApiResponse, ToastMessageService, DynamicForm } from '@/shared';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
-import { DIALOG } from '@/shared/constants';
+import { ADD_PRIVILEGES, DELETE_PRIVILEGES, EDIT_PRIVILEGES, DIALOG } from '@/shared/constants';
 
 @Component({
   selector: 'app-plan',
@@ -26,12 +26,12 @@ import { DIALOG } from '@/shared/constants';
 })
 export class PlanComponent implements OnInit, OnDestroy {
   canEditPlan$: Observable<boolean> = combineLatest([
-    this.store.pipe(select(isPrivileged('plan-edit'))),
+    this.store.pipe(select(isPrivileged(EDIT_PRIVILEGES.PLAN))),
     this.store.pipe(select(currentUser))
   ]).pipe(map(([editPriv, appUser]) => editPriv || appUser.id === this.plan.CreatorId));
-  canAddAttachment$: Observable<boolean> = this.store.pipe(select(isPrivileged('planAttachment-add')));
+  canAddAttachment$: Observable<boolean> = this.store.pipe(select(isPrivileged(ADD_PRIVILEGES.PLAN_ATTACHMENT)));
   // configStages$: Observable<boolean> = this.store.pipe(select(isPrivileged('stage-edit')));
-  canDeleteAttachment$: Observable<boolean> = this.store.pipe(select(isPrivileged('planAttachment-delete')));
+  canDeleteAttachment$: Observable<boolean> = this.store.pipe(select(isPrivileged(DELETE_PRIVILEGES.PLAN_ATTACHMENT)));
   planFormJson$: Observable<DynamicForm> = this.store.pipe(select(selectFormByName('plan')));
 
   plan: Plan;
