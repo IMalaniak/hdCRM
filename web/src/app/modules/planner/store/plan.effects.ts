@@ -8,12 +8,13 @@ import { Plan } from '../models';
 import { Router } from '@angular/router';
 import { ToastMessageService, CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Update } from '@ngrx/entity';
 
 @Injectable()
 export class PlanEffects {
   createPlan$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(planActions.createPlan),
+      ofType(planActions.createPlanRequested),
       map((payload) => payload.plan),
       mergeMap((plan: Plan) =>
         this.planService.create(plan).pipe(
@@ -54,19 +55,46 @@ export class PlanEffects {
     )
   );
 
-  // TODO @IMalaniak recreate this
-  deletePlan$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(planActions.deletePlan),
-        map((payload) => payload.id),
-        mergeMap((id) => this.planService.delete(id)),
-        map((response: ApiResponse) => of(this.toastMessageService.snack(response))),
-        catchError(() => of(planActions.planApiError()))
-      ),
-    {
-      dispatch: false
-    }
+  updatePlan$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(planActions.updatePlanRequested),
+      map((payload) => payload.plan),
+      mergeMap((plan: Plan) =>
+        this.planService.updateOne(plan).pipe(
+          map((response: ItemApiResponse<Plan>) => {
+            const plan: Update<Plan> = {
+              id: response.data.id,
+              changes: response.data
+            };
+            this.toastMessageService.snack(response);
+            return planActions.updatePlanSuccess({ plan });
+          }),
+          catchError((errorResponse: HttpErrorResponse) => {
+            this.toastMessageService.snack(errorResponse.error);
+            return of(planActions.planApiError());
+          })
+        )
+      )
+    )
+  );
+
+  deletePlan$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(planActions.deletePlanRequested),
+      map((payload) => payload.id),
+      mergeMap((id: number) =>
+        this.planService.delete(id).pipe(
+          map((response: ApiResponse) => {
+            this.toastMessageService.snack(response);
+            return planActions.deletePlanSuccess({ id });
+          }),
+          catchError((errorResponse: HttpErrorResponse) => {
+            this.toastMessageService.snack(errorResponse.error);
+            return of(planActions.planApiError());
+          })
+        )
+      )
+    )
   );
 
   constructor(

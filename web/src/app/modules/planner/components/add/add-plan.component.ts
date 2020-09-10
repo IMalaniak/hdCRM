@@ -7,12 +7,12 @@ import { Store, select } from '@ngrx/store';
 import { currentUser } from '@/core/auth/store/auth.selectors';
 import { takeUntil, skipUntil, delay } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { createPlan } from '../../store/plan.actions';
+import { createPlanRequested } from '../../store/plan.actions';
 import { MediaqueryService } from '@/shared';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-add-plan',
+  selector: 'plan',
   templateUrl: './add-plan.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -25,14 +25,14 @@ export class AddPlanComponent implements OnInit, OnDestroy {
 
   constructor(
     private dialog: MatDialog,
-    private store: Store<AppState>,
+    private store$: Store<AppState>,
     private mediaQuery: MediaqueryService,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.store.pipe(select(currentUser), takeUntil(this.unsubscribe)).subscribe((user) => {
+    this.store$.pipe(select(currentUser), takeUntil(this.unsubscribe)).subscribe((user) => {
       this.appUser = user;
     });
 
@@ -95,7 +95,7 @@ export class AddPlanComponent implements OnInit, OnDestroy {
   onClickSubmit(): void {
     // TODO: @IMalaniak create logic on BE side to set CreatorId, after this delete CreatorId prop below
     this.plan = { ...this.plan, CreatorId: this.appUser.id };
-    this.store.dispatch(createPlan({ plan: { ...this.plan, ...this.planData.value } }));
+    this.store$.dispatch(createPlanRequested({ plan: { ...this.plan, ...this.planData.value } }));
   }
 
   ngOnDestroy(): void {

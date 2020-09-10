@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+// import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Update } from '@ngrx/entity';
 import { Store, select } from '@ngrx/store';
 import { Subject, Observable, combineLatest } from 'rxjs';
 import { takeUntil, map, skipUntil, delay } from 'rxjs/operators';
@@ -11,33 +10,33 @@ import { Plan } from '../../models';
 import { PlanService } from '../../services';
 import { UsersDialogComponent, User } from '@/modules/users';
 import { AppState } from '@/core/reducers';
-import { planSaved } from '../../store/plan.actions';
+import { updatePlanRequested, changeIsEditingState } from '../../store/plan.actions';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { MediaqueryService, Asset, ApiResponse, ToastMessageService, DynamicForm } from '@/shared';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
+import { selectIsEditing } from '../../store/plan.selectors';
 
 @Component({
-  selector: 'app-plan',
+  selector: 'plan',
   templateUrl: './plan.component.html',
   styleUrls: ['./plan.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlanComponent implements OnInit, OnDestroy {
   canEditPlan$: Observable<boolean> = combineLatest([
-    this.store.pipe(select(isPrivileged('plan-edit'))),
-    this.store.pipe(select(currentUser))
+    this.store$.pipe(select(isPrivileged('plan-edit'))),
+    this.store$.pipe(select(currentUser))
   ]).pipe(map(([editPriv, appUser]) => editPriv || appUser.id === this.plan.CreatorId));
-  canAddAttachment$: Observable<boolean> = this.store.pipe(select(isPrivileged('planAttachment-add')));
+  canAddAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged('planAttachment-add')));
   // configStages$: Observable<boolean> = this.store.pipe(select(isPrivileged('stage-edit')));
-  canDeleteAttachment$: Observable<boolean> = this.store.pipe(select(isPrivileged('planAttachment-delete')));
-  planFormJson$: Observable<DynamicForm> = this.store.pipe(select(selectFormByName('plan')));
+  canDeleteAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged('planAttachment-delete')));
+  planFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName('plan')));
+  editForm$: Observable<boolean> = this.store$.pipe(select(selectIsEditing));
 
   plan: Plan;
   planInitial: Plan;
   planFormValues: Plan;
-  editForm = false;
-  showDataLoader = true;
   configPlanStages = false;
 
   private unsubscribe: Subject<void> = new Subject();
@@ -46,24 +45,16 @@ export class PlanComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private planService: PlanService,
     private dialog: MatDialog,
-    private store: Store<AppState>,
+    private store$: Store<AppState>,
     private mediaQuery: MediaqueryService,
     private cdr: ChangeDetectorRef,
     private toastMessageService: ToastMessageService
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(formRequested({ formName: 'plan' }));
+    this.store$.dispatch(formRequested({ formName: 'plan' }));
     this.plan = cloneDeep(this.route.snapshot.data['plan']);
     this.planInitial = cloneDeep(this.route.snapshot.data['plan']);
-    this.canEditPlan$.pipe(takeUntil(this.unsubscribe)).subscribe((canEdit) => {
-      if (canEdit) {
-        const edit = this.route.snapshot.queryParams['edit'];
-        if (edit) {
-          this.editForm = JSON.parse(edit);
-        }
-      }
-    });
   }
 
   planFormValueChanges(formVal: User): void {
@@ -71,43 +62,43 @@ export class PlanComponent implements OnInit, OnDestroy {
   }
 
   // TODO: @IMalaniak recreate store logic
-  goToNextStage(): void {
-    this.toastMessageService
-      .confirm('You are about to pass stage.', 'Are you sure you want to go to next plan stage?')
-      .then((result) => {
-        if (result.value) {
-          this.planService
-            .toNextStage(this.plan.id)
-            .pipe(takeUntil(this.unsubscribe))
-            .subscribe(
-              ({ data }) => {
-                this.updatePlanStore(data);
-                this.configPlanStages = false;
-                this.toastMessageService.toast('Stages updated!');
-              },
-              () => {
-                this.toastMessageService.popup('Ooops, something went wrong!', 'error');
-              }
-            );
-        }
-      });
-  }
+  // goToNextStage(): void {
+  //   this.toastMessageService
+  //     .confirm('You are about to pass stage.', 'Are you sure you want to go to next plan stage?')
+  //     .then((result) => {
+  //       if (result.value) {
+  //         this.planService
+  //           .toNextStage(this.plan.id)
+  //           .pipe(takeUntil(this.unsubscribe))
+  //           .subscribe(
+  //             ({ data }) => {
+  //               // this.updatePlanStore(data);
+  //               this.configPlanStages = false;
+  //               this.toastMessageService.toast('Stages updated!');
+  //             },
+  //             () => {
+  //               this.toastMessageService.popup('Ooops, something went wrong!', 'error');
+  //             }
+  //           );
+  //       }
+  //     });
+  // }
 
   onClickEdit(): void {
-    this.editForm = true;
+    this.store$.dispatch(changeIsEditingState({ isEditing: true }));
   }
 
-  onClickConfigureStages(): void {
-    this.configPlanStages = true;
-  }
+  // onClickConfigureStages(): void {
+  //   this.configPlanStages = true;
+  // }
 
-  onClickCancelEditStages(): void {
-    this.configPlanStages = false;
-    this.plan = cloneDeep(this.planInitial);
-  }
+  // onClickCancelEditStages(): void {
+  //   this.configPlanStages = false;
+  //   this.plan = cloneDeep(this.planInitial);
+  // }
 
   onClickCancelEdit(): void {
-    this.editForm = false;
+    this.store$.dispatch(changeIsEditingState({ isEditing: true }));
     this.plan = cloneDeep(this.planInitial);
   }
 
@@ -118,55 +109,29 @@ export class PlanComponent implements OnInit, OnDestroy {
     };
   }
 
-  // TODO: @IMalaniak recreate store logic
-  updatePlanStages(): void {
-    this.toastMessageService
-      .confirm('You are about to save stages configuration.', 'Are you sure you want update stages configuration?')
-      .then((result) => {
-        if (result.value) {
-          this.planService
-            .updatePlanStages(this.plan)
-            .pipe(takeUntil(this.unsubscribe))
-            .subscribe(
-              ({ data }) => {
-                this.updatePlanStore(data);
-                this.configPlanStages = false;
-                this.toastMessageService.toast('Stages updated!');
-              },
-              () => {
-                this.toastMessageService.popup('Ooops, something went wrong!', 'error');
-              }
-            );
-        }
-      });
-  }
+  // updatePlanStages(): void {
+  //   this.toastMessageService
+  //     .confirm('You are about to save stages configuration', 'Are you sure you want update stages configuration?')
+  //     .then((result) => {
+  //       if (result.value) {
+  //         this.store$.dispatch(updatePlanRequested({ plan: this.plan }));
+  //         this.configPlanStages = false;
+  //       }
+  //     });
+  // }
 
-  // TODO: @IMalaniak recreate store logic
   updatePlan(): void {
     this.toastMessageService
       .confirm('You are about to update plan', 'Are you sure you want to update plan details?')
       .then((result) => {
         if (result.value) {
-          this.planService
-            .updateOne(this.plan)
-            .pipe(takeUntil(this.unsubscribe))
-            .subscribe(
-              ({ data }) => {
-                this.updatePlanStore(data);
-                this.editForm = false;
-                this.toastMessageService.toast('Plan updated!');
-              },
-              () => {
-                this.toastMessageService.popup('Ooops, something went wrong!', 'error');
-              }
-            );
+          this.store$.dispatch(updatePlanRequested({ plan: this.plan }));
         }
       });
   }
 
   // TODO: @ArseniiIrod, @IMalaniak remake logic
   // addStageDialog(): void {
-  //   this.showDataLoader = false;
   //   const dialogRef = this.dialog.open(StagesDialogComponent, {
   //     ...this.mediaQuery.deFaultPopupSize,
   //     data: {
@@ -227,16 +192,15 @@ export class PlanComponent implements OnInit, OnDestroy {
   //     });
   // }
 
-  dragDropStages(event: CdkDragDrop<string[]>): void {
-    moveItemInArray(this.plan.Stages, event.previousIndex, event.currentIndex);
-    this.plan.Stages = this.plan.Stages.map((stage, i) => {
-      stage.Details.order = i;
-      return stage;
-    });
-  }
+  // dragDropStages(event: CdkDragDrop<string[]>): void {
+  //   moveItemInArray(this.plan.Stages, event.previousIndex, event.currentIndex);
+  //   this.plan.Stages = this.plan.Stages.map((stage, i) => {
+  //     stage.Details.order = i;
+  //     return stage;
+  //   });
+  // }
 
   addParticipantDialog(): void {
-    this.showDataLoader = false;
     const dialogRef = this.dialog.open(UsersDialogComponent, {
       ...this.mediaQuery.deFaultPopupSize,
       data: {
@@ -272,12 +236,13 @@ export class PlanComponent implements OnInit, OnDestroy {
       });
   }
 
-  addDoc(doc: Asset): void {
-    this.plan.Documents = [...this.plan.Documents, doc];
-    this.updatePlanStore(this.plan);
+  addDocument(doc: Asset): void {
+    this.plan = { ...this.plan, Documents: [...this.plan.Documents, doc] };
+    this.store$.dispatch(updatePlanRequested({ plan: this.plan }));
   }
 
   deleteDoc(docId: number): void {
+    // TODO: @IMalaniak, @ArseniiIrod remake this in feature
     this.toastMessageService
       .confirm('Stages updated!', 'Are you sure you want to delete document from plan, changes cannot be undone?')
       .then((result) => {
@@ -291,10 +256,8 @@ export class PlanComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.unsubscribe))
             .subscribe((response: ApiResponse) => {
               if (response.success) {
-                this.plan.Documents = this.plan.Documents.filter((doc) => {
-                  return doc.id !== docId;
-                });
-                this.updatePlanStore(this.plan);
+                this.plan = { ...this.plan, Documents: this.plan.Documents.filter((doc) => doc.id !== docId) };
+                this.store$.dispatch(updatePlanRequested({ plan: this.plan }));
                 this.cdr.detectChanges();
 
                 this.toastMessageService.toast('Stages updated!');
@@ -304,16 +267,6 @@ export class PlanComponent implements OnInit, OnDestroy {
             });
         }
       });
-  }
-
-  updatePlanStore(data: Plan): void {
-    this.plan = cloneDeep(data);
-    this.planInitial = cloneDeep(data);
-    const plan: Update<Plan> = {
-      id: this.plan.id,
-      changes: data
-    };
-    this.store.dispatch(planSaved({ plan }));
   }
 
   ngOnDestroy(): void {

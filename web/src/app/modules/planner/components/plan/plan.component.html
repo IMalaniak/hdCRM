@@ -71,7 +71,7 @@
           <organisms-dynamic-form
             [data]="plan"
             [formJson]="planFormJson$ | async"
-            [editForm]="editForm"
+            [editForm]="editForm$ | async"
             (formChanges)="planFormValueChanges($event)"
           ></organisms-dynamic-form>
         </section>
@@ -81,17 +81,26 @@
       <templates-box-user-list-sm
         [users]="plan.Participants"
         title="Participants"
-        [editMode]="editForm"
+        [editMode]="editForm$ | async"
         (addClick)="addParticipantDialog()"
         (removeClick)="removeParticipant($event)"
       ></templates-box-user-list-sm>
     </div>
   </div>
   <div buttons *ngIf="canEditPlan$ | async">
-    <atoms-icon-button *ngIf="!editForm" (onclick)="onClickEdit()" [icon]="['fas', 'edit']"> Edit </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm" (onclick)="updatePlan()" [icon]="['fas', 'save']"> Save </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm" (onclick)="onClickCancelEdit()" [icon]="['fas', 'times']" color="basic">
+    <atoms-icon-button *ngIf="!(editForm$ | async)" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
+      Edit
+    </atoms-icon-button>
+    <atoms-icon-button
+      *ngIf="editForm$ | async"
+      (onclick)="onClickCancelEdit()"
+      [icon]="['fas', 'times']"
+      color="basic"
+    >
       Cancel
+    </atoms-icon-button>
+    <atoms-icon-button *ngIf="editForm$ | async" class="ml-2" (onclick)="updatePlan()" [icon]="['fas', 'save']">
+      Save
     </atoms-icon-button>
   </div>
 </organisms-card>
@@ -102,5 +111,5 @@
   [attachments]="plan.Documents"
   [apiUrl]="'/plans/documents/' + plan.id"
   (deleteFileCall)="deleteDoc($event)"
-  (addFileCall)="addDoc($event)"
+  (addFileCall)="addDocument($event)"
 ></templates-attachments-list>
