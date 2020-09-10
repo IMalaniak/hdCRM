@@ -14,7 +14,7 @@ import { updateRoleRequested, changeIsEditingState } from '../../store/role.acti
 import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
 import { User } from '@/modules/users';
 import { selectIsEditing } from '../../store/role.selectors';
-import { EDIT_PRIVILEGES, DIALOG } from '@/shared/constants';
+import { EDIT_PRIVILEGES, DIALOG, COLUMN_NAMES } from '@/shared/constants';
 
 @Component({
   selector: 'role',
@@ -28,7 +28,13 @@ export class RoleComponent implements OnInit, OnDestroy {
 
   role: Role;
   roleInitial: Role;
-  displayedColumns: string[] = ['title', 'view', 'add', 'edit', 'delete'];
+  displayedColumns: COLUMN_NAMES[] = [
+    COLUMN_NAMES.TITLE,
+    COLUMN_NAMES.VIEW,
+    COLUMN_NAMES.ADD,
+    COLUMN_NAMES.EDIT,
+    COLUMN_NAMES.DELETE
+  ];
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -144,7 +150,7 @@ export class RoleComponent implements OnInit, OnDestroy {
 
   onClickEdit(): void {
     this.store$.dispatch(changeIsEditingState({ isEditing: true }));
-    this.displayedColumns = [...this.displayedColumns, 'actions'];
+    this.displayedColumns = [...this.displayedColumns, COLUMN_NAMES.ACTIONS];
   }
 
   onClickCancelEdit(): void {
@@ -154,7 +160,7 @@ export class RoleComponent implements OnInit, OnDestroy {
   }
 
   disableEdit(): void {
-    this.displayedColumns = this.displayedColumns.filter((col) => col !== 'actions');
+    this.displayedColumns = this.displayedColumns.filter((col) => col !== COLUMN_NAMES.ACTIONS);
   }
 
   updateRole(): void {

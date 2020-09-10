@@ -9,6 +9,7 @@ import { allPrivilegesRequested, createPrivilegeRequested } from '@/modules/role
 import { selectAllPrivileges, selectPrivilegesLoading } from '@/modules/roles/store/privilege.selectors';
 import { takeUntil, map } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
+import { COLUMN_NAMES } from '@/shared/constants';
 
 @Component({
   selector: 'app-privileges',
@@ -22,7 +23,7 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
   selection = new SelectionModel<Privilege>(true, []);
   privileges: Privilege[];
   resultsLength: number;
-  displayedColumns: string[] = ['select', 'title', 'key'];
+  displayedColumns: COLUMN_NAMES[] = [COLUMN_NAMES.SELECT, COLUMN_NAMES.TITLE, COLUMN_NAMES.KEY];
 
   private unsubscribe: Subject<void> = new Subject();
 

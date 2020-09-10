@@ -6,6 +6,7 @@ import { AppState } from '@/core/reducers';
 import { Store, select } from '@ngrx/store';
 import { getGoogleDriveIntegrationState } from '@/core/reducers/integration.selectors';
 import { toggleGoogleDriveIntegration } from '@/core/reducers/integration.actions';
+import { COLUMN_NAMES } from '@/shared/constants';
 
 @Component({
   selector: 'templates-attachments-list',
@@ -25,7 +26,14 @@ export class TemplatesAttachmentsListComponent {
   @Output() addFileCall: EventEmitter<any> = new EventEmitter();
 
   uploaderVisible = false;
-  displayedColumns: string[] = ['icon', 'title', 'type', 'createdAt', 'updatedAt', 'actions'];
+  displayedColumns: COLUMN_NAMES[] = [
+    COLUMN_NAMES.ICON,
+    COLUMN_NAMES.TITLE,
+    COLUMN_NAMES.TYPE,
+    COLUMN_NAMES.CREATED_AT,
+    COLUMN_NAMES.UPDATED_AT,
+    COLUMN_NAMES.ACTIONS
+  ];
 
   constructor(private store$: Store<AppState>, private attachmentService: AttachmentService) {}
 

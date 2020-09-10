@@ -11,6 +11,7 @@ import { AppState } from '@/core/reducers';
 import { Store } from '@ngrx/store';
 import { createRoleRequested } from '../../store/role.actions';
 import { User } from '@/modules/users/models';
+import { COLUMN_NAMES } from '@/shared/constants';
 
 @Component({
   selector: 'app-add-role',
@@ -21,7 +22,13 @@ import { User } from '@/modules/users/models';
 export class AddRoleComponent implements OnInit {
   role = {} as Role;
   keyString: FormControl;
-  displayedColumns: string[] = ['title', 'view', 'add', 'edit', 'delete'];
+  displayedColumns: COLUMN_NAMES[] = [
+    COLUMN_NAMES.TITLE,
+    COLUMN_NAMES.VIEW,
+    COLUMN_NAMES.ADD,
+    COLUMN_NAMES.EDIT,
+    COLUMN_NAMES.DELETE
+  ];
 
   private unsubscribe: Subject<void> = new Subject();
 

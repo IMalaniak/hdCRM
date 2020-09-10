@@ -12,7 +12,7 @@ import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { tap, takeUntil } from 'rxjs/operators';
 import { deleteDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
-import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, DIALOG } from '@/shared/constants';
+import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, DIALOG, COLUMN_NAMES } from '@/shared/constants';
 
 @Component({
   selector: 'departments',
@@ -31,7 +31,14 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns: string[] = ['title', 'manager', 'workers', 'createdAt', 'updatedAt', 'actions'];
+  displayedColumns: COLUMN_NAMES[] = [
+    COLUMN_NAMES.TITLE,
+    COLUMN_NAMES.MANAGER,
+    COLUMN_NAMES.WORKERS,
+    COLUMN_NAMES.CREATED_AT,
+    COLUMN_NAMES.UPDATED_AT,
+    COLUMN_NAMES.ACTIONS
+  ];
   pageSizeOptions: number[] = pageSizeOptions;
   private unsubscribe: Subject<void> = new Subject();
 

@@ -10,6 +10,7 @@ import { allStagesRequestedFromDialogWindow, createStage } from '@/modules/plann
 import { selectAllStages, selectStagesLoading } from '@/modules/planner/store/stage.selectors';
 import { map, takeUntil } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
+import { COLUMN_NAMES } from '@/shared/constants';
 
 @Component({
   selector: 'app-stages',
@@ -22,7 +23,7 @@ export class StagesComponent implements OnInit, OnDestroy {
 
   stages: Stage[];
   resultsLength: number;
-  displayedColumns: string[] = ['select', 'title'];
+  displayedColumns: COLUMN_NAMES[] = [COLUMN_NAMES.SELECT, COLUMN_NAMES.TITLE];
   selection = new SelectionModel<Stage>(true, []);
 
   private unsubscribe: Subject<void> = new Subject();

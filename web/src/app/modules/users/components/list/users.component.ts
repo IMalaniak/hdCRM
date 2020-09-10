@@ -16,7 +16,7 @@ import { deleteUser } from '../../store/user.actions';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
 import { PageQuery, MediaqueryService, ToastMessageService, IItemsPerPage, pageSizeOptions } from '@/shared';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
-import { DIALOG, ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES } from '@/shared/constants';
+import { DIALOG, ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_NAMES } from '@/shared/constants';
 
 @Component({
   selector: 'app-users',
@@ -39,19 +39,19 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
   dataSource: UsersDataSource = new UsersDataSource(this.store$);
   pageSizeOptions: number[] = pageSizeOptions;
   users: User[];
-  displayedColumns: string[] = [
-    'select',
-    'avatar',
-    'login',
-    'email',
-    'name',
-    'surname',
-    'phone',
-    'dep',
-    'state',
-    'createdAt',
-    'updatedAt',
-    'actions'
+  displayedColumns: COLUMN_NAMES[] = [
+    COLUMN_NAMES.SELECT,
+    COLUMN_NAMES.AVATAR,
+    COLUMN_NAMES.LOGIN,
+    COLUMN_NAMES.EMAIL,
+    COLUMN_NAMES.NAME,
+    COLUMN_NAMES.SURNAME,
+    COLUMN_NAMES.PHONE,
+    COLUMN_NAMES.DEPARTMENT,
+    COLUMN_NAMES.STATE,
+    COLUMN_NAMES.CREATED_AT,
+    COLUMN_NAMES.UPDATED_AT,
+    COLUMN_NAMES.ACTIONS
   ];
 
   private unsubscribe: Subject<void> = new Subject();

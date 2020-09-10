@@ -14,7 +14,7 @@ import { PageQuery, ToastMessageService, IItemsPerPage, pageSizeOptions } from '
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { deletePlan } from '../../store/plan.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
-import { DIALOG, ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES } from '@/shared/constants';
+import { DIALOG, ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_NAMES } from '@/shared/constants';
 
 @Component({
   selector: 'plan-list',
@@ -35,15 +35,15 @@ export class PlanListComponent implements AfterViewInit, OnDestroy {
 
   selection = new SelectionModel<Plan>(true, []);
   pageSizeOptions: number[] = pageSizeOptions;
-  displayedColumns: string[] = [
-    'title',
-    'creator',
-    'stage',
-    'participants',
-    'createdAt',
-    'updatedAt',
-    'deadline',
-    'actions'
+  displayedColumns: COLUMN_NAMES[] = [
+    COLUMN_NAMES.TITLE,
+    COLUMN_NAMES.CREATOR,
+    COLUMN_NAMES.STAGE,
+    COLUMN_NAMES.PARTICIPANTS,
+    COLUMN_NAMES.CREATED_AT,
+    COLUMN_NAMES.UPDATED_AT,
+    COLUMN_NAMES.DEADLINE,
+    COLUMN_NAMES.ACTIONS
   ];
   private unsubscribe: Subject<void> = new Subject();
 
