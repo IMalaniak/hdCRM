@@ -1,4 +1,6 @@
 import { Component, Input, HostBinding, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
+import { THEME_PALETTE, BUTTON_TYPE } from '@/shared/constants';
 
 @Component({
   selector: 'atoms-icon-button',
@@ -55,9 +57,9 @@ import { Component, Input, HostBinding, Output, EventEmitter, ChangeDetectionStr
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AtomsIconButtonComponent {
-  @Input() type = 'button';
+  @Input() type: BUTTON_TYPE = BUTTON_TYPE.BUTTON;
   @Input() matType = 'raised';
-  @Input() color = 'primary';
+  @Input() color: ThemePalette = THEME_PALETTE.PRIMARY;
   @Input() icon: string;
   @Input() iconColor: string;
   @Input() fullWidth = false;

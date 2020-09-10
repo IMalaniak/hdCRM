@@ -4,6 +4,8 @@ import { IFieldType } from '@/shared/models/FieldType';
 import { MatRadioChange } from '@angular/material/radio';
 import { MatSelectChange } from '@angular/material/select';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { ThemePalette } from '@angular/material/core';
+import { THEME_PALETTE } from '@/shared/constants';
 
 @Component({
   selector: 'atoms-form-field',
@@ -68,7 +70,7 @@ export class AtomsFormFieldComponent {
   @Input() options?: any;
   @Input() bindOptValue?: string;
   @Input() bindOptLabel?: string;
-  @Input() color = 'accent';
+  @Input() color: ThemePalette = THEME_PALETTE.ACCENT;
   @Input() label: string;
   @Input() fType: IFieldType;
   @Input() control: FormControl;

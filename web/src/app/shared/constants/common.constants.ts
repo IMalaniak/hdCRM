@@ -60,6 +60,25 @@ export enum TAB_NAMES {
   INTEGRATIONS = 'integrations'
 }
 
+export enum LINK_TARGET {
+  SELF = '_self',
+  BLANK = '_blank',
+  PRENT = '_parent',
+  TOP = '_top'
+}
+
+export enum THEME_PALETTE {
+  PRIMARY = 'primary',
+  WARN = 'warn',
+  ACCENT = 'accent'
+}
+
+export enum BUTTON_TYPE {
+  BUTTON = 'button',
+  SUBMIT = 'submit',
+  RESET = 'reset'
+}
+
 export const NO_IMAGE = './assets/images/userpic/noimage_croped.png';
 export const NO_IMAGE_TITLE = 'noimage';
 

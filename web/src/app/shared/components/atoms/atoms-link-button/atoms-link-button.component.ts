@@ -1,4 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
+import { LINK_TARGET, THEME_PALETTE } from '@/shared/constants';
 
 @Component({
   selector: 'atoms-link-button',
@@ -46,8 +48,8 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from 
 })
 export class AtomsLinkButtonComponent {
   @Input() linkLabel: string;
-  @Input() linkColor = 'primary';
-  @Input() target = '_self';
+  @Input() linkColor: ThemePalette = THEME_PALETTE.PRIMARY;
+  @Input() target: LINK_TARGET = LINK_TARGET.SELF;
   @Input() linkClass: string;
   @Input() linkHref: any[] | string;
   @Input() linkType: 'link' | 'router' = 'link';
