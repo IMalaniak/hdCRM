@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { NO_IMAGE_TITLE } from '@/shared/constants';
 
 @Component({
   selector: 'atoms-integration-card',
@@ -12,7 +13,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class AtomsIntegrationCardComponent {
   @Input() src: string;
 
-  @Input() imgTitle = 'noimage';
+  @Input() imgTitle = NO_IMAGE_TITLE;
 
   @Input() cardClass = '';
 

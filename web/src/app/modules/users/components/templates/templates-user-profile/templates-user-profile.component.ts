@@ -14,7 +14,7 @@ import { allStatesRequested } from '@/modules/users/store/state.actions';
 import { selectAllStates } from '@/modules/users/store/state.selectors';
 import { Preferences } from '@/core/reducers/preferences.reducer';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
-import { TAB_PRIVILEGES, TAB_NAMES } from '@/shared/constants';
+import { TAB_PRIVILEGES, NO_IMAGE, NO_IMAGE_TITLE, TAB_NAMES } from '@/shared/constants';
 
 @Component({
   selector: 'templates-user-profile',
@@ -39,8 +39,8 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
 
   states$: Observable<State[]>;
   baseUrl = environment.baseUrl;
-  coverUrl = './assets/images/userpic/noimage_croped.png';
-  coverTitle = 'noimage';
+  coverUrl = NO_IMAGE;
+  coverTitle = NO_IMAGE_TITLE;
   userInitial: User;
 
   constructor(private store: Store<AppState>, private route: ActivatedRoute) {}
