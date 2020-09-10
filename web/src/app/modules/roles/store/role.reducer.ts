@@ -31,7 +31,7 @@ const rolesReducer = createReducer(
     roleActions.listPageRequested,
     roleActions.createRoleRequested,
     roleActions.updateRoleRequested,
-    roleActions.createRoleRequested,
+    roleActions.deleteRoleRequested,
     (state) => ({
       ...state,
       loading: true

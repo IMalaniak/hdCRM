@@ -12,7 +12,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { PageQuery, ToastMessageService, IItemsPerPage, pageSizeOptions } from '@/shared';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
-import { deletePlan } from '../../store/plan.actions';
+import { deletePlanRequested, changeIsEditingState } from '../../store/plan.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import {
   DIALOG,
@@ -83,9 +83,8 @@ export class PlanListComponent implements AfterViewInit, OnDestroy {
   }
 
   onPlanSelect(id: number, edit: boolean = false): void {
-    this.router.navigate([`/planner/details/${id}`], {
-      queryParams: { edit }
-    });
+    this.router.navigate([`/planner/details/${id}`]);
+    this.store$.dispatch(changeIsEditingState({ isEditing: edit }));
   }
 
   deletePlan(id: number): void {
@@ -93,7 +92,7 @@ export class PlanListComponent implements AfterViewInit, OnDestroy {
       .confirm(DIALOG.CONFIRM, 'Do you really want to delete plan? You will not be able to recover!')
       .then((result) => {
         if (result.value) {
-          this.store$.dispatch(deletePlan({ id }));
+          this.store$.dispatch(deletePlanRequested({ id }));
         }
       });
   }
