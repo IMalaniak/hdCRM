@@ -6,7 +6,7 @@ import { select, Store } from '@ngrx/store';
 import { listPageRequested } from '../store/plan.actions';
 import { selectPlansPage } from '../store/plan.selectors';
 import { AppState } from '@/core/reducers';
-import { PageQuery } from '@/shared';
+import { PageQuery } from '@/shared/models';
 
 export class PlansDataSource implements DataSource<Plan> {
   private plansSubject = new BehaviorSubject<Plan[]>([]);

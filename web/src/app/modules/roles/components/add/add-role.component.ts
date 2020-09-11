@@ -3,7 +3,7 @@ import { Validators, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Role, Privilege } from '../../models';
 import { UsersDialogComponent } from '@/modules/users/components/dialog/users-dialog.component';
-import { MediaqueryService } from '@/shared';
+import { MediaqueryService } from '@/shared/services';
 import { Subject } from 'rxjs';
 import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
 import { takeUntil, skipUntil, delay } from 'rxjs/operators';

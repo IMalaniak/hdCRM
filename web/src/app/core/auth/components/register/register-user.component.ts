@@ -6,8 +6,7 @@ import { AuthState } from '../../store/auth.reducer';
 import { registerUser } from '../../store/auth.actions';
 import { isLoading } from '../../store/auth.selectors';
 import { Observable } from 'rxjs';
-import { IFieldType } from '@/shared/models/FieldType';
-import { CONSTANTS } from '@/shared/constants';
+import { CONSTANTS, IFieldType } from '@/shared/constants';
 
 @Component({
   selector: 'app-register-user',

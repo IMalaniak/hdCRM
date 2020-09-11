@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Department } from '../models';
 import { User } from '@/modules/users/models';
-import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '@/shared';
+import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '@/shared/models';
 import { APIS } from '@/shared/constants';
 
 @Injectable()

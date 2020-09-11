@@ -8,7 +8,7 @@ import { Task, TaskPriority } from '../models';
 import { Update } from '@ngrx/entity';
 import { ToastMessageService } from '@/shared/services';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared';
+import { CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared/models';
 
 @Injectable()
 export class TaskEffects {

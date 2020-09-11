@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ItemApiResponse, DynamicForm } from '@/shared';
+import { ItemApiResponse, DynamicForm } from '@/shared/models';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { APIS } from '@/shared/constants';
 

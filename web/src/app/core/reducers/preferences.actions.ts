@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { IDateFormat, ITimeFormat, IItemsPerPage, IListView, ApiResponse } from '@/shared/models';
+import { ApiResponse } from '@/shared/models';
+import { IDateFormat, ITimeFormat, IItemsPerPage, IListView } from '@/shared/constants';
 import { Preferences, PreferencesList } from './preferences.reducer';
 
 const prefix = '[Preferences]';

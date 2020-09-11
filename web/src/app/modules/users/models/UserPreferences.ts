@@ -1,4 +1,4 @@
-import { IDateFormat, ITimeFormat, IItemsPerPage, IListView } from '@/shared/models';
+import { IDateFormat, ITimeFormat, IItemsPerPage, IListView } from '@/shared/constants';
 
 export interface UserPreferences {
   id: number;

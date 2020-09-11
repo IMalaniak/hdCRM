@@ -55,13 +55,13 @@ const routes: Routes = [
           animation: 'DepartmentsPage'
         },
         loadChildren: () => import('./modules/departments/departments.module').then((m) => m.DepartmentsModule)
-      },
-      {
-        path: 'chats',
-        canActivate: [AuthGuard],
-        data: { breadcrumb: 'Chat', animation: 'ChatsPage' },
-        loadChildren: () => import('./modules/chat/chat.module').then((m) => m.ChatModule)
       }
+      // {
+      //   path: 'chats',
+      //   canActivate: [AuthGuard],
+      //   data: { breadcrumb: 'Chat', animation: 'ChatsPage' },
+      //   loadChildren: () => import('./modules/chat/chat.module').then((m) => m.ChatModule)
+      // }
     ],
     data: { animation: 'PrivateView' }
   },

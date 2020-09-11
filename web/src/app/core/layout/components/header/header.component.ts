@@ -7,7 +7,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef
 } from '@angular/core';
-import { MediaqueryService } from '@/shared';
+import { MediaqueryService } from '@/shared/services';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { logOut } from '@/core/auth/store/auth.actions';

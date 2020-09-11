@@ -2,7 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User, Organization } from '@/modules/users';
-import { ApiResponse, NewPassword, JwtDecoded, ItemApiResponse } from '@/shared';
+import { ApiResponse, NewPassword, JwtDecoded, ItemApiResponse } from '@/shared/models';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { APIS } from '@/shared/constants';
 

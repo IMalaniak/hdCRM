@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { User } from '@/modules/users';
-import { Asset } from '@/shared';
+import { Asset } from '@/shared/models';
 import { Observable } from 'rxjs/internal/Observable';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { select, Store } from '@ngrx/store';

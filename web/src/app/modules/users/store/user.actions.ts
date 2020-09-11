@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { User } from '../models';
 import { Update } from '@ngrx/entity';
-import { PageQuery, NewPassword, CollectionApiResponse } from '@/shared';
+import { PageQuery, NewPassword, CollectionApiResponse } from '@/shared/models';
 
 const detailsPrefix = '[Plan Details]';
 const listPrefix = '[Users List]';

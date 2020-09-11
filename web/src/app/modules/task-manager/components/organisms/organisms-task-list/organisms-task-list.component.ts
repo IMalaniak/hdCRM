@@ -13,7 +13,7 @@ import {
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { MediaqueryService, ToastMessageService } from '@/shared';
+import { MediaqueryService, ToastMessageService } from '@/shared/services';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { OrganismsTaskDialogComponent } from '../organisms-task-dialog/organisms-task-dialog.component';
 import { MatAccordion } from '@angular/material/expansion';

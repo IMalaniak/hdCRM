@@ -10,7 +10,7 @@ import { Stage } from '../models';
 import { allStagesLoaded } from './stage.selectors';
 import { ToastMessageService } from '@/shared/services';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CollectionApiResponse, ItemApiResponse } from '@/shared';
+import { CollectionApiResponse, ItemApiResponse } from '@/shared/models';
 
 @Injectable()
 export class StageEffects {

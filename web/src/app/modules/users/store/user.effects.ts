@@ -7,7 +7,7 @@ import { UserService } from '../services';
 import { User } from '../models';
 import { Update } from '@ngrx/entity';
 import { ToastMessageService } from '@/shared/services';
-import { CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared';
+import { CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared/models';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()

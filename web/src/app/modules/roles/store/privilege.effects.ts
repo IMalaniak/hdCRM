@@ -8,7 +8,8 @@ import { PrivilegeService } from '../services';
 import { AppState } from '@/core/reducers';
 import { Privilege } from '../models';
 import { allPrivilegesLoaded } from './privilege.selectors';
-import { ToastMessageService, CollectionApiResponse, ItemApiResponse } from '@/shared';
+import { ToastMessageService } from '@/shared/services';
+import { CollectionApiResponse, ItemApiResponse } from '@/shared/models';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()

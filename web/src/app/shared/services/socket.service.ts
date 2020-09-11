@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as socketIo from 'socket.io-client';
 import { Observable } from 'rxjs';
-import { SocketEvent } from '../models/socketEvent';
+import { SocketEvent } from '../constants';
 import { environment } from 'environments/environment';
 
 @Injectable({

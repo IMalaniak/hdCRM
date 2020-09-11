@@ -9,7 +9,8 @@ import { AppState } from '@/core/reducers';
 import { Department } from '../models';
 import { selectDashboardDepDataLoaded } from './department.selectors';
 import { Router } from '@angular/router';
-import { ToastMessageService, CollectionApiResponse, ItemApiResponse, ApiResponse, PageQuery } from '@/shared';
+import { ToastMessageService } from '@/shared/services';
+import { CollectionApiResponse, ItemApiResponse, ApiResponse, PageQuery } from '@/shared/models';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Update } from '@ngrx/entity';
 

@@ -5,7 +5,7 @@ import { ConfirmPasswordValidator } from '@/shared/validators';
 import { AppState } from '@/core/reducers';
 import { Store } from '@ngrx/store';
 import { changeOldPassword } from '@/modules/users/store/user.actions';
-import { IFieldType } from '@/shared/models/FieldType';
+import { IFieldType } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-user-passwords',

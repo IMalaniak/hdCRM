@@ -3,7 +3,7 @@ import { Actions, ofType, createEffect, OnInitEffects } from '@ngrx/effects';
 import { of } from 'rxjs';
 import * as layoutActions from './layout.actions';
 import { switchMap, map, withLatestFrom } from 'rxjs/operators';
-import { LocalStorageService } from '@/shared';
+import { LocalStorageService } from '@/shared/services';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Action, Store, select } from '@ngrx/store';
 import { LayoutState } from './layout.reducer';

@@ -14,7 +14,9 @@ import { selectIsLoading, selectUsersTotalCount } from '../../store/user.selecto
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { deleteUser } from '../../store/user.actions';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
-import { PageQuery, MediaqueryService, ToastMessageService, IItemsPerPage, pageSizeOptions } from '@/shared';
+import { MediaqueryService, ToastMessageService } from '@/shared/services';
+import { PageQuery } from '@/shared/models';
+import { IItemsPerPage, pageSizeOptions } from '@/shared/constants';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import {
   DIALOG,

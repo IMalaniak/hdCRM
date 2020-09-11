@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FileTypes } from '@/shared';
+import { FileTypes } from '@/shared/models';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 

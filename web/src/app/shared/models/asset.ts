@@ -7,15 +7,6 @@ export interface Asset {
   updatedAt: string;
 }
 
-export interface FileTypes {
-  msWord: string[];
-  msPPoint: string[];
-  image: string[];
-  video: string[];
-  text: string[];
-  compressed: string[];
-}
-
 export interface TempAddedAsset {
   id: string;
   name: string;

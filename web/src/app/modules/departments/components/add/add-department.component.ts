@@ -7,7 +7,7 @@ import { takeUntil, skipUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { createDepartmentRequested } from '../../store/department.actions';
-import { MediaqueryService } from '@/shared';
+import { MediaqueryService } from '@/shared/services';
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
 
 @Component({

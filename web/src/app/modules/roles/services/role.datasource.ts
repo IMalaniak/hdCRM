@@ -6,7 +6,7 @@ import { select, Store } from '@ngrx/store';
 import { listPageRequested } from '../store/role.actions';
 import { selectRolesPage } from '../store/role.selectors';
 import { AppState } from '@/core/reducers';
-import { PageQuery } from '@/shared';
+import { PageQuery } from '@/shared/models';
 
 export class RolesDataSource implements DataSource<Role> {
   private rolesSubject = new BehaviorSubject<Role[]>([]);

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, Input, HostBinding, ChangeDetectionStrategy } from '@angular/core';
-import { MediaqueryService } from '@/shared';
+import { MediaqueryService } from '@/shared/services';
 import { MenuItem } from './menuItem';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';

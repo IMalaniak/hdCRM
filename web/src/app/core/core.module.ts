@@ -10,7 +10,8 @@ import { RouterStateSerializer, StoreRouterConnectingModule, DefaultRouterStateS
 import { PreferencesEffects } from './reducers/preferences.effects';
 import { reducers, metaReducers } from './reducers';
 import { httpInterceptorsProviders } from './_interceptors';
-import { MediaqueryService, LocalStorageService, CustomSerializer } from '@/shared';
+import { MediaqueryService, LocalStorageService } from '@/shared/services';
+import { CustomSerializer } from '@/shared/utils';
 import { AuthModule } from './auth/auth.module';
 import { LayoutModule } from './layout/layout.module';
 import { environment } from 'environments/environment';

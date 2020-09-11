@@ -9,7 +9,7 @@ import { UsersDialogComponent, User } from '@/modules/users';
 import { Subject, Observable, combineLatest } from 'rxjs';
 import { AppState } from '@/core/reducers';
 import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
-import { MediaqueryService, ToastMessageService } from '@/shared';
+import { MediaqueryService, ToastMessageService } from '@/shared/services';
 import { updateDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
 import { selectIsEditing } from '../../store/department.selectors';
 import { EDIT_PRIVILEGES, DIALOG } from '@/shared/constants';

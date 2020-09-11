@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Plan } from '../models';
 import { Update } from '@ngrx/entity';
-import { PageQuery, CollectionApiResponse } from '@/shared';
+import { PageQuery, CollectionApiResponse } from '@/shared/models';
 
 const detailsPrefix = '[Plan Details]';
 const listPrefix = '[Plans List]';

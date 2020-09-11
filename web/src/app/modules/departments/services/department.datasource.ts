@@ -6,7 +6,7 @@ import { select, Store } from '@ngrx/store';
 import { listPageRequested } from '../store/department.actions';
 import { selectDepartmentsPage } from '../store/department.selectors';
 import { AppState } from '@/core/reducers';
-import { PageQuery } from '@/shared';
+import { PageQuery } from '@/shared/models';
 
 export class DepartmentsDataSource implements DataSource<Department> {
   private departmentsSubject = new BehaviorSubject<Department[]>([]);

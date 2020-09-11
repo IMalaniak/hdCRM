@@ -1,4 +1,4 @@
-import { IFieldType } from './FieldType';
+import { IFieldType } from '../constants';
 
 export interface DynamicFormItemOption {
   value: boolean | number | string;

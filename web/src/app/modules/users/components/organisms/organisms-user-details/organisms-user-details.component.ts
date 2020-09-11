@@ -1,9 +1,10 @@
 import { Component, Input, EventEmitter, Output, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { User } from '@/modules/users';
-import { ToastMessageService, DynamicForm } from '@/shared';
+import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
-import { Observable } from 'rxjs';
+import { User } from '@/modules/users';
+import { ToastMessageService } from '@/shared/services';
+import { DynamicForm } from '@/shared/models';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
 import { DIALOG } from '@/shared/constants';

@@ -12,10 +12,11 @@ import { UsersDialogComponent, User } from '@/modules/users';
 import { AppState } from '@/core/reducers';
 import { updatePlanRequested, changeIsEditingState } from '../../store/plan.actions';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
-import { MediaqueryService, Asset, ApiResponse, ToastMessageService, DynamicForm } from '@/shared';
+import { MediaqueryService, ToastMessageService } from '@/shared/services';
+import { Asset, ApiResponse, DynamicForm } from '@/shared/models';
+import { ADD_PRIVILEGES, DELETE_PRIVILEGES, EDIT_PRIVILEGES, DIALOG } from '@/shared/constants';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
-import { ADD_PRIVILEGES, DELETE_PRIVILEGES, EDIT_PRIVILEGES, DIALOG } from '@/shared/constants';
 import { selectIsEditing } from '../../store/plan.selectors';
 
 @Component({

@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Role } from '../models';
 import { Update } from '@ngrx/entity';
-import { PageQuery, CollectionApiResponse } from '@/shared';
+import { PageQuery, CollectionApiResponse } from '@/shared/models';
 
 const detailsPrefix = '[Role Details]';
 const listPrefix = '[Roles List]';

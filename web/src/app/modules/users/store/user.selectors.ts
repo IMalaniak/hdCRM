@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromUser from './user.reducer';
-import { PageQuery } from '@/shared';
+import { PageQuery } from '@/shared/models';
 import { User } from '../models';
 
 export const selectUsersState = createFeatureSelector<fromUser.UsersState>(fromUser.usersFeatureKey);

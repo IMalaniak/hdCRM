@@ -7,7 +7,7 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { Observable, Subject } from 'rxjs';
-import { MediaqueryService, ToastMessageService } from '@/shared';
+import { MediaqueryService, ToastMessageService } from '@/shared/services';
 import { takeUntil, skipUntil, delay } from 'rxjs/operators';
 import { cloneDeep } from 'lodash';
 import { updateRoleRequested, changeIsEditingState } from '../../store/role.actions';

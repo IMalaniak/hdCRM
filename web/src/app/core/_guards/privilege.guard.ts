@@ -5,7 +5,7 @@ import { AppState } from '../reducers';
 import { Observable } from 'rxjs';
 import { tap, skipWhile } from 'rxjs/operators';
 import { isPrivileged } from '../auth/store/auth.selectors';
-import { ToastMessageService } from '@/shared';
+import { ToastMessageService } from '@/shared/services';
 import { ALERT } from '@/shared/constants';
 
 @Injectable({ providedIn: 'root' })

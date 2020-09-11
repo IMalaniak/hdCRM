@@ -1,7 +1,7 @@
 import { createReducer, on, Action } from '@ngrx/store';
 import * as PreferencesActions from './preferences.actions';
 
-import { IDateFormat, IItemsPerPage, IListView, ITimeFormat } from '@/shared/models';
+import { IDateFormat, IItemsPerPage, IListView, ITimeFormat } from '@/shared/constants';
 
 export interface Preferences {
   dateFormat: IDateFormat;

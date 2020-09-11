@@ -4,8 +4,9 @@ import { Observable } from 'rxjs';
 import { User, State } from '../models';
 import { take } from 'rxjs/operators';
 import { Role } from '@/modules/roles/models';
-import { SocketEvent, SocketService, NewPassword, ApiResponse, CollectionApiResponse, ItemApiResponse } from '@/shared';
-import { APIS } from '@/shared/constants';
+import { SocketService } from '@/shared/services';
+import { NewPassword, ApiResponse, CollectionApiResponse, ItemApiResponse } from '@/shared/models';
+import { SocketEvent, APIS } from '@/shared/constants';
 
 @Injectable()
 export class UserService {

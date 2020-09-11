@@ -3,7 +3,7 @@ import { AppState } from '@/core/reducers';
 import { Store, select } from '@ngrx/store';
 import { Observable, combineLatest, of } from 'rxjs';
 import { getDateFormatState, getTimeFormatState } from '@/core/reducers/preferences.selectors';
-import { IDateFormat, ITimeFormat } from '../models';
+import { IDateFormat, ITimeFormat } from '../constants';
 import { DatePipe } from '@angular/common';
 import { map } from 'rxjs/operators';
 

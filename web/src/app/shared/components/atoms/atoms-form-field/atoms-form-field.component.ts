@@ -1,11 +1,10 @@
 import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { IFieldType } from '@/shared/models/FieldType';
 import { MatRadioChange } from '@angular/material/radio';
 import { MatSelectChange } from '@angular/material/select';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ThemePalette } from '@angular/material/core';
-import { THEME_PALETTE } from '@/shared/constants';
+import { THEME_PALETTE, IFieldType } from '@/shared/constants';
 
 @Component({
   selector: 'atoms-form-field',

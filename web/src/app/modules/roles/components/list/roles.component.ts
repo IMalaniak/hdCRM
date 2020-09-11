@@ -11,7 +11,9 @@ import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { RolesDataSource } from '../../services/role.datasource';
 import { Role } from '../../models';
 import { selectRolesTotalCount, selectRolesLoading } from '../../store/role.selectors';
-import { PageQuery, ToastMessageService, IItemsPerPage, pageSizeOptions } from '@/shared';
+import { ToastMessageService } from '@/shared/services';
+import { PageQuery } from '@/shared/models';
+import { IItemsPerPage, pageSizeOptions } from '@/shared/constants';
 import { deleteRoleRequested, changeIsEditingState } from '../../store/role.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import {
