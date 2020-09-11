@@ -10,6 +10,7 @@ export * from './itemsPerPage';
 export * from './link.constants';
 export * from './listView';
 export * from './privileges.constants';
+export * from './routing.constants';
 export * from './socketEvent';
 export * from './style.constants';
 export * from './table.constants';

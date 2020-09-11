@@ -8,7 +8,7 @@ import { Store, select } from '@ngrx/store';
 import * as authActions from '../../store/auth.actions';
 import * as authSelectors from '../../store/auth.selectors';
 import { Observable, Subject } from 'rxjs';
-import { ACTION_LABELS, THEME_PALETTE, BUTTON_TYPE, MAT_BUTTON } from '@/shared/constants';
+import { ACTION_LABELS, THEME_PALETTE, BUTTON_TYPE, MAT_BUTTON, PATHS, RouteConstants } from '@/shared/constants';
 
 @Component({
   selector: 'app-login',
@@ -29,6 +29,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   themePalette = THEME_PALETTE;
   buttonType = BUTTON_TYPE;
   matButtonTypes = MAT_BUTTON;
+  paths = PATHS;
+  routes = RouteConstants;
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -37,14 +39,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.currentPath = this.route.snapshot.url[0].path;
 
-    if (this.currentPath === 'request-new-password' || this.currentPath === 'login') {
+    if (this.currentPath === PATHS.REQUEST_NEW_PASSWORD || this.currentPath === PATHS.LOGIN) {
       this.prepareUserForm();
-    } else if (this.currentPath === 'password-reset' || this.currentPath === 'activate-account') {
+    } else if (this.currentPath === PATHS.PASSWORD_RESET || this.currentPath === PATHS.ACTIVATE_ACCOUNT) {
       this.token = this.route.snapshot.paramMap.get('token');
-      if (this.currentPath === 'activate-account') {
+      if (this.currentPath === PATHS.ACTIVATE_ACCOUNT) {
         this.prepareUserForm();
         this.activateAccount();
-      } else if (this.currentPath === 'password-reset') {
+      } else if (this.currentPath === PATHS.PASSWORD_RESET) {
         this.preparePasswordResetForm();
       }
     }
@@ -55,7 +57,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       login: new FormControl(null, [Validators.required]),
       password: new FormControl(null)
     });
-    if (this.currentPath === 'login') {
+    if (this.currentPath === PATHS.LOGIN) {
       this.user.get('password').setValidators([Validators.required, Validators.minLength(6)]);
     }
   }

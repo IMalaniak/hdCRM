@@ -7,7 +7,14 @@ import { Observable, merge, Subject } from 'rxjs';
 import { DepartmentsDataSource } from '../../services';
 import { ToastMessageService } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
-import { IItemsPerPage, pageSizeOptions, COLUMN_LABELS, ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
+import {
+  IItemsPerPage,
+  pageSizeOptions,
+  COLUMN_LABELS,
+  ACTION_LABELS,
+  THEME_PALETTE,
+  RouteConstants
+} from '@/shared/constants';
 import { AppState } from '@/core/reducers';
 import { selectDepartmentsTotalCount, selectDepartmentsLoading } from '../../store/department.selectors';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
@@ -44,6 +51,7 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
   columnLabels = COLUMN_LABELS;
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
+  addDepartmentRoute = RouteConstants.ROUTE_DEPARTMENTS_ADD;
 
   displayedColumns: COLUMN_NAMES[] = [
     COLUMN_NAMES.TITLE,
@@ -85,7 +93,7 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
   }
 
   onDepSelect(id: number, edit: boolean = false): void {
-    this.router.navigate([`/departments/details/${id}`]);
+    this.router.navigate([`${RouteConstants.ROUTE_DEPARTMENTS_DETAILS}/${id}`]);
     this.store$.dispatch(changeIsEditingState({ isEditing: edit }));
   }
 

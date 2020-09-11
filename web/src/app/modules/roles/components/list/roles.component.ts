@@ -13,7 +13,14 @@ import { Role } from '../../models';
 import { selectRolesTotalCount, selectRolesLoading } from '../../store/role.selectors';
 import { ToastMessageService } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
-import { IItemsPerPage, pageSizeOptions, ACTION_LABELS, COLUMN_LABELS, THEME_PALETTE } from '@/shared/constants';
+import {
+  IItemsPerPage,
+  pageSizeOptions,
+  ACTION_LABELS,
+  COLUMN_LABELS,
+  THEME_PALETTE,
+  RouteConstants
+} from '@/shared/constants';
 import { deleteRoleRequested, changeIsEditingState } from '../../store/role.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import {
@@ -45,6 +52,7 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
 
   selection = new SelectionModel<Role>(true, []);
 
+  addRoleRoute = RouteConstants.ROUTE_ROLES_ADD;
   themePalette = THEME_PALETTE;
   columns = COLUMN_NAMES;
   columnLabels = COLUMN_LABELS;
@@ -90,7 +98,7 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
   }
 
   onRoleSelect(id: number, edit: boolean = false): void {
-    this.router.navigate([`/roles/details/${id}`]);
+    this.router.navigateByUrl(`${RouteConstants.ROUTE_ROLES_DETAILS}/${id}`);
     this.store$.dispatch(changeIsEditingState({ isEditing: edit }));
   }
 

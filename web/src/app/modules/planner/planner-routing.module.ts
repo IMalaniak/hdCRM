@@ -3,46 +3,47 @@ import { Routes, RouterModule } from '@angular/router';
 import { AddPlanComponent, PlanListComponent, PlanComponent, StagesComponent } from './components';
 import { PlanResolver } from './services';
 import { PrivilegeGuard } from '@/core/_guards';
+import { PATHS, VIEW_PRIVILEGES, ADD_PRIVILEGES } from '@/shared/constants';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'list' },
+  { path: '', pathMatch: 'full', redirectTo: PATHS.LIST },
   {
-    path: 'list',
+    path: PATHS.LIST,
     data: {
       breadcrumb: 'List',
       animation: 'PlannerListPage',
-      privilege: 'plan-view'
+      privilege: VIEW_PRIVILEGES.PLAN
     },
     canActivate: [PrivilegeGuard],
     component: PlanListComponent
   },
   {
-    path: 'details/:id',
+    path: `${PATHS.DETAILS}/:id`,
     data: {
       breadcrumb: 'Details',
       animation: 'PlannerDetailsPage',
-      privilege: 'plan-view'
+      privilege: VIEW_PRIVILEGES.PLAN
     },
     canActivate: [PrivilegeGuard],
     component: PlanComponent,
     resolve: { plan: PlanResolver }
   },
   {
-    path: 'add',
+    path: PATHS.ADD,
     data: {
       breadcrumb: 'Add plan',
       animation: 'PlannerAddPage',
-      privilege: 'plan-add'
+      privilege: ADD_PRIVILEGES.PLAN
     },
     canActivate: [PrivilegeGuard],
     component: AddPlanComponent
   },
   {
-    path: 'stages',
+    path: PATHS.STAGES,
     data: {
       breadcrumb: 'Stages',
       animation: 'PlannerStagesPage',
-      privilege: 'stage-view'
+      privilege: VIEW_PRIVILEGES.STAGES
     },
     canActivate: [PrivilegeGuard],
     component: StagesComponent

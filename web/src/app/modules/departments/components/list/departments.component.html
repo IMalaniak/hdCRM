@@ -1,6 +1,6 @@
 <organisms-card cardTitle="Department list" [showDataLoader]="loading$ | async">
   <div buttons *ngIf="canAddDep$ | async">
-    <atoms-icon-button routerLink="/departments/add" [icon]="['fas', 'plus']">
+    <atoms-icon-button [routerLink]="addDepartmentRoute" [icon]="['fas', 'plus']">
       Create a new department
     </atoms-icon-button>
   </div>

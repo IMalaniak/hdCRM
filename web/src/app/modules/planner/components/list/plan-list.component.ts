@@ -18,7 +18,8 @@ import {
   COLUMN_LABELS,
   ACTION_LABELS,
   THEME_PALETTE,
-  MAT_BUTTON
+  MAT_BUTTON,
+  RouteConstants
 } from '@/shared/constants';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { deletePlanRequested, changeIsEditingState } from '../../store/plan.actions';
@@ -56,6 +57,7 @@ export class PlanListComponent implements AfterViewInit, OnDestroy {
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
   matButtonType = MAT_BUTTON;
+  addPlanRoute = RouteConstants.ROUTE_PLANNER_ADD;
 
   displayedColumns: COLUMN_NAMES[] = [
     COLUMN_NAMES.TITLE,
@@ -98,7 +100,7 @@ export class PlanListComponent implements AfterViewInit, OnDestroy {
   }
 
   onPlanSelect(id: number, edit: boolean = false): void {
-    this.router.navigate([`/planner/details/${id}`]);
+    this.router.navigateByUrl(`${RouteConstants.ROUTE_PLANNER_DETAILS}/${id}`);
     this.store$.dispatch(changeIsEditingState({ isEditing: edit }));
   }
 

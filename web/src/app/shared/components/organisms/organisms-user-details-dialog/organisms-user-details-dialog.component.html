@@ -16,7 +16,7 @@
     [icon]="['fas', 'arrow-right']"
     [color]="themePalette.BASIC"
     (onclick)="dialogRef.close()"
-    routerLink="/users/details/{{ user.id }}"
+    [routerLink]="userDetailsRoute"
   >
     More details
   </atoms-icon-button>

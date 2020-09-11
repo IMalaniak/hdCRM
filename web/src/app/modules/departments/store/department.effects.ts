@@ -13,6 +13,7 @@ import { ToastMessageService } from '@/shared/services';
 import { CollectionApiResponse, ItemApiResponse, ApiResponse, PageQuery } from '@/shared/models';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Update } from '@ngrx/entity';
+import { RouteConstants } from '@/shared/constants';
 
 @Injectable()
 export class DepartmentEffects {
@@ -24,7 +25,7 @@ export class DepartmentEffects {
         this.departmentService.create(department).pipe(
           map((response: ItemApiResponse<Department>) => {
             this.toastMessageService.snack(response);
-            this.router.navigate(['/departments']);
+            this.router.navigateByUrl(RouteConstants.ROUTE_DEPARTMENTS);
             return depActions.createDepartmentSuccess({
               department: response.data
             });

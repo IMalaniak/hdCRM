@@ -16,7 +16,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { Observable } from 'rxjs/internal/Observable';
-import { ACTION_LABELS, BUTTON_TYPE, MAT_BUTTON, THEME_PALETTE } from '@/shared/constants';
+import { ACTION_LABELS, BUTTON_TYPE, MAT_BUTTON, THEME_PALETTE, PATHS } from '@/shared/constants';
 
 @Component({
   selector: 'app-header',
@@ -37,6 +37,7 @@ export class HeaderComponent implements OnInit {
   buttonTypes = BUTTON_TYPE;
   matButtonTypes = MAT_BUTTON;
   themePalette = THEME_PALETTE;
+  paths = PATHS;
   isShowUserMenu = false;
 
   constructor(

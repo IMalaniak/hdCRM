@@ -27,7 +27,8 @@ export enum VIEW_PRIVILEGES {
   USER = 'user-view',
   ROLE = 'role-view',
   PLAN = 'plan-view',
-  PLAN_ATTACHMENT = 'planAttachment-view'
+  PLAN_ATTACHMENT = 'planAttachment-view',
+  STAGES = 'stages-view'
 }
 
 export enum TAB_PRIVILEGES {
