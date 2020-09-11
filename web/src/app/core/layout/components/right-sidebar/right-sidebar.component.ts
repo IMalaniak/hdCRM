@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
 import { User } from '@/modules/users';
 import { selectUsersOnline } from '@/modules/users/store/user.selectors';
 import { OnlineUserListRequested } from '@/modules/users/store/user.actions';
+import { MAT_BUTTON } from '@/shared/constants';
 
 @Component({
   selector: 'right-sidebar',
@@ -26,9 +27,7 @@ export class RightSidebarComponent implements OnInit {
   onlineUsers$: Observable<User[]> = this.store.pipe(select(selectUsersOnline));
 
   @Input() rightSidebarMinimized: boolean;
-
   @Input() enableDarkTheme: boolean;
-
   @Input() scaleFontUp: boolean;
 
   @Output()
@@ -43,6 +42,8 @@ export class RightSidebarComponent implements OnInit {
   @HostBinding('class.minimized') get minimized(): boolean {
     return this.rightSidebarMinimized;
   }
+
+  matButtonType = MAT_BUTTON;
 
   constructor(private store: Store<AppState>) {}
 

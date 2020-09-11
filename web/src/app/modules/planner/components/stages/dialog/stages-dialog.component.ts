@@ -1,7 +1,7 @@
 import { Component, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { StagesComponent } from '../list/stages.component';
-import { ACTION_LABELS } from '@/shared/constants';
+import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
 
 export interface StagesDialogData {
   title: string;
@@ -12,6 +12,7 @@ export interface StagesDialogData {
 })
 export class StagesDialogComponent {
   actionLabels = ACTION_LABELS;
+  themePalette = THEME_PALETTE;
 
   constructor(
     public dialogRef: MatDialogRef<StagesDialogComponent>,

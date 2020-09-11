@@ -14,7 +14,14 @@ import { updatePlanRequested, changeIsEditingState } from '../../store/plan.acti
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { MediaqueryService, ToastMessageService } from '@/shared/services';
 import { Asset, ApiResponse, DynamicForm } from '@/shared/models';
-import { ADD_PRIVILEGES, DELETE_PRIVILEGES, EDIT_PRIVILEGES, DIALOG, ACTION_LABELS } from '@/shared/constants';
+import {
+  ADD_PRIVILEGES,
+  DELETE_PRIVILEGES,
+  EDIT_PRIVILEGES,
+  DIALOG,
+  ACTION_LABELS,
+  THEME_PALETTE
+} from '@/shared/constants';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
 import { selectIsEditing } from '../../store/plan.selectors';
@@ -42,6 +49,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   configPlanStages = false;
 
   actionLabels = ACTION_LABELS;
+  themePalette = THEME_PALETTE;
 
   private unsubscribe: Subject<void> = new Subject();
 

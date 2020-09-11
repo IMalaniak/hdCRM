@@ -3,6 +3,7 @@ import { User } from '@/modules/users';
 import { MatDialog } from '@angular/material/dialog';
 import { MediaqueryService } from '@/shared/services';
 import { OrganismsUserDetailsDialogComponent } from '../../organisms/organisms-user-details-dialog/organisms-user-details-dialog.component';
+import { MAT_BUTTON } from '@/shared/constants';
 
 @Component({
   selector: 'templates-box-user-list-sm',
@@ -14,9 +15,14 @@ import { OrganismsUserDetailsDialogComponent } from '../../organisms/organisms-u
       [disableShadow]="true"
       [counter]="users?.length"
     >
-      <atoms-icon-button *ngIf="editMode" buttons type="stroked" [icon]="['fas', 'user-plus']" (click)="onAddClick()">{{
-        users?.length || user ? 'Change' : 'Add'
-      }}</atoms-icon-button>
+      <atoms-icon-button
+        *ngIf="editMode"
+        buttons
+        [matType]="matButtonTypes.STROKED"
+        [icon]="['fas', 'user-plus']"
+        (click)="onAddClick()"
+        >{{ users?.length || user ? 'Change' : 'Add' }}</atoms-icon-button
+      >
 
       <organisms-user-list-sm
         content
@@ -40,6 +46,8 @@ export class TemplatesBoxUserListSmComponent {
   @Output() addClick: EventEmitter<any> = new EventEmitter();
   @Output() removeClick: EventEmitter<number> = new EventEmitter();
   @Output() userClick: EventEmitter<User> = new EventEmitter();
+
+  matButtonTypes = MAT_BUTTON;
 
   constructor(private dialog: MatDialog, private mediaQuery: MediaqueryService) {}
 

@@ -48,7 +48,7 @@ import { LINK_TARGET, THEME_PALETTE, LINK_TYPE } from '@/shared/constants';
 })
 export class AtomsLinkButtonComponent {
   @Input() linkLabel: string;
-  @Input() linkColor: ThemePalette = THEME_PALETTE.PRIMARY;
+  @Input() linkColor: ThemePalette | THEME_PALETTE.BASIC = THEME_PALETTE.PRIMARY;
   @Input() target: LINK_TARGET = LINK_TARGET.SELF;
   @Input() linkClass: string;
   @Input() linkHref: any[] | string;

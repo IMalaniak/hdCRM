@@ -6,7 +6,7 @@ import { AuthState } from '../../store/auth.reducer';
 import { registerUser } from '../../store/auth.actions';
 import { isLoading } from '../../store/auth.selectors';
 import { Observable } from 'rxjs';
-import { CONSTANTS, IFieldType, ACTION_LABELS } from '@/shared/constants';
+import { CONSTANTS, IFieldType, ACTION_LABELS, BUTTON_TYPE, MAT_BUTTON, THEME_PALETTE } from '@/shared/constants';
 
 @Component({
   selector: 'app-register-user',
@@ -22,6 +22,9 @@ export class RegisterUserComponent implements OnInit {
   fieldTypes = IFieldType;
 
   actionLabels = ACTION_LABELS;
+  buttonTypes = BUTTON_TYPE;
+  matButtonTypes = MAT_BUTTON;
+  themePalette = THEME_PALETTE;
 
   constructor(private store: Store<AuthState>, private fb: FormBuilder) {}
 

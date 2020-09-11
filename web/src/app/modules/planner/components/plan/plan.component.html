@@ -95,7 +95,7 @@
       *ngIf="editForm$ | async"
       (onclick)="onClickCancelEdit()"
       [icon]="['fas', 'times']"
-      color="basic"
+      [color]="themePalette.BASIC"
     >
       {{ actionLabels.CANCEL }}
     </atoms-icon-button>

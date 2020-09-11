@@ -108,8 +108,7 @@
                 </form>
                 <div class="d-flex justify-content-end pt-3">
                   <atoms-icon-button
-                    matType="stroked"
-                    type="button"
+                    [matType]="matButtonTypes.STROKED"
                     (onclick)="stepper.next()"
                     [icon]="['fas', 'arrow-right']"
                   >
@@ -184,10 +183,18 @@
                   </div>
                 </form>
                 <div class="d-flex justify-content-between">
-                  <atoms-icon-button matType="stroked" (onclick)="stepper.previous()" [icon]="['fas', 'arrow-left']">
+                  <atoms-icon-button
+                    [matType]="matButtonTypes.STROKED"
+                    (onclick)="stepper.previous()"
+                    [icon]="['fas', 'arrow-left']"
+                  >
                     {{ actionLabels.BACK }}
                   </atoms-icon-button>
-                  <atoms-icon-button matType="stroked" (onclick)="stepper.next()" [icon]="['fas', 'arrow-right']">
+                  <atoms-icon-button
+                    [matType]="matButtonTypes.STROKED"
+                    (onclick)="stepper.next()"
+                    [icon]="['fas', 'arrow-right']"
+                  >
                     {{ actionLabels.NEXT }}
                   </atoms-icon-button>
                 </div>
@@ -315,12 +322,16 @@
                   </mat-accordion>
                 </form>
                 <div class="d-flex justify-content-between">
-                  <atoms-icon-button matType="stroked" (onclick)="stepper.previous()" [icon]="['fas', 'arrow-left']">
+                  <atoms-icon-button
+                    [matType]="matButtonTypes.STROKED"
+                    (onclick)="stepper.previous()"
+                    [icon]="['fas', 'arrow-left']"
+                  >
                     {{ actionLabels.BACK }}
                   </atoms-icon-button>
                   <atoms-icon-button
-                    matType="stroked"
-                    color="warn"
+                    [matType]="matButtonTypes.STROKED"
+                    [color]="themePalette.WARN"
                     (onclick)="stepper.reset()"
                     [icon]="['fas', 'trash-alt']"
                   >

@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { deleteSession, deleteMultipleSession } from '@/core/auth/store/auth.actions';
 import { UAParser } from 'ua-parser-js';
 import { ToastMessageService } from '@/shared/services';
-import { DIALOG } from '@/shared/constants';
+import { DIALOG, MAT_BUTTON, THEME_PALETTE } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-user-sessions',
@@ -19,6 +19,9 @@ export class OrganismsUserSessionsComponent implements OnChanges {
 
   currentSession: UserSession;
   otherActiveSessions: UserSession[];
+
+  themePalette = THEME_PALETTE;
+  matButtonType = MAT_BUTTON;
 
   constructor(private store: Store<AppState>, private toastMessageService: ToastMessageService) {}
 

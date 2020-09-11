@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { THEME_PALETTE } from '@/shared/constants';
 
 @Component({
   selector: 'app-internal-server-error',
@@ -6,4 +7,6 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./internal-server-error.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InternalServerErrorComponent {}
+export class InternalServerErrorComponent {
+  themePalette = THEME_PALETTE;
+}

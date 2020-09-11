@@ -8,7 +8,7 @@ import { inviteUsers } from '../../store/user.actions';
 import { selectAllUsers } from '../../store/user.selectors';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { CONSTANTS, ACTION_LABELS } from '@/shared/constants';
+import { CONSTANTS, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE } from '@/shared/constants';
 
 @Component({
   selector: 'app-invitation-dialog',
@@ -23,6 +23,8 @@ export class InvitationDialogComponent implements OnInit, OnDestroy {
   errorInvitations: boolean;
 
   actionLabels = ACTION_LABELS;
+  themePalette = THEME_PALETTE;
+  matButtonType = MAT_BUTTON;
 
   private unsubscribe: Subject<void> = new Subject();
 

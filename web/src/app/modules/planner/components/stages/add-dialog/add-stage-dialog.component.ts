@@ -1,7 +1,7 @@
 import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
-import { ACTION_LABELS } from '@/shared/constants';
+import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
 
 export interface AddStageDialogData {
   keyString: FormControl;
@@ -13,6 +13,7 @@ export interface AddStageDialogData {
 })
 export class AddStageDialogComponent {
   actionLabels = ACTION_LABELS;
+  themePalette = THEME_PALETTE;
 
   constructor(
     public dialogRef: MatDialogRef<AddStageDialogComponent>,

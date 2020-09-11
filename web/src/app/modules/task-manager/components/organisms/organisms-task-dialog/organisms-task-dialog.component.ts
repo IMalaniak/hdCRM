@@ -2,7 +2,7 @@ import { Component, OnInit, Inject, ChangeDetectionStrategy } from '@angular/cor
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TaskDialogData } from '@/modules/task-manager/models';
-import { ACTION_LABELS } from '@/shared/constants';
+import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-task-dialog',
@@ -13,6 +13,7 @@ import { ACTION_LABELS } from '@/shared/constants';
 export class OrganismsTaskDialogComponent implements OnInit {
   taskData: FormGroup;
   actionLabels = ACTION_LABELS;
+  themePalette = THEME_PALETTE;
 
   constructor(
     public dialogRef: MatDialogRef<OrganismsTaskDialogComponent>,

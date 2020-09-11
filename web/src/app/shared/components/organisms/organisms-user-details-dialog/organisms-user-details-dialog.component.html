@@ -1,5 +1,10 @@
 <mat-dialog-actions class="d-flex justify-content-end pt-0 pb-3">
-  <atoms-icon-button matType="icon" (onclick)="dialogRef.close()" [icon]="['fas', 'times']" color="basic">
+  <atoms-icon-button
+    [matType]="matButtonTypes.ICON"
+    (onclick)="dialogRef.close()"
+    [icon]="['fas', 'times']"
+    [color]="themePalette.BASIC"
+  >
   </atoms-icon-button>
 </mat-dialog-actions>
 <mat-dialog-content class="px-0">
@@ -7,9 +12,9 @@
 </mat-dialog-content>
 <mat-dialog-actions class="d-flex justify-content-end pb-4">
   <atoms-icon-button
-    matType="stroked"
+    [matType]="matButtonTypes.STROKED"
     [icon]="['fas', 'arrow-right']"
-    color="basic"
+    [color]="themePalette.BASIC"
     (onclick)="dialogRef.close()"
     routerLink="/users/details/{{ user.id }}"
   >

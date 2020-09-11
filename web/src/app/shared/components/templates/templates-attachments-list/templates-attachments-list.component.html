@@ -36,9 +36,9 @@
         <mat-cell *matCellDef="let item">
           <atoms-icon-button
             *ngIf="canDelete"
-            color="warn"
+            [color]="themePalette.WARN"
             [icon]="['fas', 'trash-alt']"
-            matType="icon"
+            [matType]="matButtonTypes.ICON"
             (onclick)="handleDeleteFile(item.id)"
           >
           </atoms-icon-button>
@@ -85,7 +85,7 @@
       Add files
     </atoms-icon-button>
     <atoms-icon-button
-      color="basic"
+      [color]="themePalette.BASIC"
       *ngIf="uploaderVisible"
       (onclick)="onClickAddFilesDone()"
       [icon]="['fas', 'check']"

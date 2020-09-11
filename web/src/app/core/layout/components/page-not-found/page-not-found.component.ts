@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { THEME_PALETTE } from '@/shared/constants';
 
 @Component({
   selector: 'app-page-not-found',
@@ -6,4 +7,6 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./page-not-found.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PageNotFoundComponent {}
+export class PageNotFoundComponent {
+  themePalette = THEME_PALETTE;
+}

@@ -14,7 +14,15 @@ import { updateRoleRequested, changeIsEditingState } from '../../store/role.acti
 import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
 import { User } from '@/modules/users';
 import { selectIsEditing } from '../../store/role.selectors';
-import { EDIT_PRIVILEGES, DIALOG, COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS } from '@/shared/constants';
+import {
+  EDIT_PRIVILEGES,
+  DIALOG,
+  COLUMN_NAMES,
+  COLUMN_LABELS,
+  ACTION_LABELS,
+  THEME_PALETTE,
+  MAT_BUTTON
+} from '@/shared/constants';
 
 @Component({
   selector: 'role',
@@ -29,6 +37,8 @@ export class RoleComponent implements OnInit, OnDestroy {
   role: Role;
   roleInitial: Role;
 
+  themePalette = THEME_PALETTE;
+  matButtonType = MAT_BUTTON;
   columns = COLUMN_NAMES;
   columnLabels = COLUMN_LABELS;
   actionLabels = ACTION_LABELS;

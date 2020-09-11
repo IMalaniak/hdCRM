@@ -54,7 +54,12 @@
       <ng-container [matColumnDef]="columns.ACTIONS" stickyEnd>
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let role">
-          <atoms-icon-button [matMenuTriggerFor]="menu" color="basic" [icon]="['fas', 'ellipsis-v']" matType="icon">
+          <atoms-icon-button
+            [matMenuTriggerFor]="menu"
+            [color]="themePalette.BASIC"
+            [icon]="['fas', 'ellipsis-v']"
+            matType="icon"
+          >
           </atoms-icon-button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="onRoleSelect(role.id)">

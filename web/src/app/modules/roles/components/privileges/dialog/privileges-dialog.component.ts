@@ -1,7 +1,7 @@
 import { Component, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PrivilegesComponent } from '../list/privileges.component';
-import { ACTION_LABELS } from '@/shared/constants';
+import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
 
 export interface PrivilegesDialogData {
   title: string;
@@ -13,6 +13,7 @@ export interface PrivilegesDialogData {
 })
 export class PrivilegesDialogComponent {
   actionLabels = ACTION_LABELS;
+  themePalette = THEME_PALETTE;
 
   constructor(
     public dialogRef: MatDialogRef<PrivilegesDialogComponent>,

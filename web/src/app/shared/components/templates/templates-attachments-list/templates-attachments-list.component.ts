@@ -6,7 +6,7 @@ import { AppState } from '@/core/reducers';
 import { Store, select } from '@ngrx/store';
 import { getGoogleDriveIntegrationState } from '@/core/reducers/integration.selectors';
 import { toggleGoogleDriveIntegration } from '@/core/reducers/integration.actions';
-import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, CONSTANTS } from '@/shared/constants';
+import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, CONSTANTS, THEME_PALETTE, MAT_BUTTON } from '@/shared/constants';
 
 @Component({
   selector: 'templates-attachments-list',
@@ -27,6 +27,8 @@ export class TemplatesAttachmentsListComponent {
 
   uploaderVisible = false;
 
+  themePalette = THEME_PALETTE;
+  matButtonTypes = MAT_BUTTON;
   columns = COLUMN_NAMES;
   columnLabels = COLUMN_LABELS;
   actionLabels = ACTION_LABELS;

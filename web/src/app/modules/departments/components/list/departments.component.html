@@ -59,7 +59,12 @@
       <ng-container [matColumnDef]="columns.ACTIONS" stickyEnd>
         <mat-header-cell *matHeaderCellDef i18n="@@globalsListActions"></mat-header-cell>
         <mat-cell *matCellDef="let dep">
-          <atoms-icon-button [matMenuTriggerFor]="menu" color="basic" [icon]="['fas', 'ellipsis-v']" matType="icon">
+          <atoms-icon-button
+            [matMenuTriggerFor]="menu"
+            [color]="themePalette.BASIC"
+            [icon]="['fas', 'ellipsis-v']"
+            matType="icon"
+          >
           </atoms-icon-button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="onDepSelect(dep.id)">

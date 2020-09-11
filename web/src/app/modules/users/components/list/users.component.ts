@@ -16,7 +16,7 @@ import { deleteUser } from '../../store/user.actions';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
 import { MediaqueryService, ToastMessageService } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
-import { IItemsPerPage, pageSizeOptions, ACTION_LABELS, COLUMN_LABELS } from '@/shared/constants';
+import { IItemsPerPage, pageSizeOptions, ACTION_LABELS, COLUMN_LABELS, THEME_PALETTE } from '@/shared/constants';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import {
   DIALOG,
@@ -49,6 +49,7 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
   pageSizeOptions: number[] = pageSizeOptions;
   users: User[];
 
+  themePalette = THEME_PALETTE;
   columns = COLUMN_NAMES;
   columnLabels = COLUMN_LABELS;
   actionLabels = ACTION_LABELS;

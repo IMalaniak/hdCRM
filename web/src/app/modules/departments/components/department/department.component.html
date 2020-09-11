@@ -121,7 +121,7 @@
     </atoms-icon-button>
     <atoms-icon-button
       *ngIf="editForm$ | async"
-      color="basic"
+      [color]="themePalette.BASIC"
       [icon]="['fas', 'times']"
       (onclick)="onClickCancelEdit()"
     >

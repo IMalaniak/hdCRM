@@ -1,6 +1,5 @@
 import { Component, Input, HostBinding, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { ThemePalette } from '@angular/material/core';
-import { THEME_PALETTE, BUTTON_TYPE } from '@/shared/constants';
+import { THEME_PALETTE, BUTTON_TYPE, MAT_BUTTON } from '@/shared/constants';
 
 @Component({
   selector: 'atoms-icon-button',
@@ -20,7 +19,7 @@ import { THEME_PALETTE, BUTTON_TYPE } from '@/shared/constants';
       </button>
 
       <button
-        *ngSwitchCase="'icon'"
+        *ngSwitchCase="matButtonTypes.ICON"
         mat-icon-button
         color="{{ color }}"
         [ngClass]="[classes]"
@@ -31,7 +30,7 @@ import { THEME_PALETTE, BUTTON_TYPE } from '@/shared/constants';
       </button>
 
       <button
-        *ngSwitchCase="'fab'"
+        *ngSwitchCase="matButtonTypes.FAB"
         mat-fab
         color="{{ color }}"
         [ngClass]="[classes]"
@@ -42,7 +41,7 @@ import { THEME_PALETTE, BUTTON_TYPE } from '@/shared/constants';
       </button>
 
       <button
-        *ngSwitchCase="'mini-fab'"
+        *ngSwitchCase="matButtonTypes.MINI_FAB"
         mat-mini-fab
         color="{{ color }}"
         [ngClass]="[classes]"
@@ -58,8 +57,8 @@ import { THEME_PALETTE, BUTTON_TYPE } from '@/shared/constants';
 })
 export class AtomsIconButtonComponent {
   @Input() type: BUTTON_TYPE = BUTTON_TYPE.BUTTON;
-  @Input() matType = 'raised';
-  @Input() color: ThemePalette = THEME_PALETTE.PRIMARY;
+  @Input() matType: MAT_BUTTON = MAT_BUTTON.RAISED;
+  @Input() color: THEME_PALETTE = THEME_PALETTE.PRIMARY;
   @Input() icon: string;
   @Input() iconColor: string;
   @Input() fullWidth = false;
@@ -70,13 +69,15 @@ export class AtomsIconButtonComponent {
 
   @HostBinding('class.d-inline-block') displayInline = true;
 
+  matButtonTypes = MAT_BUTTON;
+
   onClick(event: MouseEvent): void {
     this.onclick.emit(event);
   }
 
   get classes(): string {
     let btnClass = 'crm-button';
-    if (this.matType !== ('fab' || 'mini-fab')) {
+    if (this.matType !== (MAT_BUTTON.FAB || MAT_BUTTON.MINI_FAB)) {
       btnClass += ` mat-${this.matType}-button`;
     }
     if (this.fullWidth) {

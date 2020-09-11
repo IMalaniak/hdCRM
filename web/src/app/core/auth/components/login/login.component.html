@@ -31,9 +31,9 @@
               </mat-form-field>
               <div class="d-flex flex-row justify-content-between align-items-center">
                 <atoms-icon-button
-                  color="basic"
-                  matType="flat"
-                  type="button"
+                  [color]="themePalette.BASIC"
+                  [matType]="matButtonTypes.FLAT"
+                  [type]="buttonType.BUTTON"
                   class="text-muted"
                   routerLink="/auth/request-new-password/"
                 >
@@ -41,7 +41,7 @@
                 </atoms-icon-button>
 
                 <atoms-icon-button
-                  type="submit"
+                  [type]="buttonType.SUBMIT"
                   [disabled]="(isLoading$ | async) || this.user.invalid"
                   [icon]="!(isLoading$ | async) ? ['fas', 'key'] : ['fas', 'ban']"
                 >
@@ -72,11 +72,16 @@
                 <input matInput formControlName="login" type="text" autocomplete="username" name="login" required />
               </mat-form-field>
               <div class="d-flex justify-content-between">
-                <atoms-icon-button color="basic" type="reset" routerLink="/auth/login" [icon]="['fas', 'times']">
-                  Cancel
+                <atoms-icon-button
+                  [color]="themePalette.BASIC"
+                  [type]="buttonType.RESET"
+                  routerLink="/auth/login"
+                  [icon]="['fas', 'times']"
+                >
+                  {{ actionLabels.CANCEL }}
                 </atoms-icon-button>
                 <atoms-icon-button
-                  type="submit"
+                  [type]="buttonType.SUBMIT"
                   [disabled]="(isLoading$ | async) || user.invalid"
                   [icon]="['fas', 'arrow-right']"
                 >
@@ -146,11 +151,20 @@
                 </mat-error>
               </mat-form-field>
               <div class="d-flex flex-row justify-content-between mt-1">
-                <atoms-icon-button color="basic" type="reset" routerLink="/auth/login" [icon]="['fas', 'times']">
+                <atoms-icon-button
+                  [color]="themePalette.BASIC"
+                  [type]="buttonType.RESET"
+                  routerLink="/auth/login"
+                  [icon]="['fas', 'times']"
+                >
                   {{ actionLabels.CANCEL }}
                 </atoms-icon-button>
 
-                <atoms-icon-button type="submit" [disabled]="newPasswordForm.invalid" [icon]="['fas', 'check']">
+                <atoms-icon-button
+                  [type]="buttonType.SUBMIT"
+                  [disabled]="newPasswordForm.invalid"
+                  [icon]="['fas', 'check']"
+                >
                   {{ actionLabels.SUMBIT }}
                 </atoms-icon-button>
               </div>

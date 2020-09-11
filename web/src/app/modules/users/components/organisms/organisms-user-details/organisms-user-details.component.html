@@ -18,7 +18,12 @@
       {{ actionLabels.SAVE }}
     </atoms-icon-button>
 
-    <atoms-icon-button *ngIf="editForm" (click)="onClickCancelEdit()" [icon]="['fas', 'times']" color="basic">
+    <atoms-icon-button
+      *ngIf="editForm"
+      (click)="onClickCancelEdit()"
+      [icon]="['fas', 'times']"
+      [color]="themePalette.BASIC"
+    >
       {{ actionLabels.CANCEL }}
     </atoms-icon-button>
   </div>

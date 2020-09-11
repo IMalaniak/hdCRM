@@ -12,7 +12,14 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { ToastMessageService } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
-import { IItemsPerPage, pageSizeOptions, COLUMN_LABELS, ACTION_LABELS } from '@/shared/constants';
+import {
+  IItemsPerPage,
+  pageSizeOptions,
+  COLUMN_LABELS,
+  ACTION_LABELS,
+  THEME_PALETTE,
+  MAT_BUTTON
+} from '@/shared/constants';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { deletePlanRequested, changeIsEditingState } from '../../store/plan.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
@@ -47,6 +54,8 @@ export class PlanListComponent implements AfterViewInit, OnDestroy {
   columns = COLUMN_NAMES;
   columnLabels = COLUMN_LABELS;
   actionLabels = ACTION_LABELS;
+  themePalette = THEME_PALETTE;
+  matButtonType = MAT_BUTTON;
 
   displayedColumns: COLUMN_NAMES[] = [
     COLUMN_NAMES.TITLE,

@@ -17,7 +17,7 @@ import { MediaqueryService, ToastMessageService } from '@/shared/services';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { OrganismsTaskDialogComponent } from '../organisms-task-dialog/organisms-task-dialog.component';
 import { MatAccordion } from '@angular/material/expansion';
-import { DIALOG, ACTION_LABELS } from '@/shared/constants';
+import { DIALOG, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-task-list',
@@ -32,6 +32,8 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
   @ViewChild(MatAccordion) taskAccordion: MatAccordion;
 
   actionLabels = ACTION_LABELS;
+  themePalette = THEME_PALETTE;
+  matButtonType = MAT_BUTTON;
 
   private unsubscribe: Subject<void> = new Subject();
 

@@ -12,7 +12,7 @@ import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
 import { MediaqueryService, ToastMessageService } from '@/shared/services';
 import { updateDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
 import { selectIsEditing } from '../../store/department.selectors';
-import { EDIT_PRIVILEGES, DIALOG, ACTION_LABELS } from '@/shared/constants';
+import { EDIT_PRIVILEGES, DIALOG, ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
 
 @Component({
   selector: 'department',
@@ -30,6 +30,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   departmentInitial: Department;
 
   actionLabels = ACTION_LABELS;
+  themePalette = THEME_PALETTE;
 
   private unsubscribe: Subject<void> = new Subject();
 

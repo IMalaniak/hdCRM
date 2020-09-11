@@ -106,7 +106,12 @@
       {{ actionLabels.SAVE }}
     </atoms-icon-button>
 
-    <atoms-icon-button *ngIf="editForm" (click)="setFormEdit(false)" [icon]="['fas', 'times']" color="basic">
+    <atoms-icon-button
+      *ngIf="editForm"
+      (click)="setFormEdit(false)"
+      [icon]="['fas', 'times']"
+      [color]="themePalette.BASIC"
+    >
       {{ actionLabels.CANCEL }}
     </atoms-icon-button>
   </div>
