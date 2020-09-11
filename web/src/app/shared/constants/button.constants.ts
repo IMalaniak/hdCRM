@@ -5,11 +5,11 @@ export enum BUTTON_TYPE {
 }
 
 export enum MAT_BUTTON {
-  BASIC,
-  RAISED,
-  STROKED,
-  FLAT,
-  ICON,
-  FAB,
-  MINI_FAB
+  BASIC = 'basic',
+  RAISED = 'raised',
+  STROKED = 'stroked',
+  FLAT = 'flas',
+  ICON = 'icon',
+  FAB = 'fab',
+  MINI_FAB = 'mini-fab'
 }
