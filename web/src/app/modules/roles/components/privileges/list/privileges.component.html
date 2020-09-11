@@ -1,11 +1,13 @@
 <organisms-card cardTitle="Privilege groups" [showDataLoader]="isLoading$ | async">
   <div buttons>
-    <atoms-icon-button (onclick)="createPrivilegeDialog()" [icon]="['fas', 'plus']"> Create </atoms-icon-button>
+    <atoms-icon-button (onclick)="createPrivilegeDialog()" [icon]="['fas', 'plus']">
+      {{ actionLabels.CREATE }}
+    </atoms-icon-button>
   </div>
 
   <div content class="mat-elevation-z8 privileges-table-container" *ngIf="privileges">
     <mat-table class="privileges-table crm-table" [dataSource]="privileges">
-      <ng-container matColumnDef="select">
+      <ng-container [matColumnDef]="columns.SELECT">
         <mat-header-cell *matHeaderCellDef>
           <mat-checkbox
             (change)="$event ? masterToggle() : null"
@@ -23,12 +25,16 @@
           </mat-checkbox>
         </mat-cell>
       </ng-container>
-      <ng-container matColumnDef="title">
-        <mat-header-cell *matHeaderCellDef i18n="@@privilegesComponentHeaderPrivilege">Title</mat-header-cell>
+      <ng-container [matColumnDef]="columns.TITLE">
+        <mat-header-cell *matHeaderCellDef i18n="@@privilegesComponentHeaderPrivilege">
+          {{ columnLabels.TITLE }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let privilege">{{ privilege.title }}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="key">
-        <mat-header-cell *matHeaderCellDef i18n="@@privilegesComponentHeaderPrivilege">Key</mat-header-cell>
+      <ng-container [matColumnDef]="columns.KEY">
+        <mat-header-cell *matHeaderCellDef i18n="@@privilegesComponentHeaderPrivilege">
+          {{ columnLabels.KEY }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let privilege">{{ privilege.keyString }}</mat-cell>
       </ng-container>
       <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>

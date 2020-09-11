@@ -10,7 +10,7 @@
 
   <div content class="table-container">
     <mat-table class="users-table crm-table" [dataSource]="dataSource" matSort matSortDisabled>
-      <ng-container matColumnDef="select" sticky>
+      <ng-container [matColumnDef]="columns.SELECT" sticky>
         <mat-header-cell *matHeaderCellDef>
           <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
                           [checked]="selection.hasValue() && isAllSelected()"
@@ -26,55 +26,67 @@
           </mat-checkbox>
         </mat-cell>
       </ng-container>
-      <ng-container matColumnDef="avatar">
+      <ng-container [matColumnDef]="columns.AVATAR">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let user">
           <atoms-user-pic [avatar]="user.avatar" [userOnline]="user.online"></atoms-user-pic>
         </mat-cell>
       </ng-container>
-      <ng-container matColumnDef="login">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListLogin">Login</mat-header-cell>
+      <ng-container [matColumnDef]="columns.LOGIN">
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListLogin">
+          {{ columnLabels.LOGIN }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let user">{{ user.login }}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="email">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListEmail">Email</mat-header-cell>
+      <ng-container [matColumnDef]="columns.EMAIL">
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListEmail">
+          {{ columnLabels.EMAIL }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let user">{{ user.email }}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListName">Name</mat-header-cell>
+      <ng-container [matColumnDef]="columns.NAME">
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListName">
+          {{ columnLabels.NAME }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let user">{{ user.name }}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="surname">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListSurname">Surname</mat-header-cell>
+      <ng-container [matColumnDef]="columns.SURNAME">
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListSurname">
+          {{ columnLabels.SURNAME }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let user">{{ user.surname }}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="phone">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListPhone">Phone</mat-header-cell>
+      <ng-container [matColumnDef]="columns.PHONE">
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListPhone">
+          {{ columnLabels.PHONE }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let user">{{ user.phone }}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="dep">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListDepartment"
-          >Department</mat-header-cell
-        >
+      <ng-container [matColumnDef]="columns.DEPARTMENT">
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListDepartment">
+          {{ columnLabels.DEPARTMENT }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let user">{{ user.Department ? user.Department.title : '-' }}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="state">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListState">State</mat-header-cell>
+      <ng-container [matColumnDef]="columns.STATE">
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListState">
+          {{ columnLabels.STATE }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let user">{{ user.State.keyString }}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="createdAt">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListCreatedAt"
-          >Date created</mat-header-cell
-        >
+      <ng-container [matColumnDef]="columns.CREATED_AT">
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListCreatedAt">
+          {{ columnLabels.CREATED_AT }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let user">{{ user.createdAt | dateTimeFormat | async }}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="updatedAt">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListUpdatedAt"
-          >Date updated</mat-header-cell
-        >
+      <ng-container [matColumnDef]="columns.UPDATED_AT">
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListUpdatedAt">
+          {{ columnLabels.UPDATED_AT }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let user">{{ user.updatedAt | dateTimeFormat | async }}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="actions" stickyEnd>
+      <ng-container [matColumnDef]="columns.ACTIONS" stickyEnd>
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let user">
           <atoms-icon-button [matMenuTriggerFor]="menu" color="basic" [icon]="['fas', 'ellipsis-v']" matType="icon">
@@ -82,11 +94,11 @@
           <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="onUserSelect(user.id)">
               <fa-icon [icon]="['fas', 'id-badge']"></fa-icon>
-              <span i18n="@@usersComponentListActionsView">Details</span>
+              <span i18n="@@usersComponentListActionsView">{{ actionLabels.DETAILS }}</span>
             </button>
             <button *ngIf="canEditUser$ | async" mat-menu-item (click)="onUserSelect(user.id, true)">
               <fa-icon [icon]="['fas', 'user-edit']"></fa-icon>
-              <span i18n="@@usersComponentListActionsEdit">Edit</span>
+              <span i18n="@@usersComponentListActionsEdit"> {{ actionLabels.EDIT }} </span>
             </button>
             <button
               *ngIf="(canEditUser$ | async) && user.State.id === 2 && user.id !== (currentUser$ | async).id"
@@ -118,7 +130,7 @@
               (click)="deleteUser(user.id)"
             >
               <fa-icon [icon]="['fas', 'user-times']" class="text-danger"></fa-icon>
-              <span i18n="@@usersComponentListActionsDelete">Delete user</span>
+              <span i18n="@@usersComponentListActionsDelete">{{ actionLabels.DELETE }} </span>
             </button>
           </mat-menu>
         </mat-cell>

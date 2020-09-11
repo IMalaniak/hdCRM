@@ -14,7 +14,7 @@ import { updateRoleRequested, changeIsEditingState } from '../../store/role.acti
 import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
 import { User } from '@/modules/users';
 import { selectIsEditing } from '../../store/role.selectors';
-import { EDIT_PRIVILEGES, DIALOG, COLUMN_NAMES } from '@/shared/constants';
+import { EDIT_PRIVILEGES, DIALOG, COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS } from '@/shared/constants';
 
 @Component({
   selector: 'role',
@@ -28,6 +28,10 @@ export class RoleComponent implements OnInit, OnDestroy {
 
   role: Role;
   roleInitial: Role;
+
+  columns = COLUMN_NAMES;
+  columnLabels = COLUMN_LABELS;
+  actionLabels = ACTION_LABELS;
   displayedColumns: COLUMN_NAMES[] = [
     COLUMN_NAMES.TITLE,
     COLUMN_NAMES.VIEW,

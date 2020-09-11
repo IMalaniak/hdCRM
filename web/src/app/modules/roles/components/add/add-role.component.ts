@@ -11,7 +11,7 @@ import { AppState } from '@/core/reducers';
 import { Store } from '@ngrx/store';
 import { createRoleRequested } from '../../store/role.actions';
 import { User } from '@/modules/users/models';
-import { COLUMN_NAMES } from '@/shared/constants';
+import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS } from '@/shared/constants';
 
 @Component({
   selector: 'app-add-role',
@@ -22,6 +22,10 @@ import { COLUMN_NAMES } from '@/shared/constants';
 export class AddRoleComponent implements OnInit {
   role = {} as Role;
   keyString: FormControl;
+
+  columns = COLUMN_NAMES;
+  columnLabels = COLUMN_LABELS;
+  actionLabels = ACTION_LABELS;
   displayedColumns: COLUMN_NAMES[] = [
     COLUMN_NAMES.TITLE,
     COLUMN_NAMES.VIEW,

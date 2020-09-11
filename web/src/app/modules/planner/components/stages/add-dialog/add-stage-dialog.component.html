@@ -2,7 +2,7 @@
 <div mat-dialog-content>
   <div class="d-flex flex-column justify-content-center">
     <mat-form-field appearance="outline">
-      <mat-label i18n="@@addStageComponentDialogLable">Lable</mat-label>
+      <mat-label i18n="@@addStageComponentDialogLabel">Label</mat-label>
       <input matInput [formControl]="data.keyString" />
       <mat-error *ngIf="data.keyString.invalid">
         <mat-error *ngIf="data.keyString.errors.required" i18n="@@addStageComponentDialogFormErrorsLableRequired">
@@ -19,9 +19,11 @@
   </div>
 </div>
 <div mat-dialog-actions class="justify-content-center">
-  <atoms-icon-button (onclick)="onNoClick()" [icon]="['fas', 'times']" color="basic"> Cancel </atoms-icon-button>
+  <atoms-icon-button (onclick)="onNoClick()" [icon]="['fas', 'times']" color="basic">
+    {{ actionLabels.CANCEL }}
+  </atoms-icon-button>
 
   <atoms-icon-button (onclick)="onAddStage()" [icon]="['fas', 'plus']" [disabled]="data.keyString.invalid">
-    Add stage
+    {{ actionLabels.ADD }} stage
   </atoms-icon-button>
 </div>

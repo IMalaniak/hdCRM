@@ -16,7 +16,7 @@ import { deleteUser } from '../../store/user.actions';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
 import { MediaqueryService, ToastMessageService } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
-import { IItemsPerPage, pageSizeOptions } from '@/shared/constants';
+import { IItemsPerPage, pageSizeOptions, ACTION_LABELS, COLUMN_LABELS } from '@/shared/constants';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import {
   DIALOG,
@@ -48,6 +48,10 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
   dataSource: UsersDataSource = new UsersDataSource(this.store$);
   pageSizeOptions: number[] = pageSizeOptions;
   users: User[];
+
+  columns = COLUMN_NAMES;
+  columnLabels = COLUMN_LABELS;
+  actionLabels = ACTION_LABELS;
   displayedColumns: COLUMN_NAMES[] = [
     COLUMN_NAMES.SELECT,
     COLUMN_NAMES.AVATAR,

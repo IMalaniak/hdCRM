@@ -18,7 +18,7 @@
         [icon]="['fas', 'compress-alt']"
         (onclick)="taskAccordion.closeAll()"
       >
-        Collapse all
+        {{ actionLabels.COLLAPSE_ALL }}
       </atoms-icon-button>
       <atoms-icon-button
         matType="basic"
@@ -28,7 +28,7 @@
         [icon]="['fas', 'expand-alt']"
         (onclick)="taskAccordion.openAll()"
       >
-        Expand all
+        {{ actionLabels.EXPAND_ALL }}
       </atoms-icon-button>
       <atoms-icon-button
         matType="basic"

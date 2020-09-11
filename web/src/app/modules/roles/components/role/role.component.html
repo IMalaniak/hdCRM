@@ -16,19 +16,19 @@
       >
         <div buttons>
           <atoms-icon-button *ngIf="editForm$ | async" (onclick)="addPrivilegeDialog()" [icon]="['fas', 'plus']">
-            Add
+            {{ actionLabels.ADD }}
           </atoms-icon-button>
         </div>
         <div content class="table-container">
           <mat-table class="role-table crm-table" [dataSource]="role.Privileges">
-            <ng-container matColumnDef="title" sticky>
-              <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
+            <ng-container [matColumnDef]="columns.TITLE" sticky>
+              <mat-header-cell *matHeaderCellDef> {{ columnLabels.TITLE }} </mat-header-cell>
               <mat-cell *matCellDef="let privilege">
                 {{ privilege.title }}
               </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="view">
-              <mat-header-cell *matHeaderCellDef> View </mat-header-cell>
+            <ng-container [matColumnDef]="columns.VIEW">
+              <mat-header-cell *matHeaderCellDef> {{ columnLabels.VIEW }} </mat-header-cell>
               <mat-cell *matCellDef="let privilege">
                 <mat-checkbox *ngIf="editForm$ | async" [(ngModel)]="privilege.RolePrivilege.view"></mat-checkbox>
                 <fa-icon
@@ -38,8 +38,8 @@
                 ></fa-icon>
               </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="add">
-              <mat-header-cell *matHeaderCellDef> Add </mat-header-cell>
+            <ng-container [matColumnDef]="columns.ADD">
+              <mat-header-cell *matHeaderCellDef> {{ columnLabels.ADD }} </mat-header-cell>
               <mat-cell *matCellDef="let privilege">
                 <mat-checkbox *ngIf="editForm$ | async" [(ngModel)]="privilege.RolePrivilege.add"></mat-checkbox>
                 <fa-icon
@@ -49,8 +49,8 @@
                 ></fa-icon>
               </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="edit">
-              <mat-header-cell *matHeaderCellDef> Edit </mat-header-cell>
+            <ng-container [matColumnDef]="columns.EDIT">
+              <mat-header-cell *matHeaderCellDef> {{ columnLabels.EDIT }} </mat-header-cell>
               <mat-cell *matCellDef="let privilege">
                 <mat-checkbox *ngIf="editForm$ | async" [(ngModel)]="privilege.RolePrivilege.edit"></mat-checkbox>
                 <fa-icon
@@ -60,8 +60,8 @@
                 ></fa-icon>
               </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="delete">
-              <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
+            <ng-container [matColumnDef]="columns.DELETE">
+              <mat-header-cell *matHeaderCellDef> {{ columnLabels.DELETE }} </mat-header-cell>
               <mat-cell *matCellDef="let privilege">
                 <mat-checkbox *ngIf="editForm$ | async" [(ngModel)]="privilege.RolePrivilege.delete"></mat-checkbox>
                 <fa-icon
@@ -101,7 +101,7 @@
   </section>
   <div buttons *ngIf="canEditRole$ | async">
     <atoms-icon-button *ngIf="!(editForm$ | async)" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
-      Edit
+      {{ actionLabels.EDIT }}
     </atoms-icon-button>
     <atoms-icon-button
       *ngIf="editForm$ | async"
@@ -109,10 +109,10 @@
       (onclick)="onClickCancelEdit()"
       [icon]="['fas', 'times']"
     >
-      Cancel
+      {{ actionLabels.CANCEL }}
     </atoms-icon-button>
     <atoms-icon-button *ngIf="editForm$ | async" class="ml-2" (onclick)="updateRole()" [icon]="['fas', 'save']">
-      Save
+      {{ actionLabels.SAVE }}
     </atoms-icon-button>
   </div>
 </organisms-card>

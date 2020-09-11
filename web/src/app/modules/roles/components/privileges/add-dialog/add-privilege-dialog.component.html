@@ -46,8 +46,10 @@
   </form>
 </div>
 <div mat-dialog-actions class="justify-content-center">
-  <atoms-icon-button (onclick)="onNoClick()" [icon]="['fas', 'times']" color="basic"> Cancel </atoms-icon-button>
+  <atoms-icon-button (onclick)="onNoClick()" [icon]="['fas', 'times']" color="basic">
+    {{ actionLabels.CANCEL }}
+  </atoms-icon-button>
   <atoms-icon-button [icon]="['fas', 'plus']" (onclick)="onSubmitClick()" [disabled]="privilegeGroup.invalid">
-    Add privilege
+    {{ actionLabels.SUMBIT }}
   </atoms-icon-button>
 </div>

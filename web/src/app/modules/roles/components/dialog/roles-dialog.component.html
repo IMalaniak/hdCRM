@@ -3,8 +3,10 @@
   <roles></roles>
 </section>
 <div mat-dialog-actions class="justify-content-end">
-  <atoms-icon-button (onclick)="onNoClick()" [icon]="['fas', 'times']" color="basic"> Cancel </atoms-icon-button>
-  <atoms-icon-button [icon]="['fas', 'plus']" (onclick)="onSubmiteClick(rolesComponent.selection.selected)">
-    Ok
+  <atoms-icon-button (onclick)="onNoClick()" [icon]="['fas', 'times']" color="basic">
+    {{ actionLabels.CANCEL }}
+  </atoms-icon-button>
+  <atoms-icon-button [icon]="['fas', 'plus']" (onclick)="onSubmitClick(rolesComponent.selection.selected)">
+    {{ actionLabels.SUMBIT }}
   </atoms-icon-button>
 </div>

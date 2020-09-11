@@ -89,7 +89,7 @@
   </div>
   <div buttons *ngIf="canEditPlan$ | async">
     <atoms-icon-button *ngIf="!(editForm$ | async)" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
-      Edit
+      {{ actionLabels.EDIT }}
     </atoms-icon-button>
     <atoms-icon-button
       *ngIf="editForm$ | async"
@@ -97,10 +97,10 @@
       [icon]="['fas', 'times']"
       color="basic"
     >
-      Cancel
+      {{ actionLabels.CANCEL }}
     </atoms-icon-button>
     <atoms-icon-button *ngIf="editForm$ | async" class="ml-2" (onclick)="updatePlan()" [icon]="['fas', 'save']">
-      Save
+      {{ actionLabels.SAVE }}
     </atoms-icon-button>
   </div>
 </organisms-card>

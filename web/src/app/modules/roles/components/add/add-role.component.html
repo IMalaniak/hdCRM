@@ -30,32 +30,32 @@
         </atoms-icon-button>
         <div content class="table-container">
           <mat-table class="role-table crm-table" [dataSource]="role.Privileges">
-            <ng-container matColumnDef="title" sticky>
-              <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
+            <ng-container [matColumnDef]="columns.TITLE" sticky>
+              <mat-header-cell *matHeaderCellDef> {{ columnLabels.TITLE }} </mat-header-cell>
               <mat-cell *matCellDef="let privilege">
                 {{ privilege.title }}
               </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="view">
-              <mat-header-cell *matHeaderCellDef> View </mat-header-cell>
+            <ng-container [matColumnDef]="columns.VIEW">
+              <mat-header-cell *matHeaderCellDef> {{ columnLabels.VIEW }} </mat-header-cell>
               <mat-cell *matCellDef="let privilege">
                 <mat-checkbox [(ngModel)]="privilege.RolePrivilege.view"></mat-checkbox>
               </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="add">
-              <mat-header-cell *matHeaderCellDef> Add </mat-header-cell>
+            <ng-container [matColumnDef]="columns.ADD">
+              <mat-header-cell *matHeaderCellDef> {{ columnLabels.ADD }} </mat-header-cell>
               <mat-cell *matCellDef="let privilege">
                 <mat-checkbox [(ngModel)]="privilege.RolePrivilege.add"></mat-checkbox>
               </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="edit">
-              <mat-header-cell *matHeaderCellDef> Edit </mat-header-cell>
+            <ng-container [matColumnDef]="columns.EDIT">
+              <mat-header-cell *matHeaderCellDef> {{ columnLabels.EDIT }} </mat-header-cell>
               <mat-cell *matCellDef="let privilege">
                 <mat-checkbox [(ngModel)]="privilege.RolePrivilege.edit"></mat-checkbox>
               </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="delete">
-              <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
+            <ng-container [matColumnDef]="columns.DELETE">
+              <mat-header-cell *matHeaderCellDef> {{ columnLabels.DELETE }} </mat-header-cell>
               <mat-cell *matCellDef="let privilege">
                 <mat-checkbox [(ngModel)]="privilege.RolePrivilege.delete"></mat-checkbox>
               </mat-cell>
@@ -77,6 +77,6 @@
     </div>
   </section>
   <atoms-icon-button buttons (onclick)="onRegisterSubmit()" [icon]="['fas', 'save']" [disabled]="keyString.invalid">
-    Submit
+    {{ actionLabels.SUMBIT }}
   </atoms-icon-button>
 </organisms-card>

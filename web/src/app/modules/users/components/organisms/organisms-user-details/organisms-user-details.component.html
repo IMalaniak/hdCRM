@@ -10,14 +10,16 @@
     </div>
   </div>
   <div buttons *ngIf="canEdit">
-    <atoms-icon-button *ngIf="!editForm" (click)="onClickEdit()" [icon]="['fas', 'edit']"> Edit </atoms-icon-button>
+    <atoms-icon-button *ngIf="!editForm" (click)="onClickEdit()" [icon]="['fas', 'edit']">
+      {{ actionLabels.EDIT }}
+    </atoms-icon-button>
 
     <atoms-icon-button *ngIf="editForm" (click)="onUpdateUserSubmit()" [icon]="['fas', 'save']">
-      Save
+      {{ actionLabels.SAVE }}
     </atoms-icon-button>
 
     <atoms-icon-button *ngIf="editForm" (click)="onClickCancelEdit()" [icon]="['fas', 'times']" color="basic">
-      Cancel
+      {{ actionLabels.CANCEL }}
     </atoms-icon-button>
   </div>
 </organisms-card>

@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Organization } from '@/modules/users';
 import { ToastMessageService } from '@/shared/services';
-import { DIALOG } from '@/shared/constants';
+import { DIALOG, ACTION_LABELS } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-user-organization',
@@ -16,6 +16,8 @@ export class OrganismsUserOrganizationComponent {
 
   @Output() updateOrg: EventEmitter<Organization> = new EventEmitter();
   @Output() setEditableForm: EventEmitter<boolean> = new EventEmitter();
+
+  actionLabels = ACTION_LABELS;
 
   constructor(private toastMessageService: ToastMessageService) {}
 

@@ -110,8 +110,8 @@
   </div>
 
   <atoms-icon-button buttons (onclick)="onClickSubmit()" [icon]="['fas', 'paper-plane']" [disabled]="planData.invalid">
-    Submit
+    {{ actionLabels.SUMBIT }}
   </atoms-icon-button>
 </organisms-card>
 
-<app-attachments *ngIf="plan" [attachments]="plan.Documents" [editForm]="true"></app-attachments>
+<templates-attachments-list *ngIf="plan" [attachments]="plan.Documents"></templates-attachments-list>

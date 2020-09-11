@@ -7,7 +7,7 @@ import { ToastMessageService } from '@/shared/services';
 import { DynamicForm } from '@/shared/models';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
-import { DIALOG } from '@/shared/constants';
+import { DIALOG, ACTION_LABELS } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-user-details',
@@ -24,6 +24,8 @@ export class OrganismsUserDetailsComponent implements OnInit {
   @Output() setEditableForm: EventEmitter<boolean> = new EventEmitter();
 
   userFormValues: User;
+
+  actionLabels = ACTION_LABELS;
 
   userFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName('user')));
 

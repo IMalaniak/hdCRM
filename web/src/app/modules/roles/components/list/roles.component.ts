@@ -13,7 +13,7 @@ import { Role } from '../../models';
 import { selectRolesTotalCount, selectRolesLoading } from '../../store/role.selectors';
 import { ToastMessageService } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
-import { IItemsPerPage, pageSizeOptions } from '@/shared/constants';
+import { IItemsPerPage, pageSizeOptions, ACTION_LABELS, COLUMN_LABELS } from '@/shared/constants';
 import { deleteRoleRequested, changeIsEditingState } from '../../store/role.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import {
@@ -44,6 +44,10 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
 
   selection = new SelectionModel<Role>(true, []);
+
+  columns = COLUMN_NAMES;
+  columnLabels = COLUMN_LABELS;
+  actionLabels = ACTION_LABELS;
   displayedColumns: COLUMN_NAMES[] = [
     COLUMN_NAMES.SELECT,
     COLUMN_NAMES.TITLE,

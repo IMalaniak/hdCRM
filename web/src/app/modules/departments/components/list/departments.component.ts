@@ -7,7 +7,7 @@ import { Observable, merge, Subject } from 'rxjs';
 import { DepartmentsDataSource } from '../../services';
 import { ToastMessageService } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
-import { IItemsPerPage, pageSizeOptions } from '@/shared/constants';
+import { IItemsPerPage, pageSizeOptions, COLUMN_LABELS, ACTION_LABELS } from '@/shared/constants';
 import { AppState } from '@/core/reducers';
 import { selectDepartmentsTotalCount, selectDepartmentsLoading } from '../../store/department.selectors';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
@@ -39,6 +39,10 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+
+  columns = COLUMN_NAMES;
+  columnLabels = COLUMN_LABELS;
+  actionLabels = ACTION_LABELS;
 
   displayedColumns: COLUMN_NAMES[] = [
     COLUMN_NAMES.TITLE,

@@ -15,11 +15,10 @@
     <div class="col-sm-12 col-md-8 col-lg-9 tabs">
       <mat-tab-group mat-stretch-tabs dynamicHeight>
         <!-- Details -->
-        <mat-tab label="Details">
+        <mat-tab [label]="tabLabels.DETAILS">
           <ng-template matTabContent>
             <organisms-user-details
               [user]="user"
-              [states]="states$ | async"
               [canEdit]="canEdit"
               [editForm]="editForm"
               (setEditableForm)="setFormEdit($event)"
@@ -29,7 +28,10 @@
         </mat-tab>
 
         <!-- Organization -->
-        <mat-tab label="Organization" *ngIf="('org' | memoize: isTabToShow:this) && (canViewOrganization$ | async)">
+        <mat-tab
+          [label]="tabLabels.ORGANIZATION"
+          *ngIf="(tabNames.ORGANIZATION | memoize: isTabToShow:this) && (canViewOrganization$ | async)"
+        >
           <ng-template matTabContent>
             <organisms-user-organization
               [organization]="user.Organization"
@@ -43,8 +45,8 @@
 
         <!-- Preferences -->
         <mat-tab
-          label="Preferences"
-          *ngIf="('preferences' | memoize: isTabToShow:this) && (canViewPreferences$ | async)"
+          [label]="tabLabels.PREFERENCES"
+          *ngIf="(tabNames.PREFERENCES | memoize: isTabToShow:this) && (canViewPreferences$ | async)"
         >
           <ng-template matTabContent>
             <organisms-user-preferences
@@ -55,14 +57,14 @@
         </mat-tab>
 
         <!-- Passwords -->
-        <mat-tab label="Password" *ngIf="'password' | memoize: isTabToShow:this">
+        <mat-tab [label]="tabLabels.PASSWORD" *ngIf="tabNames.PASSWORD | memoize: isTabToShow:this">
           <ng-template matTabContent>
             <organisms-user-passwords [isLoading]="isLoading"></organisms-user-passwords>
           </ng-template>
         </mat-tab>
 
         <!-- Sessions -->
-        <mat-tab label="Sessions" *ngIf="'sessions' | memoize: isTabToShow:this">
+        <mat-tab [label]="tabLabels.SESSIONS" *ngIf="tabNames.SESSIONS | memoize: isTabToShow:this">
           <ng-template matTabContent>
             <organisms-user-sessions [user]="user" [currentSessionId]="currentSessionId"></organisms-user-sessions>
           </ng-template>
@@ -70,8 +72,8 @@
 
         <!-- Integrations -->
         <mat-tab
-          label="Integrations"
-          *ngIf="('integrations' | memoize: isTabToShow:this) && (canViewIntegrations$ | async)"
+          [label]="tabLabels.INTEGRATIONS"
+          *ngIf="(tabNames.INTEGRATIONS | memoize: isTabToShow:this) && (canViewIntegrations$ | async)"
         >
           <ng-template matTabContent>
             <organisms-user-integrations></organisms-user-integrations>

@@ -10,6 +10,7 @@ import { AppState } from '@/core/reducers';
 import { currentUser } from '@/core/auth/store/auth.selectors';
 import { createPlanRequested } from '../../store/plan.actions';
 import { MediaqueryService } from '@/shared/services';
+import { ACTION_LABELS } from '@/shared/constants';
 
 @Component({
   selector: 'add-plan',
@@ -20,6 +21,8 @@ export class AddPlanComponent implements OnInit, OnDestroy {
   plan = {} as Plan;
   planData: FormGroup;
   appUser: User;
+
+  actionLabels = ACTION_LABELS;
 
   private unsubscribe: Subject<void> = new Subject();
 

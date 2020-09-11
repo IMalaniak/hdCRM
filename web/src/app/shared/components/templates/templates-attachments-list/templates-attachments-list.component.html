@@ -1,29 +1,37 @@
 <organisms-card cardTitle="Attachments" cardClass="border-0" contentClass="p-0" [counter]="attachments.length">
   <section content *ngIf="attachments && attachments.length">
     <mat-table [dataSource]="attachments" class="mat-elevation-z8 table-attachments crm-table">
-      <ng-container matColumnDef="icon">
+      <ng-container [matColumnDef]="columns.ICON">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let item"><fa-icon [icon]="fileTypeIcon(item.title)"></fa-icon></mat-cell>
       </ng-container>
-      <ng-container matColumnDef="title">
-        <mat-header-cell *matHeaderCellDef i18n="@@attachmentsComponentListTitle">Title</mat-header-cell>
+      <ng-container [matColumnDef]="columns.TITLE">
+        <mat-header-cell *matHeaderCellDef i18n="@@attachmentsComponentListTitle">{{
+          columnLabels.TITLE
+        }}</mat-header-cell>
         <mat-cell *matCellDef="let item"
           ><span (click)="downloadFile(item.id, item.title)">{{ item.title }}</span></mat-cell
         >
       </ng-container>
-      <ng-container matColumnDef="type">
-        <mat-header-cell *matHeaderCellDef i18n="@@attachmentsComponentListType">Type</mat-header-cell>
+      <ng-container [matColumnDef]="columns.TYPE">
+        <mat-header-cell *matHeaderCellDef i18n="@@attachmentsComponentListType">
+          {{ columnLabels.TYPE }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let item">{{ item.type }}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="createdAt">
-        <mat-header-cell *matHeaderCellDef i18n="@@attachmentsComponentListCreatedAt">Created At</mat-header-cell>
+      <ng-container [matColumnDef]="columns.CREATED_AT">
+        <mat-header-cell *matHeaderCellDef i18n="@@attachmentsComponentListCreatedAt">
+          {{ columnLabels.CREATED_AT }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let item">{{ item.createdAt | dateTimeFormat | async }}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="updatedAt">
-        <mat-header-cell *matHeaderCellDef i18n="@@attachmentsComponentListUpdatedAt">Updated At</mat-header-cell>
+      <ng-container [matColumnDef]="columns.UPDATED_AT">
+        <mat-header-cell *matHeaderCellDef i18n="@@attachmentsComponentListUpdatedAt">
+          {{ columnLabels.UPDATED_AT }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let item">{{ item.updatedAt | dateTimeFormat | async }}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="actions" stickyEnd>
+      <ng-container [matColumnDef]="columns.ACTIONS" stickyEnd>
         <mat-header-cell *matHeaderCellDef i18n="@@globalsListActions"></mat-header-cell>
         <mat-cell *matCellDef="let item">
           <atoms-icon-button
@@ -42,7 +50,7 @@
   </section>
 
   <section content *ngIf="attachments && attachments.length === 0 && !uploaderVisible" class="no-content">
-    <p class="lead p-4 text-center" i18n="@@attachmentsComponentNoContentInfo">No content</p>
+    <p class="lead p-4 text-center" i18n="@@attachmentsComponentNoContentInfo">{{ noContentInfo }}</p>
   </section>
 
   <app-uploader-list

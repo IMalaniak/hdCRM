@@ -5,7 +5,7 @@
 
   <div content class="mat-elevation-z8 stages-table-container" *ngIf="stages">
     <mat-table class="stages-table crm-table" [dataSource]="stages">
-      <ng-container matColumnDef="select">
+      <ng-container [matColumnDef]="columns.SELECT">
         <mat-header-cell *matHeaderCellDef>
           <mat-checkbox
             (change)="$event ? masterToggle() : null"
@@ -23,8 +23,10 @@
           </mat-checkbox>
         </mat-cell>
       </ng-container>
-      <ng-container matColumnDef="title">
-        <mat-header-cell *matHeaderCellDef i18n="@@stagesComponentHeaderStage">Title</mat-header-cell>
+      <ng-container [matColumnDef]="columns.TITLE">
+        <mat-header-cell *matHeaderCellDef i18n="@@stagesComponentHeaderStage">{{
+          columnLabels.TITLE
+        }}</mat-header-cell>
         <mat-cell *matCellDef="let stage">{{ stage.keyString }}</mat-cell>
       </ng-container>
       <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
