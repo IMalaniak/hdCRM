@@ -8,6 +8,7 @@ import { Store, select } from '@ngrx/store';
 import * as authActions from '../../store/auth.actions';
 import * as authSelectors from '../../store/auth.selectors';
 import { Observable, Subject } from 'rxjs';
+import { ACTION_LABELS } from '@/shared/constants';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   currentPath: string;
   hidePassword = true;
   token: string;
+
+  actionLabels = ACTION_LABELS;
 
   private unsubscribe: Subject<void> = new Subject();
 

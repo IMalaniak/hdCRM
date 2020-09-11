@@ -147,11 +147,11 @@
               </mat-form-field>
               <div class="d-flex flex-row justify-content-between mt-1">
                 <atoms-icon-button color="basic" type="reset" routerLink="/auth/login" [icon]="['fas', 'times']">
-                  Cancel
+                  {{ actionLabels.CANCEL }}
                 </atoms-icon-button>
 
                 <atoms-icon-button type="submit" [disabled]="newPasswordForm.invalid" [icon]="['fas', 'check']">
-                  Submit
+                  {{ actionLabels.SUMBIT }}
                 </atoms-icon-button>
               </div>
             </mat-card-content>

@@ -16,6 +16,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { Observable } from 'rxjs/internal/Observable';
+import { ACTION_LABELS } from '@/shared/constants';
 
 @Component({
   selector: 'app-header',
@@ -32,6 +33,7 @@ export class HeaderComponent implements OnInit {
   @Output()
   hideLeftSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+  actionLabels = ACTION_LABELS;
   isShowUserMenu = false;
 
   constructor(

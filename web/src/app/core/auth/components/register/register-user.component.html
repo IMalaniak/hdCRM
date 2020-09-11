@@ -113,7 +113,7 @@
                     (onclick)="stepper.next()"
                     [icon]="['fas', 'arrow-right']"
                   >
-                    Next
+                    {{ actionLabels.NEXT }}
                   </atoms-icon-button>
                 </div>
               </mat-step>
@@ -185,10 +185,10 @@
                 </form>
                 <div class="d-flex justify-content-between">
                   <atoms-icon-button matType="stroked" (onclick)="stepper.previous()" [icon]="['fas', 'arrow-left']">
-                    Back
+                    {{ actionLabels.BACK }}
                   </atoms-icon-button>
                   <atoms-icon-button matType="stroked" (onclick)="stepper.next()" [icon]="['fas', 'arrow-right']">
-                    Next
+                    {{ actionLabels.NEXT }}
                   </atoms-icon-button>
                 </div>
               </mat-step>
@@ -316,7 +316,7 @@
                 </form>
                 <div class="d-flex justify-content-between">
                   <atoms-icon-button matType="stroked" (onclick)="stepper.previous()" [icon]="['fas', 'arrow-left']">
-                    Back
+                    {{ actionLabels.BACK }}
                   </atoms-icon-button>
                   <atoms-icon-button
                     matType="stroked"
@@ -324,7 +324,7 @@
                     (onclick)="stepper.reset()"
                     [icon]="['fas', 'trash-alt']"
                   >
-                    Reset all
+                    {{ actionLabels.RESET }}
                   </atoms-icon-button>
                 </div>
               </mat-step>
@@ -335,7 +335,7 @@
                 (onclick)="onRegisterSubmit()"
                 [icon]="['fas', 'paper-plane']"
               >
-                Submit
+                {{ actionLabels.SUMBIT }}
               </atoms-icon-button>
             </div>
           </mat-card-content>
@@ -345,7 +345,9 @@
         <div class="d-flex flex-column text-white">
           <h2>Already registered?</h2>
           <p>Instantly go back into your HDCRM dashboard below.</p>
-          <atoms-icon-button [routerLink]="['/auth/login']" [icon]="['fas', 'arrow-right']"> Log in </atoms-icon-button>
+          <atoms-icon-button [routerLink]="['/auth/login']" [icon]="['fas', 'arrow-right']">
+            {{ actionLabels.LOG_IN }}
+          </atoms-icon-button>
         </div>
       </div>
     </div>

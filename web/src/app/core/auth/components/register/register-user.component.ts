@@ -6,7 +6,7 @@ import { AuthState } from '../../store/auth.reducer';
 import { registerUser } from '../../store/auth.actions';
 import { isLoading } from '../../store/auth.selectors';
 import { Observable } from 'rxjs';
-import { CONSTANTS, IFieldType } from '@/shared/constants';
+import { CONSTANTS, IFieldType, ACTION_LABELS } from '@/shared/constants';
 
 @Component({
   selector: 'app-register-user',
@@ -20,6 +20,8 @@ export class RegisterUserComponent implements OnInit {
   registerData: FormGroup;
   hidePassword = true;
   fieldTypes = IFieldType;
+
+  actionLabels = ACTION_LABELS;
 
   constructor(private store: Store<AuthState>, private fb: FormBuilder) {}
 
