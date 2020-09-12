@@ -19,7 +19,7 @@ import {
   ACTION_LABELS,
   COLUMN_LABELS,
   THEME_PALETTE,
-  RouteConstants
+  RoutingConstants
 } from '@/shared/constants';
 import { deleteRoleRequested, changeIsEditingState } from '../../store/role.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
@@ -52,7 +52,7 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
 
   selection = new SelectionModel<Role>(true, []);
 
-  addRoleRoute = RouteConstants.ROUTE_ROLES_ADD;
+  addRoleRoute = RoutingConstants.ROUTE_ROLES_ADD;
   themePalette = THEME_PALETTE;
   columns = COLUMN_NAMES;
   columnLabels = COLUMN_LABELS;
@@ -98,7 +98,7 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
   }
 
   onRoleSelect(id: number, edit: boolean = false): void {
-    this.router.navigateByUrl(`${RouteConstants.ROUTE_ROLES_DETAILS}/${id}`);
+    this.router.navigateByUrl(`${RoutingConstants.ROUTE_ROLES_DETAILS}/${id}`);
     this.store$.dispatch(changeIsEditingState({ isEditing: edit }));
   }
 

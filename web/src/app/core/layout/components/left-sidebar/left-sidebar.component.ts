@@ -4,7 +4,7 @@ import { MenuItem } from './menuItem';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
-import { RouteConstants } from '@/shared/constants';
+import { RoutingConstants } from '@/shared/constants';
 
 @Component({
   selector: 'left-sidebar',
@@ -31,41 +31,41 @@ export class LeftSidebarComponent implements OnInit {
   generateMenu(): void {
     this.sidebarMenu = [
       {
-        url: RouteConstants.ROUTE_HOME,
+        url: RoutingConstants.ROUTE_HOME,
         title: 'Home',
         i18n: '@@sidebarMenuHome',
         icon: ['fas', 'home'],
         disable: !this.mediaquery.isPhone
       },
       {
-        url: RouteConstants.ROUTE_DASHBOARD,
+        url: RoutingConstants.ROUTE_DASHBOARD,
         title: 'Dashboard',
         i18n: '@@sidebarMenuDashboard',
         icon: ['fas', 'th-large']
       },
       {
-        url: RouteConstants.ROUTE_USERS,
+        url: RoutingConstants.ROUTE_USERS,
         title: 'Users',
         i18n: '@@sidebarMenuUsers',
         icon: ['fas', 'users'],
         privilege: this.store.pipe(select(isPrivileged('user-view')))
       },
       {
-        url: RouteConstants.ROUTE_ROLES,
+        url: RoutingConstants.ROUTE_ROLES,
         title: 'Roles',
         i18n: '@@sidebarMenuRoles',
         icon: ['fas', 'user-tag'],
         privilege: this.store.pipe(select(isPrivileged('role-view')))
       },
       {
-        url: RouteConstants.ROUTE_PLANNER,
+        url: RoutingConstants.ROUTE_PLANNER,
         title: 'Plans',
         i18n: '@@sidebarMenuPlans',
         icon: ['fas', 'list-alt'],
         privilege: this.store.pipe(select(isPrivileged('plan-view')))
       },
       {
-        url: RouteConstants.ROUTE_DEPARTMENTS,
+        url: RoutingConstants.ROUTE_DEPARTMENTS,
         title: 'Departments',
         i18n: '@@sidebarMenuDepartments',
         icon: ['fas', 'building'],

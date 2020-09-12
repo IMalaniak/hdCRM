@@ -8,7 +8,7 @@ import { Store, select } from '@ngrx/store';
 import * as authActions from '../../store/auth.actions';
 import * as authSelectors from '../../store/auth.selectors';
 import { Observable, Subject } from 'rxjs';
-import { ACTION_LABELS, THEME_PALETTE, BUTTON_TYPE, MAT_BUTTON, PATHS, RouteConstants } from '@/shared/constants';
+import { ACTION_LABELS, THEME_PALETTE, BUTTON_TYPE, MAT_BUTTON, PATHS, RoutingConstants } from '@/shared/constants';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   buttonType = BUTTON_TYPE;
   matButtonTypes = MAT_BUTTON;
   paths = PATHS;
-  routes = RouteConstants;
+  routes = RoutingConstants;
 
   private unsubscribe: Subject<void> = new Subject();
 

@@ -22,7 +22,7 @@ import {
   ACTION_LABELS,
   COLUMN_LABELS,
   THEME_PALETTE,
-  RouteConstants
+  RoutingConstants
 } from '@/shared/constants';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import {
@@ -153,7 +153,7 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
   }
 
   onUserSelect(id: number, edit: boolean = false): void {
-    this.router.navigate([`${RouteConstants.ROUTE_USERS_DETAILS}/${id}`], {
+    this.router.navigate([`${RoutingConstants.ROUTE_USERS_DETAILS}/${id}`], {
       queryParams: { edit }
     });
   }

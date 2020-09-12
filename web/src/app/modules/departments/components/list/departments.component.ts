@@ -13,7 +13,7 @@ import {
   COLUMN_LABELS,
   ACTION_LABELS,
   THEME_PALETTE,
-  RouteConstants
+  RoutingConstants
 } from '@/shared/constants';
 import { AppState } from '@/core/reducers';
 import { selectDepartmentsTotalCount, selectDepartmentsLoading } from '../../store/department.selectors';
@@ -51,7 +51,7 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
   columnLabels = COLUMN_LABELS;
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
-  addDepartmentRoute = RouteConstants.ROUTE_DEPARTMENTS_ADD;
+  addDepartmentRoute = RoutingConstants.ROUTE_DEPARTMENTS_ADD;
 
   displayedColumns: COLUMN_NAMES[] = [
     COLUMN_NAMES.TITLE,
@@ -93,7 +93,7 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
   }
 
   onDepSelect(id: number, edit: boolean = false): void {
-    this.router.navigate([`${RouteConstants.ROUTE_DEPARTMENTS_DETAILS}/${id}`]);
+    this.router.navigate([`${RoutingConstants.ROUTE_DEPARTMENTS_DETAILS}/${id}`]);
     this.store$.dispatch(changeIsEditingState({ isEditing: edit }));
   }
 
