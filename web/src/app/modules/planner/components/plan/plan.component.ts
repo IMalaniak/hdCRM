@@ -20,7 +20,8 @@ import {
   EDIT_PRIVILEGES,
   DIALOG,
   ACTION_LABELS,
-  THEME_PALETTE
+  THEME_PALETTE,
+  CONSTANTS
 } from '@/shared/constants';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
@@ -133,7 +134,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   // }
 
   updatePlan(): void {
-    this.toastMessageService.confirm(DIALOG.CONFIRM, 'Are you sure you want to update plan details?').then((result) => {
+    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_UPDATE_PLAN_CONFIRM).then((result) => {
       if (result.value) {
         this.store$.dispatch(updatePlanRequested({ plan: this.plan }));
       }

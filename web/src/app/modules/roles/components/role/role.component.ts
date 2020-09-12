@@ -21,7 +21,8 @@ import {
   COLUMN_LABELS,
   ACTION_LABELS,
   THEME_PALETTE,
-  MAT_BUTTON
+  MAT_BUTTON,
+  CONSTANTS
 } from '@/shared/constants';
 
 @Component({
@@ -178,14 +179,12 @@ export class RoleComponent implements OnInit, OnDestroy {
   }
 
   updateRole(): void {
-    this.toastMessageService
-      .confirm(DIALOG.CONFIRM, 'Are you sure you want to update department details?')
-      .then((result) => {
-        if (result.value) {
-          this.store$.dispatch(updateRoleRequested({ role: this.role }));
-          this.disableEdit();
-        }
-      });
+    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_UPDATE_ROLE_CONFIRM).then((result) => {
+      if (result.value) {
+        this.store$.dispatch(updateRoleRequested({ role: this.role }));
+        this.disableEdit();
+      }
+    });
   }
 
   ngOnDestroy(): void {

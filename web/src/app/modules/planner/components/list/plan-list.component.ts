@@ -19,7 +19,8 @@ import {
   ACTION_LABELS,
   THEME_PALETTE,
   MAT_BUTTON,
-  RoutingConstants
+  RoutingConstants,
+  CONSTANTS
 } from '@/shared/constants';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { deletePlanRequested, changeIsEditingState } from '../../store/plan.actions';
@@ -105,13 +106,11 @@ export class PlanListComponent implements AfterViewInit, OnDestroy {
   }
 
   deletePlan(id: number): void {
-    this.toastMessageService
-      .confirm(DIALOG.CONFIRM, 'Do you really want to delete plan? You will not be able to recover!')
-      .then((result) => {
-        if (result.value) {
-          this.store$.dispatch(deletePlanRequested({ id }));
-        }
-      });
+    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_DELETE_PLAN_CONFIRM).then((result) => {
+      if (result.value) {
+        this.store$.dispatch(deletePlanRequested({ id }));
+      }
+    });
   }
 
   ngOnDestroy(): void {

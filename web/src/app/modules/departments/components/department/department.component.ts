@@ -12,7 +12,7 @@ import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
 import { MediaqueryService, ToastMessageService } from '@/shared/services';
 import { updateDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
 import { selectIsEditing } from '../../store/department.selectors';
-import { EDIT_PRIVILEGES, DIALOG, ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
+import { EDIT_PRIVILEGES, DIALOG, ACTION_LABELS, THEME_PALETTE, CONSTANTS } from '@/shared/constants';
 
 @Component({
   selector: 'department',
@@ -108,13 +108,11 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   }
 
   updateDepartment(): void {
-    this.toastMessageService
-      .confirm(DIALOG.CONFIRM, 'Are you sure you want to update department details?')
-      .then((result) => {
-        if (result.value) {
-          this.store$.dispatch(updateDepartmentRequested({ department: this.department }));
-        }
-      });
+    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_UPDATE_DEPARTMENT_CONFIRM).then((result) => {
+      if (result.value) {
+        this.store$.dispatch(updateDepartmentRequested({ department: this.department }));
+      }
+    });
   }
 
   ngOnDestroy(): void {

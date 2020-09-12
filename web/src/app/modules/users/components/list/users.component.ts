@@ -22,7 +22,8 @@ import {
   ACTION_LABELS,
   COLUMN_LABELS,
   THEME_PALETTE,
-  RoutingConstants
+  RoutingConstants,
+  CONSTANTS
 } from '@/shared/constants';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import {
@@ -128,13 +129,11 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
   // }
 
   deleteUser(id: number): void {
-    this.toastMessageService
-      .confirm(DIALOG.CONFIRM, 'Do you really want to delete user? You will not be able to recover!')
-      .then((result) => {
-        if (result.value) {
-          this.store$.dispatch(deleteUser({ id }));
-        }
-      });
+    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_DELETE_USER_CONFIRM).then((result) => {
+      if (result.value) {
+        this.store$.dispatch(deleteUser({ id }));
+      }
+    });
   }
 
   changeUserState(user: User, state: number): void {

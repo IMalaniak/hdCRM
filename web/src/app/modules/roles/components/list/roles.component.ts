@@ -19,7 +19,8 @@ import {
   ACTION_LABELS,
   COLUMN_LABELS,
   THEME_PALETTE,
-  RoutingConstants
+  RoutingConstants,
+  CONSTANTS
 } from '@/shared/constants';
 import { deleteRoleRequested, changeIsEditingState } from '../../store/role.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
@@ -103,13 +104,11 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
   }
 
   deleteRole(id: number): void {
-    this.toastMessageService
-      .confirm(DIALOG.CONFIRM, 'Do you really want to delete role? You will not be able to recover!')
-      .then((result) => {
-        if (result.value) {
-          this.store$.dispatch(deleteRoleRequested({ id }));
-        }
-      });
+    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_DELETE_ROLE_CONFIRM).then((result) => {
+      if (result.value) {
+        this.store$.dispatch(deleteRoleRequested({ id }));
+      }
+    });
   }
 
   ngOnDestroy(): void {

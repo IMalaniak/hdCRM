@@ -14,7 +14,7 @@ import { Observable } from 'rxjs';
 import { User } from '@/modules/users';
 import { selectUsersOnline } from '@/modules/users/store/user.selectors';
 import { OnlineUserListRequested } from '@/modules/users/store/user.actions';
-import { MAT_BUTTON } from '@/shared/constants';
+import { MAT_BUTTON, CONSTANTS } from '@/shared/constants';
 
 @Component({
   selector: 'right-sidebar',
@@ -52,10 +52,10 @@ export class RightSidebarComponent implements OnInit {
   }
 
   themeTipMessage(): string {
-    return this.enableDarkTheme ? 'Dark theme' : 'Light theme';
+    return this.enableDarkTheme ? CONSTANTS.TEXTS_THEME_DARK : CONSTANTS.TEXTS_THEME_LIGHT;
   }
 
   sidebarTipMessage(): string {
-    return this.rightSidebarMinimized ? 'Show side panel' : 'Hide side panel';
+    return this.rightSidebarMinimized ? CONSTANTS.TEXTS_SHOW_SIDEBAR : CONSTANTS.TEXTS_HIDE_SIDEBAR;
   }
 }

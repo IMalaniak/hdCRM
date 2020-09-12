@@ -14,7 +14,8 @@ import {
   ACTION_LABELS,
   THEME_PALETTE,
   RoutingConstants,
-  MAT_BUTTON
+  MAT_BUTTON,
+  CONSTANTS
 } from '@/shared/constants';
 import { AppState } from '@/core/reducers';
 import { selectDepartmentsTotalCount, selectDepartmentsLoading } from '../../store/department.selectors';
@@ -100,13 +101,11 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
   }
 
   deleteDepartment(id: number): void {
-    this.toastMessageService
-      .confirm(DIALOG.CONFIRM, 'Do you really want to delete department? You will not be able to recover!')
-      .then((result) => {
-        if (result.value) {
-          this.store$.dispatch(deleteDepartmentRequested({ id }));
-        }
-      });
+    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_DELETE_DEPARTMENT_CONFIRM).then((result) => {
+      if (result.value) {
+        this.store$.dispatch(deleteDepartmentRequested({ id }));
+      }
+    });
   }
 
   ngOnDestroy(): void {
