@@ -10,7 +10,7 @@ const routes: Routes = [
     path: '',
     component: PublicViewComponent,
     children: [
-      { path: '', pathMatch: 'full', redirectTo: PATHS.HOME },
+      { path: '', pathMatch: PATHS.PATH_MATCH_FULL, redirectTo: PATHS.HOME },
       {
         path: PATHS.HOME,
         data: { breadcrumb: 'Home' },
@@ -23,7 +23,7 @@ const routes: Routes = [
     component: PrivateViewComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', pathMatch: 'full', redirectTo: PATHS.DASHBOARD },
+      { path: '', pathMatch: PATHS.PATH_MATCH_FULL, redirectTo: PATHS.DASHBOARD },
       {
         path: PATHS.PLANNER,
         canActivate: [AuthGuard],

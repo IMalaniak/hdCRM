@@ -4,17 +4,25 @@ export class PATHS {
   static DASHBOARD = 'dashboard';
   static INTERNAL_ERROR = 'server-error';
 
+  static PATH_MATCH_FULL = 'full';
+  static PATH_MATCH_PREFIX = 'prefix';
+
   // common
   static LIST = 'list';
   static DETAILS = 'details';
   static ADD = 'add';
+  static PARAMS_TOKEN = ':token';
+  static PARAMS_ID = ':id';
+  static DETAILS_ID = `${PATHS.DETAILS}/${PATHS.PARAMS_ID}`;
 
   // auth
   static AUTH = 'auth';
   static LOGIN = 'login';
   static ACTIVATE_ACCOUNT = 'activate-account';
+  static ACTIVATE_ACCOUNT_TOKEN = `${PATHS.ACTIVATE_ACCOUNT}/${PATHS.PARAMS_TOKEN}`;
   static REQUEST_NEW_PASSWORD = 'request-new-password';
   static PASSWORD_RESET = 'password-reset';
+  static PASSWORD_RESET_TOKEN = `${PATHS.PASSWORD_RESET}/${PATHS.PARAMS_TOKEN}`;
   static REGISTER = 'register';
   static REGISTER_SUCESS = 'register-success';
 

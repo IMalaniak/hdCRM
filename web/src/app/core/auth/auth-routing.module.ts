@@ -10,14 +10,14 @@ const routes: Routes = [
     data: { breadcrumb: 'Authorization', animation: 'PublicView' },
     canActivate: [PublicGuard],
     children: [
-      { path: '', pathMatch: 'full', redirectTo: PATHS.LOGIN },
+      { path: '', pathMatch: PATHS.PATH_MATCH_FULL, redirectTo: PATHS.LOGIN },
       {
         path: PATHS.LOGIN,
         data: { breadcrumb: 'Login' },
         component: LoginComponent
       },
       {
-        path: `${PATHS.ACTIVATE_ACCOUNT}/:token`,
+        path: PATHS.ACTIVATE_ACCOUNT_TOKEN,
         data: { breadcrumb: 'Account activation' },
         component: LoginComponent
       },
@@ -27,7 +27,7 @@ const routes: Routes = [
         component: LoginComponent
       },
       {
-        path: `${PATHS.PASSWORD_RESET}/:token`,
+        path: PATHS.PASSWORD_RESET_TOKEN,
         data: { breadcrumb: 'Reset password' },
         component: LoginComponent
       },

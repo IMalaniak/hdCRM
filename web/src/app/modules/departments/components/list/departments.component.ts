@@ -13,7 +13,8 @@ import {
   COLUMN_LABELS,
   ACTION_LABELS,
   THEME_PALETTE,
-  RoutingConstants
+  RoutingConstants,
+  MAT_BUTTON
 } from '@/shared/constants';
 import { AppState } from '@/core/reducers';
 import { selectDepartmentsTotalCount, selectDepartmentsLoading } from '../../store/department.selectors';
@@ -51,6 +52,7 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
   columnLabels = COLUMN_LABELS;
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
+  matButtonTypes = MAT_BUTTON;
   addDepartmentRoute = RoutingConstants.ROUTE_DEPARTMENTS_ADD;
 
   displayedColumns: COLUMN_NAMES[] = [

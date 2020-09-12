@@ -5,7 +5,7 @@ import { PrivilegeGuard } from '@/core/_guards';
 import { PATHS, VIEW_PRIVILEGES } from '@/shared/constants';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: PATHS.LIST },
+  { path: '', pathMatch: PATHS.PATH_MATCH_FULL, redirectTo: PATHS.LIST },
   {
     path: PATHS.LIST,
     data: {
@@ -17,7 +17,7 @@ const routes: Routes = [
     component: UsersComponent
   },
   {
-    path: `${PATHS.DETAILS}/:id`,
+    path: PATHS.DETAILS_ID,
     data: {
       breadcrumb: 'Details',
       animation: 'UserDetailsPage',
