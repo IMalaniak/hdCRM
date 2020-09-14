@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { appRouterTransition } from '@/shared';
+import { appRouterTransition } from '@/shared/animations';
 import { RouterOutlet } from '@angular/router';
 
 @Component({

@@ -1,5 +1,6 @@
 import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { User } from '@/modules/users/models';
+import { THEME_PALETTE, MAT_BUTTON } from '@/shared/constants';
 
 @Component({
   selector: 'molecules-user-list-sm-item',
@@ -12,8 +13,8 @@ import { User } from '@/modules/users/models';
 
         <atoms-icon-button
           *ngIf="editMode"
-          matType="icon"
-          color="warn"
+          [matType]="matButtonTypes.ICON"
+          [color]="themePalette.WARN"
           [icon]="['fas', 'trash']"
           class="ml-auto"
           (onclick)="onRemoveClick(user.id); $event.stopPropagation()"
@@ -32,6 +33,9 @@ export class MoleculesUserListSmItemComponent {
 
   @Output() removeClick: EventEmitter<number> = new EventEmitter();
   @Output() userClick: EventEmitter<User> = new EventEmitter();
+
+  themePalette = THEME_PALETTE;
+  matButtonTypes = MAT_BUTTON;
 
   onRemoveClick(id: number): void {
     this.removeClick.emit(id);

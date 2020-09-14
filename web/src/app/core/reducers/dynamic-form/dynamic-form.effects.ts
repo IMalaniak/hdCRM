@@ -4,7 +4,7 @@ import { DynamicFormService } from '@/core/services/dynamic-form.service';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 import * as dynamicFormActions from './dynamic-form.actions';
 import { of } from 'rxjs';
-import { ItemApiResponse, DynamicForm } from '@/shared';
+import { ItemApiResponse, DynamicForm } from '@/shared/models';
 
 @Injectable()
 export class DynamicFormEffects {

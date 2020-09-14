@@ -1,11 +1,13 @@
 import { Component, Input, EventEmitter, Output, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { User } from '@/modules/users';
-import { ToastMessageService, DynamicForm } from '@/shared';
+import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
-import { Observable } from 'rxjs';
+import { User } from '@/modules/users';
+import { ToastMessageService } from '@/shared/services';
+import { DynamicForm } from '@/shared/models';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
+import { DIALOG, ACTION_LABELS, THEME_PALETTE, CONSTANTS } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-user-details',
@@ -22,6 +24,9 @@ export class OrganismsUserDetailsComponent implements OnInit {
   @Output() setEditableForm: EventEmitter<boolean> = new EventEmitter();
 
   userFormValues: User;
+
+  actionLabels = ACTION_LABELS;
+  themePalette = THEME_PALETTE;
 
   userFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName('user')));
 
@@ -45,12 +50,10 @@ export class OrganismsUserDetailsComponent implements OnInit {
   }
 
   onUpdateUserSubmit(): void {
-    this.toastMessageService
-      .confirm('Are you sure?', 'Do you really want to save changes? You will not be able to recover this!')
-      .then((result) => {
-        if (result.value) {
-          this.updateUser.emit({ ...this.user, ...this.userFormValues });
-        }
-      });
+    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_UPDATE_COMMON_CONFIRM).then((result) => {
+      if (result.value) {
+        this.updateUser.emit({ ...this.user, ...this.userFormValues });
+      }
+    });
   }
 }

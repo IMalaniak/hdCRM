@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 
 export class MenuItem {
-  url: string[];
+  url: string;
   icon: string[];
   i18n: string;
   title: string;

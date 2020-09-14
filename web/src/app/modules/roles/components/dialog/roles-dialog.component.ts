@@ -2,6 +2,7 @@ import { Component, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RolesComponent } from '../list/roles.component';
 import { Role } from '../../models/role';
+import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
 
 export interface RolesDialogData {
   title: string;
@@ -11,6 +12,9 @@ export interface RolesDialogData {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RolesDialogComponent {
+  actionLabels = ACTION_LABELS;
+  themePalette = THEME_PALETTE;
+
   constructor(
     public dialogRef: MatDialogRef<RolesDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: RolesDialogData
@@ -23,7 +27,7 @@ export class RolesDialogComponent {
     this.dialogRef.close();
   }
 
-  onSubmiteClick(roles: Role[]): void {
+  onSubmitClick(roles: Role[]): void {
     this.dialogRef.close(roles);
   }
 }

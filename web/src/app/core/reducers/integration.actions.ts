@@ -1,12 +1,15 @@
 import { props, createAction } from '@ngrx/store';
 
-export const toggleGoogleDriveIntegration = createAction('[Integrations] Toggle Google Drive Integration');
+const prefix = '[Integrations]';
+const apiPrefix = '[Integrations API]';
+
+export const toggleGoogleDriveIntegration = createAction(`${prefix} Toggle Google Drive Integration`);
 
 export const googleDriveIntegrationLoaded = createAction(
-  '[Integrations API] Google Drive Integration Loaded',
+  `${apiPrefix} Google Drive Integration Loaded`,
   props<{ googleDriveToken: string }>()
 );
 
-export const googleDriveIntegrationDisable = createAction('[Integrations API] Google Drive Integration Disable');
+export const googleDriveIntegrationDisable = createAction(`${apiPrefix} Google Drive Integration Disable`);
 
-export const integratioApiFailed = createAction('[Integrations API] Google Drive Integration API Failed');
+export const integratioApiFailed = createAction(`${apiPrefix} Google Drive Integration API Failed`);

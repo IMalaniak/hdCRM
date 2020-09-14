@@ -117,18 +117,18 @@
   </div>
   <div buttons *ngIf="canEditDepartment$ | async">
     <atoms-icon-button *ngIf="!(editForm$ | async)" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
-      Edit
+      {{ actionLabels.EDIT }}
     </atoms-icon-button>
     <atoms-icon-button
       *ngIf="editForm$ | async"
-      color="basic"
+      [color]="themePalette.BASIC"
       [icon]="['fas', 'times']"
       (onclick)="onClickCancelEdit()"
     >
-      Cancel
+      {{ actionLabels.CANCEL }}
     </atoms-icon-button>
     <atoms-icon-button *ngIf="editForm$ | async" class="ml-2" [icon]="['fas', 'save']" (onclick)="updateDepartment()">
-      Save
+      {{ actionLabels.SAVE }}
     </atoms-icon-button>
   </div>
 </organisms-card>

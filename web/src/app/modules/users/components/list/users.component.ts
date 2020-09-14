@@ -14,8 +14,26 @@ import { selectIsLoading, selectUsersTotalCount } from '../../store/user.selecto
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { deleteUser } from '../../store/user.actions';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
-import { PageQuery, MediaqueryService, ToastMessageService, IItemsPerPage, pageSizeOptions } from '@/shared';
+import { MediaqueryService, ToastMessageService } from '@/shared/services';
+import { PageQuery } from '@/shared/models';
+import {
+  IItemsPerPage,
+  pageSizeOptions,
+  ACTION_LABELS,
+  COLUMN_LABELS,
+  THEME_PALETTE,
+  RoutingConstants,
+  CONSTANTS
+} from '@/shared/constants';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
+import {
+  DIALOG,
+  ADD_PRIVILEGES,
+  EDIT_PRIVILEGES,
+  DELETE_PRIVILEGES,
+  SORT_DIRECTION,
+  COLUMN_NAMES
+} from '@/shared/constants';
 
 @Component({
   selector: 'app-users',
@@ -26,9 +44,9 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
   currentUser$: Observable<User> = this.store$.pipe(select(currentUser));
   loading$: Observable<boolean> = this.store$.pipe(select(selectIsLoading));
   resultsLength$: Observable<number> = this.store$.pipe(select(selectUsersTotalCount));
-  canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged('user-add')));
-  canEditUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged('user-edit')));
-  canDeleteUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged('user-delete')));
+  canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.USER)));
+  canEditUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.USER)));
+  canDeleteUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.USER)));
   itemsPerPageState$: Observable<IItemsPerPage> = this.store$.pipe(select(getItemsPerPageState));
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -38,19 +56,24 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
   dataSource: UsersDataSource = new UsersDataSource(this.store$);
   pageSizeOptions: number[] = pageSizeOptions;
   users: User[];
-  displayedColumns: string[] = [
-    'select',
-    'avatar',
-    'login',
-    'email',
-    'name',
-    'surname',
-    'phone',
-    'dep',
-    'state',
-    'createdAt',
-    'updatedAt',
-    'actions'
+
+  themePalette = THEME_PALETTE;
+  columns = COLUMN_NAMES;
+  columnLabels = COLUMN_LABELS;
+  actionLabels = ACTION_LABELS;
+  displayedColumns: COLUMN_NAMES[] = [
+    COLUMN_NAMES.SELECT,
+    COLUMN_NAMES.AVATAR,
+    COLUMN_NAMES.LOGIN,
+    COLUMN_NAMES.EMAIL,
+    COLUMN_NAMES.NAME,
+    COLUMN_NAMES.SURNAME,
+    COLUMN_NAMES.PHONE,
+    COLUMN_NAMES.DEPARTMENT,
+    COLUMN_NAMES.STATE,
+    COLUMN_NAMES.CREATED_AT,
+    COLUMN_NAMES.UPDATED_AT,
+    COLUMN_NAMES.ACTIONS
   ];
 
   private unsubscribe: Subject<void> = new Subject();
@@ -80,7 +103,7 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,
       sortIndex: this.sort.active,
-      sortDirection: this.sort.direction || 'asc'
+      sortDirection: this.sort.direction || SORT_DIRECTION.ASC
     };
 
     this.dataSource.loadUsers(newPage);
@@ -106,13 +129,11 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
   // }
 
   deleteUser(id: number): void {
-    this.toastMessageService
-      .confirm('Are you sure?', 'Do you really want to delete user? You will not be able to recover!')
-      .then((result) => {
-        if (result.value) {
-          this.store$.dispatch(deleteUser({ id }));
-        }
-      });
+    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_DELETE_USER_CONFIRM).then((result) => {
+      if (result.value) {
+        this.store$.dispatch(deleteUser({ id }));
+      }
+    });
   }
 
   changeUserState(user: User, state: number): void {
@@ -131,7 +152,7 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
   }
 
   onUserSelect(id: number, edit: boolean = false): void {
-    this.router.navigate([`/users/details/${id}`], {
+    this.router.navigate([`${RoutingConstants.ROUTE_USERS_DETAILS}/${id}`], {
       queryParams: { edit }
     });
   }

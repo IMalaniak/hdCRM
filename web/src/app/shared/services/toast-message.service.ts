@@ -3,6 +3,7 @@ import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MoleculesServerMessageComponent } from '../components/molecules';
 import { ApiResponse } from '../models';
+import { DIALOG, ALERT } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +15,14 @@ export class ToastMessageService {
     return Swal.fire({
       title,
       text,
-      icon: 'question',
+      icon: ALERT.QUESTION,
       showCancelButton: true,
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'Cancel'
+      confirmButtonText: DIALOG.YES,
+      cancelButtonText: DIALOG.CANCEL
     });
   }
 
-  toast(title: string, icon: SweetAlertIcon = 'success', timer: number = 2500) {
+  toast(title: string, icon: SweetAlertIcon = ALERT.SUCCESS, timer: number = 2500) {
     return Swal.fire({
       title,
       toast: true,

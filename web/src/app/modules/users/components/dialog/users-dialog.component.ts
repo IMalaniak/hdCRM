@@ -1,6 +1,7 @@
 import { Component, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UsersComponent } from '../list/users.component';
+import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
 
 export interface UsersDialogData {
   title: string;
@@ -10,6 +11,9 @@ export interface UsersDialogData {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UsersDialogComponent {
+  actionLabels = ACTION_LABELS;
+  themePalette = THEME_PALETTE;
+
   constructor(
     public dialogRef: MatDialogRef<UsersDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: UsersDialogData

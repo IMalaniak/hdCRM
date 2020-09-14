@@ -1,35 +1,39 @@
 import { createAction, props } from '@ngrx/store';
 import { Role } from '../models';
 import { Update } from '@ngrx/entity';
-import { PageQuery, CollectionApiResponse } from '@/shared';
+import { PageQuery, CollectionApiResponse } from '@/shared/models';
+
+const detailsPrefix = '[Role Details]';
+const listPrefix = '[Roles List]';
+const apiPrefix = '[Roles API]';
 
 export const createRoleRequested = createAction('[Roles Add] Role Add Requested', props<{ role: Role }>());
-export const createRoleSuccess = createAction('[Roles API] Add Role Success', props<{ role: Role }>());
+export const createRoleSuccess = createAction(`${apiPrefix} Add Role Success`, props<{ role: Role }>());
 
-export const roleRequested = createAction('[Role Details] Role Requested', props<{ id: number }>());
-export const roleLoaded = createAction('[Roles API] Role Loaded', props<{ role: Role }>());
+export const roleRequested = createAction(`${detailsPrefix} Role Requested`, props<{ id: number }>());
+export const roleLoaded = createAction(`${apiPrefix} Role Loaded`, props<{ role: Role }>());
 
-export const updateRoleRequested = createAction('[Role Details] Update Role Requsted', props<{ role: Role }>());
-export const updateRoleSuccess = createAction('[Role API] Update Role Success', props<{ role: Update<Role> }>());
+export const updateRoleRequested = createAction(`${detailsPrefix} Update Role Requsted`, props<{ role: Role }>());
+export const updateRoleSuccess = createAction(`${apiPrefix} Update Role Success`, props<{ role: Update<Role> }>());
 
-export const deleteRoleRequested = createAction('[Role List] Delete Role Requested', props<{ id: number }>());
-export const deleteRoleSuccess = createAction('[Role API] Delete Role Success', props<{ id: number }>());
+export const deleteRoleRequested = createAction(`${listPrefix} Delete Role Requested`, props<{ id: number }>());
+export const deleteRoleSuccess = createAction(`${apiPrefix} Delete Role Success`, props<{ id: number }>());
 
-export const listPageRequested = createAction('[Roles List] Roles Page Requested', props<{ page: PageQuery }>());
+export const listPageRequested = createAction(`${listPrefix} Roles Page Requested`, props<{ page: PageQuery }>());
 export const listPageLoaded = createAction(
-  '[Roles API] Roles Page Loaded',
+  `${apiPrefix} Roles Page Loaded`,
   props<{ response: CollectionApiResponse<Role> }>()
 );
 
 export const roleDashboardDataRequested = createAction('[Dashboard] Roles Data Requested');
 export const roleDashboardDataLoaded = createAction(
-  '[Roles API] Dashboard Roles Data Loaded',
+  `${apiPrefix} Dashboard Roles Data Loaded`,
   props<{ response: CollectionApiResponse<Role> }>()
 );
 
 export const changeIsEditingState = createAction(
-  '[Role Details] Change Is Editing State',
+  `${detailsPrefix} Change Is Editing State`,
   props<{ isEditing: boolean }>()
 );
 
-export const rolesApiError = createAction('[Roles API] Failed Executing Request');
+export const rolesApiError = createAction(`${apiPrefix} Failed Executing Request`);

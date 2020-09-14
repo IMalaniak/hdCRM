@@ -1,22 +1,23 @@
 import { createAction, props } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 import { Department } from '../models';
-import { PageQuery, CollectionApiResponse } from '@/shared';
+import { PageQuery, CollectionApiResponse } from '@/shared/models';
 
-export const departmentRequested = createAction('[Department Details] Department Requested', props<{ id: number }>());
+const detailsPrefix = '[Department Details]';
+const listPrefix = '[Departments List]';
+const apiPrefix = '[Departments API]';
 
-export const departmentLoaded = createAction(
-  '[Departments API] Department Loaded',
-  props<{ department: Department }>()
-);
+export const departmentRequested = createAction(`${detailsPrefix} Department Requested`, props<{ id: number }>());
+
+export const departmentLoaded = createAction(`${apiPrefix} Department Loaded`, props<{ department: Department }>());
 
 export const updateDepartmentRequested = createAction(
-  '[Department Details] Update Department Requsted',
+  `${detailsPrefix} Update Department Requsted`,
   props<{ department: Department }>()
 );
 
 export const updateDepartmentSuccess = createAction(
-  '[Department API] Update Department Success',
+  `${apiPrefix} Update Department Success`,
   props<{ department: Update<Department> }>()
 );
 
@@ -26,27 +27,21 @@ export const createDepartmentRequested = createAction(
 );
 
 export const createDepartmentSuccess = createAction(
-  '[Departments API] Add Department Success',
+  `${apiPrefix} Add Department Success`,
   props<{ department: Department }>()
 );
 
 export const deleteDepartmentRequested = createAction(
-  '[Department List] Delete Department Requested',
+  `${listPrefix} Delete Department Requested`,
   props<{ id: number }>()
 );
 
-export const deleteDepartmentSuccess = createAction(
-  '[Department API] Delete Department Success',
-  props<{ id: number }>()
-);
+export const deleteDepartmentSuccess = createAction(`${apiPrefix} Delete Department Success`, props<{ id: number }>());
 
-export const listPageRequested = createAction(
-  '[Departments List] Departments Page Requested',
-  props<{ page: PageQuery }>()
-);
+export const listPageRequested = createAction(`${listPrefix} Departments Page Requested`, props<{ page: PageQuery }>());
 
 export const listPageLoaded = createAction(
-  '[Departments API] Departments Page Loaded',
+  `${apiPrefix} Departments Page Loaded`,
   props<{ response: CollectionApiResponse<Department> }>()
 );
 
@@ -58,8 +53,8 @@ export const depDashboardDataLoaded = createAction(
 );
 
 export const changeIsEditingState = createAction(
-  '[Department Details] Change Is Editing State',
+  `${detailsPrefix} Change Is Editing State`,
   props<{ isEditing: boolean }>()
 );
 
-export const departmentApiError = createAction('[Departments API] Failed Executing Request');
+export const departmentApiError = createAction(`${apiPrefix} Failed Executing Request`);

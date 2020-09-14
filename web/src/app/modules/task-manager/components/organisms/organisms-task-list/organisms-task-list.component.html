@@ -1,9 +1,9 @@
 <organisms-card cardTitle="Tasks" headClass="text-uppercase" cardClass="rounded-0 px-0" [counter]="tasks.length">
   <div buttons>
     <atoms-icon-button
-      matType="icon"
+      [matType]="matButtonType.ICON"
       [matMenuTriggerFor]="menu"
-      color="basic"
+      [color]="themePalette.BASIC"
       [icon]="['fas', 'ellipsis-v']"
       *ngIf="tasks.length >= 2"
     >
@@ -11,28 +11,28 @@
 
     <mat-menu #menu="matMenu">
       <atoms-icon-button
-        matType="basic"
-        color="basic"
+        [matType]="matButtonType.BASIC"
+        [color]="themePalette.BASIC"
         [showButtonTextOnSm]="true"
         [fullWidth]="true"
         [icon]="['fas', 'compress-alt']"
         (onclick)="taskAccordion.closeAll()"
       >
-        Collapse all
+        {{ actionLabels.COLLAPSE_ALL }}
       </atoms-icon-button>
       <atoms-icon-button
-        matType="basic"
-        color="basic"
+        [matType]="matButtonType.BASIC"
+        [color]="themePalette.BASIC"
         [showButtonTextOnSm]="true"
         [fullWidth]="true"
         [icon]="['fas', 'expand-alt']"
         (onclick)="taskAccordion.openAll()"
       >
-        Expand all
+        {{ actionLabels.EXPAND_ALL }}
       </atoms-icon-button>
       <atoms-icon-button
-        matType="basic"
-        color="warn"
+        [matType]="matButtonType.BASIC"
+        [color]="themePalette.WARN"
         [showButtonTextOnSm]="true"
         [fullWidth]="true"
         [icon]="['fas', 'trash']"
@@ -44,8 +44,7 @@
     </mat-menu>
 
     <atoms-icon-button
-      matType="icon"
-      color="primary"
+      [matType]="matButtonType.ICON"
       matTooltip="{{ 'Add new task' }}"
       matTooltipPosition="above"
       (click)="openTaskDialog()"
@@ -76,13 +75,18 @@
           >
           <div class="d-flex" [ngClass]="[task.description ? 'flex-column' : 'flex-row']">
             <atoms-icon-button
-              matType="icon"
+              [matType]="matButtonType.ICON"
               (onclick)="openTaskDialog(task)"
               [icon]="['fas', 'pencil-alt']"
-              color="basic"
+              [color]="themePalette.BASIC"
             >
             </atoms-icon-button>
-            <atoms-icon-button matType="icon" (onclick)="deleteTask(task.id)" [icon]="['fas', 'trash']" color="warn">
+            <atoms-icon-button
+              [matType]="matButtonType.ICON"
+              (onclick)="deleteTask(task.id)"
+              [icon]="['fas', 'trash']"
+              [color]="themePalette.WARN"
+            >
             </atoms-icon-button>
           </div>
         </div>

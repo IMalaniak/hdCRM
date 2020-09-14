@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewEncapsulation, Input, HostBinding, ChangeDetectionStrategy } from '@angular/core';
-import { MediaqueryService } from '@/shared';
+import { MediaqueryService } from '@/shared/services';
 import { MenuItem } from './menuItem';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
+import { RoutingConstants } from '@/shared/constants';
 
 @Component({
   selector: 'left-sidebar',
@@ -27,61 +28,56 @@ export class LeftSidebarComponent implements OnInit {
     this.generateMenu();
   }
 
-  // <!-- <li><a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/users/myprofile']"><mat-icon>person</mat-icon><span class="item-title" i18n="@@sidebarMenuMyProfile">My profile</span></a></li> -->
-
-  // <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/myplans']"><span class="item-title" i18n="@@sidebarMenuMyPlans">My Plans</span></a></li>
-  // <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/calendar']"><span class="item-title" i18n="@@sidebarMenuCalendar">Calendar</span></a></li>
-
   generateMenu(): void {
     this.sidebarMenu = [
       {
-        url: ['/home'],
+        url: RoutingConstants.ROUTE_HOME,
         title: 'Home',
         i18n: '@@sidebarMenuHome',
         icon: ['fas', 'home'],
         disable: !this.mediaquery.isPhone
       },
       {
-        url: ['/dashboard'],
+        url: RoutingConstants.ROUTE_DASHBOARD,
         title: 'Dashboard',
         i18n: '@@sidebarMenuDashboard',
         icon: ['fas', 'th-large']
       },
       {
-        url: ['/users'],
+        url: RoutingConstants.ROUTE_USERS,
         title: 'Users',
         i18n: '@@sidebarMenuUsers',
         icon: ['fas', 'users'],
         privilege: this.store.pipe(select(isPrivileged('user-view')))
       },
       {
-        url: ['/roles'],
+        url: RoutingConstants.ROUTE_ROLES,
         title: 'Roles',
         i18n: '@@sidebarMenuRoles',
         icon: ['fas', 'user-tag'],
         privilege: this.store.pipe(select(isPrivileged('role-view')))
       },
       {
-        url: ['/planner'],
+        url: RoutingConstants.ROUTE_PLANNER,
         title: 'Plans',
         i18n: '@@sidebarMenuPlans',
         icon: ['fas', 'list-alt'],
         privilege: this.store.pipe(select(isPrivileged('plan-view')))
       },
       {
-        url: ['/departments'],
+        url: RoutingConstants.ROUTE_DEPARTMENTS,
         title: 'Departments',
         i18n: '@@sidebarMenuDepartments',
         icon: ['fas', 'building'],
         privilege: this.store.pipe(select(isPrivileged('department-view')))
-      },
-      {
-        url: ['/chats'],
-        title: 'Chats',
-        i18n: '@@sidebarMenuChats',
-        icon: ['fas', 'sms'],
-        privilege: this.store.pipe(select(isPrivileged('chat-view')))
       }
+      //      {
+      //        url: '/chats',
+      //        title: 'Chats',
+      //        i18n: '@@sidebarMenuChats',
+      //        icon: ['fas', 'sms'],
+      //        privilege: this.store.pipe(select(isPrivileged('chat-view')))
+      //      }
     ];
   }
 }

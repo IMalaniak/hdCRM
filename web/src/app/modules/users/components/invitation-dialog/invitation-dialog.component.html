@@ -62,7 +62,7 @@
     <atoms-icon-button
       (onclick)="addUserToInvitation(userData.value)"
       [icon]="['fas', 'plus']"
-      matType="fab"
+      [matType]="matButtonType.FAB"
       [disabled]="userData.invalid || errorInvitations === true"
     >
     </atoms-icon-button>
@@ -76,7 +76,9 @@
 </div>
 <mat-divider class="mt-4 mt-md-0"></mat-divider>
 <div mat-dialog-actions class="justify-content-end mb-1 mt-3">
-  <atoms-icon-button (onclick)="onNoClick()" [icon]="['fas', 'times']" color="basic"> Cancel </atoms-icon-button>
+  <atoms-icon-button (onclick)="onNoClick()" [icon]="['fas', 'times']" [color]="themePalette.BASIC">
+    {{ actionLabels.CANCEL }}
+  </atoms-icon-button>
   <atoms-icon-button [disabled]="invitedUsers.length === 0" (onclick)="sendInvitation()" [icon]="['fas', 'envelope']">
     Send invitations
   </atoms-icon-button>

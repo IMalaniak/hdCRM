@@ -43,34 +43,34 @@
           <div class="d-flex flex-column justify-content-start mb-3 mb-sm-0 w-100">
             <span class="content-title">Account</span>
             <atoms-icon-button
-              matType="basic"
+              [matType]="matButtonTypes.BASIC"
               [showButtonTextOnSm]="true"
-              [routerLink]="['/users/myprofile']"
+              [routerLink]="paths.MY_PROFILE"
               [fullWidth]="true"
               [icon]="['fas', 'user']"
+              [color]="themePalette.BASIC"
               class="mb-1"
-              color="basic"
             >
               My profile
             </atoms-icon-button>
             <atoms-icon-button
-              matType="basic"
+              [matType]="matButtonTypes.BASIC"
               [showButtonTextOnSm]="true"
               [fullWidth]="true"
               (onclick)="onLogoutClick()"
               [icon]="['fas', 'sign-out-alt']"
-              color="warn"
+              [color]="themePalette.WARN"
             >
-              Logout
+              {{ actionLabels.LOG_OUT }}
             </atoms-icon-button>
           </div>
           <mat-divider [vertical]="true" class="mx-0 mx-sm-2"></mat-divider>
           <div class="d-flex flex-column justify-content-start w-100">
             <span class="content-title">Availability</span>
             <atoms-icon-button
-              matType="basic"
+              [matType]="matButtonTypes.BASIC"
               class="mb-1"
-              color="basic"
+              [color]="themePalette.BASIC"
               [showButtonTextOnSm]="true"
               [icon]="['fas', 'chevron-down']"
               [fullWidth]="true"
@@ -81,47 +81,47 @@
 
             <mat-menu #userStatuses="matMenu">
               <atoms-icon-button
-                matType="basic"
+                [matType]="matButtonTypes.BASIC"
                 [showButtonTextOnSm]="true"
                 [fullWidth]="true"
                 [icon]="['fas', 'globe']"
-                color="basic"
+                [color]="themePalette.BASIC"
               >
                 Online
               </atoms-icon-button>
               <atoms-icon-button
-                matType="basic"
+                [matType]="matButtonTypes.BASIC"
                 [showButtonTextOnSm]="true"
                 [fullWidth]="true"
                 [icon]="['fas', 'coffee']"
-                color="basic"
+                [color]="themePalette.BASIC"
               >
                 On break
               </atoms-icon-button>
               <atoms-icon-button
-                matType="basic"
+                [matType]="matButtonTypes.BASIC"
                 [showButtonTextOnSm]="true"
                 [fullWidth]="true"
                 [icon]="['fas', 'user-clock']"
-                color="basic"
+                [color]="themePalette.BASIC"
               >
                 Away
               </atoms-icon-button>
               <atoms-icon-button
-                matType="basic"
+                [matType]="matButtonTypes.BASIC"
                 [showButtonTextOnSm]="true"
                 [fullWidth]="true"
                 [icon]="['fas', 'ghost']"
-                color="basic"
+                [color]="themePalette.BASIC"
               >
                 Unvisible
               </atoms-icon-button>
               <atoms-icon-button
-                matType="basic"
+                [matType]="matButtonTypes.BASIC"
                 [showButtonTextOnSm]="true"
                 [fullWidth]="true"
                 [icon]="['fas', 'minus-circle']"
-                color="basic"
+                [color]="themePalette.BASIC"
               >
                 Busy
               </atoms-icon-button>
@@ -129,11 +129,11 @@
 
             <atoms-icon-button
               *ngIf="canAddUser$ | async"
-              matType="basic"
+              [matType]="matButtonTypes.BASIC"
               [showButtonTextOnSm]="true"
               [fullWidth]="true"
               [icon]="['fas', 'user-plus']"
-              color="basic"
+              [color]="themePalette.BASIC"
             >
               Invite members
             </atoms-icon-button>

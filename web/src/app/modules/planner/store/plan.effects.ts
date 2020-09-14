@@ -6,9 +6,11 @@ import { mergeMap, map, catchError } from 'rxjs/operators';
 import { PlanService } from '../services';
 import { Plan } from '../models';
 import { Router } from '@angular/router';
-import { ToastMessageService, CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared';
+import { ToastMessageService } from '@/shared/services';
+import { CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared/models';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Update } from '@ngrx/entity';
+import { RoutingConstants } from '@/shared/constants';
 
 @Injectable()
 export class PlanEffects {
@@ -20,7 +22,7 @@ export class PlanEffects {
         this.planService.create(plan).pipe(
           map((response: ItemApiResponse<Plan>) => {
             this.toastMessageService.snack(response);
-            this.router.navigate(['/planner']);
+            this.router.navigateByUrl(RoutingConstants.ROUTE_PLANNER);
             return planActions.createPlanSuccess({ plan: response.data });
           }),
           catchError((errorResponse: HttpErrorResponse) => {

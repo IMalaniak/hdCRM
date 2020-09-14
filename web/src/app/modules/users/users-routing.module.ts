@@ -2,31 +2,32 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ProfileComponent, UserComponent, UsersComponent } from './components';
 import { PrivilegeGuard } from '@/core/_guards';
+import { PATHS, VIEW_PRIVILEGES } from '@/shared/constants';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'list' },
+  { path: '', pathMatch: PATHS.PATH_MATCH_FULL, redirectTo: PATHS.LIST },
   {
-    path: 'list',
+    path: PATHS.LIST,
     data: {
       breadcrumb: 'List',
       animation: 'UsersListPage',
-      privilege: 'user-view'
+      privilege: VIEW_PRIVILEGES.USER
     },
     canActivate: [PrivilegeGuard],
     component: UsersComponent
   },
   {
-    path: 'details/:id',
+    path: PATHS.DETAILS_ID,
     data: {
       breadcrumb: 'Details',
       animation: 'UserDetailsPage',
-      privilege: 'user-view'
+      privilege: VIEW_PRIVILEGES.USER
     },
     canActivate: [PrivilegeGuard],
     component: UserComponent
   },
   {
-    path: 'myprofile',
+    path: PATHS.MY_PROFILE,
     data: { breadcrumb: 'My profile', animation: 'MyProfilePage' },
     component: ProfileComponent
   }

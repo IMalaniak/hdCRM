@@ -5,7 +5,9 @@ import { of } from 'rxjs';
 import { tap, map, switchMap, catchError, concatMap, withLatestFrom, mergeMap } from 'rxjs/operators';
 import * as authActions from './auth.actions';
 import { AuthenticationService } from '../services';
-import { SocketService, SocketEvent, ToastMessageService, ApiResponse, ItemApiResponse } from '@/shared';
+import { SocketService, ToastMessageService } from '@/shared/services';
+import { ApiResponse, ItemApiResponse } from '@/shared/models';
+import { SocketEvent, RoutingConstants } from '@/shared/constants';
 import { Store, select, Action } from '@ngrx/store';
 import { getToken } from './auth.selectors';
 import { selectUrl, AppState } from '@/core/reducers';
@@ -33,7 +35,7 @@ export class AuthEffects implements OnInitEffects {
       switchMap((registerData) =>
         this.authService.registerUser(registerData).pipe(
           map(() => authActions.registerSuccess()),
-          tap(() => this.router.navigateByUrl('/auth/register-success')),
+          tap(() => this.router.navigateByUrl(RoutingConstants.ROUTE_AUTH_REGISTER_SUCCESS)),
           catchError(() => of(authActions.authApiError()))
         )
       )
@@ -50,7 +52,7 @@ export class AuthEffects implements OnInitEffects {
         return [authActions.logInSuccess({ accessToken }), authActions.setSessionId({ sessionId })];
       }),
       tap(() => {
-        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || RoutingConstants.ROUTE_DASHBOARD;
         this.router.navigateByUrl(returnUrl);
       }),
       catchError((errorResponse: HttpErrorResponse) => {
@@ -68,7 +70,7 @@ export class AuthEffects implements OnInitEffects {
           this.authService.logout().subscribe(() => {
             // TODO check if this is unsubscribed
             this.scktService.emit(SocketEvent.ISOFFLINE);
-            this.router.navigateByUrl('/home');
+            this.router.navigateByUrl(RoutingConstants.ROUTE_HOME);
           })
         )
       ),
@@ -144,7 +146,7 @@ export class AuthEffects implements OnInitEffects {
             'You are not authorized to see this page, or your session has been expired!',
             'error'
           );
-          this.router.navigate(['/auth/login'], {
+          this.router.navigate([RoutingConstants.ROUTE_AUTH_LOGIN], {
             queryParams: { returnUrl }
           });
         })

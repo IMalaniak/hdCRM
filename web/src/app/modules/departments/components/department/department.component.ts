@@ -9,9 +9,10 @@ import { UsersDialogComponent, User } from '@/modules/users';
 import { Subject, Observable, combineLatest } from 'rxjs';
 import { AppState } from '@/core/reducers';
 import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
-import { MediaqueryService, ToastMessageService } from '@/shared';
+import { MediaqueryService, ToastMessageService } from '@/shared/services';
 import { updateDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
 import { selectIsEditing } from '../../store/department.selectors';
+import { EDIT_PRIVILEGES, DIALOG, ACTION_LABELS, THEME_PALETTE, CONSTANTS } from '@/shared/constants';
 
 @Component({
   selector: 'department',
@@ -21,12 +22,15 @@ import { selectIsEditing } from '../../store/department.selectors';
 export class DepartmentComponent implements OnInit, OnDestroy {
   editForm$: Observable<boolean> = this.store$.pipe(select(selectIsEditing));
   canEditDepartment$: Observable<boolean> = combineLatest([
-    this.store$.pipe(select(isPrivileged('department-edit'))),
+    this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.DEPARTMENT))),
     this.store$.pipe(select(currentUser))
   ]).pipe(map(([editPriv, appUser]) => editPriv || appUser.id === this.department.managerId));
 
   department: Department;
   departmentInitial: Department;
+
+  actionLabels = ACTION_LABELS;
+  themePalette = THEME_PALETTE;
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -104,13 +108,11 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   }
 
   updateDepartment(): void {
-    this.toastMessageService
-      .confirm('You are about to update department', 'Are you sure you want to update department details?')
-      .then((result) => {
-        if (result.value) {
-          this.store$.dispatch(updateDepartmentRequested({ department: this.department }));
-        }
-      });
+    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_UPDATE_DEPARTMENT_CONFIRM).then((result) => {
+      if (result.value) {
+        this.store$.dispatch(updateDepartmentRequested({ department: this.department }));
+      }
+    });
   }
 
   ngOnDestroy(): void {

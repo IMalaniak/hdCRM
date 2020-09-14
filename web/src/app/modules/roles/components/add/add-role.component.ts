@@ -3,7 +3,7 @@ import { Validators, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Role, Privilege } from '../../models';
 import { UsersDialogComponent } from '@/modules/users/components/dialog/users-dialog.component';
-import { MediaqueryService } from '@/shared';
+import { MediaqueryService } from '@/shared/services';
 import { Subject } from 'rxjs';
 import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
 import { takeUntil, skipUntil, delay } from 'rxjs/operators';
@@ -11,6 +11,7 @@ import { AppState } from '@/core/reducers';
 import { Store } from '@ngrx/store';
 import { createRoleRequested } from '../../store/role.actions';
 import { User } from '@/modules/users/models';
+import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS } from '@/shared/constants';
 
 @Component({
   selector: 'app-add-role',
@@ -21,7 +22,17 @@ import { User } from '@/modules/users/models';
 export class AddRoleComponent implements OnInit {
   role = {} as Role;
   keyString: FormControl;
-  displayedColumns: string[] = ['title', 'view', 'add', 'edit', 'delete'];
+
+  columns = COLUMN_NAMES;
+  columnLabels = COLUMN_LABELS;
+  actionLabels = ACTION_LABELS;
+  displayedColumns: COLUMN_NAMES[] = [
+    COLUMN_NAMES.TITLE,
+    COLUMN_NAMES.VIEW,
+    COLUMN_NAMES.ADD,
+    COLUMN_NAMES.EDIT,
+    COLUMN_NAMES.DELETE
+  ];
 
   private unsubscribe: Subject<void> = new Subject();
 

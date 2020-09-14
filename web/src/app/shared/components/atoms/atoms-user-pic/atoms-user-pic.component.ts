@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Asset } from '@/shared/models';
 import { environment } from 'environments/environment';
+import { CONSTANTS } from '@/shared/constants';
 
 @Component({
   selector: 'atoms-user-pic',
@@ -18,8 +19,8 @@ export class AtomsUserPicComponent implements OnInit {
   @Input() userOnline: false;
 
   baseUrl = environment.baseUrl;
-  src = './assets/images/userpic/noimage_croped.png';
-  title = 'noimage';
+  src = CONSTANTS.NO_IMAGE_URL;
+  title = CONSTANTS.NO_IMAGE_TITLE;
   imageIsLoading = true;
 
   ngOnInit(): void {

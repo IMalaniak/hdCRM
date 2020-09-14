@@ -3,36 +3,37 @@ import { Routes, RouterModule } from '@angular/router';
 import { RolesComponent, RoleComponent, AddRoleComponent } from './components';
 import { RoleResolver } from './services/role.resolver';
 import { PrivilegeGuard } from '@/core/_guards';
+import { PATHS, VIEW_PRIVILEGES, ADD_PRIVILEGES } from '@/shared/constants';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'list' },
+  { path: '', pathMatch: PATHS.PATH_MATCH_FULL, redirectTo: PATHS.LIST },
   {
-    path: 'list',
+    path: PATHS.LIST,
     data: {
       breadcrumb: 'List',
       animation: 'RolesListPage',
-      privilege: 'role-view'
+      privilege: VIEW_PRIVILEGES.ROLE
     },
     canActivate: [PrivilegeGuard],
     component: RolesComponent
   },
   {
-    path: 'details/:id',
+    path: PATHS.DETAILS_ID,
     data: {
       breadcrumb: 'Details',
       animation: 'RoleDetailsPage',
-      privilege: 'role-view'
+      privilege: VIEW_PRIVILEGES.ROLE
     },
     canActivate: [PrivilegeGuard],
     component: RoleComponent,
     resolve: { role: RoleResolver }
   },
   {
-    path: 'add',
+    path: PATHS.ADD,
     data: {
       breadcrumb: 'Add role',
       animation: 'AddRolePage',
-      privilege: 'role-add'
+      privilege: ADD_PRIVILEGES.ROLE
     },
     canActivate: [PrivilegeGuard],
     component: AddRoleComponent

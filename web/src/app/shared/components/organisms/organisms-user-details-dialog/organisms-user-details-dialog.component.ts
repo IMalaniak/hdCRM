@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { User } from '@/modules/users';
+import { THEME_PALETTE, MAT_BUTTON, RoutingConstants } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-user-details-dialog',
@@ -9,6 +10,10 @@ import { User } from '@/modules/users';
 })
 export class OrganismsUserDetailsDialogComponent implements OnInit {
   user: User;
+  userDetailsRoute: string;
+
+  themePalette = THEME_PALETTE;
+  matButtonTypes = MAT_BUTTON;
 
   constructor(
     public dialogRef: MatDialogRef<OrganismsUserDetailsDialogComponent>,
@@ -17,5 +22,6 @@ export class OrganismsUserDetailsDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.data;
+    this.userDetailsRoute = `${RoutingConstants.ROUTE_USERS_DETAILS}/${this.user.id}`;
   }
 }

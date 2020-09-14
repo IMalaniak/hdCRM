@@ -15,7 +15,7 @@ import { PreferencesList, Preferences } from '@/core/reducers/preferences.reduce
 import { Observable } from 'rxjs';
 import { select } from '@ngrx/store';
 import { getPreferencesList } from '@/core/reducers/preferences.selectors';
-import { IFieldType } from '@/shared/models/FieldType';
+import { IFieldType } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-user-preferences',

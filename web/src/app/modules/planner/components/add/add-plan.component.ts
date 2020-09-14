@@ -1,15 +1,16 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { Store, select } from '@ngrx/store';
+import { takeUntil, skipUntil, delay } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { Plan } from '../../models';
 import { UsersDialogComponent, User } from '@/modules/users';
 import { AppState } from '@/core/reducers';
-import { Store, select } from '@ngrx/store';
 import { currentUser } from '@/core/auth/store/auth.selectors';
-import { takeUntil, skipUntil, delay } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 import { createPlanRequested } from '../../store/plan.actions';
-import { MediaqueryService } from '@/shared';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { MediaqueryService } from '@/shared/services';
+import { ACTION_LABELS } from '@/shared/constants';
 
 @Component({
   selector: 'add-plan',
@@ -20,6 +21,8 @@ export class AddPlanComponent implements OnInit, OnDestroy {
   plan = {} as Plan;
   planData: FormGroup;
   appUser: User;
+
+  actionLabels = ACTION_LABELS;
 
   private unsubscribe: Subject<void> = new Subject();
 

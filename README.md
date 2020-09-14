@@ -2,21 +2,30 @@
 
 ## Table of contents
 
-- [Table of contents](#table-of-contents)
-- [Introduction](#introduction)
-- [Required Build Environment (Minimum)](#required-build-environment-minimum)
-- [Required Development Tools](#required-development-tools)
-- [Cloning The hdCRM Project](#cloning-the-hdcrm-project)
-- [Local Installation](#local-installation)
-- [Running Development](#running-development)
-- [Gulp Tasks](#gulp-tasks)
-- [Building Development Instance](#building-development-instance)
-- [Commit Message Guidelines](#commit-message-guidelines)
-- [Commit Message Format](#commit-message-format)
-- [Pushing to the repository](#pushing-to-the-repository)
-- [Pull Request Message Format](#pull-request-message-format)
-- [Contribution Guidelines](#contribution-guidelines)
-- [Authors](#authors)
+- [hdCRM](#hdcrm)
+  - [Table of contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Required Build Environment (Minimum)](#required-build-environment-minimum)
+  - [Required Development Tools](#required-development-tools)
+  - [Cloning The hdCRM Project](#cloning-the-hdcrm-project)
+  - [Local Installation](#local-installation)
+  - [Running Development](#running-development)
+  - [Gulp Tasks](#gulp-tasks)
+    - [The most common used tasks to remember](#the-most-common-used-tasks-to-remember)
+  - [Building Development Instance](#building-development-instance)
+  - [Commit Message Guidelines](#commit-message-guidelines)
+    - [Type](#type)
+  - [Commit Message Format](#commit-message-format)
+    - [Scope](#scope)
+    - [Revert](#revert)
+    - [Cherry Pick](#cherry-pick)
+  - [Pushing to the repository](#pushing-to-the-repository)
+  - [Pull Request Message Format](#pull-request-message-format)
+  - [Contribution Guidelines](#contribution-guidelines)
+    - [Branch Creating Process](#branch-creating-process)
+    - [Scope](#scope-1)
+    - [Pull Request Process](#pull-request-process)
+  - [Authors](#authors)
 
 ## Introduction
 
@@ -152,6 +161,7 @@ We must create commit messages according to the following rules
 
 Must be one of the following:
 
+- **dep**: Update dependencies
 - **feat**: A new feature
 - **fix**: A bug fix
 - **refactor**: A code change that neither fixes a bug nor adds a feature

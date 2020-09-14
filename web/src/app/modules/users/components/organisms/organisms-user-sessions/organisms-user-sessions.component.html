@@ -15,9 +15,9 @@
           <div mat-line>{{ parseUA(uSession.UA) }}</div>
           <div mat-line>{{ uSession.updatedAt | dateTimeFormat | async }}, IP: {{ uSession.IP }}</div>
           <atoms-icon-button
-            color="warn"
+            [color]="themePalette.WARN"
             [icon]="['fas', 'times']"
-            matType="icon"
+            [matType]="matButtonType.ICON"
             (onclick)="onRemoveSession(uSession.id)"
           >
           </atoms-icon-button>
@@ -26,8 +26,8 @@
       <mat-list-item>
         <div mat-line class="d-flex justify-content-end">
           <atoms-icon-button
-            color="warn"
-            matType="basic"
+            [color]="themePalette.WARN"
+            [matType]="matButtonType.BASIC"
             [icon]="['fas', 'times']"
             [showButtonTextOnSm]="true"
             (onclick)="onRemoveOtherSessions()"

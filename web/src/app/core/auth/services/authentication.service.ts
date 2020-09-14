@@ -2,57 +2,56 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User, Organization } from '@/modules/users';
-import { ApiResponse, NewPassword, JwtDecoded, ItemApiResponse } from '@/shared';
+import { ApiResponse, NewPassword, JwtDecoded, ItemApiResponse } from '@/shared/models';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { APIS } from '@/shared/constants';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
   private jwtHelper = new JwtHelperService();
-  private authApi = '/auth';
-  private userApi = '/users';
 
   constructor(private http: HttpClient) {}
 
   getProfile(): Observable<User> {
-    return this.http.get<User>(`${this.userApi}/profile`);
+    return this.http.get<User>(APIS.USERS_PROFILE);
   }
 
   updateProfile(user: User): Observable<ItemApiResponse<User>> {
-    return this.http.put<ItemApiResponse<User>>(`${this.userApi}/profile`, user);
+    return this.http.put<ItemApiResponse<User>>(APIS.USERS_PROFILE, user);
   }
 
   updateOrg(org: Organization): Observable<ItemApiResponse<Organization>> {
-    return this.http.put<ItemApiResponse<Organization>>(`${this.userApi}/org/${org.id}`, org);
+    return this.http.put<ItemApiResponse<Organization>>(`${APIS.USERS_ORGANIZATION}/${org.id}`, org);
   }
 
   registerUser(user: User): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.authApi}/register`, user);
+    return this.http.post<ApiResponse>(APIS.AUTH_REGISTER, user);
   }
 
   login(loginUser: User): Observable<ApiResponse | string> {
-    return this.http.post<ApiResponse | string>(`${this.authApi}/authenticate`, loginUser, { withCredentials: true });
+    return this.http.post<ApiResponse | string>(APIS.AUTHENTICATE, loginUser, { withCredentials: true });
   }
 
   refreshSession(): Observable<ApiResponse | string> {
-    return this.http.get<ApiResponse | string>(`${this.authApi}/refresh-session`, { withCredentials: true });
+    return this.http.get<ApiResponse | string>(APIS.REFRESH_SESSION, { withCredentials: true });
   }
 
   activateAccount(token: string): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.authApi}/activate_account`, {
+    return this.http.post<ApiResponse>(APIS.ACTIVATE_ACCOUNT, {
       token: token
     });
   }
 
   requestPasswordReset(user: User): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.authApi}/forgot_password`, user);
+    return this.http.post<ApiResponse>(APIS.FORGOT_PASSWORD, user);
   }
 
   resetPassword(data: NewPassword): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.authApi}/reset_password`, data);
+    return this.http.post<ApiResponse>(APIS.RESET_PASSWORD, data);
   }
 
   logout(): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(`${this.authApi}/logout`, { withCredentials: true });
+    return this.http.get<ApiResponse>(APIS.LOGOUT, { withCredentials: true });
   }
 
   isTokenValid(token: string): boolean {
@@ -64,11 +63,11 @@ export class AuthenticationService {
   }
 
   deleteSession(id: number): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(`${this.userApi}/session/${id}`);
+    return this.http.delete<ApiResponse>(`${APIS.USERS_SESSION}/${id}`);
   }
 
   deleteSessionMultiple(sessionIds: number[]): Observable<ApiResponse> {
     // TODO @IMalaniak, change this to delete request with body
-    return this.http.put<ApiResponse>(`${this.userApi}/session-multiple/${1}`, { sessionIds });
+    return this.http.put<ApiResponse>(`${APIS.USERS_MULTIPLE_SESSION}/${1}`, { sessionIds });
   }
 }

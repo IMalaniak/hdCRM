@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromDepartment from './department.reducer';
 import { Department } from '../models';
-import { PageQuery } from '@/shared';
+import { PageQuery } from '@/shared/models';
 
 export const selectDepartmentsState = createFeatureSelector<fromDepartment.DepartmentsState>(
   fromDepartment.departmentsFeatureKey

@@ -6,7 +6,7 @@ import { select, Store } from '@ngrx/store';
 import { listPageRequested } from '../store/user.actions';
 import { selectUsersPage } from '../store/user.selectors';
 import { AppState } from '@/core/reducers';
-import { PageQuery } from '@/shared';
+import { PageQuery } from '@/shared/models';
 
 export class UsersDataSource implements DataSource<User> {
   private usersSubject = new BehaviorSubject<User[]>([]);

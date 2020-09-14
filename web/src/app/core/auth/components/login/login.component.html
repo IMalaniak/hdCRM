@@ -6,7 +6,7 @@
         <form
           (submit)="onLoginSubmit()"
           [formGroup]="user"
-          *ngIf="currentPath === 'login' || currentPath === 'activate-account'"
+          *ngIf="currentPath === paths.LOGIN || currentPath === paths.ACTIVATE_ACCOUNT"
         >
           <mat-card>
             <mat-card-content class="d-flex justify-content-center flex-column p-3">
@@ -31,21 +31,21 @@
               </mat-form-field>
               <div class="d-flex flex-row justify-content-between align-items-center">
                 <atoms-icon-button
-                  color="basic"
-                  matType="flat"
-                  type="button"
+                  [color]="themePalette.BASIC"
+                  [matType]="matButtonTypes.FLAT"
+                  [type]="buttonType.BUTTON"
                   class="text-muted"
-                  routerLink="/auth/request-new-password/"
+                  [routerLink]="routes.ROUTE_AUTH_REQUEST_NEW_PASSWORD"
                 >
                   Forgot password?
                 </atoms-icon-button>
 
                 <atoms-icon-button
-                  type="submit"
+                  [type]="buttonType.SUBMIT"
                   [disabled]="(isLoading$ | async) || this.user.invalid"
                   [icon]="!(isLoading$ | async) ? ['fas', 'key'] : ['fas', 'ban']"
                 >
-                  Login
+                  {{ actionLabels.LOG_IN }}
                 </atoms-icon-button>
               </div>
               <!-- <div class="separator-wrapper my-4">
@@ -63,7 +63,7 @@
             </mat-card-content>
           </mat-card>
         </form>
-        <form (submit)="onResetPasswordRequest()" [formGroup]="user" *ngIf="currentPath === 'request-new-password'">
+        <form (submit)="onResetPasswordRequest()" [formGroup]="user" *ngIf="currentPath === paths.REQUEST_NEW_PASSWORD">
           <mat-card>
             <mat-card-content class="d-flex justify-content-center flex-column p-3">
               <h3 i18n="@@loginComponentFormRequestNewPasswordHeader" class="pb-2">Your email or login</h3>
@@ -72,11 +72,16 @@
                 <input matInput formControlName="login" type="text" autocomplete="username" name="login" required />
               </mat-form-field>
               <div class="d-flex justify-content-between">
-                <atoms-icon-button color="basic" type="reset" routerLink="/auth/login" [icon]="['fas', 'times']">
-                  Cancel
+                <atoms-icon-button
+                  [color]="themePalette.BASIC"
+                  [type]="buttonType.RESET"
+                  [routerLink]="routes.ROUTE_AUTH_LOGIN"
+                  [icon]="['fas', 'times']"
+                >
+                  {{ actionLabels.CANCEL }}
                 </atoms-icon-button>
                 <atoms-icon-button
-                  type="submit"
+                  [type]="buttonType.SUBMIT"
                   [disabled]="(isLoading$ | async) || user.invalid"
                   [icon]="['fas', 'arrow-right']"
                 >
@@ -86,7 +91,7 @@
             </mat-card-content>
           </mat-card>
         </form>
-        <form (submit)="onResetPassword()" [formGroup]="newPasswordForm" *ngIf="currentPath === 'password-reset'">
+        <form (submit)="onResetPassword()" [formGroup]="newPasswordForm" *ngIf="currentPath === paths.PASSWORD_RESET">
           <mat-card>
             <mat-card-content class="d-flex justify-content-center flex-column p-3">
               <h3 i18n="@@loginComponentFormPasswordResetHeader" class="pb-2">Reset password</h3>
@@ -146,12 +151,21 @@
                 </mat-error>
               </mat-form-field>
               <div class="d-flex flex-row justify-content-between mt-1">
-                <atoms-icon-button color="basic" type="reset" routerLink="/auth/login" [icon]="['fas', 'times']">
-                  Cancel
+                <atoms-icon-button
+                  [color]="themePalette.BASIC"
+                  [type]="buttonType.RESET"
+                  [routerLink]="routes.ROUTE_AUTH_LOGIN"
+                  [icon]="['fas', 'times']"
+                >
+                  {{ actionLabels.CANCEL }}
                 </atoms-icon-button>
 
-                <atoms-icon-button type="submit" [disabled]="newPasswordForm.invalid" [icon]="['fas', 'check']">
-                  Submit
+                <atoms-icon-button
+                  [type]="buttonType.SUBMIT"
+                  [disabled]="newPasswordForm.invalid"
+                  [icon]="['fas', 'check']"
+                >
+                  {{ actionLabels.SUMBIT }}
                 </atoms-icon-button>
               </div>
             </mat-card-content>
@@ -163,7 +177,7 @@
           <h2>New to HDCRM?</h2>
           <p>Create an account and do management.</p>
 
-          <atoms-icon-button [routerLink]="['/auth/register']" [icon]="['fas', 'arrow-right']">
+          <atoms-icon-button [routerLink]="routes.ROUTE_AUTH_REGISTER" [icon]="['fas', 'arrow-right']">
             Create an account
           </atoms-icon-button>
         </div>

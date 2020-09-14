@@ -13,6 +13,7 @@ import { ToastMessageService } from '@/shared/services';
 import { CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared/models';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Update } from '@ngrx/entity';
+import { RoutingConstants } from '@/shared/constants';
 
 @Injectable()
 export class RoleEffects {
@@ -24,7 +25,7 @@ export class RoleEffects {
         this.roleService.create({ ...role }).pipe(
           map((response: ItemApiResponse<Role>) => {
             this.toastMessageService.snack(response);
-            this.router.navigate(['/roles']);
+            this.router.navigateByUrl(RoutingConstants.ROUTE_ROLES);
             return roleActions.createRoleSuccess({ role: response.data });
           }),
           catchError((errorResponse: HttpErrorResponse) => {

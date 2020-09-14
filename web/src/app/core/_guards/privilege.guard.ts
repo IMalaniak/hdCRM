@@ -5,7 +5,8 @@ import { AppState } from '../reducers';
 import { Observable } from 'rxjs';
 import { tap, skipWhile } from 'rxjs/operators';
 import { isPrivileged } from '../auth/store/auth.selectors';
-import { ToastMessageService } from '@/shared';
+import { ToastMessageService } from '@/shared/services';
+import { ALERT, CONSTANTS } from '@/shared/constants';
 
 @Injectable({ providedIn: 'root' })
 export class PrivilegeGuard implements CanActivate {
@@ -17,7 +18,7 @@ export class PrivilegeGuard implements CanActivate {
       skipWhile((flag) => flag === undefined),
       tap((privileged) => {
         if (!privileged) {
-          this.toastMessageService.popup('Sorry, You have no rights to see this page!', 'error').then(() => {
+          this.toastMessageService.popup(CONSTANTS.TEXTS_PRIVILEGE_GUARD_ERROR, ALERT.WARNING).then(() => {
             return false;
           });
         }

@@ -1,6 +1,6 @@
 <organisms-card cardTitle="Plan list" [showDataLoader]="loading$ | async">
   <div buttons *ngIf="canAddPlan$ | async">
-    <atoms-icon-button routerLink="/planner/add" [icon]="['fas', 'plus']"> Create a new plan </atoms-icon-button>
+    <atoms-icon-button [routerLink]="addPlanRoute" [icon]="['fas', 'plus']"> Create a new plan </atoms-icon-button>
   </div>
 
   <div content class="table-container">
@@ -22,61 +22,70 @@
             </mat-checkbox>
           </mat-cell>
         </ng-container> -->
-      <ng-container matColumnDef="title">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@plannerСomponentListTitle">Title</mat-header-cell>
+      <ng-container [matColumnDef]="columns.TITLE">
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@plannerСomponentListTitle">{{
+          columnLabels.TITLE
+        }}</mat-header-cell>
         <mat-cell *matCellDef="let plan">{{ plan.title }}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="creator">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@plannerСomponentListCreator"
-          >Creator</mat-header-cell
-        >
+      <ng-container [matColumnDef]="columns.CREATOR">
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@plannerСomponentListCreator">{{
+          columnLabels.CREATOR
+        }}</mat-header-cell>
         <mat-cell *matCellDef="let plan">{{ plan.Creator.name + ' ' + plan.Creator.surname }}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="stage">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@plannerСomponentListStage">Stage</mat-header-cell>
+      <ng-container [matColumnDef]="columns.STAGE">
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@plannerСomponentListStage">{{
+          columnLabels.STAGE
+        }}</mat-header-cell>
         <mat-cell *matCellDef="let plan">{{ plan.activeStage.keyString }}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="participants">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@plannerСomponentListParticipants"
-          >Participants</mat-header-cell
-        >
+      <ng-container [matColumnDef]="columns.PARTICIPANTS">
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@plannerСomponentListParticipants">{{
+          columnLabels.PARTICIPANTS
+        }}</mat-header-cell>
         <mat-cell *matCellDef="let plan">{{ plan.Participants.length }}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="createdAt">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@plannerComponentListCreatedAt"
-          >Created At</mat-header-cell
-        >
+      <ng-container [matColumnDef]="columns.CREATED_AT">
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@plannerComponentListCreatedAt">{{
+          columnLabels.CREATED_AT
+        }}</mat-header-cell>
         <mat-cell *matCellDef="let plan">{{ plan.createdAt | dateTimeFormat | async }}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="updatedAt">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@plannerComponentListUpdatedAt"
-          >Updated At</mat-header-cell
-        >
+      <ng-container [matColumnDef]="columns.UPDATED_AT">
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@plannerComponentListUpdatedAt">{{
+          columnLabels.UPDATED_AT
+        }}</mat-header-cell>
         <mat-cell *matCellDef="let plan">{{ plan.updatedAt | dateTimeFormat | async }}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="deadline">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@plannerComponentListDeadLine"
-          >Deadline</mat-header-cell
-        >
+      <ng-container [matColumnDef]="columns.DEADLINE">
+        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@plannerComponentListDeadLine">{{
+          columnLabels.DEADLINE
+        }}</mat-header-cell>
         <mat-cell *matCellDef="let plan">{{ plan.deadline | dateTimeFormat | async }}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="actions" stickyEnd>
+      <ng-container [matColumnDef]="columns.ACTIONS" stickyEnd>
         <mat-header-cell *matHeaderCellDef i18n="@@globalsListActions"></mat-header-cell>
         <mat-cell *matCellDef="let plan">
-          <atoms-icon-button [matMenuTriggerFor]="menu" color="basic" [icon]="['fas', 'ellipsis-v']" matType="icon">
+          <atoms-icon-button
+            [matMenuTriggerFor]="menu"
+            [color]="themePalette.BASIC"
+            [icon]="['fas', 'ellipsis-v']"
+            [matType]="matButtonType.ICON"
+          >
           </atoms-icon-button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="onPlanSelect(plan.id)">
               <fa-icon [icon]="['fas', 'info']"></fa-icon>
-              <span i18n="@@plannerComponentListActionsView">Details</span>
+              <span i18n="@@plannerComponentListActionsView">{{ actionLabels.DETAILS }}</span>
             </button>
             <button *ngIf="canEditPlan$ | async" mat-menu-item (click)="onPlanSelect(plan.id, true)">
               <fa-icon [icon]="['fas', 'edit']"></fa-icon>
-              <span i18n="@@plannerComponentListActionsEdit">Edit</span>
+              <span i18n="@@plannerComponentListActionsEdit">{{ actionLabels.EDIT }}</span>
             </button>
             <button *ngIf="canDeletePlan$ | async" mat-menu-item (click)="deletePlan(plan.id)">
               <fa-icon [icon]="['fas', 'trash']" class="text-danger"></fa-icon>
-              <span i18n="@@plannerComponentListActionsDelete">Delete</span>
+              <span i18n="@@plannerComponentListActionsDelete">{{ actionLabels.DELETE }}</span>
             </button>
           </mat-menu>
         </mat-cell>

@@ -7,13 +7,23 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { Observable, Subject } from 'rxjs';
-import { MediaqueryService, ToastMessageService } from '@/shared';
+import { MediaqueryService, ToastMessageService } from '@/shared/services';
 import { takeUntil, skipUntil, delay } from 'rxjs/operators';
 import { cloneDeep } from 'lodash';
 import { updateRoleRequested, changeIsEditingState } from '../../store/role.actions';
 import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
 import { User } from '@/modules/users';
 import { selectIsEditing } from '../../store/role.selectors';
+import {
+  EDIT_PRIVILEGES,
+  DIALOG,
+  COLUMN_NAMES,
+  COLUMN_LABELS,
+  ACTION_LABELS,
+  THEME_PALETTE,
+  MAT_BUTTON,
+  CONSTANTS
+} from '@/shared/constants';
 
 @Component({
   selector: 'role',
@@ -23,11 +33,23 @@ import { selectIsEditing } from '../../store/role.selectors';
 })
 export class RoleComponent implements OnInit, OnDestroy {
   editForm$: Observable<boolean> = this.store$.pipe(select(selectIsEditing));
-  canEditRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged('role-edit')));
+  canEditRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.ROLE)));
 
   role: Role;
   roleInitial: Role;
-  displayedColumns: string[] = ['title', 'view', 'add', 'edit', 'delete'];
+
+  themePalette = THEME_PALETTE;
+  matButtonType = MAT_BUTTON;
+  columns = COLUMN_NAMES;
+  columnLabels = COLUMN_LABELS;
+  actionLabels = ACTION_LABELS;
+  displayedColumns: COLUMN_NAMES[] = [
+    COLUMN_NAMES.TITLE,
+    COLUMN_NAMES.VIEW,
+    COLUMN_NAMES.ADD,
+    COLUMN_NAMES.EDIT,
+    COLUMN_NAMES.DELETE
+  ];
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -143,7 +165,7 @@ export class RoleComponent implements OnInit, OnDestroy {
 
   onClickEdit(): void {
     this.store$.dispatch(changeIsEditingState({ isEditing: true }));
-    this.displayedColumns = [...this.displayedColumns, 'actions'];
+    this.displayedColumns = [...this.displayedColumns, COLUMN_NAMES.ACTIONS];
   }
 
   onClickCancelEdit(): void {
@@ -153,18 +175,16 @@ export class RoleComponent implements OnInit, OnDestroy {
   }
 
   disableEdit(): void {
-    this.displayedColumns = this.displayedColumns.filter((col) => col !== 'actions');
+    this.displayedColumns = this.displayedColumns.filter((col) => col !== COLUMN_NAMES.ACTIONS);
   }
 
   updateRole(): void {
-    this.toastMessageService
-      .confirm('You are about to update role', 'Are you sure you want to update department details?')
-      .then((result) => {
-        if (result.value) {
-          this.store$.dispatch(updateRoleRequested({ role: this.role }));
-          this.disableEdit();
-        }
-      });
+    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_UPDATE_ROLE_CONFIRM).then((result) => {
+      if (result.value) {
+        this.store$.dispatch(updateRoleRequested({ role: this.role }));
+        this.disableEdit();
+      }
+    });
   }
 
   ngOnDestroy(): void {

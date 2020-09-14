@@ -1,25 +1,29 @@
 import { createAction, props } from '@ngrx/store';
-import { IDateFormat, ITimeFormat, IItemsPerPage, IListView, ApiResponse } from '@/shared/models';
+import { ApiResponse } from '@/shared/models';
+import { IDateFormat, ITimeFormat, IItemsPerPage, IListView } from '@/shared/constants';
 import { Preferences, PreferencesList } from './preferences.reducer';
 
-export const changeDateFormat = createAction('[Preferences] Change Date Format', props<{ dateFormat: IDateFormat }>());
-export const changeTimeFormat = createAction('[Preferences] Change Time Format', props<{ timeFormat: ITimeFormat }>());
+const prefix = '[Preferences]';
+const apiPrefix = '[Preferences API]';
+
+export const changeDateFormat = createAction(`${prefix} Change Date Format`, props<{ dateFormat: IDateFormat }>());
+export const changeTimeFormat = createAction(`${prefix} Change Time Format`, props<{ timeFormat: ITimeFormat }>());
 export const changeItemsPerPage = createAction(
-  '[Preferences] Change Items Per Page Format',
+  `${prefix} Change Items Per Page Format`,
   props<{ itemsPerPage: IItemsPerPage }>()
 );
-export const changeListView = createAction('[Preferences] Change List View Format', props<{ listView: IListView }>());
+export const changeListView = createAction(`${prefix} Change List View Format`, props<{ listView: IListView }>());
 export const initPreferences = createAction(
-  '[Preferences] Init Preferences Settings',
+  `${prefix} Init Preferences Settings`,
   props<{ preferences: Preferences }>()
 );
 
-export const preferencesListRequested = createAction('[Preferences] Preferences List Requested');
+export const preferencesListRequested = createAction(`${prefix} Preferences List Requested`);
 export const preferencesListLoaded = createAction(
-  '[Preferences API] Preferences List Loaded',
+  `${apiPrefix} Preferences List Loaded`,
   props<{ list: PreferencesList }>()
 );
 export const preferencesListLoadFailed = createAction(
-  '[Preferences API] Preferences List Load Failed',
+  `${apiPrefix} Preferences List Load Failed`,
   props<{ apiResp: ApiResponse }>()
 );

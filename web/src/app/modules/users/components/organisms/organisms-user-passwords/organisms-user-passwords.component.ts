@@ -5,7 +5,7 @@ import { ConfirmPasswordValidator } from '@/shared/validators';
 import { AppState } from '@/core/reducers';
 import { Store } from '@ngrx/store';
 import { changeOldPassword } from '@/modules/users/store/user.actions';
-import { IFieldType } from '@/shared/models/FieldType';
+import { IFieldType, ACTION_LABELS } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-user-passwords',
@@ -18,6 +18,8 @@ export class OrganismsUserPasswordsComponent implements OnInit {
 
   userNewPassword: FormGroup;
   fieldTypes = IFieldType;
+
+  actionLabels = ACTION_LABELS;
 
   constructor(private store: Store<AppState>, private fb: FormBuilder) {}
 

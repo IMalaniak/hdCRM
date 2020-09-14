@@ -9,9 +9,11 @@ import { AppState } from '@/core/reducers';
 import { Department } from '../models';
 import { selectDashboardDepDataLoaded } from './department.selectors';
 import { Router } from '@angular/router';
-import { ToastMessageService, CollectionApiResponse, ItemApiResponse, ApiResponse, PageQuery } from '@/shared';
+import { ToastMessageService } from '@/shared/services';
+import { CollectionApiResponse, ItemApiResponse, ApiResponse, PageQuery } from '@/shared/models';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Update } from '@ngrx/entity';
+import { RoutingConstants } from '@/shared/constants';
 
 @Injectable()
 export class DepartmentEffects {
@@ -23,7 +25,7 @@ export class DepartmentEffects {
         this.departmentService.create(department).pipe(
           map((response: ItemApiResponse<Department>) => {
             this.toastMessageService.snack(response);
-            this.router.navigate(['/departments']);
+            this.router.navigateByUrl(RoutingConstants.ROUTE_DEPARTMENTS);
             return depActions.createDepartmentSuccess({
               department: response.data
             });

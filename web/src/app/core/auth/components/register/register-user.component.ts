@@ -6,7 +6,15 @@ import { AuthState } from '../../store/auth.reducer';
 import { registerUser } from '../../store/auth.actions';
 import { isLoading } from '../../store/auth.selectors';
 import { Observable } from 'rxjs';
-import { IFieldType } from '@/shared/models/FieldType';
+import {
+  CONSTANTS,
+  IFieldType,
+  ACTION_LABELS,
+  BUTTON_TYPE,
+  MAT_BUTTON,
+  THEME_PALETTE,
+  PATHS
+} from '@/shared/constants';
 
 @Component({
   selector: 'app-register-user',
@@ -20,6 +28,12 @@ export class RegisterUserComponent implements OnInit {
   registerData: FormGroup;
   hidePassword = true;
   fieldTypes = IFieldType;
+
+  actionLabels = ACTION_LABELS;
+  buttonTypes = BUTTON_TYPE;
+  matButtonTypes = MAT_BUTTON;
+  themePalette = THEME_PALETTE;
+  paths = PATHS;
 
   constructor(private store: Store<AuthState>, private fb: FormBuilder) {}
 
@@ -36,7 +50,7 @@ export class RegisterUserComponent implements OnInit {
           Validators.required,
           Validators.minLength(6),
           Validators.maxLength(25),
-          Validators.pattern('^[a-zA-Z0-9]+$')
+          Validators.pattern(CONSTANTS.LOGIN_REGEX)
         ]),
         email: new FormControl(null, [Validators.required, Validators.email]),
         password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
@@ -46,20 +60,14 @@ export class RegisterUserComponent implements OnInit {
         name: new FormControl(null, [
           Validators.required,
           Validators.maxLength(25),
-          Validators.pattern(
-            // tslint:disable-next-line: quotemark
-            "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
-          )
+          Validators.pattern(CONSTANTS.ONLY_TEXT_REGEX)
         ]),
         surname: new FormControl(null, [
           Validators.required,
           Validators.maxLength(25),
-          Validators.pattern(
-            // tslint:disable-next-line: quotemark
-            "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
-          )
+          Validators.pattern(CONSTANTS.ONLY_TEXT_REGEX)
         ]),
-        phone: new FormControl(null, [Validators.pattern('^[0-9]+$')])
+        phone: new FormControl(null, [Validators.pattern(CONSTANTS.PHONE_REGEX)])
       }),
       userOrganization: this.fb.group({
         type: new FormControl(null),
@@ -69,14 +77,9 @@ export class RegisterUserComponent implements OnInit {
         city: new FormControl(null),
         address: new FormControl(null),
         postcode: new FormControl(null),
-        phone: new FormControl(null, Validators.pattern('^[0-9]+$')),
+        phone: new FormControl(null, Validators.pattern(CONSTANTS.PHONE_REGEX)),
         email: new FormControl(null, Validators.email),
-        website: new FormControl(null, [
-          Validators.required,
-          Validators.pattern(
-            '^(http://www.|https://www.|http://|https://)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$'
-          )
-        ])
+        website: new FormControl(null, [Validators.required, Validators.pattern(CONSTANTS.WWW_REGEX)])
       })
     });
   }
@@ -103,10 +106,7 @@ export class RegisterUserComponent implements OnInit {
         title.setValidators([
           Validators.required,
           Validators.maxLength(50),
-          Validators.pattern(
-            // tslint:disable-next-line: quotemark
-            "^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"
-          )
+          Validators.pattern(CONSTANTS.ONLY_TEXT_REGEX)
         ]);
       } else if (value === 'private') {
         title.setValidators(null);

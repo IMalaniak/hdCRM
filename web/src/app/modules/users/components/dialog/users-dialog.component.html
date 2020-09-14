@@ -3,7 +3,11 @@
   <app-users></app-users>
 </section>
 <div mat-dialog-actions class="justify-content-end">
-  <atoms-icon-button (onclick)="onNoClick()" [icon]="['fas', 'times']" color="basic"> Cancel </atoms-icon-button>
+  <atoms-icon-button (onclick)="onNoClick()" [icon]="['fas', 'times']" [color]="themePalette.BASIC">
+    {{ actionLabels.CANCEL }}
+  </atoms-icon-button>
 
-  <atoms-icon-button [icon]="['fas', 'save']" (onclick)="onSubmitClick()"> Save </atoms-icon-button>
+  <atoms-icon-button [icon]="['fas', 'save']" (onclick)="onSubmitClick()">
+    {{ actionLabels.SUMBIT }}
+  </atoms-icon-button>
 </div>

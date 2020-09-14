@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromPlan from './plan.reducer';
-import { PageQuery } from '@/shared';
+import { PageQuery } from '@/shared/models';
 import { Plan } from '../models';
 
 export const selectPlansState = createFeatureSelector<fromPlan.PlansState>(fromPlan.plansFeatureKey);

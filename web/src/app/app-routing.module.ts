@@ -3,15 +3,16 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { AuthGuard } from '@/core/_guards';
 import { PublicViewComponent, PrivateViewComponent } from './core/layout/view-containers';
 import { PageNotFoundComponent, InternalServerErrorComponent } from './core/layout/components';
+import { PATHS } from './shared/constants';
 
 const routes: Routes = [
   {
     path: '',
     component: PublicViewComponent,
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'home' },
+      { path: '', pathMatch: PATHS.PATH_MATCH_FULL, redirectTo: PATHS.HOME },
       {
-        path: 'home',
+        path: PATHS.HOME,
         data: { breadcrumb: 'Home' },
         loadChildren: () => import('./modules/home/home.module').then((m) => m.HomeModule)
       }
@@ -22,50 +23,50 @@ const routes: Routes = [
     component: PrivateViewComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
+      { path: '', pathMatch: PATHS.PATH_MATCH_FULL, redirectTo: PATHS.DASHBOARD },
       {
-        path: 'planner',
+        path: PATHS.PLANNER,
         canActivate: [AuthGuard],
         data: { breadcrumb: 'Planner', animation: 'PlannerPage' },
         loadChildren: () => import('./modules/planner/planner.module').then((m) => m.PlannerModule)
       },
       {
-        path: 'users',
+        path: PATHS.USERS,
         canActivate: [AuthGuard],
         data: { breadcrumb: 'App Users', animation: 'UsersPage' },
         loadChildren: () => import('./modules/users/users.module').then((m) => m.UsersModule)
       },
       {
-        path: 'roles',
+        path: PATHS.ROLES,
         canActivate: [AuthGuard],
         data: { breadcrumb: 'App Roles', animation: 'RolesPage' },
         loadChildren: () => import('./modules/roles/roles.module').then((m) => m.RolesModule)
       },
       {
-        path: 'dashboard',
+        path: PATHS.DASHBOARD,
         canActivate: [AuthGuard],
         data: { animation: 'DashboardPage' },
         loadChildren: () => import('./modules/dashboard/dashboard.module').then((m) => m.DashboardModule)
       },
       {
-        path: 'departments',
+        path: PATHS.DEPARTMENTS,
         canActivate: [AuthGuard],
         data: {
           breadcrumb: 'Departments',
           animation: 'DepartmentsPage'
         },
         loadChildren: () => import('./modules/departments/departments.module').then((m) => m.DepartmentsModule)
-      },
-      {
-        path: 'chats',
-        canActivate: [AuthGuard],
-        data: { breadcrumb: 'Chat', animation: 'ChatsPage' },
-        loadChildren: () => import('./modules/chat/chat.module').then((m) => m.ChatModule)
       }
+      // {
+      //   path: 'chats',
+      //   canActivate: [AuthGuard],
+      //   data: { breadcrumb: 'Chat', animation: 'ChatsPage' },
+      //   loadChildren: () => import('./modules/chat/chat.module').then((m) => m.ChatModule)
+      // }
     ],
     data: { animation: 'PrivateView' }
   },
-  { path: 'server-error', component: InternalServerErrorComponent },
+  { path: PATHS.INTERNAL_ERROR, component: InternalServerErrorComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 

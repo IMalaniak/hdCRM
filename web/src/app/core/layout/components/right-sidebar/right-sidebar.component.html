@@ -19,7 +19,7 @@
       <fa-icon [icon]="['fas', 'chevron-right']" class="btn-icon"></fa-icon>
     </div>
     <atoms-icon-button
-      matType="icon"
+      [matType]="matButtonType.ICON"
       class="ml-4"
       [iconColor]="enableDarkTheme ? 'text-secondary' : 'text-warning'"
       [icon]="enableDarkTheme ? ['fas', 'moon'] : ['fas', 'sun']"

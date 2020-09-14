@@ -12,7 +12,17 @@ import { UsersDialogComponent, User } from '@/modules/users';
 import { AppState } from '@/core/reducers';
 import { updatePlanRequested, changeIsEditingState } from '../../store/plan.actions';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
-import { MediaqueryService, Asset, ApiResponse, ToastMessageService, DynamicForm } from '@/shared';
+import { MediaqueryService, ToastMessageService } from '@/shared/services';
+import { Asset, ApiResponse, DynamicForm } from '@/shared/models';
+import {
+  ADD_PRIVILEGES,
+  DELETE_PRIVILEGES,
+  EDIT_PRIVILEGES,
+  DIALOG,
+  ACTION_LABELS,
+  THEME_PALETTE,
+  CONSTANTS
+} from '@/shared/constants';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
 import { selectIsEditing } from '../../store/plan.selectors';
@@ -25,12 +35,12 @@ import { selectIsEditing } from '../../store/plan.selectors';
 })
 export class PlanComponent implements OnInit, OnDestroy {
   canEditPlan$: Observable<boolean> = combineLatest([
-    this.store$.pipe(select(isPrivileged('plan-edit'))),
+    this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.PLAN))),
     this.store$.pipe(select(currentUser))
   ]).pipe(map(([editPriv, appUser]) => editPriv || appUser.id === this.plan.CreatorId));
-  canAddAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged('planAttachment-add')));
+  canAddAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.PLAN_ATTACHMENT)));
   // configStages$: Observable<boolean> = this.store.pipe(select(isPrivileged('stage-edit')));
-  canDeleteAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged('planAttachment-delete')));
+  canDeleteAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.PLAN_ATTACHMENT)));
   planFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName('plan')));
   editForm$: Observable<boolean> = this.store$.pipe(select(selectIsEditing));
 
@@ -38,6 +48,9 @@ export class PlanComponent implements OnInit, OnDestroy {
   planInitial: Plan;
   planFormValues: Plan;
   configPlanStages = false;
+
+  actionLabels = ACTION_LABELS;
+  themePalette = THEME_PALETTE;
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -64,7 +77,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   // TODO: @IMalaniak recreate store logic
   // goToNextStage(): void {
   //   this.toastMessageService
-  //     .confirm('You are about to pass stage.', 'Are you sure you want to go to next plan stage?')
+  //     .confirm(DIALOG.CONFIRM, 'Are you sure you want to go to next plan stage?')
   //     .then((result) => {
   //       if (result.value) {
   //         this.planService
@@ -72,7 +85,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   //           .pipe(takeUntil(this.unsubscribe))
   //           .subscribe(
   //             ({ data }) => {
-  //               // this.updatePlanStore(data);
+  //               this.updatePlanStore(data);
   //               this.configPlanStages = false;
   //               this.toastMessageService.toast('Stages updated!');
   //             },
@@ -111,7 +124,7 @@ export class PlanComponent implements OnInit, OnDestroy {
 
   // updatePlanStages(): void {
   //   this.toastMessageService
-  //     .confirm('You are about to save stages configuration', 'Are you sure you want update stages configuration?')
+  //     .confirm(DIALOG.CONFIRM, 'Are you sure you want update stages configuration?')
   //     .then((result) => {
   //       if (result.value) {
   //         this.store$.dispatch(updatePlanRequested({ plan: this.plan }));
@@ -121,13 +134,11 @@ export class PlanComponent implements OnInit, OnDestroy {
   // }
 
   updatePlan(): void {
-    this.toastMessageService
-      .confirm('You are about to update plan', 'Are you sure you want to update plan details?')
-      .then((result) => {
-        if (result.value) {
-          this.store$.dispatch(updatePlanRequested({ plan: this.plan }));
-        }
-      });
+    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_UPDATE_PLAN_CONFIRM).then((result) => {
+      if (result.value) {
+        this.store$.dispatch(updatePlanRequested({ plan: this.plan }));
+      }
+    });
   }
 
   // TODO: @ArseniiIrod, @IMalaniak remake logic
@@ -244,7 +255,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   deleteDoc(docId: number): void {
     // TODO: @IMalaniak, @ArseniiIrod remake this in feature
     this.toastMessageService
-      .confirm('Stages updated!', 'Are you sure you want to delete document from plan, changes cannot be undone?')
+      .confirm(DIALOG.CONFIRM, 'Are you sure you want to delete document from plan, changes cannot be undone?')
       .then((result) => {
         if (result.value) {
           const req = {

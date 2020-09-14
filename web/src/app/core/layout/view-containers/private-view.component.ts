@@ -8,7 +8,8 @@ import { User } from '@/modules/users';
 import { currentUser } from '@/core/auth/store/auth.selectors';
 import * as layoutActions from '../store/layout.actions';
 import * as fromLayout from '../store';
-import { privateRouterTransition, MediaqueryService } from '@/shared';
+import { MediaqueryService } from '@/shared/services';
+import { privateRouterTransition } from '@/shared/animations';
 
 @Component({
   selector: 'app-private',

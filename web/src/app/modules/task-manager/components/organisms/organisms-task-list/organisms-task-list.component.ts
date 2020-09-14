@@ -13,10 +13,11 @@ import {
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { MediaqueryService, ToastMessageService } from '@/shared';
+import { MediaqueryService, ToastMessageService } from '@/shared/services';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { OrganismsTaskDialogComponent } from '../organisms-task-dialog/organisms-task-dialog.component';
 import { MatAccordion } from '@angular/material/expansion';
+import { DIALOG, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE, CONSTANTS } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-task-list',
@@ -29,6 +30,10 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
   @Input() priorities: TaskPriority[];
 
   @ViewChild(MatAccordion) taskAccordion: MatAccordion;
+
+  actionLabels = ACTION_LABELS;
+  themePalette = THEME_PALETTE;
+  matButtonType = MAT_BUTTON;
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -74,14 +79,12 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
   }
 
   deleteMultipleTask(): void {
-    this.toastMessageService
-      .confirm('Are you sure?', 'Do you really want to delete all comleted tasks?')
-      .then((result) => {
-        if (result.value) {
-          const taskIds: number[] = this.tasks.filter((task) => task.isCompleted).map((task) => task.id);
-          this.store.dispatch(deleteMultipleTaskRequested({ taskIds }));
-        }
-      });
+    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_DELETE_TASKS_COMPLETED_CONFIRM).then((result) => {
+      if (result.value) {
+        const taskIds: number[] = this.tasks.filter((task) => task.isCompleted).map((task) => task.id);
+        this.store.dispatch(deleteMultipleTaskRequested({ taskIds }));
+      }
+    });
   }
 
   changeTaskStatus(event: MatCheckboxChange, task: Task): void {

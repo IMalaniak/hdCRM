@@ -7,7 +7,7 @@ import { StateService } from '../services';
 import { AppState } from '@/core/reducers';
 import { allStatesLoaded } from './state.selectors';
 import { of } from 'rxjs';
-import { CollectionApiResponse } from '@/shared';
+import { CollectionApiResponse } from '@/shared/models';
 import { State } from '../models';
 
 @Injectable()

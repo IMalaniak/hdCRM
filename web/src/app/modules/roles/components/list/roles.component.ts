@@ -11,9 +11,27 @@ import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { RolesDataSource } from '../../services/role.datasource';
 import { Role } from '../../models';
 import { selectRolesTotalCount, selectRolesLoading } from '../../store/role.selectors';
-import { PageQuery, ToastMessageService, IItemsPerPage, pageSizeOptions } from '@/shared';
+import { ToastMessageService } from '@/shared/services';
+import { PageQuery } from '@/shared/models';
+import {
+  IItemsPerPage,
+  pageSizeOptions,
+  ACTION_LABELS,
+  COLUMN_LABELS,
+  THEME_PALETTE,
+  RoutingConstants,
+  CONSTANTS
+} from '@/shared/constants';
 import { deleteRoleRequested, changeIsEditingState } from '../../store/role.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
+import {
+  DIALOG,
+  SORT_DIRECTION,
+  ADD_PRIVILEGES,
+  EDIT_PRIVILEGES,
+  DELETE_PRIVILEGES,
+  COLUMN_NAMES
+} from '@/shared/constants';
 
 @Component({
   selector: 'roles',
@@ -25,16 +43,30 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
   dataSource: RolesDataSource = new RolesDataSource(this.store$);
   loading$: Observable<boolean> = this.store$.pipe(select(selectRolesLoading));
   resultsLength$: Observable<number> = this.store$.pipe(select(selectRolesTotalCount));
-  canAddRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged('role-add')));
-  canEditRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged('role-edit')));
-  canDeleteRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged('role-delete')));
+  canAddRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.ROLE)));
+  canEditRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.ROLE)));
+  canDeleteRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.ROLE)));
   itemsPerPageState$: Observable<IItemsPerPage> = this.store$.pipe(select(getItemsPerPageState));
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   selection = new SelectionModel<Role>(true, []);
-  displayedColumns: string[] = ['select', 'title', 'users', 'privileges', 'createdAt', 'updatedAt', 'actions'];
+
+  addRoleRoute = RoutingConstants.ROUTE_ROLES_ADD;
+  themePalette = THEME_PALETTE;
+  columns = COLUMN_NAMES;
+  columnLabels = COLUMN_LABELS;
+  actionLabels = ACTION_LABELS;
+  displayedColumns: COLUMN_NAMES[] = [
+    COLUMN_NAMES.SELECT,
+    COLUMN_NAMES.TITLE,
+    COLUMN_NAMES.USERS,
+    COLUMN_NAMES.PRIVILEGES,
+    COLUMN_NAMES.CREATED_AT,
+    COLUMN_NAMES.UPDATED_AT,
+    COLUMN_NAMES.ACTIONS
+  ];
   pageSizeOptions: number[] = pageSizeOptions;
   private unsubscribe: Subject<void> = new Subject();
 
@@ -60,25 +92,23 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,
       sortIndex: this.sort.active,
-      sortDirection: this.sort.direction || 'asc'
+      sortDirection: this.sort.direction || SORT_DIRECTION.ASC
     };
 
     this.dataSource.loadRoles(newPage);
   }
 
   onRoleSelect(id: number, edit: boolean = false): void {
-    this.router.navigate([`/roles/details/${id}`]);
+    this.router.navigateByUrl(`${RoutingConstants.ROUTE_ROLES_DETAILS}/${id}`);
     this.store$.dispatch(changeIsEditingState({ isEditing: edit }));
   }
 
   deleteRole(id: number): void {
-    this.toastMessageService
-      .confirm('Are you sure?', 'Do you really want to delete role? You will not be able to recover!')
-      .then((result) => {
-        if (result.value) {
-          this.store$.dispatch(deleteRoleRequested({ id }));
-        }
-      });
+    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_DELETE_ROLE_CONFIRM).then((result) => {
+      if (result.value) {
+        this.store$.dispatch(deleteRoleRequested({ id }));
+      }
+    });
   }
 
   ngOnDestroy(): void {

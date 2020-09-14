@@ -7,7 +7,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef
 } from '@angular/core';
-import { MediaqueryService } from '@/shared';
+import { MediaqueryService } from '@/shared/services';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { logOut } from '@/core/auth/store/auth.actions';
@@ -16,6 +16,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { Observable } from 'rxjs/internal/Observable';
+import { ACTION_LABELS, BUTTON_TYPE, MAT_BUTTON, THEME_PALETTE, PATHS } from '@/shared/constants';
 
 @Component({
   selector: 'app-header',
@@ -32,6 +33,11 @@ export class HeaderComponent implements OnInit {
   @Output()
   hideLeftSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+  actionLabels = ACTION_LABELS;
+  buttonTypes = BUTTON_TYPE;
+  matButtonTypes = MAT_BUTTON;
+  themePalette = THEME_PALETTE;
+  paths = PATHS;
   isShowUserMenu = false;
 
   constructor(

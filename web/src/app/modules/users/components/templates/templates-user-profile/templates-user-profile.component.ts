@@ -1,5 +1,5 @@
 import { Component, Input, SimpleChanges, OnChanges, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { User, State, Organization } from '@/modules/users/models';
+import { User, Organization } from '@/modules/users/models';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { cloneDeep } from 'lodash';
@@ -10,10 +10,9 @@ import { Observable } from 'rxjs';
 import * as fromLayout from '@/core/layout/store';
 import { updateUserOrgRequested, updateUserProfileRequested } from '@/core/auth/store/auth.actions';
 import { ActivatedRoute } from '@angular/router';
-import { allStatesRequested } from '@/modules/users/store/state.actions';
-import { selectAllStates } from '@/modules/users/store/state.selectors';
 import { Preferences } from '@/core/reducers/preferences.reducer';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
+import { TAB_PRIVILEGES, CONSTANTS, TAB_NAMES, TAB_LABELS } from '@/shared/constants';
 
 @Component({
   selector: 'templates-user-profile',
@@ -23,9 +22,9 @@ import { isPrivileged } from '@/core/auth/store/auth.selectors';
 })
 export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   enableDarkTheme$: Observable<boolean> = this.store.pipe(select(fromLayout.getDarkThemeState));
-  canViewPreferences$: Observable<boolean> = this.store.pipe(select(isPrivileged('preferenceTab-view')));
-  canViewIntegrations$: Observable<boolean> = this.store.pipe(select(isPrivileged('integrationTab-view')));
-  canViewOrganization$: Observable<boolean> = this.store.pipe(select(isPrivileged('organizationTab-view')));
+  canViewPreferences$: Observable<boolean> = this.store.pipe(select(isPrivileged(TAB_PRIVILEGES.PREFERENCE)));
+  canViewIntegrations$: Observable<boolean> = this.store.pipe(select(isPrivileged(TAB_PRIVILEGES.INTEGRATION)));
+  canViewOrganization$: Observable<boolean> = this.store.pipe(select(isPrivileged(TAB_PRIVILEGES.ORGANIZATION)));
 
   @Input() user: User;
   @Input() userPreferences: Preferences;
@@ -33,13 +32,15 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   @Input() canEdit: boolean;
   @Input() isLoading: boolean;
   @Input() editForm: boolean;
-  @Input() tabsToShow: string[] = ['details'];
+  @Input() tabsToShow: TAB_NAMES[] = [TAB_NAMES.DETAILS];
   @Input() isProfilePage = false;
 
-  states$: Observable<State[]>;
+  tabNames = TAB_NAMES;
+  tabLabels = TAB_LABELS;
+
   baseUrl = environment.baseUrl;
-  coverUrl = './assets/images/userpic/noimage_croped.png';
-  coverTitle = 'noimage';
+  coverUrl = CONSTANTS.NO_IMAGE_URL;
+  coverTitle = CONSTANTS.NO_IMAGE_TITLE;
   userInitial: User;
 
   constructor(private store: Store<AppState>, private route: ActivatedRoute) {}
@@ -51,8 +52,6 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
         isEditing = JSON.parse(isEditing);
         this.store.dispatch(changeIsEditingState({ isEditing }));
       }
-      this.store.dispatch(allStatesRequested());
-      this.states$ = this.store.pipe(select(selectAllStates));
     }
   }
 
@@ -95,7 +94,7 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
     }
   }
 
-  isTabToShow(tab: string): boolean {
+  isTabToShow(tab: TAB_NAMES): boolean {
     return this.tabsToShow.includes(tab);
   }
 

@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Asset } from '@/shared/models';
+import { MAT_BUTTON, THEME_PALETTE } from '@/shared/constants';
 
 @Component({
   selector: 'molecules-profile-pic-with-uploader',
@@ -13,9 +14,9 @@ import { Asset } from '@/shared/models';
 
       <atoms-icon-button
         *ngIf="changePicButtonVisible"
-        matType="mini-fab"
+        [matType]="matButtonTypes.MINI_FAB"
         [icon]="changePic ? ['fas', 'times'] : ['fas', 'pencil-alt']"
-        [color]="changePic ? 'warn' : 'primary'"
+        [color]="changePic ? themePalette.WARN : themePalette.PRIMARY"
         (onclick)="changePic = !changePic"
       ></atoms-icon-button>
 
@@ -34,6 +35,9 @@ export class MoleculesProfilePicWithUploaderComponent {
   @Input() apiUrl: string;
 
   @Output() addFileCall: EventEmitter<any> = new EventEmitter();
+
+  themePalette = THEME_PALETTE;
+  matButtonTypes = MAT_BUTTON;
 
   changePic = false;
   changePicButtonVisible = false;

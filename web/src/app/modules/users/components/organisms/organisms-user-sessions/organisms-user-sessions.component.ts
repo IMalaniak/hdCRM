@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { deleteSession, deleteMultipleSession } from '@/core/auth/store/auth.actions';
 import { UAParser } from 'ua-parser-js';
 import { ToastMessageService } from '@/shared/services';
+import { DIALOG, MAT_BUTTON, THEME_PALETTE, CONSTANTS } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-user-sessions',
@@ -18,6 +19,9 @@ export class OrganismsUserSessionsComponent implements OnChanges {
 
   currentSession: UserSession;
   otherActiveSessions: UserSession[];
+
+  themePalette = THEME_PALETTE;
+  matButtonType = MAT_BUTTON;
 
   constructor(private store: Store<AppState>, private toastMessageService: ToastMessageService) {}
 
@@ -59,27 +63,20 @@ export class OrganismsUserSessionsComponent implements OnChanges {
   }
 
   onRemoveSession(sessionId: number): void {
-    this.toastMessageService
-      .confirm('Are you sure?', 'Do you really want to deactivate this session? You will not be able to recover this!')
-      .then((result) => {
-        if (result.value) {
-          this.removeSession(sessionId);
-        }
-      });
+    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_SESSION_DEACTIVATE_CONFIRM).then((result) => {
+      if (result.value) {
+        this.removeSession(sessionId);
+      }
+    });
   }
 
   onRemoveOtherSessions(): void {
-    this.toastMessageService
-      .confirm(
-        'Are you sure?',
-        'Do you really want to deactivate all other active sessions? Current session will stay active!'
-      )
-      .then((result) => {
-        if (result.value) {
-          const sessionIds: number[] = this.otherActiveSessions.map((session) => session.id);
-          this.removeSession(sessionIds);
-        }
-      });
+    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_SESSION_DEACTIVATE_ALL_CONFIRM).then((result) => {
+      if (result.value) {
+        const sessionIds: number[] = this.otherActiveSessions.map((session) => session.id);
+        this.removeSession(sessionIds);
+      }
+    });
   }
 
   removeSession(sessionIds: number | number[]): void {

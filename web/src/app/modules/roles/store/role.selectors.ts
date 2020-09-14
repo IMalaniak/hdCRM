@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromRole from './role.reducer';
-import { PageQuery } from '@/shared';
+import { PageQuery } from '@/shared/models';
 import { Role } from '../models';
 
 export const selectRolesState = createFeatureSelector<fromRole.RolesState>(fromRole.rolesFeatureKey);

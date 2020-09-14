@@ -1,4 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
+import { LINK_TARGET, THEME_PALETTE, LINK_TYPE } from '@/shared/constants';
 
 @Component({
   selector: 'atoms-link-button',
@@ -13,7 +15,7 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from 
       [ngClass]="[classes]"
       [disabled]="disabled"
       (click)="onClick($event)"
-      *ngIf="linkType === 'link'; else router"
+      *ngIf="linkType === linkTypes.LINK; else router"
     >
       <span>{{ linkLabel }}</span>
     </a>
@@ -46,14 +48,16 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from 
 })
 export class AtomsLinkButtonComponent {
   @Input() linkLabel: string;
-  @Input() linkColor = 'primary';
-  @Input() target = '_self';
+  @Input() linkColor: ThemePalette | THEME_PALETTE.BASIC = THEME_PALETTE.PRIMARY;
+  @Input() target: LINK_TARGET = LINK_TARGET.SELF;
   @Input() linkClass: string;
   @Input() linkHref: any[] | string;
-  @Input() linkType: 'link' | 'router' = 'link';
+  @Input() linkType: LINK_TYPE = LINK_TYPE.LINK;
   @Input() disabled = false;
 
   @Output() onclick = new EventEmitter<MouseEvent>();
+
+  linkTypes = LINK_TYPE;
 
   onClick(event: MouseEvent): void {
     if (!this.linkHref) {
