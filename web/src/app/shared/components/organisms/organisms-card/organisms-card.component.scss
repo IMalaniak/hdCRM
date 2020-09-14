@@ -1,4 +1,15 @@
 .card {
+  .card-header {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0.5rem;
+
+    &-title {
+      align-self: center;
+      font-size: 1.2em;
+    }
+  }
+
   .mat-card-content {
     position: relative;
   }
