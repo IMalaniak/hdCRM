@@ -49,7 +49,8 @@
       "shyykoserhiy.git-autoconfig",
       "gruntfuggly.todo-tree",
       "ms-vscode.vscode-typescript-tslint-plugin",
-      "dbaeumer.vscode-eslint"
+      "dbaeumer.vscode-eslint",
+      "github.vscode-pull-request-github"
     ]
   }
 }
