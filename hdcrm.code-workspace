@@ -1,0 +1,56 @@
+{
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "name": "WEB",
+      "path": "./web"
+    },
+    {
+      "name": "SERVER",
+      "path": "./server"
+    }
+  ],
+  "settings": {
+    "prettier.tabWidth": 2,
+    "prettier.singleQuote": true,
+    "prettier.bracketSpacing": true,
+    "prettier.printWidth": 120,
+    "prettier.jsxBracketSameLine": true,
+    "prettier.trailingComma": "none",
+    "editor.tabSize": 2,
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "typescript.preferences.quoteStyle": "single",
+    "javascript.preferences.quoteStyle": "single",
+    "editor.snippetSuggestions": "top",
+    "files.autoSave": "afterDelay",
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true,
+      "source.fixAll.eslint": false
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "esbenp.prettier-vscode",
+      "yzhang.markdown-all-in-one",
+      "christian-kohler.path-intellisense",
+      "rbbit.typescript-hero",
+      "alefragnani.bookmarks",
+      "eamodio.gitlens",
+      "hbenl.vscode-test-explorer-liveshare",
+      "hbenl.vscode-test-explorer",
+      "ms-vsliveshare.vsliveshare",
+      "kavod-io.vscode-jest-test-adapter",
+      "angular.ng-template",
+      "shyykoserhiy.git-autoconfig",
+      "gruntfuggly.todo-tree",
+      "ms-vscode.vscode-typescript-tslint-plugin",
+      "dbaeumer.vscode-eslint",
+      "github.vscode-pull-request-github"
+    ]
+  }
+}
