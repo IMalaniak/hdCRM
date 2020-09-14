@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
 import { User, UserSession, Privilege, PasswordAttribute, State } from '../../models';
 import { Op, ValidationError, UniqueConstraintError } from 'sequelize';
-import Crypt from '../../config/crypt';
+import Crypt from '../../utils/crypt';
 import Mailer from '../../mailer/nodeMailerTemplates';
 import JwtHelper from '../../helpers/jwtHelper';
 import { JwtDecoded } from '../../models/JWTPayload';
