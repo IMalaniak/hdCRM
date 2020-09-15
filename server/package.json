@@ -9,7 +9,7 @@
     "start:watch": "nodemon",
     "migrate-db": "node_modules/.bin/sequelize db:migrate",
     "prepare-db": "sequelize db:seed:all --env='production'",
-    "test": "mocha -r ts-node/register 'tests/**/*.ts'"
+    "test": "mocha -r ts-node/register 'test/**/*.ts'"
   },
   "engines": {
     "node": "14.x.x"
