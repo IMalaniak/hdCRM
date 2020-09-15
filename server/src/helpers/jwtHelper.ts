@@ -3,12 +3,12 @@ import { JwtPayload, JwtDecoded } from '../models/JWTPayload';
 import { UserDBController } from '../dbControllers/usersController';
 
 interface TokenProps {
-  type: string;
+  type: 'access' | 'refresh';
   payload: JwtPayload;
 }
 
 interface VerifyProps {
-  type: string;
+  type: 'access' | 'refresh';
   token: string;
 }
 
