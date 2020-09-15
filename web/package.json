@@ -36,7 +36,7 @@
     "@ngrx/router-store": "9.2.0",
     "@ngrx/store": "9.2.0",
     "@ngrx/store-devtools": "9.2.0",
-    "@swimlane/ngx-charts": "13.0.4",
+    "@swimlane/ngx-charts": "16.0.0",
     "bootstrap": "4.5.2",
     "core-js": "2.6.11",
     "d3": "5.16.0",
