@@ -32,7 +32,8 @@
             "stylePreprocessorOptions": {
               "includePaths": ["src/scss"]
             },
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": ["lodash", "socket.io-client", "ua-parser-js"]
           },
           "configurations": {
             "production": {
