@@ -1,12 +1,15 @@
+@import 'variables';
+@import 'mixins';
+
 .card {
   .card-header {
     display: flex;
     flex-direction: row;
-    margin-bottom: 0.5rem;
+    align-items: center;
+    margin-bottom: crmsize(spacer, null, true);
 
     &-title {
-      align-self: center;
-      font-size: 1.2em;
+      font-size: crmsize(font, null, true) + 0.2em;
     }
   }
 
@@ -15,8 +18,8 @@
   }
 
   [buttons] {
-    max-width: 50%;
     display: flex;
+    max-width: 50%;
 
     atoms-icon-button {
       + atoms-icon-button {

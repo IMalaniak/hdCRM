@@ -23,9 +23,6 @@ import { Component, Input, ContentChild, ElementRef, ChangeDetectionStrategy } f
         </div>
         <ng-content select="[content]"></ng-content>
       </mat-card-content>
-      <mat-card-actions [align]="alignButtons">
-        <ng-content select="[buttons]"></ng-content>
-      </mat-card-actions>
       <mat-card-footer *ngIf="footer">
         <ng-content select="[footer]"></ng-content>
       </mat-card-footer>
