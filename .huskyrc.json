@@ -1,5 +1,5 @@
 {
   "hooks": {
-    "pre-push": "node_modules/.bin/gulp lintAll"
+    "pre-push": "node_modules/.bin/gulp server:exec-unit-test lintAll"
   }
 }
