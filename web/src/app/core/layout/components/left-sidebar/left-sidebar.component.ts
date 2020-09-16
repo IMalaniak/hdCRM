@@ -71,13 +71,6 @@ export class LeftSidebarComponent implements OnInit {
         icon: ['fas', 'building'],
         privilege: this.store.pipe(select(isPrivileged('department-view')))
       }
-      //      {
-      //        url: '/chats',
-      //        title: 'Chats',
-      //        i18n: '@@sidebarMenuChats',
-      //        icon: ['fas', 'sms'],
-      //        privilege: this.store.pipe(select(isPrivileged('chat-view')))
-      //      }
     ];
   }
 }

@@ -9,7 +9,6 @@ import {
   RoleController,
   StageController,
   StateController,
-  ChatController,
   TaskController,
   PreferenceController,
   FormController
@@ -22,7 +21,6 @@ import { TaskPriorityController } from './controllers/taskPriority';
 @ClassOptions({ mergeParams: true })
 @Children([
   new AuthController(),
-  new ChatController(),
   new DepartmentController(),
   new FileController(),
   new PlanController(),

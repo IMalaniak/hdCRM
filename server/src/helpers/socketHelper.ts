@@ -10,30 +10,11 @@ export interface UserOnline {
   online: boolean;
 }
 
-export interface GroupChat {
-  id: number;
-  name: string;
-  OrgRoom: string;
-  room: string;
-  createdAt: Date;
-  messages: ChatMessage[];
-}
-
-export interface ChatMessage {
-  id?: number;
-  content?: string;
-  sender: UserOnline;
-  room: string;
-  createdAt: Date;
-}
-
-export class ChatHelper {
+export class SocketHelper {
   private userList: UserOnline[];
-  private groupChatList: GroupChat[];
 
   constructor() {
     this.userList = [];
-    this.groupChatList = [];
   }
 
   public addUser(newUser: UserOnline) {
@@ -77,31 +58,6 @@ export class ChatHelper {
 
   public getOthersInRoom(currentUserId: number, room: string) {
     return this.getUsersList(room).filter((user) => user.id !== currentUserId);
-  }
-
-  public createGroupChat(name: string, OrgRoom: string) {
-    const newGChat: GroupChat = {
-      id: new Date().valueOf(),
-      name,
-      OrgRoom,
-      room: `${OrgRoom}_GROUP_CHAT_${name}`,
-      createdAt: new Date(),
-      messages: []
-    };
-    this.groupChatList.push(newGChat);
-    return newGChat;
-  }
-
-  public getGroupChatList(OrgRoom: string) {
-    return this.groupChatList.filter((chat) => chat.OrgRoom === OrgRoom);
-  }
-
-  public getGroupChat(room: string) {
-    return this.groupChatList.find((chat) => chat.room === room);
-  }
-
-  public createChatMessage(message: ChatMessage) {
-    this.getGroupChat(message.room).messages.push(message);
   }
 
   // public joinRoom(user: UserOnline, room: string) {
