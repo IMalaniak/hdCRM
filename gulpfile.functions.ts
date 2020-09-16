@@ -1,6 +1,7 @@
 import { exec, execSync } from 'child_process';
 import * as fs from 'fs';
 import * as gulp from 'gulp';
+import { series } from 'gulp';
 
 const DEFAULT_COMMAND_TIMEOUT_SECONDS = 1800;
 export interface RunOptions {
@@ -104,4 +105,41 @@ export function task(options: { name: string; desc?: string; fct: any; alias?: s
   if (alias) {
     gulp.task(alias, fct);
   }
+}
+
+export function mochaRunner({
+  testStage,
+  cwd,
+  baseDir = 'test'
+}: {
+  testStage: string;
+  cwd: string;
+  baseDir?: string;
+}): () => Promise<void> {
+  const pattern = `${baseDir}/**/*.${testStage}.test.?s?(x)`;
+  const mocha = `node_modules/.bin/mocha '${pattern}' --exit`;
+  const command = `NODE_PATH=./ NODE_ENV=test ${mocha}`;
+
+  return doRun(command, {
+    cwd,
+    commandTimeoutSeconds: 5 * 60
+  });
+}
+
+export function generateTestTask(module: string, testStage: string, baseDir?: string) {
+  task({
+    name: `${module}:exec-${testStage}-test`,
+    fct: mochaRunner({
+      testStage,
+      cwd: module,
+      baseDir
+    }),
+    desc: `Runs all ${testStage} tests on ${module} (without npm install beforehand)`
+  });
+
+  task({
+    name: `${module}:${testStage}-test`,
+    fct: series(`${module}:install`, `${module}:exec-${testStage}-test`),
+    desc: `Runs all ${testStage} tests on ${module}`
+  });
 }

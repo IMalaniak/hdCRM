@@ -13,7 +13,7 @@ import {
   BUTTON_TYPE,
   MAT_BUTTON,
   THEME_PALETTE,
-  PATHS
+  RoutingConstants
 } from '@/shared/constants';
 
 @Component({
@@ -33,7 +33,7 @@ export class RegisterUserComponent implements OnInit {
   buttonTypes = BUTTON_TYPE;
   matButtonTypes = MAT_BUTTON;
   themePalette = THEME_PALETTE;
-  paths = PATHS;
+  loginRoute = RoutingConstants.ROUTE_AUTH_LOGIN;
 
   constructor(private store: Store<AuthState>, private fb: FormBuilder) {}
 

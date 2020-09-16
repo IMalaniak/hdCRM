@@ -10,7 +10,7 @@ import fs from 'fs';
 import { promisify } from 'util';
 import jimp from 'jimp';
 import { UserDBController } from '../../dbControllers/usersController';
-import Crypt from '../../config/crypt';
+import Crypt from '../../utils/crypt';
 import Mailer from '../../mailer/nodeMailerTemplates';
 import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '../../models/apiResponse';
 import { RequestWithQuery, CollectionQuery, RequestWithBody } from '../../models/apiRequest';

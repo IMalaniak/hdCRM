@@ -1,4 +1,4 @@
-<organisms-card cardTitle="Attachments" cardClass="border-0" contentClass="p-0" [counter]="attachments.length">
+<organisms-card cardTitle="Attachments" cardClass="border-0" contentClass="p-0" [counter]="attachments?.length">
   <section content *ngIf="attachments && attachments.length">
     <mat-table [dataSource]="attachments" class="mat-elevation-z8 table-attachments crm-table">
       <ng-container [matColumnDef]="columns.ICON">
