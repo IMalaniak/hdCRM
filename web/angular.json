@@ -89,7 +89,7 @@
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
+            "karmaConfig": "karma.conf.js",
             "styles": ["src/scss/styles.scss"],
             "stylePreprocessorOptions": {
               "includePaths": ["src/scss"]
