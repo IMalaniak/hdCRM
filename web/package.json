@@ -10,6 +10,7 @@
     "analyze": "webpack-bundle-analyzer dist/stats.json",
     "postinstall": "ngcc",
     "test": "ng test",
+    "test:debug": "ng test --browsers ChromeDebug",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
