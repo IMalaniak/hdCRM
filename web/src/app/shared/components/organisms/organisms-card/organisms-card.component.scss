@@ -7,10 +7,6 @@
     flex-direction: row;
     align-items: center;
     margin-bottom: crmsize(spacer, null, true);
-
-    &-title {
-      font-size: crmsize(font, null, true) + 0.2em;
-    }
   }
 
   .mat-card-content {

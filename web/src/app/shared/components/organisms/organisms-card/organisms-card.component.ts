@@ -6,7 +6,7 @@ import { Component, Input, ContentChild, ElementRef, ChangeDetectionStrategy } f
     <mat-card [ngClass]="[cardClasses]">
       <div [ngClass]="[headClasses]">
         <span
-          class="card-header-title"
+          class="mat-title mb-0"
           matBadge="{{ counter }}"
           matBadgeSize="small"
           matBadgeColor="primary"
