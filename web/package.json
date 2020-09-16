@@ -11,6 +11,7 @@
     "postinstall": "ngcc",
     "test": "ng test",
     "test:debug": "ng test --browsers ChromeDebug",
+    "test:debug:headless": "ng test --browsers ChromeHeadless",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },

@@ -32,8 +32,8 @@
       "source.fixAll": true,
       "source.fixAll.eslint": false
     },
-    "angularKarmaTestExplorer.debugMode": true,
-    "angularKarmaTestExplorer.projectRootPath": "./web",
+    // "angularKarmaTestExplorer.debugMode": true,
+    // "angularKarmaTestExplorer.projectRootPath": "./web",
     "testExplorer.sort": "byLocation",
     "mochaExplorer.nodePath": null,
     "mochaExplorer.mochaPath": "./node_modules/mocha",
@@ -58,7 +58,7 @@
       "ms-vscode.vscode-typescript-tslint-plugin",
       "dbaeumer.vscode-eslint",
       "github.vscode-pull-request-github",
-      "raagh.angular-karma-test-explorer",
+      // "raagh.angular-karma-test-explorer",
       "msjsdiag.debugger-for-chrome"
     ]
   }
