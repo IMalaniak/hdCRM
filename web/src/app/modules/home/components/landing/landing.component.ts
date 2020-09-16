@@ -9,5 +9,5 @@ import { RoutingConstants, ACTION_LABELS } from '@/shared/constants';
 })
 export class LandingComponent {
   authRoute = RoutingConstants.ROUTE_AUTH;
-  actionLabels = ACTION_LABELS;
+  logInActionLabel = ACTION_LABELS.LOG_IN;
 }
