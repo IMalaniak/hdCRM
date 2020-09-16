@@ -31,7 +31,11 @@
     "editor.codeActionsOnSave": {
       "source.fixAll": true,
       "source.fixAll.eslint": false
-    }
+    },
+    "mochaExplorer.nodePath": null,
+    "mochaExplorer.mochaPath": "./node_modules/mocha",
+    "mochaExplorer.files": "./test/**/*.test.ts",
+    "mochaExplorer.require": "ts-node/register"
   },
   "extensions": {
     "recommendations": [
@@ -43,8 +47,8 @@
       "eamodio.gitlens",
       "hbenl.vscode-test-explorer-liveshare",
       "hbenl.vscode-test-explorer",
+      "hbenl.vscode-mocha-test-adapter",
       "ms-vsliveshare.vsliveshare",
-      "kavod-io.vscode-jest-test-adapter",
       "angular.ng-template",
       "shyykoserhiy.git-autoconfig",
       "gruntfuggly.todo-tree",

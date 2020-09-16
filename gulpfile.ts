@@ -1,6 +1,6 @@
 import { parallel, series } from 'gulp';
 
-import { doRun, lint, task } from './gulpfile.functions';
+import { doRun, generateTestTask, lint, task } from './gulpfile.functions';
 
 const modules = ['server', 'web', 'gulp'];
 const artifactModules = ['server', 'web'];
@@ -42,6 +42,8 @@ artifactModules.forEach((it) => {
   });
 });
 
+generateTestTask('server', 'unit');
+
 // tslint:disable:no-var-requires
 require('./gulpfile.web');
 require('./gulpfile.server');
@@ -53,7 +55,7 @@ require('./gulpfile.server');
 
 // task({
 //   name: 'testAll',
-//   fct: series('web:test', 'server:test'),
+//   fct: series('web:test', 'server:test')
 // });
 
 task({
