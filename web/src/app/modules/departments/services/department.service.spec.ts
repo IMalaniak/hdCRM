@@ -1,17 +1,17 @@
 import { HttpClientModule } from '@angular/common/http';
-import { TestBed } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 
 import { DepartmentService } from './department.service';
 
 describe('DepartmentService', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
-      imports: [HttpClientModule]
+      imports: [HttpClientModule],
+      providers: [DepartmentService]
     })
   );
 
-  it('should be created', () => {
-    const service: DepartmentService = TestBed.inject(DepartmentService);
+  it('should be created', inject([DepartmentService], (service: DepartmentService) => {
     expect(service).toBeTruthy();
-  });
+  }));
 });
