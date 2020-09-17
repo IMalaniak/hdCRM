@@ -4,25 +4,25 @@ import { Component, Input, ContentChild, ElementRef, ChangeDetectionStrategy } f
   selector: 'organisms-card',
   template: `
     <mat-card [ngClass]="[cardClasses]">
-      <mat-card-header [ngClass]="[headClasses]">
-        <mat-card-title
+      <div [ngClass]="[headClasses]">
+        <span
+          class="mat-title mb-0"
           matBadge="{{ counter }}"
           matBadgeSize="small"
           matBadgeColor="primary"
           matBadgeHidden="{{ hideCounter }}"
-          >{{ cardTitle }}</mat-card-title
+          >{{ cardTitle }}</span
         >
-        <mat-card-subtitle *ngIf="subheader"><ng-content select="[subheader]"></ng-content></mat-card-subtitle>
-      </mat-card-header>
+        <div class="ml-auto">
+          <ng-content select="[buttons]"></ng-content>
+        </div>
+      </div>
       <mat-card-content [ngClass]="[contentClasses]">
         <div *ngIf="showDataLoader" class="progress-spinner-overlay">
           <mat-progress-bar mode="query"></mat-progress-bar>
         </div>
         <ng-content select="[content]"></ng-content>
       </mat-card-content>
-      <mat-card-actions [align]="alignButtons">
-        <ng-content select="[buttons]"></ng-content>
-      </mat-card-actions>
       <mat-card-footer *ngIf="footer">
         <ng-content select="[footer]"></ng-content>
       </mat-card-footer>
@@ -59,6 +59,6 @@ export class OrganismsCardComponent {
   }
 
   get headClasses(): string {
-    return `${this.headClass}`;
+    return `card-header ${this.headClass}`;
   }
 }
