@@ -24,7 +24,7 @@
     "typescript.preferences.quoteStyle": "single",
     "javascript.preferences.quoteStyle": "single",
     "editor.snippetSuggestions": "top",
-    "files.autoSave": "afterDelay",
+    // "files.autoSave": "afterDelay",
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true,
     "editor.formatOnType": true,
