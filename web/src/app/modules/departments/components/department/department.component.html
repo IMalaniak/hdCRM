@@ -81,7 +81,7 @@
             cardClass="border border-secondary mt-3 mb-0"
             [disableShadow]="true"
           >
-            <button buttons mat-stroked-button color="primary" class="crm-button" *ngIf="editForm$ | async">
+            <button buttons mat-stroked-button color="primary" *ngIf="editForm$ | async">
               <fa-icon [icon]="['fas', 'plus']"></fa-icon
               ><span i18n="@@departmentComponentActionsAddParentDepartment">Add parent department</span>
             </button>
@@ -100,7 +100,7 @@
             [disableShadow]="true"
             [counter]="department.SubDepartments ? department.SubDepartments.length : 0"
           >
-            <button buttons mat-stroked-button color="primary" class="crm-button" *ngIf="editForm$ | async">
+            <button buttons mat-stroked-button color="primary" *ngIf="editForm$ | async">
               <fa-icon [icon]="['fas', 'plus']"></fa-icon
               ><span i18n="@@departmentComponentActionsAddSubDepartments">Add sub departments</span>
             </button>
@@ -127,7 +127,7 @@
     >
       {{ actionLabels.CANCEL }}
     </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm$ | async" class="ml-2" [icon]="['fas', 'save']" (onclick)="updateDepartment()">
+    <atoms-icon-button *ngIf="editForm$ | async" [icon]="['fas', 'save']" (onclick)="updateDepartment()">
       {{ actionLabels.SAVE }}
     </atoms-icon-button>
   </div>

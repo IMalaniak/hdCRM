@@ -13,7 +13,7 @@
 .stages-item {
   @include crm-bgcolor('layout', 'milk');
   padding: 1.1em 1.1em 1.1em 2.86em;
-  margin: 0 0.5 * crmsize(spacer, null, true);
+  margin: 0 crmsize(spacer, sm, true);
   position: relative;
   white-space: nowrap;
   transition: background-color $transition;

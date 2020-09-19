@@ -13,11 +13,6 @@
     <atoms-icon-button *ngIf="!editForm" (click)="onClickEdit()" [icon]="['fas', 'edit']">
       {{ actionLabels.EDIT }}
     </atoms-icon-button>
-
-    <atoms-icon-button *ngIf="editForm" (click)="onUpdateUserSubmit()" [icon]="['fas', 'save']">
-      {{ actionLabels.SAVE }}
-    </atoms-icon-button>
-
     <atoms-icon-button
       *ngIf="editForm"
       (click)="onClickCancelEdit()"
@@ -25,6 +20,9 @@
       [color]="themePalette.BASIC"
     >
       {{ actionLabels.CANCEL }}
+    </atoms-icon-button>
+    <atoms-icon-button *ngIf="editForm" (click)="onUpdateUserSubmit()" [icon]="['fas', 'save']">
+      {{ actionLabels.SAVE }}
     </atoms-icon-button>
   </div>
 </organisms-card>

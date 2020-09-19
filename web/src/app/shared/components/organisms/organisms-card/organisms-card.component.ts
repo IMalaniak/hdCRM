@@ -1,4 +1,4 @@
-import { Component, Input, ContentChild, ElementRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ContentChild, ElementRef, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'organisms-card',
@@ -29,7 +29,8 @@ import { Component, Input, ContentChild, ElementRef, ChangeDetectionStrategy } f
     </mat-card>
   `,
   styleUrls: ['./organisms-card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class OrganismsCardComponent {
   @Input() cardTitle: string;
@@ -39,7 +40,6 @@ export class OrganismsCardComponent {
   @Input() headClass: string;
   @Input() disableShadow = false;
   @Input() counter: number;
-  @Input() alignButtons = 'end';
 
   @ContentChild('content') content: ElementRef;
   @ContentChild('subheader') subheader: ElementRef;

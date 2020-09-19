@@ -99,7 +99,7 @@
     >
       {{ actionLabels.CANCEL }}
     </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm$ | async" class="ml-2" (onclick)="updatePlan()" [icon]="['fas', 'save']">
+    <atoms-icon-button *ngIf="editForm$ | async" (onclick)="updatePlan()" [icon]="['fas', 'save']">
       {{ actionLabels.SAVE }}
     </atoms-icon-button>
   </div>

@@ -87,6 +87,7 @@ $crmcolors: (
 );
 
 // size variable map
+$spacer: 1rem !default;
 $crmsizes: (
   font: 1em,
   header: (
@@ -101,7 +102,13 @@ $crmsizes: (
     hidden: 0rem
   ),
   userpic: 3rem,
-  spacer: 1em
+  spacer: (
+    xs: $spacer * 0.25,
+    sm: $spacer * 0.5,
+    default: $spacer,
+    md: $spacer * 1.5,
+    lg: $spacer * 3
+  )
 );
 
 $layer-priorities: (

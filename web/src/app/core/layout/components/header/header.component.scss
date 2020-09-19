@@ -57,7 +57,7 @@
   > div {
     text-align: center;
     height: 100%;
-    padding: 0 crmsize(spacer, null, true);
+    padding: 0 crmsize(spacer, default, true);
     display: flex;
     align-items: center;
   }
