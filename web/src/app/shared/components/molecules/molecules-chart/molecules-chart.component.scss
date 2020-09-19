@@ -1,3 +1,11 @@
+@import 'variables';
+
+:host {
+  .text-white {
+    fill: #fff !important;
+  }
+}
+
 .chart-wrapper {
   height: 20em;
   display: flex;
