@@ -17,7 +17,11 @@ export interface TaskManagerState {
 }
 
 function sortByCreatedAtAndPriority(t1: Task, t2: Task) {
-  const compareByPriority = t2.TaskPriorityId - t1.TaskPriorityId;
+  const compareByPriority: number = t2.TaskPriorityId - t1.TaskPriorityId;
+  const compareByCompleteness: number = +t2.isCompleted + +t1.isCompleted;
+  if (compareByCompleteness !== 0) {
+    return compareByCompleteness;
+  }
 
   if (compareByPriority !== 0) {
     return compareByPriority;
