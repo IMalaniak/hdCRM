@@ -9,8 +9,8 @@ export interface LayoutState {
 }
 
 const initialState: LayoutState = {
-  hideLeftSidebar: false,
-  hideRightSidebar: false,
+  hideLeftSidebar: true,
+  hideRightSidebar: true,
   enableDarkTheme: false,
   scaleFontUp: false
 };
