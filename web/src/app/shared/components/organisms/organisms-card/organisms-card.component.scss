@@ -13,17 +13,6 @@
     position: relative;
   }
 
-  [buttons] {
-    display: flex;
-    max-width: 50%;
-
-    atoms-icon-button {
-      + atoms-icon-button {
-        margin-left: crmsize(spacer, sm, true);
-      }
-    }
-  }
-
   .table-container {
     overflow-x: auto;
 

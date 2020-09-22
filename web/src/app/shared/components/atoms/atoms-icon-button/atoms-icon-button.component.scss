@@ -6,6 +6,10 @@
   appearance: none;
 }
 
+button[mat-button] {
+  margin-left: crmsize(spacer, sm, true);
+}
+
 .crm-button {
   text-overflow: ellipsis;
   overflow: hidden;

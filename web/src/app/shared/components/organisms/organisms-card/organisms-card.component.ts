@@ -1,4 +1,4 @@
-import { Component, Input, ContentChild, ElementRef, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ContentChild, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'organisms-card',
@@ -29,8 +29,7 @@ import { Component, Input, ContentChild, ElementRef, ChangeDetectionStrategy, Vi
     </mat-card>
   `,
   styleUrls: ['./organisms-card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganismsCardComponent {
   @Input() cardTitle: string;
