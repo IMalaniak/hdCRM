@@ -8,21 +8,13 @@ import { SharedModule } from '@/shared/shared.module';
 import { ActivatedRoute } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideMockStore } from '@ngrx/store/testing';
-import { AuthState } from '../../store/auth.reducer';
+import { AuthState, initialState as initialAuthState } from '../../store/auth.reducer';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   const initialState: { auth: AuthState } = {
-    auth: {
-      loggedIn: false,
-      accessToken: null,
-      sessionId: null,
-      isTokenValid: false,
-      isTokenRefreshing: false,
-      currentUser: null,
-      loading: false
-    }
+    auth: initialAuthState
   };
 
   beforeEach(

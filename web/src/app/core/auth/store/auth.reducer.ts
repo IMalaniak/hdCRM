@@ -12,7 +12,7 @@ export interface AuthState {
   loading: boolean;
 }
 
-const initialState: AuthState = {
+export const initialState: AuthState = {
   loggedIn: false,
   accessToken: null,
   sessionId: null,
