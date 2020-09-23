@@ -13,7 +13,7 @@ import { Component, Input, ContentChild, ElementRef, ChangeDetectionStrategy } f
           matBadgeHidden="{{ hideCounter }}"
           >{{ cardTitle }}</span
         >
-        <div class="ml-auto">
+        <div class="card-actions">
           <ng-content select="[buttons]"></ng-content>
         </div>
       </div>

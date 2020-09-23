@@ -218,6 +218,14 @@ main {
   background-color: $black;
 }
 
+.card-actions {
+  margin-left: auto;
+
+  atoms-icon-button + atoms-icon-button {
+    margin-left: crmsize(spacer, sm, true);
+  }
+}
+
 // Define sizing utility to allow responsive breakpoints
 // Can be deleted after Bootstrap added this to core
 @each $breakpoint in map-keys($grid-breakpoints) {
