@@ -86,8 +86,8 @@ export class Department extends Model {
   };
 }
 
-export const DepartmentFactory = (sequelize: Sequelize): void => {
-  const department = Department.init(
+export const DepartmentFactory = (sequelize: Sequelize): Model => {
+  return Department.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -107,6 +107,4 @@ export const DepartmentFactory = (sequelize: Sequelize): void => {
       sequelize
     }
   );
-
-  return department;
 };

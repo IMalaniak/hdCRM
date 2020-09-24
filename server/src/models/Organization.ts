@@ -94,8 +94,8 @@ export class Organization extends Model {
   };
 }
 
-export const OrganizationFactory = (sequelize: Sequelize): void => {
-  const org = Organization.init(
+export const OrganizationFactory = (sequelize: Sequelize): Model => {
+  return Organization.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -126,6 +126,4 @@ export const OrganizationFactory = (sequelize: Sequelize): void => {
       sequelize
     }
   );
-
-  return org;
 };

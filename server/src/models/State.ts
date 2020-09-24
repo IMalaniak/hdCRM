@@ -38,8 +38,8 @@ export class State extends Model {
   };
 }
 
-export const StateFactory = (sequelize: Sequelize): void => {
-  const state = State.init(
+export const StateFactory = (sequelize: Sequelize): Model => {
+  return State.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -57,6 +57,4 @@ export const StateFactory = (sequelize: Sequelize): void => {
       sequelize
     }
   );
-
-  return state;
 };

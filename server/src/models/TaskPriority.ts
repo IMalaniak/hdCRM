@@ -17,8 +17,8 @@ export class TaskPriority extends Model {
   };
 }
 
-export const TaskPriorityFactory = (sequelize: Sequelize): void => {
-  const taskPriority = TaskPriority.init(
+export const TaskPriorityFactory = (sequelize: Sequelize): Model => {
+  return TaskPriority.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -38,6 +38,4 @@ export const TaskPriorityFactory = (sequelize: Sequelize): void => {
       sequelize
     }
   );
-
-  return taskPriority;
 };
