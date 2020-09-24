@@ -228,12 +228,12 @@ cherry-pick: "fix(#1234): subject message"
 
 ## Pushing to the repository
 
-When pushing to the repo there is a Husky tool configured to check prettier style and tslint rules are passed, whenever some exceptions it will be not possible to push the branch.
+When pushing to the repo there is a Husky tool configured to check prettier style and tslint rules are passed, also server and web unit tests are checked, whenever some exceptions it will be not possible to push the branch.
 
 There are only two possible issues:
 
 - code is not formatted or does not meet the tslint requirements
-- somewhere you have `dist` folder and you have to delete it, we will add the ignore rule for the dist folders for prettier in the future
+- some of unit tests are broken - check console logs for more details
 
 Sometimes you may want to push changes to the repo and skip Husky verifying process that is HIGHLY NOT RECOMENDED, but anyway, if there is a situation, you can use the following command:
 
