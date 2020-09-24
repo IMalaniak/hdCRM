@@ -6,11 +6,13 @@ describe('AtomsProfilePicComponent', () => {
   let component: AtomsProfilePicComponent;
   let fixture: ComponentFixture<AtomsProfilePicComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [AtomsProfilePicComponent]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AtomsProfilePicComponent]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AtomsProfilePicComponent);

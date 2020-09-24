@@ -6,11 +6,13 @@ describe('AtomsUserPicComponent', () => {
   let component: AtomsUserPicComponent;
   let fixture: ComponentFixture<AtomsUserPicComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [AtomsUserPicComponent]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AtomsUserPicComponent]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AtomsUserPicComponent);

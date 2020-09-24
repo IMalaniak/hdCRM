@@ -6,11 +6,13 @@ describe('AtomsIntegrationCardComponent', () => {
   let component: AtomsIntegrationCardComponent;
   let fixture: ComponentFixture<AtomsIntegrationCardComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [AtomsIntegrationCardComponent]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AtomsIntegrationCardComponent]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AtomsIntegrationCardComponent);

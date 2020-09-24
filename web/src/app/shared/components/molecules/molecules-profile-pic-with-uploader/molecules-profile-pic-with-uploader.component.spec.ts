@@ -6,11 +6,13 @@ describe('MoleculesProfilePicWithUploaderComponent', () => {
   let component: MoleculesProfilePicWithUploaderComponent;
   let fixture: ComponentFixture<MoleculesProfilePicWithUploaderComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [MoleculesProfilePicWithUploaderComponent]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [MoleculesProfilePicWithUploaderComponent]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MoleculesProfilePicWithUploaderComponent);

@@ -9,14 +9,14 @@ describe('LeftSidebarComponent', () => {
   let fixture: ComponentFixture<LeftSidebarComponent>;
   const initialState = {
     auth: authStateMock
-  }
+  };
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [LeftSidebarComponent],
         imports: [RouterTestingModule],
-        providers: [provideMockStore({initialState})]
+        providers: [provideMockStore({ initialState })]
       }).compileComponents();
     })
   );

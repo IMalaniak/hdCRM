@@ -6,11 +6,13 @@ describe('OrganismsUserListSmComponent', () => {
   let component: OrganismsUserListSmComponent;
   let fixture: ComponentFixture<OrganismsUserListSmComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [OrganismsUserListSmComponent]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [OrganismsUserListSmComponent]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrganismsUserListSmComponent);

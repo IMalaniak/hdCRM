@@ -6,11 +6,13 @@ describe('AtomsReadonlyFormFieldComponent', () => {
   let component: AtomsReadonlyFormFieldComponent;
   let fixture: ComponentFixture<AtomsReadonlyFormFieldComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [AtomsReadonlyFormFieldComponent]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AtomsReadonlyFormFieldComponent]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AtomsReadonlyFormFieldComponent);

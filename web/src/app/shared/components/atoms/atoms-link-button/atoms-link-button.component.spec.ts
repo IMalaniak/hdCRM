@@ -6,11 +6,13 @@ describe('AtomsLinkButtonComponent', () => {
   let component: AtomsLinkButtonComponent;
   let fixture: ComponentFixture<AtomsLinkButtonComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [AtomsLinkButtonComponent]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AtomsLinkButtonComponent]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AtomsLinkButtonComponent);

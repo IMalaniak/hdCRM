@@ -6,11 +6,13 @@ describe('RegisterSuccessComponent', () => {
   let component: RegisterSuccessComponent;
   let fixture: ComponentFixture<RegisterSuccessComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [RegisterSuccessComponent]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [RegisterSuccessComponent]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterSuccessComponent);

@@ -6,11 +6,13 @@ describe('MoleculesFormFieldComponent', () => {
   let component: MoleculesFormFieldComponent;
   let fixture: ComponentFixture<MoleculesFormFieldComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [MoleculesFormFieldComponent]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [MoleculesFormFieldComponent]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MoleculesFormFieldComponent);
