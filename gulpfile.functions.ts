@@ -69,7 +69,7 @@ function tslint({ cwd, fix = false }) {
   const prettierConfigPath = cwd === '.' ? '' : '../';
   const prettier = `node_modules/.bin/prettier ${
     fix ? '--write' : '--check'
-  } --config ${prettierConfigPath}.prettierrc '**/*.{json,ts,html,scss}'`;
+  } --config ${prettierConfigPath}.prettierrc --ignore-path ${prettierConfigPath}.prettierignore '**/*.{json,ts,html,scss}'`;
   return doRun(`node_modules/.bin/tslint -p tsconfig.json -c tslint.json ${fixParam} && ${prettier}`, {
     cwd,
     commandTimeoutSeconds: 300
