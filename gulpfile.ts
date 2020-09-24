@@ -40,9 +40,9 @@ artifactModules.forEach((it) => {
     fct: series(`${it}:lint`),
     desc: `Lints ${it}`
   });
-});
 
-generateTestTask('server', 'unit');
+  generateTestTask(it, 'unit');
+});
 
 // tslint:disable:no-var-requires
 require('./gulpfile.web');

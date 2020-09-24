@@ -43,9 +43,3 @@ task({
   fct: doRun('node_modules/.bin/ng serve -o', { ...cwd, ...devOptions }),
   desc: 'Start the web dev server on port 3333'
 });
-
-task({
-  name: 'web:exec-unit-test',
-  fct: doRun('node_modules/.bin/ng test --watch=false --browsers ChromeHeadless', { ...cwd, ...devOptions }),
-  desc: 'Runs all unit tests on web'
-});
