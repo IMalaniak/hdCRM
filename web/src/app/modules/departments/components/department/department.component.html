@@ -81,10 +81,9 @@
             cardClass="border border-secondary mt-3 mb-0"
             [disableShadow]="true"
           >
-            <button buttons mat-stroked-button color="primary" *ngIf="editForm$ | async">
-              <fa-icon [icon]="['fas', 'plus']"></fa-icon
-              ><span i18n="@@departmentComponentActionsAddParentDepartment">Add parent department</span>
-            </button>
+            <atoms-icon-button buttons [matType]="matButtonTypes.STROKED" [icon]="['fas', 'plus']">
+              Add parent department
+            </atoms-icon-button>
             <!-- <mat-list content>
               <mat-list-item *ngFor="">
                 <h3 matLine>{{}}</h3>
@@ -100,10 +99,9 @@
             [disableShadow]="true"
             [counter]="department.SubDepartments ? department.SubDepartments.length : 0"
           >
-            <button buttons mat-stroked-button color="primary" *ngIf="editForm$ | async">
-              <fa-icon [icon]="['fas', 'plus']"></fa-icon
-              ><span i18n="@@departmentComponentActionsAddSubDepartments">Add sub departments</span>
-            </button>
+            <atoms-icon-button buttons [matType]="matButtonTypes.STROKED" [icon]="['fas', 'plus']">
+              Add sub departments
+            </atoms-icon-button>
             <!-- <mat-list content>
               <mat-list-item *ngFor="">
                 <h3 matLine>{{}}</h3>
