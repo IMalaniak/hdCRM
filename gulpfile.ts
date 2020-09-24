@@ -53,10 +53,10 @@ require('./gulpfile.server');
  * "All" Tasks
  */
 
-// task({
-//   name: 'testAll',
-//   fct: series('web:test', 'server:test')
-// });
+task({
+  name: 'testAll',
+  fct: series('server:exec-unit-test', 'web:exec-unit-test')
+});
 
 task({
   name: 'lintAll',
