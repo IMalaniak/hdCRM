@@ -7,7 +7,9 @@ import { RoleService } from '../../services';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { RolesComponent } from './roles.component';
-import { authStateMock, preferencesStateMock, rolesStateMock } from '@/shared/testing/mocks';
+import { authStateMock } from '@/shared/testing/mocks';
+import { initialPreferencesState } from '@/core/reducers/preferences.reducer';
+import { initialRolesState } from '../../store/role.reducer';
 import { AppState } from '@/core/reducers';
 import { RolesState } from '../../store/role.reducer';
 import { AuthState } from '@/core/auth/store/auth.reducer';
@@ -16,8 +18,8 @@ describe('RolesComponent', () => {
   let component: RolesComponent;
   let fixture: ComponentFixture<RolesComponent>;
   const initialState: Partial<AppState> & { roles: RolesState; auth: AuthState } = {
-    preferences: preferencesStateMock,
-    roles: rolesStateMock,
+    preferences: initialPreferencesState,
+    roles: initialRolesState,
     auth: authStateMock
   };
 

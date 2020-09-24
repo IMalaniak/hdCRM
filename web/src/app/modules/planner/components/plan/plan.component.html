@@ -106,6 +106,7 @@
 </organisms-card>
 
 <templates-attachments-list
+  *ngIf="plan"
   [canAdd]="canAddAttachment$ | async"
   [canDelete]="canDeleteAttachment$ | async"
   [attachments]="plan.Documents"

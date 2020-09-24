@@ -6,13 +6,13 @@ export interface IntegrationsState {
   isLoading: boolean;
 }
 
-const initialState: IntegrationsState = {
+export const initialIntegrationsState: IntegrationsState = {
   enabledGoogleDriveIntegration: false,
   isLoading: false
 };
 
 const integrationsReducer = createReducer(
-  initialState,
+  initialIntegrationsState,
   on(IntegrationActions.googleDriveIntegrationLoaded, (state, { googleDriveToken }) => ({
     ...state,
     googleDriveToken,

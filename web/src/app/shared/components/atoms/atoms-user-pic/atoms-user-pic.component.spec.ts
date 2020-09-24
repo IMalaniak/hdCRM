@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AtomsUserPicComponent } from './atoms-user-pic.component';
 
@@ -6,7 +6,7 @@ describe('AtomsUserPicComponent', () => {
   let component: AtomsUserPicComponent;
   let fixture: ComponentFixture<AtomsUserPicComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AtomsUserPicComponent]
     }).compileComponents();

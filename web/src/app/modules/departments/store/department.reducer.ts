@@ -13,7 +13,7 @@ export interface DepartmentsState extends EntityState<Department> {
 
 const adapter: EntityAdapter<Department> = createEntityAdapter<Department>({});
 
-const initialState: DepartmentsState = adapter.getInitialState({
+export const initialDepartmentsState: DepartmentsState = adapter.getInitialState({
   loading: false,
   pages: null,
   editing: false,
@@ -22,7 +22,7 @@ const initialState: DepartmentsState = adapter.getInitialState({
 });
 
 const departmentsReducer = createReducer(
-  initialState,
+  initialDepartmentsState,
   on(departmentActions.changeIsEditingState, (state, { isEditing }) => ({
     ...state,
     editing: isEditing

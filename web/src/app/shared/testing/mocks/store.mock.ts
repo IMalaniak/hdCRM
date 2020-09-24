@@ -1,18 +1,5 @@
 import { AuthState } from '@/core/auth/store/auth.reducer';
-import { Role } from '@/modules/roles/models';
-import { RolesState } from '@/modules/roles/store/role.reducer';
 import { User } from '@/modules/users/models';
-import { IDateFormat, IItemsPerPage, IListView, ITimeFormat } from '@/shared/constants';
-import { Dictionary } from '@ngrx/entity';
-
-export const preferencesStateMock = {
-  listView: IListView.LIST,
-  timeFormat: ITimeFormat.MEDIUM_TIME,
-  dateFormat: IDateFormat.MEDIUM_DATE,
-  itemsPerPage: IItemsPerPage.FIVE,
-  listLoaded: false,
-  list: null
-};
 
 export const currentUserMock = ({
   fullname: 'User Tester',
@@ -107,14 +94,4 @@ export const authStateMock: AuthState = {
   isTokenRefreshing: false,
   currentUser: currentUserMock,
   loading: false
-};
-
-export const rolesStateMock: RolesState = {
-  ids: [],
-  entities: ([] as unknown) as Dictionary<Role>,
-  loading: false,
-  pages: null,
-  countAll: null,
-  editing: false,
-  dashboardDataLoaded: false
 };
