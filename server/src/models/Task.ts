@@ -24,8 +24,8 @@ export class Task extends Model {
   };
 }
 
-export const TaskFactory = (sequelize: Sequelize): void => {
-  const task = Task.init(
+export const TaskFactory = (sequelize: Sequelize): Model => {
+  return Task.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -52,6 +52,4 @@ export const TaskFactory = (sequelize: Sequelize): void => {
       sequelize
     }
   );
-
-  return task;
 };

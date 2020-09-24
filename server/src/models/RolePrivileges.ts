@@ -19,8 +19,8 @@ export class RolePrivilege extends Model {
   };
 }
 
-export const RolePrivilegeFactory = (sequelize: Sequelize): void => {
-  const rolePrivilege = RolePrivilege.init(
+export const RolePrivilegeFactory = (sequelize: Sequelize): Model => {
+  return RolePrivilege.init(
     {
       view: {
         type: DataTypes.BOOLEAN,
@@ -44,6 +44,4 @@ export const RolePrivilegeFactory = (sequelize: Sequelize): void => {
       sequelize
     }
   );
-
-  return rolePrivilege;
 };

@@ -141,15 +141,11 @@ export class AuthController {
             return res.status(BAD_REQUEST).json(err);
           });
       })
-      .catch(ValidationError, UniqueConstraintError, (error) => {
+      .catch((error: ValidationError | ApiResponse | UniqueConstraintError) => {
         Logger.Err(ValidationError);
         Logger.Err(UniqueConstraintError);
         Logger.Err(error);
         return res.status(BAD_REQUEST).json(error);
-      })
-      .catch((err) => {
-        Logger.Err(err);
-        return res.status(BAD_REQUEST).json(err);
       });
   }
 
