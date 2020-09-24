@@ -59,11 +59,6 @@ task({
 });
 
 task({
-  name: 'testAllProd',
-  fct: series('server:unit-test', 'web:unit-test')
-});
-
-task({
   name: 'lintAll',
   fct: parallel(modules.map((it) => `${it}:lint`))
 });
@@ -90,4 +85,9 @@ task({
 task({
   name: 'buildAll',
   fct: parallel(artifactModules.map((it) => `${it}:build`))
+});
+
+task({
+  name: 'buildAllProd',
+  fct: parallel(artifactModules.map((it) => `${it}:buildProd`))
 });
