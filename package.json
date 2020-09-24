@@ -5,7 +5,7 @@
   "main": "./dist/index.js",
   "scripts": {
     "start": "node ./server/dist/index.js",
-    "heroku-postbuild": "node_modules/.bin/gulp testAll buildAll"
+    "heroku-postbuild": "node_modules/.bin/gulp testAllProd buildAll"
   },
   "engines": {
     "node": "14.x.x"

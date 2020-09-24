@@ -59,6 +59,11 @@ task({
 });
 
 task({
+  name: 'testAllProd',
+  fct: series('server:unit-test', 'web:unit-test')
+});
+
+task({
   name: 'lintAll',
   fct: parallel(modules.map((it) => `${it}:lint`))
 });
