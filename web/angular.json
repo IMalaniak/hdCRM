@@ -95,7 +95,8 @@
               "includePaths": ["src/scss"]
             },
             "scripts": [],
-            "assets": ["src/favicon.ico", "src/assets"]
+            "assets": ["src/favicon.ico", "src/assets"],
+            "codeCoverage": true
           }
         },
         "lint": {
