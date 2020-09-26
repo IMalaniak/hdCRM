@@ -53,7 +53,7 @@
     "ngx-filepond": "5.0.1",
     "rxjs": "6.6.3",
     "socket.io": "2.3.0",
-    "sweetalert2": "9.17.2",
+    "sweetalert2": "10.3.5",
     "tslib": "2.0.1",
     "ua-parser-js": "0.7.21",
     "zone.js": "0.10.3"
