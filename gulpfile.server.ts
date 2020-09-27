@@ -6,7 +6,7 @@ const devTimeoutSeconds = 24 * 60 * 60;
 task({
   name: 'server:compile',
   alias: 'sc',
-  fct: doRun('node_modules/.bin/tsc', { cwd: `${__dirname}/server` }),
+  fct: doRun('node_modules/.bin/tsc --project tsconfig.prod.json', { cwd: `${__dirname}/server` }),
   desc: 'Compiles *.ts => *.js'
 });
 

@@ -56,8 +56,8 @@ export class Preference extends Model {
   };
 }
 
-export const PreferenceFactory = (sequelize: Sequelize): void => {
-  const preferences = Preference.init(
+export const PreferenceFactory = (sequelize: Sequelize): Model => {
+  return Preference.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -94,6 +94,4 @@ export const PreferenceFactory = (sequelize: Sequelize): void => {
       sequelize
     }
   );
-
-  return preferences;
 };

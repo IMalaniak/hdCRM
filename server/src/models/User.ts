@@ -163,8 +163,8 @@ export class User extends Model {
   };
 }
 
-export const UserFactory = (sequelize: Sequelize): void => {
-  const user = User.init(
+export const UserFactory = (sequelize: Sequelize): Model => {
+  return User.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -235,6 +235,4 @@ export const UserFactory = (sequelize: Sequelize): void => {
       sequelize
     }
   );
-
-  return user;
 };

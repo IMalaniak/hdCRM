@@ -9,7 +9,7 @@ import { AppState } from '@/core/reducers';
 import { createDepartmentRequested } from '../../store/department.actions';
 import { MediaqueryService } from '@/shared/services';
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
-import { ACTION_LABELS } from '@/shared/constants';
+import { ACTION_LABELS, MAT_BUTTON } from '@/shared/constants';
 
 @Component({
   selector: 'app-add-department',
@@ -21,6 +21,7 @@ export class AddDepartmentComponent implements OnInit {
   departmentData: FormGroup;
 
   actionLabels = ACTION_LABELS;
+  matButtonTypes = MAT_BUTTON;
 
   private unsubscribe: Subject<void> = new Subject();
 

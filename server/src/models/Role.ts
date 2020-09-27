@@ -67,8 +67,8 @@ export class Role extends Model {
   };
 }
 
-export const RoleFactory = (sequelize: Sequelize): void => {
-  const role = Role.init(
+export const RoleFactory = (sequelize: Sequelize): Model => {
+  return Role.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -85,6 +85,4 @@ export const RoleFactory = (sequelize: Sequelize): void => {
       sequelize
     }
   );
-
-  return role;
 };
