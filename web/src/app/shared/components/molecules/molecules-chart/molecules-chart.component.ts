@@ -1,15 +1,11 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { SingleChartData } from '@/shared/models';
-import { Observable } from 'rxjs/internal/Observable';
-import { AppState } from '@/core/reducers';
-import { select, Store } from '@ngrx/store';
-import * as fromLayout from '@/core/layout/store';
 
 @Component({
   selector: 'molecules-chart',
   template: `
     <ng-container [ngSwitch]="chartType">
-      <div class="chart-wrapper" [class.text-white]="enableDarkTheme$ | async">
+      <div class="chart-wrapper">
         <ngx-charts-bar-vertical
           *ngSwitchCase="'bar-vertical'"
           [results]="chart?.data"
@@ -39,8 +35,6 @@ import * as fromLayout from '@/core/layout/store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MoleculesChartComponent implements OnInit {
-  enableDarkTheme$: Observable<boolean> = this.store$.pipe(select(fromLayout.getDarkThemeState));
-
   @Input() chartType: string;
   @Input() paramX: string;
   @Input() paramY: string;
@@ -56,8 +50,6 @@ export class MoleculesChartComponent implements OnInit {
   @Input() yAxisLabel: string;
 
   chart: SingleChartData;
-
-  constructor(private store$: Store<AppState>) {}
 
   ngOnInit(): void {
     this.chart = new SingleChartData(this.results, this.paramX, this.paramY);
