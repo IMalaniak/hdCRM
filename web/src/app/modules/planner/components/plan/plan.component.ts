@@ -22,7 +22,8 @@ import {
   ACTION_LABELS,
   THEME_PALETTE,
   CONSTANTS,
-  RoutingConstants
+  RoutingConstants,
+  PATHS
 } from '@/shared/constants';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
@@ -42,7 +43,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   canAddAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.PLAN_ATTACHMENT)));
   // configStages$: Observable<boolean> = this.store.pipe(select(isPrivileged('stage-edit')));
   canDeleteAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.PLAN_ATTACHMENT)));
-  planFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName(RoutingConstants.PLAN)));
+  planFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName(PATHS.PLAN)));
   editForm$: Observable<boolean> = this.store$.pipe(select(selectIsEditing));
 
   plan: Plan;
@@ -65,9 +66,9 @@ export class PlanComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.store$.dispatch(formRequested({ formName: RoutingConstants.PLAN }));
-    this.plan = cloneDeep(this.route.snapshot.data[RoutingConstants.PLAN]);
-    this.planInitial = cloneDeep(this.route.snapshot.data[RoutingConstants.PLAN]);
+    this.store$.dispatch(formRequested({ formName: PATHS.PLAN }));
+    this.plan = cloneDeep(this.route.snapshot.data[PATHS.PLAN]);
+    this.planInitial = cloneDeep(this.route.snapshot.data[PATHS.PLAN]);
     const isEditing: boolean = JSON.parse(this.route.snapshot.queryParams[RoutingConstants.EDIT]);
     if (isEditing) {
       this.store$.dispatch(changeIsEditingState({ isEditing }));

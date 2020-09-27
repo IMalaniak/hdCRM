@@ -23,7 +23,8 @@ import {
   THEME_PALETTE,
   MAT_BUTTON,
   CONSTANTS,
-  RoutingConstants
+  RoutingConstants,
+  PATHS
 } from '@/shared/constants';
 
 @Component({
@@ -72,8 +73,8 @@ export class RoleComponent implements OnInit, OnDestroy {
   }
 
   getRoleData(): void {
-    this.role = cloneDeep(this.route.snapshot.data[RoutingConstants.ROLE]);
-    this.roleInitial = cloneDeep(this.route.snapshot.data[RoutingConstants.ROLE]);
+    this.role = cloneDeep(this.route.snapshot.data[PATHS.ROLE]);
+    this.roleInitial = cloneDeep(this.route.snapshot.data[PATHS.ROLE]);
   }
 
   addParticipantDialog(): void {

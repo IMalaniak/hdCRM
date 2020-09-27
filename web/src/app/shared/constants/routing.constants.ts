@@ -28,10 +28,12 @@ export class PATHS {
 
   // departments
   static DEPARTMENTS = 'departments';
+  static DEPARTMENT = 'department';
 
   // planner
   static PLANNER = 'planner';
   static STAGES = 'stages';
+  static PLAN = 'plan';
 
   // users
   static USERS = 'users';
@@ -39,6 +41,7 @@ export class PATHS {
 
   // roles
   static ROLES = 'roles';
+  static ROLE = 'role';
 }
 
 export class RoutingConstants {
@@ -78,8 +81,5 @@ export class RoutingConstants {
 
   // query params
   static EDIT = 'edit';
-  static ROLE = 'role';
-  static PLAN = 'plan';
-  static DEPARTMENT = 'department';
   static RETURN_URL = 'returnUrl';
 }
