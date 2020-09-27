@@ -22,7 +22,8 @@ import {
   ACTION_LABELS,
   THEME_PALETTE,
   MAT_BUTTON,
-  CONSTANTS
+  CONSTANTS,
+  RoutingConstants
 } from '@/shared/constants';
 
 @Component({
@@ -64,11 +65,15 @@ export class RoleComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getRoleData();
+    const isEditing: boolean = JSON.parse(this.route.snapshot.queryParams[RoutingConstants.EDIT]);
+    if (isEditing) {
+      this.store$.dispatch(changeIsEditingState({ isEditing }));
+    }
   }
 
   getRoleData(): void {
-    this.role = cloneDeep(this.route.snapshot.data['role']);
-    this.roleInitial = cloneDeep(this.route.snapshot.data['role']);
+    this.role = cloneDeep(this.route.snapshot.data[RoutingConstants.ROLE]);
+    this.roleInitial = cloneDeep(this.route.snapshot.data[RoutingConstants.ROLE]);
   }
 
   addParticipantDialog(): void {

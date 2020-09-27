@@ -75,4 +75,11 @@ export class RoutingConstants {
   static ROUTE_ROLES = `${RoutingConstants.BASE_URL}${PATHS.ROLES}`;
   static ROUTE_ROLES_DETAILS = `${RoutingConstants.BASE_URL}${PATHS.ROLES}/${PATHS.DETAILS}`;
   static ROUTE_ROLES_ADD = `${RoutingConstants.BASE_URL}${PATHS.ROLES}/${PATHS.ADD}`;
+
+  // query params
+  static EDIT = 'edit';
+  static ROLE = 'role';
+  static PLAN = 'plan';
+  static DEPARTMENT = 'department';
+  static RETURN_URL = 'returnUrl';
 }

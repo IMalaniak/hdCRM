@@ -96,7 +96,9 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
   }
 
   onDepSelect(id: number, edit: boolean = false): void {
-    this.router.navigate([`${RoutingConstants.ROUTE_DEPARTMENTS_DETAILS}/${id}`]);
+    this.router.navigate([`${RoutingConstants.ROUTE_DEPARTMENTS_DETAILS}/${id}`], {
+      queryParams: { edit }
+    });
     this.store$.dispatch(changeIsEditingState({ isEditing: edit }));
   }
 

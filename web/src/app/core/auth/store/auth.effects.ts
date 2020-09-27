@@ -52,7 +52,8 @@ export class AuthEffects implements OnInitEffects {
         return [authActions.logInSuccess({ accessToken }), authActions.setSessionId({ sessionId })];
       }),
       tap(() => {
-        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || RoutingConstants.ROUTE_DASHBOARD;
+        const returnUrl =
+          this.route.snapshot.queryParams[RoutingConstants.RETURN_URL] || RoutingConstants.ROUTE_DASHBOARD;
         this.router.navigateByUrl(returnUrl);
       }),
       catchError((errorResponse: HttpErrorResponse) => {

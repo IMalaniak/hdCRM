@@ -12,7 +12,7 @@ import { updateUserOrgRequested, updateUserProfileRequested } from '@/core/auth/
 import { ActivatedRoute } from '@angular/router';
 import { Preferences } from '@/core/reducers/preferences.reducer';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
-import { TAB_PRIVILEGES, CONSTANTS, TAB_NAMES, TAB_LABELS } from '@/shared/constants';
+import { TAB_PRIVILEGES, CONSTANTS, TAB_NAMES, TAB_LABELS, RoutingConstants } from '@/shared/constants';
 
 @Component({
   selector: 'templates-user-profile',
@@ -47,7 +47,7 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     if (this.canEdit) {
-      let isEditing = this.route.snapshot.queryParams['edit'];
+      let isEditing = this.route.snapshot.queryParams[RoutingConstants.EDIT];
       if (isEditing) {
         isEditing = JSON.parse(isEditing);
         this.store.dispatch(changeIsEditingState({ isEditing }));

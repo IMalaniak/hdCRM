@@ -12,7 +12,15 @@ import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
 import { MediaqueryService, ToastMessageService } from '@/shared/services';
 import { updateDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
 import { selectIsEditing } from '../../store/department.selectors';
-import { EDIT_PRIVILEGES, DIALOG, ACTION_LABELS, THEME_PALETTE, CONSTANTS, MAT_BUTTON } from '@/shared/constants';
+import {
+  EDIT_PRIVILEGES,
+  DIALOG,
+  ACTION_LABELS,
+  THEME_PALETTE,
+  CONSTANTS,
+  MAT_BUTTON,
+  RoutingConstants
+} from '@/shared/constants';
 
 @Component({
   selector: 'department',
@@ -45,8 +53,12 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.departmentInitial = cloneDeep(this.route.snapshot.data['department']);
-    this.department = cloneDeep(this.route.snapshot.data['department']);
+    this.departmentInitial = cloneDeep(this.route.snapshot.data[RoutingConstants.DEPARTMENT]);
+    this.department = cloneDeep(this.route.snapshot.data[RoutingConstants.DEPARTMENT]);
+    const isEditing: boolean = JSON.parse(this.route.snapshot.queryParams[RoutingConstants.EDIT]);
+    if (isEditing) {
+      this.store$.dispatch(changeIsEditingState({ isEditing }));
+    }
   }
 
   onClickEdit(): void {

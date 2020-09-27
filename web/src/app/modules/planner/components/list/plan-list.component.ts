@@ -101,7 +101,9 @@ export class PlanListComponent implements AfterViewInit, OnDestroy {
   }
 
   onPlanSelect(id: number, edit: boolean = false): void {
-    this.router.navigateByUrl(`${RoutingConstants.ROUTE_PLANNER_DETAILS}/${id}`);
+    this.router.navigate([`${RoutingConstants.ROUTE_PLANNER_DETAILS}/${id}`], {
+      queryParams: { edit }
+    });
     this.store$.dispatch(changeIsEditingState({ isEditing: edit }));
   }
 

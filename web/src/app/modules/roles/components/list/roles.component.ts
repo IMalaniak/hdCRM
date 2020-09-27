@@ -99,7 +99,9 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
   }
 
   onRoleSelect(id: number, edit: boolean = false): void {
-    this.router.navigateByUrl(`${RoutingConstants.ROUTE_ROLES_DETAILS}/${id}`);
+    this.router.navigate([`${RoutingConstants.ROUTE_ROLES_DETAILS}/${id}`], {
+      queryParams: { edit }
+    });
     this.store$.dispatch(changeIsEditingState({ isEditing: edit }));
   }
 
