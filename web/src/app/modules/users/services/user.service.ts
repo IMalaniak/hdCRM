@@ -6,7 +6,7 @@ import { take } from 'rxjs/operators';
 import { Role } from '@/modules/roles/models';
 import { SocketService } from '@/shared/services';
 import { NewPassword, ApiResponse, CollectionApiResponse, ItemApiResponse } from '@/shared/models';
-import { SocketEvent, APIS } from '@/shared/constants';
+import { SocketEvent, APIS, CONSTANTS } from '@/shared/constants';
 
 @Injectable()
 export class UserService {
@@ -19,15 +19,15 @@ export class UserService {
   getList(
     pageIndex = 0,
     pageSize = 5,
-    sortIndex = 'id',
-    sortDirection = 'asc'
+    sortIndex = CONSTANTS.ID,
+    sortDirection = CONSTANTS.ASC
   ): Observable<CollectionApiResponse<User>> {
     return this.http.get<CollectionApiResponse<User>>(APIS.USERS, {
       params: new HttpParams()
-        .set('pageIndex', pageIndex.toString())
-        .set('pageSize', pageSize.toString())
-        .set('sortIndex', sortIndex)
-        .set('sortDirection', sortDirection)
+        .set(CONSTANTS.PAGE_INDEX, pageIndex.toString())
+        .set(CONSTANTS.PAGE_SIZE, pageSize.toString())
+        .set(CONSTANTS.SORT_INDEX, sortIndex)
+        .set(CONSTANTS.SORT_DIRECTION, sortDirection)
     });
   }
 

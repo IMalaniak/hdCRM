@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Plan } from '../models';
 import { User } from '@/modules/users';
 import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '@/shared/models';
-import { APIS } from '@/shared/constants';
+import { APIS, CONSTANTS } from '@/shared/constants';
 
 @Injectable()
 export class PlanService {
@@ -17,15 +17,15 @@ export class PlanService {
   getList(
     pageIndex = 0,
     pageSize = 5,
-    sortIndex = 'id',
-    sortDirection = 'asc'
+    sortIndex = CONSTANTS.ID,
+    sortDirection = CONSTANTS.ASC
   ): Observable<CollectionApiResponse<Plan>> {
     return this.http.get<CollectionApiResponse<Plan>>(APIS.PLANS, {
       params: new HttpParams()
-        .set('pageIndex', pageIndex.toString())
-        .set('pageSize', pageSize.toString())
-        .set('sortIndex', sortIndex)
-        .set('sortDirection', sortDirection)
+        .set(CONSTANTS.PAGE_INDEX, pageIndex.toString())
+        .set(CONSTANTS.PAGE_SIZE, pageSize.toString())
+        .set(CONSTANTS.SORT_INDEX, sortIndex)
+        .set(CONSTANTS.SORT_DIRECTION, sortDirection)
     });
   }
 
