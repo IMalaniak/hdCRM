@@ -3,7 +3,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User, State } from '../models';
 import { take } from 'rxjs/operators';
-import { Role } from '@/modules/roles/models';
 import { SocketService } from '@/shared/services';
 import { NewPassword, ApiResponse, CollectionApiResponse, ItemApiResponse } from '@/shared/models';
 import { SocketEvent, APIS } from '@/shared/constants';
