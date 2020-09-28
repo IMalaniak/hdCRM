@@ -49,11 +49,7 @@
           {{ 'Role' | uppercase }}
         </h6>
       </div>
-      <ul>
-        <li>
-          <span class="role-titles">{{ user.Role.keyString }}</span>
-        </li>
-      </ul>
+      <span class="role-titles">{{ user.Role.keyString }}</span>
     </div>
     <div class="details" *ngIf="user.State">
       <div class="caption">

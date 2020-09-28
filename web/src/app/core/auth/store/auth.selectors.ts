@@ -26,7 +26,7 @@ export const isLoggedOut = createSelector(isLoggedIn, (loggedIn) => !loggedIn);
 export const getPrivileges = createSelector<object, User, Privilege[]>(currentUser, (user) => {
   let privileges: Privilege[] = [];
   if (user && user.Role) {
-    privileges = user.Role.Privileges;
+    privileges = [...privileges, ...user.Role.Privileges];
   }
   return privileges;
 });
