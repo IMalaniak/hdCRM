@@ -19,8 +19,8 @@ import {
   THEME_PALETTE,
   CONSTANTS,
   MAT_BUTTON,
-  RoutingConstants,
-  PATHS
+  PATHS,
+  RoutingConstants
 } from '@/shared/constants';
 
 @Component({
@@ -37,7 +37,6 @@ export class DepartmentComponent implements OnInit, OnDestroy {
 
   department: Department;
   departmentInitial: Department;
-
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
   matButtonTypes = MAT_BUTTON;
@@ -56,7 +55,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.departmentInitial = cloneDeep(this.route.snapshot.data[PATHS.DEPARTMENT]);
     this.department = cloneDeep(this.route.snapshot.data[PATHS.DEPARTMENT]);
-    const isEditing: boolean = JSON.parse(this.route.snapshot.queryParams[RoutingConstants.EDIT]);
+    const isEditing: boolean = this.route.snapshot.data[RoutingConstants.EDIT];
     if (isEditing) {
       this.store$.dispatch(changeIsEditingState({ isEditing }));
     }

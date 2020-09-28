@@ -69,7 +69,7 @@ export class PlanComponent implements OnInit, OnDestroy {
     this.store$.dispatch(formRequested({ formName: PATHS.PLAN }));
     this.plan = cloneDeep(this.route.snapshot.data[PATHS.PLAN]);
     this.planInitial = cloneDeep(this.route.snapshot.data[PATHS.PLAN]);
-    const isEditing: boolean = JSON.parse(this.route.snapshot.queryParams[RoutingConstants.EDIT]);
+    const isEditing: boolean = this.route.snapshot.data[RoutingConstants.EDIT];
     if (isEditing) {
       this.store$.dispatch(changeIsEditingState({ isEditing }));
     }

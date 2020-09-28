@@ -3,7 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { AddDepartmentComponent, DepartmentComponent, DepartmentsComponent } from './components';
 import { DepartmentResolver } from './services';
 import { PrivilegeGuard } from '@/core/_guards';
-import { PATHS, VIEW_PRIVILEGES, ADD_PRIVILEGES } from '@/shared/constants';
+import { PATHS, VIEW_PRIVILEGES, ADD_PRIVILEGES, EDIT_PRIVILEGES } from '@/shared/constants';
+import { EditResolver } from '@/shared/resolvers';
 
 const routes: Routes = [
   { path: '', pathMatch: PATHS.PATH_MATCH_FULL, redirectTo: PATHS.LIST },
@@ -22,11 +23,12 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Details',
       animation: 'DepartmentDetailsPage',
-      privilege: VIEW_PRIVILEGES.DEPARTMENT
+      privilege: VIEW_PRIVILEGES.DEPARTMENT,
+      editPrivilege: EDIT_PRIVILEGES.DEPARTMENT
     },
     canActivate: [PrivilegeGuard],
     component: DepartmentComponent,
-    resolve: { department: DepartmentResolver }
+    resolve: { department: DepartmentResolver, edit: EditResolver }
   },
   {
     path: PATHS.ADD,
@@ -48,7 +50,7 @@ export class DepartmentsRoutingModule {
   static forRoot(): ModuleWithProviders<DepartmentsRoutingModule> {
     return {
       ngModule: DepartmentsRoutingModule,
-      providers: [DepartmentResolver]
+      providers: [DepartmentResolver, EditResolver]
     };
   }
 }

@@ -71,7 +71,7 @@
               <fa-icon [icon]="['fas', 'info']"></fa-icon>
               <span i18n="@@departmentsComponentListActionsView">{{ actionLabels.DETAILS }}</span>
             </button>
-            <button *ngIf="canEditDep$ | async" mat-menu-item (click)="onDepSelect(dep.id, true)">
+            <button *ngIf="canEditDep$ | async" mat-menu-item (click)="onDepSelect(dep.id, true, dep.managerId)">
               <fa-icon [icon]="['fas', 'edit']"></fa-icon>
               <span i18n="@@departmentsComponentListActionsEdit">{{ actionLabels.EDIT }}</span>
             </button>

@@ -82,4 +82,5 @@ export class RoutingConstants {
   // query params
   static EDIT = 'edit';
   static RETURN_URL = 'returnUrl';
+  static OWNER_ID = 'ownerId';
 }

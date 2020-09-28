@@ -3,7 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { RolesComponent, RoleComponent, AddRoleComponent } from './components';
 import { RoleResolver } from './services/role.resolver';
 import { PrivilegeGuard } from '@/core/_guards';
-import { PATHS, VIEW_PRIVILEGES, ADD_PRIVILEGES } from '@/shared/constants';
+import { PATHS, VIEW_PRIVILEGES, ADD_PRIVILEGES, EDIT_PRIVILEGES } from '@/shared/constants';
+import { EditResolver } from '@/shared/resolvers';
 
 const routes: Routes = [
   { path: '', pathMatch: PATHS.PATH_MATCH_FULL, redirectTo: PATHS.LIST },
@@ -22,11 +23,12 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Details',
       animation: 'RoleDetailsPage',
-      privilege: VIEW_PRIVILEGES.ROLE
+      privilege: VIEW_PRIVILEGES.ROLE,
+      editPrivilege: EDIT_PRIVILEGES.ROLE
     },
     canActivate: [PrivilegeGuard],
     component: RoleComponent,
-    resolve: { role: RoleResolver }
+    resolve: { role: RoleResolver, edit: EditResolver }
   },
   {
     path: PATHS.ADD,
@@ -48,7 +50,7 @@ export class RolesRoutingModule {
   static forRoot(): ModuleWithProviders<RolesRoutingModule> {
     return {
       ngModule: RolesRoutingModule,
-      providers: [RoleResolver]
+      providers: [RoleResolver, EditResolver]
     };
   }
 }

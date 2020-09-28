@@ -79,7 +79,7 @@
               <fa-icon [icon]="['fas', 'info']"></fa-icon>
               <span i18n="@@plannerComponentListActionsView">{{ actionLabels.DETAILS }}</span>
             </button>
-            <button *ngIf="canEditPlan$ | async" mat-menu-item (click)="onPlanSelect(plan.id, true)">
+            <button *ngIf="canEditPlan$ | async" mat-menu-item (click)="onPlanSelect(plan.id, true, plan.CreatorId)">
               <fa-icon [icon]="['fas', 'edit']"></fa-icon>
               <span i18n="@@plannerComponentListActionsEdit">{{ actionLabels.EDIT }}</span>
             </button>

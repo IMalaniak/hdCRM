@@ -3,7 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { AddPlanComponent, PlanListComponent, PlanComponent, StagesComponent } from './components';
 import { PlanResolver } from './services';
 import { PrivilegeGuard } from '@/core/_guards';
-import { PATHS, VIEW_PRIVILEGES, ADD_PRIVILEGES } from '@/shared/constants';
+import { PATHS, VIEW_PRIVILEGES, ADD_PRIVILEGES, EDIT_PRIVILEGES } from '@/shared/constants';
+import { EditResolver } from '@/shared/resolvers';
 
 const routes: Routes = [
   { path: '', pathMatch: PATHS.PATH_MATCH_FULL, redirectTo: PATHS.LIST },
@@ -22,11 +23,12 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Details',
       animation: 'PlannerDetailsPage',
-      privilege: VIEW_PRIVILEGES.PLAN
+      privilege: VIEW_PRIVILEGES.PLAN,
+      editPrivilege: EDIT_PRIVILEGES.PLAN
     },
     canActivate: [PrivilegeGuard],
     component: PlanComponent,
-    resolve: { plan: PlanResolver }
+    resolve: { plan: PlanResolver, edit: EditResolver }
   },
   {
     path: PATHS.ADD,
@@ -58,7 +60,7 @@ export class PlannerRoutingModule {
   static forRoot(): ModuleWithProviders<PlannerRoutingModule> {
     return {
       ngModule: PlannerRoutingModule,
-      providers: [PlanResolver]
+      providers: [PlanResolver, EditResolver]
     };
   }
 }
