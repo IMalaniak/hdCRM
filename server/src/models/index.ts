@@ -56,7 +56,7 @@ class DataBase {
     Role.belongsTo(Organization);
     User.belongsTo(Organization);
 
-    User.belongsToMany(Role, { through: 'UserRoles', foreignKey: 'UserId' });
+    User.belongsTo(Role);
     User.belongsToMany(Asset, { through: 'UserAssets', foreignKey: 'UserId' });
     User.belongsTo(Asset, { as: 'avatar' });
     User.belongsToMany(Plan, {
@@ -85,7 +85,7 @@ class DataBase {
     PasswordAttribute.belongsTo(User);
     State.hasMany(User);
     Asset.belongsToMany(User, { through: 'UserAssets', foreignKey: 'AssetId' });
-    Role.belongsToMany(User, { through: 'UserRoles', foreignKey: 'RoleId' });
+    Role.hasMany(User);
     Plan.belongsTo(User, { as: 'Creator' });
     Plan.belongsToMany(User, {
       as: 'Participants',

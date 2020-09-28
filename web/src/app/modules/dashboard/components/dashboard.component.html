@@ -22,9 +22,7 @@
               </li>
             </ng-template>
           </ng-container>
-          <li class="roles" *ngIf="appUser.Roles">
-            <span *ngFor="let role of appUser.Roles; last as isLast">{{ role.keyString }}</span>
-          </li>
+          <span>{{ appUser.Role.keyString }}</span>
         </ul>
       </section>
     </organisms-card>

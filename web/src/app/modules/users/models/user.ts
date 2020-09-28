@@ -18,7 +18,8 @@ export interface User {
   password: string;
   createdAt: Date;
   updatedAt: Date;
-  Roles: Role[];
+  Role: Role;
+  RoleId: number;
   selectedRoleIds: number[];
   defaultLang: string;
   StateId: number;

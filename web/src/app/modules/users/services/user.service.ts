@@ -80,14 +80,11 @@ export class UserService {
       } as State;
       formated = Object.assign({}, formated, { State: state });
     }
-    if (formated.Roles && formated.Roles.length) {
-      formated = Object.assign({}, formated, {
-        Roles: formated.Roles.map((role) => {
-          return <Role>{
-            id: role.id
-          };
-        })
-      });
+    if (formated.Role) {
+      const role = {
+        id: user.RoleId
+      };
+      formated = Object.assign({}, formated, { Role: role });
     }
     return formated;
   }
