@@ -19,11 +19,7 @@ describe('RightSidebarComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [RightSidebarComponent],
-        imports: [
-          RouterTestingModule,
-          HttpClientModule
-          // TaskManagerModule
-        ],
+        imports: [RouterTestingModule, HttpClientModule],
         providers: [provideMockStore({ initialState })]
       }).compileComponents();
     })
