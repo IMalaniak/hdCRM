@@ -32,6 +32,12 @@ task({
 });
 
 task({
+  name: 'web:buildProd',
+  fct: series('web:unit-test', 'web:compile'),
+  desc: 'Install all dependencies, runs all unit tests and then compile the application to the production'
+});
+
+task({
   name: 'web:build-dev',
   fct: series('web:install', 'web:compile-dev'),
   desc: 'Install all dependencies and compile the application in development mode'

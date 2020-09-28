@@ -17,6 +17,13 @@ task({
   desc: 'Builds all server artifacts (runs tsc, npm install)'
 });
 
+task({
+  name: 'server:buildProd',
+  alias: 'sb',
+  fct: series('server:unit-test', 'server:compile'),
+  desc: 'Runs all server unit tests and then builds all server artifacts'
+});
+
 const devOptions = {
   cwd: `${__dirname}/server`,
   commandTimeoutSeconds: devTimeoutSeconds

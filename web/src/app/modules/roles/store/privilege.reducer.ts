@@ -10,13 +10,13 @@ export interface PrivilegesState extends EntityState<Privilege> {
 
 const adapter: EntityAdapter<Privilege> = createEntityAdapter<Privilege>();
 
-const initialState: PrivilegesState = adapter.getInitialState({
+export const initialPrivilegesState: PrivilegesState = adapter.getInitialState({
   allPrivilegesLoaded: false,
   loading: false
 });
 
 const privilegesReducer = createReducer(
-  initialState,
+  initialPrivilegesState,
   on(PrivilegeActions.createPrivilegeSuccess, (state, { privilege }) => adapter.addOne(privilege, state)),
   on(PrivilegeActions.allPrivilegesRequested, (state) => ({ ...state, loading: true })),
   on(PrivilegeActions.allPrivilegesRequestCanceled, (state) => ({ ...state, loading: false })),

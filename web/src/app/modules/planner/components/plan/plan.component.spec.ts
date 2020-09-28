@@ -1,16 +1,29 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { SharedModule } from '@/shared/shared.module';
+import { authStateMock } from '@/shared/testing/mocks';
+import { HttpClientModule } from '@angular/common/http';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+import { PlanService } from '../../services';
 
 import { PlanComponent } from './plan.component';
 
 describe('PlanComponent', () => {
   let component: PlanComponent;
   let fixture: ComponentFixture<PlanComponent>;
+  const initialState = {
+    auth: authStateMock
+  };
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [PlanComponent]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [PlanComponent],
+        imports: [RouterTestingModule, HttpClientModule, SharedModule],
+        providers: [PlanService, provideMockStore({ initialState })]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PlanComponent);

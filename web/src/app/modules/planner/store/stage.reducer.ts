@@ -10,13 +10,13 @@ export interface StagesState extends EntityState<Stage> {
 
 const adapter: EntityAdapter<Stage> = createEntityAdapter<Stage>();
 
-const initialState: StagesState = adapter.getInitialState({
+export const initialStagesState: StagesState = adapter.getInitialState({
   allStagesLoaded: false,
   loading: false
 });
 
 const stagesReducer = createReducer(
-  initialState,
+  initialStagesState,
   on(StageActions.createStageSuccess, (state, { stage }) => adapter.addOne(stage, state)),
   on(StageActions.allStagesRequestedFromDashboard || StageActions.allStagesRequestedFromDialogWindow, (state) => ({
     ...state,

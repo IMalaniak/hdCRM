@@ -1,4 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { SharedModule } from '@/shared/shared.module';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { OrganismsTaskDialogComponent } from './organisms-task-dialog.component';
 
@@ -6,11 +8,14 @@ describe('OrganismsTaskDialogComponent', () => {
   let component: OrganismsTaskDialogComponent;
   let fixture: ComponentFixture<OrganismsTaskDialogComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [OrganismsTaskDialogComponent]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [OrganismsTaskDialogComponent],
+        imports: [SharedModule, BrowserAnimationsModule]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrganismsTaskDialogComponent);

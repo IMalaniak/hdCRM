@@ -1,5 +1,5 @@
 <organisms-card cardTitle="Preferences" contentClass="mt-4" *ngIf="preferencesList$ | async as preferences">
-  <form content class="row preferences mx-auto" [formGroup]="preferencesForm">
+  <form *ngIf="preferences" content class="row preferences mx-auto" [formGroup]="preferencesForm">
     <div class="col-6 col-sm-4 col-md-4 col-lg-4">
       <div class="preferences-detail">
         <h5>Time format</h5>
