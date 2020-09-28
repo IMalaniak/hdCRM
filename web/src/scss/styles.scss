@@ -19,6 +19,13 @@
 
 .dark-theme {
   @include angular-material-theme($dark-theme);
+
+  // Custom styles for ngx-charts
+  .ngx-charts {
+    text {
+      fill: $gray-200;
+    }
+  }
 }
 
 .font-scale {
