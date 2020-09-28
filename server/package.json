@@ -18,7 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@overnightjs/core": "1.7.4",
+    "@overnightjs/core": "1.7.5",
     "@overnightjs/logger": "1.1.12",
     "cookie-parser": "1.4.5",
     "cors": "*",
