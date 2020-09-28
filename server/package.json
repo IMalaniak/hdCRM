@@ -19,7 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "@overnightjs/core": "1.7.5",
-    "@overnightjs/logger": "1.1.12",
+    "@overnightjs/logger": "1.2.0",
     "cookie-parser": "1.4.5",
     "cors": "*",
     "email-templates": "7.1.1",
