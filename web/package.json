@@ -67,7 +67,7 @@
     "@types/node": "13.13.21",
     "@types/socket.io": "2.1.11",
     "@types/ua-parser-js": "0.7.33",
-    "codelyzer": "6.0.0",
+    "codelyzer": "6.0.1",
     "jasmine-core": "3.6.0",
     "jasmine-spec-reporter": "6.0.0",
     "karma": "5.2.3",
