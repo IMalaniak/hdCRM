@@ -4,12 +4,10 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { Observable } from 'rxjs';
 import { User } from '../../models';
-import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { selectIsLoading, selectIsEditing, selectUserById } from '../../store/user.selectors';
 import { tap } from 'rxjs/internal/operators/tap';
 import { userRequested } from '../../store/user.actions';
 import { filter } from 'rxjs/operators';
-import { EDIT_PRIVILEGES } from '@/shared/constants';
 
 @Component({
   selector: 'user',
@@ -20,7 +18,6 @@ export class UserComponent implements OnInit {
   user$: Observable<User>;
   editForm$: Observable<boolean> = this.store.pipe(select(selectIsEditing));
   isLoading$: Observable<boolean> = this.store.pipe(select(selectIsLoading));
-  canEdit$: Observable<boolean> = this.store.pipe(select(isPrivileged(EDIT_PRIVILEGES.USER)));
 
   constructor(private route: ActivatedRoute, private store: Store<AppState>) {}
 

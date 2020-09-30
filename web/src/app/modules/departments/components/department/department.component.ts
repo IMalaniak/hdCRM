@@ -56,9 +56,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     this.departmentInitial = cloneDeep(this.route.snapshot.data[PATHS.DEPARTMENT]);
     this.department = cloneDeep(this.route.snapshot.data[PATHS.DEPARTMENT]);
     const isEditing: boolean = this.route.snapshot.data[RoutingConstants.EDIT];
-    if (isEditing) {
-      this.store$.dispatch(changeIsEditingState({ isEditing }));
-    }
+    this.store$.dispatch(changeIsEditingState({ isEditing }));
   }
 
   onClickEdit(): void {

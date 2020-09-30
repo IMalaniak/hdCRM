@@ -32,8 +32,8 @@ export class DepartmentService {
   getList(
     pageIndex = 0,
     pageSize = 5,
-    sortIndex = CONSTANTS.ID,
-    sortDirection = CONSTANTS.ASC
+    sortIndex = 'id',
+    sortDirection = 'asc'
   ): Observable<CollectionApiResponse<Department>> {
     return this.http.get<CollectionApiResponse<Department>>(APIS.DEPARTMENTS, {
       params: new HttpParams()

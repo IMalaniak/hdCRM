@@ -1,11 +1,9 @@
 export class CONSTANTS {
-  static ID = 'id';
   static NO_CONTENT_INFO = 'No content';
   static PAGE_INDEX = 'pageIndex';
   static PAGE_SIZE = 'pageSize';
   static SORT_INDEX = 'sortIndex';
   static SORT_DIRECTION = 'sortDirection';
-  static ASC = 'asc';
 
   // no image
   static NO_IMAGE_URL = './assets/images/userpic/noimage_croped.png';

@@ -67,9 +67,7 @@ export class RoleComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getRoleData();
     const isEditing: boolean = JSON.parse(this.route.snapshot.queryParams[RoutingConstants.EDIT]);
-    if (isEditing) {
-      this.store$.dispatch(changeIsEditingState({ isEditing }));
-    }
+    this.store$.dispatch(changeIsEditingState({ isEditing }));
   }
 
   getRoleData(): void {

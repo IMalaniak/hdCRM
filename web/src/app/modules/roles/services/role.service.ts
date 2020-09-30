@@ -29,8 +29,8 @@ export class RoleService {
   getList(
     pageIndex = 0,
     pageSize = 5,
-    sortIndex = CONSTANTS.ID,
-    sortDirection = CONSTANTS.ASC
+    sortIndex = 'id',
+    sortDirection = 'asc'
   ): Observable<CollectionApiResponse<Role>> {
     return this.http.get<CollectionApiResponse<Role>>(APIS.ROLES, {
       params: new HttpParams()

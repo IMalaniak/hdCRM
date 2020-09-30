@@ -17,8 +17,8 @@ export class PlanService {
   getList(
     pageIndex = 0,
     pageSize = 5,
-    sortIndex = CONSTANTS.ID,
-    sortDirection = CONSTANTS.ASC
+    sortIndex = 'id',
+    sortDirection = 'asc'
   ): Observable<CollectionApiResponse<Plan>> {
     return this.http.get<CollectionApiResponse<Plan>>(APIS.PLANS, {
       params: new HttpParams()

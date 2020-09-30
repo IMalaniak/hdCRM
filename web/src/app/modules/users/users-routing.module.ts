@@ -2,7 +2,8 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ProfileComponent, UserComponent, UsersComponent } from './components';
 import { PrivilegeGuard } from '@/core/_guards';
-import { PATHS, VIEW_PRIVILEGES } from '@/shared/constants';
+import { EDIT_PRIVILEGES, PATHS, VIEW_PRIVILEGES } from '@/shared/constants';
+import { EditResolver } from '@/shared/resolvers';
 
 const routes: Routes = [
   { path: '', pathMatch: PATHS.PATH_MATCH_FULL, redirectTo: PATHS.LIST },
@@ -21,10 +22,12 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Details',
       animation: 'UserDetailsPage',
-      privilege: VIEW_PRIVILEGES.USER
+      privilege: VIEW_PRIVILEGES.USER,
+      editPrivilege: EDIT_PRIVILEGES.USER
     },
     canActivate: [PrivilegeGuard],
-    component: UserComponent
+    component: UserComponent,
+    resolve: { edit: EditResolver }
   },
   {
     path: PATHS.MY_PROFILE,
@@ -40,7 +43,8 @@ const routes: Routes = [
 export class UsersRoutingModule {
   static forRoot(): ModuleWithProviders<UsersRoutingModule> {
     return {
-      ngModule: UsersRoutingModule
+      ngModule: UsersRoutingModule,
+      providers: [EditResolver]
     };
   }
 }

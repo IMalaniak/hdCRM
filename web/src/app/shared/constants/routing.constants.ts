@@ -37,6 +37,7 @@ export class PATHS {
 
   // users
   static USERS = 'users';
+  static USER = 'user';
   static MY_PROFILE = 'myprofile';
 
   // roles

@@ -6,30 +6,28 @@ import { first, map } from 'rxjs/operators';
 import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
 import { RoutingConstants } from '../constants/routing.constants';
 import { combineLatest } from 'rxjs/internal/observable/combineLatest';
+import { Observable } from 'rxjs';
 
 @Injectable()
-export class EditResolver implements Resolve<any> {
+export class EditResolver implements Resolve<boolean> {
   constructor(private store$: Store<AppState>) {}
 
-  resolve(route: ActivatedRouteSnapshot): boolean {
+  resolve(route: ActivatedRouteSnapshot): Observable<boolean> {
     const isEditing: boolean = JSON.parse(route.queryParams[RoutingConstants.EDIT]);
     const ownerId: number = +route.queryParams[RoutingConstants.OWNER_ID];
     const privilege: string = route.data.editPrivilege;
-    let canEdit: boolean;
 
-    combineLatest([this.store$.pipe(select(isPrivileged(privilege))), this.store$.pipe(select(currentUser))])
-      .pipe(
-        map(([editPriv, appUser]) => {
-          if (ownerId) {
-            canEdit = (editPriv || appUser.id === ownerId) && isEditing;
-          } else {
-            canEdit = editPriv;
-          }
-        }),
-        first()
-      )
-      .subscribe();
-
-    return canEdit;
+    return combineLatest([
+      this.store$.pipe(select(isPrivileged(privilege))),
+      this.store$.pipe(select(currentUser))
+    ]).pipe(
+      map(([editPriv, appUser]) => {
+        if (editPriv && isEditing) {
+          return ownerId ? appUser.id === ownerId : true;
+        }
+        return false;
+      }),
+      first()
+    );
   }
 }

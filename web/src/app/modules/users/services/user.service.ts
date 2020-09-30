@@ -19,8 +19,8 @@ export class UserService {
   getList(
     pageIndex = 0,
     pageSize = 5,
-    sortIndex = CONSTANTS.ID,
-    sortDirection = CONSTANTS.ASC
+    sortIndex = 'id',
+    sortDirection = 'asc'
   ): Observable<CollectionApiResponse<User>> {
     return this.http.get<CollectionApiResponse<User>>(APIS.USERS, {
       params: new HttpParams()
