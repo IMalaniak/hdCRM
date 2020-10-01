@@ -8,7 +8,6 @@ import {
   PrivilegeController,
   RoleController,
   StageController,
-  StateController,
   TaskController,
   PreferenceController,
   FormController
@@ -27,7 +26,6 @@ import { TaskPriorityController } from './controllers/taskPriority';
   new PrivilegeController(),
   new RoleController(),
   new StageController(),
-  new StateController(),
   new UserController(),
   new TaskController(),
   new TaskPriorityController(),

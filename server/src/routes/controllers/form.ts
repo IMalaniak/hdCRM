@@ -2,10 +2,11 @@ import { OK } from 'http-status-codes';
 import { Controller, Middleware, Get } from '@overnightjs/core';
 import { Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { State } from '../../models';
 import Passport from '../../config/passport';
 import { RequestWithQuery } from '../../models/apiRequest';
 import { ItemApiResponse } from '../../models/apiResponse';
+import { enumToArray } from '../../utils/EnumToArray';
+import { UserStates } from '../../constants/UserStates';
 
 export enum IFieldType {
   INPUT = 'input',
@@ -46,7 +47,7 @@ export class FormController {
     const { formName } = req.params;
     Logger.Info(`Selecting ${formName} form...`);
 
-    const states = await State.findAll();
+    const states = enumToArray(UserStates);
 
     const forms: DynamicForm[] = [
       {
@@ -92,8 +93,8 @@ export class FormController {
             editOnly: true,
             options: states.map((state) => {
               return {
-                label: state.keyString,
-                value: state.id
+                label: state.toUpperCase(),
+                value: state
               };
             })
           },

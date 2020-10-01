@@ -415,7 +415,6 @@ export class UserController {
           user.passwordHash = passwordData.passwordHash;
           user.salt = passwordData.salt;
           user.OrganizationId = req.user.OrganizationId;
-          user.StateId = 1;
           user.login = user.fullname.replace(' ', '_');
           this.userDbCtrl
             .create(user)

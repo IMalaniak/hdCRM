@@ -21,7 +21,7 @@ export class RoleController {
       },
       include: [
         {
-          model: User,
+          association: Role.associations.Users,
           attributes: ['id'],
           required: true
         }
@@ -143,7 +143,7 @@ export class RoleController {
           required: false
         },
         {
-          model: User,
+          association: Role.associations.Users,
           attributes: { exclude: ['passwordHash', 'salt'] },
           include: [
             {
@@ -302,7 +302,7 @@ export class RoleController {
     return Role.findByPk(roleId, {
       include: [
         {
-          model: User,
+          association: Role.associations.Users,
           attributes: { exclude: ['passwordHash', 'salt'] },
           include: [
             {

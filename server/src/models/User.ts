@@ -28,11 +28,11 @@ import {
   HasManyGetAssociationsMixin,
   HasManyRemoveAssociationsMixin,
   HasManyRemoveAssociationMixin,
-  HasManySetAssociationsMixin
+  HasManySetAssociationsMixin,
+  Optional
 } from 'sequelize';
 import { UserSession } from './UserSession';
 import { PasswordAttribute } from './PasswordAttribute';
-import { State } from './State';
 import { Role } from './Role';
 import { Plan } from './Plan';
 import { Asset } from './Asset';
@@ -40,6 +40,9 @@ import { Department } from './Department';
 import { Organization } from './Organization';
 import { Task } from './Task';
 import { Preference } from './Preference';
+import { enumToArray } from '../utils/EnumToArray';
+import { UserStates } from '../constants/UserStates';
+
 
 export class User extends Model {
   public id!: number;
@@ -51,6 +54,7 @@ export class User extends Model {
   public phone!: string;
   public passwordHash!: string;
   public salt!: string;
+  public state!: UserStates;
   public defaultLang!: string;
 
   // timestamps
@@ -59,7 +63,6 @@ export class User extends Model {
 
   // from assotiations
   public OrganizationId!: number;
-  public StateId!: number;
   public avatarId!: number;
   public DepartmentId!: number;
 
@@ -94,10 +97,6 @@ export class User extends Model {
 
   public countPlansTakesPartIn!: BelongsToManyCountAssociationsMixin;
   public getPlansTakesPartIn!: BelongsToManyGetAssociationsMixin<Plan>;
-
-  public createState!: BelongsToCreateAssociationMixin<State>;
-  public getState!: BelongsToGetAssociationMixin<State>;
-  public setState!: BelongsToSetAssociationMixin<State, number>;
 
   public countUserSessions!: HasManyCountAssociationsMixin;
   public createUserSession!: HasManyCreateAssociationMixin<UserSession>;
@@ -139,7 +138,6 @@ export class User extends Model {
   public readonly Assets?: Asset[];
   public readonly avatar?: Asset;
   public readonly PlansTakesPartIn?: Plan[];
-  public readonly State?: State;
   public readonly UserSession?: UserSession;
   public readonly ManagedDepartment?: Department;
   public readonly Department?: Department;
@@ -153,7 +151,6 @@ export class User extends Model {
     Asset: Association<User, Asset>;
     avatar: Association<User, Asset>;
     PlansTakesPartIn: Association<User, Plan>;
-    State: Association<User, State>;
     UserSession: Association<User, UserSession>;
     ManagedDepartment: Association<User, Department>;
     Department: Association<User, Department>;
@@ -218,6 +215,12 @@ export const UserFactory = (sequelize: Sequelize): Model => {
       },
       defaultLang: {
         type: new DataTypes.CHAR(2)
+      },
+      state: {
+        type: DataTypes.ENUM,
+        values: enumToArray(UserStates),
+        allowNull: false,
+        defaultValue: UserStates.INITIALIZED
       }
     },
     {

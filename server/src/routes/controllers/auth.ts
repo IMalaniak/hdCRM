@@ -2,7 +2,7 @@ import { OK, BAD_REQUEST, UNAUTHORIZED, FORBIDDEN } from 'http-status-codes';
 import { Controller, Get, Post } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { User, UserSession, Privilege, PasswordAttribute, State } from '../../models';
+import { User, UserSession, Privilege, PasswordAttribute } from '../../models';
 import { Op, ValidationError, UniqueConstraintError } from 'sequelize';
 import Crypt from '../../utils/crypt';
 import Mailer from '../../mailer/nodeMailerTemplates';
@@ -12,6 +12,7 @@ import { TokenExpiredError } from 'jsonwebtoken';
 import { UserDBController } from '../../dbControllers/usersController';
 import { ApiResponse } from '../../models/apiResponse';
 import { parseCookies } from '../../utils/parseCookies';
+import { UserStates } from '../../constants/UserStates';
 
 @Controller('auth/')
 export class AuthController {
@@ -58,8 +59,7 @@ export class AuthController {
         surname: req.body.surname,
         // defaultLang: req.body.defaultLang,
         phone: req.body.phone,
-        Organization,
-        StateId: 1
+        Organization
       },
       {
         include: [
@@ -164,7 +164,7 @@ export class AuthController {
         if (pa) {
           pa.getUser()
             .then((user) => {
-              user.StateId = 2;
+              user.state = UserStates.ACTIVE;
               user
                 .save()
                 .then((updatedUser) => {
@@ -238,12 +238,7 @@ export class AuthController {
           }
         ]
       },
-      attributes: ['id', 'passwordHash', 'salt'],
-      include: [
-        {
-          model: State
-        }
-      ]
+      attributes: ['id', 'passwordHash', 'salt']
     })
       .then((user) => {
         if (!user) {
@@ -253,7 +248,7 @@ export class AuthController {
           });
         }
 
-        if (user.State.id === 1) {
+        if (user.state === UserStates.INITIALIZED) {
           this.saveLogInAttempt(req, user, false).then(() => {
             return res.status(BAD_REQUEST).json({
               success: false,
@@ -261,7 +256,7 @@ export class AuthController {
                 'Sorry, Your account is not activated, please use activation link we sent You or contact administrator!'
             });
           });
-        } else if (user.State.id === 3) {
+        } else if (user.state === UserStates.DISABLED) {
           this.saveLogInAttempt(req, user, false).then(() => {
             return res.status(BAD_REQUEST).json({
               success: false,
