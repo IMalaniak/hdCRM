@@ -67,23 +67,17 @@ class CrmServer extends Server {
   }
 
   public start(port: number): void {
-    if (process.env.NODE_ENV !== 'production') {
-      // Sync DB
-      this.dBase.sequel
-        .sync({
-          // alter: true
-          // force: true
-        })
-        .then(() => {
-          this.server.listen(port, '127.0.0.1', () => {
-            Logger.Info(`Server is listening on ${port}`);
-          });
+    // Sync DB
+    this.dBase.sequel
+      .sync({
+        // alter: process.env.NODE_ENV !== 'production'
+        // force: true
+      })
+      .then(() => {
+        this.server.listen(port, () => {
+          Logger.Info(`Server is listening on ${port}`);
         });
-    } else {
-      this.server.listen(port, () => {
-        Logger.Info(`Server is listening on ${port}`);
       });
-    }
   }
 }
 
