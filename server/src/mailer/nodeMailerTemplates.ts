@@ -13,8 +13,8 @@ class Mailer {
     // uncomment below to send emails in development/test env:
     // send: false,
     // preview: true,
-    send: process.env.NODE_ENV === 'production' ? true : false,
-    preview: process.env.NODE_ENV !== 'production' ? true : false,
+    send: process.env.NODE_ENV === 'development' ? false : true,
+    preview: process.env.NODE_ENV === 'development' ? true : false,
     transport: {
       host: process.env.NODE_MAILER_HOST,
       port: 465,
@@ -28,7 +28,7 @@ class Mailer {
 
   sendPasswordReset(user: User, tokenUrl: string): Promise<Email> {
     return this.newEmail.send({
-      template: path.join(__dirname, '../emails', 'resetPassword'),
+      template: path.join(__dirname, '../../emails', 'resetPassword'),
       message: {
         subject: 'Reset Password request',
         to: user.email
@@ -43,7 +43,7 @@ class Mailer {
 
   sendPasswordResetConfirmation(user: User): Promise<Email> {
     return this.newEmail.send({
-      template: path.join(__dirname, '../emails', 'resetPasswordConfirmation'),
+      template: path.join(__dirname, '../../emails', 'resetPasswordConfirmation'),
       message: {
         subject: 'Password reset confirmation',
         to: user.email
@@ -57,7 +57,7 @@ class Mailer {
 
   sendActivation(user: User, tmpPassword: string, url: string) {
     return this.newEmail.send({
-      template: path.join(__dirname, '../emails', 'initActivation'),
+      template: path.join(__dirname, '../../emails', 'initActivation'),
       message: {
         subject: 'Welcome to HDCRM',
         to: user.email
@@ -73,7 +73,7 @@ class Mailer {
 
   sendActivationConfirmation(user: User) {
     return this.newEmail.send({
-      template: path.join(__dirname, '../emails', 'confirmActivation'),
+      template: path.join(__dirname, '../../emails', 'confirmActivation'),
       message: {
         subject: 'Good job activating your HDCRM',
         to: user.email
@@ -87,7 +87,7 @@ class Mailer {
 
   sendInvitation(user: User, tmpPassword: string, url: string) {
     return this.newEmail.send({
-      template: path.join(__dirname, '../emails', 'userInvitation'),
+      template: path.join(__dirname, '../../emails', 'userInvitation'),
       message: {
         subject: 'You have been invited to HDCRM system',
         to: user.email
