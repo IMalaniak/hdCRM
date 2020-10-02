@@ -13,15 +13,15 @@ task({
 task({
   name: 'server:build',
   alias: 'sb',
-  fct: series('server:install', 'server:compile'),
-  desc: 'Builds all server artifacts (runs tsc, npm install)'
+  fct: series('server:install', 'server:compile', 'server:prepareProdDB'),
+  desc: 'Builds all server artifacts (runs tsc, npm install), and prepares bd'
 });
 
 task({
   name: 'server:buildProd',
   alias: 'sb',
-  fct: series('server:unit-test', 'server:compile'),
-  desc: 'Runs all server unit tests and then builds all server artifacts'
+  fct: series('server:unit-test', 'server:compile', 'server:prepareProdDB'),
+  desc: 'Runs all server unit tests and then builds all server artifacts, and prepares bd'
 });
 
 const devOptions = {
@@ -40,4 +40,23 @@ task({
   alias: 'sd',
   fct: doRun('node_modules/.bin/nodemon', devOptions),
   desc: 'Start the dev server'
+});
+
+task({
+  name: 'server:prepareDevDB',
+  alias: 'sddb',
+  fct: series(
+    doRun('dotenv node_modules/.bin/sequelize db:migrate', devOptions),
+    doRun('dotenv node_modules/.bin/sequelize db:seed:all', devOptions)
+  ),
+  desc: 'Prepare new development database'
+});
+
+task({
+  name: 'server:prepareProdDB',
+  fct: series(
+    doRun('node_modules/.bin/sequelize db:migrate', { cwd: `${__dirname}/server` }),
+    doRun('node_modules/.bin/sequelize db:seed:all', { cwd: `${__dirname}/server` })
+  ),
+  desc: 'Prepare database from production or test'
 });
