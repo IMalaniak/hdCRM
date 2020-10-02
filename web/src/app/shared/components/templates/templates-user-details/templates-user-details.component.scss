@@ -67,17 +67,6 @@
       }
     }
 
-    .role {
-      &-titles {
-        display: inline-block;
-        margin: 0 0.3em;
-
-        &:first-child {
-          margin: 0 0.3em 0 0;
-        }
-      }
-    }
-
     > div {
       padding: crmsize(spacer, default, true) 0;
     }
