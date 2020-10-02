@@ -10,7 +10,8 @@ module.exports = {
     dialect: 'postgres',
     ssl: true,
     dialectOptions: {
-      ssl: true
+      ssl: true,
+      rejectUnauthorized: false
     },
     migrationStorage: 'sequelize',
     seederStorage: 'sequelize'
@@ -20,7 +21,8 @@ module.exports = {
     dialect: 'postgres',
     ssl: true,
     dialectOptions: {
-      ssl: true
+      ssl: true,
+      rejectUnauthorized: false
     },
     migrationStorage: 'sequelize',
     seederStorage: 'sequelize'
