@@ -37,14 +37,14 @@ task({
 task({
   name: 'server:build',
   alias: 'sb',
-  fct: series('server:install', 'server:compile', 'server:prepareProdDB'),
+  fct: series('server:install', 'server:compile'),
   desc: 'Builds all server artifacts (runs tsc, npm install), and prepares bd'
 });
 
 task({
   name: 'server:buildProd',
   alias: 'sb',
-  fct: series('server:unit-test', 'server:compile', 'server:prepareProdDB'),
+  fct: series('server:unit-test', 'server:compile'),
   desc: 'Runs all server unit tests and then builds all server artifacts, and prepares bd'
 });
 
