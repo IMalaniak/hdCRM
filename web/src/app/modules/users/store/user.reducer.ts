@@ -16,7 +16,7 @@ function sortByIdAndActiveState(u1: User, u2: User) {
   if (compare !== 0) {
     return compare;
   } else {
-    return u1.StateId - u2.StateId;
+    return +u1.state - +u2.state;
   }
 }
 

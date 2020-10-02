@@ -2,10 +2,10 @@ import { Role } from '@/modules/roles';
 import { UserSession } from './userSession';
 import { PasswordAttributes } from './passwordAttributes';
 import { Department } from '@/modules/departments';
-import { State } from './state';
 import { Asset } from '@/shared/models';
 import { Organization } from './organization';
 import { UserPreferences } from './UserPreferences';
+import { UserStates } from '@/shared/constants';
 
 export interface User {
   id: number;
@@ -21,8 +21,7 @@ export interface User {
   Roles: Role[];
   selectedRoleIds: number[];
   defaultLang: string;
-  StateId: number;
-  State: State;
+  state: UserStates;
   Department: Department;
   DepartmentId: number;
   avatarId: number;
