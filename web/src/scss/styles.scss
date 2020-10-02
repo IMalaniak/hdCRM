@@ -1,6 +1,6 @@
 @import 'variables';
 @import 'mixins';
-@import url('https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,500,700&subset=cyrillic-ext,latin-ext');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap');
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
@@ -14,7 +14,7 @@
 @import 'root';
 
 @import 'theme.scss';
-@include mat-core();
+@include mat-core($general-typography);
 @include angular-material-theme($crm-theme);
 
 .dark-theme {
@@ -38,7 +38,7 @@ body {
   max-height: 100vh;
   max-width: 100vw;
   overflow: hidden;
-  font-family: 'Ubuntu', Arial, sans-serif;
+  font-family: $font-family;
 }
 
 .grid {
