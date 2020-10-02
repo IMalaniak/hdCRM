@@ -28,8 +28,7 @@ import {
   HasManyGetAssociationsMixin,
   HasManyRemoveAssociationsMixin,
   HasManyRemoveAssociationMixin,
-  HasManySetAssociationsMixin,
-  Optional
+  HasManySetAssociationsMixin
 } from 'sequelize';
 import { UserSession } from './UserSession';
 import { PasswordAttribute } from './PasswordAttribute';
@@ -42,7 +41,6 @@ import { Task } from './Task';
 import { Preference } from './Preference';
 import { enumToArray } from '../utils/EnumToArray';
 import { UserStates } from '../constants/UserStates';
-
 
 export class User extends Model {
   public id!: number;
