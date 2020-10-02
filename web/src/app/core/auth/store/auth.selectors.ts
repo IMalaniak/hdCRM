@@ -24,28 +24,13 @@ export const isLoggedOut = createSelector(isLoggedIn, (loggedIn) => !loggedIn);
 
 // get an array pf currentUser privileges
 export const getPrivileges = createSelector<object, User, Privilege[]>(currentUser, (user) => {
-  if (user && user.Roles && user.Roles.length > 0) {
-    let privileges = [];
-    for (const role of user.Roles) {
-      privileges.push(
-        role.Privileges.map((privilege) => {
-          return {
-            keyString: privilege.keyString,
-            RolePrivilege: privilege.RolePrivilege
-          };
-        })
-      );
-    }
-    privileges = [].concat(...privileges);
-    privileges = privileges.filter((v, i, a) => a.indexOf(v) === i);
-    return privileges;
-  }
+  return user?.Role?.Privileges;
 });
 
 // check if currentUser has privilege
 export const isPrivileged = (privilegeCheck: string) =>
   createSelector<object, Privilege[], boolean>(getPrivileges, (privileges) => {
-    if (privileges && privileges.length > 0) {
+    if (privileges?.length) {
       const [symbol, action] = privilegeCheck.split('-');
       const check: Privilege = privileges.find((privilege) => {
         return privilege.keyString === symbol;

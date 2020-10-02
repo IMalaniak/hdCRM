@@ -83,6 +83,11 @@ task({
 // });
 
 task({
+  name: 'compileAll',
+  fct: parallel(artifactModules.map((it) => `${it}:compile`))
+});
+
+task({
   name: 'buildAll',
   fct: parallel(artifactModules.map((it) => `${it}:build`))
 });

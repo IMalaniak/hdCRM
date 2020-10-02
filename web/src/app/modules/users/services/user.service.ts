@@ -3,10 +3,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User, State } from '../models';
 import { take } from 'rxjs/operators';
-import { Role } from '@/modules/roles/models';
 import { SocketService } from '@/shared/services';
 import { NewPassword, ApiResponse, CollectionApiResponse, ItemApiResponse } from '@/shared/models';
 import { SocketEvent, APIS } from '@/shared/constants';
+import { Role } from '@/modules/roles';
 
 @Injectable()
 export class UserService {
@@ -73,22 +73,19 @@ export class UserService {
   }
 
   formatBeforeSend(user: User): User {
-    let formated = { ...user };
-    if (formated.State) {
+    let formatted = { ...user };
+    if (formatted.State) {
       const state = {
         id: user.State.id
       } as State;
-      formated = Object.assign({}, formated, { State: state });
+      formatted = Object.assign({}, formatted, { State: state });
     }
-    if (formated.Roles && formated.Roles.length) {
-      formated = Object.assign({}, formated, {
-        Roles: formated.Roles.map((role) => {
-          return <Role>{
-            id: role.id
-          };
-        })
-      });
+    if (formatted.Role) {
+      const role = {
+        id: user.RoleId
+      } as Role;
+      formatted = Object.assign({}, formatted, { Role: role });
     }
-    return formated;
+    return formatted;
   }
 }

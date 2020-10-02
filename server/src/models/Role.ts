@@ -14,7 +14,17 @@ import {
   BelongsToManyRemoveAssociationsMixin,
   BelongsToManySetAssociationsMixin,
   BelongsToGetAssociationMixin,
-  BelongsToSetAssociationMixin
+  BelongsToSetAssociationMixin,
+  HasManyAddAssociationMixin,
+  HasManyAddAssociationsMixin,
+  HasManyCountAssociationsMixin,
+  HasManyCreateAssociationMixin,
+  HasManyGetAssociationsMixin,
+  HasManyHasAssociationMixin,
+  HasManyHasAssociationsMixin,
+  HasManyRemoveAssociationMixin,
+  HasManyRemoveAssociationsMixin,
+  HasManySetAssociationsMixin
 } from 'sequelize';
 import { User } from './User';
 import { Privilege } from './Privilege';
@@ -34,16 +44,16 @@ export class Role extends Model {
   public getOrganization!: BelongsToGetAssociationMixin<Organization>;
   public setOrganization!: BelongsToSetAssociationMixin<Organization, number>;
 
-  public addUser!: BelongsToManyAddAssociationMixin<User, number>;
-  public addUsers!: BelongsToManyAddAssociationsMixin<User, number>;
-  public countUsers!: BelongsToManyCountAssociationsMixin;
-  public createUser!: BelongsToManyCreateAssociationMixin<User>;
-  public getUsers!: BelongsToManyGetAssociationsMixin<User>;
-  public hasUser!: BelongsToManyHasAssociationMixin<User, number>;
-  public hasUsers!: BelongsToManyHasAssociationsMixin<User, number>;
-  public removeUser!: BelongsToManyRemoveAssociationMixin<User, number>;
-  public removeUsers!: BelongsToManyRemoveAssociationsMixin<User, number>;
-  public setUsers!: BelongsToManySetAssociationsMixin<User, number>;
+  public addUser!: HasManyAddAssociationMixin<User, number>;
+  public addUsers!: HasManyAddAssociationsMixin<User, number>;
+  public countUsers!: HasManyCountAssociationsMixin;
+  public createUser!: HasManyCreateAssociationMixin<User>;
+  public getUsers!: HasManyGetAssociationsMixin<User>;
+  public hasUser!: HasManyHasAssociationMixin<User, number>;
+  public hasUsers!: HasManyHasAssociationsMixin<User, number>;
+  public removeUser!: HasManyRemoveAssociationMixin<User, number>;
+  public removeUsers!: HasManyRemoveAssociationsMixin<User, number>;
+  public setUsers!: HasManySetAssociationsMixin<User, number>;
 
   public addPrivilege!: BelongsToManyAddAssociationMixin<Privilege, number>;
   public addPrivileges!: BelongsToManyAddAssociationsMixin<Privilege, number>;

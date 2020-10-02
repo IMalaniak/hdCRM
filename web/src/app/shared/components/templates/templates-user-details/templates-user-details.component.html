@@ -42,18 +42,14 @@
         </ng-template>
       </ng-container>
     </div>
-    <div class="details" *ngIf="user.Roles && user.Roles.length">
+    <div class="details" *ngIf="user.Role">
       <div class="caption">
         <fa-icon [icon]="['fas', 'user-tag']" class="icon icon-mini"></fa-icon>
-        <h6 i18n="@@templatesUserDetailsComponentProfileDetailsRoles">
-          {{ 'Roles' | uppercase }}
+        <h6 i18n="@@templatesUserDetailsComponentProfileDetailsRole">
+          {{ 'Role' | uppercase }}
         </h6>
       </div>
-      <ul>
-        <li>
-          <span class="role-titles" *ngFor="let role of user.Roles; last as isLast">{{ role.keyString }}</span>
-        </li>
-      </ul>
+      <span class="role-titles">{{ user.Role.keyString }}</span>
     </div>
     <div class="details" *ngIf="user.State">
       <div class="caption">

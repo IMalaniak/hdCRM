@@ -1,5 +1,5 @@
 {
   "hooks": {
-    "pre-push": "node_modules/.bin/gulp testAll lintAll"
+    "pre-push": "node_modules/.bin/gulp compileAll testAll lintAll"
   }
 }
