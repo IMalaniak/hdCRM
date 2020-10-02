@@ -8,7 +8,6 @@ module.exports = {
   production: {
     use_env_variable: 'DATABASE_URL',
     dialect: 'postgres',
-    ssl: true,
     dialectOptions: {
       ssl: true,
       rejectUnauthorized: false
@@ -19,11 +18,6 @@ module.exports = {
   test: {
     use_env_variable: 'DATABASE_URL',
     dialect: 'postgres',
-    ssl: true,
-    dialectOptions: {
-      ssl: true,
-      rejectUnauthorized: false
-    },
     migrationStorage: 'sequelize',
     seederStorage: 'sequelize'
   }
