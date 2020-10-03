@@ -16,41 +16,41 @@ export const currentUserMock = ({
   avatarId: null,
   StateId: 2,
   DepartmentId: 1,
-  Roles: [
-    {
-      keyString: 'root',
-      Privileges: [
-        {
-          keyString: 'organizationTab',
-          RolePrivilege: { view: true, edit: false, add: false, delete: false }
-        },
-        {
-          keyString: 'integrationTab',
-          RolePrivilege: { view: true, edit: false, add: false, delete: false }
-        },
-        {
-          keyString: 'preferenceTab',
-          RolePrivilege: { view: true, edit: false, add: false, delete: false }
-        },
-        {
-          keyString: 'user',
-          RolePrivilege: { view: true, edit: true, add: true, delete: true }
-        },
-        {
-          keyString: 'plan',
-          RolePrivilege: { view: true, edit: true, add: true, delete: true }
-        },
-        {
-          keyString: 'department',
-          RolePrivilege: { view: true, edit: true, add: true, delete: true }
-        },
-        {
-          keyString: 'role',
-          RolePrivilege: { view: true, edit: true, add: true, delete: true }
-        }
-      ]
-    }
-  ],
+  RoleId: 1,
+  Role: {
+    id: 1,
+    keyString: 'root',
+    Privileges: [
+      {
+        keyString: 'organizationTab',
+        RolePrivilege: { view: true, edit: false, add: false, delete: false }
+      },
+      {
+        keyString: 'integrationTab',
+        RolePrivilege: { view: true, edit: false, add: false, delete: false }
+      },
+      {
+        keyString: 'preferenceTab',
+        RolePrivilege: { view: true, edit: false, add: false, delete: false }
+      },
+      {
+        keyString: 'user',
+        RolePrivilege: { view: true, edit: true, add: true, delete: true }
+      },
+      {
+        keyString: 'plan',
+        RolePrivilege: { view: true, edit: true, add: true, delete: true }
+      },
+      {
+        keyString: 'department',
+        RolePrivilege: { view: true, edit: true, add: true, delete: true }
+      },
+      {
+        keyString: 'role',
+        RolePrivilege: { view: true, edit: true, add: true, delete: true }
+      }
+    ]
+  },
   UserSessions: [
     {
       id: 1,

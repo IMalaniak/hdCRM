@@ -18,9 +18,6 @@ export class UserDBController {
   public includes: IncludeOptions[] = [
     {
       model: Role,
-      through: {
-        attributes: []
-      },
       required: false,
       include: [
         {

@@ -23,11 +23,6 @@
       width: 80%;
     }
 
-    ul {
-      margin: 0;
-      padding: 0;
-    }
-
     h4,
     h5,
     h6 {
@@ -69,17 +64,6 @@
         height: 0.8em;
         border: 1px solid $gray-600;
         color: $gray-600;
-      }
-    }
-
-    .role {
-      &-titles {
-        display: inline-block;
-        margin: 0 0.3em;
-
-        &:first-child {
-          margin: 0 0.3em 0 0;
-        }
       }
     }
 

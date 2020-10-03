@@ -61,22 +61,15 @@ export class User extends Model {
 
   // from assotiations
   public OrganizationId!: number;
+  public RoleId!: number;
   public avatarId!: number;
   public DepartmentId!: number;
 
   public getOrganization!: BelongsToGetAssociationMixin<Organization>;
   public setOrganization!: BelongsToSetAssociationMixin<Organization, number>;
 
-  public addRole!: BelongsToManyAddAssociationMixin<Role, number>;
-  public addRoles!: BelongsToManyAddAssociationsMixin<Role, number>;
-  public countRoles!: BelongsToManyCountAssociationsMixin;
-  public createRole!: BelongsToManyCreateAssociationMixin<Role>;
-  public getRoles!: BelongsToManyGetAssociationsMixin<Role>;
-  public hasRole!: BelongsToManyHasAssociationMixin<Role, number>;
-  public hasRoles!: BelongsToManyHasAssociationsMixin<Role, number>;
-  public removeRole!: BelongsToManyRemoveAssociationMixin<Role, number>;
-  public removeRoles!: BelongsToManyRemoveAssociationsMixin<Role, number>;
-  public setRoles!: BelongsToManySetAssociationsMixin<Role, number>;
+  public getRole!: BelongsToGetAssociationMixin<Role>;
+  public setRole!: BelongsToSetAssociationMixin<Role, number>;
 
   public addAsset!: BelongsToManyAddAssociationMixin<Asset, number>;
   public addAssets!: BelongsToManyAddAssociationsMixin<Asset, number>;
@@ -132,7 +125,7 @@ export class User extends Model {
   public setPreference!: HasOneSetAssociationMixin<Preference, number>;
 
   public readonly Organization?: Organization;
-  public readonly Roles?: Role[];
+  public readonly Role?: Role;
   public readonly Assets?: Asset[];
   public readonly avatar?: Asset;
   public readonly PlansTakesPartIn?: Plan[];
@@ -145,7 +138,7 @@ export class User extends Model {
 
   public static associations: {
     Organization: Association<User, Organization>;
-    Roles: Association<User, Role>;
+    Role: Association<User, Role>;
     Asset: Association<User, Asset>;
     avatar: Association<User, Asset>;
     PlansTakesPartIn: Association<User, Plan>;
