@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { Config } from '../../src/config';
 import jwtHelper from '../../src/helpers/jwtHelper';
 
 describe('jwtHelper', async () => {
@@ -6,6 +7,7 @@ describe('jwtHelper', async () => {
     process.env.ACCESS_TOKEN_LIFETIME = '15 min';
     process.env.ACCESS_TOKEN_SECRET = 'AccessTokenSecret';
     process.env.WEB_URL = 'http://localhost:4200';
+    Config.WEB_URL = process.env.WEB_URL; // @IMalaniak check if this is good solution
 
     const payload = {
       userId: 1,
