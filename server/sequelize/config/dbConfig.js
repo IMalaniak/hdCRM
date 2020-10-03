@@ -8,8 +8,10 @@ module.exports = {
     use_env_variable: 'DATABASE_URL',
     ssl: true,
     dialectOptions: {
-      ssl: true,
-      rejectUnauthorized: false
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
     },
     migrationStorage: 'sequelize',
     seederStorage: 'sequelize'

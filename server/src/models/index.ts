@@ -24,8 +24,10 @@ class DataBase {
       ...(process.env.NODE_ENV !== 'development' && {
         ssl: true,
         dialectOptions: {
-          ssl: true,
-          rejectUnauthorized: false
+          ssl: {
+            require: true,
+            rejectUnauthorized: false // <<<<<< YOU NEED THIS
+          }
         }
       })
     });
