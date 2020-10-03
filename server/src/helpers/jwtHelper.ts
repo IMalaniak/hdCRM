@@ -1,6 +1,7 @@
 import jwt, { TokenExpiredError } from 'jsonwebtoken';
 import { JwtPayload, JwtDecoded } from '../models/JWTPayload';
 import { UserDBController } from '../dbControllers/usersController';
+import { Config } from '../config';
 
 interface TokenProps {
   type: 'access' | 'refresh';
@@ -18,7 +19,7 @@ class JwtHelper {
   generateToken({ type, payload }: TokenProps): string {
     return jwt.sign(payload, type === 'access' ? process.env.ACCESS_TOKEN_SECRET : process.env.REFRESH_TOKEN_SECRET, {
       expiresIn: type === 'access' ? process.env.ACCESS_TOKEN_LIFETIME : process.env.REFRESH_TOKEN_LIFETIME,
-      audience: process.env.WEB_URL
+      audience: Config.WEB_URL
     });
   }
 
@@ -40,7 +41,7 @@ class JwtHelper {
           token,
           type === 'access' ? process.env.ACCESS_TOKEN_SECRET : process.env.REFRESH_TOKEN_SECRET,
           {
-            audience: process.env.WEB_URL
+            audience: Config.WEB_URL
           }
         ) as JwtDecoded;
 

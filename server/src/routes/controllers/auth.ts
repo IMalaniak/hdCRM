@@ -13,6 +13,7 @@ import { UserDBController } from '../../dbControllers/usersController';
 import { ApiResponse } from '../../models/apiResponse';
 import { parseCookies } from '../../utils/parseCookies';
 import { UserStates } from '../../constants/UserStates';
+import { Config } from '../../config';
 
 @Controller('auth/')
 export class AuthController {
@@ -92,7 +93,7 @@ export class AuthController {
         const activationSent = await Mailer.sendActivation(
           user,
           password,
-          `${process.env.WEB_URL}/auth/activate-account/${token.value}`
+          `${Config.WEB_URL}/auth/activate-account/${token.value}`
         );
 
         if (activationSent) {
@@ -302,7 +303,7 @@ export class AuthController {
             .then((pa) => {
               const token = Crypt.genTimeLimitedToken(5);
               const sendPasswordResetMail = () => {
-                Mailer.sendPasswordReset(user, `${process.env.WEB_URL}/auth/password-reset/${token.value}`)
+                Mailer.sendPasswordReset(user, `${Config.WEB_URL}/auth/password-reset/${token.value}`)
                   .then(() => {
                     return res.status(OK).json({
                       success: true,

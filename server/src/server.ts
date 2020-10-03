@@ -11,6 +11,7 @@ import { Logger } from '@overnightjs/logger';
 import Passport from './config/passport';
 import socketIO from 'socket.io';
 import { SocketRouter } from './socketRoutes';
+import { Config } from './config';
 
 class CrmServer extends Server {
   private dBase: DataBase;
@@ -27,7 +28,7 @@ class CrmServer extends Server {
     this.app.use(
       cors({
         credentials: true,
-        ...(process.env.NODE_ENV === 'development' && { origin: process.env.WEB_URL })
+        ...(process.env.NODE_ENV === 'development' && { origin: Config.WEB_URL })
       })
     );
     this.app.use(cookieParser());
