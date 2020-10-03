@@ -1,5 +1,14 @@
 @import 'theme.scss';
 
+// Font
+$font-family: 'Lato', sans-serif;
+
+// Define typography
+// TODO: @ArseniiIrod move this in theme.scss when _variables.scss will not import theme.scss
+$general-typography: mat-typography-config(
+  $font-family: $font-family
+);
+
 // CRM Variables
 $transition-time: 0.3s;
 $transition-style: $mat-fast-out-slow-in-timing-function;
