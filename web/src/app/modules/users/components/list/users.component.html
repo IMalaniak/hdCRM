@@ -127,7 +127,7 @@
             </button>
             <button
               *ngIf="
-                (canEditUser$ | async) && user.state === userStates.ACTIVE && user.id !== (currentUser$ | async).id
+                (canEditUser$ | async) && user.state === userStates.DISABLED && user.id !== (currentUser$ | async).id
               "
               mat-menu-item
               (click)="changeUserState(user, userStates.ARCHIVE)"

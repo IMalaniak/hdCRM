@@ -197,7 +197,7 @@ export class AuthController {
           }
         ]
       },
-      attributes: ['id', 'passwordHash', 'salt']
+      attributes: ['id', 'passwordHash', 'salt', 'state']
     })
       .then((user) => {
         if (!user) {
@@ -215,7 +215,7 @@ export class AuthController {
                 'Sorry, Your account is not activated, please use activation link we sent You or contact administrator!'
             });
           });
-        } else if (user.state === UserStates.DISABLED) {
+        } else if (user.state === UserStates.DISABLED || user.state === UserStates.ARCHIVE) {
           this.saveLogInAttempt(req, user, false).then(() => {
             return res.status(BAD_REQUEST).json({
               success: false,
