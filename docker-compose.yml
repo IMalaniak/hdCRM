@@ -1,0 +1,18 @@
+version: "3"
+services:
+  db:
+    restart: always
+    image: postgres
+    environment:
+      POSTGRES_USER: erp
+      POSTGRES_PASSWORD: erp
+      POSTGRES_DB: erp
+    container_name: "erp-db"
+    ports:
+      - "5432:5432"
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
