@@ -87,7 +87,10 @@ export const RoleFactory = (sequelize: Sequelize): Model => {
       },
       keyString: {
         type: new DataTypes.STRING(50),
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       }
     },
     {

@@ -161,11 +161,17 @@ export const UserFactory = (sequelize: Sequelize): Model => {
       },
       name: {
         type: new DataTypes.STRING(50),
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       },
       surname: {
         type: new DataTypes.STRING(50),
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       },
       fullname: {
         type: DataTypes.VIRTUAL,
