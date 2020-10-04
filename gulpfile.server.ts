@@ -57,6 +57,6 @@ task({
 task({
   name: 'server:dev',
   alias: 'sd',
-  fct: doRun('node_modules/.bin/nodemon', devOptions),
+  fct: series('server:prepareDevDB', doRun('node_modules/.bin/nodemon', devOptions)),
   desc: 'Start the dev server'
 });
