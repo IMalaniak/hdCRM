@@ -39,25 +39,15 @@
 
 [Gulp](https://gulpjs.com/)
 
-[PostgreSQL v12.x](https://www.postgresql.org/)
-
 ## Required Development Tools
 
 [Visual Studio Code](https://code.visualstudio.com)
 
 [Git](https://git-scm.com)
 
-[pgAdmin](https://www.pgadmin.org) (will be installed with PostgreSQL)
+[Docker Desktop](https://www.docker.com/products/docker-desktop)
 
-Visual Studio Code Extensions:
-
-- Angular 8 Snippets - TypeScript, Html, SCSS, Angular Material, ngRx, RxJS & Flex Layout
-- Prettier - code formatter
-- Debugger for Chrome
-- GitLens — Git supercharged
-- TSLint
-- ESLint
-- EditorConfig for VS Code
+Visual Studio Code Extensions available in workspace recommended (will be prompted to install when you will open the workspace for the first time)
 
 ## Cloning The hdCRM Project
 
@@ -93,13 +83,13 @@ npx gulp ia
 
 > This will install all of the dependencies of server and web applications.
 
-3. Run the `pgAdmin` tool and create a new database
+3. Run `docker-compose up -d` command to get PostgreSQL running on your local machine.
 
 4. Create file `.env` in the server folder and configure it as an example of `.env.sample` providing database credentials and database name
 
 > Note, that every change in `.env` file needs a server restart
 
-<!-- 4. Run command npm run prepare-db:dev script to prepare local db -->
+4. Run command `npx gulp server:prepareDevDB` script to prepare local db
 
 ## Running Development
 
@@ -109,7 +99,7 @@ npx gulp ia
 npx gulp server:dev
 ```
 
-> This will run server locally on http://localhost:3000
+> This will run the server locally on http://localhost:3000 and also will migrate db automatically
 
 2. Use the following command to run Web Client locally
 
