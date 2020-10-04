@@ -10,8 +10,7 @@ module.exports = {
         key: 'id'
       },
       onDelete: 'set null',
-      onUpdate: 'cascade',
-      allowNull: false
+      onUpdate: 'cascade'
     });
   },
   down: (queryInterface, Sequelize) => {

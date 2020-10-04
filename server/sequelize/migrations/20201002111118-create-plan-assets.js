@@ -14,11 +14,11 @@ module.exports = {
         onUpdate: 'cascade',
         allowNull: false
       },
-      UserId: {
+      AssetId: {
         type: Sequelize.DataTypes.INTEGER,
         references: {
           model: {
-            tableName: 'Users'
+            tableName: 'Assets'
           },
           key: 'id'
         },

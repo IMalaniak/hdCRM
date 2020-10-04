@@ -54,8 +54,7 @@ module.exports = {
             tableName: 'Stages'
           },
           key: 'id'
-        },
-        allowNull: false
+        }
       },
       createdAt: {
         allowNull: false,

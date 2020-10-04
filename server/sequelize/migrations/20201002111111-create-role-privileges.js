@@ -41,6 +41,16 @@ module.exports = {
       delete: {
         type: Sequelize.DataTypes.BOOLEAN,
         defaultValue: false
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DataTypes.DATE,
+        defaultValue: Sequelize.DataTypes.NOW
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DataTypes.DATE,
+        defaultValue: Sequelize.DataTypes.NOW
       }
     });
   },

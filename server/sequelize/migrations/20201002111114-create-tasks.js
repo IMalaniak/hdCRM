@@ -20,6 +20,16 @@ module.exports = {
         type: Sequelize.DataTypes.BOOLEAN,
         defaultValue: false
       },
+      CreatorId: {
+        type: Sequelize.DataTypes.INTEGER,
+        references: {
+          model: {
+            tableName: 'Users'
+          },
+          key: 'id'
+        },
+        allowNull: false
+      },
       TaskPriorityId: {
         type: Sequelize.DataTypes.INTEGER,
         references: {

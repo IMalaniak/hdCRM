@@ -26,6 +26,16 @@ module.exports = {
       isSuccess: Sequelize.DataTypes.BOOLEAN,
       UA: {
         type: Sequelize.DataTypes.STRING
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DataTypes.DATE,
+        defaultValue: Sequelize.DataTypes.NOW
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DataTypes.DATE,
+        defaultValue: Sequelize.DataTypes.NOW
       }
     });
   },
