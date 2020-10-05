@@ -85,11 +85,11 @@ npx gulp ia
 
 3. Run `docker-compose up -d` command to get PostgreSQL running on your local machine.
 
-4. Create file `.env` in the server folder and configure it as an example of `.env.sample` providing database credentials and database name
+4. Create file `.env` in the server folder and configure it as an example of `.env.sample` providing database credentials and database name (credentials for local db can be found in docker-compose.yml file).
 
 > Note, that every change in `.env` file needs a server restart
 
-4. Run command `npx gulp server:prepareDevDB` script to prepare local db
+4. Run command `npx gulp server:prepareDevDB` script to prepare local db.
 
 ## Running Development
 
