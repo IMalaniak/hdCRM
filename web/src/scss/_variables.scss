@@ -1,13 +1,4 @@
-@import 'theme.scss';
-
-// Font
-$font-family: 'Lato', sans-serif;
-
-// Define typography
-// TODO: @ArseniiIrod move this in theme.scss when _variables.scss will not import theme.scss
-$general-typography: mat-typography-config(
-  $font-family: $font-family
-);
+@import 'theme-variables';
 
 // App Variables
 $transition-time: 0.3s;
@@ -15,6 +6,8 @@ $transition-style: $mat-fast-out-slow-in-timing-function;
 $transition: $transition-time $transition-style;
 
 // RESET BOOTSTRAP VARIABLES:
+$font-family-base: $font-family;
+
 $grid-breakpoints: (
   xs: 0,
   sm: 576px,
@@ -38,7 +31,7 @@ $container-max-widths: (
 $link-hover-decoration: none;
 
 // set link color based on the used material theme
-$link-color: mat-color($theme-primary, 800);
+$link-color: $link;
 $link-hover-color: currentColor;
 
 // reset bootstrap colors
@@ -57,9 +50,6 @@ $black: #212121;
 // reset bootstrap theme colors
 $light: $gray-100;
 $dark: $gray-900;
-$blue: mat-color($theme-primary, 600);
-$red: mat-color($theme-warn, 600);
-$green: mat-color($theme-accent, 600);
 
 // reset bootstrap transitions
 $btn-transition: color $transition, background-color $transition, border-color $transition, box-shadow $transition;

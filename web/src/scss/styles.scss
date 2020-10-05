@@ -1,3 +1,4 @@
+@import 'theme-variables';
 @import 'variables';
 @import 'mixins';
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap');
@@ -14,11 +15,8 @@
 @import 'root';
 
 @import 'theme.scss';
-@include mat-core($general-typography);
-@include angular-material-theme($theme);
 
 .dark-theme {
-  @include angular-material-theme($dark-theme);
   // TODO include bootstrap dark
 
   // Custom styles for ngx-charts

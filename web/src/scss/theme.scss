@@ -1,13 +1,25 @@
-@import '~@angular/material/theming';
+@import 'theme-variables.scss';
 
 // Define the standart theme
-$theme-primary: mat-palette($mat-light-blue, 600);
-$theme-accent: mat-palette($mat-teal, 600);
-$theme-warn: mat-palette($mat-red, 600);
+$theme-primary: mat-palette($default-primary-palette, $default-primary-palette-shade);
+$theme-accent: mat-palette($default-accent-palette, $default-accent-palette-shade);
+$theme-warn: mat-palette($default-warn-palette, $default-warn-palette-shade);
 $theme: mat-light-theme($theme-primary, $theme-accent, $theme-warn);
 
 // Define an alternate dark theme
-$theme-dark-primary: mat-palette($mat-light-blue, 600);
+$theme-dark-primary: mat-palette($default-primary-palette, 600);
 $theme-dark-accent: mat-palette($mat-amber, A200, A100, A400);
 $theme-dark-warn: mat-palette($mat-deep-orange);
 $dark-theme: mat-dark-theme($theme-dark-primary, $theme-dark-accent, $theme-dark-warn);
+
+// Define typography
+$general-typography: mat-typography-config(
+  $font-family: $font-family
+);
+
+@include mat-core($general-typography);
+@include angular-material-theme($theme);
+
+.dark-theme {
+  @include angular-material-theme($dark-theme);
+}
