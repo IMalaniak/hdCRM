@@ -40,7 +40,7 @@ import { Organization } from './Organization';
 import { Task } from './Task';
 import { Preference } from './Preference';
 import { enumToArray } from '../utils/EnumToArray';
-import { UserStates } from '../constants/UserStates';
+import { UserState } from '../constants';
 
 export class User extends Model {
   public id!: number;
@@ -52,7 +52,7 @@ export class User extends Model {
   public phone!: string;
   public passwordHash!: string;
   public salt!: string;
-  public state!: UserStates;
+  public state!: UserState;
   public defaultLang!: string;
 
   // timestamps
@@ -215,9 +215,9 @@ export const UserFactory = (sequelize: Sequelize): Model => {
       },
       state: {
         type: DataTypes.ENUM,
-        values: enumToArray(UserStates),
+        values: enumToArray(UserState),
         allowNull: false,
-        defaultValue: UserStates.INITIALIZED
+        defaultValue: UserState.INITIALIZED
       }
     },
     {

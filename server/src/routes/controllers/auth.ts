@@ -12,7 +12,7 @@ import { TokenExpiredError } from 'jsonwebtoken';
 import { UserDBController } from '../../dbControllers/usersController';
 import { ApiResponse } from '../../models/apiResponse';
 import { parseCookies } from '../../utils/parseCookies';
-import { UserStates } from '../../constants/UserStates';
+import { UserState } from '../../constants';
 import { Config } from '../../config';
 
 @Controller('auth/')
@@ -124,7 +124,7 @@ export class AuthController {
         if (pa) {
           pa.getUser()
             .then((user) => {
-              user.state = UserStates.ACTIVE;
+              user.state = UserState.ACTIVE;
               user
                 .save()
                 .then((updatedUser) => {
@@ -208,7 +208,7 @@ export class AuthController {
           });
         }
 
-        if (user.state === UserStates.INITIALIZED) {
+        if (user.state === UserState.INITIALIZED) {
           this.saveLogInAttempt(req, user, false).then(() => {
             return res.status(BAD_REQUEST).json({
               success: false,
@@ -216,7 +216,7 @@ export class AuthController {
                 'Sorry, Your account is not activated, please use activation link we sent You or contact administrator!'
             });
           });
-        } else if (user.state === UserStates.DISABLED || user.state === UserStates.ARCHIVE) {
+        } else if (user.state === UserState.DISABLED || user.state === UserState.ARCHIVE) {
           this.saveLogInAttempt(req, user, false).then(() => {
             return res.status(BAD_REQUEST).json({
               success: false,

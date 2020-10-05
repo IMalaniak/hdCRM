@@ -6,7 +6,7 @@ import Passport from '../../config/passport';
 import { RequestWithQuery } from '../../models/apiRequest';
 import { ItemApiResponse } from '../../models/apiResponse';
 import { enumToArray } from '../../utils/EnumToArray';
-import { UserStates } from '../../constants/UserStates';
+import { UserState } from '../../constants/UserState';
 
 export enum IFieldType {
   INPUT = 'input',
@@ -47,7 +47,7 @@ export class FormController {
     const { formName } = req.params;
     Logger.Info(`Selecting ${formName} form...`);
 
-    const states = enumToArray(UserStates);
+    const states = enumToArray(UserState);
 
     const forms: DynamicForm[] = [
       {
