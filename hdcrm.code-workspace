@@ -59,7 +59,8 @@
       "dbaeumer.vscode-eslint",
       "github.vscode-pull-request-github",
       // "raagh.angular-karma-test-explorer",
-      "msjsdiag.debugger-for-chrome"
+      "msjsdiag.debugger-for-chrome",
+      "usernamehw.errorlens"
     ]
   }
 }
