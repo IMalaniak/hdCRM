@@ -9,6 +9,7 @@ export * from './FieldType';
 export * from './itemsPerPage';
 export * from './link.constants';
 export * from './listView';
+export * from './OrganizationType';
 export * from './privileges.constants';
 export * from './routing.constants';
 export * from './socketEvent';

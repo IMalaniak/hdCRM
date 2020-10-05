@@ -206,13 +206,13 @@
                 <form [formGroup]="registerData.get('userOrganization')" class="row d-flex flex-column">
                   <div class="col col-md mt-1 mb-4">
                     <mat-radio-group formControlName="type">
-                      <mat-radio-button class="mr-4" color="warn" value="company">Company</mat-radio-button>
-                      <mat-radio-button color="warn" value="private">Private</mat-radio-button>
+                      <mat-radio-button class="mr-4" color="warn" [value]="orgTypes.COMPANY">Company</mat-radio-button>
+                      <mat-radio-button color="warn" [value]="orgTypes.PRIVATE">Private</mat-radio-button>
                     </mat-radio-group>
                   </div>
                   <mat-form-field
                     appearance="outline"
-                    *ngIf="getControl('userOrganization', 'type').value === 'company'"
+                    *ngIf="getControl('userOrganization', 'type').value === orgTypes.COMPANY"
                   >
                     <mat-label i18n="@@registerUserComponentStepperInputPlaceholderCompanyTitle"
                       >Company name</mat-label
@@ -233,7 +233,13 @@
                       </mat-error>
                     </mat-error>
                   </mat-form-field>
-                  <mat-form-field appearance="outline" *ngIf="getControl('userOrganization', 'title').value">
+                  <mat-form-field
+                    appearance="outline"
+                    *ngIf="
+                      getControl('userOrganization', 'title').value ||
+                      getControl('userOrganization', 'type').value === orgTypes.PRIVATE
+                    "
+                  >
                     <mat-label i18n="@@registerUserComponentStepperInputPlaceholderSiteUrl">Web site address</mat-label>
                     <input matInput formControlName="website" name="orgWebsite" type="url" required />
                     <mat-error *ngIf="getControl('userOrganization', 'website').invalid">
@@ -251,7 +257,7 @@
                       </mat-error>
                     </mat-error>
                   </mat-form-field>
-                  <mat-accordion *ngIf="getControl('userOrganization', 'type').value === 'company'">
+                  <mat-accordion *ngIf="getControl('userOrganization', 'type').value === orgTypes.COMPANY">
                     <mat-expansion-panel>
                       <mat-expansion-panel-header>
                         <mat-panel-title> Company information </mat-panel-title>
