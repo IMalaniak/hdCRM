@@ -1,4 +1,4 @@
-import { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
@@ -22,11 +22,11 @@ export class PlanController {
     Logger.Info(`Selecting plan by id: ${req.params.id}...`);
     this.findPlanById(req.params.id)
       .then((plan: Plan) => {
-        return res.status(OK).json({ success: true, data: plan });
+        return res.status(StatusCodes.OK).json({ success: true, data: plan });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(INTERNAL_SERVER_ERROR).json(err);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
       });
   }
 
@@ -109,11 +109,11 @@ export class PlanController {
             plan.Stages = plan.Stages.sort(sortByOrder);
           }
         });
-        return res.status(OK).json({ success: true, data: data.rows, resultsNum: data.count, pages });
+        return res.status(StatusCodes.OK).json({ success: true, data: data.rows, resultsNum: data.count, pages });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(INTERNAL_SERVER_ERROR).json(err);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
       });
   }
 
@@ -124,11 +124,11 @@ export class PlanController {
     const finish = (planId: number) => {
       this.findPlanById(planId)
         .then((plan) => {
-          return res.status(OK).json({ success: true, message: 'Plan created successfully', data: plan });
+          return res.status(StatusCodes.OK).json({ success: true, message: 'Plan created successfully', data: plan });
         })
         .catch((err: any) => {
           Logger.Err(err);
-          return res.status(INTERNAL_SERVER_ERROR).json(err);
+          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
         });
     };
 
@@ -177,12 +177,12 @@ export class PlanController {
                     })
                     .catch((err: any) => {
                       Logger.Err(err);
-                      return res.status(INTERNAL_SERVER_ERROR).json(err);
+                      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
                     });
                 })
                 .catch((err: any) => {
                   Logger.Err(err);
-                  return res.status(INTERNAL_SERVER_ERROR).json(err);
+                  return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
                 });
             } else {
               finish(plan.id);
@@ -190,12 +190,14 @@ export class PlanController {
           })
           .catch((err: any) => {
             Logger.Err(err);
-            return res.status(INTERNAL_SERVER_ERROR).json(err);
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
           });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json({ success: false, message: 'There are some missing params!', data: null });
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ success: false, message: 'There are some missing params!', data: null });
       });
   }
 
@@ -229,32 +231,34 @@ export class PlanController {
                       this.findPlanById(req.body.id)
                         .then((updatedPlan) => {
                           return res
-                            .status(OK)
+                            .status(StatusCodes.OK)
                             .json({ success: true, message: 'Plan is updated successfully!', data: updatedPlan });
                         })
                         .catch((err: any) => {
                           Logger.Err(err);
-                          return res.status(INTERNAL_SERVER_ERROR).json(err);
+                          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
                         });
                     });
                   })
                   .catch((err: any) => {
                     Logger.Err(err);
-                    return res.status(INTERNAL_SERVER_ERROR).json(err);
+                    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
                   });
               } else {
-                return res.status(OK).json({ success: true, message: 'Plan is updated successfully!', data: plan });
+                return res
+                  .status(StatusCodes.OK)
+                  .json({ success: true, message: 'Plan is updated successfully!', data: plan });
               }
             })
             .catch((err: any) => {
               Logger.Err(err);
-              return res.status(INTERNAL_SERVER_ERROR).json(err);
+              return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
             });
         }
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
@@ -291,27 +295,27 @@ export class PlanController {
                 this.findPlanById(req.body.id)
                   .then((updatedPlan) => {
                     return res
-                      .status(OK)
+                      .status(StatusCodes.OK)
                       .json({ success: true, message: 'Plan is updated successfully!', data: updatedPlan });
                   })
                   .catch((error: any) => {
                     Logger.Err(error);
-                    return res.status(INTERNAL_SERVER_ERROR).json(error);
+                    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
                   });
               })
               .catch((error: any) => {
                 Logger.Err(error);
-                return res.status(INTERNAL_SERVER_ERROR).json(error);
+                return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
               });
           })
           .catch((error: any) => {
             Logger.Err(error);
-            return res.status(INTERNAL_SERVER_ERROR).json(error);
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
           });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
@@ -348,38 +352,38 @@ export class PlanController {
                     .then(() => {
                       this.findPlanById(req.params.id)
                         .then((updatedPlan) => {
-                          return res.status(OK).json(updatedPlan);
+                          return res.status(StatusCodes.OK).json(updatedPlan);
                         })
                         .catch((error: any) => {
                           Logger.Err(error);
-                          return res.status(INTERNAL_SERVER_ERROR).json(error);
+                          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
                         });
                     })
                     .catch((error: any) => {
                       Logger.Err(error);
-                      return res.status(INTERNAL_SERVER_ERROR).json(error);
+                      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
                     });
                 } else {
                   this.findPlanById(req.params.id)
                     .then((updatedPlan) => {
-                      return res.status(OK).json(updatedPlan);
+                      return res.status(StatusCodes.OK).json(updatedPlan);
                     })
                     .catch((error: any) => {
                       Logger.Err(error);
-                      return res.status(INTERNAL_SERVER_ERROR).json(error);
+                      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
                     });
                 }
               })
               .catch((error: any) => {
                 Logger.Err(error);
-                return res.status(INTERNAL_SERVER_ERROR).json(error);
+                return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
               });
           }
         });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
@@ -401,18 +405,18 @@ export class PlanController {
         plan
           .createDocument(file)
           .then((doc) => {
-            return res.status(OK).json({ success: true, message: 'Doccument added!', data: doc });
+            return res.status(StatusCodes.OK).json({ success: true, message: 'Doccument added!', data: doc });
           })
           .catch((error: any) => {
             Logger.Err(error);
             return res
-              .status(BAD_REQUEST)
+              .status(StatusCodes.BAD_REQUEST)
               .json({ success: false, message: 'Sorry, something went wrong...', data: null });
           });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
@@ -446,21 +450,21 @@ export class PlanController {
             destination = destination + docToDelete.location + '/' + docToDelete.title;
             this.unlinkAsync(destination)
               .then(() => {
-                return res.status(OK).json({ success: true, message: 'Document deleted successfully!' });
+                return res.status(StatusCodes.OK).json({ success: true, message: 'Document deleted successfully!' });
               })
               .catch((error: any) => {
                 Logger.Err(error);
-                return res.status(INTERNAL_SERVER_ERROR).json(error);
+                return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
               });
           })
           .catch((error: any) => {
             Logger.Err(error);
-            return res.status(INTERNAL_SERVER_ERROR).json(error);
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
           });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
@@ -472,11 +476,11 @@ export class PlanController {
       where: { id: req.params.id }
     })
       .then((result) => {
-        return res.status(OK).json({ success: true, message: `Deleted ${result} plan` });
+        return res.status(StatusCodes.OK).json({ success: true, message: `Deleted ${result} plan` });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 

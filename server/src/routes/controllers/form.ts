@@ -1,4 +1,4 @@
-import { OK } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import { Controller, Middleware, Get } from '@overnightjs/core';
 import { Response } from 'express';
 import { Logger } from '@overnightjs/logger';
@@ -157,6 +157,6 @@ export class FormController {
 
     const form = forms.find((formItem) => formItem.formName === formName);
 
-    res.status(OK).json({ success: true, data: form });
+    res.status(StatusCodes.OK).json({ success: true, data: form });
   }
 }

@@ -1,4 +1,4 @@
-import { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
@@ -18,11 +18,11 @@ export class TaskController {
     this.taskDbCtrl
       .getAll(req.user)
       .then((tasks) => {
-        return res.status(OK).json({ success: true, data: tasks });
+        return res.status(StatusCodes.OK).json({ success: true, data: tasks });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(INTERNAL_SERVER_ERROR).json(err);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
       });
   }
 
@@ -37,16 +37,20 @@ export class TaskController {
         this.taskDbCtrl
           .getById(task.id)
           .then((newTask) => {
-            return res.status(OK).json({ success: true, message: 'Task is created successfully!', data: newTask });
+            return res
+              .status(StatusCodes.OK)
+              .json({ success: true, message: 'Task is created successfully!', data: newTask });
           })
           .catch((err: any) => {
             Logger.Err(err);
-            return res.status(INTERNAL_SERVER_ERROR).json(err);
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
           });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json({ success: false, message: 'There are some missing params!', data: null });
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ success: false, message: 'There are some missing params!', data: null });
       });
   }
 
@@ -60,17 +64,17 @@ export class TaskController {
           this.taskDbCtrl
             .getById(req.body.id)
             .then((task) =>
-              res.status(OK).json({ success: true, message: 'Task is updated successfully!', data: task })
+              res.status(StatusCodes.OK).json({ success: true, message: 'Task is updated successfully!', data: task })
             )
             .catch((error: any) => {
               Logger.Err(error);
-              return res.status(INTERNAL_SERVER_ERROR).json(error);
+              return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
             });
         }
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
@@ -80,11 +84,11 @@ export class TaskController {
     this.taskDbCtrl
       .deleteTask(req.params.id)
       .then((result) => {
-        return res.status(OK).json({ success: true, message: `Deleted ${result} task` });
+        return res.status(StatusCodes.OK).json({ success: true, message: `Deleted ${result} task` });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
@@ -94,11 +98,11 @@ export class TaskController {
     this.taskDbCtrl
       .deleteTask(req.body.taskIds)
       .then((result) => {
-        return res.status(OK).json({ success: true, message: `Deleted ${result} tasks` });
+        return res.status(StatusCodes.OK).json({ success: true, message: `Deleted ${result} tasks` });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 }

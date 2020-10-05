@@ -1,4 +1,4 @@
-import { OK, INTERNAL_SERVER_ERROR, NOT_FOUND, BAD_REQUEST } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
@@ -30,11 +30,11 @@ export class DepartmentController {
       order: [['id', 'ASC']]
     })
       .then((data) => {
-        res.status(OK).json({ success: true, data: data.rows, resultsNum: data.count });
+        res.status(StatusCodes.OK).json({ success: true, data: data.rows, resultsNum: data.count });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
@@ -45,15 +45,17 @@ export class DepartmentController {
     this.findDepByPk(req.params.id)
       .then((dep: Department) => {
         if (dep) {
-          return res.status(OK).json({ success: true, data: dep });
+          return res.status(StatusCodes.OK).json({ success: true, data: dep });
         } else {
           // TODO: make the same check everywhere when we will update sequelize
-          return res.status(NOT_FOUND).json({ success: false, message: 'No department with such id', data: null });
+          return res
+            .status(StatusCodes.NOT_FOUND)
+            .json({ success: false, message: 'No department with such id', data: null });
         }
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(INTERNAL_SERVER_ERROR).json(err);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
       });
   }
 
@@ -112,11 +114,11 @@ export class DepartmentController {
     })
       .then((data) => {
         const pages = Math.ceil(data.count / limit);
-        res.status(OK).json({ success: true, data: data.rows, resultsNum: data.count, pages });
+        res.status(StatusCodes.OK).json({ success: true, data: data.rows, resultsNum: data.count, pages });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(INTERNAL_SERVER_ERROR).json(err);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
       });
   }
 
@@ -147,21 +149,25 @@ export class DepartmentController {
           .then(() => {
             this.findDepByPk(createdDep.id)
               .then((dep) => {
-                res.status(OK).json({ success: true, message: 'Department created successfully!', data: dep });
+                res
+                  .status(StatusCodes.OK)
+                  .json({ success: true, message: 'Department created successfully!', data: dep });
               })
               .catch((err: any) => {
                 Logger.Err(err);
-                return res.status(INTERNAL_SERVER_ERROR).json(err);
+                return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
               });
           })
           .catch((err: any) => {
             Logger.Err(err);
-            return res.status(INTERNAL_SERVER_ERROR).json(err);
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
           });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json({ success: false, message: 'There are some missing params!', data: null });
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ success: false, message: 'There are some missing params!', data: null });
       });
   }
 
@@ -198,28 +204,30 @@ export class DepartmentController {
               .then(() => {
                 this.findDepByPk(req.body.id)
                   .then((dep) => {
-                    res.status(OK).json({ success: true, message: 'Department updated successfully!', data: dep });
+                    res
+                      .status(StatusCodes.OK)
+                      .json({ success: true, message: 'Department updated successfully!', data: dep });
                   })
                   .catch((error: any) => {
                     Logger.Err(error);
-                    return res.status(INTERNAL_SERVER_ERROR).json(error);
+                    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
                   });
               })
               .catch((error: any) => {
                 Logger.Err(error);
                 return res
-                  .status(BAD_REQUEST)
+                  .status(StatusCodes.BAD_REQUEST)
                   .json({ success: false, message: 'Sorry, unexpected error happened.', data: null });
               });
           })
           .catch((error: any) => {
             Logger.Err(error);
-            return res.status(INTERNAL_SERVER_ERROR).json(error);
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
           });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
@@ -231,11 +239,11 @@ export class DepartmentController {
       where: { id: req.params.id }
     })
       .then((result) => {
-        return res.status(OK).json({ success: true, message: `Deleted ${result} department` });
+        return res.status(StatusCodes.OK).json({ success: true, message: `Deleted ${result} department` });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
