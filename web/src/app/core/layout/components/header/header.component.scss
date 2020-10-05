@@ -9,9 +9,9 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  min-height: crmsize(header, height, true);
-  flex-basis: crmsize(header, height, true);
-  @include crm-bgcolor('layout', 'dark');
+  min-height: app-size(header, height, true);
+  flex-basis: app-size(header, height, true);
+  @include set-bgcolor('layout', 'dark');
   box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
   @include getZ-Index(header);
 
@@ -20,14 +20,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: crmsize(sidebar, minimized, true);
-      @include crm-bgcolor('theme', 'primary');
-      @include crm-textcolor('layout', 'background');
+      width: app-size(sidebar, minimized, true);
+      @include set-bgcolor('theme', 'primary');
+      @include set-textcolor('layout', 'background');
       overflow: hidden;
       transition: all $transition;
 
       &.minimized {
-        width: crmsize(sidebar, minimized, true);
+        width: app-size(sidebar, minimized, true);
         justify-content: center;
 
         .company-title {
@@ -36,7 +36,7 @@
       }
 
       @include media-breakpoint-up(md) {
-        width: crmsize(sidebar, width, true);
+        width: app-size(sidebar, width, true);
         justify-content: space-between;
       }
     }
@@ -57,7 +57,7 @@
   > div {
     text-align: center;
     height: 100%;
-    padding: 0 crmsize(spacer, default, true);
+    padding: 0 app-size(spacer, default, true);
     display: flex;
     align-items: center;
   }
@@ -126,12 +126,12 @@
 //   display: flex;
 //   flex-direction: column;
 //   padding: 0.5em;
-//   margin-top: crmsize(spacer, null, true);
+//   margin-top: app-size(spacer, null, true);
 //   border-top: 1px currentColor solid;
 
 //   > div {
 //     &:first-of-type {
-//       padding: 0.5 * crmsize(spacer, null, true) 0.5 * crmsize(spacer, null, true) crmsize(spacer, null, true);
+//       padding: 0.5 * app-size(spacer, null, true) 0.5 * app-size(spacer, null, true) app-size(spacer, null, true);
 //     }
 //     &:nth-child(2) {
 //       overflow-y: auto;
@@ -168,7 +168,7 @@
 //     }
 //     &:checked + .notification {
 //       height: 4em;
-//       padding: 0.5 * crmsize(spacer, null, true);
+//       padding: 0.5 * app-size(spacer, null, true);
 //       border-top: 1px currentColor solid;
 //     }
 //   }
@@ -192,7 +192,7 @@
     width: 100%;
     border-radius: 10px;
     height: 2px;
-    @include crm-bgcolor('layout', 'background');
+    @include set-bgcolor('layout', 'background');
     transition: all $transition;
     position: relative;
 

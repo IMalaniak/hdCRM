@@ -10,7 +10,7 @@ nav.home-nav {
   width: 100%;
   display: flex;
   align-items: center;
-  @include crm-bgcolor('layout', 'milk');
+  @include set-bgcolor('layout', 'milk');
   box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.1);
   height: 4em;
 
@@ -26,7 +26,7 @@ nav.home-nav {
     }
 
     .crm-brand {
-      @include crm-textcolor('theme', 'dark');
+      @include set-textcolor('theme', 'dark');
       font-weight: bold;
       font-size: 1.5em;
       text-transform: uppercase;
@@ -41,7 +41,7 @@ nav.home-nav {
   height: 100vh;
 
   .background {
-    @include gradient-directional(crmcolor('layout', 'milk', true) 50%, #dddcdc 50%, -60deg);
+    @include gradient-directional(app-color('layout', 'milk', true) 50%, #dddcdc 50%, -60deg);
     animation: slide 4s ease-in-out infinite alternate;
     position: fixed;
     top: 0;
@@ -77,7 +77,7 @@ nav.home-nav {
     }
 
     .title {
-      @include gradient-x(crmcolor('theme', 'primary', true) 20%, crmcolor('theme', 'dark', true) 100%);
+      @include gradient-x(app-color('theme', 'primary', true) 20%, app-color('theme', 'dark', true) 100%);
       -webkit-text-fill-color: transparent;
       -webkit-background-clip: text;
       align-items: center;
@@ -108,7 +108,7 @@ nav.home-nav {
     }
 
     h3 {
-      @include crm-textcolor('theme', 'primary');
+      @include set-textcolor('theme', 'primary');
       margin-bottom: 1.8em;
       @include media-breakpoint-down(xs) {
         margin-bottom: 1em;

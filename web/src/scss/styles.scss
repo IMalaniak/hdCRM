@@ -15,10 +15,11 @@
 
 @import 'theme.scss';
 @include mat-core($general-typography);
-@include angular-material-theme($crm-theme);
+@include angular-material-theme($theme);
 
 .dark-theme {
   @include angular-material-theme($dark-theme);
+  // TODO include bootstrap dark
 
   // Custom styles for ngx-charts
   .ngx-charts {
@@ -53,7 +54,7 @@ body {
 }
 
 main {
-  $hHeight: crmsize(header, height, true);
+  $hHeight: app-size(header, height, true);
   $height: calc(100% - #{$hHeight});
 
   flex-grow: 10;
@@ -84,7 +85,7 @@ main {
 }
 
 .content {
-  $hHeight: crmsize(header, height, true);
+  $hHeight: app-size(header, height, true);
   flex-grow: 10;
   overflow-y: auto;
   scroll-behavior: smooth;
@@ -107,13 +108,13 @@ main {
 
 .breadcrumb {
   margin: 0;
-  padding: crmsize(spacer, sm, true) crmsize(spacer, default, true);
-  @include crm-bgcolor('layout', 'dark');
-  @include crm-textcolor('layout', 'milk');
+  padding: app-size(spacer, sm, true) app-size(spacer, default, true);
+  @include set-bgcolor('layout', 'dark');
+  @include set-textcolor('layout', 'milk');
 
   a {
     display: inherit;
-    @include crm-textcolor('layout', 'milk');
+    @include set-textcolor('layout', 'milk');
   }
 
   > li {
@@ -138,7 +139,7 @@ main {
   }
 
   .mat-column-avatar {
-    flex: 0 0 crmsize(userpic, null, true);
+    flex: 0 0 app-size(userpic, null, true);
     margin-right: 24px;
   }
 
@@ -157,7 +158,7 @@ main {
   .mat-sort-header-button {
     text-transform: uppercase;
     font-style: italic;
-    @include crm-textcolor('theme', 'primary');
+    @include set-textcolor('theme', 'primary');
   }
 }
 
@@ -171,7 +172,7 @@ main {
 
 .mat-dialog-actions {
   atoms-icon-button {
-    margin: 0 crmsize(spacer, sm, true);
+    margin: 0 app-size(spacer, sm, true);
 
     &:first-of-type {
       margin-left: 0;
@@ -192,7 +193,7 @@ main {
     margin-right: 1em;
     vertical-align: middle;
     font-size: 1.25em;
-    @include crm-textcolor('theme', 'primary');
+    @include set-textcolor('theme', 'primary');
   }
 }
 
@@ -229,7 +230,7 @@ main {
   margin-left: auto;
 
   atoms-icon-button + atoms-icon-button {
-    margin-left: crmsize(spacer, sm, true);
+    margin-left: app-size(spacer, sm, true);
   }
 }
 

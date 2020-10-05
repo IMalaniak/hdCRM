@@ -7,7 +7,7 @@ img {
   opacity: 0;
   visibility: hidden;
   border-radius: 50%;
-  border: 0.35rem solid crmcolor('layout', 'milk', true);
+  border: 0.35rem solid app-color('layout', 'milk', true);
   transform: scale(0.4);
   transition: transform $transition, opacity $transition, visibility $transition;
 

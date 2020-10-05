@@ -92,7 +92,7 @@
     justify-content: center;
     align-items: center;
     padding: 2em 3em;
-    @include gradient-radial(crmcolor('theme', 'primary', true), crmcolor('layout', 'dark', true));
+    @include gradient-radial(app-color('theme', 'primary', true), app-color('layout', 'dark', true));
     @include media-breakpoint-up(sm) {
       padding: 0 2em;
     }

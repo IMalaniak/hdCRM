@@ -9,7 +9,7 @@ $general-typography: mat-typography-config(
   $font-family: $font-family
 );
 
-// CRM Variables
+// App Variables
 $transition-time: 0.3s;
 $transition-style: $mat-fast-out-slow-in-timing-function;
 $transition: $transition-time $transition-style;
@@ -38,7 +38,7 @@ $container-max-widths: (
 $link-hover-decoration: none;
 
 // set link color based on the used material theme
-$link-color: mat-color($crm-theme-primary, 800);
+$link-color: mat-color($theme-primary, 800);
 $link-hover-color: currentColor;
 
 // reset bootstrap colors
@@ -55,16 +55,16 @@ $gray-900: #3a3a3a;
 $light: $gray-100;
 $dark: $gray-800;
 $black: #212121;
-$blue: mat-color($crm-theme-primary, 600);
+$blue: mat-color($theme-primary, 600);
 $indigo: mat-color($mat-purple, 500);
 $purple: mat-color($mat-purple, 600);
 $pink: mat-color($mat-pink, 500);
-$red: mat-color($crm-theme-warn, 600);
+$red: mat-color($theme-warn, 600);
 $orange: mat-color($mat-amber, 800);
 $yellow: mat-color($mat-amber, 400);
-$green: mat-color($crm-theme-accent, A400);
-$teal: mat-color($crm-theme-accent, 300);
-$cyan: mat-color($crm-theme-primary, 300);
+$green: mat-color($theme-accent, 600);
+$teal: mat-color($theme-accent, 300);
+$cyan: mat-color($theme-primary, 300);
 
 // reset bootstrap transitions
 $btn-transition: color $transition, background-color $transition, border-color $transition, box-shadow $transition;
@@ -74,12 +74,12 @@ $custom-forms-transition: background-color $transition, border-color $transition
 $enable-responsive-font-sizes: true;
 
 // variable prefixes for CSS4 output
-$color-prefix: --crmcolor-;
-$size-prefix: --crmsize-;
+$color-prefix: --app-color-;
+$size-prefix: --app-size-;
 
-// CRM Maps
+// App Maps
 // color variable map
-$crmcolors: (
+$app-colors: (
   'layout': (
     'background': $white,
     'milk': $gray-100,
@@ -97,7 +97,7 @@ $crmcolors: (
 
 // size variable map
 $spacer: 1rem !default;
-$crmsizes: (
+$app-sizes: (
   font: 1em,
   header: (
     height: 3rem

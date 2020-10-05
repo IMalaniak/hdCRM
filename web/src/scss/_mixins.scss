@@ -1,14 +1,14 @@
 // retrieve color from map with Sass ie. `color(primary, base)`
-@function crmcolor($map, $variant: null, $true-val: false) {
+@function app-color($map, $variant: null, $true-val: false) {
   // we need to return the color value
   @if $true-val == true {
     // color variant is optional
     @if ($variant != null) {
       // map inception, need two deep
-      @return map-get(map-get($crmcolors, $map), $variant);
+      @return map-get(map-get($app-colors, $map), $variant);
     } @else {
       // single-level color, one deep
-      @return map-get($crmcolors, $map);
+      @return map-get($app-colors, $map);
     }
     // if we're only returning the CSS4 variable
   } @else {
@@ -24,16 +24,16 @@
 }
 
 // retrieve size from map with Sass ie. `size(viewport, sm)`
-@function crmsize($size-name, $size-variant: null, $true-val: false) {
+@function app-size($size-name, $size-variant: null, $true-val: false) {
   // we need to return the size value
   @if $true-val == true {
     // size variant is optional
     @if ($size-variant != null) {
       // map inception, need two deep
-      @return map-get(map-get($crmsizes, $size-name), $size-variant);
+      @return map-get(map-get($app-sizes, $size-name), $size-variant);
     } @else {
       // single-level size, one deep
-      @return map-get($crmsizes, $size-name);
+      @return map-get($app-sizes, $size-name);
     }
     // if we're only returning the CSS4 variable
   } @else {
@@ -57,14 +57,14 @@
   @return var(--#{$name});
 }
 
-@mixin crm-textcolor($map, $variant) {
-  color: crmcolor($map, $variant, true);
-  color: crmcolor($map, $variant);
+@mixin set-textcolor($map, $variant) {
+  color: app-color($map, $variant, true);
+  color: app-color($map, $variant);
 }
 
-@mixin crm-bgcolor($map, $variant) {
-  background-color: crmcolor($map, $variant, true);
-  background-color: crmcolor($map, $variant);
+@mixin set-bgcolor($map, $variant) {
+  background-color: app-color($map, $variant, true);
+  background-color: app-color($map, $variant);
 }
 
 @mixin getZ-Index($container) {

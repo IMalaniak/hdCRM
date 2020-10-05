@@ -6,18 +6,18 @@
 .process-message {
   span,
   fa-icon {
-    @include crm-textcolor('theme', 'light');
+    @include set-textcolor('theme', 'light');
   }
 }
 
 .success-message {
-  @include crm-bgcolor('theme', 'accent');
+  @include set-bgcolor('theme', 'accent');
 }
 
 .failed-message {
-  @include crm-bgcolor('theme', 'warn');
+  @include set-bgcolor('theme', 'warn');
 }
 
 .process-message {
-  @include crm-bgcolor('theme', 'secondary');
+  @include set-bgcolor('theme', 'secondary');
 }
