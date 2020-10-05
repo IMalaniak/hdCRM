@@ -24,7 +24,7 @@ import {
   THEME_PALETTE,
   RoutingConstants,
   CONSTANTS,
-  UserStates
+  UserState
 } from '@/shared/constants';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import {
@@ -76,7 +76,7 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
     COLUMN_NAMES.UPDATED_AT,
     COLUMN_NAMES.ACTIONS
   ];
-  userStates = UserStates;
+  userStates = UserState;
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -138,7 +138,7 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
     });
   }
 
-  changeUserState(user: User, state: UserStates): void {
+  changeUserState(user: User, state: UserState): void {
     const userState = { id: user.id, state } as User;
 
     // TODO: @IMalaniak recreate this to store

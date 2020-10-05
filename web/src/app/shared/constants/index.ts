@@ -17,4 +17,4 @@ export * from './style.constants';
 export * from './table.constants';
 export * from './tabs.constants';
 export * from './timeFormat';
-export * from './UserStates';
+export * from './UserState';

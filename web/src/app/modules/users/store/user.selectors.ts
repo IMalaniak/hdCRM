@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromUser from './user.reducer';
 import { PageQuery } from '@/shared/models';
 import { User } from '../models';
-import { UserStates } from '@/shared/constants';
+import { UserState } from '@/shared/constants';
 
 export const selectUsersState = createFeatureSelector<fromUser.UsersState>(fromUser.usersFeatureKey);
 
@@ -11,7 +11,7 @@ export const selectUserById = (userId: number) =>
 
 export const selectAllUsers = createSelector(selectUsersState, fromUser.selectAll);
 
-export const selectUsersByState = (state: UserStates) =>
+export const selectUsersByState = (state: UserState) =>
   createSelector(selectAllUsers, (users) => users.filter((user) => user.state === state));
 
 export const selectUsersOnline = createSelector(selectAllUsers, (users) => users.filter((user) => user.online));
