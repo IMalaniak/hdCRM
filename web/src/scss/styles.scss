@@ -109,12 +109,12 @@ main {
 .breadcrumb {
   margin: 0;
   padding: app-size(spacer, sm, true) app-size(spacer, default, true);
-  @include set-bgcolor('layout', 'dark');
-  @include set-textcolor('layout', 'milk');
+  @include set-bgcolor('theme', 'dark');
+  @include set-textcolor('theme', 'light');
 
   a {
     display: inherit;
-    @include set-textcolor('layout', 'milk');
+    @include set-textcolor('theme', 'light');
   }
 
   > li {

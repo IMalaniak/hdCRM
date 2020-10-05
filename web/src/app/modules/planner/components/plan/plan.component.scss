@@ -11,7 +11,7 @@
 }
 
 .stages-item {
-  @include set-bgcolor('layout', 'milk');
+  @include set-bgcolor('theme', 'light');
   padding: 1.1em 1.1em 1.1em 2.86em;
   margin: 0 app-size(spacer, sm, true);
   position: relative;
@@ -39,14 +39,14 @@
     width: 0;
     position: absolute;
     pointer-events: none;
-    border-left-color: app-color('layout', 'milk', true);
+    border-left-color: app-color('theme', 'light', true);
     border-width: 1.85em;
     margin-top: -1.85em;
     transition: border-left-color $transition;
   }
 
   &:before {
-    border-left-color: app-color('layout', 'background', true);
+    border-left-color: app-color('theme', 'background', true);
     left: 0;
   }
 
@@ -57,7 +57,7 @@
   }
 
   &.active {
-    @include set-textcolor('layout', 'background');
+    @include set-textcolor('theme', 'background');
     background: theme-color('success');
     &:after {
       border-left-color: theme-color('success');
@@ -65,11 +65,11 @@
   }
 
   &.passed {
-    @include set-textcolor('layout', 'background');
-    background: app-color('layout', 'dark', true);
+    @include set-textcolor('theme', 'background');
+    background: app-color('theme', 'dark', true);
     text-decoration: line-through;
     &:after {
-      border-left-color: app-color('layout', 'dark', true);
+      border-left-color: app-color('theme', 'dark', true);
     }
   }
 

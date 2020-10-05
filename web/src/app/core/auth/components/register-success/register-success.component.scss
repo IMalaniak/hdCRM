@@ -31,7 +31,7 @@
 
   &-bg {
     height: 100vh;
-    @include gradient-radial(app-color('theme', 'primary', true), app-color('layout', 'dark', true));
+    @include gradient-radial(app-color('theme', 'primary', true), app-color('theme', 'dark', true));
   }
 }
 

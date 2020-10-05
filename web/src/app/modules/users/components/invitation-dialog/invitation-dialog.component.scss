@@ -45,6 +45,6 @@
 
   span,
   fa-icon {
-    @include set-textcolor('layout', 'background');
+    @include set-textcolor('theme', 'background');
   }
 }

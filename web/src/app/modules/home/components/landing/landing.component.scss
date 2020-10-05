@@ -10,7 +10,7 @@ nav.home-nav {
   width: 100%;
   display: flex;
   align-items: center;
-  @include set-bgcolor('layout', 'milk');
+  @include set-bgcolor('theme', 'light');
   box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.1);
   height: 4em;
 
@@ -41,7 +41,7 @@ nav.home-nav {
   height: 100vh;
 
   .background {
-    @include gradient-directional(app-color('layout', 'milk', true) 50%, #dddcdc 50%, -60deg);
+    @include gradient-directional(app-color('theme', 'light', true) 50%, #dddcdc 50%, -60deg);
     animation: slide 4s ease-in-out infinite alternate;
     position: fixed;
     top: 0;

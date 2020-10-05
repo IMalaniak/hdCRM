@@ -52,19 +52,14 @@ $gray-600: #7f8389;
 $gray-700: #60646a;
 $gray-800: #4c5058;
 $gray-900: #3a3a3a;
-$light: $gray-100;
-$dark: $gray-800;
 $black: #212121;
+
+// reset bootstrap theme colors
+$light: $gray-100;
+$dark: $gray-900;
 $blue: mat-color($theme-primary, 600);
-$indigo: mat-color($mat-purple, 500);
-$purple: mat-color($mat-purple, 600);
-$pink: mat-color($mat-pink, 500);
 $red: mat-color($theme-warn, 600);
-$orange: mat-color($mat-amber, 800);
-$yellow: mat-color($mat-amber, 400);
 $green: mat-color($theme-accent, 600);
-$teal: mat-color($theme-accent, 300);
-$cyan: mat-color($theme-primary, 300);
 
 // reset bootstrap transitions
 $btn-transition: color $transition, background-color $transition, border-color $transition, box-shadow $transition;
@@ -80,19 +75,15 @@ $size-prefix: --app-size-;
 // App Maps
 // color variable map
 $app-colors: (
-  'layout': (
-    'background': $white,
-    'milk': $gray-100,
-    'dark': $gray-900
-  ),
   'theme': (
+    'background': $white,
     'primary': $blue,
-    'secondary': $teal,
     'accent': $green,
     'warn': $red,
     'light': $light,
     'dark': $dark
   )
+  // TODO: @IMalaniak add dark theme here
 );
 
 // size variable map
