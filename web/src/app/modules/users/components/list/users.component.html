@@ -72,7 +72,7 @@
         <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListState">
           {{ columnLabels.STATE }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let user">{{ user.State.keyString }}</mat-cell>
+        <mat-cell *matCellDef="let user">{{ user.state }}</mat-cell>
       </ng-container>
       <ng-container [matColumnDef]="columns.CREATED_AT">
         <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListCreatedAt">
@@ -106,25 +106,31 @@
               <span i18n="@@usersComponentListActionsEdit"> {{ actionLabels.EDIT }} </span>
             </button>
             <button
-              *ngIf="(canEditUser$ | async) && user.State.id === 2 && user.id !== (currentUser$ | async).id"
+              *ngIf="
+                (canEditUser$ | async) && user.state === userStates.ACTIVE && user.id !== (currentUser$ | async).id
+              "
               mat-menu-item
-              (click)="changeUserState(user, 3)"
+              (click)="changeUserState(user, userStates.DISABLED)"
             >
               <fa-icon [icon]="['fas', 'user-slash']"></fa-icon>
               <span i18n="@@usersComponentListActionsDeactivate">Deactivate user</span>
             </button>
             <button
-              *ngIf="(canEditUser$ | async) && (user.State.id === 1 || user.State.id === 3)"
+              *ngIf="
+                (canEditUser$ | async) && (user.state === userStates.INITIALIZED || user.state === userStates.DISABLED)
+              "
               mat-menu-item
-              (click)="changeUserState(user, 2)"
+              (click)="changeUserState(user, userStates.ACTIVE)"
             >
               <fa-icon [icon]="['fas', 'user-check']"></fa-icon>
               <span i18n="@@usersComponentListActionsActivate">Activate user</span>
             </button>
             <button
-              *ngIf="(canEditUser$ | async) && user.State.id === 4 && user.id !== (currentUser$ | async).id"
+              *ngIf="
+                (canEditUser$ | async) && user.state === userStates.DISABLED && user.id !== (currentUser$ | async).id
+              "
               mat-menu-item
-              (click)="changeUserState(user, 4)"
+              (click)="changeUserState(user, userStates.ARCHIVE)"
             >
               <fa-icon [icon]="['fas', 'archive']"></fa-icon>
               <span i18n="@@usersComponentListActionsArchive">Archive user</span>

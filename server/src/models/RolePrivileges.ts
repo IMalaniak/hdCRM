@@ -10,6 +10,10 @@ export class RolePrivilege extends Model {
   public add!: boolean;
   public delete!: boolean;
 
+  // timestamps
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+
   public readonly Roles?: Role[];
   public readonly Privileges?: Privilege[];
 

@@ -6,10 +6,6 @@ export class TaskPriority extends Model {
   public label!: string;
   public value!: number;
 
-  // timestamps
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
-
   public readonly Tasks?: Task;
 
   public static associations: {
@@ -27,7 +23,10 @@ export const TaskPriorityFactory = (sequelize: Sequelize): Model => {
       },
       label: {
         type: new DataTypes.STRING(50),
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       },
       value: {
         type: DataTypes.INTEGER
@@ -35,6 +34,7 @@ export const TaskPriorityFactory = (sequelize: Sequelize): Model => {
     },
     {
       tableName: 'TaskPriorities',
+      timestamps: false,
       sequelize
     }
   );

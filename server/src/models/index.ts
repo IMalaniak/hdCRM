@@ -3,7 +3,6 @@ import { User, UserFactory } from './User';
 import { Logger } from '@overnightjs/logger';
 import { UserSession, UserSessionFactory } from './UserSession';
 import { PasswordAttribute, PasswordAttributeFactory } from './PasswordAttribute';
-import { State, StateFactory } from './State';
 import { Role, RoleFactory } from './Role';
 import { Privilege, PrivilegeFactory } from './Privilege';
 import { Asset, AssetFactory } from './Asset';
@@ -21,7 +20,17 @@ class DataBase {
   sequelize: Sequelize;
 
   constructor() {
-    this.sequelize = new Sequelize(process.env.DATABASE_URL);
+    this.sequelize = new Sequelize(process.env.DATABASE_URL, {
+      ...(process.env.NODE_ENV !== 'development' && {
+        ssl: true,
+        dialectOptions: {
+          ssl: {
+            require: true,
+            rejectUnauthorized: false // <<<<<< YOU NEED THIS
+          }
+        }
+      })
+    });
     this.createModels();
   }
 
@@ -36,7 +45,6 @@ class DataBase {
     RoleFactory(this.sequelize);
     RolePrivilegeFactory(this.sequelize);
     StageFactory(this.sequelize);
-    StateFactory(this.sequelize);
     UserFactory(this.sequelize);
     UserSessionFactory(this.sequelize);
     TaskFactory(this.sequelize);
@@ -64,7 +72,6 @@ class DataBase {
       through: 'UserPlans',
       foreignKey: 'UserId'
     });
-    User.belongsTo(State);
     User.hasMany(UserSession);
     User.hasOne(Department, {
       as: 'ManagedDepartment',
@@ -83,7 +90,6 @@ class DataBase {
 
     UserSession.belongsTo(User);
     PasswordAttribute.belongsTo(User);
-    State.hasMany(User);
     Asset.belongsToMany(User, { through: 'UserAssets', foreignKey: 'AssetId' });
     Role.hasMany(User);
     Plan.belongsTo(User, { as: 'Creator' });
@@ -162,7 +168,6 @@ export {
   Role,
   RolePrivilege,
   Stage,
-  State,
   User,
   UserSession,
   Organization,

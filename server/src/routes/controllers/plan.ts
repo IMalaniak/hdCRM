@@ -138,69 +138,55 @@ export class PlanController {
       deadline: req.body.deadline,
       description: req.body.description,
       progress: 0,
-      OrganizationId: req.user.OrganizationId
+      OrganizationId: req.user.OrganizationId,
+      CreatorId: req.user.id
     })
       .then((plan) => {
-        User.findByPk(req.body.CreatorId)
-          .then((user) => {
-            plan
-              .setCreator(user)
-              .then(() => {
-                Stage.findAll({
-                  where: {
-                    keyString: {
-                      [Op.or]: ['created', 'inProgress', 'finished']
-                    }
-                  }
-                })
-                  .then((stages) => {
-                    // tslint:disable-next-line: forin
-                    for (const i in stages) {
-                      if (stages[i].keyString === 'created') {
-                        plan.setActiveStage(stages[i]);
-                      }
-                      plan.addStage(stages[i], {
-                        through: {
-                          order: i,
-                          completed: false
-                        }
-                      });
-                    }
-
-                    if (req.body.Participants) {
-                      User.findAll({
-                        where: {
-                          [Op.or]: req.body.Participants as { id: number }[]
-                        }
-                      })
-                        .then((users) => {
-                          plan
-                            .setParticipants(users)
-                            .then(() => {
-                              finish(plan.id);
-                            })
-                            .catch((err: any) => {
-                              Logger.Err(err);
-                              return res.status(INTERNAL_SERVER_ERROR).json(err);
-                            });
-                        })
-                        .catch((err: any) => {
-                          Logger.Err(err);
-                          return res.status(INTERNAL_SERVER_ERROR).json(err);
-                        });
-                    } else {
-                      finish(plan.id);
-                    }
-                  })
-                  .catch((err: any) => {
-                    Logger.Err(err);
-                    return res.status(INTERNAL_SERVER_ERROR).json(err);
-                  });
-              })
-              .catch((err: any) => {
-                Logger.Err(err);
-                return res.status(INTERNAL_SERVER_ERROR).json(err);
+        Stage.findAll({
+          where: {
+            keyString: {
+              [Op.or]: ['created', 'inProgress', 'finished']
+            }
+          }
+        })
+          .then((stages) => {
+            // tslint:disable-next-line: forin
+            for (const i in stages) {
+              if (stages[i].keyString === 'created') {
+                plan.setActiveStage(stages[i]);
+              }
+              plan.addStage(stages[i], {
+                through: {
+                  order: i,
+                  completed: false
+                }
               });
+            }
+
+            if (req.body.Participants) {
+              User.findAll({
+                where: {
+                  [Op.or]: req.body.Participants as { id: number }[]
+                }
+              })
+                .then((users) => {
+                  plan
+                    .setParticipants(users)
+                    .then(() => {
+                      finish(plan.id);
+                    })
+                    .catch((err: any) => {
+                      Logger.Err(err);
+                      return res.status(INTERNAL_SERVER_ERROR).json(err);
+                    });
+                })
+                .catch((err: any) => {
+                  Logger.Err(err);
+                  return res.status(INTERNAL_SERVER_ERROR).json(err);
+                });
+            } else {
+              finish(plan.id);
+            }
           })
           .catch((err: any) => {
             Logger.Err(err);

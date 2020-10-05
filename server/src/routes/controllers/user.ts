@@ -18,6 +18,7 @@ import { parseCookies } from '../../utils/parseCookies';
 import JwtHelper from '../../helpers/jwtHelper';
 import { JwtDecoded } from '../../models/JWTPayload';
 import { TokenExpiredError } from 'jsonwebtoken';
+import { Config } from '../../config';
 
 @Controller('users/')
 export class UserController {
@@ -415,7 +416,6 @@ export class UserController {
           user.passwordHash = passwordData.passwordHash;
           user.salt = passwordData.salt;
           user.OrganizationId = req.user.OrganizationId;
-          user.StateId = 1;
           user.login = user.fullname.replace(' ', '_');
           this.userDbCtrl
             .create(user)
@@ -427,7 +427,7 @@ export class UserController {
                 passwordExpire: token.expireDate
               })
                 .then(() => {
-                  Mailer.sendInvitation(u, password, `${process.env.WEB_URL}/auth/activate-account/${token.value}`)
+                  Mailer.sendInvitation(u, password, `${Config.WEB_URL}/auth/activate-account/${token.value}`)
                     .then(() => {
                       resolve(u);
                     })

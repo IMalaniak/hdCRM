@@ -2,7 +2,7 @@ import { OK, BAD_REQUEST, UNAUTHORIZED, FORBIDDEN } from 'http-status-codes';
 import { Controller, Get, Post } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { User, UserSession, Privilege, PasswordAttribute, State } from '../../models';
+import { User, UserSession, PasswordAttribute, Organization, Privilege } from '../../models';
 import { Op, ValidationError, UniqueConstraintError } from 'sequelize';
 import Crypt from '../../utils/crypt';
 import Mailer from '../../mailer/nodeMailerTemplates';
@@ -12,6 +12,8 @@ import { TokenExpiredError } from 'jsonwebtoken';
 import { UserDBController } from '../../dbControllers/usersController';
 import { ApiResponse } from '../../models/apiResponse';
 import { parseCookies } from '../../utils/parseCookies';
+import { UserState } from '../../constants';
+import { Config } from '../../config';
 
 @Controller('auth/')
 export class AuthController {
@@ -29,7 +31,7 @@ export class AuthController {
   }
 
   @Post('register')
-  register(req: Request, res: Response<ApiResponse | ValidationError | UniqueConstraintError>) {
+  async register(req: Request, res: Response<ApiResponse | ValidationError | UniqueConstraintError>) {
     Logger.Info(`Registering new user...`);
     const password = req.body.password ? req.body.password : Crypt.genRandomString(12);
     const passwordData = Crypt.saltHashPassword(password);
@@ -42,111 +44,69 @@ export class AuthController {
       ]
     };
 
-    const Organization = {
+    const Org = {
       ...OrgDefaults,
       ...req.body.Organization,
       ...(!req.body.Organization.title && { title: `PRIVATE_ORG_FOR_${req.body.name}_${req.body.surname}` })
     };
 
-    User.create(
-      {
-        email: req.body.email,
-        login: req.body.login,
-        passwordHash: passwordData.passwordHash,
-        salt: passwordData.salt,
-        name: req.body.name,
-        surname: req.body.surname,
-        // defaultLang: req.body.defaultLang,
-        phone: req.body.phone,
-        Organization,
-        StateId: 1
-      },
-      {
-        include: [
-          {
-            association: User.associations.Organization,
-            include: [
-              {
-                association: Organization.associations.Roles
-              }
-            ]
-          }
-        ]
-      }
-    )
-      .then((user) => {
-        // TODO: maybe change this, manually add privileges by root user.
-        const adminR = user.Organization.Roles[0];
+    // let transaction;
+    try {
+      // transaction = await sequelize.transaction();
 
-        Privilege.findAll()
-          .then((privileges) => {
-            adminR
-              .setPrivileges(privileges)
-              .then(() => {
-                adminR
-                  .getPrivileges()
-                  .then((rPrivileges) => {
-                    rPrivileges.forEach((privilege) => {
-                      privilege.RolePrivilege.add = true;
-                      privilege.RolePrivilege.delete = true;
-                      privilege.RolePrivilege.edit = true;
-                      privilege.RolePrivilege.view = true;
-                      privilege.RolePrivilege.save();
-                    });
-                    adminR
-                      .addUser(user)
-                      .then(() => {
-                        const token = Crypt.genTimeLimitedToken(24 * 60);
-                        user
-                          .createPasswordAttributes({
-                            token: token.value,
-                            tokenExpire: token.expireDate,
-                            passwordExpire: token.expireDate
-                          })
-                          .then(() => {
-                            Mailer.sendActivation(
-                              user,
-                              password,
-                              `${process.env.WEB_URL}/auth/activate-account/${token.value}`
-                            )
-                              .then(() => {
-                                return res.status(OK).json({
-                                  success: true,
-                                  message: 'Activation link has been sent'
-                                });
-                              })
-                              .catch((err: any) => {
-                                Logger.Err(err);
-                                return res.status(BAD_REQUEST).json(err);
-                              });
-                          });
-                      })
-                      .catch((err: any) => {
-                        Logger.Err(err);
-                        return res.status(BAD_REQUEST).json(err);
-                      });
-                  })
-                  .catch((err: any) => {
-                    Logger.Err(err);
-                    return res.status(BAD_REQUEST).json(err);
-                  });
-              })
-              .catch((err: any) => {
-                Logger.Err(err);
-                return res.status(BAD_REQUEST).json(err);
-              });
-          })
-          .catch((err: any) => {
-            Logger.Err(err);
-            return res.status(BAD_REQUEST).json(err);
-          });
-      })
-      .catch((error: ValidationError | ApiResponse | UniqueConstraintError) => {
-        Logger.Err(ValidationError);
-        Logger.Err(UniqueConstraintError);
-        Logger.Err(error);
-        return res.status(BAD_REQUEST).json(error);
+      const organization = await Organization.create(Org, {
+        include: [{ association: Organization.associations.Roles }]
       });
+      if (organization) {
+        const user = await organization.createUser({
+          email: req.body.email,
+          login: req.body.login,
+          passwordHash: passwordData.passwordHash,
+          salt: passwordData.salt,
+          name: req.body.name,
+          surname: req.body.surname,
+          defaultLang: 'en',
+          phone: req.body.phone
+        });
+
+        const privileges = await Privilege.findAll();
+        const adminRole = organization.Roles[0];
+        await adminRole.setPrivileges(privileges);
+        await adminRole.getPrivileges().then((rPrivileges) => {
+          rPrivileges.forEach((privilege) => {
+            privilege.RolePrivilege.add = true;
+            privilege.RolePrivilege.delete = true;
+            privilege.RolePrivilege.edit = true;
+            privilege.RolePrivilege.view = true;
+            privilege.RolePrivilege.save();
+          });
+        });
+        await adminRole.addUser(user);
+
+        const token = Crypt.genTimeLimitedToken(24 * 60);
+        await user.createPasswordAttributes({
+          token: token.value,
+          tokenExpire: token.expireDate,
+          passwordExpire: token.expireDate
+        });
+
+        const activationSent = await Mailer.sendActivation(
+          user,
+          password,
+          `${Config.WEB_URL}/auth/activate-account/${token.value}`
+        );
+
+        if (activationSent) {
+          return res.status(OK).json({
+            success: true,
+            message: 'Activation link has been sent'
+          });
+        }
+      }
+    } catch (error) {
+      Logger.Err(error);
+      return res.status(BAD_REQUEST).json(error);
+    }
   }
 
   @Post('activate_account')
@@ -164,7 +124,7 @@ export class AuthController {
         if (pa) {
           pa.getUser()
             .then((user) => {
-              user.StateId = 2;
+              user.state = UserState.ACTIVE;
               user
                 .save()
                 .then((updatedUser) => {
@@ -238,12 +198,7 @@ export class AuthController {
           }
         ]
       },
-      attributes: ['id', 'passwordHash', 'salt'],
-      include: [
-        {
-          model: State
-        }
-      ]
+      attributes: ['id', 'passwordHash', 'salt', 'state']
     })
       .then((user) => {
         if (!user) {
@@ -253,7 +208,7 @@ export class AuthController {
           });
         }
 
-        if (user.State.id === 1) {
+        if (user.state === UserState.INITIALIZED) {
           this.saveLogInAttempt(req, user, false).then(() => {
             return res.status(BAD_REQUEST).json({
               success: false,
@@ -261,7 +216,7 @@ export class AuthController {
                 'Sorry, Your account is not activated, please use activation link we sent You or contact administrator!'
             });
           });
-        } else if (user.State.id === 3) {
+        } else if (user.state === UserState.DISABLED || user.state === UserState.ARCHIVE) {
           this.saveLogInAttempt(req, user, false).then(() => {
             return res.status(BAD_REQUEST).json({
               success: false,
@@ -348,7 +303,7 @@ export class AuthController {
             .then((pa) => {
               const token = Crypt.genTimeLimitedToken(5);
               const sendPasswordResetMail = () => {
-                Mailer.sendPasswordReset(user, `${process.env.WEB_URL}/auth/password-reset/${token.value}`)
+                Mailer.sendPasswordReset(user, `${Config.WEB_URL}/auth/password-reset/${token.value}`)
                   .then(() => {
                     return res.status(OK).json({
                       success: true,

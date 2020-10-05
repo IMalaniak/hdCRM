@@ -4,11 +4,14 @@
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
+    "clean": "rm -rf dist",
     "start": "node ./dist/index.js",
     "start:dev": "node --inspect=5858 -r dotenv/config -r ts-node/register ./src/index.ts",
     "start:watch": "nodemon",
-    "migrate-db": "node_modules/.bin/sequelize db:migrate",
-    "prepare-db": "sequelize db:seed:all --env='production'",
+    "migrate": "dotenv node_modules/.bin/sequelize db:migrate",
+    "migrate:undo": "dotenv node_modules/.bin/sequelize db:migrate:undo",
+    "migrate:undo:all": "dotenv node_modules/.bin/sequelize db:migrate:undo:all",
+    "prepare-db": "dotenv node_modules/.bin/sequelize db:seed:all",
     "test": "mocha -r ts-node/register 'test/**/*.ts'"
   },
   "engines": {

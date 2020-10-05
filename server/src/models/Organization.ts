@@ -104,7 +104,11 @@ export const OrganizationFactory = (sequelize: Sequelize): Model => {
       },
       title: {
         type: new DataTypes.STRING(50),
-        allowNull: false
+        allowNull: false,
+        unique: true,
+        validate: {
+          notEmpty: true
+        }
       },
       token: {
         type: DataTypes.STRING,
@@ -114,12 +118,15 @@ export const OrganizationFactory = (sequelize: Sequelize): Model => {
         type: new DataTypes.STRING(15),
         allowNull: false
       },
-      country: DataTypes.STRING,
-      city: DataTypes.STRING,
+      country: DataTypes.STRING(50),
+      city: DataTypes.STRING(50),
       address: DataTypes.STRING,
-      postcode: DataTypes.STRING,
+      postcode: DataTypes.STRING(10),
       phone: DataTypes.STRING,
-      email: DataTypes.STRING
+      email: {
+        type: DataTypes.STRING,
+        unique: true
+      }
     },
     {
       tableName: 'Organizations',
