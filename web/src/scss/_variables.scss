@@ -1,11 +1,13 @@
-@import 'theme.scss';
+@import 'theme-variables';
 
-// CRM Variables
+// App Variables
 $transition-time: 0.3s;
 $transition-style: $mat-fast-out-slow-in-timing-function;
 $transition: $transition-time $transition-style;
 
 // RESET BOOTSTRAP VARIABLES:
+$font-family-base: $font-family;
+
 $grid-breakpoints: (
   xs: 0,
   sm: 576px,
@@ -29,7 +31,7 @@ $container-max-widths: (
 $link-hover-decoration: none;
 
 // set link color based on the used material theme
-$link-color: mat-color($crm-theme-primary, 800);
+$link-color: $link;
 $link-hover-color: currentColor;
 
 // reset bootstrap colors
@@ -43,19 +45,11 @@ $gray-600: #7f8389;
 $gray-700: #60646a;
 $gray-800: #4c5058;
 $gray-900: #3a3a3a;
-$light: $gray-100;
-$dark: $gray-800;
 $black: #212121;
-$blue: mat-color($crm-theme-primary, 600);
-$indigo: mat-color($mat-purple, 500);
-$purple: mat-color($mat-purple, 600);
-$pink: mat-color($mat-pink, 500);
-$red: mat-color($crm-theme-warn, 600);
-$orange: mat-color($mat-amber, 800);
-$yellow: mat-color($mat-amber, 400);
-$green: mat-color($crm-theme-accent, A400);
-$teal: mat-color($crm-theme-accent, 300);
-$cyan: mat-color($crm-theme-primary, 300);
+
+// reset bootstrap theme colors
+$light: $gray-100;
+$dark: $gray-900;
 
 // reset bootstrap transitions
 $btn-transition: color $transition, background-color $transition, border-color $transition, box-shadow $transition;
@@ -64,30 +58,37 @@ $custom-forms-transition: background-color $transition, border-color $transition
 // Bootstrap options:
 $enable-responsive-font-sizes: true;
 
-// variable prefixes for CSS4 output
-$color-prefix: --crmcolor-;
-$size-prefix: --crmsize-;
+// reset bootstrap maps
 
-// CRM Maps
+// variable prefixes for CSS4 output
+$color-prefix: --app-color-;
+$size-prefix: --app-size-;
+
+// App Maps
 // color variable map
-$crmcolors: (
-  'layout': (
-    'background': $white,
-    'milk': $gray-100,
-    'dark': $gray-900
-  ),
+$app-colors: (
   'theme': (
+    'background': $white,
     'primary': $blue,
-    'secondary': $teal,
     'accent': $green,
     'warn': $red,
+    'light': $light,
+    'dark': $dark
+  ),
+  'theme-dark': (
+    'background': $black,
+    'primary': $primary-dark,
+    'accent': $accent-dark,
+    'warn': $warn-dark,
+    // TODO: @IMalaniak change variables here
     'light': $light,
     'dark': $dark
   )
 );
 
 // size variable map
-$crmsizes: (
+$spacer: 1rem !default;
+$app-sizes: (
   font: 1em,
   header: (
     height: 3rem
@@ -101,7 +102,13 @@ $crmsizes: (
     hidden: 0rem
   ),
   userpic: 3rem,
-  spacer: 1em
+  spacer: (
+    xs: $spacer * 0.25,
+    sm: $spacer * 0.5,
+    default: $spacer,
+    md: $spacer * 1.5,
+    lg: $spacer * 3
+  )
 );
 
 $layer-priorities: (

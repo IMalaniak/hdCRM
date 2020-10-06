@@ -2,7 +2,7 @@
   cardTitle="Tasks"
   headClass="pl-3 pr-1 text-uppercase"
   cardClass="rounded-0 px-0 pb-0"
-  [counter]="tasks.length"
+  [counter]="tasks?.length"
 >
   <div buttons>
     <atoms-icon-button
@@ -10,7 +10,7 @@
       [matMenuTriggerFor]="menu"
       [color]="themePalette.BASIC"
       [icon]="['fas', 'ellipsis-v']"
-      *ngIf="tasks.length >= 2"
+      *ngIf="tasks?.length >= 2"
     >
     </atoms-icon-button>
 
@@ -59,7 +59,7 @@
   </div>
 
   <div content class="task">
-    <mat-accordion *ngIf="tasks.length" multi>
+    <mat-accordion *ngIf="tasks?.length" multi>
       <mat-expansion-panel *ngFor="let task of tasks" class="task-panel">
         <mat-expansion-panel-header class="task-panel-header">
           <div class="task-panel-header-content">

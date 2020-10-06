@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { TestBed, inject } from '@angular/core/testing';
 
 import { StageService } from './stage.service';
@@ -5,6 +6,7 @@ import { StageService } from './stage.service';
 describe('StageService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [HttpClientModule],
       providers: [StageService]
     });
   });

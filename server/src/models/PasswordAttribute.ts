@@ -23,8 +23,8 @@ export class PasswordAttribute extends Model {
   };
 }
 
-export const PasswordAttributeFactory = (sequelize: Sequelize): void => {
-  const passwordAttribute = PasswordAttribute.init(
+export const PasswordAttributeFactory = (sequelize: Sequelize): Model => {
+  return PasswordAttribute.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -43,6 +43,4 @@ export const PasswordAttributeFactory = (sequelize: Sequelize): void => {
       sequelize
     }
   );
-
-  return passwordAttribute;
 };

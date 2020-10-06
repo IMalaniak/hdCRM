@@ -10,6 +10,10 @@ export class RolePrivilege extends Model {
   public add!: boolean;
   public delete!: boolean;
 
+  // timestamps
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+
   public readonly Roles?: Role[];
   public readonly Privileges?: Privilege[];
 
@@ -19,8 +23,8 @@ export class RolePrivilege extends Model {
   };
 }
 
-export const RolePrivilegeFactory = (sequelize: Sequelize): void => {
-  const rolePrivilege = RolePrivilege.init(
+export const RolePrivilegeFactory = (sequelize: Sequelize): Model => {
+  return RolePrivilege.init(
     {
       view: {
         type: DataTypes.BOOLEAN,
@@ -44,6 +48,4 @@ export const RolePrivilegeFactory = (sequelize: Sequelize): void => {
       sequelize
     }
   );
-
-  return rolePrivilege;
 };

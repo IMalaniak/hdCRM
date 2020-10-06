@@ -69,7 +69,7 @@ function tslint({ cwd, fix = false }) {
   const prettierConfigPath = cwd === '.' ? '' : '../';
   const prettier = `node_modules/.bin/prettier ${
     fix ? '--write' : '--check'
-  } --config ${prettierConfigPath}.prettierrc '**/*.{json,ts,html,scss}'`;
+  } --config ${prettierConfigPath}.prettierrc --ignore-path ${prettierConfigPath}.prettierignore '**/*.{json,ts,html,scss}'`;
   return doRun(`node_modules/.bin/tslint -p tsconfig.json -c tslint.json ${fixParam} && ${prettier}`, {
     cwd,
     commandTimeoutSeconds: 300
@@ -129,11 +129,14 @@ export function mochaRunner({
 export function generateTestTask(module: string, testStage: string, baseDir?: string) {
   task({
     name: `${module}:exec-${testStage}-test`,
-    fct: mochaRunner({
-      testStage,
-      cwd: module,
-      baseDir
-    }),
+    fct:
+      module === 'web'
+        ? doRun('node_modules/.bin/ng test --watch=false --browsers ChromeHeadless', { cwd: module })
+        : mochaRunner({
+            testStage,
+            cwd: module,
+            baseDir
+          }),
     desc: `Runs all ${testStage} tests on ${module} (without npm install beforehand)`
   });
 

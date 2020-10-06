@@ -6,22 +6,11 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-bottom: crmsize(spacer, null, true);
+    margin-bottom: app-size(spacer, default, true);
   }
 
   .mat-card-content {
     position: relative;
-  }
-
-  [buttons] {
-    display: flex;
-    max-width: 50%;
-
-    atoms-icon-button {
-      + atoms-icon-button {
-        margin-left: crmsize(spacer, null, true);
-      }
-    }
   }
 
   .table-container {

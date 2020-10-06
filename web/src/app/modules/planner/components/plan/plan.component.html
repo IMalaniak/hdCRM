@@ -66,7 +66,7 @@
 <organisms-card cardTitle="Details" *ngIf="plan" cardClass="mb-3">
   <div content class="row">
     <div class="col-sm-12 col-md-8 col-lg-7">
-      <organisms-card cardTitle="Plan details" cardClass="border border-secondary m-0" [disableShadow]="true">
+      <organisms-card cardTitle="Plan details" cardClass="border border-dark m-0" [disableShadow]="true">
         <section content>
           <organisms-dynamic-form
             [data]="plan"
@@ -99,13 +99,14 @@
     >
       {{ actionLabels.CANCEL }}
     </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm$ | async" class="ml-2" (onclick)="updatePlan()" [icon]="['fas', 'save']">
+    <atoms-icon-button *ngIf="editForm$ | async" (onclick)="updatePlan()" [icon]="['fas', 'save']">
       {{ actionLabels.SAVE }}
     </atoms-icon-button>
   </div>
 </organisms-card>
 
 <templates-attachments-list
+  *ngIf="plan"
   [canAdd]="canAddAttachment$ | async"
   [canDelete]="canDeleteAttachment$ | async"
   [attachments]="plan.Documents"

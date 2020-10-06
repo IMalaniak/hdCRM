@@ -94,8 +94,8 @@ export class Organization extends Model {
   };
 }
 
-export const OrganizationFactory = (sequelize: Sequelize): void => {
-  const org = Organization.init(
+export const OrganizationFactory = (sequelize: Sequelize): Model => {
+  return Organization.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -104,7 +104,11 @@ export const OrganizationFactory = (sequelize: Sequelize): void => {
       },
       title: {
         type: new DataTypes.STRING(50),
-        allowNull: false
+        allowNull: false,
+        unique: true,
+        validate: {
+          notEmpty: true
+        }
       },
       token: {
         type: DataTypes.STRING,
@@ -114,18 +118,29 @@ export const OrganizationFactory = (sequelize: Sequelize): void => {
         type: new DataTypes.STRING(15),
         allowNull: false
       },
-      country: DataTypes.STRING,
-      city: DataTypes.STRING,
+      country: DataTypes.STRING(50),
+      city: DataTypes.STRING(50),
       address: DataTypes.STRING,
-      postcode: DataTypes.STRING,
+      postcode: DataTypes.STRING(10),
       phone: DataTypes.STRING,
-      email: DataTypes.STRING
+      email: {
+        type: DataTypes.STRING,
+        unique: true,
+        validate: {
+          isEmail: true
+        }
+      },
+      website: {
+        type: DataTypes.STRING(100),
+        unique: true,
+        validate: {
+          isUrl: true
+        }
+      }
     },
     {
       tableName: 'Organizations',
       sequelize
     }
   );
-
-  return org;
 };

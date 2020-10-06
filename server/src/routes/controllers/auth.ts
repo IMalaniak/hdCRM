@@ -1,8 +1,8 @@
-import { OK, BAD_REQUEST, UNAUTHORIZED, FORBIDDEN } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import { Controller, Get, Post } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
-import { User, UserSession, Privilege, PasswordAttribute, State } from '../../models';
+import { User, UserSession, PasswordAttribute, Organization, Privilege } from '../../models';
 import { Op, ValidationError, UniqueConstraintError } from 'sequelize';
 import Crypt from '../../utils/crypt';
 import Mailer from '../../mailer/nodeMailerTemplates';
@@ -12,6 +12,8 @@ import { TokenExpiredError } from 'jsonwebtoken';
 import { UserDBController } from '../../dbControllers/usersController';
 import { ApiResponse } from '../../models/apiResponse';
 import { parseCookies } from '../../utils/parseCookies';
+import { UserState } from '../../constants';
+import { Config } from '../../config';
 
 @Controller('auth/')
 export class AuthController {
@@ -29,7 +31,7 @@ export class AuthController {
   }
 
   @Post('register')
-  register(req: Request, res: Response<ApiResponse | ValidationError | UniqueConstraintError>) {
+  async register(req: Request, res: Response<ApiResponse | ValidationError | UniqueConstraintError>) {
     Logger.Info(`Registering new user...`);
     const password = req.body.password ? req.body.password : Crypt.genRandomString(12);
     const passwordData = Crypt.saltHashPassword(password);
@@ -42,115 +44,69 @@ export class AuthController {
       ]
     };
 
-    const Organization = {
+    const Org = {
       ...OrgDefaults,
       ...req.body.Organization,
       ...(!req.body.Organization.title && { title: `PRIVATE_ORG_FOR_${req.body.name}_${req.body.surname}` })
     };
 
-    User.create(
-      {
-        email: req.body.email,
-        login: req.body.login,
-        passwordHash: passwordData.passwordHash,
-        salt: passwordData.salt,
-        name: req.body.name,
-        surname: req.body.surname,
-        // defaultLang: req.body.defaultLang,
-        phone: req.body.phone,
-        Organization,
-        StateId: 1
-      },
-      {
-        include: [
-          {
-            association: User.associations.Organization,
-            include: [
-              {
-                association: Organization.associations.Roles
-              }
-            ]
-          }
-        ]
-      }
-    )
-      .then((user) => {
-        // TODO: maybe change this, manually add privileges by root user.
-        const adminR = user.Organization.Roles[0];
+    // let transaction;
+    try {
+      // transaction = await sequelize.transaction();
 
-        Privilege.findAll()
-          .then((privileges) => {
-            adminR
-              .setPrivileges(privileges)
-              .then(() => {
-                adminR
-                  .getPrivileges()
-                  .then((rPrivileges) => {
-                    rPrivileges.forEach((privilege) => {
-                      privilege.RolePrivilege.add = true;
-                      privilege.RolePrivilege.delete = true;
-                      privilege.RolePrivilege.edit = true;
-                      privilege.RolePrivilege.view = true;
-                      privilege.RolePrivilege.save();
-                    });
-                    adminR
-                      .addUser(user)
-                      .then(() => {
-                        const token = Crypt.genTimeLimitedToken(24 * 60);
-                        user
-                          .createPasswordAttributes({
-                            token: token.value,
-                            tokenExpire: token.expireDate,
-                            passwordExpire: token.expireDate
-                          })
-                          .then(() => {
-                            Mailer.sendActivation(
-                              user,
-                              password,
-                              `${process.env.WEB_URL}/auth/activate-account/${token.value}`
-                            )
-                              .then(() => {
-                                return res.status(OK).json({
-                                  success: true,
-                                  message: 'Activation link has been sent'
-                                });
-                              })
-                              .catch((err: any) => {
-                                Logger.Err(err);
-                                return res.status(BAD_REQUEST).json(err);
-                              });
-                          });
-                      })
-                      .catch((err: any) => {
-                        Logger.Err(err);
-                        return res.status(BAD_REQUEST).json(err);
-                      });
-                  })
-                  .catch((err: any) => {
-                    Logger.Err(err);
-                    return res.status(BAD_REQUEST).json(err);
-                  });
-              })
-              .catch((err: any) => {
-                Logger.Err(err);
-                return res.status(BAD_REQUEST).json(err);
-              });
-          })
-          .catch((err: any) => {
-            Logger.Err(err);
-            return res.status(BAD_REQUEST).json(err);
-          });
-      })
-      .catch(ValidationError, UniqueConstraintError, (error) => {
-        Logger.Err(ValidationError);
-        Logger.Err(UniqueConstraintError);
-        Logger.Err(error);
-        return res.status(BAD_REQUEST).json(error);
-      })
-      .catch((err) => {
-        Logger.Err(err);
-        return res.status(BAD_REQUEST).json(err);
+      const organization = await Organization.create(Org, {
+        include: [{ association: Organization.associations.Roles }]
       });
+      if (organization) {
+        const user = await organization.createUser({
+          email: req.body.email,
+          login: req.body.login,
+          passwordHash: passwordData.passwordHash,
+          salt: passwordData.salt,
+          name: req.body.name,
+          surname: req.body.surname,
+          defaultLang: 'en',
+          phone: req.body.phone
+        });
+
+        const privileges = await Privilege.findAll();
+        const adminRole = organization.Roles[0];
+        await adminRole.setPrivileges(privileges);
+        await adminRole.getPrivileges().then((rPrivileges) => {
+          rPrivileges.forEach((privilege) => {
+            privilege.RolePrivilege.add = true;
+            privilege.RolePrivilege.delete = true;
+            privilege.RolePrivilege.edit = true;
+            privilege.RolePrivilege.view = true;
+            privilege.RolePrivilege.save();
+          });
+        });
+        await adminRole.addUser(user);
+
+        const token = Crypt.genTimeLimitedToken(24 * 60);
+        await user.createPasswordAttributes({
+          token: token.value,
+          tokenExpire: token.expireDate,
+          passwordExpire: token.expireDate
+        });
+
+        const activationSent = await Mailer.sendActivation(
+          user,
+          password,
+          `${Config.WEB_URL}/auth/activate-account/${token.value}`
+        );
+
+        if (activationSent) {
+          return res.status(StatusCodes.OK).json({
+            success: true,
+            message: 'Activation link has been sent'
+          });
+        }
+      }
+    } catch (error) {
+      Logger.Err(error);
+      return res.status(StatusCodes.BAD_REQUEST).json(error);
+    }
   }
 
   @Post('activate_account')
@@ -168,7 +124,7 @@ export class AuthController {
         if (pa) {
           pa.getUser()
             .then((user) => {
-              user.StateId = 2;
+              user.state = UserState.ACTIVE;
               user
                 .save()
                 .then((updatedUser) => {
@@ -183,38 +139,38 @@ export class AuthController {
                           .then(() => {
                             Mailer.sendActivationConfirmation(updatedUser)
                               .then(() => {
-                                return res.status(OK).json({
+                                return res.status(StatusCodes.OK).json({
                                   success: true,
                                   message: 'You account has been activated successfully!'
                                 });
                               })
                               .catch((err: any) => {
                                 Logger.Err(err);
-                                return res.status(BAD_REQUEST).json(err);
+                                return res.status(StatusCodes.BAD_REQUEST).json(err);
                               });
                           })
                           .catch((err: any) => {
                             Logger.Err(err);
-                            return res.status(BAD_REQUEST).json(err);
+                            return res.status(StatusCodes.BAD_REQUEST).json(err);
                           });
                       }
                     })
                     .catch((err: any) => {
                       Logger.Err(err);
-                      return res.status(BAD_REQUEST).json(err);
+                      return res.status(StatusCodes.BAD_REQUEST).json(err);
                     });
                 })
                 .catch((err: any) => {
                   Logger.Err(err);
-                  return res.status(BAD_REQUEST).json(err);
+                  return res.status(StatusCodes.BAD_REQUEST).json(err);
                 });
             })
             .catch((err: any) => {
               Logger.Err(err);
-              return res.status(BAD_REQUEST).json(err);
+              return res.status(StatusCodes.BAD_REQUEST).json(err);
             });
         } else {
-          return res.status(BAD_REQUEST).send({
+          return res.status(StatusCodes.BAD_REQUEST).send({
             success: false,
             message: 'Your activation token is invalid or has expired!'
           });
@@ -222,7 +178,7 @@ export class AuthController {
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json(err);
+        return res.status(StatusCodes.BAD_REQUEST).json(err);
       });
   }
 
@@ -242,32 +198,27 @@ export class AuthController {
           }
         ]
       },
-      attributes: ['id', 'passwordHash', 'salt'],
-      include: [
-        {
-          model: State
-        }
-      ]
+      attributes: ['id', 'passwordHash', 'salt', 'state']
     })
       .then((user) => {
         if (!user) {
-          return res.status(BAD_REQUEST).json({
+          return res.status(StatusCodes.BAD_REQUEST).json({
             success: false,
             message: 'Sorry, there are no user with this email or login!'
           });
         }
 
-        if (user.State.id === 1) {
+        if (user.state === UserState.INITIALIZED) {
           this.saveLogInAttempt(req, user, false).then(() => {
-            return res.status(BAD_REQUEST).json({
+            return res.status(StatusCodes.BAD_REQUEST).json({
               success: false,
               message:
                 'Sorry, Your account is not activated, please use activation link we sent You or contact administrator!'
             });
           });
-        } else if (user.State.id === 3) {
+        } else if (user.state === UserState.DISABLED || user.state === UserState.ARCHIVE) {
           this.saveLogInAttempt(req, user, false).then(() => {
-            return res.status(BAD_REQUEST).json({
+            return res.status(StatusCodes.BAD_REQUEST).json({
               success: false,
               message: 'Sorry, Your account have been disabled, please contact administrator!'
             });
@@ -289,11 +240,11 @@ export class AuthController {
             const expires = new Date();
             expires.setFullYear(expires.getFullYear() + 1);
             res.cookie('refresh_token', refreshToken, { httpOnly: true, expires });
-            return res.status(OK).json(`JWT ${accessToken}`);
+            return res.status(StatusCodes.OK).json(`JWT ${accessToken}`);
           });
         } else {
           this.saveLogInAttempt(req, user, false).then(() => {
-            return res.status(BAD_REQUEST).json({
+            return res.status(StatusCodes.BAD_REQUEST).json({
               success: false,
               message:
                 'Password that You provided is not correct, please make sure you have the right password or contact administrator!'
@@ -303,7 +254,7 @@ export class AuthController {
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json(err);
+        return res.status(StatusCodes.BAD_REQUEST).json(err);
       });
   }
 
@@ -315,13 +266,13 @@ export class AuthController {
       JwtHelper.getVerified({ type: 'refresh', token: cookies.refresh_token })
         .then(({ userId, sessionId }: JwtDecoded) => {
           const newToken = JwtHelper.generateToken({ type: 'access', payload: { userId, sessionId } });
-          return res.status(OK).json(`JWT ${newToken}`);
+          return res.status(StatusCodes.OK).json(`JWT ${newToken}`);
         })
         .catch((err: TokenExpiredError) => {
-          return res.status(FORBIDDEN).send(err);
+          return res.status(StatusCodes.FORBIDDEN).send(err);
         });
     } else {
-      return res.status(UNAUTHORIZED).send({
+      return res.status(StatusCodes.UNAUTHORIZED).send({
         success: false,
         message: 'No refresh token!'
       });
@@ -352,9 +303,9 @@ export class AuthController {
             .then((pa) => {
               const token = Crypt.genTimeLimitedToken(5);
               const sendPasswordResetMail = () => {
-                Mailer.sendPasswordReset(user, `${process.env.WEB_URL}/auth/password-reset/${token.value}`)
+                Mailer.sendPasswordReset(user, `${Config.WEB_URL}/auth/password-reset/${token.value}`)
                   .then(() => {
-                    return res.status(OK).json({
+                    return res.status(StatusCodes.OK).json({
                       success: true,
                       message:
                         'A message has been sent to your email address. Follow the instructions to reset your password.'
@@ -362,7 +313,7 @@ export class AuthController {
                   })
                   .catch((err: any) => {
                     Logger.Err(err);
-                    return res.status(BAD_REQUEST).json(err);
+                    return res.status(StatusCodes.BAD_REQUEST).json(err);
                   });
               };
 
@@ -375,7 +326,7 @@ export class AuthController {
                   })
                   .catch((err: any) => {
                     Logger.Err(err);
-                    return res.status(BAD_REQUEST).json(err);
+                    return res.status(StatusCodes.BAD_REQUEST).json(err);
                   });
               } else {
                 user
@@ -390,10 +341,10 @@ export class AuthController {
             })
             .catch((err: any) => {
               Logger.Err(err);
-              return res.status(BAD_REQUEST).json(err);
+              return res.status(StatusCodes.BAD_REQUEST).json(err);
             });
         } else {
-          res.status(BAD_REQUEST).json({
+          res.status(StatusCodes.BAD_REQUEST).json({
             success: false,
             message: 'The following user does not exist! Please, provide correct email or login!'
           });
@@ -401,7 +352,7 @@ export class AuthController {
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json(err);
+        return res.status(StatusCodes.BAD_REQUEST).json(err);
       });
   }
 
@@ -438,41 +389,41 @@ export class AuthController {
                             .then(() => {
                               Mailer.sendPasswordResetConfirmation(updatedUser)
                                 .then(() => {
-                                  return res.status(OK).json({
+                                  return res.status(StatusCodes.OK).json({
                                     success: true,
                                     message: 'You have successfully changed your password.'
                                   });
                                 })
                                 .catch((err: any) => {
                                   Logger.Err(err);
-                                  return res.status(BAD_REQUEST).json(err);
+                                  return res.status(StatusCodes.BAD_REQUEST).json(err);
                                 });
                             })
                             .catch((err: any) => {
                               Logger.Err(err);
-                              return res.status(BAD_REQUEST).json(err);
+                              return res.status(StatusCodes.BAD_REQUEST).json(err);
                             });
                         }
                       })
                       .catch((err: any) => {
                         Logger.Err(err);
-                        return res.status(BAD_REQUEST).json(err);
+                        return res.status(StatusCodes.BAD_REQUEST).json(err);
                       });
                   })
                   .catch((err: any) => {
                     Logger.Err(err);
-                    return res.status(BAD_REQUEST).json(err);
+                    return res.status(StatusCodes.BAD_REQUEST).json(err);
                   });
               })
               .catch((err: any) => {
                 Logger.Err(err);
-                return res.status(BAD_REQUEST).json(err);
+                return res.status(StatusCodes.BAD_REQUEST).json(err);
               });
           } else {
-            res.status(BAD_REQUEST).json({ success: false, message: 'Passwords do not match' });
+            res.status(StatusCodes.BAD_REQUEST).json({ success: false, message: 'Passwords do not match' });
           }
         } else {
-          res.status(BAD_REQUEST).json({
+          res.status(StatusCodes.BAD_REQUEST).json({
             success: false,
             message: 'Your password reset token is invalid or has expired!'
           });
@@ -480,7 +431,7 @@ export class AuthController {
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json(err);
+        return res.status(StatusCodes.BAD_REQUEST).json(err);
       });
   }
 
@@ -496,11 +447,11 @@ export class AuthController {
         const expires = new Date(1970);
         res.cookie('refresh_token', null, { httpOnly: true, expires });
         req.logout();
-        res.status(OK).json({ success: true, message: 'logged out' });
+        res.status(StatusCodes.OK).json({ success: true, message: 'logged out' });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json(err);
+        return res.status(StatusCodes.BAD_REQUEST).json(err);
       });
   }
 }

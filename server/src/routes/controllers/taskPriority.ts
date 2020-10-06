@@ -1,4 +1,4 @@
-import { OK, INTERNAL_SERVER_ERROR } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import { Controller, Middleware, Get } from '@overnightjs/core';
 import { Response } from 'express';
 import { Logger } from '@overnightjs/logger';
@@ -17,11 +17,11 @@ export class TaskPriorityController {
     this.taskDbCtrl
       .getPrioriities()
       .then((priorities) => {
-        return res.status(OK).json({ success: true, data: priorities, resultsNum: priorities.length });
+        return res.status(StatusCodes.OK).json({ success: true, data: priorities, resultsNum: priorities.length });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(INTERNAL_SERVER_ERROR).json(err);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
       });
   }
 }

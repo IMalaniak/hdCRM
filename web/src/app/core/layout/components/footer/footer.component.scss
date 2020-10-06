@@ -3,7 +3,7 @@
 @import '~bootstrap/scss/mixins/breakpoints';
 
 footer {
-  @include crm-bgcolor('layout', 'dark');
+  @include set-bgcolor('dark');
   width: 100%;
 
   .footer-content {
@@ -16,7 +16,7 @@ footer {
     }
 
     h5 {
-      @include crm-textcolor('layout', 'milk');
+      @include set-textcolor('light');
       text-transform: uppercase;
     }
 
@@ -42,30 +42,30 @@ footer {
       }
 
       .mat-form-field-label {
-        @include crm-textcolor('layout', 'milk');
+        @include set-textcolor('light');
       }
 
       .mat-form-field-appearance-outline .mat-form-field-outline {
-        @include crm-textcolor('layout', 'milk');
+        @include set-textcolor('light');
       }
 
       .mat-form-field-appearance-outline .mat-form-field-outline-thick {
-        @include crm-textcolor('theme', 'primary');
+        @include set-textcolor('primary');
       }
 
       .mat-input-element {
-        @include crm-textcolor('layout', 'milk');
+        @include set-textcolor('light');
       }
 
       .mat-focused .mat-form-field-required-marker {
-        @include crm-textcolor('theme', 'primary');
+        @include set-textcolor('primary');
       }
 
       input:-webkit-autofill,
       input:-webkit-autofill:hover,
       input:-webkit-autofill:focus,
       input:-webkit-autofill:active {
-        -webkit-text-fill-color: crmcolor('layout', 'milk', true) !important;
+        -webkit-text-fill-color: app-color('theme', 'light', true) !important;
       }
 
       button {
@@ -105,7 +105,7 @@ footer {
         }
 
         fa-icon {
-          @include crm-textcolor('layout', 'milk');
+          @include set-textcolor('light');
           transition: color $transition;
           cursor: pointer;
         }
@@ -126,13 +126,13 @@ footer {
 
     .horizontal-line {
       margin: 3em 0 0.5em 0;
-      @include crm-bgcolor('layout', 'milk');
+      @include set-bgcolor('light');
       width: 100%;
       height: 1px;
     }
 
     .copyright-text {
-      @include crm-textcolor('layout', 'milk');
+      @include set-textcolor('light');
     }
   }
 }

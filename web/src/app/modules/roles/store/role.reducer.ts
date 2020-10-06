@@ -13,7 +13,7 @@ export interface RolesState extends EntityState<Role> {
 
 const adapter: EntityAdapter<Role> = createEntityAdapter<Role>({});
 
-const initialState: RolesState = adapter.getInitialState({
+export const initialRolesState: RolesState = adapter.getInitialState({
   loading: false,
   pages: null,
   countAll: null,
@@ -22,7 +22,7 @@ const initialState: RolesState = adapter.getInitialState({
 });
 
 const rolesReducer = createReducer(
-  initialState,
+  initialRolesState,
   on(roleActions.changeIsEditingState, (state, { isEditing }) => ({
     ...state,
     editing: isEditing

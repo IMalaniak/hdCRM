@@ -2,6 +2,7 @@
 import { Strategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
 import passport from 'passport';
 import { UserDBController } from '../dbControllers/usersController';
+import { Config } from './config';
 
 export class Passport {
   private userDbCtrl: UserDBController = new UserDBController();
@@ -10,7 +11,7 @@ export class Passport {
     jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),
     secretOrKey: process.env.ACCESS_TOKEN_SECRET,
     // issuer: 'auth@mywebmaster.pp.ua',
-    audience: process.env.WEB_URL
+    audience: Config.WEB_URL
   };
 
   public authenticate() {

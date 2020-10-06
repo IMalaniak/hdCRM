@@ -1,0 +1,39 @@
+@import 'theme-variables.scss';
+
+$colors: map-remove($colors, 'indigo', 'purple', 'pink', 'orange', 'teal', 'cyan');
+$theme-colors: map-remove($theme-colors, 'secondary', 'success', 'info', 'danger');
+$theme-colors: map-merge(
+  (
+    'accent': $success,
+    'warn': $danger
+  ),
+  $theme-colors
+);
+
+$theme-colors-dark: (
+  'primary': $primary-dark,
+  'accent': $accent-dark,
+  'warn': $warn-dark
+);
+
+.dark-theme {
+  @each $color, $value in $theme-colors-dark {
+    @include bg-variant('.bg-#{$color}', $value, true);
+  }
+
+  @if $enable-gradients {
+    @each $color, $value in $theme-colors-dark {
+      @include bg-gradient-variant('.bg-gradient-#{$color}', $value, true);
+    }
+  }
+
+  @each $color, $value in $theme-colors-dark {
+    .border-#{$color} {
+      border-color: $value !important;
+    }
+  }
+
+  @each $color, $value in $theme-colors-dark {
+    @include text-emphasis-variant('.text-#{$color}', $value, true);
+  }
+}

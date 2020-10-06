@@ -14,12 +14,12 @@ const adapter: EntityAdapter<DynamicForm> = createEntityAdapter<DynamicForm>({
   selectId: selectFormId
 });
 
-const initialState: DynamicFormState = adapter.getInitialState({
+export const initialFormsState: DynamicFormState = adapter.getInitialState({
   isLoading: false
 });
 
 const dynamicFormReducer = createReducer(
-  initialState,
+  initialFormsState,
   on(dynamicFormActions.formRequested, (state) => ({ ...state, isLoading: true })),
   on(dynamicFormActions.formLoaded, (state, { form }) =>
     adapter.addOne(form, {

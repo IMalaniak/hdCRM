@@ -16,7 +16,7 @@ function sortByIdAndActiveState(u1: User, u2: User) {
   if (compare !== 0) {
     return compare;
   } else {
-    return u1.StateId - u2.StateId;
+    return +u1.state - +u2.state;
   }
 }
 
@@ -24,7 +24,7 @@ const adapter: EntityAdapter<User> = createEntityAdapter<User>({
   sortComparer: sortByIdAndActiveState
 });
 
-const initialState: UsersState = adapter.getInitialState({
+export const initialUsersState: UsersState = adapter.getInitialState({
   allUsersLoaded: false,
   loading: false,
   editing: false,
@@ -33,7 +33,7 @@ const initialState: UsersState = adapter.getInitialState({
 });
 
 const usersReducer = createReducer(
-  initialState,
+  initialUsersState,
   on(UserActions.changeIsEditingState, (state, { isEditing }) => ({
     ...state,
     editing: isEditing

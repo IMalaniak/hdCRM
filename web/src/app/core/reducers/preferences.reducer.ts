@@ -22,7 +22,7 @@ export interface PreferencesState extends Preferences {
   list: PreferencesList;
 }
 
-const initialState: PreferencesState = {
+export const initialPreferencesState: PreferencesState = {
   dateFormat: IDateFormat.MEDIUM_DATE,
   timeFormat: ITimeFormat.MEDIUM_TIME,
   itemsPerPage: IItemsPerPage.FIVE,
@@ -32,7 +32,7 @@ const initialState: PreferencesState = {
 };
 
 const preferencesReducer = createReducer(
-  initialState,
+  initialPreferencesState,
   on(PreferencesActions.changeDateFormat, (state, { dateFormat }) => ({ ...state, dateFormat })),
   on(PreferencesActions.changeTimeFormat, (state, { timeFormat }) => ({ ...state, timeFormat })),
   on(PreferencesActions.changeItemsPerPage, (state, { itemsPerPage }) => ({ ...state, itemsPerPage })),

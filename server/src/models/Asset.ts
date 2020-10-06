@@ -58,8 +58,8 @@ export class Asset extends Model {
   };
 }
 
-export const AssetFactory = (sequelize: Sequelize): void => {
-  const asset = Asset.init(
+export const AssetFactory = (sequelize: Sequelize): Model => {
+  return Asset.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -84,6 +84,4 @@ export const AssetFactory = (sequelize: Sequelize): void => {
       sequelize
     }
   );
-
-  return asset;
 };

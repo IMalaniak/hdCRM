@@ -52,7 +52,7 @@ export class RightSidebarComponent implements OnInit {
   }
 
   themeTipMessage(): string {
-    return this.enableDarkTheme ? CONSTANTS.TEXTS_THEME_DARK : CONSTANTS.TEXTS_THEME_LIGHT;
+    return this.enableDarkTheme ? CONSTANTS.TEXTS_THEME_LIGHT : CONSTANTS.TEXTS_THEME_DARK;
   }
 
   sidebarTipMessage(): string {

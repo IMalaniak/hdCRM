@@ -1,4 +1,4 @@
-import { OK, INTERNAL_SERVER_ERROR, FORBIDDEN, BAD_REQUEST } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
@@ -18,6 +18,7 @@ import { parseCookies } from '../../utils/parseCookies';
 import JwtHelper from '../../helpers/jwtHelper';
 import { JwtDecoded } from '../../models/JWTPayload';
 import { TokenExpiredError } from 'jsonwebtoken';
+import { Config } from '../../config';
 
 @Controller('users/')
 export class UserController {
@@ -28,7 +29,7 @@ export class UserController {
   @Middleware([Passport.authenticate()])
   getProfile(req: Request, res: Response<User>) {
     Logger.Info(`Geting user profile...`);
-    return res.status(OK).json(req.user);
+    return res.status(StatusCodes.OK).json(req.user);
   }
 
   @Get(':id')
@@ -37,11 +38,11 @@ export class UserController {
     this.userDbCtrl
       .getById(req.params.id)
       .then((user: User) => {
-        return res.status(OK).json({ success: true, data: user });
+        return res.status(StatusCodes.OK).json({ success: true, data: user });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(INTERNAL_SERVER_ERROR).json(err);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
       });
   }
 
@@ -54,11 +55,11 @@ export class UserController {
       .getAll(req.user, queryParams)
       .then((data) => {
         const pages = Math.ceil(data.count / limit);
-        return res.status(OK).json({ success: true, data: data.rows, resultsNum: data.count, pages });
+        return res.status(StatusCodes.OK).json({ success: true, data: data.rows, resultsNum: data.count, pages });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(INTERNAL_SERVER_ERROR).json(err);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
       });
   }
 
@@ -68,11 +69,13 @@ export class UserController {
     this.userDbCtrl
       .create(req.body)
       .then((user: User) => {
-        return res.status(OK).json({ success: true, message: 'User is created successfully!', data: user });
+        return res.status(StatusCodes.OK).json({ success: true, message: 'User is created successfully!', data: user });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json({ success: false, message: 'There are some missing params!', data: null });
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ success: false, message: 'There are some missing params!', data: null });
       });
   }
 
@@ -86,17 +89,19 @@ export class UserController {
           this.userDbCtrl
             .getById(req.body.id)
             .then((user: User) => {
-              return res.status(OK).json({ success: true, message: 'User is updated successfully!', data: user });
+              return res
+                .status(StatusCodes.OK)
+                .json({ success: true, message: 'User is updated successfully!', data: user });
             })
             .catch((error: any) => {
               Logger.Err(error);
-              return res.status(INTERNAL_SERVER_ERROR).json(error);
+              return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
             });
         }
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
@@ -112,18 +117,18 @@ export class UserController {
             .getById(req.body.id)
             .then((user: User) => {
               return res
-                .status(OK)
+                .status(StatusCodes.OK)
                 .json({ success: true, message: 'Your profile is updated successfully!', data: user });
             })
             .catch((error: any) => {
               Logger.Err(error);
-              return res.status(INTERNAL_SERVER_ERROR).json(error);
+              return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
             });
         }
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
@@ -141,14 +146,14 @@ export class UserController {
           const sendPasswordResetConfirmation = () => {
             Mailer.sendPasswordResetConfirmation(user)
               .then(() => {
-                return res.status(OK).json({
+                return res.status(StatusCodes.OK).json({
                   success: true,
                   message: 'You have successfully changed your password.'
                 });
               })
               .catch((err: any) => {
                 Logger.Err(err);
-                return res.status(INTERNAL_SERVER_ERROR).json(err);
+                return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
               });
           };
 
@@ -173,11 +178,11 @@ export class UserController {
                           })
                           .catch((err: any) => {
                             Logger.Err(err);
-                            return res.status(INTERNAL_SERVER_ERROR).json(err);
+                            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
                           });
                       })
                       .catch((err: TokenExpiredError) => {
-                        return res.status(FORBIDDEN).send(err);
+                        return res.status(StatusCodes.FORBIDDEN).send(err);
                       });
                   }
                 } else {
@@ -186,20 +191,20 @@ export class UserController {
               })
               .catch((err: any) => {
                 Logger.Err(err);
-                return res.status(INTERNAL_SERVER_ERROR).json(err);
+                return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
               });
           } else {
             return res
-              .status(BAD_REQUEST)
+              .status(StatusCodes.BAD_REQUEST)
               .json({ success: false, message: 'Current password you provided is not correct!' });
           }
         })
         .catch((err: any) => {
           Logger.Err(err);
-          return res.status(INTERNAL_SERVER_ERROR).json(err);
+          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
         });
     } else {
-      res.status(BAD_REQUEST).json({ success: false, message: 'New passwords do not match!' });
+      res.status(StatusCodes.BAD_REQUEST).json({ success: false, message: 'New passwords do not match!' });
     }
   }
 
@@ -239,7 +244,7 @@ export class UserController {
                           user
                             .createAvatar(av)
                             .then((newAv) => {
-                              return res.status(OK).json({
+                              return res.status(StatusCodes.OK).json({
                                 success: true,
                                 message: 'User profile picture is updated successfully!',
                                 data: newAv
@@ -247,22 +252,22 @@ export class UserController {
                             })
                             .catch((error: any) => {
                               Logger.Err(error);
-                              return res.status(INTERNAL_SERVER_ERROR).json(error);
+                              return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
                             });
                         })
                         .catch((error: any) => {
                           Logger.Err(error);
-                          return res.status(INTERNAL_SERVER_ERROR).json(error);
+                          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
                         });
                     })
                     .catch((error: any) => {
                       Logger.Err(error);
-                      return res.status(INTERNAL_SERVER_ERROR).json(error);
+                      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
                     });
                 })
                 .catch((error: any) => {
                   Logger.Err(error);
-                  return res.status(INTERNAL_SERVER_ERROR).json(error);
+                  return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
                 });
             } else {
               const av = {
@@ -274,23 +279,23 @@ export class UserController {
                 .createAvatar(av)
                 .then((newAv) => {
                   return res
-                    .status(OK)
+                    .status(StatusCodes.OK)
                     .json({ success: true, message: 'User profile picture is added successfully!', data: newAv });
                 })
                 .catch((error: any) => {
                   Logger.Err(error);
-                  return res.status(INTERNAL_SERVER_ERROR).json(error);
+                  return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
                 });
             }
           })
           .catch((error: any) => {
             Logger.Err(error);
-            return res.status(INTERNAL_SERVER_ERROR).json(error);
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
           });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
@@ -314,32 +319,34 @@ export class UserController {
                     .then(() => {
                       this.unlinkAsync(thumbDestination)
                         .then(() => {
-                          return res.status(OK).json({ success: true, message: 'Profile picture is deleted' });
+                          return res
+                            .status(StatusCodes.OK)
+                            .json({ success: true, message: 'Profile picture is deleted' });
                         })
                         .catch((error: any) => {
                           Logger.Err(error);
-                          return res.status(INTERNAL_SERVER_ERROR).json(error);
+                          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
                         });
                     })
                     .catch((error: any) => {
                       Logger.Err(error);
-                      return res.status(INTERNAL_SERVER_ERROR).json(error);
+                      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
                     });
                 })
                 .catch((error: any) => {
                   Logger.Err(error);
-                  return res.status(INTERNAL_SERVER_ERROR).json(error);
+                  return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
                 });
             }
           })
           .catch((error: any) => {
             Logger.Err(error);
-            return res.status(INTERNAL_SERVER_ERROR).json(error);
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
           });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
@@ -353,17 +360,19 @@ export class UserController {
           this.userDbCtrl
             .getById(req.body.id)
             .then((user) => {
-              return res.status(OK).json({ success: true, message: 'User state is updated successfully!', data: user });
+              return res
+                .status(StatusCodes.OK)
+                .json({ success: true, message: 'User state is updated successfully!', data: user });
             })
             .catch((error: any) => {
               Logger.Err(error);
-              return res.status(INTERNAL_SERVER_ERROR).json(error);
+              return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
             });
         }
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
@@ -379,11 +388,11 @@ export class UserController {
 
     return Promise.all(promises)
       .then(() => {
-        return res.status(OK).json({ success: true, message: 'Changed state of selected users!' });
+        return res.status(StatusCodes.OK).json({ success: true, message: 'Changed state of selected users!' });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
@@ -393,11 +402,11 @@ export class UserController {
     this.userDbCtrl
       .deleteOne(req.params.id)
       .then((result) => {
-        return res.status(OK).json({ success: true, message: `Deleted ${result} user` });
+        return res.status(StatusCodes.OK).json({ success: true, message: `Deleted ${result} user` });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
@@ -415,7 +424,6 @@ export class UserController {
           user.passwordHash = passwordData.passwordHash;
           user.salt = passwordData.salt;
           user.OrganizationId = req.user.OrganizationId;
-          user.StateId = 1;
           user.login = user.fullname.replace(' ', '_');
           this.userDbCtrl
             .create(user)
@@ -427,7 +435,7 @@ export class UserController {
                 passwordExpire: token.expireDate
               })
                 .then(() => {
-                  Mailer.sendInvitation(u, password, `${process.env.WEB_URL}/auth/activate-account/${token.value}`)
+                  Mailer.sendInvitation(u, password, `${Config.WEB_URL}/auth/activate-account/${token.value}`)
                     .then(() => {
                       resolve(u);
                     })
@@ -449,12 +457,14 @@ export class UserController {
     Promise.all(promises)
       .then((invitedUsers: User[]) => {
         return res
-          .status(OK)
+          .status(StatusCodes.OK)
           .json({ success: true, message: 'Invitation have been sent successfully!', data: invitedUsers });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(BAD_REQUEST).json({ success: false, message: 'There are some missing params!', data: null });
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ success: false, message: 'There are some missing params!', data: null });
       });
   }
 
@@ -464,11 +474,11 @@ export class UserController {
     this.userDbCtrl
       .removeSession(req.params.id)
       .then(() => {
-        return res.status(OK).json({ success: true, message: 'Session has been removed!' });
+        return res.status(StatusCodes.OK).json({ success: true, message: 'Session has been removed!' });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
@@ -478,11 +488,11 @@ export class UserController {
     this.userDbCtrl
       .removeSession(req.body.sessionIds)
       .then((num) => {
-        return res.status(OK).json({ success: true, message: `${num} sessions have been removed!` });
+        return res.status(StatusCodes.OK).json({ success: true, message: `${num} sessions have been removed!` });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
@@ -495,16 +505,18 @@ export class UserController {
         req.user
           .getOrganization()
           .then((org) => {
-            return res.status(OK).json({ success: true, message: 'Organization is updated successfully!', data: org });
+            return res
+              .status(StatusCodes.OK)
+              .json({ success: true, message: 'Organization is updated successfully!', data: org });
           })
           .catch((error: any) => {
             Logger.Err(error);
-            return res.status(INTERNAL_SERVER_ERROR).json(error);
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
           });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 }

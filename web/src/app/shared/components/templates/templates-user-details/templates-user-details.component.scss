@@ -23,11 +23,6 @@
       width: 80%;
     }
 
-    ul {
-      margin: 0;
-      padding: 0;
-    }
-
     h4,
     h5,
     h6 {
@@ -35,14 +30,14 @@
     }
 
     .details {
-      padding-left: 0.25 * crmsize(spacer, null, true);
+      padding-left: app-size(spacer, xs, true);
     }
 
     .caption {
       display: flex;
       flex-direction: row;
       align-items: center;
-      margin-bottom: 0.25 * crmsize(spacer, null, true);
+      margin-bottom: app-size(spacer, xs, true);
     }
 
     .icon {
@@ -58,7 +53,7 @@
         width: 1.1em;
         height: 1.1em;
         border: 1px solid $blue;
-        @include crm-textcolor('theme', 'primary');
+        @include set-textcolor('primary');
       }
 
       &-mini {
@@ -72,19 +67,8 @@
       }
     }
 
-    .role {
-      &-titles {
-        display: inline-block;
-        margin: 0 0.3em;
-
-        &:first-child {
-          margin: 0 0.3em 0 0;
-        }
-      }
-    }
-
     > div {
-      padding: crmsize(spacer, null, true) 0;
+      padding: app-size(spacer, default, true) 0;
     }
   }
 }

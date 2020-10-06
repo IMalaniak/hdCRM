@@ -100,8 +100,8 @@ export class Plan extends Model {
   };
 }
 
-export const PlanFactory = (sequelize: Sequelize): void => {
-  const plan = Plan.init(
+export const PlanFactory = (sequelize: Sequelize): Model => {
+  return Plan.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -110,7 +110,10 @@ export const PlanFactory = (sequelize: Sequelize): void => {
       },
       title: {
         type: new DataTypes.STRING(255),
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       },
       description: {
         type: DataTypes.TEXT
@@ -130,6 +133,4 @@ export const PlanFactory = (sequelize: Sequelize): void => {
       sequelize
     }
   );
-
-  return plan;
 };

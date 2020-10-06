@@ -1,4 +1,4 @@
-import { OK, BAD_REQUEST, INTERNAL_SERVER_ERROR } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import { Controller, Middleware, Get, Post } from '@overnightjs/core';
 import { Response } from 'express';
 import { Logger } from '@overnightjs/logger';
@@ -23,9 +23,9 @@ export class PreferenceController {
           };
         }, {});
 
-      res.status(OK).json(preferencesList);
+      res.status(StatusCodes.OK).json(preferencesList);
     } catch (error) {
-      res.status(INTERNAL_SERVER_ERROR).json(error);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
     }
   }
 
@@ -39,9 +39,11 @@ export class PreferenceController {
       const response = userPreference
         ? await userPreference.update(req.body)
         : await req.user.createPreference(req.body);
-      res.status(OK).json(response);
+      res.status(StatusCodes.OK).json(response);
     } catch (error) {
-      res.status(BAD_REQUEST).json({ success: false, message: 'Sorry, there was some problem setting preferences' });
+      res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ success: false, message: 'Sorry, there was some problem setting preferences' });
     }
   }
 }

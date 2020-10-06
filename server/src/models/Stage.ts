@@ -63,8 +63,8 @@ export class Stage extends Model {
   };
 }
 
-export const StageFactory = (sequelize: Sequelize): void => {
-  const stage = Stage.init(
+export const StageFactory = (sequelize: Sequelize): Model => {
+  return Stage.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -73,7 +73,11 @@ export const StageFactory = (sequelize: Sequelize): void => {
       },
       keyString: {
         type: new DataTypes.STRING(50),
-        allowNull: false
+        allowNull: false,
+        unique: true,
+        validate: {
+          notEmpty: true
+        }
       }
     },
     {
@@ -82,6 +86,4 @@ export const StageFactory = (sequelize: Sequelize): void => {
       sequelize
     }
   );
-
-  return stage;
 };

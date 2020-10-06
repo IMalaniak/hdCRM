@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { SharedModule } from '../shared.module';
 
 import { ToastMessageService } from './toast-message.service';
 
@@ -6,7 +7,9 @@ describe('ToastMessageService', () => {
   let service: ToastMessageService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [SharedModule]
+    });
     service = TestBed.inject(ToastMessageService);
   });
 

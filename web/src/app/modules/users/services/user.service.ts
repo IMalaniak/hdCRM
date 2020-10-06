@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User, State } from '../models';
+import { User } from '../models';
 import { take } from 'rxjs/operators';
-import { Role } from '@/modules/roles/models';
 import { SocketService } from '@/shared/services';
 import { NewPassword, ApiResponse, CollectionApiResponse, ItemApiResponse } from '@/shared/models';
 import { SocketEvent, APIS } from '@/shared/constants';
+import { Role } from '@/modules/roles';
 
 @Injectable()
 export class UserService {
@@ -56,39 +56,30 @@ export class UserService {
   }
 
   // TODO @IMalaniak recreate this
-  changeStateOfSelected(users: User[], state: State): Observable<User[]> {
-    let userIds: number[] = [];
-    for (const user of users) {
-      userIds = [...userIds, user.id];
-    }
-    const data = {
-      userIds: userIds,
-      stateId: state.id
-    };
-    return this.http.put<User[]>(APIS.USERS_CHANGE_STATE_OF_SELECTED, data);
-  }
+  // changeStateOfSelected(users: User[], state: UserStates): Observable<User[]> {
+  //   let userIds: number[] = [];
+  //   for (const user of users) {
+  //     userIds = [...userIds, user.id];
+  //   }
+  //   const data = {
+  //     userIds: userIds,
+  //     stateId: state.id
+  //   };
+  //   return this.http.put<User[]>(APIS.USERS_CHANGE_STATE_OF_SELECTED, data);
+  // }
 
   changeOldPassword(data: NewPassword): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(APIS.USERS_CHANGE_PASSWORD, data, { withCredentials: true });
   }
 
   formatBeforeSend(user: User): User {
-    let formated = { ...user };
-    if (formated.State) {
-      const state = {
-        id: user.State.id
-      } as State;
-      formated = Object.assign({}, formated, { State: state });
+    let formatted = { ...user };
+    if (formatted.Role) {
+      const role = {
+        id: user.RoleId
+      } as Role;
+      formatted = Object.assign({}, formatted, { Role: role });
     }
-    if (formated.Roles && formated.Roles.length) {
-      formated = Object.assign({}, formated, {
-        Roles: formated.Roles.map((role) => {
-          return <Role>{
-            id: role.id
-          };
-        })
-      });
-    }
-    return formated;
+    return formatted;
   }
 }

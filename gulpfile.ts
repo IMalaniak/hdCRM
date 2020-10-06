@@ -40,9 +40,9 @@ artifactModules.forEach((it) => {
     fct: series(`${it}:lint`),
     desc: `Lints ${it}`
   });
-});
 
-generateTestTask('server', 'unit');
+  generateTestTask(it, 'unit');
+});
 
 // tslint:disable:no-var-requires
 require('./gulpfile.web');
@@ -53,10 +53,10 @@ require('./gulpfile.server');
  * "All" Tasks
  */
 
-// task({
-//   name: 'testAll',
-//   fct: series('web:test', 'server:test')
-// });
+task({
+  name: 'testAll',
+  fct: series('server:exec-unit-test', 'web:exec-unit-test')
+});
 
 task({
   name: 'lintAll',
@@ -83,6 +83,16 @@ task({
 // });
 
 task({
+  name: 'compileAll',
+  fct: parallel(artifactModules.map((it) => `${it}:compile`))
+});
+
+task({
   name: 'buildAll',
   fct: parallel(artifactModules.map((it) => `${it}:build`))
+});
+
+task({
+  name: 'buildAllProd',
+  fct: parallel(artifactModules.map((it) => `${it}:buildProd`))
 });

@@ -5,7 +5,6 @@ import {
   Privilege,
   Preference,
   PasswordAttribute,
-  State,
   Asset,
   Department,
   Organization
@@ -19,9 +18,6 @@ export class UserDBController {
   public includes: IncludeOptions[] = [
     {
       model: Role,
-      through: {
-        attributes: []
-      },
       required: false,
       include: [
         {
@@ -45,9 +41,6 @@ export class UserDBController {
       as: 'PasswordAttributes',
       attributes: ['updatedAt', 'passwordExpire'],
       required: false
-    },
-    {
-      model: State
     },
     {
       model: Asset
@@ -126,7 +119,7 @@ export class UserDBController {
         email: user.email,
         phone: user.phone,
         defaultLang: user.defaultLang,
-        StateId: user.StateId
+        state: user.state
       },
       {
         where: { id: user.id }
@@ -138,7 +131,7 @@ export class UserDBController {
     Logger.Info(`Updating user state by id: ${user.id}...`);
     return User.update(
       {
-        StateId: user.StateId
+        state: user.state
       },
       {
         where: { id: user.id }

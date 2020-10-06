@@ -23,7 +23,7 @@ const adapter: EntityAdapter<Plan> = createEntityAdapter<Plan>({
   sortComparer: sortByIdAndActiveStage
 });
 
-const initialState: PlansState = adapter.getInitialState({
+export const initialPlansState: PlansState = adapter.getInitialState({
   loading: false,
   pages: null,
   countAll: null,
@@ -31,7 +31,7 @@ const initialState: PlansState = adapter.getInitialState({
 });
 
 const plansReducer = createReducer(
-  initialState,
+  initialPlansState,
   on(planActions.changeIsEditingState, (state, { isEditing }) => ({
     ...state,
     editing: isEditing

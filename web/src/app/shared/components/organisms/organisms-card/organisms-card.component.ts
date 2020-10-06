@@ -13,7 +13,7 @@ import { Component, Input, ContentChild, ElementRef, ChangeDetectionStrategy } f
           matBadgeHidden="{{ hideCounter }}"
           >{{ cardTitle }}</span
         >
-        <div class="ml-auto">
+        <div class="card-actions">
           <ng-content select="[buttons]"></ng-content>
         </div>
       </div>
@@ -39,7 +39,6 @@ export class OrganismsCardComponent {
   @Input() headClass: string;
   @Input() disableShadow = false;
   @Input() counter: number;
-  @Input() alignButtons = 'end';
 
   @ContentChild('content') content: ElementRef;
   @ContentChild('subheader') subheader: ElementRef;

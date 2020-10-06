@@ -23,8 +23,8 @@ export class UserSession extends Model {
   };
 }
 
-export const UserSessionFactory = (sequelize: Sequelize): void => {
-  const userSession = UserSession.init(
+export const UserSessionFactory = (sequelize: Sequelize): Model => {
+  return UserSession.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -44,6 +44,4 @@ export const UserSessionFactory = (sequelize: Sequelize): void => {
       sequelize
     }
   );
-
-  return userSession;
 };

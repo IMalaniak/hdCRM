@@ -1,7 +1,7 @@
 <organisms-card [cardTitle]="department.title + ' department'" *ngIf="department">
   <div content class="row">
     <div class="col-md-6">
-      <organisms-card cardTitle="Details" cardClass="border border-secondary mt-0 mb-0" [disableShadow]="true">
+      <organisms-card cardTitle="Details" cardClass="border border-dark mt-0 mb-0" [disableShadow]="true">
         <form content class="d-flex flex-column px-3 pt-3" *ngIf="editForm$ | async">
           <mat-form-field appearance="outline">
             <mat-label i18n="@@departmentComponentDetailsTitle">Title</mat-label>
@@ -76,15 +76,10 @@
     <div class="col-md-6">
       <div class="row">
         <div class="col-sm-6 col-md-12 col-lg-6">
-          <organisms-card
-            cardTitle="Parent department"
-            cardClass="border border-secondary mt-3 mb-0"
-            [disableShadow]="true"
-          >
-            <button buttons mat-stroked-button color="primary" class="crm-button" *ngIf="editForm$ | async">
-              <fa-icon [icon]="['fas', 'plus']"></fa-icon
-              ><span i18n="@@departmentComponentActionsAddParentDepartment">Add parent department</span>
-            </button>
+          <organisms-card cardTitle="Parent department" cardClass="border border-dark mt-3 mb-0" [disableShadow]="true">
+            <atoms-icon-button buttons [matType]="matButtonTypes.STROKED" [icon]="['fas', 'plus']">
+              Add parent department
+            </atoms-icon-button>
             <!-- <mat-list content>
               <mat-list-item *ngFor="">
                 <h3 matLine>{{}}</h3>
@@ -96,14 +91,13 @@
         <div class="col-sm-6 col-md-12 col-lg-6">
           <organisms-card
             cardTitle="Sub departments"
-            cardClass="border border-secondary mt-3 mb-0"
+            cardClass="border border-dark mt-3 mb-0"
             [disableShadow]="true"
             [counter]="department.SubDepartments ? department.SubDepartments.length : 0"
           >
-            <button buttons mat-stroked-button color="primary" class="crm-button" *ngIf="editForm$ | async">
-              <fa-icon [icon]="['fas', 'plus']"></fa-icon
-              ><span i18n="@@departmentComponentActionsAddSubDepartments">Add sub departments</span>
-            </button>
+            <atoms-icon-button buttons [matType]="matButtonTypes.STROKED" [icon]="['fas', 'plus']">
+              Add sub departments
+            </atoms-icon-button>
             <!-- <mat-list content>
               <mat-list-item *ngFor="">
                 <h3 matLine>{{}}</h3>
@@ -127,7 +121,7 @@
     >
       {{ actionLabels.CANCEL }}
     </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm$ | async" class="ml-2" [icon]="['fas', 'save']" (onclick)="updateDepartment()">
+    <atoms-icon-button *ngIf="editForm$ | async" [icon]="['fas', 'save']" (onclick)="updateDepartment()">
       {{ actionLabels.SAVE }}
     </atoms-icon-button>
   </div>
