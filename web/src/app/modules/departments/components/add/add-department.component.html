@@ -73,11 +73,7 @@
     <div class="col-md-6">
       <div class="row">
         <div class="col-sm-6 col-md-12 col-lg-6">
-          <organisms-card
-            cardTitle="Parent department"
-            cardClass="border border-secondary mt-3 mb-0"
-            [disableShadow]="true"
-          >
+          <organisms-card cardTitle="Parent department" cardClass="border border-dark mt-3 mb-0" [disableShadow]="true">
             <atoms-icon-button buttons [matType]="matButtonTypes.STROKED" [icon]="['fas', 'plus']">
               Add parent department
             </atoms-icon-button>
@@ -91,7 +87,7 @@
         <div class="col-sm-6 col-md-12 col-lg-6">
           <organisms-card
             cardTitle="Sub departments"
-            cardClass="border border-secondary mt-3 mb-0"
+            cardClass="border border-dark mt-3 mb-0"
             [disableShadow]="true"
             [counter]="department.SubDepartments.length"
           >
