@@ -1,4 +1,4 @@
-import { OK, BAD_REQUEST, UNAUTHORIZED, FORBIDDEN } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import { Controller, Get, Post } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
@@ -97,7 +97,7 @@ export class AuthController {
         );
 
         if (activationSent) {
-          return res.status(OK).json({
+          return res.status(StatusCodes.OK).json({
             success: true,
             message: 'Activation link has been sent'
           });
@@ -105,7 +105,7 @@ export class AuthController {
       }
     } catch (error) {
       Logger.Err(error);
-      return res.status(BAD_REQUEST).json(error);
+      return res.status(StatusCodes.BAD_REQUEST).json(error);
     }
   }
 
@@ -139,38 +139,38 @@ export class AuthController {
                           .then(() => {
                             Mailer.sendActivationConfirmation(updatedUser)
                               .then(() => {
-                                return res.status(OK).json({
+                                return res.status(StatusCodes.OK).json({
                                   success: true,
                                   message: 'You account has been activated successfully!'
                                 });
                               })
                               .catch((err: any) => {
                                 Logger.Err(err);
-                                return res.status(BAD_REQUEST).json(err);
+                                return res.status(StatusCodes.BAD_REQUEST).json(err);
                               });
                           })
                           .catch((err: any) => {
                             Logger.Err(err);
-                            return res.status(BAD_REQUEST).json(err);
+                            return res.status(StatusCodes.BAD_REQUEST).json(err);
                           });
                       }
                     })
                     .catch((err: any) => {
                       Logger.Err(err);
-                      return res.status(BAD_REQUEST).json(err);
+                      return res.status(StatusCodes.BAD_REQUEST).json(err);
                     });
                 })
                 .catch((err: any) => {
                   Logger.Err(err);
-                  return res.status(BAD_REQUEST).json(err);
+                  return res.status(StatusCodes.BAD_REQUEST).json(err);
                 });
             })
             .catch((err: any) => {
               Logger.Err(err);
-              return res.status(BAD_REQUEST).json(err);
+              return res.status(StatusCodes.BAD_REQUEST).json(err);
             });
         } else {
-          return res.status(BAD_REQUEST).send({
+          return res.status(StatusCodes.BAD_REQUEST).send({
             success: false,
             message: 'Your activation token is invalid or has expired!'
           });
@@ -178,7 +178,7 @@ export class AuthController {
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json(err);
+        return res.status(StatusCodes.BAD_REQUEST).json(err);
       });
   }
 
@@ -202,7 +202,7 @@ export class AuthController {
     })
       .then((user) => {
         if (!user) {
-          return res.status(BAD_REQUEST).json({
+          return res.status(StatusCodes.BAD_REQUEST).json({
             success: false,
             message: 'Sorry, there are no user with this email or login!'
           });
@@ -210,7 +210,7 @@ export class AuthController {
 
         if (user.state === UserState.INITIALIZED) {
           this.saveLogInAttempt(req, user, false).then(() => {
-            return res.status(BAD_REQUEST).json({
+            return res.status(StatusCodes.BAD_REQUEST).json({
               success: false,
               message:
                 'Sorry, Your account is not activated, please use activation link we sent You or contact administrator!'
@@ -218,7 +218,7 @@ export class AuthController {
           });
         } else if (user.state === UserState.DISABLED || user.state === UserState.ARCHIVE) {
           this.saveLogInAttempt(req, user, false).then(() => {
-            return res.status(BAD_REQUEST).json({
+            return res.status(StatusCodes.BAD_REQUEST).json({
               success: false,
               message: 'Sorry, Your account have been disabled, please contact administrator!'
             });
@@ -240,11 +240,11 @@ export class AuthController {
             const expires = new Date();
             expires.setFullYear(expires.getFullYear() + 1);
             res.cookie('refresh_token', refreshToken, { httpOnly: true, expires });
-            return res.status(OK).json(`JWT ${accessToken}`);
+            return res.status(StatusCodes.OK).json(`JWT ${accessToken}`);
           });
         } else {
           this.saveLogInAttempt(req, user, false).then(() => {
-            return res.status(BAD_REQUEST).json({
+            return res.status(StatusCodes.BAD_REQUEST).json({
               success: false,
               message:
                 'Password that You provided is not correct, please make sure you have the right password or contact administrator!'
@@ -254,7 +254,7 @@ export class AuthController {
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json(err);
+        return res.status(StatusCodes.BAD_REQUEST).json(err);
       });
   }
 
@@ -266,13 +266,13 @@ export class AuthController {
       JwtHelper.getVerified({ type: 'refresh', token: cookies.refresh_token })
         .then(({ userId, sessionId }: JwtDecoded) => {
           const newToken = JwtHelper.generateToken({ type: 'access', payload: { userId, sessionId } });
-          return res.status(OK).json(`JWT ${newToken}`);
+          return res.status(StatusCodes.OK).json(`JWT ${newToken}`);
         })
         .catch((err: TokenExpiredError) => {
-          return res.status(FORBIDDEN).send(err);
+          return res.status(StatusCodes.FORBIDDEN).send(err);
         });
     } else {
-      return res.status(UNAUTHORIZED).send({
+      return res.status(StatusCodes.UNAUTHORIZED).send({
         success: false,
         message: 'No refresh token!'
       });
@@ -305,7 +305,7 @@ export class AuthController {
               const sendPasswordResetMail = () => {
                 Mailer.sendPasswordReset(user, `${Config.WEB_URL}/auth/password-reset/${token.value}`)
                   .then(() => {
-                    return res.status(OK).json({
+                    return res.status(StatusCodes.OK).json({
                       success: true,
                       message:
                         'A message has been sent to your email address. Follow the instructions to reset your password.'
@@ -313,7 +313,7 @@ export class AuthController {
                   })
                   .catch((err: any) => {
                     Logger.Err(err);
-                    return res.status(BAD_REQUEST).json(err);
+                    return res.status(StatusCodes.BAD_REQUEST).json(err);
                   });
               };
 
@@ -326,7 +326,7 @@ export class AuthController {
                   })
                   .catch((err: any) => {
                     Logger.Err(err);
-                    return res.status(BAD_REQUEST).json(err);
+                    return res.status(StatusCodes.BAD_REQUEST).json(err);
                   });
               } else {
                 user
@@ -341,10 +341,10 @@ export class AuthController {
             })
             .catch((err: any) => {
               Logger.Err(err);
-              return res.status(BAD_REQUEST).json(err);
+              return res.status(StatusCodes.BAD_REQUEST).json(err);
             });
         } else {
-          res.status(BAD_REQUEST).json({
+          res.status(StatusCodes.BAD_REQUEST).json({
             success: false,
             message: 'The following user does not exist! Please, provide correct email or login!'
           });
@@ -352,7 +352,7 @@ export class AuthController {
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json(err);
+        return res.status(StatusCodes.BAD_REQUEST).json(err);
       });
   }
 
@@ -389,41 +389,41 @@ export class AuthController {
                             .then(() => {
                               Mailer.sendPasswordResetConfirmation(updatedUser)
                                 .then(() => {
-                                  return res.status(OK).json({
+                                  return res.status(StatusCodes.OK).json({
                                     success: true,
                                     message: 'You have successfully changed your password.'
                                   });
                                 })
                                 .catch((err: any) => {
                                   Logger.Err(err);
-                                  return res.status(BAD_REQUEST).json(err);
+                                  return res.status(StatusCodes.BAD_REQUEST).json(err);
                                 });
                             })
                             .catch((err: any) => {
                               Logger.Err(err);
-                              return res.status(BAD_REQUEST).json(err);
+                              return res.status(StatusCodes.BAD_REQUEST).json(err);
                             });
                         }
                       })
                       .catch((err: any) => {
                         Logger.Err(err);
-                        return res.status(BAD_REQUEST).json(err);
+                        return res.status(StatusCodes.BAD_REQUEST).json(err);
                       });
                   })
                   .catch((err: any) => {
                     Logger.Err(err);
-                    return res.status(BAD_REQUEST).json(err);
+                    return res.status(StatusCodes.BAD_REQUEST).json(err);
                   });
               })
               .catch((err: any) => {
                 Logger.Err(err);
-                return res.status(BAD_REQUEST).json(err);
+                return res.status(StatusCodes.BAD_REQUEST).json(err);
               });
           } else {
-            res.status(BAD_REQUEST).json({ success: false, message: 'Passwords do not match' });
+            res.status(StatusCodes.BAD_REQUEST).json({ success: false, message: 'Passwords do not match' });
           }
         } else {
-          res.status(BAD_REQUEST).json({
+          res.status(StatusCodes.BAD_REQUEST).json({
             success: false,
             message: 'Your password reset token is invalid or has expired!'
           });
@@ -431,7 +431,7 @@ export class AuthController {
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json(err);
+        return res.status(StatusCodes.BAD_REQUEST).json(err);
       });
   }
 
@@ -447,11 +447,11 @@ export class AuthController {
         const expires = new Date(1970);
         res.cookie('refresh_token', null, { httpOnly: true, expires });
         req.logout();
-        res.status(OK).json({ success: true, message: 'logged out' });
+        res.status(StatusCodes.OK).json({ success: true, message: 'logged out' });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json(err);
+        return res.status(StatusCodes.BAD_REQUEST).json(err);
       });
   }
 }

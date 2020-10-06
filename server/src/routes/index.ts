@@ -13,7 +13,7 @@ import {
   FormController
 } from './controllers';
 import { Request, Response } from 'express';
-import { OK } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import { TaskPriorityController } from './controllers/taskPriority';
 
 @Controller('api/')
@@ -35,6 +35,6 @@ import { TaskPriorityController } from './controllers/taskPriority';
 export class ApiController {
   @Get('')
   connectionCheck(_: Request, res: Response) {
-    res.status(OK).json({ success: true, message: 'Connected!' });
+    res.status(StatusCodes.OK).json({ success: true, message: 'Connected!' });
   }
 }

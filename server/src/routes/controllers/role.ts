@@ -1,4 +1,4 @@
-import { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import { Controller, Middleware, Get, Post, Put, Delete } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
@@ -29,11 +29,11 @@ export class RoleController {
       order: [['id', 'ASC']]
     })
       .then((data) => {
-        res.status(OK).json({ success: true, data: data.rows, resultsNum: data.count });
+        res.status(StatusCodes.OK).json({ success: true, data: data.rows, resultsNum: data.count });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 
@@ -79,46 +79,52 @@ export class RoleController {
                           this.findRoleById(createdRole.id)
                             .then((role) => {
                               return res
-                                .status(OK)
+                                .status(StatusCodes.OK)
                                 .json({ success: true, message: 'Role created successfully!', data: role });
                             })
                             .catch((err: any) => {
                               Logger.Err(err);
-                              return res.status(INTERNAL_SERVER_ERROR).json(err);
+                              return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
                             });
                         })
                         .catch((err: any) => {
                           Logger.Err(err);
-                          return res.status(INTERNAL_SERVER_ERROR).json(err);
+                          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
                         });
                     })
                     .catch((err: any) => {
                       Logger.Err(err);
-                      return res.status(INTERNAL_SERVER_ERROR).json(err);
+                      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
                     });
                 } else {
                   this.findRoleById(createdRole.id)
                     .then((role) => {
-                      return res.status(OK).json({ success: true, message: 'Role created successfully!', data: role });
+                      return res
+                        .status(StatusCodes.OK)
+                        .json({ success: true, message: 'Role created successfully!', data: role });
                     })
                     .catch((err: any) => {
                       Logger.Err(err);
-                      return res.status(INTERNAL_SERVER_ERROR).json(err);
+                      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
                     });
                 }
               });
             })
             .catch((err: any) => {
               Logger.Err(err);
-              return res.status(INTERNAL_SERVER_ERROR).json(err);
+              return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
             });
         } else {
-          return res.status(OK).json({ success: true, message: 'Role created successfully!', data: createdRole });
+          return res
+            .status(StatusCodes.OK)
+            .json({ success: true, message: 'Role created successfully!', data: createdRole });
         }
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json({ success: false, message: 'There are some missing params!', data: null });
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ success: false, message: 'There are some missing params!', data: null });
       });
   }
 
@@ -162,11 +168,11 @@ export class RoleController {
     })
       .then((data) => {
         const pages = Math.ceil(data.count / limit);
-        return res.status(OK).json({ success: true, data: data.rows, resultsNum: data.count, pages });
+        return res.status(StatusCodes.OK).json({ success: true, data: data.rows, resultsNum: data.count, pages });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(INTERNAL_SERVER_ERROR).json(err);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
       });
   }
 
@@ -176,11 +182,11 @@ export class RoleController {
     Logger.Info(`Selecting Role by roleId: ${req.params.id}...`);
     this.findRoleById(req.params.id)
       .then((role) => {
-        return res.status(OK).json({ success: true, data: role });
+        return res.status(StatusCodes.OK).json({ success: true, data: role });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(INTERNAL_SERVER_ERROR).json(err);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
       });
   }
 
@@ -232,53 +238,55 @@ export class RoleController {
                               this.findRoleById(req.body.id)
                                 .then((updatedRole) => {
                                   return res
-                                    .status(OK)
+                                    .status(StatusCodes.OK)
                                     .json({ success: true, message: 'Role updated successfully!', data: updatedRole });
                                 })
                                 .catch((err: any) => {
                                   Logger.Err(err);
-                                  return res.status(INTERNAL_SERVER_ERROR).json(err);
+                                  return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
                                 });
                             })
                             .catch((err: any) => {
                               Logger.Err(err);
-                              return res.status(INTERNAL_SERVER_ERROR).json(err);
+                              return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
                             });
                         })
                         .catch((err: any) => {
                           Logger.Err(err);
-                          return res.status(INTERNAL_SERVER_ERROR).json(err);
+                          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
                         });
                     } else {
                       this.findRoleById(req.body.id)
                         .then((updatedRole) => {
                           return res
-                            .status(OK)
+                            .status(StatusCodes.OK)
                             .json({ success: true, message: 'Role updated successfully!', data: updatedRole });
                         })
                         .catch((err: any) => {
                           Logger.Err(err);
-                          return res.status(INTERNAL_SERVER_ERROR).json(err);
+                          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
                         });
                     }
                   });
                 })
                 .catch((err: any) => {
                   Logger.Err(err);
-                  return res.status(INTERNAL_SERVER_ERROR).json(err);
+                  return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
                 });
             } else {
-              return res.status(OK).json({ success: true, message: 'Role updated successfully!', data: role });
+              return res
+                .status(StatusCodes.OK)
+                .json({ success: true, message: 'Role updated successfully!', data: role });
             }
           })
           .catch((err: any) => {
             Logger.Err(err);
-            return res.status(INTERNAL_SERVER_ERROR).json(err);
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
           });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(INTERNAL_SERVER_ERROR).json(err);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
       });
   }
 
@@ -290,11 +298,11 @@ export class RoleController {
       where: { id: req.params.id }
     })
       .then((result) => {
-        return res.status(OK).json({ success: true, message: `Deleted ${result} role` });
+        return res.status(StatusCodes.OK).json({ success: true, message: `Deleted ${result} role` });
       })
       .catch((error: any) => {
         Logger.Err(error);
-        return res.status(INTERNAL_SERVER_ERROR).json(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
       });
   }
 

@@ -1,4 +1,4 @@
-import { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import { Controller, Middleware, Get, Post } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
@@ -17,11 +17,13 @@ export class StageController {
       ...req.body
     })
       .then((stage) => {
-        return res.status(OK).json({ success: true, message: 'Stage created successfull!', data: stage });
+        return res.status(StatusCodes.OK).json({ success: true, message: 'Stage created successfull!', data: stage });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json({ success: false, message: 'There are some missing params!', data: null });
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ success: false, message: 'There are some missing params!', data: null });
       });
   }
 
@@ -41,11 +43,11 @@ export class StageController {
       ]
     })
       .then((data) => {
-        return res.status(OK).json({ success: true, data: data.rows, resultsNum: data.count });
+        return res.status(StatusCodes.OK).json({ success: true, data: data.rows, resultsNum: data.count });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(INTERNAL_SERVER_ERROR).json(err.toString());
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err.toString());
       });
   }
 }
