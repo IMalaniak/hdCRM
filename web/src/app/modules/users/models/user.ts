@@ -5,7 +5,7 @@ import { Department } from '@/modules/departments';
 import { Asset } from '@/shared/models';
 import { Organization } from './organization';
 import { UserPreferences } from './UserPreferences';
-import { UserStates } from '@/shared/constants';
+import { UserState } from '@/shared/constants';
 
 export interface User {
   id: number;
@@ -22,7 +22,7 @@ export interface User {
   RoleId: number;
   selectedRoleIds: number[];
   defaultLang: string;
-  state: UserStates;
+  state: UserState;
   Department: Department;
   DepartmentId: number;
   avatarId: number;
