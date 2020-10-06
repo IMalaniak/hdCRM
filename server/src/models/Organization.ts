@@ -125,7 +125,17 @@ export const OrganizationFactory = (sequelize: Sequelize): Model => {
       phone: DataTypes.STRING,
       email: {
         type: DataTypes.STRING,
-        unique: true
+        unique: true,
+        validate: {
+          isEmail: true
+        }
+      },
+      website: {
+        type: DataTypes.STRING(100),
+        unique: true,
+        validate: {
+          isUrl: true
+        }
       }
     },
     {
