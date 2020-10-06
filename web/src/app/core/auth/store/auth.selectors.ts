@@ -2,7 +2,7 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { AuthState, authFeatureKey } from './auth.reducer';
 
 import { Privilege } from '@/modules/roles';
-import { User } from '@/modules/users';
+import { User, UserSession } from '@/modules/users';
 
 export const selectAuthState = createFeatureSelector<AuthState>(authFeatureKey);
 
@@ -38,3 +38,13 @@ export const isPrivileged = (privilegeCheck: string) =>
       return check && check.RolePrivilege && check.RolePrivilege[action];
     }
   });
+
+export const lastSuccesfulSession = createSelector<object, User, UserSession>(currentUser, (user) => {
+  return user.UserSessions.filter((session) => session.isSuccess).reduce((a, b) => (a.updatedAt > b.updatedAt ? a : b));
+});
+
+export const lastFailedSession = createSelector<object, User, UserSession>(currentUser, (user) => {
+  return user.UserSessions.filter((session) => !session.isSuccess).reduce((a, b) =>
+    a.updatedAt > b.updatedAt ? a : b
+  );
+});
