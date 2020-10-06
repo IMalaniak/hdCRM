@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import { User } from '@/modules/users';
+import { User, UserSession } from '@/modules/users';
 import { AppState } from '@/core/reducers';
-import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
+import { currentUser, isPrivileged, lastFailedSession, lastSuccesfulSession } from '@/core/auth/store/auth.selectors';
 import { depDashboardDataRequested } from '@/modules/departments/store/department.actions';
 import { selectAllDepartments } from '@/modules/departments/store/department.selectors';
 import { allStagesRequestedFromDashboard } from '@/modules/planner/store/stage.actions';
@@ -23,6 +23,8 @@ import { VIEW_PRIVILEGES } from '@/shared/constants';
 })
 export class DashboardComponent implements OnInit {
   appUser$: Observable<User> = this.store.pipe(select(currentUser));
+  lastSuccesfulSession$: Observable<UserSession> = this.store.pipe(select(lastSuccesfulSession));
+  lastFailedSession$: Observable<UserSession> = this.store.pipe(select(lastFailedSession));
   rolesChartData$: Observable<Role[]> = this.store.pipe(select(selectAllRoles));
   planStagesChartData$: Observable<Stage[]> = this.store.pipe(select(selectAllStages));
   departmentsChartData$: Observable<Department[]> = this.store.pipe(select(selectAllDepartments));
