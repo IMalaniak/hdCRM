@@ -49,5 +49,5 @@
 #subtitle-info {
   font-size: 3em;
   font-weight: bold;
-  @include set-textcolor('theme', 'primary');
+  @include set-textcolor('primary');
 }

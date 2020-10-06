@@ -53,7 +53,7 @@
         width: 1.1em;
         height: 1.1em;
         border: 1px solid $blue;
-        @include set-textcolor('theme', 'primary');
+        @include set-textcolor('primary');
       }
 
       &-mini {

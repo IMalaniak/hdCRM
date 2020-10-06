@@ -11,7 +11,7 @@
 }
 
 .stages-item {
-  @include set-bgcolor('theme', 'light');
+  @include set-bgcolor('light');
   padding: 1.1em 1.1em 1.1em 2.86em;
   margin: 0 app-size(spacer, sm, true);
   position: relative;
@@ -57,7 +57,7 @@
   }
 
   &.active {
-    @include set-textcolor('theme', 'background');
+    @include set-textcolor('background');
     background: theme-color('success');
     &:after {
       border-left-color: theme-color('success');
@@ -65,7 +65,7 @@
   }
 
   &.passed {
-    @include set-textcolor('theme', 'background');
+    @include set-textcolor('background');
     background: app-color('theme', 'dark', true);
     text-decoration: line-through;
     &:after {

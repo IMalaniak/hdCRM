@@ -57,14 +57,37 @@
   @return var(--#{$name});
 }
 
-@mixin set-textcolor($map, $variant) {
-  color: app-color($map, $variant, true);
-  color: app-color($map, $variant);
+@mixin color($prop, $theme, $variant) {
+  #{$prop}: app-color($theme, $variant, true);
+  #{$prop}: app-color($theme, $variant);
 }
 
-@mixin set-bgcolor($map, $variant) {
-  background-color: app-color($map, $variant, true);
-  background-color: app-color($map, $variant);
+@mixin set-textcolor($variant, $host-context: true) {
+  @include color(color, 'theme', $variant);
+
+  @if $host-context == true {
+    :host-context(.dark-theme) & {
+      @include color(color, 'theme-dark', $variant);
+    }
+  } @else {
+    .dark-theme & {
+      @include color(color, 'theme-dark', $variant);
+    }
+  }
+}
+
+@mixin set-bgcolor($variant, $host-context: true) {
+  @include color(background-color, 'theme', $variant);
+
+  @if $host-context == true {
+    :host-context(.dark-theme) & {
+      @include color(background-color, 'theme-dark', $variant);
+    }
+  } @else {
+    .dark-theme & {
+      @include color(background-color, 'theme-dark', $variant);
+    }
+  }
 }
 
 @mixin getZ-Index($container) {

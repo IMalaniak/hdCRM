@@ -3,7 +3,7 @@
 @import '~bootstrap/scss/mixins/breakpoints';
 
 left-sidebar {
-  @include set-bgcolor('theme', 'dark');
+  @include set-bgcolor('dark');
   position: fixed;
   top: app-size(header, height, true);
   left: 0;
@@ -51,15 +51,15 @@ left-sidebar {
       display: flex;
       align-items: center;
       height: app-size(header, height, true);
-      @include set-textcolor('theme', 'light');
+      @include set-textcolor('light');
       transition: border-width $transition;
 
       &:hover,
       &.active {
         border-left: 7px solid;
         text-decoration: none;
-        @include set-bgcolor('theme', 'light');
-        @include set-textcolor('theme', 'primary');
+        @include set-bgcolor('light');
+        @include set-textcolor('primary');
       }
 
       .item-title {

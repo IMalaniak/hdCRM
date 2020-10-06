@@ -3,7 +3,7 @@
 @import '~bootstrap/scss/mixins/breakpoints';
 
 footer {
-  @include set-bgcolor('theme', 'dark');
+  @include set-bgcolor('dark');
   width: 100%;
 
   .footer-content {
@@ -16,7 +16,7 @@ footer {
     }
 
     h5 {
-      @include set-textcolor('theme', 'light');
+      @include set-textcolor('light');
       text-transform: uppercase;
     }
 
@@ -42,23 +42,23 @@ footer {
       }
 
       .mat-form-field-label {
-        @include set-textcolor('theme', 'light');
+        @include set-textcolor('light');
       }
 
       .mat-form-field-appearance-outline .mat-form-field-outline {
-        @include set-textcolor('theme', 'light');
+        @include set-textcolor('light');
       }
 
       .mat-form-field-appearance-outline .mat-form-field-outline-thick {
-        @include set-textcolor('theme', 'primary');
+        @include set-textcolor('primary');
       }
 
       .mat-input-element {
-        @include set-textcolor('theme', 'light');
+        @include set-textcolor('light');
       }
 
       .mat-focused .mat-form-field-required-marker {
-        @include set-textcolor('theme', 'primary');
+        @include set-textcolor('primary');
       }
 
       input:-webkit-autofill,
@@ -105,7 +105,7 @@ footer {
         }
 
         fa-icon {
-          @include set-textcolor('theme', 'light');
+          @include set-textcolor('light');
           transition: color $transition;
           cursor: pointer;
         }
@@ -126,13 +126,13 @@ footer {
 
     .horizontal-line {
       margin: 3em 0 0.5em 0;
-      @include set-bgcolor('theme', 'light');
+      @include set-bgcolor('light');
       width: 100%;
       height: 1px;
     }
 
     .copyright-text {
-      @include set-textcolor('theme', 'light');
+      @include set-textcolor('light');
     }
   }
 }

@@ -6,18 +6,18 @@
 .process-message {
   span,
   fa-icon {
-    @include set-textcolor('theme', 'light');
+    @include set-textcolor('light');
   }
 }
 
 .success-message {
-  @include set-bgcolor('theme', 'accent');
+  @include set-bgcolor('accent');
 }
 
 .failed-message {
-  @include set-bgcolor('theme', 'warn');
+  @include set-bgcolor('warn');
 }
 
 .process-message {
-  @include set-bgcolor('theme', 'primary');
+  @include set-bgcolor('primary');
 }

@@ -108,12 +108,12 @@ main {
 .breadcrumb {
   margin: 0;
   padding: app-size(spacer, sm, true) app-size(spacer, default, true);
-  @include set-bgcolor('theme', 'dark');
-  @include set-textcolor('theme', 'light');
+  @include set-bgcolor('dark');
+  @include set-textcolor('light', false);
 
   a {
     display: inherit;
-    @include set-textcolor('theme', 'light');
+    @include set-textcolor('light', false);
   }
 
   > li {
@@ -157,7 +157,7 @@ main {
   .mat-sort-header-button {
     text-transform: uppercase;
     font-style: italic;
-    @include set-textcolor('theme', 'primary');
+    @include set-textcolor('primary', false);
   }
 }
 
@@ -192,7 +192,7 @@ main {
     margin-right: 1em;
     vertical-align: middle;
     font-size: 1.25em;
-    @include set-textcolor('theme', 'primary');
+    @include set-textcolor('primary', false);
   }
 }
 

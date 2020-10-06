@@ -5,7 +5,7 @@
 @import '~bootstrap/scss/mixins/breakpoints';
 
 right-sidebar {
-  @include set-bgcolor('theme', 'background');
+  @include set-bgcolor('background');
   position: fixed;
   top: app-size(header, height, true);
   right: 0;
@@ -77,18 +77,18 @@ right-sidebar {
       padding: 7px 13px;
       border: 1px solid $gray-200;
       border-radius: 20px;
-      @include set-bgcolor('theme', 'light');
+      @include set-bgcolor('light');
       cursor: pointer;
       transition: left $transition, padding $transition, border-color $transition, background-color $transition;
 
       @media (hover: hover) and (any-pointer: fine) {
         &:hover {
-          @include set-bgcolor('theme', 'primary');
+          @include set-bgcolor('primary');
           border-color: app-color('theme', 'primary', true);
           padding-left: 1.25em;
 
           > .btn-icon {
-            @include set-textcolor('theme', 'background');
+            @include set-textcolor('background');
           }
         }
       }
@@ -106,7 +106,7 @@ right-sidebar {
       left: -2.4em;
       padding-right: 2.4em;
       border-color: app-color('theme', 'primary', true);
-      @include set-bgcolor('theme', 'primary');
+      @include set-bgcolor('primary');
 
       @media (hover: hover) and (any-pointer: fine) {
         &:hover {
@@ -117,7 +117,7 @@ right-sidebar {
 
       > .btn-icon {
         transform: rotate(180deg);
-        @include set-textcolor('theme', 'background');
+        @include set-textcolor('background');
       }
     }
   }
