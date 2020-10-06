@@ -10,7 +10,7 @@
       <!-- <span i18n="@@roleComponentFormLabelsPrivileges">Privileges:</span> -->
       <organisms-card
         cardTitle="Privileges"
-        cardClass="border border-secondary m-0"
+        cardClass="border border-dark m-0"
         [disableShadow]="true"
         [counter]="role.Privileges.length"
       >
@@ -34,7 +34,7 @@
                 <fa-icon
                   *ngIf="!(editForm$ | async)"
                   [icon]="privilege.RolePrivilege.view ? ['fas', 'check'] : ['fas', 'times']"
-                  [classes]="[privilege.RolePrivilege.view ? 'text-success' : 'text-danger']"
+                  [classes]="[privilege.RolePrivilege.view ? 'text-accent' : 'text-warn']"
                 ></fa-icon>
               </mat-cell>
             </ng-container>
@@ -45,7 +45,7 @@
                 <fa-icon
                   *ngIf="!(editForm$ | async)"
                   [icon]="privilege.RolePrivilege.add ? ['fas', 'check'] : ['fas', 'times']"
-                  [classes]="[privilege.RolePrivilege.add ? 'text-success' : 'text-danger']"
+                  [classes]="[privilege.RolePrivilege.add ? 'text-accent' : 'text-warn']"
                 ></fa-icon>
               </mat-cell>
             </ng-container>
@@ -56,7 +56,7 @@
                 <fa-icon
                   *ngIf="!(editForm$ | async)"
                   [icon]="privilege.RolePrivilege.edit ? ['fas', 'check'] : ['fas', 'times']"
-                  [classes]="[privilege.RolePrivilege.edit ? 'text-success' : 'text-danger']"
+                  [classes]="[privilege.RolePrivilege.edit ? 'text-accent' : 'text-warn']"
                 ></fa-icon>
               </mat-cell>
             </ng-container>
@@ -67,7 +67,7 @@
                 <fa-icon
                   *ngIf="!(editForm$ | async)"
                   [icon]="privilege.RolePrivilege.delete ? ['fas', 'check'] : ['fas', 'times']"
-                  [classes]="[privilege.RolePrivilege.delete ? 'text-success' : 'text-danger']"
+                  [classes]="[privilege.RolePrivilege.delete ? 'text-accent' : 'text-warn']"
                 ></fa-icon>
               </mat-cell>
             </ng-container>

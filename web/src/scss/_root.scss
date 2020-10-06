@@ -1,6 +1,6 @@
 :root {
   // each item in color map
-  @each $name, $color in $crmcolors {
+  @each $name, $color in $app-colors {
     // maps require a second loop
     @if type-of($color) == 'map' {
       // each item in sub map
@@ -16,7 +16,7 @@
   }
 
   // each item in size map
-  @each $name, $size in $crmsizes {
+  @each $name, $size in $app-sizes {
     // maps require a second loop
     @if type-of($size) == 'map' {
       // each item in sub map

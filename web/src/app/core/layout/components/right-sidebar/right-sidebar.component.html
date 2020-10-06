@@ -21,8 +21,8 @@
     <atoms-icon-button
       [matType]="matButtonType.ICON"
       class="ml-4"
-      [iconColor]="enableDarkTheme ? 'text-secondary' : 'text-warning'"
-      [icon]="enableDarkTheme ? ['fas', 'moon'] : ['fas', 'sun']"
+      [iconColor]="enableDarkTheme ? 'text-light' : 'text-dark'"
+      [icon]="enableDarkTheme ? ['fas', 'sun'] : ['fas', 'moon']"
       (onclick)="enableThemeDark.emit(!enableDarkTheme)"
       matTooltip="{{ themeTipMessage() }}"
     ></atoms-icon-button>

@@ -84,7 +84,7 @@
               <span i18n="@@plannerComponentListActionsEdit">{{ actionLabels.EDIT }}</span>
             </button>
             <button *ngIf="canDeletePlan$ | async" mat-menu-item (click)="deletePlan(plan.id)">
-              <fa-icon [icon]="['fas', 'trash']" class="text-danger"></fa-icon>
+              <fa-icon [icon]="['fas', 'trash']" class="text-warn"></fa-icon>
               <span i18n="@@plannerComponentListActionsDelete">{{ actionLabels.DELETE }}</span>
             </button>
           </mat-menu>

@@ -7,7 +7,7 @@ import { CONSTANTS } from '@/shared/constants';
   selector: 'atoms-user-pic',
   template: `
     <img src="{{ src }}" alt="{{ title }}" [hidden]="imageIsLoading" (load)="imageIsLoading = false" />
-    <span *ngIf="!imageIsLoading" class="user-status-icon" [ngClass]="{ 'bg-success': userOnline }"></span>
+    <span *ngIf="!imageIsLoading" class="user-status-icon" [ngClass]="{ 'bg-accent': userOnline }"></span>
     <mat-spinner *ngIf="imageIsLoading" [diameter]="35" [strokeWidth]="2"></mat-spinner>
   `,
   styleUrls: ['./atoms-user-pic.component.scss'],
