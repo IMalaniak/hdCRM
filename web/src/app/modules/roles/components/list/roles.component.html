@@ -73,7 +73,7 @@
               <span i18n="@@rolesComponentListActionsEdit"> {{ actionLabels.EDIT }} </span>
             </button>
             <button *ngIf="(canDeleteRole$ | async) && role.id !== 1" mat-menu-item (click)="deleteRole(role.id)">
-              <fa-icon [icon]="['fas', 'trash']" class="text-danger"></fa-icon>
+              <fa-icon [icon]="['fas', 'trash']" class="text-warn"></fa-icon>
               <span i18n="@@rolesComponentListActionsDelete"> {{ actionLabels.DELETE }} </span>
             </button>
           </mat-menu>

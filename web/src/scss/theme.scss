@@ -7,9 +7,9 @@ $theme-warn: mat-palette($default-warn-palette, $default-warn-palette-shade);
 $theme: mat-light-theme($theme-primary, $theme-accent, $theme-warn);
 
 // Define an alternate dark theme
-$theme-dark-primary: mat-palette($default-primary-palette, 600);
-$theme-dark-accent: mat-palette($mat-amber, A200, A100, A400);
-$theme-dark-warn: mat-palette($mat-deep-orange);
+$theme-dark-primary: mat-palette($dark-primary-palette, $dark-primary-palette-shade);
+$theme-dark-accent: mat-palette($dark-accent-palette, $dark-accent-palette-shade);
+$theme-dark-warn: mat-palette($dark-warn-palette, $dark-warn-palette-shade);
 $dark-theme: mat-dark-theme($theme-dark-primary, $theme-dark-accent, $theme-dark-warn);
 
 // Define typography

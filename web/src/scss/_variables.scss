@@ -58,6 +58,8 @@ $custom-forms-transition: background-color $transition, border-color $transition
 // Bootstrap options:
 $enable-responsive-font-sizes: true;
 
+// reset bootstrap maps
+
 // variable prefixes for CSS4 output
 $color-prefix: --app-color-;
 $size-prefix: --app-size-;
@@ -72,8 +74,16 @@ $app-colors: (
     'warn': $red,
     'light': $light,
     'dark': $dark
+  ),
+  'theme-dark': (
+    'background': $black,
+    'primary': $primary-dark,
+    'accent': $accent-dark,
+    'warn': $warn-dark,
+    // TODO: @IMalaniak change variables here
+    'light': $light,
+    'dark': $dark
   )
-  // TODO: @IMalaniak add dark theme here
 );
 
 // size variable map
