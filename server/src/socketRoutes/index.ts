@@ -1,7 +1,7 @@
 import socketIO from 'socket.io';
 import { Logger } from '@overnightjs/logger';
 import { User } from '../models';
-import { SocketHelper } from '../helpers/socketHelper';
+import { SocketHelper, UserOnline } from '../helpers/socketHelper';
 
 export enum GlobalEvents {
   CONNECT = 'connect',
@@ -30,10 +30,11 @@ export class SocketRouter {
         Logger.Info(`Global: Client online, userId: ${user.id}`);
         const OrgRoom = `ORG_ROOM_${user.OrganizationId.toString()}`;
         socket.join(OrgRoom);
-        const userOnline = {
+        const userOnline: UserOnline = {
           id: user.id,
           name: user.name,
           surname: user.surname,
+          fullname: `${user.name} ${user.surname}`,
           avatar: user.avatar,
           lastSocketId: socket.id,
           OrgRoom,

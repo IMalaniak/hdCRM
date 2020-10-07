@@ -2,6 +2,7 @@ export interface UserOnline {
   id: number;
   name: string;
   surname: string;
+  fullname: string;
   avatar: any; // TODO Asset
   lastSocketId: string;
   activeSockets?: string[];
@@ -18,12 +19,12 @@ export class SocketHelper {
   }
 
   public addUser(newUser: UserOnline) {
-    const userExist = this.userList.find((user) => user.id === newUser.id);
+    let userExist = this.userList.find((user) => user.id === newUser.id);
     if (userExist) {
-      userExist.activeSockets.push(newUser.lastSocketId);
+      userExist = { ...userExist, activeSockets: [...userExist.activeSockets, newUser.lastSocketId] };
     } else {
-      newUser.activeSockets = [newUser.lastSocketId];
-      this.userList.push(newUser);
+      newUser = { ...newUser, activeSockets: [newUser.lastSocketId] };
+      this.userList = [...this.userList, newUser];
     }
   }
 
