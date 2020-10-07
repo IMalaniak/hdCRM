@@ -3,7 +3,7 @@ import { Actions, ofType, createEffect, OnInitEffects } from '@ngrx/effects';
 import { of } from 'rxjs';
 import * as layoutActions from './layout.actions';
 import { switchMap, map, withLatestFrom } from 'rxjs/operators';
-import { LocalStorageService } from '@/shared/services';
+import { LocalStorageService, MediaqueryService } from '@/shared/services';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Action, Store, select } from '@ngrx/store';
 import { LayoutState } from './layout.reducer';
@@ -15,6 +15,7 @@ export class LayoutEffects implements OnInitEffects {
     private actions$: Actions,
     private localStorage: LocalStorageService,
     private overlayContainer: OverlayContainer,
+    private mediaquery: MediaqueryService,
     private store$: Store<LayoutState>
   ) {}
 
@@ -24,7 +25,9 @@ export class LayoutEffects implements OnInitEffects {
       map((payload) => payload.minimized),
       switchMap((minimized) => {
         window.dispatchEvent(new Event('resize'));
-        this.localStorage.setObjectKeyValue('layoutSettings', 'hideLeftSidebar', minimized);
+        if (!this.mediaquery.isMobileDevice) {
+          this.localStorage.setObjectKeyValue('layoutSettings', 'hideLeftSidebar', minimized);
+        }
         return of(layoutActions.leftSidebarChangeState({ minimized }));
       })
     )
@@ -36,7 +39,9 @@ export class LayoutEffects implements OnInitEffects {
       map((payload) => payload.minimized),
       switchMap((minimized) => {
         window.dispatchEvent(new Event('resize'));
-        this.localStorage.setObjectKeyValue('layoutSettings', 'hideRightSidebar', minimized);
+        if (!this.mediaquery.isMobileDevice) {
+          this.localStorage.setObjectKeyValue('layoutSettings', 'hideRightSidebar', minimized);
+        }
         return of(layoutActions.rightSidebarChangeState({ minimized }));
       })
     )
@@ -83,7 +88,10 @@ export class LayoutEffects implements OnInitEffects {
   );
 
   ngrxOnInitEffects(): Action {
-    const settings = this.localStorage.getObject('layoutSettings');
+    let settings: LayoutState = this.localStorage.getObject('layoutSettings');
+    if (this.mediaquery.isMobileDevice) {
+      settings = { ...settings, hideLeftSidebar: true, hideRightSidebar: true };
+    }
     return layoutActions.initLayoutSettings({ settings });
   }
 }

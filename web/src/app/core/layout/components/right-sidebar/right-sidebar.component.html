@@ -1,4 +1,4 @@
-<div class="right-sidebar" [ngClass]="{ 'dark-theme-bg': enableDarkTheme }">
+<div class="right-sidebar">
   <div class="right-sidebar-content">
     <templates-box-user-list-sm
       *ngIf="(onlineUsers$ | async).length > 0"
@@ -10,7 +10,7 @@
     <task-manager></task-manager>
   </div>
 
-  <div class="btn-sidebar-block">
+  <div class="right-sidebar-buttons">
     <div
       class="btn-sidebar-toggle"
       (click)="hideRightSidebar.emit(!rightSidebarMinimized)"

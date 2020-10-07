@@ -4,8 +4,8 @@
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins/breakpoints';
 
-right-sidebar {
-  @include set-bgcolor('background');
+:host {
+  display: block;
   position: fixed;
   top: app-size(header, height, true);
   right: 0;
@@ -21,10 +21,6 @@ right-sidebar {
   @include media-breakpoint-up(md) {
     min-width: app-size(sidebar, width, true);
     flex-basis: app-size(sidebar, width, true);
-
-    &.minimized {
-      right: -(app-size(sidebar, width, true));
-    }
   }
 
   @include media-breakpoint-up(lg) {
@@ -39,85 +35,97 @@ right-sidebar {
       margin-right: -(app-size(sidebar, width, true));
     }
   }
-}
 
-.right-sidebar {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  max-width: 100%;
-  @include media-breakpoint-up(md) {
-    max-width: app-size(sidebar, width, true);
-    border-left: 1px solid $gray-300;
-  }
-
-  &-content {
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  .btn-sidebar-block {
+  .right-sidebar {
+    @include set-bgcolor('background', false);
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
     width: 100%;
-    height: fit-content;
-    padding: 0.8em 0;
-    background-color: transparent;
+    max-width: 100%;
+    @include media-breakpoint-up(md) {
+      max-width: app-size(sidebar, width, true);
+      border-left: 1px solid $gray-300;
+    }
 
-    .btn-sidebar-toggle {
-      position: relative;
-      left: 1em;
+    &-content {
+      width: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    &-buttons {
       display: flex;
-      justify-content: center;
+      flex-direction: row;
       align-items: center;
-      padding: 7px 13px;
-      border: 1px solid $gray-200;
-      border-radius: 20px;
-      @include set-bgcolor('light');
-      cursor: pointer;
-      transition: left $transition, padding $transition, border-color $transition, background-color $transition;
+      width: 100%;
+      height: fit-content;
+      padding: 0.8em 0;
+      background-color: transparent;
 
-      @media (hover: hover) and (any-pointer: fine) {
-        &:hover {
-          @include set-bgcolor('primary');
-          border-color: app-color('theme', 'primary', true);
-          padding-left: 1.25em;
+      .btn-sidebar-toggle {
+        position: relative;
+        left: 1em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 7px 13px;
+        border: 1px solid $gray-200;
+        border-radius: 20px;
+        @include set-bgcolor('light');
+        cursor: pointer;
+        transition: left $transition, padding $transition, border-color $transition, background-color $transition;
 
-          > .btn-icon {
-            @include set-textcolor('background');
+        @media (hover: hover) and (any-pointer: fine) {
+          &:hover {
+            @include set-bgcolor('primary');
+            border-color: app-color('theme', 'primary', true);
+            padding-left: 1.25em;
+
+            > .btn-icon {
+              @include set-textcolor('background');
+            }
           }
         }
-      }
 
-      .btn-icon {
-        font-size: 0.85em;
-        color: $gray-600;
-        transition: color $transition, transform $transition;
+        .btn-icon {
+          font-size: 0.85em;
+          color: $gray-600;
+          transition: color $transition, transform $transition;
+        }
       }
     }
   }
 
-  .minimized & {
-    .btn-sidebar-toggle {
-      left: -2.4em;
-      padding-right: 2.4em;
-      border-color: app-color('theme', 'primary', true);
-      @include set-bgcolor('primary');
+  &.minimized {
+    .right-sidebar {
+      &-buttons {
+        .btn-sidebar-toggle {
+          position: fixed;
+          left: unset;
+          right: -1.8em;
+          padding-right: 2.4em;
+          border-color: app-color('theme', 'primary', true);
+          @include set-bgcolor('primary');
 
-      @media (hover: hover) and (any-pointer: fine) {
-        &:hover {
-          padding-left: 0.8125em;
-          left: -2.9em;
+          > .btn-icon {
+            transform: rotate(180deg);
+            @include set-textcolor('background');
+          }
+
+          @include media-breakpoint-up(lg) {
+            position: relative;
+            left: -2.4em;
+
+            @media (hover: hover) and (any-pointer: fine) {
+              &:hover {
+                padding-left: 0.8125em;
+                left: -2.9em;
+              }
+            }
+          }
         }
-      }
-
-      > .btn-icon {
-        transform: rotate(180deg);
-        @include set-textcolor('background');
       }
     }
   }
