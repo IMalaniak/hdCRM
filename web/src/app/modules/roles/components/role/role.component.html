@@ -91,8 +91,8 @@
     </div>
     <div class="col-sm-12 col-md-5 col-lg-4">
       <templates-box-user-list-sm
+        cardTitle="Users"
         [users]="role.Users"
-        title="Users"
         [editMode]="editForm$ | async"
         (addClick)="addParticipantDialog()"
         (removeClick)="removeUser($event)"

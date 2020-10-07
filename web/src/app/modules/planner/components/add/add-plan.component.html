@@ -100,8 +100,8 @@
     </div>
     <div class="col-md-4">
       <templates-box-user-list-sm
+        cardTitle="Participants"
         [users]="plan.Participants"
-        title="Participants"
         [editMode]="true"
         (addClick)="addParticipantDialog()"
         (removeClick)="removeParticipant($event)"

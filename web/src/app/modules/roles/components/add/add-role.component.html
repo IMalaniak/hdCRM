@@ -68,8 +68,8 @@
     </div>
     <div class="col-sm-4">
       <templates-box-user-list-sm
+        cardTitle="Users"
         [users]="role.Users"
-        title="Users"
         [editMode]="true"
         (addClick)="addParticipantDialog()"
         (removeClick)="removeUser($event)"

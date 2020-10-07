@@ -79,8 +79,8 @@
     </div>
     <div class="col-sm-12 col-md-4 col-lg-5">
       <templates-box-user-list-sm
+        cardTitle="Participants"
         [users]="plan.Participants"
-        title="Participants"
         [editMode]="editForm$ | async"
         (addClick)="addParticipantDialog()"
         (removeClick)="removeParticipant($event)"
