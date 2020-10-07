@@ -40,11 +40,15 @@ export const isPrivileged = (privilegeCheck: string) =>
   });
 
 export const lastSuccesfulSession = createSelector<object, User, UserSession>(currentUser, (user) => {
-  return user.UserSessions.filter((session) => session.isSuccess).reduce((a, b) => (a.updatedAt > b.updatedAt ? a : b));
+  const filteredSessions: UserSession[] = user?.UserSessions?.filter((session) => session.isSuccess);
+  if (filteredSessions?.length) {
+    return filteredSessions.reduce((a, b) => (a.updatedAt > b.updatedAt ? a : b));
+  }
 });
 
 export const lastFailedSession = createSelector<object, User, UserSession>(currentUser, (user) => {
-  return user.UserSessions.filter((session) => !session.isSuccess).reduce((a, b) =>
-    a.updatedAt > b.updatedAt ? a : b
-  );
+  const filteredSessions: UserSession[] = user?.UserSessions?.filter((session) => !session.isSuccess);
+  if (filteredSessions?.length) {
+    return filteredSessions.reduce((a, b) => (a.updatedAt > b.updatedAt ? a : b));
+  }
 });
