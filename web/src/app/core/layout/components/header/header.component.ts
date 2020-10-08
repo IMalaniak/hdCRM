@@ -7,16 +7,23 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef
 } from '@angular/core';
-import { MediaqueryService } from '@/shared/services';
+import { Router, NavigationEnd } from '@angular/router';
+import { Observable } from 'rxjs/internal/Observable';
+import { filter } from 'rxjs/operators';
+
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { logOut } from '@/core/auth/store/auth.actions';
 import { User } from '@/modules/users';
-import { Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
-import { Observable } from 'rxjs/internal/Observable';
-import { ACTION_LABELS, BUTTON_TYPE, MAT_BUTTON, THEME_PALETTE, RoutingConstants } from '@/shared/constants';
+import {
+  ACTION_LABELS,
+  BUTTON_TYPE,
+  MAT_BUTTON,
+  THEME_PALETTE,
+  RoutingConstants,
+  ADD_PRIVILEGES
+} from '@/shared/constants';
 
 @Component({
   selector: 'app-header',
@@ -25,7 +32,7 @@ import { ACTION_LABELS, BUTTON_TYPE, MAT_BUTTON, THEME_PALETTE, RoutingConstants
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {
-  canAddUser$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-add')));
+  canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.USER)));
 
   @Input() leftSidebarMinimized: boolean;
   @Input() currentUser: User;
@@ -40,12 +47,7 @@ export class HeaderComponent implements OnInit {
   myProfileRoute = RoutingConstants.ROUTE_MY_PROFILE;
   isShowUserMenu = false;
 
-  constructor(
-    public mediaquery: MediaqueryService,
-    private store: Store<AppState>,
-    private router: Router,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private store$: Store<AppState>, private router: Router, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
@@ -59,7 +61,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onLogoutClick(): void {
-    this.store.dispatch(logOut());
+    this.store$.dispatch(logOut());
   }
 
   toggleLeftSidebar(): void {

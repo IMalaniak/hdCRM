@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Actions, ofType, createEffect, OnInitEffects } from '@ngrx/effects';
-import { of } from 'rxjs';
 import { tap, map, switchMap, catchError, concatMap, withLatestFrom, mergeMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+
+import { Actions, ofType, createEffect, OnInitEffects } from '@ngrx/effects';
 import * as authActions from './auth.actions';
 import { AuthenticationService } from '../services';
 import { SocketService, ToastMessageService } from '@/shared/services';
 import { ApiResponse, ItemApiResponse } from '@/shared/models';
-import { SocketEvent, RoutingConstants } from '@/shared/constants';
+import { SocketEvent, RoutingConstants, CONSTANTS } from '@/shared/constants';
 import { Store, select, Action } from '@ngrx/store';
 import { getToken } from './auth.selectors';
 import { selectUrl, AppState } from '@/core/reducers';
 import { changeIsEditingState } from '@/modules/users/store/user.actions';
 import { initPreferences } from '@/core/reducers/preferences.actions';
-import { HttpErrorResponse } from '@angular/common/http';
 import { User, Organization } from '@/modules/users';
 
 @Injectable()
@@ -142,10 +143,11 @@ export class AuthEffects implements OnInitEffects {
         ofType(authActions.redirectToLogin),
         withLatestFrom(this.store$.pipe(select(selectUrl))),
         map(([_, returnUrl]) => {
-          this.toastMessageService.popup(
-            'You are not authorized to see this page, or your session has been expired!',
-            'error'
-          );
+          const response: ApiResponse = {
+            success: false,
+            message: CONSTANTS.TEXTS_YOU_ARE_NOT_AUTHORIZED
+          };
+          this.toastMessageService.snack(response);
           this.router.navigate([RoutingConstants.ROUTE_AUTH_LOGIN], {
             queryParams: { returnUrl }
           });

@@ -1,13 +1,17 @@
-import { Component, Input, EventEmitter, Output, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, Input, EventEmitter, Output, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+
 import { select, Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { User } from '@/modules/users';
-import { ToastMessageService } from '@/shared/services';
-import { DynamicForm } from '@/shared/models';
+import { DialogDataModel, DynamicForm } from '@/shared/models';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
-import { DIALOG, ACTION_LABELS, THEME_PALETTE, CONSTANTS } from '@/shared/constants';
+import { ACTION_LABELS, THEME_PALETTE, CONSTANTS } from '@/shared/constants';
+import { DialogConfirmModal } from '@/shared/models/modal/dialog-question.model';
+import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
+import { DialogService } from '@/core/services/dialog';
 
 @Component({
   selector: 'organisms-user-details',
@@ -15,7 +19,7 @@ import { DIALOG, ACTION_LABELS, THEME_PALETTE, CONSTANTS } from '@/shared/consta
   styleUrls: ['./organisms-user-details.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrganismsUserDetailsComponent implements OnInit {
+export class OrganismsUserDetailsComponent implements OnInit, OnDestroy {
   @Input() user: User;
   @Input() canEdit = false;
   @Input() editForm: boolean;
@@ -30,7 +34,9 @@ export class OrganismsUserDetailsComponent implements OnInit {
 
   userFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName('user')));
 
-  constructor(private toastMessageService: ToastMessageService, private store$: Store<AppState>) {}
+  private unsubscribe: Subject<void> = new Subject();
+
+  constructor(private store$: Store<AppState>, private dialogService: DialogService) {}
 
   ngOnInit(): void {
     this.store$.dispatch(formRequested({ formName: 'user' }));
@@ -50,10 +56,21 @@ export class OrganismsUserDetailsComponent implements OnInit {
   }
 
   onUpdateUserSubmit(): void {
-    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_UPDATE_COMMON_CONFIRM).then((result) => {
-      if (result.value) {
-        this.updateUser.emit({ ...this.user, ...this.userFormValues });
-      }
-    });
+    const dialogModel: DialogConfirmModal = new DialogConfirmModal(CONSTANTS.TEXTS_UPDATE_COMMON_CONFIRM);
+    const dialogDataModel = new DialogDataModel(dialogModel);
+
+    this.dialogService
+      .confirm(DialogConfirmComponent, dialogDataModel)
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((result: boolean) => {
+        if (result) {
+          this.updateUser.emit({ ...this.user, ...this.userFormValues });
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }

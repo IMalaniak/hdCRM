@@ -1,8 +1,12 @@
 import { Component, OnInit, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TaskDialogData } from '@/modules/task-manager/models';
+import { ComponentType } from '@angular/cdk/portal';
+
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
+import { DialogCreateEditPageModel } from '@/shared/components';
+import { DialogCreateEditModel, DialogDataModel, ModalDialogResult } from '@/shared/models';
+import { TaskDialogData } from '@/modules/task-manager/models';
 
 @Component({
   selector: 'organisms-task-dialog',
@@ -10,16 +14,20 @@ import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
   styleUrls: ['./organisms-task-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrganismsTaskDialogComponent implements OnInit {
+export class OrganismsTaskDialogComponent<TDialogModel extends DialogCreateEditModel, TModel extends TaskDialogData>
+  extends DialogCreateEditPageModel<TDialogModel, TModel>
+  implements OnInit {
   taskData: FormGroup;
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
 
   constructor(
-    public dialogRef: MatDialogRef<OrganismsTaskDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: TaskDialogData,
+    readonly dialogRef: MatDialogRef<ComponentType<TModel>>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel, TModel>,
     private fb: FormBuilder
-  ) {}
+  ) {
+    super(dialogRef, data);
+  }
 
   ngOnInit(): void {
     this.buildTaskForm();
@@ -36,12 +44,12 @@ export class OrganismsTaskDialogComponent implements OnInit {
   }
 
   setDataIfTaskExist(): void {
-    if (this.data.task) {
-      this.taskData.patchValue(this.data.task);
+    if (!this.isCreateMode) {
+      this.taskData.patchValue(this.model.task);
     }
   }
 
-  onSubmit(): void {
-    this.dialogRef.close({ ...this.taskData.value });
+  onClose(result: boolean): void {
+    this.dialogRef.close(new ModalDialogResult(result, this.taskData.value));
   }
 }

@@ -1,11 +1,17 @@
-import { Component, OnChanges, Input, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnChanges, Input, SimpleChanges, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+
 import { UserSession, User } from '@/modules/users';
 import { AppState } from '@/core/reducers';
 import { Store } from '@ngrx/store';
 import { deleteSession, deleteMultipleSession } from '@/core/auth/store/auth.actions';
 import { UAParser } from 'ua-parser-js';
-import { ToastMessageService } from '@/shared/services';
-import { DIALOG, MAT_BUTTON, THEME_PALETTE, CONSTANTS } from '@/shared/constants';
+import { MAT_BUTTON, THEME_PALETTE, CONSTANTS } from '@/shared/constants';
+import { DialogConfirmModal } from '@/shared/models/modal/dialog-question.model';
+import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
+import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
+import { DialogService } from '@/core/services/dialog';
 
 @Component({
   selector: 'organisms-user-sessions',
@@ -13,7 +19,7 @@ import { DIALOG, MAT_BUTTON, THEME_PALETTE, CONSTANTS } from '@/shared/constants
   styleUrls: ['./organisms-user-sessions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrganismsUserSessionsComponent implements OnChanges {
+export class OrganismsUserSessionsComponent implements OnChanges, OnDestroy {
   @Input() user: User;
   @Input() currentSessionId: number;
 
@@ -23,7 +29,9 @@ export class OrganismsUserSessionsComponent implements OnChanges {
   themePalette = THEME_PALETTE;
   matButtonType = MAT_BUTTON;
 
-  constructor(private store: Store<AppState>, private toastMessageService: ToastMessageService) {}
+  private unsubscribe: Subject<void> = new Subject();
+
+  constructor(private store: Store<AppState>, private dialogService: DialogService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['user']?.currentValue && this.user) {
@@ -62,21 +70,27 @@ export class OrganismsUserSessionsComponent implements OnChanges {
     return icon;
   }
 
+  onContinueRemove(sessionId: number | number[], messageText: string): void {
+    const dialogModel: DialogConfirmModal = new DialogConfirmModal(messageText);
+    const dialogDataModel = new DialogDataModel(dialogModel);
+
+    this.dialogService
+      .confirm(DialogConfirmComponent, dialogDataModel)
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((result: boolean) => {
+        if (result) {
+          this.removeSession(sessionId);
+        }
+      });
+  }
+
   onRemoveSession(sessionId: number): void {
-    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_SESSION_DEACTIVATE_CONFIRM).then((result) => {
-      if (result.value) {
-        this.removeSession(sessionId);
-      }
-    });
+    this.onContinueRemove(sessionId, CONSTANTS.TEXTS_SESSION_DEACTIVATE_CONFIRM);
   }
 
   onRemoveOtherSessions(): void {
-    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_SESSION_DEACTIVATE_ALL_CONFIRM).then((result) => {
-      if (result.value) {
-        const sessionIds: number[] = this.otherActiveSessions.map((session) => session.id);
-        this.removeSession(sessionIds);
-      }
-    });
+    const sessionIds: number[] = this.otherActiveSessions.map((session) => session.id);
+    this.onContinueRemove(sessionIds, CONSTANTS.TEXTS_SESSION_DEACTIVATE_ALL_CONFIRM);
   }
 
   removeSession(sessionIds: number | number[]): void {
@@ -85,5 +99,10 @@ export class OrganismsUserSessionsComponent implements OnChanges {
     } else {
       this.store.dispatch(deleteMultipleSession({ sessionIds }));
     }
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }

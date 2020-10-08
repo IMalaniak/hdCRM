@@ -4,9 +4,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Store, select } from '@ngrx/store';
 import { Observable, merge, Subject } from 'rxjs';
+import { tap, takeUntil } from 'rxjs/operators';
+
 import { DepartmentsDataSource } from '../../services';
-import { ToastMessageService } from '@/shared/services';
-import { PageQuery } from '@/shared/models';
+import { DialogDataModel, PageQuery } from '@/shared/models';
 import {
   IItemsPerPage,
   pageSizeOptions,
@@ -20,17 +21,12 @@ import {
 import { AppState } from '@/core/reducers';
 import { selectDepartmentsTotalCount, selectDepartmentsLoading } from '../../store/department.selectors';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
-import { tap, takeUntil } from 'rxjs/operators';
 import { deleteDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
-import {
-  ADD_PRIVILEGES,
-  EDIT_PRIVILEGES,
-  DELETE_PRIVILEGES,
-  DIALOG,
-  SORT_DIRECTION,
-  COLUMN_NAMES
-} from '@/shared/constants';
+import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, SORT_DIRECTION, COLUMN_NAMES } from '@/shared/constants';
+import { DialogConfirmModal } from '@/shared/models/modal/dialog-question.model';
+import { DialogService } from '@/core/services/dialog';
+import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 
 @Component({
   selector: 'departments',
@@ -67,11 +63,7 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
   pageSizeOptions: number[] = pageSizeOptions;
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(
-    private store$: Store<AppState>,
-    private router: Router,
-    private toastMessageService: ToastMessageService
-  ) {}
+  constructor(private store$: Store<AppState>, private router: Router, private dialogService: DialogService) {}
 
   ngAfterViewInit(): void {
     merge(this.sort.sortChange, this.paginator.page)
@@ -101,11 +93,17 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
   }
 
   deleteDepartment(id: number): void {
-    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_DELETE_DEPARTMENT_CONFIRM).then((result) => {
-      if (result.value) {
-        this.store$.dispatch(deleteDepartmentRequested({ id }));
-      }
-    });
+    const dialogModel: DialogConfirmModal = new DialogConfirmModal(CONSTANTS.TEXTS_DELETE_DEPARTMENT_CONFIRM);
+    const dialogDataModel = new DialogDataModel(dialogModel);
+
+    this.dialogService
+      .confirm(DialogConfirmComponent, dialogDataModel)
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((result: boolean) => {
+        if (result) {
+          this.store$.dispatch(deleteDepartmentRequested({ id }));
+        }
+      });
   }
 
   ngOnDestroy(): void {

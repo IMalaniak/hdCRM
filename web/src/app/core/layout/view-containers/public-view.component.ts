@@ -1,7 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
-  selector: 'app-public',
   template: `
     <section class="main">
       <router-outlet></router-outlet>

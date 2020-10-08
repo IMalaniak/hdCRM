@@ -1,85 +1,79 @@
-<h1 mat-dialog-title>Invite users</h1>
-<div mat-dialog-content class="dialog-content">
-  <mat-list class="border rounded mb-4" *ngIf="invitedUsers.length > 0">
-    <mat-list-item *ngFor="let user of invitedUsers"
-      ><span
-        >{{ user.fullname }} | <em>{{ user.email }}</em></span
-      ></mat-list-item
-    >
-  </mat-list>
-  <form [formGroup]="userData" class="form-container">
-    <mat-form-field appearance="outline">
-      <mat-label i18n="@@invitationDialogСomponentInputLableName">Full name:</mat-label>
-      <input matInput formControlName="fullname" type="text" />
-      <mat-error
-        *ngIf="
-          userData.controls['fullname'].invalid &&
-          (userData.controls['fullname'].dirty || userData.controls['fullname'].touched)
-        "
+<component-dialog [formValid]="invitedUsers.length === 0" (dialogClose)="onClose($event)">
+  <div class="dialog-content">
+    <mat-list class="border rounded mb-4" *ngIf="invitedUsers.length">
+      <mat-list-item *ngFor="let user of invitedUsers"
+        ><span
+          >{{ user.fullname }} | <em>{{ user.email }}</em></span
+        ></mat-list-item
       >
+    </mat-list>
+    <form [formGroup]="userData" class="form-container">
+      <mat-form-field appearance="outline">
+        <mat-label i18n="@@invitationDialogСomponentInputLableName">Full name:</mat-label>
+        <input matInput formControlName="fullname" type="text" />
         <mat-error
-          *ngIf="userData.controls['fullname'].errors.required"
-          i18n="@@invitationDialogСomponentInputErrorsFullnameRequired"
+          *ngIf="
+            userData.controls['fullname'].invalid &&
+            (userData.controls['fullname'].dirty || userData.controls['fullname'].touched)
+          "
         >
-          Full name is required!
+          <mat-error
+            *ngIf="userData.controls['fullname'].errors.required"
+            i18n="@@invitationDialogСomponentInputErrorsFullnameRequired"
+          >
+            Full name is required!
+          </mat-error>
+          <mat-error
+            *ngIf="userData.controls['fullname'].errors.maxlength"
+            i18n="@@invitationDialogСomponentInputErrorsFullnameTooLong"
+          >
+            Full name is too long!
+          </mat-error>
+          <mat-error
+            *ngIf="userData.controls['fullname'].errors.pattern"
+            i18n="@@invitationDialogСomponentInputErrorsFullnameInvalid"
+          >
+            Full name is invalid!
+          </mat-error>
         </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="mx-0 mx-md-3">
+        <mat-label i18n="@@invitationDialogСomponentInputLabelEmail">Email:</mat-label>
+        <input matInput formControlName="email" type="email" />
         <mat-error
-          *ngIf="userData.controls['fullname'].errors.maxlength"
-          i18n="@@invitationDialogСomponentInputErrorsFullnameTooLong"
+          *ngIf="
+            userData.controls['email'].invalid &&
+            (userData.controls['email'].dirty || userData.controls['email'].touched)
+          "
         >
-          Full name is too long!
+          <mat-error
+            *ngIf="userData.controls['email'].errors.required"
+            i18n="@@invitationDialogСomponentInputErrorsEmailRequired"
+          >
+            Email is required!
+          </mat-error>
+          <mat-error
+            *ngIf="userData.controls['email'].errors.pattern"
+            i18n="@@invitationDialogСomponentInputErrorsEmailInvalid"
+          >
+            Invalid email address!
+          </mat-error>
         </mat-error>
-        <mat-error
-          *ngIf="userData.controls['fullname'].errors.pattern"
-          i18n="@@invitationDialogСomponentInputErrorsFullnameInvalid"
-        >
-          Full name is invalid!
-        </mat-error>
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="mx-0 mx-md-3">
-      <mat-label i18n="@@invitationDialogСomponentInputLabelEmail">Email:</mat-label>
-      <input matInput formControlName="email" type="email" />
-      <mat-error
-        *ngIf="
-          userData.controls['email'].invalid && (userData.controls['email'].dirty || userData.controls['email'].touched)
-        "
+      </mat-form-field>
+      <atoms-icon-button
+        (onclick)="addUserToInvitation(userData.value)"
+        [icon]="['fas', 'plus']"
+        [matType]="matButtonType.FAB"
+        [disabled]="userData.invalid || errorInvitations"
       >
-        <mat-error
-          *ngIf="userData.controls['email'].errors.required"
-          i18n="@@invitationDialogСomponentInputErrorsEmailRequired"
-        >
-          Email is required!
-        </mat-error>
-        <mat-error
-          *ngIf="userData.controls['email'].errors.pattern"
-          i18n="@@invitationDialogСomponentInputErrorsEmailInvalid"
-        >
-          Invalid email address!
-        </mat-error>
-      </mat-error>
-    </mat-form-field>
-    <atoms-icon-button
-      (onclick)="addUserToInvitation(userData.value)"
-      [icon]="['fas', 'plus']"
-      [matType]="matButtonType.FAB"
-      [disabled]="userData.invalid || errorInvitations === true"
+      </atoms-icon-button>
+    </form>
+  </div>
+  <div class="rounded text-center w-100 mb-3 py-3 failed-message" *ngIf="errorInvitations">
+    <fa-icon [icon]="['fas', 'times']"></fa-icon>
+    <span class="ml-4" i18n="@@invitationDialogСomponentMessageErrorAlreadyInvitedUser"
+      >You have already invited a user with this email!</span
     >
-    </atoms-icon-button>
-  </form>
-</div>
-<div class="rounded text-center w-100 mb-3 py-3 failed-message" *ngIf="errorInvitations">
-  <fa-icon [icon]="['fas', 'times']"></fa-icon>
-  <span class="ml-4" i18n="@@invitationDialogСomponentMessageErrorAlreadyInvitedUser"
-    >You have already invited a user with this email!</span
-  >
-</div>
-<mat-divider class="mt-4 mt-md-0"></mat-divider>
-<div mat-dialog-actions class="justify-content-end mb-1 mt-3">
-  <atoms-icon-button (onclick)="onNoClick()" [icon]="['fas', 'times']" [color]="themePalette.BASIC">
-    {{ actionLabels.CANCEL }}
-  </atoms-icon-button>
-  <atoms-icon-button [disabled]="invitedUsers.length === 0" (onclick)="sendInvitation()" [icon]="['fas', 'envelope']">
-    Send invitations
-  </atoms-icon-button>
-</div>
+  </div>
+  <mat-divider class="mt-4 mt-md-0"></mat-divider>
+</component-dialog>

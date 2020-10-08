@@ -1,9 +1,16 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+
 import { User } from '@/modules/users';
-import { MatDialog } from '@angular/material/dialog';
-import { MediaqueryService } from '@/shared/services';
 import { OrganismsUserDetailsDialogComponent } from '../../organisms/organisms-user-details-dialog/organisms-user-details-dialog.component';
-import { MAT_BUTTON } from '@/shared/constants';
+import { CONSTANTS, MAT_BUTTON } from '@/shared/constants';
+import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
+import { DialogWithTwoButtonModel } from '@/shared/models/modal/dialog-with-two-button.model';
+import { DialogService } from '@/core/services/dialog/dialog.service';
+import { ModalDialogResult } from '@/shared/models/modal/modal-dialog-result.model';
+import { BaseModel } from '@/shared/models/base';
 
 @Component({
   selector: 'templates-box-user-list-sm',
@@ -36,7 +43,7 @@ import { MAT_BUTTON } from '@/shared/constants';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TemplatesBoxUserListSmComponent {
+export class TemplatesBoxUserListSmComponent implements OnDestroy {
   @Input() editMode = false;
   @Input() users: User[];
   @Input() user: User;
@@ -49,7 +56,9 @@ export class TemplatesBoxUserListSmComponent {
 
   matButtonTypes = MAT_BUTTON;
 
-  constructor(private dialog: MatDialog, private mediaQuery: MediaqueryService) {}
+  private unsubscribe: Subject<void> = new Subject();
+
+  constructor(private dialogService: DialogService, private route: Router) {}
 
   onAddClick(): void {
     this.addClick.emit();
@@ -60,9 +69,24 @@ export class TemplatesBoxUserListSmComponent {
   }
 
   openUserDetailsDialog(user: User): void {
-    this.dialog.open(OrganismsUserDetailsDialogComponent, {
-      ...this.mediaQuery.smallPopupSize,
-      data: user
-    });
+    const dialogDataModel = new DialogDataModel(
+      new DialogWithTwoButtonModel(null, CONSTANTS.TEXTS_MORE_DETAILS),
+      user as BaseModel
+    );
+
+    this.dialogService
+      .open(OrganismsUserDetailsDialogComponent, dialogDataModel)
+      .afterClosed()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((result: ModalDialogResult<string>) => {
+        if (result && result.result) {
+          this.route.navigateByUrl(result.model);
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }

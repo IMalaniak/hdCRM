@@ -1,21 +1,23 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { takeUntil, map } from 'rxjs/operators';
+import { Subject, Observable, combineLatest } from 'rxjs';
+
 import { cloneDeep } from 'lodash';
 import { Department } from '../../models';
 import { UsersDialogComponent, User } from '@/modules/users';
-import { Subject, Observable, combineLatest } from 'rxjs';
 import { AppState } from '@/core/reducers';
 import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
-import { MediaqueryService, ToastMessageService } from '@/shared/services';
 import { updateDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
 import { selectIsEditing } from '../../store/department.selectors';
-import { EDIT_PRIVILEGES, DIALOG, ACTION_LABELS, THEME_PALETTE, CONSTANTS, MAT_BUTTON } from '@/shared/constants';
+import { EDIT_PRIVILEGES, ACTION_LABELS, THEME_PALETTE, CONSTANTS, MAT_BUTTON } from '@/shared/constants';
+import { DialogConfirmModal } from '@/shared/models/modal/dialog-question.model';
+import { DialogDataModel, DialogWithTwoButtonModel, ModalDialogResult } from '@/shared/models';
+import { DialogService } from '@/core/services/dialog';
+import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 
 @Component({
-  selector: 'department',
   templateUrl: './department.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -28,7 +30,6 @@ export class DepartmentComponent implements OnInit, OnDestroy {
 
   department: Department;
   departmentInitial: Department;
-
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
   matButtonTypes = MAT_BUTTON;
@@ -37,11 +38,9 @@ export class DepartmentComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private dialog: MatDialog,
     private store$: Store<AppState>,
-    private mediaQuery: MediaqueryService,
     private cdr: ChangeDetectorRef,
-    private toastMessageService: ToastMessageService
+    private dialogService: DialogService
   ) {}
 
   ngOnInit(): void {
@@ -59,18 +58,15 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   }
 
   addManagerDialog(): void {
-    const dialogRef = this.dialog.open(UsersDialogComponent, {
-      ...this.mediaQuery.deFaultPopupSize,
-      data: {
-        title: ['Select manager']
-      }
-    });
+    // TODO: @ArseniiIrod, @IMalaniak implement logic with selected user
+    const dialogDataModel = new DialogDataModel(new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_MANAGER));
 
-    dialogRef
+    this.dialogService
+      .open(UsersDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: User[]) => {
-        if (result?.length) {
+      .subscribe((result: ModalDialogResult<User[]>) => {
+        if (result && result.result) {
           this.department = { ...this.department, Manager: { ...result[0] } };
           this.cdr.detectChanges();
         }
@@ -78,24 +74,23 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   }
 
   addWorkersDialog(): void {
-    const dialogRef = this.dialog.open(UsersDialogComponent, {
-      ...this.mediaQuery.deFaultPopupSize,
-      data: {
-        title: ['Select workers']
-      }
-    });
+    // TODO: @ArseniiIrod, @IMalaniak implement logic with selected users
+    const dialogDataModel = new DialogDataModel(new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_WORKERS));
 
-    dialogRef
+    this.dialogService
+      .open(UsersDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: User[]) => {
-        const selectedWorkers: User[] = result?.filter(
-          (selectedWorker) => !this.department.Workers.some((user) => user.id === selectedWorker.id)
-        );
+      .subscribe((result: ModalDialogResult<User[]>) => {
+        if (result && result.result) {
+          const selectedWorkers: User[] = result.model.filter(
+            (selectedWorker) => !this.department.Workers.some((user) => user.id === selectedWorker.id)
+          );
 
-        if (selectedWorkers?.length) {
-          this.department.Workers = [...this.department.Workers, ...selectedWorkers];
-          this.cdr.detectChanges();
+          if (selectedWorkers.length) {
+            this.department.Workers = [...this.department.Workers, ...selectedWorkers];
+            this.cdr.detectChanges();
+          }
         }
       });
   }
@@ -109,11 +104,17 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   }
 
   updateDepartment(): void {
-    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_UPDATE_DEPARTMENT_CONFIRM).then((result) => {
-      if (result.value) {
-        this.store$.dispatch(updateDepartmentRequested({ department: this.department }));
-      }
-    });
+    const dialogModel: DialogConfirmModal = new DialogConfirmModal(CONSTANTS.TEXTS_UPDATE_DEPARTMENT_CONFIRM);
+    const dialogDataModel = new DialogDataModel(dialogModel);
+
+    this.dialogService
+      .confirm(DialogConfirmComponent, dialogDataModel)
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((result: boolean) => {
+        if (result) {
+          this.store$.dispatch(updateDepartmentRequested({ department: this.department }));
+        }
+      });
   }
 
   ngOnDestroy(): void {

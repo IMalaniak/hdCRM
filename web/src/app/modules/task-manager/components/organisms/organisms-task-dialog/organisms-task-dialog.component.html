@@ -1,5 +1,4 @@
-<h1 mat-dialog-title>{{ data.title }}</h1>
-<div mat-dialog-content class="task-dialog">
+<component-dialog class="task-dialog" [formValid]="taskData.invalid" (dialogClose)="onClose($event)">
   <form [formGroup]="taskData" class="task-dialog-form-block">
     <mat-form-field appearance="outline">
       <mat-label i18n="@@taskDialogСomponentInputLableTitle">Title:</mat-label>
@@ -43,7 +42,7 @@
     <mat-form-field appearance="outline">
       <mat-label i18n="@@taskDialogСomponentInputLablePriority">Priority:</mat-label>
       <mat-select formControlName="TaskPriorityId">
-        <mat-option *ngFor="let priority of data.priorities" [value]="priority.id">{{ priority.label }}</mat-option>
+        <mat-option *ngFor="let priority of model.priorities" [value]="priority.id">{{ priority.label }}</mat-option>
       </mat-select>
       <mat-error
         *ngIf="
@@ -60,12 +59,4 @@
       </mat-error>
     </mat-form-field>
   </form>
-</div>
-<div mat-dialog-actions class="task-dialog-actions">
-  <atoms-icon-button (click)="dialogRef.close()" [icon]="['fas', 'times']" [color]="themePalette.BASIC">
-    {{ actionLabels.CANCEL }}
-  </atoms-icon-button>
-  <atoms-icon-button [disabled]="taskData.invalid" (onclick)="onSubmit()" [icon]="['fas', 'save']" color="primary">
-    {{ actionLabels.SAVE }}
-  </atoms-icon-button>
-</div>
+</component-dialog>

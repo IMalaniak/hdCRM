@@ -1,24 +1,29 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { takeUntil, map } from 'rxjs/operators';
+import { SelectionModel } from '@angular/cdk/collections';
+import { Subject, Observable } from 'rxjs';
+
 import { Privilege } from '../../../models';
 import { AddPrivilegeDialogComponent } from '../add-dialog/add-privilege-dialog.component';
-import { Subject, Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { allPrivilegesRequested, createPrivilegeRequested } from '@/modules/roles/store/privilege.actions';
 import { selectAllPrivileges, selectPrivilegesLoading } from '@/modules/roles/store/privilege.selectors';
-import { takeUntil, map } from 'rxjs/operators';
-import { SelectionModel } from '@angular/cdk/collections';
-import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS } from '@/shared/constants';
+import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, CONSTANTS } from '@/shared/constants';
+import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
+import { DialogService } from '@/core/services/dialog/dialog.service';
+import { DialogMode } from '@/shared/models/modal/dialog-mode.enum';
+import { ModalDialogResult } from '@/shared/models/modal/modal-dialog-result.model';
+import { DialogCreateEditModel } from '@/shared/models';
 
 @Component({
-  selector: 'app-privileges',
+  selector: 'privileges-component',
   templateUrl: './privileges.component.html',
   styleUrls: ['./privileges.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PrivilegesComponent implements OnInit, OnDestroy {
-  isLoading$: Observable<boolean> = this.store.pipe(select(selectPrivilegesLoading));
+  isLoading$: Observable<boolean> = this.store$.pipe(select(selectPrivilegesLoading));
 
   selection = new SelectionModel<Privilege>(true, []);
   privileges: Privilege[];
@@ -31,11 +36,11 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private dialog: MatDialog, private store: Store<AppState>, private cdr: ChangeDetectorRef) {}
+  constructor(private store$: Store<AppState>, private cdr: ChangeDetectorRef, private dialogService: DialogService) {}
 
   ngOnInit(): void {
-    this.store.dispatch(allPrivilegesRequested());
-    this.store
+    this.store$.dispatch(allPrivilegesRequested());
+    this.store$
       .pipe(
         takeUntil(this.unsubscribe),
         select(selectAllPrivileges),
@@ -62,14 +67,20 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
   }
 
   createPrivilegeDialog(): void {
-    const dialogRef = this.dialog.open(AddPrivilegeDialogComponent);
+    const dialogModel = new DialogCreateEditModel(
+      DialogMode.CREATE,
+      CONSTANTS.TEXTS_CREATE_PRIVILEGE,
+      ACTION_LABELS.SUMBIT
+    );
+    const dialogDataModel = new DialogDataModel(dialogModel);
 
-    dialogRef
+    this.dialogService
+      .open(AddPrivilegeDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((privilege: Privilege) => {
-        if (privilege) {
-          this.store.dispatch(createPrivilegeRequested({ privilege }));
+      .subscribe((result: ModalDialogResult<Privilege>) => {
+        if (result && result.result) {
+          this.store$.dispatch(createPrivilegeRequested({ privilege: result.model }));
         }
       });
   }

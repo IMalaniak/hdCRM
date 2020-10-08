@@ -1,33 +1,34 @@
 import { Component, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { RolesComponent } from '../list/roles.component';
-import { Role } from '../../models/role';
-import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
+import { ComponentType } from '@angular/cdk/portal/portal';
 
-export interface RolesDialogData {
-  title: string;
-}
+import { RolesComponent } from '../list/roles.component';
+import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
+import { DialogDataModel, DialogWithTwoButtonModel, ModalDialogResult } from '@/shared/models';
+import { BaseModel } from '@/shared/models/base';
+import { DialogBaseModel } from '@/shared/components';
+
 @Component({
   templateUrl: 'roles-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RolesDialogComponent {
+export class RolesDialogComponent<
+  TDialogModel extends DialogWithTwoButtonModel,
+  TModel extends BaseModel
+> extends DialogBaseModel<TDialogModel, TModel> {
+  @ViewChild(RolesComponent, { static: true }) rolesComponent: RolesComponent;
+
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
 
   constructor(
-    public dialogRef: MatDialogRef<RolesDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: RolesDialogData
-  ) {}
-
-  @ViewChild(RolesComponent, { static: true })
-  rolesComponent: RolesComponent;
-
-  onNoClick(): void {
-    this.dialogRef.close();
+    readonly dialogRef: MatDialogRef<ComponentType<TModel>>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel, TModel>
+  ) {
+    super(dialogRef, data);
   }
 
-  onSubmitClick(roles: Role[]): void {
-    this.dialogRef.close(roles);
+  onClose(result: boolean): void {
+    return this.dialogRef.close(new ModalDialogResult(result, this.rolesComponent.selection.selected));
   }
 }

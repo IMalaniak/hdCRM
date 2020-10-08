@@ -1,19 +1,21 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { Store, select } from '@ngrx/store';
-import { takeUntil, skipUntil, delay } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+
+import { Store, select } from '@ngrx/store';
 import { Plan } from '../../models';
 import { UsersDialogComponent, User } from '@/modules/users';
 import { AppState } from '@/core/reducers';
 import { currentUser } from '@/core/auth/store/auth.selectors';
 import { createPlanRequested } from '../../store/plan.actions';
-import { MediaqueryService } from '@/shared/services';
-import { ACTION_LABELS } from '@/shared/constants';
+import { ACTION_LABELS, CONSTANTS } from '@/shared/constants';
+import { DialogService } from '@/core/services/dialog/dialog.service';
+import { DialogWithTwoButtonModel } from '@/shared/models/modal/dialog-with-two-button.model';
+import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
+import { ModalDialogResult } from '@/shared/models/modal/modal-dialog-result.model';
 
 @Component({
-  selector: 'add-plan',
   templateUrl: './add-plan.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -27,11 +29,10 @@ export class AddPlanComponent implements OnInit, OnDestroy {
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
-    private dialog: MatDialog,
     private store$: Store<AppState>,
-    private mediaQuery: MediaqueryService,
     private fb: FormBuilder,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private dialogService: DialogService
   ) {}
 
   ngOnInit(): void {
@@ -45,47 +46,44 @@ export class AddPlanComponent implements OnInit, OnDestroy {
 
   buildPlanForm(): void {
     this.planData = this.fb.group({
-      title: new FormControl('', [Validators.required, Validators.maxLength(100)]),
-      budget: new FormControl('', [Validators.required, Validators.min(0)]),
-      description: new FormControl('', [Validators.required, Validators.maxLength(2500)]),
-      deadline: new FormControl('', Validators.required)
+      title: new FormControl(null, [Validators.required, Validators.maxLength(100)]),
+      budget: new FormControl(null, [Validators.required, Validators.min(0)]),
+      description: new FormControl(null, [Validators.required, Validators.maxLength(2500)]),
+      deadline: new FormControl(null, Validators.required)
     });
   }
 
   addParticipantDialog(): void {
-    const dialogRef = this.dialog.open(UsersDialogComponent, {
-      ...this.mediaQuery.deFaultPopupSize,
-      data: {
-        title: 'Select participants'
-      }
-    });
+    const dialogDataModel = new DialogDataModel(new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_PARTICIPANS));
 
-    const userC = dialogRef.componentInstance.usersComponent;
-
-    dialogRef
-      .afterOpened()
-      .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
-      .subscribe(() => {
-        userC.users
-          .filter((user) => this.plan.Participants.some((participant) => participant.id === user.id))
-          ?.forEach((selectedParticipant) => {
-            userC.selection.select(selectedParticipant);
-          });
-      });
-
-    dialogRef
+    this.dialogService
+      .open(UsersDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: User[]) => {
-        const selectedParticipants: User[] = result?.filter(
-          (selectedParticipant) => !this.plan.Participants.some((user) => user.id === selectedParticipant.id)
-        );
-
-        if (selectedParticipants?.length) {
-          this.plan.Participants = [...this.plan.Participants, ...selectedParticipants];
-          this.cdr.detectChanges();
+      .subscribe((result: ModalDialogResult<User[]>) => {
+        if (result && result.result) {
+          const selectedParticipants: User[] = result.model.filter(
+            (selectedParticipant) => !this.plan.Participants.some((user) => user.id === selectedParticipant.id)
+          );
+          if (selectedParticipants?.length) {
+            this.plan.Participants = [...this.plan.Participants, ...selectedParticipants];
+            this.cdr.detectChanges();
+          }
         }
       });
+
+    // const userC = dialogRef.componentInstance.usersComponent;
+
+    // dialogRef
+    //   .afterOpened()
+    //   .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
+    //   .subscribe(() => {
+    //     userC.users
+    //       .filter((user) => this.plan.Participants.some((participant) => participant.id === user.id))
+    //       ?.forEach((selectedParticipant) => {
+    //         userC.selection.select(selectedParticipant);
+    //       });
+    //   });
   }
 
   removeParticipant(userId: number): void {

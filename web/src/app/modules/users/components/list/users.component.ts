@@ -4,18 +4,26 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { Store, select } from '@ngrx/store';
 import { Observable, Subject, merge } from 'rxjs';
 import { tap, takeUntil } from 'rxjs/operators';
+
+import { Store, select } from '@ngrx/store';
 import { UserService, UsersDataSource } from '../../services';
 import { User } from '../../models';
 import { AppState } from '@/core/reducers';
 import { selectIsLoading, selectUsersTotalCount } from '../../store/user.selectors';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
-import { deleteUser } from '../../store/user.actions';
+import { deleteUser, inviteUsers } from '../../store/user.actions';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
-import { MediaqueryService, ToastMessageService } from '@/shared/services';
-import { PageQuery } from '@/shared/models';
+import { ToastMessageService } from '@/shared/services';
+import {
+  ApiResponse,
+  DialogCreateEditModel,
+  DialogDataModel,
+  DialogMode,
+  ModalDialogResult,
+  PageQuery
+} from '@/shared/models';
 import {
   IItemsPerPage,
   pageSizeOptions,
@@ -26,17 +34,13 @@ import {
   CONSTANTS
 } from '@/shared/constants';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
-import {
-  DIALOG,
-  ADD_PRIVILEGES,
-  EDIT_PRIVILEGES,
-  DELETE_PRIVILEGES,
-  SORT_DIRECTION,
-  COLUMN_NAMES
-} from '@/shared/constants';
+import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, SORT_DIRECTION, COLUMN_NAMES } from '@/shared/constants';
+import { DialogConfirmModal } from '@/shared/models/modal/dialog-question.model';
+import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
+import { DialogService } from '@/core/services/dialog';
 
 @Component({
-  selector: 'app-users',
+  selector: 'users-component',
   templateUrl: './users.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -83,8 +87,8 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
     private userService: UserService,
     private store$: Store<AppState>,
     public dialog: MatDialog,
-    private mediaQuery: MediaqueryService,
-    private toastMessageService: ToastMessageService
+    private toastMessageService: ToastMessageService,
+    private dialogService: DialogService
   ) {}
 
   ngAfterViewInit(): void {
@@ -110,9 +114,22 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
   }
 
   openInvitationDialog(): void {
-    this.dialog.open(InvitationDialogComponent, {
-      ...this.mediaQuery.smallPopupSize
-    });
+    const dialogModel: DialogCreateEditModel = new DialogCreateEditModel(
+      DialogMode.CREATE,
+      CONSTANTS.TEXTS_INVITE_USERS,
+      CONSTANTS.TEXTS_SEND_INVITATIONS
+    );
+    const dialogDataModel = new DialogDataModel(dialogModel);
+
+    this.dialogService
+      .open(InvitationDialogComponent, dialogDataModel)
+      .afterClosed()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((result: ModalDialogResult<User[]>) => {
+        if (result && result.result) {
+          this.store$.dispatch(inviteUsers({ users: result.model }));
+        }
+      });
   }
 
   // isAllSelected() {
@@ -129,11 +146,17 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
   // }
 
   deleteUser(id: number): void {
-    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_DELETE_USER_CONFIRM).then((result) => {
-      if (result.value) {
-        this.store$.dispatch(deleteUser({ id }));
-      }
-    });
+    const dialogModel: DialogConfirmModal = new DialogConfirmModal(CONSTANTS.TEXTS_DELETE_USER_CONFIRM);
+    const dialogDataModel = new DialogDataModel(dialogModel);
+
+    this.dialogService
+      .confirm(DialogConfirmComponent, dialogDataModel)
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((result: boolean) => {
+        if (result) {
+          this.store$.dispatch(deleteUser({ id }));
+        }
+      });
   }
 
   changeUserState(user: User, state: number): void {
@@ -141,12 +164,16 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
 
     // TODO: @IMalaniak recreate this to store
     this.userService.updateUserState(userState).subscribe(
-      (response) => {
-        user = { ...user, State: response.data.State };
-        this.toastMessageService.toast(`User state was changed to: ${response.data.State.keyString}`);
+      (result) => {
+        // user = { ...user, State: response.data.State };
+        const response: ApiResponse = {
+          success: result.success,
+          message: `User state was changed to: ${result.data.State.keyString}`
+        };
+        this.toastMessageService.snack(response);
       },
       () => {
-        this.toastMessageService.popup('Ooops, something went wrong!', 'error');
+        // this.toastMessageService.snack(response);
       }
     );
   }
