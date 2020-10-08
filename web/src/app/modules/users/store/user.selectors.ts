@@ -3,6 +3,7 @@ import * as fromUser from './user.reducer';
 import { PageQuery } from '@/shared/models';
 import { User } from '../models';
 import { UserState } from '@/shared/constants';
+import { currentUser } from '@/core/auth/store/auth.selectors';
 
 export const selectUsersState = createFeatureSelector<fromUser.UsersState>(fromUser.usersFeatureKey);
 
@@ -14,7 +15,9 @@ export const selectAllUsers = createSelector(selectUsersState, fromUser.selectAl
 export const selectUsersByState = (state: UserState) =>
   createSelector(selectAllUsers, (users) => users.filter((user) => user.state === state));
 
-export const selectUsersOnline = createSelector(selectAllUsers, (users) => users.filter((user) => user.online));
+export const selectUsersOnline = createSelector(selectAllUsers, currentUser, (users, appUser) =>
+  users.filter((user) => user.online && user.id !== appUser.id)
+);
 
 export const allUsersLoaded = createSelector(selectUsersState, (userState) => userState.allUsersLoaded);
 

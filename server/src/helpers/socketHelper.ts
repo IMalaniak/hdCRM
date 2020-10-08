@@ -2,6 +2,7 @@ export interface UserOnline {
   id: number;
   name: string;
   surname: string;
+  fullname: string;
   avatar: any; // TODO Asset
   lastSocketId: string;
   activeSockets?: string[];
@@ -18,17 +19,17 @@ export class SocketHelper {
   }
 
   public addUser(newUser: UserOnline) {
-    const userExist = this.userList.find((user) => user.id === newUser.id);
+    let userExist: UserOnline = this.userList.find((user) => user.id === newUser.id);
     if (userExist) {
-      userExist.activeSockets.push(newUser.lastSocketId);
+      userExist = { ...userExist, activeSockets: [...userExist.activeSockets, newUser.lastSocketId] };
     } else {
-      newUser.activeSockets = [newUser.lastSocketId];
-      this.userList.push(newUser);
+      newUser = { ...newUser, activeSockets: [newUser.lastSocketId] };
+      this.userList = [...this.userList, newUser];
     }
   }
 
   public removeActiveSocket(lastSocketId: string) {
-    const userExist = this.userList.find((user) => user.activeSockets.includes(lastSocketId));
+    const userExist: UserOnline = this.userList.find((user) => user.activeSockets.includes(lastSocketId));
     if (userExist) {
       if (userExist.activeSockets.length >= 2) {
         const i = userExist.activeSockets.indexOf(lastSocketId);
@@ -41,7 +42,7 @@ export class SocketHelper {
   }
 
   public removeUser(lastSocketId: string) {
-    const userExist = this.userList.find((user) => user.activeSockets.includes(lastSocketId));
+    const userExist: UserOnline = this.userList.find((user) => user.activeSockets.includes(lastSocketId));
     if (userExist) {
       this.userList = this.userList.filter((user) => user.id !== userExist.id);
     }

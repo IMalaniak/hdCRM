@@ -55,7 +55,7 @@
     </div>
     <div class="col-md-6">
       <templates-box-user-list-sm
-        title="Manager"
+        cardTitle="Manager"
         [user]="department.Manager"
         [editMode]="editForm$ | async"
         (addClick)="addManagerDialog()"
@@ -66,8 +66,8 @@
   <div content class="row">
     <div class="col-md-6 mt-3">
       <templates-box-user-list-sm
+        cardTitle="Workers"
         [users]="department.Workers"
-        title="Workers"
         [editMode]="editForm$ | async"
         (addClick)="addWorkersDialog()"
         (removeClick)="removeWorker($event)"
