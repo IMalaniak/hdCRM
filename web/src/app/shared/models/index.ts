@@ -7,3 +7,4 @@ export * from './multiChartData';
 export * from './newPassword';
 export * from './pageQuery';
 export * from './singleChartData';
+export * from './modal';
