@@ -1,0 +1,13 @@
+<component-dialog-base (dialogClose)="onClose($event)">
+  <ng-container dialog-content>
+    <ng-content></ng-content>
+  </ng-container>
+  <div dialog-actions class="dialog-buttons">
+    <atoms-icon-button *ngIf="closeButtonVisible" [color]="cancelBtnColor" (onclick)="onCancelButtonClick()">
+      {{ dialogModel.btnCancelTextKey }}
+    </atoms-icon-button>
+    <atoms-icon-button id="successButton" [disabled]="formValid" (onclick)="onOkButtonClick()">
+      {{ dialogModel.btnOkTextKey }}
+    </atoms-icon-button>
+  </div>
+</component-dialog-base>
