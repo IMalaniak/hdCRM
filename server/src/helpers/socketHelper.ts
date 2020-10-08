@@ -19,7 +19,7 @@ export class SocketHelper {
   }
 
   public addUser(newUser: UserOnline) {
-    let userExist = this.userList.find((user) => user.id === newUser.id);
+    let userExist: UserOnline = this.userList.find((user) => user.id === newUser.id);
     if (userExist) {
       userExist = { ...userExist, activeSockets: [...userExist.activeSockets, newUser.lastSocketId] };
     } else {
@@ -29,7 +29,7 @@ export class SocketHelper {
   }
 
   public removeActiveSocket(lastSocketId: string) {
-    const userExist = this.userList.find((user) => user.activeSockets.includes(lastSocketId));
+    const userExist: UserOnline = this.userList.find((user) => user.activeSockets.includes(lastSocketId));
     if (userExist) {
       if (userExist.activeSockets.length >= 2) {
         const i = userExist.activeSockets.indexOf(lastSocketId);
@@ -42,7 +42,7 @@ export class SocketHelper {
   }
 
   public removeUser(lastSocketId: string) {
-    const userExist = this.userList.find((user) => user.activeSockets.includes(lastSocketId));
+    const userExist: UserOnline = this.userList.find((user) => user.activeSockets.includes(lastSocketId));
     if (userExist) {
       this.userList = this.userList.filter((user) => user.id !== userExist.id);
     }
