@@ -15,6 +15,7 @@ import { OrganizationFactory, Organization } from './Organization';
 import { TaskFactory, Task } from './Task';
 import { TaskPriorityFactory, TaskPriority } from './TaskPriority';
 import { PreferenceFactory, Preference } from './Preference';
+import { FormFactory, Form } from './Form';
 
 class DataBase {
   sequelize: Sequelize;
@@ -50,6 +51,7 @@ class DataBase {
     TaskFactory(this.sequelize);
     TaskPriorityFactory(this.sequelize);
     PreferenceFactory(this.sequelize);
+    FormFactory(this.sequelize);
 
     // associations
     Organization.hasMany(Department, {
@@ -174,5 +176,6 @@ export {
   Task,
   TaskPriority,
   Preference,
+  Form,
   Sequelize
 };
