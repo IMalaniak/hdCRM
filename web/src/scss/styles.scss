@@ -225,12 +225,25 @@ main {
   background-color: $black;
 }
 
-.card-actions {
-  margin-left: auto;
-
+.card-actions,
+.dialog-buttons {
   atoms-icon-button + atoms-icon-button {
     margin-left: crmsize(spacer, sm, true);
   }
+}
+
+.card-actions {
+  margin-left: auto;
+}
+
+.dialog-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+button .mat-button-focus-overlay {
+  background-color: transparent !important;
 }
 
 // Define sizing utility to allow responsive breakpoints
