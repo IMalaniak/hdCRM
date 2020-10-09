@@ -90,6 +90,20 @@
   }
 }
 
+@mixin set-bordercolor($variant, $host-context: true) {
+  @include color(border-color, 'theme', $variant);
+
+  @if $host-context == true {
+    :host-context(.dark-theme) & {
+      @include color(border-color, 'theme-dark', $variant);
+    }
+  } @else {
+    .dark-theme & {
+      @include color(border-color, 'theme-dark', $variant);
+    }
+  }
+}
+
 @mixin getZ-Index($container) {
   z-index: map-get($layer-priorities, $container);
 }
