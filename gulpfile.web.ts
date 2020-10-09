@@ -45,7 +45,7 @@ task({
 
 task({
   name: 'web:dev',
-  alias: 'cd',
+  alias: 'wd',
   fct: doRun('node_modules/.bin/ng serve -o', { ...cwd, ...devOptions }),
   desc: 'Start the web dev server on port 3333'
 });
