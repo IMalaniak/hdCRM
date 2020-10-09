@@ -19,7 +19,7 @@ import { DynamicForm } from '@/shared/models';
   template: `
     <form class="d-flex flex-column p-3" [formGroup]="form" *ngIf="formJson">
       <molecules-form-field
-        *ngFor="let field of formJson.formItems"
+        *ngFor="let field of formJson.form"
         [label]="field.label"
         [color]="field.color"
         [options]="field.options"
