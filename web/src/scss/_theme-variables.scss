@@ -7,19 +7,19 @@ $default-primary-palette: $mat-light-blue;
 $default-primary-palette-shade: 500;
 
 $default-accent-palette: $mat-cyan;
-$default-accent-palette-shade: 600;
+$default-accent-palette-shade: 800;
 
 $default-warn-palette: $mat-red;
-$default-warn-palette-shade: 400;
+$default-warn-palette-shade: 800;
 
 $dark-primary-palette: $mat-light-blue;
 $dark-primary-palette-shade: 500;
 
 $dark-accent-palette: $mat-cyan;
-$dark-accent-palette-shade: 600;
+$dark-accent-palette-shade: 800;
 
 $dark-warn-palette: $mat-red;
-$dark-warn-palette-shade: 400;
+$dark-warn-palette-shade: 800;
 
 // reset bootstrap theme variables
 $blue: mat-color($default-primary-palette, $default-primary-palette-shade);

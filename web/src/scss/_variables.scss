@@ -48,8 +48,8 @@ $gray-900: #3a3a3a;
 $black: #212121;
 
 // reset bootstrap theme colors
-$light: #e1f5fe;
-$dark: #263238;
+$light: #fafafa;
+$dark: #212121;
 
 // reset bootstrap transitions
 $btn-transition: color $transition, background-color $transition, border-color $transition, box-shadow $transition;
@@ -77,13 +77,13 @@ $app-colors: (
     'dark': $dark
   ),
   'theme-dark': (
-    'background': #263338,
+    'background': #222222,
     'text': $light,
     'primary': $primary-dark,
     'accent': $accent-dark,
     'warn': $warn-dark,
-    'light': #35484f,
-    'dark': #35484f
+    'light': #424242,
+    'dark': #424242
   )
 );
 
