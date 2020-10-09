@@ -33,3 +33,5 @@ const dynamicFormReducer = createReducer(
 export function reducer(state: DynamicFormState | undefined, action: Action) {
   return dynamicFormReducer(state, action);
 }
+
+export const { selectAll, selectEntities, selectIds, selectTotal } = adapter.getSelectors();
