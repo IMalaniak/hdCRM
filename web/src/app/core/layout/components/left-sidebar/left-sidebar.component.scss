@@ -3,7 +3,7 @@
 @import '~bootstrap/scss/mixins/breakpoints';
 
 left-sidebar {
-  @include set-bgcolor('dark');
+  @include set-bgcolor('dark', false);
   position: fixed;
   top: app-size(header, height, true);
   left: 0;

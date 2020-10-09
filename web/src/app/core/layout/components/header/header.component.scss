@@ -11,7 +11,7 @@
   justify-content: space-between;
   min-height: app-size(header, height, true);
   flex-basis: app-size(header, height, true);
-  @include set-bgcolor('dark');
+  @include set-bgcolor('dark', false);
   box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
   @include getZ-Index(header);
 
@@ -21,8 +21,8 @@
       align-items: center;
       justify-content: center;
       width: app-size(sidebar, minimized, true);
-      @include set-bgcolor('primary');
-      @include set-textcolor('light');
+      @include set-bgcolor('primary', false);
+      @include set-textcolor('light', false);
       overflow: hidden;
       transition: all $transition;
 
@@ -192,7 +192,7 @@
     width: 100%;
     border-radius: 10px;
     height: 2px;
-    @include set-bgcolor('light');
+    @include set-bgcolor('light', false);
     transition: all $transition;
     position: relative;
 

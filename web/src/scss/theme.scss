@@ -23,3 +23,17 @@ $general-typography: mat-typography-config(
 .dark-theme {
   @include angular-material-theme($dark-theme);
 }
+
+.mat-card,
+.mat-table {
+  @include set-bgcolor('light', false);
+  @include set-textcolor('text', false);
+}
+
+.mat-cell {
+  @include set-textcolor('text', false);
+}
+
+.mat-paginator {
+  @include set-bgcolor('light', false);
+}

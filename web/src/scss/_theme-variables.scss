@@ -4,22 +4,22 @@
 $font-family: 'Lato', sans-serif;
 
 $default-primary-palette: $mat-light-blue;
-$default-primary-palette-shade: 600;
+$default-primary-palette-shade: 500;
 
-$default-accent-palette: $mat-teal;
+$default-accent-palette: $mat-cyan;
 $default-accent-palette-shade: 600;
 
 $default-warn-palette: $mat-red;
-$default-warn-palette-shade: 600;
+$default-warn-palette-shade: 400;
 
 $dark-primary-palette: $mat-light-blue;
-$dark-primary-palette-shade: 600;
+$dark-primary-palette-shade: 500;
 
-$dark-accent-palette: $mat-light-green;
-$dark-accent-palette-shade: 500;
+$dark-accent-palette: $mat-cyan;
+$dark-accent-palette-shade: 600;
 
-$dark-warn-palette: $mat-deep-orange;
-$dark-warn-palette-shade: 500;
+$dark-warn-palette: $mat-red;
+$dark-warn-palette-shade: 400;
 
 // reset bootstrap theme variables
 $blue: mat-color($default-primary-palette, $default-primary-palette-shade);
