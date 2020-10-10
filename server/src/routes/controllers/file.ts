@@ -1,4 +1,4 @@
-import { INTERNAL_SERVER_ERROR } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import { Controller, Middleware, Get } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Logger } from '@overnightjs/logger';
@@ -24,7 +24,7 @@ export class FileController {
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(INTERNAL_SERVER_ERROR).json(err.toString());
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err.toString());
       });
   }
 }

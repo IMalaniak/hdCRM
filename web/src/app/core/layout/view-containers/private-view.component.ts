@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
-import { filter } from 'rxjs/operators';
-
+import { filter, takeUntil } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { User } from '@/modules/users';
@@ -65,14 +64,19 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
   constructor(private router: Router, public mediaQueryService: MediaQueryService, private store$: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
-      if (this.mediaQueryService.isMobileDevice) {
-        this.toggleLeftSidebar(true);
-        this.toggleRightSidebar(true);
-      }
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        takeUntil(this.unsubscribe)
+      )
+      .subscribe(() => {
+        if (this.mediaQueryService.isMobileDevice) {
+          this.toggleLeftSidebar(true);
+          this.toggleRightSidebar(true);
+        }
 
-      this.contentWrapper.nativeElement.scrollTo(0, 0);
-    });
+        this.contentWrapper.nativeElement.scrollTo(0, 0);
+      });
   }
 
   toggleLeftSidebar(minimized: boolean): void {

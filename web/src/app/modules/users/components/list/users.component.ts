@@ -17,11 +17,11 @@ import { deleteUser, inviteUsers } from '../../store/user.actions';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
 import { DialogSizeService, ToastMessageService } from '@/shared/services';
 import {
-  ApiResponse,
   DialogCreateEditModel,
   DialogDataModel,
   DialogMode,
   DialogType,
+  ItemApiResponse,
   ModalDialogResult,
   PageQuery
 } from '@/shared/models';
@@ -32,7 +32,8 @@ import {
   COLUMN_LABELS,
   THEME_PALETTE,
   RoutingConstants,
-  CONSTANTS
+  CONSTANTS,
+  UserState
 } from '@/shared/constants';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, SORT_DIRECTION, COLUMN_NAMES } from '@/shared/constants';
@@ -80,6 +81,7 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
     COLUMN_NAMES.UPDATED_AT,
     COLUMN_NAMES.ACTIONS
   ];
+  userStates = UserState;
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -161,23 +163,17 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
       });
   }
 
-  changeUserState(user: User, state: number): void {
-    const userState = { id: user.id, StateId: state } as User;
+  changeUserState(user: User, state: UserState): void {
+    const userState = { id: user.id, state } as User;
 
     // TODO: @IMalaniak recreate this to store
-    this.userService.updateUserState(userState).subscribe(
-      (result) => {
-        // user = { ...user, State: response.data.State };
-        const response: ApiResponse = {
-          success: result.success,
-          message: `User state was changed to: ${result.data.State.keyString}`
-        };
-        this.toastMessageService.snack(response);
-      },
-      () => {
-        // this.toastMessageService.snack(response);
-      }
-    );
+    this.userService.updateUserState(userState).subscribe((response: ItemApiResponse<User>) => {
+      const serverResponse = {
+        success: response.success,
+        message: `User state was changed to: ${response.data.state}`
+      };
+      this.toastMessageService.snack(serverResponse);
+    });
   }
 
   onUserSelect(id: number, edit: boolean = false): void {

@@ -43,6 +43,6 @@
 
   span,
   fa-icon {
-    @include crm-textcolor('layout', 'background');
+    @include set-textcolor('background');
   }
 }

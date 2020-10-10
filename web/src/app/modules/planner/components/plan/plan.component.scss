@@ -11,9 +11,9 @@
 }
 
 .stages-item {
-  @include crm-bgcolor('layout', 'milk');
+  @include set-bgcolor('light');
   padding: 1.1em 1.1em 1.1em 2.86em;
-  margin: 0 crmsize(spacer, sm, true);
+  margin: 0 app-size(spacer, sm, true);
   position: relative;
   white-space: nowrap;
   transition: background-color $transition;
@@ -39,14 +39,14 @@
     width: 0;
     position: absolute;
     pointer-events: none;
-    border-left-color: crmcolor('layout', 'milk', true);
+    border-left-color: app-color('theme', 'light', true);
     border-width: 1.85em;
     margin-top: -1.85em;
     transition: border-left-color $transition;
   }
 
   &:before {
-    border-left-color: crmcolor('layout', 'background', true);
+    border-left-color: app-color('theme', 'background', true);
     left: 0;
   }
 
@@ -57,7 +57,7 @@
   }
 
   &.active {
-    @include crm-textcolor('layout', 'background');
+    @include set-textcolor('background');
     background: theme-color('success');
     &:after {
       border-left-color: theme-color('success');
@@ -65,11 +65,11 @@
   }
 
   &.passed {
-    @include crm-textcolor('layout', 'background');
-    background: crmcolor('layout', 'dark', true);
+    @include set-textcolor('background');
+    background: app-color('theme', 'dark', true);
     text-decoration: line-through;
     &:after {
-      border-left-color: crmcolor('layout', 'dark', true);
+      border-left-color: app-color('theme', 'dark', true);
     }
   }
 

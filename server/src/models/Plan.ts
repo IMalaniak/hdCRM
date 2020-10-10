@@ -110,7 +110,10 @@ export const PlanFactory = (sequelize: Sequelize): Model => {
       },
       title: {
         type: new DataTypes.STRING(255),
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       },
       description: {
         type: DataTypes.TEXT

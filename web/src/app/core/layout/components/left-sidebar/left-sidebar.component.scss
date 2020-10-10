@@ -3,9 +3,9 @@
 @import '~bootstrap/scss/mixins/breakpoints';
 
 left-sidebar {
-  @include crm-bgcolor('layout', 'dark');
+  @include set-bgcolor('dark');
   position: fixed;
-  top: crmsize(header, height, true);
+  top: app-size(header, height, true);
   left: 0;
   bottom: 0;
   min-width: 100%;
@@ -17,23 +17,23 @@ left-sidebar {
   }
 
   @include media-breakpoint-up(md) {
-    min-width: crmsize(sidebar, width, true);
-    flex-basis: crmsize(sidebar, width, true);
+    min-width: app-size(sidebar, width, true);
+    flex-basis: app-size(sidebar, width, true);
 
     &.minimized {
-      left: -(crmsize(sidebar, width, true));
+      left: -(app-size(sidebar, width, true));
     }
   }
 
   @include media-breakpoint-up(lg) {
     position: sticky;
-    min-width: crmsize(sidebar, width, true);
-    flex-basis: crmsize(sidebar, width, true);
+    min-width: app-size(sidebar, width, true);
+    flex-basis: app-size(sidebar, width, true);
     transition: min-width $transition, flex-basis $transition, left $transition;
 
     &.minimized {
-      min-width: crmsize(sidebar, minimized, true);
-      flex-basis: crmsize(sidebar, minimized, true);
+      min-width: app-size(sidebar, minimized, true);
+      flex-basis: app-size(sidebar, minimized, true);
     }
   }
 }
@@ -50,16 +50,16 @@ left-sidebar {
     .item-btn {
       display: flex;
       align-items: center;
-      height: crmsize(header, height, true);
-      @include crm-textcolor('layout', 'milk');
+      height: app-size(header, height, true);
+      @include set-textcolor('light');
       transition: border-width $transition;
 
       &:hover,
       &.active {
         border-left: 7px solid;
         text-decoration: none;
-        @include crm-bgcolor('layout', 'milk');
-        @include crm-textcolor('theme', 'primary');
+        @include set-bgcolor('light');
+        @include set-textcolor('primary');
       }
 
       .item-title {

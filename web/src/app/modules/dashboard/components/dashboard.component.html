@@ -46,19 +46,18 @@
               ><small>{{ appUser.PasswordAttributes.updatedAt | dateTimeFormat | async }}</small>
             </div>
           </li>
-          <!-- TODO @IMalaniak change this -->
-          <!-- <li *ngIf="appUser.lastSessionData && appUser.lastSessionData.dateLastLoggedIn">
+          <li *ngIf="lastSuccesfulSession$ | async as lastSuccesfulSession">
             <div>
               <small i18n="@@dashboardCardsUserDateLastLoggedIn">Last session:</small
-              ><small>{{ appUser.lastSessionData.dateLastLoggedIn | dateTimeFormat | async }}</small>
+              ><small>{{ lastSuccesfulSession.updatedAt | dateTimeFormat | async }}</small>
             </div>
           </li>
-          <li *ngIf="appUser.lastSessionData && appUser.lastSessionData.dateUnsuccessfulLogIn">
+          <li *ngIf="lastFailedSession$ | async as lastFailedSession">
             <div>
               <small i18n="@@dashboardCardsUserDateUnsuccessfulLogIn">Unsuccessful login:</small
-              ><small>{{ appUser.lastSessionData.dateUnsuccessfulLogIn | dateTimeFormat | async }}</small>
+              ><small>{{ lastFailedSession.updatedAt | dateTimeFormat | async }}</small>
             </div>
-          </li> -->
+          </li>
         </ul>
       </section>
     </organisms-card>

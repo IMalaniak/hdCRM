@@ -11,6 +11,7 @@ import { Logger } from '@overnightjs/logger';
 import Passport from './config/passport';
 import socketIO from 'socket.io';
 import { SocketRouter } from './socketRoutes';
+import { Config } from './config';
 
 class CrmServer extends Server {
   private dBase: DataBase;
@@ -27,7 +28,7 @@ class CrmServer extends Server {
     this.app.use(
       cors({
         credentials: true,
-        ...(process.env.NODE_ENV === 'development' && { origin: process.env.WEB_URL })
+        ...(process.env.NODE_ENV === 'development' && { origin: Config.WEB_URL })
       })
     );
     this.app.use(cookieParser());
@@ -67,23 +68,12 @@ class CrmServer extends Server {
   }
 
   public start(port: number): void {
-    if (process.env.NODE_ENV !== 'production') {
-      // Sync DB
-      this.dBase.sequel
-        .sync({
-          // alter: true
-          // force: true
-        })
-        .then(() => {
-          this.server.listen(port, '127.0.0.1', () => {
-            Logger.Info(`Server is listening on ${port}`);
-          });
-        });
-    } else {
+    // Sync DB
+    this.dBase.sequel.sync().then(() => {
       this.server.listen(port, () => {
         Logger.Info(`Server is listening on ${port}`);
       });
-    }
+    });
   }
 }
 

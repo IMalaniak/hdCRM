@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
-import { tap, map, switchMap, catchError, concatMap, withLatestFrom, mergeMap } from 'rxjs/operators';
-import { of } from 'rxjs';
-
 import { Actions, ofType, createEffect, OnInitEffects } from '@ngrx/effects';
+import { of } from 'rxjs';
+import { tap, map, switchMap, catchError, concatMap, withLatestFrom, mergeMap, exhaustMap } from 'rxjs/operators';
 import * as authActions from './auth.actions';
 import { AuthenticationService } from '../services';
 import { SocketService, ToastMessageService } from '@/shared/services';
@@ -47,19 +46,22 @@ export class AuthEffects implements OnInitEffects {
     this.actions$.pipe(
       ofType(authActions.logIn),
       map((payload) => payload.user),
-      switchMap((userLoginData) => this.authService.login(userLoginData)),
-      switchMap((accessToken: string) => {
-        const sessionId = this.authService.getTokenDecoded(accessToken).sessionId;
-        return [authActions.logInSuccess({ accessToken }), authActions.setSessionId({ sessionId })];
-      }),
-      tap(() => {
-        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || RoutingConstants.ROUTE_DASHBOARD;
-        this.router.navigateByUrl(returnUrl);
-      }),
-      catchError((errorResponse: HttpErrorResponse) => {
-        this.toastMessageService.snack(errorResponse.error);
-        return of(authActions.authApiError());
-      })
+      exhaustMap((userLoginData) =>
+        this.authService.login(userLoginData).pipe(
+          switchMap((accessToken: string) => {
+            const sessionId = this.authService.getTokenDecoded(accessToken).sessionId;
+            return [authActions.logInSuccess({ accessToken }), authActions.setSessionId({ sessionId })];
+          }),
+          tap(() => {
+            const returnUrl = this.route.snapshot.queryParams['returnUrl'] || RoutingConstants.ROUTE_DASHBOARD;
+            this.router.navigateByUrl(returnUrl);
+          }),
+          catchError((errorResponse: HttpErrorResponse) => {
+            this.toastMessageService.snack(errorResponse.error);
+            return of(authActions.authApiError());
+          })
+        )
+      )
     )
   );
 
@@ -197,14 +199,17 @@ export class AuthEffects implements OnInitEffects {
   refreshSession$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authActions.refreshSession),
-      switchMap(() => this.authService.refreshSession()),
-      switchMap((accessToken: string) => {
-        const sessionId = this.authService.getTokenDecoded(accessToken).sessionId;
-        return [authActions.refreshSessionSuccess({ accessToken }), authActions.setSessionId({ sessionId })];
-      }),
-      catchError(() => {
-        return of(authActions.refreshSessionFailure());
-      })
+      exhaustMap(() =>
+        this.authService.refreshSession().pipe(
+          switchMap((accessToken: string) => {
+            const sessionId = this.authService.getTokenDecoded(accessToken).sessionId;
+            return [authActions.refreshSessionSuccess({ accessToken }), authActions.setSessionId({ sessionId })];
+          }),
+          catchError(() => {
+            return of(authActions.refreshSessionFailure());
+          })
+        )
+      )
     )
   );
 

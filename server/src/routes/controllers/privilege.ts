@@ -1,4 +1,4 @@
-import { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import { Controller, Middleware, Get, Post } from '@overnightjs/core';
 import { Response } from 'express';
 import { Logger } from '@overnightjs/logger';
@@ -18,11 +18,15 @@ export class PrivilegeController {
       title: req.body.title
     })
       .then((privilege) => {
-        return res.status(OK).json({ success: true, message: 'Privilege is created successfully!', data: privilege });
+        return res
+          .status(StatusCodes.OK)
+          .json({ success: true, message: 'Privilege is created successfully!', data: privilege });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(BAD_REQUEST).json({ success: false, message: 'There are some missing params!', data: null });
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ success: false, message: 'There are some missing params!', data: null });
       });
   }
 
@@ -32,11 +36,11 @@ export class PrivilegeController {
     Logger.Info(`Selecting privileges list...`);
     Privilege.findAndCountAll()
       .then((data) => {
-        return res.status(OK).json({ success: true, data: data.rows, resultsNum: data.count });
+        return res.status(StatusCodes.OK).json({ success: true, data: data.rows, resultsNum: data.count });
       })
       .catch((err: any) => {
         Logger.Err(err);
-        return res.status(INTERNAL_SERVER_ERROR).json(err);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
       });
   }
 }

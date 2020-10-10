@@ -1,0 +1,34 @@
+@import '~@angular/material/theming';
+
+// Font
+$font-family: 'Lato', sans-serif;
+
+$default-primary-palette: $mat-light-blue;
+$default-primary-palette-shade: 600;
+
+$default-accent-palette: $mat-teal;
+$default-accent-palette-shade: 600;
+
+$default-warn-palette: $mat-red;
+$default-warn-palette-shade: 600;
+
+$dark-primary-palette: $mat-light-blue;
+$dark-primary-palette-shade: 600;
+
+$dark-accent-palette: $mat-light-green;
+$dark-accent-palette-shade: 500;
+
+$dark-warn-palette: $mat-deep-orange;
+$dark-warn-palette-shade: 500;
+
+// reset bootstrap theme variables
+$blue: mat-color($default-primary-palette, $default-primary-palette-shade);
+$red: mat-color($default-warn-palette, $default-warn-palette-shade);
+$green: mat-color($default-accent-palette, $default-accent-palette-shade);
+
+$link: mat-color($default-primary-palette, 800);
+
+// bootstrap theme dark
+$primary-dark: mat-color($dark-primary-palette, $dark-primary-palette-shade);
+$accent-dark: mat-color($dark-accent-palette, $dark-accent-palette-shade);
+$warn-dark: mat-color($dark-warn-palette, $dark-warn-palette-shade);

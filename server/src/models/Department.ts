@@ -95,8 +95,11 @@ export const DepartmentFactory = (sequelize: Sequelize): Model => {
         primaryKey: true
       },
       title: {
-        type: new DataTypes.STRING(255),
-        allowNull: false
+        type: new DataTypes.STRING(75),
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       },
       description: {
         type: DataTypes.TEXT

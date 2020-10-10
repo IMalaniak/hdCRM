@@ -15,7 +15,7 @@ import { ModalDialogResult } from '@/shared/models/modal/modal-dialog-result.mod
   selector: 'templates-box-user-list-sm',
   template: `
     <organisms-card
-      [cardTitle]="title"
+      [cardTitle]="cardTitle"
       [cardClass]="boxCss"
       contentClass="p-0"
       [disableShadow]="true"
@@ -46,8 +46,8 @@ export class TemplatesBoxUserListSmComponent implements OnDestroy {
   @Input() editMode = false;
   @Input() users: User[];
   @Input() user: User;
-  @Input() title: string;
-  @Input() boxCss = 'border border-secondary mt-3 mt-sm-0';
+  @Input() cardTitle: string;
+  @Input() boxCss = 'border border-dark mt-3 mt-sm-0';
 
   @Output() addClick: EventEmitter<any> = new EventEmitter();
   @Output() removeClick: EventEmitter<number> = new EventEmitter();

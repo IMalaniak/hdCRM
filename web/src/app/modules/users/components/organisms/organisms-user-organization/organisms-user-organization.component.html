@@ -56,6 +56,12 @@
           <span>{{ organization.email }}</span>
         </section>
       </mat-list-item>
+      <mat-list-item>
+        <section>
+          <span i18n="@@userProfileComponentTabOrgWebsite">Website:</span>
+          <span>{{ organization.website }}</span>
+        </section>
+      </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item>
         <section>
@@ -94,6 +100,10 @@
           <mat-label i18n="@@userProfileComponentTabOrgEmail">Email</mat-label>
           <input matInput [(ngModel)]="organization.email" name="organization-email" type="email" />
         </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label i18n="@@userProfileComponentTabOrgWebsite">Website</mat-label>
+          <input matInput [(ngModel)]="organization.website" name="organization-website" type="url" />
+        </mat-form-field>
       </form>
     </div>
   </div>
@@ -108,9 +118,9 @@
       [color]="themePalette.BASIC"
     >
       {{ actionLabels.CANCEL }}
-      <atoms-icon-button *ngIf="editForm" (click)="onUpdateOrgSubmit()" [icon]="['fas', 'save']">
-        {{ actionLabels.SAVE }}
-      </atoms-icon-button>
+    </atoms-icon-button>
+    <atoms-icon-button *ngIf="editForm" (click)="onUpdateOrgSubmit()" [icon]="['fas', 'save']">
+      {{ actionLabels.SAVE }}
     </atoms-icon-button>
   </div>
 </organisms-card>

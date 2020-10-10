@@ -73,7 +73,11 @@ export const StageFactory = (sequelize: Sequelize): Model => {
       },
       keyString: {
         type: new DataTypes.STRING(50),
-        allowNull: false
+        allowNull: false,
+        unique: true,
+        validate: {
+          notEmpty: true
+        }
       }
     },
     {

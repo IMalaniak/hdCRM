@@ -19,13 +19,11 @@ import {
   OrganismsUserIntegrationsComponent
 } from './components';
 
-import { UserService, StateService } from './services';
+import { UserService } from './services';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import * as fromUser from './store/user.reducer';
-import * as fromState from './store/state.reducer';
 import { UserEffects } from './store/user.effects';
-import { StateEffects } from './store/state.effects';
 
 @NgModule({
   imports: [
@@ -34,8 +32,7 @@ import { StateEffects } from './store/state.effects';
     SharedModule,
     UsersRoutingModule.forRoot(),
     StoreModule.forFeature(fromUser.usersFeatureKey, fromUser.reducer),
-    StoreModule.forFeature(fromState.statesFeatureKey, fromState.reducer),
-    EffectsModule.forFeature([UserEffects, StateEffects])
+    EffectsModule.forFeature([UserEffects])
   ],
   declarations: [
     ProfileComponent,
@@ -51,7 +48,7 @@ import { StateEffects } from './store/state.effects';
     OrganismsUserOrganizationComponent,
     OrganismsUserIntegrationsComponent
   ],
-  providers: [UserService, StateService],
+  providers: [UserService],
   exports: [UserComponent, UsersComponent, UsersDialogComponent]
 })
 export class UsersModule {}

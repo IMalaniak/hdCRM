@@ -66,7 +66,7 @@
 <organisms-card cardTitle="Details" *ngIf="plan" cardClass="mb-3">
   <div content class="row">
     <div class="col-sm-12 col-md-8 col-lg-7">
-      <organisms-card cardTitle="Plan details" cardClass="border border-secondary m-0" [disableShadow]="true">
+      <organisms-card cardTitle="Plan details" cardClass="border border-dark m-0" [disableShadow]="true">
         <section content>
           <organisms-dynamic-form
             [data]="plan"
@@ -79,8 +79,8 @@
     </div>
     <div class="col-sm-12 col-md-4 col-lg-5">
       <templates-box-user-list-sm
+        cardTitle="Participants"
         [users]="plan.Participants"
-        title="Participants"
         [editMode]="editForm$ | async"
         (addClick)="addParticipantDialog()"
         (removeClick)="removeParticipant($event)"

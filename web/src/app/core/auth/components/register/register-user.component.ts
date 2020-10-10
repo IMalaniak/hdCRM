@@ -13,7 +13,8 @@ import {
   BUTTON_TYPE,
   MAT_BUTTON,
   THEME_PALETTE,
-  RoutingConstants
+  RoutingConstants,
+  OrgType
 } from '@/shared/constants';
 
 @Component({
@@ -29,6 +30,7 @@ export class RegisterUserComponent implements OnInit {
   hidePassword = true;
   fieldTypes = IFieldType;
 
+  orgTypes = OrgType;
   actionLabels = ACTION_LABELS;
   buttonTypes = BUTTON_TYPE;
   matButtonTypes = MAT_BUTTON;
@@ -71,7 +73,11 @@ export class RegisterUserComponent implements OnInit {
       }),
       userOrganization: this.fb.group({
         type: new FormControl(null),
-        title: new FormControl(null, [Validators.required, Validators.maxLength(150)]),
+        title: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(50),
+          Validators.pattern(CONSTANTS.ONLY_TEXT_REGEX)
+        ]),
         employees: new FormControl(null),
         country: new FormControl(null),
         city: new FormControl(null),
@@ -79,7 +85,11 @@ export class RegisterUserComponent implements OnInit {
         postcode: new FormControl(null),
         phone: new FormControl(null, Validators.pattern(CONSTANTS.PHONE_REGEX)),
         email: new FormControl(null, Validators.email),
-        website: new FormControl(null, [Validators.required, Validators.pattern(CONSTANTS.WWW_REGEX)])
+        website: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(100),
+          Validators.pattern(CONSTANTS.WWW_REGEX)
+        ])
       })
     });
   }
@@ -99,20 +109,29 @@ export class RegisterUserComponent implements OnInit {
   }
 
   initOrganizationValidation(): void {
-    const title: AbstractControl = this.getControl('userOrganization', 'title');
+    const orgTitle: AbstractControl = this.getControl('userOrganization', 'title');
+    const orgWebsite: AbstractControl = this.getControl('userOrganization', 'website');
 
     this.getControl('userOrganization', 'type').valueChanges.subscribe((value) => {
-      if (value === 'company') {
-        title.setValidators([
+      if (value === OrgType.COMPANY) {
+        orgTitle.setValidators([
           Validators.required,
           Validators.maxLength(50),
           Validators.pattern(CONSTANTS.ONLY_TEXT_REGEX)
         ]);
-      } else if (value === 'private') {
-        title.setValidators(null);
-        title.reset();
+        orgWebsite.setValidators([
+          Validators.required,
+          Validators.maxLength(100),
+          Validators.pattern(CONSTANTS.WWW_REGEX)
+        ]);
+      } else if (value === OrgType.PRIVATE) {
+        orgTitle.setValidators(null);
+        orgTitle.reset();
+        orgWebsite.setValidators([Validators.maxLength(100), Validators.pattern(CONSTANTS.WWW_REGEX)]);
+        orgWebsite.reset();
       }
-      title.updateValueAndValidity();
+      orgTitle.updateValueAndValidity();
+      orgWebsite.updateValueAndValidity();
     });
   }
 
