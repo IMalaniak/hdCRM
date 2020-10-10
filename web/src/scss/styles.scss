@@ -169,18 +169,8 @@ main {
   }
 }
 
-.mat-dialog-actions {
-  atoms-icon-button {
-    margin: 0 crmsize(spacer, sm, true);
-
-    &:first-of-type {
-      margin-left: 0;
-    }
-
-    &:last-of-type {
-      margin-right: 0;
-    }
-  }
+.mat-dialog-container {
+  position: relative;
 }
 
 .mat-menu-item {

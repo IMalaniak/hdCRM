@@ -26,7 +26,7 @@ export class DialogBaseComponent<
 
   @HostListener('window:keyup.enter') onKeyUpEnter(): void {
     const successButton = this._document.getElementById('successButton');
-    if (successButton) {
+    if (successButton && this.formValid) {
       this.dialogClose.emit(true);
     }
   }

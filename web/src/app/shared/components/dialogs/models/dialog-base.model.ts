@@ -11,6 +11,7 @@ import { BaseModel } from '@/shared/models/base';
 // tslint:disable-next-line:component-class-suffix
 export abstract class DialogBaseModel<TDialogModel extends DialogWithTwoButtonModel, TModel extends BaseModel> {
   @Input() closeButtonVisible = true;
+  @Input() formValid = false;
   @Output() dialogClose: EventEmitter<boolean> = new EventEmitter();
 
   dialogModel: TDialogModel;

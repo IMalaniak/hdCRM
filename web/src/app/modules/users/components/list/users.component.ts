@@ -15,12 +15,13 @@ import { selectIsLoading, selectUsersTotalCount } from '../../store/user.selecto
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { deleteUser, inviteUsers } from '../../store/user.actions';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
-import { ToastMessageService } from '@/shared/services';
+import { DialogSizeService, ToastMessageService } from '@/shared/services';
 import {
   ApiResponse,
   DialogCreateEditModel,
   DialogDataModel,
   DialogMode,
+  DialogType,
   ModalDialogResult,
   PageQuery
 } from '@/shared/models';
@@ -88,7 +89,8 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
     private store$: Store<AppState>,
     public dialog: MatDialog,
     private toastMessageService: ToastMessageService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private dialogSizeService: DialogSizeService
   ) {}
 
   ngAfterViewInit(): void {
@@ -122,7 +124,7 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
     const dialogDataModel = new DialogDataModel(dialogModel);
 
     this.dialogService
-      .open(InvitationDialogComponent, dialogDataModel)
+      .open(InvitationDialogComponent, dialogDataModel, this.dialogSizeService.getSize(DialogType.STANDART))
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: ModalDialogResult<User[]>) => {

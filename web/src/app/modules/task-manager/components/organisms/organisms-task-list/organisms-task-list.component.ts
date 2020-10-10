@@ -21,7 +21,8 @@ import { DialogConfirmModal } from '@/shared/models/modal/dialog-question.model'
 import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/core/services/dialog/dialog.service';
-import { DialogCreateEditModel, DialogMode, ModalDialogResult } from '@/shared/models';
+import { DialogCreateEditModel, DialogMode, DialogType, ModalDialogResult } from '@/shared/models';
+import { DialogSizeService } from '@/shared/services';
 
 @Component({
   selector: 'organisms-task-list',
@@ -41,7 +42,11 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private store$: Store<AppState>, private dialogService: DialogService) {}
+  constructor(
+    private store$: Store<AppState>,
+    private dialogService: DialogService,
+    private dialogSizeService: DialogSizeService
+  ) {}
 
   get completedTasksLength(): boolean {
     return this.tasks?.length ? this.tasks.filter((task) => task.isCompleted).length > 0 : true;
@@ -62,7 +67,7 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
     const dialogDataModel = new DialogDataModel(dialogModel, model);
 
     this.dialogService
-      .open(OrganismsTaskDialogComponent, dialogDataModel)
+      .open(OrganismsTaskDialogComponent, dialogDataModel, this.dialogSizeService.getSize(DialogType.STANDART))
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: ModalDialogResult<Task>) => {

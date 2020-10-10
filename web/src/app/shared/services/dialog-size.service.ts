@@ -18,7 +18,7 @@ export class DialogSizeService {
         });
       case DialogType.STANDART:
         return (this.config = {
-          width: '35em'
+          width: '32em'
         });
       default:
         return (this.config = {

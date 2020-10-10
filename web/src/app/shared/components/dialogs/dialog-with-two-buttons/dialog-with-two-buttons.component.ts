@@ -1,6 +1,6 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { ChangeDetectionStrategy, Inject, OnDestroy } from '@angular/core';
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 
@@ -17,8 +17,6 @@ import { BaseModel } from '@/shared/models/base';
 export class DialogWithTwoButtonsComponent<TDialogModel extends DialogWithTwoButtonModel, TModel extends BaseModel>
   extends DialogBaseModel<TDialogModel, TModel>
   implements OnDestroy {
-  @Input() formValid = false;
-
   okButtonEnabled = false;
   cancelBtnColor = THEME_PALETTE.BASIC;
 

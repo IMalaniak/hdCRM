@@ -28,6 +28,8 @@ import { DialogService } from '@/core/services/dialog';
 import { DialogWithTwoButtonModel } from '@/shared/models/modal/dialog-with-two-button.model';
 import { ModalDialogResult } from '@/shared/models/modal/modal-dialog-result.model';
 import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
+import { DialogType } from '@/shared/models';
+import { DialogSizeService } from '@/shared/services';
 
 @Component({
   templateUrl: './role.component.html',
@@ -60,7 +62,8 @@ export class RoleComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private store$: Store<AppState>,
     private cdr: ChangeDetectorRef,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private dialogSizeService: DialogSizeService
   ) {}
 
   ngOnInit(): void {
@@ -109,7 +112,7 @@ export class RoleComponent implements OnInit, OnDestroy {
     const dialogDataModel = new DialogDataModel(new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_PRIVILEGES));
 
     this.dialogService
-      .open(PrivilegesDialogComponent, dialogDataModel)
+      .open(PrivilegesDialogComponent, dialogDataModel, this.dialogSizeService.getSize(DialogType.STANDART))
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: ModalDialogResult<Privilege[]>) => {
