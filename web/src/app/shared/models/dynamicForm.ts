@@ -1,4 +1,4 @@
-import { IFieldType } from '../constants';
+import { FormType, IFieldType } from '../constants';
 
 export interface DynamicFormItemOption {
   value: boolean | number | string;
@@ -18,6 +18,8 @@ export interface DynamicFormItem {
 }
 
 export interface DynamicForm {
-  formName: string;
-  formItems: DynamicFormItem[];
+  key: string;
+  name: string;
+  type: FormType;
+  form: DynamicFormItem[];
 }

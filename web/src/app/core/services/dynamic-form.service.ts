@@ -17,7 +17,7 @@ export class DynamicFormService {
 
   generateFormGroupFrom(json: DynamicForm, data?: any): FormGroup {
     const group = {};
-    json.formItems.forEach((fieldTemplate) => {
+    json.form.forEach((fieldTemplate) => {
       group[fieldTemplate.controlName] = new FormControl(null);
       if (fieldTemplate.required) {
         group[fieldTemplate.controlName].setValidators([Validators.required]);
