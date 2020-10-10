@@ -1,11 +1,13 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+import { User } from '@/modules/users';
+import { DialogWithTwoButtonModel } from '@/shared/models';
 import { OrganismsUserDetailsDialogComponent } from './organisms-user-details-dialog.component';
 
 describe('OrganismsUserDetailsDialogComponent', () => {
-  let component: OrganismsUserDetailsDialogComponent;
-  let fixture: ComponentFixture<OrganismsUserDetailsDialogComponent>;
+  let component: OrganismsUserDetailsDialogComponent<DialogWithTwoButtonModel, User>;
+  let fixture: ComponentFixture<OrganismsUserDetailsDialogComponent<DialogWithTwoButtonModel, User>>;
 
   beforeEach(
     waitForAsync(() => {
