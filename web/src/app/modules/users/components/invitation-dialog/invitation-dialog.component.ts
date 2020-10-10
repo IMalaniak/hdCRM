@@ -12,14 +12,13 @@ import { selectAllUsers } from '../../store/user.selectors';
 import { CONSTANTS, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE } from '@/shared/constants';
 import { DialogCreateEditModel, DialogDataModel, ModalDialogResult } from '@/shared/models';
 import { DialogBaseModel } from '@/shared/components';
-import { BaseModel } from '@/shared/models/base/base.model';
 
 @Component({
   templateUrl: './invitation-dialog.component.html',
   styleUrls: ['./invitation-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InvitationDialogComponent<TDialogModel extends DialogCreateEditModel, TModel extends BaseModel>
+export class InvitationDialogComponent<TDialogModel extends DialogCreateEditModel, TModel extends User>
   extends DialogBaseModel<TDialogModel, TModel>
   implements OnInit, OnDestroy {
   userData: FormGroup;

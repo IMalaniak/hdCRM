@@ -1,12 +1,14 @@
-import { SharedModule } from '@/shared/shared.module';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { OrganismsTaskDialogComponent } from './organisms-task-dialog.component';
+import { SharedModule } from '@/shared/shared.module';
+import { DialogCreateEditModel } from '@/shared/models';
+import { TaskDialogData } from '@/modules/task-manager/models';
 
 describe('OrganismsTaskDialogComponent', () => {
-  let component: OrganismsTaskDialogComponent;
-  let fixture: ComponentFixture<OrganismsTaskDialogComponent>;
+  let component: OrganismsTaskDialogComponent<DialogCreateEditModel, TaskDialogData>;
+  let fixture: ComponentFixture<OrganismsTaskDialogComponent<DialogCreateEditModel, TaskDialogData>>;
 
   beforeEach(
     waitForAsync(() => {
