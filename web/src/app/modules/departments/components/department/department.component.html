@@ -2,55 +2,15 @@
   <div content class="row">
     <div class="col-md-6">
       <organisms-card cardTitle="Details" cardClass="border border-dark mt-0 mb-0" [disableShadow]="true">
-        <form content class="d-flex flex-column px-3 pt-3" *ngIf="editForm$ | async">
-          <mat-form-field appearance="outline">
-            <mat-label i18n="@@departmentComponentDetailsTitle">Title</mat-label>
-            <input matInput [(ngModel)]="department.title" name="title" type="text" required />
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label i18n="@@departmentComponentDetailsDescription">Write a description</mat-label>
-            <textarea matInput [(ngModel)]="department.description" name="description" type="text" required></textarea>
-          </mat-form-field>
-        </form>
-        <mat-list content class="w-100" *ngIf="!(editForm$ | async)">
-          <mat-list-item>
-            <section>
-              <div>
-                <span i18n="@@departmentСomponentDetailsTitle">Title:</span>
-              </div>
-              <div>
-                <span>{{ department.title }}</span>
-              </div>
-            </section>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item>
-            <section>
-              <div>
-                <span i18n="@@departmentСomponentDetailsDateCreated">Date created:</span>
-              </div>
-              <div>
-                <span>{{ department.createdAt | dateTimeFormat | async }}</span>
-              </div>
-            </section>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item>
-            <section>
-              <div>
-                <span i18n="@@departmentСomponentDetailsDateUpdated">Date updated:</span>
-              </div>
-              <div>
-                <span>{{ department.createdAt | dateTimeFormat | async }}</span>
-              </div>
-            </section>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <div class="w-100 px-3 mt-2">
-            <span i18n="@@departmentСomponentDetailsDescription">Description:</span>
-            <p class="pt-2">{{ department.description }}</p>
-          </div>
-        </mat-list>
+        <section content>
+          <organisms-dynamic-form
+            [data]="department"
+            [formJson]="departmentFormJson$ | async"
+            [editForm]="editForm$ | async"
+            (formChanges)="departmentFormValueChanges($event)"
+          >
+          </organisms-dynamic-form>
+        </section>
       </organisms-card>
     </div>
     <div class="col-md-6">

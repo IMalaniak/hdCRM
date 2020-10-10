@@ -1,12 +1,17 @@
 <organisms-card [cardTitle]="'Role: ' + role.keyString" *ngIf="role">
   <section content class="row">
     <div class="col-sm-12 col-md-7 col-lg-8">
-      <form class="d-flex flex-column">
-        <mat-form-field appearance="outline">
-          <mat-label i18n="@@roleСomponentTabDetailsTitle">Title</mat-label>
-          <input matInput [(ngModel)]="role.keyString" name="name" type="text" [readonly]="!(editForm$ | async)" />
-        </mat-form-field>
-      </form>
+      <organisms-card cardTitle="Details" cardClass="border border-dark mb-3" [disableShadow]="true">
+        <section content>
+          <organisms-dynamic-form
+            [data]="role"
+            [formJson]="roleFormJson$ | async"
+            [editForm]="editForm$ | async"
+            (formChanges)="roleFormValueChanges($event)"
+          >
+          </organisms-dynamic-form>
+        </section>
+      </organisms-card>
       <!-- <span i18n="@@roleComponentFormLabelsPrivileges">Privileges:</span> -->
       <organisms-card
         cardTitle="Privileges"

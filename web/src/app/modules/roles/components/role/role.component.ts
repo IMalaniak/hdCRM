@@ -24,6 +24,9 @@ import {
   MAT_BUTTON,
   CONSTANTS
 } from '@/shared/constants';
+import { DynamicForm } from '@/shared/models';
+import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
+import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
 
 @Component({
   selector: 'role',
@@ -34,9 +37,11 @@ import {
 export class RoleComponent implements OnInit, OnDestroy {
   editForm$: Observable<boolean> = this.store$.pipe(select(selectIsEditing));
   canEditRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.ROLE)));
+  roleFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName('role')));
 
   role: Role;
   roleInitial: Role;
+  roleFormValues: Role;
 
   themePalette = THEME_PALETTE;
   matButtonType = MAT_BUTTON;
@@ -66,7 +71,12 @@ export class RoleComponent implements OnInit, OnDestroy {
     this.getRoleData();
   }
 
+  roleFormValueChanges(formVal: User): void {
+    this.roleFormValues = { ...this.roleFormValues, ...formVal };
+  }
+
   getRoleData(): void {
+    this.store$.dispatch(formRequested({ formName: 'role' }));
     this.role = cloneDeep(this.route.snapshot.data['role']);
     this.roleInitial = cloneDeep(this.route.snapshot.data['role']);
   }
@@ -181,7 +191,7 @@ export class RoleComponent implements OnInit, OnDestroy {
   updateRole(): void {
     this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_UPDATE_ROLE_CONFIRM).then((result) => {
       if (result.value) {
-        this.store$.dispatch(updateRoleRequested({ role: this.role }));
+        this.store$.dispatch(updateRoleRequested({ role: { ...this.role, ...this.roleFormValues } }));
         this.disableEdit();
       }
     });
