@@ -1,71 +1,18 @@
 <h1 mat-dialog-title>{{ data.title }}</h1>
 <div mat-dialog-content class="task-dialog">
-  <form [formGroup]="taskData" class="task-dialog-form-block">
-    <mat-form-field appearance="outline">
-      <mat-label i18n="@@taskDialogСomponentInputLableTitle">Title:</mat-label>
-      <input matInput formControlName="title" type="text" />
-      <mat-error
-        *ngIf="
-          taskData.controls['title'].invalid && (taskData.controls['title'].dirty || taskData.controls['title'].touched)
-        "
-      >
-        <mat-error
-          *ngIf="taskData.controls['title'].errors.required"
-          i18n="@@taskDialogСomponentInputErrorsTitleRequired"
-        >
-          Title is required!
-        </mat-error>
-        <mat-error
-          *ngIf="taskData.controls['title'].errors.maxlength"
-          i18n="@@taskDialogСomponentInputErrorsTitleTooLong"
-        >
-          Title name is too long!
-        </mat-error>
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label i18n="@@taskDialogСomponentInputLableDescription">Description:</mat-label>
-      <textarea matInput formControlName="description" type="text" class="task-dialog-description-area"></textarea>
-      <mat-error
-        *ngIf="
-          taskData.controls['description'].invalid &&
-          (taskData.controls['description'].dirty || taskData.controls['description'].touched)
-        "
-      >
-        <mat-error
-          *ngIf="taskData.controls['description'].errors.maxlength"
-          i18n="@@taskDialogСomponentInputErrorsDescriptionTooLong"
-        >
-          Description name is too long!
-        </mat-error>
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label i18n="@@taskDialogСomponentInputLablePriority">Priority:</mat-label>
-      <mat-select formControlName="TaskPriorityId">
-        <mat-option *ngFor="let priority of data.priorities" [value]="priority.id">{{ priority.label }}</mat-option>
-      </mat-select>
-      <mat-error
-        *ngIf="
-          taskData.controls['TaskPriorityId'].invalid &&
-          (taskData.controls['TaskPriorityId'].dirty || taskData.controls['TaskPriorityId'].touched)
-        "
-      >
-        <mat-error
-          *ngIf="taskData.controls['TaskPriorityId'].errors.required"
-          i18n="@@taskDialogСomponentInputErrorsPriorityRequired"
-        >
-          Priority is required!
-        </mat-error>
-      </mat-error>
-    </mat-form-field>
-  </form>
+  <organisms-dynamic-form
+    [data]="data.task ? data.task : null"
+    [formJson]="taskFormJson$ | async"
+    [editForm]="true"
+    (formChanges)="taskFormValueChanges($event)"
+  >
+  </organisms-dynamic-form>
 </div>
 <div mat-dialog-actions class="task-dialog-actions">
   <atoms-icon-button (click)="dialogRef.close()" [icon]="['fas', 'times']" [color]="themePalette.BASIC">
     {{ actionLabels.CANCEL }}
   </atoms-icon-button>
-  <atoms-icon-button [disabled]="taskData.invalid" (onclick)="onSubmit()" [icon]="['fas', 'save']" color="primary">
+  <atoms-icon-button (onclick)="onSubmit()" [icon]="['fas', 'save']" color="primary">
     {{ actionLabels.SAVE }}
   </atoms-icon-button>
 </div>

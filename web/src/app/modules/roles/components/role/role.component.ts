@@ -68,15 +68,15 @@ export class RoleComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.store$.dispatch(formRequested({ formName: 'role' }));
     this.getRoleData();
   }
 
-  roleFormValueChanges(formVal: User): void {
+  roleFormValueChanges(formVal: Role): void {
     this.roleFormValues = { ...this.roleFormValues, ...formVal };
   }
 
   getRoleData(): void {
-    this.store$.dispatch(formRequested({ formName: 'role' }));
     this.role = cloneDeep(this.route.snapshot.data['role']);
     this.roleInitial = cloneDeep(this.route.snapshot.data['role']);
   }

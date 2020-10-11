@@ -70,7 +70,7 @@ export class PlanComponent implements OnInit, OnDestroy {
     this.planInitial = cloneDeep(this.route.snapshot.data['plan']);
   }
 
-  planFormValueChanges(formVal: User): void {
+  planFormValueChanges(formVal: Plan): void {
     this.planFormValues = { ...this.planFormValues, ...formVal };
   }
 

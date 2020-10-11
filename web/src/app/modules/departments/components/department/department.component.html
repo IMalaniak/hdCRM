@@ -16,15 +16,12 @@
     <div class="col-md-6">
       <templates-box-user-list-sm
         cardTitle="Manager"
+        class="d-block mb-3"
         [user]="department.Manager"
         [editMode]="editForm$ | async"
         (addClick)="addManagerDialog()"
         (removeClick)="removeManager()"
       ></templates-box-user-list-sm>
-    </div>
-  </div>
-  <div content class="row">
-    <div class="col-md-6 mt-3">
       <templates-box-user-list-sm
         cardTitle="Workers"
         [users]="department.Workers"
@@ -33,6 +30,10 @@
         (removeClick)="removeWorker($event)"
       ></templates-box-user-list-sm>
     </div>
+  </div>
+  <!-- <div content class="row">
+    <div class="col-md-6 mt-3">
+    </div>
     <div class="col-md-6">
       <div class="row">
         <div class="col-sm-6 col-md-12 col-lg-6">
@@ -40,12 +41,6 @@
             <atoms-icon-button buttons [matType]="matButtonTypes.STROKED" [icon]="['fas', 'plus']">
               Add parent department
             </atoms-icon-button>
-            <!-- <mat-list content>
-              <mat-list-item *ngFor="">
-                <h3 matLine>{{}}</h3>
-                <mat-divider></mat-divider>
-              </mat-list-item>
-            </mat-list> -->
           </organisms-card>
         </div>
         <div class="col-sm-6 col-md-12 col-lg-6">
@@ -58,17 +53,11 @@
             <atoms-icon-button buttons [matType]="matButtonTypes.STROKED" [icon]="['fas', 'plus']">
               Add sub departments
             </atoms-icon-button>
-            <!-- <mat-list content>
-              <mat-list-item *ngFor="">
-                <h3 matLine>{{}}</h3>
-                <mat-divider></mat-divider>
-              </mat-list-item>
-            </mat-list> -->
           </organisms-card>
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <div buttons *ngIf="canEditDepartment$ | async">
     <atoms-icon-button *ngIf="!(editForm$ | async)" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
       {{ actionLabels.EDIT }}

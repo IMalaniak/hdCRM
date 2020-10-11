@@ -65,7 +65,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     this.department = cloneDeep(this.departmentInitial);
   }
 
-  departmentFormValueChanges(formVal: User): void {
+  departmentFormValueChanges(formVal: Department): void {
     this.departmentFormValues = { ...this.departmentFormValues, ...formVal };
   }
 

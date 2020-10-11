@@ -41,7 +41,7 @@ export class TemplatesBoxUserListSmComponent {
   @Input() users: User[];
   @Input() user: User;
   @Input() cardTitle: string;
-  @Input() boxCss = 'border border-dark mt-3 mt-sm-0';
+  @Input() boxCss = 'border border-dark';
 
   @Output() addClick: EventEmitter<any> = new EventEmitter();
   @Output() removeClick: EventEmitter<number> = new EventEmitter();

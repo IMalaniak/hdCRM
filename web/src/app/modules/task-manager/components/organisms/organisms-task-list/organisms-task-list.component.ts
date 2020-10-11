@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, Input, ViewChild, ChangeDetectionStrategy } from '@angular/core';
-import { Task, TaskDialogData, TaskPriority } from '../../../models';
+import { Task, TaskDialogData } from '../../../models';
 import { Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import {
@@ -27,7 +27,6 @@ import { DIALOG, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE, CONSTANTS } from '@/s
 })
 export class OrganismsTaskListComponent implements OnInit, OnDestroy {
   @Input() tasks: Task[];
-  @Input() priorities: TaskPriority[];
 
   @ViewChild(MatAccordion) taskAccordion: MatAccordion;
 
@@ -50,9 +49,7 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
   }
 
   openTaskDialog(taskToUpdate?: Task): void {
-    const data: TaskDialogData = {
-      priorities: this.priorities
-    } as TaskDialogData;
+    const data: TaskDialogData = {} as TaskDialogData;
     taskToUpdate ? ((data.title = 'Update task'), (data.task = taskToUpdate)) : (data.title = 'Add new task');
 
     const dialogRef = this.dialog.open(OrganismsTaskDialogComponent, {

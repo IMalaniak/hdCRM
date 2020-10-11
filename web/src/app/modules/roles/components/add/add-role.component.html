@@ -1,23 +1,16 @@
 <organisms-card cardTitle="Register new role">
   <section content class="row">
     <div class="col-sm-8">
-      <form class="d-flex flex-column">
-        <mat-form-field appearance="outline">
-          <mat-label i18n="@@registerRoleComponentFormLabelsTitle">Title</mat-label>
-          <input matInput [formControl]="keyString" />
-          <mat-error *ngIf="keyString.invalid">
-            <mat-error *ngIf="keyString.errors.required" i18n="@@registerRoleComponentFormErrorsLableRequired">
-              Title is required!
-            </mat-error>
-            <mat-error
-              *ngIf="keyString.errors.minlength && (keyString.dirty || keyString.touched)"
-              i18n="@@registerRoleComponentFormErrorsLableIsTooShort"
-            >
-              Title is too short!
-            </mat-error>
-          </mat-error>
-        </mat-form-field>
-      </form>
+      <organisms-card cardTitle="Details" cardClass="border border-dark mb-3" [disableShadow]="true">
+        <section content>
+          <organisms-dynamic-form
+            [formJson]="roleFormJson$ | async"
+            [editForm]="true"
+            (formChanges)="roleFormValueChanges($event)"
+          >
+          </organisms-dynamic-form>
+        </section>
+      </organisms-card>
       <organisms-card
         cardTitle="Privileges"
         cardClass="border border-dark m-0"
@@ -76,7 +69,7 @@
       ></templates-box-user-list-sm>
     </div>
   </section>
-  <atoms-icon-button buttons (onclick)="onRegisterSubmit()" [icon]="['fas', 'save']" [disabled]="keyString.invalid">
+  <atoms-icon-button buttons (onclick)="onRegisterSubmit()" [icon]="['fas', 'save']">
     {{ actionLabels.SUMBIT }}
   </atoms-icon-button>
 </organisms-card>
