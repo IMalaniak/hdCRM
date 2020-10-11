@@ -7,7 +7,6 @@ import {
   createTask,
   taskListRequested,
   updateTaskRequested,
-  taskPrioritiesRequested,
   deleteMultipleTaskRequested
 } from '../../../store/task.actions';
 import { takeUntil } from 'rxjs/operators';
@@ -45,7 +44,6 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(taskListRequested());
-    this.store.dispatch(taskPrioritiesRequested());
   }
 
   openTaskDialog(taskToUpdate?: Task): void {
