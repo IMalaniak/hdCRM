@@ -5,6 +5,7 @@ export * from './common.constants';
 export * from './dateFormat';
 export * from './dialog.constants';
 export * from './FieldType';
+export * from './FormType';
 export * from './itemsPerPage';
 export * from './link.constants';
 export * from './listView';

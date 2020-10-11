@@ -19,8 +19,8 @@ task({
   name: 'server:prepareDevDB',
   alias: 'sddb',
   fct: series(
-    doRun('dotenv node_modules/.bin/sequelize db:migrate', devOptions),
-    doRun('dotenv node_modules/.bin/sequelize db:seed:all', devOptions)
+    doRun('node -r dotenv/config node_modules/.bin/sequelize db:migrate', devOptions),
+    doRun('node -r dotenv/config node_modules/.bin/sequelize db:seed:all', devOptions)
   ),
   desc: 'Prepare new development database'
 });
