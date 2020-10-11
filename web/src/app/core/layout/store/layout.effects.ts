@@ -3,11 +3,12 @@ import { Actions, ofType, createEffect, OnInitEffects } from '@ngrx/effects';
 import { of } from 'rxjs';
 import * as layoutActions from './layout.actions';
 import { switchMap, map, withLatestFrom } from 'rxjs/operators';
-import { LocalStorageService, MediaqueryService } from '@/shared/services';
+import { LocalStorageService } from '@/shared/services';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Action, Store, select } from '@ngrx/store';
 import { LayoutState } from './layout.reducer';
-import { getDarkThemeState } from '.';
+import { getDarkThemeState } from './index';
+import { MediaQueryService } from '@/core/services/media-query';
 
 @Injectable()
 export class LayoutEffects implements OnInitEffects {
@@ -15,7 +16,7 @@ export class LayoutEffects implements OnInitEffects {
     private actions$: Actions,
     private localStorage: LocalStorageService,
     private overlayContainer: OverlayContainer,
-    private mediaquery: MediaqueryService,
+    private mediaQueryService: MediaQueryService,
     private store$: Store<LayoutState>
   ) {}
 
@@ -25,7 +26,7 @@ export class LayoutEffects implements OnInitEffects {
       map((payload) => payload.minimized),
       switchMap((minimized) => {
         window.dispatchEvent(new Event('resize'));
-        if (!this.mediaquery.isMobileDevice) {
+        if (!this.mediaQueryService.isMobileDevice) {
           this.localStorage.setObjectKeyValue('layoutSettings', 'hideLeftSidebar', minimized);
         }
         return of(layoutActions.leftSidebarChangeState({ minimized }));
@@ -39,7 +40,7 @@ export class LayoutEffects implements OnInitEffects {
       map((payload) => payload.minimized),
       switchMap((minimized) => {
         window.dispatchEvent(new Event('resize'));
-        if (!this.mediaquery.isMobileDevice) {
+        if (!this.mediaQueryService.isMobileDevice) {
           this.localStorage.setObjectKeyValue('layoutSettings', 'hideRightSidebar', minimized);
         }
         return of(layoutActions.rightSidebarChangeState({ minimized }));
@@ -89,7 +90,7 @@ export class LayoutEffects implements OnInitEffects {
 
   ngrxOnInitEffects(): Action {
     let settings: LayoutState = this.localStorage.getObject('layoutSettings');
-    if (this.mediaquery.isMobileDevice) {
+    if (this.mediaQueryService.isMobileDevice) {
       settings = { ...settings, hideLeftSidebar: true, hideRightSidebar: true };
     }
     return layoutActions.initLayoutSettings({ settings });
