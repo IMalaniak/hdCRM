@@ -4,7 +4,7 @@
       <organisms-card cardTitle="Details" cardClass="border border-dark mb-3" [disableShadow]="true">
         <section content>
           <organisms-dynamic-form
-            [formJson]="roleFormJson$ | async"
+            [formJson]="roleFormJson"
             [editForm]="true"
             (formChanges)="roleFormValueChanges($event)"
           >

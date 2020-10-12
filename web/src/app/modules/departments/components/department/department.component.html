@@ -5,7 +5,7 @@
         <section content>
           <organisms-dynamic-form
             [data]="department"
-            [formJson]="departmentFormJson$ | async"
+            [formJson]="departmentFormJson"
             [editForm]="editForm$ | async"
             (formChanges)="departmentFormValueChanges($event)"
           >

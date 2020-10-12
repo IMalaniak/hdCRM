@@ -1,18 +1,20 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Role, Privilege } from '../../models';
-import { UsersDialogComponent } from '@/modules/users/components/dialog/users-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil, skipUntil, delay } from 'rxjs/operators';
+
 import { Store, select } from '@ngrx/store';
+import { cloneDeep } from 'lodash';
+
 import { AppState } from '@/core/reducers';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
-import { Observable, Subject } from 'rxjs';
 import { MediaqueryService, ToastMessageService } from '@/shared/services';
-import { takeUntil, skipUntil, delay } from 'rxjs/operators';
-import { cloneDeep } from 'lodash';
+import { UsersDialogComponent } from '@/modules/users/components/dialog/users-dialog.component';
+import { User } from '@/modules/users';
+import { Role, Privilege } from '../../models';
 import { updateRoleRequested, changeIsEditingState } from '../../store/role.actions';
 import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
-import { User } from '@/modules/users';
 import { selectIsEditing } from '../../store/role.selectors';
 import {
   EDIT_PRIVILEGES,
@@ -22,11 +24,10 @@ import {
   ACTION_LABELS,
   THEME_PALETTE,
   MAT_BUTTON,
-  CONSTANTS
+  CONSTANTS,
+  RoutingDataConstants
 } from '@/shared/constants';
 import { DynamicForm } from '@/shared/models';
-import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
-import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
 
 @Component({
   selector: 'role',
@@ -37,9 +38,9 @@ import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions
 export class RoleComponent implements OnInit, OnDestroy {
   editForm$: Observable<boolean> = this.store$.pipe(select(selectIsEditing));
   canEditRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.ROLE)));
-  roleFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName('role')));
 
   role: Role;
+  roleFormJson: DynamicForm;
   roleInitial: Role;
   roleFormValues: Role;
 
@@ -68,7 +69,7 @@ export class RoleComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.store$.dispatch(formRequested({ formName: 'role' }));
+    this.roleFormJson = this.route.snapshot.data[RoutingDataConstants.FORM_JSON];
     this.getRoleData();
   }
 

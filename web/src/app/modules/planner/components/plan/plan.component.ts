@@ -2,15 +2,13 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRe
 // import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Store, select } from '@ngrx/store';
 import { Subject, Observable, combineLatest } from 'rxjs';
 import { takeUntil, map, skipUntil, delay } from 'rxjs/operators';
+
+import { Store, select } from '@ngrx/store';
 import { cloneDeep } from 'lodash';
-import { Plan } from '../../models';
-import { PlanService } from '../../services';
-import { UsersDialogComponent, User } from '@/modules/users';
+
 import { AppState } from '@/core/reducers';
-import { updatePlanRequested, changeIsEditingState } from '../../store/plan.actions';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { MediaqueryService, ToastMessageService } from '@/shared/services';
 import { Asset, ApiResponse, DynamicForm } from '@/shared/models';
@@ -21,10 +19,13 @@ import {
   DIALOG,
   ACTION_LABELS,
   THEME_PALETTE,
-  CONSTANTS
+  CONSTANTS,
+  RoutingDataConstants
 } from '@/shared/constants';
-import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
-import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
+import { UsersDialogComponent, User } from '@/modules/users';
+import { Plan } from '../../models';
+import { PlanService } from '../../services';
+import { updatePlanRequested, changeIsEditingState } from '../../store/plan.actions';
 import { selectIsEditing } from '../../store/plan.selectors';
 
 @Component({
@@ -41,11 +42,11 @@ export class PlanComponent implements OnInit, OnDestroy {
   canAddAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.PLAN_ATTACHMENT)));
   // configStages$: Observable<boolean> = this.store.pipe(select(isPrivileged('stage-edit')));
   canDeleteAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.PLAN_ATTACHMENT)));
-  planFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName('plan')));
   editForm$: Observable<boolean> = this.store$.pipe(select(selectIsEditing));
 
   plan: Plan;
   planInitial: Plan;
+  planFormJson: DynamicForm;
   planFormValues: Plan;
   configPlanStages = false;
 
@@ -65,7 +66,7 @@ export class PlanComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.store$.dispatch(formRequested({ formName: 'plan' }));
+    this.planFormJson = this.route.snapshot.data[RoutingDataConstants.FORM_JSON];
     this.plan = cloneDeep(this.route.snapshot.data['plan']);
     this.planInitial = cloneDeep(this.route.snapshot.data['plan']);
   }

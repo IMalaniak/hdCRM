@@ -1,9 +1,11 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
+import { PrivilegeGuard } from '@/core/_guards';
+import { PATHS, VIEW_PRIVILEGES, ADD_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
+import { DynamicFormResolver } from '@/shared/services';
 import { AddPlanComponent, PlanListComponent, PlanComponent, StagesComponent } from './components';
 import { PlanResolver } from './services';
-import { PrivilegeGuard } from '@/core/_guards';
-import { PATHS, VIEW_PRIVILEGES, ADD_PRIVILEGES } from '@/shared/constants';
 
 const routes: Routes = [
   { path: '', pathMatch: PATHS.PATH_MATCH_FULL, redirectTo: PATHS.LIST },
@@ -22,21 +24,24 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Details',
       animation: 'PlannerDetailsPage',
-      privilege: VIEW_PRIVILEGES.PLAN
+      privilege: VIEW_PRIVILEGES.PLAN,
+      formName: FORMCONSTANTS.PLAN
     },
     canActivate: [PrivilegeGuard],
     component: PlanComponent,
-    resolve: { plan: PlanResolver }
+    resolve: { plan: PlanResolver, formJSON: DynamicFormResolver }
   },
   {
     path: PATHS.ADD,
     data: {
       breadcrumb: 'Add plan',
       animation: 'PlannerAddPage',
-      privilege: ADD_PRIVILEGES.PLAN
+      privilege: ADD_PRIVILEGES.PLAN,
+      formName: FORMCONSTANTS.PLAN
     },
     canActivate: [PrivilegeGuard],
-    component: AddPlanComponent
+    component: AddPlanComponent,
+    resolve: { formJSON: DynamicFormResolver }
   },
   {
     path: PATHS.STAGES,
@@ -58,7 +63,7 @@ export class PlannerRoutingModule {
   static forRoot(): ModuleWithProviders<PlannerRoutingModule> {
     return {
       ngModule: PlannerRoutingModule,
-      providers: [PlanResolver]
+      providers: [PlanResolver, DynamicFormResolver]
     };
   }
 }

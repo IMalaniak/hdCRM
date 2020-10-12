@@ -1,17 +1,18 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
+import { takeUntil, skipUntil } from 'rxjs/operators';
+
+import { Store } from '@ngrx/store';
+
+import { AppState } from '@/core/reducers';
+import { MediaqueryService } from '@/shared/services';
+import { DynamicForm } from '@/shared/models';
+import { ACTION_LABELS, MAT_BUTTON, RoutingDataConstants } from '@/shared/constants';
 import { UsersDialogComponent, User } from '@/modules/users';
 import { Department } from '../../models';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil, skipUntil } from 'rxjs/operators';
-import { select, Store } from '@ngrx/store';
-import { AppState } from '@/core/reducers';
 import { createDepartmentRequested } from '../../store/department.actions';
-import { MediaqueryService } from '@/shared/services';
-import { ACTION_LABELS, MAT_BUTTON } from '@/shared/constants';
-import { DynamicForm } from '@/shared/models';
-import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
-import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
 
 @Component({
   selector: 'add-department',
@@ -19,9 +20,8 @@ import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddDepartmentComponent implements OnInit {
-  departmentFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName('department')));
-
   department: Department = {} as Department;
+  departmentFormJson: DynamicForm;
   departmentFormValues: Department;
 
   actionLabels = ACTION_LABELS;
@@ -30,15 +30,15 @@ export class AddDepartmentComponent implements OnInit {
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
+    private route: ActivatedRoute,
     private dialog: MatDialog,
     private store: Store<AppState>,
     private mediaQuery: MediaqueryService,
-    private cdr: ChangeDetectorRef,
-    private store$: Store<AppState>
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.store$.dispatch(formRequested({ formName: 'department' }));
+    this.departmentFormJson = this.route.snapshot.data[RoutingDataConstants.FORM_JSON];
     this.department.SubDepartments = [];
     this.department.Workers = [];
   }

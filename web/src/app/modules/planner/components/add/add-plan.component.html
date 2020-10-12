@@ -4,7 +4,7 @@
       <organisms-card cardTitle="Plan details" cardClass="border border-dark m-0" [disableShadow]="true">
         <section content>
           <organisms-dynamic-form
-            [formJson]="planFormJson$ | async"
+            [formJson]="planFormJson"
             [editForm]="true"
             (formChanges)="planFormValueChanges($event)"
           >

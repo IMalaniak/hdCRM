@@ -1,21 +1,20 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
+import { Store } from '@ngrx/store';
 import { takeUntil, skipUntil, delay } from 'rxjs/operators';
 
 import { AppState } from '@/core/reducers';
-import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
-import { MediaqueryService } from '@/shared/services';
 import { DynamicForm } from '@/shared/models';
-import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS } from '@/shared/constants';
-import { Role, Privilege } from '../../models';
-import { UsersDialogComponent } from '@/modules/users/components/dialog/users-dialog.component';
+import { MediaqueryService } from '@/shared/services';
+import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, RoutingDataConstants } from '@/shared/constants';
 import { User } from '@/modules/users/models';
+import { UsersDialogComponent } from '@/modules/users/components/dialog/users-dialog.component';
+import { Role, Privilege } from '../../models';
 import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
 import { createRoleRequested } from '../../store/role.actions';
-import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
 
 @Component({
   selector: 'app-add-role',
@@ -24,9 +23,8 @@ import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddRoleComponent implements OnInit {
-  roleFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName('role')));
-
   role = {} as Role;
+  roleFormJson: DynamicForm;
   roleFormValues: Role;
 
   columns = COLUMN_NAMES;
@@ -43,6 +41,7 @@ export class AddRoleComponent implements OnInit {
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
+    private route: ActivatedRoute,
     private store$: Store<AppState>,
     private dialog: MatDialog,
     private mediaQuery: MediaqueryService,
@@ -50,7 +49,7 @@ export class AddRoleComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.store$.dispatch(formRequested({ formName: 'role' }));
+    this.roleFormJson = this.route.snapshot.data[RoutingDataConstants.FORM_JSON];
     this.role.Privileges = [];
     this.role.Users = [];
   }

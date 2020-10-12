@@ -1,17 +1,18 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Store, select } from '@ngrx/store';
+import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
 import { takeUntil, skipUntil, delay } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
-import { Plan } from '../../models';
-import { UsersDialogComponent, User } from '@/modules/users';
+
+import { Store } from '@ngrx/store';
+
 import { AppState } from '@/core/reducers';
-import { createPlanRequested } from '../../store/plan.actions';
 import { MediaqueryService } from '@/shared/services';
-import { ACTION_LABELS } from '@/shared/constants';
 import { DynamicForm } from '@/shared/models';
-import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
-import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
+import { ACTION_LABELS, RoutingDataConstants } from '@/shared/constants';
+import { UsersDialogComponent, User } from '@/modules/users';
+import { Plan } from '../../models';
+import { createPlanRequested } from '../../store/plan.actions';
 
 @Component({
   selector: 'add-plan',
@@ -19,9 +20,8 @@ import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddPlanComponent implements OnInit, OnDestroy {
-  planFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName('plan')));
-
   plan = {} as Plan;
+  planFormJson: DynamicForm;
   planFormValues: Plan;
 
   actionLabels = ACTION_LABELS;
@@ -29,6 +29,7 @@ export class AddPlanComponent implements OnInit, OnDestroy {
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
+    private route: ActivatedRoute,
     private dialog: MatDialog,
     private store$: Store<AppState>,
     private mediaQuery: MediaqueryService,
@@ -36,8 +37,7 @@ export class AddPlanComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.store$.dispatch(formRequested({ formName: 'plan' }));
-
+    this.planFormJson = this.route.snapshot.data[RoutingDataConstants.FORM_JSON];
     this.plan.Participants = [];
   }
 

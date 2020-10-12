@@ -4,7 +4,7 @@
       <organisms-card cardTitle="Department details" cardClass="border border-dark mb-3 mb-0" [disableShadow]="true">
         <organisms-dynamic-form
           content
-          [formJson]="departmentFormJson$ | async"
+          [formJson]="departmentFormJson"
           [editForm]="true"
           (formChanges)="departmentFormValueChanges($event)"
         >
