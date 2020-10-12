@@ -81,6 +81,79 @@ module.exports = {
             key: 'role'
           },
           { transaction: t }
+        ),
+        queryInterface.bulkUpdate(
+          'Forms',
+          {
+            form: JSON.stringify([
+              {
+                controlName: 'title',
+                type: 'input',
+                label: 'Title',
+                isEditable: true,
+                required: true
+              },
+              {
+                controlName: 'type',
+                type: 'input',
+                label: 'Type',
+                isEditable: false,
+                required: true
+              },
+              {
+                controlName: 'country',
+                type: 'input',
+                label: 'Country',
+                isEditable: true
+              },
+              {
+                controlName: 'city',
+                type: 'input',
+                label: 'City',
+                isEditable: true
+              },
+              {
+                controlName: 'address',
+                type: 'input',
+                label: 'Address',
+                isEditable: true
+              },
+              {
+                controlName: 'postcode',
+                type: 'input',
+                label: 'Postcode',
+                isEditable: true
+              },
+              {
+                controlName: 'phone',
+                type: 'input',
+                label: 'Phone',
+                isEditable: true
+              },
+              {
+                controlName: 'email',
+                type: 'input',
+                label: 'Email',
+                isEditable: true
+              },
+              {
+                controlName: 'website',
+                type: 'input',
+                label: 'Website',
+                isEditable: true
+              },
+              {
+                controlName: 'updatedAt',
+                type: 'date',
+                label: 'Date Updated',
+                isEditable: false
+              }
+            ])
+          },
+          {
+            key: 'user-organization'
+          },
+          { transaction: t }
         )
       ]);
     });

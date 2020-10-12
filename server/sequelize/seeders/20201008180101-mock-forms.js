@@ -178,7 +178,7 @@ module.exports = {
           },
           {
             controlName: 'email',
-            type: 'iemailnput',
+            type: 'input',
             label: 'Email',
             isEditable: true
           },
