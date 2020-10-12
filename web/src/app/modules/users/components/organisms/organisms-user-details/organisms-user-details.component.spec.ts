@@ -1,5 +1,5 @@
-import { initialFormsState } from '@/core/reducers/dynamic-form/dynamic-form.reducer';
 import { SharedModule } from '@/shared/shared.module';
+import { formsStateMock } from '@/shared/testing/mocks';
 import { HttpClientModule } from '@angular/common/http';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -10,7 +10,7 @@ describe('OrganismsUserDetailsComponent', () => {
   let component: OrganismsUserDetailsComponent;
   let fixture: ComponentFixture<OrganismsUserDetailsComponent>;
   const initialState = {
-    forms: initialFormsState
+    forms: formsStateMock
   };
 
   beforeEach(

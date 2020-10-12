@@ -4,17 +4,22 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AddDepartmentComponent } from './add-department.component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { formsStateMock } from '@/shared/testing/mocks';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('AddDepartmentComponent', () => {
   let component: AddDepartmentComponent;
   let fixture: ComponentFixture<AddDepartmentComponent>;
+  const initialState = {
+    forms: formsStateMock
+  };
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [AddDepartmentComponent],
-        imports: [BrowserAnimationsModule, SharedModule],
-        providers: [provideMockStore({})]
+        imports: [HttpClientModule, BrowserAnimationsModule, SharedModule],
+        providers: [provideMockStore({ initialState })]
       }).compileComponents();
     })
   );
