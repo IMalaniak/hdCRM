@@ -32,6 +32,7 @@
       "source.fixAll": true,
       "source.fixAll.eslint": false
     },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     // "angularKarmaTestExplorer.debugMode": true,
     // "angularKarmaTestExplorer.projectRootPath": "./web",
     "testExplorer.sort": "byLocation",
