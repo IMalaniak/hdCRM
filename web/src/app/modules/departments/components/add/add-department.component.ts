@@ -15,7 +15,7 @@ import { Department } from '../../models';
 import { createDepartmentRequested } from '../../store/department.actions';
 
 @Component({
-  selector: 'add-department',
+  selector: 'add-department-component',
   templateUrl: './add-department.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

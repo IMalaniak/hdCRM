@@ -78,8 +78,8 @@ export class RoleComponent implements OnInit, OnDestroy {
   }
 
   getRoleData(): void {
-    this.role = cloneDeep(this.route.snapshot.data['role']);
-    this.roleInitial = cloneDeep(this.route.snapshot.data['role']);
+    this.role = cloneDeep(this.route.snapshot.data[RoutingDataConstants.ROLE]);
+    this.roleInitial = cloneDeep(this.route.snapshot.data[RoutingDataConstants.ROLE]);
   }
 
   addParticipantDialog(): void {

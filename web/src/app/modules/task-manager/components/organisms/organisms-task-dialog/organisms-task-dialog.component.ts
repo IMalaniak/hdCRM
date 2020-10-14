@@ -8,7 +8,7 @@ import { AppState } from '@/core/reducers';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
 import { DynamicForm } from '@/shared/models';
-import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
+import { ACTION_LABELS, FORMCONSTANTS, THEME_PALETTE } from '@/shared/constants';
 import { Task, TaskDialogData } from '@/modules/task-manager/models';
 
 @Component({
@@ -18,7 +18,7 @@ import { Task, TaskDialogData } from '@/modules/task-manager/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganismsTaskDialogComponent implements OnInit {
-  taskFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName('task')));
+  taskFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName(FORMCONSTANTS.TASK)));
 
   taskFormValues: Task;
 
@@ -32,7 +32,7 @@ export class OrganismsTaskDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.store$.dispatch(formRequested({ formName: 'task' }));
+    this.store$.dispatch(formRequested({ formName: FORMCONSTANTS.TASK }));
   }
 
   taskFormValueChanges(formVal: Task): void {

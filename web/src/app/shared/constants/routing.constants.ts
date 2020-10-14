@@ -82,4 +82,5 @@ export class RoutingDataConstants {
   static FORM_JSON = 'formJSON';
 
   static DEPARTMENT = 'department';
+  static ROLE = 'role';
 }

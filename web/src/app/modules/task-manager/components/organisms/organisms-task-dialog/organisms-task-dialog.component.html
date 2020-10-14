@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>{{ data.title }}</h1>
 <div mat-dialog-content class="task-dialog">
   <organisms-dynamic-form
-    [data]="data.task ? data.task : null"
+    [data]="data.task || null"
     [formJson]="taskFormJson$ | async"
     [editForm]="true"
     (formChanges)="taskFormValueChanges($event)"

@@ -16,7 +16,7 @@ export class DynamicFormResolver implements Resolve<DynamicForm> {
   constructor(private store$: Store<AppState>) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<DynamicForm> {
-    const formName = route.data[RoutingDataConstants.FORM_NAME];
+    const formName: string = route.data[RoutingDataConstants.FORM_NAME];
 
     return this.store$.pipe(
       select(selectFormByName(formName)),

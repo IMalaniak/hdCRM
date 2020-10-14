@@ -7,7 +7,7 @@ import { ToastMessageService } from '@/shared/services';
 import { DynamicForm } from '@/shared/models';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
-import { DIALOG, ACTION_LABELS, THEME_PALETTE, CONSTANTS } from '@/shared/constants';
+import { DIALOG, ACTION_LABELS, THEME_PALETTE, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-user-details',
@@ -28,12 +28,12 @@ export class OrganismsUserDetailsComponent implements OnInit {
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
 
-  userFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName('user')));
+  userFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName(FORMCONSTANTS.USER)));
 
   constructor(private toastMessageService: ToastMessageService, private store$: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.store$.dispatch(formRequested({ formName: 'user' }));
+    this.store$.dispatch(formRequested({ formName: FORMCONSTANTS.USER }));
   }
 
   userFormValueChanges(formVal: User): void {
