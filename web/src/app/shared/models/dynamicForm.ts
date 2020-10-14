@@ -22,4 +22,6 @@ export interface DynamicForm {
   name: string;
   type: FormType;
   form: DynamicFormItem[];
+  createdAt: Date;
+  updatedAt: Date;
 }

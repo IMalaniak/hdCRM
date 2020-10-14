@@ -70,7 +70,7 @@
         <section content>
           <organisms-dynamic-form
             [data]="plan"
-            [formJson]="planFormJson$ | async"
+            [formJson]="planFormJson"
             [editForm]="editForm$ | async"
             (formChanges)="planFormValueChanges($event)"
           ></organisms-dynamic-form>

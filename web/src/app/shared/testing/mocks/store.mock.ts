@@ -1,5 +1,7 @@
 import { AuthState } from '@/core/auth/store/auth.reducer';
+import { DynamicFormState } from '@/core/reducers/dynamic-form/dynamic-form.reducer';
 import { User } from '@/modules/users/models';
+import { FormType, IFieldType } from '@/shared/constants';
 
 export const currentUserMock = ({
   fullname: 'User Tester',
@@ -94,4 +96,315 @@ export const authStateMock: AuthState = {
   isTokenRefreshing: false,
   currentUser: currentUserMock,
   loading: false
+};
+
+export const formsStateMock: DynamicFormState = {
+  isLoading: false,
+  ids: [],
+  entities: {
+    user: {
+      key: 'user',
+      name: 'User Model Form',
+      type: FormType.SYSTEM,
+      form: [
+        {
+          controlName: 'name',
+          type: IFieldType.INPUT,
+          label: 'Name',
+          isEditable: true,
+          required: true
+        },
+        {
+          controlName: 'surname',
+          type: IFieldType.INPUT,
+          label: 'Surname',
+          isEditable: true
+        },
+        {
+          controlName: 'login',
+          type: IFieldType.INPUT,
+          label: 'Login',
+          isEditable: false,
+          required: true
+        },
+        {
+          controlName: 'email',
+          type: IFieldType.INPUT,
+          label: 'Email',
+          isEditable: true
+        },
+        {
+          controlName: 'phone',
+          type: IFieldType.INPUT,
+          label: 'Phone',
+          isEditable: true
+        },
+        {
+          controlName: 'StateId',
+          type: IFieldType.SELECT,
+          label: 'State',
+          isEditable: true,
+          editOnly: true,
+          options: [
+            {
+              label: 'Initialized',
+              value: 'initialized'
+            },
+            {
+              label: 'Active',
+              value: 'active'
+            },
+            {
+              label: 'Disabled',
+              value: 'disabled'
+            },
+            {
+              label: 'Archive',
+              value: 'archive'
+            }
+          ]
+        },
+        {
+          controlName: 'createdAt',
+          type: IFieldType.DATE,
+          label: 'Date Created',
+          isEditable: false
+        },
+        {
+          controlName: 'updatedAt',
+          type: IFieldType.DATE,
+          label: 'Date Updated',
+          isEditable: false
+        }
+      ],
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    plan: {
+      key: 'plan',
+      name: 'Plan Model Form',
+      type: FormType.SYSTEM,
+      form: [
+        {
+          controlName: 'title',
+          type: IFieldType.INPUT,
+          label: 'Title',
+          isEditable: true,
+          required: true
+        },
+        {
+          controlName: 'description',
+          type: IFieldType.TEXTAREA,
+          label: 'Description',
+          isEditable: true
+        },
+        {
+          controlName: 'budget',
+          type: IFieldType.INPUT,
+          label: 'Budget',
+          isEditable: true
+        },
+        {
+          controlName: 'deadline',
+          type: IFieldType.DATE,
+          label: 'Deadline',
+          isEditable: true
+        },
+        {
+          controlName: 'createdAt',
+          type: IFieldType.DATE,
+          label: 'Date Created',
+          isEditable: false
+        },
+        {
+          controlName: 'updatedAt',
+          type: IFieldType.DATE,
+          label: 'Date Updated',
+          isEditable: false
+        }
+      ],
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    'user-organization': {
+      key: 'user-organization',
+      name: 'User Organization Model Form',
+      type: FormType.SYSTEM,
+      form: [
+        {
+          controlName: 'title',
+          type: IFieldType.INPUT,
+          label: 'Title',
+          isEditable: true,
+          required: true
+        },
+        {
+          controlName: 'type',
+          type: IFieldType.INPUT,
+          label: 'Type',
+          isEditable: false,
+          required: true
+        },
+        {
+          controlName: 'country',
+          type: IFieldType.INPUT,
+          label: 'Country',
+          isEditable: true
+        },
+        {
+          controlName: 'city',
+          type: IFieldType.INPUT,
+          label: 'City',
+          isEditable: true
+        },
+        {
+          controlName: 'address',
+          type: IFieldType.INPUT,
+          label: 'Address',
+          isEditable: true
+        },
+        {
+          controlName: 'postcode',
+          type: IFieldType.INPUT,
+          label: 'Postcode',
+          isEditable: true
+        },
+        {
+          controlName: 'phone',
+          type: IFieldType.INPUT,
+          label: 'Phone',
+          isEditable: true
+        },
+        {
+          controlName: 'email',
+          type: IFieldType.INPUT,
+          label: 'Email',
+          isEditable: true
+        },
+        {
+          controlName: 'website',
+          type: IFieldType.INPUT,
+          label: 'Website',
+          isEditable: true
+        },
+        {
+          controlName: 'updatedAt',
+          type: IFieldType.DATE,
+          label: 'Date Updated',
+          isEditable: false
+        }
+      ],
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    task: {
+      key: 'task',
+      name: 'Task Model Form',
+      type: FormType.SYSTEM,
+      form: [
+        {
+          controlName: 'title',
+          type: IFieldType.INPUT,
+          label: 'Title',
+          isEditable: true,
+          required: true
+        },
+        {
+          controlName: 'description',
+          type: IFieldType.TEXTAREA,
+          label: 'Description',
+          isEditable: true
+        },
+        {
+          controlName: 'TaskPriorityId',
+          type: IFieldType.SELECT,
+          label: 'Priority',
+          isEditable: true,
+          editOnly: true,
+          options: [
+            {
+              label: 'Not urgent or important',
+              value: 1
+            },
+            {
+              label: 'Urgent not important',
+              value: 2
+            },
+            {
+              label: 'Important not urgent',
+              value: 3
+            },
+            {
+              label: 'Urgent and important',
+              value: 4
+            }
+          ]
+        }
+      ],
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    role: {
+      key: 'role',
+      name: 'Role Model Form',
+      type: FormType.SYSTEM,
+      form: [
+        {
+          controlName: 'keyString',
+          type: IFieldType.INPUT,
+          label: 'Title',
+          isEditable: true,
+          required: true
+        },
+        {
+          controlName: 'createdAt',
+          type: IFieldType.DATE,
+          label: 'Date Created',
+          isEditable: false
+        },
+        {
+          controlName: 'updatedAt',
+          type: IFieldType.DATE,
+          label: 'Date Updated',
+          isEditable: false
+        }
+      ],
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    department: {
+      key: 'department',
+      name: 'Department Model Form',
+      type: FormType.SYSTEM,
+      form: [
+        {
+          controlName: 'title',
+          type: IFieldType.INPUT,
+          label: 'Title',
+          isEditable: true,
+          required: true
+        },
+        {
+          controlName: 'description',
+          type: IFieldType.TEXTAREA,
+          label: 'Description',
+          isEditable: true
+        },
+        {
+          controlName: 'createdAt',
+          type: IFieldType.DATE,
+          label: 'Date Created',
+          isEditable: false
+        },
+        {
+          controlName: 'updatedAt',
+          type: IFieldType.DATE,
+          label: 'Date Updated',
+          isEditable: false
+        }
+      ],
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+  }
 };

@@ -2,69 +2,26 @@
   <div content class="row">
     <div class="col-md-6">
       <organisms-card cardTitle="Details" cardClass="border border-dark mt-0 mb-0" [disableShadow]="true">
-        <form content class="d-flex flex-column px-3 pt-3" *ngIf="editForm$ | async">
-          <mat-form-field appearance="outline">
-            <mat-label i18n="@@departmentComponentDetailsTitle">Title</mat-label>
-            <input matInput [(ngModel)]="department.title" name="title" type="text" required />
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label i18n="@@departmentComponentDetailsDescription">Write a description</mat-label>
-            <textarea matInput [(ngModel)]="department.description" name="description" type="text" required></textarea>
-          </mat-form-field>
-        </form>
-        <mat-list content class="w-100" *ngIf="!(editForm$ | async)">
-          <mat-list-item>
-            <section>
-              <div>
-                <span i18n="@@departmentСomponentDetailsTitle">Title:</span>
-              </div>
-              <div>
-                <span>{{ department.title }}</span>
-              </div>
-            </section>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item>
-            <section>
-              <div>
-                <span i18n="@@departmentСomponentDetailsDateCreated">Date created:</span>
-              </div>
-              <div>
-                <span>{{ department.createdAt | dateTimeFormat | async }}</span>
-              </div>
-            </section>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item>
-            <section>
-              <div>
-                <span i18n="@@departmentСomponentDetailsDateUpdated">Date updated:</span>
-              </div>
-              <div>
-                <span>{{ department.createdAt | dateTimeFormat | async }}</span>
-              </div>
-            </section>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <div class="w-100 px-3 mt-2">
-            <span i18n="@@departmentСomponentDetailsDescription">Description:</span>
-            <p class="pt-2">{{ department.description }}</p>
-          </div>
-        </mat-list>
+        <section content>
+          <organisms-dynamic-form
+            [data]="department"
+            [formJson]="departmentFormJson"
+            [editForm]="editForm$ | async"
+            (formChanges)="departmentFormValueChanges($event)"
+          >
+          </organisms-dynamic-form>
+        </section>
       </organisms-card>
     </div>
     <div class="col-md-6">
       <templates-box-user-list-sm
         cardTitle="Manager"
+        class="d-block mb-3"
         [user]="department.Manager"
         [editMode]="editForm$ | async"
         (addClick)="addManagerDialog()"
         (removeClick)="removeManager()"
       ></templates-box-user-list-sm>
-    </div>
-  </div>
-  <div content class="row">
-    <div class="col-md-6 mt-3">
       <templates-box-user-list-sm
         cardTitle="Workers"
         [users]="department.Workers"
@@ -73,6 +30,10 @@
         (removeClick)="removeWorker($event)"
       ></templates-box-user-list-sm>
     </div>
+  </div>
+  <!-- <div content class="row">
+    <div class="col-md-6 mt-3">
+    </div>
     <div class="col-md-6">
       <div class="row">
         <div class="col-sm-6 col-md-12 col-lg-6">
@@ -80,12 +41,6 @@
             <atoms-icon-button buttons [matType]="matButtonTypes.STROKED" [icon]="['fas', 'plus']">
               Add parent department
             </atoms-icon-button>
-            <!-- <mat-list content>
-              <mat-list-item *ngFor="">
-                <h3 matLine>{{}}</h3>
-                <mat-divider></mat-divider>
-              </mat-list-item>
-            </mat-list> -->
           </organisms-card>
         </div>
         <div class="col-sm-6 col-md-12 col-lg-6">
@@ -98,17 +53,11 @@
             <atoms-icon-button buttons [matType]="matButtonTypes.STROKED" [icon]="['fas', 'plus']">
               Add sub departments
             </atoms-icon-button>
-            <!-- <mat-list content>
-              <mat-list-item *ngFor="">
-                <h3 matLine>{{}}</h3>
-                <mat-divider></mat-divider>
-              </mat-list-item>
-            </mat-list> -->
           </organisms-card>
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <div buttons *ngIf="canEditDepartment$ | async">
     <atoms-icon-button *ngIf="!(editForm$ | async)" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
       {{ actionLabels.EDIT }}

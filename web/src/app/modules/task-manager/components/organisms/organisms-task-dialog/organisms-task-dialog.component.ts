@@ -1,8 +1,15 @@
 import { Component, OnInit, Inject, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TaskDialogData } from '@/modules/task-manager/models';
-import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
+
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+import { AppState } from '@/core/reducers';
+import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
+import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
+import { DynamicForm } from '@/shared/models';
+import { ACTION_LABELS, FORMCONSTANTS, THEME_PALETTE } from '@/shared/constants';
+import { Task, TaskDialogData } from '@/modules/task-manager/models';
 
 @Component({
   selector: 'organisms-task-dialog',
@@ -11,37 +18,28 @@ import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganismsTaskDialogComponent implements OnInit {
-  taskData: FormGroup;
+  taskFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName(FORMCONSTANTS.TASK)));
+
+  taskFormValues: Task;
+
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
 
   constructor(
+    private store$: Store<AppState>,
     public dialogRef: MatDialogRef<OrganismsTaskDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: TaskDialogData,
-    private fb: FormBuilder
+    @Inject(MAT_DIALOG_DATA) public data: TaskDialogData
   ) {}
 
   ngOnInit(): void {
-    this.buildTaskForm();
-    this.setDataIfTaskExist();
+    this.store$.dispatch(formRequested({ formName: FORMCONSTANTS.TASK }));
   }
 
-  buildTaskForm(): void {
-    this.taskData = this.fb.group({
-      id: new FormControl(null),
-      title: new FormControl(null, [Validators.required, Validators.maxLength(75)]),
-      description: new FormControl(null, Validators.maxLength(255)),
-      TaskPriorityId: new FormControl(null, Validators.required)
-    });
-  }
-
-  setDataIfTaskExist(): void {
-    if (this.data.task) {
-      this.taskData.patchValue(this.data.task);
-    }
+  taskFormValueChanges(formVal: Task): void {
+    this.taskFormValues = { ...this.taskFormValues, ...formVal };
   }
 
   onSubmit(): void {
-    this.dialogRef.close({ ...this.taskData.value });
+    this.dialogRef.close({ ...this.data.task, ...this.taskFormValues });
   }
 }

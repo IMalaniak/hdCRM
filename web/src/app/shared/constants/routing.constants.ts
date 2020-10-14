@@ -76,3 +76,11 @@ export class RoutingConstants {
   static ROUTE_ROLES_DETAILS = `${RoutingConstants.BASE_URL}${PATHS.ROLES}/${PATHS.DETAILS}`;
   static ROUTE_ROLES_ADD = `${RoutingConstants.BASE_URL}${PATHS.ROLES}/${PATHS.ADD}`;
 }
+
+export class RoutingDataConstants {
+  static FORM_NAME = 'formName';
+  static FORM_JSON = 'formJSON';
+
+  static DEPARTMENT = 'department';
+  static ROLE = 'role';
+}

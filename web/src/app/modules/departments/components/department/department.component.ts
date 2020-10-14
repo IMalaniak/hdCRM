@@ -1,18 +1,29 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Store, select } from '@ngrx/store';
+import { MatDialog } from '@angular/material/dialog';
 import { takeUntil, map } from 'rxjs/operators';
-import { cloneDeep } from 'lodash';
-import { Department } from '../../models';
-import { UsersDialogComponent, User } from '@/modules/users';
 import { Subject, Observable, combineLatest } from 'rxjs';
+
+import { Store, select } from '@ngrx/store';
+import { cloneDeep } from 'lodash';
+
 import { AppState } from '@/core/reducers';
 import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
+import {
+  EDIT_PRIVILEGES,
+  DIALOG,
+  ACTION_LABELS,
+  THEME_PALETTE,
+  CONSTANTS,
+  MAT_BUTTON,
+  RoutingDataConstants
+} from '@/shared/constants';
 import { MediaqueryService, ToastMessageService } from '@/shared/services';
+import { DynamicForm } from '@/shared/models';
+import { UsersDialogComponent, User } from '@/modules/users';
+import { Department } from '../../models';
 import { updateDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
 import { selectIsEditing } from '../../store/department.selectors';
-import { EDIT_PRIVILEGES, DIALOG, ACTION_LABELS, THEME_PALETTE, CONSTANTS, MAT_BUTTON } from '@/shared/constants';
 
 @Component({
   selector: 'department',
@@ -26,8 +37,10 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     this.store$.pipe(select(currentUser))
   ]).pipe(map(([editPriv, appUser]) => editPriv || appUser.id === this.department.managerId));
 
+  departmentFormJson: DynamicForm;
   department: Department;
   departmentInitial: Department;
+  departmentFormValues: Department;
 
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
@@ -45,8 +58,10 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.departmentInitial = cloneDeep(this.route.snapshot.data['department']);
-    this.department = cloneDeep(this.route.snapshot.data['department']);
+    this.departmentFormJson = this.route.snapshot.data[RoutingDataConstants.FORM_JSON];
+    this.departmentInitial = cloneDeep(this.route.snapshot.data[RoutingDataConstants.DEPARTMENT]);
+    // TODO: @IMalaniak add plan directly from the store
+    this.department = cloneDeep(this.route.snapshot.data[RoutingDataConstants.DEPARTMENT]);
   }
 
   onClickEdit(): void {
@@ -56,6 +71,10 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   onClickCancelEdit(): void {
     this.store$.dispatch(changeIsEditingState({ isEditing: false }));
     this.department = cloneDeep(this.departmentInitial);
+  }
+
+  departmentFormValueChanges(formVal: Department): void {
+    this.departmentFormValues = { ...this.departmentFormValues, ...formVal };
   }
 
   addManagerDialog(): void {
@@ -111,7 +130,9 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   updateDepartment(): void {
     this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_UPDATE_DEPARTMENT_CONFIRM).then((result) => {
       if (result.value) {
-        this.store$.dispatch(updateDepartmentRequested({ department: this.department }));
+        this.store$.dispatch(
+          updateDepartmentRequested({ department: { ...this.department, ...this.departmentFormValues } })
+        );
       }
     });
   }

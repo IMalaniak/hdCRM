@@ -1,16 +1,18 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Store, select } from '@ngrx/store';
-import { takeUntil, skipUntil, delay } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
-import { Plan } from '../../models';
-import { UsersDialogComponent, User } from '@/modules/users';
+import { takeUntil, skipUntil, delay } from 'rxjs/operators';
+
+import { Store } from '@ngrx/store';
+
 import { AppState } from '@/core/reducers';
-import { currentUser } from '@/core/auth/store/auth.selectors';
-import { createPlanRequested } from '../../store/plan.actions';
 import { MediaqueryService } from '@/shared/services';
-import { ACTION_LABELS } from '@/shared/constants';
+import { DynamicForm } from '@/shared/models';
+import { ACTION_LABELS, RoutingDataConstants } from '@/shared/constants';
+import { UsersDialogComponent, User } from '@/modules/users';
+import { Plan } from '../../models';
+import { createPlanRequested } from '../../store/plan.actions';
 
 @Component({
   selector: 'add-plan',
@@ -19,37 +21,28 @@ import { ACTION_LABELS } from '@/shared/constants';
 })
 export class AddPlanComponent implements OnInit, OnDestroy {
   plan = {} as Plan;
-  planData: FormGroup;
-  appUser: User;
+  planFormJson: DynamicForm;
+  planFormValues: Plan;
 
   actionLabels = ACTION_LABELS;
 
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
+    private route: ActivatedRoute,
     private dialog: MatDialog,
     private store$: Store<AppState>,
     private mediaQuery: MediaqueryService,
-    private fb: FormBuilder,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.store$.pipe(select(currentUser), takeUntil(this.unsubscribe)).subscribe((user) => {
-      this.appUser = user;
-    });
-
-    this.buildPlanForm();
+    this.planFormJson = this.route.snapshot.data[RoutingDataConstants.FORM_JSON];
     this.plan.Participants = [];
   }
 
-  buildPlanForm(): void {
-    this.planData = this.fb.group({
-      title: new FormControl('', [Validators.required, Validators.maxLength(100)]),
-      budget: new FormControl('', [Validators.required, Validators.min(0)]),
-      description: new FormControl('', [Validators.required, Validators.maxLength(2500)]),
-      deadline: new FormControl('', Validators.required)
-    });
+  planFormValueChanges(formVal: Plan): void {
+    this.planFormValues = { ...this.planFormValues, ...formVal };
   }
 
   addParticipantDialog(): void {
@@ -96,9 +89,7 @@ export class AddPlanComponent implements OnInit, OnDestroy {
   }
 
   onClickSubmit(): void {
-    // TODO: @IMalaniak create logic on BE side to set CreatorId, after this delete CreatorId prop below
-    this.plan = { ...this.plan, CreatorId: this.appUser.id };
-    this.store$.dispatch(createPlanRequested({ plan: { ...this.plan, ...this.planData.value } }));
+    this.store$.dispatch(createPlanRequested({ plan: { ...this.plan, ...this.planFormValues } }));
   }
 
   ngOnDestroy(): void {

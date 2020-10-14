@@ -1,17 +1,20 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { Validators, FormControl } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { Role, Privilege } from '../../models';
-import { UsersDialogComponent } from '@/modules/users/components/dialog/users-dialog.component';
-import { MediaqueryService } from '@/shared/services';
 import { Subject } from 'rxjs';
-import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
-import { takeUntil, skipUntil, delay } from 'rxjs/operators';
-import { AppState } from '@/core/reducers';
+
 import { Store } from '@ngrx/store';
-import { createRoleRequested } from '../../store/role.actions';
+import { takeUntil, skipUntil, delay } from 'rxjs/operators';
+
+import { AppState } from '@/core/reducers';
+import { DynamicForm } from '@/shared/models';
+import { MediaqueryService } from '@/shared/services';
+import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, RoutingDataConstants } from '@/shared/constants';
 import { User } from '@/modules/users/models';
-import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS } from '@/shared/constants';
+import { UsersDialogComponent } from '@/modules/users/components/dialog/users-dialog.component';
+import { Role, Privilege } from '../../models';
+import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
+import { createRoleRequested } from '../../store/role.actions';
 
 @Component({
   selector: 'app-add-role',
@@ -21,7 +24,8 @@ import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS } from '@/shared/constants';
 })
 export class AddRoleComponent implements OnInit {
   role = {} as Role;
-  keyString: FormControl;
+  roleFormJson: DynamicForm;
+  roleFormValues: Role;
 
   columns = COLUMN_NAMES;
   columnLabels = COLUMN_LABELS;
@@ -37,16 +41,21 @@ export class AddRoleComponent implements OnInit {
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
-    private store: Store<AppState>,
+    private route: ActivatedRoute,
+    private store$: Store<AppState>,
     private dialog: MatDialog,
     private mediaQuery: MediaqueryService,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.keyString = new FormControl('', [Validators.required, Validators.minLength(2)]);
+    this.roleFormJson = this.route.snapshot.data[RoutingDataConstants.FORM_JSON];
     this.role.Privileges = [];
     this.role.Users = [];
+  }
+
+  roleFormValueChanges(formVal: Role): void {
+    this.roleFormValues = { ...this.roleFormValues, ...formVal };
   }
 
   addParticipantDialog(): void {
@@ -138,7 +147,6 @@ export class AddRoleComponent implements OnInit {
   }
 
   onRegisterSubmit(): void {
-    this.role = { ...this.role, keyString: this.keyString.value };
-    this.store.dispatch(createRoleRequested({ role: this.role }));
+    this.store$.dispatch(createRoleRequested({ role: { ...this.role, ...this.roleFormValues } }));
   }
 }
