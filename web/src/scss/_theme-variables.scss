@@ -3,11 +3,12 @@
 // Font
 $font-family: 'Lato', sans-serif;
 
+// Colors
 $default-primary-palette: $mat-light-blue;
 $default-primary-palette-shade: 500;
 
-$default-accent-palette: $mat-cyan;
-$default-accent-palette-shade: 800;
+$default-accent-palette: $mat-teal;
+$default-accent-palette-shade: A700;
 
 $default-warn-palette: $mat-red;
 $default-warn-palette-shade: 800;
@@ -15,8 +16,8 @@ $default-warn-palette-shade: 800;
 $dark-primary-palette: $mat-light-blue;
 $dark-primary-palette-shade: 500;
 
-$dark-accent-palette: $mat-cyan;
-$dark-accent-palette-shade: 800;
+$dark-accent-palette: $mat-teal;
+$dark-accent-palette-shade: A400;
 
 $dark-warn-palette: $mat-red;
 $dark-warn-palette-shade: 800;

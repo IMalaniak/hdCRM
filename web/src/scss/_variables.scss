@@ -70,20 +70,24 @@ $app-colors: (
   'theme': (
     'background': $white,
     'text': $dark,
+    'text-contrast': $light,
     'primary': $blue,
     'accent': $green,
     'warn': $red,
     'light': $light,
-    'dark': $dark
+    'dark': $dark,
+    'white': $white
   ),
   'theme-dark': (
     'background': #222222,
     'text': $light,
+    'text-contrast': $light,
     'primary': $primary-dark,
     'accent': $accent-dark,
     'warn': $warn-dark,
     'light': #424242,
-    'dark': #424242
+    'dark': #424242,
+    'white': $white
   )
 );
 
