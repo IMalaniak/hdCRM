@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Input, HostBinding, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, HostBinding, ChangeDetectionStrategy } from '@angular/core';
 import { MediaqueryService } from '@/shared/services';
 import { MenuItem } from './menuItem';
 import { Store, select } from '@ngrx/store';
@@ -10,7 +10,6 @@ import { RoutingConstants } from '@/shared/constants';
   selector: 'left-sidebar',
   templateUrl: './left-sidebar.component.html',
   styleUrls: ['./left-sidebar.component.scss'],
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LeftSidebarComponent implements OnInit {

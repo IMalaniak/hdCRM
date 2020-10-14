@@ -2,7 +2,7 @@
 @import 'mixins';
 @import '~bootstrap/scss/mixins/breakpoints';
 
-left-sidebar {
+:host {
   @include set-bgcolor('dark', false);
   position: fixed;
   top: app-size(header, height, true);
@@ -13,7 +13,20 @@ left-sidebar {
   transition: left $transition;
 
   &.minimized {
-    left: -100%;
+    left: -100% !important;
+
+    .item-btn {
+      &:hover,
+      &.active {
+        border-left: none !important;
+        border-bottom: 5px solid;
+      }
+
+      .item-title {
+        opacity: 0 !important;
+        visibility: hidden !important;
+      }
+    }
   }
 
   @include media-breakpoint-up(md) {
@@ -36,60 +49,45 @@ left-sidebar {
       flex-basis: app-size(sidebar, minimized, true);
     }
   }
-}
 
-.sidebar {
-  overflow: hidden;
+  .sidebar {
+    overflow: hidden;
 
-  &-list {
-    margin: 0;
-    padding: 0;
-  }
-
-  &-list-item {
-    .item-btn {
-      display: flex;
-      align-items: center;
-      height: app-size(header, height, true);
-      @include set-textcolor('light');
-      transition: border-width $transition;
-
-      &:hover,
-      &.active {
-        border-left: 7px solid;
-        text-decoration: none;
-        @include set-bgcolor('light');
-        @include set-textcolor('primary');
-      }
-
-      .item-title {
-        opacity: 1;
-        visibility: visible;
-        transition: opacity $transition, visibility $transition;
-      }
-
-      .item-icon {
-        margin: 0 15px;
-        font-size: 17px;
-
-        > svg {
-          width: 1.3em;
-        }
-      }
+    &-list {
+      margin: 0;
+      padding: 0;
     }
-  }
 
-  .minimized & {
-    .item-btn {
-      &:hover,
-      &.active {
-        border-left: none;
-        border-bottom: 5px solid;
-      }
+    &-list-item {
+      .item-btn {
+        display: flex;
+        align-items: center;
+        height: app-size(header, height, true);
+        @include set-textcolor('text-contrast', false);
+        transition: border-width $transition;
 
-      .item-title {
-        opacity: 0;
-        visibility: hidden;
+        &:hover,
+        &.active {
+          border-left: 7px solid;
+          text-decoration: none;
+          @include set-bgcolor('background', false);
+          @include set-textcolor('primary', false);
+        }
+
+        .item-title {
+          opacity: 1;
+          visibility: visible;
+          transition: opacity $transition, visibility $transition;
+        }
+
+        .item-icon {
+          margin: 0 15px;
+          font-size: 17px;
+
+          > svg {
+            width: 1.3em;
+          }
+        }
       }
     }
   }

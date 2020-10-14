@@ -22,7 +22,7 @@
       justify-content: center;
       width: app-size(sidebar, minimized, true);
       @include set-bgcolor('primary', false);
-      @include set-textcolor('light', false);
+      @include set-textcolor('text-contrast', false);
       overflow: hidden;
       transition: all $transition;
 
