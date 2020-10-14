@@ -25,7 +25,7 @@ import { DynamicForm } from '@/shared/models';
         [options]="field.options"
         [control]="form.get(field.controlName)"
         [fType]="field.type"
-        [value]="data[field.controlName] || null"
+        [value]="data ? data[field.controlName] : null"
         [editable]="field.isEditable"
         [editOnly]="field.editOnly"
         [editForm]="editForm"
