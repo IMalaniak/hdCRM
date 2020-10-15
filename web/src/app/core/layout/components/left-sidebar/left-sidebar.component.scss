@@ -3,6 +3,10 @@
 @import '~bootstrap/scss/mixins/breakpoints';
 
 :host {
+  $sidebar-width: app-size(sidebar, width, true);
+  $sidebar-width-minimized: app-size(sidebar, minimized, true);
+  $item-title-width: calc(#{$sidebar-width} - #{$sidebar-width-minimized});
+
   @include set-bgcolor('dark', false);
   position: fixed;
   top: app-size(header, height, true);
@@ -15,38 +19,43 @@
   &.minimized {
     left: -100% !important;
 
-    .item-btn {
-      &:hover,
-      &.active {
-        border-left: none !important;
-        border-bottom: 5px solid;
-      }
+    .sidebar {
+      &-list-item {
+        .item-btn {
+          &:hover,
+          &.active {
+            border-left: none;
+            border-bottom: 5px solid;
+          }
 
-      .item-title {
-        opacity: 0 !important;
-        visibility: hidden !important;
+          .item-title {
+            width: 0;
+            opacity: 0 !important;
+            visibility: hidden !important;
+          }
+        }
       }
     }
   }
 
   @include media-breakpoint-up(md) {
-    min-width: app-size(sidebar, width, true);
-    flex-basis: app-size(sidebar, width, true);
+    min-width: $sidebar-width;
+    flex-basis: $sidebar-width;
 
     &.minimized {
-      left: -(app-size(sidebar, width, true));
+      left: -($sidebar-width);
     }
   }
 
   @include media-breakpoint-up(lg) {
     position: sticky;
-    min-width: app-size(sidebar, width, true);
-    flex-basis: app-size(sidebar, width, true);
+    min-width: $sidebar-width;
+    flex-basis: $sidebar-width;
     transition: min-width $transition, flex-basis $transition, left $transition;
 
     &.minimized {
-      min-width: app-size(sidebar, minimized, true);
-      flex-basis: app-size(sidebar, minimized, true);
+      min-width: $sidebar-width-minimized;
+      flex-basis: $sidebar-width-minimized;
     }
   }
 
@@ -62,9 +71,10 @@
       .item-btn {
         display: flex;
         align-items: center;
+        justify-content: space-evenly;
         height: app-size(header, height, true);
         @include set-textcolor('text-contrast', false);
-        transition: border-width $transition;
+        transition: border-width $transition, justify-content $transition;
 
         &:hover,
         &.active {
@@ -73,20 +83,16 @@
           @include set-bgcolor('background', false);
           @include set-textcolor('primary', false);
         }
-
         .item-title {
+          width: $item-title-width;
           opacity: 1;
           visibility: visible;
-          transition: opacity $transition, visibility $transition;
+          transition: width $transition, opacity $transition, visibility $transition;
         }
-
         .item-icon {
-          margin: 0 15px;
-          font-size: 17px;
-
-          > svg {
-            width: 1.3em;
-          }
+          width: $sidebar-width-minimized;
+          font-size: app-size(font, null, true);
+          text-align: center;
         }
       }
     }
