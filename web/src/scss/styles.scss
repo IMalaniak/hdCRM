@@ -33,6 +33,8 @@
 }
 
 body {
+  @include set-bgcolor('background', false);
+  @include set-textcolor('text', false);
   margin: 0;
   height: 100vh;
   max-height: 100vh;
@@ -53,6 +55,7 @@ body {
 }
 
 main {
+  @include set-bgcolor('background', false);
   $hHeight: app-size(header, height, true);
   $height: calc(100% - #{$hHeight});
 
@@ -108,7 +111,7 @@ main {
 .breadcrumb {
   margin: 0;
   padding: app-size(spacer, sm, true) app-size(spacer, default, true);
-  @include set-bgcolor('dark');
+  @include set-bgcolor('dark', false);
   @include set-textcolor('light', false);
 
   a {
@@ -219,10 +222,6 @@ main {
 
 .cursor-pointer {
   cursor: pointer;
-}
-
-.dark-theme-bg {
-  background-color: $black;
 }
 
 .card-actions {

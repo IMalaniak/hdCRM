@@ -6,7 +6,7 @@
 .process-message {
   span,
   fa-icon {
-    @include set-textcolor('light');
+    @include set-textcolor('text-contrast');
   }
 }
 

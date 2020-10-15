@@ -48,8 +48,8 @@ $gray-900: #3a3a3a;
 $black: #212121;
 
 // reset bootstrap theme colors
-$light: $gray-100;
-$dark: $gray-900;
+$light: #fafafa;
+$dark: #212121;
 
 // reset bootstrap transitions
 $btn-transition: color $transition, background-color $transition, border-color $transition, box-shadow $transition;
@@ -69,20 +69,25 @@ $size-prefix: --app-size-;
 $app-colors: (
   'theme': (
     'background': $white,
+    'text': $dark,
+    'text-contrast': $light,
     'primary': $blue,
     'accent': $green,
     'warn': $red,
     'light': $light,
-    'dark': $dark
+    'dark': $dark,
+    'white': $white
   ),
   'theme-dark': (
-    'background': $black,
+    'background': #222222,
+    'text': $light,
+    'text-contrast': $light,
     'primary': $primary-dark,
     'accent': $accent-dark,
     'warn': $warn-dark,
-    // TODO: @IMalaniak change variables here
-    'light': $light,
-    'dark': $dark
+    'light': #424242,
+    'dark': #424242,
+    'white': $white
   )
 );
 
