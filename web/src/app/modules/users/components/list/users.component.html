@@ -9,7 +9,7 @@
   </atoms-icon-button>
 
   <div content class="table-container">
-    <mat-table class="users-table crm-table" [dataSource]="dataSource" matSort matSortDisabled>
+    <mat-table class="users-table crm-table" [dataSource]="dataSource" matSort>
       <ng-container [matColumnDef]="columns.SELECT" sticky>
         <mat-header-cell *matHeaderCellDef>
           <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
@@ -63,7 +63,7 @@
         <mat-cell *matCellDef="let user">{{ user.phone }}</mat-cell>
       </ng-container>
       <ng-container [matColumnDef]="columns.DEPARTMENT">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@usersComponentListDepartment">
+        <mat-header-cell *matHeaderCellDef i18n="@@usersComponentListDepartment">
           {{ columnLabels.DEPARTMENT }}
         </mat-header-cell>
         <mat-cell *matCellDef="let user">{{ user.Department ? user.Department.title : '-' }}</mat-cell>

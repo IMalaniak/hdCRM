@@ -55,7 +55,8 @@ export class UserController {
       .getAll(req.user, queryParams)
       .then((data) => {
         const pages = Math.ceil(data.count / limit);
-        return res.status(StatusCodes.OK).json({ success: true, data: data.rows, resultsNum: data.count, pages });
+        const ids: number[] = data.rows.map((user) => user.id);
+        return res.status(StatusCodes.OK).json({ success: true, ids, data: data.rows, resultsNum: data.count, pages });
       })
       .catch((err: any) => {
         Logger.Err(err);
