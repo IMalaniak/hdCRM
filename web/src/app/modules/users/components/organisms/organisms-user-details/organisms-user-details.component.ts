@@ -1,6 +1,5 @@
-import { Component, Input, EventEmitter, Output, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { takeUntil } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import { Component, Input, EventEmitter, Output, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
@@ -9,7 +8,7 @@ import { DialogDataModel, DynamicForm } from '@/shared/models';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
 import { ACTION_LABELS, THEME_PALETTE, CONSTANTS } from '@/shared/constants';
-import { DialogConfirmModal } from '@/shared/models/modal/dialog-question.model';
+import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/core/services/dialog';
 
@@ -19,7 +18,7 @@ import { DialogService } from '@/core/services/dialog';
   styleUrls: ['./organisms-user-details.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrganismsUserDetailsComponent implements OnInit, OnDestroy {
+export class OrganismsUserDetailsComponent implements OnInit {
   @Input() user: User;
   @Input() canEdit = false;
   @Input() editForm: boolean;
@@ -34,9 +33,7 @@ export class OrganismsUserDetailsComponent implements OnInit, OnDestroy {
 
   userFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName('user')));
 
-  private unsubscribe: Subject<void> = new Subject();
-
-  constructor(private store$: Store<AppState>, private dialogService: DialogService) {}
+  constructor(private store$: Store<AppState>, private dialogService: DialogService) { }
 
   ngOnInit(): void {
     this.store$.dispatch(formRequested({ formName: 'user' }));
@@ -56,21 +53,10 @@ export class OrganismsUserDetailsComponent implements OnInit, OnDestroy {
   }
 
   onUpdateUserSubmit(): void {
-    const dialogModel: DialogConfirmModal = new DialogConfirmModal(CONSTANTS.TEXTS_UPDATE_COMMON_CONFIRM);
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_UPDATE_COMMON_CONFIRM);
     const dialogDataModel = new DialogDataModel(dialogModel);
 
     this.dialogService
-      .confirm(DialogConfirmComponent, dialogDataModel)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: boolean) => {
-        if (result) {
-          this.updateUser.emit({ ...this.user, ...this.userFormValues });
-        }
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
+      .confirm(DialogConfirmComponent, dialogDataModel, () => this.updateUser.emit({ ...this.user, ...this.userFormValues }));
   }
 }

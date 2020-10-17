@@ -7,7 +7,7 @@ import { PlanService } from '../services';
 import { Plan } from '../models';
 import { Router } from '@angular/router';
 import { ToastMessageService } from '@/shared/services';
-import { CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared/models';
+import { CollectionServiceMessage, ItemServiceMessage, ServiceMessage } from '@/shared/models';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Update } from '@ngrx/entity';
 import { RoutingConstants } from '@/shared/constants';
@@ -20,7 +20,7 @@ export class PlanEffects {
       map((payload) => payload.plan),
       mergeMap((plan: Plan) =>
         this.planService.create(plan).pipe(
-          map((response: ItemApiResponse<Plan>) => {
+          map((response: ItemServiceMessage<Plan>) => {
             this.toastMessageService.snack(response);
             this.router.navigateByUrl(RoutingConstants.ROUTE_PLANNER);
             return planActions.createPlanSuccess({ plan: response.data });
@@ -39,7 +39,7 @@ export class PlanEffects {
       ofType(planActions.planRequested),
       map((payload) => payload.id),
       mergeMap((id) => this.planService.getOne(id)),
-      map((response: ItemApiResponse<Plan>) => planActions.planLoaded({ plan: response.data })),
+      map((response: ItemServiceMessage<Plan>) => planActions.planLoaded({ plan: response.data })),
       catchError(() => of(planActions.planApiError()))
     )
   );
@@ -50,7 +50,7 @@ export class PlanEffects {
       map((payload) => payload.page),
       mergeMap((page) =>
         this.planService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
-          map((response: CollectionApiResponse<Plan>) => planActions.listPageLoaded({ response })),
+          map((response: CollectionServiceMessage<Plan>) => planActions.listPageLoaded({ response })),
           catchError(() => of(planActions.planApiError()))
         )
       )
@@ -63,7 +63,7 @@ export class PlanEffects {
       map((payload) => payload.plan),
       mergeMap((plan: Plan) =>
         this.planService.updateOne(plan).pipe(
-          map((response: ItemApiResponse<Plan>) => {
+          map((response: ItemServiceMessage<Plan>) => {
             const plan: Update<Plan> = {
               id: response.data.id,
               changes: response.data
@@ -86,7 +86,7 @@ export class PlanEffects {
       map((payload) => payload.id),
       mergeMap((id: number) =>
         this.planService.delete(id).pipe(
-          map((response: ApiResponse) => {
+          map((response: ServiceMessage) => {
             this.toastMessageService.snack(response);
             return planActions.deletePlanSuccess({ id });
           }),

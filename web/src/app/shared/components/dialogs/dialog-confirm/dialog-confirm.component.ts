@@ -3,9 +3,9 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { DialogBaseModel } from '../models/dialog-base.model';
-import { ModalDialogResult } from '@/shared/models/modal/modal-dialog-result.model';
+import { DialogResultModel } from '@/shared/models/modal/dialog-result.model';
 import { DialogDataModel } from '@/shared/models';
-import { DialogConfirmModal } from '@/shared/models/modal/dialog-question.model';
+import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
 import { BaseModel } from '@/shared/models/base/base.model';
 
 @Component({
@@ -13,7 +13,7 @@ import { BaseModel } from '@/shared/models/base/base.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DialogConfirmComponent<
-  TDialogModel extends DialogConfirmModal,
+  TDialogModel extends DialogConfirmModel,
   TModel extends BaseModel
 > extends DialogBaseModel<TDialogModel, TModel> {
   constructor(
@@ -24,6 +24,6 @@ export class DialogConfirmComponent<
   }
 
   onClose(result: boolean): void {
-    this.dialogRef.close(new ModalDialogResult(result, undefined));
+    this.dialogRef.close(new DialogResultModel(result, undefined));
   }
 }

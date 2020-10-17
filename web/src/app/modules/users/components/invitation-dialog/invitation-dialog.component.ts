@@ -10,7 +10,7 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { selectAllUsers } from '../../store/user.selectors';
 import { CONSTANTS, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE } from '@/shared/constants';
-import { DialogCreateEditModel, DialogDataModel, ModalDialogResult } from '@/shared/models';
+import { DialogCreateEditModel, DialogDataModel, DialogResultModel } from '@/shared/models';
 import { DialogBaseModel } from '@/shared/components';
 
 @Component({
@@ -73,7 +73,7 @@ export class InvitationDialogComponent<TDialogModel extends DialogCreateEditMode
   }
 
   onClose(result: boolean): void {
-    this.dialogRef.close(new ModalDialogResult(result, this.invitedUsers));
+    this.dialogRef.close(new DialogResultModel(result, this.invitedUsers));
   }
 
   ngOnDestroy(): void {

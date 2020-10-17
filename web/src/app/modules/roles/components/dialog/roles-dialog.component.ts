@@ -4,7 +4,7 @@ import { ComponentType } from '@angular/cdk/portal/portal';
 
 import { RolesComponent } from '../list/roles.component';
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
-import { DialogDataModel, DialogWithTwoButtonModel, ModalDialogResult } from '@/shared/models';
+import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
 import { BaseModel } from '@/shared/models/base';
 import { DialogBaseModel } from '@/shared/components';
 
@@ -29,6 +29,6 @@ export class RolesDialogComponent<
   }
 
   onClose(result: boolean): void {
-    return this.dialogRef.close(new ModalDialogResult(result, this.rolesComponent.selection.selected));
+    return this.dialogRef.close(new DialogResultModel(result, this.rolesComponent.selection.selected));
   }
 }

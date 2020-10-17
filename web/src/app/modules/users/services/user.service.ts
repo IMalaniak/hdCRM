@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { User } from '../models';
 import { take } from 'rxjs/operators';
 import { SocketService } from '@/shared/services';
-import { NewPassword, ApiResponse, CollectionApiResponse, ItemApiResponse } from '@/shared/models';
+import { NewPassword, ServiceMessage, CollectionServiceMessage, ItemServiceMessage } from '@/shared/models';
 import { SocketEvent, APIS } from '@/shared/constants';
 import { Role } from '@/modules/roles';
 
@@ -21,8 +21,8 @@ export class UserService {
     pageSize = 5,
     sortIndex = 'id',
     sortDirection = 'asc'
-  ): Observable<CollectionApiResponse<User>> {
-    return this.http.get<CollectionApiResponse<User>>(APIS.USERS, {
+  ): Observable<CollectionServiceMessage<User>> {
+    return this.http.get<CollectionServiceMessage<User>>(APIS.USERS, {
       params: new HttpParams()
         .set('pageIndex', pageIndex.toString())
         .set('pageSize', pageSize.toString())
@@ -35,24 +35,24 @@ export class UserService {
     this.socket.emit(SocketEvent.USERSONLINE);
   }
 
-  getUser(id: number): Observable<ItemApiResponse<User>> {
-    return this.http.get<ItemApiResponse<User>>(`${APIS.USERS}/${id}`);
+  getUser(id: number): Observable<ItemServiceMessage<User>> {
+    return this.http.get<ItemServiceMessage<User>>(`${APIS.USERS}/${id}`);
   }
 
-  updateUser(user: User): Observable<ItemApiResponse<User>> {
-    return this.http.put<ItemApiResponse<User>>(`${APIS.USERS}/${user.id}`, this.formatBeforeSend(user));
+  updateUser(user: User): Observable<ItemServiceMessage<User>> {
+    return this.http.put<ItemServiceMessage<User>>(`${APIS.USERS}/${user.id}`, this.formatBeforeSend(user));
   }
 
-  delete(id: number): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(`${APIS.USERS}/${id}`);
+  delete(id: number): Observable<ServiceMessage> {
+    return this.http.delete<ServiceMessage>(`${APIS.USERS}/${id}`);
   }
 
-  inviteUsers(users: User[]): Observable<CollectionApiResponse<User>> {
-    return this.http.post<CollectionApiResponse<User>>(APIS.USERS_INVITE, users);
+  inviteUsers(users: User[]): Observable<CollectionServiceMessage<User>> {
+    return this.http.post<CollectionServiceMessage<User>>(APIS.USERS_INVITE, users);
   }
 
-  updateUserState(user: User): Observable<ItemApiResponse<User>> {
-    return this.http.put<ItemApiResponse<User>>(APIS.UPDATE_USER_STATE, user);
+  updateUserState(user: User): Observable<ItemServiceMessage<User>> {
+    return this.http.put<ItemServiceMessage<User>>(APIS.UPDATE_USER_STATE, user);
   }
 
   // TODO @IMalaniak recreate this
@@ -68,8 +68,8 @@ export class UserService {
   //   return this.http.put<User[]>(APIS.USERS_CHANGE_STATE_OF_SELECTED, data);
   // }
 
-  changeOldPassword(data: NewPassword): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(APIS.USERS_CHANGE_PASSWORD, data, { withCredentials: true });
+  changeOldPassword(data: NewPassword): Observable<ServiceMessage> {
+    return this.http.post<ServiceMessage>(APIS.USERS_CHANGE_PASSWORD, data, { withCredentials: true });
   }
 
   formatBeforeSend(user: User): User {

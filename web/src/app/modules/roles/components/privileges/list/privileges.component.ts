@@ -13,7 +13,7 @@ import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, CONSTANTS } from '@/shared/
 import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
 import { DialogService } from '@/core/services/dialog/dialog.service';
 import { DialogMode } from '@/shared/models/modal/dialog-mode.enum';
-import { ModalDialogResult } from '@/shared/models/modal/modal-dialog-result.model';
+import { DialogResultModel } from '@/shared/models/modal/dialog-result.model';
 import { DialogCreateEditModel, DialogType } from '@/shared/models';
 import { DialogSizeService } from '@/shared/services';
 
@@ -84,8 +84,8 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
       .open(AddPrivilegeDialogComponent, dialogDataModel, this.dialogSizeService.getSize(DialogType.STANDART))
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: ModalDialogResult<Privilege>) => {
-        if (result && result.result) {
+      .subscribe((result: DialogResultModel<Privilege>) => {
+        if (result && result.succession) {
           this.store$.dispatch(createPrivilegeRequested({ privilege: result.model }));
         }
       });

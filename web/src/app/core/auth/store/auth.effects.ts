@@ -7,7 +7,7 @@ import { tap, map, switchMap, catchError, concatMap, withLatestFrom, mergeMap, e
 import * as authActions from './auth.actions';
 import { AuthenticationService } from '../services';
 import { SocketService, ToastMessageService } from '@/shared/services';
-import { ApiResponse, ItemApiResponse } from '@/shared/models';
+import { ServiceMessage, ItemServiceMessage } from '@/shared/models';
 import { SocketEvent, RoutingConstants, CONSTANTS } from '@/shared/constants';
 import { Store, select, Action } from '@ngrx/store';
 import { getToken } from './auth.selectors';
@@ -88,7 +88,7 @@ export class AuthEffects implements OnInitEffects {
       map((payload) => payload.user),
       switchMap((user) =>
         this.authService.requestPasswordReset(user).pipe(
-          map((apiResp: ApiResponse) => {
+          map((apiResp: ServiceMessage) => {
             this.toastMessageService.snack(apiResp);
             return authActions.resetPasswordSuccess();
           }),
@@ -107,7 +107,7 @@ export class AuthEffects implements OnInitEffects {
       map((payload) => payload.newPassword),
       switchMap((newPassword) =>
         this.authService.resetPassword(newPassword).pipe(
-          map((apiResp: ApiResponse) => {
+          map((apiResp: ServiceMessage) => {
             this.toastMessageService.snack(apiResp);
             return authActions.resetPasswordSuccess();
           }),
@@ -126,7 +126,7 @@ export class AuthEffects implements OnInitEffects {
       map((payload) => payload.token),
       concatMap((token) =>
         this.authService.activateAccount(token).pipe(
-          map((apiResp: ApiResponse) => {
+          map((apiResp: ServiceMessage) => {
             this.toastMessageService.snack(apiResp);
             return authActions.activateAccountSuccess();
           }),
@@ -145,7 +145,7 @@ export class AuthEffects implements OnInitEffects {
         ofType(authActions.redirectToLogin),
         withLatestFrom(this.store$.pipe(select(selectUrl))),
         map(([_, returnUrl]) => {
-          const response: ApiResponse = {
+          const response: ServiceMessage = {
             success: false,
             message: CONSTANTS.TEXTS_YOU_ARE_NOT_AUTHORIZED
           };
@@ -218,7 +218,7 @@ export class AuthEffects implements OnInitEffects {
       ofType(authActions.deleteSession),
       map((payload) => payload.id),
       switchMap((id) => this.authService.deleteSession(id)),
-      map((apiResp: ApiResponse) => {
+      map((apiResp: ServiceMessage) => {
         this.toastMessageService.snack(apiResp);
         return authActions.deleteSessionSuccess();
       }),
@@ -231,7 +231,7 @@ export class AuthEffects implements OnInitEffects {
       ofType(authActions.deleteMultipleSession),
       map((payload) => payload.sessionIds),
       switchMap((sessionIds) => this.authService.deleteSessionMultiple(sessionIds)),
-      map((apiResp: ApiResponse) => {
+      map((apiResp: ServiceMessage) => {
         this.toastMessageService.snack(apiResp);
         return authActions.deleteSessionSuccess();
       }),
@@ -266,7 +266,7 @@ export class AuthEffects implements OnInitEffects {
       ofType(authActions.updateUserProfileRequested),
       map((payload) => payload.user),
       switchMap((user) => this.authService.updateProfile(user)),
-      switchMap((response: ItemApiResponse<User>) => {
+      switchMap((response: ItemServiceMessage<User>) => {
         this.toastMessageService.snack(response);
         return [
           authActions.updateUserProfileSuccess({ currentUser: response.data }),
@@ -282,7 +282,7 @@ export class AuthEffects implements OnInitEffects {
       ofType(authActions.updateUserOrgRequested),
       map((payload) => payload.organization),
       switchMap((organization) => this.authService.updateOrg(organization)),
-      switchMap((response: ItemApiResponse<Organization>) => {
+      switchMap((response: ItemServiceMessage<Organization>) => {
         this.toastMessageService.snack(response);
         return [
           authActions.updateUserOrgSuccess({ organization: response.data }),

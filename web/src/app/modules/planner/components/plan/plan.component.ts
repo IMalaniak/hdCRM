@@ -15,10 +15,9 @@ import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { ToastMessageService } from '@/shared/services';
 import {
   Asset,
-  ApiResponse,
+  ServiceMessage,
   DynamicForm,
   DialogDataModel,
-  ModalDialogResult,
   DialogWithTwoButtonModel
 } from '@/shared/models';
 import {
@@ -32,9 +31,10 @@ import {
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
 import { selectIsEditing } from '../../store/plan.selectors';
-import { DialogConfirmModal } from '@/shared/models/modal/dialog-question.model';
+import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/core/services/dialog';
+import { DialogResultModel } from '@/shared/models/modal/dialog-result.model';
 
 @Component({
   templateUrl: './plan.component.html',
@@ -69,7 +69,7 @@ export class PlanComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private toastMessageService: ToastMessageService,
     private dialogService: DialogService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.store$.dispatch(formRequested({ formName: 'plan' }));
@@ -141,17 +141,11 @@ export class PlanComponent implements OnInit, OnDestroy {
   // }
 
   updatePlan(): void {
-    const dialogModel: DialogConfirmModal = new DialogConfirmModal(CONSTANTS.TEXTS_UPDATE_PLAN_CONFIRM);
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_UPDATE_PLAN_CONFIRM);
     const dialogDataModel = new DialogDataModel(dialogModel);
 
     this.dialogService
-      .confirm(DialogConfirmComponent, dialogDataModel)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: boolean) => {
-        if (result) {
-          this.store$.dispatch(updatePlanRequested({ plan: this.plan }));
-        }
-      });
+      .confirm(DialogConfirmComponent, dialogDataModel, () => this.store$.dispatch(updatePlanRequested({ plan: this.plan })));
   }
 
   // TODO: @ArseniiIrod, @IMalaniak remake logic
@@ -231,8 +225,8 @@ export class PlanComponent implements OnInit, OnDestroy {
       .open(UsersDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: ModalDialogResult<User[]>) => {
-        if (result && result.result) {
+      .subscribe((result: DialogResultModel<User[]>) => {
+        if (result && result.succession) {
           const selectedParticipants: User[] = result.model.filter(
             (selectedParticipant) => !this.plan.Participants.some((user) => user.id === selectedParticipant.id)
           );
@@ -263,33 +257,27 @@ export class PlanComponent implements OnInit, OnDestroy {
   }
 
   deleteDoc(docId: number): void {
-    const dialogModel: DialogConfirmModal = new DialogConfirmModal(CONSTANTS.TEXTS_DELETE_PLAN_DOCUMENT);
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_PLAN_DOCUMENT);
     const dialogDataModel = new DialogDataModel(dialogModel);
-
     this.dialogService
-      .confirm(DialogConfirmComponent, dialogDataModel)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: boolean) => {
-        if (result) {
-          // TODO: @IMalaniak, @ArseniiIrod remake this in feature
-          const req = {
-            planId: this.plan.id,
-            docId: docId
-          };
-          this.planService
-            .deleteDoc(req)
-            .pipe(takeUntil(this.unsubscribe))
-            .subscribe((response: ApiResponse) => {
-              if (response.success) {
-                this.plan = { ...this.plan, Documents: this.plan.Documents.filter((doc) => doc.id !== docId) };
-                this.store$.dispatch(updatePlanRequested({ plan: this.plan }));
-                this.cdr.detectChanges();
-                this.toastMessageService.snack(response);
-              } else {
-                this.toastMessageService.snack(response);
-              }
-            });
-        }
+      .confirm(DialogConfirmComponent, dialogDataModel, () => {
+        const req = {
+          planId: this.plan.id,
+          docId: docId
+        };
+        this.planService
+          .deleteDoc(req)
+          .pipe(takeUntil(this.unsubscribe))
+          .subscribe((response: ServiceMessage) => {
+            if (response.success) {
+              this.plan = { ...this.plan, Documents: this.plan.Documents.filter((doc) => doc.id !== docId) };
+              this.store$.dispatch(updatePlanRequested({ plan: this.plan }));
+              this.cdr.detectChanges();
+              this.toastMessageService.snack(response);
+            } else {
+              this.toastMessageService.snack(response);
+            }
+          });
       });
   }
 

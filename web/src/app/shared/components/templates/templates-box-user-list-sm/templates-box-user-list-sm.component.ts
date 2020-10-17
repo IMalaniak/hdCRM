@@ -9,7 +9,7 @@ import { CONSTANTS, MAT_BUTTON } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
 import { DialogWithTwoButtonModel } from '@/shared/models/modal/dialog-with-two-button.model';
 import { DialogService } from '@/core/services/dialog/dialog.service';
-import { ModalDialogResult } from '@/shared/models/modal/modal-dialog-result.model';
+import { DialogResultModel } from '@/shared/models/modal/dialog-result.model';
 
 @Component({
   selector: 'templates-box-user-list-sm',
@@ -74,8 +74,8 @@ export class TemplatesBoxUserListSmComponent implements OnDestroy {
       .open(OrganismsUserDetailsDialogComponent, dialogDataModel, { width: '22em' })
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: ModalDialogResult<string>) => {
-        if (result && result.result) {
+      .subscribe((result: DialogResultModel<string>) => {
+        if (result && result.succession) {
           this.route.navigateByUrl(result.model);
         }
       });

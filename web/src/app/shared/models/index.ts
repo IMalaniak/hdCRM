@@ -1,4 +1,4 @@
-export * from './apiResponse';
+export * from './serviceMessage';
 export * from './asset';
 export * from './dynamicForm';
 export * from './FileTypes';

@@ -9,7 +9,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { createDepartmentRequested } from '../../store/department.actions';
 import { ACTION_LABELS, CONSTANTS, MAT_BUTTON } from '@/shared/constants';
-import { DialogDataModel, DialogWithTwoButtonModel, ModalDialogResult } from '@/shared/models';
+import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
 import { DialogService } from '@/core/services/dialog/dialog.service';
 
 @Component({
@@ -51,8 +51,8 @@ export class AddDepartmentComponent implements OnInit {
       .open(UsersDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: ModalDialogResult<User[]>) => {
-        if (result && result.result) {
+      .subscribe((result: DialogResultModel<User[]>) => {
+        if (result && result.succession) {
           this.department = { ...this.department, Manager: { ...result.model[0] } };
           this.cdr.detectChanges();
         }
@@ -79,8 +79,8 @@ export class AddDepartmentComponent implements OnInit {
       .open(UsersDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: ModalDialogResult<User[]>) => {
-        if (result && result.result) {
+      .subscribe((result: DialogResultModel<User[]>) => {
+        if (result && result.succession) {
           const selectedWorkers: User[] = result.model.filter(
             (selectedWorker) => !this.department.Workers.some((user) => user.id === selectedWorker.id)
           );

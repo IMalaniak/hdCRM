@@ -21,8 +21,8 @@ import {
   DialogDataModel,
   DialogMode,
   DialogType,
-  ItemApiResponse,
-  ModalDialogResult,
+  ItemServiceMessage,
+  DialogResultModel,
   PageQuery
 } from '@/shared/models';
 import {
@@ -37,7 +37,7 @@ import {
 } from '@/shared/constants';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, SORT_DIRECTION, COLUMN_NAMES } from '@/shared/constants';
-import { DialogConfirmModal } from '@/shared/models/modal/dialog-question.model';
+import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/core/services/dialog';
 
@@ -93,7 +93,7 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
     private toastMessageService: ToastMessageService,
     private dialogService: DialogService,
     private dialogSizeService: DialogSizeService
-  ) {}
+  ) { }
 
   ngAfterViewInit(): void {
     merge(this.sort.sortChange, this.paginator.page)
@@ -129,8 +129,8 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
       .open(InvitationDialogComponent, dialogDataModel, this.dialogSizeService.getSize(DialogType.STANDART))
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: ModalDialogResult<User[]>) => {
-        if (result && result.result) {
+      .subscribe((result: DialogResultModel<User[]>) => {
+        if (result && result.succession) {
           this.store$.dispatch(inviteUsers({ users: result.model }));
         }
       });
@@ -150,24 +150,18 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
   // }
 
   deleteUser(id: number): void {
-    const dialogModel: DialogConfirmModal = new DialogConfirmModal(CONSTANTS.TEXTS_DELETE_USER_CONFIRM);
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_USER_CONFIRM);
     const dialogDataModel = new DialogDataModel(dialogModel);
 
     this.dialogService
-      .confirm(DialogConfirmComponent, dialogDataModel)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: boolean) => {
-        if (result) {
-          this.store$.dispatch(deleteUser({ id }));
-        }
-      });
+      .confirm(DialogConfirmComponent, dialogDataModel, () => this.store$.dispatch(deleteUser({ id })));
   }
 
   changeUserState(user: User, state: UserState): void {
     const userState = { id: user.id, state } as User;
 
     // TODO: @IMalaniak recreate this to store
-    this.userService.updateUserState(userState).subscribe((response: ItemApiResponse<User>) => {
+    this.userService.updateUserState(userState).subscribe((response: ItemServiceMessage<User>) => {
       const serverResponse = {
         success: response.success,
         message: `User state was changed to: ${response.data.state}`

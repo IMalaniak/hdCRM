@@ -9,7 +9,7 @@ import { AppState } from '@/core/reducers';
 import { Privilege } from '../models';
 import { allPrivilegesLoaded } from './privilege.selectors';
 import { ToastMessageService } from '@/shared/services';
-import { CollectionApiResponse, ItemApiResponse } from '@/shared/models';
+import { CollectionServiceMessage, ItemServiceMessage } from '@/shared/models';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
@@ -25,7 +25,7 @@ export class PrivilegeEffects {
       }),
       filter(([_, allPrivilegesLoaded]) => !allPrivilegesLoaded),
       mergeMap(() => this.privilegeService.getFullList()),
-      map((response: CollectionApiResponse<Privilege>) => privilegeActions.allPrivilegesLoaded({ response })),
+      map((response: CollectionServiceMessage<Privilege>) => privilegeActions.allPrivilegesLoaded({ response })),
       catchError(() => of(privilegeActions.privilegeApiError()))
     )
   );
@@ -36,7 +36,7 @@ export class PrivilegeEffects {
       map((payload) => payload.privilege),
       mergeMap((privilege: Privilege) =>
         this.privilegeService.create(privilege).pipe(
-          map((response: ItemApiResponse<Privilege>) => {
+          map((response: ItemServiceMessage<Privilege>) => {
             this.toastMessageService.snack(response);
             return privilegeActions.createPrivilegeSuccess({
               privilege: response.data

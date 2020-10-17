@@ -17,11 +17,11 @@ import {
 } from '../../../store/task.actions';
 import { OrganismsTaskDialogComponent } from '../organisms-task-dialog/organisms-task-dialog.component';
 import { DIALOG, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE, CONSTANTS } from '@/shared/constants';
-import { DialogConfirmModal } from '@/shared/models/modal/dialog-question.model';
+import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
 import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/core/services/dialog/dialog.service';
-import { DialogCreateEditModel, DialogMode, DialogType, ModalDialogResult } from '@/shared/models';
+import { DialogCreateEditModel, DialogMode, DialogType, DialogResultModel } from '@/shared/models';
 import { DialogSizeService } from '@/shared/services';
 
 @Component({
@@ -46,7 +46,7 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
     private store$: Store<AppState>,
     private dialogService: DialogService,
     private dialogSizeService: DialogSizeService
-  ) {}
+  ) { }
 
   get completedTasksLength(): boolean {
     return this.tasks?.length ? this.tasks.filter((task) => task.isCompleted).length > 0 : true;
@@ -70,8 +70,8 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
       .open(OrganismsTaskDialogComponent, dialogDataModel, this.dialogSizeService.getSize(DialogType.STANDART))
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: ModalDialogResult<Task>) => {
-        if (result && result.result) {
+      .subscribe((result: DialogResultModel<Task>) => {
+        if (result && result.succession) {
           if (taskToUpdate) {
             this.store$.dispatch(updateTaskRequested({ task: result.model }));
           } else {
@@ -86,17 +86,13 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
   }
 
   deleteMultipleTask(): void {
-    const dialogModel: DialogConfirmModal = new DialogConfirmModal(CONSTANTS.TEXTS_DELETE_TASKS_COMPLETED_CONFIRM);
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_TASKS_COMPLETED_CONFIRM);
     const dialogDataModel = new DialogDataModel(dialogModel);
 
     this.dialogService
-      .confirm(DialogConfirmComponent, dialogDataModel)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: boolean) => {
-        if (result) {
-          const taskIds: number[] = this.tasks.filter((task) => task.isCompleted).map((task) => task.id);
-          this.store$.dispatch(deleteMultipleTaskRequested({ taskIds }));
-        }
+      .confirm(DialogConfirmComponent, dialogDataModel, () => {
+        const taskIds: number[] = this.tasks.filter((task) => task.isCompleted).map((task) => task.id);
+        this.store$.dispatch(deleteMultipleTaskRequested({ taskIds }));
       });
   }
 

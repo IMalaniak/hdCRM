@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Stage } from '../models';
 import { Update } from '@ngrx/entity';
-import { CollectionApiResponse } from '@/shared/models';
+import { CollectionServiceMessage } from '@/shared/models';
 
 const listPrefix = '[Stages List]';
 const apiPrefix = '[Stages API]';
@@ -12,7 +12,7 @@ export const allStagesRequestedFromDashboard = createAction('[Dashboard] Stages 
 
 export const allStagesLoaded = createAction(
   `${apiPrefix} Stages List Loaded`,
-  props<{ response: CollectionApiResponse<Stage> }>()
+  props<{ response: CollectionServiceMessage<Stage> }>()
 );
 
 export const stageSaved = createAction(`${listPrefix} Stage Saved`, props<{ stage: Update<Stage> }>());

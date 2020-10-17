@@ -1,37 +1,38 @@
 import { Injectable } from '@angular/core';
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 import { DialogBaseModel } from '@/shared/components';
 import { DialogDataModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
-import { DialogConfirmModal } from '@/shared/models/modal/dialog-question.model';
+import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
 import { DialogSizeService } from '@/shared/services';
 import { DIALOG, STYLECONSTANTS } from '@/shared/constants';
 import { BaseModel } from '@/shared/models/base/base.model';
+import { DialogResultModel } from '@/shared/models/modal/dialog-result.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DialogService {
-  constructor(private _matDialog: MatDialog, private dialogSizeService: DialogSizeService) {}
+  private unsubscribe: Subject<void> = new Subject();
 
-  confirm<TDialogModel extends DialogConfirmModal, TModel extends BaseModel>(
+  constructor(private _matDialog: MatDialog, private dialogSizeService: DialogSizeService) { }
+
+  confirm<TDialogModel extends DialogConfirmModel, TModel extends BaseModel>(
     componentType: ComponentType<DialogBaseModel<TDialogModel, TModel>>,
-    dialogModel: DialogDataModel<TDialogModel, TModel>
-  ): Observable<boolean> {
-    return this.open(componentType, dialogModel, this.dialogSizeService.getSize(DialogType.CONFIRM))
+    dialogModel: DialogDataModel<TDialogModel, TModel>,
+    onConfirmCallback: Function
+  ): void {
+    this.open(componentType, dialogModel, this.dialogSizeService.getSize(DialogType.CONFIRM))
       .afterClosed()
-      .pipe(
-        map((result) => {
-          if (result) {
-            return result.result;
-          } else {
-            return false;
-          }
-        })
-      );
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((result: DialogResultModel<TModel>) => {
+        if (result && result.succession) {
+          onConfirmCallback();
+        }
+      });
   }
 
   open<TDialogModel extends DialogWithTwoButtonModel, TModel extends BaseModel>(

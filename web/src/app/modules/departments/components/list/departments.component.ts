@@ -24,7 +24,7 @@ import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { deleteDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, SORT_DIRECTION, COLUMN_NAMES } from '@/shared/constants';
-import { DialogConfirmModal } from '@/shared/models/modal/dialog-question.model';
+import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
 import { DialogService } from '@/core/services/dialog';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 
@@ -63,7 +63,7 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
   pageSizeOptions: number[] = pageSizeOptions;
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private store$: Store<AppState>, private router: Router, private dialogService: DialogService) {}
+  constructor(private store$: Store<AppState>, private router: Router, private dialogService: DialogService) { }
 
   ngAfterViewInit(): void {
     merge(this.sort.sortChange, this.paginator.page)
@@ -93,17 +93,11 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
   }
 
   deleteDepartment(id: number): void {
-    const dialogModel: DialogConfirmModal = new DialogConfirmModal(CONSTANTS.TEXTS_DELETE_DEPARTMENT_CONFIRM);
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_DEPARTMENT_CONFIRM);
     const dialogDataModel = new DialogDataModel(dialogModel);
 
     this.dialogService
-      .confirm(DialogConfirmComponent, dialogDataModel)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: boolean) => {
-        if (result) {
-          this.store$.dispatch(deleteDepartmentRequested({ id }));
-        }
-      });
+      .confirm(DialogConfirmComponent, dialogDataModel, () => this.store$.dispatch(deleteDepartmentRequested({ id })));
   }
 
   ngOnDestroy(): void {

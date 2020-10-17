@@ -7,7 +7,7 @@ import { UserService } from '../services';
 import { User } from '../models';
 import { Update } from '@ngrx/entity';
 import { ToastMessageService } from '@/shared/services';
-import { CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared/models';
+import { CollectionServiceMessage, ItemServiceMessage, ServiceMessage } from '@/shared/models';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class UserEffects {
       ofType(userActions.userRequested),
       map((payload) => payload.id),
       mergeMap((id) => this.userService.getUser(id)),
-      map((response: ItemApiResponse<User>) => userActions.userLoaded({ user: response.data })),
+      map((response: ItemServiceMessage<User>) => userActions.userLoaded({ user: response.data })),
       catchError(() => of(userActions.userApiError()))
     )
   );
@@ -28,7 +28,7 @@ export class UserEffects {
       map((payload) => payload.page),
       mergeMap((page) =>
         this.userService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
-          map((response: CollectionApiResponse<User>) => userActions.listPageLoaded({ response })),
+          map((response: CollectionServiceMessage<User>) => userActions.listPageLoaded({ response })),
           catchError(() => of(userActions.userApiError()))
         )
       )
@@ -41,7 +41,7 @@ export class UserEffects {
       map((payload) => payload.user),
       mergeMap((toUpdate) =>
         this.userService.updateUser(toUpdate).pipe(
-          map((response: ItemApiResponse<User>) => {
+          map((response: ItemServiceMessage<User>) => {
             const user: Update<User> = {
               id: response.data.id,
               changes: response.data
@@ -80,7 +80,7 @@ export class UserEffects {
         ofType(userActions.deleteUser),
         map((payload) => payload.id),
         mergeMap((id) => this.userService.delete(id)),
-        map((response: ApiResponse) => of(this.toastMessageService.snack(response))),
+        map((response: ServiceMessage) => of(this.toastMessageService.snack(response))),
         catchError(() => of(userActions.userApiError()))
       ),
     {
@@ -94,7 +94,7 @@ export class UserEffects {
       map((payload) => payload.users),
       mergeMap((users: User[]) =>
         this.userService.inviteUsers(users).pipe(
-          map((response: CollectionApiResponse<User>) => {
+          map((response: CollectionServiceMessage<User>) => {
             this.toastMessageService.snack(response);
             return userActions.usersInvited({ invitedUsers: response.data });
           })
@@ -110,7 +110,7 @@ export class UserEffects {
       map((payload) => payload.newPassword),
       switchMap((newPassword) =>
         this.userService.changeOldPassword(newPassword).pipe(
-          map((response: ApiResponse) => {
+          map((response: ServiceMessage) => {
             this.toastMessageService.snack(response);
             return userActions.changePasswordSuccess();
           }),

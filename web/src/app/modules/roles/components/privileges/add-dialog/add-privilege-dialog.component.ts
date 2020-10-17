@@ -5,7 +5,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
 import { ComponentType } from '@angular/cdk/portal';
 import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
-import { DialogCreateEditModel, ModalDialogResult } from '@/shared/models';
+import { DialogCreateEditModel, DialogResultModel } from '@/shared/models';
 import { DialogCreateEditPageModel } from '@/shared/components';
 import { BaseModel } from '@/shared/models/base/base.model';
 
@@ -40,6 +40,6 @@ export class AddPrivilegeDialogComponent<TDialogModel extends DialogCreateEditMo
   }
 
   onClose(result: boolean): void {
-    this.dialogRef.close(new ModalDialogResult(result, this.privilegeGroup.value));
+    this.dialogRef.close(new DialogResultModel(result, this.privilegeGroup.value));
   }
 }

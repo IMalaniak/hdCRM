@@ -4,7 +4,7 @@ import { ComponentType } from '@angular/cdk/portal';
 
 import { StagesComponent } from '../list/stages.component';
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
-import { DialogDataModel, DialogWithTwoButtonModel, ModalDialogResult } from '@/shared/models';
+import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
 import { DialogBaseModel } from '@/shared/components';
 import { BaseModel } from '@/shared/models/base';
 
@@ -29,6 +29,6 @@ export class StagesDialogComponent<
   }
 
   onClose(result: boolean): void {
-    this.dialogRef.close(new ModalDialogResult(result, this.stagesComponent.selection.selected));
+    this.dialogRef.close(new DialogResultModel(result, this.stagesComponent.selection.selected));
   }
 }

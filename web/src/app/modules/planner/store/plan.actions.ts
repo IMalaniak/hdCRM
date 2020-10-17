@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Plan } from '../models';
 import { Update } from '@ngrx/entity';
-import { PageQuery, CollectionApiResponse } from '@/shared/models';
+import { PageQuery, CollectionServiceMessage } from '@/shared/models';
 
 const detailsPrefix = '[Plan Details]';
 const listPrefix = '[Plans List]';
@@ -22,7 +22,7 @@ export const deletePlanSuccess = createAction(`${apiPrefix} Delete Plan Success`
 export const listPageRequested = createAction(`${listPrefix} Plans Page Requested`, props<{ page: PageQuery }>());
 export const listPageLoaded = createAction(
   `${apiPrefix} Plans Page Loaded`,
-  props<{ response: CollectionApiResponse<Plan> }>()
+  props<{ response: CollectionServiceMessage<Plan> }>()
 );
 
 export const changeIsEditingState = createAction(

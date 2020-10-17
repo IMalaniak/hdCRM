@@ -2,11 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DialogConfirmComponent } from './dialog-confirm.component';
 import { BaseModel } from '@/shared/models/base';
-import { DialogConfirmModal } from '@/shared/models/modal/dialog-question.model';
+import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
 
 describe('DialogConfirmComponent', () => {
-  let component: DialogConfirmComponent<DialogConfirmModal, BaseModel>;
-  let fixture: ComponentFixture<DialogConfirmComponent<DialogConfirmModal, BaseModel>>;
+  let component: DialogConfirmComponent<DialogConfirmModel, BaseModel>;
+  let fixture: ComponentFixture<DialogConfirmComponent<DialogConfirmModel, BaseModel>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

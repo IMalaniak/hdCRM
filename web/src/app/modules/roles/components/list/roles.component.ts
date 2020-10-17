@@ -25,7 +25,7 @@ import {
 import { deleteRoleRequested, changeIsEditingState } from '../../store/role.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import { SORT_DIRECTION, ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_NAMES } from '@/shared/constants';
-import { DialogConfirmModal } from '@/shared/models/modal/dialog-question.model';
+import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/core/services/dialog';
 
@@ -66,7 +66,7 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
   pageSizeOptions: number[] = pageSizeOptions;
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private store$: Store<AppState>, private router: Router, private dialogService: DialogService) {}
+  constructor(private store$: Store<AppState>, private router: Router, private dialogService: DialogService) { }
 
   ngAfterViewInit(): void {
     merge(this.sort.sortChange, this.paginator.page)
@@ -96,17 +96,11 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
   }
 
   deleteRole(id: number): void {
-    const dialogModel: DialogConfirmModal = new DialogConfirmModal(CONSTANTS.TEXTS_DELETE_ROLE_CONFIRM);
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_ROLE_CONFIRM);
     const dialogDataModel = new DialogDataModel(dialogModel);
 
     this.dialogService
-      .confirm(DialogConfirmComponent, dialogDataModel)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: boolean) => {
-        if (result) {
-          this.store$.dispatch(deleteRoleRequested({ id }));
-        }
-      });
+      .confirm(DialogConfirmComponent, dialogDataModel, () => this.store$.dispatch(deleteRoleRequested({ id })));
   }
 
   ngOnDestroy(): void {

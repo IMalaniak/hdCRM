@@ -5,7 +5,7 @@ import { ComponentType } from '@angular/cdk/portal';
 
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
 import { DialogCreateEditPageModel } from '@/shared/components';
-import { DialogCreateEditModel, DialogDataModel, ModalDialogResult } from '@/shared/models';
+import { DialogCreateEditModel, DialogDataModel, DialogResultModel } from '@/shared/models';
 import { BaseModel } from '@/shared/models/base/base.model';
 
 @Component({
@@ -29,6 +29,6 @@ export class AddStageDialogComponent<
   }
 
   onClose(result: boolean): void {
-    this.dialogRef.close(new ModalDialogResult(result, this.keyString.value));
+    this.dialogRef.close(new DialogResultModel(result, this.keyString.value));
   }
 }

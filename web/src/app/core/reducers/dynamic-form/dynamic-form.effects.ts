@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { map, mergeMap, catchError, withLatestFrom, filter } from 'rxjs/operators';
 
 import { DynamicFormService } from '@/core/services/dynamic-form.service';
-import { ItemApiResponse, DynamicForm } from '@/shared/models';
+import { ItemServiceMessage, DynamicForm } from '@/shared/models';
 import * as dynamicFormActions from './dynamic-form.actions';
 import { selectFormIds } from './dynamic-form.selectors';
 import { AppState } from '..';
@@ -21,7 +21,7 @@ export class DynamicFormEffects {
       filter(([formName, formNames]) => formNames && !formNames.some((el) => el === formName)),
       // this filters already loaded
       mergeMap(([formName]) => this.dynamicFormService.getOne(formName)),
-      map((response: ItemApiResponse<DynamicForm>) => dynamicFormActions.formLoaded({ form: response.data })),
+      map((response: ItemServiceMessage<DynamicForm>) => dynamicFormActions.formLoaded({ form: response.data })),
       catchError(() => of(dynamicFormActions.formsApiError()))
     )
   );

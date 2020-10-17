@@ -12,7 +12,7 @@ import { selectAllStages, selectStagesLoading } from '@/modules/planner/store/st
 import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, CONSTANTS } from '@/shared/constants';
 import { DialogService } from '@/core/services/dialog';
 import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
-import { ModalDialogResult } from '@/shared/models/modal/modal-dialog-result.model';
+import { DialogResultModel } from '@/shared/models/modal/dialog-result.model';
 import { DialogCreateEditModel, DialogMode } from '@/shared/models';
 
 @Component({
@@ -70,8 +70,8 @@ export class StagesComponent implements OnInit, OnDestroy {
       .open(AddStageDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: ModalDialogResult<string>) => {
-        if (result && result.result) {
+      .subscribe((result: DialogResultModel<string>) => {
+        if (result && result.succession) {
           const stage: Stage = { keyString: result.model } as Stage;
           this.store$.dispatch(createStage({ stage }));
         }

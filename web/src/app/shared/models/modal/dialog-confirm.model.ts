@@ -1,7 +1,7 @@
 import { DialogWithTwoButtonModel } from './dialog-with-two-button.model';
 import { DIALOG } from '@/shared/constants/dialog.constants';
 
-export class DialogConfirmModal extends DialogWithTwoButtonModel {
+export class DialogConfirmModel extends DialogWithTwoButtonModel {
   constructor(
     public messageTextKey = '',
     public questionTextKey = DIALOG.CONFIRM,

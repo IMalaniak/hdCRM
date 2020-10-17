@@ -5,7 +5,7 @@ import { ComponentType } from '@angular/cdk/portal';
 
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
 import { DialogCreateEditPageModel } from '@/shared/components';
-import { DialogCreateEditModel, DialogDataModel, ModalDialogResult } from '@/shared/models';
+import { DialogCreateEditModel, DialogDataModel, DialogResultModel } from '@/shared/models';
 import { TaskDialogData } from '@/modules/task-manager/models';
 
 @Component({
@@ -50,6 +50,6 @@ export class OrganismsTaskDialogComponent<TDialogModel extends DialogCreateEditM
   }
 
   onClose(result: boolean): void {
-    this.dialogRef.close(new ModalDialogResult(result, this.taskData.value));
+    this.dialogRef.close(new DialogResultModel(result, this.taskData.value));
   }
 }

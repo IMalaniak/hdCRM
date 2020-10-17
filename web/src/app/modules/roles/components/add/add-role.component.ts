@@ -13,7 +13,7 @@ import { User } from '@/modules/users/models';
 import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, CONSTANTS } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
 import { DialogWithTwoButtonModel } from '@/shared/models/modal/dialog-with-two-button.model';
-import { ModalDialogResult } from '@/shared/models/modal/modal-dialog-result.model';
+import { DialogResultModel } from '@/shared/models/modal/dialog-result.model';
 import { DialogService } from '@/core/services/dialog';
 import { DialogType } from '@/shared/models';
 import { DialogSizeService } from '@/shared/services';
@@ -59,8 +59,8 @@ export class AddRoleComponent implements OnInit {
       .open(UsersDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: ModalDialogResult<User[]>) => {
-        if (result && result.result) {
+      .subscribe((result: DialogResultModel<User[]>) => {
+        if (result && result.succession) {
           const selectedUsers: User[] = result.model.filter(
             (selectedUser) => !this.role.Users.some((user) => user.id === selectedUser.id)
           );
@@ -96,8 +96,8 @@ export class AddRoleComponent implements OnInit {
       .open(PrivilegesDialogComponent, dialogDataModel, this.dialogSizeService.getSize(DialogType.STANDART))
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: ModalDialogResult<Privilege[]>) => {
-        if (result && result.result) {
+      .subscribe((result: DialogResultModel<Privilege[]>) => {
+        if (result && result.succession) {
           const selectedPrivileges: Privilege[] = result.model
             .filter(
               (selectedPrivilege) => !this.role.Privileges.some((privilege) => privilege.id === selectedPrivilege.id)

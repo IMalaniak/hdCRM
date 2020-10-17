@@ -21,12 +21,12 @@ import {
   MAT_BUTTON,
   CONSTANTS
 } from '@/shared/constants';
-import { DialogConfirmModal } from '@/shared/models/modal/dialog-question.model';
+import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
 import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/core/services/dialog';
 import { DialogWithTwoButtonModel } from '@/shared/models/modal/dialog-with-two-button.model';
-import { ModalDialogResult } from '@/shared/models/modal/modal-dialog-result.model';
+import { DialogResultModel } from '@/shared/models/modal/dialog-result.model';
 import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
 import { DialogType } from '@/shared/models';
 import { DialogSizeService } from '@/shared/services';
@@ -64,7 +64,7 @@ export class RoleComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private dialogService: DialogService,
     private dialogSizeService: DialogSizeService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getRoleData();
@@ -82,8 +82,8 @@ export class RoleComponent implements OnInit, OnDestroy {
       .open(UsersDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: ModalDialogResult<User[]>) => {
-        if (result && result.result) {
+      .subscribe((result: DialogResultModel<User[]>) => {
+        if (result && result.succession) {
           const selectedUsers: User[] = result.model.filter(
             (selectedUser) => !this.role.Users.some((user) => user.id === selectedUser.id)
           );
@@ -115,8 +115,8 @@ export class RoleComponent implements OnInit, OnDestroy {
       .open(PrivilegesDialogComponent, dialogDataModel, this.dialogSizeService.getSize(DialogType.STANDART))
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: ModalDialogResult<Privilege[]>) => {
-        if (result && result.result) {
+      .subscribe((result: DialogResultModel<Privilege[]>) => {
+        if (result && result.succession) {
           const selectedPrivileges: Privilege[] = result.model
             .filter(
               (selectedPrivilege) => !this.role.Privileges.some((rPrivilege) => rPrivilege.id === selectedPrivilege.id)
@@ -178,17 +178,13 @@ export class RoleComponent implements OnInit, OnDestroy {
   }
 
   updateRole(): void {
-    const dialogModel: DialogConfirmModal = new DialogConfirmModal(CONSTANTS.TEXTS_UPDATE_ROLE_CONFIRM);
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_UPDATE_ROLE_CONFIRM);
     const dialogDataModel = new DialogDataModel(dialogModel);
 
     this.dialogService
-      .confirm(DialogConfirmComponent, dialogDataModel)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: boolean) => {
-        if (result) {
-          this.store$.dispatch(updateRoleRequested({ role: this.role }));
-          this.disableEdit();
-        }
+      .confirm(DialogConfirmComponent, dialogDataModel, () => {
+        this.store$.dispatch(updateRoleRequested({ role: this.role }));
+        this.disableEdit();
       });
   }
 

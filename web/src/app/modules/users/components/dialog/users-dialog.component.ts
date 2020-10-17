@@ -5,7 +5,7 @@ import { ComponentType } from '@angular/cdk/portal';
 import { UsersComponent } from '../list/users.component';
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
-import { DialogWithTwoButtonModel, ModalDialogResult } from '@/shared/models';
+import { DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
 import { DialogBaseModel } from '@/shared/components';
 import { BaseModel } from '@/shared/models/base/base.model';
 
@@ -31,6 +31,6 @@ export class UsersDialogComponent<
   }
 
   onClose(result: boolean): void {
-    this.dialogRef.close(new ModalDialogResult(result, this.usersComponent.selection.selected));
+    this.dialogRef.close(new DialogResultModel(result, this.usersComponent.selection.selected));
   }
 }

@@ -5,7 +5,7 @@ import { ComponentType } from '@angular/cdk/portal';
 import { User } from '@/modules/users';
 import { THEME_PALETTE, MAT_BUTTON, RoutingConstants } from '@/shared/constants';
 import { DialogBaseModel } from '../../dialogs';
-import { DialogDataModel, DialogWithTwoButtonModel, ModalDialogResult } from '@/shared/models';
+import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
 
 @Component({
   selector: 'organisms-user-details-dialog',
@@ -30,6 +30,6 @@ export class OrganismsUserDetailsDialogComponent<
 
   onClose(result: boolean): void {
     const userDetailsRoute = `${RoutingConstants.ROUTE_USERS_DETAILS}/${this.user.id}`;
-    this.dialogRef.close(new ModalDialogResult(result, userDetailsRoute));
+    this.dialogRef.close(new DialogResultModel(result, userDetailsRoute));
   }
 }

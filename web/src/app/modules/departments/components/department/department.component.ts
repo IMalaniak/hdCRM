@@ -12,8 +12,8 @@ import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
 import { updateDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
 import { selectIsEditing } from '../../store/department.selectors';
 import { EDIT_PRIVILEGES, ACTION_LABELS, THEME_PALETTE, CONSTANTS, MAT_BUTTON } from '@/shared/constants';
-import { DialogConfirmModal } from '@/shared/models/modal/dialog-question.model';
-import { DialogDataModel, DialogWithTwoButtonModel, ModalDialogResult } from '@/shared/models';
+import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
+import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
 import { DialogService } from '@/core/services/dialog';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 
@@ -41,7 +41,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     private store$: Store<AppState>,
     private cdr: ChangeDetectorRef,
     private dialogService: DialogService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.departmentInitial = cloneDeep(this.route.snapshot.data['department']);
@@ -65,8 +65,8 @@ export class DepartmentComponent implements OnInit, OnDestroy {
       .open(UsersDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: ModalDialogResult<User[]>) => {
-        if (result && result.result) {
+      .subscribe((result: DialogResultModel<User[]>) => {
+        if (result && result.succession) {
           this.department = { ...this.department, Manager: { ...result[0] } };
           this.cdr.detectChanges();
         }
@@ -81,8 +81,8 @@ export class DepartmentComponent implements OnInit, OnDestroy {
       .open(UsersDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: ModalDialogResult<User[]>) => {
-        if (result && result.result) {
+      .subscribe((result: DialogResultModel<User[]>) => {
+        if (result && result.succession) {
           const selectedWorkers: User[] = result.model.filter(
             (selectedWorker) => !this.department.Workers.some((user) => user.id === selectedWorker.id)
           );
@@ -104,17 +104,10 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   }
 
   updateDepartment(): void {
-    const dialogModel: DialogConfirmModal = new DialogConfirmModal(CONSTANTS.TEXTS_UPDATE_DEPARTMENT_CONFIRM);
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_UPDATE_DEPARTMENT_CONFIRM);
     const dialogDataModel = new DialogDataModel(dialogModel);
 
-    this.dialogService
-      .confirm(DialogConfirmComponent, dialogDataModel)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: boolean) => {
-        if (result) {
-          this.store$.dispatch(updateDepartmentRequested({ department: this.department }));
-        }
-      });
+    this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () => this.store$.dispatch(updateDepartmentRequested({ department: this.department })));
   }
 
   ngOnDestroy(): void {

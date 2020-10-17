@@ -13,7 +13,7 @@ import { ACTION_LABELS, CONSTANTS } from '@/shared/constants';
 import { DialogService } from '@/core/services/dialog/dialog.service';
 import { DialogWithTwoButtonModel } from '@/shared/models/modal/dialog-with-two-button.model';
 import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
-import { ModalDialogResult } from '@/shared/models/modal/modal-dialog-result.model';
+import { DialogResultModel } from '@/shared/models/modal/dialog-result.model';
 
 @Component({
   templateUrl: './add-plan.component.html',
@@ -60,8 +60,8 @@ export class AddPlanComponent implements OnInit, OnDestroy {
       .open(UsersDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: ModalDialogResult<User[]>) => {
-        if (result && result.result) {
+      .subscribe((result: DialogResultModel<User[]>) => {
+        if (result && result.succession) {
           const selectedParticipants: User[] = result.model.filter(
             (selectedParticipant) => !this.plan.Participants.some((user) => user.id === selectedParticipant.id)
           );
