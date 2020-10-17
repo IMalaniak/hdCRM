@@ -109,7 +109,8 @@ export class PlanController {
             plan.Stages = plan.Stages.sort(sortByOrder);
           }
         });
-        return res.status(StatusCodes.OK).json({ success: true, data: data.rows, resultsNum: data.count, pages });
+        const ids: number[] = data.rows.map((plan) => plan.id);
+        return res.status(StatusCodes.OK).json({ success: true, data: data.rows, ids, resultsNum: data.count, pages });
       })
       .catch((err: any) => {
         Logger.Err(err);

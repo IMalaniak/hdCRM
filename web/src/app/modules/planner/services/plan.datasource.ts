@@ -4,7 +4,7 @@ import { Plan } from '../models/';
 import { catchError, tap } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { listPageRequested } from '../store/plan.actions';
-import { selectPlansPage } from '../store/plan.selectors';
+import { selectPlansOfPage } from '../store/plan.selectors';
 import { AppState } from '@/core/reducers';
 import { PageQuery } from '@/shared/models';
 
@@ -16,7 +16,7 @@ export class PlansDataSource implements DataSource<Plan> {
   loadPlans(page: PageQuery) {
     this.store
       .pipe(
-        select(selectPlansPage(page)),
+        select(selectPlansOfPage(page)),
         tap((plans) => {
           if (plans.length > 0) {
             this.plansSubject.next(plans);
@@ -37,32 +37,3 @@ export class PlansDataSource implements DataSource<Plan> {
     this.plansSubject.complete();
   }
 }
-
-// TODO check for better solution
-// function sortData(data, page: PageQuery) {
-//   if (!page.sortIndex || page.sortDirection === '') {
-//     return data;
-//   }
-
-//   return data.sort((a: Plan, b: Plan) => {
-//     const isAsc = page.sortDirection === 'asc';
-//     switch (page.sortIndex) {
-//       case 'id':
-//         return compare(a.id, b.id, isAsc);
-//       case 'title':
-//         return compare(a.title, b.title, isAsc);
-//       case 'deadline':
-//         return compare(a.deadline, b.deadline, isAsc);
-//       case 'createdAt':
-//         return compare(a.createdAt, b.createdAt, isAsc);
-//       case 'updatedAt':
-//         return compare(a.updatedAt, b.updatedAt, isAsc);
-//       default:
-//         return 0;
-//     }
-//   });
-// }
-
-// function compare(a, b, isAsc) {
-//   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-// }
