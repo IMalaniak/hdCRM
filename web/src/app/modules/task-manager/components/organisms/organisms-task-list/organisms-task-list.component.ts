@@ -1,18 +1,18 @@
 import { Component, OnDestroy, OnInit, Input, ViewChild, ChangeDetectionStrategy } from '@angular/core';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatAccordion } from '@angular/material/expansion';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
-import { Task, TaskDialogData, TaskPriority } from '../../../models';
 import { Store } from '@ngrx/store';
+
+import { Task } from '../../../models';
 import { AppState } from '@/core/reducers';
 import {
   deleteTask,
   createTask,
   taskListRequested,
   updateTaskRequested,
-  taskPrioritiesRequested,
   deleteMultipleTaskRequested
 } from '../../../store/task.actions';
 import { OrganismsTaskDialogComponent } from '../organisms-task-dialog/organisms-task-dialog.component';
@@ -32,7 +32,6 @@ import { DialogSizeService } from '@/shared/services';
 })
 export class OrganismsTaskListComponent implements OnInit, OnDestroy {
   @Input() tasks: Task[];
-  @Input() priorities: TaskPriority[];
 
   @ViewChild(MatAccordion) taskAccordion: MatAccordion;
 
@@ -54,7 +53,6 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store$.dispatch(taskListRequested());
-    this.store$.dispatch(taskPrioritiesRequested());
   }
 
   openTaskDialog(taskToUpdate?: Task): void {
@@ -63,8 +61,7 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
       taskToUpdate ? CONSTANTS.TEXTS_UPDATE_TASK : CONSTANTS.TEXTS_CREATE_TASK,
       taskToUpdate ? DIALOG.SAVE : DIALOG.CREATE
     );
-    const model: TaskDialogData = new TaskDialogData(this.priorities, taskToUpdate);
-    const dialogDataModel = new DialogDataModel(dialogModel, model);
+    const dialogDataModel = new DialogDataModel(dialogModel, taskToUpdate);
 
     this.dialogService
       .open(OrganismsTaskDialogComponent, dialogDataModel, this.dialogSizeService.getSize(DialogType.STANDART))

@@ -1,47 +1,48 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
-
-import { UsersDialogComponent, User } from '@/modules/users';
-import { Department } from '../../models';
+import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
 import { Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
+import { DynamicForm } from '@/shared/models';
+import { UsersDialogComponent, User } from '@/modules/users';
+import { Department } from '../../models';
 import { createDepartmentRequested } from '../../store/department.actions';
-import { ACTION_LABELS, CONSTANTS, MAT_BUTTON } from '@/shared/constants';
-import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
 import { DialogService } from '@/core/services/dialog/dialog.service';
+import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
+import { ACTION_LABELS, CONSTANTS, MAT_BUTTON, RoutingDataConstants } from '@/shared/constants';
 
 @Component({
+  selector: 'add-department-component',
   templateUrl: './add-department.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddDepartmentComponent implements OnInit {
-  department = {} as Department;
-  departmentData: FormGroup;
+  department: Department = {} as Department;
+  departmentFormJson: DynamicForm;
+  departmentFormValues: Department;
+
   actionLabels = ACTION_LABELS;
   matButtonTypes = MAT_BUTTON;
 
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
+    private route: ActivatedRoute,
     private store$: Store<AppState>,
-    private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private dialogService: DialogService
   ) {}
 
   ngOnInit(): void {
-    this.buildDepartmentFormGroup();
+    this.departmentFormJson = this.route.snapshot.data[RoutingDataConstants.FORM_JSON];
     this.department.SubDepartments = [];
     this.department.Workers = [];
   }
 
-  buildDepartmentFormGroup(): void {
-    this.departmentData = this.fb.group({
-      title: new FormControl(null, [Validators.required, Validators.maxLength(100)]),
-      description: new FormControl(null, [Validators.required, Validators.maxLength(2500)])
-    });
+  departmentFormValueChanges(formVal: Department): void {
+    this.departmentFormValues = { ...this.departmentFormValues, ...formVal };
   }
 
   addManagerDialog(): void {
@@ -115,7 +116,7 @@ export class AddDepartmentComponent implements OnInit {
 
   onClickSubmit() {
     this.store$.dispatch(
-      createDepartmentRequested({ department: { ...this.department, ...this.departmentData.value } })
+      createDepartmentRequested({ department: { ...this.department, ...this.departmentFormValues } })
     );
   }
 }

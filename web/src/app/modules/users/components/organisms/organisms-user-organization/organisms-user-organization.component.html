@@ -1,110 +1,13 @@
 <organisms-card cardTitle="Organization" [disableShadow]="true" *ngIf="organization">
   <div content class="row">
-    <mat-list class="col-md-12 col-lg-6" *ngIf="!editForm">
-      <mat-list-item>
-        <section>
-          <span i18n="@@userProfileComponentTabOrgTitle">Title:</span>
-          <span>{{ organization.title }}</span>
-        </section>
-      </mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item>
-        <section>
-          <span i18n="@@userProfileComponentTabOrgType">Type:</span>
-          <span>{{ organization.type }}</span>
-        </section>
-      </mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item>
-        <section>
-          <span i18n="@@userProfileComponentTabOrgCountry">Country:</span>
-          <span>{{ organization.country }}</span>
-        </section>
-      </mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item>
-        <section>
-          <span i18n="@@userProfileComponentTabOrgCity">City:</span>
-          <span>{{ organization.city }}</span>
-        </section>
-      </mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item>
-        <section>
-          <span i18n="@@userProfileComponentTabOrgAddress">Address:</span>
-          <span>{{ organization.address }}</span>
-        </section>
-      </mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item>
-        <section>
-          <span i18n="@@userProfileComponentTabOrgPostcode">Postcode:</span>
-          <span>{{ organization.postcode }}</span>
-        </section>
-      </mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item>
-        <section>
-          <span i18n="@@userProfileComponentTabOrgPhone">Phone:</span>
-          <span>{{ organization.phone }}</span>
-        </section>
-      </mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item>
-        <section>
-          <span i18n="@@userProfileComponentTabOrgEmail">Email:</span>
-          <span>{{ organization.email }}</span>
-        </section>
-      </mat-list-item>
-      <mat-list-item>
-        <section>
-          <span i18n="@@userProfileComponentTabOrgWebsite">Website:</span>
-          <span>{{ organization.website }}</span>
-        </section>
-      </mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item>
-        <section>
-          <span i18n="@@userProfileComponentTabOrgLastUpdate">Last update:</span>
-          <span>{{ organization.updatedAt | dateTimeFormat | async }}</span>
-        </section>
-      </mat-list-item>
-    </mat-list>
-    <div *ngIf="editForm" class="col-md-12 col-lg-6">
-      <form class="d-flex flex-column p-3">
-        <mat-form-field appearance="outline">
-          <mat-label i18n="@@userProfileComponentTabOrgTitle">Title</mat-label>
-          <input matInput [(ngModel)]="organization.title" name="organization-title" type="text" />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label i18n="@@userProfileComponentTabOrgCountry">Country</mat-label>
-          <input matInput [(ngModel)]="organization.country" name="organization-country" type="text" />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label i18n="@@userProfileComponentTabOrgCity">City</mat-label>
-          <input matInput [(ngModel)]="organization.city" name="organization-city" type="text" />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label i18n="@@userProfileComponentTabOrgAddress">Address</mat-label>
-          <input matInput [(ngModel)]="organization.address" name="organization-address" type="text" />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label i18n="@@userProfileComponentTabOrgPostcode">Postcode</mat-label>
-          <input matInput [(ngModel)]="organization.postcode" name="organization-postcode" type="text" />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label i18n="@@userProfileComponentTabOrgPhone">Phone</mat-label>
-          <input matInput [(ngModel)]="organization.phone" name="organization-phone" type="tel" />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label i18n="@@userProfileComponentTabOrgEmail">Email</mat-label>
-          <input matInput [(ngModel)]="organization.email" name="organization-email" type="email" />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label i18n="@@userProfileComponentTabOrgWebsite">Website</mat-label>
-          <input matInput [(ngModel)]="organization.website" name="organization-website" type="url" />
-        </mat-form-field>
-      </form>
+    <div class="col-md-12 col-lg-6">
+      <organisms-dynamic-form
+        [data]="organization"
+        [formJson]="userOrganizationFormJson$ | async"
+        [editForm]="editForm"
+        (formChanges)="organizationFormValueChanges($event)"
+      >
+      </organisms-dynamic-form>
     </div>
   </div>
   <div buttons *ngIf="canEdit">

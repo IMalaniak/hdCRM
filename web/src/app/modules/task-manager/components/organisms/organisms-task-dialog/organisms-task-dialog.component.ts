@@ -1,55 +1,52 @@
 import { Component, OnInit, Inject, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/portal';
 
-import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+import { AppState } from '@/core/reducers';
+import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
+import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
+import { DynamicForm } from '@/shared/models';
+import { ACTION_LABELS, FORMCONSTANTS, THEME_PALETTE } from '@/shared/constants';
 import { DialogCreateEditPageModel } from '@/shared/components';
 import { DialogCreateEditModel, DialogDataModel, DialogResultModel } from '@/shared/models';
-import { TaskDialogData } from '@/modules/task-manager/models';
+import { Task} from '@/modules/task-manager/models';
 
 @Component({
   selector: 'organisms-task-dialog',
   templateUrl: './organisms-task-dialog.component.html',
-  styleUrls: ['./organisms-task-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrganismsTaskDialogComponent<TDialogModel extends DialogCreateEditModel, TModel extends TaskDialogData>
+export class OrganismsTaskDialogComponent<TDialogModel extends DialogCreateEditModel, TModel extends Task
+  >
   extends DialogCreateEditPageModel<TDialogModel, TModel>
   implements OnInit {
-  taskData: FormGroup;
+  taskFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName(FORMCONSTANTS.TASK)));
+
+  taskFormValues: Task;
+
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
 
   constructor(
+    private store$: Store<AppState>,
     readonly dialogRef: MatDialogRef<ComponentType<TModel>>,
     @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel, TModel>,
-    private fb: FormBuilder
   ) {
     super(dialogRef, data);
   }
 
   ngOnInit(): void {
-    this.buildTaskForm();
-    this.setDataIfTaskExist();
+    this.store$.dispatch(formRequested({ formName: FORMCONSTANTS.TASK }));
   }
 
-  buildTaskForm(): void {
-    this.taskData = this.fb.group({
-      id: new FormControl(null),
-      title: new FormControl(null, [Validators.required, Validators.maxLength(75)]),
-      description: new FormControl(null, Validators.maxLength(255)),
-      TaskPriorityId: new FormControl(null, Validators.required)
-    });
-  }
-
-  setDataIfTaskExist(): void {
-    if (!this.isCreateMode) {
-      this.taskData.patchValue(this.model.task);
-    }
+  taskFormValueChanges(formVal: Task): void {
+    this.taskFormValues = { ...this.taskFormValues, ...formVal };
   }
 
   onClose(result: boolean): void {
-    this.dialogRef.close(new DialogResultModel(result, this.taskData.value));
+    this.dialogRef.close(new DialogResultModel(result, { ...this.model, ...this.taskFormValues }));
   }
 }

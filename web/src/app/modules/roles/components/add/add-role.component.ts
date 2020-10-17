@@ -1,22 +1,25 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { Validators, FormControl } from '@angular/forms';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 
-import { Role, Privilege } from '../../models';
-import { UsersDialogComponent } from '@/modules/users/components/dialog/users-dialog.component';
-import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
-import { AppState } from '@/core/reducers';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import { Store } from '@ngrx/store';
-import { createRoleRequested } from '../../store/role.actions';
+
+import { AppState } from '@/core/reducers';
+import { DynamicForm } from '@/shared/models';
+import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, RoutingDataConstants, CONSTANTS } from '@/shared/constants';
 import { User } from '@/modules/users/models';
-import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, CONSTANTS } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
 import { DialogWithTwoButtonModel } from '@/shared/models/modal/dialog-with-two-button.model';
 import { DialogResultModel } from '@/shared/models/modal/dialog-result.model';
 import { DialogService } from '@/core/services/dialog';
 import { DialogType } from '@/shared/models';
 import { DialogSizeService } from '@/shared/services';
+import { UsersDialogComponent } from '@/modules/users/components/dialog/users-dialog.component';
+import { Role, Privilege } from '../../models';
+import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
+import { createRoleRequested } from '../../store/role.actions';
 
 @Component({
   templateUrl: './add-role.component.html',
@@ -25,7 +28,9 @@ import { DialogSizeService } from '@/shared/services';
 })
 export class AddRoleComponent implements OnInit {
   role = {} as Role;
-  keyString: FormControl;
+  roleFormJson: DynamicForm;
+  roleFormValues: Role;
+
   columns = COLUMN_NAMES;
   columnLabels = COLUMN_LABELS;
   actionLabels = ACTION_LABELS;
@@ -42,14 +47,19 @@ export class AddRoleComponent implements OnInit {
   constructor(
     private store$: Store<AppState>,
     private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute,
     private dialogService: DialogService,
     private dialogSizeService: DialogSizeService
   ) {}
 
   ngOnInit(): void {
-    this.keyString = new FormControl(null, [Validators.required, Validators.minLength(2)]);
+    this.roleFormJson = this.route.snapshot.data[RoutingDataConstants.FORM_JSON];
     this.role.Privileges = [];
     this.role.Users = [];
+  }
+
+  roleFormValueChanges(formVal: Role): void {
+    this.roleFormValues = { ...this.roleFormValues, ...formVal };
   }
 
   addParticipantDialog(): void {
@@ -135,7 +145,6 @@ export class AddRoleComponent implements OnInit {
   }
 
   onRegisterSubmit(): void {
-    this.role = { ...this.role, keyString: this.keyString.value };
-    this.store$.dispatch(createRoleRequested({ role: this.role }));
+    this.store$.dispatch(createRoleRequested({ role: { ...this.role, ...this.roleFormValues } }));
   }
 }

@@ -2,8 +2,8 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { Observable } from 'rxjs';
-import { Task, TaskPriority } from '../../models';
-import { selectAllTasks, selectAllPriorities } from '../../store/task.selectors';
+import { Task } from '../../models';
+import { selectAllTasks } from '../../store/task.selectors';
 
 @Component({
   selector: 'task-manager',
@@ -12,7 +12,6 @@ import { selectAllTasks, selectAllPriorities } from '../../store/task.selectors'
 })
 export class TaskManagerComponent {
   tasks$: Observable<Task[]> = this.store.pipe(select(selectAllTasks));
-  priorities$: Observable<TaskPriority[]> = this.store.pipe(select(selectAllPriorities));
 
   constructor(private store: Store<AppState>) {}
 }

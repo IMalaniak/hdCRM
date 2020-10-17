@@ -178,7 +178,7 @@ module.exports = {
           },
           {
             controlName: 'email',
-            type: 'iemailnput',
+            type: 'input',
             label: 'Email',
             isEditable: true
           },
@@ -217,7 +217,7 @@ module.exports = {
             isEditable: true
           },
           {
-            controlName: 'priority',
+            controlName: 'TaskPriorityId',
             type: 'select',
             label: 'Priority',
             isEditable: true,
@@ -251,7 +251,7 @@ module.exports = {
         type: 'system',
         form: JSON.stringify([
           {
-            controlName: 'title',
+            controlName: 'keyString',
             type: 'input',
             label: 'Title',
             isEditable: true,

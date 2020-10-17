@@ -17,7 +17,7 @@ import { DynamicForm } from '@/shared/models';
 @Component({
   selector: 'organisms-dynamic-form',
   template: `
-    <form class="d-flex flex-column p-3" [formGroup]="form" *ngIf="formJson">
+    <form class="d-flex flex-column" [formGroup]="form" *ngIf="formJson">
       <molecules-form-field
         *ngFor="let field of formJson.form"
         [label]="field.label"
@@ -25,7 +25,7 @@ import { DynamicForm } from '@/shared/models';
         [options]="field.options"
         [control]="form.get(field.controlName)"
         [fType]="field.type"
-        [value]="data[field.controlName]"
+        [value]="data ? data[field.controlName] : null"
         [editable]="field.isEditable"
         [editOnly]="field.editOnly"
         [editForm]="editForm"
@@ -38,6 +38,7 @@ import { DynamicForm } from '@/shared/models';
 export class OrganismsDynamicFormComponent implements OnChanges, OnDestroy {
   // TODO change this to have a type
   @Input() data: any;
+  @Input() formValues: any;
   @Input() formJson: DynamicForm;
   @Input() editForm: boolean;
 
@@ -53,9 +54,10 @@ export class OrganismsDynamicFormComponent implements OnChanges, OnDestroy {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['formJson']?.currentValue) {
       this.form = this.dynamicFormService.generateFormGroupFrom(this.formJson, this.data);
-      this.form.valueChanges
-        .pipe(takeUntil(this.unsubscribe), debounceTime(300))
-        .subscribe((values) => this.formChanges.emit(values));
+      this.form.valueChanges.pipe(takeUntil(this.unsubscribe), debounceTime(300)).subscribe((values) => {
+        this.formValues = values;
+        return this.formChanges.emit(values);
+      });
     }
   }
 

@@ -1,16 +1,18 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil} from 'rxjs/operators';
 
-import { Role, Privilege } from '../../models';
-import { UsersDialogComponent } from '@/modules/users/components/dialog/users-dialog.component';
 import { Store, select } from '@ngrx/store';
+import { cloneDeep } from 'lodash';
+
 import { AppState } from '@/core/reducers';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
-import { cloneDeep } from 'lodash';
-import { updateRoleRequested, changeIsEditingState } from '../../store/role.actions';
+import { UsersDialogComponent } from '@/modules/users/components/dialog/users-dialog.component';
 import { User } from '@/modules/users';
+import { Role, Privilege } from '../../models';
+import { updateRoleRequested, changeIsEditingState } from '../../store/role.actions';
+import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
 import { selectIsEditing } from '../../store/role.selectors';
 import {
   EDIT_PRIVILEGES,
@@ -19,7 +21,8 @@ import {
   ACTION_LABELS,
   THEME_PALETTE,
   MAT_BUTTON,
-  CONSTANTS
+  CONSTANTS,
+  RoutingDataConstants
 } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
 import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
@@ -27,9 +30,9 @@ import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confi
 import { DialogService } from '@/core/services/dialog';
 import { DialogWithTwoButtonModel } from '@/shared/models/modal/dialog-with-two-button.model';
 import { DialogResultModel } from '@/shared/models/modal/dialog-result.model';
-import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
 import { DialogType } from '@/shared/models';
 import { DialogSizeService } from '@/shared/services';
+import { DynamicForm } from '@/shared/models';
 
 @Component({
   templateUrl: './role.component.html',
@@ -41,7 +44,9 @@ export class RoleComponent implements OnInit, OnDestroy {
   canEditRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.ROLE)));
 
   role: Role;
+  roleFormJson: DynamicForm;
   roleInitial: Role;
+  roleFormValues: Role;
 
   themePalette = THEME_PALETTE;
   matButtonType = MAT_BUTTON;
@@ -67,12 +72,17 @@ export class RoleComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.roleFormJson = this.route.snapshot.data[RoutingDataConstants.FORM_JSON];
     this.getRoleData();
   }
 
+  roleFormValueChanges(formVal: Role): void {
+    this.roleFormValues = { ...this.roleFormValues, ...formVal };
+  }
+
   getRoleData(): void {
-    this.role = cloneDeep(this.route.snapshot.data['role']);
-    this.roleInitial = cloneDeep(this.route.snapshot.data['role']);
+    this.role = cloneDeep(this.route.snapshot.data[RoutingDataConstants.ROLE]);
+    this.roleInitial = cloneDeep(this.route.snapshot.data[RoutingDataConstants.ROLE]);
   }
 
   addParticipantDialog(): void {
@@ -183,7 +193,7 @@ export class RoleComponent implements OnInit, OnDestroy {
 
     this.dialogService
       .confirm(DialogConfirmComponent, dialogDataModel, () => {
-        this.store$.dispatch(updateRoleRequested({ role: this.role }));
+        this.store$.dispatch(updateRoleRequested({ role: { ...this.role, ...this.roleFormValues } }));
         this.disableEdit();
       });
   }

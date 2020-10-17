@@ -7,10 +7,10 @@ import { User } from '@/modules/users';
 import { DialogDataModel, DynamicForm } from '@/shared/models';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
-import { ACTION_LABELS, THEME_PALETTE, CONSTANTS } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/core/services/dialog';
+import { ACTION_LABELS, THEME_PALETTE, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-user-details',
@@ -31,12 +31,12 @@ export class OrganismsUserDetailsComponent implements OnInit {
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
 
-  userFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName('user')));
+  userFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName(FORMCONSTANTS.USER)));
 
   constructor(private store$: Store<AppState>, private dialogService: DialogService) { }
 
   ngOnInit(): void {
-    this.store$.dispatch(formRequested({ formName: 'user' }));
+    this.store$.dispatch(formRequested({ formName: FORMCONSTANTS.USER }));
   }
 
   userFormValueChanges(formVal: User): void {

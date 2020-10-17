@@ -16,7 +16,7 @@ footer {
     }
 
     h5 {
-      @include set-textcolor('light');
+      @include set-textcolor('text-contrast');
       text-transform: uppercase;
     }
 
@@ -27,52 +27,52 @@ footer {
       }
     }
 
-    form {
-      display: flex;
-      flex-direction: column;
+    // form {
+    //   display: flex;
+    //   flex-direction: column;
 
-      mat-form-field {
-        width: 100%;
-        @include media-breakpoint-up(sm) {
-          width: 50%;
-        }
-        @include media-breakpoint-up(md) {
-          width: 100%;
-        }
-      }
+    //   mat-form-field {
+    //     width: 100%;
+    //     @include media-breakpoint-up(sm) {
+    //       width: 50%;
+    //     }
+    //     @include media-breakpoint-up(md) {
+    //       width: 100%;
+    //     }
+    //   }
 
-      .mat-form-field-label {
-        @include set-textcolor('light');
-      }
+    //   .mat-form-field-label {
+    //     @include set-textcolor('light');
+    //   }
 
-      .mat-form-field-appearance-outline .mat-form-field-outline {
-        @include set-textcolor('light');
-      }
+    //   .mat-form-field-appearance-outline .mat-form-field-outline {
+    //     @include set-textcolor('light');
+    //   }
 
-      .mat-form-field-appearance-outline .mat-form-field-outline-thick {
-        @include set-textcolor('primary');
-      }
+    //   .mat-form-field-appearance-outline .mat-form-field-outline-thick {
+    //     @include set-textcolor('primary');
+    //   }
 
-      .mat-input-element {
-        @include set-textcolor('light');
-      }
+    //   .mat-input-element {
+    //     @include set-textcolor('light');
+    //   }
 
-      .mat-focused .mat-form-field-required-marker {
-        @include set-textcolor('primary');
-      }
+    //   .mat-focused .mat-form-field-required-marker {
+    //     @include set-textcolor('primary');
+    //   }
 
-      input:-webkit-autofill,
-      input:-webkit-autofill:hover,
-      input:-webkit-autofill:focus,
-      input:-webkit-autofill:active {
-        -webkit-text-fill-color: app-color('theme', 'light', true) !important;
-      }
+    //   input:-webkit-autofill,
+    //   input:-webkit-autofill:hover,
+    //   input:-webkit-autofill:focus,
+    //   input:-webkit-autofill:active {
+    //     -webkit-text-fill-color: app-color('theme', 'light', true) !important;
+    //   }
 
-      button {
-        width: fit-content !important;
-        font-size: 16px;
-      }
-    }
+    //   button {
+    //     width: fit-content !important;
+    //     font-size: 16px;
+    //   }
+    // }
 
     .connect-title {
       margin-top: 3em;
@@ -105,7 +105,7 @@ footer {
         }
 
         fa-icon {
-          @include set-textcolor('light');
+          @include set-textcolor('text-contrast');
           transition: color $transition;
           cursor: pointer;
         }
@@ -126,13 +126,13 @@ footer {
 
     .horizontal-line {
       margin: 3em 0 0.5em 0;
-      @include set-bgcolor('light');
+      @include set-bgcolor('text-contrast');
       width: 100%;
       height: 1px;
     }
 
     .copyright-text {
-      @include set-textcolor('light');
+      @include set-textcolor('text-contrast');
     }
   }
 }

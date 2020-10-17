@@ -83,3 +83,8 @@ export class AtomsFormFieldComponent {
     this.fieldChange.emit(event);
   }
 }
+
+// TODO: @IMalaniak:
+// - add input types
+// - check why date is not set for the firt time
+// - apply two way binding

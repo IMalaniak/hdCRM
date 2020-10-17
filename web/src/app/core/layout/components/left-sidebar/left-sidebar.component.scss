@@ -2,8 +2,12 @@
 @import 'mixins';
 @import '~bootstrap/scss/mixins/breakpoints';
 
-left-sidebar {
-  @include set-bgcolor('dark');
+:host {
+  $sidebar-width: app-size(sidebar, width, true);
+  $sidebar-width-minimized: app-size(sidebar, minimized, true);
+  $item-title-width: calc(#{$sidebar-width} - #{$sidebar-width-minimized});
+
+  @include set-bgcolor('dark', false);
   position: fixed;
   top: app-size(header, height, true);
   left: 0;
@@ -13,83 +17,83 @@ left-sidebar {
   transition: left $transition;
 
   &.minimized {
-    left: -100%;
-  }
+    left: -100% !important;
 
-  @include media-breakpoint-up(md) {
-    min-width: app-size(sidebar, width, true);
-    flex-basis: app-size(sidebar, width, true);
+    .sidebar {
+      &-list-item {
+        .item-btn {
+          &:hover,
+          &.active {
+            border-left: none;
+            border-bottom: 5px solid;
+          }
 
-    &.minimized {
-      left: -(app-size(sidebar, width, true));
-    }
-  }
-
-  @include media-breakpoint-up(lg) {
-    position: sticky;
-    min-width: app-size(sidebar, width, true);
-    flex-basis: app-size(sidebar, width, true);
-    transition: min-width $transition, flex-basis $transition, left $transition;
-
-    &.minimized {
-      min-width: app-size(sidebar, minimized, true);
-      flex-basis: app-size(sidebar, minimized, true);
-    }
-  }
-}
-
-.sidebar {
-  overflow: hidden;
-
-  &-list {
-    margin: 0;
-    padding: 0;
-  }
-
-  &-list-item {
-    .item-btn {
-      display: flex;
-      align-items: center;
-      height: app-size(header, height, true);
-      @include set-textcolor('light');
-      transition: border-width $transition;
-
-      &:hover,
-      &.active {
-        border-left: 7px solid;
-        text-decoration: none;
-        @include set-bgcolor('light');
-        @include set-textcolor('primary');
-      }
-
-      .item-title {
-        opacity: 1;
-        visibility: visible;
-        transition: opacity $transition, visibility $transition;
-      }
-
-      .item-icon {
-        margin: 0 15px;
-        font-size: 17px;
-
-        > svg {
-          width: 1.3em;
+          .item-title {
+            width: 0;
+            opacity: 0 !important;
+            visibility: hidden !important;
+          }
         }
       }
     }
   }
 
-  .minimized & {
-    .item-btn {
-      &:hover,
-      &.active {
-        border-left: none;
-        border-bottom: 5px solid;
-      }
+  @include media-breakpoint-up(md) {
+    min-width: $sidebar-width;
+    flex-basis: $sidebar-width;
 
-      .item-title {
-        opacity: 0;
-        visibility: hidden;
+    &.minimized {
+      left: -($sidebar-width);
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    position: sticky;
+    min-width: $sidebar-width;
+    flex-basis: $sidebar-width;
+    transition: min-width $transition, flex-basis $transition, left $transition;
+
+    &.minimized {
+      min-width: $sidebar-width-minimized;
+      flex-basis: $sidebar-width-minimized;
+    }
+  }
+
+  .sidebar {
+    overflow: hidden;
+
+    &-list {
+      margin: 0;
+      padding: 0;
+    }
+
+    &-list-item {
+      .item-btn {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        height: app-size(header, height, true);
+        @include set-textcolor('text-contrast', false);
+        transition: border-width $transition, justify-content $transition;
+
+        &:hover,
+        &.active {
+          border-left: 7px solid;
+          text-decoration: none;
+          @include set-bgcolor('background', false);
+          @include set-textcolor('primary', false);
+        }
+        .item-title {
+          width: $item-title-width;
+          opacity: 1;
+          visibility: visible;
+          transition: width $transition, opacity $transition, visibility $transition;
+        }
+        .item-icon {
+          width: $sidebar-width-minimized;
+          font-size: app-size(font, null, true);
+          text-align: center;
+        }
       }
     }
   }
