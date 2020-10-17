@@ -35,9 +35,7 @@
         <mat-cell *matCellDef="let plan">{{ plan.Creator.name + ' ' + plan.Creator.surname }}</mat-cell>
       </ng-container>
       <ng-container [matColumnDef]="columns.STAGE">
-        <mat-header-cell *matHeaderCellDef i18n="@@plannerСomponentListStage">{{
-          columnLabels.STAGE
-        }}</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef i18n="@@plannerСomponentListStage">{{ columnLabels.STAGE }}</mat-header-cell>
         <mat-cell *matCellDef="let plan">{{ plan.activeStage.keyString }}</mat-cell>
       </ng-container>
       <ng-container [matColumnDef]="columns.PARTICIPANTS">
