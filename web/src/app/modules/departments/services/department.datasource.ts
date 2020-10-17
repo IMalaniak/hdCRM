@@ -4,7 +4,7 @@ import { Department } from '../models/';
 import { catchError, tap } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { listPageRequested } from '../store/department.actions';
-import { selectDepartmentsPage } from '../store/department.selectors';
+import { selectDepartmentsOfPage } from '../store/department.selectors';
 import { AppState } from '@/core/reducers';
 import { PageQuery } from '@/shared/models';
 
@@ -16,7 +16,7 @@ export class DepartmentsDataSource implements DataSource<Department> {
   loadDepartments(page: PageQuery) {
     this.store
       .pipe(
-        select(selectDepartmentsPage(page)),
+        select(selectDepartmentsOfPage(page)),
         tap((departments) => {
           if (departments.length > 0) {
             this.departmentsSubject.next(departments);

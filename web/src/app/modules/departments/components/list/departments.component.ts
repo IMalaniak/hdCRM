@@ -88,7 +88,7 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
     const newPage: PageQuery = {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,
-      sortIndex: this.sort.active,
+      sortIndex: this.sort.active || COLUMN_NAMES.ID,
       sortDirection: this.sort.direction || SORT_DIRECTION.ASC
     };
 

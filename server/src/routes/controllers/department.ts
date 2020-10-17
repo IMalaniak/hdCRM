@@ -114,7 +114,8 @@ export class DepartmentController {
     })
       .then((data) => {
         const pages = Math.ceil(data.count / limit);
-        res.status(StatusCodes.OK).json({ success: true, data: data.rows, resultsNum: data.count, pages });
+        const ids: number[] = data.rows.map((department) => department.id);
+        res.status(StatusCodes.OK).json({ success: true, ids, data: data.rows, resultsNum: data.count, pages });
       })
       .catch((err: any) => {
         Logger.Err(err);
