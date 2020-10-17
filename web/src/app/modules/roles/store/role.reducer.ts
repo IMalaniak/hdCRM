@@ -1,25 +1,27 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+
+import { getInitialPaginationState, pagesAdapter, PaginationState } from '@/shared/store';
 import { Role } from '../models';
 import * as roleActions from './role.actions';
 
-export interface RolesState extends EntityState<Role> {
-  loading: boolean;
-  pages: number;
-  countAll: number;
-  editing: boolean;
+export interface RolesEntityState extends EntityState<Role> {}
+
+export interface RolesState extends PaginationState<RolesEntityState> {
   dashboardDataLoaded: boolean;
 }
 
-const adapter: EntityAdapter<Role> = createEntityAdapter<Role>({});
+const roleAdapter: EntityAdapter<Role> = createEntityAdapter<Role>({
+  sortComparer: false
+});
 
-export const initialRolesState: RolesState = adapter.getInitialState({
-  loading: false,
-  pages: null,
-  countAll: null,
-  editing: false,
+const initialRolesEntityState: RolesEntityState = roleAdapter.getInitialState({
   dashboardDataLoaded: false
 });
+
+export const initialRolesState: RolesState = getInitialPaginationState<RolesEntityState, RolesState>(
+  initialRolesEntityState
+);
 
 const rolesReducer = createReducer(
   initialRolesState,
@@ -27,49 +29,62 @@ const rolesReducer = createReducer(
     ...state,
     editing: isEditing
   })),
-  on(
-    roleActions.listPageRequested,
-    roleActions.createRoleRequested,
-    roleActions.updateRoleRequested,
-    roleActions.deleteRoleRequested,
-    (state) => ({
-      ...state,
-      loading: true
+  on(roleActions.createRoleRequested, roleActions.updateRoleRequested, roleActions.deleteRoleRequested, (state) => ({
+    ...state,
+    loading: true
+  })),
+  on(roleActions.listPageRequested, (state) => ({
+    ...state,
+    pages: {
+      ...state.pages,
+      pageLoading: true
+    }
+  })),
+  on(roleActions.createRoleSuccess, (state, { role }) => ({
+    ...state,
+    loading: false,
+    data: roleAdapter.addOne(role, {
+      ...state.data
     })
-  ),
-  on(roleActions.createRoleSuccess, (state, { role }) =>
-    adapter.addOne(role, {
-      ...state,
-      countAll: state.countAll + 1,
-      loading: false
+  })),
+  on(roleActions.roleLoaded, (state, { role }) => ({
+    ...state,
+    loading: false,
+    data: roleAdapter.addOne(role, { ...state.data })
+  })),
+  on(roleActions.listPageLoaded, (state, { page, response: { data, pages, resultsNum } }) => ({
+    ...state,
+    data: roleAdapter.upsertMany(data, {
+      ...state.data
+    }),
+    pages: pagesAdapter.addOne(page, {
+      ...state.pages,
+      resultsNum,
+      pages,
+      pageLoading: false
     })
-  ),
-  on(roleActions.roleLoaded, (state, { role }) => adapter.addOne(role, state)),
-  on(roleActions.listPageLoaded, (state, { response: { data, pages, resultsNum } }) =>
-    adapter.upsertMany(data, {
-      ...state,
-      loading: false,
-      pages: pages,
-      countAll: resultsNum
+  })),
+  on(roleActions.deleteRoleSuccess, (state, { id }) => ({
+    ...state,
+    loading: false,
+    data: roleAdapter.removeOne(id, {
+      ...state.data
     })
-  ),
-  on(roleActions.deleteRoleSuccess, (state, { id }) =>
-    adapter.removeOne(id, {
-      ...state,
-      countAll: state.countAll - 1,
-      loading: false
-    })
-  ),
-  on(roleActions.updateRoleSuccess, (state, { role }) =>
-    adapter.updateOne(role, { ...state, loading: false, editing: false })
-  ),
-  on(roleActions.roleDashboardDataLoaded, (state, { response: { data, resultsNum } }) =>
-    adapter.upsertMany(data, {
-      ...state,
-      countAll: resultsNum,
+  })),
+  on(roleActions.updateRoleSuccess, (state, { role }) => ({
+    ...state,
+    loading: false,
+    editing: false,
+    data: roleAdapter.updateOne(role, { ...state.data })
+  })),
+  on(roleActions.roleDashboardDataLoaded, (state, { response: { data } }) => ({
+    ...state,
+    loading: false,
+    data: roleAdapter.upsertMany(data, {
+      ...state.data,
       dashboardDataLoaded: true
     })
-  ),
+  })),
   on(roleActions.rolesApiError, (state) => ({ ...state, loading: false }))
 );
 
@@ -79,4 +94,4 @@ export function reducer(state: RolesState | undefined, action: Action) {
 
 export const rolesFeatureKey = 'roles';
 
-export const { selectAll, selectEntities, selectIds, selectTotal } = adapter.getSelectors();
+export const { selectAll, selectEntities, selectIds, selectTotal } = roleAdapter.getSelectors();
