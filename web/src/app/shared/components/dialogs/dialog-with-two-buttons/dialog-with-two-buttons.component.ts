@@ -1,7 +1,7 @@
+import { Component, HostListener, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { ComponentType } from '@angular/cdk/portal';
-import { ChangeDetectionStrategy, Inject } from '@angular/core';
-import { Component } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DOCUMENT } from '@angular/common';
 
 import { DialogDataModel, DialogWithTwoButtonModel } from '@/shared/models';
 import { DialogBaseModel } from '../models/dialog-base.model';
@@ -25,12 +25,21 @@ export class DialogWithTwoButtonsComponent<TDialogModel extends DialogWithTwoBut
   okButtonEnabled = false;
   cancelBtnColor = THEME_PALETTE.BASIC;
 
+  @HostListener('window:keyup.enter') onKeyUpEnter(): void {
+    const successButton = this._document.getElementById('successButton');
+    if (successButton && !this.formValid) {
+      this.dialogClose.emit(true);
+    }
+  }
+
   constructor(
     readonly dialogRef: MatDialogRef<ComponentType<TModel>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel, TModel>
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel, TModel>,
+    @Inject(DOCUMENT) private readonly _document: Document
   ) {
     super(dialogRef, data);
   }
+
 
   onOkButtonClick(): void {
     this.dialogClose.emit(true);

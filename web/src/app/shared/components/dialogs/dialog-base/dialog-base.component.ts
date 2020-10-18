@@ -1,13 +1,12 @@
-import { DialogDataModel, DialogWithTwoButtonModel } from '@/shared/models';
-import { BaseModel } from '@/shared/models/base/base.model';
+import { Component, HostListener, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentType } from '@angular/cdk/portal';
-// import { DOCUMENT } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostListener, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NavigationStart, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
 import { DialogBaseModel } from '../models';
+import { BaseModel } from '@/shared/models/base/base.model';
+import { DialogDataModel, DialogWithTwoButtonModel } from '@/shared/models';
 
 @Component({
   selector: 'component-dialog-base',
@@ -21,7 +20,6 @@ export class DialogBaseComponent<
   constructor(
     readonly dialogRef: MatDialogRef<ComponentType<TModel>>,
     @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel, TModel>,
-    // @Inject(DOCUMENT) private readonly _document: Document,
     private _router: Router
   ) {
     super(dialogRef, data);
@@ -30,14 +28,6 @@ export class DialogBaseComponent<
       this.dialogRef.close(); // used for close dialog on navigation if it has nested component
     });
   }
-
-  // TODO: @ArseniiIrod check why this.formValid always false and don't dinamicly get value from father class
-  // @HostListener('window:keyup.enter') onKeyUpEnter(): void {
-  //   const successButton = this._document.getElementById('successButton');
-  //   if (successButton && !this.formValid) {
-  //     this.dialogClose.emit(true);
-  //   }
-  // }
 
   @HostListener('window:keyup.esc') onKeyUpEsc(): void {
     this.dialogClose.emit(false);
