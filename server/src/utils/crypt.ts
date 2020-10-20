@@ -1,6 +1,8 @@
 import crypto from 'crypto';
+import { Service } from 'typedi';
 
-class Crypt {
+@Service()
+export class Crypt {
   genRandomString(length: number) {
     return crypto
       .randomBytes(Math.ceil(length / 2))
@@ -39,5 +41,3 @@ class Crypt {
     };
   }
 }
-
-export default new Crypt();

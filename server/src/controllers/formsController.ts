@@ -1,20 +1,20 @@
-import { Logger } from '@overnightjs/logger';
-import { Form } from '../models';
-import { FormAttributes } from '../models/Form';
+import { Service } from 'typedi';
+import { Form, FormAttributes } from '../models';
 
-export class FormDBController {
+@Service()
+export class FormController {
   public getByFormName(key: string): Promise<Form> {
-    Logger.Info(`Selecting form by key: ${key}...`);
+    // Logger.Info(`Selecting form by key: ${key}...`);
     return Form.findByPk(key);
   }
 
   public create(body: FormAttributes): Promise<Form> {
-    Logger.Info(`Creating new form...`);
+    // Logger.Info(`Creating new form...`);
     return Form.create(body);
   }
 
   public updateOne(form: FormAttributes): Promise<[number, Form[]]> {
-    Logger.Info(`Updating form by key: ${form.key}...`);
+    // Logger.Info(`Updating form by key: ${form.key}...`);
     return Form.update(
       {
         ...form
@@ -26,7 +26,7 @@ export class FormDBController {
   }
 
   public deleteForm(key: string | string[]) {
-    Logger.Info(`Deleting form by id: ${key}...`);
+    // Logger.Info(`Deleting form by id: ${key}...`);
     return Form.destroy({
       where: { key }
     });

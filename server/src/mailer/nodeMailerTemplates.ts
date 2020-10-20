@@ -1,8 +1,11 @@
 import Email from 'email-templates';
-import { User } from '../models';
 import path from 'path';
+import { Service } from 'typedi';
 
-class Mailer {
+import { User } from '../models';
+
+@Service({ global: true })
+export class Mailer {
   sender = process.env.NODE_MAILER_SENDER;
   password = process.env.NODE_MAILER_PASSWORD;
 
@@ -103,5 +106,3 @@ class Mailer {
     });
   }
 }
-
-export default new Mailer();

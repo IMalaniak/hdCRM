@@ -1,8 +1,10 @@
-import { Task, TaskPriority, User } from '../models';
-import { Logger } from '@overnightjs/logger';
 import { IncludeOptions } from 'sequelize/types';
+import { Service } from 'typedi';
 
-export class TaskDBController {
+import { Task, TaskPriority, User } from '../models';
+
+@Service()
+export class TaskController {
   public includes: IncludeOptions[] = [
     {
       model: TaskPriority
@@ -10,14 +12,14 @@ export class TaskDBController {
   ];
 
   public getById(taskId: number | string): Promise<Task> {
-    Logger.Info(`Selecting task by id: ${taskId}...`);
+    // Logger.Info(`Selecting task by id: ${taskId}...`);
     return Task.findByPk(taskId, {
       include: this.includes
     });
   }
 
   public getAll(currentUser: User): Promise<Task[]> {
-    Logger.Info(`Selecting all tasks...`);
+    // Logger.Info(`Selecting all tasks...`);
 
     return Task.findAll({
       where: {
@@ -28,12 +30,12 @@ export class TaskDBController {
   }
 
   public create(body: Partial<Task>): Promise<Task> {
-    Logger.Info(`Creating new task...`);
+    // Logger.Info(`Creating new task...`);
     return Task.create(body);
   }
 
   public updateOne(task: Partial<Task>): Promise<[number, Task[]]> {
-    Logger.Info(`Updating task by id: ${task.id}...`);
+    // Logger.Info(`Updating task by id: ${task.id}...`);
     return Task.update(
       {
         ...task
@@ -45,14 +47,14 @@ export class TaskDBController {
   }
 
   public deleteTask(id: number | string | number[] | string[]) {
-    Logger.Info(`Deleting task by id: ${id}...`);
+    // Logger.Info(`Deleting task by id: ${id}...`);
     return Task.destroy({
       where: { id }
     });
   }
 
   public getPrioriities(): Promise<TaskPriority[]> {
-    Logger.Info(`Selecting all priorities...`);
+    // Logger.Info(`Selecting all priorities...`);
     return TaskPriority.findAll();
   }
 }

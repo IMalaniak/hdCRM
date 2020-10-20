@@ -1,6 +1,8 @@
 import jwt, { TokenExpiredError } from 'jsonwebtoken';
-import { JwtPayload, JwtDecoded } from '../models/JWTPayload';
-import { UserDBController } from '../dbControllers/usersController';
+import { Service } from 'typedi';
+
+import { JwtPayload, JwtDecoded } from '../models';
+import { UserController } from '../controllers';
 import { Config } from '../config';
 
 interface TokenProps {
@@ -13,8 +15,9 @@ interface VerifyProps {
   token: string;
 }
 
-class JwtHelper {
-  private userDbController = new UserDBController();
+@Service({ global: true })
+export class JwtHelper {
+  private userDbController = new UserController();
 
   generateToken({ type, payload }: TokenProps): string {
     return jwt.sign(payload, type === 'access' ? process.env.ACCESS_TOKEN_SECRET : process.env.REFRESH_TOKEN_SECRET, {
@@ -79,5 +82,3 @@ class JwtHelper {
     });
   }
 }
-
-export default new JwtHelper();
