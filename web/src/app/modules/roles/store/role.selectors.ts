@@ -25,11 +25,7 @@ export const selectRolesTotalCount = createSelector(selectRolePagesState, (roles
 
 export const selectRolesOfPage = (pageQuery: PageQuery) =>
   createSelector(selectAllRoles, selectRolePageByKey(pageQuery), (allRoles: Role[], page: Page) => {
-    if (!page) {
-      return [];
-    } else {
-      return page.dataIds.map((id) => allRoles.find((role) => role.id === id));
-    }
+    return page ? page.dataIds.map((id) => allRoles.find((role) => role.id === id)) : [];
   });
 
 export const selectRolesDashboardDataLoaded = createSelector(

@@ -29,11 +29,7 @@ export const selectPlansTotalCount = createSelector(selectPlanPagesState, (plans
 
 export const selectPlansOfPage = (pageQuery: PageQuery) =>
   createSelector(selectAllPlans, selectPlanPageByKey(pageQuery), (allPlans: Plan[], page: Page) => {
-    if (!page) {
-      return [];
-    } else {
-      return page.dataIds.map((id) => allPlans.find((plan) => plan.id === id));
-    }
+    return page ? page.dataIds.map((id) => allPlans.find((plan) => plan.id === id)) : [];
   });
 
 export const selectIsEditing = createSelector(selectPlansState, (plansState) => plansState.editing);

@@ -45,11 +45,7 @@ export const selectDepartmentsOfPage = (pageQuery: PageQuery) =>
     selectAllDepartments,
     selectDepartmentPageByKey(pageQuery),
     (allDepartments: Department[], page: Page) => {
-      if (!page) {
-        return [];
-      } else {
-        return page.dataIds.map((id) => allDepartments.find((department) => department.id === id));
-      }
+      return page ? page.dataIds.map((id) => allDepartments.find((department) => department.id === id)) : [];
     }
   );
 
