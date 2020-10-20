@@ -1,3 +1,3 @@
-export * from './formsController';
-export * from './tasksController';
-export * from './usersController';
+export * from './formController';
+export * from './taskController';
+export * from './userController';

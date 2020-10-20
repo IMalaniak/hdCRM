@@ -1,18 +1,18 @@
 import { Service } from 'typedi';
 import { Router } from 'express';
 import { Passport } from '../config';
-import { AuthRoutes } from './auth';
-import { DepartmentRoutes } from './department';
-import { FileRoutes } from './file';
-import { FormRoutes } from './form';
-import { PlanRoutes } from './plan';
-import { PreferenceRoutes } from './preferences';
-import { PrivilegeRoutes } from './privilege';
-import { RoleRoutes } from './role';
-import { StageRoutes } from './stage';
-import { TaskRoutes } from './task';
-import { TaskPriorityRoutes } from './taskPriority';
-import { UserRoutes } from './user';
+import { AuthRoutes } from './authRoutes';
+import { DepartmentRoutes } from './departmentRoutes';
+import { FileRoutes } from './fileRoutes';
+import { FormRoutes } from './formRoutes';
+import { PlanRoutes } from './planRoutes';
+import { PreferenceRoutes } from './preferencesRoutes';
+import { PrivilegeRoutes } from './privilegeRoutes';
+import { RoleRoutes } from './roleRoutes';
+import { StageRoutes } from './stageRoutes';
+import { TaskRoutes } from './taskRoutes';
+import { TaskPriorityRoutes } from './taskPriorityRoutes';
+import { UserRoutes } from './userRoutes';
 
 @Service()
 export class Routes {

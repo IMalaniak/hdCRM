@@ -9,7 +9,7 @@ import { FormController } from '../controllers';
 export class FormRoutes {
   private router: Router = Router();
 
-  constructor(private readonly formDbCtrl: FormController) {}
+  constructor(private readonly formController: FormController) {}
 
   public register(): Router {
     this.router.get(
@@ -19,7 +19,7 @@ export class FormRoutes {
         // Logger.Info(`Selecting ${formName} form...`);
 
         try {
-          const data = await this.formDbCtrl.getByFormName(formName);
+          const data = await this.formController.getByFormName(formName);
           res.status(StatusCodes.OK).json({ success: true, data });
         } catch (error) {
           // Logger.Err(error);
@@ -35,7 +35,7 @@ export class FormRoutes {
         // Logger.Info(`Creating new form with key: ${form.key}...`);
 
         try {
-          const formData = await this.formDbCtrl.create(form);
+          const formData = await this.formController.create(form);
           res.status(StatusCodes.OK).json({ success: true, data: formData });
         } catch (error) {
           // Logger.Err(error);
