@@ -4,36 +4,26 @@ import {
   DataTypes,
   BelongsToGetAssociationMixin,
   BelongsToSetAssociationMixin,
-  Association
+  Association,
+  Optional
 } from 'sequelize';
+
+import { IListView, ITimeFormat, IDateFormat, IItemsPerPage } from '../constants';
 import { enumToArray } from '../utils/EnumToArray';
 import { User } from './User';
 
-export enum IListView {
-  LIST = 'list',
-  CARD = 'card'
+export interface PreferenceAttributes {
+  id: string;
+  listView: IListView;
+  timeFormat: ITimeFormat;
+  dateFormat: IDateFormat;
+  itemsPerPage: IItemsPerPage;
+  UserId: number;
 }
 
-export enum ITimeFormat {
-  SHORT_TIME = 'h:mm a',
-  MEDIUM_TIME = 'h:mm:ss a',
-  LONG_TIME = 'h:mm:ss a z'
-}
+export interface PreferenceCreationAttributes extends Optional<PreferenceAttributes, 'id'> {}
 
-export enum IDateFormat {
-  SHORT_DATE = 'M/d/yy',
-  MEDIUM_DATE = 'MMM d, y',
-  LONG_DATE = 'MMMM d, y',
-  FULL_DATE = 'EEEE, MMMM d, y'
-}
-
-export enum IItemsPerPage {
-  FIVE = '5',
-  TEN = '10',
-  FIFTEEN = '15'
-}
-
-export class Preference extends Model {
+export class Preference extends Model<PreferenceAttributes, PreferenceCreationAttributes> {
   public id!: number;
   public listView!: IListView;
   public timeFormat!: ITimeFormat;
@@ -56,13 +46,20 @@ export class Preference extends Model {
   };
 }
 
-export const PreferenceFactory = (sequelize: Sequelize): Model => {
+export const PreferenceFactory = (sequelize: Sequelize): Model<PreferenceAttributes, PreferenceCreationAttributes> => {
   return Preference.init(
     {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
+      },
+      UserId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id'
+        }
       },
       listView: {
         type: DataTypes.ENUM,
