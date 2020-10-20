@@ -2,7 +2,15 @@ import { StatusCodes } from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 import { Service } from 'typedi';
 
-import { Task, CollectionApiResponse, ApiResponse, ItemApiResponse, RequestWithBody } from '../models';
+import {
+  Task,
+  CollectionApiResponse,
+  ApiResponse,
+  ItemApiResponse,
+  RequestWithBody,
+  TaskCreationAttributes,
+  TaskAttributes
+} from '../models';
 import { TaskController } from '../controllers';
 
 @Service()
@@ -24,7 +32,7 @@ export class TaskRoutes {
         });
     });
 
-    this.router.post('/', (req: RequestWithBody<Partial<Task>>, res: Response<ItemApiResponse<Task>>) => {
+    this.router.post('/', (req: RequestWithBody<TaskCreationAttributes>, res: Response<ItemApiResponse<Task>>) => {
       req.body.CreatorId = req.user.id;
 
       this.taskController
@@ -50,7 +58,7 @@ export class TaskRoutes {
         });
     });
 
-    this.router.put('/:id', (req: RequestWithBody<Partial<Task>>, res: Response<ItemApiResponse<Task>>) => {
+    this.router.put('/:id', (req: RequestWithBody<TaskAttributes>, res: Response<ItemApiResponse<Task>>) => {
       this.taskController
         .updateOne(req.body)
         .then((result) => {

@@ -2,14 +2,21 @@ import { StatusCodes } from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 import { Service } from 'typedi';
 
-import { Plan, Stage, RequestWithBody, CollectionApiResponse, ItemApiResponse } from '../models';
+import {
+  Stage,
+  RequestWithBody,
+  CollectionApiResponse,
+  ItemApiResponse,
+  StageCreationAttributes,
+  Plan
+} from '../models';
 
 @Service()
 export class StageRoutes {
   private router: Router = Router();
 
   public register(): Router {
-    this.router.post('/', (req: RequestWithBody<Partial<Stage>>, res: Response<ItemApiResponse<Stage>>) => {
+    this.router.post('/', (req: RequestWithBody<StageCreationAttributes>, res: Response<ItemApiResponse<Stage>>) => {
       // Logger.Info(`Creating new stage...`);
       Stage.create({
         ...req.body
@@ -30,7 +37,7 @@ export class StageRoutes {
       Stage.findAndCountAll({
         include: [
           {
-            model: Plan,
+            model: Plan as any,
             where: {
               OrganizationId: req.user.OrganizationId
             },

@@ -1,7 +1,18 @@
-import { Sequelize, Model, DataTypes, BelongsToGetAssociationMixin, Association } from 'sequelize';
+import { Sequelize, Model, DataTypes, BelongsToGetAssociationMixin, Association, Optional } from 'sequelize';
+
 import { User } from './User';
 
-export class UserSession extends Model {
+export interface UserSessionAttributes {
+  id: string;
+  IP: string;
+  isSuccess: boolean;
+  UA: string;
+  UserId: number;
+}
+
+export interface UserSessionCreationAttributes extends Optional<UserSessionAttributes, 'id'> {}
+
+export class UserSession extends Model<UserSessionAttributes, UserSessionCreationAttributes> {
   public id!: number;
   public IP!: string;
   public isSuccess!: boolean;
@@ -23,13 +34,22 @@ export class UserSession extends Model {
   };
 }
 
-export const UserSessionFactory = (sequelize: Sequelize): Model => {
+export const UserSessionFactory = (
+  sequelize: Sequelize
+): Model<UserSessionAttributes, UserSessionCreationAttributes> => {
   return UserSession.init(
     {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
+      },
+      UserId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id'
+        }
       },
       IP: {
         type: new DataTypes.STRING(20)

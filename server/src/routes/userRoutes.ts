@@ -17,7 +17,10 @@ import {
   RequestWithQuery,
   CollectionQuery,
   RequestWithBody,
-  JwtDecoded
+  JwtDecoded,
+  UserCreationAttributes,
+  UserAttributes,
+  OrganizationAttributes
 } from '../models';
 import { UserController } from '../controllers';
 import uploads from '../multer/multerConfig';
@@ -72,7 +75,7 @@ export class UserRoutes {
         });
     });
 
-    this.router.post('/', (req: RequestWithBody<Partial<User>>, res: Response<ItemApiResponse<User>>) => {
+    this.router.post('/', (req: RequestWithBody<UserCreationAttributes>, res: Response<ItemApiResponse<User>>) => {
       this.userController
         .create(req.body)
         .then((user: User) => {
@@ -88,7 +91,7 @@ export class UserRoutes {
         });
     });
 
-    this.router.put('/:id', (req: RequestWithBody<Partial<User>>, res: Response<ItemApiResponse<User>>) => {
+    this.router.put('/:id', (req: RequestWithBody<UserAttributes>, res: Response<ItemApiResponse<User>>) => {
       this.userController
         .updateOne(req.body)
         .then((result) => {
@@ -113,7 +116,7 @@ export class UserRoutes {
     });
 
     // TODO @IMalaniak check for multiple routes with the same logiс
-    this.router.put('/profile/', (req: RequestWithBody<Partial<User>>, res: Response<ItemApiResponse<User>>) => {
+    this.router.put('/profile/', (req: RequestWithBody<UserAttributes>, res: Response<ItemApiResponse<User>>) => {
       this.userController
         .updateOne(req.body)
         .then((result) => {
@@ -363,29 +366,32 @@ export class UserRoutes {
         });
     });
 
-    this.router.put('/updateUserState', (req: RequestWithBody<Partial<User>>, res: Response<ItemApiResponse<User>>) => {
-      this.userController
-        .updateUserState(req.body)
-        .then((result) => {
-          if (result) {
-            this.userController
-              .getById(req.body.id)
-              .then((user) => {
-                return res
-                  .status(StatusCodes.OK)
-                  .json({ success: true, message: 'User state is updated successfully!', data: user });
-              })
-              .catch((error: any) => {
-                // Logger.Err(error);
-                return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
-              });
-          }
-        })
-        .catch((error: any) => {
-          // Logger.Err(error);
-          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
-        });
-    });
+    this.router.put(
+      '/updateUserState',
+      (req: RequestWithBody<UserAttributes>, res: Response<ItemApiResponse<User>>) => {
+        this.userController
+          .updateUserState(req.body)
+          .then((result) => {
+            if (result) {
+              this.userController
+                .getById(req.body.id)
+                .then((user) => {
+                  return res
+                    .status(StatusCodes.OK)
+                    .json({ success: true, message: 'User state is updated successfully!', data: user });
+                })
+                .catch((error: any) => {
+                  // Logger.Err(error);
+                  return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
+                });
+            }
+          })
+          .catch((error: any) => {
+            // Logger.Err(error);
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
+          });
+      }
+    );
 
     // TODO: @IMalaniak recreate this
     this.router.put('/changeStateOfSelected', (req: Request, res: Response<ApiResponse>) => {
@@ -417,62 +423,65 @@ export class UserRoutes {
         });
     });
 
-    this.router.post('/invite', (req: RequestWithBody<Partial<User>[]>, res: Response<CollectionApiResponse<User>>) => {
-      // Logger.Info(`Inviting users...`);
-      const promises = [];
+    this.router.post(
+      '/invite',
+      (req: RequestWithBody<UserAttributes[]>, res: Response<CollectionApiResponse<User>>) => {
+        // Logger.Info(`Inviting users...`);
+        const promises = [];
 
-      req.body.forEach((user: User) => {
-        promises.push(
-          new Promise((resolve: (value: User) => void, reject) => {
-            const password = this.crypt.genRandomString(12);
-            const passwordData = this.crypt.saltHashPassword(password);
-            user.passwordHash = passwordData.passwordHash;
-            user.salt = passwordData.salt;
-            user.OrganizationId = req.user.OrganizationId;
-            user.login = user.fullname.replace(' ', '_');
-            this.userController
-              .create(user)
-              .then((u) => {
-                const token = this.crypt.genTimeLimitedToken(24 * 60);
-                u.createPasswordAttributes({
-                  token: token.value,
-                  tokenExpire: token.expireDate,
-                  passwordExpire: token.expireDate
-                })
-                  .then(() => {
-                    this.mailer
-                      .sendInvitation(u, password, `${Config.WEB_URL}/auth/activate-account/${token.value}`)
-                      .then(() => {
-                        resolve(u);
-                      })
-                      .catch((err: any) => {
-                        reject(err);
-                      });
+        req.body.forEach((user: UserAttributes) => {
+          promises.push(
+            new Promise((resolve: (value: User) => void, reject) => {
+              const password = this.crypt.genRandomString(12);
+              const passwordData = this.crypt.saltHashPassword(password);
+              user.passwordHash = passwordData.passwordHash;
+              user.salt = passwordData.salt;
+              user.OrganizationId = req.user.OrganizationId;
+              user.login = user.fullname.replace(' ', '_');
+              this.userController
+                .create(user)
+                .then((u) => {
+                  const token = this.crypt.genTimeLimitedToken(24 * 60);
+                  u.createPasswordAttributes({
+                    token: token.value,
+                    tokenExpire: token.expireDate,
+                    passwordExpire: token.expireDate
                   })
-                  .catch((err: any) => {
-                    reject(err);
-                  });
-              })
-              .catch((err: any) => {
-                reject(err);
-              });
-          })
-        );
-      });
-
-      Promise.all(promises)
-        .then((invitedUsers: User[]) => {
-          return res
-            .status(StatusCodes.OK)
-            .json({ success: true, message: 'Invitation have been sent successfully!', data: invitedUsers });
-        })
-        .catch(() => {
-          // Logger.Err(error);
-          return res
-            .status(StatusCodes.BAD_REQUEST)
-            .json({ success: false, message: 'There are some missing params!', data: null });
+                    .then(() => {
+                      this.mailer
+                        .sendInvitation(u, password, `${Config.WEB_URL}/auth/activate-account/${token.value}`)
+                        .then(() => {
+                          resolve(u);
+                        })
+                        .catch((err: any) => {
+                          reject(err);
+                        });
+                    })
+                    .catch((err: any) => {
+                      reject(err);
+                    });
+                })
+                .catch((err: any) => {
+                  reject(err);
+                });
+            })
+          );
         });
-    });
+
+        Promise.all(promises)
+          .then((invitedUsers: User[]) => {
+            return res
+              .status(StatusCodes.OK)
+              .json({ success: true, message: 'Invitation have been sent successfully!', data: invitedUsers });
+          })
+          .catch(() => {
+            // Logger.Err(error);
+            return res
+              .status(StatusCodes.BAD_REQUEST)
+              .json({ success: false, message: 'There are some missing params!', data: null });
+          });
+      }
+    );
 
     this.router.delete('/session/:id', (req: Request, res: Response<ApiResponse>) => {
       this.userController
@@ -500,7 +509,7 @@ export class UserRoutes {
 
     this.router.put(
       '/org/:id',
-      (req: RequestWithBody<Partial<Organization>>, res: Response<ItemApiResponse<Organization>>) => {
+      (req: RequestWithBody<OrganizationAttributes>, res: Response<ItemApiResponse<Organization>>) => {
         this.userController
           .editOrg(req.body)
           .then(() => {

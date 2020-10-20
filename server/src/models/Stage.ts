@@ -22,12 +22,21 @@ import {
   HasManyHasAssociationsMixin,
   HasManyRemoveAssociationMixin,
   HasManyRemoveAssociationsMixin,
-  HasManySetAssociationsMixin
+  HasManySetAssociationsMixin,
+  Optional
 } from 'sequelize';
-import { Plan } from './Plan';
-import { PlanStage } from '.';
 
-export class Stage extends Model {
+import { Plan } from './Plan';
+import { PlanStage } from './PlanStage';
+
+export interface StageAttributes {
+  id: string;
+  keyString: string;
+}
+
+export interface StageCreationAttributes extends Optional<StageAttributes, 'id'> {}
+
+export class Stage extends Model<StageAttributes, StageCreationAttributes> {
   public id!: number;
   public keyString!: string;
 
@@ -63,7 +72,7 @@ export class Stage extends Model {
   };
 }
 
-export const StageFactory = (sequelize: Sequelize): Model => {
+export const StageFactory = (sequelize: Sequelize): Model<StageAttributes, StageCreationAttributes> => {
   return Stage.init(
     {
       id: {

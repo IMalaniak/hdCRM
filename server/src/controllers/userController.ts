@@ -6,24 +6,27 @@ import {
   User,
   UserSession,
   Role,
-  Privilege,
-  Preference,
-  PasswordAttribute,
-  Asset,
-  Department,
   Organization,
-  CollectionQuery
+  CollectionQuery,
+  UserCreationAttributes,
+  UserAttributes,
+  OrganizationAttributes,
+  Privilege,
+  PasswordAttribute,
+  Preference,
+  Asset,
+  Department
 } from '../models';
 
 @Service()
 export class UserController {
   public includes: IncludeOptions[] = [
     {
-      model: Role,
+      model: Role as any,
       required: false,
       include: [
         {
-          model: Privilege,
+          model: Privilege as any,
           through: {
             attributes: ['view', 'edit', 'add', 'delete']
           },
@@ -32,31 +35,31 @@ export class UserController {
       ]
     },
     {
-      model: UserSession
+      model: UserSession as any
     },
     {
-      model: Preference,
+      model: Preference as any,
       required: false
     },
     {
-      model: PasswordAttribute,
+      model: PasswordAttribute as any,
       as: 'PasswordAttributes',
       attributes: ['updatedAt', 'passwordExpire'],
       required: false
     },
     {
-      model: Asset
+      model: Asset as any
     },
     {
-      model: Asset,
+      model: Asset as any,
       as: 'avatar'
     },
     {
-      model: Department,
+      model: Department as any,
       required: false
     },
     {
-      model: Organization
+      model: Organization as any
     }
   ];
 
@@ -89,7 +92,7 @@ export class UserController {
     });
   }
 
-  public async create(body: Partial<User>): Promise<User> {
+  public async create(body: UserCreationAttributes): Promise<User> {
     // Logger.Info(`Creating new user...`);
     return new Promise((resolve, reject) => {
       User.create(body)
@@ -111,7 +114,7 @@ export class UserController {
     });
   }
 
-  public updateOne(user: Partial<User>): Promise<[number, User[]]> {
+  public updateOne(user: UserAttributes): Promise<[number, User[]]> {
     // TODO: roles etc...
     // Logger.Info(`Updating user by id: ${user.id}...`);
     return User.update(
@@ -129,7 +132,7 @@ export class UserController {
     );
   }
 
-  public updateUserState(user: Partial<User>): Promise<[number, User[]]> {
+  public updateUserState(user: UserAttributes): Promise<[number, User[]]> {
     // Logger.Info(`Updating user state by id: ${user.id}...`);
     return User.update(
       {
@@ -168,11 +171,11 @@ export class UserController {
   public removeUserSessionsExept(UserId: number, currentSessionId: number) {
     // Logger.Info(`Removing user sessions`);
     return UserSession.destroy({
-      where: { UserId, [Op.not]: [{ id: currentSessionId }] }
+      where: { UserId, [Op.and]: [{ [Op.not]: [{ id: currentSessionId }] }] }
     });
   }
 
-  public editOrg(org: Partial<Organization>) {
+  public editOrg(org: OrganizationAttributes) {
     // Logger.Info(`Editing userOrg by id: ${org.id}`);
     return Organization.update({ ...org }, { where: { id: org.id } });
   }

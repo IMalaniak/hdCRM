@@ -1,13 +1,13 @@
 import { IncludeOptions } from 'sequelize/types';
 import { Service } from 'typedi';
 
-import { Task, TaskPriority, User } from '../models';
+import { Task, TaskAttributes, TaskCreationAttributes, TaskPriority, User } from '../models';
 
 @Service()
 export class TaskController {
   public includes: IncludeOptions[] = [
     {
-      model: TaskPriority
+      model: TaskPriority as any
     }
   ];
 
@@ -29,12 +29,12 @@ export class TaskController {
     });
   }
 
-  public create(body: Partial<Task>): Promise<Task> {
+  public create(body: TaskCreationAttributes): Promise<Task> {
     // Logger.Info(`Creating new task...`);
     return Task.create(body);
   }
 
-  public updateOne(task: Partial<Task>): Promise<[number, Task[]]> {
+  public updateOne(task: TaskAttributes): Promise<[number, Task[]]> {
     // Logger.Info(`Updating task by id: ${task.id}...`);
     return Task.update(
       {

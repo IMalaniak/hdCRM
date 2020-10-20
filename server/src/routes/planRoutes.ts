@@ -52,18 +52,18 @@ export class PlanRoutes {
         },
         include: [
           {
-            model: User,
+            model: User as any,
             as: 'Creator',
             attributes: { exclude: ['passwordHash', 'salt'] },
             include: [
               {
-                model: Asset,
+                model: Asset as any,
                 as: 'avatar'
               }
             ]
           },
           {
-            model: User,
+            model: User as any,
             as: 'Participants',
             attributes: { exclude: ['passwordHash', 'salt'] },
             through: {
@@ -71,24 +71,24 @@ export class PlanRoutes {
             },
             include: [
               {
-                model: Asset,
+                model: Asset as any,
                 as: 'avatar'
               }
             ]
           },
           {
-            model: Asset,
+            model: Asset as any,
             as: 'Documents',
             through: {
               attributes: []
             }
           },
           {
-            model: Stage,
+            model: Stage as any,
             as: 'activeStage'
           },
           {
-            model: Stage,
+            model: Stage as any,
             as: 'Stages',
             through: {
               as: 'Details',
@@ -328,11 +328,11 @@ export class PlanRoutes {
         attributes: ['id', 'activeStageId'],
         include: [
           {
-            model: Stage,
+            model: Stage as any,
             as: 'activeStage'
           },
           {
-            model: Stage,
+            model: Stage as any,
             as: 'Stages',
             through: {
               as: 'Details',
@@ -432,7 +432,7 @@ export class PlanRoutes {
           attributes: ['id'],
           include: [
             {
-              model: Asset,
+              model: Asset as any,
               as: 'Documents',
               through: {
                 where: { AssetId: req.query.docId },
@@ -496,18 +496,18 @@ export class PlanRoutes {
     return Plan.findByPk(planId, {
       include: [
         {
-          model: User,
+          model: User as any,
           as: 'Creator',
           attributes: { exclude: ['passwordHash', 'salt'] },
           include: [
             {
-              model: Asset,
+              model: Asset as any,
               as: 'avatar'
             }
           ]
         },
         {
-          model: User,
+          model: User as any,
           as: 'Participants',
           attributes: { exclude: ['passwordHash', 'salt'] },
           through: {
@@ -515,24 +515,24 @@ export class PlanRoutes {
           },
           include: [
             {
-              model: Asset,
+              model: Asset as any,
               as: 'avatar'
             }
           ]
         },
         {
-          model: Asset,
+          model: Asset as any,
           as: 'Documents',
           through: {
             attributes: []
           }
         },
         {
-          model: Stage,
+          model: Stage as any,
           as: 'activeStage'
         },
         {
-          model: Stage,
+          model: Stage as any,
           as: 'Stages',
           through: {
             as: 'Details',

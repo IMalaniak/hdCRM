@@ -5,7 +5,16 @@ import { Op, ValidationError, UniqueConstraintError } from 'sequelize';
 import { TokenExpiredError } from 'jsonwebtoken';
 
 import { UserState } from '../constants';
-import { User, UserSession, PasswordAttribute, Organization, Privilege, JwtDecoded, ApiResponse } from '../models';
+import {
+  User,
+  UserSession,
+  PasswordAttribute,
+  Organization,
+  Privilege,
+  JwtDecoded,
+  ApiResponse,
+  UserSessionCreationAttributes
+} from '../models';
 import { UserController } from '../controllers';
 import { Crypt } from '../utils/crypt';
 import { Mailer } from '../mailer/nodeMailerTemplates';
@@ -453,7 +462,7 @@ export class AuthRoutes {
   }
 
   private saveLogInAttempt(req: Request, user: User, isSuccess: boolean): Promise<UserSession> {
-    const body = {} as UserSession;
+    const body = {} as UserSessionCreationAttributes;
     body.IP = req.ip;
     body.UserId = user.id;
     body.UA = req.headers['user-agent'];

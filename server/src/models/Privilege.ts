@@ -12,12 +12,22 @@ import {
   BelongsToManyHasAssociationsMixin,
   BelongsToManyRemoveAssociationMixin,
   BelongsToManyRemoveAssociationsMixin,
-  BelongsToManySetAssociationsMixin
+  BelongsToManySetAssociationsMixin,
+  Optional
 } from 'sequelize';
+
 import { Role } from './Role';
 import { RolePrivilege } from './RolePrivileges';
 
-export class Privilege extends Model {
+export interface PrivilegeAttributes {
+  id: string;
+  keyString: string;
+  title?: string;
+}
+
+export interface PrivilegeCreationAttributes extends Optional<PrivilegeAttributes, 'id' | 'title'> {}
+
+export class Privilege extends Model<PrivilegeAttributes, PrivilegeCreationAttributes> {
   public id!: number;
   public keyString!: string;
   public title: string;
@@ -41,7 +51,7 @@ export class Privilege extends Model {
   };
 }
 
-export const PrivilegeFactory = (sequelize: Sequelize): Model => {
+export const PrivilegeFactory = (sequelize: Sequelize): Model<PrivilegeAttributes, PrivilegeCreationAttributes> => {
   return Privilege.init(
     {
       id: {

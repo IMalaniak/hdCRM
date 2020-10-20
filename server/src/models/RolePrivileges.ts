@@ -1,10 +1,18 @@
 import { Sequelize, Model, DataTypes, Association } from 'sequelize';
+
 import { Role } from './Role';
 import { Privilege } from './Privilege';
 
-export class RolePrivilege extends Model {
-  public PrivilegeId!: number;
-  public RoleId!: number;
+export interface RolePrivilegeAttributes {
+  RoleId: number;
+  PrivilegeId: number;
+  view: boolean;
+  edit: boolean;
+  add: boolean;
+  delete: boolean;
+}
+
+export class RolePrivilege extends Model<RolePrivilegeAttributes> {
   public view!: boolean;
   public edit!: boolean;
   public add!: boolean;
@@ -14,6 +22,9 @@ export class RolePrivilege extends Model {
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
+  // from assotiations
+  public RoleId!: number;
+  public PrivilegeId!: number;
   public readonly Roles?: Role[];
   public readonly Privileges?: Privilege[];
 
@@ -26,6 +37,20 @@ export class RolePrivilege extends Model {
 export const RolePrivilegeFactory = (sequelize: Sequelize): Model => {
   return RolePrivilege.init(
     {
+      RoleId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Roles',
+          key: 'id'
+        }
+      },
+      PrivilegeId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Privileges',
+          key: 'id'
+        }
+      },
       view: {
         type: DataTypes.BOOLEAN,
         defaultValue: true

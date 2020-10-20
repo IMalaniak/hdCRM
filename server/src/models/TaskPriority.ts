@@ -1,7 +1,16 @@
-import { Sequelize, Model, DataTypes, Association } from 'sequelize';
+import { Sequelize, Model, DataTypes, Association, Optional } from 'sequelize';
+
 import { Task } from './Task';
 
-export class TaskPriority extends Model {
+export interface TaskPriorityAttributes {
+  id: string;
+  label: string;
+  value: number;
+}
+
+export interface TaskPriorityCreationAttributes extends Optional<TaskPriorityAttributes, 'id'> {}
+
+export class TaskPriority extends Model<TaskPriorityAttributes, TaskPriorityCreationAttributes> {
   public id!: number;
   public label!: string;
   public value!: number;
@@ -13,7 +22,9 @@ export class TaskPriority extends Model {
   };
 }
 
-export const TaskPriorityFactory = (sequelize: Sequelize): Model => {
+export const TaskPriorityFactory = (
+  sequelize: Sequelize
+): Model<TaskPriorityAttributes, TaskPriorityCreationAttributes> => {
   return TaskPriority.init(
     {
       id: {

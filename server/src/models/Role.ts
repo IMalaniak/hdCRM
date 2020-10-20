@@ -24,13 +24,23 @@ import {
   HasManyHasAssociationsMixin,
   HasManyRemoveAssociationMixin,
   HasManyRemoveAssociationsMixin,
-  HasManySetAssociationsMixin
+  HasManySetAssociationsMixin,
+  Optional
 } from 'sequelize';
+
 import { User } from './User';
 import { Privilege } from './Privilege';
 import { Organization } from './Organization';
 
-export class Role extends Model {
+export interface RoleAttributes {
+  id: string;
+  keyString: string;
+  OrganizationId: number;
+}
+
+export interface RoleCreationAttributes extends Optional<RoleAttributes, 'id'> {}
+
+export class Role extends Model<RoleAttributes, RoleCreationAttributes> {
   public id!: number;
   public keyString!: string;
 
@@ -77,13 +87,20 @@ export class Role extends Model {
   };
 }
 
-export const RoleFactory = (sequelize: Sequelize): Model => {
+export const RoleFactory = (sequelize: Sequelize): Model<RoleAttributes, RoleCreationAttributes> => {
   return Role.init(
     {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
+      },
+      OrganizationId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Organizations',
+          key: 'id'
+        }
       },
       keyString: {
         type: new DataTypes.STRING(50),

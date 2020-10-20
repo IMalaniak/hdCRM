@@ -147,7 +147,7 @@ export class RoleRoutes {
         },
         include: [
           {
-            model: Privilege,
+            model: Privilege as any,
             through: {
               attributes: ['view', 'edit', 'add', 'delete']
             },
@@ -158,7 +158,7 @@ export class RoleRoutes {
             attributes: { exclude: ['passwordHash', 'salt'] },
             include: [
               {
-                model: Asset,
+                model: Asset as any,
                 as: 'avatar',
                 required: false
               }
@@ -318,13 +318,13 @@ export class RoleRoutes {
           attributes: { exclude: ['passwordHash', 'salt'] },
           include: [
             {
-              model: Asset,
+              model: Asset as any,
               as: 'avatar'
             }
           ]
         },
         {
-          model: Privilege,
+          model: Privilege as any,
           through: {
             attributes: ['view', 'edit', 'add', 'delete']
           },

@@ -111,11 +111,11 @@ export class DataBase {
     });
 
     Role.belongsToMany(Privilege, {
-      through: RolePrivilege,
+      through: RolePrivilege as any,
       foreignKey: 'RoleId'
     });
     Privilege.belongsToMany(Role, {
-      through: RolePrivilege,
+      through: RolePrivilege as any,
       foreignKey: 'PrivilegeId'
     });
 
@@ -127,13 +127,13 @@ export class DataBase {
     Plan.belongsTo(Stage, { as: 'activeStage' });
     Plan.belongsToMany(Stage, {
       as: 'Stages',
-      through: PlanStage,
+      through: PlanStage as any,
       foreignKey: 'PlanId'
     });
     Stage.hasMany(Plan, { foreignKey: 'activeStageId' });
     Stage.belongsToMany(Plan, {
       as: 'StagePlans',
-      through: PlanStage,
+      through: PlanStage as any,
       foreignKey: 'StageId'
     });
     Asset.belongsToMany(Plan, { through: 'PlanAssets', foreignKey: 'AssetId' });

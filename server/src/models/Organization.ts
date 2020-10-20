@@ -12,14 +12,37 @@ import {
   HasManyHasAssociationsMixin,
   HasManyRemoveAssociationMixin,
   HasManyRemoveAssociationsMixin,
-  HasManySetAssociationsMixin
+  HasManySetAssociationsMixin,
+  Optional
 } from 'sequelize';
+
 import { User } from './User';
 import { Department } from './Department';
 import { Plan } from './Plan';
 import { Role } from './Role';
 
-export class Organization extends Model {
+export interface OrganizationAttributes {
+  id: string;
+  title: string;
+  type: string;
+  token?: string;
+  country?: string;
+  city?: string;
+  address?: string;
+  postcode?: string;
+  phone?: number;
+  email?: string;
+  website?: string;
+  employees?: string;
+}
+
+export interface OrganizationCreationAttributes
+  extends Optional<
+    OrganizationAttributes,
+    'id' | 'token' | 'country' | 'city' | 'address' | 'postcode' | 'phone' | 'email' | 'website' | 'employees'
+  > {}
+
+export class Organization extends Model<OrganizationAttributes, OrganizationCreationAttributes> {
   public id!: number;
   public title!: string;
   public token!: string;
@@ -94,7 +117,9 @@ export class Organization extends Model {
   };
 }
 
-export const OrganizationFactory = (sequelize: Sequelize): Model => {
+export const OrganizationFactory = (
+  sequelize: Sequelize
+): Model<OrganizationAttributes, OrganizationCreationAttributes> => {
   return Organization.init(
     {
       id: {

@@ -15,19 +15,30 @@ import {
   BelongsToCreateAssociationMixin,
   BelongsToGetAssociationMixin,
   BelongsToSetAssociationMixin,
-  Association
+  Association,
+  Optional
 } from 'sequelize';
+
 import { User } from './User';
 import { Stage } from './Stage';
 import { Organization } from './Organization';
 
-export class Department extends Model {
+export interface DepartmentAttributes {
+  id: string;
+  title: string;
+  description?: string;
+  OrganizationId: number;
+  parentDepId: number;
+  managerId: number;
+}
+
+export interface DepartmentCreationAttributes
+  extends Optional<DepartmentAttributes, 'id' | 'description' | 'parentDepId'> {}
+
+export class Department extends Model<DepartmentAttributes, DepartmentCreationAttributes> {
   public id!: number;
   public title!: string;
   public description!: string;
-  public deadline!: Date;
-  public budget!: number;
-  public progress!: number;
 
   // timestamps
   public readonly createdAt!: Date;
@@ -86,13 +97,34 @@ export class Department extends Model {
   };
 }
 
-export const DepartmentFactory = (sequelize: Sequelize): Model => {
+export const DepartmentFactory = (sequelize: Sequelize): Model<DepartmentAttributes, DepartmentCreationAttributes> => {
   return Department.init(
     {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
+      },
+      OrganizationId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Organizations',
+          key: 'id'
+        }
+      },
+      parentDepId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Departments',
+          key: 'id'
+        }
+      },
+      managerId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id'
+        }
       },
       title: {
         type: new DataTypes.STRING(75),

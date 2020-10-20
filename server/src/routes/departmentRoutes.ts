@@ -29,7 +29,7 @@ export class DepartmentRoutes {
         },
         include: [
           {
-            model: User,
+            model: User as any,
             as: 'Workers',
             attributes: ['id'],
             required: false
@@ -77,34 +77,34 @@ export class DepartmentRoutes {
         },
         include: [
           {
-            model: Department,
+            model: Department as any,
             as: 'ParentDepartment',
             required: false
           },
           {
-            model: Department,
+            model: Department as any,
             as: 'SubDepartments',
             required: false
           },
           {
-            model: User,
+            model: User as any,
             as: 'Workers',
             attributes: { exclude: ['passwordHash', 'salt'] },
             include: [
               {
-                model: Asset,
+                model: Asset as any,
                 as: 'avatar'
               }
             ],
             required: false
           },
           {
-            model: User,
+            model: User as any,
             as: 'Manager',
             attributes: { exclude: ['passwordHash', 'salt'] },
             include: [
               {
-                model: Asset,
+                model: Asset as any,
                 as: 'avatar'
               }
             ],
@@ -252,34 +252,34 @@ export class DepartmentRoutes {
     return Department.findByPk(id, {
       include: [
         {
-          model: Department,
+          model: Department as any,
           as: 'ParentDepartment',
           required: false
         },
         {
-          model: Department,
+          model: Department as any,
           as: 'SubDepartments',
           required: false
         },
         {
-          model: User,
+          model: User as any,
           as: 'Workers',
           attributes: { exclude: ['passwordHash', 'salt'] },
           include: [
             {
-              model: Asset,
+              model: Asset as any,
               as: 'avatar'
             }
           ],
           required: false
         },
         {
-          model: User,
+          model: User as any,
           as: 'Manager',
           attributes: { exclude: ['passwordHash', 'salt'] },
           include: [
             {
-              model: Asset,
+              model: Asset as any,
               as: 'avatar'
             }
           ],
