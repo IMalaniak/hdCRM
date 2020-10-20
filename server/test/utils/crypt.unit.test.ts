@@ -1,20 +1,22 @@
 import { expect } from 'chai';
-import Crypt from '../../src/utils/crypt';
+import { Crypt } from '../../src/utils/crypt';
 
 describe('Crypt', () => {
+  const crypt: Crypt = new Crypt();
+
   it('check random string length', () => {
-    const randomString = Crypt.genRandomString(12);
+    const randomString = crypt.genRandomString(12);
     expect(randomString).lengthOf(12);
   });
 
   it('should generate hashed password and then validate it', () => {
     const password = 'HelloThisIsMyPassword';
-    const { salt, passwordHash } = Crypt.saltHashPassword(password);
+    const { salt, passwordHash } = crypt.saltHashPassword(password);
 
     // put the wrong password => expect false
-    expect(Crypt.validatePassword('WrongPassword', passwordHash, salt)).to.equal(false);
+    expect(crypt.validatePassword('WrongPassword', passwordHash, salt)).to.equal(false);
 
     // put the correct password => expect true
-    expect(Crypt.validatePassword(password, passwordHash, salt)).to.equal(true);
+    expect(crypt.validatePassword(password, passwordHash, salt)).to.equal(true);
   });
 });
