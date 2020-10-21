@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs';
-import { Actions, ofType, createEffect } from '@ngrx/effects';
-import * as userActions from './user.actions';
 import { mergeMap, map, catchError, tap, switchMap } from 'rxjs/operators';
-import { UserService } from '../services';
-import { User } from '../models';
+
 import { Update } from '@ngrx/entity';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
+
 import { ToastMessageService } from '@/shared/services';
 import { CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared/models';
-import { HttpErrorResponse } from '@angular/common/http';
+import { generatePageKey } from '@/shared/utils/generatePageKey';
+import { Page } from '@/shared/store';
+import * as userActions from './user.actions';
+import { UserService } from '../services';
+import { User } from '../models';
 
 @Injectable()
 export class UserEffects {
@@ -26,9 +30,12 @@ export class UserEffects {
     this.actions$.pipe(
       ofType(userActions.listPageRequested),
       map((payload) => payload.page),
-      mergeMap((page) =>
-        this.userService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
-          map((response: CollectionApiResponse<User>) => userActions.listPageLoaded({ response })),
+      mergeMap((pageQuery) =>
+        this.userService.getList(pageQuery).pipe(
+          map((response: CollectionApiResponse<User>) => {
+            const page: Page = { dataIds: response.ids, key: generatePageKey(pageQuery) };
+            return userActions.listPageLoaded({ response, page });
+          }),
           catchError(() => of(userActions.userApiError()))
         )
       )

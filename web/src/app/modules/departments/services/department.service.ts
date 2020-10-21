@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Department } from '../models';
 import { User } from '@/modules/users/models';
-import { CollectionApiResponse, ApiResponse, ItemApiResponse } from '@/shared/models';
+import { CollectionApiResponse, ApiResponse, ItemApiResponse, PageQuery } from '@/shared/models';
 import { APIS } from '@/shared/constants';
 
 @Injectable()
@@ -29,12 +29,7 @@ export class DepartmentService {
     return this.http.delete<ApiResponse>(`${APIS.DEPARTMENTS}/${id}`);
   }
 
-  getList(
-    pageIndex = 0,
-    pageSize = 5,
-    sortIndex = 'id',
-    sortDirection = 'asc'
-  ): Observable<CollectionApiResponse<Department>> {
+  getList({ pageIndex, pageSize, sortIndex, sortDirection }: PageQuery): Observable<CollectionApiResponse<Department>> {
     return this.http.get<CollectionApiResponse<Department>>(APIS.DEPARTMENTS, {
       params: new HttpParams()
         .set('pageIndex', pageIndex.toString())

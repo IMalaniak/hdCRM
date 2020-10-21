@@ -4,7 +4,7 @@ import { Role } from '../models/';
 import { catchError, tap } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { listPageRequested } from '../store/role.actions';
-import { selectRolesPage } from '../store/role.selectors';
+import { selectRolesOfPage } from '../store/role.selectors';
 import { AppState } from '@/core/reducers';
 import { PageQuery } from '@/shared/models';
 
@@ -16,7 +16,7 @@ export class RolesDataSource implements DataSource<Role> {
   loadRoles(page: PageQuery) {
     this.store
       .pipe(
-        select(selectRolesPage(page)),
+        select(selectRolesOfPage(page)),
         tap((roles) => {
           if (roles.length > 0) {
             this.rolesSubject.next(roles);

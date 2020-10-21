@@ -1,19 +1,23 @@
 import { Injectable } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { of } from 'rxjs';
-import { Store, select } from '@ngrx/store';
-import { Actions, ofType, createEffect } from '@ngrx/effects';
-import * as roleActions from './role.actions';
 import { mergeMap, map, catchError, withLatestFrom, filter } from 'rxjs/operators';
-import { RoleService } from '../services';
+
+import { Store, select } from '@ngrx/store';
+import { Update } from '@ngrx/entity';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
+
 import { AppState } from '@/core/reducers';
+import { ToastMessageService } from '@/shared/services';
+import { RoutingConstants } from '@/shared/constants';
+import { Page } from '@/shared/store';
+import { CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared/models';
+import { generatePageKey } from '@/shared/utils/generatePageKey';
+import * as roleActions from './role.actions';
+import { RoleService } from '../services';
 import { Role } from '../models';
 import { selectRolesDashboardDataLoaded } from './role.selectors';
-import { Router } from '@angular/router';
-import { ToastMessageService } from '@/shared/services';
-import { CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared/models';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Update } from '@ngrx/entity';
-import { RoutingConstants } from '@/shared/constants';
 
 @Injectable()
 export class RoleEffects {
@@ -51,9 +55,12 @@ export class RoleEffects {
     this.actions$.pipe(
       ofType(roleActions.listPageRequested),
       map((payload) => payload.page),
-      mergeMap((page) =>
-        this.roleService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
-          map((response: CollectionApiResponse<Role>) => roleActions.listPageLoaded({ response })),
+      mergeMap((pageQuery) =>
+        this.roleService.getList(pageQuery).pipe(
+          map((response: CollectionApiResponse<Role>) => {
+            const page: Page = { dataIds: response.ids, key: generatePageKey(pageQuery) };
+            return roleActions.listPageLoaded({ response, page });
+          }),
           catchError(() => of(roleActions.rolesApiError()))
         )
       )

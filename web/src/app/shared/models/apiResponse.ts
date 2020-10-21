@@ -6,6 +6,7 @@ export interface ApiResponse {
 export interface CollectionApiResponse<T> extends ApiResponse {
   readonly resultsNum?: number;
   readonly pages?: number;
+  readonly ids?: number[];
   readonly data: T[];
 }
 export interface ItemApiResponse<T> extends ApiResponse {
