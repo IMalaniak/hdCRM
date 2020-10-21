@@ -12,7 +12,7 @@ import {
   Organization,
   Privilege,
   JwtDecoded,
-  ApiResponse,
+  BaseResponse,
   UserSessionCreationAttributes
 } from '../models';
 import { UserController } from '../controllers';
@@ -36,7 +36,7 @@ export class AuthRoutes {
   public register(): Router {
     this.router.post(
       '/register',
-      async (req: Request, res: Response<ApiResponse | ValidationError | UniqueConstraintError>) => {
+      async (req: Request, res: Response<BaseResponse | ValidationError | UniqueConstraintError>) => {
         // Logger.Info(`Registering new user...`);
         const password = req.body.password ? req.body.password : this.crypt.genRandomString(12);
         const passwordData = this.crypt.saltHashPassword(password);
@@ -115,7 +115,7 @@ export class AuthRoutes {
       }
     );
 
-    this.router.post('/activate_account', (req: Request, res: Response<ApiResponse>) => {
+    this.router.post('/activate_account', (req: Request, res: Response<BaseResponse>) => {
       // Logger.Info(`Creating new user...`);
       PasswordAttribute.findOne({
         where: {
@@ -188,7 +188,7 @@ export class AuthRoutes {
         });
     });
 
-    this.router.post('/authenticate', (req: Request, res: Response<ApiResponse | string>) => {
+    this.router.post('/authenticate', (req: Request, res: Response<BaseResponse | string>) => {
       // Logger.Info(`Authenticating web client...`);
       const loginOrEmail = req.body.login;
       const password = req.body.password;
@@ -263,7 +263,7 @@ export class AuthRoutes {
         });
     });
 
-    this.router.get('/refresh-session', (req: Request, res: Response<ApiResponse | TokenExpiredError | string>) => {
+    this.router.get('/refresh-session', (req: Request, res: Response<BaseResponse | TokenExpiredError | string>) => {
       const cookies = parseCookies(req) as any;
       if (cookies.refresh_token) {
         this.jwtHelper
@@ -283,7 +283,7 @@ export class AuthRoutes {
       }
     });
 
-    this.router.post('/forgot_password', (req: Request, res: Response<ApiResponse>) => {
+    this.router.post('/forgot_password', (req: Request, res: Response<BaseResponse>) => {
       // Logger.Info(`Forget password requesting...`);
       const loginOrEmail = req.body.login;
 
@@ -360,7 +360,7 @@ export class AuthRoutes {
         });
     });
 
-    this.router.post('/reset_password', (req: Request, res: Response<ApiResponse>) => {
+    this.router.post('/reset_password', (req: Request, res: Response<BaseResponse>) => {
       // Logger.Info(`Reseting new password...`);
       PasswordAttribute.findOne({
         where: {
@@ -439,7 +439,7 @@ export class AuthRoutes {
         });
     });
 
-    this.router.get('/logout', async (req: Request, res: Response<ApiResponse>) => {
+    this.router.get('/logout', async (req: Request, res: Response<BaseResponse>) => {
       // Logger.Info(`Logging user out...`);
       const cookies = parseCookies(req) as any;
       const { sessionId } = await this.jwtHelper.getDecoded(cookies.refresh_token);

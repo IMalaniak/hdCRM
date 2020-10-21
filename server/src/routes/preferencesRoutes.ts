@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import { Response, Router } from 'express';
 import { Service } from 'typedi';
 
-import { Preference, RequestWithBody, ApiResponse } from '../models';
+import { Preference, RequestWithBody, BaseResponse } from '../models';
 
 @Service()
 export class PreferenceRoutes {
@@ -29,7 +29,7 @@ export class PreferenceRoutes {
 
     this.router.post(
       '/',
-      async (req: RequestWithBody<Partial<Preference>>, res: Response<Preference | ApiResponse>) => {
+      async (req: RequestWithBody<Partial<Preference>>, res: Response<Preference | BaseResponse>) => {
         // Logger.Info(`Setting user preferences, userId: ${req.user.id}`);
         const user = req.user;
         const userPreference = await user.getPreference();

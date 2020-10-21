@@ -12,7 +12,7 @@ import {
   Organization,
   Asset,
   CollectionApiResponse,
-  ApiResponse,
+  BaseResponse,
   ItemApiResponse,
   RequestWithQuery,
   CollectionQuery,
@@ -149,7 +149,7 @@ export class UserRoutes {
           oldPassword: string;
           deleteSessions: boolean;
         }>,
-        res: Response<ApiResponse | TokenExpiredError>
+        res: Response<BaseResponse | TokenExpiredError>
       ) => {
         // Logger.Info(`Changing user password...`);
 
@@ -317,7 +317,7 @@ export class UserRoutes {
       }
     );
 
-    this.router.delete('/:id/avatar', (req: Request, res: Response<ApiResponse>) => {
+    this.router.delete('/:id/avatar', (req: Request, res: Response<BaseResponse>) => {
       User.findByPk(req.params.id)
         .then((user) => {
           user
@@ -394,7 +394,7 @@ export class UserRoutes {
     );
 
     // TODO: @IMalaniak recreate this
-    this.router.put('/changeStateOfSelected', (req: Request, res: Response<ApiResponse>) => {
+    this.router.put('/changeStateOfSelected', (req: Request, res: Response<BaseResponse>) => {
       // Logger.Info(`Changing state of selected users...`);
       const promises = [];
       req.body.userIds.forEach((userId) => {
@@ -411,7 +411,7 @@ export class UserRoutes {
         });
     });
 
-    this.router.delete('/:id', (req: Request, res: Response<ApiResponse>) => {
+    this.router.delete('/:id', (req: Request, res: Response<BaseResponse>) => {
       this.userController
         .deleteOne(req.params.id)
         .then((result) => {
@@ -483,7 +483,7 @@ export class UserRoutes {
       }
     );
 
-    this.router.delete('/session/:id', (req: Request, res: Response<ApiResponse>) => {
+    this.router.delete('/session/:id', (req: Request, res: Response<BaseResponse>) => {
       this.userController
         .removeSession(req.params.id)
         .then(() => {
@@ -495,7 +495,7 @@ export class UserRoutes {
         });
     });
 
-    this.router.put('/session-multiple/:sessionIds', (req: Request, res: Response<ApiResponse>) => {
+    this.router.put('/session-multiple/:sessionIds', (req: Request, res: Response<BaseResponse>) => {
       this.userController
         .removeSession(req.body.sessionIds)
         .then((num) => {

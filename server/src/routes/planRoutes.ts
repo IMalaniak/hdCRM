@@ -13,7 +13,7 @@ import {
   Stage,
   Sequelize,
   CollectionApiResponse,
-  ApiResponse,
+  BaseResponse,
   ItemApiResponse,
   RequestWithQuery,
   CollectionQuery,
@@ -426,7 +426,7 @@ export class PlanRoutes {
 
     this.router.delete(
       '/documents',
-      (req: RequestWithQuery<{ planId: string; docId: string }>, res: Response<ApiResponse>) => {
+      (req: RequestWithQuery<{ planId: string; docId: string }>, res: Response<BaseResponse>) => {
         // Logger.Info(`Deleting plan document by id: ${req.query.docId} where plan id: ${req.query.planId}...`);
         Plan.findByPk(req.query.planId, {
           attributes: ['id'],
@@ -475,7 +475,7 @@ export class PlanRoutes {
       }
     );
 
-    this.router.delete('/:id', (req: Request, res: Response<ApiResponse>) => {
+    this.router.delete('/:id', (req: Request, res: Response<BaseResponse>) => {
       // Logger.Info(`Deleting plan by id: ${req.params.id}...`);
       Plan.destroy({
         where: { id: req.params.id }

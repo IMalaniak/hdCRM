@@ -5,7 +5,7 @@ import { Service } from 'typedi';
 import {
   Task,
   CollectionApiResponse,
-  ApiResponse,
+  BaseResponse,
   ItemApiResponse,
   RequestWithBody,
   TaskCreationAttributes,
@@ -80,7 +80,7 @@ export class TaskRoutes {
         });
     });
 
-    this.router.delete('/:id', (req: Request, res: Response<ApiResponse>) => {
+    this.router.delete('/:id', (req: Request, res: Response<BaseResponse>) => {
       this.taskController
         .deleteTask(req.params.id)
         .then((result) => {
@@ -92,7 +92,7 @@ export class TaskRoutes {
         });
     });
 
-    this.router.put('/task-multiple/:taskIds', (req: Request, res: Response<ApiResponse>) => {
+    this.router.put('/task-multiple/:taskIds', (req: Request, res: Response<BaseResponse>) => {
       this.taskController
         .deleteTask(req.body.taskIds)
         .then((result) => {

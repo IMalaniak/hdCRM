@@ -9,7 +9,7 @@ import {
   Privilege,
   Asset,
   CollectionApiResponse,
-  ApiResponse,
+  BaseResponse,
   ItemApiResponse,
   RequestWithBody,
   CollectionQuery,
@@ -293,7 +293,7 @@ export class RoleRoutes {
         });
     });
 
-    this.router.delete('/:id', (req: Request, res: Response<ApiResponse>) => {
+    this.router.delete('/:id', (req: Request, res: Response<BaseResponse>) => {
       // Logger.Info(`Deleting role by id: ${req.params.id}...`);
       Role.destroy({
         where: { id: req.params.id }
