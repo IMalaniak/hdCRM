@@ -1,6 +1,7 @@
 export * from './apiRequest';
 export * from './apiResponse';
 export * from './JWTPayload';
+export * from './pageQuery';
 
 // DB
 export { Sequelize } from 'sequelize';

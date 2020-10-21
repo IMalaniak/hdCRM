@@ -13,7 +13,7 @@ import { enumToArray } from '../utils/EnumToArray';
 import { User } from './User';
 
 export interface PreferenceAttributes {
-  id: string;
+  id: number;
   listView: IListView;
   timeFormat: ITimeFormat;
   dateFormat: IDateFormat;

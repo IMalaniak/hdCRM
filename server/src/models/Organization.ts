@@ -22,7 +22,7 @@ import { Plan } from './Plan';
 import { Role } from './Role';
 
 export interface OrganizationAttributes {
-  id: string;
+  id: number;
   title: string;
   type: string;
   token?: string;

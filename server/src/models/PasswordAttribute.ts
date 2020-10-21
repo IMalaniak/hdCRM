@@ -3,7 +3,7 @@ import { Sequelize, Model, DataTypes, BelongsToGetAssociationMixin, Association,
 import { User } from './User';
 
 export interface PasswordAttributeAttributes {
-  id: string;
+  id: number;
   token: string;
   tokenExpire: Date;
   passwordExpire: Date;

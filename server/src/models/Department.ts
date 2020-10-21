@@ -24,12 +24,16 @@ import { Stage } from './Stage';
 import { Organization } from './Organization';
 
 export interface DepartmentAttributes {
-  id: string;
+  id: number;
   title: string;
   description?: string;
   OrganizationId: number;
   parentDepId: number;
   managerId: number;
+  Manager?: User;
+  ParentDepartment?: Department;
+  SubDepartments?: Department[];
+  Workers?: User[];
 }
 
 export interface DepartmentCreationAttributes

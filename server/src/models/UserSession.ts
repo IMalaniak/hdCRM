@@ -3,7 +3,7 @@ import { Sequelize, Model, DataTypes, BelongsToGetAssociationMixin, Association,
 import { User } from './User';
 
 export interface UserSessionAttributes {
-  id: string;
+  id: number;
   IP: string;
   isSuccess: boolean;
   UA: string;

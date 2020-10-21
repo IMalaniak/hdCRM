@@ -25,7 +25,7 @@ import { Stage } from './Stage';
 import { Organization } from './Organization';
 
 export interface PlanAttributes {
-  id: string;
+  id: number;
   title: string;
   description?: string;
   deadline?: Date;

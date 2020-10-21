@@ -3,7 +3,7 @@ import { Sequelize, Model, DataTypes, Association, Optional } from 'sequelize';
 import { Task } from './Task';
 
 export interface TaskPriorityAttributes {
-  id: string;
+  id: number;
   label: string;
   value: number;
 }

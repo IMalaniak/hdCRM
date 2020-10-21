@@ -20,7 +20,7 @@ import { User } from './User';
 import { Plan } from './Plan';
 
 export interface AssetAttributes {
-  id: string;
+  id: number;
   title: string;
   location: string;
   type: string;

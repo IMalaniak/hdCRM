@@ -45,7 +45,7 @@ import { enumToArray } from '../utils/EnumToArray';
 import { UserState } from '../constants';
 
 export interface UserAttributes {
-  id: string;
+  id: number;
   email: string;
   login: string;
   name: string;

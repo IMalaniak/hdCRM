@@ -3,7 +3,7 @@ import { Plan } from './Plan';
 import { Stage } from './Stage';
 
 export interface PlanStageAttributes {
-  id: string;
+  id: number;
   order: number;
   completed: boolean;
   description?: string;

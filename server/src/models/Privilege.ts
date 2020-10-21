@@ -20,7 +20,7 @@ import { Role } from './Role';
 import { RolePrivilege } from './RolePrivileges';
 
 export interface PrivilegeAttributes {
-  id: string;
+  id: number;
   keyString: string;
   title?: string;
 }

@@ -30,7 +30,7 @@ import { Plan } from './Plan';
 import { PlanStage } from './PlanStage';
 
 export interface StageAttributes {
-  id: string;
+  id: number;
   keyString: string;
 }
 

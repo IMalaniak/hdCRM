@@ -4,7 +4,7 @@ import { TaskPriority } from './TaskPriority';
 import { User } from './User';
 
 export interface TaskAttributes {
-  id: string;
+  id: number;
   title: string;
   isCompleted?: boolean;
   description?: string;

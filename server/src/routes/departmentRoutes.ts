@@ -8,7 +8,8 @@ import {
   ItemApiResponse,
   CollectionQuery,
   RequestWithQuery,
-  RequestWithBody
+  RequestWithBody,
+  DepartmentCreationAttributes
 } from '../models';
 import { DepartmentController } from '../controllers/departmentController';
 
@@ -31,7 +32,7 @@ export class DepartmentRoutes {
     this.router.get(
       '/:id',
       async (req: Request<{ id: string }>, res: Response<ItemApiResponse<Department> | BaseResponse>) => {
-        const result = await this.departmentController.getDataById(req.params.id);
+        const result = await this.departmentController.getDataById(req);
         res.status(result.statusCode);
         res.send(result.body);
       }
@@ -51,7 +52,10 @@ export class DepartmentRoutes {
 
     this.router.post(
       '/',
-      async (req: RequestWithBody<Partial<Department>>, res: Response<ItemApiResponse<Department> | BaseResponse>) => {
+      async (
+        req: RequestWithBody<DepartmentCreationAttributes>,
+        res: Response<ItemApiResponse<Department> | BaseResponse>
+      ) => {
         const result = await this.departmentController.create(req);
         res.status(result.statusCode);
         res.send(result.body);
@@ -68,7 +72,7 @@ export class DepartmentRoutes {
     );
 
     this.router.delete('/:id', async (req: Request<{ id: string }>, res: Response<BaseResponse>) => {
-      const result = await this.departmentController.delete(req.params.id);
+      const result = await this.departmentController.delete(req);
       res.status(result.statusCode);
       res.send(result.body);
     });

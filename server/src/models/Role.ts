@@ -33,7 +33,7 @@ import { Privilege } from './Privilege';
 import { Organization } from './Organization';
 
 export interface RoleAttributes {
-  id: string;
+  id: number;
   keyString: string;
   OrganizationId: number;
 }
