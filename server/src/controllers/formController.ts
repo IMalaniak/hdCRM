@@ -1,34 +1,41 @@
+import { Request, Response } from 'express';
 import { Service } from 'typedi';
-import { Form, FormAttributes } from '../models';
+
+import { BaseResponse, Form, FormAttributes, ItemApiResponse, RequestWithBody, RequestWithQuery } from '../models';
+import { FormService } from '../services';
+import { sendResponse } from './utils';
 
 @Service()
 export class FormController {
-  public getByFormName(key: string): Promise<Form> {
-    // Logger.Info(`Selecting form by key: ${key}...`);
-    return Form.findByPk(key);
+  constructor(private readonly formService: FormService) {}
+
+  public async getBy(
+    req: RequestWithQuery<{ formName: string }>,
+    res: Response<ItemApiResponse<Form> | BaseResponse>
+  ): Promise<void> {
+    const {
+      query: { formName }
+    } = req;
+    const result = await this.formService.getBy(formName);
+
+    return sendResponse<ItemApiResponse<Form>, BaseResponse>(result, res);
   }
 
-  public create(body: FormAttributes): Promise<Form> {
-    // Logger.Info(`Creating new form...`);
-    return Form.create(body);
+  public async create(
+    req: RequestWithBody<FormAttributes>,
+    res: Response<ItemApiResponse<Form> | BaseResponse>
+  ): Promise<void> {
+    const result = await this.formService.create(req.body);
+
+    return sendResponse<ItemApiResponse<Form>, BaseResponse>(result, res);
   }
 
-  public updateOne(form: FormAttributes): Promise<[number, Form[]]> {
-    // Logger.Info(`Updating form by key: ${form.key}...`);
-    return Form.update(
-      {
-        ...form
-      },
-      {
-        where: { key: form.key }
-      }
-    );
-  }
+  public async delete(req: Request<{ id: string }>, res: Response<BaseResponse>): Promise<void> {
+    const {
+      params: { id }
+    } = req;
+    const result = await this.formService.delete(id);
 
-  public deleteForm(key: string | string[]) {
-    // Logger.Info(`Deleting form by id: ${key}...`);
-    return Form.destroy({
-      where: { key }
-    });
+    return sendResponse<BaseResponse, BaseResponse>(result, res);
   }
 }
