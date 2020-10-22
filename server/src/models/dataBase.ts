@@ -78,8 +78,7 @@ export class DataBase {
     User.hasMany(UserSession);
     User.hasOne(Department, {
       as: 'ManagedDepartment',
-      foreignKey: 'managerId',
-      onDelete: 'set null'
+      foreignKey: 'managerId'
     });
     User.belongsTo(Department, { constraints: false });
     User.hasOne(PasswordAttribute, {
@@ -102,7 +101,7 @@ export class DataBase {
       foreignKey: 'PlanId'
     });
 
-    Department.belongsTo(User, { as: 'Manager', foreignKey: 'managerId' });
+    Department.belongsTo(User, { as: 'Manager', foreignKey: 'managerId', onDelete: 'set null', onUpdate: 'cascade' });
 
     Department.hasMany(User, {
       as: 'Workers',
