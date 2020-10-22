@@ -1,12 +1,10 @@
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { Service } from 'typedi';
-import { StatusCodes } from 'http-status-codes';
 
 import {
   BaseResponse,
   CollectionApiResponse,
   Department,
-  ApiResponse,
   ItemApiResponse,
   RequestWithBody,
   RequestWithQuery,
@@ -14,40 +12,40 @@ import {
   DepartmentCreationAttributes
 } from '../models';
 import { DepartmentService } from '../services';
+import { sendResponse } from './utils';
 
 @Service()
 export class DepartmentController {
   constructor(private readonly departmentService: DepartmentService) {}
 
-  public async getDashboardData(req: Request): Promise<ApiResponse<CollectionApiResponse<Department> | BaseResponse>> {
+  public async getDashboardData(
+    req: Request,
+    res: Response<CollectionApiResponse<Department> | BaseResponse>
+  ): Promise<void> {
     const {
       user: { OrganizationId }
     } = req;
     const result = await this.departmentService.getDashboardData(OrganizationId);
 
-    return result.match<ApiResponse<CollectionApiResponse<Department> | BaseResponse>>(
-      (body) => ({ statusCode: StatusCodes.OK, body }),
-      (_error) => ({ statusCode: StatusCodes.BAD_REQUEST, body: _error })
-    );
+    return sendResponse<CollectionApiResponse<Department>, BaseResponse>(result, res);
   }
 
   public async getDataById(
-    req: Request<{ id: string }>
-  ): Promise<ApiResponse<ItemApiResponse<Department> | BaseResponse>> {
+    req: Request<{ id: string }>,
+    res: Response<ItemApiResponse<Department> | BaseResponse>
+  ): Promise<void> {
     const {
       params: { id }
     } = req;
     const result = await this.departmentService.getDataById(id);
 
-    return result.match<ApiResponse<ItemApiResponse<Department> | BaseResponse>>(
-      (body) => ({ statusCode: body.success ? StatusCodes.OK : StatusCodes.NOT_FOUND, body }),
-      (_error) => ({ statusCode: StatusCodes.BAD_REQUEST, body: _error })
-    );
+    return sendResponse<ItemApiResponse<Department>, BaseResponse>(result, res);
   }
 
   public async getPage(
-    req: RequestWithQuery<CollectionQuery>
-  ): Promise<ApiResponse<CollectionApiResponse<Department> | BaseResponse>> {
+    req: RequestWithQuery<CollectionQuery>,
+    res: Response<CollectionApiResponse<Department> | BaseResponse>
+  ): Promise<void> {
     const { pageSize, pageIndex, sortDirection, sortIndex } = req.query;
     const limit = parseInt(pageSize);
     const offset = parseInt(pageIndex) * limit;
@@ -61,48 +59,37 @@ export class DepartmentController {
       OrganizationId
     });
 
-    return result.match<ApiResponse<CollectionApiResponse<Department> | BaseResponse>>(
-      (body) => ({ statusCode: body.success ? StatusCodes.OK : StatusCodes.NOT_FOUND, body }),
-      (_error) => ({ statusCode: StatusCodes.BAD_REQUEST, body: _error })
-    );
+    return sendResponse<CollectionApiResponse<Department>, BaseResponse>(result, res);
   }
 
   public async create(
-    req: RequestWithBody<DepartmentCreationAttributes>
-  ): Promise<ApiResponse<ItemApiResponse<Department> | BaseResponse>> {
-    // Logger.Info(`Creating new department...`);
+    req: RequestWithBody<DepartmentCreationAttributes>,
+    res: Response<ItemApiResponse<Department> | BaseResponse>
+  ): Promise<void> {
     const department: DepartmentCreationAttributes = {
       ...req.body,
       OrganizationId: req.user.OrganizationId
     };
     const result = await this.departmentService.create(department);
 
-    return result.match<ApiResponse<ItemApiResponse<Department> | BaseResponse>>(
-      (body) => ({ statusCode: StatusCodes.OK, body }),
-      (_error) => ({ statusCode: StatusCodes.BAD_REQUEST, body: _error })
-    );
+    return sendResponse<ItemApiResponse<Department>, BaseResponse>(result, res);
   }
 
   public async updateOne(
-    req: RequestWithBody<Department>
-  ): Promise<ApiResponse<ItemApiResponse<Department> | BaseResponse>> {
+    req: RequestWithBody<Department>,
+    res: Response<ItemApiResponse<Department> | BaseResponse>
+  ): Promise<void> {
     const result = await this.departmentService.updateOne(req.body);
 
-    return result.match<ApiResponse<ItemApiResponse<Department> | BaseResponse>>(
-      (body) => ({ statusCode: StatusCodes.OK, body }),
-      (_error) => ({ statusCode: StatusCodes.BAD_REQUEST, body: _error })
-    );
+    return sendResponse<ItemApiResponse<Department>, BaseResponse>(result, res);
   }
 
-  public async delete(req: Request<{ id: string }>): Promise<ApiResponse<BaseResponse>> {
+  public async delete(req: Request<{ id: string }>, res: Response<BaseResponse>): Promise<void> {
     const {
       params: { id }
     } = req;
     const result = await this.departmentService.delete(id);
 
-    return result.match<ApiResponse<BaseResponse>>(
-      (body) => ({ statusCode: body.success ? StatusCodes.OK : StatusCodes.NOT_FOUND, body }),
-      (_error) => ({ statusCode: StatusCodes.BAD_REQUEST, body: _error })
-    );
+    return sendResponse<BaseResponse, BaseResponse>(result, res);
   }
 }

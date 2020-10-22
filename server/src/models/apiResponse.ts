@@ -12,8 +12,3 @@ export interface CollectionApiResponse<T> extends BaseResponse {
 export interface ItemApiResponse<T> extends BaseResponse {
   data: T;
 }
-
-export interface ApiResponse<T> {
-  statusCode: number;
-  body: T;
-}

@@ -22,32 +22,20 @@ export class DepartmentRoutes {
   public register(): Router {
     this.router.get(
       '/dashboard',
-      async (req: Request, res: Response<CollectionApiResponse<Department> | BaseResponse>) => {
-        const result = await this.departmentController.getDashboardData(req);
-        res.status(result.statusCode);
-        res.send(result.body);
-      }
+      async (req: Request, res: Response<CollectionApiResponse<Department> | BaseResponse>) =>
+        this.departmentController.getDashboardData(req, res)
     );
 
     this.router.get(
       '/:id',
-      async (req: Request<{ id: string }>, res: Response<ItemApiResponse<Department> | BaseResponse>) => {
-        const result = await this.departmentController.getDataById(req);
-        res.status(result.statusCode);
-        res.send(result.body);
-      }
+      async (req: Request<{ id: string }>, res: Response<ItemApiResponse<Department> | BaseResponse>) =>
+        this.departmentController.getDataById(req, res)
     );
 
     this.router.get(
       '/',
-      async (
-        req: RequestWithQuery<CollectionQuery>,
-        res: Response<CollectionApiResponse<Department> | BaseResponse>
-      ) => {
-        const result = await this.departmentController.getPage(req);
-        res.status(result.statusCode);
-        res.send(result.body);
-      }
+      async (req: RequestWithQuery<CollectionQuery>, res: Response<CollectionApiResponse<Department> | BaseResponse>) =>
+        this.departmentController.getPage(req, res)
     );
 
     this.router.post(
@@ -55,27 +43,18 @@ export class DepartmentRoutes {
       async (
         req: RequestWithBody<DepartmentCreationAttributes>,
         res: Response<ItemApiResponse<Department> | BaseResponse>
-      ) => {
-        const result = await this.departmentController.create(req);
-        res.status(result.statusCode);
-        res.send(result.body);
-      }
+      ) => this.departmentController.create(req, res)
     );
 
     this.router.put(
       '/:id',
-      async (req: RequestWithBody<Department>, res: Response<ItemApiResponse<Department> | BaseResponse>) => {
-        const result = await this.departmentController.updateOne(req);
-        res.status(result.statusCode);
-        res.send(result.body);
-      }
+      async (req: RequestWithBody<Department>, res: Response<ItemApiResponse<Department> | BaseResponse>) =>
+        this.departmentController.updateOne(req, res)
     );
 
-    this.router.delete('/:id', async (req: Request<{ id: string }>, res: Response<BaseResponse>) => {
-      const result = await this.departmentController.delete(req);
-      res.status(result.statusCode);
-      res.send(result.body);
-    });
+    this.router.delete('/:id', async (req: Request<{ id: string }>, res: Response<BaseResponse>) =>
+      this.departmentController.delete(req, res)
+    );
 
     return this.router;
   }

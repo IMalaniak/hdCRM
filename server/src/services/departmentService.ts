@@ -96,6 +96,7 @@ export class DepartmentService {
   public async getPage(
     pageQuery: PageQueryWithOrganization
   ): Promise<Result<CollectionApiResponse<Department>, BaseResponse>> {
+    // Logger.Info(`Getting departments by page query...`);
     try {
       const { limit, offset, sortDirection, sortIndex, OrganizationId } = pageQuery;
 
