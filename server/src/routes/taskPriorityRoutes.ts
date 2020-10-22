@@ -1,4 +1,3 @@
-import { StatusCodes } from 'http-status-codes';
 import { Response, Router } from 'express';
 import { Service } from 'typedi';
 
@@ -12,17 +11,9 @@ export class TaskPriorityRoutes {
   constructor(private readonly taskController: TaskController) {}
 
   public register(): Router {
-    this.router.get('/', (_, res: Response<CollectionApiResponse<TaskPriority>>) => {
-      this.taskController
-        .getPrioriities()
-        .then((priorities) => {
-          return res.status(StatusCodes.OK).json({ success: true, data: priorities, resultsNum: priorities.length });
-        })
-        .catch((err: any) => {
-          // Logger.Err(err);
-          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
-        });
-    });
+    this.router.get('/', async (_, res: Response<CollectionApiResponse<TaskPriority>>) =>
+      this.taskController.getPrioriities(res)
+    );
 
     return this.router;
   }

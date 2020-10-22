@@ -1,60 +1,72 @@
-import { IncludeOptions } from 'sequelize/types';
+import { Request, Response } from 'express';
 import { Service } from 'typedi';
 
-import { Task, TaskAttributes, TaskCreationAttributes, TaskPriority, User } from '../models';
+import {
+  BaseResponse,
+  CollectionApiResponse,
+  ItemApiResponse,
+  RequestWithBody,
+  Task,
+  TaskCreationAttributes,
+  TaskPriority
+} from '../models';
+import { TaskService } from '../services';
+import { sendResponse } from './utils';
 
 @Service()
 export class TaskController {
-  public includes: IncludeOptions[] = [
-    {
-      model: TaskPriority as any
-    }
-  ];
+  constructor(private readonly taskService: TaskService) {}
 
-  public getById(taskId: number | string): Promise<Task> {
-    // Logger.Info(`Selecting task by id: ${taskId}...`);
-    return Task.findByPk(taskId, {
-      include: this.includes
-    });
+  public async getAll(req: Request, res: Response<CollectionApiResponse<Task> | BaseResponse>): Promise<void> {
+    const creatorId = req.user.id;
+    const result = await this.taskService.getAll(creatorId);
+
+    return sendResponse<CollectionApiResponse<Task>, BaseResponse>(result, res);
   }
 
-  public getAll(currentUser: User): Promise<Task[]> {
-    // Logger.Info(`Selecting all tasks...`);
+  public async create(
+    req: RequestWithBody<TaskCreationAttributes>,
+    res: Response<ItemApiResponse<Task> | BaseResponse>
+  ): Promise<void> {
+    const task: TaskCreationAttributes = {
+      ...req.body,
+      CreatorId: req.user.id
+    };
+    const result = await this.taskService.create(task);
 
-    return Task.findAll({
-      where: {
-        CreatorId: currentUser.id
-      },
-      include: this.includes
-    });
+    return sendResponse<ItemApiResponse<Task>, BaseResponse>(result, res);
   }
 
-  public create(body: TaskCreationAttributes): Promise<Task> {
-    // Logger.Info(`Creating new task...`);
-    return Task.create(body);
+  public async updateOne(
+    req: RequestWithBody<Task>,
+    res: Response<ItemApiResponse<Task> | BaseResponse>
+  ): Promise<void> {
+    const result = await this.taskService.updateOne(req.body);
+
+    return sendResponse<ItemApiResponse<Task>, BaseResponse>(result, res);
   }
 
-  public updateOne(task: TaskAttributes): Promise<[number, Task[]]> {
-    // Logger.Info(`Updating task by id: ${task.id}...`);
-    return Task.update(
-      {
-        ...task
-      },
-      {
-        where: { id: task.id }
-      }
-    );
+  public async delete(req: Request<{ id: string }>, res: Response<BaseResponse>): Promise<void> {
+    const {
+      params: { id }
+    } = req;
+    const result = await this.taskService.delete(id);
+
+    return sendResponse<BaseResponse, BaseResponse>(result, res);
   }
 
-  public deleteTask(id: number | string | number[] | string[]) {
-    // Logger.Info(`Deleting task by id: ${id}...`);
-    return Task.destroy({
-      where: { id }
-    });
+  public async deleteMultiple(req: RequestWithBody<{ taskIds: number[] }>, res: Response<BaseResponse>): Promise<void> {
+    const {
+      body: { taskIds }
+    } = req;
+    const result = await this.taskService.delete(taskIds);
+
+    return sendResponse<BaseResponse, BaseResponse>(result, res);
   }
 
-  public getPrioriities(): Promise<TaskPriority[]> {
-    // Logger.Info(`Selecting all priorities...`);
-    return TaskPriority.findAll();
+  public async getPrioriities(res: Response<CollectionApiResponse<TaskPriority>>): Promise<void> {
+    const result = await this.taskService.getPriorities();
+
+    return sendResponse<CollectionApiResponse<TaskPriority>, BaseResponse>(result, res);
   }
 }
