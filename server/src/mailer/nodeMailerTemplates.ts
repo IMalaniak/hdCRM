@@ -29,7 +29,7 @@ export class Mailer {
     }
   });
 
-  sendPasswordReset(user: User, tokenUrl: string): Promise<Email> {
+  sendPasswordReset(user: User, tokenUrl: string): Promise<void> {
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'resetPassword'),
       message: {
@@ -44,7 +44,7 @@ export class Mailer {
     });
   }
 
-  sendPasswordResetConfirmation(user: User): Promise<Email> {
+  sendPasswordResetConfirmation(user: User): Promise<void> {
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'resetPasswordConfirmation'),
       message: {
@@ -58,7 +58,7 @@ export class Mailer {
     });
   }
 
-  sendActivation(user: User, tmpPassword: string, url: string) {
+  sendActivation(user: User, tmpPassword: string, url: string): Promise<void> {
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'initActivation'),
       message: {
@@ -74,7 +74,7 @@ export class Mailer {
     });
   }
 
-  sendActivationConfirmation(user: User) {
+  sendActivationConfirmation(user: User): Promise<void> {
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'confirmActivation'),
       message: {
@@ -88,7 +88,8 @@ export class Mailer {
     });
   }
 
-  sendInvitation(user: User, tmpPassword: string, url: string) {
+  sendInvitation(params: { user: User; tmpPassword: string; url: string }): Promise<void> {
+    const { user, tmpPassword, url } = params;
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'userInvitation'),
       message: {

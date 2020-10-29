@@ -1,8 +1,7 @@
 import jwt, { TokenExpiredError } from 'jsonwebtoken';
 import { Service } from 'typedi';
 
-import { JwtPayload, JwtDecoded } from '../models';
-import { UserController } from '../controllers';
+import { JwtPayload, JwtDecoded, User, UserSession } from '../models';
 import { Config } from '../config';
 
 interface TokenProps {
@@ -17,8 +16,6 @@ interface VerifyProps {
 
 @Service({ global: true })
 export class JwtHelper {
-  private userDbController = new UserController();
-
   generateToken({ type, payload }: TokenProps): string {
     return jwt.sign(payload, type === 'access' ? process.env.ACCESS_TOKEN_SECRET : process.env.REFRESH_TOKEN_SECRET, {
       expiresIn: type === 'access' ? process.env.ACCESS_TOKEN_LIFETIME : process.env.REFRESH_TOKEN_LIFETIME,
@@ -50,8 +47,7 @@ export class JwtHelper {
 
         // checking in the DB for real existing of data
         if (type === 'access') {
-          this.userDbController
-            .getById(verified.userId)
+          User.findByPk(verified.userId, { attributes: ['id'] })
             .then((user) => {
               if (user) {
                 resolve(verified);
@@ -63,8 +59,7 @@ export class JwtHelper {
               reject(error);
             });
         } else {
-          this.userDbController
-            .getSession(verified.sessionId)
+          UserSession.findByPk(verified.sessionId, { attributes: ['id'] })
             .then((session) => {
               if (session) {
                 resolve(verified);

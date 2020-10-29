@@ -2,12 +2,12 @@ import { Service } from 'typedi';
 import { Strategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
 import passport from 'passport';
 
-import { UserController } from '../controllers';
 import { Config } from './config';
+import { UserService } from '../services/userService';
 
 @Service({ global: true })
 export class Passport {
-  constructor(private readonly userController: UserController) {}
+  constructor(private readonly userService: UserService) {}
 
   private opts: StrategyOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),
@@ -28,7 +28,7 @@ export class Passport {
     // passport.session();
     passport.use(
       new Strategy(this.opts, (jwtPayload, done) => {
-        this.userController
+        this.userService
           .getById(jwtPayload.userId)
           .then((user) => {
             if (user) {
