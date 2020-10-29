@@ -29,7 +29,7 @@ import { CONSTANTS, MailThemes } from '../constants';
 import { Mailer } from '../mailer/nodeMailerTemplates';
 import { Crypt } from '../utils/crypt';
 import { Config } from '../config';
-import { reduceResults } from '../utils/reduceResults';
+import { reduceResults } from './utils';
 
 @Service()
 export class UserService {
