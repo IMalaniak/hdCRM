@@ -33,8 +33,7 @@ export class PrivilegeService {
     // Logger.Info(`Creating new privilege...`);
     try {
       const data = await Privilege.create({
-        keyString: privilege.keyString,
-        title: privilege.title
+        ...privilege
       });
 
       return ok({ success: true, essage: 'Privilege is created successfully!', data });
