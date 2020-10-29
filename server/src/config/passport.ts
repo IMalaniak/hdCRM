@@ -3,7 +3,7 @@ import { Strategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
 import passport from 'passport';
 
 import { Config } from './config';
-import { UserService } from '../services/userService';
+import { UserService } from '../services';
 
 @Service({ global: true })
 export class Passport {

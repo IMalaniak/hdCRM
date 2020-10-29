@@ -6,7 +6,7 @@ import { DepartmentRoutes } from './departmentRoutes';
 import { FileRoutes } from './fileRoutes';
 import { FormRoutes } from './formRoutes';
 import { PlanRoutes } from './planRoutes';
-import { PreferenceRoutes } from './preferencesRoutes';
+import { PreferenceRoutes } from './preferenceRoutes';
 import { PrivilegeRoutes } from './privilegeRoutes';
 import { RoleRoutes } from './roleRoutes';
 import { StageRoutes } from './stageRoutes';

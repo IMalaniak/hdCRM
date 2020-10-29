@@ -18,7 +18,7 @@ import {
   Asset,
   AssetCreationAttributes
 } from '../models';
-import { UserService } from '../services/userService';
+import { UserService } from '../services';
 import { Request, Response } from 'express';
 import { sendResponse } from './utils';
 import { parseCookies } from '../utils/parseCookies';
