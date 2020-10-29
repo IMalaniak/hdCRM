@@ -11,7 +11,7 @@ import {
   RequestWithBody,
   DepartmentCreationAttributes
 } from '../models';
-import { DepartmentController } from '../controllers/departmentController';
+import { DepartmentController } from '../controllers';
 
 @Service()
 export class DepartmentRoutes {
