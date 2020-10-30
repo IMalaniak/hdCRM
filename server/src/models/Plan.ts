@@ -34,10 +34,14 @@ export interface PlanAttributes {
   OrganizationId: number;
   CreatorId: number;
   activeStageId: number;
+  Participants?: User[];
 }
 
 export interface PlanCreationAttributes
-  extends Optional<PlanAttributes, 'id' | 'description' | 'deadline' | 'budget' | 'progress' | 'activeStageId'> {}
+  extends Optional<
+    PlanAttributes,
+    'id' | 'description' | 'deadline' | 'budget' | 'progress' | 'activeStageId' | 'Participants'
+  > {}
 
 export class Plan extends Model<PlanAttributes, PlanCreationAttributes> {
   public id!: number;

@@ -1,6 +1,7 @@
 export * from './departmentController';
 export * from './fileController';
 export * from './formController';
+export * from './planController';
 export * from './preferenceController';
 export * from './privilegeController';
 export * from './stageController';
