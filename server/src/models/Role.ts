@@ -36,6 +36,8 @@ export interface RoleAttributes {
   id: number;
   keyString: string;
   OrganizationId: number;
+  Privileges?: Privilege[];
+  Users?: User[];
 }
 
 export interface RoleCreationAttributes extends Optional<RoleAttributes, 'id'> {}

@@ -4,6 +4,7 @@ export * from './formController';
 export * from './planController';
 export * from './preferenceController';
 export * from './privilegeController';
+export * from './roleController';
 export * from './stageController';
 export * from './taskController';
 export * from './userController';

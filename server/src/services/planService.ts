@@ -195,7 +195,7 @@ export class PlanService {
             [Op.or]: plan.Participants as { id: number }[]
           }
         });
-        (
+        await (
           await Plan.findByPk(plan.id, {
             attributes: ['id']
           })
