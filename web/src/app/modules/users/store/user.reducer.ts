@@ -1,89 +1,94 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { User } from '../models';
-import * as UserActions from './user.actions';
 import { Action, on, createReducer } from '@ngrx/store';
+import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
-export interface UsersState extends EntityState<User> {
-  allUsersLoaded: boolean;
-  loading: boolean;
-  editing: boolean;
-  pages: number;
-  countAll: number;
-}
+import { getInitialPaginationState, pagesAdapter, PaginationState } from '@/shared/store';
+import { User } from '../models';
+import * as userActions from './user.actions';
 
-function sortByIdAndActiveState(u1: User, u2: User) {
-  const compare = u1.id - u2.id;
-  if (compare !== 0) {
-    return compare;
-  } else {
-    return +u1.state - +u2.state;
-  }
-}
+export interface UsersEntityState extends EntityState<User> {}
 
-const adapter: EntityAdapter<User> = createEntityAdapter<User>({
-  sortComparer: sortByIdAndActiveState
+export interface UsersState extends PaginationState<UsersEntityState> {}
+
+const usersAdapter: EntityAdapter<User> = createEntityAdapter<User>({
+  sortComparer: false
 });
 
-export const initialUsersState: UsersState = adapter.getInitialState({
-  allUsersLoaded: false,
-  loading: false,
-  editing: false,
-  pages: null,
-  countAll: null
-});
+const initialUsersEntityState: UsersEntityState = usersAdapter.getInitialState();
+
+export const initialUsersState: UsersState = getInitialPaginationState<UsersEntityState, UsersState>(
+  initialUsersEntityState
+);
 
 const usersReducer = createReducer(
   initialUsersState,
-  on(UserActions.changeIsEditingState, (state, { isEditing }) => ({
+  on(userActions.changeIsEditingState, (state, { isEditing }) => ({
     ...state,
     editing: isEditing
   })),
-  on(UserActions.userLoaded, (state, { user }) => adapter.addOne(user, state)),
-  on(UserActions.listPageRequested, (state) => ({ ...state, loading: true })),
-  on(UserActions.listPageLoaded, (state, { response: { data, pages, resultsNum } }) =>
-    adapter.upsertMany(data, {
-      ...state,
-      loading: false,
-      pages: pages,
-      countAll: resultsNum
+  on(userActions.userLoaded, (state, { user }) => ({
+    ...state,
+    loading: false,
+    data: usersAdapter.addOne(user, { ...state.data })
+  })),
+  on(userActions.listPageRequested, (state) => ({ ...state, pages: { ...state.pages, pageLoading: true } })),
+  on(userActions.listPageLoaded, (state, { page, response: { data, pages, resultsNum } }) => ({
+    ...state,
+    data: usersAdapter.upsertMany(data, {
+      ...state.data
+    }),
+    pages: pagesAdapter.addOne(page, {
+      ...state.pages,
+      resultsNum,
+      pages,
+      pageLoading: false
     })
-  ),
-  on(UserActions.OnlineUserListRequested, (state) => ({ ...state, loading: true })),
-  on(UserActions.OnlineUserListLoaded, (state, { list }) =>
-    adapter.upsertMany(list, {
-      ...state,
-      loading: false
+  })),
+  on(userActions.OnlineUserListRequested, (state) => ({ ...state, loading: true })),
+  on(userActions.OnlineUserListLoaded, (state, { list }) => ({
+    ...state,
+    loading: false,
+    data: usersAdapter.upsertMany(list, {
+      ...state.data
     })
-  ),
-  on(UserActions.userOnline, (state, { user }) =>
-    adapter.upsertOne(user, {
-      ...state
+  })),
+  on(userActions.userOnline, (state, { user }) => ({
+    ...state,
+    data: usersAdapter.upsertOne(user, {
+      ...state.data
     })
-  ),
-  on(UserActions.userOffline, (state, { user }) =>
-    adapter.upsertOne(user, {
-      ...state
+  })),
+  on(userActions.userOffline, (state, { user }) => ({
+    ...state,
+    data: usersAdapter.upsertOne(user, {
+      ...state.data
     })
-  ),
-  on(UserActions.updateUserRequested, (state) => ({ ...state, loading: true })),
-  on(UserActions.updateUserSuccess, (state, { user }) =>
-    adapter.updateOne(user, { ...state, loading: false, editing: false })
-  ),
-  on(UserActions.deleteUser, (state, { id }) =>
-    adapter.removeOne(id, {
-      ...state,
-      countAll: state.countAll - 1
+  })),
+  on(userActions.updateUserRequested, (state) => ({ ...state, loading: true })),
+  on(userActions.updateUserSuccess, (state, { user }) => ({
+    ...state,
+    loading: false,
+    editing: false,
+    data: usersAdapter.updateOne(user, {
+      ...state.data
     })
-  ),
-  on(UserActions.usersInvited, (state, { invitedUsers }) =>
-    adapter.addMany(invitedUsers, {
-      ...state,
-      countAll: state.countAll + invitedUsers.length
+  })),
+  on(userActions.deleteUser, (state, { id }) => ({
+    ...state,
+    loading: false,
+    data: usersAdapter.removeOne(id, {
+      ...state.data
     })
-  ),
-  on(UserActions.changeOldPassword, (state) => ({ ...state, loading: true })),
-  on(UserActions.changePasswordSuccess, (state) => ({ ...state, loading: false })),
-  on(UserActions.userApiError, (state) => ({ ...state, loading: false }))
+  })),
+  on(userActions.usersInvited, (state, { invitedUsers }) => ({
+    ...state,
+    loading: false,
+    data: usersAdapter.addMany(invitedUsers, {
+      ...state.data
+    })
+  })),
+  on(userActions.changeOldPassword, (state) => ({ ...state, loading: true })),
+  on(userActions.changePasswordSuccess, (state) => ({ ...state, loading: false })),
+  on(userActions.userApiError, (state) => ({ ...state, loading: false }))
 );
 
 export function reducer(state: UsersState | undefined, action: Action) {
@@ -92,4 +97,4 @@ export function reducer(state: UsersState | undefined, action: Action) {
 
 export const usersFeatureKey = 'users';
 
-export const { selectAll, selectEntities, selectIds, selectTotal } = adapter.getSelectors();
+export const { selectAll, selectEntities, selectIds, selectTotal } = usersAdapter.getSelectors();

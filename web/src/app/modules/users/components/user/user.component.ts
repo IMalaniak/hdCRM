@@ -6,9 +6,8 @@ import { Observable } from 'rxjs';
 import { User } from '../../models';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { selectIsLoading, selectIsEditing, selectUserById } from '../../store/user.selectors';
-import { tap } from 'rxjs/internal/operators/tap';
 import { userRequested } from '../../store/user.actions';
-import { filter } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { EDIT_PRIVILEGES } from '@/shared/constants';
 
 @Component({

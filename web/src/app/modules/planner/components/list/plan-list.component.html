@@ -4,7 +4,7 @@
   </div>
 
   <div content class="table-container">
-    <mat-table class="plans-table crm-table" [dataSource]="dataSource" matSort matSortDisabled>
+    <mat-table class="plans-table crm-table" [dataSource]="dataSource" matSort>
       <!-- Checkbox Column -->
       <!-- <ng-container matColumnDef="select">
           <mat-header-cell *matHeaderCellDef>
@@ -29,19 +29,17 @@
         <mat-cell *matCellDef="let plan">{{ plan.title }}</mat-cell>
       </ng-container>
       <ng-container [matColumnDef]="columns.CREATOR">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@plannerСomponentListCreator">{{
+        <mat-header-cell *matHeaderCellDef i18n="@@plannerСomponentListCreator">{{
           columnLabels.CREATOR
         }}</mat-header-cell>
         <mat-cell *matCellDef="let plan">{{ plan.Creator.name + ' ' + plan.Creator.surname }}</mat-cell>
       </ng-container>
       <ng-container [matColumnDef]="columns.STAGE">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@plannerСomponentListStage">{{
-          columnLabels.STAGE
-        }}</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef i18n="@@plannerСomponentListStage">{{ columnLabels.STAGE }}</mat-header-cell>
         <mat-cell *matCellDef="let plan">{{ plan.activeStage.keyString }}</mat-cell>
       </ng-container>
       <ng-container [matColumnDef]="columns.PARTICIPANTS">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@plannerСomponentListParticipants">{{
+        <mat-header-cell *matHeaderCellDef i18n="@@plannerСomponentListParticipants">{{
           columnLabels.PARTICIPANTS
         }}</mat-header-cell>
         <mat-cell *matCellDef="let plan">{{ plan.Participants.length }}</mat-cell>

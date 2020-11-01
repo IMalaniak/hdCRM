@@ -6,7 +6,7 @@
   </div>
 
   <div content class="table-container">
-    <mat-table class="roles-table crm-table" [dataSource]="dataSource" matSort matSortDisabled>
+    <mat-table class="roles-table crm-table" [dataSource]="dataSource" matSort>
       <ng-container [matColumnDef]="columns.SELECT" sticky>
         <mat-header-cell *matHeaderCellDef>
           <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
@@ -30,13 +30,13 @@
         <mat-cell *matCellDef="let role">{{ role.keyString }}</mat-cell>
       </ng-container>
       <ng-container [matColumnDef]="columns.USERS">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@rolesComponentListUserCount">
+        <mat-header-cell *matHeaderCellDef i18n="@@rolesComponentListUserCount">
           {{ columnLabels.USERS }}
         </mat-header-cell>
         <mat-cell *matCellDef="let role">{{ role.Users.length }}</mat-cell>
       </ng-container>
       <ng-container [matColumnDef]="columns.PRIVILEGES">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@rolesComponentListPrivilegesCount">
+        <mat-header-cell *matHeaderCellDef i18n="@@rolesComponentListPrivilegesCount">
           {{ columnLabels.PRIVILEGES }}
         </mat-header-cell>
         <mat-cell *matCellDef="let role">{{ role.Privileges.length }}</mat-cell>

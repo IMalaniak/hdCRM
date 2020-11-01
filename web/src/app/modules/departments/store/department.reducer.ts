@@ -1,25 +1,28 @@
+import { createReducer, on, Action } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+
+import { getInitialPaginationState, pagesAdapter, PaginationState } from '@/shared/store';
 import { Department } from '../models';
 import * as departmentActions from './department.actions';
-import { createReducer, on, Action } from '@ngrx/store';
 
-export interface DepartmentsState extends EntityState<Department> {
-  loading: boolean;
-  pages: number;
-  editing: boolean;
-  countAll: number;
+export interface DepartmentsEntityState extends EntityState<Department> {}
+
+export interface DepartmentsState extends PaginationState<DepartmentsEntityState> {
   dashboardDataLoaded: boolean;
 }
 
-const adapter: EntityAdapter<Department> = createEntityAdapter<Department>({});
+const departmentsAdapter: EntityAdapter<Department> = createEntityAdapter<Department>({
+  sortComparer: false
+});
 
-export const initialDepartmentsState: DepartmentsState = adapter.getInitialState({
-  loading: false,
-  pages: null,
-  editing: false,
-  countAll: null,
+const initialDepartmentsEntityState: DepartmentsEntityState = departmentsAdapter.getInitialState({
   dashboardDataLoaded: false
 });
+
+export const initialDepartmentsState: DepartmentsState = getInitialPaginationState<
+  DepartmentsEntityState,
+  DepartmentsState
+>(initialDepartmentsEntityState);
 
 const departmentsReducer = createReducer(
   initialDepartmentsState,
@@ -29,44 +32,64 @@ const departmentsReducer = createReducer(
   })),
   on(
     departmentActions.createDepartmentRequested,
-    departmentActions.listPageRequested,
     departmentActions.updateDepartmentRequested,
     departmentActions.deleteDepartmentRequested,
     (state) => ({ ...state, loading: true })
   ),
-  on(departmentActions.createDepartmentSuccess, (state, { department }) =>
-    adapter.addOne(department, {
-      ...state,
-      countAll: state.countAll + 1,
-      loading: false
+  on(departmentActions.listPageRequested, (state) => ({
+    ...state,
+    pages: {
+      ...state.pages,
+      pageLoading: true
+    }
+  })),
+  on(departmentActions.createDepartmentSuccess, (state, { department }) => ({
+    ...state,
+    loading: false,
+    data: departmentsAdapter.addOne(department, {
+      ...state.data
     })
-  ),
-  on(departmentActions.deleteDepartmentSuccess, (state, { id }) =>
-    adapter.removeOne(id, {
-      ...state,
-      countAll: state.countAll - 1,
-      loading: false
+  })),
+  on(departmentActions.deleteDepartmentSuccess, (state, { id }) => ({
+    ...state,
+    loading: false,
+    data: departmentsAdapter.removeOne(id, {
+      ...state.data
     })
-  ),
-  on(departmentActions.departmentLoaded, (state, { department }) => adapter.addOne(department, state)),
-  on(departmentActions.listPageLoaded, (state, { response }) =>
-    adapter.upsertMany(response.data, {
-      ...state,
-      loading: false,
-      pages: response.pages,
-      countAll: response.resultsNum
+  })),
+  on(departmentActions.departmentLoaded, (state, { department }) => ({
+    ...state,
+    loading: false,
+    data: departmentsAdapter.addOne(department, {
+      ...state.data
     })
-  ),
-  on(departmentActions.updateDepartmentSuccess, (state, { department }) =>
-    adapter.updateOne(department, { ...state, loading: false, editing: false })
-  ),
-  on(departmentActions.depDashboardDataLoaded, (state, { response }) =>
-    adapter.upsertMany(response.data, {
-      ...state,
-      countAll: response.resultsNum,
+  })),
+  on(departmentActions.listPageLoaded, (state, { page, response: { data, pages, resultsNum } }) => ({
+    ...state,
+    data: departmentsAdapter.upsertMany(data, {
+      ...state.data
+    }),
+    pages: pagesAdapter.addOne(page, {
+      ...state.pages,
+      resultsNum,
+      pages,
+      pageLoading: false
+    })
+  })),
+  on(departmentActions.updateDepartmentSuccess, (state, { department }) => ({
+    ...state,
+    loading: false,
+    editing: false,
+    data: departmentsAdapter.updateOne(department, { ...state.data })
+  })),
+  on(departmentActions.depDashboardDataLoaded, (state, { response }) => ({
+    ...state,
+    loading: false,
+    data: departmentsAdapter.upsertMany(response.data, {
+      ...state.data,
       dashboardDataLoaded: true
     })
-  ),
+  })),
   on(departmentActions.departmentApiError, (state) => ({ ...state, loading: false }))
 );
 
@@ -76,4 +99,4 @@ export function reducer(state: DepartmentsState | undefined, action: Action) {
 
 export const departmentsFeatureKey = 'departments';
 
-export const { selectAll, selectEntities, selectIds, selectTotal } = adapter.getSelectors();
+export const { selectAll, selectEntities, selectIds, selectTotal } = departmentsAdapter.getSelectors();

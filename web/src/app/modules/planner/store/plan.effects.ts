@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs';
-import { Actions, ofType, createEffect } from '@ngrx/effects';
-import * as planActions from './plan.actions';
 import { mergeMap, map, catchError } from 'rxjs/operators';
+
+import { Actions, ofType, createEffect } from '@ngrx/effects';
+import { Update } from '@ngrx/entity';
+
+import { ToastMessageService } from '@/shared/services';
+import { RoutingConstants } from '@/shared/constants';
+import { Page } from '@/shared/store';
+import { generatePageKey } from '@/shared/utils/generatePageKey';
+import * as planActions from './plan.actions';
 import { PlanService } from '../services';
 import { Plan } from '../models';
-import { Router } from '@angular/router';
-import { ToastMessageService } from '@/shared/services';
 import { CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared/models';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Update } from '@ngrx/entity';
-import { RoutingConstants } from '@/shared/constants';
 
 @Injectable()
 export class PlanEffects {
@@ -48,9 +52,12 @@ export class PlanEffects {
     this.actions$.pipe(
       ofType(planActions.listPageRequested),
       map((payload) => payload.page),
-      mergeMap((page) =>
-        this.planService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
-          map((response: CollectionApiResponse<Plan>) => planActions.listPageLoaded({ response })),
+      mergeMap((pageQuery) =>
+        this.planService.getList(pageQuery).pipe(
+          map((response: CollectionApiResponse<Plan>) => {
+            const page: Page = { dataIds: response.ids, key: generatePageKey(pageQuery) };
+            return planActions.listPageLoaded({ response, page });
+          }),
           catchError(() => of(planActions.planApiError()))
         )
       )
