@@ -54,10 +54,10 @@ export interface UserAttributes {
   phone?: string;
   passwordHash: string;
   salt: string;
-  state: UserState;
+  state?: UserState;
   defaultLang?: string;
-  OrganizationId: number;
-  RoleId: number;
+  OrganizationId?: number;
+  RoleId?: number;
   avatarId?: number;
   DepartmentId?: number;
 }

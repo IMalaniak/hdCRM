@@ -6,7 +6,7 @@ import { CONSTANTS } from '../constants';
 
 @Service()
 export class StageService {
-  public async getAll(OrganizationId): Promise<Result<CollectionApiResponse<any>, BaseResponse>> {
+  public async getAll(OrganizationId: number): Promise<Result<CollectionApiResponse<any>, BaseResponse>> {
     // Logger.Info(`Selecting stages list...`);
     try {
       const data = await Stage.findAndCountAll({

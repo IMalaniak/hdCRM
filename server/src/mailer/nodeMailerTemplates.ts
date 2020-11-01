@@ -29,7 +29,8 @@ export class Mailer {
     }
   });
 
-  sendPasswordReset(user: User, tokenUrl: string): Promise<void> {
+  sendPasswordReset(params: { user: User; tokenUrl: string }): Promise<void> {
+    const { user, tokenUrl } = params;
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'resetPassword'),
       message: {
@@ -58,7 +59,8 @@ export class Mailer {
     });
   }
 
-  sendActivation(user: User, tmpPassword: string, url: string): Promise<void> {
+  sendActivation(params: { user: User; tmpPassword: string; url: string }): Promise<void> {
+    const { user, tmpPassword, url } = params;
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'initActivation'),
       message: {

@@ -4,3 +4,7 @@ export interface PasswordReset {
   oldPassword: string;
   deleteSessions: boolean;
 }
+
+export interface PasswordReset {
+  token: string;
+}

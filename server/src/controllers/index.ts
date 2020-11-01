@@ -1,3 +1,4 @@
+export * from './authController';
 export * from './departmentController';
 export * from './fileController';
 export * from './formController';

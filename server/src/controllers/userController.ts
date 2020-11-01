@@ -97,8 +97,10 @@ export class UserController {
     if (req.body.deleteSessions) {
       const cookies = parseCookies(req) as any;
       if (cookies.refresh_token) {
-        const { sessionId } = await this.jwtHelper.getDecoded(cookies.refresh_token);
-        sId = sessionId;
+        const decodedResult = this.jwtHelper.getDecoded(cookies.refresh_token);
+        if (decodedResult.isOk()) {
+          sId = decodedResult.value.sessionId;
+        }
       }
     }
 
