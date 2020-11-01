@@ -1,19 +1,12 @@
 import { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 
-import {
-  BaseResponse,
-  Preference,
-  ItemApiResponse,
-  CollectionApiResponse,
-  PreferenceCreationAttributes,
-  User
-} from '../models';
+import { BaseResponse, Preference, ItemApiResponse, PreferenceCreationAttributes, User } from '../models';
 import { CONSTANTS } from '../constants';
 
 @Service()
 export class PreferenceService {
-  public async getAll(): Promise<Result<CollectionApiResponse<any>, BaseResponse>> {
+  public async getAll(): Promise<Result<ItemApiResponse<any>, BaseResponse>> {
     // Logger.Info(`Selecting preferences list...`);
     try {
       const preferencesList = Object.keys(Preference.rawAttributes)
