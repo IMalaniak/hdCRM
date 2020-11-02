@@ -113,7 +113,8 @@ export class DepartmentService {
 
       if (data.count) {
         const pages = Math.ceil(data.count / limit);
-        return ok({ success: true, data: data.rows, resultsNum: data.count, pages });
+        const ids: number[] = data.rows.map((dep) => dep.id);
+        return ok({ success: true, ids, data: data.rows, resultsNum: data.count, pages });
       } else {
         return ok({ success: false, message: 'No departments by this query', data: null });
       }

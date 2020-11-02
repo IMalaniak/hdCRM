@@ -108,7 +108,8 @@ export class PlanService {
 
       if (data.count) {
         const pages = Math.ceil(data.count / limit);
-        return ok({ success: true, data: data.rows, resultsNum: data.count, pages });
+        const ids: number[] = data.rows.map((plan) => plan.id);
+        return ok({ success: true, ids, data: data.rows, resultsNum: data.count, pages });
       } else {
         return ok({ success: false, message: 'No plans by this query', data: null });
       }

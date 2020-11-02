@@ -10,7 +10,7 @@ import { AppState } from '@/core/reducers';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { RolesDataSource } from '../../services/role.datasource';
 import { Role } from '../../models';
-import { selectRolesTotalCount, selectRolesLoading } from '../../store/role.selectors';
+import { selectRolesTotalCount, selectRolesPageLoading } from '../../store/role.selectors';
 import { ToastMessageService } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
 import {
@@ -41,7 +41,7 @@ import {
 })
 export class RolesComponent implements OnDestroy, AfterViewInit {
   dataSource: RolesDataSource = new RolesDataSource(this.store$);
-  loading$: Observable<boolean> = this.store$.pipe(select(selectRolesLoading));
+  loading$: Observable<boolean> = this.store$.pipe(select(selectRolesPageLoading));
   resultsLength$: Observable<number> = this.store$.pipe(select(selectRolesTotalCount));
   canAddRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.ROLE)));
   canEditRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.ROLE)));

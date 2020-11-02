@@ -27,19 +27,17 @@ export class Passport {
     passport.initialize();
     // passport.session();
     passport.use(
-      new Strategy(this.opts, (jwtPayload, done) => {
-        this.userService
-          .getById(jwtPayload.userId)
-          .then((user) => {
-            if (user) {
-              return done(null, user);
-            } else {
-              return done(null, false);
-            }
-          })
-          .catch((error) => {
-            return done(error, false);
-          });
+      new Strategy(this.opts, async (jwtPayload, done) => {
+        try {
+          const userResult = await this.userService.getById(jwtPayload.userId);
+          if (userResult.isOk()) {
+            return done(null, userResult.value.data);
+          } else {
+            return done(null, false);
+          }
+        } catch (error) {
+          return done(error, false);
+        }
       })
     );
   }

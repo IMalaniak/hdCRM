@@ -12,8 +12,8 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient) {}
 
-  getProfile(): Observable<User> {
-    return this.http.get<User>(APIS.USERS_PROFILE);
+  getProfile(): Observable<ItemApiResponse<User>> {
+    return this.http.get<ItemApiResponse<User>>(APIS.USERS_PROFILE);
   }
 
   updateProfile(user: User): Observable<ItemApiResponse<User>> {

@@ -193,7 +193,8 @@ export class AuthService {
     if (token) {
       const verifiedResult = await this.jwtHelper.getVerified({ type: 'refresh', token });
       if (verifiedResult.isOk()) {
-        const accessToken = this.jwtHelper.generateToken({ type: 'access', payload: verifiedResult.value });
+        const { sessionId, userId } = verifiedResult.value;
+        const accessToken = this.jwtHelper.generateToken({ type: 'access', payload: { userId, sessionId } });
         return ok({ accessToken });
       } else {
         return err(verifiedResult.error);

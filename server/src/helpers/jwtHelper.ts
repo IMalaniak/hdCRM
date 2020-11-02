@@ -54,13 +54,13 @@ export class JwtHelper {
       } else {
         const session = await UserSession.findByPk(verified.sessionId, { attributes: ['id'] });
         if (session) {
-          ok(verified);
+          return ok(verified);
         } else {
-          err({ success: false, message: 'No session registered' });
+          return err({ success: false, message: 'No session registered' });
         }
       }
     } catch (error) {
-      err({ success: false, message: error.message });
+      return err({ success: false, message: error.message });
     }
   }
 }

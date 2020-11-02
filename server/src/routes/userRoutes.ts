@@ -27,9 +27,9 @@ export class UserRoutes {
   constructor(private readonly userController: UserController) {}
 
   public register(): Router {
-    this.router.get('/profile/', (req: Request, res: Response<User>) => {
+    this.router.get('/profile/', (req: Request, res: Response<ItemApiResponse<User>>) => {
       // Logger.Info(`Geting user profile...`);
-      return res.status(StatusCodes.OK).json(req.user);
+      return res.status(StatusCodes.OK).json({ success: true, data: req.user });
     });
 
     this.router.get('/:id', async (req: Request<{ id: string }>, res: Response<ItemApiResponse<User>>) =>

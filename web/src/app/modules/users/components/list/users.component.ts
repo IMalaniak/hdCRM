@@ -10,7 +10,7 @@ import { tap, takeUntil } from 'rxjs/operators';
 import { UserService, UsersDataSource } from '../../services';
 import { User } from '../../models';
 import { AppState } from '@/core/reducers';
-import { selectIsLoading, selectUsersTotalCount } from '../../store/user.selectors';
+import { selectUserPageLoading, selectUsersTotalCount } from '../../store/user.selectors';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { deleteUser } from '../../store/user.actions';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
@@ -43,7 +43,7 @@ import {
 })
 export class UsersComponent implements OnDestroy, AfterViewInit {
   currentUser$: Observable<User> = this.store$.pipe(select(currentUser));
-  loading$: Observable<boolean> = this.store$.pipe(select(selectIsLoading));
+  loading$: Observable<boolean> = this.store$.pipe(select(selectUserPageLoading));
   resultsLength$: Observable<number> = this.store$.pipe(select(selectUsersTotalCount));
   canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.USER)));
   canEditUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.USER)));

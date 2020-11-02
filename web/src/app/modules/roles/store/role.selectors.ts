@@ -18,6 +18,7 @@ export const selectRolePageByKey = (pageQuery: PageQuery) =>
 export const selectAllRoles = createSelector(selectRoleEntityState, fromRole.selectAll);
 
 export const selectRolesLoading = createSelector(selectRolesState, (rolesState) => rolesState.loading);
+export const selectRolesPageLoading = createSelector(selectRolePagesState, (pagesState) => pagesState?.pageLoading);
 
 export const selectRolesPagesCount = createSelector(selectRolesState, (rolesState) => rolesState.pages);
 
