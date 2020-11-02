@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Privilege } from '../../../models';
 import { AddPrivilegeDialogComponent } from '../add-dialog/add-privilege-dialog.component';
@@ -14,8 +14,7 @@ import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS } from '@/shared/constants';
 @Component({
   selector: 'app-privileges',
   templateUrl: './privileges.component.html',
-  styleUrls: ['./privileges.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./privileges.component.scss']
 })
 export class PrivilegesComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean> = this.store.pipe(select(selectPrivilegesLoading));
@@ -31,7 +30,7 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private dialog: MatDialog, private store: Store<AppState>, private cdr: ChangeDetectorRef) {}
+  constructor(private dialog: MatDialog, private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.store.dispatch(allPrivilegesRequested());
@@ -46,7 +45,6 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
       )
       .subscribe((data) => {
         this.privileges = data;
-        this.cdr.detectChanges();
       });
   }
 

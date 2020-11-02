@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PrivilegesComponent } from '../list/privileges.component';
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
@@ -8,8 +8,7 @@ export interface PrivilegesDialogData {
 }
 
 @Component({
-  templateUrl: 'privileges-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: 'privileges-dialog.component.html'
 })
 export class PrivilegesDialogComponent {
   actionLabels = ACTION_LABELS;
