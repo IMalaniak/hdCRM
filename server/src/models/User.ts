@@ -152,7 +152,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
   public readonly Assets?: Asset[];
   public readonly avatar?: Asset;
   public readonly PlansTakesPartIn?: Plan[];
-  public readonly UserSession?: UserSession;
+  public readonly UserSessions?: UserSession[];
   public readonly ManagedDepartment?: Department;
   public readonly Department?: Department;
   public readonly PasswordAttributes?: PasswordAttribute;
@@ -165,7 +165,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
     Asset: Association<User, Asset>;
     avatar: Association<User, Asset>;
     PlansTakesPartIn: Association<User, Plan>;
-    UserSession: Association<User, UserSession>;
+    UserSessions: Association<User, UserSession>;
     ManagedDepartment: Association<User, Department>;
     Department: Association<User, Department>;
     PasswordAttributes: Association<User, PasswordAttribute>;

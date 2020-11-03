@@ -6,7 +6,7 @@ import { CONSTANTS } from '../constants';
 
 @Service()
 export class FormService {
-  public async getBy(key: number | string): Promise<Result<ItemApiResponse<Form>, BaseResponse>> {
+  public async getBy(key: string): Promise<Result<ItemApiResponse<Form>, BaseResponse>> {
     // Logger.Info(`Selecting form by key: ${key}...`);
     try {
       const form = await Form.findByPk(key);

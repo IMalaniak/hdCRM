@@ -7,7 +7,6 @@ import {
   CollectionApiResponse,
   Department,
   User,
-  Asset,
   ItemApiResponse,
   PageQueryWithOrganization,
   DepartmentCreationAttributes,
@@ -19,35 +18,29 @@ import { CONSTANTS } from '../constants';
 export class DepartmentService {
   private includes: IncludeOptions[] = [
     {
-      model: Department as any,
-      as: 'ParentDepartment',
+      association: Department.associations.ParentDepartment,
       required: false
     },
     {
-      model: Department as any,
-      as: 'SubDepartments',
+      association: Department.associations.SubDepartments,
       required: false
     },
     {
-      model: User as any,
-      as: 'Workers',
+      association: Department.associations.Workers,
       attributes: { exclude: ['passwordHash', 'salt'] },
       include: [
         {
-          model: Asset as any,
-          as: 'avatar'
+          association: User.associations.avatar
         }
       ],
       required: false
     },
     {
-      model: User as any,
-      as: 'Manager',
+      association: Department.associations.Manager,
       attributes: { exclude: ['passwordHash', 'salt'] },
       include: [
         {
-          model: Asset as any,
-          as: 'avatar'
+          association: User.associations.avatar
         }
       ],
       required: false
@@ -63,8 +56,7 @@ export class DepartmentService {
         },
         include: [
           {
-            model: User as any,
-            as: 'Workers',
+            association: Department.associations.Workers,
             attributes: ['id'],
             required: false
           }

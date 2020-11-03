@@ -13,11 +13,7 @@ import {
   UserCreationAttributes,
   UserAttributes,
   OrganizationAttributes,
-  Privilege,
-  PasswordAttribute,
-  Preference,
   Asset,
-  Department,
   ItemApiResponse,
   BaseResponse,
   PageQueryWithOrganization,
@@ -37,11 +33,11 @@ export class UserService {
 
   private includes: IncludeOptions[] = [
     {
-      model: Role as any,
+      association: User.associations.Role,
       required: false,
       include: [
         {
-          model: Privilege as any,
+          association: Role.associations.Privileges,
           through: {
             attributes: ['view', 'edit', 'add', 'delete']
           },
@@ -50,31 +46,26 @@ export class UserService {
       ]
     },
     {
-      model: UserSession as any
+      association: User.associations.UserSessions
     },
     {
-      model: Preference as any,
+      association: User.associations.Preference,
       required: false
     },
     {
-      model: PasswordAttribute as any,
-      as: 'PasswordAttributes',
+      association: User.associations.PasswordAttributes,
       attributes: ['updatedAt', 'passwordExpire'],
       required: false
     },
     {
-      model: Asset as any
+      association: User.associations.avatar
     },
     {
-      model: Asset as any,
-      as: 'avatar'
-    },
-    {
-      model: Department as any,
+      association: User.associations.Department,
       required: false
     },
     {
-      model: Organization as any
+      association: User.associations.Organization
     }
   ];
 

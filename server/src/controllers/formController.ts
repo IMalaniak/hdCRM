@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Service } from 'typedi';
 
-import { BaseResponse, Form, FormAttributes, ItemApiResponse, RequestWithBody, RequestWithQuery } from '../models';
+import { BaseResponse, Form, FormAttributes, ItemApiResponse, RequestWithBody } from '../models';
 import { FormService } from '../services';
 import { sendResponse } from './utils';
 
@@ -10,11 +10,11 @@ export class FormController {
   constructor(private readonly formService: FormService) {}
 
   public async getBy(
-    req: RequestWithQuery<{ formName: string }>,
+    req: Request<{ formName: string }>,
     res: Response<ItemApiResponse<Form> | BaseResponse>
   ): Promise<void> {
     const {
-      query: { formName }
+      params: { formName }
     } = req;
     const result = await this.formService.getBy(formName);
 

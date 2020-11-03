@@ -27,44 +27,37 @@ export class PlanService {
 
   private includes: IncludeOptions[] = [
     {
-      model: User as any,
-      as: 'Creator',
+      association: Plan.associations.Creator,
       attributes: { exclude: ['passwordHash', 'salt'] },
       include: [
         {
-          model: Asset as any,
-          as: 'avatar'
+          association: User.associations.avatar
         }
       ]
     },
     {
-      model: User as any,
-      as: 'Participants',
+      association: Plan.associations.Participants,
       attributes: { exclude: ['passwordHash', 'salt'] },
       through: {
         attributes: []
       },
       include: [
         {
-          model: Asset as any,
-          as: 'avatar'
+          association: User.associations.avatar
         }
       ]
     },
     {
-      model: Asset as any,
-      as: 'Documents',
+      association: Plan.associations.Documents,
       through: {
         attributes: []
       }
     },
     {
-      model: Stage as any,
-      as: 'activeStage'
+      association: Plan.associations.activeStage
     },
     {
-      model: Stage as any,
-      as: 'Stages',
+      association: Plan.associations.Stages,
       through: {
         as: 'Details',
         attributes: { exclude: ['PlanId', 'StageId'] }

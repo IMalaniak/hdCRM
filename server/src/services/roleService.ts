@@ -7,7 +7,6 @@ import {
   CollectionApiResponse,
   Role,
   User,
-  Asset,
   ItemApiResponse,
   PageQueryWithOrganization,
   RoleCreationAttributes,
@@ -20,7 +19,7 @@ import { CONSTANTS } from '../constants';
 export class RoleService {
   private includes: IncludeOptions[] = [
     {
-      model: Privilege as any,
+      association: Role.associations.Privileges,
       through: {
         attributes: ['view', 'edit', 'add', 'delete']
       },
@@ -31,8 +30,7 @@ export class RoleService {
       attributes: { exclude: ['passwordHash', 'salt'] },
       include: [
         {
-          model: Asset as any,
-          as: 'avatar',
+          association: User.associations.avatar,
           required: false
         }
       ],

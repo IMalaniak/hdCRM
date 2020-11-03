@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 
-import { BaseResponse, Stage, ItemApiResponse, CollectionApiResponse, StageCreationAttributes, Plan } from '../models';
+import { BaseResponse, Stage, ItemApiResponse, CollectionApiResponse, StageCreationAttributes } from '../models';
 import { CONSTANTS } from '../constants';
 
 @Service()
@@ -12,7 +12,7 @@ export class StageService {
       const data = await Stage.findAndCountAll({
         include: [
           {
-            model: Plan as any,
+            association: Stage.associations.Plans,
             where: {
               OrganizationId
             },
