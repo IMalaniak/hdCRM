@@ -264,8 +264,8 @@ export class PlanService {
       const docToBeDeleted = await Asset.findByPk(id);
 
       if (docToBeDeleted) {
-        let destination = path.join(__dirname, '../../uploads');
-        destination = destination + docToBeDeleted.location + '/' + docToBeDeleted.title;
+        const destination =
+          path.join(__dirname, '../../uploads') + docToBeDeleted.location + '/' + docToBeDeleted.title;
         this.unlinkAsync(destination);
 
         await docToBeDeleted.destroy();
