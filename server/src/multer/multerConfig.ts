@@ -1,7 +1,7 @@
+import { Request } from 'express';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
-import { Request } from 'express';
 
 const uploadsFolder = path.join(__dirname, '../uploads');
 

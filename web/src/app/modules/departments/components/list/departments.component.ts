@@ -18,7 +18,7 @@ import {
   CONSTANTS
 } from '@/shared/constants';
 import { AppState } from '@/core/reducers';
-import { selectDepartmentsTotalCount, selectDepartmentsLoading } from '../../store/department.selectors';
+import { selectDepartmentsTotalCount, selectDepartmentsPageLoading } from '../../store/department.selectors';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { tap, takeUntil } from 'rxjs/operators';
 import { deleteDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
@@ -39,7 +39,7 @@ import {
 })
 export class DepartmentsComponent implements AfterViewInit, OnDestroy {
   dataSource: DepartmentsDataSource = new DepartmentsDataSource(this.store$);
-  loading$: Observable<boolean> = this.store$.pipe(select(selectDepartmentsLoading));
+  loading$: Observable<boolean> = this.store$.pipe(select(selectDepartmentsPageLoading));
   resultsLength$: Observable<number> = this.store$.pipe(select(selectDepartmentsTotalCount));
   canAddDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.DEPARTMENT)));
   canEditDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.DEPARTMENT)));

@@ -29,11 +29,12 @@ export const selectDepartmentsLoading = createSelector(
   selectDepartmentsState,
   (departmentsState) => departmentsState.loading
 );
-
-export const selectDepartmentsPagesCount = createSelector(
-  selectDepartmentsState,
-  (departmentsState) => departmentsState.pages
+export const selectDepartmentsPageLoading = createSelector(
+  selectDepartmentPagesState,
+  (pagesState) => pagesState?.pageLoading
 );
+
+export const selectDepartmentsPagesCount = createSelector(selectDepartmentPagesState, (pagesState) => pagesState.pages);
 
 export const selectDepartmentsTotalCount = createSelector(
   selectDepartmentPagesState,

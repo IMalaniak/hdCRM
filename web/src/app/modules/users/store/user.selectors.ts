@@ -26,6 +26,7 @@ export const selectUsersOnline = createSelector(selectAllUsers, currentUser, (us
 );
 
 export const selectIsLoading = createSelector(selectUsersState, (usersState) => usersState.loading);
+export const selectUserPageLoading = createSelector(selectUserPagesState, (pagesState) => pagesState?.pageLoading);
 
 export const selectIsEditing = createSelector(selectUsersState, (usersState) => usersState.editing);
 

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { IListView } from '../../src/models/Preference';
+import { IListView } from '../../src/constants';
 import { enumToArray } from '../../src/utils/EnumToArray';
 
 describe('EnumToArray', () => {

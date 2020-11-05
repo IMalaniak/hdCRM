@@ -163,7 +163,9 @@ export class AuthEffects implements OnInitEffects {
     this.actions$.pipe(
       ofType(authActions.requestCurrentUser),
       switchMap(() => this.authService.getProfile()),
-      switchMap((currentUser) => {
+      switchMap(({ data }) => {
+        const currentUser = { ...data, online: true };
+
         this.scktService.emit(SocketEvent.ISONLINE, {
           id: currentUser.id,
           name: currentUser.name,
@@ -171,8 +173,6 @@ export class AuthEffects implements OnInitEffects {
           avatar: currentUser.avatar,
           OrganizationId: currentUser.OrganizationId
         });
-
-        currentUser = { ...currentUser, online: true };
 
         if (currentUser.Preference) {
           const { id, UserId, createdAt, updatedAt, ...preferences } = currentUser.Preference;

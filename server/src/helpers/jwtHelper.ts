@@ -1,7 +1,9 @@
-import jwt, { TokenExpiredError } from 'jsonwebtoken';
-import { JwtPayload, JwtDecoded } from '../models/JWTPayload';
-import { UserDBController } from '../dbControllers/usersController';
+import jwt from 'jsonwebtoken';
+import { Service } from 'typedi';
+
+import { JwtPayload, JwtDecoded, User, UserSession, BaseResponse } from '../models';
 import { Config } from '../config';
+import { err, ok, Result } from 'neverthrow';
 
 interface TokenProps {
   type: 'access' | 'refresh';
@@ -13,9 +15,8 @@ interface VerifyProps {
   token: string;
 }
 
-class JwtHelper {
-  private userDbController = new UserDBController();
-
+@Service({ global: true })
+export class JwtHelper {
   generateToken({ type, payload }: TokenProps): string {
     return jwt.sign(payload, type === 'access' ? process.env.ACCESS_TOKEN_SECRET : process.env.REFRESH_TOKEN_SECRET, {
       expiresIn: type === 'access' ? process.env.ACCESS_TOKEN_LIFETIME : process.env.REFRESH_TOKEN_LIFETIME,
@@ -23,61 +24,43 @@ class JwtHelper {
     });
   }
 
-  getDecoded(token: string): Promise<JwtDecoded> {
-    return new Promise((resolve, reject) => {
-      try {
-        const verified = jwt.decode(token) as JwtDecoded;
-        resolve(verified);
-      } catch (error) {
-        reject(error);
-      }
-    });
+  getDecoded(token: string): Result<JwtDecoded, string> {
+    try {
+      const verified = jwt.decode(token) as JwtDecoded;
+      return ok(verified);
+    } catch (error) {
+      return err(error);
+    }
   }
 
-  getVerified({ type, token }: VerifyProps): Promise<JwtDecoded | TokenExpiredError> {
-    return new Promise((resolve, reject) => {
-      try {
-        const verified = jwt.verify(
-          token,
-          type === 'access' ? process.env.ACCESS_TOKEN_SECRET : process.env.REFRESH_TOKEN_SECRET,
-          {
-            audience: Config.WEB_URL
-          }
-        ) as JwtDecoded;
-
-        // checking in the DB for real existing of data
-        if (type === 'access') {
-          this.userDbController
-            .getById(verified.userId)
-            .then((user) => {
-              if (user) {
-                resolve(verified);
-              } else {
-                reject({ success: false, message: 'no user registered' });
-              }
-            })
-            .catch((error) => {
-              reject(error);
-            });
-        } else {
-          this.userDbController
-            .getSession(verified.sessionId)
-            .then((session) => {
-              if (session) {
-                resolve(verified);
-              } else {
-                reject({ success: false, message: 'no session registered' });
-              }
-            })
-            .catch((error) => {
-              reject(error);
-            });
+  async getVerified({ type, token }: VerifyProps): Promise<Result<JwtDecoded, BaseResponse>> {
+    try {
+      const verified = jwt.verify(
+        token,
+        type === 'access' ? process.env.ACCESS_TOKEN_SECRET : process.env.REFRESH_TOKEN_SECRET,
+        {
+          audience: Config.WEB_URL
         }
-      } catch (error) {
-        reject(error);
+      ) as JwtDecoded;
+
+      // checking in the DB for real existing of data
+      if (type === 'access') {
+        const user = await User.findByPk(verified.userId, { attributes: ['id'] });
+        if (user) {
+          return ok(verified);
+        } else {
+          return err({ success: false, message: 'No user registered' });
+        }
+      } else {
+        const session = await UserSession.findByPk(verified.sessionId, { attributes: ['id'] });
+        if (session) {
+          return ok(verified);
+        } else {
+          return err({ success: false, message: 'No session registered' });
+        }
       }
-    });
+    } catch (error) {
+      return err({ success: false, message: error.message });
+    }
   }
 }
-
-export default new JwtHelper();

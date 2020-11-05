@@ -28,8 +28,10 @@ import {
   HasManyGetAssociationsMixin,
   HasManyRemoveAssociationsMixin,
   HasManyRemoveAssociationMixin,
-  HasManySetAssociationsMixin
+  HasManySetAssociationsMixin,
+  Optional
 } from 'sequelize';
+
 import { UserSession } from './UserSession';
 import { PasswordAttribute } from './PasswordAttribute';
 import { Role } from './Role';
@@ -42,13 +44,34 @@ import { Preference } from './Preference';
 import { enumToArray } from '../utils/EnumToArray';
 import { UserState } from '../constants';
 
-export class User extends Model {
+export interface UserAttributes {
+  id: number;
+  email: string;
+  login: string;
+  name: string;
+  surname: string;
+  fullname?: string;
+  phone?: string;
+  passwordHash: string;
+  salt: string;
+  state?: UserState;
+  defaultLang?: string;
+  OrganizationId?: number;
+  RoleId?: number;
+  avatarId?: number;
+  DepartmentId?: number;
+}
+
+export interface UserCreationAttributes
+  extends Optional<UserAttributes, 'id' | 'fullname' | 'phone' | 'defaultLang' | 'avatarId' | 'DepartmentId'> {}
+
+export class User extends Model<UserAttributes, UserCreationAttributes> {
   public id!: number;
   public email!: string;
   public login!: string;
   public name!: string;
   public surname!: string;
-  public readonly fullname!: string;
+  public fullname!: string;
   public phone!: string;
   public passwordHash!: string;
   public salt!: string;
@@ -129,7 +152,7 @@ export class User extends Model {
   public readonly Assets?: Asset[];
   public readonly avatar?: Asset;
   public readonly PlansTakesPartIn?: Plan[];
-  public readonly UserSession?: UserSession;
+  public readonly UserSessions?: UserSession[];
   public readonly ManagedDepartment?: Department;
   public readonly Department?: Department;
   public readonly PasswordAttributes?: PasswordAttribute;
@@ -142,7 +165,7 @@ export class User extends Model {
     Asset: Association<User, Asset>;
     avatar: Association<User, Asset>;
     PlansTakesPartIn: Association<User, Plan>;
-    UserSession: Association<User, UserSession>;
+    UserSessions: Association<User, UserSession>;
     ManagedDepartment: Association<User, Department>;
     Department: Association<User, Department>;
     PasswordAttributes: Association<User, PasswordAttribute>;
@@ -151,13 +174,37 @@ export class User extends Model {
   };
 }
 
-export const UserFactory = (sequelize: Sequelize): Model => {
+export const UserFactory = (sequelize: Sequelize): Model<UserAttributes, UserCreationAttributes> => {
   return User.init(
     {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
+      },
+      OrganizationId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Organizations',
+          key: 'id'
+        }
+      },
+      RoleId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Roles',
+          key: 'id'
+        }
+      },
+      avatarId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Assets',
+          key: 'id'
+        }
+      },
+      DepartmentId: {
+        type: DataTypes.INTEGER
       },
       name: {
         type: new DataTypes.STRING(50),

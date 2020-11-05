@@ -1,4 +1,5 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
+
 import { FieldType, FormType } from '../constants';
 import { enumToArray } from '../utils/EnumToArray';
 
@@ -37,7 +38,7 @@ export class Form extends Model<FormAttributes> {
   public readonly updatedAt!: Date;
 }
 
-export const FormFactory = (sequelize: Sequelize): Model => {
+export const FormFactory = (sequelize: Sequelize): Model<FormAttributes> => {
   return Form.init(
     {
       key: {
