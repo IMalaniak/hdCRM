@@ -36,7 +36,7 @@ export class PrivilegeService {
         ...privilege
       });
 
-      return ok({ success: true, essage: 'Privilege is created successfully!', data });
+      return ok({ success: true, message: 'Privilege is created successfully!', data });
     } catch (error) {
       // Logger.Err(err);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
