@@ -55,6 +55,7 @@ export class Server {
   }
 
   private setupStaticFolders(): void {
+    this.app.use(express.static(path.join(__dirname, '../../web/dist')));
     this.app.get('/*', (_, res) => {
       res.sendFile(path.join(__dirname, '../../web/dist/index.html'));
     });
