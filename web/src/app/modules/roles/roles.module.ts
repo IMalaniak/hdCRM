@@ -14,8 +14,6 @@ import {
   AddPrivilegeDialogComponent
 } from './components';
 
-import { UsersModule } from '@/modules/users/users.module';
-
 import { RoleService, PrivilegeService } from './services';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -32,8 +30,7 @@ import { PrivilegeEffects } from './store/privilege.effects';
     RolesRoutingModule.forRoot(),
     StoreModule.forFeature(fromRole.rolesFeatureKey, fromRole.reducer),
     StoreModule.forFeature(fromPrivilege.privilegesFeatureKey, fromPrivilege.reducer),
-    EffectsModule.forFeature([RoleEffects, PrivilegeEffects]),
-    UsersModule
+    EffectsModule.forFeature([RoleEffects, PrivilegeEffects])
   ],
   declarations: [
     RolesComponent,
