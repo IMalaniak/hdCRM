@@ -1,6 +1,6 @@
 import express, { Application, Router } from 'express';
 import { Service } from 'typedi';
-import socketIO from 'socket.io';
+import { Server as SocketServer } from 'socket.io';
 import path from 'path';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
@@ -17,7 +17,7 @@ import { Config } from './config';
 export class Server {
   private app: Application;
   private server: http.Server;
-  private io: socketIO.Server;
+  private socket: SocketServer;
   private router: Router;
 
   constructor(
@@ -46,8 +46,8 @@ export class Server {
     });
     this.passport.init();
     this.server = http.createServer(this.app);
-    this.io = socketIO(this.server);
-    this.socketRouter.initSocketConnection(this.io);
+    this.socket = new SocketServer(this.server);
+    this.socketRouter.initSocketConnection(this.socket);
     this.router = Router();
     this.app.use(this.router);
 

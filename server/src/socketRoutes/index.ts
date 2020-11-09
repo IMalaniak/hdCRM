@@ -1,5 +1,5 @@
 import { Service } from 'typedi';
-import socketIO from 'socket.io';
+import { Socket, Server } from 'socket.io';
 
 import { User } from '../models';
 import { SocketHelper, UserOnline } from '../helpers/socketHelper';
@@ -17,13 +17,13 @@ export enum GlobalEvents {
 
 @Service()
 export class SocketRouter {
-  public io: socketIO.Server;
+  public io: Server;
 
   constructor(private readonly socketHelper: SocketHelper) {}
 
-  public initSocketConnection(io: socketIO.Server) {
+  public initSocketConnection(io: Server) {
     this.io = io;
-    this.io.on(GlobalEvents.CONNECT, (socket: socketIO.Socket) => {
+    this.io.on(GlobalEvents.CONNECT, (socket: Socket) => {
       // Logger.Info(`Global: Client connected, socketId: ${socket.id}`);
       socket.on(GlobalEvents.ISONLINE, (user: User) => {
         // Logger.Info(`Global: Client online, userId: ${user.id}`);
@@ -67,7 +67,7 @@ export class SocketRouter {
     });
   }
 
-  private initCases(socket: socketIO.Socket) {
+  private initCases(socket: Socket) {
     socket.on(GlobalEvents.INITMODULE, (params: any) => {
       switch (params.moduleName) {
         case 'notifications':
@@ -77,7 +77,7 @@ export class SocketRouter {
     });
   }
 
-  private initNotifications(socket: socketIO.Socket) {
+  private initNotifications(socket: Socket) {
     // tslint:disable-next-line: no-console
     console.info(`Notifications: Module inited for socketId: ${socket.id}`);
   }
