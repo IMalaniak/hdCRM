@@ -16,6 +16,7 @@ export const selectUserById = (userId: number) =>
 export const selectUserPageByKey = (pageQuery: PageQuery) =>
   createSelector(selectUserPagesState, (pagesState) => pagesState.entities[generatePageKey(pageQuery)]);
 
+export const selectAllUserEntities = createSelector(selectUserEntityState, fromUser.selectEntities);
 export const selectAllUsers = createSelector(selectUserEntityState, fromUser.selectAll);
 
 export const selectUsersByState = (state: UserState) =>

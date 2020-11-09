@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Role } from '../models';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
-import { selectRoleById } from '../store/role.selectors';
+import { selectRoleDeepById } from '../store/role.selectors';
 import { tap, filter, first } from 'rxjs/operators';
 import { roleRequested } from '../store/role.actions';
 
@@ -17,7 +17,7 @@ export class RoleResolver implements Resolve<Role> {
     const id = route.params['id'];
 
     return this.store.pipe(
-      select(selectRoleById(id)),
+      select(selectRoleDeepById(id)),
       tap((role) => {
         if (!role) {
           this.store.dispatch(roleRequested({ id }));

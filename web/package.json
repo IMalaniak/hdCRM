@@ -49,6 +49,7 @@
     "filepond-plugin-image-transform": "3.7.4",
     "lodash": "4.17.20",
     "ngx-filepond": "5.0.1",
+    "normalizr": "^3.6.1",
     "rxjs": "6.6.3",
     "socket.io": "2.3.0",
     "sweetalert2": "10.4.0",

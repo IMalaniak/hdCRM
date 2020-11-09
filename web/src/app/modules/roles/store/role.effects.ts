@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
-import { mergeMap, map, catchError, withLatestFrom, filter } from 'rxjs/operators';
+import { mergeMap, map, catchError, withLatestFrom, filter, switchMap } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
@@ -11,7 +11,7 @@ import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { AppState } from '@/core/reducers';
 import { ToastMessageService } from '@/shared/services';
 import { RoutingConstants } from '@/shared/constants';
-import { Page } from '@/shared/store';
+import { normalizeResponse, Page, partialDataLoaded, roleListSchema } from '@/shared/store';
 import { CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared/models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
 import * as roleActions from './role.actions';
@@ -57,9 +57,11 @@ export class RoleEffects {
       map((payload) => payload.page),
       mergeMap((pageQuery) =>
         this.roleService.getList(pageQuery).pipe(
-          map((response: CollectionApiResponse<Role>) => {
+          switchMap((response: CollectionApiResponse<Role>) => {
             const page: Page = { dataIds: response.ids, key: generatePageKey(pageQuery) };
-            return roleActions.listPageLoaded({ response, page });
+            const { Users, Roles } = normalizeResponse<Role>(response, roleListSchema);
+            response = { ...response, data: Roles };
+            return [roleActions.listPageLoaded({ response, page }), partialDataLoaded({ Users })];
           }),
           catchError(() => of(roleActions.rolesApiError()))
         )
@@ -112,7 +114,7 @@ export class RoleEffects {
   loadDashboardData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(roleActions.roleDashboardDataRequested),
-      withLatestFrom(this.store.pipe(select(selectRolesDashboardDataLoaded))),
+      withLatestFrom(this.store$.pipe(select(selectRolesDashboardDataLoaded))),
       filter(([_, rolesDashboardDataLoaded]) => !rolesDashboardDataLoaded),
       mergeMap(() => this.roleService.getDashboardData()),
       map((response) => roleActions.roleDashboardDataLoaded({ response })),
@@ -122,7 +124,7 @@ export class RoleEffects {
 
   constructor(
     private actions$: Actions,
-    private store: Store<AppState>,
+    private store$: Store<AppState>,
     private router: Router,
     private roleService: RoleService,
     private toastMessageService: ToastMessageService

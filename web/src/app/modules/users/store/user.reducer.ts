@@ -1,7 +1,7 @@
 import { Action, on, createReducer } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
-import { getInitialPaginationState, pagesAdapter, PaginationState } from '@/shared/store';
+import { getInitialPaginationState, pagesAdapter, PaginationState, partialDataLoaded } from '@/shared/store';
 import { User } from '../models';
 import * as userActions from './user.actions';
 
@@ -88,7 +88,15 @@ const usersReducer = createReducer(
   })),
   on(userActions.changeOldPassword, (state) => ({ ...state, loading: true })),
   on(userActions.changePasswordSuccess, (state) => ({ ...state, loading: false })),
-  on(userActions.userApiError, (state) => ({ ...state, loading: false }))
+  on(userActions.userApiError, (state) => ({ ...state, loading: false })),
+  on(partialDataLoaded, (state, { Users }) => ({
+    ...state,
+    ...(Users && {
+      data: usersAdapter.upsertMany(Users, {
+        ...state.data
+      })
+    })
+  }))
 );
 
 export function reducer(state: UsersState | undefined, action: Action) {
