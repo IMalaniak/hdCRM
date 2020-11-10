@@ -28,6 +28,7 @@ export class TemplatesDepartmentViewComponent implements OnInit {
   @Input() department: Department;
   @Input() editForm: boolean;
   @Input() canEdit: boolean;
+  @Input() isCreatePage: boolean;
 
   @Output() isEditing: EventEmitter<boolean> = new EventEmitter();
   @Output() saveChanges: EventEmitter<Department> = new EventEmitter();
@@ -118,8 +119,18 @@ export class TemplatesDepartmentViewComponent implements OnInit {
   updateDepartment(): void {
     this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_UPDATE_DEPARTMENT_CONFIRM).then((result) => {
       if (result.value) {
-        this.saveChanges.emit({ ...this.department, ...this.departmentFormValues });
+        this.saveDepartment();
       }
     });
+  }
+
+  saveDepartment(): void {
+    this.saveChanges.emit({ ...this.department, ...this.departmentFormValues });
+  }
+
+  cardTitle(): string {
+    console.log('card title');
+
+    return this.isCreatePage ? 'Create department' : this.department.title;
   }
 }

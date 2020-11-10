@@ -1,4 +1,4 @@
-<organisms-card [cardTitle]="department.title + ' department'" *ngIf="department">
+<organisms-card [cardTitle]="null | memoize: cardTitle:this" *ngIf="department">
   <div content class="row">
     <div class="col-md-6">
       <organisms-card cardTitle="Details" cardClass="border border-dark mt-0 mb-0" [disableShadow]="true">
@@ -58,7 +58,7 @@
       </div>
     </div>
   </div> -->
-  <div buttons *ngIf="canEdit">
+  <div buttons *ngIf="canEdit && !isCreatePage">
     <atoms-icon-button *ngIf="!editForm" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
       {{ actionLabels.EDIT }}
     </atoms-icon-button>
@@ -74,4 +74,7 @@
       {{ actionLabels.SAVE }}
     </atoms-icon-button>
   </div>
+  <atoms-icon-button *ngIf="isCreatePage" buttons (onclick)="saveDepartment()" [icon]="['fas', 'paper-plane']">
+    {{ actionLabels.SUMBIT }}
+  </atoms-icon-button>
 </organisms-card>
