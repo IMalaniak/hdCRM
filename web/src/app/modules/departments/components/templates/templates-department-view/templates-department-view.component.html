@@ -1,0 +1,77 @@
+<organisms-card [cardTitle]="department.title + ' department'" *ngIf="department">
+  <div content class="row">
+    <div class="col-md-6">
+      <organisms-card cardTitle="Details" cardClass="border border-dark mt-0 mb-0" [disableShadow]="true">
+        <section content>
+          <organisms-dynamic-form
+            [data]="department"
+            [formJson]="departmentFormJson"
+            [editForm]="editForm"
+            (formChanges)="departmentFormValueChanges($event)"
+          >
+          </organisms-dynamic-form>
+        </section>
+      </organisms-card>
+    </div>
+    <div class="col-md-6">
+      <templates-box-user-list-sm
+        cardTitle="Manager"
+        class="d-block mb-3"
+        [user]="department.Manager"
+        [editMode]="editForm"
+        (addClick)="addManagerDialog()"
+        (removeClick)="removeManager()"
+      ></templates-box-user-list-sm>
+      <templates-box-user-list-sm
+        cardTitle="Workers"
+        [users]="department.Workers"
+        [editMode]="editForm"
+        (addClick)="addWorkersDialog()"
+        (removeClick)="removeWorker($event)"
+      ></templates-box-user-list-sm>
+    </div>
+  </div>
+  <!-- <div content class="row">
+    <div class="col-md-6 mt-3">
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-sm-6 col-md-12 col-lg-6">
+          <organisms-card cardTitle="Parent department" cardClass="border border-dark mt-3 mb-0" [disableShadow]="true">
+            <atoms-icon-button buttons [matType]="matButtonTypes.STROKED" [icon]="['fas', 'plus']">
+              Add parent department
+            </atoms-icon-button>
+          </organisms-card>
+        </div>
+        <div class="col-sm-6 col-md-12 col-lg-6">
+          <organisms-card
+            cardTitle="Sub departments"
+            cardClass="border border-dark mt-3 mb-0"
+            [disableShadow]="true"
+            [counter]="department.SubDepartments ? department.SubDepartments.length : 0"
+          >
+            <atoms-icon-button buttons [matType]="matButtonTypes.STROKED" [icon]="['fas', 'plus']">
+              Add sub departments
+            </atoms-icon-button>
+          </organisms-card>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div buttons *ngIf="canEdit">
+    <atoms-icon-button *ngIf="!editForm" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
+      {{ actionLabels.EDIT }}
+    </atoms-icon-button>
+    <atoms-icon-button
+      *ngIf="editForm"
+      [color]="themePalette.BASIC"
+      [icon]="['fas', 'times']"
+      (onclick)="onClickCancelEdit()"
+    >
+      {{ actionLabels.CANCEL }}
+    </atoms-icon-button>
+    <atoms-icon-button *ngIf="editForm" [icon]="['fas', 'save']" (onclick)="updateDepartment()">
+      {{ actionLabels.SAVE }}
+    </atoms-icon-button>
+  </div>
+</organisms-card>
