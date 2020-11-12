@@ -14,7 +14,15 @@ import { selectDepartmentById, selectIsEditing } from '../../store/department.se
 
 @Component({
   selector: 'department',
-  templateUrl: './department.component.html',
+  template: `
+    <templates-department-view
+      [editForm]="editForm$ | async"
+      [department]="department$ | async"
+      [canEdit]="canEditDepartment$ | async"
+      (saveChanges)="updateDepartment($event)"
+      (isEditing)="onFormStateChange($event)"
+    ></templates-department-view>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DepartmentComponent implements OnInit {

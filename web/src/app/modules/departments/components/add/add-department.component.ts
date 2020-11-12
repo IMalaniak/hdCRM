@@ -8,7 +8,14 @@ import { createDepartmentRequested } from '../../store/department.actions';
 
 @Component({
   selector: 'add-department-component',
-  templateUrl: './add-department.component.html',
+  template: `
+    <templates-department-view
+      [editForm]="true"
+      [isCreatePage]="true"
+      [department]="department"
+      (saveChanges)="onSubmit($event)"
+    ></templates-department-view>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddDepartmentComponent {
