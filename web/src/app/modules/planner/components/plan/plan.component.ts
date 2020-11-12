@@ -1,78 +1,63 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 // import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Subject, Observable, combineLatest } from 'rxjs';
-import { takeUntil, map, skipUntil, delay } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
+import { map, tap, filter } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
-import { cloneDeep } from 'lodash';
 
 import { AppState } from '@/core/reducers';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
-import { MediaqueryService, ToastMessageService } from '@/shared/services';
-import { Asset, ApiResponse, DynamicForm } from '@/shared/models';
-import {
-  ADD_PRIVILEGES,
-  DELETE_PRIVILEGES,
-  EDIT_PRIVILEGES,
-  DIALOG,
-  ACTION_LABELS,
-  THEME_PALETTE,
-  CONSTANTS,
-  RoutingDataConstants
-} from '@/shared/constants';
-import { UsersDialogComponent, User } from '@/modules/users';
+import { ADD_PRIVILEGES, DELETE_PRIVILEGES, EDIT_PRIVILEGES } from '@/shared/constants';
 import { Plan } from '../../models';
-import { PlanService } from '../../services';
-import { updatePlanRequested, changeIsEditingState } from '../../store/plan.actions';
-import { selectIsEditing } from '../../store/plan.selectors';
+import { updatePlanRequested, changeIsEditingState, planRequested } from '../../store/plan.actions';
+import { selectIsEditing, selectPlanById } from '../../store/plan.selectors';
 
 @Component({
   selector: 'plan',
-  templateUrl: './plan.component.html',
-  styleUrls: ['./plan.component.scss'],
+  template: `
+    <templates-plan-view
+      [plan]="plan$ | async"
+      [editForm]="editForm$ | async"
+      [canEdit]="canEditPlan$ | async"
+      [canAddAttachment]="canAddAttachment$ | async"
+      [canDeleteAttachment]="canDeleteAttachment$ | async"
+      (isEditing)="onFormStateChange($event)"
+      (saveChanges)="updatePlan($event)"
+    ></templates-plan-view>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PlanComponent implements OnInit, OnDestroy {
-  canEditPlan$: Observable<boolean> = combineLatest([
-    this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.PLAN))),
-    this.store$.pipe(select(currentUser))
-  ]).pipe(map(([editPriv, appUser]) => editPriv || appUser.id === this.plan.CreatorId));
+export class PlanComponent implements OnInit {
+  canEditPlan$: Observable<boolean>;
   canAddAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.PLAN_ATTACHMENT)));
   // configStages$: Observable<boolean> = this.store.pipe(select(isPrivileged('stage-edit')));
   canDeleteAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.PLAN_ATTACHMENT)));
   editForm$: Observable<boolean> = this.store$.pipe(select(selectIsEditing));
 
-  plan: Plan;
-  planInitial: Plan;
-  planFormJson: DynamicForm;
-  planFormValues: Plan;
-  configPlanStages = false;
+  plan$: Observable<Plan>;
+  // configPlanStages = false;
 
-  actionLabels = ACTION_LABELS;
-  themePalette = THEME_PALETTE;
-
-  private unsubscribe: Subject<void> = new Subject();
-
-  constructor(
-    private route: ActivatedRoute,
-    private planService: PlanService,
-    private dialog: MatDialog,
-    private store$: Store<AppState>,
-    private mediaQuery: MediaqueryService,
-    private cdr: ChangeDetectorRef,
-    private toastMessageService: ToastMessageService
-  ) {}
+  constructor(private route: ActivatedRoute, private store$: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.planFormJson = this.route.snapshot.data[RoutingDataConstants.FORM_JSON];
-    this.plan = cloneDeep(this.route.snapshot.data['plan']);
-    this.planInitial = cloneDeep(this.route.snapshot.data['plan']);
-  }
+    const id = this.route.snapshot.params['id'];
 
-  planFormValueChanges(formVal: Plan): void {
-    this.planFormValues = { ...this.planFormValues, ...formVal };
+    this.plan$ = this.store$.pipe(
+      select(selectPlanById(id)),
+      tap((plan) => {
+        if (!plan) {
+          this.store$.dispatch(planRequested({ id }));
+        }
+      }),
+      filter((plan) => !!plan)
+    );
+
+    this.canEditPlan$ = combineLatest([
+      this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.PLAN))),
+      this.store$.pipe(select(currentUser)),
+      this.plan$
+    ]).pipe(map(([editPriv, appUser, plan]) => editPriv || appUser.id === plan.CreatorId));
   }
 
   // TODO: @IMalaniak recreate store logic
@@ -98,8 +83,8 @@ export class PlanComponent implements OnInit, OnDestroy {
   //     });
   // }
 
-  onClickEdit(): void {
-    this.store$.dispatch(changeIsEditingState({ isEditing: true }));
+  onFormStateChange(isEditing: boolean): void {
+    this.store$.dispatch(changeIsEditingState({ isEditing }));
   }
 
   // onClickConfigureStages(): void {
@@ -110,18 +95,6 @@ export class PlanComponent implements OnInit, OnDestroy {
   //   this.configPlanStages = false;
   //   this.plan = cloneDeep(this.planInitial);
   // }
-
-  onClickCancelEdit(): void {
-    this.store$.dispatch(changeIsEditingState({ isEditing: false }));
-    this.plan = cloneDeep(this.planInitial);
-  }
-
-  removeParticipant(userId: number): void {
-    this.plan = {
-      ...this.plan,
-      Participants: this.plan.Participants.filter((participant) => participant.id !== userId)
-    };
-  }
 
   // updatePlanStages(): void {
   //   this.toastMessageService
@@ -134,12 +107,8 @@ export class PlanComponent implements OnInit, OnDestroy {
   //     });
   // }
 
-  updatePlan(): void {
-    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_UPDATE_PLAN_CONFIRM).then((result) => {
-      if (result.value) {
-        this.store$.dispatch(updatePlanRequested({ plan: this.plan }));
-      }
-    });
+  updatePlan(plan: Plan): void {
+    this.store$.dispatch(updatePlanRequested({ plan }));
   }
 
   // TODO: @ArseniiIrod, @IMalaniak remake logic
@@ -211,78 +180,4 @@ export class PlanComponent implements OnInit, OnDestroy {
   //     return stage;
   //   });
   // }
-
-  addParticipantDialog(): void {
-    const dialogRef = this.dialog.open(UsersDialogComponent, {
-      ...this.mediaQuery.deFaultPopupSize,
-      data: {
-        title: 'Select participants'
-      }
-    });
-
-    const userC = dialogRef.componentInstance.usersComponent;
-
-    dialogRef
-      .afterOpened()
-      .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
-      .subscribe(() => {
-        userC.users
-          .filter((user) => this.plan.Participants.some((participant) => participant.id === user.id))
-          ?.forEach((selectedParticipant) => {
-            userC.selection.select(selectedParticipant);
-          });
-      });
-
-    dialogRef
-      .afterClosed()
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: User[]) => {
-        const selectedParticipants: User[] = result?.filter(
-          (selectedParticipant) => !this.plan.Participants.some((user) => user.id === selectedParticipant.id)
-        );
-
-        if (selectedParticipants?.length) {
-          this.plan.Participants = [...this.plan.Participants, ...selectedParticipants];
-          this.cdr.detectChanges();
-        }
-      });
-  }
-
-  addDocument(doc: Asset): void {
-    this.plan = { ...this.plan, Documents: [...this.plan.Documents, doc] };
-    this.store$.dispatch(updatePlanRequested({ plan: this.plan }));
-  }
-
-  deleteDoc(docId: number): void {
-    // TODO: @IMalaniak, @ArseniiIrod remake this in feature
-    this.toastMessageService
-      .confirm(DIALOG.CONFIRM, 'Are you sure you want to delete document from plan, changes cannot be undone?')
-      .then((result) => {
-        if (result.value) {
-          const req = {
-            planId: this.plan.id,
-            docId: docId
-          };
-          this.planService
-            .deleteDoc(req)
-            .pipe(takeUntil(this.unsubscribe))
-            .subscribe((response: ApiResponse) => {
-              if (response.success) {
-                this.plan = { ...this.plan, Documents: this.plan.Documents.filter((doc) => doc.id !== docId) };
-                this.store$.dispatch(updatePlanRequested({ plan: this.plan }));
-                this.cdr.detectChanges();
-
-                this.toastMessageService.toast('Stages updated!');
-              } else {
-                this.toastMessageService.popup('Ooops, something went wrong!', 'error');
-              }
-            });
-        }
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
-  }
 }

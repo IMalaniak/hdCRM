@@ -63,7 +63,7 @@
     </div>
   </organisms-card> -->
 </section>
-<organisms-card cardTitle="Details" *ngIf="plan" cardClass="mb-3">
+<organisms-card [cardTitle]="null | memoize: cardTitle:this" *ngIf="plan" cardClass="mb-3">
   <div content class="row">
     <div class="col-sm-12 col-md-8 col-lg-7">
       <organisms-card cardTitle="Plan details" cardClass="border border-dark m-0" [disableShadow]="true">
@@ -71,7 +71,7 @@
           <organisms-dynamic-form
             [data]="plan"
             [formJson]="planFormJson"
-            [editForm]="editForm$ | async"
+            [editForm]="editForm"
             (formChanges)="planFormValueChanges($event)"
           ></organisms-dynamic-form>
         </section>
@@ -81,34 +81,37 @@
       <templates-box-user-list-sm
         cardTitle="Participants"
         [users]="plan.Participants"
-        [editMode]="editForm$ | async"
+        [editMode]="editForm"
         (addClick)="addParticipantDialog()"
         (removeClick)="removeParticipant($event)"
       ></templates-box-user-list-sm>
     </div>
   </div>
-  <div buttons *ngIf="canEditPlan$ | async">
-    <atoms-icon-button *ngIf="!(editForm$ | async)" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
+  <div buttons *ngIf="canEdit && !isCreatePage">
+    <atoms-icon-button *ngIf="!editForm" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
       {{ actionLabels.EDIT }}
     </atoms-icon-button>
     <atoms-icon-button
-      *ngIf="editForm$ | async"
+      *ngIf="editForm"
       (onclick)="onClickCancelEdit()"
       [icon]="['fas', 'times']"
       [color]="themePalette.BASIC"
     >
       {{ actionLabels.CANCEL }}
     </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm$ | async" (onclick)="updatePlan()" [icon]="['fas', 'save']">
+    <atoms-icon-button *ngIf="editForm" (onclick)="updatePlan()" [icon]="['fas', 'save']">
       {{ actionLabels.SAVE }}
     </atoms-icon-button>
   </div>
+  <atoms-icon-button *ngIf="isCreatePage" buttons (onclick)="savePlan()" [icon]="['fas', 'paper-plane']">
+    {{ actionLabels.SUMBIT }}
+  </atoms-icon-button>
 </organisms-card>
 
 <templates-attachments-list
   *ngIf="plan"
-  [canAdd]="canAddAttachment$ | async"
-  [canDelete]="canDeleteAttachment$ | async"
+  [canAdd]="canAddAttachment"
+  [canDelete]="canDeleteAttachment"
   [attachments]="plan.Documents"
   [apiUrl]="'/plans/documents/' + plan.id"
   (deleteFileCall)="deleteDoc($event)"

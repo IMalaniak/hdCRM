@@ -4,6 +4,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output
 } from '@angular/core';
@@ -24,7 +25,7 @@ import { User, UsersDialogComponent } from '@/modules/users';
   templateUrl: './templates-department-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TemplatesDepartmentViewComponent implements OnInit {
+export class TemplatesDepartmentViewComponent implements OnInit, OnDestroy {
   @Input() department: Department;
   @Input() editForm: boolean;
   @Input() canEdit: boolean;
@@ -130,5 +131,10 @@ export class TemplatesDepartmentViewComponent implements OnInit {
 
   cardTitle(): string {
     return this.isCreatePage ? 'Create department' : this.department.title;
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }

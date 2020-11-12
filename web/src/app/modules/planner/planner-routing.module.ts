@@ -5,7 +5,6 @@ import { PrivilegeGuard } from '@/core/_guards';
 import { PATHS, VIEW_PRIVILEGES, ADD_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
 import { DynamicFormResolver } from '@/shared/services';
 import { AddPlanComponent, PlanListComponent, PlanComponent, StagesComponent } from './components';
-import { PlanResolver } from './services';
 
 const routes: Routes = [
   { path: '', pathMatch: PATHS.PATH_MATCH_FULL, redirectTo: PATHS.LIST },
@@ -29,7 +28,7 @@ const routes: Routes = [
     },
     canActivate: [PrivilegeGuard],
     component: PlanComponent,
-    resolve: { plan: PlanResolver, formJSON: DynamicFormResolver }
+    resolve: { formJSON: DynamicFormResolver }
   },
   {
     path: PATHS.ADD,
@@ -63,7 +62,7 @@ export class PlannerRoutingModule {
   static forRoot(): ModuleWithProviders<PlannerRoutingModule> {
     return {
       ngModule: PlannerRoutingModule,
-      providers: [PlanResolver, DynamicFormResolver]
+      providers: [DynamicFormResolver]
     };
   }
 }

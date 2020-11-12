@@ -15,7 +15,8 @@ import {
   PlanComponent,
   AddStageDialogComponent,
   StagesDialogComponent,
-  StagesComponent
+  StagesComponent,
+  TemplatesPlanViewComponent
 } from './components';
 
 import { PlanService, StageService } from './services';
@@ -41,7 +42,8 @@ import { StageEffects } from './store/stage.effects';
     PlanComponent,
     AddStageDialogComponent,
     StagesDialogComponent,
-    StagesComponent
+    StagesComponent,
+    TemplatesPlanViewComponent
   ],
   providers: [PlanService, StageService],
   exports: [
