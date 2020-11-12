@@ -129,8 +129,6 @@ export class TemplatesDepartmentViewComponent implements OnInit {
   }
 
   cardTitle(): string {
-    console.log('card title');
-
     return this.isCreatePage ? 'Create department' : this.department.title;
   }
 }

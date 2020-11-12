@@ -17,6 +17,7 @@ import { LayoutModule } from './layout/layout.module';
 import { environment } from 'environments/environment';
 import { IntegrationsEffects } from './reducers/integration.effects';
 import { DynamicFormEffects } from './reducers/dynamic-form/dynamic-form.effects';
+import { DynamicFormService } from './services/dynamic-form.service';
 
 @NgModule({
   imports: [
@@ -42,6 +43,7 @@ import { DynamicFormEffects } from './reducers/dynamic-form/dynamic-form.effects
   providers: [
     httpInterceptorsProviders,
     MediaqueryService,
+    DynamicFormService,
     LocalStorageService,
     { provide: RouterStateSerializer, useClass: CustomSerializer }
   ]

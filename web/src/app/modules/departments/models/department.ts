@@ -5,11 +5,11 @@ export interface Department {
   title: string;
   description: string;
   managerId: number;
-  parentDepId: number;
+  Manager: User;
   createdAt: Date;
   updatedAt: Date;
-  ParentDepartment: Department;
-  SubDepartments: Department[];
-  Workers: User[];
-  Manager: User;
+  parentDepId?: number;
+  ParentDepartment?: Department;
+  SubDepartments?: Department[];
+  Workers?: User[];
 }
