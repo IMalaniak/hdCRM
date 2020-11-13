@@ -8,7 +8,7 @@ import { Store, select } from '@ngrx/store';
 
 import { AppState } from '@/core/reducers';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
-import { ADD_PRIVILEGES, DELETE_PRIVILEGES, EDIT_PRIVILEGES } from '@/shared/constants';
+import { ADD_PRIVILEGES, DELETE_PRIVILEGES, EDIT_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
 import { Plan } from '../../models';
 import { updatePlanRequested, changeIsEditingState, planRequested } from '../../store/plan.actions';
 import { selectIsEditing, selectPlanById } from '../../store/plan.selectors';
@@ -17,7 +17,8 @@ import { selectIsEditing, selectPlanById } from '../../store/plan.selectors';
   selector: 'plan',
   template: `
     <templates-plan-view
-      [plan]="plan$ | async"
+      [item]="plan$ | async"
+      [formName]="formName"
       [editForm]="editForm$ | async"
       [canEdit]="canEditPlan$ | async"
       [canAddAttachment]="canAddAttachment$ | async"
@@ -37,6 +38,8 @@ export class PlanComponent implements OnInit {
 
   plan$: Observable<Plan>;
   // configPlanStages = false;
+
+  formName = FORMCONSTANTS.PLAN;
 
   constructor(private route: ActivatedRoute, private store$: Store<AppState>) {}
 
