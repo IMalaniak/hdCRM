@@ -8,5 +8,5 @@ export interface Role {
   Users: User[];
   createdAt: Date;
   updatedAt: Date;
-  selected: boolean;
+  selected?: boolean;
 }
