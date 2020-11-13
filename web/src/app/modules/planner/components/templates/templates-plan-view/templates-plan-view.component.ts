@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Store } from '@ngrx/store';
@@ -6,7 +6,6 @@ import { Subject } from 'rxjs';
 import { delay, skipUntil, takeUntil } from 'rxjs/operators';
 
 import { AppState } from '@/core/reducers';
-import { DIALOG } from '@/shared/constants';
 import { Asset } from '@/shared/models';
 import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
 import { MediaqueryService, ToastMessageService } from '@/shared/services';
@@ -22,7 +21,7 @@ export class TemplatesPlanViewComponent extends TemplatesViewDetailsComponent<Pl
   @Input() canAddAttachment: boolean;
   @Input() canDeleteAttachment: boolean;
 
-  @Output() deleteDocument: EventEmitter<any> = new EventEmitter();
+  // @Output() deleteDocument: EventEmitter<any> = new EventEmitter();
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -81,23 +80,23 @@ export class TemplatesPlanViewComponent extends TemplatesViewDetailsComponent<Pl
 
   addDocument(doc: Asset): void {
     this.item = { ...this.item, Documents: [...this.item.Documents, doc] };
-    // this.store$.dispatch(updatePlanRequested({ item: this.item }));
+    this.saveChanges.emit(this.item);
   }
 
-  deleteDoc(docId: number): void {
-    // TODO: @IMalaniak, @ArseniiIrod remake this in feature
-    this.toastMessageService
-      .confirm(DIALOG.CONFIRM, 'Are you sure you want to delete document from plan, changes cannot be undone?')
-      .then((result) => {
-        if (result.value) {
-          const req = {
-            planId: this.item.id,
-            docId: docId
-          };
-          this.deleteDocument.emit(req);
-        }
-      });
-  }
+  // deleteDoc(docId: number): void {
+  //   // TODO: @IMalaniak, @ArseniiIrod remake this in feature
+  //   this.toastMessageService
+  //     .confirm(DIALOG.CONFIRM, 'Are you sure you want to delete document from plan, changes cannot be undone?')
+  //     .then((result) => {
+  //       if (result.value) {
+  //         const req = {
+  //           planId: this.item.id,
+  //           docId: docId
+  //         };
+  //         this.deleteDocument.emit(req);
+  //       }
+  //     });
+  // }
 
   cardTitle(): string {
     return this.isCreatePage ? 'Create plan' : this.item.title;

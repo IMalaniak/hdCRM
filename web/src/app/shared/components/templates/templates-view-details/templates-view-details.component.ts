@@ -1,17 +1,20 @@
 import { AppState } from '@/core/reducers';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
+
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { ACTION_LABELS, CONSTANTS, DIALOG, THEME_PALETTE } from '@/shared/constants';
 import { DynamicForm } from '@/shared/models';
 import { ToastMessageService } from '@/shared/services';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'templates-view-details',
-  template: ''
+  template: '',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TemplatesViewDetailsComponent<T> implements OnInit {
   @Input() item: T;

@@ -13,7 +13,7 @@ interface TestItem {
   title: string;
 }
 
-fdescribe('TemplatesViewDetailsComponent', () => {
+describe('TemplatesViewDetailsComponent', () => {
   let component: TemplatesViewDetailsComponent<TestItem>;
   let fixture: ComponentFixture<TemplatesViewDetailsComponent<TestItem>>;
   const initialState = {

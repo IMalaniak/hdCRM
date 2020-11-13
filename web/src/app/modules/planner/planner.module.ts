@@ -31,7 +31,7 @@ import { StageEffects } from './store/stage.effects';
     RouterModule,
     SharedModule,
     DragDropModule,
-    PlannerRoutingModule.forRoot(),
+    PlannerRoutingModule,
     StoreModule.forFeature(fromPlan.plansFeatureKey, fromPlan.reducer),
     StoreModule.forFeature(fromStage.stagesFeatureKey, fromStage.reducer),
     EffectsModule.forFeature([PlanEffects, StageEffects])

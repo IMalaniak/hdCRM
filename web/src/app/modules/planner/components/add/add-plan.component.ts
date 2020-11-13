@@ -1,99 +1,42 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
-import { takeUntil, skipUntil, delay } from 'rxjs/operators';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 import { AppState } from '@/core/reducers';
-import { MediaqueryService } from '@/shared/services';
-import { DynamicForm } from '@/shared/models';
-import { ACTION_LABELS, RoutingDataConstants } from '@/shared/constants';
-import { UsersDialogComponent, User } from '@/modules/users';
+import { ADD_PRIVILEGES, DELETE_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
 import { Plan } from '../../models';
 import { createPlanRequested } from '../../store/plan.actions';
+import { isPrivileged } from '@/core/auth/store/auth.selectors';
 
 @Component({
   selector: 'add-plan',
-  templateUrl: './add-plan.component.html',
+  template: `
+    <templates-plan-view
+      [item]="plan"
+      [formName]="formName"
+      [editForm]="true"
+      [canEdit]="true"
+      [isCreatePage]="true"
+      [canAddAttachment]="canAddAttachment$ | async"
+      [canDeleteAttachment]="canDeleteAttachment$ | async"
+      (saveChanges)="onSubmit($event)"
+    ></templates-plan-view>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddPlanComponent implements OnInit, OnDestroy {
-  plan = {} as Plan;
-  planFormJson: DynamicForm;
-  planFormValues: Plan;
+export class AddPlanComponent {
+  canAddAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.PLAN_ATTACHMENT)));
+  // configStages$: Observable<boolean> = this.store.pipe(select(isPrivileged('stage-edit')));
+  canDeleteAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.PLAN_ATTACHMENT)));
 
-  actionLabels = ACTION_LABELS;
+  plan = { Participants: [] } as Plan;
 
-  private unsubscribe: Subject<void> = new Subject();
+  formName = FORMCONSTANTS.PLAN;
 
-  constructor(
-    private route: ActivatedRoute,
-    private dialog: MatDialog,
-    private store$: Store<AppState>,
-    private mediaQuery: MediaqueryService,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private store$: Store<AppState>) {}
 
-  ngOnInit(): void {
-    this.planFormJson = this.route.snapshot.data[RoutingDataConstants.FORM_JSON];
-    this.plan.Participants = [];
-  }
-
-  planFormValueChanges(formVal: Plan): void {
-    this.planFormValues = { ...this.planFormValues, ...formVal };
-  }
-
-  addParticipantDialog(): void {
-    const dialogRef = this.dialog.open(UsersDialogComponent, {
-      ...this.mediaQuery.deFaultPopupSize,
-      data: {
-        title: 'Select participants'
-      }
-    });
-
-    const userC = dialogRef.componentInstance.usersComponent;
-
-    dialogRef
-      .afterOpened()
-      .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
-      .subscribe(() => {
-        userC.users
-          .filter((user) => this.plan.Participants.some((participant) => participant.id === user.id))
-          ?.forEach((selectedParticipant) => {
-            userC.selection.select(selectedParticipant);
-          });
-      });
-
-    dialogRef
-      .afterClosed()
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: User[]) => {
-        const selectedParticipants: User[] = result?.filter(
-          (selectedParticipant) => !this.plan.Participants.some((user) => user.id === selectedParticipant.id)
-        );
-
-        if (selectedParticipants?.length) {
-          this.plan.Participants = [...this.plan.Participants, ...selectedParticipants];
-          this.cdr.detectChanges();
-        }
-      });
-  }
-
-  removeParticipant(userId: number): void {
-    this.plan = {
-      ...this.plan,
-      Participants: this.plan.Participants.filter((participant) => participant.id !== userId)
-    };
-  }
-
-  onClickSubmit(): void {
-    this.store$.dispatch(createPlanRequested({ plan: { ...this.plan, ...this.planFormValues } }));
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
+  onSubmit(plan: Plan): void {
+    this.store$.dispatch(createPlanRequested({ plan }));
   }
 }

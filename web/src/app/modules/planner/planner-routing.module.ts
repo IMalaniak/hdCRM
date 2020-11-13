@@ -1,9 +1,8 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { PrivilegeGuard } from '@/core/_guards';
 import { PATHS, VIEW_PRIVILEGES, ADD_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
-import { DynamicFormResolver } from '@/shared/services';
 import { AddPlanComponent, PlanListComponent, PlanComponent, StagesComponent } from './components';
 
 const routes: Routes = [
@@ -27,8 +26,7 @@ const routes: Routes = [
       formName: FORMCONSTANTS.PLAN
     },
     canActivate: [PrivilegeGuard],
-    component: PlanComponent,
-    resolve: { formJSON: DynamicFormResolver }
+    component: PlanComponent
   },
   {
     path: PATHS.ADD,
@@ -39,8 +37,7 @@ const routes: Routes = [
       formName: FORMCONSTANTS.PLAN
     },
     canActivate: [PrivilegeGuard],
-    component: AddPlanComponent,
-    resolve: { formJSON: DynamicFormResolver }
+    component: AddPlanComponent
   },
   {
     path: PATHS.STAGES,
@@ -58,11 +55,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PlannerRoutingModule {
-  static forRoot(): ModuleWithProviders<PlannerRoutingModule> {
-    return {
-      ngModule: PlannerRoutingModule,
-      providers: [DynamicFormResolver]
-    };
-  }
-}
+export class PlannerRoutingModule {}

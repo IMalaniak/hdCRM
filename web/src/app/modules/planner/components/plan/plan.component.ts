@@ -63,6 +63,14 @@ export class PlanComponent implements OnInit {
     ]).pipe(map(([editPriv, appUser, plan]) => editPriv || appUser.id === plan.CreatorId));
   }
 
+  onFormStateChange(isEditing: boolean): void {
+    this.store$.dispatch(changeIsEditingState({ isEditing }));
+  }
+
+  updatePlan(plan: Plan): void {
+    this.store$.dispatch(updatePlanRequested({ plan }));
+  }
+
   // TODO: @IMalaniak recreate store logic
   // goToNextStage(): void {
   //   this.toastMessageService
@@ -86,10 +94,6 @@ export class PlanComponent implements OnInit {
   //     });
   // }
 
-  onFormStateChange(isEditing: boolean): void {
-    this.store$.dispatch(changeIsEditingState({ isEditing }));
-  }
-
   // onClickConfigureStages(): void {
   //   this.configPlanStages = true;
   // }
@@ -109,10 +113,6 @@ export class PlanComponent implements OnInit {
   //       }
   //     });
   // }
-
-  updatePlan(plan: Plan): void {
-    this.store$.dispatch(updatePlanRequested({ plan }));
-  }
 
   // TODO: @ArseniiIrod, @IMalaniak remake logic
   // addStageDialog(): void {
