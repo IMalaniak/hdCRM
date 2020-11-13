@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { RouterStateSerializer, StoreRouterConnectingModule, DefaultRouterStateSerializer } from '@ngrx/router-store';
+import { StoreRouterConnectingModule, RouterState } from '@ngrx/router-store';
 import { PreferencesEffects } from './reducers/preferences.effects';
 import { reducers, metaReducers } from './reducers';
 import { httpInterceptorsProviders } from './_interceptors';
@@ -37,15 +37,13 @@ import { DynamicFormService } from './services/dynamic-form.service';
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([PreferencesEffects, IntegrationsEffects, DynamicFormEffects]),
-    StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer, stateKey: 'router' })
+    StoreRouterConnectingModule.forRoot({
+      serializer: CustomSerializer,
+      stateKey: 'router',
+      routerState: RouterState.Full
+    })
   ],
   exports: [RouterModule, HttpClientModule, FormsModule, ReactiveFormsModule, LayoutModule],
-  providers: [
-    httpInterceptorsProviders,
-    MediaqueryService,
-    DynamicFormService,
-    LocalStorageService,
-    { provide: RouterStateSerializer, useClass: CustomSerializer }
-  ]
+  providers: [httpInterceptorsProviders, MediaqueryService, DynamicFormService, LocalStorageService]
 })
 export class CoreModule {}
