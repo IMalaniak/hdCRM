@@ -2,7 +2,6 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -20,7 +19,8 @@ describe('TemplatesDepartmentViewComponent', () => {
   let fixture: ComponentFixture<TemplatesDepartmentViewComponent>;
   const initialState = {
     preferences: initialPreferencesState,
-    auth: authStateMock
+    auth: authStateMock,
+    forms: formsStateMock
   };
 
   const departmentMock: Department = {
@@ -34,29 +34,20 @@ describe('TemplatesDepartmentViewComponent', () => {
     updatedAt: new Date()
   };
 
-  const update = {
-    title: 'New title'
-  } as Department;
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [TemplatesDepartmentViewComponent],
       imports: [RouterTestingModule, BrowserAnimationsModule, HttpClientModule, SharedModule],
-      providers: [
-        provideMockStore({ initialState }),
-        {
-          provide: ActivatedRoute,
-          useValue: { snapshot: { data: { formJSON: formsStateMock.entities[FORMCONSTANTS.DEPARTMENT] } } }
-        }
-      ]
+      providers: [provideMockStore({ initialState })]
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TemplatesDepartmentViewComponent);
     component = fixture.componentInstance;
-    component.department = { ...departmentMock };
+    component.item = departmentMock;
     component.canEdit = true;
+    component.formName = FORMCONSTANTS.DEPARTMENT;
     fixture.detectChanges();
   });
 
@@ -76,36 +67,13 @@ describe('TemplatesDepartmentViewComponent', () => {
     expect(component.cardTitle()).toEqual('Create department');
   });
 
-  it('should emit true when edit button is clicked', () => {
-    component.isEditing.subscribe((isEditing: boolean) => expect(isEditing).toBe(true));
-    component.onClickEdit();
-  });
-
-  it('should emit false when cancel button is clicked', () => {
-    component.isEditing.subscribe((isEditing: boolean) => expect(isEditing).toBe(false));
-    component.onClickCancelEdit();
-  });
-
   it('should remove manager', () => {
     component.removeManager();
-    expect(component.department.Manager).toEqual(null);
+    expect(component.item.Manager).toEqual(null);
   });
 
   it('should remove worker', () => {
     component.removeWorker(currentUserMock.id);
-    expect(component.department.Workers).toEqual([]);
-  });
-
-  it('should emit changes', () => {
-    component.departmentFormValues = { ...update };
-    component.saveChanges.subscribe((savedDepartment: Department) =>
-      expect(savedDepartment).toEqual({ ...departmentMock, ...update })
-    );
-    component.saveDepartment();
-  });
-
-  it('should update department on form change', () => {
-    component.departmentFormValueChanges(update);
-    expect(component.departmentFormValues).toEqual({ ...update });
+    expect(component.item.Workers).toEqual([]);
   });
 });

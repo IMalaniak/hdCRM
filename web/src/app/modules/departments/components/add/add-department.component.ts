@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { Department } from '../../models';
 import { createDepartmentRequested } from '../../store/department.actions';
+import { FORMCONSTANTS } from '@/shared/constants';
 
 @Component({
   selector: 'add-department-component',
@@ -12,7 +13,8 @@ import { createDepartmentRequested } from '../../store/department.actions';
     <templates-department-view
       [editForm]="true"
       [isCreatePage]="true"
-      [department]="department"
+      [formName]="formName"
+      [item]="department"
       (saveChanges)="onSubmit($event)"
     ></templates-department-view>
   `,
@@ -23,6 +25,8 @@ export class AddDepartmentComponent {
     SubDepartments: [],
     Workers: []
   } as Department;
+
+  formName = FORMCONSTANTS.DEPARTMENT;
 
   constructor(private store: Store<AppState>) {}
 

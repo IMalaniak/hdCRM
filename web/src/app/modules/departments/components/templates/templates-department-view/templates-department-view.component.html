@@ -1,13 +1,13 @@
-<organisms-card [cardTitle]="null | memoize: cardTitle:this" *ngIf="department">
+<organisms-card [cardTitle]="null | memoize: cardTitle:this" *ngIf="item">
   <div content class="row">
     <div class="col-md-6">
       <organisms-card cardTitle="Details" cardClass="border border-dark mt-0 mb-0" [disableShadow]="true">
         <section content>
           <organisms-dynamic-form
-            [data]="department"
-            [formJson]="departmentFormJson"
+            [data]="item"
+            [formJson]="formJson$ | async"
             [editForm]="editForm"
-            (formChanges)="departmentFormValueChanges($event)"
+            (formChanges)="formValueChanges($event)"
           >
           </organisms-dynamic-form>
         </section>
@@ -17,14 +17,14 @@
       <templates-box-user-list-sm
         cardTitle="Manager"
         class="d-block mb-3"
-        [user]="department.Manager"
+        [user]="item.Manager"
         [editMode]="editForm"
         (addClick)="addManagerDialog()"
         (removeClick)="removeManager()"
       ></templates-box-user-list-sm>
       <templates-box-user-list-sm
         cardTitle="Workers"
-        [users]="department.Workers"
+        [users]="item.Workers"
         [editMode]="editForm"
         (addClick)="addWorkersDialog()"
         (removeClick)="removeWorker($event)"
@@ -70,11 +70,11 @@
     >
       {{ actionLabels.CANCEL }}
     </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm" [icon]="['fas', 'save']" (onclick)="updateDepartment()">
+    <atoms-icon-button *ngIf="editForm" [icon]="['fas', 'save']" (onclick)="update()">
       {{ actionLabels.SAVE }}
     </atoms-icon-button>
   </div>
-  <atoms-icon-button *ngIf="isCreatePage" buttons (onclick)="saveDepartment()" [icon]="['fas', 'paper-plane']">
+  <atoms-icon-button *ngIf="isCreatePage" buttons (onclick)="save()" [icon]="['fas', 'paper-plane']">
     {{ actionLabels.SUMBIT }}
   </atoms-icon-button>
 </organisms-card>

@@ -7,7 +7,7 @@ import { Store, select } from '@ngrx/store';
 
 import { AppState } from '@/core/reducers';
 import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
-import { EDIT_PRIVILEGES } from '@/shared/constants';
+import { EDIT_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
 import { Department } from '../../models';
 import { updateDepartmentRequested, changeIsEditingState, departmentRequested } from '../../store/department.actions';
 import { selectDepartmentById, selectIsEditing } from '../../store/department.selectors';
@@ -17,7 +17,8 @@ import { selectDepartmentById, selectIsEditing } from '../../store/department.se
   template: `
     <templates-department-view
       [editForm]="editForm$ | async"
-      [department]="department$ | async"
+      [formName]="formName"
+      [item]="department$ | async"
       [canEdit]="canEditDepartment$ | async"
       (saveChanges)="updateDepartment($event)"
       (isEditing)="onFormStateChange($event)"
@@ -29,6 +30,8 @@ export class DepartmentComponent implements OnInit {
   editForm$: Observable<boolean> = this.store$.pipe(select(selectIsEditing));
   department$: Observable<Department>;
   canEditDepartment$: Observable<boolean>;
+
+  formName = FORMCONSTANTS.DEPARTMENT;
 
   constructor(private route: ActivatedRoute, private store$: Store<AppState>) {}
 

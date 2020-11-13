@@ -83,20 +83,20 @@ export class TemplatesPlanViewComponent extends TemplatesViewDetailsComponent<Pl
     this.saveChanges.emit(this.item);
   }
 
-  // deleteDoc(docId: number): void {
-  //   // TODO: @IMalaniak, @ArseniiIrod remake this in feature
-  //   this.toastMessageService
-  //     .confirm(DIALOG.CONFIRM, 'Are you sure you want to delete document from plan, changes cannot be undone?')
-  //     .then((result) => {
-  //       if (result.value) {
-  //         const req = {
-  //           planId: this.item.id,
-  //           docId: docId
-  //         };
-  //         this.deleteDocument.emit(req);
-  //       }
-  //     });
-  // }
+  deleteDoc(_: number): void {
+    // TODO: @IMalaniak, @ArseniiIrod remake this in feature
+    // this.toastMessageService
+    //   .confirm(DIALOG.CONFIRM, 'Are you sure you want to delete document from plan, changes cannot be undone?')
+    //   .then((result) => {
+    //     if (result.value) {
+    //       const req = {
+    //         planId: this.item.id,
+    //         docId: docId
+    //       };
+    //       this.deleteDocument.emit(req);
+    //     }
+    //   });
+  }
 
   cardTitle(): string {
     return this.isCreatePage ? 'Create plan' : this.item.title;

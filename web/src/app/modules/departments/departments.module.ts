@@ -22,7 +22,7 @@ import { DepartmentEffects } from './store/department.effects';
     CommonModule,
     RouterModule,
     SharedModule,
-    DepartmentsRoutingModule.forRoot(),
+    DepartmentsRoutingModule,
     StoreModule.forFeature(fromDep.departmentsFeatureKey, fromDep.reducer),
     EffectsModule.forFeature([DepartmentEffects])
   ],

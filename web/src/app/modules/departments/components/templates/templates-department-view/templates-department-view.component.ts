@@ -1,66 +1,34 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output
-} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { DynamicForm } from '@/shared/models';
-import { ACTION_LABELS, CONSTANTS, DIALOG, MAT_BUTTON, RoutingDataConstants, THEME_PALETTE } from '@/shared/constants';
 import { MediaqueryService, ToastMessageService } from '@/shared/services';
 import { Department } from '@/modules/departments/models';
 import { User, UsersDialogComponent } from '@/modules/users';
+import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
+import { Store } from '@ngrx/store';
+import { AppState } from '@/core/reducers';
 
 @Component({
   selector: 'templates-department-view',
   templateUrl: './templates-department-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TemplatesDepartmentViewComponent implements OnInit, OnDestroy {
-  @Input() department: Department;
-  @Input() editForm: boolean;
-  @Input() canEdit: boolean;
-  @Input() isCreatePage: boolean;
-
-  @Output() isEditing: EventEmitter<boolean> = new EventEmitter();
-  @Output() saveChanges: EventEmitter<Department> = new EventEmitter();
-
-  departmentFormJson: DynamicForm;
-  departmentFormValues: Department;
-
-  actionLabels = ACTION_LABELS;
-  themePalette = THEME_PALETTE;
-  matButtonTypes = MAT_BUTTON;
-
+export class TemplatesDepartmentViewComponent
+  extends TemplatesViewDetailsComponent<Department>
+  implements OnInit, OnDestroy {
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
-    private route: ActivatedRoute,
+    protected store$: Store<AppState>,
+    protected toastMessageService: ToastMessageService,
     private dialog: MatDialog,
     private mediaQuery: MediaqueryService,
-    private cdr: ChangeDetectorRef,
-    private toastMessageService: ToastMessageService
-  ) {}
-
-  ngOnInit(): void {
-    this.departmentFormJson = this.route.snapshot.data[RoutingDataConstants.FORM_JSON];
-  }
-
-  onClickEdit(): void {
-    this.isEditing.emit(true);
-  }
-
-  onClickCancelEdit(): void {
-    this.isEditing.emit(false);
+    private cdr: ChangeDetectorRef
+  ) {
+    super(store$, toastMessageService);
   }
 
   addManagerDialog(): void {
@@ -76,7 +44,7 @@ export class TemplatesDepartmentViewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: User[]) => {
         if (result?.length) {
-          this.department = { ...this.department, Manager: { ...result[0] } };
+          this.item = { ...this.item, Manager: { ...result[0] } };
           this.cdr.detectChanges();
         }
       });
@@ -95,42 +63,26 @@ export class TemplatesDepartmentViewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: User[]) => {
         const selectedWorkers: User[] = result?.filter(
-          (selectedWorker) => !this.department.Workers.some((user) => user.id === selectedWorker.id)
+          (selectedWorker) => !this.item.Workers.some((user) => user.id === selectedWorker.id)
         );
 
         if (selectedWorkers?.length) {
-          this.department.Workers = [...this.department.Workers, ...selectedWorkers];
+          this.item.Workers = [...this.item.Workers, ...selectedWorkers];
           this.cdr.detectChanges();
         }
       });
   }
 
   removeManager(): void {
-    this.department = { ...this.department, Manager: null };
+    this.item = { ...this.item, Manager: null };
   }
 
   removeWorker(userId: number): void {
-    this.department = { ...this.department, Workers: this.department.Workers.filter((worker) => worker.id !== userId) };
-  }
-
-  departmentFormValueChanges(formVal: Department): void {
-    this.departmentFormValues = { ...this.departmentFormValues, ...formVal };
-  }
-
-  updateDepartment(): void {
-    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_UPDATE_DEPARTMENT_CONFIRM).then((result) => {
-      if (result.value) {
-        this.saveDepartment();
-      }
-    });
-  }
-
-  saveDepartment(): void {
-    this.saveChanges.emit({ ...this.department, ...this.departmentFormValues });
+    this.item = { ...this.item, Workers: this.item.Workers.filter((worker) => worker.id !== userId) };
   }
 
   cardTitle(): string {
-    return this.isCreatePage ? 'Create department' : this.department.title;
+    return this.isCreatePage ? 'Create department' : this.item.title;
   }
 
   ngOnDestroy(): void {
