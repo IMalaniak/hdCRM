@@ -9,7 +9,7 @@ import { MAT_BUTTON, THEME_PALETTE, CONSTANTS } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
-import { DialogService } from '@/core/services/dialog';
+import { DialogService } from '@/shared/services';
 
 @Component({
   selector: 'organisms-user-sessions',

@@ -8,7 +8,7 @@ import { OrganismsUserDetailsDialogComponent } from '../../organisms/organisms-u
 import { CONSTANTS, MAT_BUTTON } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogWithTwoButtonModel } from '@/shared/models/dialog/dialog-with-two-button.model';
-import { DialogService } from '@/core/services/dialog/dialog.service';
+import { DialogService } from '@/shared/services';
 import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
 
 @Component({
@@ -74,7 +74,7 @@ export class TemplatesBoxUserListSmComponent implements OnDestroy {
     };
 
     this.dialogService
-      .open(OrganismsUserDetailsDialogComponent, dialogDataModel, { width: '22em' })
+      .open(OrganismsUserDetailsDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<string>) => {

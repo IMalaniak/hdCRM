@@ -11,7 +11,7 @@ import { ACTION_LABELS, RoutingDataConstants, CONSTANTS } from '@/shared/constan
 import { UsersDialogComponent, User } from '@/modules/users';
 import { Plan } from '../../models';
 import { createPlanRequested } from '../../store/plan.actions';
-import { DialogService } from '@/core/services/dialog/dialog.service';
+import { DialogService } from '@/shared/services';
 import { DialogWithTwoButtonModel } from '@/shared/models/dialog/dialog-with-two-button.model';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';

@@ -27,8 +27,8 @@ import { updatePlanRequested, changeIsEditingState } from '../../store/plan.acti
 import { selectIsEditing } from '../../store/plan.selectors';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
-import { DialogService } from '@/core/services/dialog';
 import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
+import { DialogService } from '@/shared/services';
 
 @Component({
   templateUrl: './plan.component.html',

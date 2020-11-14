@@ -9,7 +9,7 @@ import { DynamicForm } from '@/shared/models';
 import { UsersDialogComponent, User } from '@/modules/users';
 import { Department } from '../../models';
 import { createDepartmentRequested } from '../../store/department.actions';
-import { DialogService } from '@/core/services/dialog/dialog.service';
+import { DialogService } from '@/shared/services';
 import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
 import { ACTION_LABELS, CONSTANTS, MAT_BUTTON, RoutingDataConstants } from '@/shared/constants';
 
@@ -46,7 +46,9 @@ export class AddDepartmentComponent implements OnInit {
   }
 
   addManagerDialog(): void {
-    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = { dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_MANAGER) };
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_MANAGER)
+    };
 
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel)
@@ -74,7 +76,9 @@ export class AddDepartmentComponent implements OnInit {
   }
 
   addWorkersDialog(): void {
-    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = { dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_WORKERS) };
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_WORKERS)
+    };
 
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel)

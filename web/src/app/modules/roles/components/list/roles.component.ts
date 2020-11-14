@@ -27,7 +27,7 @@ import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import { SORT_DIRECTION, ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_NAMES } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
-import { DialogService } from '@/core/services/dialog';
+import { DialogService } from '@/shared/services';
 
 @Component({
   selector: 'roles-component',

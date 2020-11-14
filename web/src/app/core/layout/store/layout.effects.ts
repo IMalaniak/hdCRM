@@ -8,7 +8,7 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import { Action, Store, select } from '@ngrx/store';
 import { LayoutState } from './layout.reducer';
 import { getDarkThemeState } from './index';
-import { MediaQueryService } from '@/core/services/media-query';
+import { MediaQueryService } from '@/core/services';
 
 @Injectable()
 export class LayoutEffects implements OnInitEffects {

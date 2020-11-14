@@ -23,8 +23,8 @@ import { updateDepartmentRequested, changeIsEditingState } from '../../store/dep
 import { selectIsEditing } from '../../store/department.selectors';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
-import { DialogService } from '@/core/services/dialog';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
+import { DialogService } from '@/shared/services';
 
 @Component({
   templateUrl: './department.component.html',

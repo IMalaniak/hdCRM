@@ -1,4 +1,5 @@
 export enum DialogType {
   STANDART,
-  CONFIRM
+  CONFIRM,
+  FIT_CONTENT
 }

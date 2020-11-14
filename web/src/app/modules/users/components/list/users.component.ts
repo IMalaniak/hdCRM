@@ -1,7 +1,6 @@
 import { Component, OnDestroy, ViewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Observable, Subject, merge } from 'rxjs';
@@ -15,7 +14,7 @@ import { selectIsLoading, selectUsersTotalCount } from '../../store/user.selecto
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { deleteUser, inviteUsers } from '../../store/user.actions';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
-import { DialogSizeService, ToastMessageService } from '@/shared/services';
+import { ToastMessageService } from '@/shared/services';
 import {
   DialogCreateEditModel,
   DialogDataModel,
@@ -39,7 +38,7 @@ import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, SORT_DIRECTION, COLUMN_NAMES } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
-import { DialogService } from '@/core/services/dialog';
+import { DialogService } from '@/shared/services';
 
 @Component({
   selector: 'users-component',
@@ -89,10 +88,8 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
     private router: Router,
     private userService: UserService,
     private store$: Store<AppState>,
-    public dialog: MatDialog,
     private toastMessageService: ToastMessageService,
-    private dialogService: DialogService,
-    private dialogSizeService: DialogSizeService
+    private dialogService: DialogService
   ) {}
 
   ngAfterViewInit(): void {
@@ -126,7 +123,7 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
     const dialogDataModel: DialogDataModel<DialogCreateEditModel> = { dialogModel };
 
     this.dialogService
-      .open(InvitationDialogComponent, dialogDataModel, this.dialogSizeService.getSize(DialogType.STANDART))
+      .open(InvitationDialogComponent, dialogDataModel, DialogType.STANDART)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<User[]>) => {

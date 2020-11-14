@@ -12,13 +12,12 @@ import { User } from '@/modules/users/models';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogWithTwoButtonModel } from '@/shared/models/dialog/dialog-with-two-button.model';
 import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
-import { DialogService } from '@/core/services/dialog';
 import { DialogType } from '@/shared/models';
-import { DialogSizeService } from '@/shared/services';
 import { UsersDialogComponent } from '@/modules/users/components/dialog/users-dialog.component';
 import { Role, Privilege } from '../../models';
 import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
 import { createRoleRequested } from '../../store/role.actions';
+import { DialogService } from '@/shared/services';
 
 @Component({
   templateUrl: './add-role.component.html',
@@ -47,8 +46,7 @@ export class AddRoleComponent implements OnInit {
     private store$: Store<AppState>,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private dialogService: DialogService,
-    private dialogSizeService: DialogSizeService
+    private dialogService: DialogService
   ) {}
 
   ngOnInit(): void {
@@ -106,7 +104,7 @@ export class AddRoleComponent implements OnInit {
     };
 
     this.dialogService
-      .open(PrivilegesDialogComponent, dialogDataModel, this.dialogSizeService.getSize(DialogType.STANDART))
+      .open(PrivilegesDialogComponent, dialogDataModel, DialogType.STANDART)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<Privilege[]>) => {

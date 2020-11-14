@@ -11,7 +11,7 @@ import { DynamicForm } from '@/shared/models';
 import { AppState } from '@/core/reducers';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
-import { DialogService } from '@/core/services/dialog';
+import { DialogService } from '@/shared/services';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 
 @Component({

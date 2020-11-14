@@ -9,7 +9,7 @@ import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.sele
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
-import { DialogService } from '@/core/services/dialog';
+import { DialogService } from '@/shared/services';
 import { ACTION_LABELS, THEME_PALETTE, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
 
 @Component({

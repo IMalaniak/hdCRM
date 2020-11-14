@@ -11,11 +11,10 @@ import { allPrivilegesRequested, createPrivilegeRequested } from '@/modules/role
 import { selectAllPrivileges, selectPrivilegesLoading } from '@/modules/roles/store/privilege.selectors';
 import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, CONSTANTS } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
-import { DialogService } from '@/core/services/dialog/dialog.service';
+import { DialogService } from '@/shared/services';
 import { DialogMode } from '@/shared/models/dialog/dialog-mode.enum';
 import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
 import { DialogCreateEditModel, DialogType } from '@/shared/models';
-import { DialogSizeService } from '@/shared/services';
 
 @Component({
   selector: 'privileges-component',
@@ -37,12 +36,7 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(
-    private store$: Store<AppState>,
-    private cdr: ChangeDetectorRef,
-    private dialogService: DialogService,
-    private dialogSizeService: DialogSizeService
-  ) {}
+  constructor(private store$: Store<AppState>, private cdr: ChangeDetectorRef, private dialogService: DialogService) {}
 
   ngOnInit(): void {
     this.store$.dispatch(allPrivilegesRequested());
@@ -81,7 +75,7 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
     const dialogDataModel: DialogDataModel<DialogCreateEditModel> = { dialogModel };
 
     this.dialogService
-      .open(AddPrivilegeDialogComponent, dialogDataModel, this.dialogSizeService.getSize(DialogType.STANDART))
+      .open(AddPrivilegeDialogComponent, dialogDataModel, DialogType.STANDART)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<Privilege>) => {

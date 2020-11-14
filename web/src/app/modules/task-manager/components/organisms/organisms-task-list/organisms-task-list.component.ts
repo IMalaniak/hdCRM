@@ -20,9 +20,8 @@ import { DIALOG, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE, CONSTANTS } from '@/s
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
-import { DialogService } from '@/core/services/dialog/dialog.service';
+import { DialogService } from '@/shared/services';
 import { DialogCreateEditModel, DialogMode, DialogType, DialogResultModel } from '@/shared/models';
-import { DialogSizeService } from '@/shared/services';
 
 @Component({
   selector: 'organisms-task-list',
@@ -41,11 +40,7 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(
-    private store$: Store<AppState>,
-    private dialogService: DialogService,
-    private dialogSizeService: DialogSizeService
-  ) {}
+  constructor(private store$: Store<AppState>, private dialogService: DialogService) {}
 
   get completedTasksLength(): boolean {
     return this.tasks?.length ? this.tasks.filter((task) => task.isCompleted).length > 0 : true;
@@ -64,7 +59,7 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
     const dialogDataModel: DialogDataModel<DialogCreateEditModel> = { dialogModel, model: taskToUpdate };
 
     this.dialogService
-      .open(OrganismsTaskDialogComponent, dialogDataModel, this.dialogSizeService.getSize(DialogType.STANDART))
+      .open(OrganismsTaskDialogComponent, dialogDataModel, DialogType.STANDART)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<Task>) => {

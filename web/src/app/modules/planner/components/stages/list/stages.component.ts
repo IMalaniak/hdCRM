@@ -10,7 +10,7 @@ import { AppState } from '@/core/reducers';
 import { allStagesRequestedFromDialogWindow, createStage } from '@/modules/planner/store/stage.actions';
 import { selectAllStages, selectStagesLoading } from '@/modules/planner/store/stage.selectors';
 import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, CONSTANTS } from '@/shared/constants';
-import { DialogService } from '@/core/services/dialog';
+import { DialogService } from '@/shared/services';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
 import { DialogCreateEditModel, DialogMode } from '@/shared/models';
