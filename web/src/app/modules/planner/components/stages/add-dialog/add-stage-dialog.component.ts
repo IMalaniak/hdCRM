@@ -11,16 +11,14 @@ import { DialogCreateEditModel, DialogDataModel, DialogResultModel } from '@/sha
   templateUrl: 'add-stage-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddStageDialogComponent<
-  TDialogModel extends DialogCreateEditModel
-> extends DialogCreateEditPageModel<TDialogModel> {
+export class AddStageDialogComponent extends DialogCreateEditPageModel<DialogCreateEditModel> {
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
   keyString: FormControl;
 
   constructor(
     readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel>
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<DialogCreateEditModel>
   ) {
     super(dialogRef, data);
     this.keyString = new FormControl(null, [Validators.required, Validators.minLength(4)]);

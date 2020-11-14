@@ -1,4 +1,3 @@
-import { DialogCreateEditModel } from '@/shared/models';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -8,8 +7,8 @@ import { InvitationDialogComponent } from './invitation-dialog.component';
 import { SharedModule } from '@/shared/shared.module';
 
 describe('InvitationDialogComponent', () => {
-  let component: InvitationDialogComponent<DialogCreateEditModel>;
-  let fixture: ComponentFixture<InvitationDialogComponent<DialogCreateEditModel>>;
+  let component: InvitationDialogComponent;
+  let fixture: ComponentFixture<InvitationDialogComponent>;
   const initialState = {
     users: initialUsersState
   };

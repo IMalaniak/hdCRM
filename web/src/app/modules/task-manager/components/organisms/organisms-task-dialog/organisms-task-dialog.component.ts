@@ -12,16 +12,14 @@ import { DynamicForm } from '@/shared/models';
 import { ACTION_LABELS, FORMCONSTANTS, THEME_PALETTE } from '@/shared/constants';
 import { DialogCreateEditPageModel } from '@/shared/components';
 import { DialogCreateEditModel, DialogDataModel, DialogResultModel } from '@/shared/models';
-import { Task} from '@/modules/task-manager/models';
+import { Task } from '@/modules/task-manager/models';
 
 @Component({
   selector: 'organisms-task-dialog',
   templateUrl: './organisms-task-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrganismsTaskDialogComponent<TDialogModel extends DialogCreateEditModel>
-  extends DialogCreateEditPageModel<TDialogModel>
-  implements OnInit {
+export class OrganismsTaskDialogComponent extends DialogCreateEditPageModel<DialogCreateEditModel> implements OnInit {
   taskFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName(FORMCONSTANTS.TASK)));
 
   taskFormValues: Task;
@@ -32,7 +30,7 @@ export class OrganismsTaskDialogComponent<TDialogModel extends DialogCreateEditM
   constructor(
     private store$: Store<AppState>,
     readonly dialogRef: MatDialogRef<ComponentType<Task>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<DialogCreateEditModel>
   ) {
     super(dialogRef, data);
   }

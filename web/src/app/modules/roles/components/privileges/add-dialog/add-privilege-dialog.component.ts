@@ -13,16 +13,14 @@ import { Privilege } from '@/modules/roles/models';
   templateUrl: 'add-privilege-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddPrivilegeDialogComponent<TDialogModel extends DialogCreateEditModel>
-  extends DialogCreateEditPageModel<TDialogModel>
-  implements OnInit {
+export class AddPrivilegeDialogComponent extends DialogCreateEditPageModel<DialogCreateEditModel> implements OnInit {
   privilegeGroup: FormGroup;
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
 
   constructor(
     readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<DialogCreateEditModel>,
     private fb: FormBuilder
   ) {
     super(dialogRef, data);

@@ -12,16 +12,14 @@ import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/
   templateUrl: './organisms-user-details-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrganismsUserDetailsDialogComponent<
-  TDialogModel extends DialogWithTwoButtonModel
-> extends DialogBaseModel<TDialogModel> {
+export class OrganismsUserDetailsDialogComponent extends DialogBaseModel<DialogWithTwoButtonModel> {
   user: User;
   themePalette = THEME_PALETTE;
   matButtonTypes = MAT_BUTTON;
 
   constructor(
     readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel>
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<DialogWithTwoButtonModel>
   ) {
     super(dialogRef, data);
     this.user = this.model;

@@ -13,7 +13,7 @@ import { User } from '../../models';
   templateUrl: 'users-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UsersDialogComponent<TDialogModel extends DialogWithTwoButtonModel> extends DialogBaseModel<TDialogModel> {
+export class UsersDialogComponent extends DialogBaseModel<DialogWithTwoButtonModel> {
   @ViewChild(UsersComponent, { static: true })
   usersComponent: UsersComponent;
 
@@ -22,7 +22,7 @@ export class UsersDialogComponent<TDialogModel extends DialogWithTwoButtonModel>
 
   constructor(
     readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel>
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<DialogWithTwoButtonModel>
   ) {
     super(dialogRef, data);
   }

@@ -12,8 +12,7 @@ import { Role } from '../../models';
   templateUrl: 'roles-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RolesDialogComponent<
-  TDialogModel extends DialogWithTwoButtonModel> extends DialogBaseModel<TDialogModel> {
+export class RolesDialogComponent extends DialogBaseModel<DialogWithTwoButtonModel> {
   @ViewChild(RolesComponent, { static: true }) rolesComponent: RolesComponent;
 
   actionLabels = ACTION_LABELS;
@@ -21,7 +20,7 @@ export class RolesDialogComponent<
 
   constructor(
     readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel>
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<DialogWithTwoButtonModel>
   ) {
     super(dialogRef, data);
   }

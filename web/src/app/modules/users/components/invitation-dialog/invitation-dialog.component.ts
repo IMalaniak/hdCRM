@@ -18,9 +18,7 @@ import { DialogBaseModel } from '@/shared/components';
   styleUrls: ['./invitation-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InvitationDialogComponent<TDialogModel extends DialogCreateEditModel>
-  extends DialogBaseModel<TDialogModel>
-  implements OnInit, OnDestroy {
+export class InvitationDialogComponent extends DialogBaseModel<DialogCreateEditModel> implements OnInit, OnDestroy {
   userData: FormGroup;
   appUsers: User[];
   invitedUsers: User[] = [];
@@ -34,7 +32,7 @@ export class InvitationDialogComponent<TDialogModel extends DialogCreateEditMode
 
   constructor(
     readonly dialogRef: MatDialogRef<ComponentType<User>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<DialogCreateEditModel>,
     private fb: FormBuilder,
     private store$: Store<AppState>
   ) {

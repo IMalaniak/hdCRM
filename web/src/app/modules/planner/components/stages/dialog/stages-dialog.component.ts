@@ -12,9 +12,7 @@ import { Stage } from '@/modules/planner/models';
   templateUrl: 'stages-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StagesDialogComponent<
-  TDialogModel extends DialogWithTwoButtonModel
-> extends DialogBaseModel<TDialogModel> {
+export class StagesDialogComponent extends DialogBaseModel<DialogWithTwoButtonModel> {
   @ViewChild(StagesComponent, { static: true }) stagesComponent: StagesComponent;
 
   actionLabels = ACTION_LABELS;
@@ -22,7 +20,7 @@ export class StagesDialogComponent<
 
   constructor(
     readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel>
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<DialogWithTwoButtonModel>
   ) {
     super(dialogRef, data);
   }
