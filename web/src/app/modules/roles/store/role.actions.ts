@@ -1,7 +1,9 @@
 import { createAction, props } from '@ngrx/store';
-import { Role } from '../models';
 import { Update } from '@ngrx/entity';
+
 import { PageQuery, CollectionApiResponse } from '@/shared/models';
+import { Page } from '@/shared/store';
+import { Role } from '../models';
 
 const detailsPrefix = '[Role Details]';
 const listPrefix = '[Roles List]';
@@ -22,7 +24,7 @@ export const deleteRoleSuccess = createAction(`${apiPrefix} Delete Role Success`
 export const listPageRequested = createAction(`${listPrefix} Roles Page Requested`, props<{ page: PageQuery }>());
 export const listPageLoaded = createAction(
   `${apiPrefix} Roles Page Loaded`,
-  props<{ response: CollectionApiResponse<Role> }>()
+  props<{ response: CollectionApiResponse<Role>; page: Page }>()
 );
 
 export const roleDashboardDataRequested = createAction('[Dashboard] Roles Data Requested');

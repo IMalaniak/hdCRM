@@ -19,7 +19,7 @@ import {
   CONSTANTS
 } from '@/shared/constants';
 import { AppState } from '@/core/reducers';
-import { selectDepartmentsTotalCount, selectDepartmentsLoading } from '../../store/department.selectors';
+import { selectDepartmentsTotalCount, selectDepartmentsPageLoading } from '../../store/department.selectors';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { deleteDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
@@ -35,7 +35,7 @@ import { DialogService } from '@/shared/services';
 })
 export class DepartmentsComponent implements AfterViewInit, OnDestroy {
   dataSource: DepartmentsDataSource = new DepartmentsDataSource(this.store$);
-  loading$: Observable<boolean> = this.store$.pipe(select(selectDepartmentsLoading));
+  loading$: Observable<boolean> = this.store$.pipe(select(selectDepartmentsPageLoading));
   resultsLength$: Observable<number> = this.store$.pipe(select(selectDepartmentsTotalCount));
   canAddDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.DEPARTMENT)));
   canEditDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.DEPARTMENT)));
@@ -80,7 +80,7 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
     const newPage: PageQuery = {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,
-      sortIndex: this.sort.active,
+      sortIndex: this.sort.active || COLUMN_NAMES.ID,
       sortDirection: this.sort.direction || SORT_DIRECTION.ASC
     };
 

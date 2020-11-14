@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 import { Role } from '../models';
 import { User } from '@/modules/users/models';
-import { CollectionApiResponse, ItemApiResponse, BaseMessage } from '@/shared/models';
+import { CollectionApiResponse, ItemApiResponse, PageQuery, BaseMessage } from '@/shared/models';
 import { APIS } from '@/shared/constants';
 
 @Injectable()
@@ -26,12 +27,7 @@ export class RoleService {
     return this.http.delete<BaseMessage>(`${APIS.ROLES}/${id}`);
   }
 
-  getList(
-    pageIndex = 0,
-    pageSize = 5,
-    sortIndex = 'id',
-    sortDirection = 'asc'
-  ): Observable<CollectionApiResponse<Role>> {
+  getList({ pageIndex, pageSize, sortIndex, sortDirection }: PageQuery): Observable<CollectionApiResponse<Role>> {
     return this.http.get<CollectionApiResponse<Role>>(APIS.ROLES, {
       params: new HttpParams()
         .set('pageIndex', pageIndex.toString())

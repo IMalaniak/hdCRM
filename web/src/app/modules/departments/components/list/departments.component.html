@@ -6,7 +6,7 @@
   </div>
 
   <div content class="table-container">
-    <mat-table class="departments-table crm-table" [dataSource]="dataSource" matSort matSortDisabled>
+    <mat-table class="departments-table crm-table" [dataSource]="dataSource" matSort>
       <!-- Checkbox Column -->
       <!-- <ng-container matColumnDef="select">
           <mat-header-cell *matHeaderCellDef>
@@ -31,7 +31,7 @@
         <mat-cell *matCellDef="let dep">{{ dep.title }}</mat-cell>
       </ng-container>
       <ng-container [matColumnDef]="columns.MANAGER">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@departmentsComponentListManagerFullName">{{
+        <mat-header-cell *matHeaderCellDef i18n="@@departmentsComponentListManagerFullName">{{
           columnLabels.MANAGER
         }}</mat-header-cell>
         <mat-cell *matCellDef="let dep">{{
@@ -39,7 +39,7 @@
         }}</mat-cell>
       </ng-container>
       <ng-container [matColumnDef]="columns.WORKERS">
-        <mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@departmentsComponentListWorkersNumber">{{
+        <mat-header-cell *matHeaderCellDef i18n="@@departmentsComponentListWorkersNumber">{{
           columnLabels.WORKERS
         }}</mat-header-cell>
         <mat-cell *matCellDef="let dep">{{ dep.Workers ? dep.Workers.length : '-' }}</mat-cell>

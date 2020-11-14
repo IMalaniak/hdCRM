@@ -15,14 +15,35 @@ import {
   Association,
   BelongsToCreateAssociationMixin,
   BelongsToGetAssociationMixin,
-  BelongsToSetAssociationMixin
+  BelongsToSetAssociationMixin,
+  Optional
 } from 'sequelize';
+
 import { User } from './User';
 import { Asset } from './Asset';
 import { Stage } from './Stage';
 import { Organization } from './Organization';
 
-export class Plan extends Model {
+export interface PlanAttributes {
+  id: number;
+  title: string;
+  description?: string;
+  deadline?: Date;
+  budget?: number;
+  progress?: number;
+  OrganizationId: number;
+  CreatorId: number;
+  activeStageId: number;
+  Participants?: User[];
+}
+
+export interface PlanCreationAttributes
+  extends Optional<
+    PlanAttributes,
+    'id' | 'description' | 'deadline' | 'budget' | 'progress' | 'activeStageId' | 'Participants'
+  > {}
+
+export class Plan extends Model<PlanAttributes, PlanCreationAttributes> {
   public id!: number;
   public title!: string;
   public description!: string;
@@ -100,13 +121,34 @@ export class Plan extends Model {
   };
 }
 
-export const PlanFactory = (sequelize: Sequelize): Model => {
+export const PlanFactory = (sequelize: Sequelize): Model<PlanAttributes, PlanCreationAttributes> => {
   return Plan.init(
     {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
+      },
+      OrganizationId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Organizations',
+          key: 'id'
+        }
+      },
+      CreatorId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id'
+        }
+      },
+      activeStageId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Stages',
+          key: 'id'
+        }
       },
       title: {
         type: new DataTypes.STRING(255),

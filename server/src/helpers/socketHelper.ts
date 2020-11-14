@@ -1,3 +1,5 @@
+import { Service } from 'typedi';
+
 export interface UserOnline {
   id: number;
   name: string;
@@ -11,6 +13,7 @@ export interface UserOnline {
   online: boolean;
 }
 
+@Service()
 export class SocketHelper {
   private userList: UserOnline[];
 

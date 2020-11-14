@@ -5,11 +5,11 @@ import { DashboardComponent } from './dashboard.component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { authStateMock } from '@/shared/testing/mocks';
 import { initialDepartmentsState } from '@/modules/departments/store/department.reducer';
-import { initialPlansState } from '@/modules/planner/store/plan.reducer';
 import { initialPreferencesState } from '@/core/reducers/preferences.reducer';
 import { initialRolesState } from '@/modules/roles/store/role.reducer';
 import { SharedModule } from '@/shared/shared.module';
 import { RouterTestingModule } from '@angular/router/testing';
+import { initialStagesState } from '@/modules/planner/store/stage.reducer';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -18,7 +18,7 @@ describe('DashboardComponent', () => {
     preferences: initialPreferencesState,
     auth: authStateMock,
     roles: initialRolesState,
-    stages: initialPlansState,
+    stages: initialStagesState,
     departments: initialDepartmentsState
   };
 

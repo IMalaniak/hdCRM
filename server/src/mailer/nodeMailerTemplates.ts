@@ -1,8 +1,11 @@
 import Email from 'email-templates';
-import { User } from '../models';
 import path from 'path';
+import { Service } from 'typedi';
 
-class Mailer {
+import { User } from '../models';
+
+@Service({ global: true })
+export class Mailer {
   sender = process.env.NODE_MAILER_SENDER;
   password = process.env.NODE_MAILER_PASSWORD;
 
@@ -26,7 +29,8 @@ class Mailer {
     }
   });
 
-  sendPasswordReset(user: User, tokenUrl: string): Promise<Email> {
+  sendPasswordReset(params: { user: User; tokenUrl: string }): Promise<void> {
+    const { user, tokenUrl } = params;
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'resetPassword'),
       message: {
@@ -41,7 +45,7 @@ class Mailer {
     });
   }
 
-  sendPasswordResetConfirmation(user: User): Promise<Email> {
+  sendPasswordResetConfirmation(user: User): Promise<void> {
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'resetPasswordConfirmation'),
       message: {
@@ -55,7 +59,8 @@ class Mailer {
     });
   }
 
-  sendActivation(user: User, tmpPassword: string, url: string) {
+  sendActivation(params: { user: User; tmpPassword: string; url: string }): Promise<void> {
+    const { user, tmpPassword, url } = params;
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'initActivation'),
       message: {
@@ -71,7 +76,7 @@ class Mailer {
     });
   }
 
-  sendActivationConfirmation(user: User) {
+  sendActivationConfirmation(user: User): Promise<void> {
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'confirmActivation'),
       message: {
@@ -85,7 +90,8 @@ class Mailer {
     });
   }
 
-  sendInvitation(user: User, tmpPassword: string, url: string) {
+  sendInvitation(params: { user: User; tmpPassword: string; url: string }): Promise<void> {
+    const { user, tmpPassword, url } = params;
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'userInvitation'),
       message: {
@@ -103,5 +109,3 @@ class Mailer {
     });
   }
 }
-
-export default new Mailer();

@@ -8,7 +8,7 @@ import { Plan } from '../../models';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { PlansDataSource } from '../../services/plan.datasource';
-import { selectPlansLoading, selectPlansTotalCount } from '../../store/plan.selectors';
+import { selectPlanPageLoading, selectPlansTotalCount } from '../../store/plan.selectors';
 import { MatPaginator } from '@angular/material/paginator';
 import { tap, takeUntil } from 'rxjs/operators';
 import { DialogDataModel, PageQuery } from '@/shared/models';
@@ -36,7 +36,7 @@ import { DialogService } from '@/shared/services';
 })
 export class PlanListComponent implements AfterViewInit, OnDestroy {
   dataSource: PlansDataSource = new PlansDataSource(this.store$);
-  loading$: Observable<boolean> = this.store$.pipe(select(selectPlansLoading));
+  loading$: Observable<boolean> = this.store$.pipe(select(selectPlanPageLoading));
   resultsLength$: Observable<number> = this.store$.pipe(select(selectPlansTotalCount));
   canAddPlan$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.PLAN)));
   canEditPlan$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.PLAN)));
@@ -70,7 +70,8 @@ export class PlanListComponent implements AfterViewInit, OnDestroy {
   constructor(private store$: Store<AppState>, private router: Router, private dialogService: DialogService) {}
 
   ngAfterViewInit(): void {
-    merge(this.sort.sortChange, this.paginator.page)
+    const sort$ = this.sort.sortChange.pipe(tap(() => (this.paginator.pageIndex = 0)));
+    merge(sort$, this.paginator.page)
       .pipe(
         takeUntil(this.unsubscribe),
         tap(() => this.loadPlansPage())
@@ -84,7 +85,7 @@ export class PlanListComponent implements AfterViewInit, OnDestroy {
     const newPage: PageQuery = {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,
-      sortIndex: this.sort.active,
+      sortIndex: this.sort.active || COLUMN_NAMES.ID,
       sortDirection: this.sort.direction || SORT_DIRECTION.ASC
     };
 

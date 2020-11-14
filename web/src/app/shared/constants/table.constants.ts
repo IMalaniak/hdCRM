@@ -5,6 +5,7 @@ export enum SORT_DIRECTION {
 }
 
 export enum COLUMN_NAMES {
+  ID = 'id',
   ACTIONS = 'actions',
   ADD = 'add',
   AVATAR = 'avatar',

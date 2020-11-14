@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/portal';
 
@@ -9,8 +9,7 @@ import { DialogBaseModel } from '@/shared/components';
 import { Privilege } from '@/modules/roles/models';
 
 @Component({
-  templateUrl: 'privileges-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: 'privileges-dialog.component.html'
 })
 export class PrivilegesDialogComponent extends DialogBaseModel<DialogWithTwoButtonModel> {
   @ViewChild(PrivilegesComponent, { static: true }) privilegesComponent: PrivilegesComponent;

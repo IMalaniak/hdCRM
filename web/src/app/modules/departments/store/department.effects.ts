@@ -1,19 +1,23 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs';
+import { mergeMap, map, catchError, withLatestFrom, filter } from 'rxjs/operators';
+
 import { Store, select } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import * as depActions from './department.actions';
-import { mergeMap, map, catchError, withLatestFrom, filter } from 'rxjs/operators';
-import { DepartmentService } from '../services';
+import { Update } from '@ngrx/entity';
+
 import { AppState } from '@/core/reducers';
+import { Page } from '@/shared/store';
+import * as depActions from './department.actions';
+import { DepartmentService } from '../services';
 import { Department } from '../models';
 import { selectDashboardDepDataLoaded } from './department.selectors';
-import { Router } from '@angular/router';
 import { ToastMessageService } from '@/shared/services';
 import { CollectionApiResponse, ItemApiResponse, BaseMessage, PageQuery } from '@/shared/models';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Update } from '@ngrx/entity';
 import { RoutingConstants } from '@/shared/constants';
+import { generatePageKey } from '@/shared/utils/generatePageKey';
 
 @Injectable()
 export class DepartmentEffects {
@@ -53,9 +57,12 @@ export class DepartmentEffects {
     this.actions$.pipe(
       ofType(depActions.listPageRequested),
       map((payload) => payload.page),
-      mergeMap((page: PageQuery) =>
-        this.departmentService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
-          map((response: CollectionApiResponse<Department>) => depActions.listPageLoaded({ response })),
+      mergeMap((pageQuery: PageQuery) =>
+        this.departmentService.getList(pageQuery).pipe(
+          map((response: CollectionApiResponse<Department>) => {
+            const page: Page = { dataIds: response.ids, key: generatePageKey(pageQuery) };
+            return depActions.listPageLoaded({ response, page });
+          }),
           catchError(() => of(depActions.departmentApiError()))
         )
       )

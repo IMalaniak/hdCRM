@@ -1,11 +1,13 @@
-// tslint:disable: indent
+import { Service } from 'typedi';
 import { Strategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
 import passport from 'passport';
-import { UserDBController } from '../dbControllers/usersController';
-import { Config } from './config';
 
+import { Config } from './config';
+import { UserService } from '../services';
+
+@Service({ global: true })
 export class Passport {
-  private userDbCtrl: UserDBController = new UserDBController();
+  constructor(private readonly userService: UserService) {}
 
   private opts: StrategyOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),
@@ -25,22 +27,18 @@ export class Passport {
     passport.initialize();
     // passport.session();
     passport.use(
-      new Strategy(this.opts, (jwtPayload, done) => {
-        this.userDbCtrl
-          .getById(jwtPayload.userId)
-          .then((user) => {
-            if (user) {
-              return done(null, user);
-            } else {
-              return done(null, false);
-            }
-          })
-          .catch((error) => {
-            return done(error, false);
-          });
+      new Strategy(this.opts, async (jwtPayload, done) => {
+        try {
+          const userResult = await this.userService.getById(jwtPayload.userId);
+          if (userResult.isOk()) {
+            return done(null, userResult.value.data);
+          } else {
+            return done(null, false);
+          }
+        } catch (error) {
+          return done(error, false);
+        }
       })
     );
   }
 }
-
-export default new Passport();

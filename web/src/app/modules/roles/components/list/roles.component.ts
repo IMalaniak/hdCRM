@@ -7,12 +7,13 @@ import { Observable, Subject, merge } from 'rxjs';
 import { tap, takeUntil } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
+
 import { AppState } from '@/core/reducers';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { RolesDataSource } from '../../services/role.datasource';
 import { Role } from '../../models';
-import { selectRolesTotalCount, selectRolesLoading } from '../../store/role.selectors';
 import { DialogDataModel, PageQuery } from '@/shared/models';
+import { selectRolesTotalCount, selectRolesPageLoading } from '../../store/role.selectors';
 import {
   IItemsPerPage,
   pageSizeOptions,
@@ -37,7 +38,7 @@ import { DialogService } from '@/shared/services';
 })
 export class RolesComponent implements OnDestroy, AfterViewInit {
   dataSource: RolesDataSource = new RolesDataSource(this.store$);
-  loading$: Observable<boolean> = this.store$.pipe(select(selectRolesLoading));
+  loading$: Observable<boolean> = this.store$.pipe(select(selectRolesPageLoading));
   resultsLength$: Observable<number> = this.store$.pipe(select(selectRolesTotalCount));
   canAddRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.ROLE)));
   canEditRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.ROLE)));
@@ -83,7 +84,7 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
     const newPage: PageQuery = {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,
-      sortIndex: this.sort.active,
+      sortIndex: this.sort.active || COLUMN_NAMES.ID,
       sortDirection: this.sort.direction || SORT_DIRECTION.ASC
     };
 

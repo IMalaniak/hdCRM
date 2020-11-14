@@ -1,29 +1,35 @@
-import express from 'express';
+import express, { Application, Router } from 'express';
+import { Service } from 'typedi';
+import { Server as SocketServer } from 'socket.io';
 import path from 'path';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import http from 'http';
 import cors from 'cors';
-import DataBase from './models';
-import * as controllers from './routes';
-import { Server } from '@overnightjs/core';
-import { Logger } from '@overnightjs/logger';
-import Passport from './config/passport';
-import socketIO from 'socket.io';
+
+import { DataBase } from './models';
+import { Routes } from './routes';
+import { Passport } from './config/passport';
 import { SocketRouter } from './socketRoutes';
 import { Config } from './config';
 
-class CrmServer extends Server {
-  private dBase: DataBase;
+@Service({ global: true })
+export class Server {
+  private app: Application;
   private server: http.Server;
-  private io: socketIO.Server;
-  private socketRouter = new SocketRouter();
+  private socket: SocketServer;
+  private router: Router;
 
-  constructor() {
-    super(true);
-    this.dBase = new DataBase();
-    this.app.use(bodyParser.json());
+  constructor(
+    private readonly dBase: DataBase,
+    private readonly routes: Routes,
+    private readonly passport: Passport,
+    private readonly socketRouter: SocketRouter
+  ) {
+    this.app = express();
     this.app.use(bodyParser.urlencoded({ extended: true }));
+    this.app.use(bodyParser.json());
+    this.app.disable('x-powered-by');
     // Allow any method from any host and log requests
     this.app.use(
       cors({
@@ -34,47 +40,37 @@ class CrmServer extends Server {
     this.app.use(cookieParser());
     this.app.use((req, _, next) => {
       if (req.method !== 'OPTIONS') {
-        Logger.Imp(`${req.ip} ${req.method} ${req.url}`);
+        // Logger.Imp(`${req.ip} ${req.method} ${req.url}`);
         next();
       }
     });
-    Passport.init();
-    this.setupControllers();
-    this.setupStaticFolders();
+    this.passport.init();
     this.server = http.createServer(this.app);
-    this.io = socketIO(this.server);
-    this.socketRouter.initSocketConnection(this.io);
-  }
+    this.socket = new SocketServer(this.server);
+    this.socketRouter.initSocketConnection(this.socket);
+    this.router = Router();
+    this.app.use(this.router);
 
-  private setupControllers(): void {
-    const ctlrInstances = [];
-    for (const name in controllers) {
-      if (controllers.hasOwnProperty(name)) {
-        const controller = (controllers as any)[name];
-        ctlrInstances.push(new controller());
-      }
-    }
-    super.addControllers(ctlrInstances);
+    this.setupStaticFolders();
   }
 
   private setupStaticFolders(): void {
-    // Set static folder
     this.app.use(express.static(path.join(__dirname, '../../web/dist')));
-    this.app.use('/images/userpic', express.static(path.join(__dirname, '../uploads/images/userpic/')));
-
     this.app.get('/*', (_, res) => {
       res.sendFile(path.join(__dirname, '../../web/dist/index.html'));
     });
   }
 
-  public start(port: number): void {
+  public async start(): Promise<Application> {
+    await this.routes.register(this.router);
+
     // Sync DB
-    this.dBase.sequel.sync().then(() => {
-      this.server.listen(port, () => {
-        Logger.Info(`Server is listening on ${port}`);
+    await this.dBase.connection.sync().then(() => {
+      this.server.listen(parseInt(process.env.PORT), () => {
+        // tslint:disable-next-line: no-console
+        console.info(`Server is listening on ${process.env.PORT}`);
       });
     });
+    return this.app;
   }
 }
-
-export default CrmServer;

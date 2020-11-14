@@ -1,11 +1,12 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { takeUntil, map } from 'rxjs/operators';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
+import { takeUntil, map } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
+
+import { Store, select } from '@ngrx/store';
 
 import { Privilege } from '../../../models';
 import { AddPrivilegeDialogComponent } from '../add-dialog/add-privilege-dialog.component';
-import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { allPrivilegesRequested, createPrivilegeRequested } from '@/modules/roles/store/privilege.actions';
 import { selectAllPrivileges, selectPrivilegesLoading } from '@/modules/roles/store/privilege.selectors';
@@ -19,8 +20,7 @@ import { DialogCreateEditModel, DialogType } from '@/shared/models';
 @Component({
   selector: 'privileges-component',
   templateUrl: './privileges.component.html',
-  styleUrls: ['./privileges.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./privileges.component.scss']
 })
 export class PrivilegesComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean> = this.store$.pipe(select(selectPrivilegesLoading));
@@ -36,7 +36,7 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private store$: Store<AppState>, private cdr: ChangeDetectorRef, private dialogService: DialogService) {}
+  constructor(private store$: Store<AppState>, private dialogService: DialogService) {}
 
   ngOnInit(): void {
     this.store$.dispatch(allPrivilegesRequested());
@@ -51,7 +51,6 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
       )
       .subscribe((data) => {
         this.privileges = data;
-        this.cdr.detectChanges();
       });
   }
 

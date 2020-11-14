@@ -1,34 +1,23 @@
+import { createReducer, on, Action } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+
+import { getInitialPaginationState, pagesAdapter, PaginationState } from '@/shared/store/pagination';
 import { Plan } from '../models';
 import * as planActions from './plan.actions';
-import { createReducer, on, Action } from '@ngrx/store';
 
-export interface PlansState extends EntityState<Plan> {
-  loading: boolean;
-  pages: number;
-  countAll: number;
-  editing: boolean;
-}
+export interface PlansEntityState extends EntityState<Plan> {}
 
-function sortByIdAndActiveStage(p1: Plan, p2: Plan) {
-  const compare = p1.id - p2.id;
-  if (compare !== 0) {
-    return compare;
-  } else {
-    return p1.activeStageId - p2.activeStageId;
-  }
-}
+export interface PlansState extends PaginationState<PlansEntityState> {}
 
-const adapter: EntityAdapter<Plan> = createEntityAdapter<Plan>({
-  sortComparer: sortByIdAndActiveStage
+const plansAdapter: EntityAdapter<Plan> = createEntityAdapter<Plan>({
+  sortComparer: false
 });
 
-export const initialPlansState: PlansState = adapter.getInitialState({
-  loading: false,
-  pages: null,
-  countAll: null,
-  editing: false
-});
+const initialPlansEntityState: PlansEntityState = plansAdapter.getInitialState();
+
+export const initialPlansState: PlansState = getInitialPaginationState<PlansEntityState, PlansState>(
+  initialPlansEntityState
+);
 
 const plansReducer = createReducer(
   initialPlansState,
@@ -36,42 +25,54 @@ const plansReducer = createReducer(
     ...state,
     editing: isEditing
   })),
-  on(
-    planActions.listPageRequested,
-    planActions.createPlanRequested,
-    planActions.updatePlanRequested,
-    planActions.deletePlanRequested,
-    (state) => ({
-      ...state,
-      loading: true
+  on(planActions.createPlanRequested, planActions.updatePlanRequested, planActions.deletePlanRequested, (state) => ({
+    ...state,
+    loading: true
+  })),
+  on(planActions.listPageRequested, (state) => ({
+    ...state,
+    pages: {
+      ...state.pages,
+      pageLoading: true
+    }
+  })),
+  on(planActions.createPlanSuccess, (state, { plan }) => ({
+    ...state,
+    loading: false,
+    data: plansAdapter.addOne(plan, {
+      ...state.data
     })
-  ),
-  on(planActions.createPlanSuccess, (state, { plan }) =>
-    adapter.addOne(plan, {
-      ...state,
-      countAll: state.countAll + 1,
-      loading: false
+  })),
+  on(planActions.updatePlanSuccess, (state, { plan }) => ({
+    ...state,
+    loading: false,
+    editing: false,
+    data: plansAdapter.updateOne(plan, { ...state.data })
+  })),
+  on(planActions.deletePlanSuccess, (state, { id }) => ({
+    ...state,
+    loading: false,
+    data: plansAdapter.removeOne(id, {
+      ...state.data
     })
-  ),
-  on(planActions.updatePlanSuccess, (state, { plan }) =>
-    adapter.updateOne(plan, { ...state, loading: false, editing: false })
-  ),
-  on(planActions.deletePlanSuccess, (state, { id }) =>
-    adapter.removeOne(id, {
-      ...state,
-      countAll: state.countAll - 1,
-      loading: false
+  })),
+  on(planActions.planLoaded, (state, { plan }) => ({
+    ...state,
+    loading: false,
+    data: plansAdapter.addOne(plan, { ...state.data })
+  })),
+  on(planActions.listPageLoaded, (state, { page, response: { data, pages, resultsNum } }) => ({
+    ...state,
+    data: plansAdapter.upsertMany(data, {
+      ...state.data
+    }),
+    pages: pagesAdapter.addOne(page, {
+      ...state.pages,
+      resultsNum,
+      pages,
+      pageLoading: false
     })
-  ),
-  on(planActions.planLoaded, (state, { plan }) => adapter.addOne(plan, state)),
-  on(planActions.listPageLoaded, (state, { response: { data, pages, resultsNum } }) =>
-    adapter.upsertMany(data, {
-      ...state,
-      loading: false,
-      pages: pages,
-      countAll: resultsNum
-    })
-  ),
+  })),
   on(planActions.planApiError, (state) => ({ ...state, loading: false }))
 );
 
@@ -79,6 +80,6 @@ export function reducer(state: PlansState | undefined, action: Action) {
   return plansReducer(state, action);
 }
 
-export const plansFeatureKey = 'plans';
+export const plansFeatureKey = 'plan';
 
-export const { selectAll, selectEntities, selectIds, selectTotal } = adapter.getSelectors();
+export const { selectAll, selectEntities, selectIds, selectTotal } = plansAdapter.getSelectors();

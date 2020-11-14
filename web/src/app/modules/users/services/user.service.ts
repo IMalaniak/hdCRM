@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '../models';
 import { take } from 'rxjs/operators';
+
 import { SocketService } from '@/shared/services';
-import { NewPassword, BaseMessage, CollectionApiResponse, ItemApiResponse } from '@/shared/models';
+import { User } from '../models';
+import { NewPassword, BaseMessage, CollectionApiResponse, ItemApiResponse, PageQuery } from '@/shared/models';
 import { SocketEvent, APIS } from '@/shared/constants';
 import { Role } from '@/modules/roles';
 
@@ -16,12 +17,7 @@ export class UserService {
 
   constructor(private http: HttpClient, private socket: SocketService) {}
 
-  getList(
-    pageIndex = 0,
-    pageSize = 5,
-    sortIndex = 'id',
-    sortDirection = 'asc'
-  ): Observable<CollectionApiResponse<User>> {
+  getList({ pageIndex, pageSize, sortIndex, sortDirection }: PageQuery): Observable<CollectionApiResponse<User>> {
     return this.http.get<CollectionApiResponse<User>>(APIS.USERS, {
       params: new HttpParams()
         .set('pageIndex', pageIndex.toString())

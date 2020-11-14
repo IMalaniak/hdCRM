@@ -12,12 +12,22 @@ import {
   BelongsToManyHasAssociationsMixin,
   BelongsToManyRemoveAssociationMixin,
   BelongsToManyRemoveAssociationsMixin,
-  BelongsToManySetAssociationsMixin
+  BelongsToManySetAssociationsMixin,
+  Optional
 } from 'sequelize';
+
 import { User } from './User';
 import { Plan } from './Plan';
 
-export class Asset extends Model {
+export interface AssetAttributes {
+  id: number;
+  title: string;
+  location: string;
+  type: string;
+}
+
+export interface AssetCreationAttributes extends Optional<AssetAttributes, 'id'> {}
+export class Asset extends Model<AssetAttributes, AssetCreationAttributes> {
   public id!: number;
   public title!: string;
   public location!: string;
@@ -58,7 +68,7 @@ export class Asset extends Model {
   };
 }
 
-export const AssetFactory = (sequelize: Sequelize): Model => {
+export const AssetFactory = (sequelize: Sequelize): Model<AssetAttributes, AssetCreationAttributes> => {
   return Asset.init(
     {
       id: {

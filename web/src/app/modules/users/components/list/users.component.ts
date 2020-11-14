@@ -10,7 +10,7 @@ import { Store, select } from '@ngrx/store';
 import { UserService, UsersDataSource } from '../../services';
 import { User } from '../../models';
 import { AppState } from '@/core/reducers';
-import { selectIsLoading, selectUsersTotalCount } from '../../store/user.selectors';
+import { selectUserPageLoading, selectUsersTotalCount } from '../../store/user.selectors';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { deleteUser, inviteUsers } from '../../store/user.actions';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
@@ -47,7 +47,7 @@ import { DialogService } from '@/shared/services';
 })
 export class UsersComponent implements OnDestroy, AfterViewInit {
   currentUser$: Observable<User> = this.store$.pipe(select(currentUser));
-  loading$: Observable<boolean> = this.store$.pipe(select(selectIsLoading));
+  loading$: Observable<boolean> = this.store$.pipe(select(selectUserPageLoading));
   resultsLength$: Observable<number> = this.store$.pipe(select(selectUsersTotalCount));
   canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.USER)));
   canEditUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.USER)));
@@ -107,7 +107,7 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
     const newPage: PageQuery = {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,
-      sortIndex: this.sort.active,
+      sortIndex: this.sort.active || COLUMN_NAMES.ID,
       sortDirection: this.sort.direction || SORT_DIRECTION.ASC
     };
 

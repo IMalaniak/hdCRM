@@ -1,9 +1,11 @@
 import { expect } from 'chai';
 import { Config } from '../../src/config';
-import jwtHelper from '../../src/helpers/jwtHelper';
+import { JwtHelper } from '../../src/helpers/jwtHelper';
 
 describe('jwtHelper', async () => {
-  it('should generate access token and then decode it', async () => {
+  const jwtHelper: JwtHelper = new JwtHelper();
+
+  it('should generate access token and then decode it', () => {
     process.env.ACCESS_TOKEN_LIFETIME = '15 min';
     process.env.ACCESS_TOKEN_SECRET = 'AccessTokenSecret';
     process.env.WEB_URL = 'http://localhost:4200';
@@ -19,17 +21,19 @@ describe('jwtHelper', async () => {
 
     expect(accessToken).to.not.be.empty;
 
-    const decoded = await jwtHelper.getDecoded(accessToken);
+    const decodedResult = jwtHelper.getDecoded(accessToken);
 
-    expect(decoded).to.not.be.empty;
+    if (decodedResult.isOk()) {
+      expect(decodedResult.value).to.not.be.empty;
 
-    const decodedExpectation = {
-      ...payload,
-      iat,
-      exp: iat + 15 * 60,
-      aud: process.env.WEB_URL
-    };
+      const decodedExpectation = {
+        ...payload,
+        iat,
+        exp: iat + 15 * 60,
+        aud: process.env.WEB_URL
+      };
 
-    expect(decoded).to.deep.equal(decodedExpectation);
+      expect(decodedResult.value).to.deep.equal(decodedExpectation);
+    }
   });
 });

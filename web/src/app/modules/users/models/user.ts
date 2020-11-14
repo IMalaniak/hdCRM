@@ -1,11 +1,12 @@
-import { Role } from '@/modules/roles';
-import { UserSession } from './userSession';
-import { PasswordAttributes } from './passwordAttributes';
+import { Role } from '@/modules/roles/models';
 import { Department } from '@/modules/departments';
 import { Asset } from '@/shared/models';
+import { UserState } from '@/shared/constants';
+
+import { UserSession } from './userSession';
+import { PasswordAttributes } from './passwordAttributes';
 import { Organization } from './organization';
 import { UserPreferences } from './UserPreferences';
-import { UserState } from '@/shared/constants';
 
 export interface User {
   id: number;

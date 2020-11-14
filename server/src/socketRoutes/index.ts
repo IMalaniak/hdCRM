@@ -1,5 +1,6 @@
-import socketIO from 'socket.io';
-import { Logger } from '@overnightjs/logger';
+import { Service } from 'typedi';
+import { Socket, Server } from 'socket.io';
+
 import { User } from '../models';
 import { SocketHelper, UserOnline } from '../helpers/socketHelper';
 
@@ -14,20 +15,18 @@ export enum GlobalEvents {
   USERSONLINE = 'users-online'
 }
 
+@Service()
 export class SocketRouter {
-  public io: socketIO.Server;
-  public socketHelper: SocketHelper;
+  public io: Server;
 
-  constructor() {
-    this.socketHelper = new SocketHelper();
-  }
+  constructor(private readonly socketHelper: SocketHelper) {}
 
-  public initSocketConnection(io: socketIO.Server) {
+  public initSocketConnection(io: Server) {
     this.io = io;
-    this.io.on(GlobalEvents.CONNECT, (socket: socketIO.Socket) => {
-      Logger.Info(`Global: Client connected, socketId: ${socket.id}`);
+    this.io.on(GlobalEvents.CONNECT, (socket: Socket) => {
+      // Logger.Info(`Global: Client connected, socketId: ${socket.id}`);
       socket.on(GlobalEvents.ISONLINE, (user: User) => {
-        Logger.Info(`Global: Client online, userId: ${user.id}`);
+        // Logger.Info(`Global: Client online, userId: ${user.id}`);
         const OrgRoom = `ORG_ROOM_${user.OrganizationId.toString()}`;
         socket.join(OrgRoom);
         const userOnline: UserOnline = {
@@ -58,7 +57,7 @@ export class SocketRouter {
         }
       });
       socket.on(GlobalEvents.DISCONNECT, () => {
-        Logger.Info(`Global: Client disconected, socketId: ${socket.id}`);
+        // Logger.Info(`Global: Client disconected, socketId: ${socket.id}`);
         const user = this.socketHelper.removeActiveSocket(socket.id);
         if (user) {
           user.online = false;
@@ -68,7 +67,7 @@ export class SocketRouter {
     });
   }
 
-  private initCases(socket: socketIO.Socket) {
+  private initCases(socket: Socket) {
     socket.on(GlobalEvents.INITMODULE, (params: any) => {
       switch (params.moduleName) {
         case 'notifications':
@@ -78,8 +77,9 @@ export class SocketRouter {
     });
   }
 
-  private initNotifications(socket: socketIO.Socket) {
-    Logger.Info(`Notifications: Module inited for socketId: ${socket.id}`);
+  private initNotifications(socket: Socket) {
+    // tslint:disable-next-line: no-console
+    console.info(`Notifications: Module inited for socketId: ${socket.id}`);
   }
 
   // public onEventWithParams(event: string) {}

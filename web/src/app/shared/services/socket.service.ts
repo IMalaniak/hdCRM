@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import * as socketIo from 'socket.io-client';
+import { Manager, Socket } from 'socket.io-client';
 import { Observable } from 'rxjs';
+
 import { SocketEvent } from '../constants';
 import { environment } from 'environments/environment';
 
@@ -8,7 +9,13 @@ import { environment } from 'environments/environment';
   providedIn: 'root'
 })
 export class SocketService {
-  private socket: socketIo.Socket = socketIo(environment.baseUrl);
+  private manager = new Manager(environment.baseUrl, {
+    transports: ['websocket']
+  });
+  private socket: Socket;
+  constructor() {
+    this.socket = this.manager.socket('/');
+  }
 
   // TODO type declaration?
   public emit(event: SocketEvent, params?: any) {
