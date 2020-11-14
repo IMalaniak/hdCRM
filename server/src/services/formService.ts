@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 
-import { BaseResponse, Form, ItemApiResponse, FormAttributes } from '../models';
+import { BaseResponse, Form, ItemApiResponse, FormAttributes, ErrorOrigin } from '../models';
 import { CONSTANTS } from '../constants';
 
 @Service()
@@ -13,7 +13,7 @@ export class FormService {
       if (form) {
         return ok({ success: true, data: form });
       } else {
-        return ok({ success: false, message: 'No form with such key', data: null });
+        return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No form with such key', data: null });
       }
     } catch (error) {
       // Logger.Err(err);
@@ -44,7 +44,7 @@ export class FormService {
       if (deleted > 0) {
         return ok({ success: true, message: `Deleted ${deleted} form` });
       } else {
-        return ok({ success: false, message: 'No forms by this query', data: null });
+        return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No forms by this query', data: null });
       }
     } catch (error) {
       // Logger.Err(err);

@@ -20,7 +20,7 @@ export class PreferenceService {
       if (preferencesList) {
         return ok({ success: true, data: preferencesList });
       } else {
-        return ok({ success: false, message: 'No preferences', data: null });
+        return ok({ success: false, message: 'No preferences', data: [] });
       }
     } catch (error) {
       // Logger.Err(err);

@@ -11,7 +11,8 @@ import {
   PageQueryWithOrganization,
   RoleCreationAttributes,
   RoleAttributes,
-  Privilege
+  Privilege,
+  ErrorOrigin
 } from '../models';
 import { CONSTANTS } from '../constants';
 
@@ -69,7 +70,7 @@ export class RoleService {
       if (role) {
         return ok({ success: true, data: role });
       } else {
-        return ok({ success: false, message: 'No role with such id', data: null });
+        return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No role with such id', data: null });
       }
     } catch (error) {
       // Logger.Err(err);
@@ -100,7 +101,7 @@ export class RoleService {
         const ids: number[] = data.rows.map((user) => user.id);
         return ok({ success: true, ids, data: data.rows, resultsNum: data.count, pages });
       } else {
-        return ok({ success: false, message: 'No roles by this query', data: null });
+        return ok({ success: false, message: 'No roles by this query', data: [] });
       }
     } catch (error) {
       // Logger.Err(err);
@@ -223,7 +224,7 @@ export class RoleService {
       if (deleted > 0) {
         return ok({ success: true, message: `Deleted ${deleted} role` });
       } else {
-        return ok({ success: false, message: 'No roles by this query', data: null });
+        return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No roles by this query', data: null });
       }
     } catch (error) {
       // Logger.Err(err);
