@@ -8,7 +8,7 @@ import { AppState } from './index';
 import { Store, select } from '@ngrx/store';
 import { getGoogleDriveIntegrationState } from './integration.selectors';
 import { ToastMessageService } from '@/shared/services';
-import { ServiceMessage } from '@/shared/models';
+import { BaseMessage } from '@/shared/models';
 import { CONSTANTS } from '@/shared/constants';
 
 @Injectable()
@@ -28,7 +28,7 @@ export class IntegrationsEffects {
         if (!googleDriveIntegrationState) {
           return this.integrationsService.getGoogleDriveToken().pipe(
             map((googleDriveToken) => {
-              const response: ServiceMessage = {
+              const response: BaseMessage = {
                 success: true,
                 message: CONSTANTS.TEXTS_GOOGLE_DRIVE_INTEGRATION_ENABLED
               };
@@ -39,7 +39,7 @@ export class IntegrationsEffects {
         } else {
           return this.integrationsService.removeGoogleDriveToken().pipe(
             map(() => {
-              const response: ServiceMessage = {
+              const response: BaseMessage = {
                 success: false,
                 message: CONSTANTS.TEXTS_GOOGLE_DRIVE_INTEGRATION_DISABLED
               };

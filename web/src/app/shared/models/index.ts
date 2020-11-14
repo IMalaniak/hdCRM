@@ -1,3 +1,4 @@
+export * from './BaseMessage';
 export * from './serviceMessage';
 export * from './asset';
 export * from './dynamicForm';

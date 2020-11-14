@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
-import { ServiceMessage } from '@/shared/models';
+import { BaseMessage } from '@/shared/models';
 
 @Component({
   selector: 'molecules-server-message',
@@ -17,5 +17,5 @@ import { ServiceMessage } from '@/shared/models';
   styleUrls: ['./molecules-server-message.component.scss']
 })
 export class MoleculesServerMessageComponent {
-  constructor(@Inject(MAT_SNACK_BAR_DATA) public serverResponse: ServiceMessage) {}
+  constructor(@Inject(MAT_SNACK_BAR_DATA) public serverResponse: BaseMessage) {}
 }

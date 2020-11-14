@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { User } from '../models';
 import { Update } from '@ngrx/entity';
-import { PageQuery, NewPassword, CollectionServiceMessage } from '@/shared/models';
+import { PageQuery, NewPassword, CollectionApiResponse } from '@/shared/models';
 
 const detailsPrefix = '[Plan Details]';
 const listPrefix = '[Users List]';
@@ -23,7 +23,7 @@ export const deleteUser = createAction(`${listPrefix} Delete User`, props<{ id: 
 export const listPageRequested = createAction(`${listPrefix} User Page Requested`, props<{ page: PageQuery }>());
 export const listPageLoaded = createAction(
   `${apiPrefix} User Page Loaded`,
-  props<{ response: CollectionServiceMessage<User> }>()
+  props<{ response: CollectionApiResponse<User> }>()
 );
 
 export const OnlineUserListRequested = createAction('[Users] Online Users Requested');

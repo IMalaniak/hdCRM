@@ -1,14 +1,11 @@
-export interface ServiceMessage {
-  readonly success: boolean;
-  readonly message: string;
-}
+import { BaseMessage } from './BaseMessage';
 
-export interface CollectionServiceMessage<T> extends ServiceMessage {
+export interface CollectionApiResponse<T> extends BaseMessage {
   readonly resultsNum?: number;
   readonly pages?: number;
   readonly data: T[];
 }
 
-export interface ItemServiceMessage<T> extends ServiceMessage {
+export interface ItemApiResponse<T> extends BaseMessage {
   readonly data: T;
 }

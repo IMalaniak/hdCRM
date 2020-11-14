@@ -3,15 +3,15 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Plan } from '../models';
 import { User } from '@/modules/users';
-import { CollectionServiceMessage, ServiceMessage, ItemServiceMessage } from '@/shared/models';
+import { CollectionApiResponse, BaseMessage, ItemApiResponse } from '@/shared/models';
 import { APIS } from '@/shared/constants';
 
 @Injectable()
 export class PlanService {
   constructor(private http: HttpClient) {}
 
-  create(plan: Plan): Observable<ItemServiceMessage<Plan>> {
-    return this.http.post<ItemServiceMessage<Plan>>(APIS.PLANS, this.formatBeforeSend(plan));
+  create(plan: Plan): Observable<ItemApiResponse<Plan>> {
+    return this.http.post<ItemApiResponse<Plan>>(APIS.PLANS, this.formatBeforeSend(plan));
   }
 
   getList(
@@ -19,8 +19,8 @@ export class PlanService {
     pageSize = 5,
     sortIndex = 'id',
     sortDirection = 'asc'
-  ): Observable<CollectionServiceMessage<Plan>> {
-    return this.http.get<CollectionServiceMessage<Plan>>(APIS.PLANS, {
+  ): Observable<CollectionApiResponse<Plan>> {
+    return this.http.get<CollectionApiResponse<Plan>>(APIS.PLANS, {
       params: new HttpParams()
         .set('pageIndex', pageIndex.toString())
         .set('pageSize', pageSize.toString())
@@ -36,16 +36,16 @@ export class PlanService {
   //   });
   // }
 
-  getOne(id: number): Observable<ItemServiceMessage<Plan>> {
-    return this.http.get<ItemServiceMessage<Plan>>(`${APIS.PLANS}/${id}`);
+  getOne(id: number): Observable<ItemApiResponse<Plan>> {
+    return this.http.get<ItemApiResponse<Plan>>(`${APIS.PLANS}/${id}`);
   }
 
-  updateOne(plan: Plan): Observable<ItemServiceMessage<Plan>> {
-    return this.http.put<ItemServiceMessage<Plan>>(`${APIS.PLANS}/${plan.id}`, this.formatBeforeSend(plan));
+  updateOne(plan: Plan): Observable<ItemApiResponse<Plan>> {
+    return this.http.put<ItemApiResponse<Plan>>(`${APIS.PLANS}/${plan.id}`, this.formatBeforeSend(plan));
   }
 
-  delete(id: number): Observable<ServiceMessage> {
-    return this.http.delete<ServiceMessage>(`${APIS.PLANS}/${id}`);
+  delete(id: number): Observable<BaseMessage> {
+    return this.http.delete<BaseMessage>(`${APIS.PLANS}/${id}`);
   }
 
   // updatePlanStages(plan: Plan): Observable<ItemServiceMessage<Plan>> {
@@ -57,8 +57,8 @@ export class PlanService {
   //   return this.http.get<ItemServiceMessage<Plan>>(url);
   // }
 
-  deleteDoc(req: any): Observable<ServiceMessage> {
-    return this.http.delete<ServiceMessage>(APIS.PLANS_DOCUMENTS, {
+  deleteDoc(req: any): Observable<BaseMessage> {
+    return this.http.delete<BaseMessage>(APIS.PLANS_DOCUMENTS, {
       params: new HttpParams().set('docId', req.docId.toString()).set('planId', req.planId.toString())
     });
   }

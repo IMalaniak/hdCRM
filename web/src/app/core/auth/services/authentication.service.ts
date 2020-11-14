@@ -2,7 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User, Organization } from '@/modules/users';
-import { ServiceMessage, NewPassword, JwtDecoded, ItemServiceMessage } from '@/shared/models';
+import { BaseMessage, NewPassword, JwtDecoded, ItemApiResponse } from '@/shared/models';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { APIS } from '@/shared/constants';
 
@@ -16,42 +16,42 @@ export class AuthenticationService {
     return this.http.get<User>(APIS.USERS_PROFILE);
   }
 
-  updateProfile(user: User): Observable<ItemServiceMessage<User>> {
-    return this.http.put<ItemServiceMessage<User>>(APIS.USERS_PROFILE, user);
+  updateProfile(user: User): Observable<ItemApiResponse<User>> {
+    return this.http.put<ItemApiResponse<User>>(APIS.USERS_PROFILE, user);
   }
 
-  updateOrg(org: Organization): Observable<ItemServiceMessage<Organization>> {
-    return this.http.put<ItemServiceMessage<Organization>>(`${APIS.USERS_ORGANIZATION}/${org.id}`, org);
+  updateOrg(org: Organization): Observable<ItemApiResponse<Organization>> {
+    return this.http.put<ItemApiResponse<Organization>>(`${APIS.USERS_ORGANIZATION}/${org.id}`, org);
   }
 
-  registerUser(user: User): Observable<ServiceMessage> {
-    return this.http.post<ServiceMessage>(APIS.AUTH_REGISTER, user);
+  registerUser(user: User): Observable<BaseMessage> {
+    return this.http.post<BaseMessage>(APIS.AUTH_REGISTER, user);
   }
 
-  login(loginUser: User): Observable<ServiceMessage | string> {
-    return this.http.post<ServiceMessage | string>(APIS.AUTHENTICATE, loginUser, { withCredentials: true });
+  login(loginUser: User): Observable<BaseMessage | string> {
+    return this.http.post<BaseMessage | string>(APIS.AUTHENTICATE, loginUser, { withCredentials: true });
   }
 
-  refreshSession(): Observable<ServiceMessage | string> {
-    return this.http.get<ServiceMessage | string>(APIS.REFRESH_SESSION, { withCredentials: true });
+  refreshSession(): Observable<BaseMessage | string> {
+    return this.http.get<BaseMessage | string>(APIS.REFRESH_SESSION, { withCredentials: true });
   }
 
-  activateAccount(token: string): Observable<ServiceMessage> {
-    return this.http.post<ServiceMessage>(APIS.ACTIVATE_ACCOUNT, {
+  activateAccount(token: string): Observable<BaseMessage> {
+    return this.http.post<BaseMessage>(APIS.ACTIVATE_ACCOUNT, {
       token: token
     });
   }
 
-  requestPasswordReset(user: User): Observable<ServiceMessage> {
-    return this.http.post<ServiceMessage>(APIS.FORGOT_PASSWORD, user);
+  requestPasswordReset(user: User): Observable<BaseMessage> {
+    return this.http.post<BaseMessage>(APIS.FORGOT_PASSWORD, user);
   }
 
-  resetPassword(data: NewPassword): Observable<ServiceMessage> {
-    return this.http.post<ServiceMessage>(APIS.RESET_PASSWORD, data);
+  resetPassword(data: NewPassword): Observable<BaseMessage> {
+    return this.http.post<BaseMessage>(APIS.RESET_PASSWORD, data);
   }
 
-  logout(): Observable<ServiceMessage> {
-    return this.http.get<ServiceMessage>(APIS.LOGOUT, { withCredentials: true });
+  logout(): Observable<BaseMessage> {
+    return this.http.get<BaseMessage>(APIS.LOGOUT, { withCredentials: true });
   }
 
   isTokenValid(token: string): boolean {
@@ -62,12 +62,12 @@ export class AuthenticationService {
     return this.jwtHelper.decodeToken(token);
   }
 
-  deleteSession(id: number): Observable<ServiceMessage> {
-    return this.http.delete<ServiceMessage>(`${APIS.USERS_SESSION}/${id}`);
+  deleteSession(id: number): Observable<BaseMessage> {
+    return this.http.delete<BaseMessage>(`${APIS.USERS_SESSION}/${id}`);
   }
 
-  deleteSessionMultiple(sessionIds: number[]): Observable<ServiceMessage> {
+  deleteSessionMultiple(sessionIds: number[]): Observable<BaseMessage> {
     // TODO @IMalaniak, change this to delete request with body
-    return this.http.put<ServiceMessage>(`${APIS.USERS_MULTIPLE_SESSION}/${1}`, { sessionIds });
+    return this.http.put<BaseMessage>(`${APIS.USERS_MULTIPLE_SESSION}/${1}`, { sessionIds });
   }
 }

@@ -21,7 +21,7 @@ import {
   DialogDataModel,
   DialogMode,
   DialogType,
-  ItemServiceMessage,
+  ItemApiResponse,
   DialogResultModel,
   PageQuery
 } from '@/shared/models';
@@ -93,7 +93,7 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
     private toastMessageService: ToastMessageService,
     private dialogService: DialogService,
     private dialogSizeService: DialogSizeService
-  ) { }
+  ) {}
 
   ngAfterViewInit(): void {
     merge(this.sort.sortChange, this.paginator.page)
@@ -153,15 +153,14 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_USER_CONFIRM);
     const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
-    this.dialogService
-      .confirm(DialogConfirmComponent, dialogDataModel, () => this.store$.dispatch(deleteUser({ id })));
+    this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () => this.store$.dispatch(deleteUser({ id })));
   }
 
   changeUserState(user: User, state: UserState): void {
     const userState = { id: user.id, state } as User;
 
     // TODO: @IMalaniak recreate this to store
-    this.userService.updateUserState(userState).subscribe((response: ItemServiceMessage<User>) => {
+    this.userService.updateUserState(userState).subscribe((response: ItemApiResponse<User>) => {
       const serverResponse = {
         success: response.success,
         message: `User state was changed to: ${response.data.state}`

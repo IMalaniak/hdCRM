@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 import { Department } from '../models';
-import { PageQuery, CollectionServiceMessage } from '@/shared/models';
+import { PageQuery, CollectionApiResponse } from '@/shared/models';
 
 const detailsPrefix = '[Department Details]';
 const listPrefix = '[Departments List]';
@@ -42,14 +42,14 @@ export const listPageRequested = createAction(`${listPrefix} Departments Page Re
 
 export const listPageLoaded = createAction(
   `${apiPrefix} Departments Page Loaded`,
-  props<{ response: CollectionServiceMessage<Department> }>()
+  props<{ response: CollectionApiResponse<Department> }>()
 );
 
 export const depDashboardDataRequested = createAction('[Dashboard] Department Data Requested');
 
 export const depDashboardDataLoaded = createAction(
   '[Dashboard] Department Data Loaded',
-  props<{ response: CollectionServiceMessage<Department> }>()
+  props<{ response: CollectionApiResponse<Department> }>()
 );
 
 export const changeIsEditingState = createAction(

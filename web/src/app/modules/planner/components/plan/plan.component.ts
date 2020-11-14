@@ -10,13 +10,7 @@ import { cloneDeep } from 'lodash';
 import { AppState } from '@/core/reducers';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { ToastMessageService } from '@/shared/services';
-import {
-  Asset,
-  ServiceMessage,
-  DynamicForm,
-  DialogDataModel,
-  DialogWithTwoButtonModel
-} from '@/shared/models';
+import { Asset, BaseMessage, DynamicForm, DialogDataModel, DialogWithTwoButtonModel } from '@/shared/models';
 import {
   ADD_PRIVILEGES,
   DELETE_PRIVILEGES,
@@ -69,7 +63,7 @@ export class PlanComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private toastMessageService: ToastMessageService,
     private dialogService: DialogService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.planFormJson = this.route.snapshot.data[RoutingDataConstants.FORM_JSON];
@@ -144,8 +138,9 @@ export class PlanComponent implements OnInit, OnDestroy {
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_UPDATE_PLAN_CONFIRM);
     const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
-    this.dialogService
-      .confirm(DialogConfirmComponent, dialogDataModel, () => this.store$.dispatch(updatePlanRequested({ plan: this.plan })));
+    this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () =>
+      this.store$.dispatch(updatePlanRequested({ plan: this.plan }))
+    );
   }
 
   // TODO: @ArseniiIrod, @IMalaniak remake logic
@@ -219,7 +214,9 @@ export class PlanComponent implements OnInit, OnDestroy {
   // }
 
   addParticipantDialog(): void {
-    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = { dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_PARTICIPANS) };
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_PARTICIPANS)
+    };
 
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel)
@@ -260,26 +257,25 @@ export class PlanComponent implements OnInit, OnDestroy {
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_PLAN_DOCUMENT);
     const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
-    this.dialogService
-      .confirm(DialogConfirmComponent, dialogDataModel, () => {
-        const req = {
-          planId: this.plan.id,
-          docId: docId
-        };
-        this.planService
-          .deleteDoc(req)
-          .pipe(takeUntil(this.unsubscribe))
-          .subscribe((response: ServiceMessage) => {
-            if (response.success) {
-              this.plan = { ...this.plan, Documents: this.plan.Documents.filter((doc) => doc.id !== docId) };
-              this.store$.dispatch(updatePlanRequested({ plan: this.plan }));
-              this.cdr.detectChanges();
-              this.toastMessageService.snack(response);
-            } else {
-              this.toastMessageService.snack(response);
-            }
-          });
-      });
+    this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () => {
+      const req = {
+        planId: this.plan.id,
+        docId: docId
+      };
+      this.planService
+        .deleteDoc(req)
+        .pipe(takeUntil(this.unsubscribe))
+        .subscribe((response: BaseMessage) => {
+          if (response.success) {
+            this.plan = { ...this.plan, Documents: this.plan.Documents.filter((doc) => doc.id !== docId) };
+            this.store$.dispatch(updatePlanRequested({ plan: this.plan }));
+            this.cdr.detectChanges();
+            this.toastMessageService.snack(response);
+          } else {
+            this.toastMessageService.snack(response);
+          }
+        });
+    });
   }
 
   ngOnDestroy(): void {

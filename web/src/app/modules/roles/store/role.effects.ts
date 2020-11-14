@@ -10,7 +10,7 @@ import { Role } from '../models';
 import { selectRolesDashboardDataLoaded } from './role.selectors';
 import { Router } from '@angular/router';
 import { ToastMessageService } from '@/shared/services';
-import { CollectionServiceMessage, ItemServiceMessage, ServiceMessage } from '@/shared/models';
+import { CollectionApiResponse, ItemApiResponse, BaseMessage } from '@/shared/models';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Update } from '@ngrx/entity';
 import { RoutingConstants } from '@/shared/constants';
@@ -23,7 +23,7 @@ export class RoleEffects {
       map((payload) => payload.role),
       mergeMap((role: Role) =>
         this.roleService.create({ ...role }).pipe(
-          map((response: ItemServiceMessage<Role>) => {
+          map((response: ItemApiResponse<Role>) => {
             this.toastMessageService.snack(response);
             this.router.navigateByUrl(RoutingConstants.ROUTE_ROLES);
             return roleActions.createRoleSuccess({ role: response.data });
@@ -42,7 +42,7 @@ export class RoleEffects {
       ofType(roleActions.roleRequested),
       map((payload) => payload.id),
       mergeMap((id) => this.roleService.getRole(id)),
-      map((response: ItemServiceMessage<Role>) => roleActions.roleLoaded({ role: response.data })),
+      map((response: ItemApiResponse<Role>) => roleActions.roleLoaded({ role: response.data })),
       catchError(() => of(roleActions.rolesApiError()))
     )
   );
@@ -53,7 +53,7 @@ export class RoleEffects {
       map((payload) => payload.page),
       mergeMap((page) =>
         this.roleService.getList(page.pageIndex, page.pageSize, page.sortIndex, page.sortDirection).pipe(
-          map((response: CollectionServiceMessage<Role>) => roleActions.listPageLoaded({ response })),
+          map((response: CollectionApiResponse<Role>) => roleActions.listPageLoaded({ response })),
           catchError(() => of(roleActions.rolesApiError()))
         )
       )
@@ -66,7 +66,7 @@ export class RoleEffects {
       map((payload) => payload.role),
       mergeMap((role: Role) =>
         this.roleService.updateRole(role).pipe(
-          map((response: ItemServiceMessage<Role>) => {
+          map((response: ItemApiResponse<Role>) => {
             const role: Update<Role> = {
               id: response.data.id,
               changes: response.data
@@ -89,7 +89,7 @@ export class RoleEffects {
       map((payload) => payload.id),
       mergeMap((id: number) =>
         this.roleService.delete(id).pipe(
-          map((response: ServiceMessage) => {
+          map((response: BaseMessage) => {
             this.toastMessageService.snack(response);
             return roleActions.deleteRoleSuccess({ id });
           }),
