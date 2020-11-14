@@ -8,7 +8,7 @@ import { AppState } from '../reducers';
 import { isPrivileged } from '../auth/store/auth.selectors';
 import { ToastMessageService } from '@/shared/services';
 import { CONSTANTS } from '@/shared/constants';
-import { BaseMessage } from '@/shared/models/serviceMessage';
+import { BaseMessage } from '@/shared/models';
 
 @Injectable({ providedIn: 'root' })
 export class PrivilegeGuard implements CanActivate {

@@ -17,8 +17,8 @@ import {
 } from '../../../store/task.actions';
 import { OrganismsTaskDialogComponent } from '../organisms-task-dialog/organisms-task-dialog.component';
 import { DIALOG, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE, CONSTANTS } from '@/shared/constants';
-import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
-import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
+import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/core/services/dialog/dialog.service';
 import { DialogCreateEditModel, DialogMode, DialogType, DialogResultModel } from '@/shared/models';
@@ -45,7 +45,7 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
     private store$: Store<AppState>,
     private dialogService: DialogService,
     private dialogSizeService: DialogSizeService
-  ) { }
+  ) {}
 
   get completedTasksLength(): boolean {
     return this.tasks?.length ? this.tasks.filter((task) => task.isCompleted).length > 0 : true;
@@ -86,11 +86,10 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_TASKS_COMPLETED_CONFIRM);
     const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
-    this.dialogService
-      .confirm(DialogConfirmComponent, dialogDataModel, () => {
-        const taskIds: number[] = this.tasks.filter((task) => task.isCompleted).map((task) => task.id);
-        this.store$.dispatch(deleteMultipleTaskRequested({ taskIds }));
-      });
+    this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () => {
+      const taskIds: number[] = this.tasks.filter((task) => task.isCompleted).map((task) => task.id);
+      this.store$.dispatch(deleteMultipleTaskRequested({ taskIds }));
+    });
   }
 
   changeTaskStatus(event: MatCheckboxChange, task: Task): void {

@@ -4,7 +4,7 @@ import { ComponentType } from '@angular/cdk/portal';
 
 import { UsersComponent } from '../list/users.component';
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
-import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
 import { DialogBaseModel } from '@/shared/components';
 import { User } from '../../models';
@@ -13,9 +13,7 @@ import { User } from '../../models';
   templateUrl: 'users-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UsersDialogComponent<
-  TDialogModel extends DialogWithTwoButtonModel
-> extends DialogBaseModel<TDialogModel> {
+export class UsersDialogComponent<TDialogModel extends DialogWithTwoButtonModel> extends DialogBaseModel<TDialogModel> {
   @ViewChild(UsersComponent, { static: true })
   usersComponent: UsersComponent;
 

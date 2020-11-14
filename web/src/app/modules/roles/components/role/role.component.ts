@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 import { cloneDeep } from 'lodash';
@@ -24,12 +24,12 @@ import {
   CONSTANTS,
   RoutingDataConstants
 } from '@/shared/constants';
-import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
-import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
+import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/core/services/dialog';
-import { DialogWithTwoButtonModel } from '@/shared/models/modal/dialog-with-two-button.model';
-import { DialogResultModel } from '@/shared/models/modal/dialog-result.model';
+import { DialogWithTwoButtonModel } from '@/shared/models/dialog/dialog-with-two-button.model';
+import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
 import { DialogType } from '@/shared/models';
 import { DialogSizeService } from '@/shared/services';
 import { DynamicForm } from '@/shared/models';
@@ -69,7 +69,7 @@ export class RoleComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private dialogService: DialogService,
     private dialogSizeService: DialogSizeService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.roleFormJson = this.route.snapshot.data[RoutingDataConstants.FORM_JSON];
@@ -86,7 +86,9 @@ export class RoleComponent implements OnInit, OnDestroy {
   }
 
   addParticipantDialog(): void {
-    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = { dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_USERS) };
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_USERS)
+    };
 
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel)
@@ -119,7 +121,9 @@ export class RoleComponent implements OnInit, OnDestroy {
   }
 
   addPrivilegeDialog(): void {
-    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = { dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_PRIVILEGES) };
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_PRIVILEGES)
+    };
 
     this.dialogService
       .open(PrivilegesDialogComponent, dialogDataModel, this.dialogSizeService.getSize(DialogType.STANDART))
@@ -191,11 +195,10 @@ export class RoleComponent implements OnInit, OnDestroy {
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_UPDATE_ROLE_CONFIRM);
     const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
-    this.dialogService
-      .confirm(DialogConfirmComponent, dialogDataModel, () => {
-        this.store$.dispatch(updateRoleRequested({ role: { ...this.role, ...this.roleFormValues } }));
-        this.disableEdit();
-      });
+    this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () => {
+      this.store$.dispatch(updateRoleRequested({ role: { ...this.role, ...this.roleFormValues } }));
+      this.disableEdit();
+    });
   }
 
   ngOnDestroy(): void {

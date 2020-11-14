@@ -25,10 +25,10 @@ import { Plan } from '../../models';
 import { PlanService } from '../../services';
 import { updatePlanRequested, changeIsEditingState } from '../../store/plan.actions';
 import { selectIsEditing } from '../../store/plan.selectors';
-import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
+import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/core/services/dialog';
-import { DialogResultModel } from '@/shared/models/modal/dialog-result.model';
+import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
 
 @Component({
   templateUrl: './plan.component.html',

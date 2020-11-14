@@ -6,10 +6,10 @@ import { Subject } from 'rxjs';
 
 import { DialogBaseModel } from '@/shared/components';
 import { DialogDataModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
-import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
+import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogSizeService } from '@/shared/services';
 import { DIALOG, STYLECONSTANTS } from '@/shared/constants';
-import { DialogResultModel } from '@/shared/models/modal/dialog-result.model';
+import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ import { DialogResultModel } from '@/shared/models/modal/dialog-result.model';
 export class DialogService {
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private _matDialog: MatDialog, private dialogSizeService: DialogSizeService) { }
+  constructor(private _matDialog: MatDialog, private dialogSizeService: DialogSizeService) {}
 
   confirm<TDialogModel extends DialogConfirmModel>(
     componentType: ComponentType<DialogBaseModel<TDialogModel>>,

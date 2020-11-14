@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { DialogConfirmComponent } from './dialog-confirm.component';
-import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
+import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 
 describe('DialogConfirmComponent', () => {
   let component: DialogConfirmComponent<DialogConfirmModel>;

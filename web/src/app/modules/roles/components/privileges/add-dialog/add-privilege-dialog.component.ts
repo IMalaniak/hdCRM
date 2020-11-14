@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
 import { ComponentType } from '@angular/cdk/portal';
-import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogCreateEditModel, DialogResultModel } from '@/shared/models';
 import { DialogCreateEditPageModel } from '@/shared/components';
 import { Privilege } from '@/modules/roles/models';

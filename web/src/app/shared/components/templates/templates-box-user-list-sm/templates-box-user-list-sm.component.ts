@@ -6,10 +6,10 @@ import { Subject } from 'rxjs';
 import { User } from '@/modules/users';
 import { OrganismsUserDetailsDialogComponent } from '../../organisms/organisms-user-details-dialog/organisms-user-details-dialog.component';
 import { CONSTANTS, MAT_BUTTON } from '@/shared/constants';
-import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
-import { DialogWithTwoButtonModel } from '@/shared/models/modal/dialog-with-two-button.model';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
+import { DialogWithTwoButtonModel } from '@/shared/models/dialog/dialog-with-two-button.model';
 import { DialogService } from '@/core/services/dialog/dialog.service';
-import { DialogResultModel } from '@/shared/models/modal/dialog-result.model';
+import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
 
 @Component({
   selector: 'templates-box-user-list-sm',
@@ -68,7 +68,10 @@ export class TemplatesBoxUserListSmComponent implements OnDestroy {
   }
 
   openUserDetailsDialog(user: User): void {
-    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = { dialogModel: new DialogWithTwoButtonModel(null, CONSTANTS.TEXTS_MORE_DETAILS), model: user };
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+      dialogModel: new DialogWithTwoButtonModel(null, CONSTANTS.TEXTS_MORE_DETAILS),
+      model: user
+    };
 
     this.dialogService
       .open(OrganismsUserDetailsDialogComponent, dialogDataModel, { width: '22em' })

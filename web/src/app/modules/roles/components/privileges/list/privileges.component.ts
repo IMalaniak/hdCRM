@@ -10,10 +10,10 @@ import { AppState } from '@/core/reducers';
 import { allPrivilegesRequested, createPrivilegeRequested } from '@/modules/roles/store/privilege.actions';
 import { selectAllPrivileges, selectPrivilegesLoading } from '@/modules/roles/store/privilege.selectors';
 import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, CONSTANTS } from '@/shared/constants';
-import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogService } from '@/core/services/dialog/dialog.service';
-import { DialogMode } from '@/shared/models/modal/dialog-mode.enum';
-import { DialogResultModel } from '@/shared/models/modal/dialog-result.model';
+import { DialogMode } from '@/shared/models/dialog/dialog-mode.enum';
+import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
 import { DialogCreateEditModel, DialogType } from '@/shared/models';
 import { DialogSizeService } from '@/shared/services';
 

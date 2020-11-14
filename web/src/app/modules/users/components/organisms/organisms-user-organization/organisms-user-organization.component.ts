@@ -3,8 +3,8 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
-import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
+import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { Organization } from '@/modules/users';
 import { ACTION_LABELS, THEME_PALETTE, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
 import { DynamicForm } from '@/shared/models';
@@ -55,7 +55,8 @@ export class OrganismsUserOrganizationComponent implements OnInit {
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_UPDATE_COMMON_CONFIRM);
     const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
-    this.dialogService
-      .confirm(DialogConfirmComponent, dialogDataModel, () => this.updateOrg.emit({ ...this.organization, ...this.userOrganizationFormValues }));
+    this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () =>
+      this.updateOrg.emit({ ...this.organization, ...this.userOrganizationFormValues })
+    );
   }
 }

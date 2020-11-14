@@ -7,7 +7,7 @@ import { User } from '@/modules/users';
 import { DialogDataModel, DynamicForm } from '@/shared/models';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
-import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
+import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/core/services/dialog';
 import { ACTION_LABELS, THEME_PALETTE, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
@@ -33,7 +33,7 @@ export class OrganismsUserDetailsComponent implements OnInit {
 
   userFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName(FORMCONSTANTS.USER)));
 
-  constructor(private store$: Store<AppState>, private dialogService: DialogService) { }
+  constructor(private store$: Store<AppState>, private dialogService: DialogService) {}
 
   ngOnInit(): void {
     this.store$.dispatch(formRequested({ formName: FORMCONSTANTS.USER }));
@@ -56,7 +56,8 @@ export class OrganismsUserDetailsComponent implements OnInit {
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_UPDATE_COMMON_CONFIRM);
     const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
-    this.dialogService
-      .confirm(DialogConfirmComponent, dialogDataModel, () => this.updateUser.emit({ ...this.user, ...this.userFormValues }));
+    this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () =>
+      this.updateUser.emit({ ...this.user, ...this.userFormValues })
+    );
   }
 }

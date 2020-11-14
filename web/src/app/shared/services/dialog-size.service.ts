@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialogConfig } from '@angular/material/dialog';
 
 import { STYLECONSTANTS } from '../constants/style.constants';
-import { DialogType } from '../models/modal/dialog-type-enum';
+import { DialogType } from '../models/dialog/dialog-type.enum';
 
 @Injectable({
   providedIn: 'root'

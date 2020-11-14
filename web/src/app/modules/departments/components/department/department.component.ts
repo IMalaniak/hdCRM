@@ -21,7 +21,7 @@ import { UsersDialogComponent, User } from '@/modules/users';
 import { Department } from '../../models';
 import { updateDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
 import { selectIsEditing } from '../../store/department.selectors';
-import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
+import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
 import { DialogService } from '@/core/services/dialog';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
@@ -53,7 +53,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     private store$: Store<AppState>,
     private cdr: ChangeDetectorRef,
     private dialogService: DialogService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.departmentFormJson = this.route.snapshot.data[RoutingDataConstants.FORM_JSON];
@@ -77,7 +77,9 @@ export class DepartmentComponent implements OnInit, OnDestroy {
 
   addManagerDialog(): void {
     // TODO: @ArseniiIrod, @IMalaniak implement logic with selected user
-    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = { dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_MANAGER) };
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_MANAGER)
+    };
 
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel)
@@ -93,7 +95,9 @@ export class DepartmentComponent implements OnInit, OnDestroy {
 
   addWorkersDialog(): void {
     // TODO: @ArseniiIrod, @IMalaniak implement logic with selected users
-    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = { dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_WORKERS) };
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_WORKERS)
+    };
 
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel)
@@ -126,7 +130,9 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
     this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () => {
-      this.store$.dispatch(updateDepartmentRequested({ department: { ...this.department, ...this.departmentFormValues } }));
+      this.store$.dispatch(
+        updateDepartmentRequested({ department: { ...this.department, ...this.departmentFormValues } })
+      );
     });
   }
 

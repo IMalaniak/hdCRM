@@ -12,9 +12,9 @@ import { UsersDialogComponent, User } from '@/modules/users';
 import { Plan } from '../../models';
 import { createPlanRequested } from '../../store/plan.actions';
 import { DialogService } from '@/core/services/dialog/dialog.service';
-import { DialogWithTwoButtonModel } from '@/shared/models/modal/dialog-with-two-button.model';
-import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
-import { DialogResultModel } from '@/shared/models/modal/dialog-result.model';
+import { DialogWithTwoButtonModel } from '@/shared/models/dialog/dialog-with-two-button.model';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
+import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
 
 @Component({
   templateUrl: './add-plan.component.html',
@@ -46,7 +46,9 @@ export class AddPlanComponent implements OnInit, OnDestroy {
   }
 
   addParticipantDialog(): void {
-    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = { dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_PARTICIPANS) };
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_PARTICIPANS)
+    };
 
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel)

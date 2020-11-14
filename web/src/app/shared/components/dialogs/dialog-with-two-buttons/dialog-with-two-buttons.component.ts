@@ -11,28 +11,29 @@ import { THEME_PALETTE } from '@/shared/constants';
   selector: 'component-dialog',
   templateUrl: './dialog-with-two-buttons.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: [`
-  .dialog-buttons {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 1.5rem;
-  }
-  `]
+  styles: [
+    `
+      .dialog-buttons {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1.5rem;
+      }
+    `
+  ]
 })
-export class DialogWithTwoButtonsComponent<TDialogModel extends DialogWithTwoButtonModel>
-  extends DialogBaseModel<TDialogModel> {
+export class DialogWithTwoButtonsComponent<T extends DialogWithTwoButtonModel> extends DialogBaseModel<T> {
   cancelBtnColor = THEME_PALETTE.BASIC;
 
   constructor(
     readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel>,
-    @Inject(DOCUMENT) private readonly _document: Document
-    ) {
-      super(dialogRef, data);
-    }
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<T>,
+    @Inject(DOCUMENT) private readonly document: Document
+  ) {
+    super(dialogRef, data);
+  }
 
   @HostListener('window:keyup.enter') onKeyUpEnter(): void {
-    const successButton = this._document.getElementById('successButton');
+    const successButton = this.document.getElementById('successButton');
     if (successButton && !this.formValid) {
       this.dialogClose.emit(true);
     }

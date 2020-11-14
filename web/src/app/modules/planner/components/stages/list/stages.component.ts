@@ -11,8 +11,8 @@ import { allStagesRequestedFromDialogWindow, createStage } from '@/modules/plann
 import { selectAllStages, selectStagesLoading } from '@/modules/planner/store/stage.selectors';
 import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, CONSTANTS } from '@/shared/constants';
 import { DialogService } from '@/core/services/dialog';
-import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
-import { DialogResultModel } from '@/shared/models/modal/dialog-result.model';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
+import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
 import { DialogCreateEditModel, DialogMode } from '@/shared/models';
 
 @Component({

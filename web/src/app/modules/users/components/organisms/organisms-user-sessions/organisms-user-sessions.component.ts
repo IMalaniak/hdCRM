@@ -6,8 +6,8 @@ import { Store } from '@ngrx/store';
 import { deleteSession, deleteMultipleSession } from '@/core/auth/store/auth.actions';
 import { UAParser } from 'ua-parser-js';
 import { MAT_BUTTON, THEME_PALETTE, CONSTANTS } from '@/shared/constants';
-import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
-import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
+import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/core/services/dialog';
 
@@ -27,7 +27,7 @@ export class OrganismsUserSessionsComponent implements OnChanges {
   themePalette = THEME_PALETTE;
   matButtonType = MAT_BUTTON;
 
-  constructor(private store: Store<AppState>, private dialogService: DialogService) { }
+  constructor(private store: Store<AppState>, private dialogService: DialogService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['user']?.currentValue && this.user) {
@@ -70,8 +70,7 @@ export class OrganismsUserSessionsComponent implements OnChanges {
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(messageText);
     const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
-    this.dialogService
-      .confirm(DialogConfirmComponent, dialogDataModel, () => this.removeSession(sessionId));
+    this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () => this.removeSession(sessionId));
   }
 
   onRemoveSession(sessionId: number): void {

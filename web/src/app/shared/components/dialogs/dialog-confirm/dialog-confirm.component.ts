@@ -3,20 +3,18 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { DialogBaseModel } from '../models/dialog-base.model';
-import { DialogResultModel } from '@/shared/models/modal/dialog-result.model';
+import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
 import { DialogDataModel } from '@/shared/models';
-import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
+import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 
 @Component({
   templateUrl: './dialog-confirm.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DialogConfirmComponent<
-  TDialogModel extends DialogConfirmModel
-> extends DialogBaseModel<TDialogModel> {
+export class DialogConfirmComponent<T extends DialogConfirmModel> extends DialogBaseModel<T> {
   constructor(
     readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel>
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<T>
   ) {
     super(dialogRef, data);
   }

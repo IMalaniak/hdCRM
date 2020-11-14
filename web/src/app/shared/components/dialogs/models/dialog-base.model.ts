@@ -8,19 +8,16 @@ import { DialogDataModel, DialogWithTwoButtonModel } from '@/shared/models';
   template: ''
 })
 // tslint:disable-next-line:component-class-suffix
-export abstract class DialogBaseModel<TDialogModel extends DialogWithTwoButtonModel> {
+export abstract class DialogBaseModel<T extends DialogWithTwoButtonModel> {
   @Input() closeButtonVisible = true;
   @Input() formValid = false;
   @Output() dialogClose: EventEmitter<boolean> = new EventEmitter();
 
-  dialogModel: TDialogModel;
+  dialogModel: T;
   model: any;
   title: string;
 
-  constructor(
-    readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
-    protected data: DialogDataModel<TDialogModel>
-  ) {
+  constructor(readonly dialogRef: MatDialogRef<ComponentType<unknown>>, protected data: DialogDataModel<T>) {
     this.dialogModel = data.dialogModel;
     this.model = this.data.model;
     this.title = this.dialogModel.titleMessageKey;

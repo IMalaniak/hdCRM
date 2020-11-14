@@ -12,15 +12,15 @@ import { DialogDataModel, DialogWithTwoButtonModel } from '@/shared/models';
   templateUrl: './dialog-base.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DialogBaseComponent<TDialogModel extends DialogWithTwoButtonModel> extends DialogBaseModel<TDialogModel> {
+export class DialogBaseComponent<T extends DialogWithTwoButtonModel> extends DialogBaseModel<T> {
   constructor(
     readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel>,
-    private _router: Router
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<T>,
+    private router: Router
   ) {
     super(dialogRef, data);
 
-    this._router.events.pipe(filter((event) => event instanceof NavigationStart)).subscribe(() => {
+    this.router.events.pipe(filter((event) => event instanceof NavigationStart)).subscribe(() => {
       this.dialogRef.close(); // used for close dialog on navigation if it has nested component
     });
   }

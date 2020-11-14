@@ -1,4 +1,3 @@
-
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -10,9 +9,9 @@ import { AppState } from '@/core/reducers';
 import { DynamicForm } from '@/shared/models';
 import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, RoutingDataConstants, CONSTANTS } from '@/shared/constants';
 import { User } from '@/modules/users/models';
-import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
-import { DialogWithTwoButtonModel } from '@/shared/models/modal/dialog-with-two-button.model';
-import { DialogResultModel } from '@/shared/models/modal/dialog-result.model';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
+import { DialogWithTwoButtonModel } from '@/shared/models/dialog/dialog-with-two-button.model';
+import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
 import { DialogService } from '@/core/services/dialog';
 import { DialogType } from '@/shared/models';
 import { DialogSizeService } from '@/shared/services';
@@ -63,7 +62,9 @@ export class AddRoleComponent implements OnInit {
   }
 
   addParticipantDialog(): void {
-    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = { dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_USERS) };
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_USERS)
+    };
 
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel)
@@ -100,7 +101,9 @@ export class AddRoleComponent implements OnInit {
   }
 
   addPrivilegeDialog(): void {
-    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = { dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_PRIVILEGES) };
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_PRIVILEGES)
+    };
 
     this.dialogService
       .open(PrivilegesDialogComponent, dialogDataModel, this.dialogSizeService.getSize(DialogType.STANDART))
