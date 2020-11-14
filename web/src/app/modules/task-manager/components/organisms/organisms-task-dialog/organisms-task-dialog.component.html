@@ -1,4 +1,4 @@
-<component-dialog class="task-dialog" [formValid]="false" (dialogClose)="onClose($event)">
+<component-dialog class="task-dialog" [formInvalid]="false" (dialogClose)="onClose($event)">
   <organisms-dynamic-form
     [data]="model"
     [formJson]="taskFormJson$ | async"

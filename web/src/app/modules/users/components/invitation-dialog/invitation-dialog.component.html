@@ -1,4 +1,4 @@
-<component-dialog [formValid]="invitedUsers.length === 0" (dialogClose)="onClose($event)">
+<component-dialog [formInvalid]="invitedUsers.length === 0" (dialogClose)="onClose($event)">
   <div class="dialog-content">
     <mat-list class="border rounded mb-4" *ngIf="invitedUsers.length">
       <mat-list-item *ngFor="let user of invitedUsers"

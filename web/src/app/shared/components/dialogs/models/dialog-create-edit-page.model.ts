@@ -1,6 +1,6 @@
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/portal';
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 
 import { DialogBaseModel } from './dialog-base.model';
 import { DialogMode } from '@/shared/models/dialog/dialog-mode.enum';
@@ -13,7 +13,10 @@ import { DialogCreateEditModel, DialogDataModel } from '@/shared/models';
 export abstract class DialogCreateEditPageModel<T extends DialogCreateEditModel> extends DialogBaseModel<T> {
   isCreateMode: boolean;
 
-  constructor(readonly dialogRef: MatDialogRef<ComponentType<unknown>>, protected data: DialogDataModel<T>) {
+  constructor(
+    readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<T>
+  ) {
     super(dialogRef, data);
 
     this.initializeModel();

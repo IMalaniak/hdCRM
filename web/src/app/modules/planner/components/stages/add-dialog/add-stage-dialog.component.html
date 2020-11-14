@@ -1,4 +1,4 @@
-<component-dialog [formValid]="keyString.invalid" (dialogClose)="onClose($event)">
+<component-dialog [formInvalid]="keyString.invalid" (dialogClose)="onClose($event)">
   <mat-form-field appearance="outline">
     <mat-label i18n="@@addStageComponentDialogLabel">Label</mat-label>
     <input matInput [formControl]="keyString" />

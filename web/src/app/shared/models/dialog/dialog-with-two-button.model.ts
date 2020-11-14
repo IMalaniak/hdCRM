@@ -1,5 +1,5 @@
 import { DIALOG } from '@/shared/constants';
 
 export class DialogWithTwoButtonModel {
-  constructor(public titleMessageKey = '', public btnOkTextKey = DIALOG.OK, public btnCancelTextKey = DIALOG.CANCEL) {}
+  constructor(public title = '', public btnOkText = DIALOG.OK, public btnCancelText = DIALOG.CANCEL) {}
 }

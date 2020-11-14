@@ -9,7 +9,7 @@ import { currentUser } from '@/core/auth/store/auth.selectors';
 import * as layoutActions from '../store/layout.actions';
 import * as fromLayout from '../store';
 import { privateRouterTransition } from '@/shared/animations';
-import { MediaQueryService } from '@/core/services/media-query/media-query.service';
+import { MediaQueryService } from '@/core/services';
 
 @Component({
   template: `

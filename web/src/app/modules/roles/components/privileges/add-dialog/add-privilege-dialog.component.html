@@ -1,4 +1,4 @@
-<component-dialog [formValid]="privilegeGroup.invalid" (dialogClose)="onClose($event)">
+<component-dialog [formInvalid]="privilegeGroup.invalid" (dialogClose)="onClose($event)">
   <form [formGroup]="privilegeGroup" class="d-flex flex-column justify-content-center">
     <mat-form-field appearance="outline">
       <mat-label i18n="@@addPrivilegeComponentDialogLable">Title</mat-label>

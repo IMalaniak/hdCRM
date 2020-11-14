@@ -34,7 +34,7 @@ export class DialogWithTwoButtonsComponent<T extends DialogWithTwoButtonModel> e
 
   @HostListener('window:keyup.enter') onKeyUpEnter(): void {
     const successButton = this.document.getElementById('successButton');
-    if (successButton && !this.formValid) {
+    if (successButton && !this.formInvalid) {
       this.dialogClose.emit(true);
     }
   }

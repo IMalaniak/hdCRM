@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { RoutingConstants, VIEW_PRIVILEGES } from '@/shared/constants';
-import { MediaQueryService } from '@/core/services/media-query/media-query.service';
+import { MediaQueryService } from '@/core/services';
 
 @Component({
   selector: 'left-sidebar',

@@ -3,12 +3,12 @@ import { DIALOG } from '@/shared/constants/dialog.constants';
 
 export class DialogConfirmModel extends DialogWithTwoButtonModel {
   constructor(
-    public messageTextKey = '',
-    public questionTextKey = DIALOG.CONFIRM,
-    titleMessageKey = '',
-    btnOkTextKey = DIALOG.YES,
-    btnCancelTextKey = DIALOG.CANCEL
+    public messageText = '',
+    public questionText = DIALOG.CONFIRM,
+    title = '',
+    btnOkText = DIALOG.YES,
+    btnCancelText = DIALOG.CANCEL
   ) {
-    super(titleMessageKey, btnOkTextKey, btnCancelTextKey);
+    super(title, btnOkText, btnCancelText);
   }
 }

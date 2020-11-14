@@ -4,10 +4,10 @@
   </ng-container>
   <div dialog-actions class="dialog-buttons">
     <atoms-icon-button *ngIf="closeButtonVisible" [color]="cancelBtnColor" (onclick)="onCancelButtonClick()">
-      {{ dialogModel.btnCancelTextKey }}
+      {{ dialogModel.btnCancelText }}
     </atoms-icon-button>
-    <atoms-icon-button id="successButton" [disabled]="formValid" (onclick)="onOkButtonClick()">
-      {{ dialogModel.btnOkTextKey }}
+    <atoms-icon-button id="successButton" [disabled]="formInvalid" (onclick)="onOkButtonClick()">
+      {{ dialogModel.btnOkText }}
     </atoms-icon-button>
   </div>
 </component-dialog-base>
