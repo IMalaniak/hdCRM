@@ -5,30 +5,32 @@ import { ComponentType } from '@angular/cdk/portal/portal';
 import { RolesComponent } from '../list/roles.component';
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
 import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
-import { BaseModel } from '@/shared/models/base';
 import { DialogBaseModel } from '@/shared/components';
+import { Role } from '../../models';
 
 @Component({
   templateUrl: 'roles-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RolesDialogComponent<
-  TDialogModel extends DialogWithTwoButtonModel,
-  TModel extends BaseModel
-> extends DialogBaseModel<TDialogModel, TModel> {
+  TDialogModel extends DialogWithTwoButtonModel> extends DialogBaseModel<TDialogModel> {
   @ViewChild(RolesComponent, { static: true }) rolesComponent: RolesComponent;
 
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
 
   constructor(
-    readonly dialogRef: MatDialogRef<ComponentType<TModel>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel, TModel>
+    readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel>
   ) {
     super(dialogRef, data);
   }
 
-  onClose(result: boolean): void {
-    return this.dialogRef.close(new DialogResultModel(result, this.rolesComponent.selection.selected));
+  onClose(success: boolean): void {
+    const result: DialogResultModel<Role[]> = {
+      success,
+      model: this.rolesComponent.selection.selected
+    };
+    return this.dialogRef.close(result);
   }
 }

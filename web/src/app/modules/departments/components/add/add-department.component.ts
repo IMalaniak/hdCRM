@@ -46,14 +46,14 @@ export class AddDepartmentComponent implements OnInit {
   }
 
   addManagerDialog(): void {
-    const dialogDataModel = new DialogDataModel(new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_MANAGER));
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = { dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_MANAGER) };
 
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<User[]>) => {
-        if (result && result.succession) {
+        if (result && result.success) {
           this.department = { ...this.department, Manager: { ...result.model[0] } };
           this.cdr.detectChanges();
         }
@@ -74,14 +74,14 @@ export class AddDepartmentComponent implements OnInit {
   }
 
   addWorkersDialog(): void {
-    const dialogDataModel = new DialogDataModel(new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_WORKERS));
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = { dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_WORKERS) };
 
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<User[]>) => {
-        if (result && result.succession) {
+        if (result && result.success) {
           const selectedWorkers: User[] = result.model.filter(
             (selectedWorker) => !this.department.Workers.some((user) => user.id === selectedWorker.id)
           );

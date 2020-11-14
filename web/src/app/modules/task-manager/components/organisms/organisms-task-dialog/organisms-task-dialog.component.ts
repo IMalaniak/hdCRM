@@ -19,9 +19,8 @@ import { Task} from '@/modules/task-manager/models';
   templateUrl: './organisms-task-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrganismsTaskDialogComponent<TDialogModel extends DialogCreateEditModel, TModel extends Task
-  >
-  extends DialogCreateEditPageModel<TDialogModel, TModel>
+export class OrganismsTaskDialogComponent<TDialogModel extends DialogCreateEditModel>
+  extends DialogCreateEditPageModel<TDialogModel>
   implements OnInit {
   taskFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName(FORMCONSTANTS.TASK)));
 
@@ -32,8 +31,8 @@ export class OrganismsTaskDialogComponent<TDialogModel extends DialogCreateEditM
 
   constructor(
     private store$: Store<AppState>,
-    readonly dialogRef: MatDialogRef<ComponentType<TModel>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel, TModel>,
+    readonly dialogRef: MatDialogRef<ComponentType<Task>>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel>,
   ) {
     super(dialogRef, data);
   }
@@ -46,7 +45,11 @@ export class OrganismsTaskDialogComponent<TDialogModel extends DialogCreateEditM
     this.taskFormValues = { ...this.taskFormValues, ...formVal };
   }
 
-  onClose(result: boolean): void {
-    this.dialogRef.close(new DialogResultModel(result, { ...this.model, ...this.taskFormValues }));
+  onClose(success: boolean): void {
+    const result: DialogResultModel<Task> = {
+      success,
+      model: { ...this.model, ...this.taskFormValues }
+    };
+    this.dialogRef.close(result);
   }
 }

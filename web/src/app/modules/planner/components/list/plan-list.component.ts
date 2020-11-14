@@ -98,7 +98,7 @@ export class PlanListComponent implements AfterViewInit, OnDestroy {
 
   deletePlan(id: number): void {
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_PLAN_CONFIRM);
-    const dialogDataModel = new DialogDataModel(dialogModel);
+    const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
     this.dialogService
       .confirm(DialogConfirmComponent, dialogDataModel, () => this.store$.dispatch(deletePlanRequested({ id })));

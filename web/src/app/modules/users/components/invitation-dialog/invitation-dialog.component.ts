@@ -18,8 +18,8 @@ import { DialogBaseModel } from '@/shared/components';
   styleUrls: ['./invitation-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InvitationDialogComponent<TDialogModel extends DialogCreateEditModel, TModel extends User>
-  extends DialogBaseModel<TDialogModel, TModel>
+export class InvitationDialogComponent<TDialogModel extends DialogCreateEditModel>
+  extends DialogBaseModel<TDialogModel>
   implements OnInit, OnDestroy {
   userData: FormGroup;
   appUsers: User[];
@@ -33,8 +33,8 @@ export class InvitationDialogComponent<TDialogModel extends DialogCreateEditMode
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
-    readonly dialogRef: MatDialogRef<ComponentType<TModel>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel, TModel>,
+    readonly dialogRef: MatDialogRef<ComponentType<User>>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel>,
     private fb: FormBuilder,
     private store$: Store<AppState>
   ) {
@@ -72,8 +72,12 @@ export class InvitationDialogComponent<TDialogModel extends DialogCreateEditMode
     }
   }
 
-  onClose(result: boolean): void {
-    this.dialogRef.close(new DialogResultModel(result, this.invitedUsers));
+  onClose(success: boolean): void {
+    const result: DialogResultModel<User[]> = {
+      success,
+      model: this.invitedUsers
+    };
+    this.dialogRef.close(result);
   }
 
   ngOnDestroy(): void {

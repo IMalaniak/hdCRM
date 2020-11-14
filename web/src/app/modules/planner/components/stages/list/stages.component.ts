@@ -64,14 +64,14 @@ export class StagesComponent implements OnInit, OnDestroy {
 
   createStageDialog(): void {
     const dialogModel = new DialogCreateEditModel(DialogMode.CREATE, CONSTANTS.TEXTS_CREATE_STAGE, ACTION_LABELS.SAVE);
-    const dialogDataModel = new DialogDataModel(dialogModel);
+    const dialogDataModel: DialogDataModel<DialogCreateEditModel> = { dialogModel };
 
     this.dialogService
       .open(AddStageDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<string>) => {
-        if (result && result.succession) {
+        if (result && result.success) {
           const stage: Stage = { keyString: result.model } as Stage;
           this.store$.dispatch(createStage({ stage }));
         }

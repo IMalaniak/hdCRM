@@ -7,16 +7,15 @@ import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
 import { DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
 import { DialogBaseModel } from '@/shared/components';
-import { BaseModel } from '@/shared/models/base/base.model';
+import { User } from '../../models';
 
 @Component({
   templateUrl: 'users-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UsersDialogComponent<
-  TDialogModel extends DialogWithTwoButtonModel,
-  TModel extends BaseModel
-> extends DialogBaseModel<TDialogModel, TModel> {
+  TDialogModel extends DialogWithTwoButtonModel
+> extends DialogBaseModel<TDialogModel> {
   @ViewChild(UsersComponent, { static: true })
   usersComponent: UsersComponent;
 
@@ -24,13 +23,17 @@ export class UsersDialogComponent<
   themePalette = THEME_PALETTE;
 
   constructor(
-    readonly dialogRef: MatDialogRef<ComponentType<TModel>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel, TModel>
+    readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel>
   ) {
     super(dialogRef, data);
   }
 
-  onClose(result: boolean): void {
-    this.dialogRef.close(new DialogResultModel(result, this.usersComponent.selection.selected));
+  onClose(success: boolean): void {
+    const result: DialogResultModel<User[]> = {
+      success,
+      model: this.usersComponent.selection.selected
+    };
+    this.dialogRef.close(result);
   }
 }

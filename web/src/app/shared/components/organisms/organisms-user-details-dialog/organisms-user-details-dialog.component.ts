@@ -13,23 +13,26 @@ import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganismsUserDetailsDialogComponent<
-  TDialogModel extends DialogWithTwoButtonModel,
-  TModel extends User
-> extends DialogBaseModel<TDialogModel, TModel> {
+  TDialogModel extends DialogWithTwoButtonModel
+> extends DialogBaseModel<TDialogModel> {
   user: User;
   themePalette = THEME_PALETTE;
   matButtonTypes = MAT_BUTTON;
 
   constructor(
-    readonly dialogRef: MatDialogRef<ComponentType<TModel>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel, TModel>
+    readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel>
   ) {
     super(dialogRef, data);
     this.user = this.model;
   }
 
-  onClose(result: boolean): void {
+  onClose(success: boolean): void {
     const userDetailsRoute = `${RoutingConstants.ROUTE_USERS_DETAILS}/${this.user.id}`;
-    this.dialogRef.close(new DialogResultModel(result, userDetailsRoute));
+    const result: DialogResultModel<string> = {
+      success,
+      model: userDetailsRoute
+    };
+    this.dialogRef.close(result);
   }
 }

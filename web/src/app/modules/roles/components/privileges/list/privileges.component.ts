@@ -78,14 +78,14 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
       CONSTANTS.TEXTS_CREATE_PRIVILEGE,
       ACTION_LABELS.SUMBIT
     );
-    const dialogDataModel = new DialogDataModel(dialogModel);
+    const dialogDataModel: DialogDataModel<DialogCreateEditModel> = { dialogModel };
 
     this.dialogService
       .open(AddPrivilegeDialogComponent, dialogDataModel, this.dialogSizeService.getSize(DialogType.STANDART))
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<Privilege>) => {
-        if (result && result.succession) {
+        if (result && result.success) {
           this.store$.dispatch(createPrivilegeRequested({ privilege: result.model }));
         }
       });

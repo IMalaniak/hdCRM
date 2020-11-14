@@ -6,7 +6,6 @@ import { DOCUMENT } from '@angular/common';
 import { DialogDataModel, DialogWithTwoButtonModel } from '@/shared/models';
 import { DialogBaseModel } from '../models/dialog-base.model';
 import { THEME_PALETTE } from '@/shared/constants';
-import { BaseModel } from '@/shared/models/base';
 
 @Component({
   selector: 'component-dialog',
@@ -20,10 +19,17 @@ import { BaseModel } from '@/shared/models/base';
   }
   `]
 })
-export class DialogWithTwoButtonsComponent<TDialogModel extends DialogWithTwoButtonModel, TModel extends BaseModel>
-  extends DialogBaseModel<TDialogModel, TModel> {
-  okButtonEnabled = false;
+export class DialogWithTwoButtonsComponent<TDialogModel extends DialogWithTwoButtonModel>
+  extends DialogBaseModel<TDialogModel> {
   cancelBtnColor = THEME_PALETTE.BASIC;
+
+  constructor(
+    readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel>,
+    @Inject(DOCUMENT) private readonly _document: Document
+    ) {
+      super(dialogRef, data);
+    }
 
   @HostListener('window:keyup.enter') onKeyUpEnter(): void {
     const successButton = this._document.getElementById('successButton');
@@ -31,15 +37,6 @@ export class DialogWithTwoButtonsComponent<TDialogModel extends DialogWithTwoBut
       this.dialogClose.emit(true);
     }
   }
-
-  constructor(
-    readonly dialogRef: MatDialogRef<ComponentType<TModel>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel, TModel>,
-    @Inject(DOCUMENT) private readonly _document: Document
-  ) {
-    super(dialogRef, data);
-  }
-
 
   onOkButtonClick(): void {
     this.dialogClose.emit(true);

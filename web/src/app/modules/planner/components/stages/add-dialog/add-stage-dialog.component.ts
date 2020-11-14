@@ -6,29 +6,31 @@ import { ComponentType } from '@angular/cdk/portal';
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
 import { DialogCreateEditPageModel } from '@/shared/components';
 import { DialogCreateEditModel, DialogDataModel, DialogResultModel } from '@/shared/models';
-import { BaseModel } from '@/shared/models/base/base.model';
 
 @Component({
   templateUrl: 'add-stage-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddStageDialogComponent<
-  TDialogModel extends DialogCreateEditModel,
-  TModel extends BaseModel
-> extends DialogCreateEditPageModel<TDialogModel, TModel> {
+  TDialogModel extends DialogCreateEditModel
+> extends DialogCreateEditPageModel<TDialogModel> {
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
   keyString: FormControl;
 
   constructor(
-    readonly dialogRef: MatDialogRef<ComponentType<TModel>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel, TModel>
+    readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel>
   ) {
     super(dialogRef, data);
     this.keyString = new FormControl(null, [Validators.required, Validators.minLength(4)]);
   }
 
-  onClose(result: boolean): void {
-    this.dialogRef.close(new DialogResultModel(result, this.keyString.value));
+  onClose(success: boolean): void {
+    const result: DialogResultModel<string> = {
+      success,
+      model: this.keyString.value
+    };
+    this.dialogRef.close(result);
   }
 }

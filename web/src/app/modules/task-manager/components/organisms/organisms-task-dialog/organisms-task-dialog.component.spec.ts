@@ -7,12 +7,11 @@ import { SharedModule } from '@/shared/shared.module';
 import { formsStateMock } from '@/shared/testing/mocks';
 import { OrganismsTaskDialogComponent } from './organisms-task-dialog.component';
 import { DialogCreateEditModel } from '@/shared/models';
-import { Task } from '@/modules/task-manager/models';
 import { HttpClientModule } from '@angular/common/http';
 
 describe('OrganismsTaskDialogComponent', () => {
-  let component: OrganismsTaskDialogComponent<DialogCreateEditModel, Task>;
-  let fixture: ComponentFixture<OrganismsTaskDialogComponent<DialogCreateEditModel, Task>>;
+  let component: OrganismsTaskDialogComponent<DialogCreateEditModel>;
+  let fixture: ComponentFixture<OrganismsTaskDialogComponent<DialogCreateEditModel>>;
   const initialState = {
     forms: formsStateMock
   };

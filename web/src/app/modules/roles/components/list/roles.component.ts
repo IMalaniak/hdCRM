@@ -97,7 +97,7 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
 
   deleteRole(id: number): void {
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_ROLE_CONFIRM);
-    const dialogDataModel = new DialogDataModel(dialogModel);
+    const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
     this.dialogService
       .confirm(DialogConfirmComponent, dialogDataModel, () => this.store$.dispatch(deleteRoleRequested({ id })));

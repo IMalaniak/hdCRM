@@ -6,29 +6,32 @@ import { PrivilegesComponent } from '../list/privileges.component';
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
 import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
 import { DialogBaseModel } from '@/shared/components';
-import { BaseModel } from '@/shared/models/base/base.model';
+import { Privilege } from '@/modules/roles/models';
 
 @Component({
   templateUrl: 'privileges-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PrivilegesDialogComponent<
-  TDialogModel extends DialogWithTwoButtonModel,
-  TModel extends BaseModel
-> extends DialogBaseModel<TDialogModel, TModel> {
+  TDialogModel extends DialogWithTwoButtonModel
+> extends DialogBaseModel<TDialogModel> {
   @ViewChild(PrivilegesComponent, { static: true }) privilegesComponent: PrivilegesComponent;
 
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
 
   constructor(
-    readonly dialogRef: MatDialogRef<ComponentType<TModel>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel, TModel>
+    readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel>
   ) {
     super(dialogRef, data);
   }
 
-  onClose(result: boolean): void {
-    this.dialogRef.close(new DialogResultModel(result, this.privilegesComponent.selection.selected));
+  onClose(success: boolean): void {
+    const result: DialogResultModel<Privilege[]> = {
+      success,
+      model: this.privilegesComponent.selection.selected
+    };
+    this.dialogRef.close(result);
   }
 }

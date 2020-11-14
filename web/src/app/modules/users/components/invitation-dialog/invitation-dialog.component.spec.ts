@@ -6,11 +6,10 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { initialUsersState } from '../../store/user.reducer';
 import { InvitationDialogComponent } from './invitation-dialog.component';
 import { SharedModule } from '@/shared/shared.module';
-import { User } from '../../models/user';
 
 describe('InvitationDialogComponent', () => {
-  let component: InvitationDialogComponent<DialogCreateEditModel, User>;
-  let fixture: ComponentFixture<InvitationDialogComponent<DialogCreateEditModel, User>>;
+  let component: InvitationDialogComponent<DialogCreateEditModel>;
+  let fixture: ComponentFixture<InvitationDialogComponent<DialogCreateEditModel>>;
   const initialState = {
     users: initialUsersState
   };

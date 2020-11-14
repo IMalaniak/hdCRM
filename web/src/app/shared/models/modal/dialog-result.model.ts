@@ -1,3 +1,4 @@
-export class DialogResultModel<T> {
-  constructor(public succession: boolean, public model: T) {}
+export interface DialogResultModel<TModel> {
+  success: boolean;
+  model: TModel;
 }

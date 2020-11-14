@@ -68,7 +68,7 @@ export class OrganismsUserSessionsComponent implements OnChanges {
 
   onRemove(sessionId: number | number[], messageText: string): void {
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(messageText);
-    const dialogDataModel = new DialogDataModel(dialogModel);
+    const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
     this.dialogService
       .confirm(DialogConfirmComponent, dialogDataModel, () => this.removeSession(sessionId));

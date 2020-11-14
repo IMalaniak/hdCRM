@@ -5,21 +5,19 @@ import { Component } from '@angular/core';
 import { DialogBaseModel } from './dialog-base.model';
 import { DialogMode } from '@/shared/models/modal/dialog-mode.enum';
 import { DialogCreateEditModel, DialogDataModel } from '@/shared/models';
-import { BaseModel } from '@/shared/models/base/base.model';
 
 @Component({
   template: ''
 })
 // tslint:disable-next-line:component-class-suffix
 export abstract class DialogCreateEditPageModel<
-  TDialogModel extends DialogCreateEditModel,
-  TModel extends BaseModel
-> extends DialogBaseModel<TDialogModel, TModel> {
+  TDialogModel extends DialogCreateEditModel
+> extends DialogBaseModel<TDialogModel> {
   isCreateMode: boolean;
 
   constructor(
-    readonly dialogRef: MatDialogRef<ComponentType<TModel>>,
-    protected data: DialogDataModel<TDialogModel, TModel>
+    readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
+    protected data: DialogDataModel<TDialogModel>
   ) {
     super(dialogRef, data);
 

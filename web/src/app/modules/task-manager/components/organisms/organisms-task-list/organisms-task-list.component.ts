@@ -61,14 +61,14 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
       taskToUpdate ? CONSTANTS.TEXTS_UPDATE_TASK : CONSTANTS.TEXTS_CREATE_TASK,
       taskToUpdate ? DIALOG.SAVE : DIALOG.CREATE
     );
-    const dialogDataModel = new DialogDataModel(dialogModel, taskToUpdate);
+    const dialogDataModel: DialogDataModel<DialogCreateEditModel> = { dialogModel, model: taskToUpdate };
 
     this.dialogService
       .open(OrganismsTaskDialogComponent, dialogDataModel, this.dialogSizeService.getSize(DialogType.STANDART))
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<Task>) => {
-        if (result && result.succession) {
+        if (result && result.success) {
           if (taskToUpdate) {
             this.store$.dispatch(updateTaskRequested({ task: result.model }));
           } else {
@@ -84,7 +84,7 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
 
   deleteMultipleTask(): void {
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_TASKS_COMPLETED_CONFIRM);
-    const dialogDataModel = new DialogDataModel(dialogModel);
+    const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
     this.dialogService
       .confirm(DialogConfirmComponent, dialogDataModel, () => {

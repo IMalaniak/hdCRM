@@ -7,22 +7,22 @@ import { ComponentType } from '@angular/cdk/portal';
 import { DialogDataModel } from '@/shared/models/modal/dialog-data.model';
 import { DialogCreateEditModel, DialogResultModel } from '@/shared/models';
 import { DialogCreateEditPageModel } from '@/shared/components';
-import { BaseModel } from '@/shared/models/base/base.model';
+import { Privilege } from '@/modules/roles/models';
 
 @Component({
   templateUrl: 'add-privilege-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddPrivilegeDialogComponent<TDialogModel extends DialogCreateEditModel, TModel extends BaseModel>
-  extends DialogCreateEditPageModel<TDialogModel, TModel>
+export class AddPrivilegeDialogComponent<TDialogModel extends DialogCreateEditModel>
+  extends DialogCreateEditPageModel<TDialogModel>
   implements OnInit {
   privilegeGroup: FormGroup;
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
 
   constructor(
-    readonly dialogRef: MatDialogRef<ComponentType<TModel>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel, TModel>,
+    readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel>,
     private fb: FormBuilder
   ) {
     super(dialogRef, data);
@@ -39,7 +39,11 @@ export class AddPrivilegeDialogComponent<TDialogModel extends DialogCreateEditMo
     });
   }
 
-  onClose(result: boolean): void {
-    this.dialogRef.close(new DialogResultModel(result, this.privilegeGroup.value));
+  onClose(success: boolean): void {
+    const result: DialogResultModel<Privilege> = {
+      success,
+      model: this.privilegeGroup.value
+    };
+    this.dialogRef.close(result);
   }
 }

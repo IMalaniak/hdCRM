@@ -6,24 +6,26 @@ import { DialogBaseModel } from '../models/dialog-base.model';
 import { DialogResultModel } from '@/shared/models/modal/dialog-result.model';
 import { DialogDataModel } from '@/shared/models';
 import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
-import { BaseModel } from '@/shared/models/base/base.model';
 
 @Component({
   templateUrl: './dialog-confirm.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DialogConfirmComponent<
-  TDialogModel extends DialogConfirmModel,
-  TModel extends BaseModel
-> extends DialogBaseModel<TDialogModel, TModel> {
+  TDialogModel extends DialogConfirmModel
+> extends DialogBaseModel<TDialogModel> {
   constructor(
-    readonly dialogRef: MatDialogRef<ComponentType<any>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel, TModel>
+    readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel>
   ) {
     super(dialogRef, data);
   }
 
-  onClose(result: boolean): void {
-    this.dialogRef.close(new DialogResultModel(result, undefined));
+  onClose(success: boolean): void {
+    const result: DialogResultModel<unknown> = {
+      success,
+      model: undefined
+    };
+    this.dialogRef.close(result);
   }
 }

@@ -46,14 +46,14 @@ export class AddPlanComponent implements OnInit, OnDestroy {
   }
 
   addParticipantDialog(): void {
-    const dialogDataModel = new DialogDataModel(new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_PARTICIPANS));
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = { dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_PARTICIPANS) };
 
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<User[]>) => {
-        if (result && result.succession) {
+        if (result && result.success) {
           const selectedParticipants: User[] = result.model.filter(
             (selectedParticipant) => !this.plan.Participants.some((user) => user.id === selectedParticipant.id)
           );

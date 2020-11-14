@@ -6,29 +6,32 @@ import { StagesComponent } from '../list/stages.component';
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
 import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
 import { DialogBaseModel } from '@/shared/components';
-import { BaseModel } from '@/shared/models/base';
+import { Stage } from '@/modules/planner/models';
 
 @Component({
   templateUrl: 'stages-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StagesDialogComponent<
-  TDialogModel extends DialogWithTwoButtonModel,
-  TModel extends BaseModel
-> extends DialogBaseModel<TDialogModel, TModel> {
+  TDialogModel extends DialogWithTwoButtonModel
+> extends DialogBaseModel<TDialogModel> {
   @ViewChild(StagesComponent, { static: true }) stagesComponent: StagesComponent;
 
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
 
   constructor(
-    readonly dialogRef: MatDialogRef<ComponentType<TModel>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel, TModel>
+    readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel>
   ) {
     super(dialogRef, data);
   }
 
-  onClose(result: boolean): void {
-    this.dialogRef.close(new DialogResultModel(result, this.stagesComponent.selection.selected));
+  onClose(success: boolean): void {
+    const result: DialogResultModel<Stage[]> = {
+      success,
+      model: this.stagesComponent.selection.selected
+    };
+    this.dialogRef.close(result);
   }
 }

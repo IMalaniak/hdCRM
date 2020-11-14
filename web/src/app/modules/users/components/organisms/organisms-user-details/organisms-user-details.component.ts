@@ -54,7 +54,7 @@ export class OrganismsUserDetailsComponent implements OnInit {
 
   onUpdateUserSubmit(): void {
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_UPDATE_COMMON_CONFIRM);
-    const dialogDataModel = new DialogDataModel(dialogModel);
+    const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
     this.dialogService
       .confirm(DialogConfirmComponent, dialogDataModel, () => this.updateUser.emit({ ...this.user, ...this.userFormValues }));

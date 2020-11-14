@@ -94,7 +94,7 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
 
   deleteDepartment(id: number): void {
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_DEPARTMENT_CONFIRM);
-    const dialogDataModel = new DialogDataModel(dialogModel);
+    const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
     this.dialogService
       .confirm(DialogConfirmComponent, dialogDataModel, () => this.store$.dispatch(deleteDepartmentRequested({ id })));

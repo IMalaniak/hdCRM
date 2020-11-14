@@ -53,7 +53,7 @@ export class OrganismsUserOrganizationComponent implements OnInit {
 
   onUpdateOrgSubmit(): void {
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_UPDATE_COMMON_CONFIRM);
-    const dialogDataModel = new DialogDataModel(dialogModel);
+    const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
     this.dialogService
       .confirm(DialogConfirmComponent, dialogDataModel, () => this.updateOrg.emit({ ...this.organization, ...this.userOrganizationFormValues }));

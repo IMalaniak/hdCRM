@@ -68,14 +68,14 @@ export class TemplatesBoxUserListSmComponent implements OnDestroy {
   }
 
   openUserDetailsDialog(user: User): void {
-    const dialogDataModel = new DialogDataModel(new DialogWithTwoButtonModel(null, CONSTANTS.TEXTS_MORE_DETAILS), user);
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = { dialogModel: new DialogWithTwoButtonModel(null, CONSTANTS.TEXTS_MORE_DETAILS), model: user };
 
     this.dialogService
       .open(OrganismsUserDetailsDialogComponent, dialogDataModel, { width: '22em' })
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<string>) => {
-        if (result && result.succession) {
+        if (result && result.success) {
           this.route.navigateByUrl(result.model);
         }
       });

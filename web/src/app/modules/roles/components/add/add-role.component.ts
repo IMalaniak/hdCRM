@@ -63,14 +63,14 @@ export class AddRoleComponent implements OnInit {
   }
 
   addParticipantDialog(): void {
-    const dialogDataModel = new DialogDataModel(new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_USERS));
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = { dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_USERS) };
 
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<User[]>) => {
-        if (result && result.succession) {
+        if (result && result.success) {
           const selectedUsers: User[] = result.model.filter(
             (selectedUser) => !this.role.Users.some((user) => user.id === selectedUser.id)
           );
@@ -100,14 +100,14 @@ export class AddRoleComponent implements OnInit {
   }
 
   addPrivilegeDialog(): void {
-    const dialogDataModel = new DialogDataModel(new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_PRIVILEGES));
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = { dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_PRIVILEGES) };
 
     this.dialogService
       .open(PrivilegesDialogComponent, dialogDataModel, this.dialogSizeService.getSize(DialogType.STANDART))
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<Privilege[]>) => {
-        if (result && result.succession) {
+        if (result && result.success) {
           const selectedPrivileges: Privilege[] = result.model
             .filter(
               (selectedPrivilege) => !this.role.Privileges.some((privilege) => privilege.id === selectedPrivilege.id)

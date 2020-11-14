@@ -5,7 +5,6 @@ import { NavigationStart, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
 import { DialogBaseModel } from '../models';
-import { BaseModel } from '@/shared/models/base/base.model';
 import { DialogDataModel, DialogWithTwoButtonModel } from '@/shared/models';
 
 @Component({
@@ -13,13 +12,10 @@ import { DialogDataModel, DialogWithTwoButtonModel } from '@/shared/models';
   templateUrl: './dialog-base.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DialogBaseComponent<
-  TDialogModel extends DialogWithTwoButtonModel,
-  TModel extends BaseModel
-  > extends DialogBaseModel<TDialogModel, TModel> {
+export class DialogBaseComponent<TDialogModel extends DialogWithTwoButtonModel> extends DialogBaseModel<TDialogModel> {
   constructor(
-    readonly dialogRef: MatDialogRef<ComponentType<TModel>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel, TModel>,
+    readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<TDialogModel>,
     private _router: Router
   ) {
     super(dialogRef, data);

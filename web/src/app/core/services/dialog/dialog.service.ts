@@ -9,7 +9,6 @@ import { DialogDataModel, DialogType, DialogWithTwoButtonModel } from '@/shared/
 import { DialogConfirmModel } from '@/shared/models/modal/dialog-confirm.model';
 import { DialogSizeService } from '@/shared/services';
 import { DIALOG, STYLECONSTANTS } from '@/shared/constants';
-import { BaseModel } from '@/shared/models/base/base.model';
 import { DialogResultModel } from '@/shared/models/modal/dialog-result.model';
 
 @Injectable({
@@ -20,26 +19,26 @@ export class DialogService {
 
   constructor(private _matDialog: MatDialog, private dialogSizeService: DialogSizeService) { }
 
-  confirm<TDialogModel extends DialogConfirmModel, TModel extends BaseModel>(
-    componentType: ComponentType<DialogBaseModel<TDialogModel, TModel>>,
-    dialogModel: DialogDataModel<TDialogModel, TModel>,
+  confirm<TDialogModel extends DialogConfirmModel>(
+    componentType: ComponentType<DialogBaseModel<TDialogModel>>,
+    dialogModel: DialogDataModel<TDialogModel>,
     onConfirmCallback: Function
   ): void {
     this.open(componentType, dialogModel, this.dialogSizeService.getSize(DialogType.CONFIRM))
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: DialogResultModel<TModel>) => {
-        if (result && result.succession) {
+      .subscribe((result: DialogResultModel<unknown>) => {
+        if (result && result.success) {
           onConfirmCallback();
         }
       });
   }
 
-  open<TDialogModel extends DialogWithTwoButtonModel, TModel extends BaseModel>(
-    componentType: ComponentType<DialogBaseModel<TDialogModel, TModel>>,
-    data: DialogDataModel<TDialogModel, TModel>,
+  open<TDialogModel extends DialogWithTwoButtonModel>(
+    componentType: ComponentType<DialogBaseModel<TDialogModel>>,
+    data: DialogDataModel<TDialogModel>,
     dialogSize: MatDialogConfig = this.dialogSizeService.getSize()
-  ): MatDialogRef<DialogBaseModel<TDialogModel, TModel>> {
+  ): MatDialogRef<DialogBaseModel<TDialogModel>> {
     return this._matDialog.open(componentType, {
       data: data,
       closeOnNavigation: true,

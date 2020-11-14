@@ -123,14 +123,14 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
       CONSTANTS.TEXTS_INVITE_USERS,
       CONSTANTS.TEXTS_SEND_INVITATIONS
     );
-    const dialogDataModel = new DialogDataModel(dialogModel);
+    const dialogDataModel: DialogDataModel<DialogCreateEditModel> = { dialogModel };
 
     this.dialogService
       .open(InvitationDialogComponent, dialogDataModel, this.dialogSizeService.getSize(DialogType.STANDART))
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<User[]>) => {
-        if (result && result.succession) {
+        if (result && result.success) {
           this.store$.dispatch(inviteUsers({ users: result.model }));
         }
       });
@@ -151,7 +151,7 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
 
   deleteUser(id: number): void {
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_USER_CONFIRM);
-    const dialogDataModel = new DialogDataModel(dialogModel);
+    const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
     this.dialogService
       .confirm(DialogConfirmComponent, dialogDataModel, () => this.store$.dispatch(deleteUser({ id })));

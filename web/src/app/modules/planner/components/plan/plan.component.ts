@@ -142,7 +142,7 @@ export class PlanComponent implements OnInit, OnDestroy {
 
   updatePlan(): void {
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_UPDATE_PLAN_CONFIRM);
-    const dialogDataModel = new DialogDataModel(dialogModel);
+    const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
     this.dialogService
       .confirm(DialogConfirmComponent, dialogDataModel, () => this.store$.dispatch(updatePlanRequested({ plan: this.plan })));
@@ -219,14 +219,14 @@ export class PlanComponent implements OnInit, OnDestroy {
   // }
 
   addParticipantDialog(): void {
-    const dialogDataModel = new DialogDataModel(new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_PARTICIPANS));
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = { dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_PARTICIPANS) };
 
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<User[]>) => {
-        if (result && result.succession) {
+        if (result && result.success) {
           const selectedParticipants: User[] = result.model.filter(
             (selectedParticipant) => !this.plan.Participants.some((user) => user.id === selectedParticipant.id)
           );
@@ -258,7 +258,8 @@ export class PlanComponent implements OnInit, OnDestroy {
 
   deleteDoc(docId: number): void {
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_PLAN_DOCUMENT);
-    const dialogDataModel = new DialogDataModel(dialogModel);
+    const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
+
     this.dialogService
       .confirm(DialogConfirmComponent, dialogDataModel, () => {
         const req = {

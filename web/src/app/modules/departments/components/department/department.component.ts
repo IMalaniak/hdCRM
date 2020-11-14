@@ -77,14 +77,14 @@ export class DepartmentComponent implements OnInit, OnDestroy {
 
   addManagerDialog(): void {
     // TODO: @ArseniiIrod, @IMalaniak implement logic with selected user
-    const dialogDataModel = new DialogDataModel(new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_MANAGER));
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = { dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_MANAGER) };
 
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<User[]>) => {
-        if (result && result.succession) {
+        if (result && result.success) {
           this.department = { ...this.department, Manager: { ...result[0] } };
           this.cdr.detectChanges();
         }
@@ -93,14 +93,14 @@ export class DepartmentComponent implements OnInit, OnDestroy {
 
   addWorkersDialog(): void {
     // TODO: @ArseniiIrod, @IMalaniak implement logic with selected users
-    const dialogDataModel = new DialogDataModel(new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_WORKERS));
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = { dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_WORKERS) };
 
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<User[]>) => {
-        if (result && result.succession) {
+        if (result && result.success) {
           const selectedWorkers: User[] = result.model.filter(
             (selectedWorker) => !this.department.Workers.some((user) => user.id === selectedWorker.id)
           );
@@ -123,7 +123,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
 
   updateDepartment(): void {
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_UPDATE_DEPARTMENT_CONFIRM);
-    const dialogDataModel = new DialogDataModel(dialogModel);
+    const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
     this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () => {
       this.store$.dispatch(updateDepartmentRequested({ department: { ...this.department, ...this.departmentFormValues } }));
