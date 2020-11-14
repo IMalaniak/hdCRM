@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { Plan } from '@/modules/planner/models';
@@ -38,13 +38,15 @@ describe('TemplatesPlanViewComponent', () => {
     updatedAt: new Date()
   } as Plan;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [TemplatesPlanViewComponent],
-      imports: [BrowserAnimationsModule, HttpClientModule, SharedModule],
-      providers: [provideMockStore({ initialState })]
-    }).compileComponents();
-  });
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [TemplatesPlanViewComponent],
+        imports: [BrowserAnimationsModule, HttpClientModule, SharedModule],
+        providers: [provideMockStore({ initialState })]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TemplatesPlanViewComponent);

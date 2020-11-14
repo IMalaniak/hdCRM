@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
@@ -34,13 +34,15 @@ describe('TemplatesDepartmentViewComponent', () => {
     updatedAt: new Date()
   };
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [TemplatesDepartmentViewComponent],
-      imports: [RouterTestingModule, BrowserAnimationsModule, HttpClientModule, SharedModule],
-      providers: [provideMockStore({ initialState })]
-    }).compileComponents();
-  });
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [TemplatesDepartmentViewComponent],
+        imports: [RouterTestingModule, BrowserAnimationsModule, HttpClientModule, SharedModule],
+        providers: [provideMockStore({ initialState })]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TemplatesDepartmentViewComponent);

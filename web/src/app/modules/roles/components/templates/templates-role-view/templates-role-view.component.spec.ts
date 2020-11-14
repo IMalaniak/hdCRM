@@ -1,6 +1,6 @@
 import { DebugElement } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 
@@ -43,13 +43,15 @@ describe('TemplatesRoleViewComponent', () => {
     keyString: 'New title'
   } as Role;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [TemplatesRoleViewComponent],
-      imports: [BrowserAnimationsModule, HttpClientModule, SharedModule],
-      providers: [provideMockStore({ initialState })]
-    }).compileComponents();
-  });
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [TemplatesRoleViewComponent],
+        imports: [BrowserAnimationsModule, HttpClientModule, SharedModule],
+        providers: [provideMockStore({ initialState })]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TemplatesRoleViewComponent);

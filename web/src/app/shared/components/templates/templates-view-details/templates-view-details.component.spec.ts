@@ -2,7 +2,7 @@ import { initialPreferencesState } from '@/core/reducers/preferences.reducer';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, formsStateMock } from '@/shared/testing/mocks';
 import { HttpClientModule } from '@angular/common/http';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideMockStore } from '@ngrx/store/testing';
 
@@ -31,13 +31,15 @@ describe('TemplatesViewDetailsComponent', () => {
     title: 'New title'
   } as TestItem;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [TemplatesViewDetailsComponent],
-      imports: [BrowserAnimationsModule, HttpClientModule, SharedModule],
-      providers: [provideMockStore({ initialState })]
-    }).compileComponents();
-  });
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [TemplatesViewDetailsComponent],
+        imports: [BrowserAnimationsModule, HttpClientModule, SharedModule],
+        providers: [provideMockStore({ initialState })]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent<TemplatesViewDetailsComponent<TestItem>>(TemplatesViewDetailsComponent);

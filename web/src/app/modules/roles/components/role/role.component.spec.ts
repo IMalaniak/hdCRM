@@ -8,12 +8,14 @@ import { authStateMock } from '@/shared/testing/mocks';
 import { initialRolesState } from '../../store/role.reducer';
 
 import { RoleComponent } from './role.component';
+import { initialUsersState } from '@/modules/users/store/user.reducer';
 
 describe('RoleComponent', () => {
   let component: RoleComponent;
   let fixture: ComponentFixture<RoleComponent>;
   const initialState = {
     auth: authStateMock,
+    users: initialUsersState,
     roles: initialRolesState
   };
 
