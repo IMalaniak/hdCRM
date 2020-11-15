@@ -155,6 +155,8 @@ main {
     &-actions,
     &-icon {
       min-width: 3.125rem;
+      max-width: 3.125rem;
+      text-overflow: unset;
     }
 
     &-actions {
@@ -163,6 +165,7 @@ main {
 
     &-select {
       min-width: 4rem;
+      max-width: 4rem;
       .mat-checkbox {
         margin-bottom: unset;
       }
@@ -170,21 +173,21 @@ main {
 
     &-avatar {
       min-width: app-size(userpic, null, true);
+      max-width: app-size(userpic, null, true);
       margin-right: 24px;
     }
 
+    &-participants,
+    &-stage,
     &-state {
       min-width: 6em;
     }
 
+    &-deadline,
     &-createdAt,
     &-updatedAt {
       max-width: 14rem;
     }
-  }
-
-  .context-menu {
-    min-width: 3.125rem;
   }
 
   .mat-header-cell,
