@@ -6,7 +6,7 @@ import { AppState } from '@/core/reducers';
 import { Store, select } from '@ngrx/store';
 import { getGoogleDriveIntegrationState } from '@/core/reducers/integration.selectors';
 import { toggleGoogleDriveIntegration } from '@/core/reducers/integration.actions';
-import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, CONSTANTS, THEME_PALETTE, MAT_BUTTON } from '@/shared/constants';
+import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, THEME_PALETTE, MAT_BUTTON } from '@/shared/constants';
 
 @Component({
   selector: 'templates-attachments-list',
@@ -40,8 +40,6 @@ export class TemplatesAttachmentsListComponent {
     COLUMN_NAMES.UPDATED_AT,
     COLUMN_NAMES.ACTIONS
   ];
-
-  noContentInfo = CONSTANTS.NO_CONTENT_INFO;
 
   constructor(private store$: Store<AppState>, private attachmentService: AttachmentService) {}
 

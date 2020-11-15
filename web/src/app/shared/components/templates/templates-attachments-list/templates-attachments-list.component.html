@@ -49,9 +49,10 @@
     </mat-table>
   </section>
 
-  <section content *ngIf="attachments && attachments.length === 0 && !uploaderVisible" class="no-content">
-    <p class="lead p-4 text-center" i18n="@@attachmentsComponentNoContentInfo">{{ noContentInfo }}</p>
-  </section>
+  <atoms-nocontent-info
+    content
+    *ngIf="attachments && attachments.length === 0 && !uploaderVisible"
+  ></atoms-nocontent-info>
 
   <app-uploader-list
     content
