@@ -19,7 +19,7 @@ import { Task } from '@/modules/task-manager/models';
   templateUrl: './organisms-task-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrganismsTaskDialogComponent extends DialogCreateEditPageModel<DialogCreateEditModel> implements OnInit {
+export class OrganismsTaskDialogComponent extends DialogCreateEditPageModel implements OnInit {
   taskFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName(FORMCONSTANTS.TASK)));
 
   taskFormValues: Task;

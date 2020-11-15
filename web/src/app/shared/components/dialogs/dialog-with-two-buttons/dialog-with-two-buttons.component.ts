@@ -21,12 +21,12 @@ import { THEME_PALETTE } from '@/shared/constants';
     `
   ]
 })
-export class DialogWithTwoButtonsComponent<T extends DialogWithTwoButtonModel> extends DialogBaseModel<T> {
+export class DialogWithTwoButtonsComponent extends DialogBaseModel<DialogWithTwoButtonModel> {
   cancelBtnColor = THEME_PALETTE.BASIC;
 
   constructor(
     readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<T>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<DialogWithTwoButtonModel>,
     @Inject(DOCUMENT) private readonly document: Document
   ) {
     super(dialogRef, data);

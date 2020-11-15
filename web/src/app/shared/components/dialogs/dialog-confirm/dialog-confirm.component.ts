@@ -11,10 +11,10 @@ import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model'
   templateUrl: './dialog-confirm.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DialogConfirmComponent<T extends DialogConfirmModel> extends DialogBaseModel<T> {
+export class DialogConfirmComponent extends DialogBaseModel<DialogConfirmModel> {
   constructor(
     readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<T>
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<DialogConfirmModel>
   ) {
     super(dialogRef, data);
   }

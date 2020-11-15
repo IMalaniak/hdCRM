@@ -13,7 +13,7 @@ import { Privilege } from '@/modules/roles/models';
   templateUrl: 'add-privilege-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddPrivilegeDialogComponent extends DialogCreateEditPageModel<DialogCreateEditModel> implements OnInit {
+export class AddPrivilegeDialogComponent extends DialogCreateEditPageModel implements OnInit {
   privilegeGroup: FormGroup;
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;

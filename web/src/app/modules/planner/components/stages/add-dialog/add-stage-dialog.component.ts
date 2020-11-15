@@ -11,7 +11,7 @@ import { DialogCreateEditModel, DialogDataModel, DialogResultModel } from '@/sha
   templateUrl: 'add-stage-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddStageDialogComponent extends DialogCreateEditPageModel<DialogCreateEditModel> {
+export class AddStageDialogComponent extends DialogCreateEditPageModel {
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
   keyString: FormControl;

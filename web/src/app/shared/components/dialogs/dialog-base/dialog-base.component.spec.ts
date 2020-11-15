@@ -3,11 +3,10 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { DialogBaseComponent } from './dialog-base.component';
-import { DialogWithTwoButtonModel } from '@/shared/models';
 
 describe('DialogBaseComponent', () => {
-  let component: DialogBaseComponent<DialogWithTwoButtonModel>;
-  let fixture: ComponentFixture<DialogBaseComponent<DialogWithTwoButtonModel>>;
+  let component: DialogBaseComponent;
+  let fixture: ComponentFixture<DialogBaseComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

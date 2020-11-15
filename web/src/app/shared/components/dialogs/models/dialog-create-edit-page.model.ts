@@ -10,12 +10,12 @@ import { DialogCreateEditModel, DialogDataModel } from '@/shared/models';
   template: ''
 })
 // tslint:disable-next-line:component-class-suffix
-export abstract class DialogCreateEditPageModel<T extends DialogCreateEditModel> extends DialogBaseModel<T> {
+export abstract class DialogCreateEditPageModel extends DialogBaseModel<DialogCreateEditModel> {
   isCreateMode: boolean;
 
   constructor(
     readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<T>
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<DialogCreateEditModel>
   ) {
     super(dialogRef, data);
 

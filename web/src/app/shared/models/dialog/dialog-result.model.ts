@@ -1,4 +1,4 @@
-export interface DialogResultModel<TModel> {
+export interface DialogResultModel<T> {
   success: boolean;
-  model: TModel;
+  model: T;
 }

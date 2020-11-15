@@ -12,10 +12,10 @@ import { DialogDataModel, DialogWithTwoButtonModel } from '@/shared/models';
   templateUrl: './dialog-base.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DialogBaseComponent<T extends DialogWithTwoButtonModel> extends DialogBaseModel<T> {
+export class DialogBaseComponent extends DialogBaseModel<DialogWithTwoButtonModel> {
   constructor(
     readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
-    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<T>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<DialogWithTwoButtonModel>,
     private router: Router
   ) {
     super(dialogRef, data);
