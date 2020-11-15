@@ -84,8 +84,8 @@
       </ng-container>
       <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      <atoms-nocontent-info *matNoDataRow></atoms-nocontent-info>
     </mat-table>
-    <atoms-nocontent-info *ngIf="dataSource.isEmpty() | async"></atoms-nocontent-info>
   </div>
   <mat-paginator
     content
