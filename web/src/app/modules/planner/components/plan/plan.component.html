@@ -87,22 +87,16 @@
       ></templates-box-user-list-sm>
     </div>
   </div>
-  <div buttons *ngIf="canEditPlan$ | async">
-    <atoms-icon-button *ngIf="!(editForm$ | async)" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
-      {{ actionLabels.EDIT }}
-    </atoms-icon-button>
-    <atoms-icon-button
-      *ngIf="editForm$ | async"
-      (onclick)="onClickCancelEdit()"
-      [icon]="['fas', 'times']"
-      [color]="themePalette.BASIC"
-    >
-      {{ actionLabels.CANCEL }}
-    </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm$ | async" (onclick)="updatePlan()" [icon]="['fas', 'save']">
-      {{ actionLabels.SAVE }}
-    </atoms-icon-button>
-  </div>
+
+  <molecules-buttons
+    buttons
+    *ngIf="canEditPlan$ | async"
+    [editForm]="editForm$ | async"
+    (cancelClick)="onClickCancelEdit()"
+    (editClick)="onClickEdit()"
+    (saveClick)="updatePlan()"
+  >
+  </molecules-buttons>
 </organisms-card>
 
 <templates-attachments-list

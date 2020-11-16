@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { Organization } from '@/modules/users';
 import { ToastMessageService } from '@/shared/services';
-import { DIALOG, ACTION_LABELS, THEME_PALETTE, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
+import { DIALOG, ACTION_LABELS, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
 import { DynamicForm } from '@/shared/models';
 import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
@@ -26,7 +26,6 @@ export class OrganismsUserOrganizationComponent implements OnInit {
   userOrganizationFormValues: Organization;
 
   actionLabels = ACTION_LABELS;
-  themePalette = THEME_PALETTE;
 
   userOrganizationFormJson$: Observable<DynamicForm> = this.store$.pipe(
     select(selectFormByName(FORMCONSTANTS.USER_ORGANIZATION))

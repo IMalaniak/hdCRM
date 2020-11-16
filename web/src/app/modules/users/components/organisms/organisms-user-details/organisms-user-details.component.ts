@@ -1,13 +1,15 @@
 import { Component, Input, EventEmitter, Output, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { select, Store } from '@ngrx/store';
+
 import { AppState } from '@/core/reducers';
 import { User } from '@/modules/users';
 import { ToastMessageService } from '@/shared/services';
 import { DynamicForm } from '@/shared/models';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
-import { DIALOG, ACTION_LABELS, THEME_PALETTE, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
+import { DIALOG, ACTION_LABELS, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-user-details',
@@ -26,7 +28,6 @@ export class OrganismsUserDetailsComponent implements OnInit {
   userFormValues: User;
 
   actionLabels = ACTION_LABELS;
-  themePalette = THEME_PALETTE;
 
   userFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName(FORMCONSTANTS.USER)));
 

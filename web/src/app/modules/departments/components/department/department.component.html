@@ -58,20 +58,13 @@
       </div>
     </div>
   </div> -->
-  <div buttons *ngIf="canEditDepartment$ | async">
-    <atoms-icon-button *ngIf="!(editForm$ | async)" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
-      {{ actionLabels.EDIT }}
-    </atoms-icon-button>
-    <atoms-icon-button
-      *ngIf="editForm$ | async"
-      [color]="themePalette.BASIC"
-      [icon]="['fas', 'times']"
-      (onclick)="onClickCancelEdit()"
-    >
-      {{ actionLabels.CANCEL }}
-    </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm$ | async" [icon]="['fas', 'save']" (onclick)="updateDepartment()">
-      {{ actionLabels.SAVE }}
-    </atoms-icon-button>
-  </div>
+  <molecules-buttons
+    buttons
+    *ngIf="canEditDepartment$ | async"
+    [editForm]="editForm$ | async"
+    (cancelClick)="onClickCancelEdit()"
+    (editClick)="onClickEdit()"
+    (saveClick)="updateDepartment()"
+  >
+  </molecules-buttons>
 </organisms-card>
