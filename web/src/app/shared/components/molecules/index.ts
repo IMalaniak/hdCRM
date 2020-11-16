@@ -3,3 +3,4 @@ export * from './molecules-profile-pic-with-uploader/molecules-profile-pic-with-
 export * from './molecules-chart/molecules-chart.component';
 export * from './molecules-server-message/molecules-server-message.component';
 export * from './molecules-form-field/molecules-form-field.component';
+export * from './molecules-buttons/molecules-buttons.component';
