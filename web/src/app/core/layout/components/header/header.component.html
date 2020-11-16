@@ -21,6 +21,15 @@
 </div> -->
 
 <div class="user-dropdown" *ngIf="currentUser" cdkOverlayOrigin #userMenu="cdkOverlayOrigin">
+  <atoms-icon-button
+    class="mr-2"
+    iconColor="text-light"
+    matTooltip="{{ themeTipMessage() }}"
+    [matType]="matButtonTypes.ICON"
+    [icon]="enableDarkTheme ? ['fas', 'sun'] : ['fas', 'moon']"
+    (onclick)="enableThemeDark.emit(!enableDarkTheme)"
+  ></atoms-icon-button>
+
   <atoms-user-pic
     [avatar]="currentUser.avatar"
     [userOnline]="currentUser.online"
