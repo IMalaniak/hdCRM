@@ -1,39 +1,37 @@
 <organisms-card cardTitle="Attachments" cardClass="border-0" contentClass="p-0" [counter]="attachments?.length">
-  <section content *ngIf="attachments?.length">
-    <mat-table [dataSource]="attachments" class="mat-elevation-z8 table-attachments crm-table">
+  <section content *ngIf="attachments?.length" class="table-container">
+    <table mat-table [dataSource]="attachments" class="table-attachments crm-table">
       <ng-container [matColumnDef]="columns.ICON">
-        <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let item"><fa-icon [icon]="fileTypeIcon(item.title)"></fa-icon></mat-cell>
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let item"><fa-icon [icon]="fileTypeIcon(item.title)"></fa-icon></td>
       </ng-container>
       <ng-container [matColumnDef]="columns.TITLE">
-        <mat-header-cell *matHeaderCellDef i18n="@@attachmentsComponentListTitle">{{
-          columnLabels.TITLE
-        }}</mat-header-cell>
-        <mat-cell *matCellDef="let item"
-          ><span (click)="downloadFile(item.id, item.title)">{{ item.title }}</span></mat-cell
-        >
+        <th mat-header-cell *matHeaderCellDef i18n="@@attachmentsComponentListTitle">{{ columnLabels.TITLE }}</th>
+        <td mat-cell *matCellDef="let item">
+          <span (click)="downloadFile(item.id, item.title)">{{ item.title }}</span>
+        </td>
       </ng-container>
       <ng-container [matColumnDef]="columns.TYPE">
-        <mat-header-cell *matHeaderCellDef i18n="@@attachmentsComponentListType">
+        <th mat-header-cell *matHeaderCellDef i18n="@@attachmentsComponentListType">
           {{ columnLabels.TYPE }}
-        </mat-header-cell>
-        <mat-cell *matCellDef="let item">{{ item.type }}</mat-cell>
+        </th>
+        <td mat-cell *matCellDef="let item">{{ item.type }}</td>
       </ng-container>
       <ng-container [matColumnDef]="columns.CREATED_AT">
-        <mat-header-cell *matHeaderCellDef i18n="@@attachmentsComponentListCreatedAt">
+        <th mat-header-cell *matHeaderCellDef i18n="@@attachmentsComponentListCreatedAt">
           {{ columnLabels.CREATED_AT }}
-        </mat-header-cell>
-        <mat-cell *matCellDef="let item">{{ item.createdAt | dateTimeFormat | async }}</mat-cell>
+        </th>
+        <td mat-cell *matCellDef="let item">{{ item.createdAt | dateTimeFormat | async }}</td>
       </ng-container>
       <ng-container [matColumnDef]="columns.UPDATED_AT">
-        <mat-header-cell *matHeaderCellDef i18n="@@attachmentsComponentListUpdatedAt">
+        <th mat-header-cell *matHeaderCellDef i18n="@@attachmentsComponentListUpdatedAt">
           {{ columnLabels.UPDATED_AT }}
-        </mat-header-cell>
-        <mat-cell *matCellDef="let item">{{ item.updatedAt | dateTimeFormat | async }}</mat-cell>
+        </th>
+        <td mat-cell *matCellDef="let item">{{ item.updatedAt | dateTimeFormat | async }}</td>
       </ng-container>
       <ng-container [matColumnDef]="columns.ACTIONS" stickyEnd>
-        <mat-header-cell *matHeaderCellDef i18n="@@globalsListActions"></mat-header-cell>
-        <mat-cell *matCellDef="let item">
+        <th mat-header-cell *matHeaderCellDef i18n="@@globalsListActions"></th>
+        <td mat-cell *matCellDef="let item">
           <atoms-icon-button
             *ngIf="canDelete"
             [color]="themePalette.WARN"
@@ -42,11 +40,11 @@
             (onclick)="handleDeleteFile(item.id)"
           >
           </atoms-icon-button>
-        </mat-cell>
+        </td>
       </ng-container>
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-    </mat-table>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
   </section>
 
   <atoms-no-content-info content *ngIf="attachments?.length === 0 && !uploaderVisible"></atoms-no-content-info>

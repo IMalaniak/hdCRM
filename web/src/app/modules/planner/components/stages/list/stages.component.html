@@ -3,35 +3,33 @@
     <atoms-icon-button (onclick)="createStageDialog()" [icon]="['fas', 'plus']"> Create </atoms-icon-button>
   </div>
 
-  <div content class="mat-elevation-z8 stages-table-container" *ngIf="stages">
-    <mat-table class="stages-table crm-table" [dataSource]="stages">
+  <div content class="table-container" *ngIf="stages">
+    <table mat-table class="stages-table crm-table" [dataSource]="stages">
       <ng-container [matColumnDef]="columns.SELECT">
-        <mat-header-cell *matHeaderCellDef>
+        <th mat-header-cell *matHeaderCellDef>
           <mat-checkbox
             (change)="$event ? masterToggle() : null"
             [checked]="selection.hasValue() && isAllSelected()"
             [indeterminate]="selection.hasValue() && !isAllSelected()"
           >
           </mat-checkbox>
-        </mat-header-cell>
-        <mat-cell *matCellDef="let row">
+        </th>
+        <td mat-cell *matCellDef="let row">
           <mat-checkbox
             (click)="$event.stopPropagation()"
             (change)="$event ? selection.toggle(row) : null"
             [checked]="selection.isSelected(row)"
           >
           </mat-checkbox>
-        </mat-cell>
+        </td>
       </ng-container>
       <ng-container [matColumnDef]="columns.TITLE">
-        <mat-header-cell *matHeaderCellDef i18n="@@stagesComponentHeaderStage">{{
-          columnLabels.TITLE
-        }}</mat-header-cell>
-        <mat-cell *matCellDef="let stage">{{ stage.keyString }}</mat-cell>
+        <th mat-header-cell *matHeaderCellDef i18n="@@stagesComponentHeaderStage">{{ columnLabels.TITLE }}</th>
+        <td mat-cell *matCellDef="let stage">{{ stage.keyString }}</td>
       </ng-container>
-      <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-    </mat-table>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
 
     <!-- <mat-paginator [length]="resultsLength$ | async" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator> -->
   </div>
