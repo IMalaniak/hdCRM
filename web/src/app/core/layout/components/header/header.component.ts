@@ -18,7 +18,15 @@ import { AppState } from '@/core/reducers';
 import { logOut } from '@/core/auth/store/auth.actions';
 import { User } from '@/modules/users';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
-import { ACTION_LABELS, BUTTON_TYPE, MAT_BUTTON, THEME_PALETTE, RoutingConstants, CONSTANTS, ADD_PRIVILEGES } from '@/shared/constants';
+import {
+  ACTION_LABELS,
+  BUTTON_TYPE,
+  MAT_BUTTON,
+  THEME_PALETTE,
+  RoutingConstants,
+  CONSTANTS,
+  ADD_PRIVILEGES
+} from '@/shared/constants';
 
 @Component({
   selector: 'header-component',
