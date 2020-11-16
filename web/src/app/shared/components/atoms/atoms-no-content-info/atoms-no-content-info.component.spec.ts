@@ -3,20 +3,20 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { AtomsNocontentInfoComponent } from './atoms-nocontent-info.component';
+import { AtomsNoContentInfoComponent } from './atoms-no-content-info.component';
 
 describe('AtomsNocontentInfoComponent', () => {
-  let component: AtomsNocontentInfoComponent;
-  let fixture: ComponentFixture<AtomsNocontentInfoComponent>;
+  let component: AtomsNoContentInfoComponent;
+  let fixture: ComponentFixture<AtomsNoContentInfoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AtomsNocontentInfoComponent]
+      declarations: [AtomsNoContentInfoComponent]
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AtomsNocontentInfoComponent);
+    fixture = TestBed.createComponent(AtomsNoContentInfoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -6,7 +6,7 @@ const ATOMS = [
   _components.AtomsProfilePicComponent,
   _components.AtomsUserPicComponent,
   _components.AtomsLinkButtonComponent,
-  _components.AtomsNocontentInfoComponent,
+  _components.AtomsNoContentInfoComponent,
   _components.AtomsFormFieldComponent,
   _components.AtomsReadonlyFormFieldComponent,
   _components.AtomsIntegrationCardComponent
