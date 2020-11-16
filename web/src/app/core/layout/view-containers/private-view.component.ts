@@ -33,7 +33,7 @@ import { privateRouterTransition } from '@/shared/animations';
             <section class="container-fluid py-3 position-relative" [@privateRouterAnimations]="prepareRoute(outlet)">
               <router-outlet #outlet="outlet"></router-outlet>
             </section>
-            <app-footer></app-footer>
+            <footer-component></footer-component>
           </div>
           <right-sidebar
             [rightSidebarMinimized]="rightSidebarMinimized$ | async"
