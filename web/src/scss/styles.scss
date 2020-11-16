@@ -126,41 +126,75 @@ main {
   }
 }
 
+.table-container {
+  overflow-x: auto;
+  max-height: 41em;
+}
 .crm-table {
+  min-width: 100%;
+  white-space: nowrap;
+
   td {
     vertical-align: middle;
   }
 
-  .mat-column-actions,
-  .mat-column-icon {
-    flex: 0 0 3.125rem;
-  }
+  .mat-header-cell,
+  .mat-footer-cell,
+  .mat-cell {
+    min-width: 8rem;
+    max-width: 12rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
 
-  .mat-column-actions {
-    padding-right: 0;
-  }
-
-  .mat-column-avatar {
-    flex: 0 0 app-size(userpic, null, true);
-    margin-right: 24px;
-  }
-
-  .mat-column-select {
-    flex: 0 0 4rem;
-    .mat-checkbox {
-      margin-bottom: unset;
+    &:not(:first-of-type):not(:last-of-type) {
+      padding: 0 app-size(spacer, default, true);
     }
   }
 
-  .context-menu {
-    width: 3.125rem;
+  .mat-column {
+    &-actions,
+    &-icon {
+      min-width: 3.125rem;
+      max-width: 3.125rem;
+      text-overflow: unset;
+    }
+
+    &-actions {
+      padding-right: 0;
+    }
+
+    &-select {
+      min-width: 4rem;
+      max-width: 4rem;
+      .mat-checkbox {
+        margin-bottom: unset;
+      }
+    }
+
+    &-avatar {
+      min-width: app-size(userpic, null, true);
+      max-width: app-size(userpic, null, true);
+      margin-right: 24px;
+    }
+
+    &-participants,
+    &-stage,
+    &-state {
+      min-width: 6em;
+    }
+
+    &-deadline,
+    &-createdAt,
+    &-updatedAt {
+      max-width: 14rem;
+    }
   }
 
   .mat-header-cell,
   .mat-sort-header-button {
     text-transform: uppercase;
-    font-style: italic;
-    @include set-textcolor('primary', false);
+    font-weight: bold;
+    @include set-textcolor('text', false);
   }
 }
 
