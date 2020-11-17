@@ -19,6 +19,15 @@
 <div class="user-question">
 	<fa-icon [icon]="['fas', 'question']"></fa-icon>
 </div> -->
+<div class="header-actions ml-auto pr-0">
+  <atoms-icon-button
+    iconColor="text-light"
+    matTooltip="{{ themeTipMessage() }}"
+    [matType]="matButtonTypes.ICON"
+    [icon]="enableDarkTheme ? ['fas', 'sun'] : ['fas', 'moon']"
+    (onclick)="enableThemeDark.emit(!enableDarkTheme)"
+  ></atoms-icon-button>
+</div>
 
 <div class="user-dropdown" *ngIf="currentUser" cdkOverlayOrigin #userMenu="cdkOverlayOrigin">
   <atoms-user-pic
