@@ -34,7 +34,7 @@ import {
 } from '@/shared/constants';
 
 @Component({
-  selector: 'roles',
+  selector: 'roles-component',
   templateUrl: './roles.component.html',
   styleUrls: ['./roles.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

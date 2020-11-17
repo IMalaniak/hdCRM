@@ -9,20 +9,14 @@
       ></organisms-dynamic-form>
     </div>
   </div>
-  <div buttons *ngIf="canEdit">
-    <atoms-icon-button *ngIf="!editForm" (click)="onClickEdit()" [icon]="['fas', 'edit']">
-      {{ actionLabels.EDIT }}
-    </atoms-icon-button>
-    <atoms-icon-button
-      *ngIf="editForm"
-      (click)="onClickCancelEdit()"
-      [icon]="['fas', 'times']"
-      [color]="themePalette.BASIC"
-    >
-      {{ actionLabels.CANCEL }}
-    </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm" (click)="onUpdateUserSubmit()" [icon]="['fas', 'save']">
-      {{ actionLabels.SAVE }}
-    </atoms-icon-button>
-  </div>
+
+  <molecules-card-header-actions
+    buttons
+    *ngIf="canEdit"
+    [editForm]="editForm"
+    (cancelClick)="onClickCancelEdit()"
+    (editClick)="onClickEdit()"
+    (saveClick)="onUpdateUserSubmit()"
+  >
+  </molecules-card-header-actions>
 </organisms-card>
