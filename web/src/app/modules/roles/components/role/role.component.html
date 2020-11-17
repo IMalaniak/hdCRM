@@ -105,7 +105,7 @@
     </div>
   </section>
 
-  <molecules-buttons
+  <molecules-card-header-actions
     buttons
     *ngIf="canEditRole$ | async"
     [editForm]="editForm$ | async"
@@ -113,5 +113,5 @@
     (editClick)="onClickEdit()"
     (saveClick)="updateRole()"
   >
-  </molecules-buttons>
+  </molecules-card-header-actions>
 </organisms-card>

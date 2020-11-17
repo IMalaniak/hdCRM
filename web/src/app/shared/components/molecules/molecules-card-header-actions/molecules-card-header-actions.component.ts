@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
 
 @Component({
-  selector: 'molecules-buttons',
+  selector: 'molecules-card-header-actions',
   template: `
     <atoms-icon-button *ngIf="!editForm" [icon]="['fas', 'edit']" (onclick)="editClick.emit()">
       {{ actionLabels.EDIT }}
@@ -22,7 +22,7 @@ import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MoleculesButtonsComponent {
+export class MoleculesCardHeaderActionsComponent {
   @Input() editForm: boolean;
 
   @Output() cancelClick: EventEmitter<any> = new EventEmitter();

@@ -88,7 +88,7 @@
     </div>
   </div>
 
-  <molecules-buttons
+  <molecules-card-header-actions
     buttons
     *ngIf="canEditPlan$ | async"
     [editForm]="editForm$ | async"
@@ -96,7 +96,7 @@
     (editClick)="onClickEdit()"
     (saveClick)="updatePlan()"
   >
-  </molecules-buttons>
+  </molecules-card-header-actions>
 </organisms-card>
 
 <templates-attachments-list

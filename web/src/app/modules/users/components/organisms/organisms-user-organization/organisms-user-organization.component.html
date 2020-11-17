@@ -11,7 +11,7 @@
     </div>
   </div>
 
-  <molecules-buttons
+  <molecules-card-header-actions
     buttons
     *ngIf="canEdit"
     [editForm]="editForm"
@@ -19,5 +19,5 @@
     (editClick)="setFormEdit(true)"
     (saveClick)="onUpdateOrgSubmit()"
   >
-  </molecules-buttons>
+  </molecules-card-header-actions>
 </organisms-card>

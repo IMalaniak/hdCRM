@@ -16,7 +16,7 @@ const MOLECULES = [
   _components.MoleculesChartComponent,
   _components.MoleculesServerMessageComponent,
   _components.MoleculesFormFieldComponent,
-  _components.MoleculesButtonsComponent
+  _components.MoleculesCardHeaderActionsComponent
 ];
 const ORGANISMS = [
   _components.OrganismsUserListSmComponent,
