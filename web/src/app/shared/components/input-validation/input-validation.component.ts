@@ -30,7 +30,6 @@ interface ErrorMessage {
 export class InputValidationComponent implements OnInit, OnChanges {
   @Input() appearance: MatFormFieldAppearance = 'outline';
   @Input() floatLabel: FloatLabelType = 'auto';
-  @Input() hintAlign = 'start';
   @Input() label = '';
   @Input() inputErrors: any;
   @Input() hintLabel = '';
