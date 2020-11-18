@@ -13,7 +13,6 @@ import {
   EDIT_PRIVILEGES,
   DIALOG,
   ACTION_LABELS,
-  THEME_PALETTE,
   CONSTANTS,
   MAT_BUTTON,
   RoutingDataConstants
@@ -26,7 +25,6 @@ import { updateDepartmentRequested, changeIsEditingState } from '../../store/dep
 import { selectIsEditing } from '../../store/department.selectors';
 
 @Component({
-  selector: 'department',
   templateUrl: './department.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -43,7 +41,6 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   departmentFormValues: Department;
 
   actionLabels = ACTION_LABELS;
-  themePalette = THEME_PALETTE;
   matButtonTypes = MAT_BUTTON;
 
   private unsubscribe: Subject<void> = new Subject();

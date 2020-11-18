@@ -30,7 +30,6 @@ import {
 import { DynamicForm } from '@/shared/models';
 
 @Component({
-  selector: 'role',
   templateUrl: './role.component.html',
   styleUrls: ['./role.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -18,7 +18,6 @@ import {
   EDIT_PRIVILEGES,
   DIALOG,
   ACTION_LABELS,
-  THEME_PALETTE,
   CONSTANTS,
   RoutingDataConstants
 } from '@/shared/constants';
@@ -29,7 +28,6 @@ import { updatePlanRequested, changeIsEditingState } from '../../store/plan.acti
 import { selectIsEditing } from '../../store/plan.selectors';
 
 @Component({
-  selector: 'plan',
   templateUrl: './plan.component.html',
   styleUrls: ['./plan.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -51,7 +49,6 @@ export class PlanComponent implements OnInit, OnDestroy {
   configPlanStages = false;
 
   actionLabels = ACTION_LABELS;
-  themePalette = THEME_PALETTE;
 
   private unsubscribe: Subject<void> = new Subject();
 

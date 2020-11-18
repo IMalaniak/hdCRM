@@ -75,10 +75,8 @@ footer {
     // }
 
     .connect-title {
-      margin-top: 3em;
-      @include media-breakpoint-up(lg) {
+      @include media-breakpoint-up(md) {
         text-align: right;
-        margin-top: 0;
       }
     }
 
@@ -87,7 +85,7 @@ footer {
       flex-direction: row;
       padding-left: 0;
       margin-bottom: 0;
-      @include media-breakpoint-up(lg) {
+      @include media-breakpoint-up(md) {
         justify-content: flex-end;
       }
 

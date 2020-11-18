@@ -65,7 +65,6 @@
   .user-dropdown {
     @include media-breakpoint-up(sm) {
       position: relative;
-      margin-left: auto;
     }
 
     atoms-user-pic {
