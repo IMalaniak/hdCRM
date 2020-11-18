@@ -82,6 +82,11 @@
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr *matNoDataRow>
+        <td [attr.colspan]="displayedColumns.length">
+          <atoms-no-content-info></atoms-no-content-info>
+        </td>
+      </tr>
     </table>
   </div>
   <mat-paginator

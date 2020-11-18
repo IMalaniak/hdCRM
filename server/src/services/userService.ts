@@ -19,7 +19,8 @@ import {
   PageQueryWithOrganization,
   CollectionApiResponse,
   PasswordReset,
-  AssetCreationAttributes
+  AssetCreationAttributes,
+  ErrorOrigin
 } from '../models';
 import { CONSTANTS, MailThemes } from '../constants';
 import { Mailer } from '../mailer/nodeMailerTemplates';
@@ -78,7 +79,7 @@ export class UserService {
       if (data) {
         return ok({ success: true, data });
       } else {
-        return ok({ success: false, message: 'No user with such id', data: null });
+        return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No user with such id', data: null });
       }
     } catch (error) {
       // Logger.Err(err);
@@ -110,7 +111,7 @@ export class UserService {
         const ids: number[] = data.rows.map((user) => user.id);
         return ok({ success: true, ids, data: data.rows, resultsNum: data.count, pages });
       } else {
-        return ok({ success: false, message: 'No users by this query', data: null });
+        return ok({ success: false, message: 'No users by this query', data: [] });
       }
     } catch (error) {
       // Logger.Err(err);
@@ -187,10 +188,14 @@ export class UserService {
             message: 'You have successfully changed your password.'
           });
         } else {
-          return err({ success: false, message: 'Current password you provided is not correct!' });
+          return err({
+            success: false,
+            errorOrigin: ErrorOrigin.CLIENT,
+            message: 'Current password you provided is not correct!'
+          });
         }
       } else {
-        return err({ success: false, message: 'New passwords do not match!' });
+        return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'New passwords do not match!' });
       }
     } catch (error) {
       // Logger.Err(err);
@@ -208,7 +213,7 @@ export class UserService {
       if (deleted > 0) {
         return ok({ success: true, message: `Deleted ${deleted} user` });
       } else {
-        return ok({ success: false, message: 'No users by this query', data: null });
+        return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No users by this query', data: null });
       }
     } catch (error) {
       // Logger.Err(err);
@@ -223,7 +228,7 @@ export class UserService {
       if (data) {
         return ok({ success: true, data });
       } else {
-        return ok({ success: false, message: 'No session with such id', data: null });
+        return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No session with such id', data: null });
       }
     } catch (error) {
       // Logger.Err(err);
@@ -239,7 +244,7 @@ export class UserService {
       if (data.length) {
         return ok({ success: true, data });
       } else {
-        return ok({ success: false, message: 'No sessions by this query', data: null });
+        return ok({ success: false, message: 'No sessions by this query', data: [] });
       }
     } catch (error) {
       // Logger.Err(err);
@@ -257,7 +262,12 @@ export class UserService {
       if (deleted > 0) {
         return ok({ success: true, message: `Deleted ${deleted} session(s)` });
       } else {
-        return ok({ success: false, message: 'No sessions by this query', data: null });
+        return err({
+          success: false,
+          errorOrigin: ErrorOrigin.CLIENT,
+          message: 'No sessions by this query',
+          data: null
+        });
       }
     } catch (error) {
       // Logger.Err(err);
@@ -278,7 +288,12 @@ export class UserService {
       if (deleted > 0) {
         return ok({ success: true, message: `Deleted ${deleted} session(s)` });
       } else {
-        return err({ success: false, message: 'No sessions by this query', data: null });
+        return err({
+          success: false,
+          errorOrigin: ErrorOrigin.CLIENT,
+          message: 'No sessions by this query',
+          data: null
+        });
       }
     } catch (error) {
       // Logger.Err(err);

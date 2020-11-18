@@ -19,7 +19,7 @@ export class PrivilegeService {
       if (data) {
         return ok({ success: true, data: data.rows, resultsNum: data.count });
       } else {
-        return ok({ success: false, message: 'No privileges', data: null });
+        return ok({ success: false, message: 'No privileges', data: [] });
       }
     } catch (error) {
       // Logger.Err(err);

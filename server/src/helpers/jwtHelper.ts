@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { Service } from 'typedi';
 
-import { JwtPayload, JwtDecoded, User, UserSession, BaseResponse } from '../models';
+import { JwtPayload, JwtDecoded, User, UserSession, BaseResponse, ErrorOrigin } from '../models';
 import { Config } from '../config';
 import { err, ok, Result } from 'neverthrow';
 
@@ -49,18 +49,18 @@ export class JwtHelper {
         if (user) {
           return ok(verified);
         } else {
-          return err({ success: false, message: 'No user registered' });
+          return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No user registered' });
         }
       } else {
         const session = await UserSession.findByPk(verified.sessionId, { attributes: ['id'] });
         if (session) {
           return ok(verified);
         } else {
-          return err({ success: false, message: 'No session registered' });
+          return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No session registered' });
         }
       }
     } catch (error) {
-      return err({ success: false, message: error.message });
+      return err({ success: false, errorOrigin: ErrorOrigin.SERVER, message: error.message });
     }
   }
 }

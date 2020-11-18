@@ -9,7 +9,8 @@ import {
   TaskAttributes,
   TaskCreationAttributes,
   TaskPriority,
-  CollectionApiResponse
+  CollectionApiResponse,
+  ErrorOrigin
 } from '../models';
 import { CONSTANTS } from '../constants';
 
@@ -34,7 +35,7 @@ export class TaskService {
       if (data.length) {
         return ok({ success: true, data });
       } else {
-        return ok({ success: false, message: 'No tasks by this query', data: null });
+        return ok({ success: false, message: 'No tasks by this query', data: [] });
       }
     } catch (error) {
       // Logger.Err(err);
@@ -49,7 +50,7 @@ export class TaskService {
       if (task) {
         return ok({ success: true, data: task });
       } else {
-        return ok({ success: false, message: 'No task with such key', data: null });
+        return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No task with such key', data: null });
       }
     } catch (error) {
       // Logger.Err(err);
@@ -103,7 +104,7 @@ export class TaskService {
       if (deleted > 0) {
         return ok({ success: true, message: `Deleted ${deleted} task(s)` });
       } else {
-        return ok({ success: false, message: 'No tasks by this query', data: null });
+        return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No tasks by this query', data: null });
       }
     } catch (error) {
       // Logger.Err(err);
@@ -119,7 +120,7 @@ export class TaskService {
       if (data.length) {
         return ok({ success: true, data });
       } else {
-        return ok({ success: false, message: 'No tasks priorities by this query', data: null });
+        return ok({ success: false, message: 'No tasks priorities by this query', data: [] });
       }
     } catch (error) {
       // Logger.Err(err);

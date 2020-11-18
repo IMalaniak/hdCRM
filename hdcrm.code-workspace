@@ -39,7 +39,8 @@
     "mochaExplorer.nodePath": null,
     "mochaExplorer.mochaPath": "./node_modules/mocha",
     "mochaExplorer.files": "./test/**/*.test.ts",
-    "mochaExplorer.require": "ts-node/register"
+    "mochaExplorer.require": "ts-node/register",
+    "errorLens.enabledDiagnosticLevels": ["error", "warning"]
   },
   "extensions": {
     "recommendations": [
@@ -61,7 +62,8 @@
       "github.vscode-pull-request-github",
       // "raagh.angular-karma-test-explorer",
       "msjsdiag.debugger-for-chrome",
-      "usernamehw.errorlens"
+      "usernamehw.errorlens",
+      "markis.code-coverage"
     ]
   }
 }
