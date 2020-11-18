@@ -37,7 +37,7 @@
     "pg-hstore": "2.3.3",
     "reflect-metadata": "0.1.13",
     "sequelize": "6.3.5",
-    "socket.io": "3.0.1",
+    "socket.io": "3.0.2",
     "typedi": "0.8.0"
   },
   "devDependencies": {
