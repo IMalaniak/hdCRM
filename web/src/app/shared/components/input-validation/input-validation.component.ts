@@ -81,7 +81,9 @@ export class InputValidationComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this._matFormField._control = this._control;
+    if (this._control) {
+      this._matFormField._control = this._control;
+    }
   }
 
   private handleError(): void {

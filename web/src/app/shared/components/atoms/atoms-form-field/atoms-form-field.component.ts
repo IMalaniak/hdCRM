@@ -15,8 +15,8 @@ import { THEME_PALETTE, IFieldType } from '@/shared/constants';
       <input-validation-component
         *ngSwitchDefault
         [label]="label"
-        [canValidate]="control.touched && canValidate"
-        [inputErrors]="control.touched ? control.errors : {}"
+        [canValidate]="control?.touched && canValidate"
+        [inputErrors]="control?.touched ? control?.errors : {}"
       >
         <ng-content prefix select="[prefix]"></ng-content>
         <ng-content suffix select="[suffix]"></ng-content>
@@ -32,8 +32,8 @@ import { THEME_PALETTE, IFieldType } from '@/shared/constants';
       <input-validation-component
         *ngSwitchCase="fieldTypes.DATE"
         [label]="label"
-        [canValidate]="control.touched && canValidate"
-        [inputErrors]="control.touched ? control.errors : {}"
+        [canValidate]="control?.touched && canValidate"
+        [inputErrors]="control?.touched ? control?.errors : {}"
       >
         <mat-datepicker-toggle suffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker touchUi #picker></mat-datepicker>
@@ -51,8 +51,8 @@ import { THEME_PALETTE, IFieldType } from '@/shared/constants';
       <input-validation-component
         *ngSwitchCase="fieldTypes.SELECT"
         [label]="label"
-        [canValidate]="control.touched && canValidate"
-        [inputErrors]="control.touched ? control.errors : {}"
+        [canValidate]="control?.touched && canValidate"
+        [inputErrors]="control?.touched ? control?.errors : {}"
       >
         <mat-select [formControl]="control" required>
           <mat-option *ngFor="let option of options" [value]="option.value">{{ option.label }}</mat-option>
