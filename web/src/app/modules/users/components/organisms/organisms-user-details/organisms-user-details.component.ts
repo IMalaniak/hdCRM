@@ -2,6 +2,7 @@ import { Component, Input, EventEmitter, Output, OnInit, ChangeDetectionStrategy
 import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
+
 import { AppState } from '@/core/reducers';
 import { User } from '@/modules/users';
 import { DialogDataModel, DynamicForm } from '@/shared/models';
@@ -10,7 +11,7 @@ import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
-import { ACTION_LABELS, THEME_PALETTE, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
+import { ACTION_LABELS, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-user-details',
@@ -29,7 +30,6 @@ export class OrganismsUserDetailsComponent implements OnInit {
   userFormValues: User;
 
   actionLabels = ACTION_LABELS;
-  themePalette = THEME_PALETTE;
 
   userFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName(FORMCONSTANTS.USER)));
 

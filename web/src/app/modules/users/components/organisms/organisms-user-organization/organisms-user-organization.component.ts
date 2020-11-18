@@ -6,7 +6,7 @@ import { select, Store } from '@ngrx/store';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { Organization } from '@/modules/users';
-import { ACTION_LABELS, THEME_PALETTE, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
+import { ACTION_LABELS, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
 import { DynamicForm } from '@/shared/models';
 import { AppState } from '@/core/reducers';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
@@ -31,7 +31,6 @@ export class OrganismsUserOrganizationComponent implements OnInit {
   userOrganizationFormValues: Organization;
 
   actionLabels = ACTION_LABELS;
-  themePalette = THEME_PALETTE;
 
   userOrganizationFormJson$: Observable<DynamicForm> = this.store$.pipe(
     select(selectFormByName(FORMCONSTANTS.USER_ORGANIZATION))

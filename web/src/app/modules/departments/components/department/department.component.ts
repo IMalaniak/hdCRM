@@ -11,7 +11,6 @@ import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
 import {
   EDIT_PRIVILEGES,
   ACTION_LABELS,
-  THEME_PALETTE,
   CONSTANTS,
   MAT_BUTTON,
   RoutingDataConstants
@@ -43,7 +42,6 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   departmentFormValues: Department;
 
   actionLabels = ACTION_LABELS;
-  themePalette = THEME_PALETTE;
   matButtonTypes = MAT_BUTTON;
 
   private unsubscribe: Subject<void> = new Subject();

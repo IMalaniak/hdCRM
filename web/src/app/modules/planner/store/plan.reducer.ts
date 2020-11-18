@@ -73,7 +73,7 @@ const plansReducer = createReducer(
       pageLoading: false
     })
   })),
-  on(planActions.planApiError, (state) => ({ ...state, loading: false }))
+  on(planActions.planApiError, (state) => ({ ...state, loading: false, pages: { ...state.pages, pageLoading: false } }))
 );
 
 export function reducer(state: PlansState | undefined, action: Action) {

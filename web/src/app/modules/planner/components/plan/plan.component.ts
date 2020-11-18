@@ -16,7 +16,6 @@ import {
   DELETE_PRIVILEGES,
   EDIT_PRIVILEGES,
   ACTION_LABELS,
-  THEME_PALETTE,
   CONSTANTS,
   RoutingDataConstants
 } from '@/shared/constants';
@@ -52,7 +51,6 @@ export class PlanComponent implements OnInit, OnDestroy {
   configPlanStages = false;
 
   actionLabels = ACTION_LABELS;
-  themePalette = THEME_PALETTE;
 
   private unsubscribe: Subject<void> = new Subject();
 

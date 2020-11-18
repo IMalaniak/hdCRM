@@ -8,10 +8,11 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { Observable } from 'rxjs/internal/Observable';
 import { filter } from 'rxjs/operators';
+import { Observable } from 'rxjs/internal/Observable';
 
 import { Store, select } from '@ngrx/store';
+
 import { AppState } from '@/core/reducers';
 import { logOut } from '@/core/auth/store/auth.actions';
 import { User } from '@/modules/users';
@@ -22,11 +23,12 @@ import {
   MAT_BUTTON,
   THEME_PALETTE,
   RoutingConstants,
+  CONSTANTS,
   ADD_PRIVILEGES
 } from '@/shared/constants';
 
 @Component({
-  selector: 'app-header',
+  selector: 'header-component',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -35,10 +37,14 @@ export class HeaderComponent implements OnInit {
   canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.USER)));
 
   @Input() leftSidebarMinimized: boolean;
+  @Input() enableDarkTheme: boolean;
   @Input() currentUser: User;
 
   @Output()
   hideLeftSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  @Output()
+  enableThemeDark: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   actionLabels = ACTION_LABELS;
   buttonTypes = BUTTON_TYPE;
@@ -66,5 +72,9 @@ export class HeaderComponent implements OnInit {
 
   toggleLeftSidebar(): void {
     this.hideLeftSidebar.emit(!this.leftSidebarMinimized);
+  }
+
+  themeTipMessage(): string {
+    return this.enableDarkTheme ? CONSTANTS.TEXTS_THEME_LIGHT : CONSTANTS.TEXTS_THEME_DARK;
   }
 }

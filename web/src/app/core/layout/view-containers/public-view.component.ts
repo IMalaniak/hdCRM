@@ -4,7 +4,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   template: `
     <section class="main">
       <router-outlet></router-outlet>
-      <app-footer></app-footer>
+      <footer-component></footer-component>
     </section>
   `,
   styles: [

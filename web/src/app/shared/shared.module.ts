@@ -4,11 +4,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { OverlayModule } from '@angular/cdk/overlay';
 
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+
+import { IconModule } from './modules/icon.module';
 import { AppMaterialModule } from './modules/app-material.module';
 import { AttachmentsModule } from './modules/attachments/attachments.module';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { COMPONENTS, PIPES } from './imports';
-import { IconModule } from './modules/icon.module';
 
 @NgModule({
   imports: [
