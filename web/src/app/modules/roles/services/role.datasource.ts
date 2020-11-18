@@ -1,17 +1,18 @@
-import { DataSource } from '@angular/cdk/collections';
-import { Observable, BehaviorSubject, of } from 'rxjs';
-import { Role } from '../models/';
-import { catchError, tap } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
-import { listPageRequested } from '../store/role.actions';
-import { selectRolesOfPage } from '../store/role.selectors';
+import { of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+
 import { AppState } from '@/core/reducers';
 import { PageQuery } from '@/shared/models';
+import { CommonDataSource } from '@/shared/services';
+import { Role } from '../models/';
+import { listPageRequested } from '../store/role.actions';
+import { selectRolesOfPage } from '../store/role.selectors';
 
-export class RolesDataSource implements DataSource<Role> {
-  private rolesSubject = new BehaviorSubject<Role[]>([]);
-
-  constructor(private store: Store<AppState>) {}
+export class RolesDataSource extends CommonDataSource<Role> {
+  constructor(private store: Store<AppState>) {
+    super();
+  }
 
   loadRoles(page: PageQuery) {
     this.store
@@ -19,7 +20,7 @@ export class RolesDataSource implements DataSource<Role> {
         select(selectRolesOfPage(page)),
         tap((roles) => {
           if (roles.length > 0) {
-            this.rolesSubject.next(roles);
+            this.listSubject.next(roles);
           } else {
             this.store.dispatch(listPageRequested({ page }));
           }
@@ -27,13 +28,5 @@ export class RolesDataSource implements DataSource<Role> {
         catchError(() => of([]))
       )
       .subscribe();
-  }
-
-  connect(): Observable<Role[]> {
-    return this.rolesSubject.asObservable();
-  }
-
-  disconnect(): void {
-    this.rolesSubject.complete();
   }
 }

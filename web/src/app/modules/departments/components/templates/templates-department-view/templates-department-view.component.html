@@ -58,22 +58,15 @@
       </div>
     </div>
   </div> -->
-  <div buttons *ngIf="canEdit && !isCreatePage">
-    <atoms-icon-button *ngIf="!editForm" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
-      {{ actionLabels.EDIT }}
-    </atoms-icon-button>
-    <atoms-icon-button
-      *ngIf="editForm"
-      [color]="themePalette.BASIC"
-      [icon]="['fas', 'times']"
-      (onclick)="onClickCancelEdit()"
-    >
-      {{ actionLabels.CANCEL }}
-    </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm" [icon]="['fas', 'save']" (onclick)="update()">
-      {{ actionLabels.SAVE }}
-    </atoms-icon-button>
-  </div>
+  <molecules-card-header-actions
+    buttons
+    *ngIf="canEdit"
+    [editForm]="editForm"
+    (cancelClick)="onClickCancelEdit()"
+    (editClick)="onClickEdit()"
+    (saveClick)="update()"
+  >
+  </molecules-card-header-actions>
   <atoms-icon-button *ngIf="isCreatePage" buttons (onclick)="save()" [icon]="['fas', 'paper-plane']">
     {{ actionLabels.SUMBIT }}
   </atoms-icon-button>

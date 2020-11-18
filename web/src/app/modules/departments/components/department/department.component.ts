@@ -13,7 +13,6 @@ import { updateDepartmentRequested, changeIsEditingState, departmentRequested } 
 import { selectDepartmentById, selectIsEditing } from '../../store/department.selectors';
 
 @Component({
-  selector: 'department',
   template: `
     <templates-department-view
       [editForm]="editForm$ | async"

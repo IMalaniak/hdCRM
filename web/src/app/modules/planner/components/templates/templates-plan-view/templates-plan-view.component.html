@@ -87,22 +87,16 @@
       ></templates-box-user-list-sm>
     </div>
   </div>
-  <div buttons *ngIf="canEdit && !isCreatePage">
-    <atoms-icon-button *ngIf="!editForm" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
-      {{ actionLabels.EDIT }}
-    </atoms-icon-button>
-    <atoms-icon-button
-      *ngIf="editForm"
-      (onclick)="onClickCancelEdit()"
-      [icon]="['fas', 'times']"
-      [color]="themePalette.BASIC"
-    >
-      {{ actionLabels.CANCEL }}
-    </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm" (onclick)="update()" [icon]="['fas', 'save']">
-      {{ actionLabels.SAVE }}
-    </atoms-icon-button>
-  </div>
+
+  <molecules-card-header-actions
+    buttons
+    *ngIf="canEdit && !isCreatePage"
+    [editForm]="editForm"
+    (cancelClick)="onClickCancelEdit()"
+    (editClick)="onClickEdit()"
+    (saveClick)="update()"
+  >
+  </molecules-card-header-actions>
   <atoms-icon-button *ngIf="isCreatePage" buttons (onclick)="save()" [icon]="['fas', 'paper-plane']">
     {{ actionLabels.SUMBIT }}
   </atoms-icon-button>

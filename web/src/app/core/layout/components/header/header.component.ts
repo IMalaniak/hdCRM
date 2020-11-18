@@ -7,31 +7,45 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef
 } from '@angular/core';
-import { MediaqueryService } from '@/shared/services';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { Observable } from 'rxjs/internal/Observable';
+
 import { Store, select } from '@ngrx/store';
+
+import { MediaqueryService } from '@/shared/services';
 import { AppState } from '@/core/reducers';
 import { logOut } from '@/core/auth/store/auth.actions';
 import { User } from '@/modules/users';
-import { Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
-import { Observable } from 'rxjs/internal/Observable';
-import { ACTION_LABELS, BUTTON_TYPE, MAT_BUTTON, THEME_PALETTE, RoutingConstants } from '@/shared/constants';
+import {
+  ACTION_LABELS,
+  BUTTON_TYPE,
+  MAT_BUTTON,
+  THEME_PALETTE,
+  RoutingConstants,
+  CONSTANTS,
+  ADD_PRIVILEGES
+} from '@/shared/constants';
 
 @Component({
-  selector: 'app-header',
+  selector: 'header-component',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {
-  canAddUser$: Observable<boolean> = this.store.pipe(select(isPrivileged('user-add')));
+  canAddUser$: Observable<boolean> = this.store.pipe(select(isPrivileged(ADD_PRIVILEGES.USER)));
 
   @Input() leftSidebarMinimized: boolean;
+  @Input() enableDarkTheme: boolean;
   @Input() currentUser: User;
 
   @Output()
   hideLeftSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  @Output()
+  enableThemeDark: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   actionLabels = ACTION_LABELS;
   buttonTypes = BUTTON_TYPE;
@@ -64,5 +78,9 @@ export class HeaderComponent implements OnInit {
 
   toggleLeftSidebar(): void {
     this.hideLeftSidebar.emit(!this.leftSidebarMinimized);
+  }
+
+  themeTipMessage(): string {
+    return this.enableDarkTheme ? CONSTANTS.TEXTS_THEME_LIGHT : CONSTANTS.TEXTS_THEME_DARK;
   }
 }

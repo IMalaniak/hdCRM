@@ -90,7 +90,11 @@ const departmentsReducer = createReducer(
       dashboardDataLoaded: true
     })
   })),
-  on(departmentActions.departmentApiError, (state) => ({ ...state, loading: false }))
+  on(departmentActions.departmentApiError, (state) => ({
+    ...state,
+    loading: false,
+    pages: { ...state.pages, pageLoading: false }
+  }))
 );
 
 export function reducer(state: DepartmentsState | undefined, action: Action) {

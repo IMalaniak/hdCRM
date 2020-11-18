@@ -1,5 +1,10 @@
+export enum ErrorOrigin {
+  SERVER,
+  CLIENT
+}
 export interface BaseResponse {
   success: boolean;
+  errorOrigin?: ErrorOrigin;
   message?: string;
 }
 

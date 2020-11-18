@@ -14,7 +14,6 @@ import { updatePlanRequested, changeIsEditingState, planRequested } from '../../
 import { selectIsEditing, selectPlanById } from '../../store/plan.selectors';
 
 @Component({
-  selector: 'plan',
   template: `
     <templates-plan-view
       [item]="plan$ | async"

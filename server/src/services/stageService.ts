@@ -23,7 +23,7 @@ export class StageService {
       if (data) {
         return ok({ success: true, data: data.rows, resultsNum: data.count });
       } else {
-        return ok({ success: false, message: 'No stages', data: null });
+        return ok({ success: false, message: 'No stages', data: [] });
       }
     } catch (error) {
       // Logger.Err(err);

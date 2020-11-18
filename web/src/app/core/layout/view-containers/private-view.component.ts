@@ -15,11 +15,13 @@ import { privateRouterTransition } from '@/shared/animations';
   selector: 'app-private',
   template: `
     <section class="grid" [ngClass]="{ 'dark-theme': enableDarkTheme$ | async, 'font-scale': scaleFontUp$ | async }">
-      <app-header
+      <header-component
         [leftSidebarMinimized]="leftSidebarMinimized$ | async"
+        [enableDarkTheme]="enableDarkTheme$ | async"
         [currentUser]="currentUser$ | async"
         (hideLeftSidebar)="toggleLeftSidebar($event)"
-      ></app-header>
+        (enableThemeDark)="enableDarkTheme($event)"
+      ></header-component>
       <main>
         <left-sidebar [leftSidebarMinimized]="leftSidebarMinimized$ | async"></left-sidebar>
         <section #contentWrapper class="content" [ngClass]="{ 'dark-theme-bg': enableDarkTheme$ | async }">
@@ -33,14 +35,12 @@ import { privateRouterTransition } from '@/shared/animations';
             <section class="container-fluid py-3 position-relative" [@privateRouterAnimations]="prepareRoute(outlet)">
               <router-outlet #outlet="outlet"></router-outlet>
             </section>
-            <app-footer></app-footer>
+            <footer-component></footer-component>
           </div>
           <right-sidebar
             [rightSidebarMinimized]="rightSidebarMinimized$ | async"
-            [enableDarkTheme]="enableDarkTheme$ | async"
             [scaleFontUp]="scaleFontUp$ | async"
             (hideRightSidebar)="toggleRightSidebar($event)"
-            (enableThemeDark)="enableDarkTheme($event)"
             (scaleUpFont)="scaleFontUp($event)"
           ></right-sidebar>
         </section>

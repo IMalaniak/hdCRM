@@ -85,7 +85,11 @@ const rolesReducer = createReducer(
       dashboardDataLoaded: true
     })
   })),
-  on(roleActions.rolesApiError, (state) => ({ ...state, loading: false }))
+  on(roleActions.rolesApiError, (state) => ({
+    ...state,
+    loading: false,
+    pages: { ...state.pages, pageLoading: false }
+  }))
 );
 
 export function reducer(state: RolesState | undefined, action: Action) {

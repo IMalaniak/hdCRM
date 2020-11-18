@@ -13,7 +13,6 @@ import { selectIsEditing, selectRoleDeepById } from '../../store/role.selectors'
 import { Role } from '../../models';
 
 @Component({
-  selector: 'role',
   template: `
     <templates-role-view
       [item]="role$ | async"
