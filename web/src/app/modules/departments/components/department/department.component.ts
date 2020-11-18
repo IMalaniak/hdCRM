@@ -8,13 +8,7 @@ import { cloneDeep } from 'lodash';
 
 import { AppState } from '@/core/reducers';
 import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
-import {
-  EDIT_PRIVILEGES,
-  ACTION_LABELS,
-  CONSTANTS,
-  MAT_BUTTON,
-  RoutingDataConstants
-} from '@/shared/constants';
+import { EDIT_PRIVILEGES, ACTION_LABELS, CONSTANTS, MAT_BUTTON, RoutingDataConstants } from '@/shared/constants';
 import { DynamicForm } from '@/shared/models';
 import { UsersDialogComponent, User } from '@/modules/users';
 import { Department } from '../../models';
