@@ -3,8 +3,14 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { DialogBaseComponent } from './dialog-base.component';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
+import { DialogWithTwoButtonModel } from '@/shared/models/dialog/dialog-with-two-button.model';
 
 describe('DialogBaseComponent', () => {
+  const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+    dialogModel: new DialogWithTwoButtonModel()
+  };
+
   let component: DialogBaseComponent;
   let fixture: ComponentFixture<DialogBaseComponent>;
 
@@ -12,7 +18,11 @@ describe('DialogBaseComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [DialogBaseComponent],
       imports: [RouterTestingModule],
-      providers: [MatDialog, { provide: MatDialogRef, useValue: {} }, { provide: MAT_DIALOG_DATA, useValue: {} }]
+      providers: [
+        MatDialog,
+        { provide: MatDialogRef, useValue: {} },
+        { provide: MAT_DIALOG_DATA, useValue: dialogDataModel }
+      ]
     }).compileComponents();
   });
 
