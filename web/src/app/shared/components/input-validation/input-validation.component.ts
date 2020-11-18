@@ -109,12 +109,13 @@ export class InputValidationComponent implements OnInit, OnChanges {
         return { key, message: ERRORMESSAGE.MAX_VALUE };
       case ControlValidator.CONFIRM_PASSWORD:
         return { key, message: ERRORMESSAGE.PASSWORD_NOT_MATCH };
+      default:
+        return { key, message: ERRORMESSAGE.IS_INVALID };
     }
   }
 
   private setErrorMessage(): void {
     if (this.canValidate) {
-      this.errorMessage = '';
       const errors: any = this.inputErrors;
       if (errors) {
         Object.keys(this.errors).some((key): boolean => {
