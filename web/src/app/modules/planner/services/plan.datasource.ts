@@ -1,17 +1,18 @@
-import { DataSource } from '@angular/cdk/collections';
-import { Observable, BehaviorSubject, of } from 'rxjs';
-import { Plan } from '../models/';
-import { catchError, tap } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
-import { listPageRequested } from '../store/plan.actions';
-import { selectPlansOfPage } from '../store/plan.selectors';
+import { of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+
 import { AppState } from '@/core/reducers';
 import { PageQuery } from '@/shared/models';
+import { CommonDataSource } from '@/shared/services';
+import { Plan } from '../models/';
+import { listPageRequested } from '../store/plan.actions';
+import { selectPlansOfPage } from '../store/plan.selectors';
 
-export class PlansDataSource implements DataSource<Plan> {
-  private plansSubject = new BehaviorSubject<Plan[]>([]);
-
-  constructor(private store: Store<AppState>) {}
+export class PlansDataSource extends CommonDataSource<Plan> {
+  constructor(private store: Store<AppState>) {
+    super();
+  }
 
   loadPlans(page: PageQuery) {
     this.store
@@ -19,7 +20,7 @@ export class PlansDataSource implements DataSource<Plan> {
         select(selectPlansOfPage(page)),
         tap((plans) => {
           if (plans.length > 0) {
-            this.plansSubject.next(plans);
+            this.listSubject.next(plans);
           } else {
             this.store.dispatch(listPageRequested({ page }));
           }
@@ -27,13 +28,5 @@ export class PlansDataSource implements DataSource<Plan> {
         catchError(() => of([]))
       )
       .subscribe();
-  }
-
-  connect(): Observable<Plan[]> {
-    return this.plansSubject.asObservable();
-  }
-
-  disconnect(): void {
-    this.plansSubject.complete();
   }
 }

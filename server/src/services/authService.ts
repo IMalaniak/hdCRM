@@ -12,7 +12,8 @@ import {
   UserAttributes,
   UserSession,
   User,
-  PasswordReset
+  PasswordReset,
+  ErrorOrigin
 } from '../models';
 import { CONSTANTS, MailThemes, UserState } from '../constants';
 import { Config } from '../config';
@@ -106,6 +107,7 @@ export class AuthService {
       } else {
         return err({
           success: false,
+          errorOrigin: ErrorOrigin.CLIENT,
           message: 'Your activation token is invalid or has expired!'
         });
       }
@@ -142,6 +144,7 @@ export class AuthService {
       if (!user) {
         return err({
           success: false,
+          errorOrigin: ErrorOrigin.CLIENT,
           message: 'Sorry, there are no user with this email or login!'
         });
       }
@@ -150,6 +153,7 @@ export class AuthService {
         await this.saveLogInAttempt(connection, user, false);
         return err({
           success: false,
+          errorOrigin: ErrorOrigin.CLIENT,
           message:
             'Sorry, Your account is not activated, please use activation link we sent You or contact administrator!'
         });
@@ -157,6 +161,7 @@ export class AuthService {
         await this.saveLogInAttempt(connection, user, false);
         return err({
           success: false,
+          errorOrigin: ErrorOrigin.CLIENT,
           message: 'Sorry, Your account have been disabled, please contact administrator!'
         });
       }
@@ -178,6 +183,7 @@ export class AuthService {
         this.saveLogInAttempt(connection, user, false).then(() => {
           return err({
             success: false,
+            errorOrigin: ErrorOrigin.CLIENT,
             message:
               'Password that You provided is not correct, please make sure you have the right password or contact administrator!'
           });
@@ -202,6 +208,7 @@ export class AuthService {
     } else {
       return err({
         success: false,
+        errorOrigin: ErrorOrigin.CLIENT,
         message: 'No refresh token!'
       });
     }
@@ -250,6 +257,7 @@ export class AuthService {
       } else {
         return err({
           success: false,
+          errorOrigin: ErrorOrigin.CLIENT,
           message: 'The following user does not exist! Please, provide correct email or login!'
         });
       }
@@ -288,11 +296,12 @@ export class AuthService {
             message: 'You have successfully changed your password.'
           });
         } else {
-          return err({ success: false, message: 'Passwords do not match' });
+          return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'Passwords do not match' });
         }
       } else {
         return err({
           success: false,
+          errorOrigin: ErrorOrigin.CLIENT,
           message: 'Your password reset token is invalid or has expired!'
         });
       }

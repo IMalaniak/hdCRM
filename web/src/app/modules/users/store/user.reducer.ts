@@ -88,7 +88,11 @@ const usersReducer = createReducer(
   })),
   on(userActions.changeOldPassword, (state) => ({ ...state, loading: true })),
   on(userActions.changePasswordSuccess, (state) => ({ ...state, loading: false })),
-  on(userActions.userApiError, (state) => ({ ...state, loading: false })),
+  on(userActions.userApiError, (state) => ({
+    ...state,
+    loading: false,
+    pages: { ...state.pages, pageLoading: false }
+  })),
   on(partialDataLoaded, (state, { Users }) => ({
     ...state,
     ...(Users && {

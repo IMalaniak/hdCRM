@@ -1,4 +1,5 @@
-﻿export * from './dynamic-form.resolver';
+﻿export * from './common.datasource';
+export * from './dynamic-form.resolver';
 export * from './mediaquery.service';
 export * from './local-storage.service';
 export * from './socket.service';

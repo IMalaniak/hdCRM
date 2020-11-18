@@ -104,20 +104,14 @@
       ></templates-box-user-list-sm>
     </div>
   </section>
-  <div buttons *ngIf="canEditRole$ | async">
-    <atoms-icon-button *ngIf="!(editForm$ | async)" (onclick)="onClickEdit()" [icon]="['fas', 'edit']">
-      {{ actionLabels.EDIT }}
-    </atoms-icon-button>
-    <atoms-icon-button
-      *ngIf="editForm$ | async"
-      [color]="themePalette.BASIC"
-      (onclick)="onClickCancelEdit()"
-      [icon]="['fas', 'times']"
-    >
-      {{ actionLabels.CANCEL }}
-    </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm$ | async" (onclick)="updateRole()" [icon]="['fas', 'save']">
-      {{ actionLabels.SAVE }}
-    </atoms-icon-button>
-  </div>
+
+  <molecules-card-header-actions
+    buttons
+    *ngIf="canEditRole$ | async"
+    [editForm]="editForm$ | async"
+    (cancelClick)="onClickCancelEdit()"
+    (editClick)="onClickEdit()"
+    (saveClick)="updateRole()"
+  >
+  </molecules-card-header-actions>
 </organisms-card>

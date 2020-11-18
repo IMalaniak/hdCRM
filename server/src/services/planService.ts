@@ -17,7 +17,8 @@ import {
   PlanAttributes,
   Stage,
   Sequelize,
-  AssetCreationAttributes
+  AssetCreationAttributes,
+  ErrorOrigin
 } from '../models';
 import { CONSTANTS } from '../constants';
 
@@ -73,7 +74,7 @@ export class PlanService {
       if (plan) {
         return ok({ success: true, data: plan });
       } else {
-        return ok({ success: false, message: 'No plan with such id', data: null });
+        return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No plan with such id', data: null });
       }
     } catch (error) {
       // Logger.Err(err);
@@ -104,7 +105,7 @@ export class PlanService {
         const ids: number[] = data.rows.map((plan) => plan.id);
         return ok({ success: true, ids, data: data.rows, resultsNum: data.count, pages });
       } else {
-        return ok({ success: false, message: 'No plans by this query', data: null });
+        return ok({ success: false, message: 'No plans by this query', data: [] });
       }
     } catch (error) {
       // Logger.Err(err);
@@ -217,7 +218,7 @@ export class PlanService {
       if (deleted > 0) {
         return ok({ success: true, message: `Deleted ${deleted} plan` });
       } else {
-        return ok({ success: false, message: 'No plans by this query', data: null });
+        return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No plans by this query', data: null });
       }
     } catch (error) {
       // Logger.Err(err);

@@ -1,5 +1,5 @@
 <organisms-card cardTitle="Attachments" cardClass="border-0" contentClass="p-0" [counter]="attachments?.length">
-  <section content *ngIf="attachments && attachments.length" class="table-container">
+  <section content *ngIf="attachments?.length" class="table-container">
     <table mat-table [dataSource]="attachments" class="table-attachments crm-table">
       <ng-container [matColumnDef]="columns.ICON">
         <th mat-header-cell *matHeaderCellDef></th>
@@ -47,9 +47,7 @@
     </table>
   </section>
 
-  <section content *ngIf="attachments && attachments.length === 0 && !uploaderVisible" class="no-content">
-    <p class="lead p-4 text-center" i18n="@@attachmentsComponentNoContentInfo">{{ noContentInfo }}</p>
-  </section>
+  <atoms-no-content-info content *ngIf="attachments?.length === 0 && !uploaderVisible"></atoms-no-content-info>
 
   <app-uploader-list
     content

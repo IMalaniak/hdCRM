@@ -10,7 +10,8 @@ import {
   ItemApiResponse,
   PageQueryWithOrganization,
   DepartmentCreationAttributes,
-  DepartmentAttributes
+  DepartmentAttributes,
+  ErrorOrigin
 } from '../models';
 import { CONSTANTS } from '../constants';
 
@@ -77,7 +78,12 @@ export class DepartmentService {
       if (department) {
         return ok({ success: true, data: department });
       } else {
-        return ok({ success: false, message: 'No department with such id', data: null });
+        return err({
+          success: false,
+          errorOrigin: ErrorOrigin.CLIENT,
+          message: 'No department with such id',
+          data: null
+        });
       }
     } catch (error) {
       // Logger.Err(err);
@@ -108,7 +114,7 @@ export class DepartmentService {
         const ids: number[] = data.rows.map((dep) => dep.id);
         return ok({ success: true, ids, data: data.rows, resultsNum: data.count, pages });
       } else {
-        return ok({ success: false, message: 'No departments by this query', data: null });
+        return ok({ success: false, message: 'No departments by this query', data: [] });
       }
     } catch (error) {
       // Logger.Err(err);
@@ -203,7 +209,12 @@ export class DepartmentService {
       if (deleted > 0) {
         return ok({ success: true, message: `Deleted ${deleted} department` });
       } else {
-        return ok({ success: false, message: 'No departments by this query', data: null });
+        return err({
+          success: false,
+          errorOrigin: ErrorOrigin.CLIENT,
+          message: 'No departments by this query',
+          data: null
+        });
       }
     } catch (error) {
       // Logger.Err(err);
