@@ -60,7 +60,7 @@
   </div> -->
   <molecules-card-header-actions
     buttons
-    *ngIf="canEdit"
+    *ngIf="canEdit && !isCreatePage"
     [editForm]="editForm"
     (cancelClick)="onClickCancelEdit()"
     (editClick)="onClickEdit()"
