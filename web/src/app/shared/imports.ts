@@ -29,5 +29,5 @@ const TEMPLATES = [
   _components.TemplatesUserDetailsComponent
 ];
 
-export const COMPONENTS = [...ATOMS, ...MOLECULES, ...ORGANISMS, ...TEMPLATES];
+export const COMPONENTS = [...ATOMS, ...MOLECULES, ...ORGANISMS, ...TEMPLATES, _components.InputValidationComponent];
 export const PIPES = [_pipes.MemoizePipe, _pipes.DateTimeFormatPipe];

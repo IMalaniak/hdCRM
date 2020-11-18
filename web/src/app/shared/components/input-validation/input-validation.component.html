@@ -1,0 +1,14 @@
+<div [class]="wrapperClass">
+  <mat-form-field [hintLabel]="hintLabel" [appearance]="appearance" [floatLabel]="floatLabel">
+    <span matPrefix>
+      <ng-content select="[prefix]"></ng-content>
+    </span>
+    <span matSuffix>
+      <ng-content select="[suffix]"></ng-content>
+    </span>
+    <mat-label *ngIf="label">{{ label }}</mat-label>
+    <ng-content></ng-content>
+    <mat-error *ngIf="errorMessage">{{ errorMessage }}</mat-error>
+    <mat-hint *ngIf="hintMessage" align="end">{{ hintMessage }}</mat-hint>
+  </mat-form-field>
+</div>
