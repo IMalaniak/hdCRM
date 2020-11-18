@@ -107,14 +107,13 @@
 
   <molecules-card-header-actions
     buttons
-    *ngIf="canEdit && !isCreatePage"
+    *ngIf="canEdit"
+    [isCreatePage]="isCreatePage"
     [editForm]="editForm"
     (cancelClick)="onClickCancelEdit()"
     (editClick)="onClickEdit()"
-    (saveClick)="update()"
+    (updateClick)="update()"
+    (saveClick)="save()"
   >
   </molecules-card-header-actions>
-  <atoms-icon-button *ngIf="isCreatePage" buttons (onclick)="save()" [icon]="['fas', 'paper-plane']">
-    {{ actionLabels.SUMBIT }}
-  </atoms-icon-button>
 </organisms-card>

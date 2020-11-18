@@ -12,6 +12,7 @@ import { FORMCONSTANTS } from '@/shared/constants';
   template: `
     <templates-department-view
       [editForm]="true"
+      [canEdit]="true"
       [isCreatePage]="true"
       [formName]="formName"
       [item]="department"
