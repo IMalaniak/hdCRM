@@ -1,27 +1,36 @@
-import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ComponentType } from '@angular/cdk/portal';
+
 import { User } from '@/modules/users';
 import { THEME_PALETTE, MAT_BUTTON, RoutingConstants } from '@/shared/constants';
+import { DialogBaseModel } from '../../dialogs';
+import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
 
 @Component({
   selector: 'organisms-user-details-dialog',
   templateUrl: './organisms-user-details-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrganismsUserDetailsDialogComponent implements OnInit {
+export class OrganismsUserDetailsDialogComponent extends DialogBaseModel<DialogWithTwoButtonModel> {
   user: User;
-  userDetailsRoute: string;
-
   themePalette = THEME_PALETTE;
   matButtonTypes = MAT_BUTTON;
 
   constructor(
-    public dialogRef: MatDialogRef<OrganismsUserDetailsDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: User
-  ) {}
+    readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<DialogWithTwoButtonModel>
+  ) {
+    super(dialogRef, data);
+    this.user = this.model;
+  }
 
-  ngOnInit(): void {
-    this.user = this.data;
-    this.userDetailsRoute = `${RoutingConstants.ROUTE_USERS_DETAILS}/${this.user.id}`;
+  onClose(success: boolean): void {
+    const userDetailsRoute = `${RoutingConstants.ROUTE_USERS_DETAILS}/${this.user.id}`;
+    const result: DialogResultModel<string> = {
+      success,
+      model: userDetailsRoute
+    };
+    this.dialogRef.close(result);
   }
 }

@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, HostBinding, ChangeDetectionStrategy } from '@angular/core';
-import { MediaqueryService } from '@/shared/services';
 import { MenuItem } from './menuItem';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
-import { RoutingConstants } from '@/shared/constants';
+import { RoutingConstants, VIEW_PRIVILEGES } from '@/shared/constants';
+import { MediaQueryService } from '@/core/services';
 
 @Component({
   selector: 'left-sidebar',
@@ -21,20 +21,20 @@ export class LeftSidebarComponent implements OnInit {
 
   sidebarMenu: MenuItem[];
 
-  constructor(public mediaquery: MediaqueryService, private store: Store<AppState>) {}
+  constructor(private store$: Store<AppState>, private mediaQueryService: MediaQueryService) {}
 
   ngOnInit(): void {
     this.generateMenu();
   }
 
-  generateMenu(): void {
+  private generateMenu(): void {
     this.sidebarMenu = [
       {
         url: RoutingConstants.ROUTE_HOME,
         title: 'Home',
         i18n: '@@sidebarMenuHome',
         icon: ['fas', 'home'],
-        disable: !this.mediaquery.isPhone
+        disable: !this.mediaQueryService.isPhone
       },
       {
         url: RoutingConstants.ROUTE_DASHBOARD,
@@ -47,28 +47,28 @@ export class LeftSidebarComponent implements OnInit {
         title: 'Users',
         i18n: '@@sidebarMenuUsers',
         icon: ['fas', 'users'],
-        privilege: this.store.pipe(select(isPrivileged('user-view')))
+        privilege: this.store$.pipe(select(isPrivileged(VIEW_PRIVILEGES.USER)))
       },
       {
         url: RoutingConstants.ROUTE_ROLES,
         title: 'Roles',
         i18n: '@@sidebarMenuRoles',
         icon: ['fas', 'user-tag'],
-        privilege: this.store.pipe(select(isPrivileged('role-view')))
+        privilege: this.store$.pipe(select(isPrivileged(VIEW_PRIVILEGES.ROLE)))
       },
       {
         url: RoutingConstants.ROUTE_PLANNER,
         title: 'Plans',
         i18n: '@@sidebarMenuPlans',
         icon: ['fas', 'list-alt'],
-        privilege: this.store.pipe(select(isPrivileged('plan-view')))
+        privilege: this.store$.pipe(select(isPrivileged(VIEW_PRIVILEGES.PLAN)))
       },
       {
         url: RoutingConstants.ROUTE_DEPARTMENTS,
         title: 'Departments',
         i18n: '@@sidebarMenuDepartments',
         icon: ['fas', 'building'],
-        privilege: this.store.pipe(select(isPrivileged('department-view')))
+        privilege: this.store$.pipe(select(isPrivileged(VIEW_PRIVILEGES.DEPARTMENT)))
       }
     ];
   }

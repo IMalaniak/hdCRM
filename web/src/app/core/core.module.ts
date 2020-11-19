@@ -10,7 +10,7 @@ import { RouterStateSerializer, StoreRouterConnectingModule, DefaultRouterStateS
 import { PreferencesEffects } from './reducers/preferences.effects';
 import { reducers, metaReducers } from './reducers';
 import { httpInterceptorsProviders } from './_interceptors';
-import { MediaqueryService, LocalStorageService } from '@/shared/services';
+import { LocalStorageService } from '@/shared/services';
 import { CustomSerializer } from '@/shared/utils';
 import { AuthModule } from './auth/auth.module';
 import { LayoutModule } from './layout/layout.module';
@@ -41,7 +41,6 @@ import { DynamicFormEffects } from './reducers/dynamic-form/dynamic-form.effects
   exports: [RouterModule, HttpClientModule, FormsModule, ReactiveFormsModule, LayoutModule],
   providers: [
     httpInterceptorsProviders,
-    MediaqueryService,
     LocalStorageService,
     { provide: RouterStateSerializer, useClass: CustomSerializer }
   ]

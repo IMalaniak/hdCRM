@@ -3,16 +3,17 @@ import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Store, select } from '@ngrx/store';
 import { Observable, Subject, merge } from 'rxjs';
 import { tap, takeUntil } from 'rxjs/operators';
+
+import { Store, select } from '@ngrx/store';
+
 import { AppState } from '@/core/reducers';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { RolesDataSource } from '../../services/role.datasource';
 import { Role } from '../../models';
+import { DialogDataModel, PageQuery } from '@/shared/models';
 import { selectRolesTotalCount, selectRolesPageLoading } from '../../store/role.selectors';
-import { ToastMessageService } from '@/shared/services';
-import { PageQuery } from '@/shared/models';
 import {
   IItemsPerPage,
   pageSizeOptions,
@@ -24,14 +25,10 @@ import {
 } from '@/shared/constants';
 import { deleteRoleRequested, changeIsEditingState } from '../../store/role.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
-import {
-  DIALOG,
-  SORT_DIRECTION,
-  ADD_PRIVILEGES,
-  EDIT_PRIVILEGES,
-  DELETE_PRIVILEGES,
-  COLUMN_NAMES
-} from '@/shared/constants';
+import { SORT_DIRECTION, ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_NAMES } from '@/shared/constants';
+import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
+import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
+import { DialogService } from '@/shared/services';
 
 @Component({
   selector: 'roles-component',
@@ -70,11 +67,7 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
   pageSizeOptions: number[] = pageSizeOptions;
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(
-    private store$: Store<AppState>,
-    private router: Router,
-    private toastMessageService: ToastMessageService
-  ) {}
+  constructor(private store$: Store<AppState>, private router: Router, private dialogService: DialogService) {}
 
   ngAfterViewInit(): void {
     merge(this.sort.sortChange, this.paginator.page)
@@ -104,11 +97,12 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
   }
 
   deleteRole(id: number): void {
-    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_DELETE_ROLE_CONFIRM).then((result) => {
-      if (result.value) {
-        this.store$.dispatch(deleteRoleRequested({ id }));
-      }
-    });
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_ROLE_CONFIRM);
+    const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
+
+    this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () =>
+      this.store$.dispatch(deleteRoleRequested({ id }))
+    );
   }
 
   ngOnDestroy(): void {

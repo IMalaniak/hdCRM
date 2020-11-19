@@ -1,22 +1,24 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { ComponentType } from '@angular/cdk/portal';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import { User } from '../../models';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
-import { inviteUsers } from '../../store/user.actions';
 import { selectAllUsers } from '../../store/user.selectors';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { CONSTANTS, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE } from '@/shared/constants';
+import { DialogCreateEditModel, DialogDataModel, DialogResultModel } from '@/shared/models';
+import { DialogBaseModel } from '@/shared/components';
 
 @Component({
-  selector: 'app-invitation-dialog',
   templateUrl: './invitation-dialog.component.html',
   styleUrls: ['./invitation-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InvitationDialogComponent implements OnInit, OnDestroy {
+export class InvitationDialogComponent extends DialogBaseModel<DialogCreateEditModel> implements OnInit, OnDestroy {
   userData: FormGroup;
   appUsers: User[];
   invitedUsers: User[] = [];
@@ -29,10 +31,13 @@ export class InvitationDialogComponent implements OnInit, OnDestroy {
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
-    public dialogRef: MatDialogRef<InvitationDialogComponent>,
+    readonly dialogRef: MatDialogRef<ComponentType<User>>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<DialogCreateEditModel>,
     private fb: FormBuilder,
     private store$: Store<AppState>
-  ) {}
+  ) {
+    super(dialogRef, data);
+  }
 
   ngOnInit(): void {
     this.store$.pipe(select(selectAllUsers), takeUntil(this.unsubscribe)).subscribe((users) => {
@@ -58,20 +63,19 @@ export class InvitationDialogComponent implements OnInit, OnDestroy {
 
     if (alreadyInvited || alreadyAppUser) {
       this.errorInvitations = true;
-      setTimeout(() => (this.errorInvitations = false), 3000);
+      setTimeout(() => (this.errorInvitations = false), 3000); // TODO: @ArseniiIrod check why it doesn`t work
     } else {
       this.invitedUsers = [...this.invitedUsers, user];
       this.userData.reset();
     }
   }
 
-  sendInvitation(): void {
-    this.store$.dispatch(inviteUsers({ users: this.invitedUsers }));
-    this.dialogRef.close();
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
+  onClose(success: boolean): void {
+    const result: DialogResultModel<User[]> = {
+      success,
+      model: this.invitedUsers
+    };
+    this.dialogRef.close(result);
   }
 
   ngOnDestroy(): void {

@@ -1,14 +1,12 @@
-export interface ApiResponse {
-  readonly success: boolean;
-  readonly message: string;
-}
+import { BaseMessage } from './BaseMessage';
 
-export interface CollectionApiResponse<T> extends ApiResponse {
+export interface CollectionApiResponse<T> extends BaseMessage {
   readonly resultsNum?: number;
   readonly pages?: number;
   readonly ids?: number[];
   readonly data: T[];
 }
-export interface ItemApiResponse<T> extends ApiResponse {
+
+export interface ItemApiResponse<T> extends BaseMessage {
   readonly data: T;
 }

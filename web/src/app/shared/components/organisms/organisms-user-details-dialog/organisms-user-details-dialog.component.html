@@ -1,23 +1,3 @@
-<mat-dialog-actions class="d-flex justify-content-end pt-0 pb-3">
-  <atoms-icon-button
-    [matType]="matButtonTypes.ICON"
-    (onclick)="dialogRef.close()"
-    [icon]="['fas', 'times']"
-    [color]="themePalette.BASIC"
-  >
-  </atoms-icon-button>
-</mat-dialog-actions>
-<mat-dialog-content class="px-0">
+<component-dialog (dialogClose)="onClose($event)">
   <templates-user-details [user]="user" [isDialog]="true"></templates-user-details>
-</mat-dialog-content>
-<mat-dialog-actions class="d-flex justify-content-end pb-4">
-  <atoms-icon-button
-    [matType]="matButtonTypes.STROKED"
-    [icon]="['fas', 'arrow-right']"
-    [color]="themePalette.BASIC"
-    (onclick)="dialogRef.close()"
-    [routerLink]="userDetailsRoute"
-  >
-    More details
-  </atoms-icon-button>
-</mat-dialog-actions>
+</component-dialog>

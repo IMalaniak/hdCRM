@@ -1,5 +1,6 @@
 import { SharedModule } from '@/shared/shared.module';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { TemplatesBoxUserListSmComponent } from './templates-box-user-list-sm.component';
 
@@ -11,7 +12,7 @@ describe('TemplatesBoxUserListSmComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [TemplatesBoxUserListSmComponent],
-        imports: [SharedModule]
+        imports: [SharedModule, RouterTestingModule]
       }).compileComponents();
     })
   );

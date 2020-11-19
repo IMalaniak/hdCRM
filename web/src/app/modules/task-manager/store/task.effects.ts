@@ -8,7 +8,7 @@ import { Task, TaskPriority } from '../models';
 import { Update } from '@ngrx/entity';
 import { ToastMessageService } from '@/shared/services';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared/models';
+import { CollectionApiResponse, ItemApiResponse, BaseMessage } from '@/shared/models';
 
 @Injectable()
 export class TaskEffects {
@@ -72,7 +72,7 @@ export class TaskEffects {
         ofType(TaskActions.deleteTask),
         map((payload) => payload.id),
         mergeMap((id) => this.taskService.delete(id)),
-        map((response: ApiResponse) => of(this.toastMessageService.snack(response))),
+        map((response: BaseMessage) => of(this.toastMessageService.snack(response))),
         catchError(() => of(TaskActions.tasksApiError()))
       ),
     {
@@ -86,7 +86,7 @@ export class TaskEffects {
       map((payload) => payload.taskIds),
       switchMap((taskIds: number[]) =>
         this.taskService.deleteMultipleTask(taskIds).pipe(
-          map((response: ApiResponse) => {
+          map((response: BaseMessage) => {
             this.toastMessageService.snack(response);
             return TaskActions.deleteMultipleTaskSuccess({ taskIds });
           }),

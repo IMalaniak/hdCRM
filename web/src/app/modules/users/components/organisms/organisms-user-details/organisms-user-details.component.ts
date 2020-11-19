@@ -5,11 +5,13 @@ import { select, Store } from '@ngrx/store';
 
 import { AppState } from '@/core/reducers';
 import { User } from '@/modules/users';
-import { ToastMessageService } from '@/shared/services';
-import { DynamicForm } from '@/shared/models';
+import { DialogDataModel, DynamicForm } from '@/shared/models';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
-import { DIALOG, ACTION_LABELS, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
+import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
+import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
+import { DialogService } from '@/shared/services';
+import { ACTION_LABELS, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-user-details',
@@ -31,7 +33,7 @@ export class OrganismsUserDetailsComponent implements OnInit {
 
   userFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName(FORMCONSTANTS.USER)));
 
-  constructor(private toastMessageService: ToastMessageService, private store$: Store<AppState>) {}
+  constructor(private store$: Store<AppState>, private dialogService: DialogService) {}
 
   ngOnInit(): void {
     this.store$.dispatch(formRequested({ formName: FORMCONSTANTS.USER }));
@@ -51,10 +53,11 @@ export class OrganismsUserDetailsComponent implements OnInit {
   }
 
   onUpdateUserSubmit(): void {
-    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_UPDATE_COMMON_CONFIRM).then((result) => {
-      if (result.value) {
-        this.updateUser.emit({ ...this.user, ...this.userFormValues });
-      }
-    });
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_UPDATE_COMMON_CONFIRM);
+    const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
+
+    this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () =>
+      this.updateUser.emit({ ...this.user, ...this.userFormValues })
+    );
   }
 }

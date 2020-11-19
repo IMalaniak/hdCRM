@@ -1,29 +1,17 @@
-<h1 mat-dialog-title i18n="@@addStageComponentDialogHeaderCreateStage">Create stage</h1>
-<div mat-dialog-content>
-  <div class="d-flex flex-column justify-content-center">
-    <mat-form-field appearance="outline">
-      <mat-label i18n="@@addStageComponentDialogLabel">Label</mat-label>
-      <input matInput [formControl]="data.keyString" />
-      <mat-error *ngIf="data.keyString.invalid">
-        <mat-error *ngIf="data.keyString.errors.required" i18n="@@addStageComponentDialogFormErrorsLableRequired">
-          Label is required!
-        </mat-error>
-        <mat-error
-          *ngIf="data.keyString.errors.minlength && (data.keyString.dirty || data.keyString.touched)"
-          i18n="@@addStageComponentDialogFormErrorsLableIsTooShort"
-        >
-          Label is too short!
-        </mat-error>
+<component-dialog [formInvalid]="keyString.invalid" (dialogClose)="onClose($event)">
+  <mat-form-field appearance="outline">
+    <mat-label i18n="@@addStageComponentDialogLabel">Label</mat-label>
+    <input matInput [formControl]="keyString" />
+    <mat-error *ngIf="keyString.invalid">
+      <mat-error *ngIf="keyString.errors.required" i18n="@@addStageComponentDialogFormErrorsLableRequired">
+        Label is required!
       </mat-error>
-    </mat-form-field>
-  </div>
-</div>
-<div mat-dialog-actions class="justify-content-center">
-  <atoms-icon-button (onclick)="onNoClick()" [icon]="['fas', 'times']" [color]="themePalette.BASIC">
-    {{ actionLabels.CANCEL }}
-  </atoms-icon-button>
-
-  <atoms-icon-button (onclick)="onAddStage()" [icon]="['fas', 'plus']" [disabled]="data.keyString.invalid">
-    {{ actionLabels.ADD }} stage
-  </atoms-icon-button>
-</div>
+      <mat-error
+        *ngIf="keyString.errors.minlength && (keyString.dirty || keyString.touched)"
+        i18n="@@addStageComponentDialogFormErrorsLableIsTooShort"
+      >
+        Label is too short!
+      </mat-error>
+    </mat-error>
+  </mat-form-field>
+</component-dialog>

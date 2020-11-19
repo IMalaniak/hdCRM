@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { takeUntil, map } from 'rxjs/operators';
 import { Subject, Observable, combineLatest } from 'rxjs';
 
@@ -9,20 +8,16 @@ import { cloneDeep } from 'lodash';
 
 import { AppState } from '@/core/reducers';
 import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
-import {
-  EDIT_PRIVILEGES,
-  DIALOG,
-  ACTION_LABELS,
-  CONSTANTS,
-  MAT_BUTTON,
-  RoutingDataConstants
-} from '@/shared/constants';
-import { MediaqueryService, ToastMessageService } from '@/shared/services';
-import { DynamicForm } from '@/shared/models';
+import { EDIT_PRIVILEGES, ACTION_LABELS, CONSTANTS, MAT_BUTTON, RoutingDataConstants } from '@/shared/constants';
+import { DialogType, DynamicForm } from '@/shared/models';
 import { UsersDialogComponent, User } from '@/modules/users';
 import { Department } from '../../models';
 import { updateDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
 import { selectIsEditing } from '../../store/department.selectors';
+import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
+import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
+import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
+import { DialogService } from '@/shared/services';
 
 @Component({
   templateUrl: './department.component.html',
@@ -47,11 +42,9 @@ export class DepartmentComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private dialog: MatDialog,
     private store$: Store<AppState>,
-    private mediaQuery: MediaqueryService,
     private cdr: ChangeDetectorRef,
-    private toastMessageService: ToastMessageService
+    private dialogService: DialogService
   ) {}
 
   ngOnInit(): void {
@@ -75,18 +68,17 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   }
 
   addManagerDialog(): void {
-    const dialogRef = this.dialog.open(UsersDialogComponent, {
-      ...this.mediaQuery.deFaultPopupSize,
-      data: {
-        title: ['Select manager']
-      }
-    });
+    // TODO: @ArseniiIrod, @IMalaniak implement logic with selected user
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_MANAGER)
+    };
 
-    dialogRef
+    this.dialogService
+      .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: User[]) => {
-        if (result?.length) {
+      .subscribe((result: DialogResultModel<User[]>) => {
+        if (result && result.success) {
           this.department = { ...this.department, Manager: { ...result[0] } };
           this.cdr.detectChanges();
         }
@@ -94,24 +86,25 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   }
 
   addWorkersDialog(): void {
-    const dialogRef = this.dialog.open(UsersDialogComponent, {
-      ...this.mediaQuery.deFaultPopupSize,
-      data: {
-        title: ['Select workers']
-      }
-    });
+    // TODO: @ArseniiIrod, @IMalaniak implement logic with selected users
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_WORKERS)
+    };
 
-    dialogRef
+    this.dialogService
+      .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: User[]) => {
-        const selectedWorkers: User[] = result?.filter(
-          (selectedWorker) => !this.department.Workers.some((user) => user.id === selectedWorker.id)
-        );
+      .subscribe((result: DialogResultModel<User[]>) => {
+        if (result && result.success) {
+          const selectedWorkers: User[] = result.model.filter(
+            (selectedWorker) => !this.department.Workers.some((user) => user.id === selectedWorker.id)
+          );
 
-        if (selectedWorkers?.length) {
-          this.department.Workers = [...this.department.Workers, ...selectedWorkers];
-          this.cdr.detectChanges();
+          if (selectedWorkers.length) {
+            this.department.Workers = [...this.department.Workers, ...selectedWorkers];
+            this.cdr.detectChanges();
+          }
         }
       });
   }
@@ -125,12 +118,13 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   }
 
   updateDepartment(): void {
-    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_UPDATE_DEPARTMENT_CONFIRM).then((result) => {
-      if (result.value) {
-        this.store$.dispatch(
-          updateDepartmentRequested({ department: { ...this.department, ...this.departmentFormValues } })
-        );
-      }
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_UPDATE_DEPARTMENT_CONFIRM);
+    const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
+
+    this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () => {
+      this.store$.dispatch(
+        updateDepartmentRequested({ department: { ...this.department, ...this.departmentFormValues } })
+      );
     });
   }
 

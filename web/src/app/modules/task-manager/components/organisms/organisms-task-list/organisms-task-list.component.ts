@@ -1,6 +1,12 @@
 import { Component, OnDestroy, OnInit, Input, ViewChild, ChangeDetectionStrategy } from '@angular/core';
-import { Task, TaskDialogData } from '../../../models';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatAccordion } from '@angular/material/expansion';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+
 import { Store } from '@ngrx/store';
+
+import { Task } from '../../../models';
 import { AppState } from '@/core/reducers';
 import {
   deleteTask,
@@ -9,14 +15,13 @@ import {
   updateTaskRequested,
   deleteMultipleTaskRequested
 } from '../../../store/task.actions';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
-import { MediaqueryService, ToastMessageService } from '@/shared/services';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { OrganismsTaskDialogComponent } from '../organisms-task-dialog/organisms-task-dialog.component';
-import { MatAccordion } from '@angular/material/expansion';
 import { DIALOG, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE, CONSTANTS } from '@/shared/constants';
+import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
+import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
+import { DialogService } from '@/shared/services';
+import { DialogCreateEditModel, DialogMode, DialogType, DialogResultModel } from '@/shared/models';
 
 @Component({
   selector: 'organisms-task-list',
@@ -35,63 +40,59 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(
-    private store: Store<AppState>,
-    public dialog: MatDialog,
-    private mediaQuery: MediaqueryService,
-    private toastMessageService: ToastMessageService
-  ) {}
+  constructor(private store$: Store<AppState>, private dialogService: DialogService) {}
+
+  get completedTasksLength(): boolean {
+    return this.tasks?.length ? this.tasks.filter((task) => task.isCompleted).length > 0 : true;
+  }
 
   ngOnInit(): void {
-    this.store.dispatch(taskListRequested());
+    this.store$.dispatch(taskListRequested());
   }
 
   openTaskDialog(taskToUpdate?: Task): void {
-    const data: TaskDialogData = {} as TaskDialogData;
-    taskToUpdate ? ((data.title = 'Update task'), (data.task = taskToUpdate)) : (data.title = 'Add new task');
+    const dialogModel: DialogCreateEditModel = new DialogCreateEditModel(
+      taskToUpdate ? DialogMode.EDIT : DialogMode.CREATE,
+      taskToUpdate ? CONSTANTS.TEXTS_UPDATE_TASK : CONSTANTS.TEXTS_CREATE_TASK,
+      taskToUpdate ? DIALOG.SAVE : DIALOG.CREATE
+    );
+    const dialogDataModel: DialogDataModel<DialogCreateEditModel> = { dialogModel, model: taskToUpdate };
 
-    const dialogRef = this.dialog.open(OrganismsTaskDialogComponent, {
-      ...this.mediaQuery.smallPopupSize,
-      data
-    });
-
-    dialogRef
+    this.dialogService
+      .open(OrganismsTaskDialogComponent, dialogDataModel, DialogType.STANDART)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((task) => {
-        if (task) {
+      .subscribe((result: DialogResultModel<Task>) => {
+        if (result && result.success) {
           if (taskToUpdate) {
-            this.store.dispatch(updateTaskRequested({ task }));
+            this.store$.dispatch(updateTaskRequested({ task: result.model }));
           } else {
-            this.store.dispatch(createTask({ task }));
+            this.store$.dispatch(createTask({ task: result.model }));
           }
         }
       });
   }
 
-  deleteTask(id: number): void {
-    this.store.dispatch(deleteTask({ id }));
+  protected deleteTask(id: number): void {
+    this.store$.dispatch(deleteTask({ id }));
   }
 
   deleteMultipleTask(): void {
-    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_DELETE_TASKS_COMPLETED_CONFIRM).then((result) => {
-      if (result.value) {
-        const taskIds: number[] = this.tasks.filter((task) => task.isCompleted).map((task) => task.id);
-        this.store.dispatch(deleteMultipleTaskRequested({ taskIds }));
-      }
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_TASKS_COMPLETED_CONFIRM);
+    const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
+
+    this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () => {
+      const taskIds: number[] = this.tasks.filter((task) => task.isCompleted).map((task) => task.id);
+      this.store$.dispatch(deleteMultipleTaskRequested({ taskIds }));
     });
   }
 
   changeTaskStatus(event: MatCheckboxChange, task: Task): void {
-    this.store.dispatch(updateTaskRequested({ task: { ...task, isCompleted: event.checked } }));
+    this.store$.dispatch(updateTaskRequested({ task: { ...task, isCompleted: event.checked } }));
   }
 
   getTaskClass(task: Task): string {
     return `task-priority-${task?.TaskPriority?.value}`;
-  }
-
-  get completedTasksLength(): boolean {
-    return this.tasks?.length ? this.tasks.filter((task) => task.isCompleted).length > 0 : true;
   }
 
   ngOnDestroy(): void {

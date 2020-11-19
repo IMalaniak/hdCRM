@@ -13,7 +13,6 @@ import { Observable } from 'rxjs/internal/Observable';
 
 import { Store, select } from '@ngrx/store';
 
-import { MediaqueryService } from '@/shared/services';
 import { AppState } from '@/core/reducers';
 import { logOut } from '@/core/auth/store/auth.actions';
 import { User } from '@/modules/users';
@@ -35,7 +34,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {
-  canAddUser$: Observable<boolean> = this.store.pipe(select(isPrivileged(ADD_PRIVILEGES.USER)));
+  canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.USER)));
 
   @Input() leftSidebarMinimized: boolean;
   @Input() enableDarkTheme: boolean;
@@ -54,12 +53,7 @@ export class HeaderComponent implements OnInit {
   myProfileRoute = RoutingConstants.ROUTE_MY_PROFILE;
   isShowUserMenu = false;
 
-  constructor(
-    public mediaquery: MediaqueryService,
-    private store: Store<AppState>,
-    private router: Router,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private store$: Store<AppState>, private router: Router, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
@@ -73,7 +67,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onLogoutClick(): void {
-    this.store.dispatch(logOut());
+    this.store$.dispatch(logOut());
   }
 
   toggleLeftSidebar(): void {

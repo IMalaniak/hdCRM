@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 import { Role } from '../models';
 import { User } from '@/modules/users/models';
-import { CollectionApiResponse, ItemApiResponse, ApiResponse, PageQuery } from '@/shared/models';
+import { CollectionApiResponse, ItemApiResponse, PageQuery, BaseMessage } from '@/shared/models';
 import { APIS } from '@/shared/constants';
 
 @Injectable()
@@ -22,8 +23,8 @@ export class RoleService {
     return this.http.put<ItemApiResponse<Role>>(`${APIS.ROLES}/${role.id}`, this.formatBeforeSend(role));
   }
 
-  delete(id: number): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(`${APIS.ROLES}/${id}`);
+  delete(id: number): Observable<BaseMessage> {
+    return this.http.delete<BaseMessage>(`${APIS.ROLES}/${id}`);
   }
 
   getList({ pageIndex, pageSize, sortIndex, sortDirection }: PageQuery): Observable<CollectionApiResponse<Role>> {

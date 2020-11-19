@@ -12,7 +12,7 @@ import { AppState } from '@/core/reducers';
 import { ToastMessageService } from '@/shared/services';
 import { RoutingConstants } from '@/shared/constants';
 import { normalizeResponse, Page, partialDataLoaded, roleListSchema } from '@/shared/store';
-import { CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared/models';
+import { CollectionApiResponse, ItemApiResponse, BaseMessage } from '@/shared/models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
 import * as roleActions from './role.actions';
 import { RoleService } from '../services';
@@ -98,7 +98,7 @@ export class RoleEffects {
       map((payload) => payload.id),
       mergeMap((id: number) =>
         this.roleService.delete(id).pipe(
-          map((response: ApiResponse) => {
+          map((response: BaseMessage) => {
             this.toastMessageService.snack(response);
             return roleActions.deleteRoleSuccess({ id });
           }),

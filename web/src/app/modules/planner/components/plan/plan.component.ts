@@ -1,22 +1,27 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 // import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, Observable, combineLatest } from 'rxjs';
-import { takeUntil, map, skipUntil, delay } from 'rxjs/operators';
+import { takeUntil, map } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 import { cloneDeep } from 'lodash';
 
 import { AppState } from '@/core/reducers';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
-import { MediaqueryService, ToastMessageService } from '@/shared/services';
-import { Asset, ApiResponse, DynamicForm } from '@/shared/models';
+import { ToastMessageService } from '@/shared/services';
+import {
+  Asset,
+  BaseMessage,
+  DynamicForm,
+  DialogDataModel,
+  DialogWithTwoButtonModel,
+  DialogType
+} from '@/shared/models';
 import {
   ADD_PRIVILEGES,
   DELETE_PRIVILEGES,
   EDIT_PRIVILEGES,
-  DIALOG,
   ACTION_LABELS,
   CONSTANTS,
   RoutingDataConstants
@@ -26,6 +31,10 @@ import { Plan } from '../../models';
 import { PlanService } from '../../services';
 import { updatePlanRequested, changeIsEditingState } from '../../store/plan.actions';
 import { selectIsEditing } from '../../store/plan.selectors';
+import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
+import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
+import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
+import { DialogService } from '@/shared/services';
 
 @Component({
   templateUrl: './plan.component.html',
@@ -55,11 +64,10 @@ export class PlanComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private planService: PlanService,
-    private dialog: MatDialog,
     private store$: Store<AppState>,
-    private mediaQuery: MediaqueryService,
     private cdr: ChangeDetectorRef,
-    private toastMessageService: ToastMessageService
+    private toastMessageService: ToastMessageService,
+    private dialogService: DialogService
   ) {}
 
   ngOnInit(): void {
@@ -132,17 +140,18 @@ export class PlanComponent implements OnInit, OnDestroy {
   // }
 
   updatePlan(): void {
-    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_UPDATE_PLAN_CONFIRM).then((result) => {
-      if (result.value) {
-        this.store$.dispatch(updatePlanRequested({ plan: this.plan }));
-      }
-    });
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_UPDATE_PLAN_CONFIRM);
+    const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
+
+    this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () =>
+      this.store$.dispatch(updatePlanRequested({ plan: this.plan }))
+    );
   }
 
   // TODO: @ArseniiIrod, @IMalaniak remake logic
   // addStageDialog(): void {
   //   const dialogRef = this.dialog.open(StagesDialogComponent, {
-  //     ...this.mediaQuery.deFaultPopupSize,
+  //     ...this.mediaQueryService.deFaultPopupSize,
   //     data: {
   //       title: 'Select stages'
   //     }
@@ -210,39 +219,38 @@ export class PlanComponent implements OnInit, OnDestroy {
   // }
 
   addParticipantDialog(): void {
-    const dialogRef = this.dialog.open(UsersDialogComponent, {
-      ...this.mediaQuery.deFaultPopupSize,
-      data: {
-        title: 'Select participants'
-      }
-    });
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_PARTICIPANS)
+    };
 
-    const userC = dialogRef.componentInstance.usersComponent;
-
-    dialogRef
-      .afterOpened()
-      .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
-      .subscribe(() => {
-        userC.users
-          .filter((user) => this.plan.Participants.some((participant) => participant.id === user.id))
-          ?.forEach((selectedParticipant) => {
-            userC.selection.select(selectedParticipant);
-          });
-      });
-
-    dialogRef
+    this.dialogService
+      .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: User[]) => {
-        const selectedParticipants: User[] = result?.filter(
-          (selectedParticipant) => !this.plan.Participants.some((user) => user.id === selectedParticipant.id)
-        );
-
-        if (selectedParticipants?.length) {
-          this.plan.Participants = [...this.plan.Participants, ...selectedParticipants];
-          this.cdr.detectChanges();
+      .subscribe((result: DialogResultModel<User[]>) => {
+        if (result && result.success) {
+          const selectedParticipants: User[] = result.model.filter(
+            (selectedParticipant) => !this.plan.Participants.some((user) => user.id === selectedParticipant.id)
+          );
+          if (selectedParticipants.length) {
+            this.plan.Participants = [...this.plan.Participants, ...selectedParticipants];
+            this.cdr.detectChanges();
+          }
         }
       });
+
+    // const userC = dialogRef.componentInstance.usersComponent;
+
+    // dialogRef
+    //   .afterOpened()
+    //   .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
+    //   .subscribe(() => {
+    //     userC.users
+    //       .filter((user) => this.plan.Participants.some((participant) => participant.id === user.id))
+    //       ?.forEach((selectedParticipant) => {
+    //         userC.selection.select(selectedParticipant);
+    //       });
+    //   });
   }
 
   addDocument(doc: Asset): void {
@@ -251,31 +259,28 @@ export class PlanComponent implements OnInit, OnDestroy {
   }
 
   deleteDoc(docId: number): void {
-    // TODO: @IMalaniak, @ArseniiIrod remake this in feature
-    this.toastMessageService
-      .confirm(DIALOG.CONFIRM, 'Are you sure you want to delete document from plan, changes cannot be undone?')
-      .then((result) => {
-        if (result.value) {
-          const req = {
-            planId: this.plan.id,
-            docId: docId
-          };
-          this.planService
-            .deleteDoc(req)
-            .pipe(takeUntil(this.unsubscribe))
-            .subscribe((response: ApiResponse) => {
-              if (response.success) {
-                this.plan = { ...this.plan, Documents: this.plan.Documents.filter((doc) => doc.id !== docId) };
-                this.store$.dispatch(updatePlanRequested({ plan: this.plan }));
-                this.cdr.detectChanges();
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_PLAN_DOCUMENT);
+    const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
-                this.toastMessageService.toast('Stages updated!');
-              } else {
-                this.toastMessageService.popup('Ooops, something went wrong!', 'error');
-              }
-            });
-        }
-      });
+    this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () => {
+      const req = {
+        planId: this.plan.id,
+        docId: docId
+      };
+      this.planService
+        .deleteDoc(req)
+        .pipe(takeUntil(this.unsubscribe))
+        .subscribe((response: BaseMessage) => {
+          if (response.success) {
+            this.plan = { ...this.plan, Documents: this.plan.Documents.filter((doc) => doc.id !== docId) };
+            this.store$.dispatch(updatePlanRequested({ plan: this.plan }));
+            this.cdr.detectChanges();
+            this.toastMessageService.snack(response);
+          } else {
+            this.toastMessageService.snack(response);
+          }
+        });
+    });
   }
 
   ngOnDestroy(): void {

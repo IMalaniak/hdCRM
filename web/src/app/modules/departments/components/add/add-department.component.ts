@@ -1,18 +1,17 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
-import { takeUntil, skipUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
-
 import { AppState } from '@/core/reducers';
-import { MediaqueryService } from '@/shared/services';
-import { DynamicForm } from '@/shared/models';
-import { ACTION_LABELS, MAT_BUTTON, RoutingDataConstants } from '@/shared/constants';
+import { DialogType, DynamicForm } from '@/shared/models';
 import { UsersDialogComponent, User } from '@/modules/users';
 import { Department } from '../../models';
 import { createDepartmentRequested } from '../../store/department.actions';
+import { DialogService } from '@/shared/services';
+import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
+import { ACTION_LABELS, CONSTANTS, MAT_BUTTON, RoutingDataConstants } from '@/shared/constants';
 
 @Component({
   selector: 'add-department-component',
@@ -31,10 +30,9 @@ export class AddDepartmentComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private dialog: MatDialog,
-    private store: Store<AppState>,
-    private mediaQuery: MediaqueryService,
-    private cdr: ChangeDetectorRef
+    private store$: Store<AppState>,
+    private cdr: ChangeDetectorRef,
+    private dialogService: DialogService
   ) {}
 
   ngOnInit(): void {
@@ -48,71 +46,68 @@ export class AddDepartmentComponent implements OnInit {
   }
 
   addManagerDialog(): void {
-    const dialogRef = this.dialog.open(UsersDialogComponent, {
-      ...this.mediaQuery.deFaultPopupSize,
-      data: {
-        title: ['Select manager']
-      }
-    });
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_MANAGER)
+    };
 
-    const userC = dialogRef.componentInstance.usersComponent;
-
-    dialogRef
-      .afterOpened()
-      .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$))
-      .subscribe(() => {
-        userC.users
-          .filter((user) => this.department.Manager?.id === user.id)
-          ?.forEach((selectedManager) => {
-            userC.selection.select(selectedManager);
-          });
-      });
-
-    dialogRef
+    this.dialogService
+      .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: User[]) => {
-        if (result?.length) {
-          this.department = { ...this.department, Manager: { ...result[0] } };
+      .subscribe((result: DialogResultModel<User[]>) => {
+        if (result && result.success) {
+          this.department = { ...this.department, Manager: { ...result.model[0] } };
           this.cdr.detectChanges();
         }
       });
+
+    // const userComponent = dialogRef.componentInstance.usersComponent;
+
+    // dialogRef
+    //   .afterOpened()
+    //   .pipe(takeUntil(this.unsubscribe), skipUntil(userComponent.loading$))
+    //   .subscribe(() => {
+    //     userComponent
+    //       .filter((user) => this.department.Manager?.id === user.id)
+    //       ?.forEach((selectedManager) => {
+    //         userComponent.selection.select(selectedManager);
+    //       });
+    //   });
   }
 
   addWorkersDialog(): void {
-    const dialogRef = this.dialog.open(UsersDialogComponent, {
-      ...this.mediaQuery.deFaultPopupSize,
-      data: {
-        title: ['Select workers']
-      }
-    });
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_WORKERS)
+    };
 
-    const userC = dialogRef.componentInstance.usersComponent;
-
-    dialogRef
-      .afterOpened()
-      .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$))
-      .subscribe(() => {
-        userC.users
-          .filter((user) => this.department.Workers.some((workers) => workers.id === user.id))
-          ?.forEach((selectedWorker) => {
-            userC.selection.select(selectedWorker);
-          });
-      });
-
-    dialogRef
+    this.dialogService
+      .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: User[]) => {
-        const selectedWorkers: User[] = result?.filter(
-          (selectedWorker) => !this.department.Workers.some((user) => user.id === selectedWorker.id)
-        );
-
-        if (selectedWorkers?.length) {
-          this.department.Workers = [...this.department.Workers, ...selectedWorkers];
-          this.cdr.detectChanges();
+      .subscribe((result: DialogResultModel<User[]>) => {
+        if (result && result.success) {
+          const selectedWorkers: User[] = result.model.filter(
+            (selectedWorker) => !this.department.Workers.some((user) => user.id === selectedWorker.id)
+          );
+          if (selectedWorkers?.length) {
+            this.department.Workers = [...this.department.Workers, ...selectedWorkers];
+            this.cdr.detectChanges();
+          }
         }
       });
+
+    // const userC = dialogRef.componentInstance.usersComponent;
+
+    // dialogRef
+    //   .afterOpened()
+    //   .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$))
+    //   .subscribe(() => {
+    //     userC.users
+    //       .filter((user) => this.department.Workers.some((workers) => workers.id === user.id))
+    //       ?.forEach((selectedWorker) => {
+    //         userC.selection.select(selectedWorker);
+    //       });
+    //   });
   }
 
   removeManager(): void {
@@ -124,7 +119,7 @@ export class AddDepartmentComponent implements OnInit {
   }
 
   onClickSubmit() {
-    this.store.dispatch(
+    this.store$.dispatch(
       createDepartmentRequested({ department: { ...this.department, ...this.departmentFormValues } })
     );
   }

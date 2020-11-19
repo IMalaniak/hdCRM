@@ -1,23 +1,25 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
-import { takeUntil, skipUntil, delay } from 'rxjs/operators';
 
 import { AppState } from '@/core/reducers';
 import { DynamicForm } from '@/shared/models';
-import { MediaqueryService } from '@/shared/services';
-import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, RoutingDataConstants } from '@/shared/constants';
+import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, RoutingDataConstants, CONSTANTS } from '@/shared/constants';
 import { User } from '@/modules/users/models';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
+import { DialogWithTwoButtonModel } from '@/shared/models/dialog/dialog-with-two-button.model';
+import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
+import { DialogType } from '@/shared/models';
 import { UsersDialogComponent } from '@/modules/users/components/dialog/users-dialog.component';
 import { Role, Privilege } from '../../models';
 import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialog.component';
 import { createRoleRequested } from '../../store/role.actions';
+import { DialogService } from '@/shared/services';
 
 @Component({
-  selector: 'app-add-role',
   templateUrl: './add-role.component.html',
   styleUrls: ['./add-role.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -41,11 +43,10 @@ export class AddRoleComponent implements OnInit {
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
-    private route: ActivatedRoute,
     private store$: Store<AppState>,
-    private dialog: MatDialog,
-    private mediaQuery: MediaqueryService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute,
+    private dialogService: DialogService
   ) {}
 
   ngOnInit(): void {
@@ -59,39 +60,38 @@ export class AddRoleComponent implements OnInit {
   }
 
   addParticipantDialog(): void {
-    const dialogRef = this.dialog.open(UsersDialogComponent, {
-      ...this.mediaQuery.deFaultPopupSize,
-      data: {
-        title: 'Select Users'
-      }
-    });
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_USERS)
+    };
 
-    const userC = dialogRef.componentInstance.usersComponent;
-
-    dialogRef
-      .afterOpened()
-      .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
-      .subscribe(() => {
-        userC.users
-          .filter((user) => this.role.Users.some((rUser) => rUser.id === user.id))
-          ?.forEach((selecteduser) => {
-            userC.selection.select(selecteduser);
-          });
-      });
-
-    dialogRef
+    this.dialogService
+      .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: User[]) => {
-        const selectedUsers: User[] = result?.filter(
-          (selectedUser) => !this.role.Users.some((user) => user.id === selectedUser.id)
-        );
-
-        if (selectedUsers?.length) {
-          this.role.Users = [...this.role.Users, ...selectedUsers];
-          this.cdr.detectChanges();
+      .subscribe((result: DialogResultModel<User[]>) => {
+        if (result && result.success) {
+          const selectedUsers: User[] = result.model.filter(
+            (selectedUser) => !this.role.Users.some((user) => user.id === selectedUser.id)
+          );
+          if (selectedUsers?.length) {
+            this.role.Users = [...this.role.Users, ...selectedUsers];
+            this.cdr.detectChanges();
+          }
         }
       });
+
+    // const userC = dialogRef.componentInstance.usersComponent;
+
+    // dialogRef
+    //   .afterOpened()
+    //   .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
+    //   .subscribe(() => {
+    //     userC.users
+    //       .filter((user) => this.role.Users.some((rUser) => rUser.id === user.id))
+    //       ?.forEach((selecteduser) => {
+    //         userC.selection.select(selecteduser);
+    //       });
+    //   });
   }
 
   removeUser(userId: number): void {
@@ -99,51 +99,50 @@ export class AddRoleComponent implements OnInit {
   }
 
   addPrivilegeDialog(): void {
-    const dialogRef = this.dialog.open(PrivilegesDialogComponent, {
-      ...this.mediaQuery.deFaultPopupSize,
-      data: {
-        title: 'Select privileges'
-      }
-    });
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_PRIVILEGES)
+    };
 
-    const privilegesC = dialogRef.componentInstance.privilegesComponent;
-
-    dialogRef
-      .afterOpened()
-      .pipe(takeUntil(this.unsubscribe), skipUntil(privilegesC.isLoading$), delay(300))
-      .subscribe(() => {
-        privilegesC.privileges
-          .filter((privilege) => this.role.Privileges.some((rPrivilege) => rPrivilege.id === privilege.id))
-          ?.forEach((selectedPrivilege) => {
-            privilegesC.selection.select(selectedPrivilege);
-          });
-      });
-
-    dialogRef
+    this.dialogService
+      .open(PrivilegesDialogComponent, dialogDataModel, DialogType.STANDART)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: Privilege[]) => {
-        const selectedPrivileges: Privilege[] = result
-          ?.filter(
-            (selectedPrivilege) => !this.role.Privileges.some((privilege) => privilege.id === selectedPrivilege.id)
-          )
-          ?.map((selectedPrivilege) => {
-            return {
-              ...selectedPrivilege,
-              RolePrivilege: {
-                add: false,
-                view: false,
-                edit: false,
-                delete: false
-              }
-            };
-          });
-
-        if (selectedPrivileges?.length) {
-          this.role.Privileges = [...this.role.Privileges, ...selectedPrivileges];
-          this.cdr.detectChanges();
+      .subscribe((result: DialogResultModel<Privilege[]>) => {
+        if (result && result.success) {
+          const selectedPrivileges: Privilege[] = result.model
+            .filter(
+              (selectedPrivilege) => !this.role.Privileges.some((privilege) => privilege.id === selectedPrivilege.id)
+            )
+            ?.map((selectedPrivilege) => {
+              return {
+                ...selectedPrivilege,
+                RolePrivilege: {
+                  add: false,
+                  view: false,
+                  edit: false,
+                  delete: false
+                }
+              };
+            });
+          if (selectedPrivileges?.length) {
+            this.role.Privileges = [...this.role.Privileges, ...selectedPrivileges];
+            this.cdr.detectChanges();
+          }
         }
       });
+
+    // const privilegesC = dialogRef.componentInstance.privilegesComponent;
+
+    // dialogRef
+    //   .afterOpened()
+    //   .pipe(takeUntil(this.unsubscribe), skipUntil(privilegesC.isLoading$), delay(300))
+    //   .subscribe(() => {
+    //     privilegesC.privileges
+    //       .filter((privilege) => this.role.Privileges.some((rPrivilege) => rPrivilege.id === privilege.id))
+    //       ?.forEach((selectedPrivilege) => {
+    //         privilegesC.selection.select(selectedPrivilege);
+    //       });
+    //   });
   }
 
   onRegisterSubmit(): void {
