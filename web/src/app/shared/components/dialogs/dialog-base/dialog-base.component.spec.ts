@@ -35,4 +35,15 @@ describe('DialogBaseComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should emit false when keyboard Escape has been clicked', () => {
+    component.dialogClose.subscribe((dialogClose: boolean) => expect(dialogClose).toBe(false));
+
+    const event = new KeyboardEvent('keyup', {
+      key: 'Escape',
+      cancelable: true
+    });
+
+    window.dispatchEvent(event);
+  });
 });

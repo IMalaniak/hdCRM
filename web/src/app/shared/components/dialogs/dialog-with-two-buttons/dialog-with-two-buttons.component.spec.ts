@@ -33,4 +33,25 @@ describe('DialogWithTwoButtonsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should emit true when OK has been clicked', () => {
+    component.dialogClose.subscribe((dialogClose: boolean) => expect(dialogClose).toBe(true));
+    component.onOkButtonClick();
+  });
+
+  it('should emit false when CANCEL has been clicked', () => {
+    component.dialogClose.subscribe((dialogClose: boolean) => expect(dialogClose).toBe(false));
+    component.onCancelButtonClick();
+  });
+
+  it('should emit true when keyboard enter has been clicked', () => {
+    component.dialogClose.subscribe((dialogClose: boolean) => expect(dialogClose).toBe(true));
+
+    const event = new KeyboardEvent('keyup', {
+      key: 'Enter',
+      cancelable: true
+    });
+
+    window.dispatchEvent(event);
+  });
 });
