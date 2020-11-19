@@ -1,13 +1,13 @@
-<organisms-card [cardTitle]="'Role: ' + role.keyString" *ngIf="role">
+<organisms-card [cardTitle]="null | memoize: cardTitle:this" *ngIf="item">
   <section content class="row">
     <div class="col-sm-12 col-md-7 col-lg-8">
       <organisms-card cardTitle="Details" cardClass="border border-dark mb-3" [disableShadow]="true">
         <section content>
           <organisms-dynamic-form
-            [data]="role"
-            [formJson]="roleFormJson"
-            [editForm]="editForm$ | async"
-            (formChanges)="roleFormValueChanges($event)"
+            [data]="item"
+            [formJson]="formJson$ | async"
+            [editForm]="editForm"
+            (formChanges)="formValueChanges($event)"
           >
           </organisms-dynamic-form>
         </section>
@@ -17,15 +17,15 @@
         cardTitle="Privileges"
         cardClass="border border-dark m-0"
         [disableShadow]="true"
-        [counter]="role.Privileges.length"
+        [counter]="item.Privileges.length"
       >
         <div buttons>
-          <atoms-icon-button *ngIf="editForm$ | async" (onclick)="addPrivilegeDialog()" [icon]="['fas', 'plus']">
+          <atoms-icon-button *ngIf="editForm" (onclick)="addPrivilegeDialog()" [icon]="['fas', 'plus']">
             {{ actionLabels.ADD }}
           </atoms-icon-button>
         </div>
         <div content class="table-container">
-          <table mat-table class="role-table crm-table" [dataSource]="role.Privileges">
+          <table mat-table class="role-table crm-table" [dataSource]="item.Privileges">
             <ng-container [matColumnDef]="columns.TITLE" sticky>
               <th mat-header-cell *matHeaderCellDef>{{ columnLabels.TITLE }}</th>
               <td mat-cell *matCellDef="let privilege">
@@ -35,9 +35,9 @@
             <ng-container [matColumnDef]="columns.VIEW">
               <th mat-header-cell *matHeaderCellDef>{{ columnLabels.VIEW }}</th>
               <td mat-cell *matCellDef="let privilege">
-                <mat-checkbox *ngIf="editForm$ | async" [(ngModel)]="privilege.RolePrivilege.view"></mat-checkbox>
+                <mat-checkbox *ngIf="editForm" [(ngModel)]="privilege.RolePrivilege.view"></mat-checkbox>
                 <fa-icon
-                  *ngIf="!(editForm$ | async)"
+                  *ngIf="!editForm"
                   [icon]="privilege.RolePrivilege.view ? ['fas', 'check'] : ['fas', 'times']"
                   [classes]="[privilege.RolePrivilege.view ? 'text-accent' : 'text-warn']"
                 ></fa-icon>
@@ -46,9 +46,9 @@
             <ng-container [matColumnDef]="columns.ADD">
               <th mat-header-cell *matHeaderCellDef>{{ columnLabels.ADD }}</th>
               <td mat-cell *matCellDef="let privilege">
-                <mat-checkbox *ngIf="editForm$ | async" [(ngModel)]="privilege.RolePrivilege.add"></mat-checkbox>
+                <mat-checkbox *ngIf="editForm" [(ngModel)]="privilege.RolePrivilege.add"></mat-checkbox>
                 <fa-icon
-                  *ngIf="!(editForm$ | async)"
+                  *ngIf="!editForm"
                   [icon]="privilege.RolePrivilege.add ? ['fas', 'check'] : ['fas', 'times']"
                   [classes]="[privilege.RolePrivilege.add ? 'text-accent' : 'text-warn']"
                 ></fa-icon>
@@ -57,9 +57,9 @@
             <ng-container [matColumnDef]="columns.EDIT">
               <th mat-header-cell *matHeaderCellDef>{{ columnLabels.EDIT }}</th>
               <td mat-cell *matCellDef="let privilege">
-                <mat-checkbox *ngIf="editForm$ | async" [(ngModel)]="privilege.RolePrivilege.edit"></mat-checkbox>
+                <mat-checkbox *ngIf="editForm" [(ngModel)]="privilege.RolePrivilege.edit"></mat-checkbox>
                 <fa-icon
-                  *ngIf="!(editForm$ | async)"
+                  *ngIf="!editForm"
                   [icon]="privilege.RolePrivilege.edit ? ['fas', 'check'] : ['fas', 'times']"
                   [classes]="[privilege.RolePrivilege.edit ? 'text-accent' : 'text-warn']"
                 ></fa-icon>
@@ -68,9 +68,9 @@
             <ng-container [matColumnDef]="columns.DELETE">
               <th mat-header-cell *matHeaderCellDef>{{ columnLabels.DELETE }}</th>
               <td mat-cell *matCellDef="let privilege">
-                <mat-checkbox *ngIf="editForm$ | async" [(ngModel)]="privilege.RolePrivilege.delete"></mat-checkbox>
+                <mat-checkbox *ngIf="editForm" [(ngModel)]="privilege.RolePrivilege.delete"></mat-checkbox>
                 <fa-icon
-                  *ngIf="!(editForm$ | async)"
+                  *ngIf="!editForm"
                   [icon]="privilege.RolePrivilege.delete ? ['fas', 'check'] : ['fas', 'times']"
                   [classes]="[privilege.RolePrivilege.delete ? 'text-accent' : 'text-warn']"
                 ></fa-icon>
@@ -97,8 +97,8 @@
     <div class="col-sm-12 col-md-5 col-lg-4">
       <templates-box-user-list-sm
         cardTitle="Users"
-        [users]="role.Users"
-        [editMode]="editForm$ | async"
+        [users]="item.Users"
+        [editMode]="editForm"
         (addClick)="addParticipantDialog()"
         (removeClick)="removeUser($event)"
       ></templates-box-user-list-sm>
@@ -107,11 +107,13 @@
 
   <molecules-card-header-actions
     buttons
-    *ngIf="canEditRole$ | async"
-    [editForm]="editForm$ | async"
+    *ngIf="canEdit"
+    [isCreatePage]="isCreatePage"
+    [editForm]="editForm"
     (cancelClick)="onClickCancelEdit()"
     (editClick)="onClickEdit()"
-    (saveClick)="updateRole()"
+    (updateClick)="update()"
+    (saveClick)="save()"
   >
   </molecules-card-header-actions>
 </organisms-card>

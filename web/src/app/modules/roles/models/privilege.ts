@@ -8,6 +8,7 @@ export interface RolePrivilege {
 export interface Privilege {
   id: number;
   keyString: string;
-  selected: boolean;
+  title: string;
   RolePrivilege: RolePrivilege;
+  selected?: boolean;
 }

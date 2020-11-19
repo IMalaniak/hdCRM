@@ -15,7 +15,8 @@ import {
   PlanComponent,
   AddStageDialogComponent,
   StagesDialogComponent,
-  StagesComponent
+  StagesComponent,
+  TemplatesPlanViewComponent
 } from './components';
 
 import { PlanService, StageService } from './services';
@@ -30,7 +31,7 @@ import { StageEffects } from './store/stage.effects';
     RouterModule,
     SharedModule,
     DragDropModule,
-    PlannerRoutingModule.forRoot(),
+    PlannerRoutingModule,
     StoreModule.forFeature(fromPlan.plansFeatureKey, fromPlan.reducer),
     StoreModule.forFeature(fromStage.stagesFeatureKey, fromStage.reducer),
     EffectsModule.forFeature([PlanEffects, StageEffects])
@@ -41,7 +42,8 @@ import { StageEffects } from './store/stage.effects';
     PlanComponent,
     AddStageDialogComponent,
     StagesDialogComponent,
-    StagesComponent
+    StagesComponent,
+    TemplatesPlanViewComponent
   ],
   providers: [PlanService, StageService],
   exports: [

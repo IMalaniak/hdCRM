@@ -1,11 +1,9 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { PrivilegeGuard } from '@/core/_guards';
 import { PATHS, VIEW_PRIVILEGES, ADD_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
-import { DynamicFormResolver } from '@/shared/services';
 import { AddDepartmentComponent, DepartmentComponent, DepartmentsComponent } from './components';
-import { DepartmentResolver } from './services';
 
 const routes: Routes = [
   { path: '', pathMatch: PATHS.PATH_MATCH_FULL, redirectTo: PATHS.LIST },
@@ -28,8 +26,7 @@ const routes: Routes = [
       formName: FORMCONSTANTS.DEPARTMENT
     },
     canActivate: [PrivilegeGuard],
-    component: DepartmentComponent,
-    resolve: { department: DepartmentResolver, formJSON: DynamicFormResolver }
+    component: DepartmentComponent
   },
   {
     path: PATHS.ADD,
@@ -40,8 +37,7 @@ const routes: Routes = [
       formName: FORMCONSTANTS.DEPARTMENT
     },
     canActivate: [PrivilegeGuard],
-    component: AddDepartmentComponent,
-    resolve: { formJSON: DynamicFormResolver }
+    component: AddDepartmentComponent
   }
 ];
 
@@ -49,11 +45,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class DepartmentsRoutingModule {
-  static forRoot(): ModuleWithProviders<DepartmentsRoutingModule> {
-    return {
-      ngModule: DepartmentsRoutingModule,
-      providers: [DepartmentResolver, DynamicFormResolver]
-    };
-  }
-}
+export class DepartmentsRoutingModule {}

@@ -1,13 +1,13 @@
-<organisms-card [cardTitle]="department.title + ' department'" *ngIf="department">
+<organisms-card [cardTitle]="null | memoize: cardTitle:this" *ngIf="item">
   <div content class="row">
     <div class="col-md-6">
       <organisms-card cardTitle="Details" cardClass="border border-dark mt-0 mb-0" [disableShadow]="true">
         <section content>
           <organisms-dynamic-form
-            [data]="department"
-            [formJson]="departmentFormJson"
-            [editForm]="editForm$ | async"
-            (formChanges)="departmentFormValueChanges($event)"
+            [data]="item"
+            [formJson]="formJson$ | async"
+            [editForm]="editForm"
+            (formChanges)="formValueChanges($event)"
           >
           </organisms-dynamic-form>
         </section>
@@ -17,15 +17,15 @@
       <templates-box-user-list-sm
         cardTitle="Manager"
         class="d-block mb-3"
-        [user]="department.Manager"
-        [editMode]="editForm$ | async"
+        [user]="item.Manager"
+        [editMode]="editForm"
         (addClick)="addManagerDialog()"
         (removeClick)="removeManager()"
       ></templates-box-user-list-sm>
       <templates-box-user-list-sm
         cardTitle="Workers"
-        [users]="department.Workers"
-        [editMode]="editForm$ | async"
+        [users]="item.Workers"
+        [editMode]="editForm"
         (addClick)="addWorkersDialog()"
         (removeClick)="removeWorker($event)"
       ></templates-box-user-list-sm>
@@ -60,11 +60,13 @@
   </div> -->
   <molecules-card-header-actions
     buttons
-    *ngIf="canEditDepartment$ | async"
-    [editForm]="editForm$ | async"
+    *ngIf="canEdit"
+    [isCreatePage]="isCreatePage"
+    [editForm]="editForm"
     (cancelClick)="onClickCancelEdit()"
     (editClick)="onClickEdit()"
-    (saveClick)="updateDepartment()"
+    (updateClick)="update()"
+    (saveClick)="save()"
   >
   </molecules-card-header-actions>
 </organisms-card>

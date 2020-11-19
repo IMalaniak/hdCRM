@@ -1,98 +1,42 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 import { AppState } from '@/core/reducers';
-import { DialogType, DynamicForm } from '@/shared/models';
-import { ACTION_LABELS, RoutingDataConstants, CONSTANTS } from '@/shared/constants';
-import { UsersDialogComponent, User } from '@/modules/users';
+import { isPrivileged } from '@/core/auth/store/auth.selectors';
+import { ADD_PRIVILEGES, DELETE_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
 import { Plan } from '../../models';
 import { createPlanRequested } from '../../store/plan.actions';
-import { DialogService } from '@/shared/services';
-import { DialogWithTwoButtonModel } from '@/shared/models/dialog/dialog-with-two-button.model';
-import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
-import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
 
 @Component({
-  templateUrl: './add-plan.component.html',
+  template: `
+    <templates-plan-view
+      [item]="plan"
+      [formName]="formName"
+      [editForm]="true"
+      [canEdit]="true"
+      [isCreatePage]="true"
+      [canAddAttachment]="canAddAttachment$ | async"
+      [canDeleteAttachment]="canDeleteAttachment$ | async"
+      (saveChanges)="onSubmit($event)"
+    ></templates-plan-view>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddPlanComponent implements OnInit, OnDestroy {
-  plan = {} as Plan;
-  planFormJson: DynamicForm;
-  planFormValues: Plan;
+export class AddPlanComponent {
+  canAddAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.PLAN_ATTACHMENT)));
+  // TODO: @IMalaniak use this for stages configurations
+  // configStages$: Observable<boolean> = this.store.pipe(select(isPrivileged('stage-edit')));
+  canDeleteAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.PLAN_ATTACHMENT)));
 
-  actionLabels = ACTION_LABELS;
+  plan = { Participants: [] } as Plan;
 
-  private unsubscribe: Subject<void> = new Subject();
+  formName = FORMCONSTANTS.PLAN;
 
-  constructor(
-    private route: ActivatedRoute,
-    private store$: Store<AppState>,
-    private cdr: ChangeDetectorRef,
-    private dialogService: DialogService
-  ) {}
+  constructor(private store$: Store<AppState>) {}
 
-  ngOnInit(): void {
-    this.planFormJson = this.route.snapshot.data[RoutingDataConstants.FORM_JSON];
-    this.plan.Participants = [];
-  }
-
-  planFormValueChanges(formVal: Plan): void {
-    this.planFormValues = { ...this.planFormValues, ...formVal };
-  }
-
-  addParticipantDialog(): void {
-    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
-      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_PARTICIPANS)
-    };
-
-    this.dialogService
-      .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
-      .afterClosed()
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: DialogResultModel<User[]>) => {
-        if (result && result.success) {
-          const selectedParticipants: User[] = result.model.filter(
-            (selectedParticipant) => !this.plan.Participants.some((user) => user.id === selectedParticipant.id)
-          );
-          if (selectedParticipants?.length) {
-            this.plan.Participants = [...this.plan.Participants, ...selectedParticipants];
-            this.cdr.detectChanges();
-          }
-        }
-      });
-
-    // const userC = dialogRef.componentInstance.usersComponent;
-
-    // dialogRef
-    //   .afterOpened()
-    //   .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
-    //   .subscribe(() => {
-    //     userC.users
-    //       .filter((user) => this.plan.Participants.some((participant) => participant.id === user.id))
-    //       ?.forEach((selectedParticipant) => {
-    //         userC.selection.select(selectedParticipant);
-    //       });
-    //   });
-  }
-
-  removeParticipant(userId: number): void {
-    this.plan = {
-      ...this.plan,
-      Participants: this.plan.Participants.filter((participant) => participant.id !== userId)
-    };
-  }
-
-  onClickSubmit(): void {
-    this.store$.dispatch(createPlanRequested({ plan: { ...this.plan, ...this.planFormValues } }));
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
+  onSubmit(plan: Plan): void {
+    this.store$.dispatch(createPlanRequested({ plan }));
   }
 }

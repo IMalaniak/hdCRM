@@ -13,13 +13,15 @@ import { initialRolesState } from '../../store/role.reducer';
 import { AppState } from '@/core/reducers';
 import { RolesState } from '../../store/role.reducer';
 import { AuthState } from '@/core/auth/store/auth.reducer';
+import { initialUsersState, UsersState } from '@/modules/users/store/user.reducer';
 
 describe('RolesComponent', () => {
   let component: RolesComponent;
   let fixture: ComponentFixture<RolesComponent>;
-  const initialState: Partial<AppState> & { roles: RolesState; auth: AuthState } = {
+  const initialState: Partial<AppState> & { roles: RolesState; auth: AuthState; users: UsersState } = {
     preferences: initialPreferencesState,
     roles: initialRolesState,
+    users: initialUsersState,
     auth: authStateMock
   };
 

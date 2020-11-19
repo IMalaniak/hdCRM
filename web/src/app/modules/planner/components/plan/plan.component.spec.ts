@@ -5,6 +5,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { PlanService } from '../../services';
+import { initialPlansState } from '../../store/plan.reducer';
 
 import { PlanComponent } from './plan.component';
 
@@ -12,7 +13,8 @@ describe('PlanComponent', () => {
   let component: PlanComponent;
   let fixture: ComponentFixture<PlanComponent>;
   const initialState = {
-    auth: authStateMock
+    auth: authStateMock,
+    plan: initialPlansState
   };
 
   beforeEach(

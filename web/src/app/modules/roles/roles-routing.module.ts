@@ -1,10 +1,8 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { RolesComponent, RoleComponent, AddRoleComponent } from './components';
-import { RoleResolver } from './services/role.resolver';
 import { PrivilegeGuard } from '@/core/_guards';
 import { PATHS, VIEW_PRIVILEGES, ADD_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
-import { DynamicFormResolver } from '@/shared/services';
 
 const routes: Routes = [
   { path: '', pathMatch: PATHS.PATH_MATCH_FULL, redirectTo: PATHS.LIST },
@@ -27,8 +25,7 @@ const routes: Routes = [
       formName: FORMCONSTANTS.ROLE
     },
     canActivate: [PrivilegeGuard],
-    component: RoleComponent,
-    resolve: { role: RoleResolver, formJSON: DynamicFormResolver }
+    component: RoleComponent
   },
   {
     path: PATHS.ADD,
@@ -39,8 +36,7 @@ const routes: Routes = [
       formName: FORMCONSTANTS.ROLE
     },
     canActivate: [PrivilegeGuard],
-    component: AddRoleComponent,
-    resolve: { formJSON: DynamicFormResolver }
+    component: AddRoleComponent
   }
 ];
 
@@ -48,11 +44,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class RolesRoutingModule {
-  static forRoot(): ModuleWithProviders<RolesRoutingModule> {
-    return {
-      ngModule: RolesRoutingModule,
-      providers: [RoleResolver, DynamicFormResolver]
-    };
-  }
-}
+export class RolesRoutingModule {}
