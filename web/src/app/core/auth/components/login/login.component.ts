@@ -10,7 +10,15 @@ import { NewPassword } from '@/shared/models';
 import { AppState } from '@/core/reducers';
 import * as authActions from '../../store/auth.actions';
 import * as authSelectors from '../../store/auth.selectors';
-import { ACTION_LABELS, THEME_PALETTE, BUTTON_TYPE, MAT_BUTTON, PATHS, RoutingConstants } from '@/shared/constants';
+import {
+  ACTION_LABELS,
+  THEME_PALETTE,
+  BUTTON_TYPE,
+  MAT_BUTTON,
+  PATHS,
+  RoutingConstants,
+  InputType
+} from '@/shared/constants';
 
 @Component({
   templateUrl: './login.component.html',
@@ -30,6 +38,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   themePalette = THEME_PALETTE;
   buttonType = BUTTON_TYPE;
   matButtonTypes = MAT_BUTTON;
+  inputTypes = InputType;
   paths = PATHS;
   routes = RoutingConstants;
 

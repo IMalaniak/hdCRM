@@ -1,4 +1,4 @@
-export class ERRORMESSAGE {
+export class InputErrorMessage {
   static IS_REQUIRED = 'This field is required!';
   static IS_TOO_SHORT = 'This field is too short!';
   static IS_TOO_LONG = 'This field is too long!';

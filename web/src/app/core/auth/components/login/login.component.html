@@ -18,7 +18,7 @@
               <!-- Password -->
               <atoms-form-field
                 label="Password"
-                [inputType]="hidePassword ? 'password' : 'text'"
+                [inputType]="hidePassword ? inputTypes.PASSWORD : inputTypes.TEXT"
                 [control]="user.get('password')"
               >
                 <mat-icon suffix (click)="hidePassword = !hidePassword">{{
@@ -96,7 +96,7 @@
               <!-- New password -->
               <atoms-form-field
                 label="New password"
-                [inputType]="hidePassword ? 'password' : 'text'"
+                [inputType]="hidePassword ? inputTypes.PASSWORD : inputTypes.TEXT"
                 [control]="newPasswordForm.get('newPassword')"
               >
                 <mat-icon suffix (click)="hidePassword = !hidePassword">{{
@@ -107,7 +107,7 @@
               <!-- Confirm password -->
               <atoms-form-field
                 label="Confirm password"
-                [inputType]="password"
+                [inputType]="inputTypes.PASSWORD"
                 [control]="newPasswordForm.get('verifyPassword')"
               >
               </atoms-form-field>

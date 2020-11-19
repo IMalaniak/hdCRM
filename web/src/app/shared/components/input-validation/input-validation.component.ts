@@ -15,7 +15,7 @@ import {
   MatFormFieldControl
 } from '@angular/material/form-field';
 
-import { ControlValidator, ERRORMESSAGE } from '@/shared/constants';
+import { ControlValidator, InputErrorMessage } from '@/shared/constants';
 
 interface ErrorMessage {
   key: string;
@@ -25,6 +25,13 @@ interface ErrorMessage {
 @Component({
   selector: 'input-validation-component',
   templateUrl: './input-validation.component.html',
+  styles: [
+    `
+      .mat-form-field {
+        width: 100% !important;
+      }
+    `
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InputValidationComponent implements OnInit, OnChanges {
@@ -95,23 +102,23 @@ export class InputValidationComponent implements OnInit, OnChanges {
   private getErrorMessage(key: ControlValidator): ErrorMessage {
     switch (key) {
       case ControlValidator.REQUIRED:
-        return { key, message: ERRORMESSAGE.IS_REQUIRED };
+        return { key, message: InputErrorMessage.IS_REQUIRED };
       case ControlValidator.MIN_LENGTH:
-        return { key, message: ERRORMESSAGE.IS_TOO_SHORT };
+        return { key, message: InputErrorMessage.IS_TOO_SHORT };
       case ControlValidator.MAX_LENGTH:
-        return { key, message: ERRORMESSAGE.IS_TOO_LONG };
+        return { key, message: InputErrorMessage.IS_TOO_LONG };
       case ControlValidator.EMAIL:
-        return { key, message: ERRORMESSAGE.INVALID_EMAIL };
+        return { key, message: InputErrorMessage.INVALID_EMAIL };
       case ControlValidator.PATTERN:
-        return { key, message: ERRORMESSAGE.IS_INVALID };
+        return { key, message: InputErrorMessage.IS_INVALID };
       case ControlValidator.MIN:
-        return { key, message: ERRORMESSAGE.MIN_VALUE };
+        return { key, message: InputErrorMessage.MIN_VALUE };
       case ControlValidator.MAX:
-        return { key, message: ERRORMESSAGE.MAX_VALUE };
+        return { key, message: InputErrorMessage.MAX_VALUE };
       case ControlValidator.CONFIRM_PASSWORD:
-        return { key, message: ERRORMESSAGE.PASSWORD_NOT_MATCH };
+        return { key, message: InputErrorMessage.PASSWORD_NOT_MATCH };
       default:
-        return { key, message: ERRORMESSAGE.IS_INVALID };
+        return { key, message: InputErrorMessage.IS_INVALID };
     }
   }
 

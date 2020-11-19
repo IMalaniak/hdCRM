@@ -19,5 +19,6 @@ export * from './table.constants';
 export * from './tabs.constants';
 export * from './timeFormat';
 export * from './UserState';
-export * from './error-message.constants';
+export * from './input-error-messages.constants';
 export * from './controlValidator';
+export * from './inputTypes';

@@ -5,7 +5,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ThemePalette } from '@angular/material/core';
 
-import { THEME_PALETTE, IFieldType } from '@/shared/constants';
+import { THEME_PALETTE, IFieldType, InputType } from '@/shared/constants';
 
 @Component({
   selector: 'atoms-form-field',
@@ -39,11 +39,10 @@ import { THEME_PALETTE, IFieldType } from '@/shared/constants';
         <mat-datepicker touchUi #picker></mat-datepicker>
         <input
           matInput
-          type="datetime"
+          [type]="inputTypes.DATETIME"
           [matDatepicker]="picker"
           [formControl]="control"
           [value]="control.value | dateTimeFormat | async"
-          required
         />
       </input-validation-component>
 
@@ -95,12 +94,13 @@ export class AtomsFormFieldComponent {
   @Input() fType: IFieldType;
   @Input() control: FormControl;
   @Input() optionsColumn = true;
-  @Input() inputType = 'text';
+  @Input() inputType: InputType = InputType.TEXT;
   @Input() canValidate = true;
 
   @Output() fieldChange: EventEmitter<MatRadioChange | MatSelectChange | MatCheckboxChange> = new EventEmitter();
 
   fieldTypes = IFieldType;
+  inputTypes = InputType;
 
   onFieldChange(event: MatRadioChange | MatSelectChange | MatCheckboxChange): void {
     this.fieldChange.emit(event);
