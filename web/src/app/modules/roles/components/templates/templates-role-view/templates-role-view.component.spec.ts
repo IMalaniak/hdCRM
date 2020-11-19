@@ -13,6 +13,7 @@ import { initialPreferencesState } from '@/core/reducers/preferences.reducer';
 import { Role } from '@/modules/roles/models';
 
 import { TemplatesRoleViewComponent } from './templates-role-view.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('TemplatesRoleViewComponent', () => {
   let component: TemplatesRoleViewComponent;
@@ -47,7 +48,7 @@ describe('TemplatesRoleViewComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [TemplatesRoleViewComponent],
-        imports: [BrowserAnimationsModule, HttpClientModule, SharedModule],
+        imports: [BrowserAnimationsModule, HttpClientModule, RouterTestingModule, SharedModule],
         providers: [provideMockStore({ initialState })]
       }).compileComponents();
     })
