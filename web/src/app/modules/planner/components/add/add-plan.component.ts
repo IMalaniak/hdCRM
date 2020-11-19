@@ -27,6 +27,7 @@ import { isPrivileged } from '@/core/auth/store/auth.selectors';
 })
 export class AddPlanComponent {
   canAddAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.PLAN_ATTACHMENT)));
+  // TODO: @IMalaniak use this for stages configurations
   // configStages$: Observable<boolean> = this.store.pipe(select(isPrivileged('stage-edit')));
   canDeleteAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.PLAN_ATTACHMENT)));
 

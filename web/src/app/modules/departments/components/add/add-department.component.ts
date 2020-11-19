@@ -29,9 +29,9 @@ export class AddDepartmentComponent {
 
   formName = FORMCONSTANTS.DEPARTMENT;
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store$: Store<AppState>) {}
 
-  onSubmit(department: Department) {
-    this.store.dispatch(createDepartmentRequested({ department }));
+  onSubmit(department: Department): void {
+    this.store$.dispatch(createDepartmentRequested({ department }));
   }
 }

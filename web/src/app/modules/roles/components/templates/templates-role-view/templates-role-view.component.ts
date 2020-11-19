@@ -7,7 +7,7 @@ import { takeUntil, skipUntil, delay } from 'rxjs/operators';
 
 import { AppState } from '@/core/reducers';
 import { TemplatesViewDetailsComponent } from '@/shared/components';
-import { MAT_BUTTON, COLUMN_NAMES, COLUMN_LABELS } from '@/shared/constants';
+import { MAT_BUTTON, COLUMN_NAMES, COLUMN_LABELS, CONSTANTS } from '@/shared/constants';
 import { MediaqueryService, ToastMessageService } from '@/shared/services';
 import { Privilege, Role } from '@/modules/roles/models';
 import { UsersDialogComponent, User } from '@/modules/users';
@@ -155,7 +155,7 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
   }
 
   cardTitle(): string {
-    return this.isCreatePage ? 'Create role' : this.item.keyString;
+    return this.isCreatePage ? CONSTANTS.TEXTS_CREATE_ROLE : this.item.keyString;
   }
 
   ngOnDestroy(): void {

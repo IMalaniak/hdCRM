@@ -17,10 +17,13 @@ export class CONSTANTS {
   static TEXTS_HIDE_SIDEBAR = 'Hide side panel';
   static TEXTS_THEME_DARK = 'Dark theme';
   static TEXTS_THEME_LIGHT = 'Light theme';
+  static TEXTS_CREATE_DEPARTMENT = 'Create department';
   static TEXTS_UPDATE_DEPARTMENT_CONFIRM = 'Are you sure you want to update department details?';
   static TEXTS_DELETE_DEPARTMENT_CONFIRM = 'Do you really want to delete department? You will not be able to recover!';
+  static TEXTS_CREATE_PLAN = 'Create plan';
   static TEXTS_UPDATE_PLAN_CONFIRM = 'Are you sure you want to update plan details?';
   static TEXTS_DELETE_PLAN_CONFIRM = 'Do you really want to delete plan? You will not be able to recover!';
+  static TEXTS_CREATE_ROLE = 'Create role';
   static TEXTS_UPDATE_ROLE_CONFIRM = 'Are you sure you want to update role details?';
   static TEXTS_DELETE_ROLE_CONFIRM = 'Do you really want to delete role? You will not be able to recover!';
   static TEXTS_UPDATE_USER_CONFIRM = 'Are you sure you want to update user details?';

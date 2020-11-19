@@ -11,6 +11,7 @@ import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
 import { MediaqueryService, ToastMessageService } from '@/shared/services';
 import { Plan } from '@/modules/planner/models';
 import { User, UsersDialogComponent } from '@/modules/users';
+import { CONSTANTS } from '@/shared/constants';
 
 @Component({
   selector: 'templates-plan-view',
@@ -99,7 +100,7 @@ export class TemplatesPlanViewComponent extends TemplatesViewDetailsComponent<Pl
   }
 
   cardTitle(): string {
-    return this.isCreatePage ? 'Create plan' : this.item.title;
+    return this.isCreatePage ? CONSTANTS.TEXTS_CREATE_PLAN : this.item.title;
   }
 
   ngOnDestroy(): void {

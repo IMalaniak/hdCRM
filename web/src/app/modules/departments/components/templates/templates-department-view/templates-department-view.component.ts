@@ -1,15 +1,16 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
+import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { AppState } from '@/core/reducers';
 import { MediaqueryService, ToastMessageService } from '@/shared/services';
 import { Department } from '@/modules/departments/models';
 import { User, UsersDialogComponent } from '@/modules/users';
 import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
-import { Store } from '@ngrx/store';
-import { AppState } from '@/core/reducers';
+import { CONSTANTS } from '@/shared/constants';
 
 @Component({
   selector: 'templates-department-view',
@@ -82,7 +83,7 @@ export class TemplatesDepartmentViewComponent
   }
 
   cardTitle(): string {
-    return this.isCreatePage ? 'Create department' : this.item.title;
+    return this.isCreatePage ? CONSTANTS.TEXTS_CREATE_DEPARTMENT : this.item.title;
   }
 
   ngOnDestroy(): void {

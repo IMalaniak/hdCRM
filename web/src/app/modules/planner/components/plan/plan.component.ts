@@ -43,7 +43,7 @@ export class PlanComponent implements OnInit {
   constructor(private route: ActivatedRoute, private store$: Store<AppState>) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.params['id'];
+    const id: number = this.route.snapshot.params['id'];
 
     this.plan$ = this.store$.pipe(
       select(selectPlanById(id)),

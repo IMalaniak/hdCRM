@@ -3,7 +3,6 @@ import { environment } from 'environments/environment';
 
 import * as fromRouter from '@ngrx/router-store';
 
-// import { RoutingDataConstants } from '@/shared/constants';
 import { RouterStateUrl } from '@/shared/utils';
 import * as fromPreferences from './preferences.reducer';
 import * as fromIntegrations from './integration.reducer';
