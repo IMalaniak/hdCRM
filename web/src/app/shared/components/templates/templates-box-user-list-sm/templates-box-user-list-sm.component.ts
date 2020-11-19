@@ -10,6 +10,7 @@ import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogWithTwoButtonModel } from '@/shared/models/dialog/dialog-with-two-button.model';
 import { DialogService } from '@/shared/services';
 import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
+import { DialogType } from '@/shared/models';
 
 @Component({
   selector: 'templates-box-user-list-sm',
@@ -74,7 +75,7 @@ export class TemplatesBoxUserListSmComponent implements OnDestroy {
     };
 
     this.dialogService
-      .open(OrganismsUserDetailsDialogComponent, dialogDataModel)
+      .open(OrganismsUserDetailsDialogComponent, dialogDataModel, DialogType.STANDART)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<string>) => {
