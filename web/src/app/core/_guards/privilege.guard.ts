@@ -1,12 +1,14 @@
 ﻿import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
-import { Store, select } from '@ngrx/store';
-import { AppState } from '../reducers';
 import { Observable } from 'rxjs';
 import { tap, skipWhile } from 'rxjs/operators';
+
+import { Store, select } from '@ngrx/store';
+import { AppState } from '../reducers';
 import { isPrivileged } from '../auth/store/auth.selectors';
 import { ToastMessageService } from '@/shared/services';
-import { ALERT, CONSTANTS } from '@/shared/constants';
+import { CONSTANTS } from '@/shared/constants';
+import { BaseMessage } from '@/shared/models';
 
 @Injectable({ providedIn: 'root' })
 export class PrivilegeGuard implements CanActivate {
@@ -18,9 +20,11 @@ export class PrivilegeGuard implements CanActivate {
       skipWhile((flag) => flag === undefined),
       tap((privileged) => {
         if (!privileged) {
-          this.toastMessageService.popup(CONSTANTS.TEXTS_PRIVILEGE_GUARD_ERROR, ALERT.WARNING).then(() => {
-            return false;
-          });
+          const response: BaseMessage = {
+            success: false,
+            message: CONSTANTS.TEXTS_PRIVILEGE_GUARD_ERROR
+          };
+          this.toastMessageService.snack(response);
         }
       })
     );

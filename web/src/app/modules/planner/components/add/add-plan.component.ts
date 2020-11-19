@@ -1,21 +1,22 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
-import { takeUntil, skipUntil, delay } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 
 import { AppState } from '@/core/reducers';
-import { MediaqueryService } from '@/shared/services';
-import { DynamicForm } from '@/shared/models';
-import { ACTION_LABELS, RoutingDataConstants } from '@/shared/constants';
+import { DialogType, DynamicForm } from '@/shared/models';
+import { ACTION_LABELS, RoutingDataConstants, CONSTANTS } from '@/shared/constants';
 import { UsersDialogComponent, User } from '@/modules/users';
 import { Plan } from '../../models';
 import { createPlanRequested } from '../../store/plan.actions';
+import { DialogService } from '@/shared/services';
+import { DialogWithTwoButtonModel } from '@/shared/models/dialog/dialog-with-two-button.model';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
+import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
 
 @Component({
-  selector: 'add-plan',
   templateUrl: './add-plan.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -30,10 +31,9 @@ export class AddPlanComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private dialog: MatDialog,
     private store$: Store<AppState>,
-    private mediaQuery: MediaqueryService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private dialogService: DialogService
   ) {}
 
   ngOnInit(): void {
@@ -46,39 +46,38 @@ export class AddPlanComponent implements OnInit, OnDestroy {
   }
 
   addParticipantDialog(): void {
-    const dialogRef = this.dialog.open(UsersDialogComponent, {
-      ...this.mediaQuery.deFaultPopupSize,
-      data: {
-        title: 'Select participants'
-      }
-    });
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_PARTICIPANS)
+    };
 
-    const userC = dialogRef.componentInstance.usersComponent;
-
-    dialogRef
-      .afterOpened()
-      .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
-      .subscribe(() => {
-        userC.users
-          .filter((user) => this.plan.Participants.some((participant) => participant.id === user.id))
-          ?.forEach((selectedParticipant) => {
-            userC.selection.select(selectedParticipant);
-          });
-      });
-
-    dialogRef
+    this.dialogService
+      .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: User[]) => {
-        const selectedParticipants: User[] = result?.filter(
-          (selectedParticipant) => !this.plan.Participants.some((user) => user.id === selectedParticipant.id)
-        );
-
-        if (selectedParticipants?.length) {
-          this.plan.Participants = [...this.plan.Participants, ...selectedParticipants];
-          this.cdr.detectChanges();
+      .subscribe((result: DialogResultModel<User[]>) => {
+        if (result && result.success) {
+          const selectedParticipants: User[] = result.model.filter(
+            (selectedParticipant) => !this.plan.Participants.some((user) => user.id === selectedParticipant.id)
+          );
+          if (selectedParticipants?.length) {
+            this.plan.Participants = [...this.plan.Participants, ...selectedParticipants];
+            this.cdr.detectChanges();
+          }
         }
       });
+
+    // const userC = dialogRef.componentInstance.usersComponent;
+
+    // dialogRef
+    //   .afterOpened()
+    //   .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
+    //   .subscribe(() => {
+    //     userC.users
+    //       .filter((user) => this.plan.Participants.some((participant) => participant.id === user.id))
+    //       ?.forEach((selectedParticipant) => {
+    //         userC.selection.select(selectedParticipant);
+    //       });
+    //   });
   }
 
   removeParticipant(userId: number): void {

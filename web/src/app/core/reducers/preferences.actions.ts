@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { ApiResponse } from '@/shared/models';
+import { BaseMessage } from '@/shared/models';
 import { IDateFormat, ITimeFormat, IItemsPerPage, IListView } from '@/shared/constants';
 import { Preferences, PreferencesList } from './preferences.reducer';
 
@@ -25,5 +25,5 @@ export const preferencesListLoaded = createAction(
 );
 export const preferencesListLoadFailed = createAction(
   `${apiPrefix} Preferences List Load Failed`,
-  props<{ apiResp: ApiResponse }>()
+  props<{ apiResp: BaseMessage }>()
 );

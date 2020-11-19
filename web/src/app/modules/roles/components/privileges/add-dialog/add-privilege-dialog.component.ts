@@ -1,18 +1,30 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, ChangeDetectionStrategy, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
+import { ComponentType } from '@angular/cdk/portal';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
+import { DialogCreateEditModel, DialogResultModel } from '@/shared/models';
+import { DialogCreateEditPageModel } from '@/shared/components';
+import { Privilege } from '@/modules/roles/models';
 
 @Component({
   templateUrl: 'add-privilege-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddPrivilegeDialogComponent implements OnInit {
+export class AddPrivilegeDialogComponent extends DialogCreateEditPageModel implements OnInit {
   privilegeGroup: FormGroup;
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
 
-  constructor(public dialogRef: MatDialogRef<AddPrivilegeDialogComponent>, private fb: FormBuilder) {}
+  constructor(
+    readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<DialogCreateEditModel>,
+    private fb: FormBuilder
+  ) {
+    super(dialogRef, data);
+  }
 
   ngOnInit(): void {
     this.buildPrivilegeFormGroup();
@@ -25,11 +37,11 @@ export class AddPrivilegeDialogComponent implements OnInit {
     });
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-  onSubmitClick(): void {
-    this.dialogRef.close(this.privilegeGroup.value);
+  onClose(success: boolean): void {
+    const result: DialogResultModel<Privilege> = {
+      success,
+      model: this.privilegeGroup.value
+    };
+    this.dialogRef.close(result);
   }
 }

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '../models';
 import { take } from 'rxjs/operators';
+
 import { SocketService } from '@/shared/services';
-import { NewPassword, ApiResponse, CollectionApiResponse, ItemApiResponse, PageQuery } from '@/shared/models';
+import { User } from '../models';
+import { NewPassword, BaseMessage, CollectionApiResponse, ItemApiResponse, PageQuery } from '@/shared/models';
 import { SocketEvent, APIS } from '@/shared/constants';
 import { Role } from '@/modules/roles';
 
@@ -38,8 +39,8 @@ export class UserService {
     return this.http.put<ItemApiResponse<User>>(`${APIS.USERS}/${user.id}`, this.formatBeforeSend(user));
   }
 
-  delete(id: number): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(`${APIS.USERS}/${id}`);
+  delete(id: number): Observable<BaseMessage> {
+    return this.http.delete<BaseMessage>(`${APIS.USERS}/${id}`);
   }
 
   inviteUsers(users: User[]): Observable<CollectionApiResponse<User>> {
@@ -63,8 +64,8 @@ export class UserService {
   //   return this.http.put<User[]>(APIS.USERS_CHANGE_STATE_OF_SELECTED, data);
   // }
 
-  changeOldPassword(data: NewPassword): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(APIS.USERS_CHANGE_PASSWORD, data, { withCredentials: true });
+  changeOldPassword(data: NewPassword): Observable<BaseMessage> {
+    return this.http.post<BaseMessage>(APIS.USERS_CHANGE_PASSWORD, data, { withCredentials: true });
   }
 
   formatBeforeSend(user: User): User {

@@ -4,3 +4,7 @@ export enum THEME_PALETTE {
   WARN = 'warn',
   ACCENT = 'accent'
 }
+
+export enum STYLECONSTANTS {
+  FIT_CONTENT = 'fit-content'
+}

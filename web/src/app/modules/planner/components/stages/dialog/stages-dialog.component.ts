@@ -1,32 +1,35 @@
 import { Component, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ComponentType } from '@angular/cdk/portal';
+
 import { StagesComponent } from '../list/stages.component';
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
+import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
+import { DialogBaseModel } from '@/shared/components';
+import { Stage } from '@/modules/planner/models';
 
-export interface StagesDialogData {
-  title: string;
-}
 @Component({
   templateUrl: 'stages-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StagesDialogComponent {
+export class StagesDialogComponent extends DialogBaseModel<DialogWithTwoButtonModel> {
+  @ViewChild(StagesComponent, { static: true }) stagesComponent: StagesComponent;
+
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
 
   constructor(
-    public dialogRef: MatDialogRef<StagesDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: StagesDialogData
-  ) {}
-
-  @ViewChild(StagesComponent, { static: true })
-  stagesComponent: StagesComponent;
-
-  onNoClick(): void {
-    this.dialogRef.close();
+    readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<DialogWithTwoButtonModel>
+  ) {
+    super(dialogRef, data);
   }
 
-  onSubmitClick(): void {
-    this.dialogRef.close(this.stagesComponent.selection.selected);
+  onClose(success: boolean): void {
+    const result: DialogResultModel<Stage[]> = {
+      success,
+      model: this.stagesComponent.selection.selected
+    };
+    this.dialogRef.close(result);
   }
 }

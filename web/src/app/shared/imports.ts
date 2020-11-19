@@ -30,6 +30,18 @@ const TEMPLATES = [
   _components.TemplatesBoxUserListSmComponent,
   _components.TemplatesUserDetailsComponent
 ];
+const DIALOGS = [
+  _components.DialogBaseComponent,
+  _components.DialogConfirmComponent,
+  _components.DialogWithTwoButtonsComponent
+];
 
-export const COMPONENTS = [...ATOMS, ...MOLECULES, ...ORGANISMS, ...TEMPLATES, _components.InputValidationComponent];
+export const COMPONENTS = [
+  ...ATOMS,
+  ...MOLECULES,
+  ...ORGANISMS,
+  ...TEMPLATES,
+  ...DIALOGS,
+  _components.InputValidationComponent
+];
 export const PIPES = [_pipes.MemoizePipe, _pipes.DateTimeFormatPipe];

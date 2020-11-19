@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Actions, ofType, createEffect, OnInitEffects } from '@ngrx/effects';
 import { of } from 'rxjs';
@@ -6,14 +7,13 @@ import { tap, map, switchMap, catchError, concatMap, withLatestFrom, mergeMap, e
 import * as authActions from './auth.actions';
 import { AuthenticationService } from '../services';
 import { SocketService, ToastMessageService } from '@/shared/services';
-import { ApiResponse, ItemApiResponse } from '@/shared/models';
-import { SocketEvent, RoutingConstants } from '@/shared/constants';
+import { BaseMessage, ItemApiResponse } from '@/shared/models';
+import { SocketEvent, RoutingConstants, CONSTANTS } from '@/shared/constants';
 import { Store, select, Action } from '@ngrx/store';
 import { getToken } from './auth.selectors';
 import { selectUrl, AppState } from '@/core/reducers';
 import { changeIsEditingState } from '@/modules/users/store/user.actions';
 import { initPreferences } from '@/core/reducers/preferences.actions';
-import { HttpErrorResponse } from '@angular/common/http';
 import { User, Organization } from '@/modules/users';
 
 @Injectable()
@@ -88,7 +88,7 @@ export class AuthEffects implements OnInitEffects {
       map((payload) => payload.user),
       switchMap((user) =>
         this.authService.requestPasswordReset(user).pipe(
-          map((apiResp: ApiResponse) => {
+          map((apiResp: BaseMessage) => {
             this.toastMessageService.snack(apiResp);
             return authActions.resetPasswordSuccess();
           }),
@@ -107,7 +107,7 @@ export class AuthEffects implements OnInitEffects {
       map((payload) => payload.newPassword),
       switchMap((newPassword) =>
         this.authService.resetPassword(newPassword).pipe(
-          map((apiResp: ApiResponse) => {
+          map((apiResp: BaseMessage) => {
             this.toastMessageService.snack(apiResp);
             return authActions.resetPasswordSuccess();
           }),
@@ -126,7 +126,7 @@ export class AuthEffects implements OnInitEffects {
       map((payload) => payload.token),
       concatMap((token) =>
         this.authService.activateAccount(token).pipe(
-          map((apiResp: ApiResponse) => {
+          map((apiResp: BaseMessage) => {
             this.toastMessageService.snack(apiResp);
             return authActions.activateAccountSuccess();
           }),
@@ -145,10 +145,11 @@ export class AuthEffects implements OnInitEffects {
         ofType(authActions.redirectToLogin),
         withLatestFrom(this.store$.pipe(select(selectUrl))),
         map(([_, returnUrl]) => {
-          this.toastMessageService.popup(
-            'You are not authorized to see this page, or your session has been expired!',
-            'error'
-          );
+          const response: BaseMessage = {
+            success: false,
+            message: CONSTANTS.TEXTS_YOU_ARE_NOT_AUTHORIZED
+          };
+          this.toastMessageService.snack(response);
           this.router.navigate([RoutingConstants.ROUTE_AUTH_LOGIN], {
             queryParams: { returnUrl }
           });
@@ -217,7 +218,7 @@ export class AuthEffects implements OnInitEffects {
       ofType(authActions.deleteSession),
       map((payload) => payload.id),
       switchMap((id) => this.authService.deleteSession(id)),
-      map((apiResp: ApiResponse) => {
+      map((apiResp: BaseMessage) => {
         this.toastMessageService.snack(apiResp);
         return authActions.deleteSessionSuccess();
       }),
@@ -230,7 +231,7 @@ export class AuthEffects implements OnInitEffects {
       ofType(authActions.deleteMultipleSession),
       map((payload) => payload.sessionIds),
       switchMap((sessionIds) => this.authService.deleteSessionMultiple(sessionIds)),
-      map((apiResp: ApiResponse) => {
+      map((apiResp: BaseMessage) => {
         this.toastMessageService.snack(apiResp);
         return authActions.deleteSessionSuccess();
       }),

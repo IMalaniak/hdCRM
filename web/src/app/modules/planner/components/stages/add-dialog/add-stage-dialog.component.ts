@@ -1,30 +1,34 @@
 import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormControl } from '@angular/forms';
-import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
+import { FormControl, Validators } from '@angular/forms';
+import { ComponentType } from '@angular/cdk/portal';
 
-export interface AddStageDialogData {
-  keyString: FormControl;
-}
+import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
+import { DialogCreateEditPageModel } from '@/shared/components';
+import { DialogCreateEditModel, DialogDataModel, DialogResultModel } from '@/shared/models';
 
 @Component({
   templateUrl: 'add-stage-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddStageDialogComponent {
+export class AddStageDialogComponent extends DialogCreateEditPageModel {
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
+  keyString: FormControl;
 
   constructor(
-    public dialogRef: MatDialogRef<AddStageDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: AddStageDialogData
-  ) {}
-
-  onNoClick(): void {
-    this.dialogRef.close();
+    readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<DialogCreateEditModel>
+  ) {
+    super(dialogRef, data);
+    this.keyString = new FormControl(null, [Validators.required, Validators.minLength(4)]);
   }
 
-  onAddStage(): void {
-    this.dialogRef.close(this.data.keyString.value);
+  onClose(success: boolean): void {
+    const result: DialogResultModel<string> = {
+      success,
+      model: this.keyString.value
+    };
+    this.dialogRef.close(result);
   }
 }

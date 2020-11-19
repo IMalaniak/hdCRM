@@ -1,15 +1,13 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil, skipUntil, delay } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 import { cloneDeep } from 'lodash';
 
 import { AppState } from '@/core/reducers';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
-import { MediaqueryService, ToastMessageService } from '@/shared/services';
 import { UsersDialogComponent } from '@/modules/users/components/dialog/users-dialog.component';
 import { User } from '@/modules/users';
 import { Role, Privilege } from '../../models';
@@ -18,7 +16,6 @@ import { PrivilegesDialogComponent } from '../privileges/dialog/privileges-dialo
 import { selectIsEditing } from '../../store/role.selectors';
 import {
   EDIT_PRIVILEGES,
-  DIALOG,
   COLUMN_NAMES,
   COLUMN_LABELS,
   ACTION_LABELS,
@@ -27,7 +24,14 @@ import {
   CONSTANTS,
   RoutingDataConstants
 } from '@/shared/constants';
+import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
+import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
+import { DialogWithTwoButtonModel } from '@/shared/models/dialog/dialog-with-two-button.model';
+import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
+import { DialogType } from '@/shared/models';
 import { DynamicForm } from '@/shared/models';
+import { DialogService } from '@/shared/services';
 
 @Component({
   templateUrl: './role.component.html',
@@ -60,11 +64,9 @@ export class RoleComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private dialog: MatDialog,
     private store$: Store<AppState>,
-    private mediaQuery: MediaqueryService,
     private cdr: ChangeDetectorRef,
-    private toastMessageService: ToastMessageService
+    private dialogService: DialogService
   ) {}
 
   ngOnInit(): void {
@@ -82,87 +84,86 @@ export class RoleComponent implements OnInit, OnDestroy {
   }
 
   addParticipantDialog(): void {
-    const dialogRef = this.dialog.open(UsersDialogComponent, {
-      ...this.mediaQuery.deFaultPopupSize,
-      data: {
-        title: 'Select Users'
-      }
-    });
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_USERS)
+    };
 
-    const userC = dialogRef.componentInstance.usersComponent;
-
-    dialogRef
-      .afterOpened()
-      .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
-      .subscribe(() => {
-        userC.users
-          .filter((user) => this.role.Users.some((rUser) => rUser.id === user.id))
-          ?.forEach((selectedParticipant) => {
-            userC.selection.select(selectedParticipant);
-          });
-      });
-
-    dialogRef
+    this.dialogService
+      .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: User[]) => {
-        const selectedUsers: User[] = result?.filter(
-          (selectedUser) => !this.role.Users.some((user) => user.id === selectedUser.id)
-        );
-
-        if (selectedUsers?.length) {
-          this.role.Users = [...this.role.Users, ...selectedUsers];
-          this.cdr.detectChanges();
+      .subscribe((result: DialogResultModel<User[]>) => {
+        if (result && result.success) {
+          const selectedUsers: User[] = result.model.filter(
+            (selectedUser) => !this.role.Users.some((user) => user.id === selectedUser.id)
+          );
+          if (selectedUsers?.length) {
+            this.role.Users = [...this.role.Users, ...selectedUsers];
+            this.cdr.detectChanges();
+          }
         }
       });
+
+    // const userC = dialogRef.componentInstance.usersComponent;
+
+    // dialogRef
+    //   .afterOpened()
+    //   .pipe(takeUntil(this.unsubscribe), skipUntil(userC.loading$), delay(300))
+    //   .subscribe(() => {
+    //     userC.users
+    //       .filter((user) => this.role.Users.some((rUser) => rUser.id === user.id))
+    //       ?.forEach((selectedParticipant) => {
+    //         userC.selection.select(selectedParticipant);
+    //       });
+    //   });
   }
 
   addPrivilegeDialog(): void {
-    const dialogRef = this.dialog.open(PrivilegesDialogComponent, {
-      ...this.mediaQuery.deFaultPopupSize,
-      data: {
-        title: 'Select privileges'
-      }
-    });
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_PRIVILEGES)
+    };
 
-    const privilegesC = dialogRef.componentInstance.privilegesComponent;
-
-    dialogRef
-      .afterOpened()
-      .pipe(takeUntil(this.unsubscribe), skipUntil(privilegesC.isLoading$), delay(300))
-      .subscribe(() => {
-        privilegesC.privileges
-          .filter((privilege) => this.role.Privileges.some((rPrivilege) => rPrivilege.id === privilege.id))
-          ?.forEach((selectedPrivilege) => {
-            privilegesC.selection.select(selectedPrivilege);
-          });
-      });
-
-    dialogRef
+    this.dialogService
+      .open(PrivilegesDialogComponent, dialogDataModel, DialogType.STANDART)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: Privilege[]) => {
-        const selectedPrivileges: Privilege[] = result
-          ?.filter(
-            (selectedPrivilege) => !this.role.Privileges.some((rPrivilege) => rPrivilege.id === selectedPrivilege.id)
-          )
-          ?.map((selectedPrivilege) => {
-            return {
-              ...selectedPrivilege,
-              RolePrivilege: {
-                add: false,
-                view: false,
-                edit: false,
-                delete: false
-              }
-            };
-          });
+      .subscribe((result: DialogResultModel<Privilege[]>) => {
+        if (result && result.success) {
+          const selectedPrivileges: Privilege[] = result.model
+            .filter(
+              (selectedPrivilege) => !this.role.Privileges.some((rPrivilege) => rPrivilege.id === selectedPrivilege.id)
+            )
+            ?.map((selectedPrivilege) => {
+              return {
+                ...selectedPrivilege,
+                RolePrivilege: {
+                  add: false,
+                  view: false,
+                  edit: false,
+                  delete: false
+                }
+              };
+            });
 
-        if (selectedPrivileges?.length) {
-          this.role.Privileges = [...this.role.Privileges, ...selectedPrivileges];
-          this.cdr.detectChanges();
+          if (selectedPrivileges?.length) {
+            this.role.Privileges = [...this.role.Privileges, ...selectedPrivileges];
+            this.cdr.detectChanges();
+          }
         }
       });
+
+    // const privilegesC = dialogRef.componentInstance.privilegesComponent;
+
+    // dialogRef
+    //   .afterOpened()
+    //   .pipe(takeUntil(this.unsubscribe), skipUntil(privilegesC.isLoading$), delay(300))
+    //   .subscribe(() => {
+    //     privilegesC.privileges
+    //       .filter((privilege) => this.role.Privileges.some((rPrivilege) => rPrivilege.id === privilege.id))
+    //       ?.forEach((selectedPrivilege) => {
+    //         privilegesC.selection.select(selectedPrivilege);
+    //       });
+    //   });
   }
 
   removePrivilege(privilegeId: number): void {
@@ -189,11 +190,12 @@ export class RoleComponent implements OnInit, OnDestroy {
   }
 
   updateRole(): void {
-    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_UPDATE_ROLE_CONFIRM).then((result) => {
-      if (result.value) {
-        this.store$.dispatch(updateRoleRequested({ role: { ...this.role, ...this.roleFormValues } }));
-        this.disableEdit();
-      }
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_UPDATE_ROLE_CONFIRM);
+    const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
+
+    this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () => {
+      this.store$.dispatch(updateRoleRequested({ role: { ...this.role, ...this.roleFormValues } }));
+      this.disableEdit();
     });
   }
 

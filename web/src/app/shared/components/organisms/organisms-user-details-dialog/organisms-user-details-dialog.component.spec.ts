@@ -2,8 +2,14 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { OrganismsUserDetailsDialogComponent } from './organisms-user-details-dialog.component';
+import { DialogWithTwoButtonModel } from '@/shared/models';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 
 describe('OrganismsUserDetailsDialogComponent', () => {
+  const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+    dialogModel: new DialogWithTwoButtonModel()
+  };
+
   let component: OrganismsUserDetailsDialogComponent;
   let fixture: ComponentFixture<OrganismsUserDetailsDialogComponent>;
 
@@ -18,7 +24,7 @@ describe('OrganismsUserDetailsDialogComponent', () => {
           },
           {
             provide: MAT_DIALOG_DATA,
-            useValue: {}
+            useValue: dialogDataModel
           }
         ]
       }).compileComponents();

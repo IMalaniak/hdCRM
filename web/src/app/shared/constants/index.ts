@@ -1,5 +1,4 @@
 export * from './actions.constants';
-export * from './alert.constants';
 export * from './api.routing.constants';
 export * from './button.constants';
 export * from './common.constants';

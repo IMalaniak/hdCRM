@@ -7,7 +7,7 @@ import { Update } from '@ngrx/entity';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 
 import { ToastMessageService } from '@/shared/services';
-import { CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared/models';
+import { CollectionApiResponse, ItemApiResponse, BaseMessage } from '@/shared/models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
 import { Page } from '@/shared/store';
 import * as userActions from './user.actions';
@@ -87,7 +87,7 @@ export class UserEffects {
         ofType(userActions.deleteUser),
         map((payload) => payload.id),
         mergeMap((id) => this.userService.delete(id)),
-        map((response: ApiResponse) => of(this.toastMessageService.snack(response))),
+        map((response: BaseMessage) => of(this.toastMessageService.snack(response))),
         catchError(() => of(userActions.userApiError()))
       ),
     {
@@ -117,7 +117,7 @@ export class UserEffects {
       map((payload) => payload.newPassword),
       switchMap((newPassword) =>
         this.userService.changeOldPassword(newPassword).pipe(
-          map((response: ApiResponse) => {
+          map((response: BaseMessage) => {
             this.toastMessageService.snack(response);
             return userActions.changePasswordSuccess();
           }),

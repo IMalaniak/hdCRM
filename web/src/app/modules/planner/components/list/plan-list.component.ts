@@ -1,17 +1,17 @@
 import { Component, AfterViewInit, ViewChild, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { Observable, Subject, merge } from 'rxjs';
+import { MatSort } from '@angular/material/sort';
+import { SelectionModel } from '@angular/cdk/collections';
+import { Router } from '@angular/router';
+
 import { Plan } from '../../models';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { PlansDataSource } from '../../services/plan.datasource';
 import { selectPlanPageLoading, selectPlansTotalCount } from '../../store/plan.selectors';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { tap, takeUntil } from 'rxjs/operators';
-import { SelectionModel } from '@angular/cdk/collections';
-import { Router } from '@angular/router';
-import { ToastMessageService } from '@/shared/services';
-import { PageQuery } from '@/shared/models';
+import { DialogDataModel, PageQuery } from '@/shared/models';
 import {
   IItemsPerPage,
   pageSizeOptions,
@@ -25,17 +25,12 @@ import {
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { deletePlanRequested, changeIsEditingState } from '../../store/plan.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
-import {
-  DIALOG,
-  SORT_DIRECTION,
-  ADD_PRIVILEGES,
-  EDIT_PRIVILEGES,
-  DELETE_PRIVILEGES,
-  COLUMN_NAMES
-} from '@/shared/constants';
+import { SORT_DIRECTION, ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_NAMES } from '@/shared/constants';
+import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
+import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
+import { DialogService } from '@/shared/services';
 
 @Component({
-  selector: 'plan-list',
   templateUrl: './plan-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -72,11 +67,7 @@ export class PlanListComponent implements AfterViewInit, OnDestroy {
   ];
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(
-    private router: Router,
-    private store$: Store<AppState>,
-    private toastMessageService: ToastMessageService
-  ) {}
+  constructor(private store$: Store<AppState>, private router: Router, private dialogService: DialogService) {}
 
   ngAfterViewInit(): void {
     const sort$ = this.sort.sortChange.pipe(tap(() => (this.paginator.pageIndex = 0)));
@@ -107,11 +98,12 @@ export class PlanListComponent implements AfterViewInit, OnDestroy {
   }
 
   deletePlan(id: number): void {
-    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_DELETE_PLAN_CONFIRM).then((result) => {
-      if (result.value) {
-        this.store$.dispatch(deletePlanRequested({ id }));
-      }
-    });
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_PLAN_CONFIRM);
+    const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
+
+    this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () =>
+      this.store$.dispatch(deletePlanRequested({ id }))
+    );
   }
 
   ngOnDestroy(): void {
