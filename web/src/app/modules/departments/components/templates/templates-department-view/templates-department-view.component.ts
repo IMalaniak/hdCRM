@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { AppState } from '@/core/reducers';
-import { DialogService, ToastMessageService } from '@/shared/services';
+import { DialogService } from '@/shared/services';
 import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
 import { CONSTANTS } from '@/shared/constants';
 import { DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
@@ -24,11 +24,10 @@ export class TemplatesDepartmentViewComponent
 
   constructor(
     protected store$: Store<AppState>,
-    protected toastMessageService: ToastMessageService,
-    private dialogService: DialogService,
+    protected dialogService: DialogService,
     private cdr: ChangeDetectorRef
   ) {
-    super(store$, toastMessageService);
+    super(store$, dialogService);
   }
 
   addManagerDialog(): void {

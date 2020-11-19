@@ -7,7 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { AppState } from '@/core/reducers';
 import { Asset, DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
-import { DialogService, ToastMessageService } from '@/shared/services';
+import { DialogService } from '@/shared/services';
 import { CONSTANTS } from '@/shared/constants';
 import { Plan } from '@/modules/planner/models';
 import { User, UsersDialogComponent } from '@/modules/users';
@@ -28,11 +28,10 @@ export class TemplatesPlanViewComponent extends TemplatesViewDetailsComponent<Pl
 
   constructor(
     protected store$: Store<AppState>,
-    protected toastMessageService: ToastMessageService,
-    private cdr: ChangeDetectorRef,
-    private dialogService: DialogService
+    protected dialogService: DialogService,
+    private cdr: ChangeDetectorRef
   ) {
-    super(store$, toastMessageService);
+    super(store$, dialogService);
   }
 
   removeParticipant(userId: number): void {

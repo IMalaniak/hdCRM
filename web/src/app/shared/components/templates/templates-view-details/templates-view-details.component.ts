@@ -7,9 +7,10 @@ import { filter, tap } from 'rxjs/operators';
 
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
-import { ACTION_LABELS, CONSTANTS, DIALOG, THEME_PALETTE } from '@/shared/constants';
-import { DynamicForm } from '@/shared/models';
-import { ToastMessageService } from '@/shared/services';
+import { ACTION_LABELS, CONSTANTS, THEME_PALETTE } from '@/shared/constants';
+import { DialogConfirmModel, DialogDataModel, DynamicForm } from '@/shared/models';
+import { DialogService } from '@/shared/services';
+import { DialogConfirmComponent } from '@/shared/components/dialogs';
 
 @Component({
   selector: 'templates-view-details',
@@ -32,7 +33,7 @@ export class TemplatesViewDetailsComponent<T> implements OnInit {
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
 
-  constructor(protected store$: Store<AppState>, protected toastMessageService: ToastMessageService) {}
+  constructor(protected store$: Store<AppState>, protected dialogService: DialogService) {}
 
   ngOnInit(): void {
     this.formJson$ = this.store$.pipe(
@@ -59,10 +60,11 @@ export class TemplatesViewDetailsComponent<T> implements OnInit {
   }
 
   update(): void {
-    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_UPDATE_COMMON_CONFIRM).then((result) => {
-      if (result.value) {
-        this.save();
-      }
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_UPDATE_COMMON_CONFIRM);
+    const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
+
+    this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () => {
+      this.save();
     });
   }
 

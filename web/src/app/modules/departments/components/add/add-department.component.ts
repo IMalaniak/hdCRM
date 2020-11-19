@@ -8,7 +8,6 @@ import { Department } from '../../models';
 import { createDepartmentRequested } from '../../store/department.actions';
 
 @Component({
-  selector: 'add-department-component',
   template: `
     <templates-department-view
       [editForm]="true"

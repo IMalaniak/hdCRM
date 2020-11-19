@@ -10,7 +10,6 @@ import { Plan } from '../../models';
 import { createPlanRequested } from '../../store/plan.actions';
 
 @Component({
-  selector: 'add-plan',
   template: `
     <templates-plan-view
       [item]="plan"

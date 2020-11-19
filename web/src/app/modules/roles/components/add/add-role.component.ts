@@ -9,7 +9,6 @@ import { Role } from '../../models';
 import { createRoleRequested } from '../../store/role.actions';
 
 @Component({
-  selector: 'app-add-role',
   template: `
     <templates-role-view
       [item]="role"

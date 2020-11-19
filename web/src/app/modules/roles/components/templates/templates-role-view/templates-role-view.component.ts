@@ -7,7 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { AppState } from '@/core/reducers';
 import { TemplatesViewDetailsComponent } from '@/shared/components';
 import { MAT_BUTTON, COLUMN_NAMES, COLUMN_LABELS, CONSTANTS } from '@/shared/constants';
-import { DialogService, ToastMessageService } from '@/shared/services';
+import { DialogService } from '@/shared/services';
 import { DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { Privilege, Role } from '@/modules/roles/models';
 import { UsersDialogComponent, User } from '@/modules/users';
@@ -35,11 +35,10 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
 
   constructor(
     protected store$: Store<AppState>,
-    protected toastMessageService: ToastMessageService,
-    private cdr: ChangeDetectorRef,
-    private dialogService: DialogService
+    protected dialogService: DialogService,
+    private cdr: ChangeDetectorRef
   ) {
-    super(store$, toastMessageService);
+    super(store$, dialogService);
   }
 
   addParticipantDialog(): void {
