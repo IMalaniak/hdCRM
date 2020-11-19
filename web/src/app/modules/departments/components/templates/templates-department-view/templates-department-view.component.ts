@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { AppState } from '@/core/reducers';
-import { MediaqueryService, ToastMessageService } from '@/shared/services';
-import { Department } from '@/modules/departments/models';
-import { User, UsersDialogComponent } from '@/modules/users';
+import { DialogService, ToastMessageService } from '@/shared/services';
 import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
 import { CONSTANTS } from '@/shared/constants';
+import { DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
+import { Department } from '@/modules/departments/models';
+import { User, UsersDialogComponent } from '@/modules/users';
 
 @Component({
   selector: 'templates-department-view',
@@ -25,51 +25,49 @@ export class TemplatesDepartmentViewComponent
   constructor(
     protected store$: Store<AppState>,
     protected toastMessageService: ToastMessageService,
-    private dialog: MatDialog,
-    private mediaQuery: MediaqueryService,
+    private dialogService: DialogService,
     private cdr: ChangeDetectorRef
   ) {
     super(store$, toastMessageService);
   }
 
   addManagerDialog(): void {
-    const dialogRef = this.dialog.open(UsersDialogComponent, {
-      ...this.mediaQuery.deFaultPopupSize,
-      data: {
-        title: ['Select manager']
-      }
-    });
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_MANAGER)
+    };
 
-    dialogRef
+    this.dialogService
+      .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: User[]) => {
-        if (result?.length) {
-          this.item = { ...this.item, Manager: { ...result[0] } };
+      .subscribe((result: DialogResultModel<User[]>) => {
+        if (result && result.success) {
+          this.item = { ...this.item, Manager: { ...result.model[0] } };
           this.cdr.detectChanges();
         }
       });
+
+    // TODO: @ArsenIrod add afterOpened logic
   }
 
   addWorkersDialog(): void {
-    const dialogRef = this.dialog.open(UsersDialogComponent, {
-      ...this.mediaQuery.deFaultPopupSize,
-      data: {
-        title: ['Select workers']
-      }
-    });
+    const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
+      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_WORKERS)
+    };
 
-    dialogRef
+    this.dialogService
+      .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: User[]) => {
-        const selectedWorkers: User[] = result?.filter(
-          (selectedWorker) => !this.item.Workers.some((user) => user.id === selectedWorker.id)
-        );
-
-        if (selectedWorkers?.length) {
-          this.item.Workers = [...this.item.Workers, ...selectedWorkers];
-          this.cdr.detectChanges();
+      .subscribe((result: DialogResultModel<User[]>) => {
+        if (result && result.success) {
+          const selectedWorkers: User[] = result.model.filter(
+            (selectedWorker) => !this.item.Workers.some((user) => user.id === selectedWorker.id)
+          );
+          if (selectedWorkers?.length) {
+            this.item.Workers = [...this.item.Workers, ...selectedWorkers];
+            this.cdr.detectChanges();
+          }
         }
       });
   }

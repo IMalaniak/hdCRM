@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
+import { map, mergeMap, withLatestFrom } from 'rxjs/operators';
+
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import * as integrationsActions from './integration.actions';
-import { map, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { IntegrationsService } from '../services/integrations.service';
-import { ToastMessageService } from '@/shared/services';
-import { AppState } from '.';
+import { AppState } from './index';
 import { Store, select } from '@ngrx/store';
 import { getGoogleDriveIntegrationState } from './integration.selectors';
+import { ToastMessageService } from '@/shared/services';
+import { BaseMessage } from '@/shared/models';
+import { CONSTANTS } from '@/shared/constants';
 
 @Injectable()
 export class IntegrationsEffects {
@@ -25,14 +28,22 @@ export class IntegrationsEffects {
         if (!googleDriveIntegrationState) {
           return this.integrationsService.getGoogleDriveToken().pipe(
             map((googleDriveToken) => {
-              this.toastMessageService.toast('Google Drive integration is enabled!', 'success');
+              const response: BaseMessage = {
+                success: true,
+                message: CONSTANTS.TEXTS_GOOGLE_DRIVE_INTEGRATION_ENABLED
+              };
+              this.toastMessageService.snack(response);
               return integrationsActions.googleDriveIntegrationLoaded({ googleDriveToken });
             })
           );
         } else {
           return this.integrationsService.removeGoogleDriveToken().pipe(
             map(() => {
-              this.toastMessageService.toast('Google Drive integration is disabled!', 'info');
+              const response: BaseMessage = {
+                success: false,
+                message: CONSTANTS.TEXTS_GOOGLE_DRIVE_INTEGRATION_DISABLED
+              };
+              this.toastMessageService.snack(response);
               return integrationsActions.googleDriveIntegrationDisable();
             })
           );

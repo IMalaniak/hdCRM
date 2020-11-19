@@ -3,9 +3,9 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { AppState } from '@/core/reducers';
+import { FORMCONSTANTS } from '@/shared/constants';
 import { Department } from '../../models';
 import { createDepartmentRequested } from '../../store/department.actions';
-import { FORMCONSTANTS } from '@/shared/constants';
 
 @Component({
   selector: 'add-department-component',

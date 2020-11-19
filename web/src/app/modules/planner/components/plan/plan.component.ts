@@ -31,6 +31,7 @@ import { selectIsEditing, selectPlanById } from '../../store/plan.selectors';
 export class PlanComponent implements OnInit {
   canEditPlan$: Observable<boolean>;
   canAddAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.PLAN_ATTACHMENT)));
+  // TODO: @IMalaniak use this when implementing configure stages
   // configStages$: Observable<boolean> = this.store.pipe(select(isPrivileged('stage-edit')));
   canDeleteAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.PLAN_ATTACHMENT)));
   editForm$: Observable<boolean> = this.store$.pipe(select(selectIsEditing));
@@ -116,7 +117,7 @@ export class PlanComponent implements OnInit {
   // TODO: @ArseniiIrod, @IMalaniak remake logic
   // addStageDialog(): void {
   //   const dialogRef = this.dialog.open(StagesDialogComponent, {
-  //     ...this.mediaQuery.deFaultPopupSize,
+  //     ...this.mediaQueryService.deFaultPopupSize,
   //     data: {
   //       title: 'Select stages'
   //     }

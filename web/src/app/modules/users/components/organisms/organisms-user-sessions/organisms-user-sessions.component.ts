@@ -1,11 +1,15 @@
 import { Component, OnChanges, Input, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+
 import { UserSession, User } from '@/modules/users';
 import { AppState } from '@/core/reducers';
 import { Store } from '@ngrx/store';
 import { deleteSession, deleteMultipleSession } from '@/core/auth/store/auth.actions';
 import { UAParser } from 'ua-parser-js';
-import { ToastMessageService } from '@/shared/services';
-import { DIALOG, MAT_BUTTON, THEME_PALETTE, CONSTANTS } from '@/shared/constants';
+import { MAT_BUTTON, THEME_PALETTE, CONSTANTS } from '@/shared/constants';
+import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
+import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
+import { DialogService } from '@/shared/services';
 
 @Component({
   selector: 'organisms-user-sessions',
@@ -23,7 +27,7 @@ export class OrganismsUserSessionsComponent implements OnChanges {
   themePalette = THEME_PALETTE;
   matButtonType = MAT_BUTTON;
 
-  constructor(private store: Store<AppState>, private toastMessageService: ToastMessageService) {}
+  constructor(private store: Store<AppState>, private dialogService: DialogService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['user']?.currentValue && this.user) {
@@ -62,21 +66,20 @@ export class OrganismsUserSessionsComponent implements OnChanges {
     return icon;
   }
 
+  onRemove(sessionId: number | number[], messageText: string): void {
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(messageText);
+    const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
+
+    this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () => this.removeSession(sessionId));
+  }
+
   onRemoveSession(sessionId: number): void {
-    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_SESSION_DEACTIVATE_CONFIRM).then((result) => {
-      if (result.value) {
-        this.removeSession(sessionId);
-      }
-    });
+    this.onRemove(sessionId, CONSTANTS.TEXTS_SESSION_DEACTIVATE_CONFIRM);
   }
 
   onRemoveOtherSessions(): void {
-    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_SESSION_DEACTIVATE_ALL_CONFIRM).then((result) => {
-      if (result.value) {
-        const sessionIds: number[] = this.otherActiveSessions.map((session) => session.id);
-        this.removeSession(sessionIds);
-      }
-    });
+    const sessionIds: number[] = this.otherActiveSessions.map((session) => session.id);
+    this.onRemove(sessionIds, CONSTANTS.TEXTS_SESSION_DEACTIVATE_ALL_CONFIRM);
   }
 
   removeSession(sessionIds: number | number[]): void {

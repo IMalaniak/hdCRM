@@ -1,13 +1,18 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { Organization } from '@/modules/users';
-import { ToastMessageService } from '@/shared/services';
-import { DIALOG, ACTION_LABELS, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
-import { DynamicForm } from '@/shared/models';
 import { Observable } from 'rxjs';
+
 import { select, Store } from '@ngrx/store';
+
+import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
+import { Organization } from '@/modules/users';
+import { ACTION_LABELS, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
+import { DynamicForm } from '@/shared/models';
 import { AppState } from '@/core/reducers';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
+import { DialogService } from '@/shared/services';
+import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 
 @Component({
   selector: 'organisms-user-organization',
@@ -31,7 +36,7 @@ export class OrganismsUserOrganizationComponent implements OnInit {
     select(selectFormByName(FORMCONSTANTS.USER_ORGANIZATION))
   );
 
-  constructor(private toastMessageService: ToastMessageService, private store$: Store<AppState>) {}
+  constructor(private store$: Store<AppState>, private dialogService: DialogService) {}
 
   ngOnInit(): void {
     this.store$.dispatch(formRequested({ formName: FORMCONSTANTS.USER_ORGANIZATION }));
@@ -46,10 +51,11 @@ export class OrganismsUserOrganizationComponent implements OnInit {
   }
 
   onUpdateOrgSubmit(): void {
-    this.toastMessageService.confirm(DIALOG.CONFIRM, CONSTANTS.TEXTS_UPDATE_COMMON_CONFIRM).then((result) => {
-      if (result.value) {
-        this.updateOrg.emit({ ...this.organization, ...this.userOrganizationFormValues });
-      }
-    });
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_UPDATE_COMMON_CONFIRM);
+    const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
+
+    this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () =>
+      this.updateOrg.emit({ ...this.organization, ...this.userOrganizationFormValues })
+    );
   }
 }

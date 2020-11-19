@@ -206,18 +206,8 @@ main {
   }
 }
 
-.mat-dialog-actions {
-  atoms-icon-button {
-    margin: 0 app-size(spacer, sm, true);
-
-    &:first-of-type {
-      margin-left: 0;
-    }
-
-    &:last-of-type {
-      margin-right: 0;
-    }
-  }
+.mat-dialog-container {
+  position: relative;
 }
 
 .mat-menu-item {
@@ -252,10 +242,17 @@ main {
 
 .card-actions {
   margin-left: auto;
+}
 
+.card-actions,
+.dialog-buttons {
   atoms-icon-button + atoms-icon-button {
     margin-left: app-size(spacer, sm, true);
   }
+}
+
+button .mat-button-focus-overlay {
+  background-color: transparent !important;
 }
 
 // Define sizing utility to allow responsive breakpoints

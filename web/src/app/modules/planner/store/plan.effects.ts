@@ -14,7 +14,7 @@ import { generatePageKey } from '@/shared/utils/generatePageKey';
 import * as planActions from './plan.actions';
 import { PlanService } from '../services';
 import { Plan } from '../models';
-import { CollectionApiResponse, ItemApiResponse, ApiResponse } from '@/shared/models';
+import { CollectionApiResponse, ItemApiResponse, BaseMessage } from '@/shared/models';
 
 @Injectable()
 export class PlanEffects {
@@ -93,7 +93,7 @@ export class PlanEffects {
       map((payload) => payload.id),
       mergeMap((id: number) =>
         this.planService.delete(id).pipe(
-          map((response: ApiResponse) => {
+          map((response: BaseMessage) => {
             this.toastMessageService.snack(response);
             return planActions.deletePlanSuccess({ id });
           }),

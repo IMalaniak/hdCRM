@@ -10,7 +10,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule, RouterState } from '@ngrx/router-store';
 
 import { CustomSerializer } from '@/shared/utils';
-import { MediaqueryService, LocalStorageService } from '@/shared/services';
+import { LocalStorageService } from '@/shared/services';
 import { environment } from 'environments/environment';
 import { httpInterceptorsProviders } from './_interceptors';
 import { AuthModule } from './auth/auth.module';
@@ -20,6 +20,7 @@ import { PreferencesEffects } from './reducers/preferences.effects';
 import { IntegrationsEffects } from './reducers/integration.effects';
 import { DynamicFormEffects } from './reducers/dynamic-form/dynamic-form.effects';
 import { DynamicFormService } from './services/dynamic-form.service';
+import { MediaQueryService } from './services';
 
 @NgModule({
   imports: [
@@ -46,6 +47,6 @@ import { DynamicFormService } from './services/dynamic-form.service';
     })
   ],
   exports: [RouterModule, HttpClientModule, FormsModule, ReactiveFormsModule, LayoutModule],
-  providers: [httpInterceptorsProviders, MediaqueryService, DynamicFormService, LocalStorageService]
+  providers: [httpInterceptorsProviders, MediaQueryService, DynamicFormService, LocalStorageService]
 })
 export class CoreModule {}

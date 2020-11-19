@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 import { Plan } from '../models';
 import { User } from '@/modules/users';
-import { CollectionApiResponse, ApiResponse, ItemApiResponse, PageQuery } from '@/shared/models';
+import { CollectionApiResponse, BaseMessage, ItemApiResponse, PageQuery } from '@/shared/models';
 import { APIS } from '@/shared/constants';
 
 @Injectable()
@@ -32,21 +33,21 @@ export class PlanService {
     return this.http.put<ItemApiResponse<Plan>>(`${APIS.PLANS}/${plan.id}`, this.formatBeforeSend(plan));
   }
 
-  delete(id: number): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(`${APIS.PLANS}/${id}`);
+  delete(id: number): Observable<BaseMessage> {
+    return this.http.delete<BaseMessage>(`${APIS.PLANS}/${id}`);
   }
 
-  // updatePlanStages(plan: Plan): Observable<ItemApiResponse<Plan>> {
-  //   return this.http.put<ItemApiResponse<Plan>>(`${this.api}/updatePlanStages`, this.formatBeforeSend(plan));
+  // updatePlanStages(plan: Plan): Observable<ItemServiceMessage<Plan>> {
+  //   return this.http.put<ItemServiceMessage<Plan>>(`${this.api}/updatePlanStages`, this.formatBeforeSend(plan));
   // }
 
-  // toNextStage(id: number): Observable<ItemApiResponse<Plan>> {
+  // toNextStage(id: number): Observable<ItemServiceMessage<Plan>> {
   //   const url = `${this.api}/toNextStage/${id}`;
-  //   return this.http.get<ItemApiResponse<Plan>>(url);
+  //   return this.http.get<ItemServiceMessage<Plan>>(url);
   // }
 
-  deleteDoc(req: any): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(APIS.PLANS_DOCUMENTS, {
+  deleteDoc(req: any): Observable<BaseMessage> {
+    return this.http.delete<BaseMessage>(APIS.PLANS_DOCUMENTS, {
       params: new HttpParams().set('docId', req.docId.toString()).set('planId', req.planId.toString())
     });
   }

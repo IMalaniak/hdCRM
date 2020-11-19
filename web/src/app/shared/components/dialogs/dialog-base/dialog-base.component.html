@@ -1,0 +1,7 @@
+<h1 mat-dialog-title *ngIf="title">{{ title }}</h1>
+
+<div mat-dialog-content>
+  <ng-content select="[dialog-content]"></ng-content>
+</div>
+
+<ng-content mat-dialog-actions select="[dialog-actions]"></ng-content>

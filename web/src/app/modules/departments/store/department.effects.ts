@@ -5,18 +5,18 @@ import { of } from 'rxjs';
 import { mergeMap, map, catchError, withLatestFrom, filter } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
-import { Update } from '@ngrx/entity';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
+import { Update } from '@ngrx/entity';
 
 import { AppState } from '@/core/reducers';
-import { ToastMessageService } from '@/shared/services';
-import { RoutingConstants } from '@/shared/constants';
-import { CollectionApiResponse, ItemApiResponse, ApiResponse, PageQuery } from '@/shared/models';
 import { Page } from '@/shared/store';
 import * as depActions from './department.actions';
 import { DepartmentService } from '../services';
 import { Department } from '../models';
 import { selectDashboardDepDataLoaded } from './department.selectors';
+import { ToastMessageService } from '@/shared/services';
+import { CollectionApiResponse, ItemApiResponse, BaseMessage, PageQuery } from '@/shared/models';
+import { RoutingConstants } from '@/shared/constants';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
 
 @Injectable()
@@ -98,7 +98,7 @@ export class DepartmentEffects {
       map((payload) => payload.id),
       mergeMap((id: number) =>
         this.departmentService.delete(id).pipe(
-          map((response: ApiResponse) => {
+          map((response: BaseMessage) => {
             this.toastMessageService.snack(response);
             return depActions.deleteDepartmentSuccess({ id });
           }),

@@ -1,43 +1,45 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { FormControl, Validators } from '@angular/forms';
+import { Observable, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
+import { SelectionModel } from '@angular/cdk/collections';
+
+import { Store, select } from '@ngrx/store';
 import { Stage } from '../../../models';
 import { AddStageDialogComponent } from '../add-dialog/add-stage-dialog.component';
-import { Observable, Subject } from 'rxjs';
-import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { allStagesRequestedFromDialogWindow, createStage } from '@/modules/planner/store/stage.actions';
 import { selectAllStages, selectStagesLoading } from '@/modules/planner/store/stage.selectors';
-import { map, takeUntil } from 'rxjs/operators';
-import { SelectionModel } from '@angular/cdk/collections';
-import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS } from '@/shared/constants';
+import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, CONSTANTS } from '@/shared/constants';
+import { DialogService } from '@/shared/services';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
+import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
+import { DialogCreateEditModel, DialogMode } from '@/shared/models';
 
 @Component({
-  selector: 'app-stages',
+  selector: 'stages-component',
   templateUrl: './stages.component.html',
   styleUrls: ['./stages.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StagesComponent implements OnInit, OnDestroy {
-  isLoading$: Observable<boolean> = this.store.pipe(select(selectStagesLoading));
+  isLoading$: Observable<boolean> = this.store$.pipe(select(selectStagesLoading));
 
   stages: Stage[];
   resultsLength: number;
+  selection = new SelectionModel<Stage>(true, []);
 
   columns = COLUMN_NAMES;
   columnLabels = COLUMN_LABELS;
   actionLabels = ACTION_LABELS;
   displayedColumns: COLUMN_NAMES[] = [COLUMN_NAMES.SELECT, COLUMN_NAMES.TITLE];
 
-  selection = new SelectionModel<Stage>(true, []);
-
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private dialog: MatDialog, private store: Store<AppState>) {}
+  constructor(private store$: Store<AppState>, private dialogService: DialogService) {}
 
   ngOnInit(): void {
-    this.store.dispatch(allStagesRequestedFromDialogWindow());
-    this.store
+    this.store$.dispatch(allStagesRequestedFromDialogWindow());
+    this.store$
       .pipe(
         takeUntil(this.unsubscribe),
         select(selectAllStages),
@@ -61,19 +63,17 @@ export class StagesComponent implements OnInit, OnDestroy {
   }
 
   createStageDialog(): void {
-    const dialogRef = this.dialog.open(AddStageDialogComponent, {
-      data: {
-        keyString: new FormControl('', [Validators.required, Validators.minLength(4)])
-      }
-    });
+    const dialogModel = new DialogCreateEditModel(DialogMode.CREATE, CONSTANTS.TEXTS_CREATE_STAGE, ACTION_LABELS.SAVE);
+    const dialogDataModel: DialogDataModel<DialogCreateEditModel> = { dialogModel };
 
-    dialogRef
+    this.dialogService
+      .open(AddStageDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result) => {
-        if (result) {
-          const stage = { keyString: result } as Stage;
-          this.store.dispatch(createStage({ stage }));
+      .subscribe((result: DialogResultModel<string>) => {
+        if (result && result.success) {
+          const stage: Stage = { keyString: result.model } as Stage;
+          this.store$.dispatch(createStage({ stage }));
         }
       });
   }

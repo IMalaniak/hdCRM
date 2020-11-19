@@ -2,7 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User, Organization } from '@/modules/users';
-import { ApiResponse, NewPassword, JwtDecoded, ItemApiResponse } from '@/shared/models';
+import { BaseMessage, NewPassword, JwtDecoded, ItemApiResponse } from '@/shared/models';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { APIS } from '@/shared/constants';
 
@@ -24,34 +24,34 @@ export class AuthenticationService {
     return this.http.put<ItemApiResponse<Organization>>(`${APIS.USERS_ORGANIZATION}/${org.id}`, org);
   }
 
-  registerUser(user: User): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(APIS.AUTH_REGISTER, user);
+  registerUser(user: User): Observable<BaseMessage> {
+    return this.http.post<BaseMessage>(APIS.AUTH_REGISTER, user);
   }
 
-  login(loginUser: User): Observable<ApiResponse | string> {
-    return this.http.post<ApiResponse | string>(APIS.AUTHENTICATE, loginUser, { withCredentials: true });
+  login(loginUser: User): Observable<BaseMessage | string> {
+    return this.http.post<BaseMessage | string>(APIS.AUTHENTICATE, loginUser, { withCredentials: true });
   }
 
-  refreshSession(): Observable<ApiResponse | string> {
-    return this.http.get<ApiResponse | string>(APIS.REFRESH_SESSION, { withCredentials: true });
+  refreshSession(): Observable<BaseMessage | string> {
+    return this.http.get<BaseMessage | string>(APIS.REFRESH_SESSION, { withCredentials: true });
   }
 
-  activateAccount(token: string): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(APIS.ACTIVATE_ACCOUNT, {
+  activateAccount(token: string): Observable<BaseMessage> {
+    return this.http.post<BaseMessage>(APIS.ACTIVATE_ACCOUNT, {
       token: token
     });
   }
 
-  requestPasswordReset(user: User): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(APIS.FORGOT_PASSWORD, user);
+  requestPasswordReset(user: User): Observable<BaseMessage> {
+    return this.http.post<BaseMessage>(APIS.FORGOT_PASSWORD, user);
   }
 
-  resetPassword(data: NewPassword): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(APIS.RESET_PASSWORD, data);
+  resetPassword(data: NewPassword): Observable<BaseMessage> {
+    return this.http.post<BaseMessage>(APIS.RESET_PASSWORD, data);
   }
 
-  logout(): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(APIS.LOGOUT, { withCredentials: true });
+  logout(): Observable<BaseMessage> {
+    return this.http.get<BaseMessage>(APIS.LOGOUT, { withCredentials: true });
   }
 
   isTokenValid(token: string): boolean {
@@ -62,12 +62,12 @@ export class AuthenticationService {
     return this.jwtHelper.decodeToken(token);
   }
 
-  deleteSession(id: number): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(`${APIS.USERS_SESSION}/${id}`);
+  deleteSession(id: number): Observable<BaseMessage> {
+    return this.http.delete<BaseMessage>(`${APIS.USERS_SESSION}/${id}`);
   }
 
-  deleteSessionMultiple(sessionIds: number[]): Observable<ApiResponse> {
+  deleteSessionMultiple(sessionIds: number[]): Observable<BaseMessage> {
     // TODO @IMalaniak, change this to delete request with body
-    return this.http.put<ApiResponse>(`${APIS.USERS_MULTIPLE_SESSION}/${1}`, { sessionIds });
+    return this.http.put<BaseMessage>(`${APIS.USERS_MULTIPLE_SESSION}/${1}`, { sessionIds });
   }
 }

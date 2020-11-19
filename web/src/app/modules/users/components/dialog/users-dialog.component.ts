@@ -1,32 +1,37 @@
 import { Component, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ComponentType } from '@angular/cdk/portal';
+
 import { UsersComponent } from '../list/users.component';
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
+import { DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
+import { DialogBaseModel } from '@/shared/components';
+import { User } from '../../models';
 
-export interface UsersDialogData {
-  title: string;
-}
 @Component({
   templateUrl: 'users-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UsersDialogComponent {
+export class UsersDialogComponent extends DialogBaseModel<DialogWithTwoButtonModel> {
+  @ViewChild(UsersComponent, { static: true })
+  usersComponent: UsersComponent;
+
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
 
   constructor(
-    public dialogRef: MatDialogRef<UsersDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: UsersDialogData
-  ) {}
-
-  @ViewChild(UsersComponent, { static: true })
-  usersComponent: UsersComponent;
-
-  onNoClick(): void {
-    this.dialogRef.close();
+    readonly dialogRef: MatDialogRef<ComponentType<unknown>>,
+    @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<DialogWithTwoButtonModel>
+  ) {
+    super(dialogRef, data);
   }
 
-  onSubmitClick(): void {
-    this.dialogRef.close(this.usersComponent.selection.selected);
+  onClose(success: boolean): void {
+    const result: DialogResultModel<User[]> = {
+      success,
+      model: this.usersComponent.selection.selected
+    };
+    this.dialogRef.close(result);
   }
 }

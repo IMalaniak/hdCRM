@@ -1,18 +1,9 @@
-<h1 mat-dialog-title>{{ data.title }}</h1>
-<div mat-dialog-content class="task-dialog">
+<component-dialog class="task-dialog" [formInvalid]="false" (dialogClose)="onClose($event)">
   <organisms-dynamic-form
-    [data]="data.task || null"
+    [data]="model"
     [formJson]="taskFormJson$ | async"
     [editForm]="true"
     (formChanges)="taskFormValueChanges($event)"
   >
   </organisms-dynamic-form>
-</div>
-<div mat-dialog-actions class="task-dialog-actions">
-  <atoms-icon-button (click)="dialogRef.close()" [icon]="['fas', 'times']" [color]="themePalette.BASIC">
-    {{ actionLabels.CANCEL }}
-  </atoms-icon-button>
-  <atoms-icon-button (onclick)="onSubmit()" [icon]="['fas', 'save']" color="primary">
-    {{ actionLabels.SAVE }}
-  </atoms-icon-button>
-</div>
+</component-dialog>
