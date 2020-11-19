@@ -5,7 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
-import { DynamicForm } from '@/shared/models';
+import { DialogType, DynamicForm } from '@/shared/models';
 import { UsersDialogComponent, User } from '@/modules/users';
 import { Department } from '../../models';
 import { createDepartmentRequested } from '../../store/department.actions';
@@ -51,7 +51,7 @@ export class AddDepartmentComponent implements OnInit {
     };
 
     this.dialogService
-      .open(UsersDialogComponent, dialogDataModel)
+      .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<User[]>) => {
@@ -81,7 +81,7 @@ export class AddDepartmentComponent implements OnInit {
     };
 
     this.dialogService
-      .open(UsersDialogComponent, dialogDataModel)
+      .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<User[]>) => {

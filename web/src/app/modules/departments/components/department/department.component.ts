@@ -9,7 +9,7 @@ import { cloneDeep } from 'lodash';
 import { AppState } from '@/core/reducers';
 import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
 import { EDIT_PRIVILEGES, ACTION_LABELS, CONSTANTS, MAT_BUTTON, RoutingDataConstants } from '@/shared/constants';
-import { DynamicForm } from '@/shared/models';
+import { DialogType, DynamicForm } from '@/shared/models';
 import { UsersDialogComponent, User } from '@/modules/users';
 import { Department } from '../../models';
 import { updateDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
@@ -74,7 +74,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     };
 
     this.dialogService
-      .open(UsersDialogComponent, dialogDataModel)
+      .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<User[]>) => {
@@ -92,7 +92,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     };
 
     this.dialogService
-      .open(UsersDialogComponent, dialogDataModel)
+      .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<User[]>) => {

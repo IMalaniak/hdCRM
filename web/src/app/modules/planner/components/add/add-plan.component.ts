@@ -6,7 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { AppState } from '@/core/reducers';
-import { DynamicForm } from '@/shared/models';
+import { DialogType, DynamicForm } from '@/shared/models';
 import { ACTION_LABELS, RoutingDataConstants, CONSTANTS } from '@/shared/constants';
 import { UsersDialogComponent, User } from '@/modules/users';
 import { Plan } from '../../models';
@@ -51,7 +51,7 @@ export class AddPlanComponent implements OnInit, OnDestroy {
     };
 
     this.dialogService
-      .open(UsersDialogComponent, dialogDataModel)
+      .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<User[]>) => {

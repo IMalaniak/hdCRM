@@ -59,6 +59,10 @@ export class DialogService {
         return {
           width: '32em'
         };
+      case DialogType.MAX:
+        return {
+          width: DIALOG.MAX_WIDTH
+        };
       default:
         return {
           width: STYLECONSTANTS.FIT_CONTENT

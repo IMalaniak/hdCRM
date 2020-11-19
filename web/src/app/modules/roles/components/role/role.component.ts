@@ -89,7 +89,7 @@ export class RoleComponent implements OnInit, OnDestroy {
     };
 
     this.dialogService
-      .open(UsersDialogComponent, dialogDataModel)
+      .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<User[]>) => {

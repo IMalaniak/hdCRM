@@ -10,7 +10,14 @@ import { cloneDeep } from 'lodash';
 import { AppState } from '@/core/reducers';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { ToastMessageService } from '@/shared/services';
-import { Asset, BaseMessage, DynamicForm, DialogDataModel, DialogWithTwoButtonModel } from '@/shared/models';
+import {
+  Asset,
+  BaseMessage,
+  DynamicForm,
+  DialogDataModel,
+  DialogWithTwoButtonModel,
+  DialogType
+} from '@/shared/models';
 import {
   ADD_PRIVILEGES,
   DELETE_PRIVILEGES,
@@ -217,7 +224,7 @@ export class PlanComponent implements OnInit, OnDestroy {
     };
 
     this.dialogService
-      .open(UsersDialogComponent, dialogDataModel)
+      .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<User[]>) => {
