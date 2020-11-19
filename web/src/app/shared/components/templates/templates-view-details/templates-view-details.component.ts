@@ -1,10 +1,10 @@
-import { AppState } from '@/core/reducers';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 
+import { AppState } from '@/core/reducers';
 import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
 import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
 import { ACTION_LABELS, CONSTANTS, THEME_PALETTE } from '@/shared/constants';

@@ -56,7 +56,10 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
             (selectedUser) => !this.item.Users.some((user) => user.id === selectedUser.id)
           );
           if (selectedUsers?.length) {
-            this.item.Users = [...this.item.Users, ...selectedUsers];
+            this.item = {
+              ...this.item,
+              Users: [...this.item.Users, ...selectedUsers]
+            };
             this.cdr.detectChanges();
           }
         }
@@ -92,7 +95,10 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
               };
             });
           if (selectedPrivileges?.length) {
-            this.item.Privileges = [...this.item.Privileges, ...selectedPrivileges];
+            this.item = {
+              ...this.item,
+              Privileges: [...this.item.Privileges, ...selectedPrivileges]
+            };
             this.cdr.detectChanges();
           }
         }

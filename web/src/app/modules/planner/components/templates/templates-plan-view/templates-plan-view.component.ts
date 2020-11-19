@@ -56,7 +56,10 @@ export class TemplatesPlanViewComponent extends TemplatesViewDetailsComponent<Pl
             (selectedParticipant) => !this.item.Participants.some((user) => user.id === selectedParticipant.id)
           );
           if (selectedParticipants?.length) {
-            this.item.Participants = [...this.item.Participants, ...selectedParticipants];
+            this.item = {
+              ...this.item,
+              Participants: [...this.item.Participants, ...selectedParticipants]
+            };
             this.cdr.detectChanges();
           }
         }

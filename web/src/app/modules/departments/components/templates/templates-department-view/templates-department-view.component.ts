@@ -41,7 +41,11 @@ export class TemplatesDepartmentViewComponent
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: DialogResultModel<User[]>) => {
         if (result && result.success) {
-          this.item = { ...this.item, Manager: { ...result.model[0] } };
+          this.item = {
+            ...this.item,
+            Manager: { ...result.model[0] },
+            managerId: result.model[0].id
+          };
           this.cdr.detectChanges();
         }
       });
@@ -64,7 +68,10 @@ export class TemplatesDepartmentViewComponent
             (selectedWorker) => !this.item.Workers.some((user) => user.id === selectedWorker.id)
           );
           if (selectedWorkers?.length) {
-            this.item.Workers = [...this.item.Workers, ...selectedWorkers];
+            this.item = {
+              ...this.item,
+              Workers: [...this.item.Workers, ...selectedWorkers]
+            };
             this.cdr.detectChanges();
           }
         }
