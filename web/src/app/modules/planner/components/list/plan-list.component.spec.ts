@@ -1,12 +1,14 @@
-import { SharedModule } from '@/shared/shared.module';
-import { authStateMock } from '@/shared/testing/mocks';
-import { initialPlansState } from '../../store/plan.reducer';
-import { initialPreferencesState } from '@/core/reducers/preferences.reducer';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { initialPreferencesState } from '@/core/reducers/preferences.reducer';
+import { SharedModule } from '@/shared/shared.module';
+import { authStateMock } from '@/shared/testing/mocks';
+import { initialUsersState } from '@/modules/users/store/user.reducer';
+import { initialPlansState } from '../../store/plan.reducer';
 import { PlanListComponent } from './plan-list.component';
 
 describe('PlanListComponent', () => {
@@ -15,7 +17,8 @@ describe('PlanListComponent', () => {
   const initialState = {
     preferences: initialPreferencesState,
     auth: authStateMock,
-    plans: initialPlansState
+    plans: initialPlansState,
+    users: initialUsersState
   };
 
   beforeEach(

@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideMockStore } from '@ngrx/store/testing';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, formsStateMock } from '@/shared/testing/mocks';
-
+import { initialUsersState } from '@/modules/users/store/user.reducer';
 import { initialDepartmentsState } from '../../store/department.reducer';
 import { DepartmentComponent } from './department.component';
 
@@ -15,6 +15,7 @@ describe('DepartmentComponent', () => {
   let fixture: ComponentFixture<DepartmentComponent>;
   const initialState = {
     departments: initialDepartmentsState,
+    users: initialUsersState,
     auth: authStateMock,
     forms: formsStateMock
   };
