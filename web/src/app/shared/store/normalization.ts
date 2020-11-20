@@ -31,6 +31,13 @@ export const planSchema = new schema.Entity<Plan>('Plans', {
 });
 export const planListSchema = new schema.Array<Role>(planSchema);
 
+export const departmentSchema = new schema.Entity<Department>('Departments', {
+  Manager: userSchema,
+  Workers: userListSchema
+});
+export const departmentListSchema = new schema.Array<Department>(departmentSchema);
+departmentSchema.define({ ParentDepartment: departmentSchema, SubDepartments: departmentListSchema });
+
 export function normalizeResponse<T>(
   response: CollectionApiResponse<T> | ItemApiResponse<T>,
   schema: schema.Array<T> | schema.Entity
