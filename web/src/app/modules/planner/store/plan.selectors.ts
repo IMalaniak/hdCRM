@@ -11,7 +11,7 @@ export const selectPlanEntityState = createSelector(selectPlansState, (plansStat
 export const selectPlanPagesState = createSelector(selectPlansState, (plansState) => plansState?.pages);
 
 export const selectPlanById = (planId: number) =>
-  createSelector(selectPlanEntityState, (plansState) => plansState.entities[planId]);
+  createSelector(selectPlanEntityState, (plansState) => plansState?.entities[planId]);
 export const selectPlanPageByKey = (pageQuery: PageQuery) =>
   createSelector(selectPlanPagesState, (pagesState) => pagesState?.entities[generatePageKey(pageQuery)]);
 

@@ -16,12 +16,12 @@ import { VIEW_PRIVILEGES } from '@/shared/constants';
 export class TemplatesUserDetailsComponent {
   canViewDepartment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(VIEW_PRIVILEGES.DEPARTMENT)));
 
-  constructor(private store$: Store<AppState>) {}
-
   @Input() user: User;
   @Input() isDialog = false;
 
   @Output() addFileCall: EventEmitter<Asset> = new EventEmitter();
+
+  constructor(private store$: Store<AppState>) {}
 
   onAddFile(asset: Asset): void {
     this.addFileCall.emit(asset);

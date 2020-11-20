@@ -1,7 +1,6 @@
 {
   "extends": ["config:base", ":pinAllExceptPeerDependencies"],
   "labels": ["dependencies"],
-  "ignoreDeps": ["sweetalert2"],
   "packageRules": [
     {
       "depTypeList": ["devDependencies"],

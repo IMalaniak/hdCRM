@@ -58,7 +58,8 @@ export class PlanController {
   ): Promise<void> {
     const plan: PlanCreationAttributes = {
       ...req.body,
-      OrganizationId: req.user.OrganizationId
+      OrganizationId: req.user.OrganizationId,
+      CreatorId: req.user.id
     };
     const result = await this.planService.create(plan);
 

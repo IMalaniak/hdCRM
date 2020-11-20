@@ -11,7 +11,8 @@ import {
   RolesDialogComponent,
   PrivilegesComponent,
   PrivilegesDialogComponent,
-  AddPrivilegeDialogComponent
+  AddPrivilegeDialogComponent,
+  TemplatesRoleViewComponent
 } from './components';
 
 import { RoleService, PrivilegeService } from './services';
@@ -27,7 +28,7 @@ import { PrivilegeEffects } from './store/privilege.effects';
     CommonModule,
     RouterModule,
     SharedModule,
-    RolesRoutingModule.forRoot(),
+    RolesRoutingModule,
     StoreModule.forFeature(fromRole.rolesFeatureKey, fromRole.reducer),
     StoreModule.forFeature(fromPrivilege.privilegesFeatureKey, fromPrivilege.reducer),
     EffectsModule.forFeature([RoleEffects, PrivilegeEffects])
@@ -39,7 +40,8 @@ import { PrivilegeEffects } from './store/privilege.effects';
     RolesDialogComponent,
     PrivilegesComponent,
     PrivilegesDialogComponent,
-    AddPrivilegeDialogComponent
+    AddPrivilegeDialogComponent,
+    TemplatesRoleViewComponent
   ],
   providers: [RoleService, PrivilegeService],
   exports: [

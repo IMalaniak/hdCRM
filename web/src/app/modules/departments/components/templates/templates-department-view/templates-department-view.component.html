@@ -1,45 +1,45 @@
-<organisms-card cardTitle="Create a new department">
+<organisms-card [cardTitle]="null | memoize: cardTitle:this" *ngIf="item">
   <div content class="row">
     <div class="col-md-6">
-      <organisms-card cardTitle="Department details" cardClass="border border-dark mb-3 mb-0" [disableShadow]="true">
-        <dynamic-form
-          content
-          [formJson]="departmentFormJson"
-          [editForm]="true"
-          (formChanges)="departmentFormValueChanges($event)"
-        >
-        </dynamic-form>
+      <organisms-card cardTitle="Details" cardClass="border border-dark mt-0 mb-0" [disableShadow]="true">
+        <section content>
+          <dynamic-form
+            [data]="item"
+            [formJson]="formJson$ | async"
+            [editForm]="editForm"
+            (formChanges)="formValueChanges($event)"
+          ></dynamic-form>
+        </section>
       </organisms-card>
     </div>
     <div class="col-md-6">
       <templates-box-user-list-sm
         cardTitle="Manager"
         class="d-block mb-3"
-        [user]="department.Manager"
-        [editMode]="true"
+        [user]="item.Manager"
+        [editMode]="editForm"
         (addClick)="addManagerDialog()"
         (removeClick)="removeManager()"
       ></templates-box-user-list-sm>
-
       <templates-box-user-list-sm
         cardTitle="Workers"
-        [users]="department.Workers"
-        [editMode]="true"
+        [users]="item.Workers"
+        [editMode]="editForm"
         (addClick)="addWorkersDialog()"
         (removeClick)="removeWorker($event)"
       ></templates-box-user-list-sm>
     </div>
   </div>
-  <div content class="row">
-    <!-- <div class="col-md-6">
+  <!-- <div content class="row">
+    <div class="col-md-6 mt-3">
+    </div>
+    <div class="col-md-6">
       <div class="row">
         <div class="col-sm-6 col-md-12 col-lg-6">
           <organisms-card cardTitle="Parent department" cardClass="border border-dark mt-3 mb-0" [disableShadow]="true">
             <atoms-icon-button buttons [matType]="matButtonTypes.STROKED" [icon]="['fas', 'plus']">
               Add parent department
             </atoms-icon-button>
-            <mat-list content>
-            </mat-list>
           </organisms-card>
         </div>
         <div class="col-sm-6 col-md-12 col-lg-6">
@@ -47,19 +47,25 @@
             cardTitle="Sub departments"
             cardClass="border border-dark mt-3 mb-0"
             [disableShadow]="true"
-            [counter]="department.SubDepartments.length"
+            [counter]="department.SubDepartments ? department.SubDepartments.length : 0"
           >
             <atoms-icon-button buttons [matType]="matButtonTypes.STROKED" [icon]="['fas', 'plus']">
               Add sub departments
             </atoms-icon-button>
-            <mat-list content>
-            </mat-list>
           </organisms-card>
         </div>
       </div>
-    </div> -->
-  </div>
-  <atoms-icon-button buttons (onclick)="onClickSubmit()" [icon]="['fas', 'paper-plane']">
-    {{ actionLabels.SUMBIT }}
-  </atoms-icon-button>
+    </div>
+  </div> -->
+  <molecules-card-header-actions
+    buttons
+    *ngIf="canEdit"
+    [isCreatePage]="isCreatePage"
+    [editForm]="editForm"
+    (cancelClick)="onClickCancelEdit()"
+    (editClick)="onClickEdit()"
+    (updateClick)="update()"
+    (saveClick)="save()"
+  >
+  </molecules-card-header-actions>
 </organisms-card>

@@ -63,16 +63,16 @@
     </div>
   </organisms-card> -->
 </section>
-<organisms-card cardTitle="Details" *ngIf="plan" cardClass="mb-3">
+<organisms-card [cardTitle]="null | memoize: cardTitle:this" *ngIf="item" cardClass="mb-3">
   <div content class="row">
     <div class="col-sm-12 col-md-8 col-lg-7">
       <organisms-card cardTitle="Plan details" cardClass="border border-dark m-0" [disableShadow]="true">
         <section content>
           <dynamic-form
-            [data]="plan"
-            [formJson]="planFormJson"
-            [editForm]="editForm$ | async"
-            (formChanges)="planFormValueChanges($event)"
+            [data]="item"
+            [formJson]="formJson$ | async"
+            [editForm]="editForm"
+            (formChanges)="formValueChanges($event)"
           ></dynamic-form>
         </section>
       </organisms-card>
@@ -80,8 +80,8 @@
     <div class="col-sm-12 col-md-4 col-lg-5">
       <templates-box-user-list-sm
         cardTitle="Participants"
-        [users]="plan.Participants"
-        [editMode]="editForm$ | async"
+        [users]="item.Participants"
+        [editMode]="editForm"
         (addClick)="addParticipantDialog()"
         (removeClick)="removeParticipant($event)"
       ></templates-box-user-list-sm>
@@ -90,21 +90,23 @@
 
   <molecules-card-header-actions
     buttons
-    *ngIf="canEditPlan$ | async"
-    [editForm]="editForm$ | async"
+    *ngIf="canEdit"
+    [isCreatePage]="isCreatePage"
+    [editForm]="editForm"
     (cancelClick)="onClickCancelEdit()"
     (editClick)="onClickEdit()"
-    (saveClick)="updatePlan()"
+    (updateClick)="update()"
+    (saveClick)="save()"
   >
   </molecules-card-header-actions>
 </organisms-card>
 
 <templates-attachments-list
-  *ngIf="plan"
-  [canAdd]="canAddAttachment$ | async"
-  [canDelete]="canDeleteAttachment$ | async"
-  [attachments]="plan.Documents"
-  [apiUrl]="'/plans/documents/' + plan.id"
+  *ngIf="item"
+  [canAdd]="canAddAttachment"
+  [canDelete]="canDeleteAttachment"
+  [attachments]="item.Documents"
+  [apiUrl]="'/plans/documents/' + item.id"
   (deleteFileCall)="deleteDoc($event)"
   (addFileCall)="addDocument($event)"
 ></templates-attachments-list>

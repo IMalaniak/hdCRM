@@ -1,5 +1,4 @@
 <templates-user-profile
-  *ngIf="user$"
   [user]="user$ | async"
   [canEdit]="canEdit$ | async"
   [isLoading]="isLoading$ | async"

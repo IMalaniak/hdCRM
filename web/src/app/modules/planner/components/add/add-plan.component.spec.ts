@@ -1,5 +1,5 @@
 import { SharedModule } from '@/shared/shared.module';
-import { authStateMock, formsStateMock } from '@/shared/testing/mocks';
+import { authStateMock } from '@/shared/testing/mocks';
 import { HttpClientModule } from '@angular/common/http';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -12,8 +12,7 @@ describe('AddPlanComponent', () => {
   let component: AddPlanComponent;
   let fixture: ComponentFixture<AddPlanComponent>;
   const initialState = {
-    auth: authStateMock,
-    forms: formsStateMock
+    auth: authStateMock
   };
 
   beforeEach(

@@ -6,3 +6,5 @@ export * from './dialog/roles-dialog.component';
 export * from './privileges/list/privileges.component';
 export * from './privileges/dialog/privileges-dialog.component';
 export * from './privileges/add-dialog/add-privilege-dialog.component';
+
+export * from './templates';

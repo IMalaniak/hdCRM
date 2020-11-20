@@ -6,14 +6,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { SharedModule } from '@/shared/shared.module';
-import { formsStateMock } from '@/shared/testing/mocks';
+import { authStateMock } from '@/shared/testing/mocks';
 import { AddRoleComponent } from './add-role.component';
 
 describe('AddRoleComponent', () => {
   let component: AddRoleComponent;
   let fixture: ComponentFixture<AddRoleComponent>;
   const initialState = {
-    forms: formsStateMock
+    auth: authStateMock
   };
 
   beforeEach(
