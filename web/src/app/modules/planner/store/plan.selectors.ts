@@ -1,8 +1,10 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { denormalize } from 'normalizr';
 
-import { Page } from '@/shared/store';
+import { Page, planSchema } from '@/shared/store';
 import { PageQuery } from '@/shared/models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
+import { selectAllUserEntities } from '@/modules/users/store/user.selectors';
 import * as fromPlan from './plan.reducer';
 import { Plan } from '../models';
 
@@ -12,6 +14,10 @@ export const selectPlanPagesState = createSelector(selectPlansState, (plansState
 
 export const selectPlanById = (planId: number) =>
   createSelector(selectPlanEntityState, (plansState) => plansState?.entities[planId]);
+export const selectPlanDeepById = (planId: number) =>
+  createSelector(selectPlanById(planId), selectAllUserEntities, (plan, userEntities) => {
+    return denormalize(plan, planSchema, { Users: userEntities });
+  });
 export const selectPlanPageByKey = (pageQuery: PageQuery) =>
   createSelector(selectPlanPagesState, (pagesState) => pagesState?.entities[generatePageKey(pageQuery)]);
 
