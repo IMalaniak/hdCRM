@@ -11,7 +11,7 @@ import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
 import { ADD_PRIVILEGES, DELETE_PRIVILEGES, EDIT_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
 import { Plan } from '../../models';
 import { updatePlanRequested, changeIsEditingState, planRequested } from '../../store/plan.actions';
-import { selectIsEditing, selectPlanById } from '../../store/plan.selectors';
+import { selectIsEditing, selectPlanDeepById } from '../../store/plan.selectors';
 
 @Component({
   template: `
@@ -47,7 +47,7 @@ export class PlanComponent implements OnInit {
     const id: number = this.route.snapshot.params['id'];
 
     this.plan$ = this.store$.pipe(
-      select(selectPlanById(id)),
+      select(selectPlanDeepById(id)),
       tap((plan) => {
         if (!plan) {
           this.store$.dispatch(planRequested({ id }));

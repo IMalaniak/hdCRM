@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs';
-import { mergeMap, map, catchError } from 'rxjs/operators';
+import { mergeMap, map, catchError, switchMap } from 'rxjs/operators';
 
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Update } from '@ngrx/entity';
 
 import { ToastMessageService } from '@/shared/services';
 import { RoutingConstants } from '@/shared/constants';
-import { Page } from '@/shared/store';
+import { normalizeResponse, Page, partialDataLoaded, planListSchema, planSchema } from '@/shared/store';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
 import * as planActions from './plan.actions';
 import { PlanService } from '../services';
@@ -24,10 +24,12 @@ export class PlanEffects {
       map((payload) => payload.plan),
       mergeMap((plan: Plan) =>
         this.planService.create(plan).pipe(
-          map((response: ItemApiResponse<Plan>) => {
+          switchMap((response: ItemApiResponse<Plan>) => {
             this.toastMessageService.snack(response);
             this.router.navigateByUrl(RoutingConstants.ROUTE_PLANNER);
-            return planActions.createPlanSuccess({ plan: response.data });
+            const { Plans, Users } = normalizeResponse<Plan>(response, planSchema);
+            response = { ...response, data: Plans[0] };
+            return [planActions.createPlanSuccess({ plan: response.data }), partialDataLoaded({ Users })];
           }),
           catchError((errorResponse: HttpErrorResponse) => {
             this.toastMessageService.snack(errorResponse.error);
@@ -43,7 +45,11 @@ export class PlanEffects {
       ofType(planActions.planRequested),
       map((payload) => payload.id),
       mergeMap((id) => this.planService.getOne(id)),
-      map((response: ItemApiResponse<Plan>) => planActions.planLoaded({ plan: response.data })),
+      switchMap((response: ItemApiResponse<Plan>) => {
+        const { Plans, Users } = normalizeResponse<Plan>(response, planSchema);
+        response = { ...response, data: Plans[0] };
+        return [planActions.planLoaded({ plan: response.data }), partialDataLoaded({ Users })];
+      }),
       catchError(() => of(planActions.planApiError()))
     )
   );
@@ -54,9 +60,11 @@ export class PlanEffects {
       map((payload) => payload.page),
       mergeMap((pageQuery) =>
         this.planService.getList(pageQuery).pipe(
-          map((response: CollectionApiResponse<Plan>) => {
+          switchMap((response: CollectionApiResponse<Plan>) => {
             const page: Page = { dataIds: response.ids, key: generatePageKey(pageQuery) };
-            return planActions.listPageLoaded({ response, page });
+            const { Plans, Users } = normalizeResponse<Plan>(response, planListSchema);
+            response = { ...response, data: Plans };
+            return [planActions.listPageLoaded({ response, page }), partialDataLoaded({ Users })];
           }),
           catchError(() => of(planActions.planApiError()))
         )
@@ -70,13 +78,15 @@ export class PlanEffects {
       map((payload) => payload.plan),
       mergeMap((plan: Plan) =>
         this.planService.updateOne(plan).pipe(
-          map((response: ItemApiResponse<Plan>) => {
+          switchMap((response: ItemApiResponse<Plan>) => {
+            const { Plans, Users } = normalizeResponse<Plan>(response, planSchema);
+            response = { ...response, data: Plans[0] };
             const plan: Update<Plan> = {
               id: response.data.id,
               changes: response.data
             };
             this.toastMessageService.snack(response);
-            return planActions.updatePlanSuccess({ plan });
+            return [planActions.updatePlanSuccess({ plan }), partialDataLoaded({ Users })];
           }),
           catchError((errorResponse: HttpErrorResponse) => {
             this.toastMessageService.snack(errorResponse.error);

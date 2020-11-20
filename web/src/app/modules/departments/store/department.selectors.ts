@@ -1,8 +1,11 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { Dictionary } from '@ngrx/entity';
+import { denormalize } from 'normalizr';
 
 import { PageQuery } from '@/shared/models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
-import { Page } from '@/shared/store';
+import { departmentListSchema, departmentSchema, Page } from '@/shared/store';
+import { selectAllUserEntities } from '@/modules/users/store/user.selectors';
 import * as fromDepartment from './department.reducer';
 import { Department } from '../models';
 
@@ -20,10 +23,16 @@ export const selectDepartmentPagesState = createSelector(
 
 export const selectDepartmentById = (departmentId: number) =>
   createSelector(selectDepartmentEntityState, (departmentsState) => departmentsState.entities[departmentId]);
+export const selectDepartmentDeepById = (departmentId: number) =>
+  createSelector(selectDepartmentById(departmentId), selectAllUserEntities, (department, userEntities) => {
+    return denormalize(department, departmentSchema, { Users: userEntities });
+  });
 export const selectDepartmentPageByKey = (pageQuery: PageQuery) =>
   createSelector(selectDepartmentPagesState, (pagesState) => pagesState.entities[generatePageKey(pageQuery)]);
 
 export const selectAllDepartments = createSelector(selectDepartmentEntityState, fromDepartment.selectAll);
+export const selectAllDepartmentEntities = createSelector(selectDepartmentEntityState, fromDepartment.selectEntities);
+export const selectAllDepartmentIds = createSelector(selectDepartmentEntityState, fromDepartment.selectIds);
 
 export const selectDepartmentsLoading = createSelector(
   selectDepartmentsState,
@@ -43,10 +52,16 @@ export const selectDepartmentsTotalCount = createSelector(
 
 export const selectDepartmentsOfPage = (pageQuery: PageQuery) =>
   createSelector(
-    selectAllDepartments,
+    selectAllDepartmentEntities,
     selectDepartmentPageByKey(pageQuery),
-    (allDepartments: Department[], page: Page) => {
-      return page ? page.dataIds.map((id) => allDepartments.find((department) => department.id === id)) : [];
+    selectAllUserEntities,
+    (departmentEntities: Dictionary<Department>, page: Page, userEntities) => {
+      return page
+        ? (denormalize(page.dataIds, departmentListSchema, {
+            Users: userEntities,
+            Departments: departmentEntities
+          }) as Department[])
+        : [];
     }
   );
 

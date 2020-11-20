@@ -10,7 +10,7 @@ import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
 import { EDIT_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
 import { Department } from '../../models';
 import { updateDepartmentRequested, changeIsEditingState, departmentRequested } from '../../store/department.actions';
-import { selectDepartmentById, selectIsEditing } from '../../store/department.selectors';
+import { selectDepartmentDeepById, selectIsEditing } from '../../store/department.selectors';
 
 @Component({
   template: `
@@ -38,7 +38,7 @@ export class DepartmentComponent implements OnInit {
     const id: number = this.route.snapshot.params['id'];
 
     this.department$ = this.store$.pipe(
-      select(selectDepartmentById(id)),
+      select(selectDepartmentDeepById(id)),
       tap((department) => {
         if (!department) {
           this.store$.dispatch(departmentRequested({ id }));
