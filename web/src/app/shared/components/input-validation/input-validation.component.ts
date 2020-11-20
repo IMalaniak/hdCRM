@@ -71,11 +71,15 @@ export class InputValidationComponent implements OnInit, OnChanges {
   }
 
   get errorMessage(): string {
-    return this._errorMessage;
+    if (this._errorMessage) {
+      return this._errorMessage;
+    }
   }
 
   get hintMessage(): string {
-    return this._hintMessage;
+    if (this._hintMessage) {
+      return this._hintMessage;
+    }
   }
 
   constructor(private readonly _cdr: ChangeDetectorRef) {}

@@ -2,13 +2,13 @@
   <div content class="row">
     <div class="col-md-6">
       <organisms-card cardTitle="Department details" cardClass="border border-dark mb-3 mb-0" [disableShadow]="true">
-        <organisms-dynamic-form
+        <dynamic-form
           content
           [formJson]="departmentFormJson"
           [editForm]="true"
           (formChanges)="departmentFormValueChanges($event)"
         >
-        </organisms-dynamic-form>
+        </dynamic-form>
       </organisms-card>
     </div>
     <div class="col-md-6">

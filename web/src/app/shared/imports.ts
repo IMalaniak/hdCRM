@@ -22,8 +22,7 @@ const MOLECULES = [
 const ORGANISMS = [
   _components.OrganismsUserListSmComponent,
   _components.OrganismsCardComponent,
-  _components.OrganismsUserDetailsDialogComponent,
-  _components.OrganismsDynamicFormComponent
+  _components.OrganismsUserDetailsDialogComponent
 ];
 const TEMPLATES = [
   _components.TemplatesAttachmentsListComponent,
@@ -42,6 +41,7 @@ export const COMPONENTS = [
   ...ORGANISMS,
   ...TEMPLATES,
   ...DIALOGS,
-  _components.InputValidationComponent
+  _components.InputValidationComponent,
+  _components.DynamicFormComponent
 ];
 export const PIPES = [_pipes.MemoizePipe, _pipes.DateTimeFormatPipe];
