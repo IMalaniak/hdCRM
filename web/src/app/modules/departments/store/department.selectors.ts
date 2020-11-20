@@ -53,20 +53,16 @@ export const selectDepartmentsTotalCount = createSelector(
 
 export const selectDepartmentsOfPage = (pageQuery: PageQuery) =>
   createSelector(
-    selectAllDepartmentIds,
     selectAllDepartmentEntities,
     selectDepartmentPageByKey(pageQuery),
     selectAllUserEntities,
-    (departmentIds: number[], departmentEntities: Dictionary<Department>, page: Page, userEntities) => {
-      if (!page) {
-        return [];
-      } else {
-        const departmentList: Department[] = denormalize(departmentIds, departmentListSchema, {
-          Users: userEntities,
-          Departments: departmentEntities
-        });
-        return page.dataIds.map((id) => departmentList.find((department) => department.id === id));
-      }
+    (departmentEntities: Dictionary<Department>, page: Page, userEntities) => {
+      return page
+        ? (denormalize(page.dataIds, departmentListSchema, {
+            Users: userEntities,
+            Departments: departmentEntities
+          }) as Department[])
+        : [];
     }
   );
 

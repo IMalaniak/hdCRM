@@ -1,12 +1,13 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { PageQuery } from '@/shared/models';
-import { Page, roleSchema } from '@/shared/store';
+import { Page, roleListSchema, roleSchema } from '@/shared/store';
 import * as fromRole from './role.reducer';
 import { Role } from '../models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
 import { selectAllUserEntities } from '@/modules/users/store/user.selectors';
 import { denormalize } from 'normalizr';
+import { Dictionary } from '@ngrx/entity';
 
 export const selectRolesState = createFeatureSelector<fromRole.RolesState>(fromRole.rolesFeatureKey);
 export const selectRoleEntityState = createSelector(selectRolesState, (rolesState) => rolesState.data);
@@ -21,6 +22,8 @@ export const selectRoleDeepById = (roleId: number) =>
 export const selectRolePageByKey = (pageQuery: PageQuery) =>
   createSelector(selectRolePagesState, (pagesState) => pagesState.entities[generatePageKey(pageQuery)]);
 
+export const selectAllRoleIds = createSelector(selectRoleEntityState, fromRole.selectIds);
+export const selectAllRoleEntities = createSelector(selectRoleEntityState, fromRole.selectEntities);
 export const selectAllRoles = createSelector(selectRoleEntityState, fromRole.selectAll);
 
 export const selectRolesLoading = createSelector(selectRolesState, (rolesState) => rolesState.loading);
@@ -31,9 +34,16 @@ export const selectRolesPagesCount = createSelector(selectRolesState, (rolesStat
 export const selectRolesTotalCount = createSelector(selectRolePagesState, (rolesState) => rolesState.resultsNum);
 
 export const selectRolesOfPage = (pageQuery: PageQuery) =>
-  createSelector(selectAllRoles, selectRolePageByKey(pageQuery), (allRoles: Role[], page: Page) => {
-    return page ? page.dataIds.map((id) => allRoles.find((role) => role.id === id)) : [];
-  });
+  createSelector(
+    selectAllRoleEntities,
+    selectRolePageByKey(pageQuery),
+    selectAllUserEntities,
+    (roleEntities: Dictionary<Role>, page: Page, userEntities) => {
+      return page
+        ? (denormalize(page.dataIds, roleListSchema, { Users: userEntities, Roles: roleEntities }) as Role[])
+        : [];
+    }
+  );
 
 export const selectRolesDashboardDataLoaded = createSelector(
   selectRolesState,
