@@ -1,13 +1,13 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { Dictionary } from '@ngrx/entity';
+import { denormalize } from 'normalizr';
 
 import { PageQuery } from '@/shared/models';
 import { Page, roleListSchema, roleSchema } from '@/shared/store';
-import * as fromRole from './role.reducer';
-import { Role } from '../models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
 import { selectAllUserEntities } from '@/modules/users/store/user.selectors';
-import { denormalize } from 'normalizr';
-import { Dictionary } from '@ngrx/entity';
+import * as fromRole from './role.reducer';
+import { Role } from '../models';
 
 export const selectRolesState = createFeatureSelector<fromRole.RolesState>(fromRole.rolesFeatureKey);
 export const selectRoleEntityState = createSelector(selectRolesState, (rolesState) => rolesState.data);

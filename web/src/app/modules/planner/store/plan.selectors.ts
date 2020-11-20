@@ -1,4 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { Dictionary } from '@ngrx/entity';
 import { denormalize } from 'normalizr';
 
 import { Page, planListSchema, planSchema } from '@/shared/store';
@@ -7,7 +8,6 @@ import { generatePageKey } from '@/shared/utils/generatePageKey';
 import { selectAllUserEntities } from '@/modules/users/store/user.selectors';
 import * as fromPlan from './plan.reducer';
 import { Plan } from '../models';
-import { Dictionary } from '@ngrx/entity';
 
 export const selectPlansState = createFeatureSelector<fromPlan.PlansState>(fromPlan.plansFeatureKey);
 export const selectPlanEntityState = createSelector(selectPlansState, (plansState) => plansState?.data);

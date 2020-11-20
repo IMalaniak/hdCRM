@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-
+import { Dictionary } from '@ngrx/entity';
 import { denormalize } from 'normalizr';
 
 import { PageQuery } from '@/shared/models';
@@ -8,7 +8,6 @@ import { departmentListSchema, departmentSchema, Page } from '@/shared/store';
 import { selectAllUserEntities } from '@/modules/users/store/user.selectors';
 import * as fromDepartment from './department.reducer';
 import { Department } from '../models';
-import { Dictionary } from '@ngrx/entity';
 
 export const selectDepartmentsState = createFeatureSelector<fromDepartment.DepartmentsState>(
   fromDepartment.departmentsFeatureKey
