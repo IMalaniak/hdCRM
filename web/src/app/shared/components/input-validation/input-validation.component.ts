@@ -8,6 +8,7 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
+import { ValidationErrors } from '@angular/forms';
 import {
   FloatLabelType,
   MatFormField,
@@ -38,7 +39,7 @@ export class InputValidationComponent implements OnInit, OnChanges {
   @Input() appearance: MatFormFieldAppearance = 'outline';
   @Input() floatLabel: FloatLabelType = 'auto';
   @Input() label = '';
-  @Input() inputErrors: any;
+  @Input() inputErrors: ValidationErrors;
   @Input() hintLabel = '';
   @Input() canValidate: boolean;
   @Input() wrapperClass = 'w-100';
@@ -55,7 +56,7 @@ export class InputValidationComponent implements OnInit, OnChanges {
   @ContentChild(MatFormFieldControl, { static: true }) private _control: MatFormFieldControl<any>;
   @ViewChild(MatFormField, { static: true }) private _matFormField: MatFormField;
 
-  errors: any = {};
+  errors: { [key: string]: string } = {};
 
   private _errorMessage = '';
   private _hintMessage = '';
@@ -124,7 +125,7 @@ export class InputValidationComponent implements OnInit, OnChanges {
 
   private setErrorMessage(): void {
     if (this.canValidate) {
-      const errors: any = this.inputErrors;
+      const errors: ValidationErrors = this.inputErrors;
       if (errors) {
         Object.keys(this.errors).some((key): boolean => {
           if (errors[key]) {
