@@ -14,8 +14,7 @@ import { User } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UsersDialogComponent extends DialogBaseModel<DialogWithTwoButtonModel> {
-  @ViewChild(UsersComponent, { static: true })
-  usersComponent: UsersComponent;
+  @ViewChild(UsersComponent) usersComponent: UsersComponent;
 
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;

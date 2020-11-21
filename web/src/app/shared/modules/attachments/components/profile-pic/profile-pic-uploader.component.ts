@@ -1,22 +1,21 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ChangeDetectionStrategy } from '@angular/core';
-import { environment } from 'environments/environment';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+
 import { Store, select } from '@ngrx/store';
+
+import { environment } from 'environments/environment';
 import { AppState } from '@/core/reducers';
 import { getToken } from '@/core/auth/store/auth.selectors';
 import { Asset } from '@/shared/models';
-import { FilePond } from 'filepond';
 
 @Component({
-  selector: 'app-profile-pic-uploader',
-  template: ` <file-pond #picuploader [options]="uploaderOptions"></file-pond> `,
+  selector: 'profile-pic-uploader-component',
+  template: ` <file-pond [options]="uploaderOptions"></file-pond> `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfilepicUploaderComponent implements OnInit {
   @Input() url: string;
 
   @Output() addFileCall: EventEmitter<Asset> = new EventEmitter();
-
-  @ViewChild('picuploader') picuploader: FilePond;
 
   uploaderOptions: any; // TODO: @IMalaniak add FilePondOptionProps;
   token: string;

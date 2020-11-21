@@ -56,8 +56,7 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
   leftSidebarMinimized$: Observable<boolean> = this.store$.pipe(select(fromLayout.getLeftSidebarState));
   rightSidebarMinimized$: Observable<boolean> = this.store$.pipe(select(fromLayout.getRightSidebarState));
 
-  @ViewChild('contentWrapper', { static: false })
-  contentWrapper: ElementRef;
+  @ViewChild('contentWrapper') contentWrapper: ElementRef;
 
   private unsubscribe: Subject<void> = new Subject();
 

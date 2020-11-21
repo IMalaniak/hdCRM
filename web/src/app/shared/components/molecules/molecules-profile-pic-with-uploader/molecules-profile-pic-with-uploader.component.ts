@@ -20,11 +20,11 @@ import { MAT_BUTTON, THEME_PALETTE } from '@/shared/constants';
         (onclick)="changePic = !changePic"
       ></atoms-icon-button>
 
-      <app-profile-pic-uploader
+      <profile-pic-uploader-component
         *ngIf="changePic"
         [url]="apiUrl"
         (addFileCall)="onAddFile($event)"
-      ></app-profile-pic-uploader>
+      ></profile-pic-uploader-component>
     </div>
   `,
   styleUrls: ['./molecules-profile-pic-with-uploader.component.scss'],

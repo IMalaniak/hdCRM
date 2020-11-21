@@ -13,7 +13,7 @@ import { Role } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RolesDialogComponent extends DialogBaseModel<DialogWithTwoButtonModel> {
-  @ViewChild(RolesComponent, { static: true }) rolesComponent: RolesComponent;
+  @ViewChild(RolesComponent) rolesComponent: RolesComponent;
 
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;

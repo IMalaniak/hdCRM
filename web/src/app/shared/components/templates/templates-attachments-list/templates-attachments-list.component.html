@@ -49,13 +49,13 @@
 
   <atoms-no-content-info content *ngIf="attachments?.length === 0 && !uploaderVisible"></atoms-no-content-info>
 
-  <app-uploader-list
+  <uploader-list-component
     content
     *ngIf="uploaderVisible && googleDriveIntegrationState$ | async"
     [url]="apiUrl"
     (deleteFileCall)="handleDeleteFile($event)"
     (addFileCall)="handleAddFile($event)"
-  ></app-uploader-list>
+  ></uploader-list-component>
 
   <div
     content
