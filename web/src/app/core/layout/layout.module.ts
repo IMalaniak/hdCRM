@@ -8,7 +8,7 @@ import {
   FooterComponent,
   PageNotFoundComponent,
   InternalServerErrorComponent,
-  LeftSidebarComponent,
+  LeftSidebarComponent
 } from './components';
 import { SharedModule } from '@/shared/shared.module';
 import { StoreModule } from '@ngrx/store';
