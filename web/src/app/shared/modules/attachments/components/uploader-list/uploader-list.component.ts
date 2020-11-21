@@ -19,7 +19,7 @@ export class UploaderListComponent implements OnInit {
 
   @Output() addFileCall: EventEmitter<Asset> = new EventEmitter();
 
-  @ViewChild(FilePond) uploader: FilePond;
+  @ViewChild('uploader') uploader: FilePond;
 
   uploaderOptions: any; // TODO: @IMalaniak add FilePondOptionProps
   token: string;
