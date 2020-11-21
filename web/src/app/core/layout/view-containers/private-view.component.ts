@@ -35,7 +35,7 @@ import { MediaQueryService } from '@/core/services';
           <div
             class="overlay"
             *ngIf="mediaQueryService.isMobileDevice"
-            [ngClass]="{ isVisible: !(leftSidebarMinimized$ | async)}"
+            [ngClass]="{ isVisible: !(leftSidebarMinimized$ | async) }"
             (click)="onOverlayClick()"
           ></div>
           <div class="wrapper">
