@@ -8,13 +8,6 @@ export const leftSidebarChangeState = createAction(
   props<{ minimized: boolean }>()
 );
 
-export const toggleRightSidebar = createAction('[Layout] Toggle Right Sidebar', props<{ minimized: boolean }>());
-
-export const rightSidebarChangeState = createAction(
-  '[Layout] Right Sidebar State Changed',
-  props<{ minimized: boolean }>()
-);
-
 export const enableDarkTheme = createAction('[Layout] Enable Dark Theme', props<{ enabled: boolean }>());
 
 export const darkThemeChangeState = createAction('[Layout] Dark Theme State Changed', props<{ enabled: boolean }>());
