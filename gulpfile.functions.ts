@@ -1,7 +1,7 @@
 import { exec, execSync } from 'child_process';
 import * as fs from 'fs';
 import * as gulp from 'gulp';
-import { series } from 'gulp';
+import { series, src, dest } from 'gulp';
 
 const DEFAULT_COMMAND_TIMEOUT_SECONDS = 1800;
 export interface RunOptions {
@@ -94,8 +94,12 @@ export function mkdir(subdir, runOptions) {
   execSync(`mkdir -p ${subdir}`, runOptions);
 }
 
-export function cp(from, to, runOptions) {
+export function cp(from: string, to: string, runOptions) {
   execSync(`cp -r ${from} ${to}`, runOptions);
+}
+
+export function copy(source: string, destination: string, runOptions) {
+  return src(source, runOptions).pipe(dest(destination, runOptions));
 }
 
 export function task(options: { name: string; desc?: string; fct: any; alias?: string }) {
