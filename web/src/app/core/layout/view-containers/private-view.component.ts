@@ -42,6 +42,8 @@ import { MediaQueryService } from '@/core/services';
             <section class="container-fluid py-3 position-relative" [@privateRouterAnimations]="prepareRoute(outlet)">
               <router-outlet #outlet="outlet"></router-outlet>
             </section>
+
+            <!-- FOOTER -->
             <footer-component></footer-component>
           </div>
         </section>
