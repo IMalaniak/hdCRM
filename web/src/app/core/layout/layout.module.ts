@@ -9,7 +9,6 @@ import {
   PageNotFoundComponent,
   InternalServerErrorComponent,
   LeftSidebarComponent,
-  RightSidebarComponent
 } from './components';
 import { SharedModule } from '@/shared/shared.module';
 import { StoreModule } from '@ngrx/store';
@@ -36,7 +35,6 @@ import { TaskManagerModule } from '@/modules/task-manager/task-manager.module';
     PrivateViewComponent,
     BreadcrumbsComponent,
     LeftSidebarComponent,
-    RightSidebarComponent,
     HeaderComponent,
     FooterComponent,
     PageNotFoundComponent,
@@ -46,7 +44,6 @@ import { TaskManagerModule } from '@/modules/task-manager/task-manager.module';
   exports: [
     BreadcrumbsComponent,
     LeftSidebarComponent,
-    RightSidebarComponent,
     HeaderComponent,
     FooterComponent,
     PageNotFoundComponent,

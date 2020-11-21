@@ -2,7 +2,9 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ChangeDetectionStr
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+
 import { Store, select } from '@ngrx/store';
+
 import { AppState } from '@/core/reducers';
 import { User } from '@/modules/users';
 import { currentUser } from '@/core/auth/store/auth.selectors';
@@ -14,6 +16,7 @@ import { MediaQueryService } from '@/core/services';
 @Component({
   template: `
     <section class="grid" [ngClass]="{ 'dark-theme': enableDarkTheme$ | async, 'font-scale': scaleFontUp$ | async }">
+      <!-- HEADER -->
       <header-component
         [leftSidebarMinimized]="leftSidebarMinimized$ | async"
         [enableDarkTheme]="enableDarkTheme$ | async"
@@ -21,13 +24,18 @@ import { MediaQueryService } from '@/core/services';
         (hideLeftSidebar)="toggleLeftSidebar($event)"
         (enableThemeDark)="enableDarkTheme($event)"
       ></header-component>
+
+      <!-- MAIN -->
       <main>
+        <!-- LEFT SIDEBAR -->
         <left-sidebar [leftSidebarMinimized]="leftSidebarMinimized$ | async"></left-sidebar>
+
+        <!-- CONTENT -->
         <section #contentWrapper class="content" [ngClass]="{ 'dark-theme-bg': enableDarkTheme$ | async }">
           <div
             class="overlay"
             *ngIf="mediaQueryService.isMobileDevice"
-            [ngClass]="{ isVisible: !(leftSidebarMinimized$ | async) || !(rightSidebarMinimized$ | async) }"
+            [ngClass]="{ isVisible: !(leftSidebarMinimized$ | async)}"
             (click)="onOverlayClick()"
           ></div>
           <div class="wrapper">
@@ -36,12 +44,6 @@ import { MediaQueryService } from '@/core/services';
             </section>
             <footer-component></footer-component>
           </div>
-          <right-sidebar
-            [rightSidebarMinimized]="rightSidebarMinimized$ | async"
-            [scaleFontUp]="scaleFontUp$ | async"
-            (hideRightSidebar)="toggleRightSidebar($event)"
-            (scaleUpFont)="scaleFontUp($event)"
-          ></right-sidebar>
         </section>
       </main>
     </section>
@@ -54,7 +56,6 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
   scaleFontUp$: Observable<boolean> = this.store$.pipe(select(fromLayout.getScalledFontState));
   enableDarkTheme$: Observable<boolean> = this.store$.pipe(select(fromLayout.getDarkThemeState));
   leftSidebarMinimized$: Observable<boolean> = this.store$.pipe(select(fromLayout.getLeftSidebarState));
-  rightSidebarMinimized$: Observable<boolean> = this.store$.pipe(select(fromLayout.getRightSidebarState));
 
   @ViewChild('contentWrapper', { static: false })
   contentWrapper: ElementRef;
@@ -72,7 +73,6 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         if (this.mediaQueryService.isMobileDevice) {
           this.toggleLeftSidebar(true);
-          this.toggleRightSidebar(true);
         }
 
         this.contentWrapper.nativeElement.scrollTo(0, 0);
@@ -81,10 +81,6 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
 
   toggleLeftSidebar(minimized: boolean): void {
     this.store$.dispatch(layoutActions.toggleLeftSidebar({ minimized }));
-  }
-
-  toggleRightSidebar(minimized: boolean): void {
-    this.store$.dispatch(layoutActions.toggleRightSidebar({ minimized }));
   }
 
   enableDarkTheme(enabled: boolean): void {
@@ -97,7 +93,6 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
 
   onOverlayClick(): void {
     this.toggleLeftSidebar(true);
-    this.toggleRightSidebar(true);
   }
 
   prepareRoute(outlet: RouterOutlet) {
