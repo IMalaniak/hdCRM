@@ -59,8 +59,7 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
   enableDarkTheme$: Observable<boolean> = this.store$.pipe(select(fromLayout.getDarkThemeState));
   leftSidebarMinimized$: Observable<boolean> = this.store$.pipe(select(fromLayout.getLeftSidebarState));
 
-  @ViewChild('contentWrapper', { static: false })
-  contentWrapper: ElementRef;
+  @ViewChild('contentWrapper') contentWrapper: ElementRef;
 
   private unsubscribe: Subject<void> = new Subject();
 
