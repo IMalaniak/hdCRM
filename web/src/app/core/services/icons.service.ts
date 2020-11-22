@@ -28,7 +28,7 @@ export class IconsService {
   private getLib(icon: ICONS | BS_ICONS): LibFolder {
     if (Object.values(ICONS).includes(icon as ICONS)) {
       return 'icons';
-    } else if (Object.values(BS_ICONS).includes(icon as BS_ICONS)) {
+    } else {
       return 'bs-icons';
     }
   }
