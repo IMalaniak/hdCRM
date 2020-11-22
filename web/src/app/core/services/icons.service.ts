@@ -20,7 +20,7 @@ export class IconsService {
 
   private register(icon: string, lib: LibFolder): void {
     this.iconRegistry.addSvgIcon(
-      icon.toString(),
+      icon,
       this.sanitizer.bypassSecurityTrustResourceUrl(`../../../assets/images/${lib}/${icon}.svg`)
     );
   }
