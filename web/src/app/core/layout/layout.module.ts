@@ -17,8 +17,6 @@ import {
 import { SharedModule } from '@/shared/shared.module';
 import * as fromLayout from './store/layout.reducer';
 import { LayoutEffects } from './store/layout.effects';
-import * as fromUser from '@/modules/users/store/user.reducer';
-import { UserEffects } from '@/modules/users/store/user.effects';
 import { UserService } from '@/modules/users';
 
 @NgModule({
@@ -27,8 +25,7 @@ import { UserService } from '@/modules/users';
     RouterModule,
     SharedModule,
     StoreModule.forFeature(fromLayout.layoutFeatureKey, fromLayout.reducer),
-    StoreModule.forFeature(fromUser.usersFeatureKey, fromUser.reducer),
-    EffectsModule.forFeature([LayoutEffects, UserEffects])
+    EffectsModule.forFeature([LayoutEffects])
   ],
   declarations: [
     PublicViewComponent,

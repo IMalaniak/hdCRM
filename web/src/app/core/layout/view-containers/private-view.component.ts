@@ -7,11 +7,13 @@ import { Store, select } from '@ngrx/store';
 
 import { AppState } from '@/core/reducers';
 import { User } from '@/modules/users';
-import { currentUser } from '@/core/auth/store/auth.selectors';
+import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
 import * as layoutActions from '../store/layout.actions';
 import * as fromLayout from '../store';
 import { privateRouterTransition } from '@/shared/animations';
 import { MediaQueryService } from '@/core/services';
+import { ADD_PRIVILEGES } from '@/shared/constants/privileges.constants';
+import { logOut } from '@/core/auth/store/auth.actions';
 
 @Component({
   template: `
@@ -21,8 +23,10 @@ import { MediaQueryService } from '@/core/services';
         [leftSidebarMinimized]="leftSidebarMinimized$ | async"
         [enableDarkTheme]="enableDarkTheme$ | async"
         [currentUser]="currentUser$ | async"
+        [canAddUser]="canAddUser$ | async"
         (hideLeftSidebar)="toggleLeftSidebar($event)"
         (enableThemeDark)="enableDarkTheme($event)"
+        (logOut)="onLogoutClick()"
       ></header-component>
 
       <!-- MAIN -->
@@ -58,6 +62,7 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
   scaleFontUp$: Observable<boolean> = this.store$.pipe(select(fromLayout.getScalledFontState));
   enableDarkTheme$: Observable<boolean> = this.store$.pipe(select(fromLayout.getDarkThemeState));
   leftSidebarMinimized$: Observable<boolean> = this.store$.pipe(select(fromLayout.getLeftSidebarState));
+  canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.USER)));
 
   @ViewChild('contentWrapper') contentWrapper: ElementRef;
 
@@ -98,6 +103,10 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
 
   prepareRoute(outlet: RouterOutlet) {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
+  }
+
+  onLogoutClick(): void {
+    this.store$.dispatch(logOut());
   }
 
   ngOnDestroy(): void {

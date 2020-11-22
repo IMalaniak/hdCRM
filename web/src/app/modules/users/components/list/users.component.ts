@@ -7,12 +7,13 @@ import { Observable, Subject, merge } from 'rxjs';
 import { tap, takeUntil } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
+
 import { UserService, UsersDataSource } from '../../services';
 import { User } from '../../models';
 import { AppState } from '@/core/reducers';
 import { selectUserPageLoading, selectUsersTotalCount } from '../../store/user.selectors';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
-import { deleteUser, inviteUsers } from '../../store/user.actions';
+import { deleteUser, inviteUsers, OnlineUserListRequested } from '../../store/user.actions';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
 import { ToastMessageService } from '@/shared/services';
 import {
@@ -90,7 +91,9 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
     private store$: Store<AppState>,
     private toastMessageService: ToastMessageService,
     private dialogService: DialogService
-  ) {}
+  ) {
+    this.store$.dispatch(OnlineUserListRequested());
+  }
 
   ngAfterViewInit(): void {
     merge(this.sort.sortChange, this.paginator.page)
