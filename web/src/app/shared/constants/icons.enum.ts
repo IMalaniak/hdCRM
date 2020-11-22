@@ -1,7 +1,10 @@
 export enum ICONS {
-  SOCIAL_FB = 'fb',
-  SOCIAL_IG = 'ig',
-  SOCIAL_TW = 'tw'
+  SOCIAL_Email = 'email',
+  SOCIAL_Facebook = 'facebook',
+  SOCIAL_Instagram = 'instagram',
+  SOCIAL_LinkedIn = 'linkedin',
+  SOCIAL_Telegram = 'telegram',
+  SOCIAL_Twitter = 'twitter'
 }
 
 /** Enum with all Bootstrap icons. */
