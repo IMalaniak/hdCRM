@@ -16,7 +16,7 @@ export class TaskEffects {
     this.actions$.pipe(
       ofType(TaskActions.taskListRequested),
       switchMap(() =>
-        this.taskService.getList().pipe(
+        this.taskService.getItems<Task>().pipe(
           map((response: CollectionApiResponse<Task>) => TaskActions.taskListLoaded({ tasks: response.data })),
           catchError(() => of(TaskActions.tasksApiError()))
         )
@@ -29,7 +29,7 @@ export class TaskEffects {
       ofType(TaskActions.createTask),
       map((payload) => payload.task),
       mergeMap((task: Task) =>
-        this.taskService.create(task).pipe(
+        this.taskService.create<Task>(task).pipe(
           map((response: ItemApiResponse<Task>) => {
             this.toastMessageService.snack(response);
             return TaskActions.createTaskSuccess({
@@ -50,7 +50,7 @@ export class TaskEffects {
       ofType(TaskActions.updateTaskRequested),
       map((payload) => payload.task),
       mergeMap((toUpdate) =>
-        this.taskService.updateTask(toUpdate).pipe(
+        this.taskService.update<Task>(toUpdate, toUpdate.id).pipe(
           map((response: ItemApiResponse<Task>) => {
             const task: Update<Task> = {
               id: response.data.id,
@@ -100,7 +100,7 @@ export class TaskEffects {
     this.actions$.pipe(
       ofType(TaskActions.taskPrioritiesRequested),
       switchMap(() =>
-        this.taskService.getPriorities().pipe(
+        this.taskService.getItems<TaskPriority>().pipe(
           map((response: CollectionApiResponse<TaskPriority>) =>
             TaskActions.taskPrioritiesLoaded({ priorities: response.data })
           ),

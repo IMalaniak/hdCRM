@@ -131,7 +131,7 @@ export class DepartmentEffects {
       ofType(depActions.depDashboardDataRequested),
       withLatestFrom(this.store$.pipe(select(selectDashboardDepDataLoaded))),
       filter(([_, selectDashboardDepDataLoaded]) => !selectDashboardDepDataLoaded),
-      mergeMap(() => this.departmentService.getDashboardData()),
+      mergeMap(() => this.departmentService.getItems<Department>()),
       switchMap((response: CollectionApiResponse<Department>) => {
         const { Departments, Users } = normalizeResponse<Department>(response, departmentListSchema);
         response = { ...response, data: Departments };

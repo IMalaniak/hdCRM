@@ -26,7 +26,7 @@ export class RoleEffects {
       ofType(roleActions.createRoleRequested),
       map((payload) => payload.role),
       mergeMap((role: Role) =>
-        this.roleService.create({ ...role }).pipe(
+        this.roleService.create<Role>(this.roleService.formatBeforeSend({ ...role })).pipe(
           switchMap((response: ItemApiResponse<Role>) => {
             this.toastMessageService.snack(response);
             this.router.navigateByUrl(RoutingConstants.ROUTE_ROLES);
@@ -47,7 +47,7 @@ export class RoleEffects {
     this.actions$.pipe(
       ofType(roleActions.roleRequested),
       map((payload) => payload.id),
-      mergeMap((id) => this.roleService.getRole(id)),
+      mergeMap((id) => this.roleService.get<Role>(id)),
       switchMap((response: ItemApiResponse<Role>) => {
         const { Users, Roles } = normalizeResponse<Role>(response, roleSchema);
         response = { ...response, data: Roles[0] };
@@ -62,7 +62,7 @@ export class RoleEffects {
       ofType(roleActions.listPageRequested),
       map((payload) => payload.page),
       mergeMap((pageQuery) =>
-        this.roleService.getList(pageQuery).pipe(
+        this.roleService.getItems<Role>(pageQuery).pipe(
           switchMap((response: CollectionApiResponse<Role>) => {
             const page: Page = { dataIds: response.ids, key: generatePageKey(pageQuery) };
             const { Users, Roles } = normalizeResponse<Role>(response, roleListSchema);
@@ -80,7 +80,7 @@ export class RoleEffects {
       ofType(roleActions.updateRoleRequested),
       map((payload) => payload.role),
       mergeMap((role: Role) =>
-        this.roleService.updateRole(role).pipe(
+        this.roleService.update<Role>(this.roleService.formatBeforeSend(role), role.id).pipe(
           switchMap((response: ItemApiResponse<Role>) => {
             const { Users, Roles } = normalizeResponse<Role>(response, roleSchema);
             response = { ...response, data: Roles[0] };

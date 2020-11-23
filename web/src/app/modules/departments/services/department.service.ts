@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 
 import { Department } from '../models';
 import { User } from '@/modules/users/models';
-import { CollectionApiResponse } from '@/shared/models';
 import { APIS } from '@/shared/constants';
 import { BaseHttpCrudService } from '@/shared/services/base-http-crud.service';
 
@@ -14,10 +12,6 @@ export class DepartmentService extends BaseHttpCrudService {
 
   constructor(protected readonly http: HttpClient) {
     super(http);
-  }
-
-  getDashboardData(): Observable<CollectionApiResponse<Department>> {
-    return this.http.get<CollectionApiResponse<Department>>(APIS.DEPARTMENTS_DASHBOARD);
   }
 
   formatBeforeSend(dep: Department): Department {

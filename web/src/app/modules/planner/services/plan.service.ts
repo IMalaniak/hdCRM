@@ -4,37 +4,16 @@ import { Observable } from 'rxjs';
 
 import { Plan } from '../models';
 import { User } from '@/modules/users';
-import { CollectionApiResponse, BaseMessage, ItemApiResponse, PageQuery } from '@/shared/models';
+import { BaseMessage } from '@/shared/models';
 import { APIS } from '@/shared/constants';
+import { BaseHttpCrudService } from '@/shared/services';
 
 @Injectable()
-export class PlanService {
-  constructor(private http: HttpClient) {}
+export class PlanService extends BaseHttpCrudService {
+  protected url = APIS.PLANS;
 
-  create(plan: Plan): Observable<ItemApiResponse<Plan>> {
-    return this.http.post<ItemApiResponse<Plan>>(APIS.PLANS, this.formatBeforeSend(plan));
-  }
-
-  getList({ pageIndex, pageSize, sortIndex, sortDirection }: PageQuery): Observable<CollectionApiResponse<Plan>> {
-    return this.http.get<CollectionApiResponse<Plan>>(APIS.PLANS, {
-      params: new HttpParams()
-        .set('pageIndex', pageIndex.toString())
-        .set('pageSize', pageSize.toString())
-        .set('sortIndex', sortIndex)
-        .set('sortDirection', sortDirection)
-    });
-  }
-
-  getOne(id: number): Observable<ItemApiResponse<Plan>> {
-    return this.http.get<ItemApiResponse<Plan>>(`${APIS.PLANS}/${id}`);
-  }
-
-  updateOne(plan: Plan): Observable<ItemApiResponse<Plan>> {
-    return this.http.put<ItemApiResponse<Plan>>(`${APIS.PLANS}/${plan.id}`, this.formatBeforeSend(plan));
-  }
-
-  delete(id: number): Observable<BaseMessage> {
-    return this.http.delete<BaseMessage>(`${APIS.PLANS}/${id}`);
+  constructor(protected readonly http: HttpClient) {
+    super(http);
   }
 
   // updatePlanStages(plan: Plan): Observable<ItemServiceMessage<Plan>> {

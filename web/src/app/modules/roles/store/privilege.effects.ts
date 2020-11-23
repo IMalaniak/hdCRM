@@ -24,7 +24,7 @@ export class PrivilegeEffects {
         }
       }),
       filter(([_, allPrivilegesLoaded]) => !allPrivilegesLoaded),
-      mergeMap(() => this.privilegeService.getFullList()),
+      mergeMap(() => this.privilegeService.getItems<Privilege>()),
       map((response: CollectionApiResponse<Privilege>) => privilegeActions.allPrivilegesLoaded({ response })),
       catchError(() => of(privilegeActions.privilegeApiError()))
     )
@@ -35,7 +35,7 @@ export class PrivilegeEffects {
       ofType(privilegeActions.createPrivilegeRequested),
       map((payload) => payload.privilege),
       mergeMap((privilege: Privilege) =>
-        this.privilegeService.create(privilege).pipe(
+        this.privilegeService.create<Privilege>(privilege).pipe(
           map((response: ItemApiResponse<Privilege>) => {
             this.toastMessageService.snack(response);
             return privilegeActions.createPrivilegeSuccess({

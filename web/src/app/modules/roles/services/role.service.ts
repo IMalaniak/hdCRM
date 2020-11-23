@@ -1,40 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Role } from '../models';
 import { User } from '@/modules/users/models';
-import { CollectionApiResponse, ItemApiResponse, PageQuery, BaseMessage } from '@/shared/models';
+import { CollectionApiResponse } from '@/shared/models';
 import { APIS } from '@/shared/constants';
+import { BaseHttpCrudService } from '@/shared/services';
 
 @Injectable()
-export class RoleService {
-  constructor(private http: HttpClient) {}
+export class RoleService extends BaseHttpCrudService {
+  protected url = APIS.ROLES;
 
-  create(role: Role): Observable<ItemApiResponse<Role>> {
-    return this.http.post<ItemApiResponse<Role>>(APIS.ROLES, this.formatBeforeSend(role));
-  }
-
-  getRole(id: number): Observable<ItemApiResponse<Role>> {
-    return this.http.get<ItemApiResponse<Role>>(`${APIS.ROLES}/${id}`);
-  }
-
-  updateRole(role: Role): Observable<ItemApiResponse<Role>> {
-    return this.http.put<ItemApiResponse<Role>>(`${APIS.ROLES}/${role.id}`, this.formatBeforeSend(role));
-  }
-
-  delete(id: number): Observable<BaseMessage> {
-    return this.http.delete<BaseMessage>(`${APIS.ROLES}/${id}`);
-  }
-
-  getList({ pageIndex, pageSize, sortIndex, sortDirection }: PageQuery): Observable<CollectionApiResponse<Role>> {
-    return this.http.get<CollectionApiResponse<Role>>(APIS.ROLES, {
-      params: new HttpParams()
-        .set('pageIndex', pageIndex.toString())
-        .set('pageSize', pageSize.toString())
-        .set('sortIndex', sortIndex)
-        .set('sortDirection', sortDirection)
-    });
+  constructor(protected readonly http: HttpClient) {
+    super(http);
   }
 
   getDashboardData(): Observable<CollectionApiResponse<Role>> {

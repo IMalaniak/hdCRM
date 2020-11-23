@@ -1,46 +1,28 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-import { SocketService } from '@/shared/services';
+import { BaseHttpCrudService, SocketService } from '@/shared/services';
 import { User } from '../models';
-import { NewPassword, BaseMessage, CollectionApiResponse, ItemApiResponse, PageQuery } from '@/shared/models';
+import { NewPassword, BaseMessage, CollectionApiResponse, ItemApiResponse } from '@/shared/models';
 import { SocketEvent, APIS } from '@/shared/constants';
 import { Role } from '@/modules/roles';
 
 @Injectable()
-export class UserService {
+export class UserService extends BaseHttpCrudService {
+  protected url = APIS.USERS;
+
   userOnline$: Observable<any> = this.socket.onEvent(SocketEvent.ISONLINE);
   userOffline$: Observable<any> = this.socket.onEvent(SocketEvent.ISOFFLINE);
   onlineUsersListed$: Observable<any> = this.socket.onEvent(SocketEvent.USERSONLINE).pipe(take(1));
 
-  constructor(private http: HttpClient, private socket: SocketService) {}
-
-  getList({ pageIndex, pageSize, sortIndex, sortDirection }: PageQuery): Observable<CollectionApiResponse<User>> {
-    return this.http.get<CollectionApiResponse<User>>(APIS.USERS, {
-      params: new HttpParams()
-        .set('pageIndex', pageIndex.toString())
-        .set('pageSize', pageSize.toString())
-        .set('sortIndex', sortIndex)
-        .set('sortDirection', sortDirection)
-    });
+  constructor(protected readonly http: HttpClient, private socket: SocketService) {
+    super(http);
   }
 
   listOnline() {
     this.socket.emit(SocketEvent.USERSONLINE);
-  }
-
-  getUser(id: number): Observable<ItemApiResponse<User>> {
-    return this.http.get<ItemApiResponse<User>>(`${APIS.USERS}/${id}`);
-  }
-
-  updateUser(user: User): Observable<ItemApiResponse<User>> {
-    return this.http.put<ItemApiResponse<User>>(`${APIS.USERS}/${user.id}`, this.formatBeforeSend(user));
-  }
-
-  delete(id: number): Observable<BaseMessage> {
-    return this.http.delete<BaseMessage>(`${APIS.USERS}/${id}`);
   }
 
   inviteUsers(users: User[]): Observable<CollectionApiResponse<User>> {
