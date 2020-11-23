@@ -6,10 +6,10 @@ import { Plan } from '../models';
 import { User } from '@/modules/users';
 import { BaseMessage } from '@/shared/models';
 import { APIS } from '@/shared/constants';
-import { BaseHttpCrudService } from '@/shared/services';
+import { BaseCrudService } from '@/shared/services';
 
 @Injectable()
-export class PlanService extends BaseHttpCrudService {
+export class PlanService extends BaseCrudService {
   protected url = APIS.PLANS;
 
   constructor(protected readonly http: HttpClient) {

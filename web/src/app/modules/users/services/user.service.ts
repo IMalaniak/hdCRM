@@ -3,14 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-import { BaseHttpCrudService, SocketService } from '@/shared/services';
+import { BaseCrudService, SocketService } from '@/shared/services';
 import { User } from '../models';
-import { NewPassword, BaseMessage, CollectionApiResponse, ItemApiResponse } from '@/shared/models';
+import { NewPassword, BaseMessage, CollectionApiResponse } from '@/shared/models';
 import { SocketEvent, APIS } from '@/shared/constants';
 import { Role } from '@/modules/roles';
 
 @Injectable()
-export class UserService extends BaseHttpCrudService {
+export class UserService extends BaseCrudService {
   protected url = APIS.USERS;
 
   userOnline$: Observable<any> = this.socket.onEvent(SocketEvent.ISONLINE);
@@ -27,10 +27,6 @@ export class UserService extends BaseHttpCrudService {
 
   inviteUsers(users: User[]): Observable<CollectionApiResponse<User>> {
     return this.http.post<CollectionApiResponse<User>>(APIS.USERS_INVITE, users);
-  }
-
-  updateUserState(user: User): Observable<ItemApiResponse<User>> {
-    return this.http.put<ItemApiResponse<User>>(APIS.UPDATE_USER_STATE, user);
   }
 
   // TODO @IMalaniak recreate this

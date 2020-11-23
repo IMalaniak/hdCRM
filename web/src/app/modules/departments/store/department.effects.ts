@@ -16,7 +16,7 @@ import { Department } from '../models';
 import { selectDashboardDepDataLoaded } from './department.selectors';
 import { ToastMessageService } from '@/shared/services';
 import { CollectionApiResponse, ItemApiResponse, BaseMessage, PageQuery } from '@/shared/models';
-import { RoutingConstants } from '@/shared/constants';
+import { APIS, RoutingConstants } from '@/shared/constants';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
 
 @Injectable()
@@ -52,7 +52,7 @@ export class DepartmentEffects {
     this.actions$.pipe(
       ofType(depActions.departmentRequested),
       map((payload) => payload.id),
-      mergeMap((id: number) => this.departmentService.get<Department>(id)),
+      mergeMap((id: number) => this.departmentService.getOne<Department>(id)),
       switchMap((response: ItemApiResponse<Department>) => {
         const { Departments, Users } = normalizeResponse<Department>(response, departmentSchema);
         response = { ...response, data: Departments[0] };
@@ -67,7 +67,7 @@ export class DepartmentEffects {
       ofType(depActions.listPageRequested),
       map((payload) => payload.page),
       mergeMap((pageQuery: PageQuery) =>
-        this.departmentService.getItems<Department>(pageQuery).pipe(
+        this.departmentService.getList<Department>(pageQuery).pipe(
           switchMap((response: CollectionApiResponse<Department>) => {
             const page: Page = { dataIds: response.ids, key: generatePageKey(pageQuery) };
             const { Departments, Users } = normalizeResponse<Department>(response, departmentListSchema);
@@ -131,7 +131,7 @@ export class DepartmentEffects {
       ofType(depActions.depDashboardDataRequested),
       withLatestFrom(this.store$.pipe(select(selectDashboardDepDataLoaded))),
       filter(([_, selectDashboardDepDataLoaded]) => !selectDashboardDepDataLoaded),
-      mergeMap(() => this.departmentService.getItems<Department>()),
+      mergeMap(() => this.departmentService.getList<Department>(undefined, APIS.DEPARTMENTS_DASHBOARD)),
       switchMap((response: CollectionApiResponse<Department>) => {
         const { Departments, Users } = normalizeResponse<Department>(response, departmentListSchema);
         response = { ...response, data: Departments };

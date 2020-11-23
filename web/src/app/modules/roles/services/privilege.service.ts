@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { APIS } from '@/shared/constants';
-import { BaseHttpCrudService } from '@/shared/services';
+import { BaseCrudService } from '@/shared/services';
 
 @Injectable()
-export class PrivilegeService extends BaseHttpCrudService {
+export class PrivilegeService extends BaseCrudService {
   protected url = APIS.PRIVILEGES;
 
   constructor(protected readonly http: HttpClient) {

@@ -10,7 +10,7 @@ import { Actions, ofType, createEffect } from '@ngrx/effects';
 
 import { AppState } from '@/core/reducers';
 import { ToastMessageService } from '@/shared/services';
-import { RoutingConstants } from '@/shared/constants';
+import { APIS, RoutingConstants } from '@/shared/constants';
 import { normalizeResponse, Page, partialDataLoaded, roleListSchema, roleSchema } from '@/shared/store';
 import { CollectionApiResponse, ItemApiResponse, BaseMessage } from '@/shared/models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
@@ -47,7 +47,7 @@ export class RoleEffects {
     this.actions$.pipe(
       ofType(roleActions.roleRequested),
       map((payload) => payload.id),
-      mergeMap((id) => this.roleService.get<Role>(id)),
+      mergeMap((id) => this.roleService.getOne<Role>(id)),
       switchMap((response: ItemApiResponse<Role>) => {
         const { Users, Roles } = normalizeResponse<Role>(response, roleSchema);
         response = { ...response, data: Roles[0] };
@@ -62,7 +62,7 @@ export class RoleEffects {
       ofType(roleActions.listPageRequested),
       map((payload) => payload.page),
       mergeMap((pageQuery) =>
-        this.roleService.getItems<Role>(pageQuery).pipe(
+        this.roleService.getList<Role>(pageQuery).pipe(
           switchMap((response: CollectionApiResponse<Role>) => {
             const page: Page = { dataIds: response.ids, key: generatePageKey(pageQuery) };
             const { Users, Roles } = normalizeResponse<Role>(response, roleListSchema);
@@ -124,7 +124,7 @@ export class RoleEffects {
       ofType(roleActions.roleDashboardDataRequested),
       withLatestFrom(this.store$.pipe(select(selectRolesDashboardDataLoaded))),
       filter(([_, rolesDashboardDataLoaded]) => !rolesDashboardDataLoaded),
-      mergeMap(() => this.roleService.getDashboardData()),
+      mergeMap(() => this.roleService.getList<Role>(undefined, APIS.ROLES_DASHBOARD)),
       switchMap((response) => {
         const { Users, Roles } = normalizeResponse<Role>(response, roleListSchema);
         response = { ...response, data: Roles };

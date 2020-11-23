@@ -24,7 +24,7 @@ export class PrivilegeEffects {
         }
       }),
       filter(([_, allPrivilegesLoaded]) => !allPrivilegesLoaded),
-      mergeMap(() => this.privilegeService.getItems<Privilege>()),
+      mergeMap(() => this.privilegeService.getList<Privilege>()),
       map((response: CollectionApiResponse<Privilege>) => privilegeActions.allPrivilegesLoaded({ response })),
       catchError(() => of(privilegeActions.privilegeApiError()))
     )

@@ -4,10 +4,10 @@ import { HttpClient } from '@angular/common/http';
 import { Department } from '../models';
 import { User } from '@/modules/users/models';
 import { APIS } from '@/shared/constants';
-import { BaseHttpCrudService } from '@/shared/services/base-http-crud.service';
+import { BaseCrudService } from '@/shared/services/base-http-crud.service';
 
 @Injectable()
-export class DepartmentService extends BaseHttpCrudService {
+export class DepartmentService extends BaseCrudService {
   protected url = APIS.DEPARTMENTS;
 
   constructor(protected readonly http: HttpClient) {

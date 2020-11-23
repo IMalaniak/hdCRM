@@ -4,12 +4,12 @@ import { Observable } from 'rxjs';
 
 import { BaseMessage } from '@/shared/models';
 import { APIS } from '@/shared/constants';
-import { BaseHttpCrudService } from '@/shared/services';
+import { BaseCrudService } from '@/shared/services';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TaskService extends BaseHttpCrudService {
+export class TaskService extends BaseCrudService {
   protected url = APIS.TASKS;
 
   constructor(protected readonly http: HttpClient) {

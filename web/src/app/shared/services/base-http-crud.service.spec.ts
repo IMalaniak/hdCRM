@@ -1,21 +1,20 @@
 import { HttpClientModule } from '@angular/common/http';
-import { inject, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import { BaseHttpCrudService } from './base-http-crud.service';
-import { SharedModule } from '../shared.module';
+import { BaseCrudService } from './base-http-crud.service';
 
-describe('BaseHttpCrudService', () => {
-  let service: BaseHttpCrudService;
+describe('BaseCrudService', () => {
+  let service: BaseCrudService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule, HttpClientModule],
-      providers: [BaseHttpCrudService]
+      imports: [HttpClientModule],
+      providers: [BaseCrudService]
     });
-    service = TestBed.inject(BaseHttpCrudService);
+    service = TestBed.inject(BaseCrudService);
   });
 
-  it('should be created', inject([BaseHttpCrudService], (service: BaseHttpCrudService) => {
+  it('should be created', () => {
     expect(service).toBeTruthy();
-  }));
+  });
 });

@@ -16,7 +16,7 @@ export class TaskEffects {
     this.actions$.pipe(
       ofType(TaskActions.taskListRequested),
       switchMap(() =>
-        this.taskService.getItems<Task>().pipe(
+        this.taskService.getList<Task>().pipe(
           map((response: CollectionApiResponse<Task>) => TaskActions.taskListLoaded({ tasks: response.data })),
           catchError(() => of(TaskActions.tasksApiError()))
         )
@@ -100,7 +100,7 @@ export class TaskEffects {
     this.actions$.pipe(
       ofType(TaskActions.taskPrioritiesRequested),
       switchMap(() =>
-        this.taskService.getItems<TaskPriority>().pipe(
+        this.taskService.getList<TaskPriority>().pipe(
           map((response: CollectionApiResponse<TaskPriority>) =>
             TaskActions.taskPrioritiesLoaded({ priorities: response.data })
           ),

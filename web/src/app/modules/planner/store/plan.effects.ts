@@ -44,7 +44,7 @@ export class PlanEffects {
     this.actions$.pipe(
       ofType(planActions.planRequested),
       map((payload) => payload.id),
-      mergeMap((id) => this.planService.get<Plan>(id)),
+      mergeMap((id) => this.planService.getOne<Plan>(id)),
       switchMap((response: ItemApiResponse<Plan>) => {
         const { Plans, Users } = normalizeResponse<Plan>(response, planSchema);
         response = { ...response, data: Plans[0] };
@@ -59,7 +59,7 @@ export class PlanEffects {
       ofType(planActions.listPageRequested),
       map((payload) => payload.page),
       mergeMap((pageQuery) =>
-        this.planService.getItems<Plan>(pageQuery).pipe(
+        this.planService.getList<Plan>(pageQuery).pipe(
           switchMap((response: CollectionApiResponse<Plan>) => {
             const page: Page = { dataIds: response.ids, key: generatePageKey(pageQuery) };
             const { Plans, Users } = normalizeResponse<Plan>(response, planListSchema);
