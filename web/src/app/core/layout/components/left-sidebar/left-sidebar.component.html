@@ -5,9 +5,9 @@
         *ngIf="menuItem.privilege ? (menuItem.privilege | async) && !menuItem.disable : !menuItem.disable"
         class="sidebar-list-item"
       >
-        <a [routerLinkActive]="['active']" [routerLink]="menuItem.url" class="item-btn"
-          ><fa-icon [icon]="menuItem.icon" class="item-icon"></fa-icon
-          ><span class="item-title">{{ menuItem.title }}</span></a
+        <a [routerLinkActive]="['active']" [routerLink]="menuItem.url" class="item-btn">
+          <mat-icon [svgIcon]="menuItem.icon" aria-hidden="false" class="item-icon"></mat-icon>
+          <span class="item-title">{{ menuItem.title }}</span></a
         >
       </li>
     </ng-container>
