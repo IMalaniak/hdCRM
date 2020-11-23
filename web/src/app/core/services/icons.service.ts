@@ -12,7 +12,7 @@ type LibFolder = 'bs-icons' | 'icons';
 export class IconsService {
   constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {}
 
-  public registerIcons(icons: ICONS[] | BS_ICONS[]): void {
+  public registerIcons(icons: (ICONS | BS_ICONS)[]): void {
     icons.forEach((icon: ICONS | BS_ICONS) => {
       this.register(icon.toString(), this.getLib(icon));
     });
@@ -28,8 +28,8 @@ export class IconsService {
   private getLib(icon: ICONS | BS_ICONS): LibFolder {
     if (Object.values(ICONS).includes(icon as ICONS)) {
       return 'icons';
-    } else {
-      return 'bs-icons';
     }
+
+    return 'bs-icons';
   }
 }
