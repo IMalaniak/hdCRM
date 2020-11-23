@@ -5,7 +5,7 @@ import { take } from 'rxjs/operators';
 
 import { BaseCrudService, SocketService } from '@/shared/services';
 import { User } from '../models';
-import { NewPassword, BaseMessage, CollectionApiResponse } from '@/shared/models';
+import { NewPassword, BaseMessage, CollectionApiResponse, ItemApiResponse } from '@/shared/models';
 import { SocketEvent, APIS } from '@/shared/constants';
 import { Role } from '@/modules/roles';
 
@@ -27,6 +27,10 @@ export class UserService extends BaseCrudService {
 
   inviteUsers(users: User[]): Observable<CollectionApiResponse<User>> {
     return this.http.post<CollectionApiResponse<User>>(APIS.USERS_INVITE, users);
+  }
+
+  updateUserState(user: User): Observable<ItemApiResponse<User>> {
+    return this.http.put<ItemApiResponse<User>>(APIS.UPDATE_USER_STATE, user);
   }
 
   // TODO @IMalaniak recreate this

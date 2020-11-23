@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 import { Role } from '../models';
 import { User } from '@/modules/users/models';
 import { APIS } from '@/shared/constants';
 import { BaseCrudService } from '@/shared/services';
+import { CollectionApiResponse } from '@/shared/models';
 
 @Injectable()
 export class RoleService extends BaseCrudService {
@@ -12,6 +14,10 @@ export class RoleService extends BaseCrudService {
 
   constructor(protected readonly http: HttpClient) {
     super(http);
+  }
+
+  getDashboardData(): Observable<CollectionApiResponse<Role>> {
+    return this.http.get<CollectionApiResponse<Role>>(APIS.ROLES_DASHBOARD);
   }
 
   formatBeforeSend(role: Role): Role {

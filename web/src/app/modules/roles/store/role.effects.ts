@@ -10,7 +10,7 @@ import { Actions, ofType, createEffect } from '@ngrx/effects';
 
 import { AppState } from '@/core/reducers';
 import { ToastMessageService } from '@/shared/services';
-import { APIS, RoutingConstants } from '@/shared/constants';
+import { RoutingConstants } from '@/shared/constants';
 import { normalizeResponse, Page, partialDataLoaded, roleListSchema, roleSchema } from '@/shared/store';
 import { CollectionApiResponse, ItemApiResponse, BaseMessage } from '@/shared/models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
@@ -124,7 +124,7 @@ export class RoleEffects {
       ofType(roleActions.roleDashboardDataRequested),
       withLatestFrom(this.store$.pipe(select(selectRolesDashboardDataLoaded))),
       filter(([_, rolesDashboardDataLoaded]) => !rolesDashboardDataLoaded),
-      mergeMap(() => this.roleService.getList<Role>(undefined, APIS.ROLES_DASHBOARD)),
+      mergeMap(() => this.roleService.getDashboardData()),
       switchMap((response) => {
         const { Users, Roles } = normalizeResponse<Role>(response, roleListSchema);
         response = { ...response, data: Roles };

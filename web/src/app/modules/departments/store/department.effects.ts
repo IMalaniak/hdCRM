@@ -16,7 +16,7 @@ import { Department } from '../models';
 import { selectDashboardDepDataLoaded } from './department.selectors';
 import { ToastMessageService } from '@/shared/services';
 import { CollectionApiResponse, ItemApiResponse, BaseMessage, PageQuery } from '@/shared/models';
-import { APIS, RoutingConstants } from '@/shared/constants';
+import { RoutingConstants } from '@/shared/constants';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
 
 @Injectable()
@@ -131,7 +131,7 @@ export class DepartmentEffects {
       ofType(depActions.depDashboardDataRequested),
       withLatestFrom(this.store$.pipe(select(selectDashboardDepDataLoaded))),
       filter(([_, selectDashboardDepDataLoaded]) => !selectDashboardDepDataLoaded),
-      mergeMap(() => this.departmentService.getList<Department>(undefined, APIS.DEPARTMENTS_DASHBOARD)),
+      mergeMap(() => this.departmentService.getDashboardData()),
       switchMap((response: CollectionApiResponse<Department>) => {
         const { Departments, Users } = normalizeResponse<Department>(response, departmentListSchema);
         response = { ...response, data: Departments };

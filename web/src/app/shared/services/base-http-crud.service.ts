@@ -16,7 +16,7 @@ export abstract class BaseCrudService {
     return this.http.get<ItemApiResponse<T>>(`${this.url}/${id}`);
   }
 
-  getList<T>(pageQuery?: PageQuery, url?: string): Observable<CollectionApiResponse<T>> {
+  getList<T>(pageQuery?: PageQuery): Observable<CollectionApiResponse<T>> {
     if (pageQuery) {
       return this.http.get<CollectionApiResponse<T>>(this.url, {
         params: new HttpParams()
@@ -26,27 +26,18 @@ export abstract class BaseCrudService {
           .set('sortDirection', pageQuery.sortDirection)
       });
     }
-    return this.http.get<CollectionApiResponse<T>>(this.getCustomUrl(url));
+    return this.http.get<CollectionApiResponse<T>>(this.url);
   }
 
   create<T>(data: T): Observable<ItemApiResponse<T>> {
     return this.http.post<ItemApiResponse<T>>(this.url, data);
   }
 
-  update<T>(data: T, id?: number, url?: string): Observable<ItemApiResponse<T>> {
-    return this.http.put<ItemApiResponse<T>>(this.getCustomUrl(url, id), data);
+  update<T>(data: T, id: number): Observable<ItemApiResponse<T>> {
+    return this.http.put<ItemApiResponse<T>>(`${this.url}/${id}`, data);
   }
 
   delete(id: number): Observable<BaseMessage> {
     return this.http.delete<BaseMessage>(`${this.url}/${id}`);
-  }
-
-  private getCustomUrl(customUrl: string, id?: number): string {
-    let url: string = customUrl || this.url;
-    if (customUrl && id) {
-      url += `/${id}`;
-    }
-
-    return url;
   }
 }

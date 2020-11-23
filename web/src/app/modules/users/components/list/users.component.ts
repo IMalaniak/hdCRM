@@ -33,8 +33,7 @@ import {
   THEME_PALETTE,
   RoutingConstants,
   CONSTANTS,
-  UserState,
-  APIS
+  UserState
 } from '@/shared/constants';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, SORT_DIRECTION, COLUMN_NAMES } from '@/shared/constants';
@@ -161,15 +160,13 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
     const userState = { id: user.id, state } as User;
 
     // TODO: @IMalaniak recreate this to store
-    this.userService
-      .update<User>(userState, undefined, APIS.UPDATE_USER_STATE)
-      .subscribe((response: ItemApiResponse<User>) => {
-        const serverResponse = {
-          success: response.success,
-          message: `User state was changed to: ${response.data.state}`
-        };
-        this.toastMessageService.snack(serverResponse);
-      });
+    this.userService.updateUserState(userState).subscribe((response: ItemApiResponse<User>) => {
+      const serverResponse = {
+        success: response.success,
+        message: `User state was changed to: ${response.data.state}`
+      };
+      this.toastMessageService.snack(serverResponse);
+    });
   }
 
   onUserSelect(id: number, edit: boolean = false): void {
