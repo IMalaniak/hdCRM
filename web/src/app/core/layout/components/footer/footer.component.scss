@@ -102,7 +102,7 @@ footer {
           }
         }
 
-        fa-icon {
+        mat-icon {
           @include set-textcolor('text-contrast');
           transition: color $transition;
           cursor: pointer;
