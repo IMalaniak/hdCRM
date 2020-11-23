@@ -16,14 +16,17 @@ export abstract class BaseHttpCrudService {
     return this.http.get<ItemApiResponse<T>>(`${this.url}/${id}`);
   }
 
-  getItems<T>({ pageIndex, pageSize, sortIndex, sortDirection }: PageQuery): Observable<CollectionApiResponse<T>> {
-    return this.http.get<CollectionApiResponse<T>>(this.url, {
-      params: new HttpParams()
-        .set('pageIndex', pageIndex.toString())
-        .set('pageSize', pageSize.toString())
-        .set('sortIndex', sortIndex)
-        .set('sortDirection', sortDirection)
-    });
+  getItems<T>(pageQuery?: PageQuery): Observable<CollectionApiResponse<T>> {
+    if (pageQuery) {
+      return this.http.get<CollectionApiResponse<T>>(this.url, {
+        params: new HttpParams()
+          .set('pageIndex', pageQuery.pageIndex.toString())
+          .set('pageSize', pageQuery.pageSize.toString())
+          .set('sortIndex', pageQuery.sortIndex)
+          .set('sortDirection', pageQuery.sortDirection)
+      });
+    }
+    return this.http.get<CollectionApiResponse<T>>(this.url);
   }
 
   create<T>(data: T): Observable<ItemApiResponse<T>> {
