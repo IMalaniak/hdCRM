@@ -14,7 +14,7 @@ import { THEME_PALETTE, BUTTON_TYPE, MAT_BUTTON } from '@/shared/constants';
         [ngClass]="[classes]"
         [disabled]="disabled"
       >
-        <fa-icon *ngIf="icon" [ngClass]="[iconClasses]" [icon]="icon"></fa-icon>
+        <mat-icon *ngIf="icon" [ngClass]="[iconClasses]" [svgIcon]="icon" aria-hidden="false"></mat-icon>
         <span><ng-content></ng-content></span>
       </button>
 
@@ -26,7 +26,7 @@ import { THEME_PALETTE, BUTTON_TYPE, MAT_BUTTON } from '@/shared/constants';
         (click)="onClick($event)"
         [disabled]="disabled"
       >
-        <fa-icon *ngIf="icon" [ngClass]="[iconClasses]" [icon]="icon"></fa-icon>
+        <mat-icon *ngIf="icon" [ngClass]="[iconClasses]" [svgIcon]="icon"></mat-icon>
       </button>
 
       <button
@@ -37,7 +37,7 @@ import { THEME_PALETTE, BUTTON_TYPE, MAT_BUTTON } from '@/shared/constants';
         (click)="onClick($event)"
         [disabled]="disabled"
       >
-        <fa-icon class="fab-icon" *ngIf="icon" [icon]="icon"></fa-icon>
+        <mat-icon *ngIf="icon" [svgIcon]="icon"></mat-icon>
       </button>
 
       <button
@@ -48,7 +48,7 @@ import { THEME_PALETTE, BUTTON_TYPE, MAT_BUTTON } from '@/shared/constants';
         (click)="onClick($event)"
         [disabled]="disabled"
       >
-        <fa-icon class="fab-icon" *ngIf="icon" [icon]="icon"></fa-icon>
+        <mat-icon *ngIf="icon" [svgIcon]="icon"></mat-icon>
       </button>
     </ng-container>
   `,
