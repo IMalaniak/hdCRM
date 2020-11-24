@@ -9,7 +9,7 @@ import { AddStageDialogComponent } from '../add-dialog/add-stage-dialog.componen
 import { AppState } from '@/core/reducers';
 import { allStagesRequestedFromDialogWindow, createStage } from '@/modules/planner/store/stage.actions';
 import { selectAllStages, selectStagesLoading } from '@/modules/planner/store/stage.selectors';
-import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, CONSTANTS } from '@/shared/constants';
+import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, CONSTANTS, BS_ICONS } from '@/shared/constants';
 import { DialogService } from '@/shared/services';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
@@ -32,6 +32,7 @@ export class StagesComponent implements OnInit, OnDestroy {
   columnLabels = COLUMN_LABELS;
   actionLabels = ACTION_LABELS;
   displayedColumns: COLUMN_NAMES[] = [COLUMN_NAMES.SELECT, COLUMN_NAMES.TITLE];
+  addStageIcon = BS_ICONS.Plus;
 
   private unsubscribe: Subject<void> = new Subject();
 

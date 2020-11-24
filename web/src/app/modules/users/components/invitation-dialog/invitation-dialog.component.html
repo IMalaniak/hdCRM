@@ -64,15 +64,16 @@
       </div>
       <atoms-icon-button
         (onclick)="addUserToInvitation(userData.value)"
-        [icon]="['fas', 'plus']"
+        [icon]="dialogIcons.add"
         [matType]="matButtonType.MINI_FAB"
         [disabled]="userData.invalid || errorInvitations"
       >
       </atoms-icon-button>
     </form>
   </div>
+  <!-- TODO: @ArsenIrod use snack -->
   <div class="rounded text-center w-100 mb-3 py-3 failed-message" *ngIf="errorInvitations">
-    <fa-icon [icon]="['fas', 'times']"></fa-icon>
+    <mat-icon [svgIcon]="dialogIcons.times" aria-hidden="false"></mat-icon>
     <span class="ml-4" i18n="@@invitationDialogСomponentMessageErrorAlreadyInvitedUser"
       >You have already invited a user with this email!</span
     >

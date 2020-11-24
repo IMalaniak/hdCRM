@@ -6,7 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { AppState } from '@/core/reducers';
 import { TemplatesViewDetailsComponent } from '@/shared/components';
-import { MAT_BUTTON, COLUMN_NAMES, COLUMN_LABELS, CONSTANTS } from '@/shared/constants';
+import { MAT_BUTTON, COLUMN_NAMES, COLUMN_LABELS, CONSTANTS, BS_ICONS } from '@/shared/constants';
 import { DialogService } from '@/shared/services';
 import { DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { Privilege, Role } from '@/modules/roles/models';
@@ -30,6 +30,12 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
     COLUMN_NAMES.EDIT,
     COLUMN_NAMES.DELETE
   ];
+  listIcons: { [key: string]: BS_ICONS } = {
+    add: BS_ICONS.Plus,
+    delete: BS_ICONS.Trash,
+    enabled: BS_ICONS.Check,
+    disabled: BS_ICONS.X
+  };
 
   private unsubscribe: Subject<void> = new Subject();
 

@@ -7,12 +7,12 @@ import { THEME_PALETTE, BUTTON_TYPE, MAT_BUTTON } from '@/shared/constants';
     <ng-container [ngSwitch]="matType">
       <button
         *ngSwitchDefault
-        type="{{ type }}"
         mat-button
-        color="{{ color }}"
-        (click)="onClick($event)"
+        [type]="type"
+        [color]="color"
         [ngClass]="[classes]"
         [disabled]="disabled"
+        (click)="onClick($event)"
       >
         <mat-icon *ngIf="icon" [ngClass]="[iconClasses]" [svgIcon]="icon" aria-hidden="false"></mat-icon>
         <span><ng-content></ng-content></span>
@@ -21,10 +21,10 @@ import { THEME_PALETTE, BUTTON_TYPE, MAT_BUTTON } from '@/shared/constants';
       <button
         *ngSwitchCase="matButtonTypes.ICON"
         mat-icon-button
-        color="{{ color }}"
+        [color]="color"
         [ngClass]="[classes]"
-        (click)="onClick($event)"
         [disabled]="disabled"
+        (click)="onClick($event)"
       >
         <mat-icon *ngIf="icon" [ngClass]="[iconClasses]" [svgIcon]="icon"></mat-icon>
       </button>
@@ -32,10 +32,10 @@ import { THEME_PALETTE, BUTTON_TYPE, MAT_BUTTON } from '@/shared/constants';
       <button
         *ngSwitchCase="matButtonTypes.FAB"
         mat-fab
-        color="{{ color }}"
+        [color]="color"
         [ngClass]="[classes]"
-        (click)="onClick($event)"
         [disabled]="disabled"
+        (click)="onClick($event)"
       >
         <mat-icon *ngIf="icon" [svgIcon]="icon"></mat-icon>
       </button>
@@ -43,10 +43,10 @@ import { THEME_PALETTE, BUTTON_TYPE, MAT_BUTTON } from '@/shared/constants';
       <button
         *ngSwitchCase="matButtonTypes.MINI_FAB"
         mat-mini-fab
-        color="{{ color }}"
+        [color]="color"
         [ngClass]="[classes]"
-        (click)="onClick($event)"
         [disabled]="disabled"
+        (click)="onClick($event)"
       >
         <mat-icon *ngIf="icon" [svgIcon]="icon"></mat-icon>
       </button>

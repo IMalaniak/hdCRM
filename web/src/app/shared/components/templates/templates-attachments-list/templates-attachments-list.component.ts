@@ -1,12 +1,15 @@
 import { Component, EventEmitter, Output, Input, ChangeDetectionStrategy } from '@angular/core';
-import { AttachmentService } from '@/shared/modules/attachments/services';
-import { Asset } from '@/shared/models';
-import { Observable } from 'rxjs/internal/Observable';
-import { AppState } from '@/core/reducers';
+
 import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs/internal/Observable';
+
+import { AppState } from '@/core/reducers';
 import { getGoogleDriveIntegrationState } from '@/core/reducers/integration.selectors';
 import { toggleGoogleDriveIntegration } from '@/core/reducers/integration.actions';
-import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, THEME_PALETTE, MAT_BUTTON } from '@/shared/constants';
+import { IconsService } from '@/core/services';
+import { AttachmentService } from '@/shared/modules/attachments/services';
+import { Asset } from '@/shared/models';
+import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, THEME_PALETTE, MAT_BUTTON, BS_ICONS } from '@/shared/constants';
 
 @Component({
   selector: 'templates-attachments-list',
@@ -40,8 +43,28 @@ export class TemplatesAttachmentsListComponent {
     COLUMN_NAMES.UPDATED_AT,
     COLUMN_NAMES.ACTIONS
   ];
+  listIcons: { [key: string]: BS_ICONS } = {
+    remove: BS_ICONS.Trash,
+    done: BS_ICONS.Check,
+    add: BS_ICONS.FileEarmarkPlus
+  };
 
-  constructor(private store$: Store<AppState>, private attachmentService: AttachmentService) {}
+  constructor(
+    private store$: Store<AppState>,
+    private attachmentService: AttachmentService,
+    private iconsService: IconsService
+  ) {
+    this.iconsService.registerIcons([
+      BS_ICONS.FileEarmarkPlus,
+      BS_ICONS.FileEarmarkWord,
+      BS_ICONS.FileEarmarkPpt,
+      BS_ICONS.FileEarmarkImage,
+      BS_ICONS.FileEarmarkPlay,
+      BS_ICONS.FileEarmarkText,
+      BS_ICONS.FileEarmarkZip,
+      BS_ICONS.FileEarmark
+    ]);
+  }
 
   onClickAddFiles(): void {
     this.uploaderVisible = true;
@@ -51,8 +74,8 @@ export class TemplatesAttachmentsListComponent {
     this.uploaderVisible = false;
   }
 
-  fileTypeIcon(file: string): string {
-    return `file${this.attachmentService.getIcon(file)}`;
+  fileTypeIcon(file: string): BS_ICONS {
+    return this.attachmentService.getIcon(file);
   }
 
   downloadFile(fileId: number, filename: string = null): void {

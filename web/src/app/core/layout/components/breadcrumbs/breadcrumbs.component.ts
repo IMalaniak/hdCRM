@@ -1,3 +1,4 @@
+import { BS_ICONS } from '@/shared/constants';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -10,6 +11,7 @@ import { Breadcrumb } from './breadcrumb';
 })
 export class BreadcrumbsComponent implements OnInit {
   public breadcrumbs: Breadcrumb[];
+  homeIcon = BS_ICONS.House;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 

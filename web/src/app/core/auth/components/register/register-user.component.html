@@ -107,11 +107,7 @@
                   </div>
                 </form>
                 <div class="d-flex justify-content-end pt-3">
-                  <atoms-icon-button
-                    [matType]="matButtonTypes.STROKED"
-                    (onclick)="stepper.next()"
-                    [icon]="['fas', 'arrow-right']"
-                  >
+                  <atoms-icon-button [matType]="matButtonTypes.STROKED" (onclick)="stepper.next()" [icon]="icons.right">
                     {{ actionLabels.NEXT }}
                   </atoms-icon-button>
                 </div>
@@ -186,15 +182,11 @@
                   <atoms-icon-button
                     [matType]="matButtonTypes.STROKED"
                     (onclick)="stepper.previous()"
-                    [icon]="['fas', 'arrow-left']"
+                    [icon]="icons.left"
                   >
                     {{ actionLabels.BACK }}
                   </atoms-icon-button>
-                  <atoms-icon-button
-                    [matType]="matButtonTypes.STROKED"
-                    (onclick)="stepper.next()"
-                    [icon]="['fas', 'arrow-right']"
-                  >
+                  <atoms-icon-button [matType]="matButtonTypes.STROKED" (onclick)="stepper.next()" [icon]="icons.right">
                     {{ actionLabels.NEXT }}
                   </atoms-icon-button>
                 </div>
@@ -331,7 +323,7 @@
                   <atoms-icon-button
                     [matType]="matButtonTypes.STROKED"
                     (onclick)="stepper.previous()"
-                    [icon]="['fas', 'arrow-left']"
+                    [icon]="icons.left"
                   >
                     {{ actionLabels.BACK }}
                   </atoms-icon-button>
@@ -339,7 +331,7 @@
                     [matType]="matButtonTypes.STROKED"
                     [color]="themePalette.WARN"
                     (onclick)="stepper.reset()"
-                    [icon]="['fas', 'trash-alt']"
+                    [icon]="icons.reset"
                   >
                     {{ actionLabels.RESET }}
                   </atoms-icon-button>
@@ -350,9 +342,9 @@
               <atoms-icon-button
                 [disabled]="registerData.invalid || (isLoading$ | async)"
                 (onclick)="onRegisterSubmit()"
-                [icon]="['fas', 'paper-plane']"
+                [icon]="icons.submir"
               >
-                {{ actionLabels.SUMBIT }}
+                {{ actionLabels.SUBMIT }}
               </atoms-icon-button>
             </div>
           </mat-card-content>
@@ -362,7 +354,7 @@
         <div class="d-flex flex-column text-white">
           <h2>Already registered?</h2>
           <p>Instantly go back into your HDCRM dashboard below.</p>
-          <atoms-icon-button [routerLink]="loginRoute" [icon]="['fas', 'arrow-right']">
+          <atoms-icon-button [routerLink]="loginRoute" [icon]="icons.right">
             {{ actionLabels.LOG_IN }}
           </atoms-icon-button>
         </div>

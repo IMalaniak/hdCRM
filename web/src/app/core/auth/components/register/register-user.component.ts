@@ -1,11 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, Validators, FormControl, FormGroup, AbstractControl } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
-import { User } from '@/modules/users';
-import { AuthState } from '../../store/auth.reducer';
-import { registerUser } from '../../store/auth.actions';
-import { isLoading } from '../../store/auth.selectors';
 import { Observable } from 'rxjs';
+
+import { Store, select } from '@ngrx/store';
+
+import { IconsService } from '@/core/services';
 import {
   CONSTANTS,
   IFieldType,
@@ -14,8 +13,13 @@ import {
   MAT_BUTTON,
   THEME_PALETTE,
   RoutingConstants,
-  OrgType
+  OrgType,
+  BS_ICONS
 } from '@/shared/constants';
+import { User } from '@/modules/users';
+import { AuthState } from '../../store/auth.reducer';
+import { registerUser } from '../../store/auth.actions';
+import { isLoading } from '../../store/auth.selectors';
 
 @Component({
   selector: 'app-register-user',
@@ -36,8 +40,16 @@ export class RegisterUserComponent implements OnInit {
   matButtonTypes = MAT_BUTTON;
   themePalette = THEME_PALETTE;
   loginRoute = RoutingConstants.ROUTE_AUTH_LOGIN;
+  icons: { [key: string]: BS_ICONS } = {
+    right: BS_ICONS.ArrowRight,
+    left: BS_ICONS.ArrowLeft,
+    reset: BS_ICONS.ArrowCounterclockwise,
+    submit: BS_ICONS.Upload
+  };
 
-  constructor(private store: Store<AuthState>, private fb: FormBuilder) {}
+  constructor(private store: Store<AuthState>, private fb: FormBuilder, private iconsService: IconsService) {
+    this.iconsService.registerIcons([...Object.values(this.icons)]);
+  }
 
   ngOnInit(): void {
     this.buildRegisterFormGroup();

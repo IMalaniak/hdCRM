@@ -1,6 +1,6 @@
 <organisms-card cardTitle="Roles List" [showDataLoader]="loading$ | async">
   <div buttons *ngIf="canAddRole$ | async">
-    <atoms-icon-button [routerLink]="addRoleRoute" [icon]="['fas', 'plus']">
+    <atoms-icon-button [routerLink]="addRoleRoute" [icon]="listIcons.add">
       {{ actionLabels.CREATE }}
     </atoms-icon-button>
   </div>
@@ -59,21 +59,21 @@
           <atoms-icon-button
             [matMenuTriggerFor]="menu"
             [color]="themePalette.BASIC"
-            [icon]="['fas', 'ellipsis-v']"
+            [icon]="listIcons.matMenu"
             matType="icon"
           >
           </atoms-icon-button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="onRoleSelect(role.id)">
-              <fa-icon [icon]="['fas', 'info']"></fa-icon>
+              <mat-icon [svgIcon]="listIcons.info" aria-hidden="false"></mat-icon>
               <span i18n="@@rolesComponentListActionsView">{{ actionLabels.DETAILS }}</span>
             </button>
             <button *ngIf="canEditRole$ | async" mat-menu-item (click)="onRoleSelect(role.id, true)">
-              <fa-icon [icon]="['fas', 'edit']"></fa-icon>
+              <mat-icon [svgIcon]="listIcons.edit" aria-hidden="false"></mat-icon>
               <span i18n="@@rolesComponentListActionsEdit"> {{ actionLabels.EDIT }} </span>
             </button>
             <button *ngIf="(canDeleteRole$ | async) && role.id !== 1" mat-menu-item (click)="deleteRole(role.id)">
-              <fa-icon [icon]="['fas', 'trash']" class="text-warn"></fa-icon>
+              <mat-icon [svgIcon]="listIcons.delete" aria-hidden="false" class="text-warn"></mat-icon>
               <span i18n="@@rolesComponentListActionsDelete"> {{ actionLabels.DELETE }} </span>
             </button>
           </mat-menu>

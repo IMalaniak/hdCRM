@@ -43,7 +43,7 @@
                 <atoms-icon-button
                   [type]="buttonType.SUBMIT"
                   [disabled]="(isLoading$ | async) || this.user.invalid"
-                  [icon]="!(isLoading$ | async) ? ['fas', 'key'] : ['fas', 'ban']"
+                  [icon]="!(isLoading$ | async) ? icons.key : icons.disabled"
                 >
                   {{ actionLabels.LOG_IN }}
                 </atoms-icon-button>
@@ -76,14 +76,14 @@
                   [color]="themePalette.BASIC"
                   [type]="buttonType.RESET"
                   [routerLink]="routes.ROUTE_AUTH_LOGIN"
-                  [icon]="['fas', 'times']"
+                  [icon]="icons.cancel"
                 >
                   {{ actionLabels.CANCEL }}
                 </atoms-icon-button>
                 <atoms-icon-button
                   [type]="buttonType.SUBMIT"
                   [disabled]="(isLoading$ | async) || user.invalid"
-                  [icon]="['fas', 'arrow-right']"
+                  [icon]="icons.arrow"
                 >
                   Reset password
                 </atoms-icon-button>
@@ -155,7 +155,7 @@
                   [color]="themePalette.BASIC"
                   [type]="buttonType.RESET"
                   [routerLink]="routes.ROUTE_AUTH_LOGIN"
-                  [icon]="['fas', 'times']"
+                  [icon]="icons.cancel"
                 >
                   {{ actionLabels.CANCEL }}
                 </atoms-icon-button>
@@ -163,9 +163,9 @@
                 <atoms-icon-button
                   [type]="buttonType.SUBMIT"
                   [disabled]="newPasswordForm.invalid"
-                  [icon]="['fas', 'check']"
+                  [icon]="icons.submit"
                 >
-                  {{ actionLabels.SUMBIT }}
+                  {{ actionLabels.SUBMIT }}
                 </atoms-icon-button>
               </div>
             </mat-card-content>
@@ -177,7 +177,7 @@
           <h2>New to HDCRM?</h2>
           <p>Create an account and do management.</p>
 
-          <atoms-icon-button [routerLink]="routes.ROUTE_AUTH_REGISTER" [icon]="['fas', 'arrow-right']">
+          <atoms-icon-button [routerLink]="routes.ROUTE_AUTH_REGISTER" [icon]="icons.arrow">
             Create an account
           </atoms-icon-button>
         </div>

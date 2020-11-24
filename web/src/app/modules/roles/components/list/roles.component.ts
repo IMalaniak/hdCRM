@@ -21,7 +21,8 @@ import {
   COLUMN_LABELS,
   THEME_PALETTE,
   RoutingConstants,
-  CONSTANTS
+  CONSTANTS,
+  BS_ICONS
 } from '@/shared/constants';
 import { deleteRoleRequested, changeIsEditingState } from '../../store/role.actions';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
@@ -65,6 +66,14 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
     COLUMN_NAMES.ACTIONS
   ];
   pageSizeOptions: number[] = pageSizeOptions;
+  listIcons: { [key: string]: BS_ICONS } = {
+    matMenu: BS_ICONS.ThreeDotsVertical,
+    add: BS_ICONS.Plus,
+    info: BS_ICONS.InfoSquare,
+    edit: BS_ICONS.Pencil,
+    delete: BS_ICONS.Trash
+  };
+
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(private store$: Store<AppState>, private router: Router, private dialogService: DialogService) {}

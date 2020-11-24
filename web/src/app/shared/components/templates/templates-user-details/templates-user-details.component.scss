@@ -41,28 +41,20 @@
     }
 
     .icon {
-      display: flex;
+      display: inline-flex;
       justify-content: center;
-      align-items: center;
-      border-radius: 50%;
+      width: 2em;
 
       &-normal {
-        margin-right: 0.7em;
-        padding: 1em;
-        font-size: 1.1em;
-        width: 1.1em;
         height: 1.1em;
-        border: 1px solid $blue;
+        font-size: 1.5em;
         @include set-textcolor('primary');
       }
 
       &-mini {
-        margin-right: 0.5em;
-        padding: 0.9em;
-        font-size: 0.8em;
-        width: 0.8em;
+        width: 2.5em;
         height: 0.8em;
-        border: 1px solid $gray-600;
+        font-size: 1.1em;
         color: $gray-600;
       }
     }

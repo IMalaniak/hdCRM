@@ -1,6 +1,6 @@
 <organisms-card cardTitle="Plan list" [showDataLoader]="loading$ | async">
   <div buttons *ngIf="canAddPlan$ | async">
-    <atoms-icon-button [routerLink]="addPlanRoute" [icon]="['fas', 'plus']"> Create a new plan </atoms-icon-button>
+    <atoms-icon-button [routerLink]="addPlanRoute" [icon]="listIcons.add"> Create a new plan </atoms-icon-button>
   </div>
 
   <div content class="table-container">
@@ -66,21 +66,21 @@
           <atoms-icon-button
             [matMenuTriggerFor]="menu"
             [color]="themePalette.BASIC"
-            [icon]="['fas', 'ellipsis-v']"
+            [icon]="listIcons.matMenu"
             [matType]="matButtonType.ICON"
           >
           </atoms-icon-button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="onPlanSelect(plan.id)">
-              <fa-icon [icon]="['fas', 'info']"></fa-icon>
+              <mat-icon [svgIcon]="listIcons.info" aria-hidden="false"></mat-icon>
               <span i18n="@@plannerComponentListActionsView">{{ actionLabels.DETAILS }}</span>
             </button>
             <button *ngIf="canEditPlan$ | async" mat-menu-item (click)="onPlanSelect(plan.id, true)">
-              <fa-icon [icon]="['fas', 'edit']"></fa-icon>
+              <mat-icon [svgIcon]="listIcons.edit" aria-hidden="false"></mat-icon>
               <span i18n="@@plannerComponentListActionsEdit">{{ actionLabels.EDIT }}</span>
             </button>
             <button *ngIf="canDeletePlan$ | async" mat-menu-item (click)="deletePlan(plan.id)">
-              <fa-icon [icon]="['fas', 'trash']" class="text-warn"></fa-icon>
+              <mat-icon [svgIcon]="listIcons.delete" aria-hidden="false" class="text-warn"></mat-icon>
               <span i18n="@@plannerComponentListActionsDelete">{{ actionLabels.DELETE }}</span>
             </button>
           </mat-menu>

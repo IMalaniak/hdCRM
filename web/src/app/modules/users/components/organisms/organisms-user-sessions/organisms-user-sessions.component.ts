@@ -1,11 +1,13 @@
 import { Component, OnChanges, Input, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 
+import { Store } from '@ngrx/store';
+import { UAParser } from 'ua-parser-js';
+
 import { UserSession, User } from '@/modules/users';
 import { AppState } from '@/core/reducers';
-import { Store } from '@ngrx/store';
+import { IconsService } from '@/core/services';
 import { deleteSession, deleteMultipleSession } from '@/core/auth/store/auth.actions';
-import { UAParser } from 'ua-parser-js';
-import { MAT_BUTTON, THEME_PALETTE, CONSTANTS } from '@/shared/constants';
+import { MAT_BUTTON, THEME_PALETTE, CONSTANTS, BS_ICONS } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
@@ -26,8 +28,15 @@ export class OrganismsUserSessionsComponent implements OnChanges {
 
   themePalette = THEME_PALETTE;
   matButtonType = MAT_BUTTON;
+  removeIcon = BS_ICONS.X;
 
-  constructor(private store: Store<AppState>, private dialogService: DialogService) {}
+  constructor(
+    private store: Store<AppState>,
+    private dialogService: DialogService,
+    private iconsService: IconsService
+  ) {
+    this.iconsService.registerIcons([BS_ICONS.Phone, BS_ICONS.Tablet, BS_ICONS.Display]);
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['user']?.currentValue && this.user) {
@@ -47,23 +56,18 @@ export class OrganismsUserSessionsComponent implements OnChanges {
     return `${parsedUA.getBrowser().name} on ${parsedUA.getOS().name} ${parsedUA.getOS().version}`;
   }
 
-  getDeviceIcon(ua: string): string[] {
+  getDeviceIcon(ua: string): BS_ICONS {
     const parsedUA = new UAParser(ua);
-    let icon: string[];
     switch (parsedUA.getDevice().type) {
       case 'mobile':
-        icon = ['fas', 'mobile-alt'];
-        break;
+        return BS_ICONS.Phone;
 
       case 'tablet':
-        icon = ['fas', 'tablet-alt'];
-        break;
+        return BS_ICONS.Tablet;
 
       default:
-        icon = ['fas', 'desktop'];
-        break;
+        return BS_ICONS.Display;
     }
-    return icon;
   }
 
   onRemove(sessionId: number | number[], messageText: string): void {
