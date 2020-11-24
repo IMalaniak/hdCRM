@@ -24,9 +24,11 @@
                   autocomplete="current-password"
                   [type]="hidePassword ? 'password' : 'text'"
                 />
-                <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{
-                  hidePassword ? 'visibility_off' : 'visibility'
-                }}</mat-icon>
+                <mat-icon
+                  matSuffix
+                  (click)="hidePassword = !hidePassword"
+                  [svgIcon]="icons[hidePassword ? 'eyeDisabled' : 'eye']"
+                ></mat-icon>
                 <!-- TODO FA-ICON -->
               </mat-form-field>
               <div class="d-flex flex-row justify-content-between align-items-center">
@@ -105,9 +107,11 @@
                   [type]="hidePassword ? 'password' : 'text'"
                   required
                 />
-                <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{
-                  hidePassword ? 'visibility_off' : 'visibility'
-                }}</mat-icon>
+                <mat-icon
+                  matSuffix
+                  (click)="hidePassword = !hidePassword"
+                  [svgIcon]="icons[hidePassword ? 'eyeDisabled' : 'eye']"
+                ></mat-icon>
                 <mat-error *ngIf="newPasswordForm.get('newPassword').invalid">
                   <mat-error
                     *ngIf="newPasswordForm.get('newPassword').errors.minlength"
@@ -132,9 +136,11 @@
               <mat-form-field appearance="outline">
                 <mat-label i18n="@@loginComponentFormResetConfirmPasswordLabel">Confirm password</mat-label>
                 <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="verifyPassword" required />
-                <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{
-                  hidePassword ? 'visibility_off' : 'visibility'
-                }}</mat-icon>
+                <mat-icon
+                  matSuffix
+                  (click)="hidePassword = !hidePassword"
+                  [svgIcon]="icons[hidePassword ? 'eyeDisabled' : 'eye']"
+                ></mat-icon>
                 <mat-error *ngIf="newPasswordForm.get('verifyPassword').invalid">
                   <mat-error
                     *ngIf="newPasswordForm.get('verifyPassword').errors.ConfirmPassword"

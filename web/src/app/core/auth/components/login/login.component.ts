@@ -47,7 +47,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     disabled: BS_ICONS.SlashCircle,
     cancel: BS_ICONS.X,
     arrow: BS_ICONS.ArrowRight,
-    submit: BS_ICONS.Check
+    submit: BS_ICONS.Check,
+    eye: BS_ICONS.Eye,
+    eyeDisabled: BS_ICONS.EyeSlash
   };
 
   private unsubscribe: Subject<void> = new Subject();
