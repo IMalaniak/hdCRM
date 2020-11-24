@@ -1,6 +1,7 @@
 import { initialPreferencesState } from '@/core/reducers/preferences.reducer';
 import { SharedModule } from '@/shared/shared.module';
 import { currentUserMock } from '@/shared/testing/mocks';
+import { HttpClientModule } from '@angular/common/http';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -18,7 +19,7 @@ describe('OrganismsUserSessionsComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [OrganismsUserSessionsComponent],
-        imports: [RouterTestingModule, SharedModule],
+        imports: [RouterTestingModule, HttpClientModule, SharedModule],
         providers: [provideMockStore({ initialState })]
       }).compileComponents();
     })
