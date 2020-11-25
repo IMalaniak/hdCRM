@@ -10,13 +10,13 @@
   <atoms-profile-pic *ngIf="isDialog" [avatar]="user.avatar" picClass="w-50 mx-auto my-3"></atoms-profile-pic>
 
   <div class="caption">
-    <fa-icon [icon]="['fas', 'user']" class="icon icon-normal"></fa-icon>
+    <mat-icon [svgIcon]="icons.user" class="icon icon-normal" aria-hidden="false"></mat-icon>
     <h5>{{ user.fullname }}</h5>
   </div>
   <ng-container *ngIf="!isDialog">
     <!-- TODO: @ArseniiIrod delete ng-container after close task #164 -->
     <div class="caption">
-      <fa-icon [icon]="['fas', 'info']" class="icon icon-normal"></fa-icon>
+      <mat-icon [svgIcon]="icons.info" class="icon icon-normal" aria-hidden="false"></mat-icon>
       <h5 i18n="@@templatesUserDetailsComponentProfileDetailsHeader">
         {{ 'Details' | uppercase }}
       </h5>
@@ -24,7 +24,7 @@
     <mat-divider></mat-divider>
     <div class="details" *ngIf="user.Department">
       <div class="caption">
-        <fa-icon [icon]="['fas', 'building']" class="icon icon-mini"></fa-icon>
+        <mat-icon [svgIcon]="icons.department" class="icon icon-mini" aria-hidden="false"></mat-icon>
         <h6 i18n="@@templatesUserDetailsComponentProfileDetailsDep">
           {{ 'Department' | uppercase }}
         </h6>
@@ -44,25 +44,25 @@
     </div>
     <div class="details" *ngIf="user.Role">
       <div class="caption">
-        <fa-icon [icon]="['fas', 'user-tag']" class="icon icon-mini"></fa-icon>
+        <mat-icon [svgIcon]="icons.role" class="icon icon-mini" aria-hidden="false"></mat-icon>
         <h6 i18n="@@templatesUserDetailsComponentProfileDetailsRole">
           {{ 'Role' | uppercase }}
         </h6>
       </div>
       <span class="role-titles">{{ user.Role.keyString }}</span>
     </div>
-    <div class="details" *ngIf="user.State">
+    <div class="details" *ngIf="user.state">
       <div class="caption">
-        <fa-icon [icon]="['fas', 'toggle-on']" class="icon icon-mini"></fa-icon>
+        <mat-icon [svgIcon]="icons.state" class="icon icon-mini" aria-hidden="false"></mat-icon>
         <h6 i18n="@@templatesUserDetailsComponentProfileDetailsStateHeader">
           {{ 'State' | uppercase }}
         </h6>
       </div>
-      <span i18n="@@templatesUserDetailsComponentProfileDetailsStateStatus">{{ user.State.keyString }}</span>
+      <span i18n="@@templatesUserDetailsComponentProfileDetailsStateStatus">{{ user.state }}</span>
     </div>
   </ng-container>
   <div class="caption" *ngIf="!isDialog">
-    <fa-icon [icon]="['fas', 'envelope']" class="icon icon-normal"></fa-icon>
+    <mat-icon [svgIcon]="icons.contacts" class="icon icon-normal" aria-hidden="false"></mat-icon>
     <h5 i18n="@@templatesUserDetailsComponentProfileDetailsContactHeader">
       {{ 'Contacts' | uppercase }}
     </h5>
@@ -70,11 +70,11 @@
   <mat-divider></mat-divider>
   <div class="details">
     <div class="caption" *ngIf="user.email">
-      <fa-icon [icon]="['fas', 'envelope']" class="icon icon-mini"></fa-icon>
+      <mat-icon [svgIcon]="icons.mail" class="icon icon-mini" aria-hidden="false"></mat-icon>
       <atoms-link-button [linkLabel]="user.email" linkHref="mailto:user.email" linkClass="pl-1"></atoms-link-button>
     </div>
     <div class="caption" *ngIf="user.phone">
-      <fa-icon [icon]="['fas', 'phone']" class="icon icon-mini"></fa-icon>
+      <mat-icon [svgIcon]="icons.phone" class="icon icon-mini" aria-hidden="false"></mat-icon>
       <atoms-link-button [linkLabel]="user.phone" linkHref="tel:user.phone" linkClass="pl-1"></atoms-link-button>
     </div>
   </div>

@@ -8,7 +8,7 @@
               Register your HDCRM Account
             </h3>
             <mat-vertical-stepper linear #stepper>
-              <mat-step [stepControl]="registerData.get('userCredentials')">
+              <mat-step [stepControl]="registerData.get('userCredentials')" state="edit">
                 <ng-template matStepLabel i18n="@@registerUserComponentStepperLabelsGeneralInformation"
                   >General information</ng-template
                 >
@@ -78,9 +78,11 @@
                         name="password"
                         [type]="hidePassword ? 'password' : 'text'"
                       />
-                      <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{
-                        hidePassword ? 'visibility_off' : 'visibility'
-                      }}</mat-icon>
+                      <mat-icon
+                        matSuffix
+                        (click)="hidePassword = !hidePassword"
+                        [svgIcon]="icons[hidePassword ? 'eyeDisabled' : 'eye']"
+                      ></mat-icon>
                       <mat-error *ngIf="getControl('userCredentials', 'generatePassword').invalid">
                         <mat-error
                           *ngIf="getControl('userCredentials', 'generatePassword').errors.required"
@@ -107,16 +109,12 @@
                   </div>
                 </form>
                 <div class="d-flex justify-content-end pt-3">
-                  <atoms-icon-button
-                    [matType]="matButtonTypes.STROKED"
-                    (onclick)="stepper.next()"
-                    [icon]="['fas', 'arrow-right']"
-                  >
+                  <atoms-icon-button [matType]="matButtonTypes.STROKED" (onclick)="stepper.next()" [icon]="icons.right">
                     {{ actionLabels.NEXT }}
                   </atoms-icon-button>
                 </div>
               </mat-step>
-              <mat-step [stepControl]="registerData.get('userPersonalInfo')">
+              <mat-step [stepControl]="registerData.get('userPersonalInfo')" state="edit">
                 <ng-template matStepLabel i18n="@@registerUserComponentStepperLabelsContactInformation"
                   >Contact information</ng-template
                 >
@@ -186,20 +184,16 @@
                   <atoms-icon-button
                     [matType]="matButtonTypes.STROKED"
                     (onclick)="stepper.previous()"
-                    [icon]="['fas', 'arrow-left']"
+                    [icon]="icons.left"
                   >
                     {{ actionLabels.BACK }}
                   </atoms-icon-button>
-                  <atoms-icon-button
-                    [matType]="matButtonTypes.STROKED"
-                    (onclick)="stepper.next()"
-                    [icon]="['fas', 'arrow-right']"
-                  >
+                  <atoms-icon-button [matType]="matButtonTypes.STROKED" (onclick)="stepper.next()" [icon]="icons.right">
                     {{ actionLabels.NEXT }}
                   </atoms-icon-button>
                 </div>
               </mat-step>
-              <mat-step [stepControl]="registerData.get('userOrganization')">
+              <mat-step [stepControl]="registerData.get('userOrganization')" state="done">
                 <ng-template matStepLabel i18n="@@registerUserComponentStepperLabelsOrganizationInformation"
                   >Organization information</ng-template
                 >
@@ -331,7 +325,7 @@
                   <atoms-icon-button
                     [matType]="matButtonTypes.STROKED"
                     (onclick)="stepper.previous()"
-                    [icon]="['fas', 'arrow-left']"
+                    [icon]="icons.left"
                   >
                     {{ actionLabels.BACK }}
                   </atoms-icon-button>
@@ -339,20 +333,27 @@
                     [matType]="matButtonTypes.STROKED"
                     [color]="themePalette.WARN"
                     (onclick)="stepper.reset()"
-                    [icon]="['fas', 'trash-alt']"
+                    [icon]="icons.reset"
                   >
                     {{ actionLabels.RESET }}
                   </atoms-icon-button>
                 </div>
               </mat-step>
+              <!-- Icon overrides. -->
+              <ng-template matStepperIcon="edit">
+                <mat-icon [svgIcon]="icons.stepperEdit"></mat-icon>
+              </ng-template>
+              <ng-template matStepperIcon="done">
+                <mat-icon [svgIcon]="icons.stepperDone"></mat-icon>
+              </ng-template>
             </mat-vertical-stepper>
             <div class="d-flex justify-content-end btn-register">
               <atoms-icon-button
                 [disabled]="registerData.invalid || (isLoading$ | async)"
                 (onclick)="onRegisterSubmit()"
-                [icon]="['fas', 'paper-plane']"
+                [icon]="icons.submit"
               >
-                {{ actionLabels.SUMBIT }}
+                {{ actionLabels.SUBMIT }}
               </atoms-icon-button>
             </div>
           </mat-card-content>
@@ -362,7 +363,7 @@
         <div class="d-flex flex-column text-white">
           <h2>Already registered?</h2>
           <p>Instantly go back into your HDCRM dashboard below.</p>
-          <atoms-icon-button [routerLink]="loginRoute" [icon]="['fas', 'arrow-right']">
+          <atoms-icon-button [routerLink]="loginRoute" [icon]="icons.right">
             {{ actionLabels.LOG_IN }}
           </atoms-icon-button>
         </div>

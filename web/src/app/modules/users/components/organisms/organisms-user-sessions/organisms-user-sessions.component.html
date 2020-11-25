@@ -2,7 +2,7 @@
   <mat-list content class="w-100 w-lg-75">
     <div mat-subheader>Current session</div>
     <mat-list-item>
-      <fa-icon mat-list-icon [icon]="getDeviceIcon(currentSession.UA)"></fa-icon>
+      <mat-icon matListIcon [svgIcon]="currentSession.UA | memoize: getDeviceIcon:this" aria-hidden="false"></mat-icon>
       <div mat-line>{{ parseUA(currentSession.UA) }}</div>
       <div mat-line>{{ currentSession.updatedAt | dateTimeFormat | async }}, IP: {{ currentSession.IP }}</div>
     </mat-list-item>
@@ -11,12 +11,12 @@
       <div mat-subheader>Other active sessions</div>
       <div class="other-sessions">
         <mat-list-item *ngFor="let uSession of otherActiveSessions">
-          <fa-icon mat-list-icon [icon]="getDeviceIcon(uSession.UA)"></fa-icon>
+          <mat-icon mat-list-icon [svgIcon]="uSession.UA | memoize: getDeviceIcon:this" aria-hidden="false"></mat-icon>
           <div mat-line>{{ parseUA(uSession.UA) }}</div>
           <div mat-line>{{ uSession.updatedAt | dateTimeFormat | async }}, IP: {{ uSession.IP }}</div>
           <atoms-icon-button
             [color]="themePalette.WARN"
-            [icon]="['fas', 'times']"
+            [icon]="removeIcon"
             [matType]="matButtonType.ICON"
             (onclick)="onRemoveSession(uSession.id)"
           >
@@ -28,7 +28,7 @@
           <atoms-icon-button
             [color]="themePalette.WARN"
             [matType]="matButtonType.BASIC"
-            [icon]="['fas', 'times']"
+            [icon]="removeIcon"
             [showButtonTextOnSm]="true"
             (onclick)="onRemoveOtherSessions()"
             *ngIf="otherActiveSessions.length >= 2"

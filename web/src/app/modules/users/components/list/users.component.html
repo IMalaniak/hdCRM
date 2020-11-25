@@ -1,10 +1,5 @@
 <organisms-card cardTitle="User list" [showDataLoader]="loading$ | async">
-  <atoms-icon-button
-    buttons
-    *ngIf="canAddUser$ | async"
-    (onclick)="openInvitationDialog()"
-    [icon]="['fas', 'user-plus']"
-  >
+  <atoms-icon-button buttons *ngIf="canAddUser$ | async" (onclick)="openInvitationDialog()" [icon]="listIcons.add">
     Invite users
   </atoms-icon-button>
 
@@ -92,17 +87,17 @@
           <atoms-icon-button
             [matMenuTriggerFor]="menu"
             [color]="themePalette.BASIC"
-            [icon]="['fas', 'ellipsis-v']"
+            [icon]="listIcons.matMenu"
             matType="icon"
           >
           </atoms-icon-button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="onUserSelect(user.id)">
-              <fa-icon [icon]="['fas', 'id-badge']"></fa-icon>
+              <mat-icon [svgIcon]="listIcons.info" aria-hidden="false"></mat-icon>
               <span i18n="@@usersComponentListActionsView">{{ actionLabels.DETAILS }}</span>
             </button>
             <button *ngIf="canEditUser$ | async" mat-menu-item (click)="onUserSelect(user.id, true)">
-              <fa-icon [icon]="['fas', 'user-edit']"></fa-icon>
+              <mat-icon [svgIcon]="listIcons.edit" aria-hidden="false"></mat-icon>
               <span i18n="@@usersComponentListActionsEdit"> {{ actionLabels.EDIT }} </span>
             </button>
             <button
@@ -112,7 +107,7 @@
               mat-menu-item
               (click)="changeUserState(user, userStates.DISABLED)"
             >
-              <fa-icon [icon]="['fas', 'user-slash']"></fa-icon>
+              <mat-icon [svgIcon]="listIcons.disable" aria-hidden="false"></mat-icon>
               <span i18n="@@usersComponentListActionsDeactivate">Deactivate user</span>
             </button>
             <button
@@ -122,7 +117,7 @@
               mat-menu-item
               (click)="changeUserState(user, userStates.ACTIVE)"
             >
-              <fa-icon [icon]="['fas', 'user-check']"></fa-icon>
+              <mat-icon [svgIcon]="listIcons.activate" aria-hidden="false"></mat-icon>
               <span i18n="@@usersComponentListActionsActivate">Activate user</span>
             </button>
             <button
@@ -132,7 +127,7 @@
               mat-menu-item
               (click)="changeUserState(user, userStates.ARCHIVE)"
             >
-              <fa-icon [icon]="['fas', 'archive']"></fa-icon>
+              <mat-icon [svgIcon]="listIcons.archivate" aria-hidden="false"></mat-icon>
               <span i18n="@@usersComponentListActionsArchive">Archive user</span>
             </button>
             <button
@@ -140,7 +135,7 @@
               mat-menu-item
               (click)="deleteUser(user.id)"
             >
-              <fa-icon [icon]="['fas', 'user-times']" class="text-warn"></fa-icon>
+              <mat-icon [svgIcon]="listIcons.delete" aria-hidden="false" class="text-warn"></mat-icon>
               <span i18n="@@usersComponentListActionsDelete">{{ actionLabels.DELETE }} </span>
             </button>
           </mat-menu>

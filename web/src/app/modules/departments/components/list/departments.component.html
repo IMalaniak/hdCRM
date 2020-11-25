@@ -1,6 +1,6 @@
 <organisms-card cardTitle="Department list" [showDataLoader]="loading$ | async">
   <div buttons *ngIf="canAddDep$ | async">
-    <atoms-icon-button [routerLink]="addDepartmentRoute" [icon]="['fas', 'plus']">
+    <atoms-icon-button [routerLink]="addDepartmentRoute" [icon]="listIcons.add">
       Create a new department
     </atoms-icon-button>
   </div>
@@ -60,21 +60,21 @@
           <atoms-icon-button
             [matMenuTriggerFor]="menu"
             [color]="themePalette.BASIC"
-            [icon]="['fas', 'ellipsis-v']"
+            [icon]="listIcons.matMenu"
             [matType]="matButtonTypes.ICON"
           >
           </atoms-icon-button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="onDepSelect(dep.id)">
-              <fa-icon [icon]="['fas', 'info']"></fa-icon>
+              <mat-icon [svgIcon]="listIcons.info" aria-hidden="false"></mat-icon>
               <span i18n="@@departmentsComponentListActionsView">{{ actionLabels.DETAILS }}</span>
             </button>
             <button *ngIf="canEditDep$ | async" mat-menu-item (click)="onDepSelect(dep.id, true)">
-              <fa-icon [icon]="['fas', 'edit']"></fa-icon>
+              <mat-icon [svgIcon]="listIcons.edit" aria-hidden="false"></mat-icon>
               <span i18n="@@departmentsComponentListActionsEdit">{{ actionLabels.EDIT }}</span>
             </button>
             <button *ngIf="canDeleteDep$ | async" mat-menu-item (click)="deleteDepartment(dep.id)">
-              <fa-icon [icon]="['fas', 'trash']" class="text-warn"></fa-icon>
+              <mat-icon [svgIcon]="listIcons.delete" aria-hidden="false" class="text-warn"></mat-icon>
               <span i18n="@@departmentsComponentListActionsDelete">{{ actionLabels.DELETE }}</span>
             </button>
           </mat-menu>

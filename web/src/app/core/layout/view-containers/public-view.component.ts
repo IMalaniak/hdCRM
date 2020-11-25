@@ -1,3 +1,5 @@
+import { IconsService } from '@/core/services';
+import { BS_ICONS } from '@/shared/constants';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
@@ -19,4 +21,8 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PublicViewComponent {}
+export class PublicViewComponent {
+  constructor(private readonly iconsService: IconsService) {
+    this.iconsService.registerIcons([BS_ICONS.ArrowLeft]);
+  }
+}

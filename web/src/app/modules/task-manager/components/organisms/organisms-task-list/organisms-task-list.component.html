@@ -9,7 +9,7 @@
       [matType]="matButtonType.ICON"
       [matMenuTriggerFor]="menu"
       [color]="themePalette.BASIC"
-      [icon]="['fas', 'ellipsis-v']"
+      [icon]="listIcons.matMenu"
       *ngIf="tasks?.length >= 2"
     >
     </atoms-icon-button>
@@ -20,7 +20,7 @@
         [color]="themePalette.BASIC"
         [showButtonTextOnSm]="true"
         [fullWidth]="true"
-        [icon]="['fas', 'compress-alt']"
+        [icon]="listIcons.collapse"
         (onclick)="taskAccordion.closeAll()"
       >
         {{ actionLabels.COLLAPSE_ALL }}
@@ -30,7 +30,7 @@
         [color]="themePalette.BASIC"
         [showButtonTextOnSm]="true"
         [fullWidth]="true"
-        [icon]="['fas', 'expand-alt']"
+        [icon]="listIcons.expand"
         (onclick)="taskAccordion.openAll()"
       >
         {{ actionLabels.EXPAND_ALL }}
@@ -40,7 +40,7 @@
         [color]="themePalette.WARN"
         [showButtonTextOnSm]="true"
         [fullWidth]="true"
-        [icon]="['fas', 'trash']"
+        [icon]="listIcons.delete"
         [disabled]="!completedTasksLength"
         (onclick)="deleteMultipleTask()"
       >
@@ -53,7 +53,7 @@
       matTooltip="{{ 'Add new task' }}"
       matTooltipPosition="above"
       (click)="openTaskDialog()"
-      [icon]="['fas', 'plus']"
+      [icon]="listIcons.add"
     >
     </atoms-icon-button>
   </div>
@@ -69,8 +69,12 @@
               (click)="$event.stopPropagation()"
             ></mat-checkbox>
             <span class="task-label" [ngClass]="{ 'task-completed': task.isCompleted }">{{ task.title }}</span>
-            <fa-icon [icon]="['fab', 'font-awesome-flag']" class="task-priority-flag" [ngClass]="getTaskClass(task)">
-            </fa-icon>
+            <mat-icon
+              [svgIcon]="listIcons.department"
+              class="task-priority-flag"
+              [ngClass]="task | memoize: getTaskClass:this"
+              aria-hidden="false"
+            ></mat-icon>
           </div>
         </mat-expansion-panel-header>
         <div class="task-panel-content">
@@ -82,14 +86,14 @@
             <atoms-icon-button
               [matType]="matButtonType.ICON"
               (onclick)="openTaskDialog(task)"
-              [icon]="['fas', 'pencil-alt']"
+              [icon]="listIcons.edit"
               [color]="themePalette.BASIC"
             >
             </atoms-icon-button>
             <atoms-icon-button
               [matType]="matButtonType.ICON"
               (onclick)="deleteTask(task.id)"
-              [icon]="['fas', 'trash']"
+              [icon]="listIcons.delete"
               [color]="themePalette.WARN"
             >
             </atoms-icon-button>

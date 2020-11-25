@@ -5,7 +5,7 @@
 .failed-message,
 .process-message {
   span,
-  fa-icon {
+  mat-icon {
     @include set-textcolor('text-contrast');
   }
 }

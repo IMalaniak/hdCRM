@@ -1,14 +1,25 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
+import { Observable, Subject } from 'rxjs';
+
+import { Store, select } from '@ngrx/store';
+
+import { AppState } from '@/core/reducers';
 import { ConfirmPasswordValidator } from '@/shared/validators';
 import { NewPassword } from '@/shared/models';
-import { AppState } from '@/core/reducers';
-import { Store, select } from '@ngrx/store';
+import {
+  ACTION_LABELS,
+  THEME_PALETTE,
+  BUTTON_TYPE,
+  MAT_BUTTON,
+  PATHS,
+  RoutingConstants,
+  BS_ICONS
+} from '@/shared/constants';
 import * as authActions from '../../store/auth.actions';
 import * as authSelectors from '../../store/auth.selectors';
-import { Observable, Subject } from 'rxjs';
-import { ACTION_LABELS, THEME_PALETTE, BUTTON_TYPE, MAT_BUTTON, PATHS, RoutingConstants } from '@/shared/constants';
+import { IconsService } from '@/core/services';
 
 @Component({
   selector: 'app-login',
@@ -31,10 +42,26 @@ export class LoginComponent implements OnInit, OnDestroy {
   matButtonTypes = MAT_BUTTON;
   paths = PATHS;
   routes = RoutingConstants;
+  icons: { [key: string]: BS_ICONS } = {
+    key: BS_ICONS.Key,
+    disabled: BS_ICONS.SlashCircle,
+    cancel: BS_ICONS.X,
+    arrow: BS_ICONS.ArrowRight,
+    submit: BS_ICONS.Check,
+    eye: BS_ICONS.Eye,
+    eyeDisabled: BS_ICONS.EyeSlash
+  };
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private route: ActivatedRoute, private fb: FormBuilder, private store: Store<AppState>) {}
+  constructor(
+    private route: ActivatedRoute,
+    private fb: FormBuilder,
+    private store: Store<AppState>,
+    private readonly iconsService: IconsService
+  ) {
+    this.iconsService.registerIcons([...Object.values(this.icons)]);
+  }
 
   ngOnInit(): void {
     this.currentPath = this.route.snapshot.url[0].path;

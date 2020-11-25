@@ -22,10 +22,12 @@
     align-items: center;
   }
 
-  fa-icon {
+  mat-icon {
     display: inline-block;
     width: 1.25em;
+    height: 1.25em;
     font-size: 1.25em;
+    vertical-align: sub;
 
     + span {
       $divider-margin: 0.6em;
@@ -46,14 +48,10 @@
         }
       }
     }
-
-    &.fab-icon {
-      font-size: 1.4em;
-    }
   }
 
   &.show-button-text-sm {
-    fa-icon {
+    mat-icon {
       + span {
         display: inline;
 

@@ -6,14 +6,15 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 
 import { AppState } from '@/core/reducers';
-import { User } from '@/modules/users';
+import { logOut } from '@/core/auth/store/auth.actions';
 import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
+import { IconsService, MediaQueryService } from '@/core/services';
+import { BS_ICONS } from '@/shared/constants';
+import { ADD_PRIVILEGES } from '@/shared/constants/privileges.constants';
+import { privateRouterTransition } from '@/shared/animations';
+import { User } from '@/modules/users';
 import * as layoutActions from '../store/layout.actions';
 import * as fromLayout from '../store';
-import { privateRouterTransition } from '@/shared/animations';
-import { MediaQueryService } from '@/core/services';
-import { ADD_PRIVILEGES } from '@/shared/constants/privileges.constants';
-import { logOut } from '@/core/auth/store/auth.actions';
 
 @Component({
   template: `
@@ -68,7 +69,29 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private router: Router, public mediaQueryService: MediaQueryService, private store$: Store<AppState>) {}
+  constructor(
+    private router: Router,
+    public mediaQueryService: MediaQueryService,
+    private store$: Store<AppState>,
+    private readonly iconsService: IconsService
+  ) {
+    this.iconsService.registerIcons([
+      BS_ICONS.ThreeDotsVertical,
+      BS_ICONS.PersonPlus,
+      BS_ICONS.PersonCheck,
+      BS_ICONS.Plus,
+      BS_ICONS.Pencil,
+      BS_ICONS.X,
+      BS_ICONS.Check,
+      BS_ICONS.ClipboardCheck,
+      BS_ICONS.Upload,
+      BS_ICONS.InfoSquare,
+      BS_ICONS.Trash,
+      BS_ICONS.ArrowsCollapse,
+      BS_ICONS.ArrowsExpand,
+      BS_ICONS.Flag
+    ]);
+  }
 
   ngOnInit(): void {
     this.router.events

@@ -210,26 +210,6 @@ main {
   position: relative;
 }
 
-.mat-menu-item {
-  display: flex !important;
-  line-height: 2.5em !important;
-  height: 2.5em !important;
-
-  fa-icon {
-    margin-right: 1em;
-    vertical-align: middle;
-    font-size: 1.25em;
-    @include set-textcolor('primary', false);
-  }
-}
-
-// TODO: @IMalaniak check if we can use mat-icon with font-awesome
-.mat-list-icon svg {
-  width: inherit !important;
-  height: inherit !important;
-  vertical-align: unset;
-}
-
 .mat-sort-header-container {
   align-items: baseline;
 }

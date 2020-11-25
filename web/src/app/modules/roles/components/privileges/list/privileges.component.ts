@@ -10,7 +10,7 @@ import { AddPrivilegeDialogComponent } from '../add-dialog/add-privilege-dialog.
 import { AppState } from '@/core/reducers';
 import { allPrivilegesRequested, createPrivilegeRequested } from '@/modules/roles/store/privilege.actions';
 import { selectAllPrivileges, selectPrivilegesLoading } from '@/modules/roles/store/privilege.selectors';
-import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, CONSTANTS } from '@/shared/constants';
+import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, CONSTANTS, BS_ICONS } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogService } from '@/shared/services';
 import { DialogMode } from '@/shared/models/dialog/dialog-mode.enum';
@@ -33,6 +33,7 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
   columnLabels = COLUMN_LABELS;
   actionLabels = ACTION_LABELS;
   displayedColumns: COLUMN_NAMES[] = [COLUMN_NAMES.SELECT, COLUMN_NAMES.TITLE, COLUMN_NAMES.KEY];
+  addPrivilegeIcon = BS_ICONS.Plus;
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -69,7 +70,7 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
     const dialogModel = new DialogCreateEditModel(
       DialogMode.CREATE,
       CONSTANTS.TEXTS_CREATE_PRIVILEGE,
-      ACTION_LABELS.SUMBIT
+      ACTION_LABELS.SUBMIT
     );
     const dialogDataModel: DialogDataModel<DialogCreateEditModel> = { dialogModel };
 
