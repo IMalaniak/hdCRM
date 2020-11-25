@@ -1,26 +1,26 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
+import { ACTION_LABELS, BS_ICONS, THEME_PALETTE } from '@/shared/constants';
 
 @Component({
   selector: 'molecules-card-header-actions',
   template: `
-    <atoms-icon-button *ngIf="!editForm && !isCreatePage" [icon]="['fas', 'edit']" (onclick)="editClick.emit()">
+    <atoms-icon-button *ngIf="!editForm && !isCreatePage" [icon]="actionIcons.edit" (onclick)="editClick.emit()">
       {{ actionLabels.EDIT }}
     </atoms-icon-button>
     <atoms-icon-button
       *ngIf="editForm && !isCreatePage"
       [color]="themePalette.BASIC"
-      [icon]="['fas', 'times']"
+      [icon]="actionIcons.cancel"
       (onclick)="cancelClick.emit()"
     >
       {{ actionLabels.CANCEL }}
     </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm && !isCreatePage" [icon]="['fas', 'save']" (onclick)="updateClick.emit()">
+    <atoms-icon-button *ngIf="editForm && !isCreatePage" [icon]="actionIcons.save" (onclick)="updateClick.emit()">
       {{ actionLabels.SAVE }}
     </atoms-icon-button>
-    <atoms-icon-button *ngIf="isCreatePage" buttons (onclick)="saveClick.emit()" [icon]="['fas', 'paper-plane']">
-      {{ actionLabels.SUMBIT }}
+    <atoms-icon-button *ngIf="isCreatePage" buttons (onclick)="saveClick.emit()" [icon]="actionIcons.submit">
+      {{ actionLabels.SUBMIT }}
     </atoms-icon-button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -36,4 +36,10 @@ export class MoleculesCardHeaderActionsComponent {
 
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
+  actionIcons: { [key: string]: BS_ICONS } = {
+    edit: BS_ICONS.Pencil,
+    cancel: BS_ICONS.X,
+    save: BS_ICONS.ClipboardCheck,
+    submit: BS_ICONS.Upload
+  };
 }

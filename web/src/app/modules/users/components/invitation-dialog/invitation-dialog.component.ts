@@ -9,7 +9,7 @@ import { User } from '../../models';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { selectAllUsers } from '../../store/user.selectors';
-import { CONSTANTS, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE } from '@/shared/constants';
+import { CONSTANTS, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE, BS_ICONS } from '@/shared/constants';
 import { DialogCreateEditModel, DialogDataModel, DialogResultModel } from '@/shared/models';
 import { DialogBaseModel } from '@/shared/components';
 
@@ -27,6 +27,10 @@ export class InvitationDialogComponent extends DialogBaseModel<DialogCreateEditM
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
   matButtonType = MAT_BUTTON;
+  dialogIcons: { [key: string]: BS_ICONS } = {
+    times: BS_ICONS.X,
+    add: BS_ICONS.Plus
+  };
 
   private unsubscribe: Subject<void> = new Subject();
 

@@ -3,7 +3,7 @@
     <li *ngFor="let breadcrumb of breadcrumbs; last as isLast" class="breadcrumb-item" [ngClass]="{ active: isLast }">
       <ng-container *ngIf="breadcrumb.keyString === 'home'">
         <a routerLink="{{ breadcrumb.url }}">
-          <fa-icon [icon]="['fas', 'home']"></fa-icon>
+          <mat-icon [svgIcon]="homeIcon" aria-hidden="false"></mat-icon>
         </a>
       </ng-container>
       <ng-container *ngIf="breadcrumb.keyString !== 'home'">

@@ -13,5 +13,5 @@ export enum ACTION_LABELS {
   NEXT = 'Next',
   RESET = 'Reset',
   SAVE = 'Save',
-  SUMBIT = 'Submit'
+  SUBMIT = 'Submit'
 }

@@ -1,6 +1,6 @@
 import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { User } from '@/modules/users/models';
-import { THEME_PALETTE, MAT_BUTTON } from '@/shared/constants';
+import { THEME_PALETTE, MAT_BUTTON, BS_ICONS } from '@/shared/constants';
 
 @Component({
   selector: 'molecules-user-list-sm-item',
@@ -15,7 +15,7 @@ import { THEME_PALETTE, MAT_BUTTON } from '@/shared/constants';
           *ngIf="editMode"
           [matType]="matButtonTypes.ICON"
           [color]="themePalette.WARN"
-          [icon]="['fas', 'trash']"
+          [icon]="removeIcon"
           class="ml-auto"
           (onclick)="onRemoveClick(user.id); $event.stopPropagation()"
         >
@@ -36,6 +36,7 @@ export class MoleculesUserListSmItemComponent {
 
   themePalette = THEME_PALETTE;
   matButtonTypes = MAT_BUTTON;
+  removeIcon = BS_ICONS.X;
 
   onRemoveClick(id: number): void {
     this.removeClick.emit(id);

@@ -24,7 +24,7 @@
     iconColor="text-light"
     matTooltip="{{ themeTipMessage() }}"
     [matType]="matButtonTypes.ICON"
-    [icon]="enableDarkTheme ? ['fas', 'sun'] : ['fas', 'moon']"
+    [icon]="enableDarkTheme ? themeChangeIcons.light : themeChangeIcons.dark"
     (onclick)="enableThemeDark.emit(!enableDarkTheme)"
   ></atoms-icon-button>
 </div>
@@ -56,7 +56,7 @@
               [showButtonTextOnSm]="true"
               [routerLink]="myProfileRoute"
               [fullWidth]="true"
-              [icon]="['fas', 'user']"
+              [icon]="userDropdownIcons.profile"
               [color]="themePalette.BASIC"
               class="mb-1"
             >
@@ -67,7 +67,7 @@
               [showButtonTextOnSm]="true"
               [fullWidth]="true"
               (onclick)="onLogoutClick()"
-              [icon]="['fas', 'sign-out-alt']"
+              [icon]="userDropdownIcons.logOut"
               [color]="themePalette.WARN"
             >
               {{ actionLabels.LOG_OUT }}
@@ -81,7 +81,7 @@
               class="mb-1"
               [color]="themePalette.BASIC"
               [showButtonTextOnSm]="true"
-              [icon]="['fas', 'chevron-down']"
+              [icon]="userDropdownIcons.online"
               [fullWidth]="true"
               [matMenuTriggerFor]="userStatuses"
             >
@@ -93,7 +93,7 @@
                 [matType]="matButtonTypes.BASIC"
                 [showButtonTextOnSm]="true"
                 [fullWidth]="true"
-                [icon]="['fas', 'globe']"
+                [icon]="userDropdownIcons.online"
                 [color]="themePalette.BASIC"
               >
                 Online
@@ -102,7 +102,7 @@
                 [matType]="matButtonTypes.BASIC"
                 [showButtonTextOnSm]="true"
                 [fullWidth]="true"
-                [icon]="['fas', 'coffee']"
+                [icon]="userDropdownIcons.onBreak"
                 [color]="themePalette.BASIC"
               >
                 On break
@@ -111,7 +111,7 @@
                 [matType]="matButtonTypes.BASIC"
                 [showButtonTextOnSm]="true"
                 [fullWidth]="true"
-                [icon]="['fas', 'user-clock']"
+                [icon]="userDropdownIcons.away"
                 [color]="themePalette.BASIC"
               >
                 Away
@@ -120,16 +120,7 @@
                 [matType]="matButtonTypes.BASIC"
                 [showButtonTextOnSm]="true"
                 [fullWidth]="true"
-                [icon]="['fas', 'ghost']"
-                [color]="themePalette.BASIC"
-              >
-                Unvisible
-              </atoms-icon-button>
-              <atoms-icon-button
-                [matType]="matButtonTypes.BASIC"
-                [showButtonTextOnSm]="true"
-                [fullWidth]="true"
-                [icon]="['fas', 'minus-circle']"
+                [icon]="userDropdownIcons.busy"
                 [color]="themePalette.BASIC"
               >
                 Busy
@@ -141,7 +132,7 @@
               [matType]="matButtonTypes.BASIC"
               [showButtonTextOnSm]="true"
               [fullWidth]="true"
-              [icon]="['fas', 'user-plus']"
+              [icon]="userDropdownIcons.invite"
               [color]="themePalette.BASIC"
             >
               Invite members

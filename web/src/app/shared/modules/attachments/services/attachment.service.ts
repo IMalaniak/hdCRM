@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { FileTypes } from '@/shared/models';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
+import { FileTypes } from '@/shared/models';
+import { BS_ICONS } from '@/shared/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -19,32 +21,29 @@ export class AttachmentService {
 
   constructor(private http: HttpClient) {}
 
-  getIcon(filename: string): void {
-    let icon;
+  getIcon(filename: string): BS_ICONS {
     const fType = this.getExtension(filename);
-    switch (true) {
-      case this.isFileDoc(fType):
-        icon = '-word';
-        break;
-      case this.isFilePPoint(fType):
-        icon = '-powerpoint';
-        break;
-      case this.isFileImg(fType):
-        icon = '-image';
-        break;
-      case this.isFileVideo(fType):
-        icon = '-video';
-        break;
-      case this.isFileText(fType):
-        icon = '-alt';
-        break;
-      case this.isFileZip(fType):
-        icon = '-archive';
-        break;
-      default:
-        icon = '';
+
+    if (this.isFileDoc(fType)) {
+      return BS_ICONS.FileEarmarkWord;
     }
-    return icon;
+    if (this.isFilePPoint(fType)) {
+      return BS_ICONS.FileEarmarkPpt;
+    }
+    if (this.isFileImg(fType)) {
+      return BS_ICONS.FileEarmarkImage;
+    }
+    if (this.isFileVideo(fType)) {
+      return BS_ICONS.FileEarmarkPlay;
+    }
+    if (this.isFileText(fType)) {
+      return BS_ICONS.FileEarmarkText;
+    }
+    if (this.isFileZip(fType)) {
+      return BS_ICONS.FileEarmarkZip;
+    }
+
+    return BS_ICONS.FileEarmark;
   }
 
   getExtension(filename: string): string {
