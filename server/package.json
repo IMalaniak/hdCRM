@@ -23,7 +23,7 @@
   "dependencies": {
     "cookie-parser": "1.4.5",
     "cors": "*",
-    "email-templates": "8.0.0",
+    "email-templates": "8.0.1",
     "express": "4.17.1",
     "http-status-codes": "2.1.4",
     "jimp": "0.16.1",
