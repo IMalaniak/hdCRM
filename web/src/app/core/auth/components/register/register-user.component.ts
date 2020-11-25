@@ -44,7 +44,11 @@ export class RegisterUserComponent implements OnInit {
     right: BS_ICONS.ArrowRight,
     left: BS_ICONS.ArrowLeft,
     reset: BS_ICONS.ArrowCounterclockwise,
-    submit: BS_ICONS.Upload
+    submit: BS_ICONS.Upload,
+    eye: BS_ICONS.Eye,
+    eyeDisabled: BS_ICONS.EyeSlash,
+    stepperEdit: BS_ICONS.PencilSquare,
+    stepperDone: BS_ICONS.Check
   };
 
   constructor(private store: Store<AuthState>, private fb: FormBuilder, private readonly iconsService: IconsService) {

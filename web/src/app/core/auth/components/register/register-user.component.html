@@ -8,7 +8,7 @@
               Register your HDCRM Account
             </h3>
             <mat-vertical-stepper linear #stepper>
-              <mat-step [stepControl]="registerData.get('userCredentials')">
+              <mat-step [stepControl]="registerData.get('userCredentials')" state="edit">
                 <ng-template matStepLabel i18n="@@registerUserComponentStepperLabelsGeneralInformation"
                   >General information</ng-template
                 >
@@ -78,9 +78,11 @@
                         name="password"
                         [type]="hidePassword ? 'password' : 'text'"
                       />
-                      <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{
-                        hidePassword ? 'visibility_off' : 'visibility'
-                      }}</mat-icon>
+                      <mat-icon
+                        matSuffix
+                        (click)="hidePassword = !hidePassword"
+                        [svgIcon]="icons[hidePassword ? 'eyeDisabled' : 'eye']"
+                      ></mat-icon>
                       <mat-error *ngIf="getControl('userCredentials', 'generatePassword').invalid">
                         <mat-error
                           *ngIf="getControl('userCredentials', 'generatePassword').errors.required"
@@ -112,7 +114,7 @@
                   </atoms-icon-button>
                 </div>
               </mat-step>
-              <mat-step [stepControl]="registerData.get('userPersonalInfo')">
+              <mat-step [stepControl]="registerData.get('userPersonalInfo')" state="edit">
                 <ng-template matStepLabel i18n="@@registerUserComponentStepperLabelsContactInformation"
                   >Contact information</ng-template
                 >
@@ -191,7 +193,7 @@
                   </atoms-icon-button>
                 </div>
               </mat-step>
-              <mat-step [stepControl]="registerData.get('userOrganization')">
+              <mat-step [stepControl]="registerData.get('userOrganization')" state="done">
                 <ng-template matStepLabel i18n="@@registerUserComponentStepperLabelsOrganizationInformation"
                   >Organization information</ng-template
                 >
@@ -337,12 +339,19 @@
                   </atoms-icon-button>
                 </div>
               </mat-step>
+              <!-- Icon overrides. -->
+              <ng-template matStepperIcon="edit">
+                <mat-icon [svgIcon]="icons.stepperEdit"></mat-icon>
+              </ng-template>
+              <ng-template matStepperIcon="done">
+                <mat-icon [svgIcon]="icons.stepperDone"></mat-icon>
+              </ng-template>
             </mat-vertical-stepper>
             <div class="d-flex justify-content-end btn-register">
               <atoms-icon-button
                 [disabled]="registerData.invalid || (isLoading$ | async)"
                 (onclick)="onRegisterSubmit()"
-                [icon]="icons.submir"
+                [icon]="icons.submit"
               >
                 {{ actionLabels.SUBMIT }}
               </atoms-icon-button>
