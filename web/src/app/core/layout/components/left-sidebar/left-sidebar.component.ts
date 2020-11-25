@@ -26,7 +26,7 @@ export class LeftSidebarComponent implements OnInit {
   constructor(
     private store$: Store<AppState>,
     private mediaQueryService: MediaQueryService,
-    private iconsService: IconsService
+    private readonly iconsService: IconsService
   ) {
     this.iconsService.registerIcons([
       BS_ICONS.House,

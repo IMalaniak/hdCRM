@@ -22,7 +22,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PublicViewComponent {
-  constructor(private iconsService: IconsService) {
+  constructor(private readonly iconsService: IconsService) {
     this.iconsService.registerIcons([BS_ICONS.ArrowLeft]);
   }
 }

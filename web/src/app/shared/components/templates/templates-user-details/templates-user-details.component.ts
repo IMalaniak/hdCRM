@@ -33,7 +33,7 @@ export class TemplatesUserDetailsComponent {
     phone: BS_ICONS.Telephone
   };
 
-  constructor(private store$: Store<AppState>, private iconsService: IconsService) {
+  constructor(private store$: Store<AppState>, private readonly iconsService: IconsService) {
     this.iconsService.registerIcons([BS_ICONS.ToggleOn, BS_ICONS.FilePerson, BS_ICONS.Envelope, BS_ICONS.Telephone]);
   }
 

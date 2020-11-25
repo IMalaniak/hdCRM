@@ -33,7 +33,7 @@ export class OrganismsUserSessionsComponent implements OnChanges {
   constructor(
     private store: Store<AppState>,
     private dialogService: DialogService,
-    private iconsService: IconsService
+    private readonly iconsService: IconsService
   ) {
     this.iconsService.registerIcons([BS_ICONS.Phone, BS_ICONS.Tablet, BS_ICONS.Display]);
   }

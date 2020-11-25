@@ -52,7 +52,7 @@ export class TemplatesAttachmentsListComponent {
   constructor(
     private store$: Store<AppState>,
     private attachmentService: AttachmentService,
-    private iconsService: IconsService
+    private readonly iconsService: IconsService
   ) {
     this.iconsService.registerIcons([
       BS_ICONS.FileEarmarkPlus,

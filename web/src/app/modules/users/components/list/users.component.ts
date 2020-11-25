@@ -103,7 +103,7 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
     private store$: Store<AppState>,
     private toastMessageService: ToastMessageService,
     private dialogService: DialogService,
-    private iconsService: IconsService
+    private readonly iconsService: IconsService
   ) {
     this.iconsService.registerIcons([BS_ICONS.Archive, BS_ICONS.PersonSquare, BS_ICONS.PersonX]);
     this.store$.dispatch(OnlineUserListRequested());

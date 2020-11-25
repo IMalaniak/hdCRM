@@ -58,7 +58,7 @@ export class HeaderComponent implements OnInit {
     onBreak: BS_ICONS.Cup
   };
 
-  constructor(private router: Router, private cdr: ChangeDetectorRef, private iconsService: IconsService) {
+  constructor(private router: Router, private cdr: ChangeDetectorRef, private readonly iconsService: IconsService) {
     this.iconsService.registerIcons([
       ...Object.values(this.themeChangeIcons),
       ...Object.values(this.userDropdownIcons)

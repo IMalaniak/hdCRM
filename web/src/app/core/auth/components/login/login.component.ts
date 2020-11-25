@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private store: Store<AppState>,
-    private iconsService: IconsService
+    private readonly iconsService: IconsService
   ) {
     this.iconsService.registerIcons([...Object.values(this.icons)]);
   }

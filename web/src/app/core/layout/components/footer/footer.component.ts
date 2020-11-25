@@ -18,7 +18,7 @@ export class FooterComponent {
     tw: ICONS.SOCIAL_Twitter,
     telegram: ICONS.SOCIAL_Telegram
   };
-  constructor(private iconsService: IconsService) {
+  constructor(private readonly iconsService: IconsService) {
     this.iconsService.registerIcons([...Object.values(this.socialIcons)]);
   }
 }

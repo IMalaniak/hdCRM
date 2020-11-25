@@ -47,7 +47,7 @@ export class RegisterUserComponent implements OnInit {
     submit: BS_ICONS.Upload
   };
 
-  constructor(private store: Store<AuthState>, private fb: FormBuilder, private iconsService: IconsService) {
+  constructor(private store: Store<AuthState>, private fb: FormBuilder, private readonly iconsService: IconsService) {
     this.iconsService.registerIcons([...Object.values(this.icons)]);
   }
 

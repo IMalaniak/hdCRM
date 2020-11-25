@@ -73,7 +73,7 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
     private router: Router,
     public mediaQueryService: MediaQueryService,
     private store$: Store<AppState>,
-    private iconsService: IconsService
+    private readonly iconsService: IconsService
   ) {
     this.iconsService.registerIcons([
       BS_ICONS.ThreeDotsVertical,
