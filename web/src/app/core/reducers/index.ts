@@ -38,3 +38,5 @@ export const {
   selectRouteData, // select the current route data
   selectUrl // select the current url
 } = fromRouter.getSelectors(selectRouterState);
+
+export const selectRoute = createSelector(selectRouterState, (routerState) => routerState.state.root);
