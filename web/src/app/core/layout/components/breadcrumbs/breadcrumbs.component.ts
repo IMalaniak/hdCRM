@@ -39,12 +39,8 @@ export class BreadcrumbsComponent {
     // get the child routes
     const children: ActivatedRouteSnapshot[] = activatedRoute.children;
 
-    // return if there are no more children
-    if (children.length === 0) {
-      return breadcrumbs;
-    }
     // iterate over each children
-    children.forEach((child) => {
+    children?.forEach((child) => {
       // verify the custom data property "breadcrumb" is specified on the route
       if (!child?.data.hasOwnProperty(ROUTE_DATA_BREADCRUMB)) {
         return this.getBreadcrumbs(child, url, breadcrumbs);
