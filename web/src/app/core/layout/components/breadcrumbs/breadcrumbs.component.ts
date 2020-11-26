@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
 import { Breadcrumb } from './breadcrumb';
 
 @Component({
-  selector: 'breadcrumbs',
+  selector: 'breadcrumbs-component',
   templateUrl: './breadcrumbs.component.html'
 })
 export class BreadcrumbsComponent {
