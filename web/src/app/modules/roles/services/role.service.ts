@@ -10,7 +10,7 @@ import { CollectionApiResponse } from '@/shared/models';
 
 @Injectable()
 export class RoleService extends BaseCrudService {
-  protected url = APIS.ROLES;
+  protected readonly url = APIS.ROLES;
 
   constructor(protected readonly http: HttpClient) {
     super(http);

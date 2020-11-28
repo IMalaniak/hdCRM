@@ -10,7 +10,7 @@ import { BaseCrudService } from '@/shared/services';
   providedIn: 'root'
 })
 export class TaskService extends BaseCrudService {
-  protected url = APIS.TASKS;
+  protected readonly url = APIS.TASKS;
 
   constructor(protected readonly http: HttpClient) {
     super(http);

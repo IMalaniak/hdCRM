@@ -10,7 +10,7 @@ import { CollectionApiResponse } from '@/shared/models';
 
 @Injectable()
 export class DepartmentService extends BaseCrudService {
-  protected url = APIS.DEPARTMENTS;
+  protected readonly url = APIS.DEPARTMENTS;
 
   constructor(protected readonly http: HttpClient) {
     super(http);

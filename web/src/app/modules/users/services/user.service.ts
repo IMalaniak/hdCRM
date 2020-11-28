@@ -11,7 +11,7 @@ import { Role } from '@/modules/roles';
 
 @Injectable()
 export class UserService extends BaseCrudService {
-  protected url = APIS.USERS;
+  protected readonly url = APIS.USERS;
 
   userOnline$: Observable<any> = this.socket.onEvent(SocketEvent.ISONLINE);
   userOffline$: Observable<any> = this.socket.onEvent(SocketEvent.ISOFFLINE);

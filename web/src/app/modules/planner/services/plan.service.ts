@@ -10,7 +10,7 @@ import { BaseCrudService } from '@/shared/services';
 
 @Injectable()
 export class PlanService extends BaseCrudService {
-  protected url = APIS.PLANS;
+  protected readonly url = APIS.PLANS;
 
   constructor(protected readonly http: HttpClient) {
     super(http);
