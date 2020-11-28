@@ -1,0 +1,16 @@
+<div class="sidebar">
+  <mat-nav-list class="sidebar-body">
+    <ng-container *ngFor="let item of sidebarMenuItems">
+      <a
+        *ngIf="item.privilege ? (item.privilege | async) && !item.disable : !item.disable"
+        mat-list-item
+        class="item-btn mat-list-item-no-px"
+        [routerLinkActive]="['active']"
+        [routerLink]="item.url"
+      >
+        <mat-icon [svgIcon]="item.icon" aria-hidden="false" class="item-icon"></mat-icon>
+        <span class="item-title">{{ item.title }}</span></a
+      >
+    </ng-container>
+  </mat-nav-list>
+</div>

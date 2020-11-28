@@ -56,3 +56,10 @@ svg {
   display: flex;
   flex-direction: column;
 }
+
+.mat-list-item-no-px {
+  .mat-list-item-content {
+    padding: 0 !important;
+    width: 100%;
+  }
+}

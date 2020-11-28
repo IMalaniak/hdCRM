@@ -96,14 +96,14 @@ $spacer: 1rem !default;
 $app-sizes: (
   font: 1em,
   header: (
-    height: 3rem
+    height: 3.25rem
   ),
   footer: (
     height: 6rem
   ),
   sidebar: (
     width: 16.5rem,
-    minimized: 3.25rem,
+    minimized: 3.5rem,
     hidden: 0rem
   ),
   userpic: 3rem,
@@ -121,5 +121,5 @@ $layer-priorities: (
   content: 102,
   header: 103,
   sidebar-overlay: 103,
-  left-sidebar: 105
+  sidebar: 105
 );
