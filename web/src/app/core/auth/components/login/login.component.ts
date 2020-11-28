@@ -15,7 +15,8 @@ import {
   MAT_BUTTON,
   PATHS,
   RoutingConstants,
-  BS_ICONS
+  BS_ICONS,
+  InputType
 } from '@/shared/constants';
 import * as authActions from '../../store/auth.actions';
 import * as authSelectors from '../../store/auth.selectors';
