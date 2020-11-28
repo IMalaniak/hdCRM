@@ -16,7 +16,8 @@ import {
   THEME_PALETTE,
   RoutingConstants,
   MAT_BUTTON,
-  CONSTANTS
+  CONSTANTS,
+  BS_ICONS
 } from '@/shared/constants';
 import { AppState } from '@/core/reducers';
 import { selectDepartmentsTotalCount, selectDepartmentsPageLoading } from '../../store/department.selectors';
@@ -51,6 +52,13 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
   themePalette = THEME_PALETTE;
   matButtonTypes = MAT_BUTTON;
   addDepartmentRoute = RoutingConstants.ROUTE_DEPARTMENTS_ADD;
+  listIcons: { [key: string]: BS_ICONS } = {
+    matMenu: BS_ICONS.ThreeDotsVertical,
+    add: BS_ICONS.Plus,
+    info: BS_ICONS.InfoSquare,
+    edit: BS_ICONS.Pencil,
+    delete: BS_ICONS.Trash
+  };
 
   displayedColumns: COLUMN_NAMES[] = [
     COLUMN_NAMES.TITLE,

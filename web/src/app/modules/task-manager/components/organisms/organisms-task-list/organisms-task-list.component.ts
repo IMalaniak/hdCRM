@@ -16,7 +16,7 @@ import {
   deleteMultipleTaskRequested
 } from '../../../store/task.actions';
 import { OrganismsTaskDialogComponent } from '../organisms-task-dialog/organisms-task-dialog.component';
-import { DIALOG, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE, CONSTANTS } from '@/shared/constants';
+import { DIALOG, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE, CONSTANTS, BS_ICONS } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
@@ -37,6 +37,15 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
   matButtonType = MAT_BUTTON;
+  listIcons: { [key: string]: BS_ICONS } = {
+    matMenu: BS_ICONS.ThreeDotsVertical,
+    delete: BS_ICONS.Trash,
+    edit: BS_ICONS.Pencil,
+    add: BS_ICONS.Plus,
+    collapse: BS_ICONS.ArrowsCollapse,
+    expand: BS_ICONS.ArrowsExpand,
+    flag: BS_ICONS.Flag
+  };
 
   private unsubscribe: Subject<void> = new Subject();
 

@@ -12,7 +12,7 @@ import { Privilege } from '@/modules/roles/models';
   templateUrl: 'privileges-dialog.component.html'
 })
 export class PrivilegesDialogComponent extends DialogBaseModel<DialogWithTwoButtonModel> {
-  @ViewChild(PrivilegesComponent, { static: true }) privilegesComponent: PrivilegesComponent;
+  @ViewChild(PrivilegesComponent) privilegesComponent: PrivilegesComponent;
 
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;

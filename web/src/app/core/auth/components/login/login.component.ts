@@ -5,11 +5,9 @@ import { Observable, Subject } from 'rxjs';
 
 import { Store, select } from '@ngrx/store';
 
+import { AppState } from '@/core/reducers';
 import { ConfirmPasswordValidator } from '@/shared/validators';
 import { NewPassword } from '@/shared/models';
-import { AppState } from '@/core/reducers';
-import * as authActions from '../../store/auth.actions';
-import * as authSelectors from '../../store/auth.selectors';
 import {
   ACTION_LABELS,
   THEME_PALETTE,
@@ -17,8 +15,11 @@ import {
   MAT_BUTTON,
   PATHS,
   RoutingConstants,
-  InputType
+  BS_ICONS
 } from '@/shared/constants';
+import * as authActions from '../../store/auth.actions';
+import * as authSelectors from '../../store/auth.selectors';
+import { IconsService } from '@/core/services';
 
 @Component({
   templateUrl: './login.component.html',
@@ -41,10 +42,26 @@ export class LoginComponent implements OnInit, OnDestroy {
   inputTypes = InputType;
   paths = PATHS;
   routes = RoutingConstants;
+  icons: { [key: string]: BS_ICONS } = {
+    key: BS_ICONS.Key,
+    disabled: BS_ICONS.SlashCircle,
+    cancel: BS_ICONS.X,
+    arrow: BS_ICONS.ArrowRight,
+    submit: BS_ICONS.Check,
+    eye: BS_ICONS.Eye,
+    eyeDisabled: BS_ICONS.EyeSlash
+  };
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private route: ActivatedRoute, private fb: FormBuilder, private store: Store<AppState>) {}
+  constructor(
+    private route: ActivatedRoute,
+    private fb: FormBuilder,
+    private store: Store<AppState>,
+    private readonly iconsService: IconsService
+  ) {
+    this.iconsService.registerIcons([...Object.values(this.icons)]);
+  }
 
   ngOnInit(): void {
     this.currentPath = this.route.snapshot.url[0].path;

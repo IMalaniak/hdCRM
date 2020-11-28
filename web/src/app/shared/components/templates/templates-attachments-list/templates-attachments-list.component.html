@@ -3,7 +3,9 @@
     <table mat-table [dataSource]="attachments" class="table-attachments crm-table">
       <ng-container [matColumnDef]="columns.ICON">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let item"><fa-icon [icon]="fileTypeIcon(item.title)"></fa-icon></td>
+        <td mat-cell *matCellDef="let item">
+          <mat-icon [svgIcon]="item.title | memoize: fileTypeIcon:this" aria-hidden="false"></mat-icon>
+        </td>
       </ng-container>
       <ng-container [matColumnDef]="columns.TITLE">
         <th mat-header-cell *matHeaderCellDef i18n="@@attachmentsComponentListTitle">{{ columnLabels.TITLE }}</th>
@@ -35,7 +37,7 @@
           <atoms-icon-button
             *ngIf="canDelete"
             [color]="themePalette.WARN"
-            [icon]="['fas', 'trash-alt']"
+            [icon]="listIcons.remove"
             [matType]="matButtonTypes.ICON"
             (onclick)="handleDeleteFile(item.id)"
           >
@@ -49,13 +51,13 @@
 
   <atoms-no-content-info content *ngIf="attachments?.length === 0 && !uploaderVisible"></atoms-no-content-info>
 
-  <app-uploader-list
+  <uploader-list-component
     content
     *ngIf="uploaderVisible && googleDriveIntegrationState$ | async"
     [url]="apiUrl"
     (deleteFileCall)="handleDeleteFile($event)"
     (addFileCall)="handleAddFile($event)"
-  ></app-uploader-list>
+  ></uploader-list-component>
 
   <div
     content
@@ -73,18 +75,14 @@
   </div>
 
   <div buttons>
-    <atoms-icon-button
-      *ngIf="!uploaderVisible && !canAdd"
-      (onclick)="onClickAddFiles()"
-      [icon]="['fas', 'folder-plus']"
-    >
+    <atoms-icon-button *ngIf="!uploaderVisible && !canAdd" (onclick)="onClickAddFiles()" [icon]="listIcons.add">
       Add files
     </atoms-icon-button>
     <atoms-icon-button
       [color]="themePalette.BASIC"
       *ngIf="uploaderVisible"
       (onclick)="onClickAddFilesDone()"
-      [icon]="['fas', 'check']"
+      [icon]="listIcons.done"
     >
       Done
     </atoms-icon-button>

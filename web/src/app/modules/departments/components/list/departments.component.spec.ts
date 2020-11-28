@@ -1,13 +1,15 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DepartmentsComponent } from './departments.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { provideMockStore } from '@ngrx/store/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+
 import { SharedModule } from '@/shared/shared.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { initialDepartmentsState } from '../../store/department.reducer';
-import { authStateMock } from '@/shared/testing/mocks';
 import { initialPreferencesState } from '@/core/reducers/preferences.reducer';
+import { authStateMock } from '@/shared/testing/mocks';
+import { initialUsersState } from '@/modules/users/store/user.reducer';
+import { initialDepartmentsState } from '../../store/department.reducer';
+import { DepartmentsComponent } from './departments.component';
 
 describe('DepartmentsComponent', () => {
   let component: DepartmentsComponent;
@@ -15,7 +17,8 @@ describe('DepartmentsComponent', () => {
   const initialState = {
     preferences: initialPreferencesState,
     auth: authStateMock,
-    departments: initialDepartmentsState
+    departments: initialDepartmentsState,
+    users: initialUsersState
   };
 
   beforeEach(

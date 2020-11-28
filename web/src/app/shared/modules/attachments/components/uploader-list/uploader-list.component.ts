@@ -1,13 +1,15 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ChangeDetectionStrategy } from '@angular/core';
-import { Asset, TempAddedAsset } from '@/shared/models';
-import { environment } from 'environments/environment';
+
 import { Store, select } from '@ngrx/store';
-import { AppState } from '@/core/reducers';
-import { getToken } from '@/core/auth/store/auth.selectors';
 import { FilePond } from 'filepond';
 
+import { Asset, TempAddedAsset } from '@/shared/models';
+import { environment } from 'environments/environment';
+import { AppState } from '@/core/reducers';
+import { getToken } from '@/core/auth/store/auth.selectors';
+
 @Component({
-  selector: 'app-uploader-list',
+  selector: 'uploader-list-component',
   template: ` <file-pond #uploader [options]="uploaderOptions"></file-pond> `,
   styleUrls: ['./uploader-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

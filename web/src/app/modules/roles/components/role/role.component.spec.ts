@@ -5,10 +5,9 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock } from '@/shared/testing/mocks';
-import { initialRolesState } from '../../store/role.reducer';
-
-import { RoleComponent } from './role.component';
 import { initialUsersState } from '@/modules/users/store/user.reducer';
+import { initialRolesState } from '../../store/role.reducer';
+import { RoleComponent } from './role.component';
 
 describe('RoleComponent', () => {
   let component: RoleComponent;

@@ -7,6 +7,7 @@ export * from './dialog.constants';
 export * from './FieldType';
 export * from './form.constants';
 export * from './FormType';
+export * from './icons.enum';
 export * from './itemsPerPage';
 export * from './link.constants';
 export * from './listView';

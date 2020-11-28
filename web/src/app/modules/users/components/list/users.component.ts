@@ -7,12 +7,13 @@ import { Observable, Subject, merge } from 'rxjs';
 import { tap, takeUntil } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
+
 import { UserService, UsersDataSource } from '../../services';
 import { User } from '../../models';
 import { AppState } from '@/core/reducers';
 import { selectUserPageLoading, selectUsersTotalCount } from '../../store/user.selectors';
 import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
-import { deleteUser, inviteUsers } from '../../store/user.actions';
+import { deleteUser, inviteUsers, OnlineUserListRequested } from '../../store/user.actions';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
 import { ToastMessageService } from '@/shared/services';
 import {
@@ -32,13 +33,15 @@ import {
   THEME_PALETTE,
   RoutingConstants,
   CONSTANTS,
-  UserState
+  UserState,
+  BS_ICONS
 } from '@/shared/constants';
 import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, SORT_DIRECTION, COLUMN_NAMES } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
+import { IconsService } from '@/core/services';
 
 @Component({
   selector: 'users-component',
@@ -81,6 +84,16 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
     COLUMN_NAMES.ACTIONS
   ];
   userStates = UserState;
+  listIcons: { [key: string]: BS_ICONS } = {
+    matMenu: BS_ICONS.ThreeDotsVertical,
+    add: BS_ICONS.PersonPlus,
+    info: BS_ICONS.PersonSquare,
+    activate: BS_ICONS.PersonCheck,
+    archivate: BS_ICONS.Archive,
+    disable: BS_ICONS.PersonX,
+    edit: BS_ICONS.Pencil,
+    delete: BS_ICONS.Trash
+  };
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -89,8 +102,12 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
     private userService: UserService,
     private store$: Store<AppState>,
     private toastMessageService: ToastMessageService,
-    private dialogService: DialogService
-  ) {}
+    private dialogService: DialogService,
+    private readonly iconsService: IconsService
+  ) {
+    this.iconsService.registerIcons([BS_ICONS.Archive, BS_ICONS.PersonSquare, BS_ICONS.PersonX]);
+    this.store$.dispatch(OnlineUserListRequested());
+  }
 
   ngAfterViewInit(): void {
     merge(this.sort.sortChange, this.paginator.page)

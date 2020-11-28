@@ -13,7 +13,7 @@ import { Stage } from '@/modules/planner/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StagesDialogComponent extends DialogBaseModel<DialogWithTwoButtonModel> {
-  @ViewChild(StagesComponent, { static: true }) stagesComponent: StagesComponent;
+  @ViewChild(StagesComponent) stagesComponent: StagesComponent;
 
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;

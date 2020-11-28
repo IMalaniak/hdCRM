@@ -50,8 +50,6 @@ export class Server {
     this.socketRouter.initSocketConnection(this.socket);
     this.router = Router();
     this.app.use(this.router);
-
-    this.setupStaticFolders();
   }
 
   private setupStaticFolders(): void {
@@ -63,6 +61,7 @@ export class Server {
 
   public async start(): Promise<Application> {
     await this.routes.register(this.router);
+    this.setupStaticFolders();
 
     // Sync DB
     await this.dBase.connection.sync().then(() => {

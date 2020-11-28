@@ -14,15 +14,29 @@ interface Collections {
   Plans?: Plan[];
 }
 
+export const partialDataLoaded = createAction('[API] Partial Data loaded', props<Collections>());
+
+// Schemas:
 export const userSchema = new schema.Entity<User>('Users', {});
+export const userListSchema = new schema.Array<User>(userSchema);
 
 export const roleSchema = new schema.Entity<Role>('Roles', {
-  Users: [userSchema]
+  Users: userListSchema
 });
-
 export const roleListSchema = new schema.Array<Role>(roleSchema);
 
-export const partialDataLoaded = createAction('[API] Partial Data loaded', props<Collections>());
+export const planSchema = new schema.Entity<Plan>('Plans', {
+  Creator: userSchema,
+  Participants: userListSchema
+});
+export const planListSchema = new schema.Array<Role>(planSchema);
+
+export const departmentSchema = new schema.Entity<Department>('Departments', {
+  Manager: userSchema,
+  Workers: userListSchema
+});
+export const departmentListSchema = new schema.Array<Department>(departmentSchema);
+departmentSchema.define({ ParentDepartment: departmentSchema, SubDepartments: departmentListSchema });
 
 export function normalizeResponse<T>(
   response: CollectionApiResponse<T> | ItemApiResponse<T>,

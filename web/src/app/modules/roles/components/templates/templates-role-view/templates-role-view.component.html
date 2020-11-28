@@ -20,7 +20,7 @@
         [counter]="item.Privileges.length"
       >
         <div buttons>
-          <atoms-icon-button *ngIf="editForm" (onclick)="addPrivilegeDialog()" [icon]="['fas', 'plus']">
+          <atoms-icon-button *ngIf="editForm" (onclick)="addPrivilegeDialog()" [icon]="listIcons.add">
             {{ actionLabels.ADD }}
           </atoms-icon-button>
         </div>
@@ -36,44 +36,48 @@
               <th mat-header-cell *matHeaderCellDef>{{ columnLabels.VIEW }}</th>
               <td mat-cell *matCellDef="let privilege">
                 <mat-checkbox *ngIf="editForm" [(ngModel)]="privilege.RolePrivilege.view"></mat-checkbox>
-                <fa-icon
+                <mat-icon
                   *ngIf="!editForm"
-                  [icon]="privilege.RolePrivilege.view ? ['fas', 'check'] : ['fas', 'times']"
-                  [classes]="[privilege.RolePrivilege.view ? 'text-accent' : 'text-warn']"
-                ></fa-icon>
+                  [ngClass]="[privilege.RolePrivilege.view ? 'text-accent' : 'text-warn']"
+                  [svgIcon]="listIcons[privilege.RolePrivilege.view ? 'enabled' : 'disabled']"
+                  aria-hidden="false"
+                ></mat-icon>
               </td>
             </ng-container>
             <ng-container [matColumnDef]="columns.ADD">
               <th mat-header-cell *matHeaderCellDef>{{ columnLabels.ADD }}</th>
               <td mat-cell *matCellDef="let privilege">
                 <mat-checkbox *ngIf="editForm" [(ngModel)]="privilege.RolePrivilege.add"></mat-checkbox>
-                <fa-icon
+                <mat-icon
                   *ngIf="!editForm"
-                  [icon]="privilege.RolePrivilege.add ? ['fas', 'check'] : ['fas', 'times']"
-                  [classes]="[privilege.RolePrivilege.add ? 'text-accent' : 'text-warn']"
-                ></fa-icon>
+                  [ngClass]="[privilege.RolePrivilege.add ? 'text-accent' : 'text-warn']"
+                  [svgIcon]="listIcons[privilege.RolePrivilege.add ? 'enabled' : 'disabled']"
+                  aria-hidden="false"
+                ></mat-icon>
               </td>
             </ng-container>
             <ng-container [matColumnDef]="columns.EDIT">
               <th mat-header-cell *matHeaderCellDef>{{ columnLabels.EDIT }}</th>
               <td mat-cell *matCellDef="let privilege">
                 <mat-checkbox *ngIf="editForm" [(ngModel)]="privilege.RolePrivilege.edit"></mat-checkbox>
-                <fa-icon
+                <mat-icon
                   *ngIf="!editForm"
-                  [icon]="privilege.RolePrivilege.edit ? ['fas', 'check'] : ['fas', 'times']"
-                  [classes]="[privilege.RolePrivilege.edit ? 'text-accent' : 'text-warn']"
-                ></fa-icon>
+                  [ngClass]="[privilege.RolePrivilege.edit ? 'text-accent' : 'text-warn']"
+                  [svgIcon]="listIcons[privilege.RolePrivilege.edit ? 'enabled' : 'disabled']"
+                  aria-hidden="false"
+                ></mat-icon>
               </td>
             </ng-container>
             <ng-container [matColumnDef]="columns.DELETE">
               <th mat-header-cell *matHeaderCellDef>{{ columnLabels.DELETE }}</th>
               <td mat-cell *matCellDef="let privilege">
                 <mat-checkbox *ngIf="editForm" [(ngModel)]="privilege.RolePrivilege.delete"></mat-checkbox>
-                <fa-icon
+                <mat-icon
                   *ngIf="!editForm"
-                  [icon]="privilege.RolePrivilege.delete ? ['fas', 'check'] : ['fas', 'times']"
-                  [classes]="[privilege.RolePrivilege.delete ? 'text-accent' : 'text-warn']"
-                ></fa-icon>
+                  [ngClass]="[privilege.RolePrivilege.delete ? 'text-accent' : 'text-warn']"
+                  [svgIcon]="listIcons[privilege.RolePrivilege.delete ? 'enabled' : 'disabled']"
+                  aria-hidden="false"
+                ></mat-icon>
               </td>
             </ng-container>
             <ng-container [matColumnDef]="columns.ACTIONS">
@@ -81,7 +85,7 @@
               <td mat-cell *matCellDef="let privilege">
                 <atoms-icon-button
                   [color]="themePalette.WARN"
-                  [icon]="['fas', 'trash']"
+                  [icon]="listIcons.delete"
                   [matType]="matButtonType.ICON"
                   (onclick)="removePrivilege(privilege.id)"
                 >

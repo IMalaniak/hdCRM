@@ -20,7 +20,8 @@ import {
   THEME_PALETTE,
   MAT_BUTTON,
   RoutingConstants,
-  CONSTANTS
+  CONSTANTS,
+  BS_ICONS
 } from '@/shared/constants';
 import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { deletePlanRequested, changeIsEditingState } from '../../store/plan.actions';
@@ -54,6 +55,13 @@ export class PlanListComponent implements AfterViewInit, OnDestroy {
   themePalette = THEME_PALETTE;
   matButtonType = MAT_BUTTON;
   addPlanRoute = RoutingConstants.ROUTE_PLANNER_ADD;
+  listIcons: { [key: string]: BS_ICONS } = {
+    matMenu: BS_ICONS.ThreeDotsVertical,
+    add: BS_ICONS.Plus,
+    info: BS_ICONS.InfoSquare,
+    edit: BS_ICONS.Pencil,
+    delete: BS_ICONS.Trash
+  };
 
   displayedColumns: COLUMN_NAMES[] = [
     COLUMN_NAMES.TITLE,

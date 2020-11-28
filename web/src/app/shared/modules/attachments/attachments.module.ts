@@ -21,39 +21,10 @@ registerPlugin(
   FilePondPluginImageTransform
 );
 
-import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import {
-  faFileWord,
-  faFilePowerpoint,
-  faFileImage,
-  faFileVideo,
-  faFileAlt,
-  faFileArchive,
-  faFile,
-  faTrashAlt,
-  faFolderPlus,
-  faCheck
-} from '@fortawesome/free-solid-svg-icons';
-
 @NgModule({
-  imports: [CommonModule, FilePondModule, FontAwesomeModule],
+  imports: [CommonModule, FilePondModule],
   declarations: [UploaderListComponent, ProfilepicUploaderComponent],
   exports: [UploaderListComponent, ProfilepicUploaderComponent],
   providers: [AttachmentService]
 })
-export class AttachmentsModule {
-  constructor(library: FaIconLibrary) {
-    library.addIcons(
-      faFile,
-      faFileWord,
-      faFilePowerpoint,
-      faFileImage,
-      faFileVideo,
-      faFileAlt,
-      faFileArchive,
-      faTrashAlt,
-      faFolderPlus,
-      faCheck
-    );
-  }
-}
+export class AttachmentsModule {}

@@ -6,7 +6,6 @@ import { OverlayModule } from '@angular/cdk/overlay';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
-import { IconModule } from './modules/icon.module';
 import { AppMaterialModule } from './modules/app-material.module';
 import { AttachmentsModule } from './modules/attachments/attachments.module';
 import { COMPONENTS, PIPES } from './imports';
@@ -19,11 +18,10 @@ import { COMPONENTS, PIPES } from './imports';
     AppMaterialModule,
     AttachmentsModule,
     NgxChartsModule,
-    ReactiveFormsModule,
-    IconModule
+    ReactiveFormsModule
   ],
   declarations: [...COMPONENTS, ...PIPES],
-  exports: [...COMPONENTS, ...PIPES, AppMaterialModule, OverlayModule, FormsModule, ReactiveFormsModule, IconModule],
+  exports: [...COMPONENTS, ...PIPES, AppMaterialModule, OverlayModule, FormsModule, ReactiveFormsModule],
   providers: [DatePipe]
 })
 export class SharedModule {}

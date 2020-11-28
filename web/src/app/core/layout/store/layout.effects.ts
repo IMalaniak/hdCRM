@@ -34,20 +34,6 @@ export class LayoutEffects implements OnInitEffects {
     )
   );
 
-  toggleRightSidebar$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(layoutActions.toggleRightSidebar),
-      map((payload) => payload.minimized),
-      switchMap((minimized) => {
-        window.dispatchEvent(new Event('resize'));
-        if (!this.mediaQueryService.isMobileDevice) {
-          this.localStorage.setObjectKeyValue('layoutSettings', 'hideRightSidebar', minimized);
-        }
-        return of(layoutActions.rightSidebarChangeState({ minimized }));
-      })
-    )
-  );
-
   enableDarkTheme$ = createEffect(() =>
     this.actions$.pipe(
       ofType(layoutActions.enableDarkTheme),
@@ -91,7 +77,7 @@ export class LayoutEffects implements OnInitEffects {
   ngrxOnInitEffects(): Action {
     let settings: LayoutState = this.localStorage.getObject('layoutSettings');
     if (this.mediaQueryService.isMobileDevice) {
-      settings = { ...settings, hideLeftSidebar: true, hideRightSidebar: true };
+      settings = { ...settings, hideLeftSidebar: true };
     }
     return layoutActions.initLayoutSettings({ settings });
   }

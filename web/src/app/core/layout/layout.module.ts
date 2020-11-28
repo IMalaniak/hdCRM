@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+
 import { PublicViewComponent, PrivateViewComponent } from './view-containers';
 import {
   BreadcrumbsComponent,
@@ -8,18 +12,12 @@ import {
   FooterComponent,
   PageNotFoundComponent,
   InternalServerErrorComponent,
-  LeftSidebarComponent,
-  RightSidebarComponent
+  LeftSidebarComponent
 } from './components';
 import { SharedModule } from '@/shared/shared.module';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
 import * as fromLayout from './store/layout.reducer';
 import { LayoutEffects } from './store/layout.effects';
-import * as fromUser from '@/modules/users/store/user.reducer';
-import { UserEffects } from '@/modules/users/store/user.effects';
 import { UserService } from '@/modules/users';
-import { TaskManagerModule } from '@/modules/task-manager/task-manager.module';
 
 @NgModule({
   imports: [
@@ -27,16 +25,13 @@ import { TaskManagerModule } from '@/modules/task-manager/task-manager.module';
     RouterModule,
     SharedModule,
     StoreModule.forFeature(fromLayout.layoutFeatureKey, fromLayout.reducer),
-    StoreModule.forFeature(fromUser.usersFeatureKey, fromUser.reducer),
-    EffectsModule.forFeature([LayoutEffects, UserEffects]),
-    TaskManagerModule
+    EffectsModule.forFeature([LayoutEffects])
   ],
   declarations: [
     PublicViewComponent,
     PrivateViewComponent,
     BreadcrumbsComponent,
     LeftSidebarComponent,
-    RightSidebarComponent,
     HeaderComponent,
     FooterComponent,
     PageNotFoundComponent,
@@ -46,7 +41,6 @@ import { TaskManagerModule } from '@/modules/task-manager/task-manager.module';
   exports: [
     BreadcrumbsComponent,
     LeftSidebarComponent,
-    RightSidebarComponent,
     HeaderComponent,
     FooterComponent,
     PageNotFoundComponent,

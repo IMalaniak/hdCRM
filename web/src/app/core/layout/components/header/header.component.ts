@@ -9,14 +9,8 @@ import {
 } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { Observable } from 'rxjs/internal/Observable';
 
-import { Store, select } from '@ngrx/store';
-
-import { AppState } from '@/core/reducers';
-import { logOut } from '@/core/auth/store/auth.actions';
 import { User } from '@/modules/users';
-import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import {
   ACTION_LABELS,
   BUTTON_TYPE,
@@ -24,8 +18,9 @@ import {
   THEME_PALETTE,
   RoutingConstants,
   CONSTANTS,
-  ADD_PRIVILEGES
+  BS_ICONS
 } from '@/shared/constants';
+import { IconsService, MediaQueryService } from '@/core/services';
 
 @Component({
   selector: 'header-component',
@@ -34,17 +29,14 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {
-  canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.USER)));
-
   @Input() leftSidebarMinimized: boolean;
   @Input() enableDarkTheme: boolean;
   @Input() currentUser: User;
+  @Input() canAddUser: boolean;
 
-  @Output()
-  hideLeftSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
-
-  @Output()
-  enableThemeDark: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() hideLeftSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() enableThemeDark: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() logOut: EventEmitter<any> = new EventEmitter();
 
   actionLabels = ACTION_LABELS;
   buttonTypes = BUTTON_TYPE;
@@ -52,8 +44,32 @@ export class HeaderComponent implements OnInit {
   themePalette = THEME_PALETTE;
   myProfileRoute = RoutingConstants.ROUTE_MY_PROFILE;
   isShowUserMenu = false;
+  breadcrumbsVisible = !this.mediaQueryService.isPhone;
+  themeChangeIcons: { [key: string]: BS_ICONS } = {
+    light: BS_ICONS.Sun,
+    dark: BS_ICONS.Moon
+  };
+  userDropdownIcons: { [key: string]: BS_ICONS } = {
+    profile: BS_ICONS.Person,
+    invite: BS_ICONS.PersonPlus,
+    logOut: BS_ICONS.BoxArrowRight,
+    away: BS_ICONS.Clock,
+    busy: BS_ICONS.SlashCircle,
+    online: BS_ICONS.AppIndicator,
+    onBreak: BS_ICONS.Cup
+  };
 
-  constructor(private store$: Store<AppState>, private router: Router, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private router: Router,
+    private cdr: ChangeDetectorRef,
+    private readonly mediaQueryService: MediaQueryService,
+    private readonly iconsService: IconsService
+  ) {
+    this.iconsService.registerIcons([
+      ...Object.values(this.themeChangeIcons),
+      ...Object.values(this.userDropdownIcons)
+    ]);
+  }
 
   ngOnInit(): void {
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
@@ -67,7 +83,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onLogoutClick(): void {
-    this.store$.dispatch(logOut());
+    this.logOut.emit();
   }
 
   toggleLeftSidebar(): void {

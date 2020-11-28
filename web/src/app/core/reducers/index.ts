@@ -1,15 +1,15 @@
-import { ActionReducerMap, MetaReducer, createFeatureSelector } from '@ngrx/store';
+import { ActionReducerMap, MetaReducer, createFeatureSelector, createSelector } from '@ngrx/store';
 import { environment } from 'environments/environment';
 
 import * as fromRouter from '@ngrx/router-store';
 
-import { RouterStateUrl } from '@/shared/utils';
 import * as fromPreferences from './preferences.reducer';
 import * as fromIntegrations from './integration.reducer';
 import * as fromDynamicForm from './/dynamic-form/dynamic-form.reducer';
+import { SerializedRouterStateSnapshot } from '@ngrx/router-store';
 
 export interface AppState {
-  router: fromRouter.RouterReducerState<RouterStateUrl>;
+  router: fromRouter.RouterReducerState<SerializedRouterStateSnapshot>;
   preferences: fromPreferences.PreferencesState;
   integrations: fromIntegrations.IntegrationsState;
   forms: fromDynamicForm.DynamicFormState;
@@ -24,7 +24,10 @@ export const reducers: ActionReducerMap<AppState> = {
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [] : [];
 
-export const selectRouter = createFeatureSelector<AppState, fromRouter.RouterReducerState<RouterStateUrl>>('router');
+export const selectRouterState = createFeatureSelector<
+  AppState,
+  fromRouter.RouterReducerState<SerializedRouterStateSnapshot>
+>('router');
 
 export const {
   selectCurrentRoute, // select the current route
@@ -34,4 +37,6 @@ export const {
   selectRouteParam, // factory function to select a route param
   selectRouteData, // select the current route data
   selectUrl // select the current url
-} = fromRouter.getSelectors(selectRouter);
+} = fromRouter.getSelectors(selectRouterState);
+
+export const selectRoute = createSelector(selectRouterState, (routerState) => routerState.state.root);

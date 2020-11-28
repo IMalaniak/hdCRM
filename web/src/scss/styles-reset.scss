@@ -31,6 +31,10 @@ a:focus {
   outline: none;
 }
 
+svg {
+  vertical-align: inherit;
+}
+
 // TODO @ArseniiIrod try to found better solution in the feature
 .hover-bg-none.mat-button.mat-primary .mat-button-focus-overlay,
 .hover-bg-none.mat-button.mat-accent .mat-button-focus-overlay,

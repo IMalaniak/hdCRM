@@ -2,46 +2,55 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ChangeDetectionStr
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+
 import { Store, select } from '@ngrx/store';
+
 import { AppState } from '@/core/reducers';
+import { logOut } from '@/core/auth/store/auth.actions';
+import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
+import { IconsService, MediaQueryService } from '@/core/services';
+import { BS_ICONS } from '@/shared/constants';
+import { ADD_PRIVILEGES } from '@/shared/constants/privileges.constants';
+import { privateRouterTransition } from '@/shared/animations';
 import { User } from '@/modules/users';
-import { currentUser } from '@/core/auth/store/auth.selectors';
 import * as layoutActions from '../store/layout.actions';
 import * as fromLayout from '../store';
-import { privateRouterTransition } from '@/shared/animations';
-import { MediaQueryService } from '@/core/services';
 
 @Component({
   template: `
     <section class="grid" [ngClass]="{ 'dark-theme': enableDarkTheme$ | async, 'font-scale': scaleFontUp$ | async }">
+      <!-- HEADER -->
       <header-component
         [leftSidebarMinimized]="leftSidebarMinimized$ | async"
         [enableDarkTheme]="enableDarkTheme$ | async"
         [currentUser]="currentUser$ | async"
+        [canAddUser]="canAddUser$ | async"
         (hideLeftSidebar)="toggleLeftSidebar($event)"
         (enableThemeDark)="enableDarkTheme($event)"
+        (logOut)="onLogoutClick()"
       ></header-component>
+
+      <!-- MAIN -->
       <main>
+        <!-- LEFT SIDEBAR -->
         <left-sidebar [leftSidebarMinimized]="leftSidebarMinimized$ | async"></left-sidebar>
+
+        <!-- CONTENT -->
         <section #contentWrapper class="content" [ngClass]="{ 'dark-theme-bg': enableDarkTheme$ | async }">
           <div
             class="overlay"
             *ngIf="mediaQueryService.isMobileDevice"
-            [ngClass]="{ isVisible: !(leftSidebarMinimized$ | async) || !(rightSidebarMinimized$ | async) }"
+            [ngClass]="{ isVisible: !(leftSidebarMinimized$ | async) }"
             (click)="onOverlayClick()"
           ></div>
           <div class="wrapper">
             <section class="container-fluid py-3 position-relative" [@privateRouterAnimations]="prepareRoute(outlet)">
               <router-outlet #outlet="outlet"></router-outlet>
             </section>
+
+            <!-- FOOTER -->
             <footer-component></footer-component>
           </div>
-          <right-sidebar
-            [rightSidebarMinimized]="rightSidebarMinimized$ | async"
-            [scaleFontUp]="scaleFontUp$ | async"
-            (hideRightSidebar)="toggleRightSidebar($event)"
-            (scaleUpFont)="scaleFontUp($event)"
-          ></right-sidebar>
         </section>
       </main>
     </section>
@@ -54,14 +63,35 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
   scaleFontUp$: Observable<boolean> = this.store$.pipe(select(fromLayout.getScalledFontState));
   enableDarkTheme$: Observable<boolean> = this.store$.pipe(select(fromLayout.getDarkThemeState));
   leftSidebarMinimized$: Observable<boolean> = this.store$.pipe(select(fromLayout.getLeftSidebarState));
-  rightSidebarMinimized$: Observable<boolean> = this.store$.pipe(select(fromLayout.getRightSidebarState));
+  canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.USER)));
 
-  @ViewChild('contentWrapper', { static: false })
-  contentWrapper: ElementRef;
+  @ViewChild('contentWrapper') contentWrapper: ElementRef;
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private router: Router, public mediaQueryService: MediaQueryService, private store$: Store<AppState>) {}
+  constructor(
+    private router: Router,
+    public mediaQueryService: MediaQueryService,
+    private store$: Store<AppState>,
+    private readonly iconsService: IconsService
+  ) {
+    this.iconsService.registerIcons([
+      BS_ICONS.ThreeDotsVertical,
+      BS_ICONS.PersonPlus,
+      BS_ICONS.PersonCheck,
+      BS_ICONS.Plus,
+      BS_ICONS.Pencil,
+      BS_ICONS.X,
+      BS_ICONS.Check,
+      BS_ICONS.ClipboardCheck,
+      BS_ICONS.Upload,
+      BS_ICONS.InfoSquare,
+      BS_ICONS.Trash,
+      BS_ICONS.ArrowsCollapse,
+      BS_ICONS.ArrowsExpand,
+      BS_ICONS.Flag
+    ]);
+  }
 
   ngOnInit(): void {
     this.router.events
@@ -72,7 +102,6 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         if (this.mediaQueryService.isMobileDevice) {
           this.toggleLeftSidebar(true);
-          this.toggleRightSidebar(true);
         }
 
         this.contentWrapper.nativeElement.scrollTo(0, 0);
@@ -81,10 +110,6 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
 
   toggleLeftSidebar(minimized: boolean): void {
     this.store$.dispatch(layoutActions.toggleLeftSidebar({ minimized }));
-  }
-
-  toggleRightSidebar(minimized: boolean): void {
-    this.store$.dispatch(layoutActions.toggleRightSidebar({ minimized }));
   }
 
   enableDarkTheme(enabled: boolean): void {
@@ -97,11 +122,14 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
 
   onOverlayClick(): void {
     this.toggleLeftSidebar(true);
-    this.toggleRightSidebar(true);
   }
 
   prepareRoute(outlet: RouterOutlet) {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
+  }
+
+  onLogoutClick(): void {
+    this.store$.dispatch(logOut());
   }
 
   ngOnDestroy(): void {
