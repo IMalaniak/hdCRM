@@ -19,7 +19,7 @@ export class StageEffects {
       ofType(stageActions.allStagesRequestedFromDashboard, stageActions.allStagesRequestedFromDialogWindow),
       withLatestFrom(this.store.pipe(select(allStagesLoaded))),
       filter(([_, allStagesLoaded]) => !allStagesLoaded),
-      mergeMap(() => this.stageService.getList()),
+      mergeMap(() => this.stageService.getList<Stage>()),
       map((response: CollectionApiResponse<Stage>) => stageActions.allStagesLoaded({ response })),
       catchError(() => of(stageActions.stageApiError()))
     )
@@ -30,7 +30,7 @@ export class StageEffects {
       ofType(stageActions.createStage),
       map((payload) => payload.stage),
       mergeMap((stage: Stage) =>
-        this.stageService.create(stage).pipe(
+        this.stageService.create<Stage>(stage).pipe(
           map((response: ItemApiResponse<Stage>) => {
             this.toastMessageService.snack(response);
             return stageActions.createStageSuccess({
