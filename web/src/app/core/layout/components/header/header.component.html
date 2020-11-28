@@ -9,8 +9,7 @@
   </div>
 </div>
 
-<!-- TODO: @IMalaniak change functionality of breadcrumbs to work with NGRX router -->
-<!-- <app-breadcrumbs *ngIf="!mediaQueryService.isPhone"></app-breadcrumbs> -->
+<breadcrumbs-component *ngIf="breadcrumbsVisible"></breadcrumbs-component>
 
 <!-- <div class="user-search ml-auto">
 	<fa-icon [icon]="['fas', 'search']"></fa-icon>

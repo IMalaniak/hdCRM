@@ -20,7 +20,7 @@ import {
   CONSTANTS,
   BS_ICONS
 } from '@/shared/constants';
-import { IconsService } from '@/core/services';
+import { IconsService, MediaQueryService } from '@/core/services';
 
 @Component({
   selector: 'header-component',
@@ -44,6 +44,7 @@ export class HeaderComponent implements OnInit {
   themePalette = THEME_PALETTE;
   myProfileRoute = RoutingConstants.ROUTE_MY_PROFILE;
   isShowUserMenu = false;
+  breadcrumbsVisible = !this.mediaQueryService.isPhone;
   themeChangeIcons: { [key: string]: BS_ICONS } = {
     light: BS_ICONS.Sun,
     dark: BS_ICONS.Moon
@@ -58,7 +59,12 @@ export class HeaderComponent implements OnInit {
     onBreak: BS_ICONS.Cup
   };
 
-  constructor(private router: Router, private cdr: ChangeDetectorRef, private readonly iconsService: IconsService) {
+  constructor(
+    private router: Router,
+    private cdr: ChangeDetectorRef,
+    private readonly mediaQueryService: MediaQueryService,
+    private readonly iconsService: IconsService
+  ) {
     this.iconsService.registerIcons([
       ...Object.values(this.themeChangeIcons),
       ...Object.values(this.userDropdownIcons)

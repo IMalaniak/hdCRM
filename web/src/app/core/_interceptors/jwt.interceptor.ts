@@ -15,19 +15,22 @@ export class JwtInterceptor implements HttpInterceptor {
    * Intercepts all HTTP requests and adds the JWT token if it is present to the request's header if the URL
    */
   public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return this.store$.pipe(
-      select(getToken),
-      first(),
-      mergeMap((token: string) => {
-        if (token && !request.url.includes(APIS.REFRESH_SESSION)) {
-          request = request.clone({
-            setHeaders: {
-              Authorization: `${token}`
-            }
-          });
-        }
-        return next.handle(request);
-      })
-    );
+    if (request.url.includes('api')) {
+      return this.store$.pipe(
+        select(getToken),
+        first(),
+        mergeMap((token: string) => {
+          if (token && !request.url.includes(APIS.REFRESH_SESSION)) {
+            request = request.clone({
+              setHeaders: {
+                Authorization: `${token}`
+              }
+            });
+          }
+          return next.handle(request);
+        })
+      );
+    }
+    return next.handle(request);
   }
 }
