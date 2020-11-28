@@ -12,7 +12,7 @@ import {
   FooterComponent,
   PageNotFoundComponent,
   InternalServerErrorComponent,
-  LeftSidebarComponent
+  SidebarComponent
 } from './components';
 import { SharedModule } from '@/shared/shared.module';
 import * as fromLayout from './store/layout.reducer';
@@ -31,7 +31,7 @@ import { UserService } from '@/modules/users';
     PublicViewComponent,
     PrivateViewComponent,
     BreadcrumbsComponent,
-    LeftSidebarComponent,
+    SidebarComponent,
     HeaderComponent,
     FooterComponent,
     PageNotFoundComponent,
@@ -40,7 +40,7 @@ import { UserService } from '@/modules/users';
   providers: [UserService],
   exports: [
     BreadcrumbsComponent,
-    LeftSidebarComponent,
+    SidebarComponent,
     HeaderComponent,
     FooterComponent,
     PageNotFoundComponent,

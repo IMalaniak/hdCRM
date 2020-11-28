@@ -21,26 +21,26 @@ import * as fromLayout from '../store';
     <section class="grid" [ngClass]="{ 'dark-theme': enableDarkTheme$ | async, 'font-scale': scaleFontUp$ | async }">
       <!-- HEADER -->
       <header-component
-        [leftSidebarMinimized]="leftSidebarMinimized$ | async"
+        [sidebarMinimized]="sidebarMinimized$ | async"
         [enableDarkTheme]="enableDarkTheme$ | async"
         [currentUser]="currentUser$ | async"
         [canAddUser]="canAddUser$ | async"
-        (hideLeftSidebar)="toggleLeftSidebar($event)"
+        (hideSidebar)="toggleSidebar($event)"
         (enableThemeDark)="enableDarkTheme($event)"
         (logOut)="onLogoutClick()"
       ></header-component>
 
       <!-- MAIN -->
       <main>
-        <!-- LEFT SIDEBAR -->
-        <left-sidebar [leftSidebarMinimized]="leftSidebarMinimized$ | async"></left-sidebar>
+        <!-- SIDEBAR -->
+        <sidebar-component [sidebarMinimized]="sidebarMinimized$ | async"></sidebar-component>
 
         <!-- CONTENT -->
         <section #contentWrapper class="content" [ngClass]="{ 'dark-theme-bg': enableDarkTheme$ | async }">
           <div
             class="overlay"
             *ngIf="mediaQueryService.isMobileDevice"
-            [ngClass]="{ isVisible: !(leftSidebarMinimized$ | async) }"
+            [ngClass]="{ isVisible: !(sidebarMinimized$ | async) }"
             (click)="onOverlayClick()"
           ></div>
           <div class="wrapper">
@@ -62,7 +62,7 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
   currentUser$: Observable<User> = this.store$.pipe(select(currentUser));
   scaleFontUp$: Observable<boolean> = this.store$.pipe(select(fromLayout.getScalledFontState));
   enableDarkTheme$: Observable<boolean> = this.store$.pipe(select(fromLayout.getDarkThemeState));
-  leftSidebarMinimized$: Observable<boolean> = this.store$.pipe(select(fromLayout.getLeftSidebarState));
+  sidebarMinimized$: Observable<boolean> = this.store$.pipe(select(fromLayout.getSidebarState));
   canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.USER)));
 
   @ViewChild('contentWrapper') contentWrapper: ElementRef;
@@ -101,15 +101,15 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => {
         if (this.mediaQueryService.isMobileDevice) {
-          this.toggleLeftSidebar(true);
+          this.toggleSidebar(true);
         }
 
         this.contentWrapper.nativeElement.scrollTo(0, 0);
       });
   }
 
-  toggleLeftSidebar(minimized: boolean): void {
-    this.store$.dispatch(layoutActions.toggleLeftSidebar({ minimized }));
+  toggleSidebar(minimized: boolean): void {
+    this.store$.dispatch(layoutActions.toggleSidebar({ minimized }));
   }
 
   enableDarkTheme(enabled: boolean): void {
@@ -121,7 +121,7 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
   }
 
   onOverlayClick(): void {
-    this.toggleLeftSidebar(true);
+    this.toggleSidebar(true);
   }
 
   prepareRoute(outlet: RouterOutlet) {
