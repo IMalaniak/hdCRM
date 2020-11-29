@@ -5,7 +5,6 @@
 :host {
   $sidebar-width: app-size(sidebar, width, true);
   $sidebar-width-minimized: app-size(sidebar, minimized, true);
-  $item-title-width: calc(#{$sidebar-width} - #{$sidebar-width-minimized});
 
   @include set-bgcolor('dark', false);
   position: fixed;
@@ -19,18 +18,13 @@
   @include media-breakpoint-up(sm) {
     min-width: $sidebar-width;
     flex-basis: $sidebar-width;
-  }
-
-  @include media-breakpoint-up(md) {
-    min-width: $sidebar-width;
-    flex-basis: $sidebar-width;
 
     &.minimized {
       left: -($sidebar-width);
     }
   }
 
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(md) {
     position: sticky;
     min-width: $sidebar-width;
     flex-basis: $sidebar-width;
@@ -81,14 +75,15 @@
       }
 
       .item-title {
-        width: $item-title-width;
         opacity: 1;
         visibility: visible;
         transition: width $transition, opacity $transition, visibility $transition;
       }
 
       .item-icon {
+        margin-left: -2px;
         width: $sidebar-width-minimized;
+        min-width: $sidebar-width-minimized;
         font-size: app-size(font, null, true);
       }
     }
