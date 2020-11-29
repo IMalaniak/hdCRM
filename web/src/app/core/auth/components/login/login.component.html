@@ -11,26 +11,23 @@
           <mat-card>
             <mat-card-content class="d-flex justify-content-center flex-column p-3">
               <h2 i18n="@@loginComponentFormHeaderTitleLogin" class="pb-3">Login</h2>
-              <mat-form-field appearance="outline">
-                <mat-label i18n="@@loginComponentFormLoginOrEmailLabel">Login/Email</mat-label>
-                <input matInput formControlName="login" name="login" autocomplete="username" type="text" />
-              </mat-form-field>
-              <mat-form-field appearance="outline">
-                <mat-label i18n="@@loginComponentFormPasswordLabel">Password</mat-label>
-                <input
-                  matInput
-                  formControlName="password"
-                  name="password"
-                  autocomplete="current-password"
-                  [type]="hidePassword ? 'password' : 'text'"
-                />
+
+              <!-- Login/Email -->
+              <atoms-form-field label="Login/Email" [control]="user.get('login')"> </atoms-form-field>
+
+              <!-- Password -->
+              <atoms-form-field
+                label="Password"
+                [inputType]="hidePassword ? inputTypes.PASSWORD : inputTypes.TEXT"
+                [control]="user.get('password')"
+              >
                 <mat-icon
-                  matSuffix
+                  suffix
                   (click)="hidePassword = !hidePassword"
                   [svgIcon]="icons[hidePassword ? 'eyeDisabled' : 'eye']"
                 ></mat-icon>
-                <!-- TODO FA-ICON -->
-              </mat-form-field>
+              </atoms-form-field>
+
               <div class="d-flex flex-row justify-content-between align-items-center">
                 <atoms-icon-button
                   [color]="themePalette.BASIC"
@@ -69,10 +66,10 @@
           <mat-card>
             <mat-card-content class="d-flex justify-content-center flex-column p-3">
               <h3 i18n="@@loginComponentFormRequestNewPasswordHeader" class="pb-2">Your email or login</h3>
-              <mat-form-field appearance="outline">
-                <mat-label i18n="@@loginComponentFormLoginOrEmailLabel">Login/Email</mat-label>
-                <input matInput formControlName="login" type="text" autocomplete="username" name="login" required />
-              </mat-form-field>
+
+              <!-- Login/Email -->
+              <atoms-form-field label="Login/Email" [control]="user.get('login')"> </atoms-form-field>
+
               <div class="d-flex justify-content-between">
                 <atoms-icon-button
                   [color]="themePalette.BASIC"
@@ -97,65 +94,28 @@
           <mat-card>
             <mat-card-content class="d-flex justify-content-center flex-column p-3">
               <h3 i18n="@@loginComponentFormPasswordResetHeader" class="pb-2">Reset password</h3>
-              <mat-form-field appearance="outline">
-                <mat-label i18n="@@loginComponentFormResetNewPasswordLabel">New password</mat-label>
-                <input
-                  matInput
-                  type="password"
-                  formControlName="newPassword"
-                  autocomplete="off"
-                  [type]="hidePassword ? 'password' : 'text'"
-                  required
-                />
+
+              <!-- New password -->
+              <atoms-form-field
+                label="New password"
+                [inputType]="hidePassword ? inputTypes.PASSWORD : inputTypes.TEXT"
+                [control]="newPasswordForm.get('newPassword')"
+              >
                 <mat-icon
-                  matSuffix
+                  suffix
                   (click)="hidePassword = !hidePassword"
                   [svgIcon]="icons[hidePassword ? 'eyeDisabled' : 'eye']"
                 ></mat-icon>
-                <mat-error *ngIf="newPasswordForm.get('newPassword').invalid">
-                  <mat-error
-                    *ngIf="newPasswordForm.get('newPassword').errors.minlength"
-                    i18n="@@loginComponentInputErrorsPasswordIsTooShort"
-                  >
-                    Password is too short!
-                  </mat-error>
-                  <mat-error
-                    *ngIf="newPasswordForm.get('newPassword').errors.required"
-                    i18n="@@loginComponentdInputErrorsPasswordRequired"
-                  >
-                    Password is reqired!
-                  </mat-error>
-                  <mat-error
-                    *ngIf="newPasswordForm.get('newPassword').errors.maxlength"
-                    i18n="@@loginComponentInputErrorsPasswordIsTooLong"
-                  >
-                    Password is too long!
-                  </mat-error>
-                </mat-error>
-              </mat-form-field>
-              <mat-form-field appearance="outline">
-                <mat-label i18n="@@loginComponentFormResetConfirmPasswordLabel">Confirm password</mat-label>
-                <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="verifyPassword" required />
-                <mat-icon
-                  matSuffix
-                  (click)="hidePassword = !hidePassword"
-                  [svgIcon]="icons[hidePassword ? 'eyeDisabled' : 'eye']"
-                ></mat-icon>
-                <mat-error *ngIf="newPasswordForm.get('verifyPassword').invalid">
-                  <mat-error
-                    *ngIf="newPasswordForm.get('verifyPassword').errors.ConfirmPassword"
-                    i18n="@@loginComponentInputErrorsPasswordsDoesNotMatch"
-                  >
-                    Passwords does not match!
-                  </mat-error>
-                  <mat-error
-                    *ngIf="newPasswordForm.get('verifyPassword').errors.required"
-                    i18n="@@loginComponentInputErrorsConfirmPasswordRequired"
-                  >
-                    Password is reqired!
-                  </mat-error>
-                </mat-error>
-              </mat-form-field>
+              </atoms-form-field>
+
+              <!-- Confirm password -->
+              <atoms-form-field
+                label="Confirm password"
+                [inputType]="inputTypes.PASSWORD"
+                [control]="newPasswordForm.get('verifyPassword')"
+              >
+              </atoms-form-field>
+
               <div class="d-flex flex-row justify-content-between mt-1">
                 <atoms-icon-button
                   [color]="themePalette.BASIC"

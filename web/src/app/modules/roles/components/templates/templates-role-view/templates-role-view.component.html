@@ -3,13 +3,13 @@
     <div class="col-sm-12 col-md-7 col-lg-8">
       <organisms-card cardTitle="Details" cardClass="border border-dark mb-3" [disableShadow]="true">
         <section content>
-          <organisms-dynamic-form
+          <dynamic-form
             [data]="item"
             [formJson]="formJson$ | async"
             [editForm]="editForm"
             (formChanges)="formValueChanges($event)"
           >
-          </organisms-dynamic-form>
+          </dynamic-form>
         </section>
       </organisms-card>
       <!-- <span i18n="@@roleComponentFormLabelsPrivileges">Privileges:</span> -->

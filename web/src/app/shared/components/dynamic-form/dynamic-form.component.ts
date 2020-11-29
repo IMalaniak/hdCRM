@@ -15,7 +15,7 @@ import { Subject } from 'rxjs';
 import { DynamicForm } from '@/shared/models';
 
 @Component({
-  selector: 'organisms-dynamic-form',
+  selector: 'dynamic-form',
   template: `
     <form class="d-flex flex-column" [formGroup]="form" *ngIf="formJson">
       <molecules-form-field
@@ -32,10 +32,10 @@ import { DynamicForm } from '@/shared/models';
       ></molecules-form-field>
     </form>
   `,
-  styleUrls: ['./organisms-dynamic-form.component.scss'],
+  styleUrls: ['./dynamic-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrganismsDynamicFormComponent implements OnChanges, OnDestroy {
+export class DynamicFormComponent implements OnChanges, OnDestroy {
   // TODO change this to have a type
   @Input() data: any;
   @Input() formValues: any;

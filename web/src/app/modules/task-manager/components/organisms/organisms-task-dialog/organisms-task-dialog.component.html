@@ -1,9 +1,9 @@
 <component-dialog class="task-dialog" [formInvalid]="false" (dialogClose)="onClose($event)">
-  <organisms-dynamic-form
+  <dynamic-form
     [data]="model"
     [formJson]="taskFormJson$ | async"
     [editForm]="true"
     (formChanges)="taskFormValueChanges($event)"
   >
-  </organisms-dynamic-form>
+  </dynamic-form>
 </component-dialog>
