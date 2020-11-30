@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatRadioChange } from '@angular/material/radio';
 import { MatSelectChange } from '@angular/material/select';
@@ -15,8 +15,8 @@ import { THEME_PALETTE, IFieldType, InputType } from '@/shared/constants';
       <input-validation-component
         *ngSwitchDefault
         [label]="label"
-        [canValidate]="control?.touched && canValidate"
-        [inputErrors]="control?.touched ? control?.errors : {}"
+        [canValidate]="(control?.invalid || control?.touched) && canValidate"
+        [inputErrors]="control?.invalid || control?.touched ? control?.errors : {}"
       >
         <ng-content prefix select="[prefix]"></ng-content>
         <ng-content suffix select="[suffix]"></ng-content>
@@ -24,7 +24,12 @@ import { THEME_PALETTE, IFieldType, InputType } from '@/shared/constants';
       </input-validation-component>
 
       <!-- TEXTAREA -->
-      <input-validation-component *ngSwitchCase="fieldTypes.TEXTAREA" [label]="label">
+      <input-validation-component
+        *ngSwitchCase="fieldTypes.TEXTAREA"
+        [label]="label"
+        [canValidate]="(control?.invalid || control?.touched) && canValidate"
+        [inputErrors]="control?.invalid || control?.touched ? control?.errors : {}"
+      >
         <textarea matInput [formControl]="control" rows="5"></textarea>
       </input-validation-component>
 
@@ -32,8 +37,8 @@ import { THEME_PALETTE, IFieldType, InputType } from '@/shared/constants';
       <input-validation-component
         *ngSwitchCase="fieldTypes.DATE"
         [label]="label"
-        [canValidate]="control?.touched && canValidate"
-        [inputErrors]="control?.touched ? control?.errors : {}"
+        [canValidate]="(control?.invalid || control?.touched) && canValidate"
+        [inputErrors]="control?.invalid || control?.touched ? control?.errors : {}"
       >
         <mat-datepicker-toggle suffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker touchUi #picker></mat-datepicker>
@@ -50,10 +55,10 @@ import { THEME_PALETTE, IFieldType, InputType } from '@/shared/constants';
       <input-validation-component
         *ngSwitchCase="fieldTypes.SELECT"
         [label]="label"
-        [canValidate]="control?.touched && canValidate"
-        [inputErrors]="control?.touched ? control?.errors : {}"
+        [canValidate]="(control?.invalid || control?.touched) && canValidate"
+        [inputErrors]="control?.invalid || control?.touched ? control?.errors : {}"
       >
-        <mat-select [formControl]="control" required>
+        <mat-select [formControl]="control">
           <mat-option *ngFor="let option of options" [value]="option.value">{{ option.label }}</mat-option>
         </mat-select>
       </input-validation-component>
@@ -82,8 +87,7 @@ import { THEME_PALETTE, IFieldType, InputType } from '@/shared/constants';
       </mat-checkbox>
     </ng-container>
   `,
-  styleUrls: ['./atoms-form-field.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./atoms-form-field.component.scss']
 })
 export class AtomsFormFieldComponent {
   @Input() options?: any;

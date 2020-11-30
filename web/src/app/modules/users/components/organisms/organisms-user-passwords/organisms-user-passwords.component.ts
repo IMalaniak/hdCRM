@@ -1,11 +1,14 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+
+import { Store } from '@ngrx/store';
+
+import { AppState } from '@/core/reducers';
+import { IconsService } from '@/core/services';
 import { NewPassword } from '@/shared/models';
 import { ConfirmPasswordValidator } from '@/shared/validators';
-import { AppState } from '@/core/reducers';
-import { Store } from '@ngrx/store';
+import { IFieldType, ACTION_LABELS, BS_ICONS, InputType } from '@/shared/constants';
 import { changeOldPassword } from '@/modules/users/store/user.actions';
-import { IFieldType, ACTION_LABELS, BS_ICONS } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-user-passwords',
@@ -18,10 +21,18 @@ export class OrganismsUserPasswordsComponent implements OnInit {
 
   userNewPassword: FormGroup;
   fieldTypes = IFieldType;
+  inputTypes = InputType;
   actionLabels = ACTION_LABELS;
-  iconSave = BS_ICONS.ClipboardCheck;
+  icons: { [key: string]: BS_ICONS } = {
+    save: BS_ICONS.ClipboardCheck,
+    eye: BS_ICONS.Eye,
+    eyeDisabled: BS_ICONS.EyeSlash
+  };
+  hidePassword = true;
 
-  constructor(private store: Store<AppState>, private fb: FormBuilder) {}
+  constructor(private store: Store<AppState>, private fb: FormBuilder, private readonly iconsService: IconsService) {
+    this.iconsService.registerIcons([...Object.values(this.icons)]);
+  }
 
   ngOnInit(): void {
     this.buildUserNewPassword();

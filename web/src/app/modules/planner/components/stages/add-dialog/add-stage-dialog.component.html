@@ -1,17 +1,3 @@
 <component-dialog [formInvalid]="keyString.invalid" (dialogClose)="onClose($event)">
-  <mat-form-field appearance="outline">
-    <mat-label i18n="@@addStageComponentDialogLabel">Label</mat-label>
-    <input matInput [formControl]="keyString" />
-    <mat-error *ngIf="keyString.invalid">
-      <mat-error *ngIf="keyString.errors.required" i18n="@@addStageComponentDialogFormErrorsLableRequired">
-        Label is required!
-      </mat-error>
-      <mat-error
-        *ngIf="keyString.errors.minlength && (keyString.dirty || keyString.touched)"
-        i18n="@@addStageComponentDialogFormErrorsLableIsTooShort"
-      >
-        Label is too short!
-      </mat-error>
-    </mat-error>
-  </mat-form-field>
+  <atoms-form-field label="Label" [control]="keyString"> </atoms-form-field>
 </component-dialog>

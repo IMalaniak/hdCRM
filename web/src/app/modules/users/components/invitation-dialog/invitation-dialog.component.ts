@@ -5,13 +5,14 @@ import { ComponentType } from '@angular/cdk/portal';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { User } from '../../models';
 import { Store, select } from '@ngrx/store';
+
 import { AppState } from '@/core/reducers';
-import { selectAllUsers } from '../../store/user.selectors';
-import { CONSTANTS, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE, BS_ICONS } from '@/shared/constants';
+import { CONSTANTS, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE, BS_ICONS, InputType } from '@/shared/constants';
 import { DialogCreateEditModel, DialogDataModel, DialogResultModel } from '@/shared/models';
 import { DialogBaseModel } from '@/shared/components';
+import { User } from '../../models';
+import { selectAllUsers } from '../../store/user.selectors';
 
 @Component({
   templateUrl: './invitation-dialog.component.html',
@@ -27,6 +28,7 @@ export class InvitationDialogComponent extends DialogBaseModel<DialogCreateEditM
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
   matButtonType = MAT_BUTTON;
+  inputTypes = InputType;
   dialogIcons: { [key: string]: BS_ICONS } = {
     times: BS_ICONS.X,
     add: BS_ICONS.Plus

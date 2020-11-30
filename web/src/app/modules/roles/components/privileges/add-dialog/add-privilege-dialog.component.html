@@ -1,46 +1,6 @@
 <component-dialog [formInvalid]="privilegeGroup.invalid" (dialogClose)="onClose($event)">
   <form [formGroup]="privilegeGroup" class="d-flex flex-column justify-content-center">
-    <mat-form-field appearance="outline">
-      <mat-label i18n="@@addPrivilegeComponentDialogLable">Title</mat-label>
-      <input matInput formControlName="title" />
-      <mat-error *ngIf="privilegeGroup.get('title').invalid">
-        <mat-error
-          *ngIf="privilegeGroup.get('title').errors.required"
-          i18n="@@addPrivilegeComponentDialogFormErrorsLabelRequired"
-        >
-          Title is required!
-        </mat-error>
-        <mat-error
-          *ngIf="
-            privilegeGroup.get('title').errors.minlength &&
-            (privilegeGroup.get('title').dirty || privilegeGroup.get('title').touched)
-          "
-          i18n="@@addPrivilegeComponentDialogFormErrorsLabelIsTooShort"
-        >
-          Title is too short!
-        </mat-error>
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label i18n="@@addPrivilegeComponentDialogLable">Key</mat-label>
-      <input matInput formControlName="keyString" />
-      <mat-error *ngIf="privilegeGroup.get('keyString').invalid">
-        <mat-error
-          *ngIf="privilegeGroup.get('keyString').errors.required"
-          i18n="@@addPrivilegeComponentDialogFormErrorsLabelRequired"
-        >
-          Key is required!
-        </mat-error>
-        <mat-error
-          *ngIf="
-            privilegeGroup.get('keyString').errors.minlength &&
-            (privilegeGroup.get('keyString').dirty || privilegeGroup.get('keyString').touched)
-          "
-          i18n="@@addPrivilegeComponentDialogFormErrorsLabelIsTooShort"
-        >
-          Key is too short!
-        </mat-error>
-      </mat-error>
-    </mat-form-field>
+    <atoms-form-field label="Title" [control]="privilegeGroup.get('title')"> </atoms-form-field>
+    <atoms-form-field label="Key" [control]="privilegeGroup.get('keyString')"> </atoms-form-field>
   </form>
 </component-dialog>
