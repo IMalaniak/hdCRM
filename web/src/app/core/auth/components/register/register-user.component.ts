@@ -1,6 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormControl, FormGroup, AbstractControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 
@@ -14,7 +15,8 @@ import {
   THEME_PALETTE,
   RoutingConstants,
   OrgType,
-  BS_ICONS
+  BS_ICONS,
+  InputType
 } from '@/shared/constants';
 import { User } from '@/modules/users';
 import { AuthState } from '../../store/auth.reducer';
@@ -27,7 +29,7 @@ import { isLoading } from '../../store/auth.selectors';
   styleUrls: ['./register-user.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RegisterUserComponent implements OnInit {
+export class RegisterUserComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean> = this.store.pipe(select(isLoading));
 
   registerData: FormGroup;
@@ -38,6 +40,7 @@ export class RegisterUserComponent implements OnInit {
   actionLabels = ACTION_LABELS;
   buttonTypes = BUTTON_TYPE;
   matButtonTypes = MAT_BUTTON;
+  inputTypes = InputType;
   themePalette = THEME_PALETTE;
   loginRoute = RoutingConstants.ROUTE_AUTH_LOGIN;
   icons: { [key: string]: BS_ICONS } = {
@@ -50,6 +53,8 @@ export class RegisterUserComponent implements OnInit {
     stepperEdit: BS_ICONS.PencilSquare,
     stepperDone: BS_ICONS.Check
   };
+
+  private unsubscribe: Subject<void> = new Subject();
 
   constructor(private store: Store<AuthState>, private fb: FormBuilder, private readonly iconsService: IconsService) {
     this.iconsService.registerIcons([...Object.values(this.icons)]);
@@ -113,42 +118,46 @@ export class RegisterUserComponent implements OnInit {
   initPasswordValidation(): void {
     const password: AbstractControl = this.getControl('userCredentials', 'password');
 
-    this.getControl('userCredentials', 'generatePassword').valueChanges.subscribe((value) => {
-      if (value) {
-        password.setValidators(null);
-        password.reset();
-      } else {
-        password.setValidators([Validators.required, Validators.minLength(6)]);
-      }
-      password.updateValueAndValidity();
-    });
+    this.getControl('userCredentials', 'generatePassword')
+      .valueChanges.pipe(takeUntil(this.unsubscribe))
+      .subscribe((value) => {
+        if (value) {
+          password.setValidators(null);
+          password.reset();
+        } else {
+          password.setValidators([Validators.required, Validators.minLength(6)]);
+        }
+        password.updateValueAndValidity();
+      });
   }
 
   initOrganizationValidation(): void {
     const orgTitle: AbstractControl = this.getControl('userOrganization', 'title');
     const orgWebsite: AbstractControl = this.getControl('userOrganization', 'website');
 
-    this.getControl('userOrganization', 'type').valueChanges.subscribe((value) => {
-      if (value === OrgType.COMPANY) {
-        orgTitle.setValidators([
-          Validators.required,
-          Validators.maxLength(50),
-          Validators.pattern(CONSTANTS.ONLY_TEXT_REGEX)
-        ]);
-        orgWebsite.setValidators([
-          Validators.required,
-          Validators.maxLength(100),
-          Validators.pattern(CONSTANTS.WWW_REGEX)
-        ]);
-      } else if (value === OrgType.PRIVATE) {
-        orgTitle.setValidators(null);
-        orgTitle.reset();
-        orgWebsite.setValidators([Validators.maxLength(100), Validators.pattern(CONSTANTS.WWW_REGEX)]);
-        orgWebsite.reset();
-      }
-      orgTitle.updateValueAndValidity();
-      orgWebsite.updateValueAndValidity();
-    });
+    this.getControl('userOrganization', 'type')
+      .valueChanges.pipe(takeUntil(this.unsubscribe))
+      .subscribe((value) => {
+        if (value === OrgType.COMPANY) {
+          orgTitle.setValidators([
+            Validators.required,
+            Validators.maxLength(50),
+            Validators.pattern(CONSTANTS.ONLY_TEXT_REGEX)
+          ]);
+          orgWebsite.setValidators([
+            Validators.required,
+            Validators.maxLength(100),
+            Validators.pattern(CONSTANTS.WWW_REGEX)
+          ]);
+        } else if (value === OrgType.PRIVATE) {
+          orgTitle.setValidators(null);
+          orgTitle.reset();
+          orgWebsite.setValidators([Validators.maxLength(100), Validators.pattern(CONSTANTS.WWW_REGEX)]);
+          orgWebsite.reset();
+        }
+        orgTitle.updateValueAndValidity();
+        orgWebsite.updateValueAndValidity();
+      });
   }
 
   getControl(formGroup: string, formControl: string): AbstractControl {
@@ -159,5 +168,10 @@ export class RegisterUserComponent implements OnInit {
     const { userCredentials, userPersonalInfo, userOrganization } = this.registerData.value;
     const user: User = { ...userCredentials, ...userPersonalInfo, Organization: userOrganization };
     this.store.dispatch(registerUser({ user }));
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }
