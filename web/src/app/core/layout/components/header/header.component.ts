@@ -29,12 +29,12 @@ import { IconsService, MediaQueryService } from '@/core/services';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {
-  @Input() leftSidebarMinimized: boolean;
+  @Input() sidebarMinimized: boolean;
   @Input() enableDarkTheme: boolean;
   @Input() currentUser: User;
   @Input() canAddUser: boolean;
 
-  @Output() hideLeftSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() hideSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() enableThemeDark: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() logOut: EventEmitter<any> = new EventEmitter();
 
@@ -86,8 +86,8 @@ export class HeaderComponent implements OnInit {
     this.logOut.emit();
   }
 
-  toggleLeftSidebar(): void {
-    this.hideLeftSidebar.emit(!this.leftSidebarMinimized);
+  toggleSidebar(): void {
+    this.hideSidebar.emit(!this.sidebarMinimized);
   }
 
   themeTipMessage(): string {

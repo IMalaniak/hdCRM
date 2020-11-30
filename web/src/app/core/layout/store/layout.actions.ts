@@ -1,12 +1,9 @@
 import { createAction, props } from '@ngrx/store';
 import { LayoutState } from './layout.reducer';
 
-export const toggleLeftSidebar = createAction('[Layout] Toggle Left Sidebar', props<{ minimized: boolean }>());
+export const toggleSidebar = createAction('[Layout] Toggle Sidebar', props<{ minimized: boolean }>());
 
-export const leftSidebarChangeState = createAction(
-  '[Layout] Left Sidebar State Changed',
-  props<{ minimized: boolean }>()
-);
+export const sidebarChangeState = createAction('[Layout] Sidebar State Changed', props<{ minimized: boolean }>());
 
 export const enableDarkTheme = createAction('[Layout] Enable Dark Theme', props<{ enabled: boolean }>());
 

@@ -1,0 +1,95 @@
+@import 'variables';
+@import 'mixins';
+@import '~bootstrap/scss/mixins/breakpoints';
+
+:host {
+  $sidebar-width: app-size(sidebar, width, true);
+  $sidebar-width-minimized: app-size(sidebar, minimized, true);
+
+  @include set-bgcolor('dark', false);
+  position: fixed;
+  top: app-size(header, height, true);
+  left: 0;
+  bottom: 0;
+  min-width: 100%;
+  @include getZ-Index(sidebar);
+  transition: left $transition;
+
+  @include media-breakpoint-up(sm) {
+    min-width: $sidebar-width;
+    flex-basis: $sidebar-width;
+
+    &.minimized {
+      left: -($sidebar-width);
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    position: sticky;
+    min-width: $sidebar-width;
+    flex-basis: $sidebar-width;
+    transition: min-width $transition, flex-basis $transition, left $transition;
+
+    &.minimized {
+      min-width: $sidebar-width-minimized;
+      flex-basis: $sidebar-width-minimized;
+    }
+  }
+
+  &.minimized {
+    left: -100%;
+
+    .sidebar-body {
+      .item-btn {
+        .item-title {
+          width: 0;
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+    }
+  }
+
+  .sidebar-body {
+    overflow: hidden;
+
+    .item-btn {
+      height: app-size(header, height, true);
+      border-left: 2px solid transparent;
+      @include set-textcolor('text-contrast', false);
+      text-decoration: none;
+      transition: all $transition;
+
+      &:hover {
+        background: $gray-900;
+      }
+
+      &.active {
+        @include set-bgcolor('background', false);
+      }
+
+      &:hover,
+      &.active {
+        border-left: 2px solid;
+        @include set-textcolor('primary', false);
+      }
+
+      .item-title {
+        opacity: 1;
+        visibility: visible;
+        transition: width $transition, opacity $transition, visibility $transition;
+      }
+
+      .item-icon {
+        margin-left: -2px;
+        width: $sidebar-width-minimized;
+        min-width: $sidebar-width-minimized;
+        font-size: app-size(font, null, true);
+      }
+    }
+  }
+
+  .mat-list-base {
+    padding-top: 0;
+  }
+}

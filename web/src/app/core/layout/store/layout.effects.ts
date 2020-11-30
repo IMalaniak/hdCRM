@@ -20,16 +20,16 @@ export class LayoutEffects implements OnInitEffects {
     private store$: Store<LayoutState>
   ) {}
 
-  toggleLeftSidebar$ = createEffect(() =>
+  toggleSidebar$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(layoutActions.toggleLeftSidebar),
+      ofType(layoutActions.toggleSidebar),
       map((payload) => payload.minimized),
       switchMap((minimized) => {
         window.dispatchEvent(new Event('resize'));
         if (!this.mediaQueryService.isMobileDevice) {
-          this.localStorage.setObjectKeyValue('layoutSettings', 'hideLeftSidebar', minimized);
+          this.localStorage.setObjectKeyValue('layoutSettings', 'hideSidebar', minimized);
         }
-        return of(layoutActions.leftSidebarChangeState({ minimized }));
+        return of(layoutActions.sidebarChangeState({ minimized }));
       })
     )
   );
@@ -77,7 +77,7 @@ export class LayoutEffects implements OnInitEffects {
   ngrxOnInitEffects(): Action {
     let settings: LayoutState = this.localStorage.getObject('layoutSettings');
     if (this.mediaQueryService.isMobileDevice) {
-      settings = { ...settings, hideLeftSidebar: true };
+      settings = { ...settings, hideSidebar: true };
     }
     return layoutActions.initLayoutSettings({ settings });
   }

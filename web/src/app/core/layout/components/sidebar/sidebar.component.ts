@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostBinding, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, HostBinding, ChangeDetectionStrategy } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
@@ -9,19 +9,19 @@ import { BS_ICONS, RoutingConstants, VIEW_PRIVILEGES } from '@/shared/constants'
 import { MenuItem } from './menuItem';
 
 @Component({
-  selector: 'left-sidebar',
-  templateUrl: './left-sidebar.component.html',
-  styleUrls: ['./left-sidebar.component.scss'],
+  selector: 'sidebar-component',
+  templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LeftSidebarComponent implements OnInit {
-  @Input() leftSidebarMinimized: boolean;
+export class SidebarComponent {
+  @Input() sidebarMinimized: boolean;
 
   @HostBinding('class.minimized') get minimized(): boolean {
-    return this.leftSidebarMinimized;
+    return this.sidebarMinimized;
   }
 
-  sidebarMenu: MenuItem[];
+  sidebarMenuItems: MenuItem[];
 
   constructor(
     private store$: Store<AppState>,
@@ -36,14 +36,12 @@ export class LeftSidebarComponent implements OnInit {
       BS_ICONS.People,
       BS_ICONS.ColumnsGap
     ]);
-  }
 
-  ngOnInit(): void {
     this.generateMenu();
   }
 
   private generateMenu(): void {
-    this.sidebarMenu = [
+    this.sidebarMenuItems = [
       {
         url: RoutingConstants.ROUTE_HOME,
         title: 'Home',
