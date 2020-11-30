@@ -1,20 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Stage } from '../models';
 
-import { CollectionApiResponse, ItemApiResponse } from '@/shared/models';
 import { APIS } from '@/shared/constants';
+import { BaseCrudService } from '@/shared/services';
 
 @Injectable()
-export class StageService {
-  constructor(private http: HttpClient) {}
+export class StageService extends BaseCrudService {
+  protected readonly url = APIS.STAGES;
 
-  create(stage: Stage): Observable<ItemApiResponse<Stage>> {
-    return this.http.post<ItemApiResponse<Stage>>(APIS.STAGES, stage);
-  }
-
-  getList(): Observable<CollectionApiResponse<Stage>> {
-    return this.http.get<CollectionApiResponse<Stage>>(APIS.STAGES);
+  constructor(protected readonly http: HttpClient) {
+    super(http);
   }
 }

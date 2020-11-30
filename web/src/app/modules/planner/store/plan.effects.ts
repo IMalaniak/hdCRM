@@ -23,7 +23,7 @@ export class PlanEffects {
       ofType(planActions.createPlanRequested),
       map((payload) => payload.plan),
       mergeMap((plan: Plan) =>
-        this.planService.create(plan).pipe(
+        this.planService.create<Plan>(this.planService.formatBeforeSend(plan)).pipe(
           switchMap((response: ItemApiResponse<Plan>) => {
             this.toastMessageService.snack(response);
             this.router.navigateByUrl(RoutingConstants.ROUTE_PLANNER);
@@ -44,7 +44,7 @@ export class PlanEffects {
     this.actions$.pipe(
       ofType(planActions.planRequested),
       map((payload) => payload.id),
-      mergeMap((id) => this.planService.getOne(id)),
+      mergeMap((id) => this.planService.getOne<Plan>(id)),
       switchMap((response: ItemApiResponse<Plan>) => {
         const { Plans, Users } = normalizeResponse<Plan>(response, planSchema);
         response = { ...response, data: Plans[0] };
@@ -59,7 +59,7 @@ export class PlanEffects {
       ofType(planActions.listPageRequested),
       map((payload) => payload.page),
       mergeMap((pageQuery) =>
-        this.planService.getList(pageQuery).pipe(
+        this.planService.getList<Plan>(pageQuery).pipe(
           switchMap((response: CollectionApiResponse<Plan>) => {
             const page: Page = { dataIds: response.ids, key: generatePageKey(pageQuery) };
             const { Plans, Users } = normalizeResponse<Plan>(response, planListSchema);
@@ -77,7 +77,7 @@ export class PlanEffects {
       ofType(planActions.updatePlanRequested),
       map((payload) => payload.plan),
       mergeMap((plan: Plan) =>
-        this.planService.updateOne(plan).pipe(
+        this.planService.update<Plan>(this.planService.formatBeforeSend(plan), plan.id).pipe(
           switchMap((response: ItemApiResponse<Plan>) => {
             const { Plans, Users } = normalizeResponse<Plan>(response, planSchema);
             response = { ...response, data: Plans[0] };

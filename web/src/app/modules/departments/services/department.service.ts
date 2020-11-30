@@ -1,43 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Department } from '../models';
 import { User } from '@/modules/users/models';
-import { BaseMessage, CollectionApiResponse, ItemApiResponse, PageQuery } from '@/shared/models';
 import { APIS } from '@/shared/constants';
+import { BaseCrudService } from '@/shared/services';
+import { CollectionApiResponse } from '@/shared/models';
 
 @Injectable()
-export class DepartmentService {
-  constructor(private http: HttpClient) {}
+export class DepartmentService extends BaseCrudService {
+  protected readonly url = APIS.DEPARTMENTS;
 
-  create(department: Department): Observable<ItemApiResponse<Department>> {
-    return this.http.post<ItemApiResponse<Department>>(APIS.DEPARTMENTS, this.formatBeforeSend(department));
-  }
-
-  getOne(id: number): Observable<ItemApiResponse<Department>> {
-    return this.http.get<ItemApiResponse<Department>>(`${APIS.DEPARTMENTS}/${id}`);
-  }
-
-  updateOne(department: Department): Observable<ItemApiResponse<Department>> {
-    return this.http.put<ItemApiResponse<Department>>(
-      `${APIS.DEPARTMENTS}/${department.id}`,
-      this.formatBeforeSend(department)
-    );
-  }
-
-  delete(id: number): Observable<BaseMessage> {
-    return this.http.delete<BaseMessage>(`${APIS.DEPARTMENTS}/${id}`);
-  }
-
-  getList({ pageIndex, pageSize, sortIndex, sortDirection }: PageQuery): Observable<CollectionApiResponse<Department>> {
-    return this.http.get<CollectionApiResponse<Department>>(APIS.DEPARTMENTS, {
-      params: new HttpParams()
-        .set('pageIndex', pageIndex.toString())
-        .set('pageSize', pageSize.toString())
-        .set('sortIndex', sortIndex)
-        .set('sortDirection', sortDirection)
-    });
+  constructor(protected readonly http: HttpClient) {
+    super(http);
   }
 
   getDashboardData(): Observable<CollectionApiResponse<Department>> {

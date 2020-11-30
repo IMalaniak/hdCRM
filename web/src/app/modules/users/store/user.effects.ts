@@ -20,7 +20,7 @@ export class UserEffects {
     this.actions$.pipe(
       ofType(userActions.userRequested),
       map((payload) => payload.id),
-      mergeMap((id) => this.userService.getUser(id)),
+      mergeMap((id) => this.userService.getOne<User>(id)),
       map((response: ItemApiResponse<User>) => userActions.userLoaded({ user: response.data })),
       catchError(() => of(userActions.userApiError()))
     )
@@ -31,7 +31,7 @@ export class UserEffects {
       ofType(userActions.listPageRequested),
       map((payload) => payload.page),
       mergeMap((pageQuery) =>
-        this.userService.getList(pageQuery).pipe(
+        this.userService.getList<User>(pageQuery).pipe(
           map((response: CollectionApiResponse<User>) => {
             const page: Page = { dataIds: response.ids, key: generatePageKey(pageQuery) };
             return userActions.listPageLoaded({ response, page });
@@ -47,7 +47,7 @@ export class UserEffects {
       ofType(userActions.updateUserRequested),
       map((payload) => payload.user),
       mergeMap((toUpdate) =>
-        this.userService.updateUser(toUpdate).pipe(
+        this.userService.update<User>(this.userService.formatBeforeSend(toUpdate), toUpdate.id).pipe(
           map((response: ItemApiResponse<User>) => {
             const user: Update<User> = {
               id: response.data.id,

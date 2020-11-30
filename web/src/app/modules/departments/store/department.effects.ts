@@ -26,7 +26,7 @@ export class DepartmentEffects {
       ofType(depActions.createDepartmentRequested),
       map((payload) => payload.department),
       mergeMap((department: Department) =>
-        this.departmentService.create(department).pipe(
+        this.departmentService.create<Department>(this.departmentService.formatBeforeSend(department)).pipe(
           switchMap((response: ItemApiResponse<Department>) => {
             this.toastMessageService.snack(response);
             this.router.navigateByUrl(RoutingConstants.ROUTE_DEPARTMENTS);
@@ -52,7 +52,7 @@ export class DepartmentEffects {
     this.actions$.pipe(
       ofType(depActions.departmentRequested),
       map((payload) => payload.id),
-      mergeMap((id: number) => this.departmentService.getOne(id)),
+      mergeMap((id: number) => this.departmentService.getOne<Department>(id)),
       switchMap((response: ItemApiResponse<Department>) => {
         const { Departments, Users } = normalizeResponse<Department>(response, departmentSchema);
         response = { ...response, data: Departments[0] };
@@ -67,7 +67,7 @@ export class DepartmentEffects {
       ofType(depActions.listPageRequested),
       map((payload) => payload.page),
       mergeMap((pageQuery: PageQuery) =>
-        this.departmentService.getList(pageQuery).pipe(
+        this.departmentService.getList<Department>(pageQuery).pipe(
           switchMap((response: CollectionApiResponse<Department>) => {
             const page: Page = { dataIds: response.ids, key: generatePageKey(pageQuery) };
             const { Departments, Users } = normalizeResponse<Department>(response, departmentListSchema);
@@ -85,22 +85,24 @@ export class DepartmentEffects {
       ofType(depActions.updateDepartmentRequested),
       map((payload) => payload.department),
       mergeMap((department: Department) =>
-        this.departmentService.updateOne(department).pipe(
-          switchMap((response: ItemApiResponse<Department>) => {
-            const { Departments, Users } = normalizeResponse<Department>(response, departmentSchema);
-            response = { ...response, data: Departments[0] };
-            const department: Update<Department> = {
-              id: response.data.id,
-              changes: response.data
-            };
-            this.toastMessageService.snack(response);
-            return [depActions.updateDepartmentSuccess({ department }), partialDataLoaded({ Users })];
-          }),
-          catchError((errorResponse: HttpErrorResponse) => {
-            this.toastMessageService.snack(errorResponse.error);
-            return of(depActions.departmentApiError());
-          })
-        )
+        this.departmentService
+          .update<Department>(this.departmentService.formatBeforeSend(department), department.id)
+          .pipe(
+            switchMap((response: ItemApiResponse<Department>) => {
+              const { Departments, Users } = normalizeResponse<Department>(response, departmentSchema);
+              response = { ...response, data: Departments[0] };
+              const department: Update<Department> = {
+                id: response.data.id,
+                changes: response.data
+              };
+              this.toastMessageService.snack(response);
+              return [depActions.updateDepartmentSuccess({ department }), partialDataLoaded({ Users })];
+            }),
+            catchError((errorResponse: HttpErrorResponse) => {
+              this.toastMessageService.snack(errorResponse.error);
+              return of(depActions.departmentApiError());
+            })
+          )
       )
     )
   );
