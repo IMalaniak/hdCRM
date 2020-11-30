@@ -9,58 +9,18 @@
     </mat-list>
     <form [formGroup]="userData">
       <div class="form-container">
-        <mat-form-field appearance="outline" class="mr-0 mr-md-2">
-          <mat-label i18n="@@invitationDialogСomponentInputLableName">Full name:</mat-label>
-          <input matInput formControlName="fullname" type="text" />
-          <mat-error
-            *ngIf="
-              userData.controls['fullname'].invalid &&
-              (userData.controls['fullname'].dirty || userData.controls['fullname'].touched)
-            "
-          >
-            <mat-error
-              *ngIf="userData.controls['fullname'].errors.required"
-              i18n="@@invitationDialogСomponentInputErrorsFullnameRequired"
-            >
-              Full name is required!
-            </mat-error>
-            <mat-error
-              *ngIf="userData.controls['fullname'].errors.maxlength"
-              i18n="@@invitationDialogСomponentInputErrorsFullnameTooLong"
-            >
-              Full name is too long!
-            </mat-error>
-            <mat-error
-              *ngIf="userData.controls['fullname'].errors.pattern"
-              i18n="@@invitationDialogСomponentInputErrorsFullnameInvalid"
-            >
-              Full name is invalid!
-            </mat-error>
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="ml-0 ml-md-2">
-          <mat-label i18n="@@invitationDialogСomponentInputLabelEmail">Email:</mat-label>
-          <input matInput formControlName="email" type="email" />
-          <mat-error
-            *ngIf="
-              userData.controls['email'].invalid &&
-              (userData.controls['email'].dirty || userData.controls['email'].touched)
-            "
-          >
-            <mat-error
-              *ngIf="userData.controls['email'].errors.required"
-              i18n="@@invitationDialogСomponentInputErrorsEmailRequired"
-            >
-              Email is required!
-            </mat-error>
-            <mat-error
-              *ngIf="userData.controls['email'].errors.pattern"
-              i18n="@@invitationDialogСomponentInputErrorsEmailInvalid"
-            >
-              Invalid email address!
-            </mat-error>
-          </mat-error>
-        </mat-form-field>
+        <atoms-form-field
+          class="mr-0 mr-md-2"
+          label="Full name"
+          [control]="userData.get('fullname')"
+        ></atoms-form-field>
+        <atoms-form-field
+          class="ml-0 ml-md-2"
+          [inputType]="inputTypes.EMAIL"
+          label="Email"
+          [control]="userData.get('email')"
+        >
+        </atoms-form-field>
       </div>
       <atoms-icon-button
         (onclick)="addUserToInvitation(userData.value)"
