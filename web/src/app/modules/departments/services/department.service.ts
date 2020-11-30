@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Department } from '../models';
 import { User } from '@/modules/users/models';
 import { APIS } from '@/shared/constants';
-import { BaseCrudService } from '@/shared/services/base-http-crud.service';
+import { BaseCrudService } from '@/shared/services';
 import { CollectionApiResponse } from '@/shared/models';
 
 @Injectable()

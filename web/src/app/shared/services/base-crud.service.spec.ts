@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
-import { BaseCrudService } from './base-http-crud.service';
+import { BaseCrudService } from './base-crud.service';
 import { currentUserMock } from '../testing/mocks/store.mock';
 import { ItemApiResponse } from '../models/apiResponse';
 
