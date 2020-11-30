@@ -1,4 +1,5 @@
 import { Component, Input, HostBinding, ChangeDetectionStrategy } from '@angular/core';
+
 import { AtomsFormFieldComponent } from '../../atoms';
 
 @Component({
@@ -15,6 +16,7 @@ import { AtomsFormFieldComponent } from '../../atoms';
       [fType]="fType"
       (fieldChange)="onFieldChange($event)"
     ></atoms-form-field>
+
     <atoms-readonly-form-field
       *ngIf="!editForm && !editOnly"
       [label]="label"
