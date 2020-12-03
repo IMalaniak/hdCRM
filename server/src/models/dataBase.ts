@@ -67,7 +67,7 @@ export class DataBase {
     Role.belongsTo(Organization);
     User.belongsTo(Organization);
 
-    User.belongsTo(Role);
+    User.belongsTo(Role, { onDelete: 'set null', onUpdate: 'cascade' });
     User.belongsToMany(Asset, { through: 'UserAssets', foreignKey: 'UserId' });
     User.belongsTo(Asset, { as: 'avatar' });
     User.belongsToMany(Plan, {

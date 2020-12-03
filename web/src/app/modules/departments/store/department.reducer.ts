@@ -48,14 +48,16 @@ const departmentsReducer = createReducer(
     loading: false,
     data: departmentsAdapter.addOne(department, {
       ...state.data
-    })
+    }),
+    pages: initialDepartmentsState.pages
   })),
   on(departmentActions.deleteDepartmentSuccess, (state, { id }) => ({
     ...state,
     loading: false,
     data: departmentsAdapter.removeOne(id, {
       ...state.data
-    })
+    }),
+    pages: initialDepartmentsState.pages
   })),
   on(departmentActions.departmentLoaded, (state, { department }) => ({
     ...state,

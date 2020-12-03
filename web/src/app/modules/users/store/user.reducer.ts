@@ -77,7 +77,8 @@ const usersReducer = createReducer(
     loading: false,
     data: usersAdapter.removeOne(id, {
       ...state.data
-    })
+    }),
+    pages: initialUsersState.pages
   })),
   on(userActions.usersInvited, (state, { invitedUsers }) => ({
     ...state,
