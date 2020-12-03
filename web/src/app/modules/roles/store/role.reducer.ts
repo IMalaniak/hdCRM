@@ -45,7 +45,8 @@ const rolesReducer = createReducer(
     loading: false,
     data: roleAdapter.addOne(role, {
       ...state.data
-    })
+    }),
+    pages: initialRolesState.pages
   })),
   on(roleActions.roleLoaded, (state, { role }) => ({
     ...state,
@@ -69,7 +70,8 @@ const rolesReducer = createReducer(
     loading: false,
     data: roleAdapter.removeOne(id, {
       ...state.data
-    })
+    }),
+    pages: initialRolesState.pages
   })),
   on(roleActions.updateRoleSuccess, (state, { role }) => ({
     ...state,
