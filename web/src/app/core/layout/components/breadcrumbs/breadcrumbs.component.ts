@@ -9,7 +9,8 @@ import { Breadcrumb } from './breadcrumb';
 
 @Component({
   selector: 'breadcrumbs-component',
-  templateUrl: './breadcrumbs.component.html'
+  templateUrl: './breadcrumbs.component.html',
+  styleUrls: ['./breadcrumbs.component.scss']
 })
 export class BreadcrumbsComponent {
   breadcrumbs$: Observable<Breadcrumb[]>;
