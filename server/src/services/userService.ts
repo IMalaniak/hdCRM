@@ -324,7 +324,7 @@ export class UserService {
     }
   }
 
-  public async invite(user: UserAttributes): Promise<Result<ItemApiResponse<User>, BaseResponse>> {
+  public async invite(user: UserAttributes, orgId: number): Promise<Result<ItemApiResponse<User>, BaseResponse>> {
     // Logger.Info(`Inviting users...`);
 
     try {
@@ -332,7 +332,7 @@ export class UserService {
       const passwordData = this.crypt.saltHashPassword(password);
       user.passwordHash = passwordData.passwordHash;
       user.salt = passwordData.salt;
-      user.OrganizationId = user.OrganizationId;
+      user.OrganizationId = orgId;
       user.login = user.fullname.replace(' ', '_');
       const result = await this.create(user);
 
@@ -345,8 +345,10 @@ export class UserService {
           passwordExpire: token.expireDate
         });
 
+        const newUser = await this.findByPk(data.id);
+
         await this.sendMail(MailThemes.Invitation, {
-          user: data,
+          user: newUser,
           password,
           url: `${Config.WEB_URL}/auth/activate-account/${token.value}`
         });
@@ -361,8 +363,11 @@ export class UserService {
     }
   }
 
-  public async inviteMultiple(users: UserAttributes[]): Promise<Result<CollectionApiResponse<User>, BaseResponse>> {
-    const results = await Promise.all(users.map((user: UserAttributes) => this.invite(user)));
+  public async inviteMultiple(
+    users: UserAttributes[],
+    orgId: number
+  ): Promise<Result<CollectionApiResponse<User>, BaseResponse>> {
+    const results = await Promise.all(users.map((user: UserAttributes) => this.invite(user, orgId)));
     const { values, errors } = reduceResults(results);
     const invitedUsers: User[] = values.map((value) => value.data);
 

@@ -171,7 +171,7 @@ export class UserController {
     req: RequestWithBody<UserAttributes[]>,
     res: Response<CollectionApiResponse<User> | BaseResponse>
   ): Promise<void> {
-    const result = await this.userService.inviteMultiple(req.body);
+    const result = await this.userService.inviteMultiple(req.body, req.user.OrganizationId);
 
     return sendResponse<CollectionApiResponse<User>, BaseResponse>(result, res);
   }
