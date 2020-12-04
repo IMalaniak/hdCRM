@@ -4,11 +4,13 @@ import { Service } from 'typedi';
 @Service({ global: true })
 export class Logger {
   private logger = pino({
+    level: LogLevel.DEBUG,
     prettyPrint:
       process.env.NODE_ENV === 'development'
         ? {
             levelFirst: true,
-            colorize: true
+            colorize: true,
+            translateTime: 'SYS:standard'
           }
         : false
   });

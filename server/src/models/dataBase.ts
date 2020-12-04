@@ -33,7 +33,7 @@ export class DataBase {
           }
         }
       }),
-      logging: this.logger.info.bind(logger)
+      logging: this.logger.debug.bind(logger)
     });
     this.createModels();
   }
