@@ -108,24 +108,6 @@ main {
   }
 }
 
-.breadcrumb {
-  margin: 0;
-  padding: app-size(spacer, sm, true) app-size(spacer, default, true);
-  @include set-bgcolor('dark', false);
-  @include set-textcolor('light', false);
-
-  a {
-    display: inherit;
-    @include set-textcolor('light', false);
-  }
-
-  > li {
-    display: inline-flex;
-    justify-content: center;
-    align-content: center;
-  }
-}
-
 .table-container {
   overflow-x: auto;
   max-height: 41em;
