@@ -35,6 +35,8 @@ export class UserController {
     const {
       params: { id }
     } = req;
+    req.log.info(`Selecting user by id: ${id}...`);
+
     const result = await this.userService.getById(id);
 
     return sendResponse<ItemApiResponse<User>, BaseResponse>(result, res);
@@ -44,7 +46,8 @@ export class UserController {
     req: RequestWithQuery<CollectionQuery>,
     res: Response<CollectionApiResponse<User> | BaseResponse>
   ): Promise<void> {
-    // Logger.Info(`Selecting all users...`);
+    req.log.info(`Selecting users by page query...`);
+
     const { pageSize, pageIndex, sortDirection, sortIndex } = req.query;
     const limit = parseInt(pageSize);
     const offset = parseInt(pageIndex) * limit;
@@ -65,6 +68,8 @@ export class UserController {
     req: RequestWithBody<UserCreationAttributes>,
     res: Response<ItemApiResponse<User> | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Creating new user...`);
+
     const user: UserCreationAttributes = {
       ...req.body,
       OrganizationId: req.user.OrganizationId
@@ -78,6 +83,8 @@ export class UserController {
     req: RequestWithBody<User>,
     res: Response<ItemApiResponse<User> | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Updating user by id: ${req.body.id}...`);
+
     const result = await this.userService.updateOne(req.body);
 
     return sendResponse<ItemApiResponse<User>, BaseResponse>(result, res);
@@ -87,12 +94,16 @@ export class UserController {
     const {
       params: { id }
     } = req;
+    req.log.info(`Deleting user by id: ${id}...`);
+
     const result = await this.userService.delete(id);
 
     return sendResponse<BaseResponse, BaseResponse>(result, res);
   }
 
   public async updatePassword(req: RequestWithBody<PasswordReset>, res: Response<BaseResponse>): Promise<void> {
+    req.log.info(`Changing user password...`);
+
     let sId: number;
     if (req.body.deleteSessions) {
       const cookies = parseCookies(req) as any;
@@ -122,6 +133,8 @@ export class UserController {
     const {
       params: { id }
     } = req;
+    req.log.info(`Getting user session by id: ${id}...`);
+
     const result = await this.userService.getSession(id);
 
     return sendResponse<ItemApiResponse<UserSession>, BaseResponse>(result, res);
@@ -132,6 +145,7 @@ export class UserController {
     res: Response<CollectionApiResponse<UserSession> | BaseResponse>
   ): Promise<void> {
     const currentUser = req.user;
+    req.log.info(`Getting session list for user id: ${currentUser.id}...`);
     const result = await this.userService.getSessionList(currentUser);
 
     return sendResponse<CollectionApiResponse<UserSession>, BaseResponse>(result, res);
@@ -141,6 +155,8 @@ export class UserController {
     const {
       params: { id }
     } = req;
+    req.log.info(`Removing user session`);
+
     const result = await this.userService.removeSession(id);
 
     return sendResponse<BaseResponse, BaseResponse>(result, res);
@@ -153,6 +169,7 @@ export class UserController {
     const {
       body: { sessionIds }
     } = req;
+    req.log.info(`Removing user sessions`);
     const result = await this.userService.removeSession(sessionIds);
 
     return sendResponse<BaseResponse, BaseResponse>(result, res);
@@ -162,6 +179,8 @@ export class UserController {
     req: RequestWithBody<OrganizationAttributes>,
     res: Response<ItemApiResponse<Organization>>
   ): Promise<void> {
+    req.log.info(`Update user organization by id: ${req.body.id}`);
+
     const result = await this.userService.updateOrg(req.body);
 
     return sendResponse<ItemApiResponse<Organization>, BaseResponse>(result, res);
@@ -171,6 +190,8 @@ export class UserController {
     req: RequestWithBody<UserAttributes[]>,
     res: Response<CollectionApiResponse<User> | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Invite multiple users`);
+
     const result = await this.userService.inviteMultiple(req.body, req.user.OrganizationId);
 
     return sendResponse<CollectionApiResponse<User>, BaseResponse>(result, res);
@@ -180,6 +201,8 @@ export class UserController {
     req: Request<{ id: string }>,
     res: Response<ItemApiResponse<Asset> | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Update user avatar`);
+
     if (req.file) {
       jimp.read(req.file.path).then((tpl) =>
         tpl
@@ -207,6 +230,8 @@ export class UserController {
     const {
       params: { id }
     } = req;
+    req.log.info(`Delete user avatar by id: ${id}`);
+
     const result = await this.userService.deleteAvatar(id);
 
     return sendResponse<BaseResponse, BaseResponse>(result, res);

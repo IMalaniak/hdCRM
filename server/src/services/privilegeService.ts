@@ -9,11 +9,13 @@ import {
   PrivilegeCreationAttributes
 } from '../models';
 import { CONSTANTS } from '../constants';
+import { Logger } from '../utils/Logger';
 
 @Service()
 export class PrivilegeService {
+  constructor(private readonly logger: Logger) {}
+
   public async getAll(): Promise<Result<CollectionApiResponse<any>, BaseResponse>> {
-    // Logger.Info(`Selecting privileges list...`);
     try {
       const data = await Privilege.findAndCountAll();
       if (data) {
@@ -22,7 +24,7 @@ export class PrivilegeService {
         return ok({ success: false, message: 'No privileges', data: [] });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
@@ -30,7 +32,6 @@ export class PrivilegeService {
   public async create(
     privilege: PrivilegeCreationAttributes
   ): Promise<Result<ItemApiResponse<Privilege>, BaseResponse>> {
-    // Logger.Info(`Creating new privilege...`);
     try {
       const data = await Privilege.create({
         ...privilege
@@ -38,7 +39,7 @@ export class PrivilegeService {
 
       return ok({ success: true, message: 'Privilege is created successfully!', data });
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }

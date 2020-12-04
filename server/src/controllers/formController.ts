@@ -16,6 +16,7 @@ export class FormController {
     const {
       params: { formName }
     } = req;
+    req.log.info(`Selecting form by key: ${formName}...`);
     const result = await this.formService.getBy(formName);
 
     return sendResponse<ItemApiResponse<Form>, BaseResponse>(result, res);
@@ -25,6 +26,8 @@ export class FormController {
     req: RequestWithBody<FormAttributes>,
     res: Response<ItemApiResponse<Form> | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Creating new form...`);
+
     const result = await this.formService.create(req.body);
 
     return sendResponse<ItemApiResponse<Form>, BaseResponse>(result, res);
@@ -34,6 +37,8 @@ export class FormController {
     const {
       params: { id }
     } = req;
+    req.log.info(`Deleting form(s) by key: ${id}...`);
+
     const result = await this.formService.delete(id);
 
     return sendResponse<BaseResponse, BaseResponse>(result, res);

@@ -3,11 +3,13 @@ import { Result, ok, err } from 'neverthrow';
 
 import { BaseResponse, Preference, ItemApiResponse, PreferenceCreationAttributes, User } from '../models';
 import { CONSTANTS } from '../constants';
+import { Logger } from '../utils/Logger';
 
 @Service()
 export class PreferenceService {
+  constructor(private readonly logger: Logger) {}
+
   public async getAll(): Promise<Result<ItemApiResponse<any>, BaseResponse>> {
-    // Logger.Info(`Selecting preferences list...`);
     try {
       const preferencesList = Object.keys(Preference.rawAttributes)
         .filter((key) => Preference.rawAttributes[key].values)
@@ -23,7 +25,7 @@ export class PreferenceService {
         return ok({ success: false, message: 'No preferences', data: [] });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
@@ -32,7 +34,6 @@ export class PreferenceService {
     user: User,
     preference: PreferenceCreationAttributes
   ): Promise<Result<ItemApiResponse<Preference>, BaseResponse>> {
-    // Logger.Info(`Setting user preferences, userId: ${req.user.id}`);
     const userPreference = await user.getPreference();
 
     try {
@@ -41,7 +42,7 @@ export class PreferenceService {
         : await user.createPreference(preference as any);
       return ok({ success: true, data });
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }

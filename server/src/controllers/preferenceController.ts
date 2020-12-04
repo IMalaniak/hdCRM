@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { Service } from 'typedi';
 
 import { BaseResponse, ItemApiResponse, Preference, PreferenceCreationAttributes, RequestWithBody } from '../models';
@@ -9,7 +9,9 @@ import { PreferenceService } from '../services/preferenceService';
 export class PreferenceController {
   constructor(private readonly preferenceService: PreferenceService) {}
 
-  public async getAll(res: Response<ItemApiResponse<any> | BaseResponse>): Promise<void> {
+  public async getAll(req: Request, res: Response<ItemApiResponse<any> | BaseResponse>): Promise<void> {
+    req.log.info(`Selecting preferences list...`);
+
     const result = await this.preferenceService.getAll();
 
     return sendResponse<ItemApiResponse<any>, BaseResponse>(result, res);
@@ -19,6 +21,8 @@ export class PreferenceController {
     req: RequestWithBody<PreferenceCreationAttributes>,
     res: Response<ItemApiResponse<Preference> | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Setting user preferences, userId: ${req.user.id}`);
+
     const result = await this.preferenceService.set(req.user, req.body);
 
     return sendResponse<ItemApiResponse<Preference>, BaseResponse>(result, res);

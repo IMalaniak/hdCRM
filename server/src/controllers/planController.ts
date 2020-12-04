@@ -27,6 +27,8 @@ export class PlanController {
     const {
       params: { id }
     } = req;
+    req.log.info(`Selecting plan by id: ${id}...`);
+
     const result = await this.planService.getDataById(id);
 
     return sendResponse<ItemApiResponse<Plan>, BaseResponse>(result, res);
@@ -36,6 +38,8 @@ export class PlanController {
     req: RequestWithQuery<CollectionQuery>,
     res: Response<CollectionApiResponse<Plan> | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Getting plans by page query...`);
+
     const { pageSize, pageIndex, sortDirection, sortIndex } = req.query;
     const limit = parseInt(pageSize);
     const offset = parseInt(pageIndex) * limit;
@@ -56,6 +60,8 @@ export class PlanController {
     req: RequestWithBody<PlanCreationAttributes>,
     res: Response<ItemApiResponse<Plan> | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Creating new plan...`);
+
     const plan: PlanCreationAttributes = {
       ...req.body,
       OrganizationId: req.user.OrganizationId,
@@ -70,6 +76,8 @@ export class PlanController {
     req: RequestWithBody<Plan>,
     res: Response<ItemApiResponse<Plan> | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Updating plan by id: ${req.body.id}...`);
+
     const result = await this.planService.updateOne(req.body);
 
     return sendResponse<ItemApiResponse<Plan>, BaseResponse>(result, res);
@@ -79,6 +87,8 @@ export class PlanController {
     const {
       params: { id }
     } = req;
+    req.log.info(`Deleting plan(s) by id: ${id}...`);
+
     const result = await this.planService.delete(id);
 
     return sendResponse<BaseResponse, BaseResponse>(result, res);
@@ -88,6 +98,8 @@ export class PlanController {
     req: Request<{ planId: string }>,
     res: Response<ItemApiResponse<Asset> | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Uploading plan document: ${req.file.originalname}...`);
+
     const params: { document: AssetCreationAttributes; planId: string } = {
       document: {
         title: req.file.originalname,
@@ -109,6 +121,7 @@ export class PlanController {
     const {
       query: { docId }
     } = req;
+    req.log.info(`Deleting plan document by id: ${docId}...`);
     const result = await this.planService.deleteDocument(docId);
 
     return sendResponse<BaseResponse, BaseResponse>(result, res);

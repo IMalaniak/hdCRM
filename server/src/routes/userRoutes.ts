@@ -28,7 +28,7 @@ export class UserRoutes {
 
   public register(): Router {
     this.router.get('/profile/', (req: Request, res: Response<ItemApiResponse<User>>) => {
-      // Logger.Info(`Geting user profile...`);
+      req.log.info(`Geting user profile...`);
       return res.status(StatusCodes.OK).json({ success: true, data: req.user });
     });
 

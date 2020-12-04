@@ -11,8 +11,8 @@ export class TaskPriorityRoutes {
   constructor(private readonly taskController: TaskController) {}
 
   public register(): Router {
-    this.router.get('/', async (_, res: Response<CollectionApiResponse<TaskPriority>>) =>
-      this.taskController.getPrioriities(res)
+    this.router.get('/', async (req, res: Response<CollectionApiResponse<TaskPriority>>) =>
+      this.taskController.getPrioriities(req, res)
     );
 
     return this.router;

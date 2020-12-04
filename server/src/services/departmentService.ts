@@ -14,6 +14,7 @@ import {
   ErrorOrigin
 } from '../models';
 import { CONSTANTS } from '../constants';
+import { Logger } from '../utils/Logger';
 
 @Service()
 export class DepartmentService {
@@ -48,6 +49,8 @@ export class DepartmentService {
     }
   ];
 
+  constructor(private readonly logger: Logger) {}
+
   public async getDashboardData(orgId: number): Promise<Result<CollectionApiResponse<Department>, BaseResponse>> {
     try {
       const data = await Department.findAndCountAll({
@@ -66,13 +69,12 @@ export class DepartmentService {
       });
       return ok({ success: true, data: data.rows, resultsNum: data.count });
     } catch (error) {
-      // Logger.Err(error);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 
   public async getDataById(id: number | string): Promise<Result<ItemApiResponse<Department>, BaseResponse>> {
-    // Logger.Info(`Selecting department by key: ${key}...`);
     try {
       const department = await this.findByPk(id);
       if (department) {
@@ -86,7 +88,7 @@ export class DepartmentService {
         });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
@@ -94,7 +96,6 @@ export class DepartmentService {
   public async getPage(
     pageQuery: PageQueryWithOrganization
   ): Promise<Result<CollectionApiResponse<Department>, BaseResponse>> {
-    // Logger.Info(`Getting departments by page query...`);
     try {
       const { limit, offset, sortDirection, sortIndex, OrganizationId } = pageQuery;
 
@@ -117,7 +118,7 @@ export class DepartmentService {
         return ok({ success: false, message: 'No departments by this query', data: [] });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
@@ -125,8 +126,6 @@ export class DepartmentService {
   public async create(
     department: DepartmentCreationAttributes
   ): Promise<Result<ItemApiResponse<Department>, BaseResponse>> {
-    // Logger.Info(`Creating new department...`);
-
     try {
       const createdDep = await Department.create({
         title: department.title,
@@ -153,13 +152,12 @@ export class DepartmentService {
         return ok({ success: true, message: 'Department created successfully!', data });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 
   public async updateOne(department: DepartmentAttributes): Promise<Result<ItemApiResponse<Department>, BaseResponse>> {
-    // Logger.Info(`Updating department by id: ${department.id}...`);
     try {
       await Department.update(
         {
@@ -194,13 +192,12 @@ export class DepartmentService {
         return ok({ success: true, message: 'Department updated successfully!', data });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 
   public async delete(id: string | number | string[] | number[]): Promise<Result<BaseResponse, BaseResponse>> {
-    // Logger.Info(`Deleting department(s) by id: ${id}...`);
     try {
       const deleted = await Department.destroy({
         where: { id }
@@ -217,7 +214,7 @@ export class DepartmentService {
         });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }

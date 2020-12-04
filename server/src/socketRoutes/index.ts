@@ -3,6 +3,7 @@ import { Socket, Server } from 'socket.io';
 
 import { User } from '../models';
 import { SocketHelper, UserOnline } from '../helpers/socketHelper';
+import { Logger } from '../utils/Logger';
 
 export enum GlobalEvents {
   CONNECT = 'connect',
@@ -19,14 +20,14 @@ export enum GlobalEvents {
 export class SocketRouter {
   public io: Server;
 
-  constructor(private readonly socketHelper: SocketHelper) {}
+  constructor(private readonly socketHelper: SocketHelper, private readonly logger: Logger) {}
 
   public initSocketConnection(io: Server) {
     this.io = io;
     this.io.on(GlobalEvents.CONNECT, (socket: Socket) => {
-      // Logger.Info(`Global: Client connected, socketId: ${socket.id}`);
+      this.logger.info(`Global: Client connected, socketId: ${socket.id}`);
       socket.on(GlobalEvents.ISONLINE, (user: User) => {
-        // Logger.Info(`Global: Client online, userId: ${user.id}`);
+        this.logger.info(`Global: Client online, userId: ${user.id}`);
         const OrgRoom = `ORG_ROOM_${user.OrganizationId.toString()}`;
         socket.join(OrgRoom);
         const userOnline: UserOnline = {
@@ -57,7 +58,7 @@ export class SocketRouter {
         }
       });
       socket.on(GlobalEvents.DISCONNECT, () => {
-        // Logger.Info(`Global: Client disconected, socketId: ${socket.id}`);
+        this.logger.info(`Global: Client disconected, socketId: ${socket.id}`);
         const user = this.socketHelper.removeActiveSocket(socket.id);
         if (user) {
           user.online = false;
@@ -78,8 +79,7 @@ export class SocketRouter {
   }
 
   private initNotifications(socket: Socket) {
-    // tslint:disable-next-line: no-console
-    console.info(`Notifications: Module inited for socketId: ${socket.id}`);
+    this.logger.info(`Notifications: Module inited for socketId: ${socket.id}`);
   }
 
   // public onEventWithParams(event: string) {}

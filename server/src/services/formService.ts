@@ -3,11 +3,13 @@ import { Result, ok, err } from 'neverthrow';
 
 import { BaseResponse, Form, ItemApiResponse, FormAttributes, ErrorOrigin } from '../models';
 import { CONSTANTS } from '../constants';
+import { Logger } from '../utils/Logger';
 
 @Service()
 export class FormService {
+  constructor(private readonly logger: Logger) {}
+
   public async getBy(key: string): Promise<Result<ItemApiResponse<Form>, BaseResponse>> {
-    // Logger.Info(`Selecting form by key: ${key}...`);
     try {
       const form = await Form.findByPk(key);
       if (form) {
@@ -16,26 +18,24 @@ export class FormService {
         return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No form with such key', data: null });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 
   public async create(form: FormAttributes): Promise<Result<ItemApiResponse<Form>, BaseResponse>> {
-    // Logger.Info(`Creating new form...`);
     try {
       const data = await Form.create(form);
       if (data) {
         return ok({ success: true, message: 'Form created successfully!', data });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 
   public async delete(key: string | string[]): Promise<Result<BaseResponse, BaseResponse>> {
-    // Logger.Info(`Deleting form(s) by key: ${key}...`);
     try {
       const deleted = await Form.destroy({
         where: { key }
@@ -47,7 +47,7 @@ export class FormService {
         return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No forms by this query', data: null });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }

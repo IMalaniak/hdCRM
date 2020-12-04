@@ -6,12 +6,14 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import http from 'http';
 import cors from 'cors';
+import PinoHttp from 'pino-http';
 
 import { DataBase } from './models';
 import { Routes } from './routes';
 import { Passport } from './config/passport';
 import { SocketRouter } from './socketRoutes';
 import { Config } from './config';
+import { Logger } from './utils/Logger';
 
 @Service({ global: true })
 export class Server {
@@ -24,7 +26,8 @@ export class Server {
     private readonly dBase: DataBase,
     private readonly routes: Routes,
     private readonly passport: Passport,
-    private readonly socketRouter: SocketRouter
+    private readonly socketRouter: SocketRouter,
+    private readonly logger: Logger
   ) {
     this.app = express();
     this.app.use(bodyParser.urlencoded({ extended: true }));
@@ -38,14 +41,13 @@ export class Server {
       })
     );
     this.app.use(cookieParser());
-    this.app.use((req, _, next) => {
-      if (req.method !== 'OPTIONS') {
-        // Logger.Imp(`${req.ip} ${req.method} ${req.url}`);
-        next();
-      }
-    });
     this.passport.init();
     this.server = http.createServer(this.app);
+    this.app.use(
+      PinoHttp({
+        logger: this.logger.instance
+      })
+    );
     this.socket = new SocketServer(this.server);
     this.socketRouter.initSocketConnection(this.socket);
     this.router = Router();
@@ -66,8 +68,7 @@ export class Server {
     // Sync DB
     await this.dBase.connection.sync().then(() => {
       this.server.listen(parseInt(process.env.PORT), () => {
-        // tslint:disable-next-line: no-console
-        console.info(`Server is listening on ${process.env.PORT}`);
+        this.logger.info(`Server is listening on ${process.env.PORT}`);
       });
     });
     return this.app;

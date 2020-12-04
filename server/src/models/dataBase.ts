@@ -16,12 +16,13 @@ import { TaskPriorityFactory, TaskPriority } from './TaskPriority';
 import { PreferenceFactory, Preference } from './Preference';
 import { FormFactory } from './Form';
 import { Service } from 'typedi';
+import { Logger } from '../utils/Logger';
 
 @Service()
 export class DataBase {
   sequelize: Sequelize;
 
-  constructor() {
+  constructor(private readonly logger: Logger) {
     this.sequelize = new Sequelize(process.env.DATABASE_URL, {
       ...(process.env.NODE_ENV !== 'development' && {
         ssl: true,
@@ -31,7 +32,8 @@ export class DataBase {
             rejectUnauthorized: false // <<<<<< YOU NEED THIS
           }
         }
-      })
+      }),
+      logging: this.logger.debug.bind(logger)
     });
     this.createModels();
   }

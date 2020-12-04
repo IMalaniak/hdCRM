@@ -1,12 +1,14 @@
 import 'reflect-metadata';
+import Container from 'typedi';
 import { App } from './app';
+import { Logger } from './utils/Logger';
+
+const logger = Container.get(Logger);
 
 App.start()
   .then(() => {
-    // tslint:disable-next-line: no-console
-    console.info('Application started');
+    logger.info('Application started');
   })
   .catch((error) => {
-    // tslint:disable-next-line: no-console
-    console.error('Uncaught exception! Application will terminate', { error });
+    logger.error(`Uncaught exception! Application will terminate, ${error}`);
   });
