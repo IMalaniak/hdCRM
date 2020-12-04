@@ -12,15 +12,13 @@ export interface RunOptions {
 
 function print(value: string) {
   if (value) {
-    // tslint:disable-next-line:no-console
-    console.log(value?.trim());
+    process.stdout.write(value);
   }
 }
 
 function printError(value: string) {
   if (value) {
-    // tslint:disable-next-line:no-console
-    console.error(value?.trim());
+    process.stderr.write(value);
   }
 }
 
@@ -48,7 +46,7 @@ export function doRun(command, options: RunOptions = {}): () => Promise<void> {
         }
       );
       process.stdout.on('data', (data) => {
-        print(data.toString());
+        print(data);
       });
       process.stderr.on('data', (data) => {
         printError(data.toString());
