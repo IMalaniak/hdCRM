@@ -37,6 +37,7 @@ export class DepartmentController {
     const {
       params: { id }
     } = req;
+    req.log.info(`Selecting department by id: ${id}...`);
     const result = await this.departmentService.getDataById(id);
 
     return sendResponse<ItemApiResponse<Department>, BaseResponse>(result, res);
@@ -46,6 +47,8 @@ export class DepartmentController {
     req: RequestWithQuery<CollectionQuery>,
     res: Response<CollectionApiResponse<Department> | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Getting departments by page query...`);
+
     const { pageSize, pageIndex, sortDirection, sortIndex } = req.query;
     const limit = parseInt(pageSize);
     const offset = parseInt(pageIndex) * limit;
@@ -66,6 +69,8 @@ export class DepartmentController {
     req: RequestWithBody<DepartmentCreationAttributes>,
     res: Response<ItemApiResponse<Department> | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Creating new department...`);
+
     const department: DepartmentCreationAttributes = {
       ...req.body,
       OrganizationId: req.user.OrganizationId
@@ -79,6 +84,8 @@ export class DepartmentController {
     req: RequestWithBody<Department>,
     res: Response<ItemApiResponse<Department> | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Updating department by id: ${req.body.id}...`);
+
     const result = await this.departmentService.updateOne(req.body);
 
     return sendResponse<ItemApiResponse<Department>, BaseResponse>(result, res);
@@ -88,6 +95,7 @@ export class DepartmentController {
     const {
       params: { id }
     } = req;
+    req.log.info(`Deleting department(s) by id: ${id}...`);
     const result = await this.departmentService.delete(id);
 
     return sendResponse<BaseResponse, BaseResponse>(result, res);

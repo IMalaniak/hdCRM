@@ -23,8 +23,8 @@ export class PrivilegeRoutes {
         this.privilegeController.create(req, res)
     );
 
-    this.router.get('/', async (_, res: Response<CollectionApiResponse<Privilege>>) =>
-      this.privilegeController.getAll(res)
+    this.router.get('/', async (req, res: Response<CollectionApiResponse<Privilege>>) =>
+      this.privilegeController.getAll(req, res)
     );
 
     return this.router;

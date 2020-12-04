@@ -21,6 +21,7 @@ import {
   ErrorOrigin
 } from '../models';
 import { CONSTANTS } from '../constants';
+import { Logger } from '../utils/Logger';
 
 @Service()
 export class PlanService {
@@ -67,8 +68,9 @@ export class PlanService {
     }
   ];
 
+  constructor(private readonly logger: Logger) {}
+
   public async getDataById(id: number | string): Promise<Result<ItemApiResponse<Plan>, BaseResponse>> {
-    // Logger.Info(`Selecting plan by id: ${id}...`);
     try {
       const plan = await this.findByPk(id);
       if (plan) {
@@ -77,7 +79,7 @@ export class PlanService {
         return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No plan with such id', data: null });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
@@ -85,7 +87,6 @@ export class PlanService {
   public async getPage(
     pageQuery: PageQueryWithOrganization
   ): Promise<Result<CollectionApiResponse<Plan>, BaseResponse>> {
-    // Logger.Info(`Getting plans by page query...`);
     try {
       const { limit, offset, sortDirection, sortIndex, OrganizationId } = pageQuery;
 
@@ -108,14 +109,12 @@ export class PlanService {
         return ok({ success: false, message: 'No plans by this query', data: [] });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 
   public async create(plan: PlanCreationAttributes): Promise<Result<ItemApiResponse<Plan>, BaseResponse>> {
-    // Logger.Info(`Creating new plan...`);
-
     try {
       const createdPlan = await Plan.create({
         title: plan.title,
@@ -164,13 +163,12 @@ export class PlanService {
         return ok({ success: true, message: 'Plan created successfully!', data });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 
   public async updateOne(plan: PlanAttributes): Promise<Result<ItemApiResponse<Plan>, BaseResponse>> {
-    // Logger.Info(`Updating plan by id: ${plan.id}...`);
     try {
       await Plan.update(
         {
@@ -203,13 +201,12 @@ export class PlanService {
         return ok({ success: true, message: 'Plan updated successfully!', data });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 
   public async delete(id: string | number | string[] | number[]): Promise<Result<BaseResponse, BaseResponse>> {
-    // Logger.Info(`Deleting plan(s) by id: ${id}...`);
     try {
       const deleted = await Plan.destroy({
         where: { id }
@@ -221,7 +218,7 @@ export class PlanService {
         return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No plans by this query', data: null });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
@@ -230,7 +227,6 @@ export class PlanService {
     document: AssetCreationAttributes;
     planId: string;
   }): Promise<Result<ItemApiResponse<Asset>, BaseResponse>> {
-    // Logger.Info(`Uploading plan document: ${req.file.originalname}...`);
     try {
       const { document, planId } = params;
 
@@ -246,14 +242,12 @@ export class PlanService {
         data: doc
       });
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 
   public async deleteDocument(id: string): Promise<Result<BaseResponse, BaseResponse>> {
-    // Logger.Info(`Deleting plan document by id: ${id}...`);
-
     try {
       const docToBeDeleted = await Asset.findByPk(id);
 
@@ -267,7 +261,7 @@ export class PlanService {
         return ok({ success: true, message: 'Document deleted successfully!' });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }

@@ -19,6 +19,8 @@ export class TaskController {
 
   public async getAll(req: Request, res: Response<CollectionApiResponse<Task> | BaseResponse>): Promise<void> {
     const creatorId = req.user.id;
+    req.log.info(`Selecting all tasks...`);
+
     const result = await this.taskService.getAll(creatorId);
 
     return sendResponse<CollectionApiResponse<Task>, BaseResponse>(result, res);
@@ -28,6 +30,8 @@ export class TaskController {
     req: RequestWithBody<TaskCreationAttributes>,
     res: Response<ItemApiResponse<Task> | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Creating new task...`);
+
     const task: TaskCreationAttributes = {
       ...req.body,
       CreatorId: req.user.id
@@ -41,6 +45,7 @@ export class TaskController {
     req: RequestWithBody<Task>,
     res: Response<ItemApiResponse<Task> | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Updating task by id: ${req.body.id}...`);
     const result = await this.taskService.updateOne(req.body);
 
     return sendResponse<ItemApiResponse<Task>, BaseResponse>(result, res);
@@ -50,6 +55,7 @@ export class TaskController {
     const {
       params: { id }
     } = req;
+    req.log.info(`Deleting task by id: ${id}...`);
     const result = await this.taskService.delete(id);
 
     return sendResponse<BaseResponse, BaseResponse>(result, res);
@@ -59,12 +65,15 @@ export class TaskController {
     const {
       body: { taskIds }
     } = req;
+    req.log.info(`Deleting tasks by id: ${taskIds}...`);
     const result = await this.taskService.delete(taskIds);
 
     return sendResponse<BaseResponse, BaseResponse>(result, res);
   }
 
-  public async getPrioriities(res: Response<CollectionApiResponse<TaskPriority>>): Promise<void> {
+  public async getPrioriities(req: Request, res: Response<CollectionApiResponse<TaskPriority>>): Promise<void> {
+    req.log.info(`Selecting all tasks...`);
+
     const result = await this.taskService.getPriorities();
 
     return sendResponse<CollectionApiResponse<TaskPriority>, BaseResponse>(result, res);

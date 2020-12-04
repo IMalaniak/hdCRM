@@ -15,6 +15,7 @@ import {
   ErrorOrigin
 } from '../models';
 import { CONSTANTS } from '../constants';
+import { Logger } from '../utils/Logger';
 
 @Service()
 export class RoleService {
@@ -39,8 +40,9 @@ export class RoleService {
     }
   ];
 
+  constructor(private readonly logger: Logger) {}
+
   public async getDashboardData(OrganizationId: number): Promise<Result<CollectionApiResponse<Role>, BaseResponse>> {
-    // Logger.Info(`Geting roles dashboard data...`);
     try {
       const data = await Role.findAndCountAll({
         attributes: ['keyString', 'id'],
@@ -58,13 +60,12 @@ export class RoleService {
       });
       return ok({ success: true, data: data.rows, resultsNum: data.count });
     } catch (error) {
-      // Logger.Err(error);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 
   public async getDataById(id: string): Promise<Result<ItemApiResponse<Role>, BaseResponse>> {
-    // Logger.Info(`Selecting role by id: ${id}...`);
     try {
       const role = await this.findByPk(id);
       if (role) {
@@ -73,7 +74,7 @@ export class RoleService {
         return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No role with such id', data: null });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
@@ -81,7 +82,6 @@ export class RoleService {
   public async getPage(
     pageQuery: PageQueryWithOrganization
   ): Promise<Result<CollectionApiResponse<Role>, BaseResponse>> {
-    // Logger.Info(`Getting roles by page query...`);
     try {
       const { limit, offset, sortDirection, sortIndex, OrganizationId } = pageQuery;
 
@@ -104,14 +104,12 @@ export class RoleService {
         return ok({ success: false, message: 'No roles by this query', data: [] });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 
   public async create(role: RoleCreationAttributes): Promise<Result<ItemApiResponse<Role>, BaseResponse>> {
-    // Logger.Info(`Creating new role...`);
-
     try {
       const createdRole = await Role.create({
         keyString: role.keyString,
@@ -155,13 +153,12 @@ export class RoleService {
         return ok({ success: true, message: 'Role created successfully!', data });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 
   public async updateOne(role: RoleAttributes): Promise<Result<ItemApiResponse<Role>, BaseResponse>> {
-    // Logger.Info(`Updating role by id: ${role.id}...`);
     try {
       await Role.update(
         {
@@ -209,13 +206,12 @@ export class RoleService {
         return ok({ success: true, message: 'Role updated successfully!', data });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 
   public async delete(id: string | number | string[] | number[]): Promise<Result<BaseResponse, BaseResponse>> {
-    // Logger.Info(`Deleting role(s) by id: ${id}...`);
     try {
       const deleted = await Role.destroy({
         where: { id }
@@ -227,7 +223,7 @@ export class RoleService {
         return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No roles by this query', data: null });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }

@@ -15,7 +15,7 @@ export class FileController {
       params: { fileID }
     } = req;
 
-    // Logger.Info(`Selecting file by id: ${req.params.fileID}...`);
+    req.log.info(`Selecting file by id: ${req.params.fileID}...`);
     try {
       const file = await Asset.findByPk(fileID);
       if (file) {
@@ -26,7 +26,7 @@ export class FileController {
         res.send({ success: false, message: 'Sorry, file not found...' });
       }
     } catch (error) {
-      // Logger.Err(err);
+      req.log.error(error);
       res.status(StatusCodes.BAD_REQUEST);
       res.send({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }

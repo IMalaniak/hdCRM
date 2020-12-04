@@ -25,6 +25,8 @@ export class AuthController {
   ) {}
 
   public async register(req: Request, res: Response<BaseResponse>): Promise<void> {
+    req.log.info('Registering new user...');
+
     const password = req.body.password ? req.body.password : this.crypt.genRandomString(12);
     const passwordData = this.crypt.saltHashPassword(password);
 
@@ -59,6 +61,8 @@ export class AuthController {
   }
 
   public async activateAccount(req: RequestWithBody<{ token: string }>, res: Response<BaseResponse>): Promise<void> {
+    req.log.info(`Activating new user...`);
+
     const { token } = req.body;
 
     const result = await this.authService.activateAccount(token);
@@ -70,6 +74,8 @@ export class AuthController {
     req: RequestWithBody<{ login: string; password: string }>,
     res: Response<string | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Authenticating web client...`);
+
     const loginOrEmail = req.body.login;
     const password = req.body.password;
     const result = await this.authService.authenticate({
@@ -98,6 +104,8 @@ export class AuthController {
   }
 
   public async refreshSession(req: Request, res: Response<BaseResponse | string>): Promise<void> {
+    req.log.info(`Refreshing session...`);
+
     const cookies = parseCookies(req) as any;
 
     const result = await this.authService.refreshSession(cookies.refresh_token);
@@ -115,7 +123,8 @@ export class AuthController {
   }
 
   public async logout(req: Request, res: Response<BaseResponse>): Promise<void> {
-    // Logger.Info(`Logging user out...`);
+    req.log.info(`Logging user out...`);
+
     const cookies = parseCookies(req) as any;
     const decodedResult = this.jwtHelper.getDecoded(cookies.refresh_token);
     if (decodedResult.isOk()) {
@@ -129,6 +138,8 @@ export class AuthController {
   }
 
   public async forgotPassword(req: Request, res: Response<BaseResponse>): Promise<void> {
+    req.log.info(`Forget password requesting...`);
+
     const loginOrEmail = req.body.login;
 
     const result = await this.authService.forgotPassword(loginOrEmail);
@@ -136,6 +147,8 @@ export class AuthController {
   }
 
   public async resetPassword(req: RequestWithBody<PasswordReset>, res: Response<BaseResponse>): Promise<void> {
+    req.log.info(`Reseting new password...`);
+
     const result = await this.authService.resetPassword(req.body);
     return sendResponse<BaseResponse, BaseResponse>(result, res);
   }

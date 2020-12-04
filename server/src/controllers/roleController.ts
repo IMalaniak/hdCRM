@@ -22,6 +22,8 @@ export class RoleController {
     req: Request,
     res: Response<CollectionApiResponse<Role> | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Geting roles dashboard data...`);
+
     const {
       user: { OrganizationId }
     } = req;
@@ -37,6 +39,8 @@ export class RoleController {
     const {
       params: { id }
     } = req;
+    req.log.info(`Selecting role by id: ${id}...`);
+
     const result = await this.roleService.getDataById(id);
 
     return sendResponse<ItemApiResponse<Role>, BaseResponse>(result, res);
@@ -46,6 +50,8 @@ export class RoleController {
     req: RequestWithQuery<CollectionQuery>,
     res: Response<CollectionApiResponse<Role> | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Getting roles by page query...`);
+
     const { pageSize, pageIndex, sortDirection, sortIndex } = req.query;
     const limit = parseInt(pageSize);
     const offset = parseInt(pageIndex) * limit;
@@ -66,6 +72,8 @@ export class RoleController {
     req: RequestWithBody<RoleCreationAttributes>,
     res: Response<ItemApiResponse<Role> | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Creating new role...`);
+
     const role: RoleCreationAttributes = {
       ...req.body,
       OrganizationId: req.user.OrganizationId
@@ -79,6 +87,8 @@ export class RoleController {
     req: RequestWithBody<Role>,
     res: Response<ItemApiResponse<Role> | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Updating role by id: ${req.body.id}...`);
+
     const result = await this.roleService.updateOne(req.body);
 
     return sendResponse<ItemApiResponse<Role>, BaseResponse>(result, res);
@@ -88,6 +98,7 @@ export class RoleController {
     const {
       params: { id }
     } = req;
+    req.log.info(`Deleting role by id: ${id}...`);
     const result = await this.roleService.delete(id);
 
     return sendResponse<BaseResponse, BaseResponse>(result, res);

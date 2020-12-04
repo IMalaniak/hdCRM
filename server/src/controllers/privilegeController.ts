@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { Service } from 'typedi';
 
 import {
@@ -16,7 +16,9 @@ import { PrivilegeService } from '../services';
 export class PrivilegeController {
   constructor(private readonly privilegeService: PrivilegeService) {}
 
-  public async getAll(res: Response<CollectionApiResponse<any> | BaseResponse>): Promise<void> {
+  public async getAll(req: Request, res: Response<CollectionApiResponse<any> | BaseResponse>): Promise<void> {
+    req.log.info(`Selecting privileges list...`);
+
     const result = await this.privilegeService.getAll();
 
     return sendResponse<CollectionApiResponse<any>, BaseResponse>(result, res);
@@ -26,6 +28,8 @@ export class PrivilegeController {
     req: RequestWithBody<PrivilegeCreationAttributes>,
     res: Response<ItemApiResponse<Privilege> | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Creating new privilege...`);
+
     const result = await this.privilegeService.create(req.body);
 
     return sendResponse<ItemApiResponse<Privilege>, BaseResponse>(result, res);

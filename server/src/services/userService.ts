@@ -25,6 +25,7 @@ import {
 import { CONSTANTS, MailThemes } from '../constants';
 import { Mailer } from '../mailer/nodeMailerTemplates';
 import { Crypt } from '../utils/crypt';
+import { Logger } from '../utils/Logger';
 import { Config } from '../config';
 import { reduceResults } from './utils';
 
@@ -70,10 +71,9 @@ export class UserService {
     }
   ];
 
-  constructor(private readonly mailer: Mailer, private readonly crypt: Crypt) {}
+  constructor(private readonly mailer: Mailer, private readonly crypt: Crypt, private readonly logger: Logger) {}
 
   public async getById(id: number | string): Promise<Result<ItemApiResponse<User>, BaseResponse>> {
-    // Logger.Info(`Selecting user by id: ${userId}...`);
     try {
       const data = await this.findByPk(id);
       if (data) {
@@ -82,7 +82,7 @@ export class UserService {
         return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No user with such id', data: null });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
@@ -90,7 +90,6 @@ export class UserService {
   public async getPage(
     pageQuery: PageQueryWithOrganization
   ): Promise<Result<CollectionApiResponse<User>, BaseResponse>> {
-    // Logger.Info(`Selecting users by page query...`);
     try {
       const { limit, offset, sortDirection, sortIndex, OrganizationId } = pageQuery;
 
@@ -114,26 +113,24 @@ export class UserService {
         return ok({ success: false, message: 'No users by this query', data: [] });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 
   public async create(user: UserCreationAttributes): Promise<Result<ItemApiResponse<User>, BaseResponse>> {
-    // Logger.Info(`Creating new user...`);
     try {
       const data = await User.create(user);
       if (data) {
         return ok({ success: true, message: 'User created successfully!', data });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 
   public async updateOne(user: UserAttributes): Promise<Result<ItemApiResponse<User>, BaseResponse>> {
-    // Logger.Info(`Updating user by id: ${user.id}...`);
     try {
       await User.update(
         {
@@ -150,7 +147,7 @@ export class UserService {
         return ok({ success: true, message: 'User updated successfully!', data });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
@@ -158,8 +155,6 @@ export class UserService {
   public async updatePassword(
     passData: PasswordReset & { userId: number; sessionId?: number }
   ): Promise<Result<BaseResponse, BaseResponse>> {
-    // Logger.Info(`Changing user password...`);
-
     try {
       if (passData.newPassword === passData.verifyPassword) {
         const user = await User.findByPk(passData.userId);
@@ -198,13 +193,12 @@ export class UserService {
         return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'New passwords do not match!' });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 
   public async delete(id: number | number[] | string | string[]): Promise<Result<BaseResponse, BaseResponse>> {
-    // Logger.Info(`Deleting user by id: ${id}...`);
     try {
       const deleted = await User.destroy({
         where: { id }
@@ -216,13 +210,12 @@ export class UserService {
         return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No users by this query', data: null });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 
   public async getSession(id: number | string): Promise<Result<ItemApiResponse<UserSession>, BaseResponse>> {
-    // Logger.Info(`Getting user session by id: ${id}...`);
     try {
       const data = await UserSession.findByPk(id);
       if (data) {
@@ -231,13 +224,12 @@ export class UserService {
         return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No session with such id', data: null });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 
   public async getSessionList(user: User): Promise<Result<CollectionApiResponse<UserSession>, BaseResponse>> {
-    // Logger.Info(`Getting session list for user id: ${user.id}...`);
     try {
       const data = await user.getUserSessions();
 
@@ -247,13 +239,12 @@ export class UserService {
         return ok({ success: false, message: 'No sessions by this query', data: [] });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 
   public async removeSession(id: number | string | number[] | string[]): Promise<Result<BaseResponse, BaseResponse>> {
-    // Logger.Info(`Removing user session`);
     try {
       const deleted = await UserSession.destroy({
         where: { id }
@@ -270,7 +261,7 @@ export class UserService {
         });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
@@ -279,7 +270,6 @@ export class UserService {
     UserId: number,
     currentSessionId: number
   ): Promise<Result<BaseResponse, BaseResponse>> {
-    // Logger.Info(`Removing user sessions`);
     try {
       const deleted = await UserSession.destroy({
         where: { UserId, [Op.and]: [{ [Op.not]: [{ id: currentSessionId }] }] }
@@ -296,13 +286,12 @@ export class UserService {
         });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 
   public async updateOrg(org: OrganizationAttributes): Promise<Result<ItemApiResponse<Organization>, BaseResponse>> {
-    // Logger.Info(`Update user organization by id: ${org.id}`);
     try {
       await Organization.update(
         {
@@ -319,14 +308,12 @@ export class UserService {
         return ok({ success: true, message: 'Organization is updated successfully!', data });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 
   public async invite(user: UserAttributes, orgId: number): Promise<Result<ItemApiResponse<User>, BaseResponse>> {
-    // Logger.Info(`Inviting users...`);
-
     try {
       const password = this.crypt.genRandomString(12);
       const passwordData = this.crypt.saltHashPassword(password);
@@ -358,7 +345,7 @@ export class UserService {
         return err(result.error);
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
@@ -419,7 +406,7 @@ export class UserService {
         data: newAvatar
       });
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
@@ -442,7 +429,7 @@ export class UserService {
         return ok({ success: true, message: 'Profile picture is deleted' });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }

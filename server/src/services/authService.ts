@@ -20,18 +20,22 @@ import { Config } from '../config';
 import { Crypt } from '../utils/crypt';
 import { Mailer } from '../mailer/nodeMailerTemplates';
 import { JwtHelper } from '../helpers/jwtHelper';
+import { Logger } from '../utils/Logger';
 
 @Service()
 export class AuthService {
-  constructor(private readonly crypt: Crypt, private readonly mailer: Mailer, private readonly jwtHelper: JwtHelper) {}
+  constructor(
+    private readonly crypt: Crypt,
+    private readonly mailer: Mailer,
+    private readonly jwtHelper: JwtHelper,
+    private readonly logger: Logger
+  ) {}
 
   public async register(params: {
     organization: OrganizationCreationAttributes;
     user: UserCreationAttributes;
     password: string;
   }): Promise<Result<BaseResponse, BaseResponse>> {
-    // Logger.Info(`Registering new user...`);
-
     const { organization, user, password } = params;
 
     try {
@@ -74,14 +78,12 @@ export class AuthService {
         message: 'Activation link has been sent'
       });
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 
   public async activateAccount(token: string): Promise<Result<BaseResponse, BaseResponse>> {
-    // Logger.Info(`Activating new user...`);
-
     try {
       const pa = await PasswordAttribute.findOne({
         where: {
@@ -112,7 +114,7 @@ export class AuthService {
         });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
@@ -125,7 +127,6 @@ export class AuthService {
       UA: string;
     };
   }): Promise<Result<{ refreshToken: string; accessToken: string }, BaseResponse>> {
-    // Logger.Info(`Authenticating web client...`);
     const { loginOrEmail, password, connection } = params;
     try {
       const user = await User.findOne({
@@ -190,7 +191,7 @@ export class AuthService {
         });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
@@ -215,8 +216,6 @@ export class AuthService {
   }
 
   public async forgotPassword(loginOrEmail: string): Promise<Result<BaseResponse, BaseResponse>> {
-    // Logger.Info(`Forget password requesting...`);
-
     try {
       const user = await User.findOne({
         where: {
@@ -262,13 +261,12 @@ export class AuthService {
         });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 
   public async resetPassword(params: PasswordReset): Promise<Result<BaseResponse, BaseResponse>> {
-    // Logger.Info(`Reseting new password...`);
     try {
       const pa = await PasswordAttribute.findOne({
         where: {
@@ -306,7 +304,7 @@ export class AuthService {
         });
       }
     } catch (error) {
-      // Logger.Err(err);
+      this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
