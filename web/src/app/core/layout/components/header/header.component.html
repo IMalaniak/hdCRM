@@ -18,13 +18,18 @@
 <div class="user-question">
 	<fa-icon [icon]="['fas', 'question']"></fa-icon>
 </div> -->
-<div class="header-actions ml-auto pr-0">
+<div class="header-actions ml-auto">
   <atoms-icon-button
-    iconColor="text-light"
     matTooltip="{{ themeTipMessage() }}"
+    [color]="themePalette.BASIC"
     [matType]="matButtonTypes.ICON"
     [icon]="enableDarkTheme ? themeChangeIcons.light : themeChangeIcons.dark"
     (onclick)="enableThemeDark.emit(!enableDarkTheme)"
+  ></atoms-icon-button>
+  <atoms-icon-button
+    [color]="themePalette.BASIC"
+    [matType]="matButtonTypes.ICON"
+    [icon]="headerIcons.bell"
   ></atoms-icon-button>
 </div>
 

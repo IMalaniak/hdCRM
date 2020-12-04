@@ -45,6 +45,9 @@ export class HeaderComponent implements OnInit {
   myProfileRoute = RoutingConstants.ROUTE_MY_PROFILE;
   isShowUserMenu = false;
   breadcrumbsVisible = !this.mediaQueryService.isPhone;
+  headerIcons: { [key: string]: BS_ICONS } = {
+    bell: BS_ICONS.Bell
+  };
   themeChangeIcons: { [key: string]: BS_ICONS } = {
     light: BS_ICONS.Sun,
     dark: BS_ICONS.Moon
@@ -67,7 +70,8 @@ export class HeaderComponent implements OnInit {
   ) {
     this.iconsService.registerIcons([
       ...Object.values(this.themeChangeIcons),
-      ...Object.values(this.userDropdownIcons)
+      ...Object.values(this.userDropdownIcons),
+      ...Object.values(this.headerIcons)
     ]);
   }
 

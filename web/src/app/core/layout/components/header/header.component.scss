@@ -57,9 +57,13 @@
   > div {
     text-align: center;
     height: 100%;
-    padding: 0 app-size(spacer, default, true);
     display: flex;
     align-items: center;
+    @include set-textcolor('text-contrast', false);
+
+    &:last-of-type {
+      padding: 0 app-size(spacer, default, true);
+    }
   }
 
   .user-dropdown {
