@@ -169,17 +169,25 @@ export class AuthService {
 
       const isMatch = this.crypt.validatePassword(password, user.passwordHash, user.salt);
       if (isMatch) {
-        const userSession = await this.saveLogInAttempt(connection, user, true);
-        const accessToken = this.jwtHelper.generateToken({
-          type: 'access',
-          payload: { userId: user.id, sessionId: userSession.id }
-        });
-        const refreshToken = this.jwtHelper.generateToken({
-          type: 'refresh',
-          payload: { userId: userSession.UserId, sessionId: userSession.id }
-        });
+        if (this.isPasswordExpired(await user.getPasswordAttributes())) {
+          return err({
+            success: false,
+            errorOrigin: ErrorOrigin.CLIENT,
+            message: 'Your password has expired, please click on "forgot password" button to reset your password!'
+          });
+        } else {
+          const userSession = await this.saveLogInAttempt(connection, user, true);
+          const accessToken = this.jwtHelper.generateToken({
+            type: 'access',
+            payload: { userId: user.id, sessionId: userSession.id }
+          });
+          const refreshToken = this.jwtHelper.generateToken({
+            type: 'refresh',
+            payload: { userId: userSession.UserId, sessionId: userSession.id }
+          });
 
-        return ok({ accessToken, refreshToken });
+          return ok({ accessToken, refreshToken });
+        }
       } else {
         this.saveLogInAttempt(connection, user, false).then(() => {
           return err({
@@ -201,8 +209,17 @@ export class AuthService {
       const verifiedResult = await this.jwtHelper.getVerified({ type: 'refresh', token });
       if (verifiedResult.isOk()) {
         const { sessionId, userId } = verifiedResult.value;
-        const accessToken = this.jwtHelper.generateToken({ type: 'access', payload: { userId, sessionId } });
-        return ok({ accessToken });
+        const userPA = await PasswordAttribute.findOne({ where: { UserId: userId } });
+        if (this.isPasswordExpired(userPA)) {
+          return err({
+            success: false,
+            errorOrigin: ErrorOrigin.CLIENT,
+            message: 'Your password has expired, please click on "forgot password" button to reset your password!'
+          });
+        } else {
+          const accessToken = this.jwtHelper.generateToken({ type: 'access', payload: { userId, sessionId } });
+          return ok({ accessToken });
+        }
       } else {
         return err(verifiedResult.error);
       }
@@ -286,6 +303,8 @@ export class AuthService {
 
           pa.token = null;
           pa.tokenExpire = null;
+          pa.passwordExpire = new Date();
+          pa.passwordExpire.setDate(pa.passwordExpire.getDate() + 30);
           await pa.save();
 
           await this.sendMail(MailThemes.PasswordResetConfirm, user);
@@ -334,5 +353,9 @@ export class AuthService {
       case MailThemes.PasswordReset:
         return this.mailer.sendPasswordReset(params);
     }
+  }
+
+  private isPasswordExpired(pa: PasswordAttribute): boolean {
+    return pa.passwordExpire <= new Date();
   }
 }
