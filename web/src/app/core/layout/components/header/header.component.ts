@@ -44,12 +44,7 @@ export class HeaderComponent implements OnInit {
   themePalette = THEME_PALETTE;
   myProfileRoute = RoutingConstants.ROUTE_MY_PROFILE;
   isShowUserMenu = false;
-  isShowNotifications = false;
   breadcrumbsVisible = !this.mediaQueryService.isPhone;
-  notificationsIcons: { [key: string]: BS_ICONS } = {
-    bell: BS_ICONS.Bell,
-    check: BS_ICONS.Check2All
-  };
   themeChangeIcons: { [key: string]: BS_ICONS } = {
     light: BS_ICONS.Sun,
     dark: BS_ICONS.Moon
@@ -64,16 +59,6 @@ export class HeaderComponent implements OnInit {
     onBreak: BS_ICONS.Cup
   };
 
-  // mock notifications
-  notifications: {
-    description: string;
-    seen: boolean;
-    date: Date;
-  }[] = [
-    { description: 'This is new notification', date: new Date(), seen: true },
-    { description: 'Your password is going to expire soon', date: new Date(), seen: false }
-  ];
-
   constructor(
     private router: Router,
     private cdr: ChangeDetectorRef,
@@ -82,8 +67,7 @@ export class HeaderComponent implements OnInit {
   ) {
     this.iconsService.registerIcons([
       ...Object.values(this.themeChangeIcons),
-      ...Object.values(this.userDropdownIcons),
-      ...Object.values(this.notificationsIcons)
+      ...Object.values(this.userDropdownIcons)
     ]);
   }
 
@@ -95,11 +79,6 @@ export class HeaderComponent implements OnInit {
 
   closeUserMenu(): void {
     this.isShowUserMenu = false;
-    this.cdr.detectChanges();
-  }
-
-  closeNotifications(): void {
-    this.isShowNotifications = false;
     this.cdr.detectChanges();
   }
 
@@ -115,12 +94,7 @@ export class HeaderComponent implements OnInit {
     return this.enableDarkTheme ? CONSTANTS.TEXTS_THEME_LIGHT : CONSTANTS.TEXTS_THEME_DARK;
   }
 
-  getOffsetX(dropdown: 'notifications' | 'user'): number {
-    switch (dropdown) {
-      case 'notifications':
-        return this.mediaQueryService.isPhone ? 30 : 25;
-      case 'user':
-        return this.mediaQueryService.isPhone ? 0 : 10;
-    }
+  getOffsetX(): number {
+    return this.mediaQueryService.isPhone ? 0 : 10;
   }
 }
