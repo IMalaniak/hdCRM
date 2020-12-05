@@ -4,9 +4,9 @@
       [color]="themePalette.BASIC"
       [matType]="matButtonTypes.ICON"
       [icon]="notificationsIcons.bell"
-      (click)="isShowNotifications = !isShowNotifications"
+      (click)="toggleNotification()"
     ></atoms-icon-button>
-    <div class="notifications-indicator">
+    <div class="notifications-indicator" *ngIf="isIndicatorVisible$ | async">
       <div class="ring"></div>
       <div class="dot"></div>
     </div>
@@ -16,7 +16,7 @@
     cdkConnectedOverlay
     cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
     [cdkConnectedOverlayOrigin]="notificationMenu"
-    [cdkConnectedOverlayOpen]="isShowNotifications"
+    [cdkConnectedOverlayOpen]="isShowNotifications$ | async"
     [cdkConnectedOverlayOffsetY]="10"
     [cdkConnectedOverlayOffsetX]="null | memoize: getOffsetX:this"
     [cdkConnectedOverlayHasBackdrop]="true"
@@ -26,12 +26,15 @@
     <organisms-card cardTitle="Notifications" class="dropdown-content">
       <ng-container content>
         <mat-list dense>
-          <mat-list-item [ngClass]="{ 'bg-secondary': notification.seen }" *ngFor="let notification of notifications">
+          <mat-list-item
+            [ngClass]="{ 'bg-secondary': notification.read }"
+            *ngFor="let notification of notifications$ | async"
+          >
             <div mat-line>{{ notification.description }}</div>
             <div mat-line>{{ notification.date | date }}</div>
           </mat-list-item>
         </mat-list>
-        <atoms-no-content-info *ngIf="!notifications?.length"></atoms-no-content-info>
+        <atoms-no-content-info *ngIf="!(notifications$ | async).length"></atoms-no-content-info>
       </ng-container>
       <ng-container buttons>
         <atoms-icon-button [icon]="notificationsIcons.check" [matType]="matButtonTypes.ICON"></atoms-icon-button>

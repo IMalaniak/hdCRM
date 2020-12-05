@@ -1,7 +1,18 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import { BS_ICONS, MAT_BUTTON, THEME_PALETTE } from '@/shared/constants';
+import { Store } from '@ngrx/store';
+
 import { IconsService, MediaQueryService } from '@/core/services';
+import { AppState } from '@/core/reducers';
+import {
+  selectDropdownVisible,
+  selectIndicatorVisible,
+  selectNotifications
+} from '@/core/reducers/notifications/notifications.selectors';
+import { closeDropdown, toggleDropdown } from '@/core/reducers/notifications/notifications.actions';
+import { BS_ICONS, MAT_BUTTON, THEME_PALETTE } from '@/shared/constants';
+import { Notification } from '@/shared/models';
 
 @Component({
   selector: 'notifications-component',
@@ -10,7 +21,9 @@ import { IconsService, MediaQueryService } from '@/core/services';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NotificationsComponent {
-  isShowNotifications = false;
+  isShowNotifications$: Observable<boolean> = this.store$.select(selectDropdownVisible);
+  isIndicatorVisible$: Observable<boolean> = this.store$.select(selectIndicatorVisible);
+  notifications$: Observable<Notification[]> = this.store$.select(selectNotifications);
 
   matButtonTypes = MAT_BUTTON;
   themePalette = THEME_PALETTE;
@@ -19,17 +32,8 @@ export class NotificationsComponent {
     check: BS_ICONS.Check2All
   };
 
-  // mock notifications
-  notifications: {
-    description: string;
-    seen: boolean;
-    date: Date;
-  }[] = [
-    // { description: 'This is new notification', date: new Date(), seen: true },
-    // { description: 'Your password is going to expire soon', date: new Date(), seen: false }
-  ];
-
   constructor(
+    private store$: Store<AppState>,
     private readonly iconsService: IconsService,
     private readonly mediaQueryService: MediaQueryService,
     private cdr: ChangeDetectorRef
@@ -37,8 +41,12 @@ export class NotificationsComponent {
     this.iconsService.registerIcons([...Object.values(this.notificationsIcons)]);
   }
 
+  toggleNotification(): void {
+    this.store$.dispatch(toggleDropdown());
+  }
+
   closeNotifications(): void {
-    this.isShowNotifications = false;
+    this.store$.dispatch(closeDropdown());
     this.cdr.detectChanges();
   }
 
