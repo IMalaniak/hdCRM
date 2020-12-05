@@ -26,11 +26,47 @@
     [icon]="enableDarkTheme ? themeChangeIcons.light : themeChangeIcons.dark"
     (onclick)="enableThemeDark.emit(!enableDarkTheme)"
   ></atoms-icon-button>
-  <atoms-icon-button
-    [color]="themePalette.BASIC"
-    [matType]="matButtonTypes.ICON"
-    [icon]="headerIcons.bell"
-  ></atoms-icon-button>
+
+  <div class="notifications-dropdown" cdkOverlayOrigin #notificationMenu="cdkOverlayOrigin">
+    <div class="notifications-bell">
+      <atoms-icon-button
+        [color]="themePalette.BASIC"
+        [matType]="matButtonTypes.ICON"
+        [icon]="notificationsIcons.bell"
+        (click)="isShowNotifications = !isShowNotifications"
+      ></atoms-icon-button>
+      <div class="notifications-indicator">
+        <div class="ring"></div>
+        <div class="dot"></div>
+      </div>
+    </div>
+
+    <ng-template
+      cdkConnectedOverlay
+      cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+      [cdkConnectedOverlayOrigin]="notificationMenu"
+      [cdkConnectedOverlayOpen]="isShowNotifications"
+      [cdkConnectedOverlayOffsetY]="10"
+      [cdkConnectedOverlayOffsetX]="'notifications' | memoize: getOffsetX:this"
+      [cdkConnectedOverlayHasBackdrop]="true"
+      [cdkConnectedOverlayFlexibleDimensions]="true"
+      (backdropClick)="closeNotifications()"
+    >
+      <organisms-card cardTitle="Notifications" class="dropdown-content">
+        <ng-container content>
+          <mat-list dence>
+            <mat-list-item [ngClass]="{ 'bg-secondary': notification.seen }" *ngFor="let notification of notifications">
+              <div mat-line>{{ notification.description }}</div>
+              <div mat-line>{{ notification.date | date }}</div>
+            </mat-list-item>
+          </mat-list>
+        </ng-container>
+        <ng-container buttons>
+          <atoms-icon-button [icon]="notificationsIcons.check" [matType]="matButtonTypes.ICON"></atoms-icon-button>
+        </ng-container>
+      </organisms-card>
+    </ng-template>
+  </div>
 </div>
 
 <div class="user-dropdown" *ngIf="currentUser" cdkOverlayOrigin #userMenu="cdkOverlayOrigin">
@@ -46,6 +82,7 @@
     [cdkConnectedOverlayOrigin]="userMenu"
     [cdkConnectedOverlayOpen]="isShowUserMenu"
     [cdkConnectedOverlayOffsetY]="10"
+    [cdkConnectedOverlayOffsetX]="'user' | memoize: getOffsetX:this"
     [cdkConnectedOverlayHasBackdrop]="true"
     [cdkConnectedOverlayFlexibleDimensions]="true"
     (backdropClick)="closeUserMenu()"
@@ -151,19 +188,3 @@
     </organisms-card>
   </ng-template>
 </div>
-<!-- <section class="notifications-wrapper">
-  <div class="d-flex justify-content-between"><span>Notifications</span><fa-icon [icon]="['fas', 'cog']"></fa-icon></div>
-    <div>
-        <input class="notification-check" type="checkbox" id="size_1" value="small" checked />
-        <label class="notification new" for="size_1"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
-        <input class="notification-check" type="checkbox" id="size_2" value="small" checked />
-        <label class="notification new" for="size_2"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
-        <input class="notification-check" type="checkbox" id="size_3" value="small" checked />
-        <label class="notification new" for="size_3"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
-        <input class="notification-check" type="checkbox" id="size_4" value="small" checked />
-        <label class="notification new" for="size_4"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
-        <input class="notification-check" type="checkbox" id="size_5" value="small" checked />
-        <label class="notification new" for="size_5"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
-    </div>
-    <a mat-button [routerLink]="['/users/myprofile']"><span i18n="@@headerComponentUserDropdownActionsNotificationsMore">Show more</span></a>
-  </section> -->
