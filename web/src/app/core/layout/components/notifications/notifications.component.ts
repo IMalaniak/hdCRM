@@ -8,9 +8,16 @@ import { AppState } from '@/core/reducers';
 import {
   selectDropdownVisible,
   selectIndicatorVisible,
-  selectNotifications
+  selectReadNotifications,
+  selectUnreadNotifications
 } from '@/core/reducers/notifications/notifications.selectors';
-import { closeDropdown, toggleDropdown } from '@/core/reducers/notifications/notifications.actions';
+import {
+  closeDropdown,
+  markAllAsRead,
+  markAsRead,
+  removeNotification,
+  toggleDropdown
+} from '@/core/reducers/notifications/notifications.actions';
 import { BS_ICONS, MAT_BUTTON, THEME_PALETTE } from '@/shared/constants';
 import { Notification } from '@/shared/models';
 
@@ -23,13 +30,18 @@ import { Notification } from '@/shared/models';
 export class NotificationsComponent {
   isShowNotifications$: Observable<boolean> = this.store$.select(selectDropdownVisible);
   isIndicatorVisible$: Observable<boolean> = this.store$.select(selectIndicatorVisible);
-  notifications$: Observable<Notification[]> = this.store$.select(selectNotifications);
+  newNotifications$: Observable<Notification[]> = this.store$.select(selectUnreadNotifications);
+  readNotifications$: Observable<Notification[]> = this.store$.select(selectReadNotifications);
 
   matButtonTypes = MAT_BUTTON;
   themePalette = THEME_PALETTE;
   notificationsIcons: { [key: string]: BS_ICONS } = {
+    matMenu: BS_ICONS.ThreeDots,
+    configure: BS_ICONS.Sliders,
     bell: BS_ICONS.Bell,
-    check: BS_ICONS.Check2All
+    doubleCheck: BS_ICONS.Check2All,
+    check: BS_ICONS.Check,
+    remove: BS_ICONS.X
   };
 
   constructor(
@@ -48,6 +60,18 @@ export class NotificationsComponent {
   closeNotifications(): void {
     this.store$.dispatch(closeDropdown());
     this.cdr.detectChanges();
+  }
+
+  markAllAsRead(): void {
+    this.store$.dispatch(markAllAsRead());
+  }
+
+  markAsRead(id: number): void {
+    this.store$.dispatch(markAsRead({ id }));
+  }
+
+  removeNotification(id: number): void {
+    this.store$.dispatch(removeNotification({ id }));
   }
 
   getOffsetX(): number {

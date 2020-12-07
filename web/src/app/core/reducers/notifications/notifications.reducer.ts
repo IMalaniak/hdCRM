@@ -12,7 +12,22 @@ const adapter: EntityAdapter<Notification> = createEntityAdapter<Notification>()
 
 export const initialNotificationsState: NotificationsState = adapter.getInitialState({
   indicatorVisible: true,
-  dropdownVisible: false
+  dropdownVisible: false,
+  entities: {
+    1: {
+      id: 1,
+      description: 'Test notification',
+      read: false,
+      date: new Date()
+    },
+    2: {
+      id: 2,
+      description: 'Test second notification',
+      read: true,
+      date: new Date()
+    }
+  },
+  ids: [1, 2]
 });
 
 const notificationsReducer = createReducer(
@@ -31,7 +46,22 @@ const notificationsReducer = createReducer(
   on(notificationsActions.closeDropdown, (state) => ({
     ...state,
     dropdownVisible: false
-  }))
+  })),
+  on(notificationsActions.markAsReadComplete, (state, { notification }) =>
+    adapter.updateOne(notification, {
+      ...state
+    })
+  ),
+  on(notificationsActions.markAllAsReadComplete, (state, { notifications }) =>
+    adapter.updateMany(notifications, {
+      ...state
+    })
+  ),
+  on(notificationsActions.removeNotificationSuccess, (state, { id }) =>
+    adapter.removeOne(id, {
+      ...state
+    })
+  )
 );
 
 export function reducer(state: NotificationsState | undefined, action: Action) {
