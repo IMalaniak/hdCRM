@@ -56,3 +56,15 @@
 .dropdown-content {
   min-width: 20em;
 }
+
+.notification {
+  .actions {
+    display: none;
+  }
+
+  &:hover {
+    .actions {
+      display: block;
+    }
+  }
+}

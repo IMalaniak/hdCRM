@@ -29,9 +29,16 @@
           <ng-template #notificationsItem let-data="data">
             <span mat-subheader *ngIf="data.notifications?.length">{{ data.title }}</span>
             <mat-list-item
+              class="notification"
               [ngClass]="{ 'bg-secondary': notification.read }"
               *ngFor="let notification of data.notifications"
             >
+              <mat-icon
+                *ngIf="notification.type !== undefined"
+                matListIcon
+                [color]="themePalette[notification.type === notificationTypes.INFO ? 'PRIMARY' : 'WARN']"
+                [svgIcon]="notificationsIcons[notification.type === notificationTypes.INFO ? 'typeInfo' : 'typeWarn']"
+              ></mat-icon>
               <div mat-line>{{ notification.description }}</div>
               <div mat-line>{{ notification.date | date }}</div>
               <div class="actions">
@@ -43,7 +50,7 @@
                 >
                 </atoms-icon-button>
                 <mat-menu #itemMenu="matMenu">
-                  <button mat-menu-item (click)="markAsRead(notification.id)">
+                  <button *ngIf="!notification.read" mat-menu-item (click)="markAsRead(notification.id)">
                     <mat-icon
                       [svgIcon]="notificationsIcons.check"
                       [color]="themePalette.PRIMARY"
@@ -79,13 +86,12 @@
       <ng-container buttons>
         <atoms-icon-button
           [matMenuTriggerFor]="menu"
-          [color]="themePalette.BASIC"
           [icon]="notificationsIcons.matMenu"
           [matType]="matButtonTypes.ICON"
         >
         </atoms-icon-button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="markAllAsRead()">
+          <button *ngIf="(newNotifications$ | async).length" mat-menu-item (click)="markAllAsRead()">
             <mat-icon
               [svgIcon]="notificationsIcons.doubleCheck"
               [color]="themePalette.PRIMARY"
