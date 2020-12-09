@@ -2,7 +2,6 @@ import { createReducer, on, Action } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Notification } from '@/shared/models';
 import * as notificationsActions from './notifications.actions';
-import { NOTIFICATION_TYPES } from '@/shared/constants';
 
 export interface NotificationsState extends EntityState<Notification> {
   indicatorVisible: boolean;
@@ -13,24 +12,7 @@ const adapter: EntityAdapter<Notification> = createEntityAdapter<Notification>()
 
 export const initialNotificationsState: NotificationsState = adapter.getInitialState({
   indicatorVisible: true,
-  dropdownVisible: false,
-  entities: {
-    1: {
-      id: 1,
-      description: 'Test notification',
-      type: NOTIFICATION_TYPES.INFO,
-      read: false,
-      date: new Date()
-    },
-    2: {
-      id: 2,
-      description: 'Test second notification',
-      type: NOTIFICATION_TYPES.WARN,
-      read: true,
-      date: new Date()
-    }
-  },
-  ids: [1, 2]
+  dropdownVisible: false
 });
 
 const notificationsReducer = createReducer(
