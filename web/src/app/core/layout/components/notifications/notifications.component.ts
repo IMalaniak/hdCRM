@@ -78,6 +78,6 @@ export class NotificationsComponent {
   }
 
   getOffsetX(): number {
-    return this.mediaQueryService.isPhone ? 30 : 25;
+    return this.mediaQueryService.isPhone ? 30 : 5;
   }
 }

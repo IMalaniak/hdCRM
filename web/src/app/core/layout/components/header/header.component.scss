@@ -26,6 +26,12 @@
       overflow: hidden;
       transition: all $transition;
 
+      &:not(.minimized) {
+        > * {
+          margin: 0 app-size(spacer, default, true);
+        }
+      }
+
       &.minimized {
         width: app-size(sidebar, minimized, true);
         justify-content: center;

@@ -38,6 +38,7 @@ export class OrganismsCardComponent {
   @Input() showDataLoader: boolean;
   @Input() headClass: string;
   @Input() disableShadow = false;
+  @Input() elevation: number; // 0-24
   @Input() counter: number;
 
   @ContentChild('content') content: ElementRef;
@@ -50,7 +51,9 @@ export class OrganismsCardComponent {
   }
 
   get cardClasses(): string {
-    return `card ${this.cardClass} ${this.disableShadow ? 'shadow-none' : ''}`.trim();
+    return `card ${this.cardClass} ${
+      this.disableShadow ? 'mat-elevation-z0' : this.elevation && `mat-elevation-z${this.elevation}`
+    }`.trim();
   }
 
   get contentClasses(): string {

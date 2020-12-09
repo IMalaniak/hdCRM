@@ -95,6 +95,6 @@ export class HeaderComponent implements OnInit {
   }
 
   getOffsetX(): number {
-    return this.mediaQueryService.isPhone ? 0 : 10;
+    return this.mediaQueryService.isPhone ? 0 : 5;
   }
 }

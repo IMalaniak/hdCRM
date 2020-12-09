@@ -23,7 +23,7 @@
     [cdkConnectedOverlayFlexibleDimensions]="true"
     (backdropClick)="closeNotifications()"
   >
-    <organisms-card cardTitle="Notifications" class="dropdown-content">
+    <organisms-card cardTitle="Notifications" class="dropdown-content" [elevation]="20">
       <ng-container content>
         <mat-list dense>
           <ng-template #notificationsItem let-data="data">

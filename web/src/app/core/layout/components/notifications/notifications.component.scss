@@ -4,6 +4,10 @@
 :host {
   display: block;
 
+  .mat-list-item-content {
+    padding: 0 !important;
+  }
+
   .notifications {
     &-bell {
       position: relative;
