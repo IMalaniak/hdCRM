@@ -63,7 +63,7 @@
     "@types/jasminewd2": "2.0.8",
     "@types/lodash": "4.14.165",
     "@types/node": "13.13.30",
-    "@types/ua-parser-js": "0.7.33",
+    "@types/ua-parser-js": "0.7.35",
     "codelyzer": "6.0.1",
     "jasmine-core": "3.6.0",
     "jasmine-spec-reporter": "5.0.2",
