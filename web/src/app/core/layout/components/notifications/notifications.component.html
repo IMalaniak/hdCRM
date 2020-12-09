@@ -17,22 +17,17 @@
     cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
     [cdkConnectedOverlayOrigin]="notificationMenu"
     [cdkConnectedOverlayOpen]="isShowNotifications$ | async"
-    [cdkConnectedOverlayOffsetY]="10"
+    [cdkConnectedOverlayOffsetY]="16"
     [cdkConnectedOverlayOffsetX]="null | memoize: getOffsetX:this"
     [cdkConnectedOverlayHasBackdrop]="true"
-    [cdkConnectedOverlayFlexibleDimensions]="true"
     (backdropClick)="closeNotifications()"
   >
-    <organisms-card cardTitle="Notifications" class="dropdown-content" [elevation]="20">
-      <ng-container content>
-        <mat-list dense>
+    <organisms-card cardTitle="Notifications" headClass="mb-1" class="dropdown-content" [elevation]="20">
+      <div class="row" content>
+        <mat-list dense class="w-100">
           <ng-template #notificationsItem let-data="data">
-            <span mat-subheader *ngIf="data.notifications?.length">{{ data.title }}</span>
-            <mat-list-item
-              class="notification"
-              [ngClass]="{ 'bg-secondary': notification.read }"
-              *ngFor="let notification of data.notifications"
-            >
+            <span mat-subheader class="h-auto py-2" *ngIf="data.notifications?.length">{{ data.title }}</span>
+            <mat-list-item class="notification" *ngFor="let notification of data.notifications">
               <mat-icon
                 *ngIf="notification.type !== undefined"
                 matListIcon
@@ -82,7 +77,7 @@
         <atoms-no-content-info
           *ngIf="!(newNotifications$ | async).length && !(readNotifications$ | async).length"
         ></atoms-no-content-info>
-      </ng-container>
+      </div>
       <ng-container buttons>
         <atoms-icon-button
           [matMenuTriggerFor]="menu"

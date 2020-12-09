@@ -1,12 +1,11 @@
 @import 'variables';
 @import 'mixins';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins/breakpoints';
 
 :host {
   display: block;
-
-  .mat-list-item-content {
-    padding: 0 !important;
-  }
 
   .notifications {
     &-bell {
@@ -58,7 +57,19 @@
   }
 }
 .dropdown-content {
-  min-width: 20em;
+  display: block;
+  $remove: 1.5 * app-size(spacer, default, true);
+  width: calc(100vw - #{$remove});
+
+  @include media-breakpoint-up(sm) {
+    width: 25.8em;
+  }
+
+  mat-list {
+    $hHeight: app-size(header, height, true);
+    max-height: calc(100vh - 3 *#{$hHeight});
+    overflow-y: auto;
+  }
 }
 
 .notification {
