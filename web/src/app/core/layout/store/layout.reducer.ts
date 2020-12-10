@@ -8,7 +8,7 @@ export interface LayoutState {
   userDropdownVisible: boolean;
 }
 
-const initialState: LayoutState = {
+export const initialLayoutState: LayoutState = {
   hideSidebar: false,
   enableDarkTheme: false,
   scaleFontUp: false,
@@ -16,7 +16,7 @@ const initialState: LayoutState = {
 };
 
 const layoutReducer = createReducer(
-  initialState,
+  initialLayoutState,
   on(LayoutActions.toggleUserDropdown, (state) => ({
     ...state,
     userDropdownVisible: !state.userDropdownVisible
