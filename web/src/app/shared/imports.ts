@@ -1,5 +1,6 @@
 import * as _components from './components';
 import * as _pipes from './pipes';
+import * as _directives from './directives';
 
 const ATOMS = [
   _components.AtomsIconButtonComponent,
@@ -46,3 +47,4 @@ export const COMPONENTS = [
   _components.TableComponent
 ];
 export const PIPES = [_pipes.MemoizePipe, _pipes.DateTimeFormatPipe];
+export const DIRECTIVES = [_directives.TrimInputDirective];

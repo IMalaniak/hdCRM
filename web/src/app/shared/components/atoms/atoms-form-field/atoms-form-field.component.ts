@@ -20,7 +20,7 @@ import { THEME_PALETTE, IFieldType, InputType } from '@/shared/constants';
       >
         <ng-content prefix select="[prefix]"></ng-content>
         <ng-content suffix select="[suffix]"></ng-content>
-        <input matInput [type]="inputType" [formControl]="control" />
+        <input matInput trimInput [type]="inputType" [formControl]="control" />
       </input-validation-component>
 
       <!-- TEXTAREA -->
@@ -30,7 +30,7 @@ import { THEME_PALETTE, IFieldType, InputType } from '@/shared/constants';
         [canValidate]="(control?.invalid || control?.touched) && canValidate"
         [inputErrors]="control?.invalid || control?.touched ? control?.errors : {}"
       >
-        <textarea matInput [formControl]="control" rows="5"></textarea>
+        <textarea matInput trimInput [formControl]="control" rows="5"></textarea>
       </input-validation-component>
 
       <!-- DATE -->
@@ -44,6 +44,7 @@ import { THEME_PALETTE, IFieldType, InputType } from '@/shared/constants';
         <mat-datepicker touchUi #picker></mat-datepicker>
         <input
           matInput
+          trimInput
           [type]="inputTypes.DATETIME"
           [matDatepicker]="picker"
           [formControl]="control"

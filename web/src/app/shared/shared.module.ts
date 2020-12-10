@@ -8,7 +8,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { AppMaterialModule } from './modules/app-material.module';
 import { AttachmentsModule } from './modules/attachments/attachments.module';
-import { COMPONENTS, PIPES } from './imports';
+import { COMPONENTS, DIRECTIVES, PIPES } from './imports';
 
 @NgModule({
   imports: [
@@ -20,8 +20,8 @@ import { COMPONENTS, PIPES } from './imports';
     NgxChartsModule,
     ReactiveFormsModule
   ],
-  declarations: [...COMPONENTS, ...PIPES],
-  exports: [...COMPONENTS, ...PIPES, AppMaterialModule, OverlayModule, FormsModule, ReactiveFormsModule],
+  declarations: [...COMPONENTS, ...PIPES, ...DIRECTIVES],
+  exports: [...COMPONENTS, ...PIPES, ...DIRECTIVES, AppMaterialModule, OverlayModule, FormsModule, ReactiveFormsModule],
   providers: [DatePipe]
 })
 export class SharedModule {}
