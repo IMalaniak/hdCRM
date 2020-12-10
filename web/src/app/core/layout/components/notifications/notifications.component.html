@@ -29,7 +29,6 @@
             <span mat-subheader class="h-auto py-2" *ngIf="data.notifications?.length">{{ data.title }}</span>
             <mat-list-item class="notification" *ngFor="let notification of data.notifications">
               <mat-icon
-                *ngIf="notification.type !== undefined"
                 matListIcon
                 [color]="themePalette[notification.type === notificationTypes.INFO ? 'PRIMARY' : 'WARN']"
                 [svgIcon]="notificationsIcons[notification.type === notificationTypes.INFO ? 'typeInfo' : 'typeWarn']"

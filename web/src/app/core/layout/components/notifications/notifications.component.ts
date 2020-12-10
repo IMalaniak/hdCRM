@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
@@ -48,10 +48,9 @@ export class NotificationsComponent {
   };
 
   constructor(
-    private store$: Store<AppState>,
+    private readonly store$: Store<AppState>,
     private readonly iconsService: IconsService,
-    private readonly mediaQueryService: MediaQueryService,
-    private cdr: ChangeDetectorRef
+    private readonly mediaQueryService: MediaQueryService
   ) {
     this.iconsService.registerIcons([...Object.values(this.notificationsIcons)]);
   }
@@ -62,7 +61,6 @@ export class NotificationsComponent {
 
   closeNotifications(): void {
     this.store$.dispatch(closeDropdown());
-    this.cdr.detectChanges();
   }
 
   markAllAsRead(): void {

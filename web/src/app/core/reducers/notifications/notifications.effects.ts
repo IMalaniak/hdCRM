@@ -7,13 +7,13 @@ import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Update } from '@ngrx/entity';
 
 import { Notification } from '@/shared/models';
-import { AppState } from '..';
+import { AppState } from '../index';
 import * as notificationsActions from './notifications.actions';
 import { selectUnreadNotifications } from './notifications.selectors';
 
 @Injectable()
 export class NotificationsEffects {
-  constructor(private store$: Store<AppState>, private actions$: Actions) {}
+  constructor(private readonly store$: Store<AppState>, private readonly actions$: Actions) {}
 
   markAsRead$ = createEffect(() =>
     this.actions$.pipe(
