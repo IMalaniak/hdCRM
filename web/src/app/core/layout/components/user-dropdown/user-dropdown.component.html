@@ -1,0 +1,118 @@
+<div class="user-dropdown" *ngIf="currentUser$ | async as currentUser" cdkOverlayOrigin #userMenu="cdkOverlayOrigin">
+  <atoms-user-pic
+    [avatar]="currentUser.avatar"
+    [userOnline]="currentUser.online"
+    (click)="toggleNotification()"
+  ></atoms-user-pic>
+
+  <ng-template
+    cdkConnectedOverlay
+    cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+    [cdkConnectedOverlayOrigin]="userMenu"
+    [cdkConnectedOverlayOpen]="isShowUserMenu$ | async"
+    [cdkConnectedOverlayOffsetY]="16"
+    [cdkConnectedOverlayOffsetX]="null | memoize: getOffsetX:this"
+    [cdkConnectedOverlayHasBackdrop]="true"
+    (backdropClick)="closeUserMenu()"
+  >
+    <organisms-card cardClass="p-2" contentClass="mb-0" class="dropdown-content" [elevation]="20">
+      <ng-container content>
+        <div class="content-wrapper">
+          <div class="d-flex flex-column justify-content-start mb-3 mb-sm-0 w-100">
+            <span class="content-title">Account</span>
+            <atoms-icon-button
+              [matType]="matButtonTypes.BASIC"
+              [showButtonTextOnSm]="true"
+              [routerLink]="myProfileRoute"
+              [fullWidth]="true"
+              [icon]="userDropdownIcons.profile"
+              [color]="themePalette.BASIC"
+              class="mb-1"
+            >
+              My profile
+            </atoms-icon-button>
+            <atoms-icon-button
+              [matType]="matButtonTypes.BASIC"
+              [showButtonTextOnSm]="true"
+              [fullWidth]="true"
+              (onclick)="onLogoutClick()"
+              [icon]="userDropdownIcons.logOut"
+              [color]="themePalette.WARN"
+            >
+              {{ actionLabels.LOG_OUT }}
+            </atoms-icon-button>
+          </div>
+          <mat-divider [vertical]="true" class="mx-0 mx-sm-2"></mat-divider>
+          <div class="d-flex flex-column justify-content-start w-100">
+            <span class="content-title">Availability</span>
+            <atoms-icon-button
+              [matType]="matButtonTypes.BASIC"
+              class="mb-1"
+              [color]="themePalette.BASIC"
+              [showButtonTextOnSm]="true"
+              [icon]="userDropdownIcons.online"
+              [fullWidth]="true"
+              [matMenuTriggerFor]="userStatuses"
+            >
+              Working statuses
+            </atoms-icon-button>
+
+            <mat-menu #userStatuses="matMenu">
+              <atoms-icon-button
+                [matType]="matButtonTypes.BASIC"
+                [showButtonTextOnSm]="true"
+                [fullWidth]="true"
+                [icon]="userDropdownIcons.online"
+                [color]="themePalette.BASIC"
+              >
+                Online
+              </atoms-icon-button>
+              <atoms-icon-button
+                [matType]="matButtonTypes.BASIC"
+                [showButtonTextOnSm]="true"
+                [fullWidth]="true"
+                [icon]="userDropdownIcons.onBreak"
+                [color]="themePalette.BASIC"
+              >
+                On break
+              </atoms-icon-button>
+              <atoms-icon-button
+                [matType]="matButtonTypes.BASIC"
+                [showButtonTextOnSm]="true"
+                [fullWidth]="true"
+                [icon]="userDropdownIcons.away"
+                [color]="themePalette.BASIC"
+              >
+                Away
+              </atoms-icon-button>
+              <atoms-icon-button
+                [matType]="matButtonTypes.BASIC"
+                [showButtonTextOnSm]="true"
+                [fullWidth]="true"
+                [icon]="userDropdownIcons.busy"
+                [color]="themePalette.BASIC"
+              >
+                Busy
+              </atoms-icon-button>
+            </mat-menu>
+
+            <atoms-icon-button
+              *ngIf="canAddUser$ | async"
+              [matType]="matButtonTypes.BASIC"
+              [showButtonTextOnSm]="true"
+              [fullWidth]="true"
+              [icon]="userDropdownIcons.invite"
+              [color]="themePalette.BASIC"
+            >
+              Invite members
+            </atoms-icon-button>
+          </div>
+        </div>
+        <mat-divider class="position-static"></mat-divider>
+        <div class="content-footer">
+          <span id="org-title">hdcrm</span>
+        </div>
+      </ng-container>
+    </organisms-card>
+  </ng-template>
+</div>

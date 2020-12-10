@@ -12,7 +12,9 @@ import {
   FooterComponent,
   PageNotFoundComponent,
   InternalServerErrorComponent,
-  SidebarComponent
+  SidebarComponent,
+  NotificationsComponent,
+  UserDropdownComponent
 } from './components';
 import { SharedModule } from '@/shared/shared.module';
 import * as fromLayout from './store/layout.reducer';
@@ -35,7 +37,9 @@ import { UserService } from '@/modules/users';
     HeaderComponent,
     FooterComponent,
     PageNotFoundComponent,
-    InternalServerErrorComponent
+    InternalServerErrorComponent,
+    NotificationsComponent,
+    UserDropdownComponent
   ],
   providers: [UserService],
   exports: [

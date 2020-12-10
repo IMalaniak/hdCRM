@@ -1,0 +1,104 @@
+<div class="notifications-dropdown" cdkOverlayOrigin #notificationMenu="cdkOverlayOrigin">
+  <div class="notifications-bell">
+    <atoms-icon-button
+      [color]="themePalette.BASIC"
+      [matType]="matButtonTypes.ICON"
+      [icon]="notificationsIcons.bell"
+      (click)="toggleNotification()"
+    ></atoms-icon-button>
+    <div class="notifications-indicator" *ngIf="isIndicatorVisible$ | async">
+      <div class="ring"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+
+  <ng-template
+    cdkConnectedOverlay
+    cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+    [cdkConnectedOverlayOrigin]="notificationMenu"
+    [cdkConnectedOverlayOpen]="isShowNotifications$ | async"
+    [cdkConnectedOverlayOffsetY]="16"
+    [cdkConnectedOverlayOffsetX]="null | memoize: getOffsetX:this"
+    [cdkConnectedOverlayHasBackdrop]="true"
+    (backdropClick)="closeNotifications()"
+  >
+    <organisms-card cardTitle="Notifications" headClass="mb-1" class="dropdown-content" [elevation]="20">
+      <div class="row" content>
+        <mat-list dense class="w-100">
+          <ng-template #notificationsItem let-data="data">
+            <span mat-subheader class="h-auto py-2" *ngIf="data.notifications?.length">{{ data.title }}</span>
+            <mat-list-item class="notification" *ngFor="let notification of data.notifications">
+              <mat-icon
+                matListIcon
+                [color]="themePalette[notification.type === notificationTypes.INFO ? 'PRIMARY' : 'WARN']"
+                [svgIcon]="notificationsIcons[notification.type === notificationTypes.INFO ? 'typeInfo' : 'typeWarn']"
+              ></mat-icon>
+              <div mat-line>{{ notification.description }}</div>
+              <div mat-line>{{ notification.date | date }}</div>
+              <div class="actions">
+                <atoms-icon-button
+                  [matMenuTriggerFor]="itemMenu"
+                  [color]="themePalette.BASIC"
+                  [icon]="notificationsIcons.matMenu"
+                  [matType]="matButtonTypes.ICON"
+                >
+                </atoms-icon-button>
+                <mat-menu #itemMenu="matMenu">
+                  <button *ngIf="!notification.read" mat-menu-item (click)="markAsRead(notification.id)">
+                    <mat-icon
+                      [svgIcon]="notificationsIcons.check"
+                      [color]="themePalette.PRIMARY"
+                      aria-hidden="false"
+                    ></mat-icon>
+                    <span>Mark as read</span>
+                  </button>
+                  <button mat-menu-item (click)="removeNotification(notification.id)">
+                    <mat-icon [svgIcon]="notificationsIcons.remove" aria-hidden="false"></mat-icon>
+                    <span>Remove</span>
+                  </button>
+                </mat-menu>
+              </div>
+            </mat-list-item>
+          </ng-template>
+          <ng-container
+            *ngTemplateOutlet="
+              notificationsItem;
+              context: { data: { title: 'New', notifications: newNotifications$ | async } }
+            "
+          ></ng-container>
+          <ng-container
+            *ngTemplateOutlet="
+              notificationsItem;
+              context: { data: { title: 'Earlier', notifications: readNotifications$ | async } }
+            "
+          ></ng-container>
+        </mat-list>
+        <atoms-no-content-info
+          *ngIf="!(newNotifications$ | async).length && !(readNotifications$ | async).length"
+        ></atoms-no-content-info>
+      </div>
+      <ng-container buttons>
+        <atoms-icon-button
+          [matMenuTriggerFor]="menu"
+          [icon]="notificationsIcons.matMenu"
+          [matType]="matButtonTypes.ICON"
+        >
+        </atoms-icon-button>
+        <mat-menu #menu="matMenu">
+          <button *ngIf="(newNotifications$ | async).length" mat-menu-item (click)="markAllAsRead()">
+            <mat-icon
+              [svgIcon]="notificationsIcons.doubleCheck"
+              [color]="themePalette.PRIMARY"
+              aria-hidden="false"
+            ></mat-icon>
+            <span>Mark all as read</span>
+          </button>
+          <button mat-menu-item>
+            <mat-icon [svgIcon]="notificationsIcons.configure" aria-hidden="false"></mat-icon>
+            <span>Configure notifications</span>
+          </button>
+        </mat-menu>
+      </ng-container>
+    </organisms-card>
+  </ng-template>
+</div>

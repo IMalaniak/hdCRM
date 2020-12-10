@@ -3,12 +3,15 @@
 
 :host {
   position: relative;
+  display: block;
+  margin: 0 auto;
+  width: app-size(userpic, null, true);
 }
 
 img {
   display: block;
+  width: 100%;
   height: auto;
-  width: 2.5em;
   border: 2px solid;
   @include set-bordercolor('background');
   border-radius: 50%;
@@ -20,8 +23,8 @@ img {
   bottom: 0.05rem;
   right: -0.05rem;
   display: block;
-  width: 0.8em;
-  height: 0.8em;
+  width: 12px;
+  height: 12px;
   border: 2px solid $white;
   background-color: $gray-100;
   border-radius: 50%;

@@ -17,6 +17,7 @@ import { reducers, metaReducers } from './reducers';
 import { PreferencesEffects } from './reducers/preferences.effects';
 import { IntegrationsEffects } from './reducers/integration.effects';
 import { DynamicFormEffects } from './reducers/dynamic-form/dynamic-form.effects';
+import { NotificationsEffects } from './reducers/notifications/notifications.effects';
 
 @NgModule({
   imports: [
@@ -35,7 +36,7 @@ import { DynamicFormEffects } from './reducers/dynamic-form/dynamic-form.effects
       }
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([PreferencesEffects, IntegrationsEffects, DynamicFormEffects]),
+    EffectsModule.forRoot([PreferencesEffects, IntegrationsEffects, DynamicFormEffects, NotificationsEffects]),
     StoreRouterConnectingModule.forRoot()
   ],
   exports: [RouterModule, HttpClientModule, FormsModule, ReactiveFormsModule, LayoutModule],

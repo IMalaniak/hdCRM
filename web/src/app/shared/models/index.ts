@@ -6,6 +6,7 @@ export * from './FileTypes';
 export * from './JWTPayload';
 export * from './multiChartData';
 export * from './newPassword';
+export * from './Notifications';
 export * from './pageQuery';
 export * from './singleChartData';
 export * from './dialog';
