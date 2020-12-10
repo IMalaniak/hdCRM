@@ -1,0 +1,145 @@
+@import 'variables';
+@import 'mixins';
+
+$border: 1px solid #595959; // TODO: change to dinamicly color
+
+.table-container {
+  overflow-x: auto;
+  max-height: 41em;
+  border-bottom: $border;
+
+  table {
+    min-width: 100%;
+    width: 100%;
+    white-space: nowrap;
+
+    &.no-outline-border {
+      th {
+        border-top: none !important;
+      }
+
+      th:first-child,
+      td:first-child {
+        border-left: none !important;
+      }
+
+      th:last-child,
+      td:last-child {
+        border-right: none !important;
+      }
+    }
+
+    th,
+    td {
+      padding: 0 app-size(spacer, default, true);
+
+      &:first-child {
+        border-left: $border;
+      }
+
+      &:last-child {
+        border-right: $border;
+      }
+
+      &.text-left {
+        .mat-sort-header-container {
+          display: flex;
+          justify-content: flex-start;
+        }
+      }
+
+      &.xs {
+        min-width: 6rem;
+        max-width: 8rem;
+      }
+
+      &.sm {
+        min-width: 8rem;
+        max-width: 10rem;
+      }
+
+      &.md {
+        min-width: 10rem;
+        max-width: 12rem;
+      }
+
+      &.lg {
+        min-width: 12rem;
+        max-width: 14rem;
+      }
+
+      &.secuence {
+        min-width: 5rem;
+        max-width: 5rem;
+      }
+
+      &.auto-size {
+        max-width: fit-content;
+      }
+
+      &.actions-size {
+        padding: 0;
+        max-width: 2rem;
+        min-width: 2rem;
+      }
+    }
+
+    th {
+      text-overflow: ellipsis;
+      overflow: hidden;
+
+      &.hide-sort-arrows {
+        .mat-sort-header-arrow {
+          visibility: hidden;
+          opacity: 0;
+        }
+      }
+
+      &.pl-header-link {
+        padding-left: 2rem;
+      }
+    }
+
+    td {
+      mat-icon {
+        height: 16px;
+        width: 16px;
+
+        &.success {
+          @include set-textcolor('accent');
+        }
+
+        &.danger {
+          @include set-textcolor('warn');
+        }
+      }
+    }
+
+    .mat-header-row:first-child th {
+      border-top: $border;
+    }
+
+    .table-link-pl {
+      padding-left: 2rem;
+    }
+
+    .mat-header-cell,
+    .mat-sort-header-button {
+      padding-top: 2px !important;
+      text-transform: uppercase;
+      font-weight: bold;
+      @include set-textcolor('text', true);
+    }
+
+    .menu-column {
+      padding: 0;
+      max-width: 2rem;
+      min-width: 2rem;
+    }
+  }
+
+  .sticky-with-border {
+    border-left: $border;
+    border-right: $border;
+  }
+}

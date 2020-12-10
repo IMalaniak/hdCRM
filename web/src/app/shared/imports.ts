@@ -42,6 +42,7 @@ export const COMPONENTS = [
   ...TEMPLATES,
   ...DIALOGS,
   _components.InputValidationComponent,
-  _components.DynamicFormComponent
+  _components.DynamicFormComponent,
+  _components.TableComponent
 ];
 export const PIPES = [_pipes.MemoizePipe, _pipes.DateTimeFormatPipe];

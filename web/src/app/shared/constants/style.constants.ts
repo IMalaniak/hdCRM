@@ -6,5 +6,19 @@ export enum THEME_PALETTE {
 }
 
 export enum STYLECONSTANTS {
-  FIT_CONTENT = 'fit-content'
+  FIT_CONTENT = 'fit-content',
+  PL_HEADER_LINK = 'pl-header-link',
+  STICKY_WITH_BORDER = 'sticky-with-border',
+  TEXT_LEFT = 'text-left',
+  TEXT_RIGHT = 'text-right',
+  TEXT_CENTER = 'text-center',
+  XS = 'xs',
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+  SECUENCE = 'secuence',
+  AUTO_SIZE = 'auto-size',
+  ACTIONS_SIZE = 'actions-size',
+  SUCCESS = 'success',
+  DANGER = 'danger'
 }
