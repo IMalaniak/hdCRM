@@ -8,3 +8,5 @@ const getLayoutFeatureState = createFeatureSelector<LayoutState>(layoutFeatureKe
 export const getSidebarState = createSelector(getLayoutFeatureState, (state) => state.hideSidebar);
 export const getDarkThemeState = createSelector(getLayoutFeatureState, (state) => state.enableDarkTheme);
 export const getScalledFontState = createSelector(getLayoutFeatureState, (state) => state.scaleFontUp);
+
+export const userDropdownVisible = createSelector(getLayoutFeatureState, (state) => state.userDropdownVisible);

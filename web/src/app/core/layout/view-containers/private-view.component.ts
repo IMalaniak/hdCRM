@@ -6,13 +6,9 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 
 import { AppState } from '@/core/reducers';
-import { logOut } from '@/core/auth/store/auth.actions';
-import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
 import { IconsService, MediaQueryService } from '@/core/services';
 import { BS_ICONS } from '@/shared/constants';
-import { ADD_PRIVILEGES } from '@/shared/constants/privileges.constants';
 import { privateRouterTransition } from '@/shared/animations';
-import { User } from '@/modules/users';
 import * as layoutActions from '../store/layout.actions';
 import * as fromLayout from '../store';
 
@@ -23,11 +19,8 @@ import * as fromLayout from '../store';
       <header-component
         [sidebarMinimized]="sidebarMinimized$ | async"
         [enableDarkTheme]="enableDarkTheme$ | async"
-        [currentUser]="currentUser$ | async"
-        [canAddUser]="canAddUser$ | async"
         (hideSidebar)="toggleSidebar($event)"
         (enableThemeDark)="enableDarkTheme($event)"
-        (logOut)="onLogoutClick()"
       ></header-component>
 
       <!-- MAIN -->
@@ -59,11 +52,9 @@ import * as fromLayout from '../store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PrivateViewComponent implements OnInit, OnDestroy {
-  currentUser$: Observable<User> = this.store$.pipe(select(currentUser));
   scaleFontUp$: Observable<boolean> = this.store$.pipe(select(fromLayout.getScalledFontState));
   enableDarkTheme$: Observable<boolean> = this.store$.pipe(select(fromLayout.getDarkThemeState));
   sidebarMinimized$: Observable<boolean> = this.store$.pipe(select(fromLayout.getSidebarState));
-  canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.USER)));
 
   @ViewChild('contentWrapper') contentWrapper: ElementRef;
 
@@ -94,6 +85,7 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    // TODO: @IMalaniak check if can be implemented with ngrx router actions
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
@@ -126,10 +118,6 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
 
   prepareRoute(outlet: RouterOutlet) {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
-  }
-
-  onLogoutClick(): void {
-    this.store$.dispatch(logOut());
   }
 
   ngOnDestroy(): void {

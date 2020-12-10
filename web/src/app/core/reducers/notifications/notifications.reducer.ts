@@ -11,7 +11,7 @@ export interface NotificationsState extends EntityState<Notification> {
 const adapter: EntityAdapter<Notification> = createEntityAdapter<Notification>();
 
 export const initialNotificationsState: NotificationsState = adapter.getInitialState({
-  indicatorVisible: true,
+  indicatorVisible: false,
   dropdownVisible: false
 });
 
