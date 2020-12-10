@@ -33,7 +33,7 @@
         <atoms-link-button
           *ngIf="canViewDepartment$ | async; else depTitle"
           [linkLabel]="user.Department.title"
-          linkClass="pl-0"
+          linkClass="pl-0 lh-normal"
           linkType="router"
           linkHref="/departments/details/{{ user.Department.id }}"
         ></atoms-link-button>
@@ -71,11 +71,11 @@
   <div class="details">
     <div class="caption" *ngIf="user.email">
       <mat-icon [svgIcon]="icons.mail" class="icon icon-mini" aria-hidden="false"></mat-icon>
-      <atoms-link-button [linkLabel]="user.email" linkHref="mailto:user.email" linkClass="pl-1"></atoms-link-button>
+      <atoms-link-button [linkLabel]="user.email" linkHref="mailto:user.email" linkClass="pl-1 lh-normal"></atoms-link-button>
     </div>
     <div class="caption" *ngIf="user.phone">
       <mat-icon [svgIcon]="icons.phone" class="icon icon-mini" aria-hidden="false"></mat-icon>
-      <atoms-link-button [linkLabel]="user.phone" linkHref="tel:user.phone" linkClass="pl-1"></atoms-link-button>
+      <atoms-link-button [linkLabel]="user.phone" linkHref="tel:user.phone" linkClass="pl-1 lh-normal"></atoms-link-button>
     </div>
   </div>
 </div>
