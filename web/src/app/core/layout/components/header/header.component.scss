@@ -26,6 +26,12 @@
       overflow: hidden;
       transition: all $transition;
 
+      &:not(.minimized) {
+        > * {
+          margin: 0 app-size(spacer, default, true);
+        }
+      }
+
       &.minimized {
         width: app-size(sidebar, minimized, true);
         justify-content: center;
@@ -57,121 +63,11 @@
   > div {
     text-align: center;
     height: 100%;
-    padding: 0 app-size(spacer, default, true);
     display: flex;
     align-items: center;
-  }
-
-  .user-dropdown {
-    @include media-breakpoint-up(sm) {
-      position: relative;
-    }
-
-    atoms-user-pic {
-      transition: transform $transition;
-
-      &:hover {
-        transform: scale(0.9);
-      }
-    }
+    @include set-textcolor('text-contrast', false);
   }
 }
-
-.dropdown-content {
-  display: flex;
-  flex-direction: column;
-  width: 100vw;
-  margin: 0 0.6em;
-
-  @include media-breakpoint-up(sm) {
-    width: 25.8em;
-  }
-  @include media-breakpoint-up(lg) {
-    margin: 0 1.7em 0;
-  }
-
-  .content-wrapper {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1em;
-    @include media-breakpoint-up(sm) {
-      flex-direction: row;
-      flex-flow: row-reverse;
-    }
-
-    .content-title {
-      margin: 0 auto 0.5em 1.1em;
-      font-size: 1em;
-      color: $gray-600;
-    }
-  }
-
-  .content-footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-    margin: 1em 0 0.4em;
-
-    #org-title {
-      font-size: 1em;
-      text-transform: uppercase;
-      color: $gray-600;
-    }
-  }
-}
-
-// .notifications-wrapper {
-//   display: flex;
-//   flex-direction: column;
-//   padding: 0.5em;
-//   margin-top: app-size(spacer, null, true);
-//   border-top: 1px currentColor solid;
-
-//   > div {
-//     &:first-of-type {
-//       padding: 0.5 * app-size(spacer, null, true) 0.5 * app-size(spacer, null, true) app-size(spacer, null, true);
-//     }
-//     &:nth-child(2) {
-//       overflow-y: auto;
-//       overflow-x: hidden;
-//     }
-//   }
-
-//   input.notification-check[type='checkbox'] {
-//     display: none;
-
-//     + .notification {
-//       display: flex;
-//       align-items: center;
-//       justify-content: space-between;
-
-//       &.new {
-//         // different collor
-//       }
-
-//       span {
-//         text-align: left;
-//         font-size: 0.8em;
-//       }
-//     }
-//     &:not(:checked) + .notification {
-//       transition: height $transition;
-//       height: 0;
-//       padding: 0;
-//       font-size: 0;
-//       border: none;
-//       * {
-//         display: none;
-//       }
-//     }
-//     &:checked + .notification {
-//       height: 4em;
-//       padding: 0.5 * app-size(spacer, null, true);
-//       border-top: 1px currentColor solid;
-//     }
-//   }
-// }
 
 .hamburger {
   width: 22px;

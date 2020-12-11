@@ -1,0 +1,85 @@
+@import 'variables';
+@import 'mixins';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins/breakpoints';
+
+:host {
+  display: block;
+
+  .notifications {
+    &-bell {
+      position: relative;
+    }
+
+    &-indicator {
+      position: absolute;
+      top: app-size(spacer, sm, true);
+      right: app-size(spacer, sm, true);
+
+      .dot {
+        top: 0;
+        right: 0;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        @include set-bgcolor('warn', false);
+      }
+
+      .ring {
+        top: -2px;
+        right: -2px;
+        border: 2px solid;
+        @include set-bordercolor('warn', false);
+        border-radius: 30px;
+        height: 9px;
+        width: 9px;
+        position: absolute;
+        animation: pulsate 1s ease-out;
+        animation-iteration-count: infinite;
+        opacity: 0;
+      }
+    }
+
+    @keyframes pulsate {
+      0% {
+        -webkit-transform: scale(0.1, 0.1);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        -webkit-transform: scale(1.2, 1.2);
+        opacity: 0;
+      }
+    }
+  }
+}
+.dropdown-content {
+  display: block;
+  $remove: 1.5 * app-size(spacer, default, true);
+  width: calc(100vw - #{$remove});
+
+  @include media-breakpoint-up(sm) {
+    width: 25.8em;
+  }
+
+  mat-list {
+    $hHeight: app-size(header, height, true);
+    max-height: calc(100vh - 3 *#{$hHeight});
+    overflow-y: auto;
+  }
+}
+
+.notification {
+  .actions {
+    display: none;
+  }
+
+  &:hover {
+    .actions {
+      display: block;
+    }
+  }
+}

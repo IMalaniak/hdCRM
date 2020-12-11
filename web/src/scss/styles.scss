@@ -154,8 +154,9 @@ main {
     }
 
     &-avatar {
-      min-width: app-size(userpic, null, true);
-      max-width: app-size(userpic, null, true);
+      padding: 0 !important;
+      min-width: app-size(userpic, null, true) + 0.5rem;
+      max-width: app-size(userpic, null, true) + 0.5rem;
       margin-right: 24px;
     }
 

@@ -9,6 +9,7 @@ import { Action, Store, select } from '@ngrx/store';
 import { LayoutState } from './layout.reducer';
 import { getDarkThemeState } from './index';
 import { MediaQueryService } from '@/core/services';
+import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 
 @Injectable()
 export class LayoutEffects implements OnInitEffects {
@@ -19,6 +20,13 @@ export class LayoutEffects implements OnInitEffects {
     private mediaQueryService: MediaQueryService,
     private store$: Store<LayoutState>
   ) {}
+
+  navigationEnded$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ROUTER_NAVIGATED),
+      switchMap(() => of(layoutActions.closeUserDropdown()))
+    )
+  );
 
   toggleSidebar$ = createEffect(() =>
     this.actions$.pipe(

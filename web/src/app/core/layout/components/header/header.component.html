@@ -11,6 +11,7 @@
 
 <breadcrumbs-component *ngIf="breadcrumbsVisible"></breadcrumbs-component>
 
+<!-- TODO: @IMalaniak decide what to do with this -->
 <!-- <div class="user-search ml-auto">
 	<fa-icon [icon]="['fas', 'search']"></fa-icon>
 </div>
@@ -18,147 +19,16 @@
 <div class="user-question">
 	<fa-icon [icon]="['fas', 'question']"></fa-icon>
 </div> -->
-<div class="header-actions ml-auto pr-0">
+<div class="header-actions ml-auto">
   <atoms-icon-button
-    iconColor="text-light"
     matTooltip="{{ themeTipMessage() }}"
+    [color]="themePalette.BASIC"
     [matType]="matButtonTypes.ICON"
     [icon]="enableDarkTheme ? themeChangeIcons.light : themeChangeIcons.dark"
     (onclick)="enableThemeDark.emit(!enableDarkTheme)"
   ></atoms-icon-button>
+
+  <notifications-component></notifications-component>
 </div>
 
-<div class="user-dropdown" *ngIf="currentUser" cdkOverlayOrigin #userMenu="cdkOverlayOrigin">
-  <atoms-user-pic
-    [avatar]="currentUser.avatar"
-    [userOnline]="currentUser.online"
-    (click)="isShowUserMenu = !isShowUserMenu"
-  ></atoms-user-pic>
-
-  <ng-template
-    cdkConnectedOverlay
-    cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
-    [cdkConnectedOverlayOrigin]="userMenu"
-    [cdkConnectedOverlayOpen]="isShowUserMenu"
-    [cdkConnectedOverlayOffsetY]="10"
-    [cdkConnectedOverlayHasBackdrop]="true"
-    [cdkConnectedOverlayFlexibleDimensions]="true"
-    (backdropClick)="closeUserMenu()"
-  >
-    <organisms-card cardClass="p-2" contentClass="mb-0" class="dropdown-content">
-      <ng-container content>
-        <div class="content-wrapper">
-          <div class="d-flex flex-column justify-content-start mb-3 mb-sm-0 w-100">
-            <span class="content-title">Account</span>
-            <atoms-icon-button
-              [matType]="matButtonTypes.BASIC"
-              [showButtonTextOnSm]="true"
-              [routerLink]="myProfileRoute"
-              [fullWidth]="true"
-              [icon]="userDropdownIcons.profile"
-              [color]="themePalette.BASIC"
-              class="mb-1"
-            >
-              My profile
-            </atoms-icon-button>
-            <atoms-icon-button
-              [matType]="matButtonTypes.BASIC"
-              [showButtonTextOnSm]="true"
-              [fullWidth]="true"
-              (onclick)="onLogoutClick()"
-              [icon]="userDropdownIcons.logOut"
-              [color]="themePalette.WARN"
-            >
-              {{ actionLabels.LOG_OUT }}
-            </atoms-icon-button>
-          </div>
-          <mat-divider [vertical]="true" class="mx-0 mx-sm-2"></mat-divider>
-          <div class="d-flex flex-column justify-content-start w-100">
-            <span class="content-title">Availability</span>
-            <atoms-icon-button
-              [matType]="matButtonTypes.BASIC"
-              class="mb-1"
-              [color]="themePalette.BASIC"
-              [showButtonTextOnSm]="true"
-              [icon]="userDropdownIcons.online"
-              [fullWidth]="true"
-              [matMenuTriggerFor]="userStatuses"
-            >
-              Working statuses
-            </atoms-icon-button>
-
-            <mat-menu #userStatuses="matMenu">
-              <atoms-icon-button
-                [matType]="matButtonTypes.BASIC"
-                [showButtonTextOnSm]="true"
-                [fullWidth]="true"
-                [icon]="userDropdownIcons.online"
-                [color]="themePalette.BASIC"
-              >
-                Online
-              </atoms-icon-button>
-              <atoms-icon-button
-                [matType]="matButtonTypes.BASIC"
-                [showButtonTextOnSm]="true"
-                [fullWidth]="true"
-                [icon]="userDropdownIcons.onBreak"
-                [color]="themePalette.BASIC"
-              >
-                On break
-              </atoms-icon-button>
-              <atoms-icon-button
-                [matType]="matButtonTypes.BASIC"
-                [showButtonTextOnSm]="true"
-                [fullWidth]="true"
-                [icon]="userDropdownIcons.away"
-                [color]="themePalette.BASIC"
-              >
-                Away
-              </atoms-icon-button>
-              <atoms-icon-button
-                [matType]="matButtonTypes.BASIC"
-                [showButtonTextOnSm]="true"
-                [fullWidth]="true"
-                [icon]="userDropdownIcons.busy"
-                [color]="themePalette.BASIC"
-              >
-                Busy
-              </atoms-icon-button>
-            </mat-menu>
-
-            <atoms-icon-button
-              *ngIf="canAddUser"
-              [matType]="matButtonTypes.BASIC"
-              [showButtonTextOnSm]="true"
-              [fullWidth]="true"
-              [icon]="userDropdownIcons.invite"
-              [color]="themePalette.BASIC"
-            >
-              Invite members
-            </atoms-icon-button>
-          </div>
-        </div>
-        <mat-divider class="position-static"></mat-divider>
-        <div class="content-footer">
-          <span id="org-title">hdcrm</span>
-        </div>
-      </ng-container>
-    </organisms-card>
-  </ng-template>
-</div>
-<!-- <section class="notifications-wrapper">
-  <div class="d-flex justify-content-between"><span>Notifications</span><fa-icon [icon]="['fas', 'cog']"></fa-icon></div>
-    <div>
-        <input class="notification-check" type="checkbox" id="size_1" value="small" checked />
-        <label class="notification new" for="size_1"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
-        <input class="notification-check" type="checkbox" id="size_2" value="small" checked />
-        <label class="notification new" for="size_2"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
-        <input class="notification-check" type="checkbox" id="size_3" value="small" checked />
-        <label class="notification new" for="size_3"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
-        <input class="notification-check" type="checkbox" id="size_4" value="small" checked />
-        <label class="notification new" for="size_4"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
-        <input class="notification-check" type="checkbox" id="size_5" value="small" checked />
-        <label class="notification new" for="size_5"><span><em>1</em> new <a href="">guest account</a> have been created.</span><fa-icon [icon]="['fas', 'times']"></fa-icon></label>
-    </div>
-    <a mat-button [routerLink]="['/users/myprofile']"><span i18n="@@headerComponentUserDropdownActionsNotificationsMore">Show more</span></a>
-  </section> -->
+<user-dropdown-component></user-dropdown-component>

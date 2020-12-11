@@ -11,6 +11,7 @@ export * from './icons.enum';
 export * from './itemsPerPage';
 export * from './link.constants';
 export * from './listView';
+export * from './notificationTypes.enum';
 export * from './OrganizationType';
 export * from './privileges.constants';
 export * from './routing.constants';
