@@ -67,11 +67,11 @@ export class NotificationsComponent {
     this.store$.dispatch(markAllAsRead());
   }
 
-  markAsRead(id: number): void {
+  markAsRead(id: string): void {
     this.store$.dispatch(markAsRead({ id }));
   }
 
-  removeNotification(id: number): void {
+  removeNotification(id: string): void {
     this.store$.dispatch(removeNotification({ id }));
   }
 
