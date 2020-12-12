@@ -46,6 +46,11 @@ const notificationsReducer = createReducer(
     adapter.removeOne(id, {
       ...state
     })
+  ),
+  on(notificationsActions.initList, (state, { notifications }) =>
+    adapter.addMany(notifications, {
+      ...state
+    })
   )
 );
 

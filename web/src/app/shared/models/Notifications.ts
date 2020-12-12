@@ -1,7 +1,7 @@
 import { NOTIFICATION_TYPES } from '../constants';
 
 export interface Notification {
-  id: number;
+  id: string;
   description: string;
   type: NOTIFICATION_TYPES;
   read: boolean;

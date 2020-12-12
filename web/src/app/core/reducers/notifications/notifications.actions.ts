@@ -24,3 +24,5 @@ export const markAllAsReadComplete = createAction(
 
 export const removeNotification = createAction(`${prefix} remove notification`, props<{ id: number }>());
 export const removeNotificationSuccess = createAction(`${prefix} remove notification success`, props<{ id: number }>());
+
+export const initList = createAction(`${prefix} init list`, props<{ notifications: Notification[] }>());
