@@ -16,7 +16,6 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 
 import { DataColumn } from '@/shared/models/table/data-column.model';
 import { DataRow } from '@/shared/models/table/data-row';
-import { ColumnSize } from '@/shared/models/table/columnSize.enum';
 import { IconsService } from '@/core/services';
 import {
   BS_ICONS,
@@ -74,7 +73,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
     threeDots: BS_ICONS.ThreeDotsVertical,
     checkCircle: BS_ICONS.CheckCircle,
     xCircle: BS_ICONS.XCircle,
-    [BS_ICONS.InfoSquare]: BS_ICONS.InfoSquare,
+    'info-square': BS_ICONS.InfoSquare,
     pencil: BS_ICONS.Pencil,
     trash: BS_ICONS.Trash,
     list: BS_ICONS.List,
@@ -126,55 +125,28 @@ export class TableComponent implements OnChanges, AfterViewInit {
     return item.id;
   }
 
-  getSecuenceNumber(index: number): number {
+  getSequenceNumber(index: number): number {
     if (this.paging) {
       // return index + (this.paging.number - 1) * this.paging.perPage;
     } // TODO: add logic
     return index;
   }
 
-  getColumnClasses(size: ColumnSize, align: HorizontalAlign, customClass?: string): string {
+  getColumnClasses(align: HorizontalAlign, customClass?: string): string {
     let resultClasses: string;
-
-    switch (size) {
-      case ColumnSize.XS:
-        resultClasses = STYLECONSTANTS.XS;
-        break;
-      case ColumnSize.SM:
-        resultClasses = STYLECONSTANTS.SM;
-        break;
-      case ColumnSize.MD:
-        resultClasses = STYLECONSTANTS.MD;
-        break;
-      case ColumnSize.LG:
-        resultClasses = STYLECONSTANTS.LG;
-        break;
-      case ColumnSize.AUTO:
-        resultClasses = STYLECONSTANTS.AUTO_SIZE;
-        break;
-      case ColumnSize.SECUENCE:
-        resultClasses = STYLECONSTANTS.SECUENCE;
-        break;
-      case ColumnSize.ACTIONS:
-        resultClasses = STYLECONSTANTS.ACTIONS_SIZE;
-        break;
-      default:
-        resultClasses = STYLECONSTANTS.SM;
-        break;
-    }
 
     switch (align) {
       case HorizontalAlign.Left:
-        resultClasses += ` ${STYLECONSTANTS.TEXT_LEFT}`;
+        resultClasses = STYLECONSTANTS.TEXT_LEFT;
         break;
       case HorizontalAlign.Center:
-        resultClasses += ` ${STYLECONSTANTS.TEXT_CENTER}`;
+        resultClasses = STYLECONSTANTS.TEXT_CENTER;
         break;
       case HorizontalAlign.Right:
-        resultClasses += ` ${STYLECONSTANTS.TEXT_RIGHT}`;
+        resultClasses = STYLECONSTANTS.TEXT_RIGHT;
         break;
       default:
-        resultClasses += ` ${STYLECONSTANTS.TEXT_LEFT}`;
+        resultClasses = STYLECONSTANTS.TEXT_LEFT;
         break;
     }
 

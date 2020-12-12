@@ -26,7 +26,7 @@
           mat-sort-header
           [class.hide-sort-arrows]="!canSort || !column.hasSorting"
           [ngClass]="[
-            getColumnClasses(column.size, column.horizontalAlign, column.customClass),
+            getColumnClasses(column.horizontalAlign, column.customClass),
             getActionsStickyBorders(column.title)
           ]"
           [disabled]="!canSort || !column.hasSorting"
@@ -51,7 +51,7 @@
           mat-cell
           *matCellDef="let row; let i = index"
           [ngClass]="[
-            getColumnClasses(column.size, column.horizontalAlign, row[column.title].customClass),
+            getColumnClasses(column.horizontalAlign, row[column.title].customClass),
             getActionsStickyBorders(column.title)
           ]"
         >
@@ -62,7 +62,7 @@
               <ng-container [ngSwitch]="row[column.title].controlType">
                 <!-- Sequence number -->
                 <ng-container *ngSwitchCase="cellControlType.SequenceNumber">
-                  <span>{{ getSecuenceNumber(i + 1) }}</span>
+                  <span>{{ getSequenceNumber(i + 1) }}</span>
                 </ng-container>
 
                 <!-- Span -->

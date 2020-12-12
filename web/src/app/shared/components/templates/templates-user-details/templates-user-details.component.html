@@ -73,7 +73,7 @@
       <mat-icon [svgIcon]="icons.mail" class="icon icon-mini" aria-hidden="false"></mat-icon>
       <atoms-link-button
         [linkLabel]="user.email"
-        linkHref="mailto:user.email"
+        linkHref="mailto:{{ user.email }}"
         linkClass="pl-1 lh-normal"
       ></atoms-link-button>
     </div>
@@ -81,7 +81,7 @@
       <mat-icon [svgIcon]="icons.phone" class="icon icon-mini" aria-hidden="false"></mat-icon>
       <atoms-link-button
         [linkLabel]="user.phone"
-        linkHref="tel:user.phone"
+        linkHref="tel:{{ user.phone }}"
         linkClass="pl-1 lh-normal"
       ></atoms-link-button>
     </div>

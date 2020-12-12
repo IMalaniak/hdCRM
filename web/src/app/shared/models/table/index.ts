@@ -1,7 +1,6 @@
 export * from './data-column.model';
 export * from './data-row';
 export * from './cell-value.model';
-export * from './columnSize.enum';
 export * from './horizontalAlign.enum';
 export * from './cellControlType.enum';
 export * from './navigation';

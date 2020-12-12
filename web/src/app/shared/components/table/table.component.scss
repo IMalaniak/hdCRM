@@ -31,6 +31,7 @@ $border: 1px solid #595959; // TODO: change to dinamicly color
 
     th,
     td {
+      min-width: 8rem !important;
       padding: 0 app-size(spacer, default, true);
 
       &:first-child {
@@ -41,46 +42,18 @@ $border: 1px solid #595959; // TODO: change to dinamicly color
         border-right: $border;
       }
 
+      &.action-or-icon {
+        // TODO: investigate why it does not use directly this styles
+        min-width: 4rem !important;
+        width: 4rem !important;
+        padding: 0;
+      }
+
       &.text-left {
         .mat-sort-header-container {
           display: flex;
           justify-content: flex-start;
         }
-      }
-
-      &.xs {
-        min-width: 6rem;
-        max-width: 8rem;
-      }
-
-      &.sm {
-        min-width: 8rem;
-        max-width: 10rem;
-      }
-
-      &.md {
-        min-width: 10rem;
-        max-width: 12rem;
-      }
-
-      &.lg {
-        min-width: 12rem;
-        max-width: 14rem;
-      }
-
-      &.secuence {
-        min-width: 5rem;
-        max-width: 5rem;
-      }
-
-      &.auto-size {
-        max-width: fit-content;
-      }
-
-      &.actions-size {
-        padding: 0;
-        max-width: 2rem;
-        min-width: 2rem;
       }
     }
 
@@ -112,6 +85,25 @@ $border: 1px solid #595959; // TODO: change to dinamicly color
         &.danger {
           @include set-textcolor('warn');
         }
+      }
+    }
+
+    .mat-column {
+      &-- {
+        // sequence
+        min-width: 4rem;
+        width: 7rem;
+      }
+
+      &-avatar {
+        width: app-size(userpic, null, true) + 1rem;
+        min-width: app-size(userpic, null, true) + 1rem;
+      }
+
+      &-actions {
+        padding: 0;
+        width: app-size(spacer, lg, true);
+        min-width: app-size(spacer, lg, true);
       }
     }
 
