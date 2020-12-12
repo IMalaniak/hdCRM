@@ -38,6 +38,16 @@ export class NotificationsService {
     return notification;
   }
 
+  markAsRead(id: string): void {
+    const list = this.getList();
+    const notification = list.find((nItem) => nItem.id === id);
+    if (notification) {
+      const index = list.indexOf(notification);
+      list[index] = { ...list[index], read: true };
+      return this.localStorage.setObjectKeyValue(this.key, this.list, list);
+    }
+  }
+
   remove(id: string): void {
     const list = this.getList();
     return this.localStorage.setObjectKeyValue(

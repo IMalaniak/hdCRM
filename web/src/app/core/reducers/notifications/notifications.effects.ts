@@ -31,6 +31,7 @@ export class NotificationsEffects {
           id,
           changes: { read: true }
         };
+        this.notificationsService.markAsRead(id);
         return of(notificationsActions.markAsReadComplete({ notification }));
       })
     )
@@ -41,10 +42,13 @@ export class NotificationsEffects {
       ofType(notificationsActions.markAllAsRead),
       withLatestFrom(this.store$.select(selectUnreadNotifications)),
       mergeMap(([_, unreads]) => {
-        const notifications: Update<Notification>[] = unreads.map((notification) => ({
-          id: notification.id,
-          changes: { read: true }
-        }));
+        const notifications: Update<Notification>[] = unreads.map((notification) => {
+          this.notificationsService.markAsRead(notification.id);
+          return {
+            id: notification.id,
+            changes: { read: true }
+          };
+        });
         return of(notificationsActions.markAllAsReadComplete({ notifications }));
       })
     )

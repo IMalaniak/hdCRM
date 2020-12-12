@@ -10,7 +10,7 @@ export const sendNotification = createAction(`${prefix} send notification`, prop
 export const toggleDropdown = createAction(`${prefix} toggle notification dropdown`);
 export const closeDropdown = createAction(`${prefix} close notification dropdown`);
 
-export const markAsRead = createAction(`${prefix} mark notification as read`, props<{ id: number }>());
+export const markAsRead = createAction(`${prefix} mark notification as read`, props<{ id: string }>());
 export const markAsReadComplete = createAction(
   `${prefix} mark all notification as read complete`,
   props<{ notification: Update<Notification> }>()
@@ -22,7 +22,7 @@ export const markAllAsReadComplete = createAction(
   props<{ notifications: Update<Notification>[] }>()
 );
 
-export const removeNotification = createAction(`${prefix} remove notification`, props<{ id: number }>());
-export const removeNotificationSuccess = createAction(`${prefix} remove notification success`, props<{ id: number }>());
+export const removeNotification = createAction(`${prefix} remove notification`, props<{ id: string }>());
+export const removeNotificationSuccess = createAction(`${prefix} remove notification success`, props<{ id: string }>());
 
 export const initList = createAction(`${prefix} init list`, props<{ notifications: Notification[] }>());
