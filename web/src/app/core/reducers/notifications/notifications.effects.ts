@@ -79,7 +79,9 @@ export class NotificationsEffects {
             return EMPTY;
           } else {
             const notification = this.notificationsService.create(
-              `Your password is going to expire in ${passwordExpireAfter} days, please change your password!`,
+              `Your password is going to expire in ${passwordExpireAfter} day${
+                passwordExpireAfter > 1 && 's'
+              }, please change your password!`,
               NOTIFICATION_TYPES.WARN
             );
             this.notificationsService.ignore({ ['passwordExpire']: this.dateUtility.addFutureDays(1) });

@@ -69,17 +69,21 @@
     $hHeight: app-size(header, height, true);
     max-height: calc(100vh - 3 *#{$hHeight});
     overflow-y: auto;
+
+    .mat-line {
+      white-space: pre-wrap;
+    }
   }
 }
 
 .notification {
   .actions {
-    display: none;
+    visibility: hidden;
   }
 
   &:hover {
     .actions {
-      display: block;
+      visibility: visible;
     }
   }
 }
