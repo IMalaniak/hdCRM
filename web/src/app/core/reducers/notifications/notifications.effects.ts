@@ -72,13 +72,15 @@ export class NotificationsEffects {
       ofType(currentUserLoaded),
       map((payload) => payload.currentUser),
       switchMap((currentUser) => {
-        const passwordExpireAfter = this.dateUtility.diffDaysFromToday(currentUser.PasswordAttributes.passwordExpire);
+        const passwordExpireAfter: number = this.dateUtility.diffDaysFromToday(
+          currentUser.PasswordAttributes.passwordExpire
+        );
         if (passwordExpireAfter < 5) {
-          const ignore = this.notificationsService.checkIgnore('passwordExpire');
+          const ignore: boolean = this.notificationsService.checkIgnore('passwordExpire');
           if (ignore) {
             return EMPTY;
           } else {
-            const notification = this.notificationsService.create(
+            const notification: Notification = this.notificationsService.create(
               `Your password is going to expire in ${passwordExpireAfter} day${
                 passwordExpireAfter > 1 && 's'
               }, please change your password!`,
