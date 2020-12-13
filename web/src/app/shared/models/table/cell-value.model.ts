@@ -4,7 +4,7 @@ import { CellValueType } from './cellValueType.enum';
 import { Navigation } from './navigation';
 import { CellAction } from './cell-action';
 import { User } from '@/modules/users';
-import { ACTION_LABELS, BS_ICONS, STYLECONSTANTS } from '@/shared/constants';
+import { ACTION_LABELS, BS_ICONS, STYLECONSTANTS, THEME_PALETTE } from '@/shared/constants';
 
 export class CellValue {
   cellAction: CellActionType;
@@ -20,7 +20,7 @@ export class CellValue {
   ) {}
 
   static createSequenceNumberCell(): CellValue {
-    return new CellValue(undefined, CellControlType.SequenceNumber);
+    return new CellValue(undefined, CellControlType.SequenceNumber, STYLECONSTANTS.SEQUENCE);
   }
 
   static createSpanCell(value: string, customClass?: string): CellValue {
@@ -35,7 +35,7 @@ export class CellValue {
     return new CellValue(
       value,
       CellControlType.Icon,
-      !disabledColor ? (value ? STYLECONSTANTS.SUCCESS : STYLECONSTANTS.DANGER) : ''
+      !disabledColor ? (value ? THEME_PALETTE.ACCENT : THEME_PALETTE.WARN) : ''
     );
   }
 
@@ -61,15 +61,15 @@ export class CellValue {
     }
 
     // if (privilege) {
-    actions = [...actions, { type: CellActionType.Details, icon: BS_ICONS.InfoSquare, message: ACTION_LABELS.DETAILS }];
+    actions = [...actions, { type: CellActionType.Details, icon: BS_ICONS.InfoSquare, label: ACTION_LABELS.DETAILS }];
     // }
 
     // if (privilege) {
-    actions = [...actions, { type: CellActionType.Edit, icon: BS_ICONS.Pencil, message: ACTION_LABELS.EDIT }];
+    actions = [...actions, { type: CellActionType.Edit, icon: BS_ICONS.Pencil, label: ACTION_LABELS.EDIT }];
     // }
 
     // if (privilege) {
-    actions = [...actions, { type: CellActionType.Delete, icon: BS_ICONS.Trash, message: ACTION_LABELS.DELETE }];
+    actions = [...actions, { type: CellActionType.Delete, icon: BS_ICONS.Trash, label: ACTION_LABELS.DELETE }];
     // }
 
     return new CellValue(undefined, CellControlType.Action, undefined, undefined, CellValueType.Actions, actions);

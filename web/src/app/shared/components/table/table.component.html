@@ -24,7 +24,6 @@
           mat-header-cell
           *matHeaderCellDef
           mat-sort-header
-          [class.hide-sort-arrows]="!canSort || !column.hasSorting"
           [ngClass]="[
             getColumnClasses(column.horizontalAlign, column.customClass),
             getActionsStickyBorders(column.title)
@@ -92,8 +91,8 @@
                 <!-- Icon -->
                 <ng-container *ngSwitchCase="cellControlType.Icon">
                   <mat-icon
+                    [color]="row[column.title].customClass"
                     [svgIcon]="row[column.title].value ? icons.checkCircle : icons.xCircle"
-                    [ngClass]="row[column.title].customClass"
                   ></mat-icon>
                 </ng-container>
 
@@ -122,7 +121,7 @@
                 <ng-template matMenuContent>
                   <button mat-menu-item *ngFor="let action of row[column.title].actions">
                     <mat-icon [svgIcon]="icons[action.icon]"> </mat-icon>
-                    <span>{{ action.message }}</span>
+                    <span>{{ action.label }}</span>
                   </button>
                 </ng-template>
               </mat-menu>
