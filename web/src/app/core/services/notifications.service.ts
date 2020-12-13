@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { v4 as uuidv4 } from 'uuid';
 
-import { LocalStorageService } from '@/shared/services';
+import { DateUtilityService, LocalStorageService } from '@/shared/services';
 import { Notification } from '@/shared/models';
 import { NOTIFICATION_TYPES } from '@/shared/constants';
 
@@ -14,7 +14,7 @@ export class NotificationsService {
   private list = 'list';
   private ignoreList = 'ignoreList';
 
-  constructor(private readonly localStorage: LocalStorageService) {}
+  constructor(private readonly localStorage: LocalStorageService, private readonly dateUtility: DateUtilityService) {}
 
   getList(): Notification[] {
     return this.localStorage.getObject(this.key)?.list || [];
@@ -65,13 +65,7 @@ export class NotificationsService {
   checkIgnore(key: string): boolean {
     const ignoreList = this.getIgnoreList();
     if (ignoreList[key]) {
-      const expire = new Date(ignoreList[key]);
-      const currentDate = new Date();
-      const utc1 = Date.UTC(expire.getFullYear(), expire.getMonth(), expire.getDate());
-      const utc2 = Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-      const _MS_PER_DAY = 1000 * 60 * 60 * 24;
-      const ignoreExpireAfter = Math.floor((utc1 - utc2) / _MS_PER_DAY);
-      return ignoreExpireAfter > 0;
+      return this.dateUtility.diffDaysFromToday(ignoreList[key]) > 0;
     }
     return false;
   }

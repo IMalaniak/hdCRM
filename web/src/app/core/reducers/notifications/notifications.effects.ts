@@ -7,19 +7,21 @@ import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Update } from '@ngrx/entity';
 
 import { currentUserLoaded } from '@/core/auth/store/auth.actions';
+import { NotificationsService } from '@/core/services';
 import { Notification } from '@/shared/models';
 import { NOTIFICATION_TYPES } from '@/shared/constants';
+import { DateUtilityService } from '@/shared/services';
 import { AppState } from '../index';
 import * as notificationsActions from './notifications.actions';
 import { selectUnreadNotifications } from './notifications.selectors';
-import { NotificationsService } from '@/core/services';
 
 @Injectable()
 export class NotificationsEffects {
   constructor(
     private readonly store$: Store<AppState>,
     private readonly actions$: Actions,
-    private readonly notificationsService: NotificationsService
+    private readonly notificationsService: NotificationsService,
+    private readonly dateUtility: DateUtilityService
   ) {}
 
   markAsRead$ = createEffect(() =>
@@ -54,12 +56,12 @@ export class NotificationsEffects {
     )
   );
 
-  // TODO: remove from db?
   removeNotification$ = createEffect(() =>
     this.actions$.pipe(
       ofType(notificationsActions.removeNotification),
       map((payload) => payload.id),
       switchMap((id) => {
+        this.notificationsService.remove(id);
         return of(notificationsActions.removeNotificationSuccess({ id }));
       })
     )
@@ -70,13 +72,7 @@ export class NotificationsEffects {
       ofType(currentUserLoaded),
       map((payload) => payload.currentUser),
       switchMap((currentUser) => {
-        // Discard the time and time-zone information.
-        const passwordExpire = new Date(currentUser.PasswordAttributes.passwordExpire);
-        const currentDate = new Date();
-        const utc1 = Date.UTC(passwordExpire.getFullYear(), passwordExpire.getMonth(), passwordExpire.getDate());
-        const utc2 = Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-        const _MS_PER_DAY = 1000 * 60 * 60 * 24;
-        const passwordExpireAfter = Math.floor((utc1 - utc2) / _MS_PER_DAY);
+        const passwordExpireAfter = this.dateUtility.diffDaysFromToday(currentUser.PasswordAttributes.passwordExpire);
         if (passwordExpireAfter < 5) {
           const ignore = this.notificationsService.checkIgnore('passwordExpire');
           if (ignore) {
@@ -86,9 +82,7 @@ export class NotificationsEffects {
               `Your password is going to expire in ${passwordExpireAfter} days, please change your password!`,
               NOTIFICATION_TYPES.WARN
             );
-            const ignoreExpire = new Date();
-            ignoreExpire.setDate(currentDate.getDate() + 1);
-            this.notificationsService.ignore({ ['passwordExpire']: ignoreExpire });
+            this.notificationsService.ignore({ ['passwordExpire']: this.dateUtility.addFutureDays(1) });
             return of(
               notificationsActions.sendNotification({
                 notification
