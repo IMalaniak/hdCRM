@@ -1,4 +1,5 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { MoleculesProfilePicWithUploaderComponent } from './molecules-profile-pic-with-uploader.component';
 
@@ -9,6 +10,7 @@ describe('MoleculesProfilePicWithUploaderComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
+        imports: [MatIconTestingModule],
         declarations: [MoleculesProfilePicWithUploaderComponent]
       }).compileComponents();
     })

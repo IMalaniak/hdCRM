@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { SidebarComponent } from './sidebar.component';
 import { authStateMock } from '@/shared/testing/mocks';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('SidebarComponent', () => {
   let component: SidebarComponent;
@@ -15,7 +16,7 @@ describe('SidebarComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [SidebarComponent],
-        imports: [RouterTestingModule],
+        imports: [RouterTestingModule, MatIconTestingModule],
         providers: [provideMockStore({ initialState })]
       }).compileComponents();
     })

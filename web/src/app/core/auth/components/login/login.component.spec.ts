@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideMockStore } from '@ngrx/store/testing';
 import { AuthState, initialState as initialAuthState } from '../../store/auth.reducer';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -21,7 +22,7 @@ describe('LoginComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [LoginComponent],
-        imports: [RouterTestingModule, BrowserAnimationsModule, HttpClientModule, SharedModule],
+        imports: [RouterTestingModule, MatIconTestingModule, BrowserAnimationsModule, HttpClientModule, SharedModule],
         providers: [
           AuthenticationService,
           provideMockStore({ initialState }),

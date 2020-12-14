@@ -10,6 +10,7 @@ import { authStateMock } from '@/shared/testing/mocks';
 import { initialUsersState } from '@/modules/users/store/user.reducer';
 import { initialPlansState } from '../../store/plan.reducer';
 import { PlanListComponent } from './plan-list.component';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('PlanListComponent', () => {
   let component: PlanListComponent;
@@ -25,7 +26,7 @@ describe('PlanListComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [PlanListComponent],
-        imports: [RouterTestingModule, BrowserAnimationsModule, SharedModule],
+        imports: [RouterTestingModule, MatIconTestingModule, BrowserAnimationsModule, SharedModule],
         providers: [provideMockStore({ initialState })]
       }).compileComponents();
     })

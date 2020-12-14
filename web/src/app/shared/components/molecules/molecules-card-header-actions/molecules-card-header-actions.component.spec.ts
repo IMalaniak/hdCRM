@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { MoleculesCardHeaderActionsComponent } from './molecules-card-header-actions.component';
 
@@ -9,6 +10,7 @@ describe('MoleculesCardHeaderActionsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
+        imports: [MatIconTestingModule],
         declarations: [MoleculesCardHeaderActionsComponent]
       }).compileComponents();
     })
