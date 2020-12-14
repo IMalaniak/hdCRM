@@ -1,0 +1,11 @@
+.button-link {
+  min-width: unset;
+
+  &.text-underline {
+    text-decoration: underline;
+  }
+
+  &.lh-normal {
+    line-height: normal;
+  }
+}

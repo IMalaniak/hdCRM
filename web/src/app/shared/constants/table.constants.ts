@@ -33,7 +33,8 @@ export enum COLUMN_NAMES {
   UPDATED_AT = 'updatedAt',
   USERS = 'users',
   VIEW = 'view',
-  WORKERS = 'workers'
+  WORKERS = 'workers',
+  SEQUENCE_NUMBER = '#'
 }
 
 export enum COLUMN_LABELS {

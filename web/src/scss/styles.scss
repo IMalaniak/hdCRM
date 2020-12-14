@@ -193,16 +193,6 @@ main {
   position: relative;
 }
 
-.mat-sort-header-container {
-  align-items: baseline;
-}
-
-.table-hover {
-  tr {
-    cursor: pointer;
-  }
-}
-
 .card-actions {
   margin-left: auto;
 }
@@ -216,6 +206,19 @@ main {
 
 button .mat-button-focus-overlay {
   background-color: transparent !important;
+}
+
+th.text-center {
+  .mat-sort-header-container {
+    justify-content: center;
+  }
+}
+
+th.text-right {
+  .mat-sort-header-container {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 
 // Define sizing utility to allow responsive breakpoints

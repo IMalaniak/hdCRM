@@ -36,14 +36,7 @@ import { LINK_TARGET, THEME_PALETTE, LINK_TYPE } from '@/shared/constants';
       </a>
     </ng-template>
   `,
-  styles: [
-    `
-      .button-link {
-        min-width: unset;
-        line-height: normal;
-      }
-    `
-  ],
+  styleUrls: ['./atoms-link-button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AtomsLinkButtonComponent {

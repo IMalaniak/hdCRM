@@ -1,0 +1,200 @@
+<ng-container *ngIf="columns">
+  <!-- TABLE -->
+  <div class="table-container">
+    <table
+      mat-table
+      #table
+      matSort
+      [class.no-outline-border]="!hasOutlineBorder"
+      [dataSource]="dataSource"
+      [trackBy]="trackById"
+    >
+      <!-- [matSortActive]="sorting?.title"
+        [matSortDirection]="sorting?.direction"
+        (matSortChange)="sortChange($event)" -->
+
+      <!-- COLUMNS & ROWS-->
+      <ng-container
+        *ngFor="let column of columns"
+        [matColumnDef]="column.title"
+        [sticky]="column.sticky"
+        [stickyEnd]="column.stickyEnd"
+      >
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          [ngClass]="[
+            getColumnClasses(column.horizontalAlign, column.customClass),
+            getActionsStickyBorders(column.title)
+          ]"
+          [disabled]="!canSort || !column.hasSorting"
+        >
+          <ng-container *ngIf="column.title !== columnActions; else actionsIconTitle">
+            {{ column.title }}
+          </ng-container>
+
+          <ng-template #actionsIconTitle>
+            <atoms-icon-button
+              *ngIf="hasSettings"
+              [color]="themePalette.BASIC"
+              [matType]="matButtonType.ICON"
+              [type]="buttonType.BUTTON"
+              [icon]="icons.gear"
+              [matMenuTriggerFor]="menu"
+            >
+            </atoms-icon-button>
+          </ng-template>
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let row; let i = index"
+          [ngClass]="[
+            getColumnClasses(column.horizontalAlign, row[column.title].customClass),
+            getActionsStickyBorders(column.title)
+          ]"
+        >
+          <!-- ROW SWITCH CASES -->
+          <ng-container [ngSwitch]="row[column.title].valueType">
+            <!-- VALUE COLUMNS -->
+            <ng-container *ngSwitchCase="cellValueType.Value">
+              <ng-container [ngSwitch]="row[column.title].controlType">
+                <!-- Sequence number -->
+                <ng-container *ngSwitchCase="cellControlType.SequenceNumber">
+                  <span>{{ getSequenceNumber(i + 1) }}</span>
+                </ng-container>
+
+                <!-- Span -->
+                <ng-container *ngSwitchCase="cellControlType.Span" [ngClass]="row[column.title].customClass">
+                  <span>{{ row[column.title].value }}</span>
+                </ng-container>
+
+                <!-- Navigation -->
+                <ng-container *ngSwitchCase="cellControlType.Navigation">
+                  <atoms-link-button
+                    linkType="router"
+                    [linkColor]="themePalette.BASIC"
+                    [linkClass]="'w-100 text-underline text-left'"
+                    [linkLabel]="row[column.title].value"
+                  ></atoms-link-button>
+                </ng-container>
+
+                <!-- Checkbox -->
+                <ng-container *ngSwitchCase="cellControlType.Checkbox">
+                  <mat-checkbox
+                    [checked]="value"
+                    [disabled]="row[column.title].disabled"
+                    (change)="actionClicked(row[column.title].cellAction, i, $event)"
+                  ></mat-checkbox>
+                </ng-container>
+
+                <!-- Icon -->
+                <ng-container *ngSwitchCase="cellControlType.Icon">
+                  <mat-icon
+                    [color]="row[column.title].customClass"
+                    [svgIcon]="row[column.title].value ? icons.checkCircle : icons.xCircle"
+                  ></mat-icon>
+                </ng-container>
+
+                <!-- Avatar -->
+                <ng-container *ngSwitchCase="cellControlType.Avatar">
+                  <atoms-user-pic
+                    [avatar]="row[column.title].value?.avatar"
+                    [userOnline]="row[column.title].value?.online"
+                  ></atoms-user-pic>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+
+            <!-- ACTIONS COLUMN -->
+            <ng-container *ngSwitchCase="cellValueType.Actions">
+              <atoms-icon-button
+                [color]="themePalette.BASIC"
+                [matType]="matButtonType.ICON"
+                [type]="buttonType.BUTTON"
+                [icon]="icons.threeDots"
+                [matMenuTriggerFor]="actionsMenu"
+              >
+              </atoms-icon-button>
+
+              <mat-menu #actionsMenu="matMenu">
+                <ng-template matMenuContent>
+                  <button mat-menu-item *ngFor="let action of row[column.title].actions">
+                    <mat-icon [svgIcon]="icons[action.icon]"> </mat-icon>
+                    <span>{{ action.label }}</span>
+                  </button>
+                </ng-template>
+              </mat-menu>
+            </ng-container>
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <!-- MENU SETTINGS COLUMN -->
+      <ng-container *ngIf="hasSettings">
+        <ng-container [matColumnDef]="menuColumnName" [sticky]="true">
+          <th mat-header-cell *matHeaderCellDef class="menu-column" [class.sticky-with-border]="hasOutlineBorder">
+            <atoms-icon-button
+              [color]="themePalette.BASIC"
+              [matType]="matButtonType.ICON"
+              [type]="buttonType.BUTTON"
+              [icon]="icons.gear"
+              [matMenuTriggerFor]="menu"
+            >
+            </atoms-icon-button>
+          </th>
+          <td mat-cell *matCellDef class="menu-columnn"></td>
+        </ng-container>
+      </ng-container>
+
+      <!-- ROWS -->
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+      <tr *matNoDataRow>
+        <td [attr.colspan]="columnsToDisplay.length">
+          <atoms-no-content-info [noContentMessage]="noContentMessage"></atoms-no-content-info>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- PAGINATOR -->
+  <mat-paginator
+    *ngIf="paging"
+    showFirstLastButtons
+    [length]="paging.totalItems"
+    [pageSize]="paging.pageSize"
+    [pageSizeOptions]="paging.pageSizeOptions"
+    (page)="pageChange($event)"
+  ></mat-paginator>
+
+  <!-- MENU -->
+  <mat-menu #menu="matMenu">
+    <ng-template matMenuContent>
+      <!-- configure columns -->
+      <button mat-menu-item [matMenuTriggerFor]="tableColumns">
+        <mat-icon
+          [svgIcon]="icons.checksGrid"
+          [matBadge]="null | memoize: getHiddenColumnsCount:this"
+          [matBadgeHidden]="!(null | memoize: hasHiddenColumn:this)"
+        >
+        </mat-icon>
+        <span>Configure columns</span>
+      </button>
+      <!-- reset grid -->
+      <button mat-menu-item>
+        <mat-icon [svgIcon]="icons.arrowClock"> </mat-icon>
+        <span>Reset grid</span>
+      </button>
+    </ng-template>
+  </mat-menu>
+
+  <!-- MENU COLUMNS-->
+  <mat-menu #tableColumns="matMenu">
+    <ng-template matMenuContent>
+      <mat-checkbox class="mat-menu-item" *ngFor="let column of columns" (click)="$event.stopPropagation()">
+        <span class="ml-1 text-capitalize"> {{ column.title }} </span>
+      </mat-checkbox>
+    </ng-template>
+  </mat-menu>
+</ng-container>

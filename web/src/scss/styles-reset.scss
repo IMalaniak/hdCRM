@@ -55,6 +55,18 @@ svg {
 .mat-menu-content {
   display: flex;
   flex-direction: column;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  button {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+  }
 }
 
 .mat-list-item-no-px {
