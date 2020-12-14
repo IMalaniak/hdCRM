@@ -57,12 +57,12 @@
               <ng-container [ngSwitch]="row[column.title].controlType">
                 <!-- Sequence number -->
                 <ng-container *ngSwitchCase="cellControlType.SequenceNumber">
-                  <span>{{ getSequenceNumber(i + 1) }}</span>
+                  {{ getSequenceNumber(i + 1) }}
                 </ng-container>
 
-                <!-- Span -->
-                <ng-container *ngSwitchCase="cellControlType.Span" [ngClass]="row[column.title].customClass">
-                  <span>{{ row[column.title].value }}</span>
+                <!-- String -->
+                <ng-container *ngSwitchCase="cellControlType.String" [ngClass]="row[column.title].customClass">
+                  {{ row[column.title].value }}
                 </ng-container>
 
                 <!-- Navigation -->

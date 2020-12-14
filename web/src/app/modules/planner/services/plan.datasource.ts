@@ -31,12 +31,12 @@ export class PlansDataSource extends CommonDataSource<Plan> {
   mapToDataRows(plans: Plan[]): DataRow[] {
     const dataRows = plans.map((plan) => ({
       id: plan.id,
-      [COLUMN_NAMES.TITLE]: CellValue.createSpanCell(plan.title),
-      [COLUMN_NAMES.STAGE]: CellValue.createSpanCell(plan.activeStage.keyString),
-      [COLUMN_NAMES.CREATOR]: CellValue.createSpanCell(plan.Creator?.fullname || '-'),
-      [COLUMN_NAMES.PARTICIPANTS]: CellValue.createSpanCell(plan.Participants?.length.toString() || '-'),
-      [COLUMN_NAMES.CREATED_AT]: CellValue.createSpanCell(plan.createdAt.toString()),
-      [COLUMN_NAMES.UPDATED_AT]: CellValue.createSpanCell(plan.updatedAt.toString()),
+      [COLUMN_NAMES.TITLE]: CellValue.createStringCell(plan.title),
+      [COLUMN_NAMES.STAGE]: CellValue.createStringCell(plan.activeStage.keyString),
+      [COLUMN_NAMES.CREATOR]: CellValue.createStringCell(plan.Creator?.fullname || '-'),
+      [COLUMN_NAMES.PARTICIPANTS]: CellValue.createStringCell(plan.Participants?.length.toString() || '-'),
+      [COLUMN_NAMES.CREATED_AT]: CellValue.createStringCell(plan.createdAt.toString()),
+      [COLUMN_NAMES.UPDATED_AT]: CellValue.createStringCell(plan.updatedAt.toString()),
       [COLUMN_NAMES.ACTIONS]: CellValue.createActionsCell()
     }));
     return dataRows;

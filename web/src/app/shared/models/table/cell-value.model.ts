@@ -19,12 +19,12 @@ export class CellValue {
     readonly disabled = false
   ) {}
 
-  static createSequenceNumberCell(): CellValue {
+  static createSequenceCell(): CellValue {
     return new CellValue(undefined, CellControlType.SequenceNumber, STYLECONSTANTS.SEQUENCE);
   }
 
-  static createSpanCell(value: string, customClass?: string): CellValue {
-    return new CellValue(value, CellControlType.Span, customClass);
+  static createStringCell(value: string, customClass?: string): CellValue {
+    return new CellValue(value, CellControlType.String, customClass);
   }
 
   static createLinkCell(value: string, navigation: Navigation): CellValue {
@@ -49,7 +49,7 @@ export class CellValue {
   }
 
   static createEmptyCell(): CellValue {
-    return new CellValue('-', CellControlType.Span);
+    return new CellValue('-', CellControlType.String);
   }
 
   static createActionsCell(additionalActions?: CellAction[]): CellValue {

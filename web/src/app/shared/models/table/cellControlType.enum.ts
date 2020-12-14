@@ -1,7 +1,7 @@
 export enum CellControlType {
   SequenceNumber,
   Action,
-  Span,
+  String,
   Navigation,
   Icon,
   Checkbox,
