@@ -27,7 +27,8 @@ export class UsersDataSource extends CommonDataSource<User> {
   }
 
   mapToDataRows(users: User[]): DataRow[] {
-    const dataRows = users.map((_) => ({
+    const dataRows = users.map((user) => ({
+      id: user.id
       // TBD
     }));
     return dataRows;

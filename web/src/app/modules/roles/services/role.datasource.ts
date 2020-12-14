@@ -27,7 +27,8 @@ export class RolesDataSource extends CommonDataSource<Role> {
   }
 
   mapToDataRows(roles: Role[]): DataRow[] {
-    const dataRows = roles.map((_) => ({
+    const dataRows = roles.map((role) => ({
+      id: role.id
       // TBD
     }));
     return dataRows;

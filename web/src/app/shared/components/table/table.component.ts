@@ -57,6 +57,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
   @Input() noContentMessage = CONSTANTS.NO_CONTENT_INFO;
   @Input() hasOutlineBorder = true; // TODO: add logic to set it based on user preference
 
+  @Output() readonly rowSelect: EventEmitter<number> = new EventEmitter<number>();
   @Output() readonly editClicked: EventEmitter<number> = new EventEmitter<number>();
   @Output() readonly deleteClicked: EventEmitter<number> = new EventEmitter<number>();
   @Output() readonly detailsClicked: EventEmitter<number> = new EventEmitter<number>();

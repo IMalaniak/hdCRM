@@ -27,7 +27,8 @@ export class DepartmentsDataSource extends CommonDataSource<Department> {
   }
 
   mapToDataRows(departments: Department[]): DataRow[] {
-    const dataRows = departments.map((_) => ({
+    const dataRows = departments.map((department) => ({
+      id: department.id
       // TBD
     }));
     return dataRows;

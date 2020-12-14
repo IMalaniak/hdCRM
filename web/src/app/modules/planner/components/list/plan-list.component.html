@@ -3,6 +3,12 @@
     <atoms-icon-button [routerLink]="addPlanRoute" [icon]="listIcons.add"> Create a new plan </atoms-icon-button>
   </div>
 
-  <table-component content [dataSource]="dataSource" [columns]="displayedColumns" [totalItems]="resultsLength$ | async">
+  <table-component
+    content
+    [dataSource]="dataSource"
+    [columns]="displayedColumns"
+    [totalItems]="resultsLength$ | async"
+    (rowSelect)="onPlanSelect($event)"
+  >
   </table-component>
 </organisms-card>

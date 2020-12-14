@@ -78,7 +78,7 @@
                 <!-- Checkbox -->
                 <ng-container *ngSwitchCase="cellControlType.Checkbox">
                   <mat-checkbox
-                    [checked]="value"
+                    [checked]="row[column.title].value"
                     [disabled]="row[column.title].disabled"
                     (change)="actionClicked(row[column.title].cellAction, i, $event)"
                   ></mat-checkbox>
@@ -145,7 +145,7 @@
 
       <!-- ROWS -->
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay" (click)="rowSelect.emit(row.id)"></tr>
       <tr *matNoDataRow>
         <td [attr.colspan]="columnsToDisplay.length">
           <atoms-no-content-info [noContentMessage]="noContentMessage"></atoms-no-content-info>

@@ -30,6 +30,7 @@ export class PlansDataSource extends CommonDataSource<Plan> {
 
   mapToDataRows(plans: Plan[]): DataRow[] {
     const dataRows = plans.map((plan) => ({
+      id: plan.id,
       [COLUMN_NAMES.TITLE]: CellValue.createSpanCell(plan.title),
       [COLUMN_NAMES.STAGE]: CellValue.createSpanCell(plan.activeStage.keyString),
       [COLUMN_NAMES.CREATOR]: CellValue.createSpanCell(plan.Creator?.fullname || '-'),
