@@ -128,7 +128,7 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
       sortDirection: this.sort.direction || SORT_DIRECTION.ASC
     };
 
-    this.dataSource.loadUsers(newPage);
+    this.dataSource.loadData(newPage);
   }
 
   openInvitationDialog(): void {

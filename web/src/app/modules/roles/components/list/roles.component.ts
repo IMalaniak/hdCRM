@@ -97,7 +97,7 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
       sortDirection: this.sort.direction || SORT_DIRECTION.ASC
     };
 
-    this.dataSource.loadRoles(newPage);
+    this.dataSource.loadData(newPage);
   }
 
   onRoleSelect(id: number, edit: boolean = false): void {

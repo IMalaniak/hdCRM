@@ -92,7 +92,7 @@ export class DepartmentsComponent implements AfterViewInit, OnDestroy {
       sortDirection: this.sort.direction || SORT_DIRECTION.ASC
     };
 
-    this.dataSource.loadDepartments(newPage);
+    this.dataSource.loadData(newPage);
   }
 
   onDepSelect(id: number, edit: boolean = false): void {

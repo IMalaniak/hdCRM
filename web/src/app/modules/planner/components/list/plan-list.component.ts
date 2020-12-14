@@ -97,7 +97,7 @@ export class PlanListComponent implements AfterViewInit, OnDestroy {
       sortDirection: this.sort.direction || SORT_DIRECTION.ASC
     };
 
-    this.dataSource.loadPlans(newPage);
+    this.dataSource.loadData(newPage);
   }
 
   onPlanSelect(id: number, edit: boolean = false): void {
