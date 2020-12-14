@@ -156,11 +156,10 @@
 
   <!-- PAGINATOR -->
   <mat-paginator
-    *ngIf="paging"
     showFirstLastButtons
-    [length]="paging.totalItems"
-    [pageSize]="paging.pageSize"
-    [pageSizeOptions]="paging.pageSizeOptions"
+    [length]="totalItems"
+    [pageSize]="itemsPerPageState$ | async"
+    [pageSizeOptions]="pageSizeOptions"
   ></mat-paginator>
 
   <!-- MENU -->

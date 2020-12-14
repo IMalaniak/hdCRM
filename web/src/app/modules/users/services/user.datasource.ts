@@ -7,6 +7,7 @@ import { CommonDataSource } from '@/shared/services';
 import { User } from '../models/';
 import { listPageRequested } from '../store/user.actions';
 import { selectUsersPage } from '../store/user.selectors';
+import { DataRow } from '@/shared/models/table';
 
 export class UsersDataSource extends CommonDataSource<User> {
   loadData(page: PageQuery) {
@@ -15,7 +16,7 @@ export class UsersDataSource extends CommonDataSource<User> {
         select(selectUsersPage(page)),
         tap((users) => {
           if (users.length > 0) {
-            this.listSubject.next(users);
+            this.listSubject.next(this.mapToDataRows(users));
           } else {
             this.store$.dispatch(listPageRequested({ page }));
           }
@@ -23,5 +24,12 @@ export class UsersDataSource extends CommonDataSource<User> {
         catchError(() => of([]))
       )
       .subscribe();
+  }
+
+  mapToDataRows(users: User[]): DataRow[] {
+    const dataRows = users.map((_) => ({
+      // TBD
+    }));
+    return dataRows;
   }
 }

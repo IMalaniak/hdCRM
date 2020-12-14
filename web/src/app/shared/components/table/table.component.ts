@@ -13,10 +13,14 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTable } from '@angular/material/table';
 import { CdkTable } from '@angular/cdk/table';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { merge } from 'rxjs';
+import { merge, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
+import { Store } from '@ngrx/store';
+
 import { IconsService } from '@/core/services';
+import { AppState } from '@/core/reducers';
+import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import { DataColumn } from '@/shared/models/table/data-column.model';
 import { DataRow } from '@/shared/models/table/data-row';
 import {
@@ -24,7 +28,9 @@ import {
   BUTTON_TYPE,
   COLUMN_NAMES,
   CONSTANTS,
+  IItemsPerPage,
   MAT_BUTTON,
+  pageSizeOptions,
   SORT_DIRECTION,
   STYLECONSTANTS,
   THEME_PALETTE
@@ -41,7 +47,10 @@ import { PageQuery } from '@/shared/models';
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnChanges, AfterViewInit {
+  itemsPerPageState$: Observable<IItemsPerPage> = this.store$.select(getItemsPerPageState);
+
   @Input() dataSource: CommonDataSource<DataRow>;
+  @Input() totalItems: number;
   @Input() columns: DataColumn[];
   @Input() canSort = true;
   @Input() hasSettings = true;
@@ -60,6 +69,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
   columnsToDisplay: string[] = [];
   menuColumnName = COLUMN_NAMES.NAME;
 
+  pageSizeOptions: number[] = pageSizeOptions;
   cellValueType = CellValueType;
   cellControlType = CellControlType;
   buttonType = BUTTON_TYPE;
@@ -81,7 +91,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
     gripVertival: BS_ICONS.GripVertical
   };
 
-  constructor(private readonly iconsService: IconsService) {
+  constructor(private readonly store$: Store<AppState>, private readonly iconsService: IconsService) {
     this.iconsService.registerIcons([...Object.values(this.icons)]);
   }
 

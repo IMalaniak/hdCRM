@@ -4,6 +4,7 @@ import { catchError, tap } from 'rxjs/operators';
 
 import { PageQuery } from '@/shared/models';
 import { CommonDataSource } from '@/shared/services';
+import { DataRow } from '@/shared/models/table';
 import { Department } from '../models/';
 import { listPageRequested } from '../store/department.actions';
 import { selectDepartmentsOfPage } from '../store/department.selectors';
@@ -15,7 +16,7 @@ export class DepartmentsDataSource extends CommonDataSource<Department> {
         select(selectDepartmentsOfPage(page)),
         tap((departments) => {
           if (departments.length > 0) {
-            this.listSubject.next(departments);
+            this.listSubject.next(this.mapToDataRows(departments));
           } else {
             this.store$.dispatch(listPageRequested({ page }));
           }
@@ -23,5 +24,12 @@ export class DepartmentsDataSource extends CommonDataSource<Department> {
         catchError(() => of([]))
       )
       .subscribe();
+  }
+
+  mapToDataRows(departments: Department[]): DataRow[] {
+    const dataRows = departments.map((_) => ({
+      // TBD
+    }));
+    return dataRows;
   }
 }

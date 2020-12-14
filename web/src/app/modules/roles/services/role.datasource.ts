@@ -4,6 +4,7 @@ import { catchError, tap } from 'rxjs/operators';
 
 import { PageQuery } from '@/shared/models';
 import { CommonDataSource } from '@/shared/services';
+import { DataRow } from '@/shared/models/table';
 import { Role } from '../models/';
 import { listPageRequested } from '../store/role.actions';
 import { selectRolesOfPage } from '../store/role.selectors';
@@ -15,7 +16,7 @@ export class RolesDataSource extends CommonDataSource<Role> {
         select(selectRolesOfPage(page)),
         tap((roles) => {
           if (roles.length > 0) {
-            this.listSubject.next(roles);
+            this.listSubject.next(this.mapToDataRows(roles));
           } else {
             this.store$.dispatch(listPageRequested({ page }));
           }
@@ -23,5 +24,12 @@ export class RolesDataSource extends CommonDataSource<Role> {
         catchError(() => of([]))
       )
       .subscribe();
+  }
+
+  mapToDataRows(roles: Role[]): DataRow[] {
+    const dataRows = roles.map((_) => ({
+      // TBD
+    }));
+    return dataRows;
   }
 }
