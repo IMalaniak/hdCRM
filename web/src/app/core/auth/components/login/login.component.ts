@@ -97,7 +97,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         verifyPassword: new FormControl(null, [Validators.required])
       },
       {
-        validator: ConfirmPasswordValidator.MatchPassword
+        validators: ConfirmPasswordValidator.MatchPassword
       }
     );
   }

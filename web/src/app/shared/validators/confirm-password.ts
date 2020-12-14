@@ -1,15 +1,21 @@
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 export class ConfirmPasswordValidator {
-  static MatchPassword(control: AbstractControl) {
-    const newPassword = control.get('newPassword').value;
+  static MatchPassword(control: AbstractControl): ValidationErrors | null {
+    if (control) {
+      const newPasswordControll = control.get('newPassword');
+      const verifyPasswordControll = control.get('verifyPassword');
 
-    const verifyPassword = control.get('verifyPassword').value;
+      const newPassword = newPasswordControll.value;
+      const verifyPassword = verifyPasswordControll.value;
 
-    if (newPassword !== verifyPassword) {
-      control.get('verifyPassword').setErrors({ ConfirmPassword: true });
-    } else {
-      return null;
+      if (newPassword !== verifyPassword) {
+        verifyPasswordControll.setErrors({ ConfirmPassword: true });
+        return { ConfirmPassword: true };
+      } else {
+        return null;
+      }
     }
+    return null;
   }
 }
