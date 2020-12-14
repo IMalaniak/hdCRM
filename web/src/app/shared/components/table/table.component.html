@@ -9,10 +9,6 @@
       [dataSource]="dataSource"
       [trackBy]="trackById"
     >
-      <!-- [matSortActive]="sorting?.title"
-        [matSortDirection]="sorting?.direction"
-        (matSortChange)="sortChange($event)" -->
-
       <!-- COLUMNS & ROWS-->
       <ng-container
         *ngFor="let column of columns"
@@ -165,7 +161,6 @@
     [length]="paging.totalItems"
     [pageSize]="paging.pageSize"
     [pageSizeOptions]="paging.pageSizeOptions"
-    (page)="pageChange($event)"
   ></mat-paginator>
 
   <!-- MENU -->

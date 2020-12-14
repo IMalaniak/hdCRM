@@ -10,25 +10,30 @@ import {
 } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatTable } from '@angular/material/table';
 import { CdkTable } from '@angular/cdk/table';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { merge } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
+import { IconsService } from '@/core/services';
 import { DataColumn } from '@/shared/models/table/data-column.model';
 import { DataRow } from '@/shared/models/table/data-row';
-import { IconsService } from '@/core/services';
 import {
   BS_ICONS,
   BUTTON_TYPE,
   COLUMN_NAMES,
   CONSTANTS,
   MAT_BUTTON,
+  SORT_DIRECTION,
   STYLECONSTANTS,
   THEME_PALETTE
 } from '@/shared/constants';
 import { HorizontalAlign } from '@/shared/models/table/horizontalAlign.enum';
 import { CellActionType, CellControlType, CellValueType } from '@/shared/models/table';
 import { CustomActionEvent } from '@/shared/models/table/custom-action-event';
+import { CommonDataSource } from '@/shared/services';
+import { PageQuery } from '@/shared/models';
 
 @Component({
   selector: 'table-component',
@@ -36,18 +41,13 @@ import { CustomActionEvent } from '@/shared/models/table/custom-action-event';
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnChanges, AfterViewInit {
+  @Input() dataSource: CommonDataSource<DataRow>;
   @Input() columns: DataColumn[];
-  @Input() rows: DataRow[];
-  @Input() paging: any; // TODO: add type
-  @Input() sorting: any; // TODO: add type
   @Input() canSort = true;
   @Input() hasSettings = true;
   @Input() noContentMessage = CONSTANTS.NO_CONTENT_INFO;
   @Input() hasOutlineBorder = true; // TODO: add logic to set it based on user preference
 
-  @Output() readonly pagingChange: EventEmitter<any> = new EventEmitter<any>(); // TODO: add type
-  @Output() readonly sortingChange: EventEmitter<any> = new EventEmitter<any>(); // TODO: add type
-  @Output() readonly filteringChange: EventEmitter<any> = new EventEmitter<any>(); // TODO: add type
   @Output() readonly editClicked: EventEmitter<number> = new EventEmitter<number>();
   @Output() readonly deleteClicked: EventEmitter<number> = new EventEmitter<number>();
   @Output() readonly detailsClicked: EventEmitter<number> = new EventEmitter<number>();
@@ -57,7 +57,6 @@ export class TableComponent implements OnChanges, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  dataSource: MatTableDataSource<DataRow> = new MatTableDataSource<DataRow>();
   columnsToDisplay: string[] = [];
   menuColumnName = COLUMN_NAMES.NAME;
 
@@ -90,14 +89,29 @@ export class TableComponent implements OnChanges, AfterViewInit {
     if (changes.columns && this.columns) {
       this.setColumns();
     }
-
-    if (changes.rows && this.rows) {
-      this.dataSource.data = this.rows;
-    }
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort;
+    const sort$ = this.sort.sortChange.pipe(tap(() => (this.paginator.pageIndex = 0)));
+    merge(sort$, this.paginator.page)
+      .pipe(
+        // takeUntil(this.unsubscribe),
+        tap(() => this.loadDataPage())
+      )
+      .subscribe();
+
+    this.loadDataPage();
+  }
+
+  loadDataPage(): void {
+    const newPage: PageQuery = {
+      pageIndex: this.paginator.pageIndex,
+      pageSize: this.paginator.pageSize,
+      sortIndex: this.sort.active || COLUMN_NAMES.ID,
+      sortDirection: this.sort.direction || SORT_DIRECTION.ASC
+    };
+
+    this.dataSource.loadData(newPage);
   }
 
   actionClicked(action: CellActionType, id: number, event: Event | MatCheckboxChange): void {
@@ -126,9 +140,6 @@ export class TableComponent implements OnChanges, AfterViewInit {
   }
 
   getSequenceNumber(index: number): number {
-    if (this.paging) {
-      // return index + (this.paging.number - 1) * this.paging.perPage;
-    } // TODO: add logic
     return index;
   }
 
