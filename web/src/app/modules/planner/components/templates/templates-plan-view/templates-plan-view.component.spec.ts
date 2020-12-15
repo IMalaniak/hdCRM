@@ -14,6 +14,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { initialPreferencesState } from '@/core/reducers/preferences.reducer';
 import { Asset } from '@/shared/models';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('TemplatesPlanViewComponent', () => {
   let component: TemplatesPlanViewComponent;
@@ -43,7 +44,7 @@ describe('TemplatesPlanViewComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [TemplatesPlanViewComponent],
-        imports: [BrowserAnimationsModule, HttpClientModule, RouterTestingModule, SharedModule],
+        imports: [BrowserAnimationsModule, MatIconTestingModule, HttpClientModule, RouterTestingModule, SharedModule],
         providers: [provideMockStore({ initialState })]
       }).compileComponents();
     })
