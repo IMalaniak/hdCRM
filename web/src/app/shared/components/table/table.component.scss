@@ -115,8 +115,8 @@ $border: 1px solid #595959; // TODO: change to dinamicly color
 
     .menu-column {
       padding: 0;
-      max-width: 2rem;
-      min-width: 2rem;
+      width: app-size(spacer, lg, true);
+      min-width: app-size(spacer, lg, true);
     }
   }
 

@@ -26,6 +26,7 @@ import { DataRow } from '@/shared/models/table/data-row';
 import {
   BS_ICONS,
   BUTTON_TYPE,
+  COLUMN_LABELS,
   COLUMN_NAMES,
   CONSTANTS,
   IItemsPerPage,
@@ -60,7 +61,6 @@ export class TableComponent implements OnChanges, AfterViewInit {
   @Output() readonly rowSelect: EventEmitter<number> = new EventEmitter<number>();
   @Output() readonly editClicked: EventEmitter<number> = new EventEmitter<number>();
   @Output() readonly deleteClicked: EventEmitter<number> = new EventEmitter<number>();
-  @Output() readonly detailsClicked: EventEmitter<number> = new EventEmitter<number>();
   @Output() readonly customActionClicked: EventEmitter<CustomActionEvent> = new EventEmitter<CustomActionEvent>();
 
   @ViewChild('table') table: MatTable<CdkTable<DataRow>>;
@@ -68,7 +68,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   columnsToDisplay: string[] = [];
-  menuColumnName = COLUMN_NAMES.NAME;
+  menuColumnName = COLUMN_LABELS.MENU;
 
   pageSizeOptions: number[] = pageSizeOptions;
   cellValueType = CellValueType;
@@ -114,26 +114,12 @@ export class TableComponent implements OnChanges, AfterViewInit {
     this.loadDataPage();
   }
 
-  loadDataPage(): void {
-    const newPage: PageQuery = {
-      pageIndex: this.paginator.pageIndex,
-      pageSize: this.paginator.pageSize,
-      sortIndex: this.sort.active || COLUMN_NAMES.ID,
-      sortDirection: this.sort.direction || SORT_DIRECTION.ASC
-    };
-
-    this.dataSource.loadData(newPage);
-  }
-
   actionClicked(action: CellActionType, id: number, event: Event | MatCheckboxChange): void {
     if (event instanceof Event) {
       event.stopImmediatePropagation();
     }
 
     switch (action) {
-      case CellActionType.Details:
-        this.detailsClicked.emit(id);
-        break;
       case CellActionType.Edit:
         this.editClicked.emit(id);
         break;
@@ -205,5 +191,16 @@ export class TableComponent implements OnChanges, AfterViewInit {
 
       this.columnsToDisplay = [...this.columnsToDisplay, ...columnsToDisplay];
     }
+  }
+
+  private loadDataPage(): void {
+    const newPage: PageQuery = {
+      pageIndex: this.paginator.pageIndex,
+      pageSize: this.paginator.pageSize,
+      sortIndex: this.sort.active || COLUMN_NAMES.ID,
+      sortDirection: this.sort.direction || SORT_DIRECTION.ASC
+    };
+
+    this.dataSource.loadData(newPage);
   }
 }
