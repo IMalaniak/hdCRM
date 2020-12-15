@@ -6,11 +6,11 @@ import { LINK_TARGET, THEME_PALETTE, LINK_TYPE } from '@/shared/constants';
   selector: 'atoms-link-button',
   template: `
     <a
-      [href]="linkHref || 'javascript:void(0)'"
       mat-button
       class="button-link"
       color="{{ linkColor }}"
       target="{{ target }}"
+      [href]="linkHref"
       [disableRipple]="true"
       [ngClass]="[classes]"
       [disabled]="disabled"
