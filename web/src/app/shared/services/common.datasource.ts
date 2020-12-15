@@ -10,7 +10,7 @@ import { DataRow } from '../models/table';
 export abstract class CommonDataSource<T> implements DataSource<DataRow> {
   protected listSubject = new BehaviorSubject<DataRow[]>([]);
 
-  constructor(protected store$: Store<AppState>) {}
+  constructor(protected readonly store$: Store<AppState>) {}
 
   connect(): Observable<DataRow[]> {
     return this.listSubject.asObservable();
