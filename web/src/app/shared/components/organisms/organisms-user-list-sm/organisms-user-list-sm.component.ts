@@ -1,10 +1,17 @@
 import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
+import { MatListOption } from '@angular/material/list';
+
 import { User } from '@/modules/users';
 
 @Component({
   selector: 'organisms-user-list-sm',
   template: `
-    <mat-selection-list [multiple]="false" class="pt-0">
+    <mat-selection-list
+      #userList
+      [multiple]="false"
+      class="pt-0"
+      (selectionChange)="onSelectionChange(userList.selectedOptions.selected)"
+    >
       <ng-container *ngIf="users?.length">
         <molecules-user-list-sm-item
           *ngFor="let user of users; last as last"
@@ -12,7 +19,6 @@ import { User } from '@/modules/users';
           [user]="user"
           [isLast]="last"
           (removeClick)="onRemoveClick($event)"
-          (userClick)="onUserClick($event)"
         ></molecules-user-list-sm-item>
       </ng-container>
 
@@ -22,7 +28,6 @@ import { User } from '@/modules/users';
           [user]="user"
           [isLast]="true"
           (removeClick)="onRemoveClick($event)"
-          (userClick)="onUserClick($event)"
         ></molecules-user-list-sm-item>
       </ng-container>
     </mat-selection-list>
@@ -41,7 +46,7 @@ export class OrganismsUserListSmComponent {
     this.removeClick.emit(id);
   }
 
-  onUserClick(user: User): void {
-    this.userClick.emit(user);
+  onSelectionChange(options: MatListOption[]): void {
+    this.userClick.emit(options[0].value);
   }
 }

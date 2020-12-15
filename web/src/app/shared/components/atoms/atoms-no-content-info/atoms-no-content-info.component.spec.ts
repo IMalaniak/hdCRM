@@ -1,8 +1,8 @@
-import { CONSTANTS } from '@/shared/constants';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
+import { CONSTANTS } from '@/shared/constants';
 import { AtomsNoContentInfoComponent } from './atoms-no-content-info.component';
 
 describe('AtomsNocontentInfoComponent', () => {

@@ -2,6 +2,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatSnackBarRef, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 
+import { SharedModule } from '@/shared/shared.module';
 import { MoleculesServerMessageComponent } from './molecules-server-message.component';
 
 describe('MoleculesServerMessageComponent', () => {
@@ -11,7 +12,7 @@ describe('MoleculesServerMessageComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [MatIconTestingModule],
+        imports: [MatIconTestingModule, SharedModule],
         declarations: [MoleculesServerMessageComponent],
         providers: [
           {

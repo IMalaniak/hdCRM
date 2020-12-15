@@ -10,7 +10,7 @@ import { THEME_PALETTE, IFieldType, InputType } from '@/shared/constants';
 @Component({
   selector: 'atoms-form-field',
   template: `
-    <ng-container [ngSwitch]="fType">
+    <ng-container [ngSwitch]="fType" *ngIf="control">
       <!-- INPUT -->
       <input-validation-component
         *ngSwitchDefault

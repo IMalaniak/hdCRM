@@ -1,8 +1,9 @@
-import { SharedModule } from '@/shared/shared.module';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
+
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { SharedModule } from '@/shared/shared.module';
 import { TemplatesUserDetailsComponent } from './templates-user-details.component';
 
 describe('TemplatesUserDetailsComponent', () => {

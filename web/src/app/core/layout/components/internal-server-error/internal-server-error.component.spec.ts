@@ -1,6 +1,7 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 
+import { SharedModule } from '@/shared/shared.module';
 import { InternalServerErrorComponent } from './internal-server-error.component';
 
 describe('InternalServerErrorComponent', () => {
@@ -10,7 +11,7 @@ describe('InternalServerErrorComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [MatIconTestingModule],
+        imports: [MatIconTestingModule, SharedModule],
         declarations: [InternalServerErrorComponent]
       }).compileComponents();
     })

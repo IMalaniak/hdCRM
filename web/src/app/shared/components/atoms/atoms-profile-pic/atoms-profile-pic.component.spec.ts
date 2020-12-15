@@ -1,5 +1,6 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { SharedModule } from '@/shared/shared.module';
 import { AtomsProfilePicComponent } from './atoms-profile-pic.component';
 
 describe('AtomsProfilePicComponent', () => {
@@ -9,6 +10,7 @@ describe('AtomsProfilePicComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
+        imports: [SharedModule],
         declarations: [AtomsProfilePicComponent]
       }).compileComponents();
     })

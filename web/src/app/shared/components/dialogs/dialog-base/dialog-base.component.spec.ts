@@ -2,9 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { DialogBaseComponent } from './dialog-base.component';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogWithTwoButtonModel } from '@/shared/models/dialog/dialog-with-two-button.model';
+import { DialogBaseComponent } from './dialog-base.component';
 
 describe('DialogBaseComponent', () => {
   const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {

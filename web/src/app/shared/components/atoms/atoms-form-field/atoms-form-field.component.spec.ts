@@ -1,5 +1,6 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { SharedModule } from '@/shared/shared.module';
 import { AtomsFormFieldComponent } from './atoms-form-field.component';
 
 describe('AtomsFormFieldComponent', () => {
@@ -9,6 +10,7 @@ describe('AtomsFormFieldComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
+        imports: [SharedModule],
         declarations: [AtomsFormFieldComponent]
       }).compileComponents();
     })

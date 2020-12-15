@@ -1,8 +1,11 @@
-import { SharedModule } from '@/shared/shared.module';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideMockStore } from '@ngrx/store/testing';
-import { initialTaskManagerState } from '../../store/task.reducer';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
+import { provideMockStore } from '@ngrx/store/testing';
+
+import { SharedModule } from '@/shared/shared.module';
+import { initialTaskManagerState } from '../../store/task.reducer';
+import { OrganismsTaskListComponent } from '../organisms';
 import { TaskManagerComponent } from './task-manager.component';
 
 describe('TaskManagerComponent', () => {
@@ -15,8 +18,8 @@ describe('TaskManagerComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [TaskManagerComponent],
-        imports: [SharedModule],
+        declarations: [TaskManagerComponent, OrganismsTaskListComponent],
+        imports: [SharedModule, MatIconTestingModule],
         providers: [provideMockStore({ initialState })]
       }).compileComponents();
     })

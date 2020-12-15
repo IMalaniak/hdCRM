@@ -1,5 +1,6 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { SharedModule } from '@/shared/shared.module';
 import { AtomsIconButtonComponent } from './atoms-icon-button.component';
 
 describe('AtomsIconButtonComponent', () => {
@@ -9,6 +10,7 @@ describe('AtomsIconButtonComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
+        imports: [SharedModule],
         declarations: [AtomsIconButtonComponent]
       }).compileComponents();
     })

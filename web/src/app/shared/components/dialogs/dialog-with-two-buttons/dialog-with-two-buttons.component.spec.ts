@@ -1,9 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { RouterTestingModule } from '@angular/router/testing';
 
-import { DialogWithTwoButtonsComponent } from './dialog-with-two-buttons.component';
 import { DialogWithTwoButtonModel } from '@/shared/models/dialog/dialog-with-two-button.model';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
+import { SharedModule } from '@/shared/shared.module';
+import { DialogWithTwoButtonsComponent } from './dialog-with-two-buttons.component';
 
 describe('DialogWithTwoButtonsComponent', () => {
   const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
@@ -15,6 +17,7 @@ describe('DialogWithTwoButtonsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [SharedModule, RouterTestingModule],
       declarations: [DialogWithTwoButtonsComponent],
       providers: [
         MatDialog,

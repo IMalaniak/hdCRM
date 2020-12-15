@@ -2,25 +2,28 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { SharedModule } from '@/shared/shared.module';
-import { authStateMock } from '@/shared/testing/mocks';
+import { authStateMock, formsStateMock } from '@/shared/testing/mocks';
 import { AddRoleComponent } from './add-role.component';
+import { TemplatesRoleViewComponent } from '../templates';
 
 describe('AddRoleComponent', () => {
   let component: AddRoleComponent;
   let fixture: ComponentFixture<AddRoleComponent>;
   const initialState = {
-    auth: authStateMock
+    auth: authStateMock,
+    forms: formsStateMock
   };
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [AddRoleComponent],
-        imports: [HttpClientModule, RouterTestingModule, SharedModule, BrowserAnimationsModule],
+        declarations: [AddRoleComponent, TemplatesRoleViewComponent],
+        imports: [HttpClientModule, MatIconTestingModule, RouterTestingModule, SharedModule, BrowserAnimationsModule],
         providers: [provideMockStore({ initialState })]
       }).compileComponents();
     })

@@ -1,6 +1,7 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 
+import { SharedModule } from '@/shared/shared.module';
 import { PageNotFoundComponent } from './page-not-found.component';
 
 describe('PageNotFoundComponent', () => {
@@ -10,7 +11,7 @@ describe('PageNotFoundComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [MatIconTestingModule],
+        imports: [MatIconTestingModule, SharedModule],
         declarations: [PageNotFoundComponent]
       }).compileComponents();
     })
