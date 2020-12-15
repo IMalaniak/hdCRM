@@ -5,9 +5,9 @@
       mat-table
       #table
       matSort
-      [class.no-outline-border]="!hasOutlineBorder"
       [dataSource]="dataSource"
       [trackBy]="trackById"
+      [class.no-outline-border]="!hasOutlineBorder"
     >
       <!-- COLUMNS & ROWS-->
       <ng-container
@@ -99,6 +99,11 @@
                     [userOnline]="row[column.title].value?.online"
                   ></atoms-user-pic>
                 </ng-container>
+
+                <!-- Date -->
+                <ng-container *ngSwitchCase="cellControlType.Date">
+                  {{ row[column.title].value | dateTimeFormat | async }}
+                </ng-container>
               </ng-container>
             </ng-container>
 
@@ -129,7 +134,12 @@
       <!-- MENU SETTINGS COLUMN -->
       <ng-container *ngIf="hasSettings">
         <ng-container [matColumnDef]="menuColumnName" [sticky]="true">
-          <th mat-header-cell *matHeaderCellDef class="menu-column" [class.sticky-with-border]="hasOutlineBorder">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="menu-column text-center"
+            [class.sticky-with-border]="hasOutlineBorder"
+          >
             <atoms-icon-button
               [color]="themePalette.BASIC"
               [matType]="matButtonType.ICON"
@@ -139,7 +149,7 @@
             >
             </atoms-icon-button>
           </th>
-          <td mat-cell *matCellDef class="menu-columnn"></td>
+          <td mat-cell *matCellDef class="menu-column"></td>
         </ng-container>
       </ng-container>
 

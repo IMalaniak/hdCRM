@@ -48,6 +48,10 @@ export class CellValue {
     return new CellValue(value, CellControlType.Avatar);
   }
 
+  static createDateCell(value: Date): CellValue {
+    return new CellValue(value, CellControlType.Date);
+  }
+
   static createEmptyCell(): CellValue {
     return new CellValue('-', CellControlType.String);
   }

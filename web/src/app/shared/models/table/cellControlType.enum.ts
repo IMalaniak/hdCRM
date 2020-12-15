@@ -5,5 +5,6 @@ export enum CellControlType {
   Navigation,
   Icon,
   Checkbox,
-  Avatar
+  Avatar,
+  Date
 }
