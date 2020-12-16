@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { mergeMap, map, catchError, switchMap } from 'rxjs/operators';
 
 import { Actions, ofType, createEffect } from '@ngrx/effects';
@@ -29,7 +29,10 @@ export class PlanEffects {
             this.router.navigateByUrl(RoutingConstants.ROUTE_PLANNER);
             const { Plans, Users } = normalizeResponse<Plan>(response, planSchema);
             response = { ...response, data: Plans[0] };
-            return [planActions.createPlanSuccess({ plan: response.data }), partialDataLoaded({ Users })];
+            return [
+              planActions.createPlanSuccess({ plan: response.data }),
+              ...(Users ? [partialDataLoaded({ Users })] : [])
+            ];
           }),
           catchError((errorResponse: HttpErrorResponse) => {
             this.toastMessageService.snack(errorResponse.error);
@@ -48,7 +51,7 @@ export class PlanEffects {
       switchMap((response: ItemApiResponse<Plan>) => {
         const { Plans, Users } = normalizeResponse<Plan>(response, planSchema);
         response = { ...response, data: Plans[0] };
-        return [planActions.planLoaded({ plan: response.data }), partialDataLoaded({ Users })];
+        return [planActions.planLoaded({ plan: response.data }), ...(Users ? [partialDataLoaded({ Users })] : [])];
       }),
       catchError(() => of(planActions.planApiError()))
     )
@@ -63,8 +66,11 @@ export class PlanEffects {
           switchMap((response: CollectionApiResponse<Plan>) => {
             const page: Page = { dataIds: response.ids, key: generatePageKey(pageQuery) };
             const { Plans, Users } = normalizeResponse<Plan>(response, planListSchema);
+            if (!Plans) {
+              return EMPTY;
+            }
             response = { ...response, data: Plans };
-            return [planActions.listPageLoaded({ response, page }), partialDataLoaded({ Users })];
+            return [planActions.listPageLoaded({ response, page }), ...(Users ? [partialDataLoaded({ Users })] : [])];
           }),
           catchError(() => of(planActions.planApiError()))
         )
@@ -86,7 +92,7 @@ export class PlanEffects {
               changes: response.data
             };
             this.toastMessageService.snack(response);
-            return [planActions.updatePlanSuccess({ plan }), partialDataLoaded({ Users })];
+            return [planActions.updatePlanSuccess({ plan }), ...(Users ? [partialDataLoaded({ Users })] : [])];
           }),
           catchError((errorResponse: HttpErrorResponse) => {
             this.toastMessageService.snack(errorResponse.error);

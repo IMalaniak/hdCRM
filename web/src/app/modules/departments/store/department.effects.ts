@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { mergeMap, map, catchError, withLatestFrom, filter, switchMap } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
@@ -36,7 +36,7 @@ export class DepartmentEffects {
               depActions.createDepartmentSuccess({
                 department: response.data
               }),
-              partialDataLoaded({ Users })
+              ...(Users ? [partialDataLoaded({ Users })] : [])
             ];
           }),
           catchError((errorResponse: HttpErrorResponse) => {
@@ -56,7 +56,10 @@ export class DepartmentEffects {
       switchMap((response: ItemApiResponse<Department>) => {
         const { Departments, Users } = normalizeResponse<Department>(response, departmentSchema);
         response = { ...response, data: Departments[0] };
-        return [depActions.departmentLoaded({ department: response.data }), partialDataLoaded({ Users })];
+        return [
+          depActions.departmentLoaded({ department: response.data }),
+          ...(Users ? [partialDataLoaded({ Users })] : [])
+        ];
       }),
       catchError(() => of(depActions.departmentApiError()))
     )
@@ -71,8 +74,11 @@ export class DepartmentEffects {
           switchMap((response: CollectionApiResponse<Department>) => {
             const page: Page = { dataIds: response.ids, key: generatePageKey(pageQuery) };
             const { Departments, Users } = normalizeResponse<Department>(response, departmentListSchema);
+            if (!Departments) {
+              return EMPTY;
+            }
             response = { ...response, data: Departments };
-            return [depActions.listPageLoaded({ response, page }), partialDataLoaded({ Users })];
+            return [depActions.listPageLoaded({ response, page }), ...(Users ? [partialDataLoaded({ Users })] : [])];
           }),
           catchError(() => of(depActions.departmentApiError()))
         )
@@ -96,7 +102,10 @@ export class DepartmentEffects {
                 changes: response.data
               };
               this.toastMessageService.snack(response);
-              return [depActions.updateDepartmentSuccess({ department }), partialDataLoaded({ Users })];
+              return [
+                depActions.updateDepartmentSuccess({ department }),
+                ...(Users ? [partialDataLoaded({ Users })] : [])
+              ];
             }),
             catchError((errorResponse: HttpErrorResponse) => {
               this.toastMessageService.snack(errorResponse.error);
@@ -134,8 +143,11 @@ export class DepartmentEffects {
       mergeMap(() => this.departmentService.getDashboardData()),
       switchMap((response: CollectionApiResponse<Department>) => {
         const { Departments, Users } = normalizeResponse<Department>(response, departmentListSchema);
+        if (!Departments) {
+          return EMPTY;
+        }
         response = { ...response, data: Departments };
-        return [depActions.depDashboardDataLoaded({ response }), partialDataLoaded({ Users })];
+        return [depActions.depDashboardDataLoaded({ response }), ...(Users ? [partialDataLoaded({ Users })] : [])];
       }),
       catchError(() => of(depActions.departmentApiError()))
     )
