@@ -5,17 +5,19 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { SharedModule } from '@/shared/shared.module';
-import { authStateMock } from '@/shared/testing/mocks';
+import { authStateMock, formsStateMock } from '@/shared/testing/mocks';
 import { initialUsersState } from '@/modules/users/store/user.reducer';
 import { PlanService } from '../../services';
 import { initialPlansState } from '../../store/plan.reducer';
 import { PlanComponent } from './plan.component';
+import { TemplatesPlanViewComponent } from '../templates';
 
 describe('PlanComponent', () => {
   let component: PlanComponent;
   let fixture: ComponentFixture<PlanComponent>;
   const initialState = {
     auth: authStateMock,
+    forms: formsStateMock,
     plan: initialPlansState,
     users: initialUsersState
   };
@@ -23,7 +25,7 @@ describe('PlanComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [PlanComponent],
+        declarations: [PlanComponent, TemplatesPlanViewComponent],
         imports: [RouterTestingModule, HttpClientModule, SharedModule],
         providers: [PlanService, provideMockStore({ initialState })]
       }).compileComponents();

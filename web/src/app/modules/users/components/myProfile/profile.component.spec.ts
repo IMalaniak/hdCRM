@@ -1,14 +1,19 @@
-import { initialPreferencesState } from '@/core/reducers/preferences.reducer';
-import { SharedModule } from '@/shared/shared.module';
-import { authStateMock } from '@/shared/testing/mocks';
 import { HttpClientModule } from '@angular/common/http';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { provideMockStore } from '@ngrx/store/testing';
-import { initialUsersState } from '../../store/user.reducer';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
+import { provideMockStore } from '@ngrx/store/testing';
+
+import { initialPreferencesState } from '@/core/reducers/preferences.reducer';
+import { initialLayoutState } from '@/core/layout/store/layout.reducer';
+import { SharedModule } from '@/shared/shared.module';
+import { authStateMock, formsStateMock } from '@/shared/testing/mocks';
+import { initialUsersState } from '../../store/user.reducer';
+import { TemplatesUserProfileComponent } from '../templates';
 import { ProfileComponent } from './profile.component';
+import { OrganismsUserDetailsComponent } from '../organisms';
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
@@ -16,14 +21,16 @@ describe('ProfileComponent', () => {
   const initialState = {
     auth: authStateMock,
     preferences: initialPreferencesState,
-    users: initialUsersState
+    users: initialUsersState,
+    layout: initialLayoutState,
+    forms: formsStateMock
   };
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [ProfileComponent],
-        imports: [RouterTestingModule, HttpClientModule, BrowserAnimationsModule, SharedModule],
+        declarations: [ProfileComponent, TemplatesUserProfileComponent, OrganismsUserDetailsComponent],
+        imports: [RouterTestingModule, MatIconTestingModule, HttpClientModule, BrowserAnimationsModule, SharedModule],
         providers: [provideMockStore({ initialState })]
       }).compileComponents();
     })

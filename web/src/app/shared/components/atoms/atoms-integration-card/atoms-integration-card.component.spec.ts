@@ -1,5 +1,6 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { SharedModule } from '@/shared/shared.module';
 import { AtomsIntegrationCardComponent } from './atoms-integration-card.component';
 
 describe('AtomsIntegrationCardComponent', () => {
@@ -9,6 +10,7 @@ describe('AtomsIntegrationCardComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
+        imports: [SharedModule],
         declarations: [AtomsIntegrationCardComponent]
       }).compileComponents();
     })

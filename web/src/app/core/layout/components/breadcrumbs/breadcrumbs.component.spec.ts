@@ -3,58 +3,17 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
-import { Breadcrumb } from './breadcrumb';
 
-import { BreadcrumbsComponent } from './breadcrumbs.component';
 import { SharedModule } from '@/shared/shared.module';
+import { routerStoreMock } from '@/shared/testing/mocks';
+import { Breadcrumb } from './breadcrumb';
+import { BreadcrumbsComponent } from './breadcrumbs.component';
 
 describe('BreadcrumbsComponent', () => {
   let component: BreadcrumbsComponent;
   let fixture: ComponentFixture<BreadcrumbsComponent>;
   const initialState = {
-    router: {
-      state: {
-        root: {
-          children: [
-            {
-              data: {
-                animation: 'PrivateView'
-              },
-              url: [],
-              children: [
-                {
-                  data: {
-                    breadcrumb: 'Planner',
-                    animation: 'PlannerPage'
-                  },
-                  url: [
-                    {
-                      path: 'planner',
-                      parameters: {}
-                    }
-                  ],
-                  children: [
-                    {
-                      data: {
-                        breadcrumb: 'List',
-                        animation: 'PlannerListPage',
-                        privilege: 'plan-view'
-                      },
-                      url: [
-                        {
-                          path: 'list',
-                          parameters: {}
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      }
-    }
+    router: routerStoreMock
   };
 
   beforeEach(

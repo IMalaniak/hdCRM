@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { PrivilegesComponent } from './privileges.component';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('PrivilegesComponent', () => {
   let component: PrivilegesComponent;
@@ -18,7 +19,7 @@ describe('PrivilegesComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [PrivilegesComponent],
-        imports: [RouterTestingModule, BrowserAnimationsModule, SharedModule],
+        imports: [RouterTestingModule, MatIconTestingModule, BrowserAnimationsModule, SharedModule],
         providers: [provideMockStore({ initialState })]
       }).compileComponents();
     })

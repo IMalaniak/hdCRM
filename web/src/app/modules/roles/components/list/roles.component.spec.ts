@@ -15,6 +15,7 @@ import { RoleService } from '../../services';
 import { RolesComponent } from './roles.component';
 import { initialRolesState } from '../../store/role.reducer';
 import { RolesState } from '../../store/role.reducer';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('RolesComponent', () => {
   let component: RolesComponent;
@@ -30,7 +31,7 @@ describe('RolesComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [RolesComponent],
-        imports: [RouterTestingModule, BrowserAnimationsModule, HttpClientModule, SharedModule],
+        imports: [RouterTestingModule, MatIconTestingModule, BrowserAnimationsModule, HttpClientModule, SharedModule],
         providers: [RoleService, provideMockStore({ initialState })]
       }).compileComponents();
     })

@@ -408,3 +408,47 @@ export const formsStateMock: DynamicFormState = {
     }
   }
 };
+
+export const routerStoreMock = {
+  state: {
+    root: {
+      children: [
+        {
+          data: {
+            animation: 'PrivateView'
+          },
+          url: [],
+          children: [
+            {
+              data: {
+                breadcrumb: 'Planner',
+                animation: 'PlannerPage'
+              },
+              url: [
+                {
+                  path: 'planner',
+                  parameters: {}
+                }
+              ],
+              children: [
+                {
+                  data: {
+                    breadcrumb: 'List',
+                    animation: 'PlannerListPage',
+                    privilege: 'plan-view'
+                  },
+                  url: [
+                    {
+                      path: 'list',
+                      parameters: {}
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+};
