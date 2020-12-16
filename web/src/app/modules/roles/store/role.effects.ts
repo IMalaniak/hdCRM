@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { mergeMap, map, catchError, withLatestFrom, filter, switchMap } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
@@ -32,7 +32,10 @@ export class RoleEffects {
             this.router.navigateByUrl(RoutingConstants.ROUTE_ROLES);
             const { Users, Roles } = normalizeResponse<Role>(response, roleSchema);
             response = { ...response, data: Roles[0] };
-            return [roleActions.createRoleSuccess({ role: response.data }), partialDataLoaded({ Users })];
+            return [
+              roleActions.createRoleSuccess({ role: response.data }),
+              ...(Users ? [partialDataLoaded({ Users })] : [])
+            ];
           }),
           catchError((errorResponse: HttpErrorResponse) => {
             this.toastMessageService.snack(errorResponse.error);
@@ -51,7 +54,7 @@ export class RoleEffects {
       switchMap((response: ItemApiResponse<Role>) => {
         const { Users, Roles } = normalizeResponse<Role>(response, roleSchema);
         response = { ...response, data: Roles[0] };
-        return [roleActions.roleLoaded({ role: response.data }), partialDataLoaded({ Users })];
+        return [roleActions.roleLoaded({ role: response.data }), ...(Users ? [partialDataLoaded({ Users })] : [])];
       }),
       catchError(() => of(roleActions.rolesApiError()))
     )
@@ -66,8 +69,11 @@ export class RoleEffects {
           switchMap((response: CollectionApiResponse<Role>) => {
             const page: Page = { dataIds: response.ids, key: generatePageKey(pageQuery) };
             const { Users, Roles } = normalizeResponse<Role>(response, roleListSchema);
+            if (!Roles) {
+              return EMPTY;
+            }
             response = { ...response, data: Roles };
-            return [roleActions.listPageLoaded({ response, page }), partialDataLoaded({ Users })];
+            return [roleActions.listPageLoaded({ response, page }), ...(Users ? [partialDataLoaded({ Users })] : [])];
           }),
           catchError(() => of(roleActions.rolesApiError()))
         )
@@ -89,7 +95,7 @@ export class RoleEffects {
               changes: response.data
             };
             this.toastMessageService.snack(response);
-            return [roleActions.updateRoleSuccess({ role }), partialDataLoaded({ Users })];
+            return [roleActions.updateRoleSuccess({ role }), ...(Users ? [partialDataLoaded({ Users })] : [])];
           }),
           catchError((errorResponse: HttpErrorResponse) => {
             this.toastMessageService.snack(errorResponse.error);
@@ -127,8 +133,11 @@ export class RoleEffects {
       mergeMap(() => this.roleService.getDashboardData()),
       switchMap((response) => {
         const { Users, Roles } = normalizeResponse<Role>(response, roleListSchema);
+        if (!Roles) {
+          return EMPTY;
+        }
         response = { ...response, data: Roles };
-        return [roleActions.roleDashboardDataLoaded({ response }), partialDataLoaded({ Users })];
+        return [roleActions.roleDashboardDataLoaded({ response }), ...(Users ? [partialDataLoaded({ Users })] : [])];
       }),
       catchError(() => of(roleActions.rolesApiError()))
     )
