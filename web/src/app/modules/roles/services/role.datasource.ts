@@ -4,10 +4,11 @@ import { catchError, tap } from 'rxjs/operators';
 
 import { PageQuery } from '@/shared/models';
 import { CommonDataSource } from '@/shared/services';
-import { DataRow } from '@/shared/models/table';
+import { CellValue, DataRow } from '@/shared/models/table';
 import { Role } from '../models/';
 import { listPageRequested } from '../store/role.actions';
 import { selectRolesOfPage } from '../store/role.selectors';
+import { COLUMN_NAMES } from '@/shared/constants/table.constants';
 
 export class RolesDataSource extends CommonDataSource<Role> {
   loadData(page: PageQuery) {
@@ -26,11 +27,16 @@ export class RolesDataSource extends CommonDataSource<Role> {
       .subscribe();
   }
 
-  mapToDataRows(roles: Role[]): DataRow[] {
-    const dataRows = roles.map((role) => ({
-      id: role.id
-      // TBD
+  protected mapToDataRows(roles: Role[]): DataRow[] {
+    return roles.map((role) => ({
+      id: role.id,
+      [COLUMN_NAMES.SEQUENCE_NUMBER]: CellValue.createSequenceCell(),
+      [COLUMN_NAMES.TITLE]: CellValue.createStringCell(role.keyString),
+      [COLUMN_NAMES.USERS]: CellValue.createStringCell(role.Users?.length),
+      [COLUMN_NAMES.PRIVILEGES]: CellValue.createStringCell(role.Privileges?.length),
+      [COLUMN_NAMES.CREATED_AT]: CellValue.createDateCell(role.createdAt),
+      [COLUMN_NAMES.UPDATED_AT]: CellValue.createDateCell(role.updatedAt),
+      [COLUMN_NAMES.ACTIONS]: CellValue.createActionsCell()
     }));
-    return dataRows;
   }
 }

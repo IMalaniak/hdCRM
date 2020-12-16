@@ -14,7 +14,7 @@ import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_NAMES } from
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
-import { DataColumn, HorizontalAlign } from '@/shared/models/table';
+import { DataColumn } from '@/shared/models/table';
 
 @Component({
   templateUrl: './plan-list.component.html',
@@ -34,16 +34,21 @@ export class PlanListComponent {
   };
 
   displayedColumns: DataColumn[] = [
-    new DataColumn(COLUMN_NAMES.TITLE),
-    new DataColumn(COLUMN_NAMES.STAGE, HorizontalAlign.Left, true, false),
-    new DataColumn(COLUMN_NAMES.CREATOR, HorizontalAlign.Left, true, false),
-    new DataColumn(COLUMN_NAMES.PARTICIPANTS, HorizontalAlign.Left, true, false),
-    new DataColumn(COLUMN_NAMES.CREATED_AT),
-    new DataColumn(COLUMN_NAMES.UPDATED_AT),
+    DataColumn.createSequenceNumberColumn(),
+    DataColumn.createColumn({ title: COLUMN_NAMES.TITLE }),
+    DataColumn.createColumn({ title: COLUMN_NAMES.STAGE, hasSorting: false }),
+    DataColumn.createLinkColumn({ title: COLUMN_NAMES.CREATOR, hasSorting: false }),
+    DataColumn.createColumn({ title: COLUMN_NAMES.PARTICIPANTS, hasSorting: false }),
+    DataColumn.createColumn({ title: COLUMN_NAMES.CREATED_AT }),
+    DataColumn.createColumn({ title: COLUMN_NAMES.UPDATED_AT }),
     DataColumn.createActionsColumn()
   ];
 
-  constructor(private store$: Store<AppState>, private router: Router, private dialogService: DialogService) {}
+  constructor(
+    private readonly store$: Store<AppState>,
+    private readonly router: Router,
+    private readonly dialogService: DialogService
+  ) {}
 
   onPlanSelect(id: number, edit: boolean = false): void {
     this.router.navigateByUrl(`${RoutingConstants.ROUTE_PLANNER_DETAILS}/${id}`);

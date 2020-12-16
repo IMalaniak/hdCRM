@@ -5,95 +5,12 @@
     </atoms-icon-button>
   </div>
 
-  <div content class="table-container">
-    <table mat-table class="departments-table crm-table" [dataSource]="dataSource" matSort>
-      <!-- Checkbox Column -->
-      <!-- <ng-container matColumnDef="select">
-          <th mat-header-cell *matHeaderCellDef>
-            <mat-checkbox (change)="$event ? masterToggle() : null"
-                          [checked]="selection.hasValue() && isAllSelected()"
-                          [indeterminate]="selection.hasValue() && !isAllSelected()"
-                          [aria-label]="checkboxLabel()">
-            </mat-checkbox>
-          </th>
-          <td mat-cell *matCellDef="let row">
-            <mat-checkbox (click)="$event.stopPropagation()"
-                          (change)="$event ? selection.toggle(row) : null"
-                          [checked]="selection.isSelected(row)"
-                          [aria-label]="checkboxLabel(row)">
-            </mat-checkbox>
-          </td>
-        </ng-container> -->
-      <ng-container [matColumnDef]="columns.TITLE">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@departmentsComponentListTitle">
-          {{ columnLabels.TITLE }}
-        </th>
-        <td mat-cell *matCellDef="let dep">{{ dep.title }}</td>
-      </ng-container>
-      <ng-container [matColumnDef]="columns.MANAGER">
-        <th mat-header-cell *matHeaderCellDef i18n="@@departmentsComponentListManagerFullName">
-          {{ columnLabels.MANAGER }}
-        </th>
-        <td mat-cell *matCellDef="let dep">{{ dep.Manager ? dep.Manager.name + ' ' + dep.Manager.surname : '-' }}</td>
-      </ng-container>
-      <ng-container [matColumnDef]="columns.WORKERS">
-        <th mat-header-cell *matHeaderCellDef i18n="@@departmentsComponentListWorkersNumber">
-          {{ columnLabels.WORKERS }}
-        </th>
-        <td mat-cell *matCellDef="let dep">{{ dep.Workers ? dep.Workers.length : '-' }}</td>
-      </ng-container>
-      <ng-container [matColumnDef]="columns.CREATED_AT">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@departmentsComponentListCreateAt">
-          {{ columnLabels.CREATED_AT }}
-        </th>
-        <td mat-cell *matCellDef="let dep">{{ dep.createdAt | dateTimeFormat | async }}</td>
-      </ng-container>
-      <ng-container [matColumnDef]="columns.UPDATED_AT">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@departmentsComponentListUpdateAt">
-          {{ columnLabels.UPDATED_AT }}
-        </th>
-        <td mat-cell *matCellDef="let dep">{{ dep.updatedAt | dateTimeFormat | async }}</td>
-      </ng-container>
-      <ng-container [matColumnDef]="columns.ACTIONS" stickyEnd>
-        <th mat-header-cell *matHeaderCellDef i18n="@@globalsListActions"></th>
-        <td mat-cell *matCellDef="let dep">
-          <atoms-icon-button
-            [matMenuTriggerFor]="menu"
-            [color]="themePalette.BASIC"
-            [icon]="listIcons.matMenu"
-            [matType]="matButtonTypes.ICON"
-          >
-          </atoms-icon-button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="onDepSelect(dep.id)">
-              <mat-icon [svgIcon]="listIcons.info" aria-hidden="false"></mat-icon>
-              <span i18n="@@departmentsComponentListActionsView">{{ actionLabels.DETAILS }}</span>
-            </button>
-            <button *ngIf="canEditDep$ | async" mat-menu-item (click)="onDepSelect(dep.id, true)">
-              <mat-icon [svgIcon]="listIcons.edit" aria-hidden="false"></mat-icon>
-              <span i18n="@@departmentsComponentListActionsEdit">{{ actionLabels.EDIT }}</span>
-            </button>
-            <button *ngIf="canDeleteDep$ | async" mat-menu-item (click)="deleteDepartment(dep.id)">
-              <mat-icon [svgIcon]="listIcons.delete" aria-hidden="false" class="text-warn"></mat-icon>
-              <span i18n="@@departmentsComponentListActionsDelete">{{ actionLabels.DELETE }}</span>
-            </button>
-          </mat-menu>
-        </td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      <tr *matNoDataRow>
-        <td [attr.colspan]="displayedColumns.length">
-          <atoms-no-content-info></atoms-no-content-info>
-        </td>
-      </tr>
-    </table>
-  </div>
-  <mat-paginator
+  <table-component
     content
-    [length]="resultsLength$ | async"
-    [pageSizeOptions]="pageSizeOptions"
-    [pageSize]="itemsPerPageState$ | async"
-    showFirstLastButtons
-  ></mat-paginator>
+    [dataSource]="dataSource"
+    [columns]="displayedColumns"
+    [totalItems]="resultsLength$ | async"
+    (rowSelect)="onDepartmentSelect($event)"
+  >
+  </table-component>
 </organisms-card>
