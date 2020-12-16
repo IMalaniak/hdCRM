@@ -60,15 +60,15 @@ $border: 1px solid #595959; // TODO: change to dinamicly color
           justify-content: flex-start;
         }
       }
+
+      &.pl-header-link {
+        padding-left: 2rem;
+      }
     }
 
     th {
       text-overflow: ellipsis;
       overflow: hidden;
-
-      &.pl-header-link {
-        padding-left: 2rem;
-      }
     }
 
     td {
