@@ -1,14 +1,7 @@
 <ng-container *ngIf="columns">
   <!-- TABLE -->
-  <div class="table-container">
-    <table
-      mat-table
-      #table
-      matSort
-      [dataSource]="dataSource"
-      [trackBy]="trackById"
-      [class.no-outline-border]="!hasOutlineBorder"
-    >
+  <div class="table-container" [class.no-outline-border]="!hasOutlineBorder">
+    <table mat-table #table matSort [dataSource]="dataSource" [trackBy]="trackById">
       <!-- COLUMNS & ROWS-->
       <ng-container
         *ngFor="let column of columns"

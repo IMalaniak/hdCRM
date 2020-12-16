@@ -1,46 +1,27 @@
 @import 'variables';
 @import 'mixins';
 
-$border: 1px solid #595959; // TODO: change to dinamicly color
+$border: 1px solid;
 
 .table-container {
   overflow-x: auto;
   max-height: 41em;
-  border-bottom: $border;
+  border: $border;
+  @include set-bordercolor('border');
+
+  &.no-outline-border {
+    border: none !important;
+  }
 
   table {
     min-width: 100%;
     width: 100%;
     white-space: nowrap;
 
-    &.no-outline-border {
-      th {
-        border-top: none !important;
-      }
-
-      th:first-child,
-      td:first-child {
-        border-left: none !important;
-      }
-
-      th:last-child,
-      td:last-child {
-        border-right: none !important;
-      }
-    }
-
     th,
     td {
       min-width: 8rem;
       padding: 0 app-size(spacer, default, true);
-
-      &:first-child {
-        border-left: $border;
-      }
-
-      &:last-child {
-        border-right: $border;
-      }
 
       &.sequence {
         min-width: 4rem;
@@ -97,10 +78,6 @@ $border: 1px solid #595959; // TODO: change to dinamicly color
       }
     }
 
-    .mat-header-row:first-child th {
-      border-top: $border;
-    }
-
     .table-link-pl {
       padding-left: 2rem;
     }
@@ -110,7 +87,7 @@ $border: 1px solid #595959; // TODO: change to dinamicly color
       padding-top: 2px !important;
       text-transform: uppercase;
       font-weight: bold;
-      @include set-textcolor('text', true);
+      @include set-textcolor('text');
     }
 
     .menu-column {
@@ -121,7 +98,13 @@ $border: 1px solid #595959; // TODO: change to dinamicly color
   }
 
   .sticky-with-border {
-    border-left: $border;
-    border-right: $border;
+    &:last-of-type {
+      border-left: $border;
+      @include set-bordercolor('border');
+    }
+    &:not(:last-of-type) {
+      border-right: $border;
+      @include set-bordercolor('border');
+    }
   }
 }
