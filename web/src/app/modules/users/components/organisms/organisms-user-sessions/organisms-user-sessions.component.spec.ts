@@ -3,6 +3,7 @@ import { SharedModule } from '@/shared/shared.module';
 import { currentUserMock } from '@/shared/testing/mocks';
 import { HttpClientModule } from '@angular/common/http';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 
@@ -19,7 +20,7 @@ describe('OrganismsUserSessionsComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [OrganismsUserSessionsComponent],
-        imports: [RouterTestingModule, HttpClientModule, SharedModule],
+        imports: [RouterTestingModule, MatIconTestingModule, HttpClientModule, SharedModule],
         providers: [provideMockStore({ initialState })]
       }).compileComponents();
     })

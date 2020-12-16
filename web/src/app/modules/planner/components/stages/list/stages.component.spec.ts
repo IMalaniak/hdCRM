@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { StagesComponent } from './stages.component';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('StagesComponent', () => {
   let component: StagesComponent;
@@ -18,7 +19,7 @@ describe('StagesComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [StagesComponent],
-        imports: [RouterTestingModule, BrowserAnimationsModule, SharedModule],
+        imports: [RouterTestingModule, MatIconTestingModule, BrowserAnimationsModule, SharedModule],
         providers: [provideMockStore({ initialState })]
       }).compileComponents();
     })

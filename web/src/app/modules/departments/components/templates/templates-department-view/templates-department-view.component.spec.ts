@@ -13,6 +13,7 @@ import { Department } from '@/modules/departments/models';
 import { authStateMock, currentUserMock, formsStateMock } from '@/shared/testing/mocks';
 import { FORMCONSTANTS } from '@/shared/constants';
 import { TemplatesDepartmentViewComponent } from './templates-department-view.component';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('TemplatesDepartmentViewComponent', () => {
   let component: TemplatesDepartmentViewComponent;
@@ -38,7 +39,7 @@ describe('TemplatesDepartmentViewComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [TemplatesDepartmentViewComponent],
-        imports: [RouterTestingModule, BrowserAnimationsModule, HttpClientModule, SharedModule],
+        imports: [RouterTestingModule, MatIconTestingModule, BrowserAnimationsModule, HttpClientModule, SharedModule],
         providers: [provideMockStore({ initialState })]
       }).compileComponents();
     })

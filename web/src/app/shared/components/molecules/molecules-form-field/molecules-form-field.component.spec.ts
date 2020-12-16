@@ -1,5 +1,6 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { SharedModule } from '@/shared/shared.module';
 import { MoleculesFormFieldComponent } from './molecules-form-field.component';
 
 describe('MoleculesFormFieldComponent', () => {
@@ -9,6 +10,7 @@ describe('MoleculesFormFieldComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
+        imports: [SharedModule],
         declarations: [MoleculesFormFieldComponent]
       }).compileComponents();
     })

@@ -10,6 +10,7 @@ import { SharedModule } from '@/shared/shared.module';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogCreateEditModel, DialogMode } from '@/shared/models';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('InvitationDialogComponent', () => {
   const dialogDataModel: DialogDataModel<DialogCreateEditModel> = {
@@ -26,7 +27,7 @@ describe('InvitationDialogComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [InvitationDialogComponent],
-        imports: [BrowserAnimationsModule, SharedModule, RouterTestingModule],
+        imports: [BrowserAnimationsModule, MatIconTestingModule, SharedModule, RouterTestingModule],
         providers: [provideMockStore({ initialState }), { provide: MAT_DIALOG_DATA, useValue: dialogDataModel }]
       }).compileComponents();
     })

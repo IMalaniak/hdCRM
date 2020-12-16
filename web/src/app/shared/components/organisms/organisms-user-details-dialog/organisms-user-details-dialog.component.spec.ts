@@ -1,9 +1,13 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { RouterTestingModule } from '@angular/router/testing';
+
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { OrganismsUserDetailsDialogComponent } from './organisms-user-details-dialog.component';
 import { DialogWithTwoButtonModel } from '@/shared/models';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
+import { SharedModule } from '@/shared/shared.module';
 
 describe('OrganismsUserDetailsDialogComponent', () => {
   const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
@@ -16,6 +20,7 @@ describe('OrganismsUserDetailsDialogComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
+        imports: [SharedModule, RouterTestingModule],
         declarations: [OrganismsUserDetailsDialogComponent],
         providers: [
           {
@@ -25,7 +30,8 @@ describe('OrganismsUserDetailsDialogComponent', () => {
           {
             provide: MAT_DIALOG_DATA,
             useValue: dialogDataModel
-          }
+          },
+          provideMockStore()
         ]
       }).compileComponents();
     })

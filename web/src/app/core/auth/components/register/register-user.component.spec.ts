@@ -8,6 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { provideMockStore } from '@ngrx/store/testing';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('RegisterUserComponent', () => {
   let component: RegisterUserComponent;
@@ -17,7 +18,7 @@ describe('RegisterUserComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [RegisterUserComponent],
-        imports: [RouterTestingModule, BrowserAnimationsModule, HttpClientModule, SharedModule],
+        imports: [RouterTestingModule, MatIconTestingModule, BrowserAnimationsModule, HttpClientModule, SharedModule],
         providers: [AuthenticationService, provideMockStore({})]
       }).compileComponents();
     })

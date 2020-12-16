@@ -14,6 +14,7 @@ import { Role } from '@/modules/roles/models';
 
 import { TemplatesRoleViewComponent } from './templates-role-view.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('TemplatesRoleViewComponent', () => {
   let component: TemplatesRoleViewComponent;
@@ -48,7 +49,7 @@ describe('TemplatesRoleViewComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [TemplatesRoleViewComponent],
-        imports: [BrowserAnimationsModule, HttpClientModule, RouterTestingModule, SharedModule],
+        imports: [BrowserAnimationsModule, MatIconTestingModule, HttpClientModule, RouterTestingModule, SharedModule],
         providers: [provideMockStore({ initialState })]
       }).compileComponents();
     })

@@ -10,6 +10,7 @@ import { authStateMock } from '@/shared/testing/mocks';
 import { initialUsersState } from '@/modules/users/store/user.reducer';
 import { initialDepartmentsState } from '../../store/department.reducer';
 import { DepartmentsComponent } from './departments.component';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('DepartmentsComponent', () => {
   let component: DepartmentsComponent;
@@ -25,7 +26,7 @@ describe('DepartmentsComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [DepartmentsComponent],
-        imports: [RouterTestingModule, BrowserAnimationsModule, SharedModule],
+        imports: [RouterTestingModule, MatIconTestingModule, BrowserAnimationsModule, SharedModule],
         providers: [provideMockStore({ initialState })]
       }).compileComponents();
     })
