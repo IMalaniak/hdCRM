@@ -68,10 +68,13 @@
                 <!-- Navigation -->
                 <ng-container *ngSwitchCase="cellControlType.Navigation">
                   <atoms-link-button
-                    linkType="router"
+                    [linkLabel]="row[column.title].value"
                     [linkColor]="themePalette.BASIC"
                     [linkClass]="'w-100 text-underline text-left'"
-                    [linkLabel]="row[column.title].value"
+                    [linkType]="row[column.title].navigation.linkType"
+                    [linkHref]="row[column.title].navigation.linkHref"
+                    [target]="row[column.title].navigation.target"
+                    (click)="$event.stopPropagation()"
                   ></atoms-link-button>
                 </ng-container>
 
