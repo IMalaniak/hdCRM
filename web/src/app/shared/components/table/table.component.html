@@ -111,6 +111,7 @@
                 [type]="buttonType.BUTTON"
                 [icon]="icons.threeDots"
                 [matMenuTriggerFor]="actionsMenu"
+                (click)="$event.stopPropagation()"
               >
               </atoms-icon-button>
 
