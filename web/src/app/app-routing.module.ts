@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '@/core/_guards';
 import { PublicViewComponent, PrivateViewComponent } from './core/layout/view-containers';
 import { PageNotFoundComponent, InternalServerErrorComponent } from './core/layout/components';
+import { DelayedPreloadingStrategy } from './core/strategies';
 import { PATHS } from './shared/constants';
 
 const routes: Routes = [
@@ -27,25 +28,25 @@ const routes: Routes = [
       {
         path: PATHS.PLANNER,
         canActivate: [AuthGuard],
-        data: { breadcrumb: 'Planner', animation: 'PlannerPage' },
+        data: { breadcrumb: 'Planner', animation: 'PlannerPage', preload: true, delay: true },
         loadChildren: () => import('./modules/planner/planner.module').then((m) => m.PlannerModule)
       },
       {
         path: PATHS.USERS,
         canActivate: [AuthGuard],
-        data: { breadcrumb: 'App Users', animation: 'UsersPage' },
+        data: { breadcrumb: 'App Users', animation: 'UsersPage', preload: true, delay: false },
         loadChildren: () => import('./modules/users/users.module').then((m) => m.UsersModule)
       },
       {
         path: PATHS.ROLES,
         canActivate: [AuthGuard],
-        data: { breadcrumb: 'App Roles', animation: 'RolesPage' },
+        data: { breadcrumb: 'App Roles', animation: 'RolesPage', preload: true, delay: true },
         loadChildren: () => import('./modules/roles/roles.module').then((m) => m.RolesModule)
       },
       {
         path: PATHS.DASHBOARD,
         canActivate: [AuthGuard],
-        data: { animation: 'DashboardPage' },
+        data: { animation: 'DashboardPage', preload: true, delay: true },
         loadChildren: () => import('./modules/dashboard/dashboard.module').then((m) => m.DashboardModule)
       },
       {
@@ -53,7 +54,9 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
           breadcrumb: 'Departments',
-          animation: 'DepartmentsPage'
+          animation: 'DepartmentsPage',
+          preload: true,
+          delay: true
         },
         loadChildren: () => import('./modules/departments/departments.module').then((m) => m.DepartmentsModule)
       }
@@ -65,7 +68,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' })],
+  imports: [
+    RouterModule.forRoot(routes, { preloadingStrategy: DelayedPreloadingStrategy, relativeLinkResolution: 'legacy' })
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}
