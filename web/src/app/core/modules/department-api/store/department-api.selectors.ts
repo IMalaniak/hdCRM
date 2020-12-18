@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { denormalize } from 'normalizr';
 
 import { selectAllUserEntities } from '@/core/modules/user-api/store';
-import { departmentSchema } from '@/shared/store';
+import { departmentSchema } from '@/core/store/normalization';
 import * as fromDepartment from './department-api.reducer';
 
 export const selectDepartmentsState = createFeatureSelector<fromDepartment.DepartmentApiState>(

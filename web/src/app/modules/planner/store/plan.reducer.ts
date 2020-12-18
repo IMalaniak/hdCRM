@@ -1,7 +1,7 @@
 import { createReducer, on, Action } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
-import { getInitialPaginationState, pagesAdapter, PaginationState } from '@/shared/store/pagination';
+import { PaginationState, getInitialPaginationState, pagesAdapter } from '@/shared/store';
 import { Plan } from '../models';
 import * as planActions from './plan.actions';
 

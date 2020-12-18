@@ -5,7 +5,7 @@ import { User } from '@/core/modules/user-api/shared';
 import { Department } from '@/modules/departments';
 import { Plan } from '@/modules/planner';
 import { Role } from '@/modules/roles';
-import { CollectionApiResponse, ItemApiResponse } from '../models';
+import { CollectionApiResponse, ItemApiResponse } from '@/shared/models';
 
 interface Collections {
   Users?: User[];

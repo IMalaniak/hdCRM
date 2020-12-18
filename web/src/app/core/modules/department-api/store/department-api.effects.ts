@@ -9,10 +9,16 @@ import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Update } from '@ngrx/entity';
 
 import { AppState } from '@/core/store';
-import { departmentListSchema, departmentSchema, normalizeResponse, Page, partialDataLoaded } from '@/shared/store';
+import {
+  departmentListSchema,
+  departmentSchema,
+  normalizeResponse,
+  partialDataLoaded
+} from '@/core/store/normalization';
 import { ToastMessageService } from '@/shared/services';
 import { CollectionApiResponse, ItemApiResponse, BaseMessage, PageQuery } from '@/shared/models';
 import { RoutingConstants } from '@/shared/constants';
+import { Page } from '@/shared/store';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
 import * as departmentApiActions from './department-api.actions';
 import { selectDashboardDepDataLoaded } from './department-api.selectors';

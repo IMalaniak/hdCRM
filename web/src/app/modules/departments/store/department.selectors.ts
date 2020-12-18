@@ -4,9 +4,10 @@ import { denormalize } from 'normalizr';
 
 import { selectAllUserEntities } from '@/core/modules/user-api/store';
 import { selectAllDepartmentEntities } from '@/core/modules/department-api/store';
+import { departmentListSchema } from '@/core/store/normalization';
 import { PageQuery } from '@/shared/models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
-import { departmentListSchema, Page } from '@/shared/store';
+import { Page } from '@/shared/store';
 import * as fromDepartment from './department.reducer';
 import { Department } from '../models';
 

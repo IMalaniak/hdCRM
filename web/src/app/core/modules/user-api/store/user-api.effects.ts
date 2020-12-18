@@ -8,8 +8,8 @@ import { Actions, ofType, createEffect } from '@ngrx/effects';
 
 import { ToastMessageService } from '@/shared/services';
 import { CollectionApiResponse, ItemApiResponse, BaseMessage } from '@/shared/models';
-import { generatePageKey } from '@/shared/utils/generatePageKey';
 import { Page } from '@/shared/store';
+import { generatePageKey } from '@/shared/utils/generatePageKey';
 import * as userApiActions from './user-api.actions';
 import { UserService } from '../services';
 import { User } from '../shared';
