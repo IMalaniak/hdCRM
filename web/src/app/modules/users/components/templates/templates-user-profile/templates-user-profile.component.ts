@@ -12,10 +12,10 @@ import { Preferences } from '@/core/store/preferences';
 import * as fromLayout from '@/core/modules/layout/store';
 import { updateUserOrgRequested, updateUserProfileRequested } from '@/core/modules/auth/store/auth.actions';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
+import { User, Organization } from '@/core/modules/user-api/shared';
+import { updateUserRequested, changeIsEditingState } from '@/core/modules/user-api/store';
 import { Asset } from '@/shared/models';
 import { TAB_PRIVILEGES, CONSTANTS, TAB_NAMES, TAB_LABELS } from '@/shared/constants';
-import { updateUserRequested, changeIsEditingState } from '@/modules/users/store/user.actions';
-import { User, Organization } from '@/modules/users/models';
 
 @Component({
   selector: 'templates-user-profile',

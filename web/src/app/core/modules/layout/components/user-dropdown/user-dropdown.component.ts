@@ -7,6 +7,7 @@ import { MediaQueryService, IconsService } from '@/core/services';
 import { AppState } from '@/core/store';
 import { currentUser, isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { logOut } from '@/core/modules/auth/store/auth.actions';
+import { User } from '@/core/modules/user-api/shared';
 import {
   ACTION_LABELS,
   ADD_PRIVILEGES,
@@ -16,7 +17,6 @@ import {
   RoutingConstants,
   THEME_PALETTE
 } from '@/shared/constants';
-import { User } from '@/modules/users';
 import { closeUserDropdown, toggleUserDropdown } from '../../store/layout.actions';
 import { userDropdownVisible } from '../../store';
 

@@ -1,7 +1,8 @@
 ﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User, Organization } from '@/modules/users';
+
+import { User, Organization } from '@/core/modules/user-api/shared';
 import { BaseMessage, NewPassword, JwtDecoded, ItemApiResponse } from '@/shared/models';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { APIS } from '@/shared/constants';

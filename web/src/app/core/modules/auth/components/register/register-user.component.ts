@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 
 import { IconsService } from '@/core/services';
+import { User } from '@/core/modules/user-api/shared';
 import {
   CONSTANTS,
   IFieldType,
@@ -18,7 +19,6 @@ import {
   BS_ICONS,
   InputType
 } from '@/shared/constants';
-import { User } from '@/modules/users';
 import { AuthState } from '../../store/auth.reducer';
 import { registerUser } from '../../store/auth.actions';
 import { isLoading } from '../../store/auth.selectors';

@@ -13,6 +13,7 @@ import { environment } from 'environments/environment';
 import { httpInterceptorsProviders } from './interceptors';
 import { AuthModule } from './modules/auth/auth.module';
 import { LayoutModule } from './modules/layout/layout.module';
+import { UserApiModule } from './modules/user-api/user-api.module';
 import { reducers, metaReducers } from './store';
 import { PreferencesEffects } from './store/preferences';
 import { IntegrationsEffects } from './store/integration';
@@ -29,15 +30,12 @@ import { NotificationsEffects } from './store/notifications';
     AuthModule.forRoot(),
     LayoutModule,
     StoreModule.forRoot(reducers, {
-      metaReducers,
-      runtimeChecks: {
-        strictStateImmutability: true,
-        strictActionImmutability: true
-      }
+      metaReducers
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([PreferencesEffects, IntegrationsEffects, DynamicFormEffects, NotificationsEffects]),
-    StoreRouterConnectingModule.forRoot()
+    StoreRouterConnectingModule.forRoot(),
+    UserApiModule
   ],
   exports: [RouterModule, HttpClientModule, FormsModule, ReactiveFormsModule, LayoutModule],
   providers: [httpInterceptorsProviders]

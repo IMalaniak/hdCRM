@@ -19,7 +19,6 @@ import {
 import { SharedModule } from '@/shared/shared.module';
 import * as fromLayout from './store/layout.reducer';
 import { LayoutEffects } from './store/layout.effects';
-import { UserService } from '@/modules/users';
 
 @NgModule({
   imports: [
@@ -41,7 +40,6 @@ import { UserService } from '@/modules/users';
     NotificationsComponent,
     UserDropdownComponent
   ],
-  providers: [UserService],
   exports: [
     BreadcrumbsComponent,
     SidebarComponent,

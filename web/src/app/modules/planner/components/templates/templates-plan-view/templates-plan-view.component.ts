@@ -5,12 +5,13 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { AppState } from '@/core/store';
+import { User } from '@/core/modules/user-api/shared';
 import { Asset, DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
 import { DialogService } from '@/shared/services';
 import { CONSTANTS } from '@/shared/constants';
 import { Plan } from '@/modules/planner/models';
-import { User, UsersDialogComponent } from '@/modules/users';
+import { UsersDialogComponent } from '@/modules/users/components';
 
 @Component({
   selector: 'templates-plan-view',

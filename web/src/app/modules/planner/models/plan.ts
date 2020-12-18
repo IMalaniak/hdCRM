@@ -1,6 +1,6 @@
-import { User } from '@/modules/users';
-import { Stage } from './stage';
+import { User } from '@/core/modules/user-api/shared';
 import { Asset } from '@/shared/models';
+import { Stage } from './stage';
 
 export interface Plan {
   id: number;

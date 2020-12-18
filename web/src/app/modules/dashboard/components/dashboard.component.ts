@@ -10,8 +10,8 @@ import {
   lastFailedSession,
   lastSuccesfulSession
 } from '@/core/modules/auth/store/auth.selectors';
+import { User, UserSession } from '@/core/modules/user-api/shared';
 import { VIEW_PRIVILEGES } from '@/shared/constants';
-import { User, UserSession } from '@/modules/users';
 import { depDashboardDataRequested } from '@/modules/departments/store/department.actions';
 import { selectAllDepartments } from '@/modules/departments/store/department.selectors';
 import { allStagesRequestedFromDashboard } from '@/modules/planner/store/stage.actions';

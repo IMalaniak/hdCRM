@@ -5,10 +5,10 @@ import { Store } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
 import { IconsService } from '@/core/services';
+import { changeOldPassword } from '@/core/modules/user-api/store';
 import { NewPassword } from '@/shared/models';
 import { ConfirmPasswordValidator } from '@/shared/validators';
 import { IFieldType, ACTION_LABELS, BS_ICONS, InputType } from '@/shared/constants';
-import { changeOldPassword } from '@/modules/users/store/user.actions';
 
 @Component({
   selector: 'organisms-user-passwords',

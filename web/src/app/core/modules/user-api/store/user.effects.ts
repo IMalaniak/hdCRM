@@ -12,7 +12,7 @@ import { generatePageKey } from '@/shared/utils/generatePageKey';
 import { Page } from '@/shared/store';
 import * as userActions from './user.actions';
 import { UserService } from '../services';
-import { User } from '../models';
+import { User } from '../shared';
 
 @Injectable()
 export class UserEffects {

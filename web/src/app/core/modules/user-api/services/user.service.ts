@@ -4,10 +4,10 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { BaseCrudService, SocketService } from '@/shared/services';
-import { User } from '../models';
 import { NewPassword, BaseMessage, CollectionApiResponse, ItemApiResponse } from '@/shared/models';
 import { SocketEvent, APIS } from '@/shared/constants';
 import { Role } from '@/modules/roles';
+import { User } from '../shared';
 
 @Injectable()
 export class UserService extends BaseCrudService {

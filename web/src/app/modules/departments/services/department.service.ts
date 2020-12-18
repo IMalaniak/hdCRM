@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Department } from '../models';
-import { User } from '@/modules/users/models';
+import { User } from '@/core/modules/user-api/shared';
 import { APIS } from '@/shared/constants';
 import { BaseCrudService } from '@/shared/services';
 import { CollectionApiResponse } from '@/shared/models';
+import { Department } from '../models';
 
 @Injectable()
 export class DepartmentService extends BaseCrudService {

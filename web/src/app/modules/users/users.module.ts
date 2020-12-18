@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { UsersRoutingModule } from './users-routing.module';
-import { SharedModule } from '@/shared/shared.module';
 
+import { SharedModule } from '@/shared/shared.module';
+import { UsersRoutingModule } from './users-routing.module';
 import {
   ProfileComponent,
   UserComponent,
@@ -19,21 +19,8 @@ import {
   OrganismsUserIntegrationsComponent
 } from './components';
 
-import { UserService } from './services';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import * as fromUser from './store/user.reducer';
-import { UserEffects } from './store/user.effects';
-
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    SharedModule,
-    UsersRoutingModule.forRoot(),
-    StoreModule.forFeature(fromUser.usersFeatureKey, fromUser.reducer),
-    EffectsModule.forFeature([UserEffects])
-  ],
+  imports: [CommonModule, RouterModule, SharedModule, UsersRoutingModule],
   declarations: [
     ProfileComponent,
     UserComponent,
@@ -48,7 +35,6 @@ import { UserEffects } from './store/user.effects';
     OrganismsUserOrganizationComponent,
     OrganismsUserIntegrationsComponent
   ],
-  providers: [UserService],
   exports: [UserComponent, UsersComponent, UsersDialogComponent]
 })
 export class UsersModule {}

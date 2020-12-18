@@ -1,4 +1,4 @@
-import { User } from '@/modules/users';
+import { User } from '@/core/modules/user-api/shared';
 
 export interface Department {
   id: number;

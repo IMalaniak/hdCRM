@@ -6,7 +6,7 @@ import { UserState } from '@/shared/constants';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
 import { Page } from '@/shared/store';
 import * as fromUser from './user.reducer';
-import { User } from '../models';
+import { User } from '../shared';
 
 export const selectUsersState = createFeatureSelector<fromUser.UsersState>(fromUser.usersFeatureKey);
 export const selectUserEntityState = createSelector(selectUsersState, (usersState) => usersState.data);

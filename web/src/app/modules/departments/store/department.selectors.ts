@@ -2,10 +2,10 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Dictionary } from '@ngrx/entity';
 import { denormalize } from 'normalizr';
 
+import { selectAllUserEntities } from '@/core/modules/user-api/store';
 import { PageQuery } from '@/shared/models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
 import { departmentListSchema, departmentSchema, Page } from '@/shared/store';
-import { selectAllUserEntities } from '@/modules/users/store/user.selectors';
 import * as fromDepartment from './department.reducer';
 import { Department } from '../models';
 

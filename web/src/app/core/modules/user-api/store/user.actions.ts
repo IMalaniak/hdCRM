@@ -3,7 +3,7 @@ import { Update } from '@ngrx/entity';
 
 import { PageQuery, NewPassword, CollectionApiResponse } from '@/shared/models';
 import { Page } from '@/shared/store';
-import { User } from '../models';
+import { User } from '../shared';
 
 const detailsPrefix = '[Plan Details]';
 const listPrefix = '[Users List]';

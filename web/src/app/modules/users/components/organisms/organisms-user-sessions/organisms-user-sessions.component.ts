@@ -6,12 +6,12 @@ import { UAParser } from 'ua-parser-js';
 import { AppState } from '@/core/store';
 import { IconsService } from '@/core/services';
 import { deleteSession, deleteMultipleSession } from '@/core/modules/auth/store/auth.actions';
+import { User, UserSession } from '@/core/modules/user-api/shared';
 import { MAT_BUTTON, THEME_PALETTE, CONSTANTS, BS_ICONS } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
-import { UserSession, User } from '@/modules/users';
 
 @Component({
   selector: 'organisms-user-sessions',

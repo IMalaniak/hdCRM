@@ -5,9 +5,9 @@ import { select, Store } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
 import { selectFormByName, formRequested } from '@/core/store/dynamic-form';
+import { Organization } from '@/core/modules/user-api/shared';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
-import { Organization } from '@/modules/users';
 import { ACTION_LABELS, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
 import { DynamicForm } from '@/shared/models';
 import { DialogService } from '@/shared/services';

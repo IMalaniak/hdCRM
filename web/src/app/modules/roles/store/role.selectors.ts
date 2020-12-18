@@ -2,10 +2,10 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Dictionary } from '@ngrx/entity';
 import { denormalize } from 'normalizr';
 
+import { selectAllUserEntities } from '@/core/modules/user-api/store';
 import { PageQuery } from '@/shared/models';
 import { Page, roleListSchema, roleSchema } from '@/shared/store';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
-import { selectAllUserEntities } from '@/modules/users/store/user.selectors';
 import * as fromRole from './role.reducer';
 import { Role } from '../models';
 

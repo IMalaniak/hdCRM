@@ -9,9 +9,8 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { initialPreferencesState } from '@/core/store/preferences';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock } from '@/shared/testing/mocks';
-import { UserService } from '../../services';
-import { initialUsersState } from '../../store/user.reducer';
 import { UsersComponent } from './users.component';
+import { initialUsersState } from '@/core/modules/user-api/store';
 
 describe('UsersComponent', () => {
   let component: UsersComponent;
@@ -27,7 +26,7 @@ describe('UsersComponent', () => {
       TestBed.configureTestingModule({
         declarations: [UsersComponent],
         imports: [RouterTestingModule, MatIconTestingModule, HttpClientModule, BrowserAnimationsModule, SharedModule],
-        providers: [UserService, provideMockStore({ initialState })]
+        providers: [provideMockStore({ initialState })]
       }).compileComponents();
     })
   );

@@ -7,10 +7,9 @@ import { Store, select } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
+import { User } from '@/core/modules/user-api/shared';
+import { selectIsEditing, selectIsLoading, selectUserById, userRequested } from '@/core/modules/user-api/store';
 import { EDIT_PRIVILEGES } from '@/shared/constants';
-import { selectIsLoading, selectIsEditing, selectUserById } from '../../store/user.selectors';
-import { userRequested } from '../../store/user.actions';
-import { User } from '../../models';
 
 @Component({
   selector: 'user',

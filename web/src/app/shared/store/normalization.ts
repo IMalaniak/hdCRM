@@ -1,10 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 import { normalize, schema } from 'normalizr';
 
+import { User } from '@/core/modules/user-api/shared';
 import { Department } from '@/modules/departments';
 import { Plan } from '@/modules/planner';
 import { Role } from '@/modules/roles';
-import { User } from '@/modules/users';
 import { CollectionApiResponse, ItemApiResponse } from '../models';
 
 interface Collections {

@@ -5,12 +5,13 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { AppState } from '@/core/store';
+import { User } from '@/core/modules/user-api/shared';
 import { TemplatesViewDetailsComponent } from '@/shared/components';
 import { MAT_BUTTON, COLUMN_NAMES, COLUMN_LABELS, CONSTANTS, BS_ICONS } from '@/shared/constants';
 import { DialogService } from '@/shared/services';
 import { DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { Privilege, Role } from '@/modules/roles/models';
-import { UsersDialogComponent, User } from '@/modules/users';
+import { UsersDialogComponent } from '@/modules/users/components';
 import { PrivilegesDialogComponent } from '@/modules/roles/components/privileges/dialog/privileges-dialog.component';
 
 @Component({

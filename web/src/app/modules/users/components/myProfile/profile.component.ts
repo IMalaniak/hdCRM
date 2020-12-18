@@ -6,9 +6,9 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/store';
 import { getPreferencesState, Preferences } from '@/core/store/preferences';
 import { getSessionId, currentUser } from '@/core/modules/auth/store/auth.selectors';
+import { User } from '@/core/modules/user-api/shared';
+import { selectIsEditing, selectIsLoading } from '@/core/modules/user-api/store';
 import { TAB_NAMES } from '@/shared/constants';
-import { selectIsLoading, selectIsEditing } from '../../store/user.selectors';
-import { User } from '../../models';
 
 @Component({
   selector: 'user-profile',

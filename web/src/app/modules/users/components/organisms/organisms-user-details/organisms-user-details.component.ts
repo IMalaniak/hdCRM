@@ -5,12 +5,12 @@ import { select, Store } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
 import { selectFormByName, formRequested } from '@/core/store/dynamic-form';
+import { User } from '@/core/modules/user-api/shared';
 import { DialogDataModel, DynamicForm } from '@/shared/models';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
 import { ACTION_LABELS, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
-import { User } from '@/modules/users';
 
 @Component({
   selector: 'organisms-user-details',

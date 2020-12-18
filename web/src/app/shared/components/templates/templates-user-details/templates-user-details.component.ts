@@ -6,9 +6,9 @@ import { select, Store } from '@ngrx/store';
 import { AppState } from '@/core/store';
 import { IconsService } from '@/core/services';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
+import { User } from '@/core/modules/user-api/shared';
 import { BS_ICONS, VIEW_PRIVILEGES } from '@/shared/constants';
 import { Asset } from '@/shared/models';
-import { User } from '@/modules/users';
 
 @Component({
   selector: 'templates-user-details',

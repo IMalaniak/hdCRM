@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { APIS } from '@/shared/constants';
-import { UserPreferences } from '@/modules/users/models';
-import { Preferences, PreferencesList } from '../store/preferences/preferences.reducer';
+import { Preferences, PreferencesList } from '../store/preferences';
+import { UserPreferences } from '../modules/user-api/shared';
 
 @Injectable({
   providedIn: 'root'

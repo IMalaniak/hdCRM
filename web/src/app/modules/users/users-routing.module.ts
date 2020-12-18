@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ProfileComponent, UserComponent, UsersComponent } from './components';
 import { PATHS, VIEW_PRIVILEGES } from '@/shared/constants';
@@ -37,10 +37,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class UsersRoutingModule {
-  static forRoot(): ModuleWithProviders<UsersRoutingModule> {
-    return {
-      ngModule: UsersRoutingModule
-    };
-  }
-}
+export class UsersRoutingModule {}

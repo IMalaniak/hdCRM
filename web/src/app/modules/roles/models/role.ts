@@ -1,5 +1,5 @@
+import { User } from '@/core/modules/user-api/shared';
 import { Privilege } from './privilege';
-import { User } from '@/modules/users/models';
 
 export interface Role {
   id: number;

@@ -8,11 +8,11 @@ import { takeUntil } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
+import { User } from '@/core/modules/user-api/shared';
+import { selectAllUsers } from '@/core/modules/user-api/store';
 import { CONSTANTS, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE, BS_ICONS, InputType } from '@/shared/constants';
 import { DialogCreateEditModel, DialogDataModel, DialogResultModel } from '@/shared/models';
 import { DialogBaseModel } from '@/shared/components';
-import { User } from '../../models';
-import { selectAllUsers } from '../../store/user.selectors';
 
 @Component({
   templateUrl: './invitation-dialog.component.html',

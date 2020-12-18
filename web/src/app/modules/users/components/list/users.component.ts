@@ -10,15 +10,21 @@ import { Store, select } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
 import { getItemsPerPageState } from '@/core/store/preferences';
+import { User } from '@/core/modules/user-api/shared';
+import {
+  deleteUser,
+  inviteUsers,
+  OnlineUserListRequested,
+  selectUserPageLoading,
+  selectUsersTotalCount
+} from '@/core/modules/user-api/store';
 import { isPrivileged, currentUser } from '@/core/modules/auth/store/auth.selectors';
 import { IconsService } from '@/core/services';
-import { ToastMessageService } from '@/shared/services';
 import {
   DialogCreateEditModel,
   DialogDataModel,
   DialogMode,
   DialogType,
-  ItemApiResponse,
   DialogResultModel,
   PageQuery
 } from '@/shared/models';
@@ -37,11 +43,8 @@ import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, SORT_DIRECTION, COL
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
-import { UserService, UsersDataSource } from '../../services';
-import { User } from '../../models';
-import { selectUserPageLoading, selectUsersTotalCount } from '../../store/user.selectors';
-import { deleteUser, inviteUsers, OnlineUserListRequested } from '../../store/user.actions';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
+import { UsersDataSource } from '../../dataSources';
 
 @Component({
   selector: 'users-component',
@@ -99,9 +102,7 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
 
   constructor(
     private router: Router,
-    private userService: UserService,
     private store$: Store<AppState>,
-    private toastMessageService: ToastMessageService,
     private dialogService: DialogService,
     private readonly iconsService: IconsService
   ) {
@@ -170,18 +171,18 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
     this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () => this.store$.dispatch(deleteUser({ id })));
   }
 
-  changeUserState(user: User, state: UserState): void {
-    const userState = { id: user.id, state } as User;
+  // TODO: @IMalaniak recreate this to store
+  // changeUserState(user: User, state: UserState): void {
+  //   const userState = { id: user.id, state } as User;
 
-    // TODO: @IMalaniak recreate this to store
-    this.userService.updateUserState(userState).subscribe((response: ItemApiResponse<User>) => {
-      const serverResponse = {
-        success: response.success,
-        message: `User state was changed to: ${response.data.state}`
-      };
-      this.toastMessageService.snack(serverResponse);
-    });
-  }
+  //   this.userService.updateUserState(userState).subscribe((response: ItemApiResponse<User>) => {
+  //     const serverResponse = {
+  //       success: response.success,
+  //       message: `User state was changed to: ${response.data.state}`
+  //     };
+  //     this.toastMessageService.snack(serverResponse);
+  //   });
+  // }
 
   onUserSelect(id: number, edit: boolean = false): void {
     this.router.navigate([`${RoutingConstants.ROUTE_USERS_DETAILS}/${id}`], {

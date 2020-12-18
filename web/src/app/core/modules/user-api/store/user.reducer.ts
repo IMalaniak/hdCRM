@@ -2,7 +2,7 @@ import { Action, on, createReducer } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
 import { getInitialPaginationState, pagesAdapter, PaginationState, partialDataLoaded } from '@/shared/store';
-import { User } from '../models';
+import { User } from '../shared';
 import * as userActions from './user.actions';
 
 export interface UsersEntityState extends EntityState<User> {}
