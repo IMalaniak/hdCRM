@@ -10,7 +10,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 import { environment } from 'environments/environment';
-import { httpInterceptorsProviders } from './_interceptors';
+import { httpInterceptorsProviders } from './interceptors';
 import { AuthModule } from './auth/auth.module';
 import { LayoutModule } from './layout/layout.module';
 import { reducers, metaReducers } from './reducers';
