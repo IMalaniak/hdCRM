@@ -6,7 +6,7 @@ import { UAParser } from 'ua-parser-js';
 import { UserSession, User } from '@/modules/users';
 import { AppState } from '@/core/reducers';
 import { IconsService } from '@/core/services';
-import { deleteSession, deleteMultipleSession } from '@/core/auth/store/auth.actions';
+import { deleteSession, deleteMultipleSession } from '@/core/modules/auth/store/auth.actions';
 import { MAT_BUTTON, THEME_PALETTE, CONSTANTS, BS_ICONS } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';

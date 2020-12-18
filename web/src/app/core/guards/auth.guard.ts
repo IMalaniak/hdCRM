@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
 import { tap, withLatestFrom, map, take } from 'rxjs/operators';
 
 import { AppState } from '../reducers';
-import { isTokenValid } from '../auth/store/auth.selectors';
-import { checkIsTokenValid, redirectToLogin } from '../auth/store/auth.actions';
+import { isTokenValid } from '../modules/auth/store/auth.selectors';
+import { checkIsTokenValid, redirectToLogin } from '../modules/auth/store/auth.actions';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {

@@ -7,7 +7,7 @@ import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { initialPreferencesState } from '@/core/reducers/preferences.reducer';
-import { initialLayoutState } from '@/core/layout/store/layout.reducer';
+import { initialLayoutState } from '@/core/modules/layout/store/layout.reducer';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, formsStateMock } from '@/shared/testing/mocks';
 import { initialUsersState } from '../../store/user.reducer';

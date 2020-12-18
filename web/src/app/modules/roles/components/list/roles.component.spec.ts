@@ -2,12 +2,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { AppState } from '@/core/reducers';
 import { initialPreferencesState } from '@/core/reducers/preferences.reducer';
-import { AuthState } from '@/core/auth/store/auth.reducer';
+import { AuthState } from '@/core/modules/auth/store/auth.reducer';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock } from '@/shared/testing/mocks';
 import { initialUsersState, UsersState } from '@/modules/users/store/user.reducer';
@@ -15,7 +16,6 @@ import { RoleService } from '../../services';
 import { RolesComponent } from './roles.component';
 import { initialRolesState } from '../../store/role.reducer';
 import { RolesState } from '../../store/role.reducer';
-import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('RolesComponent', () => {
   let component: RolesComponent;

@@ -3,9 +3,10 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { mergeMap, first } from 'rxjs/operators';
-import { getToken } from '../auth/store/auth.selectors';
-import { AppState } from '../reducers';
+
 import { APIS } from '@/shared/constants';
+import { getToken } from '../modules/auth/store/auth.selectors';
+import { AppState } from '../reducers';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {

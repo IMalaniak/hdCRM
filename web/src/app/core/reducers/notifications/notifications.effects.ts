@@ -6,7 +6,7 @@ import { Action, Store } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Update } from '@ngrx/entity';
 
-import { currentUserLoaded } from '@/core/auth/store/auth.actions';
+import { currentUserLoaded } from '@/core/modules/auth/store/auth.actions';
 import { NotificationsService } from '@/core/services';
 import { Notification } from '@/shared/models';
 import { NOTIFICATION_TYPES } from '@/shared/constants';

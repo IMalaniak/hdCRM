@@ -1,9 +1,12 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, OnChanges } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MatRadioChange } from '@angular/material/radio';
-import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+import { Store, select } from '@ngrx/store';
+
 import { AppState } from '@/core/reducers';
-import { enableDarkTheme } from '@/core/layout/store/layout.actions';
+import { enableDarkTheme } from '@/core/modules/layout/store/layout.actions';
 import {
   changeTimeFormat,
   changeDateFormat,
@@ -12,8 +15,6 @@ import {
   preferencesListRequested
 } from '@/core/reducers/preferences.actions';
 import { PreferencesList, Preferences } from '@/core/reducers/preferences.reducer';
-import { Observable } from 'rxjs';
-import { select } from '@ngrx/store';
 import { getPreferencesList } from '@/core/reducers/preferences.selectors';
 import { IFieldType } from '@/shared/constants';
 

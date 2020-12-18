@@ -1,9 +1,17 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { Store, select } from '@ngrx/store';
-import { User, UserSession } from '@/modules/users';
+
 import { AppState } from '@/core/reducers';
-import { currentUser, isPrivileged, lastFailedSession, lastSuccesfulSession } from '@/core/auth/store/auth.selectors';
+import {
+  currentUser,
+  isPrivileged,
+  lastFailedSession,
+  lastSuccesfulSession
+} from '@/core/modules/auth/store/auth.selectors';
+import { VIEW_PRIVILEGES } from '@/shared/constants';
+import { User, UserSession } from '@/modules/users';
 import { depDashboardDataRequested } from '@/modules/departments/store/department.actions';
 import { selectAllDepartments } from '@/modules/departments/store/department.selectors';
 import { allStagesRequestedFromDashboard } from '@/modules/planner/store/stage.actions';
@@ -13,7 +21,6 @@ import { selectAllRoles } from '@/modules/roles/store/role.selectors';
 import { Role } from '@/modules/roles';
 import { Stage } from '@/modules/planner';
 import { Department } from '@/modules/departments';
-import { VIEW_PRIVILEGES } from '@/shared/constants';
 
 @Component({
   selector: 'app-dashboard',

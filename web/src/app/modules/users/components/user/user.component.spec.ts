@@ -6,11 +6,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { initialLayoutState } from '@/core/layout/store/layout.reducer';
+import { initialLayoutState } from '@/core/modules/layout/store/layout.reducer';
 import { initialPreferencesState } from '@/core/reducers/preferences.reducer';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, formsStateMock } from '@/shared/testing/mocks';
-import { TemplatesUserProfileComponent, OrganismsUserDetailsComponent } from '..';
+import { TemplatesUserProfileComponent, OrganismsUserDetailsComponent } from '../index';
 import { initialUsersState } from '../../store/user.reducer';
 import { UserComponent } from './user.component';
 

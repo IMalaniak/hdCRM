@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 
 import { AppState } from '@/core/reducers';
-import { isPrivileged } from '@/core/auth/store/auth.selectors';
+import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { EDIT_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
 import { updateRoleRequested, changeIsEditingState, roleRequested } from '../../store/role.actions';
 import { selectIsEditing, selectRoleDeepById } from '../../store/role.selectors';

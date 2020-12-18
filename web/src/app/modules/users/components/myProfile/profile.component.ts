@@ -1,13 +1,15 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { User } from '../../models';
-import { Store, select } from '@ngrx/store';
-import { AppState } from '@/core/reducers';
-import { getSessionId, currentUser } from '@/core/auth/store/auth.selectors';
 import { Observable } from 'rxjs';
-import { selectIsLoading, selectIsEditing } from '../../store/user.selectors';
+
+import { Store, select } from '@ngrx/store';
+
+import { AppState } from '@/core/reducers';
 import { getPreferencesState } from '@/core/reducers/preferences.selectors';
 import { Preferences } from '@/core/reducers/preferences.reducer';
+import { getSessionId, currentUser } from '@/core/modules/auth/store/auth.selectors';
 import { TAB_NAMES } from '@/shared/constants';
+import { selectIsLoading, selectIsEditing } from '../../store/user.selectors';
+import { User } from '../../models';
 
 @Component({
   selector: 'user-profile',

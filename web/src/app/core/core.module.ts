@@ -11,8 +11,8 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 import { environment } from 'environments/environment';
 import { httpInterceptorsProviders } from './interceptors';
-import { AuthModule } from './auth/auth.module';
-import { LayoutModule } from './layout/layout.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { LayoutModule } from './modules/layout/layout.module';
 import { reducers, metaReducers } from './reducers';
 import { PreferencesEffects } from './reducers/preferences.effects';
 import { IntegrationsEffects } from './reducers/integration.effects';

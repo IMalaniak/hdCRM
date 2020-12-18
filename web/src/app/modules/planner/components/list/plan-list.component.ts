@@ -1,16 +1,16 @@
 import { Component, AfterViewInit, ViewChild, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { Observable, Subject, merge } from 'rxjs';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
-
-import { Plan } from '../../models';
-import { Store, select } from '@ngrx/store';
-import { AppState } from '@/core/reducers';
-import { PlansDataSource } from '../../services/plan.datasource';
-import { selectPlanPageLoading, selectPlansTotalCount } from '../../store/plan.selectors';
-import { MatPaginator } from '@angular/material/paginator';
+import { Observable, Subject, merge } from 'rxjs';
 import { tap, takeUntil } from 'rxjs/operators';
+
+import { Store, select } from '@ngrx/store';
+
+import { AppState } from '@/core/reducers';
+import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
+import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import { DialogDataModel, PageQuery } from '@/shared/models';
 import {
   IItemsPerPage,
@@ -23,13 +23,14 @@ import {
   CONSTANTS,
   BS_ICONS
 } from '@/shared/constants';
-import { isPrivileged } from '@/core/auth/store/auth.selectors';
 import { deletePlanRequested, changeIsEditingState } from '../../store/plan.actions';
-import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import { SORT_DIRECTION, ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_NAMES } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
+import { Plan } from '../../models';
+import { PlansDataSource } from '../../services/plan.datasource';
+import { selectPlanPageLoading, selectPlansTotalCount } from '../../store/plan.selectors';
 
 @Component({
   templateUrl: './plan-list.component.html',

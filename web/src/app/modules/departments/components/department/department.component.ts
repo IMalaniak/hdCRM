@@ -6,7 +6,7 @@ import { Observable, combineLatest } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 
 import { AppState } from '@/core/reducers';
-import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
+import { currentUser, isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { EDIT_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
 import { Department } from '../../models';
 import { updateDepartmentRequested, changeIsEditingState, departmentRequested } from '../../store/department.actions';

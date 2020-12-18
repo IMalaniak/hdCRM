@@ -1,14 +1,16 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Store, select } from '@ngrx/store';
-import { AppState } from '@/core/reducers';
 import { Observable } from 'rxjs';
-import { User } from '../../models';
-import { isPrivileged } from '@/core/auth/store/auth.selectors';
+import { filter, tap } from 'rxjs/operators';
+
+import { Store, select } from '@ngrx/store';
+
+import { AppState } from '@/core/reducers';
+import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
+import { EDIT_PRIVILEGES } from '@/shared/constants';
 import { selectIsLoading, selectIsEditing, selectUserById } from '../../store/user.selectors';
 import { userRequested } from '../../store/user.actions';
-import { filter, tap } from 'rxjs/operators';
-import { EDIT_PRIVILEGES } from '@/shared/constants';
+import { User } from '../../models';
 
 @Component({
   selector: 'user',

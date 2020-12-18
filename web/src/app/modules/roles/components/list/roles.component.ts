@@ -9,11 +9,9 @@ import { tap, takeUntil } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 
 import { AppState } from '@/core/reducers';
-import { isPrivileged } from '@/core/auth/store/auth.selectors';
-import { RolesDataSource } from '../../services/role.datasource';
-import { Role } from '../../models';
+import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
+import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import { DialogDataModel, PageQuery } from '@/shared/models';
-import { selectRolesTotalCount, selectRolesPageLoading } from '../../store/role.selectors';
 import {
   IItemsPerPage,
   pageSizeOptions,
@@ -24,12 +22,14 @@ import {
   CONSTANTS,
   BS_ICONS
 } from '@/shared/constants';
-import { deleteRoleRequested, changeIsEditingState } from '../../store/role.actions';
-import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import { SORT_DIRECTION, ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_NAMES } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
+import { RolesDataSource } from '../../services/role.datasource';
+import { Role } from '../../models';
+import { selectRolesTotalCount, selectRolesPageLoading } from '../../store/role.selectors';
+import { deleteRoleRequested, changeIsEditingState } from '../../store/role.actions';
 
 @Component({
   selector: 'roles-component',

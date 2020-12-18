@@ -1,11 +1,12 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromUser from './user.reducer';
+
+import { currentUser } from '@/core/modules/auth/store/auth.selectors';
 import { PageQuery } from '@/shared/models';
-import { User } from '../models';
 import { UserState } from '@/shared/constants';
-import { currentUser } from '@/core/auth/store/auth.selectors';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
 import { Page } from '@/shared/store';
+import * as fromUser from './user.reducer';
+import { User } from '../models';
 
 export const selectUsersState = createFeatureSelector<fromUser.UsersState>(fromUser.usersFeatureKey);
 export const selectUserEntityState = createSelector(selectUsersState, (usersState) => usersState.data);

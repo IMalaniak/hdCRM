@@ -5,7 +5,8 @@ import { Store } from '@ngrx/store';
 
 import { MediaQueryService, IconsService } from '@/core/services';
 import { AppState } from '@/core/reducers';
-import { currentUser, isPrivileged } from '@/core/auth/store/auth.selectors';
+import { currentUser, isPrivileged } from '@/core/modules/auth/store/auth.selectors';
+import { logOut } from '@/core/modules/auth/store/auth.actions';
 import {
   ACTION_LABELS,
   ADD_PRIVILEGES,
@@ -17,7 +18,6 @@ import {
 } from '@/shared/constants';
 import { User } from '@/modules/users';
 import { closeUserDropdown, toggleUserDropdown } from '../../store/layout.actions';
-import { logOut } from '@/core/auth/store/auth.actions';
 import { userDropdownVisible } from '../../store';
 
 @Component({

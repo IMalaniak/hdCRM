@@ -6,7 +6,9 @@ import { Store, select } from '@ngrx/store';
 import { Observable, merge, Subject } from 'rxjs';
 import { tap, takeUntil } from 'rxjs/operators';
 
-import { DepartmentsDataSource } from '../../services';
+import { AppState } from '@/core/reducers';
+import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
+import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import { DialogDataModel, PageQuery } from '@/shared/models';
 import {
   IItemsPerPage,
@@ -19,15 +21,13 @@ import {
   CONSTANTS,
   BS_ICONS
 } from '@/shared/constants';
-import { AppState } from '@/core/reducers';
-import { selectDepartmentsTotalCount, selectDepartmentsPageLoading } from '../../store/department.selectors';
-import { isPrivileged } from '@/core/auth/store/auth.selectors';
-import { deleteDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
-import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, SORT_DIRECTION, COLUMN_NAMES } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
+import { DepartmentsDataSource } from '../../services';
+import { selectDepartmentsTotalCount, selectDepartmentsPageLoading } from '../../store/department.selectors';
+import { deleteDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
 
 @Component({
   selector: 'departments',

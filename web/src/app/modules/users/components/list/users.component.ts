@@ -8,13 +8,10 @@ import { tap, takeUntil } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 
-import { UserService, UsersDataSource } from '../../services';
-import { User } from '../../models';
 import { AppState } from '@/core/reducers';
-import { selectUserPageLoading, selectUsersTotalCount } from '../../store/user.selectors';
-import { isPrivileged, currentUser } from '@/core/auth/store/auth.selectors';
-import { deleteUser, inviteUsers, OnlineUserListRequested } from '../../store/user.actions';
-import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
+import { isPrivileged, currentUser } from '@/core/modules/auth/store/auth.selectors';
+import { IconsService } from '@/core/services';
+import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import { ToastMessageService } from '@/shared/services';
 import {
   DialogCreateEditModel,
@@ -36,12 +33,15 @@ import {
   UserState,
   BS_ICONS
 } from '@/shared/constants';
-import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
 import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, SORT_DIRECTION, COLUMN_NAMES } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
-import { IconsService } from '@/core/services';
+import { UserService, UsersDataSource } from '../../services';
+import { User } from '../../models';
+import { selectUserPageLoading, selectUsersTotalCount } from '../../store/user.selectors';
+import { deleteUser, inviteUsers, OnlineUserListRequested } from '../../store/user.actions';
+import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
 
 @Component({
   selector: 'users-component',

@@ -1,18 +1,21 @@
 import { Component, Input, SimpleChanges, OnChanges, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { User, Organization } from '@/modules/users/models';
-import { Store, select } from '@ngrx/store';
-import { AppState } from '@/core/reducers';
-import { cloneDeep } from 'lodash';
-import { Asset } from '@/shared/models';
-import { updateUserRequested, changeIsEditingState } from '@/modules/users/store/user.actions';
-import { environment } from 'environments/environment';
-import { Observable } from 'rxjs';
-import * as fromLayout from '@/core/layout/store';
-import { updateUserOrgRequested, updateUserProfileRequested } from '@/core/auth/store/auth.actions';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+
+import { Store, select } from '@ngrx/store';
+
+import { cloneDeep } from 'lodash';
+
+import { environment } from 'environments/environment';
+import { AppState } from '@/core/reducers';
+import * as fromLayout from '@/core/modules/layout/store';
+import { updateUserOrgRequested, updateUserProfileRequested } from '@/core/modules/auth/store/auth.actions';
 import { Preferences } from '@/core/reducers/preferences.reducer';
-import { isPrivileged } from '@/core/auth/store/auth.selectors';
+import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
+import { Asset } from '@/shared/models';
 import { TAB_PRIVILEGES, CONSTANTS, TAB_NAMES, TAB_LABELS } from '@/shared/constants';
+import { updateUserRequested, changeIsEditingState } from '@/modules/users/store/user.actions';
+import { User, Organization } from '@/modules/users/models';
 
 @Component({
   selector: 'templates-user-profile',

@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 
 import { environment } from 'environments/environment';
 import { AppState } from '@/core/reducers';
-import { getToken } from '@/core/auth/store/auth.selectors';
+import { getToken } from '@/core/modules/auth/store/auth.selectors';
 import { Asset } from '@/shared/models';
 
 @Component({

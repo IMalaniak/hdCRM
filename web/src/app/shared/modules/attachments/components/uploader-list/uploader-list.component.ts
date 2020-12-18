@@ -3,10 +3,10 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ChangeDetect
 import { Store, select } from '@ngrx/store';
 import { FilePond } from 'filepond';
 
-import { Asset, TempAddedAsset } from '@/shared/models';
 import { environment } from 'environments/environment';
 import { AppState } from '@/core/reducers';
-import { getToken } from '@/core/auth/store/auth.selectors';
+import { getToken } from '@/core/modules/auth/store/auth.selectors';
+import { Asset, TempAddedAsset } from '@/shared/models';
 
 @Component({
   selector: 'uploader-list-component',
