@@ -36,7 +36,8 @@ const routes: Routes = [
         path: PATHS.USERS,
         canActivate: [AuthGuard],
         data: { breadcrumb: 'App Users', animation: 'UsersPage', preload: true, delay: false },
-        loadChildren: () => import('./modules/users/users.module').then((m) => m.UsersModule)
+        loadChildren: () =>
+          import('./modules/user-management/user-management.module').then((m) => m.UserManagementModule)
       },
       {
         path: PATHS.ROLES,

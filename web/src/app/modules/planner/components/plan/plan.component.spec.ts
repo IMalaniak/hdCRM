@@ -4,9 +4,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { initialUsersState } from '@/core/modules/user-api/store';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, formsStateMock } from '@/shared/testing/mocks';
-import { initialUsersState } from '@/modules/users/store/user.reducer';
 import { PlanService } from '../../services';
 import { initialPlansState } from '../../store/plan.reducer';
 import { PlanComponent } from './plan.component';

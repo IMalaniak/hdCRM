@@ -1,6 +1,6 @@
 import { AuthState } from '@/core/modules/auth/store/auth.reducer';
+import { User } from '@/core/modules/user-api/shared';
 import { DynamicFormState } from '@/core/store/dynamic-form';
-import { User } from '@/modules/users/models';
 import { FormType, IFieldType } from '@/shared/constants';
 
 export const currentUserMock = ({

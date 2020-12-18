@@ -6,9 +6,9 @@ import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { initialUsersState } from '@/core/modules/user-api/store';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, formsStateMock } from '@/shared/testing/mocks';
-import { initialUsersState } from '@/modules/users/store/user.reducer';
 import { initialDepartmentsState } from '../../store/department.reducer';
 import { DepartmentComponent } from './department.component';
 import { TemplatesDepartmentViewComponent } from '../templates';

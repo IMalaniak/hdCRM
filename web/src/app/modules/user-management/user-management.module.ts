@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 
 import { SharedModule } from '@/shared/shared.module';
-import { UsersRoutingModule } from './users-routing.module';
+import { UserManagementRoutingModule } from './user-management-routing.module';
 import {
   ProfileComponent,
   UserComponent,
@@ -20,15 +20,15 @@ import {
   OrganismsUserOrganizationComponent,
   OrganismsUserIntegrationsComponent
 } from './components';
-import { usersFeatureKey, usersReducer } from './store';
+import { userManagementFeatureKey, usersReducer } from './store';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
     SharedModule,
-    UsersRoutingModule,
-    StoreModule.forFeature(usersFeatureKey, usersReducer)
+    UserManagementRoutingModule,
+    StoreModule.forFeature(userManagementFeatureKey, usersReducer)
   ],
   declarations: [
     ProfileComponent,
@@ -46,4 +46,4 @@ import { usersFeatureKey, usersReducer } from './store';
   ],
   exports: [UserComponent, UsersComponent, UsersDialogComponent]
 })
-export class UsersModule {}
+export class UserManagementModule {}

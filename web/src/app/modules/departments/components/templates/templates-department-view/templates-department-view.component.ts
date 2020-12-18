@@ -11,7 +11,7 @@ import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
 import { CONSTANTS } from '@/shared/constants';
 import { DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { Department } from '@/modules/departments/models';
-import { UsersDialogComponent } from '@/modules/users/components';
+import { UsersDialogComponent } from '@/modules/user-management/components';
 
 @Component({
   selector: 'templates-department-view',

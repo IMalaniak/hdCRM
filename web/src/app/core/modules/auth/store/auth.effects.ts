@@ -14,7 +14,7 @@ import { Organization, User } from '@/core/modules/user-api/shared';
 import { SocketService, ToastMessageService } from '@/shared/services';
 import { BaseMessage, ItemApiResponse } from '@/shared/models';
 import { SocketEvent, RoutingConstants, CONSTANTS } from '@/shared/constants';
-import { changeIsEditingState } from '@/modules/users/store';
+import { changeIsEditingState } from '@/modules/user-management/store';
 import * as authActions from './auth.actions';
 import { AuthenticationService } from '../services';
 import { getToken } from './auth.selectors';

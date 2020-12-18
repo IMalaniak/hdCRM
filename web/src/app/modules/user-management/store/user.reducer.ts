@@ -52,4 +52,4 @@ export function usersReducer(state: UsersState | undefined, action: Action) {
   return reducer(state, action);
 }
 
-export const usersFeatureKey = 'user-management';
+export const userManagementFeatureKey = 'user-management';

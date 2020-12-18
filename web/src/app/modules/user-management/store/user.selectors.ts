@@ -7,7 +7,7 @@ import { generatePageKey } from '@/shared/utils/generatePageKey';
 import { Page } from '@/shared/store';
 import * as fromUser from './user.reducer';
 
-export const selectUsersState = createFeatureSelector<fromUser.UsersState>(fromUser.usersFeatureKey);
+export const selectUsersState = createFeatureSelector<fromUser.UsersState>(fromUser.userManagementFeatureKey);
 export const selectUserPagesState = createSelector(selectUsersState, (usersState) => usersState.pages);
 
 export const selectUserPageByKey = (pageQuery: PageQuery) =>

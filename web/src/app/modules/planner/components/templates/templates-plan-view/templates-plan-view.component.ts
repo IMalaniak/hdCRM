@@ -11,7 +11,7 @@ import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
 import { DialogService } from '@/shared/services';
 import { CONSTANTS } from '@/shared/constants';
 import { Plan } from '@/modules/planner/models';
-import { UsersDialogComponent } from '@/modules/users/components';
+import { UsersDialogComponent } from '@/modules/user-management/components';
 
 @Component({
   selector: 'templates-plan-view',

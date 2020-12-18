@@ -4,9 +4,9 @@ import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { initialUsersState } from '@/core/modules/user-api/store';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, formsStateMock } from '@/shared/testing/mocks';
-import { initialUsersState } from '@/modules/users/store/user.reducer';
 import { initialRolesState } from '../../store/role.reducer';
 import { RoleComponent } from './role.component';
 import { TemplatesRoleViewComponent } from '../templates';

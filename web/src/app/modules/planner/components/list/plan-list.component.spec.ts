@@ -6,9 +6,9 @@ import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { initialPreferencesState } from '@/core/store/preferences';
+import { initialUsersState } from '@/core/modules/user-api/store';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock } from '@/shared/testing/mocks';
-import { initialUsersState } from '@/modules/users/store/user.reducer';
 import { initialPlansState } from '../../store/plan.reducer';
 import { PlanListComponent } from './plan-list.component';
 

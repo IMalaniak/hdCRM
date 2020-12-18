@@ -37,7 +37,7 @@ import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, SORT_DIRECTION, COL
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
-import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
+import { InvitationDialogComponent } from '../invitation-dialog/invitation-dialog.component';
 import { UsersDataSource } from '../../dataSources';
 import { selectUserPageLoading, selectUsersTotalCount } from '../../store';
 

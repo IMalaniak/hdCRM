@@ -16,7 +16,7 @@ import { User, Organization } from '@/core/modules/user-api/shared';
 import { updateUserRequested } from '@/core/modules/user-api/store';
 import { Asset } from '@/shared/models';
 import { TAB_PRIVILEGES, CONSTANTS, TAB_NAMES, TAB_LABELS } from '@/shared/constants';
-import { changeIsEditingState } from '@/modules/users/store';
+import { changeIsEditingState } from '@/modules/user-management/store';
 
 @Component({
   selector: 'templates-user-profile',

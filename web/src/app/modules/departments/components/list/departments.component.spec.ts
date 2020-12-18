@@ -5,10 +5,10 @@ import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { initialUsersState } from '@/core/modules/user-api/store';
 import { initialPreferencesState } from '@/core/store/preferences';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock } from '@/shared/testing/mocks';
-import { initialUsersState } from '@/modules/users/store/user.reducer';
 import { initialDepartmentsState } from '../../store/department.reducer';
 import { DepartmentsComponent } from './departments.component';
 
