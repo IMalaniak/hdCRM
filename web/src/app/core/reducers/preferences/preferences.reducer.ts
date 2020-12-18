@@ -31,7 +31,7 @@ export const initialPreferencesState: PreferencesState = {
   list: null
 };
 
-const preferencesReducer = createReducer(
+const reducer = createReducer(
   initialPreferencesState,
   on(PreferencesActions.changeDateFormat, (state, { dateFormat }) => ({ ...state, dateFormat })),
   on(PreferencesActions.changeTimeFormat, (state, { timeFormat }) => ({ ...state, timeFormat })),
@@ -41,6 +41,6 @@ const preferencesReducer = createReducer(
   on(PreferencesActions.preferencesListLoaded, (state, { list }) => ({ ...state, list }))
 );
 
-export function reducer(state: PreferencesState | undefined, action: Action) {
-  return preferencesReducer(state, action);
+export function preferencesReducer(state: PreferencesState | undefined, action: Action) {
+  return reducer(state, action);
 }

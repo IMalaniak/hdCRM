@@ -1,28 +1,27 @@
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from 'environments/environment';
 
-import * as fromRouter from '@ngrx/router-store';
-import { SerializedRouterStateSnapshot } from '@ngrx/router-store';
+import { routerReducer, RouterReducerState, SerializedRouterStateSnapshot } from '@ngrx/router-store';
 
-import * as fromPreferences from './preferences/preferences.reducer';
-import * as fromIntegrations from './integration/integration.reducer';
-import * as fromDynamicForm from './dynamic-form/dynamic-form.reducer';
-import * as fromNotifications from './notifications/notifications.reducer';
+import { preferencesReducer, PreferencesState } from './preferences';
+import { integrationsReducer, IntegrationsState } from './integration';
+import { DynamicFormState, formReducer } from './dynamic-form';
+import { notificationsReducer, NotificationsState } from './notifications';
 
 export interface AppState {
-  router: fromRouter.RouterReducerState<SerializedRouterStateSnapshot>;
-  preferences: fromPreferences.PreferencesState;
-  integrations: fromIntegrations.IntegrationsState;
-  forms: fromDynamicForm.DynamicFormState;
-  notifications: fromNotifications.NotificationsState;
+  router: RouterReducerState<SerializedRouterStateSnapshot>;
+  preferences: PreferencesState;
+  integrations: IntegrationsState;
+  forms: DynamicFormState;
+  notifications: NotificationsState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
-  router: fromRouter.routerReducer,
-  preferences: fromPreferences.reducer,
-  integrations: fromIntegrations.reducer,
-  forms: fromDynamicForm.reducer,
-  notifications: fromNotifications.reducer
+  router: routerReducer,
+  preferences: preferencesReducer,
+  integrations: integrationsReducer,
+  forms: formReducer,
+  notifications: notificationsReducer
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [] : [];

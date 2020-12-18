@@ -30,7 +30,7 @@ const dynamicFormReducer = createReducer(
   on(dynamicFormActions.formsApiError, (state) => ({ ...state, isLoading: false }))
 );
 
-export function reducer(state: DynamicFormState | undefined, action: Action) {
+export function formReducer(state: DynamicFormState | undefined, action: Action) {
   return dynamicFormReducer(state, action);
 }
 

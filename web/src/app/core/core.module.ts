@@ -14,10 +14,10 @@ import { httpInterceptorsProviders } from './interceptors';
 import { AuthModule } from './modules/auth/auth.module';
 import { LayoutModule } from './modules/layout/layout.module';
 import { reducers, metaReducers } from './reducers';
-import { PreferencesEffects } from './reducers/preferences/preferences.effects';
-import { IntegrationsEffects } from './reducers/integration/integration.effects';
-import { DynamicFormEffects } from './reducers/dynamic-form/dynamic-form.effects';
-import { NotificationsEffects } from './reducers/notifications/notifications.effects';
+import { PreferencesEffects } from './reducers/preferences';
+import { IntegrationsEffects } from './reducers/integration';
+import { DynamicFormEffects } from './reducers/dynamic-form';
+import { NotificationsEffects } from './reducers/notifications';
 
 @NgModule({
   imports: [

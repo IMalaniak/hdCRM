@@ -15,7 +15,7 @@ export const initialNotificationsState: NotificationsState = adapter.getInitialS
   dropdownVisible: false
 });
 
-const notificationsReducer = createReducer(
+const reducer = createReducer(
   initialNotificationsState,
   on(notificationsActions.sendNotification, (state, { notification }) =>
     adapter.addOne(notification, {
@@ -54,8 +54,8 @@ const notificationsReducer = createReducer(
   )
 );
 
-export function reducer(state: NotificationsState | undefined, action: Action) {
-  return notificationsReducer(state, action);
+export function notificationsReducer(state: NotificationsState | undefined, action: Action) {
+  return reducer(state, action);
 }
 
 export const { selectAll, selectEntities, selectIds, selectTotal } = adapter.getSelectors();

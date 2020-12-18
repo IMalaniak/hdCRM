@@ -11,7 +11,7 @@ export const initialIntegrationsState: IntegrationsState = {
   isLoading: false
 };
 
-const integrationsReducer = createReducer(
+const reducer = createReducer(
   initialIntegrationsState,
   on(IntegrationActions.googleDriveIntegrationLoaded, (state, { googleDriveToken }) => ({
     ...state,
@@ -25,6 +25,6 @@ const integrationsReducer = createReducer(
   }))
 );
 
-export function reducer(state: IntegrationsState | undefined, action: Action) {
-  return integrationsReducer(state, action);
+export function integrationsReducer(state: IntegrationsState | undefined, action: Action) {
+  return reducer(state, action);
 }
