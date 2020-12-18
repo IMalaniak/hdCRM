@@ -1,34 +1,19 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { currentUser } from '@/core/modules/auth/store/auth.selectors';
+import { User } from '@/core/modules/user-api/shared';
+import { selectAllUsers } from '@/core/modules/user-api/store';
 import { PageQuery } from '@/shared/models';
-import { UserState } from '@/shared/constants';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
 import { Page } from '@/shared/store';
 import * as fromUser from './user.reducer';
-import { User } from '../shared';
 
 export const selectUsersState = createFeatureSelector<fromUser.UsersState>(fromUser.usersFeatureKey);
-export const selectUserEntityState = createSelector(selectUsersState, (usersState) => usersState.data);
 export const selectUserPagesState = createSelector(selectUsersState, (usersState) => usersState.pages);
 
-export const selectUserById = (userId: number) =>
-  createSelector(selectUserEntityState, (usersState) => usersState.entities[userId]);
 export const selectUserPageByKey = (pageQuery: PageQuery) =>
   createSelector(selectUserPagesState, (pagesState) => pagesState.entities[generatePageKey(pageQuery)]);
 
-export const selectAllUserEntities = createSelector(selectUserEntityState, fromUser.selectEntities);
-export const selectAllUsers = createSelector(selectUserEntityState, fromUser.selectAll);
-
-export const selectUsersByState = (state: UserState) =>
-  createSelector(selectAllUsers, (users) => users.filter((user) => user.state === state));
-
-export const selectUsersOnline = createSelector(selectAllUsers, currentUser, (users, appUser) =>
-  users.filter((user) => user.online && user.id !== appUser.id)
-);
-
-export const selectIsLoading = createSelector(selectUsersState, (usersState) => usersState.loading);
-export const selectUserPageLoading = createSelector(selectUserPagesState, (pagesState) => pagesState?.pageLoading);
+export const selectUserPageLoading = createSelector(selectUserPagesState, (pagesState) => pagesState.pageLoading);
 
 export const selectIsEditing = createSelector(selectUsersState, (usersState) => usersState.editing);
 

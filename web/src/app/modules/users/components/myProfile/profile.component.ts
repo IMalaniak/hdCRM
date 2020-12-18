@@ -7,8 +7,9 @@ import { AppState } from '@/core/store';
 import { getPreferencesState, Preferences } from '@/core/store/preferences';
 import { getSessionId, currentUser } from '@/core/modules/auth/store/auth.selectors';
 import { User } from '@/core/modules/user-api/shared';
-import { selectIsEditing, selectIsLoading } from '@/core/modules/user-api/store';
+import { selectUserApiIsLoading } from '@/core/modules/user-api/store';
 import { TAB_NAMES } from '@/shared/constants';
+import { selectIsEditing } from '../../store';
 
 @Component({
   selector: 'user-profile',
@@ -18,7 +19,7 @@ import { TAB_NAMES } from '@/shared/constants';
 export class ProfileComponent {
   user$: Observable<User> = this.store.pipe(select(currentUser));
   editForm$: Observable<boolean> = this.store.pipe(select(selectIsEditing));
-  isLoading$: Observable<boolean> = this.store.pipe(select(selectIsLoading));
+  isLoading$: Observable<boolean> = this.store.pipe(select(selectUserApiIsLoading));
   currentSessionId$: Observable<number> = this.store.pipe(select(getSessionId));
   userPreferences$: Observable<Preferences> = this.store.pipe(select(getPreferencesState));
 

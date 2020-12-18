@@ -23,9 +23,9 @@ export const initialPagesState: PagesState = pagesAdapter.getInitialState({
 });
 
 export interface PaginationState<T> {
-  loading: boolean;
+  loading?: boolean;
   editing: boolean;
-  data: T;
+  data?: T;
   pages: PagesState;
 }
 

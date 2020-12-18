@@ -8,8 +8,9 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/store';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { User } from '@/core/modules/user-api/shared';
-import { selectIsEditing, selectIsLoading, selectUserById, userRequested } from '@/core/modules/user-api/store';
+import { selectUserApiIsLoading, selectUserById, userRequested } from '@/core/modules/user-api/store';
 import { EDIT_PRIVILEGES } from '@/shared/constants';
+import { selectIsEditing } from '../../store';
 
 @Component({
   selector: 'user',
@@ -19,7 +20,7 @@ import { EDIT_PRIVILEGES } from '@/shared/constants';
 export class UserComponent implements OnInit {
   user$: Observable<User>;
   editForm$: Observable<boolean> = this.store.pipe(select(selectIsEditing));
-  isLoading$: Observable<boolean> = this.store.pipe(select(selectIsLoading));
+  isLoading$: Observable<boolean> = this.store.pipe(select(selectUserApiIsLoading));
   canEdit$: Observable<boolean> = this.store.pipe(select(isPrivileged(EDIT_PRIVILEGES.USER)));
 
   constructor(private route: ActivatedRoute, private store: Store<AppState>) {}

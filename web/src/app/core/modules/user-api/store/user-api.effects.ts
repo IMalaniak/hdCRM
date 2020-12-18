@@ -10,7 +10,7 @@ import { ToastMessageService } from '@/shared/services';
 import { CollectionApiResponse, ItemApiResponse, BaseMessage } from '@/shared/models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
 import { Page } from '@/shared/store';
-import * as userActions from './user.actions';
+import * as userApiActions from './user-api.actions';
 import { UserService } from '../services';
 import { User } from '../shared';
 
@@ -18,25 +18,25 @@ import { User } from '../shared';
 export class UserEffects {
   loadUser$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(userActions.userRequested),
+      ofType(userApiActions.userRequested),
       map((payload) => payload.id),
       mergeMap((id) => this.userService.getOne<User>(id)),
-      map((response: ItemApiResponse<User>) => userActions.userLoaded({ user: response.data })),
-      catchError(() => of(userActions.userApiError()))
+      map((response: ItemApiResponse<User>) => userApiActions.userLoaded({ user: response.data })),
+      catchError(() => of(userApiActions.userApiError()))
     )
   );
 
   loadUsers$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(userActions.listPageRequested),
+      ofType(userApiActions.listPageRequested),
       map((payload) => payload.page),
       mergeMap((pageQuery) =>
         this.userService.getList<User>(pageQuery).pipe(
           map((response: CollectionApiResponse<User>) => {
             const page: Page = { dataIds: response.ids, key: generatePageKey(pageQuery) };
-            return userActions.listPageLoaded({ response, page });
+            return userApiActions.listPageLoaded({ response, page });
           }),
-          catchError(() => of(userActions.userApiError()))
+          catchError(() => of(userApiActions.userApiError()))
         )
       )
     )
@@ -44,7 +44,7 @@ export class UserEffects {
 
   updateUser$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(userActions.updateUserRequested),
+      ofType(userApiActions.updateUserRequested),
       map((payload) => payload.user),
       mergeMap((toUpdate) =>
         this.userService.update<User>(this.userService.formatBeforeSend(toUpdate), toUpdate.id).pipe(
@@ -54,9 +54,9 @@ export class UserEffects {
               changes: response.data
             };
             this.toastMessageService.snack(response);
-            return userActions.updateUserSuccess({ user });
+            return userApiActions.updateUserSuccess({ user });
           }),
-          catchError(() => of(userActions.userApiError()))
+          catchError(() => of(userApiActions.userApiError()))
         )
       )
     )
@@ -64,31 +64,33 @@ export class UserEffects {
 
   listOnlineUsers$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(userActions.OnlineUserListRequested),
+      ofType(userApiActions.OnlineUserListRequested),
       tap(() => {
         this.userService.listOnline();
       }),
       mergeMap(() => {
-        return this.userService.onlineUsersListed$.pipe(map((list) => userActions.OnlineUserListLoaded({ list })));
+        return this.userService.onlineUsersListed$.pipe(map((list) => userApiActions.OnlineUserListLoaded({ list })));
       })
     )
   );
 
-  userOnline$ = createEffect(() => this.userService.userOnline$.pipe(map((user) => userActions.userOnline({ user }))));
+  userOnline$ = createEffect(() =>
+    this.userService.userOnline$.pipe(map((user) => userApiActions.userOnline({ user })))
+  );
 
   userOffline$ = createEffect(() =>
-    this.userService.userOffline$.pipe(map((user) => userActions.userOffline({ user })))
+    this.userService.userOffline$.pipe(map((user) => userApiActions.userOffline({ user })))
   );
 
   // TODO @IMalaniak recreate this
   deleteUser$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(userActions.deleteUser),
+        ofType(userApiActions.deleteUser),
         map((payload) => payload.id),
         mergeMap((id) => this.userService.delete(id)),
         map((response: BaseMessage) => of(this.toastMessageService.snack(response))),
-        catchError(() => of(userActions.userApiError()))
+        catchError(() => of(userApiActions.userApiError()))
       ),
     {
       dispatch: false
@@ -97,33 +99,33 @@ export class UserEffects {
 
   inviteUsers$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(userActions.inviteUsers),
+      ofType(userApiActions.inviteUsers),
       map((payload) => payload.users),
       mergeMap((users: User[]) =>
         this.userService.inviteUsers(users).pipe(
           map((response: CollectionApiResponse<User>) => {
             this.toastMessageService.snack(response);
-            return userActions.usersInvited({ invitedUsers: response.data });
+            return userApiActions.usersInvited({ invitedUsers: response.data });
           })
         )
       ),
-      catchError(() => of(userActions.userApiError()))
+      catchError(() => of(userApiActions.userApiError()))
     )
   );
 
   changeOldPassword$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(userActions.changeOldPassword),
+      ofType(userApiActions.changeOldPassword),
       map((payload) => payload.newPassword),
       switchMap((newPassword) =>
         this.userService.changeOldPassword(newPassword).pipe(
           map((response: BaseMessage) => {
             this.toastMessageService.snack(response);
-            return userActions.changePasswordSuccess();
+            return userApiActions.changePasswordSuccess();
           }),
           catchError((errorResponse: HttpErrorResponse) => {
             this.toastMessageService.snack(errorResponse.error);
-            return of(userActions.userApiError());
+            return of(userApiActions.userApiError());
           })
         )
       )

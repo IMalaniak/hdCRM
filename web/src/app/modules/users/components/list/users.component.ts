@@ -11,13 +11,7 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/store';
 import { getItemsPerPageState } from '@/core/store/preferences';
 import { User } from '@/core/modules/user-api/shared';
-import {
-  deleteUser,
-  inviteUsers,
-  OnlineUserListRequested,
-  selectUserPageLoading,
-  selectUsersTotalCount
-} from '@/core/modules/user-api/store';
+import { deleteUser, inviteUsers, OnlineUserListRequested } from '@/core/modules/user-api/store';
 import { isPrivileged, currentUser } from '@/core/modules/auth/store/auth.selectors';
 import { IconsService } from '@/core/services';
 import {
@@ -45,6 +39,7 @@ import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confi
 import { DialogService } from '@/shared/services';
 import { InvitationDialogComponent } from '../../components/invitation-dialog/invitation-dialog.component';
 import { UsersDataSource } from '../../dataSources';
+import { selectUserPageLoading, selectUsersTotalCount } from '../../store';
 
 @Component({
   selector: 'users-component',

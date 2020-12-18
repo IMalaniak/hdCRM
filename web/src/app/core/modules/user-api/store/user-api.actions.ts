@@ -5,14 +5,9 @@ import { PageQuery, NewPassword, CollectionApiResponse } from '@/shared/models';
 import { Page } from '@/shared/store';
 import { User } from '../shared';
 
-const detailsPrefix = '[Plan Details]';
+const detailsPrefix = '[User Details]';
 const listPrefix = '[Users List]';
 const apiPrefix = '[Users API]';
-
-export const changeIsEditingState = createAction(
-  `${detailsPrefix} Change Is Editing State`,
-  props<{ isEditing: boolean }>()
-);
 
 export const userRequested = createAction(`${detailsPrefix} User Requested`, props<{ id: number }>());
 export const userLoaded = createAction(`${apiPrefix} User Loaded`, props<{ user: User }>());
