@@ -19,15 +19,21 @@ export const initialUsersState: UsersState = usersAdapter.getInitialState({
 
 const usersReducer = createReducer(
   initialUsersState,
+  on(
+    userApiActions.userRequested,
+    userApiActions.OnlineUserListRequested,
+    userApiActions.listPageRequested,
+    userApiActions.changeOldPassword,
+    userApiActions.updateUserRequested,
+    (state) => ({ ...state, loading: true })
+  ),
   on(userApiActions.userLoaded, (state, { user }) => usersAdapter.addOne(user, { ...state, loading: false })),
-  on(userApiActions.listPageRequested, (state) => ({ ...state, loading: true })),
   on(userApiActions.listPageLoaded, (state, { response: { data } }) =>
     usersAdapter.upsertMany(data, {
       ...state,
       loading: false
     })
   ),
-  on(userApiActions.OnlineUserListRequested, (state) => ({ ...state, loading: true })),
   on(userApiActions.OnlineUserListLoaded, (state, { list }) =>
     usersAdapter.upsertMany(list, {
       ...state,
@@ -44,7 +50,6 @@ const usersReducer = createReducer(
       ...state
     })
   ),
-  on(userApiActions.updateUserRequested, (state) => ({ ...state, loading: true })),
   on(userApiActions.updateUserSuccess, (state, { user }) =>
     usersAdapter.updateOne(user, {
       ...state,
@@ -63,10 +68,6 @@ const usersReducer = createReducer(
       loading: false
     })
   ),
-  on(userApiActions.userApiError, (state) => ({
-    ...state,
-    loading: false
-  })),
   on(partialDataLoaded, (state, { Users }) => {
     if (Users) {
       return usersAdapter.upsertMany(Users, {
@@ -74,15 +75,16 @@ const usersReducer = createReducer(
       });
     }
   }),
-  // TODO: move specific functionality to user management module
-  on(userApiActions.changeOldPassword, (state) => ({ ...state, loading: true })),
-  on(userApiActions.changePasswordSuccess, (state) => ({ ...state, loading: false }))
+  on(userApiActions.userApiError, userApiActions.changePasswordSuccess, (state) => ({
+    ...state,
+    loading: false
+  }))
 );
 
 export function reducer(state: UsersState | undefined, action: Action) {
   return usersReducer(state, action);
 }
 
-export const usersFeatureKey = 'users';
+export const usersFeatureKey = 'user-api';
 
 export const { selectAll, selectEntities, selectIds, selectTotal } = usersAdapter.getSelectors();

@@ -14,16 +14,16 @@ import { ToastMessageService } from '@/shared/services';
 import { CollectionApiResponse, ItemApiResponse, BaseMessage, PageQuery } from '@/shared/models';
 import { RoutingConstants } from '@/shared/constants';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
-import * as depActions from './department.actions';
+import * as departmentApiActions from './department-api.actions';
+import { selectDashboardDepDataLoaded } from './department-api.selectors';
 import { DepartmentService } from '../services';
-import { Department } from '../models';
-import { selectDashboardDepDataLoaded } from './department.selectors';
+import { Department } from '../shared/models';
 
 @Injectable()
 export class DepartmentEffects {
   createDepartment$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(depActions.createDepartmentRequested),
+      ofType(departmentApiActions.createDepartmentRequested),
       map((payload) => payload.department),
       mergeMap((department: Department) =>
         this.departmentService.create<Department>(this.departmentService.formatBeforeSend(department)).pipe(
@@ -33,7 +33,7 @@ export class DepartmentEffects {
             const { Departments, Users } = normalizeResponse<Department>(response, departmentSchema);
             response = { ...response, data: Departments[0] };
             return [
-              depActions.createDepartmentSuccess({
+              departmentApiActions.createDepartmentSuccess({
                 department: response.data
               }),
               ...(Users ? [partialDataLoaded({ Users })] : [])
@@ -41,7 +41,7 @@ export class DepartmentEffects {
           }),
           catchError((errorResponse: HttpErrorResponse) => {
             this.toastMessageService.snack(errorResponse.error);
-            return of(depActions.departmentApiError());
+            return of(departmentApiActions.departmentApiError());
           })
         )
       )
@@ -50,24 +50,24 @@ export class DepartmentEffects {
 
   loadDepartment$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(depActions.departmentRequested),
+      ofType(departmentApiActions.departmentRequested),
       map((payload) => payload.id),
       mergeMap((id: number) => this.departmentService.getOne<Department>(id)),
       switchMap((response: ItemApiResponse<Department>) => {
         const { Departments, Users } = normalizeResponse<Department>(response, departmentSchema);
         response = { ...response, data: Departments[0] };
         return [
-          depActions.departmentLoaded({ department: response.data }),
+          departmentApiActions.departmentLoaded({ department: response.data }),
           ...(Users ? [partialDataLoaded({ Users })] : [])
         ];
       }),
-      catchError(() => of(depActions.departmentApiError()))
+      catchError(() => of(departmentApiActions.departmentApiError()))
     )
   );
 
   loadDepartments$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(depActions.listPageRequested),
+      ofType(departmentApiActions.listPageRequested),
       map((payload) => payload.page),
       mergeMap((pageQuery: PageQuery) =>
         this.departmentService.getList<Department>(pageQuery).pipe(
@@ -78,9 +78,12 @@ export class DepartmentEffects {
               return EMPTY;
             }
             response = { ...response, data: Departments };
-            return [depActions.listPageLoaded({ response, page }), ...(Users ? [partialDataLoaded({ Users })] : [])];
+            return [
+              departmentApiActions.listPageLoaded({ response, page }),
+              ...(Users ? [partialDataLoaded({ Users })] : [])
+            ];
           }),
-          catchError(() => of(depActions.departmentApiError()))
+          catchError(() => of(departmentApiActions.departmentApiError()))
         )
       )
     )
@@ -88,7 +91,7 @@ export class DepartmentEffects {
 
   updateDepartment$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(depActions.updateDepartmentRequested),
+      ofType(departmentApiActions.updateDepartmentRequested),
       map((payload) => payload.department),
       mergeMap((department: Department) =>
         this.departmentService
@@ -103,13 +106,13 @@ export class DepartmentEffects {
               };
               this.toastMessageService.snack(response);
               return [
-                depActions.updateDepartmentSuccess({ department }),
+                departmentApiActions.updateDepartmentSuccess({ department }),
                 ...(Users ? [partialDataLoaded({ Users })] : [])
               ];
             }),
             catchError((errorResponse: HttpErrorResponse) => {
               this.toastMessageService.snack(errorResponse.error);
-              return of(depActions.departmentApiError());
+              return of(departmentApiActions.departmentApiError());
             })
           )
       )
@@ -118,17 +121,17 @@ export class DepartmentEffects {
 
   deleteDepartment$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(depActions.deleteDepartmentRequested),
+      ofType(departmentApiActions.deleteDepartmentRequested),
       map((payload) => payload.id),
       mergeMap((id: number) =>
         this.departmentService.delete(id).pipe(
           map((response: BaseMessage) => {
             this.toastMessageService.snack(response);
-            return depActions.deleteDepartmentSuccess({ id });
+            return departmentApiActions.deleteDepartmentSuccess({ id });
           }),
           catchError((errorResponse: HttpErrorResponse) => {
             this.toastMessageService.snack(errorResponse.error);
-            return of(depActions.departmentApiError());
+            return of(departmentApiActions.departmentApiError());
           })
         )
       )
@@ -137,7 +140,7 @@ export class DepartmentEffects {
 
   loadDashboardData$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(depActions.depDashboardDataRequested),
+      ofType(departmentApiActions.depDashboardDataRequested),
       withLatestFrom(this.store$.pipe(select(selectDashboardDepDataLoaded))),
       filter(([_, selectDashboardDepDataLoaded]) => !selectDashboardDepDataLoaded),
       mergeMap(() => this.departmentService.getDashboardData()),
@@ -147,9 +150,12 @@ export class DepartmentEffects {
           return EMPTY;
         }
         response = { ...response, data: Departments };
-        return [depActions.depDashboardDataLoaded({ response }), ...(Users ? [partialDataLoaded({ Users })] : [])];
+        return [
+          departmentApiActions.depDashboardDataLoaded({ response }),
+          ...(Users ? [partialDataLoaded({ Users })] : [])
+        ];
       }),
-      catchError(() => of(depActions.departmentApiError()))
+      catchError(() => of(departmentApiActions.departmentApiError()))
     )
   );
 

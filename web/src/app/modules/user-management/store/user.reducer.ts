@@ -1,8 +1,8 @@
 import { Action, on, createReducer } from '@ngrx/store';
 
+import * as userApiActions from '@/core/modules/user-api/store/user-api.actions';
 import { initialPagesState, pagesAdapter, PagesState } from '@/shared/store';
 import * as userActions from './user.actions';
-import * as userApiActions from '@/core/modules/user-api/store/user-api.actions';
 
 export interface UsersState {
   editing: boolean;

@@ -11,9 +11,8 @@ import {
   lastSuccesfulSession
 } from '@/core/modules/auth/store/auth.selectors';
 import { User, UserSession } from '@/core/modules/user-api/shared';
+import { depDashboardDataRequested, selectAllDepartments } from '@/core/modules/department-api/store';
 import { VIEW_PRIVILEGES } from '@/shared/constants';
-import { depDashboardDataRequested } from '@/modules/departments/store/department.actions';
-import { selectAllDepartments } from '@/modules/departments/store/department.selectors';
 import { allStagesRequestedFromDashboard } from '@/modules/planner/store/stage.actions';
 import { selectAllStages } from '@/modules/planner/store/stage.selectors';
 import { roleDashboardDataRequested } from '@/modules/roles/store/role.actions';

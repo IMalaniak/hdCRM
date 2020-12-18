@@ -7,10 +7,14 @@ import { Store, select } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
 import { currentUser, isPrivileged } from '@/core/modules/auth/store/auth.selectors';
+import {
+  departmentRequested,
+  selectDepartmentDeepById,
+  updateDepartmentRequested
+} from '@/core/modules/department-api/store';
 import { EDIT_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
 import { Department } from '../../models';
-import { updateDepartmentRequested, changeIsEditingState, departmentRequested } from '../../store/department.actions';
-import { selectDepartmentDeepById, selectIsEditing } from '../../store/department.selectors';
+import { changeIsEditingState, selectIsEditing } from '../../store';
 
 @Component({
   template: `

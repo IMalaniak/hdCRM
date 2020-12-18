@@ -14,6 +14,7 @@ import { httpInterceptorsProviders } from './interceptors';
 import { AuthModule } from './modules/auth/auth.module';
 import { LayoutModule } from './modules/layout/layout.module';
 import { UserApiModule } from './modules/user-api/user-api.module';
+import { DepartmentApiModule } from './modules/department-api/department-api.module';
 import { reducers, metaReducers } from './store';
 import { PreferencesEffects } from './store/preferences';
 import { IntegrationsEffects } from './store/integration';
@@ -35,7 +36,8 @@ import { NotificationsEffects } from './store/notifications';
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([PreferencesEffects, IntegrationsEffects, DynamicFormEffects, NotificationsEffects]),
     StoreRouterConnectingModule.forRoot(),
-    UserApiModule
+    UserApiModule,
+    DepartmentApiModule
   ],
   exports: [RouterModule, HttpClientModule, FormsModule, ReactiveFormsModule, LayoutModule],
   providers: [httpInterceptorsProviders]

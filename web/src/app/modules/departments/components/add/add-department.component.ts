@@ -3,9 +3,9 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
+import { createDepartmentRequested } from '@/core/modules/department-api/store';
 import { FORMCONSTANTS } from '@/shared/constants';
 import { Department } from '../../models';
-import { createDepartmentRequested } from '../../store/department.actions';
 
 @Component({
   template: `

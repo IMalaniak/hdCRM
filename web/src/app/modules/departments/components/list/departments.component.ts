@@ -9,6 +9,7 @@ import { tap, takeUntil } from 'rxjs/operators';
 import { AppState } from '@/core/store';
 import { getItemsPerPageState } from '@/core/store/preferences';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
+import { deleteDepartmentRequested } from '@/core/modules/department-api/store';
 import { DialogDataModel, PageQuery } from '@/shared/models';
 import {
   IItemsPerPage,
@@ -26,8 +27,7 @@ import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model'
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
 import { DepartmentsDataSource } from '../../services';
-import { selectDepartmentsTotalCount, selectDepartmentsPageLoading } from '../../store/department.selectors';
-import { deleteDepartmentRequested, changeIsEditingState } from '../../store/department.actions';
+import { selectDepartmentsTotalCount, selectDepartmentsPageLoading, changeIsEditingState } from '../../store';
 
 @Component({
   selector: 'departments',
