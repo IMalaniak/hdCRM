@@ -1,21 +1,11 @@
 import { createReducer, on, Action } from '@ngrx/store';
 
 import * as departmentApiActions from '@/core/modules/department-api/store/department-api.actions';
-import { initialPagesState, pagesAdapter, PagesState } from '@/shared/store';
+import { initialListState, ListState, pagesAdapter } from '@/shared/store';
 import * as departmentActions from './department.actions';
 
-export interface DepartmentsState {
-  editing: boolean;
-  pages: PagesState;
-}
-
-const initialDepartmentsState: DepartmentsState = {
-  editing: false,
-  pages: initialPagesState
-};
-
 const reducer = createReducer(
-  initialDepartmentsState,
+  initialListState,
   on(departmentActions.changeIsEditingState, (state, { isEditing }) => ({
     ...state,
     editing: isEditing
@@ -29,11 +19,11 @@ const reducer = createReducer(
   })),
   on(departmentApiActions.createDepartmentSuccess, (state) => ({
     ...state,
-    pages: initialDepartmentsState.pages
+    pages: initialListState.pages
   })),
   on(departmentApiActions.deleteDepartmentSuccess, (state) => ({
     ...state,
-    pages: initialDepartmentsState.pages
+    pages: initialListState.pages
   })),
   on(departmentApiActions.listPageLoaded, (state, { page, response: { pages, resultsNum } }) => ({
     ...state,
@@ -50,7 +40,7 @@ const reducer = createReducer(
   }))
 );
 
-export function departmentReducer(state: DepartmentsState | undefined, action: Action) {
+export function departmentReducer(state: ListState | undefined, action: Action) {
   return reducer(state, action);
 }
 

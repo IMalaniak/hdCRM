@@ -1,21 +1,11 @@
 import { Action, on, createReducer } from '@ngrx/store';
 
 import * as userApiActions from '@/core/modules/user-api/store/user-api.actions';
-import { initialPagesState, pagesAdapter, PagesState } from '@/shared/store';
+import { initialListState, pagesAdapter, ListState } from '@/shared/store';
 import * as userActions from './user.actions';
 
-export interface UsersState {
-  editing: boolean;
-  pages: PagesState;
-}
-
-const initialUsersState: UsersState = {
-  editing: false,
-  pages: initialPagesState
-};
-
 const reducer = createReducer(
-  initialUsersState,
+  initialListState,
   on(userActions.changeIsEditingState, (state, { isEditing }) => ({
     ...state,
     editing: isEditing
@@ -36,11 +26,11 @@ const reducer = createReducer(
   })),
   on(userApiActions.deleteUser, (state) => ({
     ...state,
-    pages: initialUsersState.pages
+    pages: initialListState.pages
   })),
   on(userApiActions.usersInvited, (state) => ({
     ...state,
-    pages: initialUsersState.pages
+    pages: initialListState.pages
   })),
   on(userApiActions.userApiError, (state) => ({
     ...state,
@@ -48,7 +38,7 @@ const reducer = createReducer(
   }))
 );
 
-export function usersReducer(state: UsersState | undefined, action: Action) {
+export function usersReducer(state: ListState | undefined, action: Action) {
   return reducer(state, action);
 }
 

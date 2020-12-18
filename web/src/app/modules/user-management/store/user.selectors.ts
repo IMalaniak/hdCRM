@@ -4,10 +4,10 @@ import { User } from '@/core/modules/user-api/shared';
 import { selectAllUsers } from '@/core/modules/user-api/store';
 import { PageQuery } from '@/shared/models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
-import { Page } from '@/shared/store';
+import { ListState, Page } from '@/shared/store';
 import * as fromUser from './user.reducer';
 
-export const selectUsersState = createFeatureSelector<fromUser.UsersState>(fromUser.userManagementFeatureKey);
+export const selectUsersState = createFeatureSelector<ListState>(fromUser.userManagementFeatureKey);
 export const selectUserPagesState = createSelector(selectUsersState, (usersState) => usersState.pages);
 
 export const selectUserPageByKey = (pageQuery: PageQuery) =>

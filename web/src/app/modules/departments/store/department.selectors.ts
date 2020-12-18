@@ -7,13 +7,11 @@ import { selectAllDepartmentEntities } from '@/core/modules/department-api/store
 import { departmentListSchema } from '@/core/store/normalization';
 import { PageQuery } from '@/shared/models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
-import { Page } from '@/shared/store';
+import { ListState, Page } from '@/shared/store';
 import * as fromDepartment from './department.reducer';
 import { Department } from '../models';
 
-export const selectDepartmentsState = createFeatureSelector<fromDepartment.DepartmentsState>(
-  fromDepartment.departmentsFeatureKey
-);
+export const selectDepartmentsState = createFeatureSelector<ListState>(fromDepartment.departmentsFeatureKey);
 export const selectDepartmentPagesState = createSelector(
   selectDepartmentsState,
   (departmentsState) => departmentsState.pages

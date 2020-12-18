@@ -22,21 +22,15 @@ export const initialPagesState: PagesState = pagesAdapter.getInitialState({
   resultsNum: null
 });
 
-export interface PaginationState<T> {
-  loading?: boolean;
+export interface ListState {
   editing: boolean;
-  data?: T;
   pages: PagesState;
 }
 
-export function getInitialPaginationState<T, R extends PaginationState<T>>(data: T): R {
-  return {
-    loading: false,
-    editing: false,
-    pages: initialPagesState,
-    data
-  } as R;
-}
+export const initialListState = {
+  editing: false,
+  pages: initialPagesState
+};
 
 export const {
   selectAll: selectAllPages,
