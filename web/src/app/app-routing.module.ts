@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from '@/core/_guards';
+import { AuthGuard } from '@/core/guards';
 import { PublicViewComponent, PrivateViewComponent } from './core/layout/view-containers';
 import { PageNotFoundComponent, InternalServerErrorComponent } from './core/layout/components';
 import { DelayedPreloadingStrategy } from './core/strategies';

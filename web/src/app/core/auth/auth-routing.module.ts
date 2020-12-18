@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent, RegisterUserComponent, RegisterSuccessComponent } from './components';
-import { PublicGuard } from '@/core/_guards';
+import { PublicGuard } from '@/core/guards';
 import { PATHS } from '@/shared/constants';
 
 const routes: Routes = [
