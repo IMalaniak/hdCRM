@@ -1,13 +1,13 @@
-import { ActionReducerMap, MetaReducer, createFeatureSelector, createSelector } from '@ngrx/store';
+import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from 'environments/environment';
 
 import * as fromRouter from '@ngrx/router-store';
+import { SerializedRouterStateSnapshot } from '@ngrx/router-store';
 
 import * as fromPreferences from './preferences.reducer';
 import * as fromIntegrations from './integration.reducer';
 import * as fromDynamicForm from './dynamic-form/dynamic-form.reducer';
 import * as fromNotifications from './notifications/notifications.reducer';
-import { SerializedRouterStateSnapshot } from '@ngrx/router-store';
 
 export interface AppState {
   router: fromRouter.RouterReducerState<SerializedRouterStateSnapshot>;
@@ -26,20 +26,3 @@ export const reducers: ActionReducerMap<AppState> = {
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [] : [];
-
-export const selectRouterState = createFeatureSelector<
-  AppState,
-  fromRouter.RouterReducerState<SerializedRouterStateSnapshot>
->('router');
-
-export const {
-  selectCurrentRoute, // select the current route
-  selectQueryParams, // select the current route query params
-  selectQueryParam, // factory function to select a query param
-  selectRouteParams, // select the current route params
-  selectRouteParam, // factory function to select a route param
-  selectRouteData, // select the current route data
-  selectUrl // select the current url
-} = fromRouter.getSelectors(selectRouterState);
-
-export const selectRoute = createSelector(selectRouterState, (routerState) => routerState.state.root);
