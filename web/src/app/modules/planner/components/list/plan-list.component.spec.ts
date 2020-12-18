@@ -1,16 +1,16 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { initialPreferencesState } from '@/core/reducers/preferences.reducer';
+import { initialPreferencesState } from '@/core/reducers/preferences/preferences.reducer';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock } from '@/shared/testing/mocks';
 import { initialUsersState } from '@/modules/users/store/user.reducer';
 import { initialPlansState } from '../../store/plan.reducer';
 import { PlanListComponent } from './plan-list.component';
-import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('PlanListComponent', () => {
   let component: PlanListComponent;

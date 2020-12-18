@@ -1,20 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Actions, ofType, createEffect, OnInitEffects } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { tap, map, switchMap, catchError, concatMap, withLatestFrom, mergeMap, exhaustMap } from 'rxjs/operators';
-import * as authActions from './auth.actions';
-import { AuthenticationService } from '../services';
+
+import { Actions, ofType, createEffect, OnInitEffects } from '@ngrx/effects';
+import { Store, select, Action } from '@ngrx/store';
+
+import { AppState } from '@/core/reducers';
+import { selectUrl } from '@/core/reducers/router.selectors';
+import { initPreferences } from '@/core/reducers/preferences/preferences.actions';
 import { SocketService, ToastMessageService } from '@/shared/services';
 import { BaseMessage, ItemApiResponse } from '@/shared/models';
 import { SocketEvent, RoutingConstants, CONSTANTS } from '@/shared/constants';
-import { Store, select, Action } from '@ngrx/store';
-import { getToken } from './auth.selectors';
-import { selectUrl, AppState } from '@/core/reducers';
 import { changeIsEditingState } from '@/modules/users/store/user.actions';
-import { initPreferences } from '@/core/reducers/preferences.actions';
 import { User, Organization } from '@/modules/users';
+import * as authActions from './auth.actions';
+import { AuthenticationService } from '../services';
+import { getToken } from './auth.selectors';
 
 @Injectable()
 export class AuthEffects implements OnInitEffects {

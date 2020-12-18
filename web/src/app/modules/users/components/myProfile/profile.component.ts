@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 
 import { AppState } from '@/core/reducers';
-import { getPreferencesState } from '@/core/reducers/preferences.selectors';
-import { Preferences } from '@/core/reducers/preferences.reducer';
+import { getPreferencesState } from '@/core/reducers/preferences/preferences.selectors';
+import { Preferences } from '@/core/reducers/preferences/preferences.reducer';
 import { getSessionId, currentUser } from '@/core/modules/auth/store/auth.selectors';
 import { TAB_NAMES } from '@/shared/constants';
 import { selectIsLoading, selectIsEditing } from '../../store/user.selectors';

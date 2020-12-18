@@ -4,16 +4,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { initialPreferencesState } from '@/core/reducers/preferences.reducer';
+import { initialPreferencesState } from '@/core/reducers/preferences/preferences.reducer';
 import { SharedModule } from '@/shared/shared.module';
 import { Department } from '@/modules/departments/models';
 import { authStateMock, currentUserMock, formsStateMock } from '@/shared/testing/mocks';
 import { FORMCONSTANTS } from '@/shared/constants';
 import { TemplatesDepartmentViewComponent } from './templates-department-view.component';
-import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('TemplatesDepartmentViewComponent', () => {
   let component: TemplatesDepartmentViewComponent;

@@ -1,16 +1,16 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { SharedModule } from '@/shared/shared.module';
-import { initialPreferencesState } from '@/core/reducers/preferences.reducer';
+import { initialPreferencesState } from '@/core/reducers/preferences/preferences.reducer';
 import { authStateMock } from '@/shared/testing/mocks';
 import { initialUsersState } from '@/modules/users/store/user.reducer';
 import { initialDepartmentsState } from '../../store/department.reducer';
 import { DepartmentsComponent } from './departments.component';
-import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('DepartmentsComponent', () => {
   let component: DepartmentsComponent;

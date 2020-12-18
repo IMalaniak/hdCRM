@@ -3,18 +3,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { initialPreferencesState } from '@/core/reducers/preferences/preferences.reducer';
 import { COLUMN_NAMES, FORMCONSTANTS } from '@/shared/constants';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, formsStateMock, currentUserMock } from '@/shared/testing/mocks';
-import { initialPreferencesState } from '@/core/reducers/preferences.reducer';
 import { Role } from '@/modules/roles/models';
 
 import { TemplatesRoleViewComponent } from './templates-role-view.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('TemplatesRoleViewComponent', () => {
   let component: TemplatesRoleViewComponent;

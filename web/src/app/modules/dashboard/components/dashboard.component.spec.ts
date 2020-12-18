@@ -1,15 +1,15 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { DashboardComponent } from './dashboard.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
+
+import { initialPreferencesState } from '@/core/reducers/preferences/preferences.reducer';
+import { SharedModule } from '@/shared/shared.module';
 import { authStateMock } from '@/shared/testing/mocks';
 import { initialDepartmentsState } from '@/modules/departments/store/department.reducer';
-import { initialPreferencesState } from '@/core/reducers/preferences.reducer';
 import { initialRolesState } from '@/modules/roles/store/role.reducer';
-import { SharedModule } from '@/shared/shared.module';
-import { RouterTestingModule } from '@angular/router/testing';
 import { initialStagesState } from '@/modules/planner/store/stage.reducer';
+import { DashboardComponent } from './dashboard.component';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;

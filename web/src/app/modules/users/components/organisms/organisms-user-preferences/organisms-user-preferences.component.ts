@@ -13,9 +13,9 @@ import {
   changeItemsPerPage,
   changeListView,
   preferencesListRequested
-} from '@/core/reducers/preferences.actions';
-import { PreferencesList, Preferences } from '@/core/reducers/preferences.reducer';
-import { getPreferencesList } from '@/core/reducers/preferences.selectors';
+} from '@/core/reducers/preferences/preferences.actions';
+import { PreferencesList, Preferences } from '@/core/reducers/preferences/preferences.reducer';
+import { getPreferencesList } from '@/core/reducers/preferences/preferences.selectors';
 import { IFieldType } from '@/shared/constants';
 
 @Component({

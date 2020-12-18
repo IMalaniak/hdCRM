@@ -10,7 +10,7 @@ import { Store, select } from '@ngrx/store';
 
 import { AppState } from '@/core/reducers';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
-import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
+import { getItemsPerPageState } from '@/core/reducers/preferences/preferences.selectors';
 import { DialogDataModel, PageQuery } from '@/shared/models';
 import {
   IItemsPerPage,

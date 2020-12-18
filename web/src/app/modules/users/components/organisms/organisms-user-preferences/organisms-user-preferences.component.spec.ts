@@ -1,9 +1,10 @@
-import { initialPreferencesState } from '@/core/reducers/preferences.reducer';
-import { SharedModule } from '@/shared/shared.module';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { initialPreferencesState } from '@/core/reducers/preferences/preferences.reducer';
+import { SharedModule } from '@/shared/shared.module';
 import { OrganismsUserPreferencesComponent } from './organisms-user-preferences.component';
 
 describe('OrganismsUserPreferencesComponent', () => {

@@ -1,20 +1,20 @@
 import { DebugElement } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { Plan } from '@/modules/planner/models';
+import { provideMockStore } from '@ngrx/store/testing';
 
-import { TemplatesPlanViewComponent } from './templates-plan-view.component';
+import { initialPreferencesState } from '@/core/reducers/preferences/preferences.reducer';
 import { authStateMock, currentUserMock, formsStateMock } from '@/shared/testing/mocks';
 import { FORMCONSTANTS } from '@/shared/constants';
 import { SharedModule } from '@/shared/shared.module';
-import { HttpClientModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { provideMockStore } from '@ngrx/store/testing';
-import { initialPreferencesState } from '@/core/reducers/preferences.reducer';
 import { Asset } from '@/shared/models';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { Plan } from '@/modules/planner/models';
+import { TemplatesPlanViewComponent } from './templates-plan-view.component';
 
 describe('TemplatesPlanViewComponent', () => {
   let component: TemplatesPlanViewComponent;

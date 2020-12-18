@@ -4,7 +4,7 @@ import { environment } from 'environments/environment';
 import * as fromRouter from '@ngrx/router-store';
 import { SerializedRouterStateSnapshot } from '@ngrx/router-store';
 
-import * as fromPreferences from './preferences.reducer';
+import * as fromPreferences from './preferences/preferences.reducer';
 import * as fromIntegrations from './integration/integration.reducer';
 import * as fromDynamicForm from './dynamic-form/dynamic-form.reducer';
 import * as fromNotifications from './notifications/notifications.reducer';

@@ -11,7 +11,7 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/reducers';
 import { isPrivileged, currentUser } from '@/core/modules/auth/store/auth.selectors';
 import { IconsService } from '@/core/services';
-import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
+import { getItemsPerPageState } from '@/core/reducers/preferences/preferences.selectors';
 import { ToastMessageService } from '@/shared/services';
 import {
   DialogCreateEditModel,

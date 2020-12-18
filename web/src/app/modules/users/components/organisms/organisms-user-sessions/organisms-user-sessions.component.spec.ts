@@ -1,12 +1,13 @@
-import { initialPreferencesState } from '@/core/reducers/preferences.reducer';
-import { SharedModule } from '@/shared/shared.module';
-import { currentUserMock } from '@/shared/testing/mocks';
 import { HttpClientModule } from '@angular/common/http';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { initialPreferencesState } from '@/core/reducers/preferences/preferences.reducer';
+import { SharedModule } from '@/shared/shared.module';
+import { currentUserMock } from '@/shared/testing/mocks';
 import { OrganismsUserSessionsComponent } from './organisms-user-sessions.component';
 
 describe('OrganismsUserSessionsComponent', () => {

@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Actions, ofType, createEffect } from '@ngrx/effects';
-import * as preferencesActions from './preferences.actions';
-import { withLatestFrom, exhaustMap, filter, map, mergeMap, catchError } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
-import { PreferencesService } from '../services/preferences.service';
-import { getPreferencesState, getListLoaded } from './preferences.selectors';
-import { AppState } from '.';
-import { of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { of } from 'rxjs';
+import { withLatestFrom, exhaustMap, filter, map, mergeMap, catchError } from 'rxjs/operators';
+
+import { Actions, ofType, createEffect } from '@ngrx/effects';
+import { Store, select } from '@ngrx/store';
+
+import * as preferencesActions from './preferences.actions';
+import { PreferencesService } from '../../services/preferences.service';
+import { getPreferencesState, getListLoaded } from './preferences.selectors';
+import { AppState } from '../index';
 
 @Injectable()
 export class PreferencesEffects {
