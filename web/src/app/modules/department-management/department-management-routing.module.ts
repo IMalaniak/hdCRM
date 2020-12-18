@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { PATHS, VIEW_PRIVILEGES, ADD_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
-import { AddDepartmentComponent, DepartmentComponent, DepartmentsComponent } from './components';
 import { PrivilegeGuard } from '@/shared/guards';
+import { AddDepartmentComponent, DepartmentComponent, DepartmentsComponent } from './components';
 
 const routes: Routes = [
   { path: '', pathMatch: PATHS.PATH_MATCH_FULL, redirectTo: PATHS.LIST },
@@ -45,4 +45,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class DepartmentsRoutingModule {}
+export class DepartmentManagementRoutingModule {}

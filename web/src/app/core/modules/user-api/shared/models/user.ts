@@ -1,5 +1,5 @@
+import { Department } from '@/core/modules/department-api/shared';
 import { Role } from '@/modules/roles/models';
-import { Department } from '@/modules/departments';
 import { Asset } from '@/shared/models';
 import { UserState } from '@/shared/constants';
 

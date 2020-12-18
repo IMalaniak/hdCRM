@@ -10,7 +10,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { initialPreferencesState } from '@/core/store/preferences';
 import { SharedModule } from '@/shared/shared.module';
-import { Department } from '@/modules/departments/models';
+import { Department } from '@/modules/department-management/models';
 import { authStateMock, currentUserMock, formsStateMock } from '@/shared/testing/mocks';
 import { FORMCONSTANTS } from '@/shared/constants';
 import { TemplatesDepartmentViewComponent } from './templates-department-view.component';

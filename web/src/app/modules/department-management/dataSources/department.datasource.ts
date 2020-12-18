@@ -4,9 +4,9 @@ import { catchError, tap } from 'rxjs/operators';
 
 import { AppState } from '@/core/store';
 import { listPageRequested } from '@/core/modules/department-api/store';
+import { Department } from '@/core/modules/department-api/shared';
 import { PageQuery } from '@/shared/models';
 import { CommonDataSource } from '@/shared/services';
-import { Department } from '../models/';
 import { selectDepartmentsOfPage } from '../store/department.selectors';
 
 export class DepartmentsDataSource extends CommonDataSource<Department> {

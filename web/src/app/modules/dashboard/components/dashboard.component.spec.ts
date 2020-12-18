@@ -6,10 +6,10 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { initialPreferencesState } from '@/core/store/preferences';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock } from '@/shared/testing/mocks';
-import { initialDepartmentsState } from '@/modules/departments/store/department.reducer';
 import { initialRolesState } from '@/modules/roles/store/role.reducer';
 import { initialStagesState } from '@/modules/planner/store/stage.reducer';
 import { DashboardComponent } from './dashboard.component';
+import { initialDepartmentApiState } from '@/core/modules/department-api/store';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -19,7 +19,7 @@ describe('DashboardComponent', () => {
     auth: authStateMock,
     roles: initialRolesState,
     stages: initialStagesState,
-    departments: initialDepartmentsState
+    'department-api': initialDepartmentApiState
   };
 
   beforeEach(

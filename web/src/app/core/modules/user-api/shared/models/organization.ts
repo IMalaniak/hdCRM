@@ -1,4 +1,4 @@
-import { Department } from '@/modules/departments/models';
+import { Department } from '@/core/modules/department-api/shared';
 import { Plan } from '@/modules/planner/models';
 import { Role } from '@/modules/roles/models';
 import { User } from './user';

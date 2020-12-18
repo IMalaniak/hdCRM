@@ -60,7 +60,10 @@ const routes: Routes = [
           preload: true,
           delay: true
         },
-        loadChildren: () => import('./modules/departments/departments.module').then((m) => m.DepartmentsModule)
+        loadChildren: () =>
+          import('./modules/department-management/department-management.module').then(
+            (m) => m.DepartmentManagementModule
+          )
       }
     ],
     data: { animation: 'PrivateView' }

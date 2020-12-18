@@ -10,7 +10,7 @@ import { DialogService } from '@/shared/services';
 import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
 import { CONSTANTS } from '@/shared/constants';
 import { DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
-import { Department } from '@/modules/departments/models';
+import { Department } from '@/modules/department-management/models';
 import { UsersDialogComponent } from '@/modules/user-management/components';
 
 @Component({

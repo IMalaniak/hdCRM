@@ -1,11 +1,11 @@
 import { createAction, props } from '@ngrx/store';
 import { normalize, schema } from 'normalizr';
 
-import { User } from '@/core/modules/user-api/shared';
-import { Department } from '@/modules/departments';
 import { Plan } from '@/modules/planner';
 import { Role } from '@/modules/roles';
 import { CollectionApiResponse, ItemApiResponse } from '@/shared/models';
+import { User } from '../modules/user-api/shared';
+import { Department } from '../modules/department-api/shared';
 
 interface Collections {
   Users?: User[];

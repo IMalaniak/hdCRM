@@ -12,6 +12,7 @@ import {
 } from '@/core/modules/auth/store/auth.selectors';
 import { User, UserSession } from '@/core/modules/user-api/shared';
 import { depDashboardDataRequested, selectAllDepartments } from '@/core/modules/department-api/store';
+import { Department } from '@/core/modules/department-api/shared';
 import { VIEW_PRIVILEGES } from '@/shared/constants';
 import { allStagesRequestedFromDashboard } from '@/modules/planner/store/stage.actions';
 import { selectAllStages } from '@/modules/planner/store/stage.selectors';
@@ -19,7 +20,6 @@ import { roleDashboardDataRequested } from '@/modules/roles/store/role.actions';
 import { selectAllRoles } from '@/modules/roles/store/role.selectors';
 import { Role } from '@/modules/roles';
 import { Stage } from '@/modules/planner';
-import { Department } from '@/modules/departments';
 
 @Component({
   selector: 'app-dashboard',
