@@ -1,6 +1,7 @@
 import { SerializedRouterStateSnapshot } from '@ngrx/router-store';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromRouter from '@ngrx/router-store';
+
 import { AppState } from './index';
 
 export const selectRouterState = createFeatureSelector<
