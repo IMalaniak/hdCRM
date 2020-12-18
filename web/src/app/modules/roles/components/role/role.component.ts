@@ -5,7 +5,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 
-import { AppState } from '@/core/reducers';
+import { AppState } from '@/core/store';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { EDIT_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
 import { updateRoleRequested, changeIsEditingState, roleRequested } from '../../store/role.actions';

@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { initialPreferencesState } from '@/core/reducers/preferences/preferences.reducer';
+import { initialPreferencesState } from '@/core/store/preferences';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock } from '@/shared/testing/mocks';
 import { initialDepartmentsState } from '@/modules/departments/store/department.reducer';

@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import { AppState } from '@/core/reducers';
+import { AppState } from '@/core/store';
 import { FORMCONSTANTS } from '@/shared/constants';
 import { Department } from '../../models';
 import { createDepartmentRequested } from '../../store/department.actions';

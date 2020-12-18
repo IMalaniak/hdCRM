@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { initialPreferencesState } from '@/core/reducers/preferences/preferences.reducer';
+import { initialPreferencesState } from '@/core/store/preferences';
 import { authStateMock, currentUserMock, formsStateMock } from '@/shared/testing/mocks';
 import { FORMCONSTANTS } from '@/shared/constants';
 import { SharedModule } from '@/shared/shared.module';

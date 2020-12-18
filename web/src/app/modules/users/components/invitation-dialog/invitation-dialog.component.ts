@@ -7,7 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 
-import { AppState } from '@/core/reducers';
+import { AppState } from '@/core/store';
 import { CONSTANTS, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE, BS_ICONS, InputType } from '@/shared/constants';
 import { DialogCreateEditModel, DialogDataModel, DialogResultModel } from '@/shared/models';
 import { DialogBaseModel } from '@/shared/components';

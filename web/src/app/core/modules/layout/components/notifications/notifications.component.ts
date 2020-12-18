@@ -4,20 +4,20 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { IconsService, MediaQueryService } from '@/core/services';
-import { AppState } from '@/core/reducers';
+import { AppState } from '@/core/store';
 import {
   selectDropdownVisible,
   selectIndicatorVisible,
   selectReadNotifications,
   selectUnreadNotifications
-} from '@/core/reducers/notifications/notifications.selectors';
+} from '@/core/store/notifications/notifications.selectors';
 import {
   closeDropdown,
   markAllAsRead,
   markAsRead,
   removeNotification,
   toggleDropdown
-} from '@/core/reducers/notifications/notifications.actions';
+} from '@/core/store/notifications/notifications.actions';
 import { BS_ICONS, MAT_BUTTON, NOTIFICATION_TYPES, THEME_PALETTE } from '@/shared/constants';
 import { Notification } from '@/shared/models';
 

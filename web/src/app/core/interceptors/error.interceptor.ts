@@ -7,7 +7,8 @@ import { catchError, first, retryWhen, filter, last, mergeMap } from 'rxjs/opera
 import { Store, select } from '@ngrx/store';
 
 import { APIS, PATHS, RoutingConstants } from '@/shared/constants';
-import { AppState, selectUrl } from '../reducers';
+import { AppState } from '../store';
+import { selectUrl } from '../store/router.selectors';
 import { refreshSession, redirectToLogin } from '../modules/auth/store/auth.actions';
 
 const genericRetryStrategy = ({

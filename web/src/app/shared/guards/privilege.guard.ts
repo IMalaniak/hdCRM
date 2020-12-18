@@ -5,7 +5,7 @@ import { tap, skipWhile } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 
-import { AppState } from '@/core/reducers';
+import { AppState } from '@/core/store';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { ToastMessageService } from '@/shared/services';
 import { CONSTANTS } from '@/shared/constants';

@@ -5,7 +5,7 @@ import { filter, tap } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 
-import { AppState } from '@/core/reducers';
+import { AppState } from '@/core/store';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { EDIT_PRIVILEGES } from '@/shared/constants';
 import { selectIsLoading, selectIsEditing, selectUserById } from '../../store/user.selectors';

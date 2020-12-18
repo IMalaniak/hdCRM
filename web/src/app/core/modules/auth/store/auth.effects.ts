@@ -7,9 +7,9 @@ import { tap, map, switchMap, catchError, concatMap, withLatestFrom, mergeMap, e
 import { Actions, ofType, createEffect, OnInitEffects } from '@ngrx/effects';
 import { Store, select, Action } from '@ngrx/store';
 
-import { AppState } from '@/core/reducers';
-import { selectUrl } from '@/core/reducers/router.selectors';
-import { initPreferences } from '@/core/reducers/preferences/preferences.actions';
+import { AppState } from '@/core/store';
+import { initPreferences } from '@/core/store/preferences';
+import { selectUrl } from '@/core/store/router.selectors';
 import { SocketService, ToastMessageService } from '@/shared/services';
 import { BaseMessage, ItemApiResponse } from '@/shared/models';
 import { SocketEvent, RoutingConstants, CONSTANTS } from '@/shared/constants';

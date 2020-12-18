@@ -3,14 +3,13 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
+import { AppState } from '@/core/store';
+import { selectFormByName, formRequested } from '@/core/store/dynamic-form';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { Organization } from '@/modules/users';
 import { ACTION_LABELS, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
 import { DynamicForm } from '@/shared/models';
-import { AppState } from '@/core/reducers';
-import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
-import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
 import { DialogService } from '@/shared/services';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 

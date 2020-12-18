@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { APIS } from '@/shared/constants';
 import { UserPreferences } from '@/modules/users/models';
-import { Preferences, PreferencesList } from '../reducers/preferences/preferences.reducer';
+import { Preferences, PreferencesList } from '../store/preferences/preferences.reducer';
 
 @Injectable({
   providedIn: 'root'

@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import { AppState } from '@/core/reducers';
+import { AppState } from '@/core/store';
 import { DynamicForm } from '@/shared/models';
 import { FORMCONSTANTS } from '@/shared/constants';
 import { Role } from '../../models';

@@ -6,7 +6,7 @@ import { tap, skipWhile } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 
 import { RoutingConstants } from '@/shared/constants';
-import { AppState } from '../reducers';
+import { AppState } from '../store';
 import { isLoggedOut, isLoading } from '../modules/auth/store/auth.selectors';
 
 @Injectable({ providedIn: 'root' })

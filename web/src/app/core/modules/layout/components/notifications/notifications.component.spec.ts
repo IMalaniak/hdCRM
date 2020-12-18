@@ -3,9 +3,9 @@ import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { initialNotificationsState } from '@/core/reducers/notifications/notifications.reducer';
-import { NotificationsComponent } from './notifications.component';
+import { initialNotificationsState } from '@/core/store/notifications/notifications.reducer';
 import { SharedModule } from '@/shared/shared.module';
+import { NotificationsComponent } from './notifications.component';
 
 describe('NotificationsComponent', () => {
   let component: NotificationsComponent;

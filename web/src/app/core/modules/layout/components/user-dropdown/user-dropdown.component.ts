@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { MediaQueryService, IconsService } from '@/core/services';
-import { AppState } from '@/core/reducers';
+import { AppState } from '@/core/store';
 import { currentUser, isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { logOut } from '@/core/modules/auth/store/auth.actions';
 import {

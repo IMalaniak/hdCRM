@@ -8,16 +8,16 @@ import { Store, select } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Update } from '@ngrx/entity';
 
-import { AppState } from '@/core/reducers';
+import { AppState } from '@/core/store';
 import { departmentListSchema, departmentSchema, normalizeResponse, Page, partialDataLoaded } from '@/shared/store';
-import * as depActions from './department.actions';
-import { DepartmentService } from '../services';
-import { Department } from '../models';
-import { selectDashboardDepDataLoaded } from './department.selectors';
 import { ToastMessageService } from '@/shared/services';
 import { CollectionApiResponse, ItemApiResponse, BaseMessage, PageQuery } from '@/shared/models';
 import { RoutingConstants } from '@/shared/constants';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
+import * as depActions from './department.actions';
+import { DepartmentService } from '../services';
+import { Department } from '../models';
+import { selectDashboardDepDataLoaded } from './department.selectors';
 
 @Injectable()
 export class DepartmentEffects {

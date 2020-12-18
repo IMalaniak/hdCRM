@@ -5,9 +5,8 @@ import { tap, filter, first } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 
-import { AppState } from '@/core/reducers';
-import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
-import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
+import { AppState } from '@/core/store';
+import { formRequested, selectFormByName } from '@/core/store/dynamic-form';
 import { DynamicForm } from '@/shared/models';
 import { RoutingDataConstants } from '@/shared/constants';
 

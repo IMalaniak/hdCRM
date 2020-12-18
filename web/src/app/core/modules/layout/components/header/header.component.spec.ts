@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { initialNotificationsState } from '@/core/reducers/notifications/notifications.reducer';
+import { initialNotificationsState } from '@/core/store/notifications';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, routerStoreMock } from '@/shared/testing/mocks';
 import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component';

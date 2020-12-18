@@ -7,10 +7,10 @@ import { Store, select } from '@ngrx/store';
 import { cloneDeep } from 'lodash';
 
 import { environment } from 'environments/environment';
-import { AppState } from '@/core/reducers';
+import { AppState } from '@/core/store';
+import { Preferences } from '@/core/store/preferences';
 import * as fromLayout from '@/core/modules/layout/store';
 import { updateUserOrgRequested, updateUserProfileRequested } from '@/core/modules/auth/store/auth.actions';
-import { Preferences } from '@/core/reducers/preferences/preferences.reducer';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { Asset } from '@/shared/models';
 import { TAB_PRIVILEGES, CONSTANTS, TAB_NAMES, TAB_LABELS } from '@/shared/constants';

@@ -3,15 +3,14 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { AppState } from '@/core/reducers';
-import { User } from '@/modules/users';
+import { AppState } from '@/core/store';
+import { selectFormByName, formRequested } from '@/core/store/dynamic-form';
 import { DialogDataModel, DynamicForm } from '@/shared/models';
-import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
-import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
 import { ACTION_LABELS, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
+import { User } from '@/modules/users';
 
 @Component({
   selector: 'organisms-user-details',

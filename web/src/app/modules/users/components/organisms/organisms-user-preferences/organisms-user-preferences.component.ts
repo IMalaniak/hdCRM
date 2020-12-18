@@ -5,17 +5,18 @@ import { Observable } from 'rxjs';
 
 import { Store, select } from '@ngrx/store';
 
-import { AppState } from '@/core/reducers';
-import { enableDarkTheme } from '@/core/modules/layout/store/layout.actions';
+import { AppState } from '@/core/store';
 import {
   changeTimeFormat,
   changeDateFormat,
   changeItemsPerPage,
   changeListView,
-  preferencesListRequested
-} from '@/core/reducers/preferences/preferences.actions';
-import { PreferencesList, Preferences } from '@/core/reducers/preferences/preferences.reducer';
-import { getPreferencesList } from '@/core/reducers/preferences/preferences.selectors';
+  preferencesListRequested,
+  PreferencesList,
+  Preferences,
+  getPreferencesList
+} from '@/core/store/preferences';
+import { enableDarkTheme } from '@/core/modules/layout/store/layout.actions';
 import { IFieldType } from '@/shared/constants';
 
 @Component({

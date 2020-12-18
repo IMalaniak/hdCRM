@@ -6,7 +6,7 @@ import { map, tap, filter } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 
-import { AppState } from '@/core/reducers';
+import { AppState } from '@/core/store';
 import { isPrivileged, currentUser } from '@/core/modules/auth/store/auth.selectors';
 import { ADD_PRIVILEGES, DELETE_PRIVILEGES, EDIT_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
 import { Plan } from '../../models';

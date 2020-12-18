@@ -3,9 +3,8 @@ import { Observable } from 'rxjs';
 
 import { Store, select } from '@ngrx/store';
 
-import { AppState } from '@/core/reducers';
-import { toggleGoogleDriveIntegration } from '@/core/reducers/integration/integration.actions';
-import { getGoogleDriveIntegrationState } from '@/core/reducers/integration/integration.selectors';
+import { AppState } from '@/core/store';
+import { toggleGoogleDriveIntegration, getGoogleDriveIntegrationState } from '@/core/store/integration';
 
 @Component({
   selector: 'organisms-user-integrations',

@@ -2,7 +2,7 @@ import { Component, Input, HostBinding, ChangeDetectionStrategy } from '@angular
 
 import { Store, select } from '@ngrx/store';
 
-import { AppState } from '@/core/reducers';
+import { AppState } from '@/core/store';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { IconsService, MediaQueryService } from '@/core/services';
 import { BS_ICONS, RoutingConstants, VIEW_PRIVILEGES } from '@/shared/constants';

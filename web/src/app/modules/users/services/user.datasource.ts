@@ -2,7 +2,7 @@ import { select, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
-import { AppState } from '@/core/reducers';
+import { AppState } from '@/core/store';
 import { PageQuery } from '@/shared/models';
 import { CommonDataSource } from '@/shared/services';
 import { User } from '../models/';

@@ -5,8 +5,8 @@ import { map } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 
-import { AppState } from '@/core/reducers';
-import { getDateFormatState, getTimeFormatState } from '@/core/reducers/preferences/preferences.selectors';
+import { AppState } from '@/core/store';
+import { getDateFormatState, getTimeFormatState } from '@/core/store/preferences';
 import { IDateFormat, ITimeFormat } from '../constants';
 
 /**

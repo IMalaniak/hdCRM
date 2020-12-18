@@ -1,12 +1,13 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { mergeMap, first } from 'rxjs/operators';
 
+import { select, Store } from '@ngrx/store';
+
 import { APIS } from '@/shared/constants';
 import { getToken } from '../modules/auth/store/auth.selectors';
-import { AppState } from '../reducers';
+import { AppState } from '../store';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {

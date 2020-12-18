@@ -6,9 +6,9 @@ import { Store, select } from '@ngrx/store';
 import { Observable, merge, Subject } from 'rxjs';
 import { tap, takeUntil } from 'rxjs/operators';
 
-import { AppState } from '@/core/reducers';
+import { AppState } from '@/core/store';
+import { getItemsPerPageState } from '@/core/store/preferences';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
-import { getItemsPerPageState } from '@/core/reducers/preferences/preferences.selectors';
 import { DialogDataModel, PageQuery } from '@/shared/models';
 import {
   IItemsPerPage,

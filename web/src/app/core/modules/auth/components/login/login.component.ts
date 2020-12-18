@@ -5,7 +5,8 @@ import { Observable, Subject } from 'rxjs';
 
 import { Store, select } from '@ngrx/store';
 
-import { AppState } from '@/core/reducers';
+import { AppState } from '@/core/store';
+import { IconsService } from '@/core/services';
 import { ConfirmPasswordValidator } from '@/shared/validators';
 import { NewPassword } from '@/shared/models';
 import {
@@ -20,7 +21,6 @@ import {
 } from '@/shared/constants';
 import * as authActions from '../../store/auth.actions';
 import * as authSelectors from '../../store/auth.selectors';
-import { IconsService } from '@/core/services';
 
 @Component({
   templateUrl: './login.component.html',

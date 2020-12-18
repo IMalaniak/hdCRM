@@ -6,8 +6,13 @@ import { Subject } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import { Task } from '../../../models';
-import { AppState } from '@/core/reducers';
+import { AppState } from '@/core/store';
+import { DIALOG, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE, CONSTANTS, BS_ICONS } from '@/shared/constants';
+import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
+import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
+import { DialogService } from '@/shared/services';
+import { DialogCreateEditModel, DialogMode, DialogType, DialogResultModel } from '@/shared/models';
 import {
   deleteTask,
   createTask,
@@ -16,12 +21,7 @@ import {
   deleteMultipleTaskRequested
 } from '../../../store/task.actions';
 import { OrganismsTaskDialogComponent } from '../organisms-task-dialog/organisms-task-dialog.component';
-import { DIALOG, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE, CONSTANTS, BS_ICONS } from '@/shared/constants';
-import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
-import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
-import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
-import { DialogService } from '@/shared/services';
-import { DialogCreateEditModel, DialogMode, DialogType, DialogResultModel } from '@/shared/models';
+import { Task } from '../../../models';
 
 @Component({
   selector: 'organisms-task-list',

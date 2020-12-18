@@ -1,5 +1,5 @@
 import { AuthState } from '@/core/modules/auth/store/auth.reducer';
-import { DynamicFormState } from '@/core/reducers/dynamic-form/dynamic-form.reducer';
+import { DynamicFormState } from '@/core/store/dynamic-form';
 import { User } from '@/modules/users/models';
 import { FormType, IFieldType } from '@/shared/constants';
 

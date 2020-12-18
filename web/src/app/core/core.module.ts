@@ -13,11 +13,11 @@ import { environment } from 'environments/environment';
 import { httpInterceptorsProviders } from './interceptors';
 import { AuthModule } from './modules/auth/auth.module';
 import { LayoutModule } from './modules/layout/layout.module';
-import { reducers, metaReducers } from './reducers';
-import { PreferencesEffects } from './reducers/preferences';
-import { IntegrationsEffects } from './reducers/integration';
-import { DynamicFormEffects } from './reducers/dynamic-form';
-import { NotificationsEffects } from './reducers/notifications';
+import { reducers, metaReducers } from './store';
+import { PreferencesEffects } from './store/preferences';
+import { IntegrationsEffects } from './store/integration';
+import { DynamicFormEffects } from './store/dynamic-form';
+import { NotificationsEffects } from './store/notifications';
 
 @NgModule({
   imports: [

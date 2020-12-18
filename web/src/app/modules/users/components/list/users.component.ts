@@ -8,10 +8,10 @@ import { tap, takeUntil } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 
-import { AppState } from '@/core/reducers';
+import { AppState } from '@/core/store';
+import { getItemsPerPageState } from '@/core/store/preferences';
 import { isPrivileged, currentUser } from '@/core/modules/auth/store/auth.selectors';
 import { IconsService } from '@/core/services';
-import { getItemsPerPageState } from '@/core/reducers/preferences/preferences.selectors';
 import { ToastMessageService } from '@/shared/services';
 import {
   DialogCreateEditModel,

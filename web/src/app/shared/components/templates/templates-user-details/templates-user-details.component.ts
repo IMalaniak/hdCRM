@@ -3,9 +3,9 @@ import { Observable } from 'rxjs/internal/Observable';
 
 import { select, Store } from '@ngrx/store';
 
-import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
-import { AppState } from '@/core/reducers';
+import { AppState } from '@/core/store';
 import { IconsService } from '@/core/services';
+import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { BS_ICONS, VIEW_PRIVILEGES } from '@/shared/constants';
 import { Asset } from '@/shared/models';
 import { User } from '@/modules/users';

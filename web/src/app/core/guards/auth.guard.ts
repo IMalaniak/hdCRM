@@ -5,7 +5,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap, withLatestFrom, map, take } from 'rxjs/operators';
 
-import { AppState } from '../reducers';
+import { AppState } from '../store';
 import { isTokenValid } from '../modules/auth/store/auth.selectors';
 import { checkIsTokenValid, redirectToLogin } from '../modules/auth/store/auth.actions';
 

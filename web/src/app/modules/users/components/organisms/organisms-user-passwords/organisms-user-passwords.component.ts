@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 
 import { Store } from '@ngrx/store';
 
-import { AppState } from '@/core/reducers';
+import { AppState } from '@/core/store';
 import { IconsService } from '@/core/services';
 import { NewPassword } from '@/shared/models';
 import { ConfirmPasswordValidator } from '@/shared/validators';

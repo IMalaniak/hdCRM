@@ -5,7 +5,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 
-import { AppState } from '@/core/reducers';
+import { AppState } from '@/core/store';
 import { IconsService, MediaQueryService } from '@/core/services';
 import { BS_ICONS } from '@/shared/constants';
 import { privateRouterTransition } from '@/shared/animations';

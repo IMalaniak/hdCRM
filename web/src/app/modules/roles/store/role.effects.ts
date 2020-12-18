@@ -8,7 +8,7 @@ import { Store, select } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 
-import { AppState } from '@/core/reducers';
+import { AppState } from '@/core/store';
 import { ToastMessageService } from '@/shared/services';
 import { RoutingConstants } from '@/shared/constants';
 import { normalizeResponse, Page, partialDataLoaded, roleListSchema, roleSchema } from '@/shared/store';

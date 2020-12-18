@@ -6,8 +6,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { initialPreferencesState } from '@/core/store/preferences';
 import { initialLayoutState } from '@/core/modules/layout/store/layout.reducer';
-import { initialPreferencesState } from '@/core/reducers/preferences/preferences.reducer';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, formsStateMock } from '@/shared/testing/mocks';
 import { TemplatesUserProfileComponent, OrganismsUserDetailsComponent } from '../index';

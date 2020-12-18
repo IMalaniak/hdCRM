@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { FilePond } from 'filepond';
 
 import { environment } from 'environments/environment';
-import { AppState } from '@/core/reducers';
+import { AppState } from '@/core/store';
 import { getToken } from '@/core/modules/auth/store/auth.selectors';
 import { Asset, TempAddedAsset } from '@/shared/models';
 
