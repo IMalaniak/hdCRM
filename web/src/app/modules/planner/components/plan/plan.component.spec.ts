@@ -7,7 +7,6 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { initialUsersState } from '@/core/modules/user-api/store';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, formsStateMock } from '@/shared/testing/mocks';
-import { PlanService } from '../../services';
 import { initialPlansState } from '../../store/plan.reducer';
 import { PlanComponent } from './plan.component';
 import { TemplatesPlanViewComponent } from '../templates';
@@ -27,7 +26,7 @@ describe('PlanComponent', () => {
       TestBed.configureTestingModule({
         declarations: [PlanComponent, TemplatesPlanViewComponent],
         imports: [RouterTestingModule, HttpClientModule, SharedModule],
-        providers: [PlanService, provideMockStore({ initialState })]
+        providers: [provideMockStore({ initialState })]
       }).compileComponents();
     })
   );

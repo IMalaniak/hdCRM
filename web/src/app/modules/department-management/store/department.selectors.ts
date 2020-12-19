@@ -4,12 +4,12 @@ import { denormalize } from 'normalizr';
 
 import { selectAllUserEntities } from '@/core/modules/user-api/store';
 import { selectAllDepartmentEntities } from '@/core/modules/department-api/store';
+import { Department } from '@/core/modules/department-api/shared';
 import { departmentListSchema } from '@/core/store/normalization';
 import { PageQuery } from '@/shared/models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
 import { ListState, Page } from '@/shared/store';
 import * as fromDepartment from './department.reducer';
-import { Department } from '../models';
 
 export const selectDepartmentsState = createFeatureSelector<ListState>(fromDepartment.departmentsFeatureKey);
 export const selectDepartmentPagesState = createSelector(

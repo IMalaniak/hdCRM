@@ -12,8 +12,8 @@ import {
   selectDepartmentDeepById,
   updateDepartmentRequested
 } from '@/core/modules/department-api/store';
+import { Department } from '@/core/modules/department-api/shared';
 import { EDIT_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
-import { Department } from '../../models';
 import { changeIsEditingState, selectIsEditing } from '../../store';
 
 @Component({

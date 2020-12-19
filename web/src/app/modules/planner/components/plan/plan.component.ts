@@ -8,10 +8,10 @@ import { Store, select } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
 import { isPrivileged, currentUser } from '@/core/modules/auth/store/auth.selectors';
+import { Plan } from '@/core/modules/plan-api/shared';
+import { selectPlanDeepById, planRequested, updatePlanRequested } from '@/core/modules/plan-api/store/plan';
 import { ADD_PRIVILEGES, DELETE_PRIVILEGES, EDIT_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
-import { Plan } from '../../models';
-import { updatePlanRequested, changeIsEditingState, planRequested } from '../../store/plan.actions';
-import { selectIsEditing, selectPlanDeepById } from '../../store/plan.selectors';
+import { selectIsEditing, changeIsEditingState } from '../../store';
 
 @Component({
   template: `

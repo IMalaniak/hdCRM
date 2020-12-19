@@ -1,7 +1,8 @@
 import { createAction, props } from '@ngrx/store';
-import { Stage } from '../models';
 import { Update } from '@ngrx/entity';
+
 import { CollectionApiResponse } from '@/shared/models';
+import { Stage } from '../../shared/models';
 
 const listPrefix = '[Stages List]';
 const apiPrefix = '[Stages API]';
@@ -10,7 +11,7 @@ export const allStagesRequestedFromDialogWindow = createAction(`${listPrefix} St
 
 export const allStagesRequestedFromDashboard = createAction('[Dashboard] Stages List Requested');
 
-export const allStagesLoaded = createAction(
+export const allStagesApiLoaded = createAction(
   `${apiPrefix} Stages List Loaded`,
   props<{ response: CollectionApiResponse<Stage> }>()
 );

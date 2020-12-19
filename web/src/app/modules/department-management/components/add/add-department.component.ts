@@ -4,8 +4,8 @@ import { Store } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
 import { createDepartmentRequested } from '@/core/modules/department-api/store';
+import { Department } from '@/core/modules/department-api/shared';
 import { FORMCONSTANTS } from '@/shared/constants';
-import { Department } from '../../models';
 
 @Component({
   template: `

@@ -6,14 +6,18 @@ import { map, takeUntil } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
+import { Stage } from '@/core/modules/plan-api/shared';
+import {
+  selectStagesLoading,
+  allStagesRequestedFromDialogWindow,
+  selectAllStages,
+  createStage
+} from '@/core/modules/plan-api/store/stage';
 import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, CONSTANTS, BS_ICONS } from '@/shared/constants';
 import { DialogService } from '@/shared/services';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
 import { DialogCreateEditModel, DialogMode } from '@/shared/models';
-import { allStagesRequestedFromDialogWindow, createStage } from '@/modules/planner/store/stage.actions';
-import { selectAllStages, selectStagesLoading } from '@/modules/planner/store/stage.selectors';
-import { Stage } from '../../../models';
 import { AddStageDialogComponent } from '../add-dialog/add-stage-dialog.component';
 
 @Component({

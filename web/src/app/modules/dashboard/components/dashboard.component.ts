@@ -13,13 +13,12 @@ import {
 import { User, UserSession } from '@/core/modules/user-api/shared';
 import { depDashboardDataRequested, selectAllDepartments } from '@/core/modules/department-api/store';
 import { Department } from '@/core/modules/department-api/shared';
+import { selectAllStages, allStagesRequestedFromDashboard } from '@/core/modules/plan-api/store/stage';
 import { VIEW_PRIVILEGES } from '@/shared/constants';
-import { allStagesRequestedFromDashboard } from '@/modules/planner/store/stage.actions';
-import { selectAllStages } from '@/modules/planner/store/stage.selectors';
 import { roleDashboardDataRequested } from '@/modules/roles/store/role.actions';
 import { selectAllRoles } from '@/modules/roles/store/role.selectors';
 import { Role } from '@/modules/roles';
-import { Stage } from '@/modules/planner';
+import { Stage } from '@/core/modules/plan-api/shared';
 
 @Component({
   selector: 'app-dashboard',

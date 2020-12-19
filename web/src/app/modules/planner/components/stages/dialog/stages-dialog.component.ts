@@ -2,11 +2,11 @@ import { Component, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/portal';
 
-import { StagesComponent } from '../list/stages.component';
+import { Stage } from '@/core/modules/plan-api/shared';
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
 import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
 import { DialogBaseModel } from '@/shared/components';
-import { Stage } from '@/modules/planner/models';
+import { StagesComponent } from '../list/stages.component';
 
 @Component({
   templateUrl: 'stages-dialog.component.html',

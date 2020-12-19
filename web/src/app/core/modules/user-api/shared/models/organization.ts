@@ -1,5 +1,5 @@
 import { Department } from '@/core/modules/department-api/shared';
-import { Plan } from '@/modules/planner/models';
+import { Plan } from '@/core/modules/plan-api/shared';
 import { Role } from '@/modules/roles/models';
 import { User } from './user';
 

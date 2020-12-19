@@ -11,6 +11,8 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/store';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { getItemsPerPageState } from '@/core/store/preferences/preferences.selectors';
+import { Plan } from '@/core/modules/plan-api/shared';
+import { deletePlanRequested } from '@/core/modules/plan-api/store/plan';
 import { DialogDataModel, PageQuery } from '@/shared/models';
 import {
   IItemsPerPage,
@@ -23,14 +25,12 @@ import {
   CONSTANTS,
   BS_ICONS
 } from '@/shared/constants';
-import { deletePlanRequested, changeIsEditingState } from '../../store/plan.actions';
 import { SORT_DIRECTION, ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_NAMES } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
-import { Plan } from '../../models';
-import { PlansDataSource } from '../../services/plan.datasource';
-import { selectPlanPageLoading, selectPlansTotalCount } from '../../store/plan.selectors';
+import { selectPlanPageLoading, selectPlansTotalCount, changeIsEditingState } from '../../store';
+import { PlansDataSource } from '../../dataSources';
 
 @Component({
   templateUrl: './plan-list.component.html',

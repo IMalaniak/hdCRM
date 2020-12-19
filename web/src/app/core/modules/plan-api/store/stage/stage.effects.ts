@@ -10,8 +10,8 @@ import { AppState } from '@/core/store';
 import { ToastMessageService } from '@/shared/services';
 import { CollectionApiResponse, ItemApiResponse } from '@/shared/models';
 import * as stageActions from './stage.actions';
-import { StageService } from '../services';
-import { Stage } from '../models';
+import { StageService } from '../../services';
+import { Stage } from '../../shared/models';
 import { allStagesLoaded } from './stage.selectors';
 
 @Injectable()
@@ -22,7 +22,7 @@ export class StageEffects {
       withLatestFrom(this.store.pipe(select(allStagesLoaded))),
       filter(([_, allStagesLoaded]) => !allStagesLoaded),
       mergeMap(() => this.stageService.getList<Stage>()),
-      map((response: CollectionApiResponse<Stage>) => stageActions.allStagesLoaded({ response })),
+      map((response: CollectionApiResponse<Stage>) => stageActions.allStagesApiLoaded({ response })),
       catchError(() => of(stageActions.stageApiError()))
     )
   );

@@ -1,71 +1,28 @@
 import { createReducer, on, Action } from '@ngrx/store';
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
-import { PaginationState, getInitialPaginationState, pagesAdapter } from '@/shared/store';
-import { Plan } from '../models';
+import * as planApiActions from '@/core/modules/plan-api/store/plan/plan.actions';
+import { initialListState, ListState, pagesAdapter } from '@/shared/store';
 import * as planActions from './plan.actions';
 
-export interface PlansEntityState extends EntityState<Plan> {}
-
-export interface PlansState extends PaginationState<PlansEntityState> {}
-
-const plansAdapter: EntityAdapter<Plan> = createEntityAdapter<Plan>({
-  sortComparer: false
-});
-
-const initialPlansEntityState: PlansEntityState = plansAdapter.getInitialState();
-
-export const initialPlansState: PlansState = getInitialPaginationState<PlansEntityState, PlansState>(
-  initialPlansEntityState
-);
-
 const plansReducer = createReducer(
-  initialPlansState,
+  initialListState,
   on(planActions.changeIsEditingState, (state, { isEditing }) => ({
     ...state,
     editing: isEditing
   })),
-  on(planActions.createPlanRequested, planActions.updatePlanRequested, planActions.deletePlanRequested, (state) => ({
-    ...state,
-    loading: true
-  })),
-  on(planActions.listPageRequested, (state) => ({
+  on(planApiActions.listPageRequested, (state) => ({
     ...state,
     pages: {
       ...state.pages,
       pageLoading: true
     }
   })),
-  on(planActions.createPlanSuccess, (state, { plan }) => ({
+  on(planApiActions.updatePlanSuccess, (state) => ({
     ...state,
-    loading: false,
-    data: plansAdapter.addOne(plan, {
-      ...state.data
-    })
+    editing: false
   })),
-  on(planActions.updatePlanSuccess, (state, { plan }) => ({
+  on(planApiActions.listPageLoaded, (state, { page, response: { pages, resultsNum } }) => ({
     ...state,
-    loading: false,
-    editing: false,
-    data: plansAdapter.updateOne(plan, { ...state.data })
-  })),
-  on(planActions.deletePlanSuccess, (state, { id }) => ({
-    ...state,
-    loading: false,
-    data: plansAdapter.removeOne(id, {
-      ...state.data
-    })
-  })),
-  on(planActions.planLoaded, (state, { plan }) => ({
-    ...state,
-    loading: false,
-    data: plansAdapter.addOne(plan, { ...state.data })
-  })),
-  on(planActions.listPageLoaded, (state, { page, response: { data, pages, resultsNum } }) => ({
-    ...state,
-    data: plansAdapter.upsertMany(data, {
-      ...state.data
-    }),
     pages: pagesAdapter.addOne(page, {
       ...state.pages,
       resultsNum,
@@ -73,13 +30,11 @@ const plansReducer = createReducer(
       pageLoading: false
     })
   })),
-  on(planActions.planApiError, (state) => ({ ...state, loading: false, pages: { ...state.pages, pageLoading: false } }))
+  on(planApiActions.planApiError, (state) => ({ ...state, pages: { ...state.pages, pageLoading: false } }))
 );
 
-export function reducer(state: PlansState | undefined, action: Action) {
+export function reducer(state: ListState | undefined, action: Action) {
   return plansReducer(state, action);
 }
 
-export const plansFeatureKey = 'plan';
-
-export const { selectAll, selectEntities, selectIds, selectTotal } = plansAdapter.getSelectors();
+export const plansFeatureKey = 'plan-management';

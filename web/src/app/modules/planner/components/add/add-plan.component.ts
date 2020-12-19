@@ -5,9 +5,9 @@ import { select, Store } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
+import { Plan } from '@/core/modules/plan-api/shared';
+import { createPlanRequested } from '@/core/modules/plan-api/store/plan';
 import { ADD_PRIVILEGES, DELETE_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
-import { Plan } from '../../models';
-import { createPlanRequested } from '../../store/plan.actions';
 
 @Component({
   template: `

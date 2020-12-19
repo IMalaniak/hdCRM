@@ -13,8 +13,9 @@ import { environment } from 'environments/environment';
 import { httpInterceptorsProviders } from './interceptors';
 import { AuthModule } from './modules/auth/auth.module';
 import { LayoutModule } from './modules/layout/layout.module';
-import { UserApiModule } from './modules/user-api/user-api.module';
 import { DepartmentApiModule } from './modules/department-api/department-api.module';
+import { PlanApiModule } from './modules/plan-api/plan-api.module';
+import { UserApiModule } from './modules/user-api/user-api.module';
 import { reducers, metaReducers } from './store';
 import { PreferencesEffects } from './store/preferences';
 import { IntegrationsEffects } from './store/integration';
@@ -37,7 +38,8 @@ import { NotificationsEffects } from './store/notifications';
     EffectsModule.forRoot([PreferencesEffects, IntegrationsEffects, DynamicFormEffects, NotificationsEffects]),
     StoreRouterConnectingModule.forRoot(),
     UserApiModule,
-    DepartmentApiModule
+    DepartmentApiModule,
+    PlanApiModule
   ],
   exports: [RouterModule, HttpClientModule, FormsModule, ReactiveFormsModule, LayoutModule],
   providers: [httpInterceptorsProviders]

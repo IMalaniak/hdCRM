@@ -6,11 +6,11 @@ import { takeUntil } from 'rxjs/operators';
 
 import { AppState } from '@/core/store';
 import { User } from '@/core/modules/user-api/shared';
+import { Plan } from '@/core/modules/plan-api/shared';
 import { Asset, DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
 import { DialogService } from '@/shared/services';
 import { CONSTANTS } from '@/shared/constants';
-import { Plan } from '@/modules/planner/models';
 import { UsersDialogComponent } from '@/modules/user-management/components';
 
 @Component({
