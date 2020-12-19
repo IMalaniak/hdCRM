@@ -78,6 +78,11 @@ $border: 1px solid;
       }
     }
 
+    .mat-row:hover {
+      @include set-bgcolor('border');
+      transition: background-color $transition;
+    }
+
     .table-link-pl {
       padding-left: 2rem;
     }
