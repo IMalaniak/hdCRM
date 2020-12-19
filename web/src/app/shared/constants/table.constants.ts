@@ -13,7 +13,7 @@ export enum COLUMN_NAMES {
   CREATOR = 'creator',
   DEADLINE = 'deadline',
   DELETE = 'delete',
-  DEPARTMENT = 'dep',
+  DEPARTMENT = 'department',
   EDIT = 'edit',
   EMAIL = 'email',
   ICON = 'icon',
@@ -65,5 +65,6 @@ export enum COLUMN_LABELS {
   UPDATED_AT = 'Updated At',
   USERS = 'Users',
   VIEW = 'View',
-  WORKERS = 'Workers'
+  WORKERS = 'Workers',
+  MENU = 'Menu'
 }

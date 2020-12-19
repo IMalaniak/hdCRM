@@ -1,86 +1,44 @@
-import { Component, OnDestroy, ViewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { Observable, Subject, merge } from 'rxjs';
-import { tap, takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
-import { getItemsPerPageState } from '@/core/store/preferences';
 import { User } from '@/core/modules/user-api/shared';
 import { deleteUser, inviteUsers, OnlineUserListRequested } from '@/core/modules/user-api/store';
 import { isPrivileged, currentUser } from '@/core/modules/auth/store/auth.selectors';
 import { IconsService } from '@/core/services';
-import {
-  DialogCreateEditModel,
-  DialogDataModel,
-  DialogMode,
-  DialogType,
-  DialogResultModel,
-  PageQuery
-} from '@/shared/models';
-import {
-  IItemsPerPage,
-  pageSizeOptions,
-  ACTION_LABELS,
-  COLUMN_LABELS,
-  THEME_PALETTE,
-  RoutingConstants,
-  CONSTANTS,
-  UserState,
-  BS_ICONS
-} from '@/shared/constants';
-import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, SORT_DIRECTION, COLUMN_NAMES } from '@/shared/constants';
+import { DialogCreateEditModel, DialogDataModel, DialogMode, DialogType, DialogResultModel } from '@/shared/models';
+import { RoutingConstants, CONSTANTS, UserState, BS_ICONS } from '@/shared/constants';
+import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_NAMES } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
-import { InvitationDialogComponent } from '../invitation-dialog/invitation-dialog.component';
-import { UsersDataSource } from '../../dataSources';
+import { DataColumn } from '@/shared/models/table/data-column.model';
 import { selectUserPageLoading, selectUsersTotalCount } from '../../store';
+import { UsersDataSource } from '../../dataSources';
+import { InvitationDialogComponent } from '../invitation-dialog/invitation-dialog.component';
 
 @Component({
   selector: 'users-component',
   templateUrl: './users.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UsersComponent implements OnDestroy, AfterViewInit {
+export class UsersComponent implements OnDestroy {
   currentUser$: Observable<User> = this.store$.pipe(select(currentUser));
   loading$: Observable<boolean> = this.store$.pipe(select(selectUserPageLoading));
   resultsLength$: Observable<number> = this.store$.pipe(select(selectUsersTotalCount));
   canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.USER)));
   canEditUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.USER)));
   canDeleteUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.USER)));
-  itemsPerPageState$: Observable<IItemsPerPage> = this.store$.pipe(select(getItemsPerPageState));
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
-  selection = new SelectionModel<User>(true, []);
+  selection = new SelectionModel<User>(true, []); // TODO:
   dataSource: UsersDataSource = new UsersDataSource(this.store$);
-  pageSizeOptions: number[] = pageSizeOptions;
-  users: User[];
+  // users: User[]; TODO:
 
-  themePalette = THEME_PALETTE;
-  columns = COLUMN_NAMES;
-  columnLabels = COLUMN_LABELS;
-  actionLabels = ACTION_LABELS;
-  displayedColumns: COLUMN_NAMES[] = [
-    COLUMN_NAMES.SELECT,
-    COLUMN_NAMES.AVATAR,
-    COLUMN_NAMES.LOGIN,
-    COLUMN_NAMES.EMAIL,
-    COLUMN_NAMES.NAME,
-    COLUMN_NAMES.SURNAME,
-    COLUMN_NAMES.PHONE,
-    COLUMN_NAMES.DEPARTMENT,
-    COLUMN_NAMES.STATE,
-    COLUMN_NAMES.CREATED_AT,
-    COLUMN_NAMES.UPDATED_AT,
-    COLUMN_NAMES.ACTIONS
-  ];
   userStates = UserState;
   listIcons: { [key: string]: BS_ICONS } = {
     matMenu: BS_ICONS.ThreeDotsVertical,
@@ -93,6 +51,21 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
     delete: BS_ICONS.Trash
   };
 
+  displayedColumns: DataColumn[] = [
+    DataColumn.createSequenceNumberColumn(),
+    DataColumn.createColumn({ title: COLUMN_NAMES.AVATAR, hasSorting: false }),
+    DataColumn.createColumn({ title: COLUMN_NAMES.LOGIN }),
+    DataColumn.createLinkColumn({ title: COLUMN_NAMES.EMAIL }),
+    DataColumn.createColumn({ title: COLUMN_NAMES.NAME }),
+    DataColumn.createColumn({ title: COLUMN_NAMES.SURNAME }),
+    DataColumn.createLinkColumn({ title: COLUMN_NAMES.PHONE }),
+    DataColumn.createLinkColumn({ title: COLUMN_NAMES.DEPARTMENT, hasSorting: false }),
+    DataColumn.createColumn({ title: COLUMN_NAMES.STATE }),
+    DataColumn.createColumn({ title: COLUMN_NAMES.CREATED_AT }),
+    DataColumn.createColumn({ title: COLUMN_NAMES.UPDATED_AT }),
+    DataColumn.createActionsColumn()
+  ];
+
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
@@ -103,28 +76,6 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
   ) {
     this.iconsService.registerIcons([BS_ICONS.Archive, BS_ICONS.PersonSquare, BS_ICONS.PersonX]);
     this.store$.dispatch(OnlineUserListRequested());
-  }
-
-  ngAfterViewInit(): void {
-    merge(this.sort.sortChange, this.paginator.page)
-      .pipe(
-        takeUntil(this.unsubscribe),
-        tap(() => this.loadUsersPage())
-      )
-      .subscribe();
-
-    this.loadUsersPage();
-  }
-
-  loadUsersPage(): void {
-    const newPage: PageQuery = {
-      pageIndex: this.paginator.pageIndex,
-      pageSize: this.paginator.pageSize,
-      sortIndex: this.sort.active || COLUMN_NAMES.ID,
-      sortDirection: this.sort.direction || SORT_DIRECTION.ASC
-    };
-
-    this.dataSource.loadUsers(newPage);
   }
 
   openInvitationDialog(): void {
@@ -146,6 +97,7 @@ export class UsersComponent implements OnDestroy, AfterViewInit {
       });
   }
 
+  // TODO:
   // isAllSelected() {
   //   const numSelected = this.selection.selected.length;
   //   const numRows = this.resultsLength;

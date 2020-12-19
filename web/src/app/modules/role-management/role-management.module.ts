@@ -10,7 +10,6 @@ import {
   RolesComponent,
   RoleComponent,
   AddRoleComponent,
-  RolesDialogComponent,
   PrivilegesComponent,
   PrivilegesDialogComponent,
   AddPrivilegeDialogComponent,
@@ -30,7 +29,6 @@ import { rolesFeatureKey, reducer } from './store/role.reducer';
     RolesComponent,
     RoleComponent,
     AddRoleComponent,
-    RolesDialogComponent,
     PrivilegesComponent,
     PrivilegesDialogComponent,
     AddPrivilegeDialogComponent,
@@ -40,7 +38,6 @@ import { rolesFeatureKey, reducer } from './store/role.reducer';
     RolesComponent,
     RoleComponent,
     AddRoleComponent,
-    RolesDialogComponent,
     PrivilegesComponent,
     PrivilegesDialogComponent,
     AddPrivilegeDialogComponent

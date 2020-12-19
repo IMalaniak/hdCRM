@@ -69,6 +69,7 @@ $size-prefix: --app-size-;
 $app-colors: (
   'theme': (
     'background': $white,
+    'border': $dark-dividers,
     'text': $dark,
     'text-contrast': $light,
     'primary': $blue,
@@ -80,6 +81,7 @@ $app-colors: (
   ),
   'theme-dark': (
     'background': #222222,
+    'border': $light-dividers,
     'text': $light,
     'text-contrast': $light,
     'primary': $primary-dark,

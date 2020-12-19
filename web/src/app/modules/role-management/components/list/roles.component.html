@@ -5,96 +5,12 @@
     </atoms-icon-button>
   </div>
 
-  <div content class="table-container">
-    <table mat-table class="roles-table crm-table" [dataSource]="dataSource" matSort>
-      <ng-container [matColumnDef]="columns.SELECT" sticky>
-        <th mat-header-cell *matHeaderCellDef>
-          <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
-                          [checked]="selection.hasValue() && isAllSelected()"
-                          [indeterminate]="selection.hasValue() && !isAllSelected()">
-            </mat-checkbox> -->
-        </th>
-        <td mat-cell *matCellDef="let row">
-          <mat-checkbox
-            (click)="$event.stopPropagation()"
-            (change)="$event ? selection.toggle(row) : null"
-            [checked]="selection.isSelected(row)"
-          >
-          </mat-checkbox>
-        </td>
-      </ng-container>
-      <ng-container [matColumnDef]="columns.TITLE">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@rolesComponentListTitle">
-          {{ columnLabels.TITLE }}
-        </th>
-        <td mat-cell *matCellDef="let role">{{ role.keyString }}</td>
-      </ng-container>
-      <ng-container [matColumnDef]="columns.USERS">
-        <th mat-header-cell *matHeaderCellDef i18n="@@rolesComponentListUserCount">
-          {{ columnLabels.USERS }}
-        </th>
-        <td mat-cell *matCellDef="let role">{{ role.Users.length }}</td>
-      </ng-container>
-      <ng-container [matColumnDef]="columns.PRIVILEGES">
-        <th mat-header-cell *matHeaderCellDef i18n="@@rolesComponentListPrivilegesCount">
-          {{ columnLabels.PRIVILEGES }}
-        </th>
-        <td mat-cell *matCellDef="let role">{{ role.Privileges.length }}</td>
-      </ng-container>
-      <ng-container [matColumnDef]="columns.CREATED_AT">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@rolesComponentListCreatedAt">
-          {{ columnLabels.CREATED_AT }}
-        </th>
-        <td mat-cell *matCellDef="let role">{{ role.createdAt | dateTimeFormat | async }}</td>
-      </ng-container>
-      <ng-container [matColumnDef]="columns.UPDATED_AT">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@rolesComponentListUpdatedAt">
-          {{ columnLabels.UPDATED_AT }}
-        </th>
-        <td mat-cell *matCellDef="let role">{{ role.updatedAt | dateTimeFormat | async }}</td>
-      </ng-container>
-      <ng-container [matColumnDef]="columns.ACTIONS" stickyEnd>
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let role">
-          <atoms-icon-button
-            [matMenuTriggerFor]="menu"
-            [color]="themePalette.BASIC"
-            [icon]="listIcons.matMenu"
-            matType="icon"
-          >
-          </atoms-icon-button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="onRoleSelect(role.id)">
-              <mat-icon [svgIcon]="listIcons.info" aria-hidden="false"></mat-icon>
-              <span i18n="@@rolesComponentListActionsView">{{ actionLabels.DETAILS }}</span>
-            </button>
-            <button *ngIf="canEditRole$ | async" mat-menu-item (click)="onRoleSelect(role.id, true)">
-              <mat-icon [svgIcon]="listIcons.edit" aria-hidden="false"></mat-icon>
-              <span i18n="@@rolesComponentListActionsEdit"> {{ actionLabels.EDIT }} </span>
-            </button>
-            <button *ngIf="(canDeleteRole$ | async) && role.id !== 1" mat-menu-item (click)="deleteRole(role.id)">
-              <mat-icon [svgIcon]="listIcons.delete" aria-hidden="false" class="text-warn"></mat-icon>
-              <span i18n="@@rolesComponentListActionsDelete"> {{ actionLabels.DELETE }} </span>
-            </button>
-          </mat-menu>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      <tr *matNoDataRow>
-        <td [attr.colspan]="displayedColumns.length">
-          <atoms-no-content-info></atoms-no-content-info>
-        </td>
-      </tr>
-    </table>
-  </div>
-  <mat-paginator
+  <table-component
     content
-    [length]="resultsLength$ | async"
-    [pageSizeOptions]="pageSizeOptions"
-    [pageSize]="itemsPerPageState$ | async"
-    showFirstLastButtons
+    [dataSource]="dataSource"
+    [columns]="displayedColumns"
+    [totalItems]="resultsLength$ | async"
+    (rowSelect)="onRoleSelect($event)"
   >
-  </mat-paginator>
+  </table-component>
 </organisms-card>

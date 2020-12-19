@@ -1,33 +1,19 @@
-import { Component, ViewChild, AfterViewInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { SelectionModel } from '@angular/cdk/collections';
-import { Observable, Subject, merge } from 'rxjs';
-import { tap, takeUntil } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 import { Store, select } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
-import { getItemsPerPageState } from '@/core/store/preferences';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
-import { Role } from '@/core/modules/role-api/shared';
 import { deleteRoleRequested } from '@/core/modules/role-api/store/role';
-import { DialogDataModel, PageQuery } from '@/shared/models';
-import {
-  IItemsPerPage,
-  pageSizeOptions,
-  ACTION_LABELS,
-  COLUMN_LABELS,
-  THEME_PALETTE,
-  RoutingConstants,
-  CONSTANTS,
-  BS_ICONS
-} from '@/shared/constants';
-import { SORT_DIRECTION, ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_NAMES } from '@/shared/constants';
+import { DialogDataModel } from '@/shared/models';
+import { ACTION_LABELS, RoutingConstants, CONSTANTS, BS_ICONS } from '@/shared/constants';
+import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_NAMES } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
+import { DataColumn } from '@/shared/models/table';
 import { RolesDataSource } from '../../services/role.datasource';
 import { changeIsEditingState, selectRolesPageLoading, selectRolesTotalCount } from '../../store';
 
@@ -37,35 +23,16 @@ import { changeIsEditingState, selectRolesPageLoading, selectRolesTotalCount } f
   styleUrls: ['./roles.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RolesComponent implements OnDestroy, AfterViewInit {
+export class RolesComponent {
   dataSource: RolesDataSource = new RolesDataSource(this.store$);
   loading$: Observable<boolean> = this.store$.pipe(select(selectRolesPageLoading));
   resultsLength$: Observable<number> = this.store$.pipe(select(selectRolesTotalCount));
   canAddRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.ROLE)));
   canEditRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.ROLE)));
   canDeleteRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.ROLE)));
-  itemsPerPageState$: Observable<IItemsPerPage> = this.store$.pipe(select(getItemsPerPageState));
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
-  selection = new SelectionModel<Role>(true, []);
-
-  addRoleRoute = RoutingConstants.ROUTE_ROLES_ADD;
-  themePalette = THEME_PALETTE;
-  columns = COLUMN_NAMES;
-  columnLabels = COLUMN_LABELS;
   actionLabels = ACTION_LABELS;
-  displayedColumns: COLUMN_NAMES[] = [
-    COLUMN_NAMES.SELECT,
-    COLUMN_NAMES.TITLE,
-    COLUMN_NAMES.USERS,
-    COLUMN_NAMES.PRIVILEGES,
-    COLUMN_NAMES.CREATED_AT,
-    COLUMN_NAMES.UPDATED_AT,
-    COLUMN_NAMES.ACTIONS
-  ];
-  pageSizeOptions: number[] = pageSizeOptions;
+  addRoleRoute = RoutingConstants.ROUTE_ROLES_ADD;
   listIcons: { [key: string]: BS_ICONS } = {
     matMenu: BS_ICONS.ThreeDotsVertical,
     add: BS_ICONS.Plus,
@@ -74,31 +41,21 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
     delete: BS_ICONS.Trash
   };
 
-  private unsubscribe: Subject<void> = new Subject();
+  displayedColumns: DataColumn[] = [
+    DataColumn.createSequenceNumberColumn(),
+    DataColumn.createColumn({ title: COLUMN_NAMES.TITLE }),
+    DataColumn.createColumn({ title: COLUMN_NAMES.USERS }),
+    DataColumn.createColumn({ title: COLUMN_NAMES.PRIVILEGES }),
+    DataColumn.createColumn({ title: COLUMN_NAMES.CREATED_AT }),
+    DataColumn.createColumn({ title: COLUMN_NAMES.UPDATED_AT }),
+    DataColumn.createActionsColumn()
+  ];
 
-  constructor(private store$: Store<AppState>, private router: Router, private dialogService: DialogService) {}
-
-  ngAfterViewInit(): void {
-    merge(this.sort.sortChange, this.paginator.page)
-      .pipe(
-        takeUntil(this.unsubscribe),
-        tap(() => this.loadRolesPage())
-      )
-      .subscribe();
-
-    this.loadRolesPage();
-  }
-
-  loadRolesPage(): void {
-    const newPage: PageQuery = {
-      pageIndex: this.paginator.pageIndex,
-      pageSize: this.paginator.pageSize,
-      sortIndex: this.sort.active || COLUMN_NAMES.ID,
-      sortDirection: this.sort.direction || SORT_DIRECTION.ASC
-    };
-
-    this.dataSource.loadRoles(newPage);
-  }
+  constructor(
+    private readonly store$: Store<AppState>,
+    private readonly router: Router,
+    private readonly dialogService: DialogService
+  ) {}
 
   onRoleSelect(id: number, edit: boolean = false): void {
     this.router.navigateByUrl(`${RoutingConstants.ROUTE_ROLES_DETAILS}/${id}`);
@@ -106,16 +63,12 @@ export class RolesComponent implements OnDestroy, AfterViewInit {
   }
 
   deleteRole(id: number): void {
+    // TODO: add to html
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_ROLE_CONFIRM);
     const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
     this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () =>
       this.store$.dispatch(deleteRoleRequested({ id }))
     );
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
   }
 }

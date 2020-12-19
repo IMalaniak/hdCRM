@@ -13,6 +13,26 @@ export class DataColumn {
     readonly stickyEnd: boolean = false
   ) {}
 
+  static createColumn({
+    title,
+    horizontalAlign = HorizontalAlign.Left,
+    isVisible = true,
+    hasSorting = true,
+    customClass,
+    sticky = false,
+    stickyEnd = false
+  }: {
+    title: string;
+    horizontalAlign?: HorizontalAlign;
+    isVisible?: boolean;
+    hasSorting?: boolean;
+    customClass?: string;
+    sticky?: boolean;
+    stickyEnd?: boolean;
+  }): DataColumn {
+    return new DataColumn(title, horizontalAlign, isVisible, hasSorting, customClass, sticky, stickyEnd);
+  }
+
   static createSequenceNumberColumn(): DataColumn {
     return new DataColumn(COLUMN_NAMES.SEQUENCE_NUMBER, HorizontalAlign.Left, true, false, STYLECONSTANTS.SEQUENCE);
   }

@@ -3,8 +3,8 @@ import { ACTION_LABELS, BS_ICONS, STYLECONSTANTS, THEME_PALETTE } from '@/shared
 import { CellActionType } from './cellActionType.enum';
 import { CellControlType } from './cellControlType.enum';
 import { CellValueType } from './cellValueType.enum';
-import { Navigation } from './navigation';
 import { CellAction } from './cell-action';
+import { Navigation } from './navigation';
 
 export class CellValue {
   cellAction: CellActionType;
@@ -19,16 +19,18 @@ export class CellValue {
     readonly disabled = false
   ) {}
 
-  static createSequenceNumberCell(): CellValue {
+  static createSequenceCell(): CellValue {
     return new CellValue(undefined, CellControlType.SequenceNumber, STYLECONSTANTS.SEQUENCE);
   }
 
-  static createSpanCell(value: string, customClass?: string): CellValue {
-    return new CellValue(value, CellControlType.Span, customClass);
+  static createStringCell(value: string | number, customClass?: string): CellValue {
+    return value ? new CellValue(value, CellControlType.String, customClass) : this.createEmptyCell();
   }
 
   static createLinkCell(value: string, navigation: Navigation): CellValue {
-    return new CellValue(value, CellControlType.Navigation, undefined, navigation);
+    return value
+      ? new CellValue(value, CellControlType.Navigation, undefined, navigation)
+      : this.createEmptyCell(STYLECONSTANTS.PL_HEADER_LINK);
   }
 
   static createBooleanIconCell(value: boolean, disabledColor = false): CellValue {
@@ -48,21 +50,21 @@ export class CellValue {
     return new CellValue(value, CellControlType.Avatar);
   }
 
-  static createEmptyCell(): CellValue {
-    return new CellValue('-', CellControlType.Span);
+  static createDateCell(value: Date): CellValue {
+    return new CellValue(value, CellControlType.Date);
+  }
+
+  static createEmptyCell(customClass = ''): CellValue {
+    return new CellValue('-', CellControlType.String, customClass);
   }
 
   static createActionsCell(additionalActions?: CellAction[]): CellValue {
-    // TODO: decide best way to bind actions with privileges, maybe it will be better to move this method to common class in next task, or send provoleges separately in table with using async pipe
+    // TODO: remove and add saperate logic in ng-content
     let actions: CellAction[] = [];
 
     if (additionalActions?.length) {
       actions = [...actions, ...additionalActions];
     }
-
-    // if (privilege) {
-    actions = [...actions, { type: CellActionType.Details, icon: BS_ICONS.InfoSquare, label: ACTION_LABELS.DETAILS }];
-    // }
 
     // if (privilege) {
     actions = [...actions, { type: CellActionType.Edit, icon: BS_ICONS.Pencil, label: ACTION_LABELS.EDIT }];
