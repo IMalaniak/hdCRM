@@ -1,5 +1,7 @@
 export class CONSTANTS {
   static NO_CONTENT_INFO = 'No content';
+  static PREFIX_MAIL_TO = 'mailto:';
+  static PREFIX_TEL = 'tel:';
 
   // no image
   static NO_IMAGE_URL = './assets/images/userpic/noimage_croped.png';

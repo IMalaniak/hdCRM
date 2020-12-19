@@ -7,5 +7,5 @@ export enum LINK_TARGET {
 
 export enum LINK_TYPE {
   LINK = 'link',
-  ROuTER = 'router'
+  ROUTER = 'router'
 }

@@ -8,7 +8,6 @@ import {
   RolesComponent,
   RoleComponent,
   AddRoleComponent,
-  RolesDialogComponent,
   PrivilegesComponent,
   PrivilegesDialogComponent,
   AddPrivilegeDialogComponent,
@@ -37,7 +36,6 @@ import { PrivilegeEffects } from './store/privilege.effects';
     RolesComponent,
     RoleComponent,
     AddRoleComponent,
-    RolesDialogComponent,
     PrivilegesComponent,
     PrivilegesDialogComponent,
     AddPrivilegeDialogComponent,
@@ -48,7 +46,6 @@ import { PrivilegeEffects } from './store/privilege.effects';
     RolesComponent,
     RoleComponent,
     AddRoleComponent,
-    RolesDialogComponent,
     PrivilegesComponent,
     PrivilegesDialogComponent,
     AddPrivilegeDialogComponent

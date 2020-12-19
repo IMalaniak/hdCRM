@@ -1,18 +1,7 @@
 <ng-container *ngIf="columns">
   <!-- TABLE -->
-  <div class="table-container">
-    <table
-      mat-table
-      #table
-      matSort
-      [class.no-outline-border]="!hasOutlineBorder"
-      [dataSource]="dataSource"
-      [trackBy]="trackById"
-    >
-      <!-- [matSortActive]="sorting?.title"
-        [matSortDirection]="sorting?.direction"
-        (matSortChange)="sortChange($event)" -->
-
+  <div class="table-container" [class.no-outline-border]="!hasOutlineBorder">
+    <table mat-table #table matSort [dataSource]="dataSource" [trackBy]="trackById">
       <!-- COLUMNS & ROWS-->
       <ng-container
         *ngFor="let column of columns"
@@ -61,28 +50,31 @@
               <ng-container [ngSwitch]="row[column.title].controlType">
                 <!-- Sequence number -->
                 <ng-container *ngSwitchCase="cellControlType.SequenceNumber">
-                  <span>{{ getSequenceNumber(i + 1) }}</span>
+                  {{ getSequenceNumber(i + 1) }}
                 </ng-container>
 
-                <!-- Span -->
-                <ng-container *ngSwitchCase="cellControlType.Span" [ngClass]="row[column.title].customClass">
-                  <span>{{ row[column.title].value }}</span>
+                <!-- String -->
+                <ng-container *ngSwitchCase="cellControlType.String" [ngClass]="row[column.title].customClass">
+                  {{ row[column.title].value }}
                 </ng-container>
 
                 <!-- Navigation -->
                 <ng-container *ngSwitchCase="cellControlType.Navigation">
                   <atoms-link-button
-                    linkType="router"
+                    [linkLabel]="row[column.title].value"
                     [linkColor]="themePalette.BASIC"
                     [linkClass]="'w-100 text-underline text-left'"
-                    [linkLabel]="row[column.title].value"
+                    [linkType]="row[column.title].navigation.linkType"
+                    [linkHref]="row[column.title].navigation.linkHref"
+                    [target]="row[column.title].navigation.target"
+                    (click)="$event.stopPropagation()"
                   ></atoms-link-button>
                 </ng-container>
 
                 <!-- Checkbox -->
                 <ng-container *ngSwitchCase="cellControlType.Checkbox">
                   <mat-checkbox
-                    [checked]="value"
+                    [checked]="row[column.title].value"
                     [disabled]="row[column.title].disabled"
                     (change)="actionClicked(row[column.title].cellAction, i, $event)"
                   ></mat-checkbox>
@@ -103,6 +95,11 @@
                     [userOnline]="row[column.title].value?.online"
                   ></atoms-user-pic>
                 </ng-container>
+
+                <!-- Date -->
+                <ng-container *ngSwitchCase="cellControlType.Date">
+                  {{ row[column.title].value | dateTimeFormat | async }}
+                </ng-container>
               </ng-container>
             </ng-container>
 
@@ -114,6 +111,7 @@
                 [type]="buttonType.BUTTON"
                 [icon]="icons.threeDots"
                 [matMenuTriggerFor]="actionsMenu"
+                (click)="$event.stopPropagation()"
               >
               </atoms-icon-button>
 
@@ -133,7 +131,12 @@
       <!-- MENU SETTINGS COLUMN -->
       <ng-container *ngIf="hasSettings">
         <ng-container [matColumnDef]="menuColumnName" [sticky]="true">
-          <th mat-header-cell *matHeaderCellDef class="menu-column" [class.sticky-with-border]="hasOutlineBorder">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="menu-column text-center"
+            [class.sticky-with-border]="hasOutlineBorder"
+          >
             <atoms-icon-button
               [color]="themePalette.BASIC"
               [matType]="matButtonType.ICON"
@@ -143,13 +146,13 @@
             >
             </atoms-icon-button>
           </th>
-          <td mat-cell *matCellDef class="menu-columnn"></td>
+          <td mat-cell *matCellDef class="menu-column"></td>
         </ng-container>
       </ng-container>
 
       <!-- ROWS -->
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay" (click)="rowSelect.emit(row.id)"></tr>
       <tr *matNoDataRow>
         <td [attr.colspan]="columnsToDisplay.length">
           <atoms-no-content-info [noContentMessage]="noContentMessage"></atoms-no-content-info>
@@ -160,12 +163,10 @@
 
   <!-- PAGINATOR -->
   <mat-paginator
-    *ngIf="paging"
     showFirstLastButtons
-    [length]="paging.totalItems"
-    [pageSize]="paging.pageSize"
-    [pageSizeOptions]="paging.pageSizeOptions"
-    (page)="pageChange($event)"
+    [length]="totalItems"
+    [pageSize]="itemsPerPageState$ | async"
+    [pageSizeOptions]="pageSizeOptions"
   ></mat-paginator>
 
   <!-- MENU -->
