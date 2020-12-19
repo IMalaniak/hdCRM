@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 
 import { SharedModule } from '@/shared/shared.module';
-import { RolesRoutingModule } from './roles-routing.module';
+import { RoleManagmentRoutingModule } from './role-management-routing.module';
 import {
   RolesComponent,
   RoleComponent,
@@ -23,7 +23,7 @@ import { rolesFeatureKey, reducer } from './store/role.reducer';
     CommonModule,
     RouterModule,
     SharedModule,
-    RolesRoutingModule,
+    RoleManagmentRoutingModule,
     StoreModule.forFeature(rolesFeatureKey, reducer)
   ],
   declarations: [
@@ -46,4 +46,4 @@ import { rolesFeatureKey, reducer } from './store/role.reducer';
     AddPrivilegeDialogComponent
   ]
 })
-export class RolesModule {}
+export class RoleManagementModule {}

@@ -9,10 +9,10 @@ import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { initialPreferencesState } from '@/core/store/preferences';
+import { Role } from '@/core/modules/role-api/shared';
 import { COLUMN_NAMES, FORMCONSTANTS } from '@/shared/constants';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, formsStateMock, currentUserMock } from '@/shared/testing/mocks';
-import { Role } from '@/modules/roles/models';
 
 import { TemplatesRoleViewComponent } from './templates-role-view.component';
 

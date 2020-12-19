@@ -44,7 +44,8 @@ const routes: Routes = [
         path: PATHS.ROLES,
         canActivate: [AuthGuard],
         data: { breadcrumb: 'App Roles', animation: 'RolesPage', preload: true, delay: true },
-        loadChildren: () => import('./modules/roles/roles.module').then((m) => m.RolesModule)
+        loadChildren: () =>
+          import('./modules/role-management/role-management.module').then((m) => m.RoleManagementModule)
       },
       {
         path: PATHS.DASHBOARD,

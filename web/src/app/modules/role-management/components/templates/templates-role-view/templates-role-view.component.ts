@@ -12,7 +12,7 @@ import { MAT_BUTTON, COLUMN_NAMES, COLUMN_LABELS, CONSTANTS, BS_ICONS } from '@/
 import { DialogService } from '@/shared/services';
 import { DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { UsersDialogComponent } from '@/modules/user-management/components';
-import { PrivilegesDialogComponent } from '@/modules/roles/components/privileges/dialog/privileges-dialog.component';
+import { PrivilegesDialogComponent } from '@/modules/role-management/components/privileges/dialog/privileges-dialog.component';
 
 @Component({
   selector: 'templates-role-view',
