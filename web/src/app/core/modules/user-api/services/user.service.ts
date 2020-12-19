@@ -6,8 +6,8 @@ import { take } from 'rxjs/operators';
 import { BaseCrudService, SocketService } from '@/shared/services';
 import { NewPassword, BaseMessage, CollectionApiResponse, ItemApiResponse } from '@/shared/models';
 import { SocketEvent, APIS } from '@/shared/constants';
-import { Role } from '@/modules/roles';
 import { User } from '../shared';
+import { Role } from '../../role-api/shared';
 
 @Injectable()
 export class UserService extends BaseCrudService {

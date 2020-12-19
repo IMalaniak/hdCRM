@@ -2,11 +2,11 @@ import { Component, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/portal/portal';
 
-import { RolesComponent } from '../list/roles.component';
+import { Role } from '@/core/modules/role-api/shared';
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
 import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
 import { DialogBaseModel } from '@/shared/components';
-import { Role } from '../../models';
+import { RolesComponent } from '../list/roles.component';
 
 @Component({
   templateUrl: 'roles-dialog.component.html',

@@ -16,6 +16,7 @@ import { LayoutModule } from './modules/layout/layout.module';
 import { DepartmentApiModule } from './modules/department-api/department-api.module';
 import { PlanApiModule } from './modules/plan-api/plan-api.module';
 import { UserApiModule } from './modules/user-api/user-api.module';
+import { RoleApiModule } from './modules/role-api/role-api.module';
 import { reducers, metaReducers } from './store';
 import { PreferencesEffects } from './store/preferences';
 import { IntegrationsEffects } from './store/integration';
@@ -39,7 +40,8 @@ import { NotificationsEffects } from './store/notifications';
     StoreRouterConnectingModule.forRoot(),
     UserApiModule,
     DepartmentApiModule,
-    PlanApiModule
+    PlanApiModule,
+    RoleApiModule
   ],
   exports: [RouterModule, HttpClientModule, FormsModule, ReactiveFormsModule, LayoutModule],
   providers: [httpInterceptorsProviders]

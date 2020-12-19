@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Privilege } from '../models';
+import { Privilege } from '../../shared/models';
 import { Update } from '@ngrx/entity';
 import { CollectionApiResponse } from '@/shared/models';
 
@@ -10,7 +10,7 @@ export const allPrivilegesRequested = createAction(`${listPrefix} Privileges Lis
 
 export const allPrivilegesRequestCanceled = createAction(`${listPrefix} Privileges List Request Canceled`);
 
-export const allPrivilegesLoaded = createAction(
+export const allPrivilegesApiLoaded = createAction(
   `${apiPrefix} Privileges List Loaded`,
   props<{ response: CollectionApiResponse<Privilege> }>()
 );

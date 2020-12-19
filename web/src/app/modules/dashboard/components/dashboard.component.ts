@@ -10,15 +10,14 @@ import {
   lastFailedSession,
   lastSuccesfulSession
 } from '@/core/modules/auth/store/auth.selectors';
+import { selectAllRoles, roleDashboardDataRequested } from '@/core/modules/role-api/store/role';
 import { User, UserSession } from '@/core/modules/user-api/shared';
 import { depDashboardDataRequested, selectAllDepartments } from '@/core/modules/department-api/store';
 import { Department } from '@/core/modules/department-api/shared';
 import { selectAllStages, allStagesRequestedFromDashboard } from '@/core/modules/plan-api/store/stage';
-import { VIEW_PRIVILEGES } from '@/shared/constants';
-import { roleDashboardDataRequested } from '@/modules/roles/store/role.actions';
-import { selectAllRoles } from '@/modules/roles/store/role.selectors';
-import { Role } from '@/modules/roles';
 import { Stage } from '@/core/modules/plan-api/shared';
+import { Role } from '@/core/modules/role-api/shared';
+import { VIEW_PRIVILEGES } from '@/shared/constants';
 
 @Component({
   selector: 'app-dashboard',

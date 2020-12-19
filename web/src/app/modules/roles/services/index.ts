@@ -1,2 +1,1 @@
-export * from './role.service';
-export * from './privilege.service';
+export * from './role.datasource';

@@ -1,5 +1,5 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Privilege } from '../models';
+import { Privilege } from '../../shared/models';
 import * as PrivilegeActions from './privilege.actions';
 import { createReducer, on, Action } from '@ngrx/store';
 
@@ -15,12 +15,12 @@ export const initialPrivilegesState: PrivilegesState = adapter.getInitialState({
   loading: false
 });
 
-const privilegesReducer = createReducer(
+const reducer = createReducer(
   initialPrivilegesState,
   on(PrivilegeActions.createPrivilegeSuccess, (state, { privilege }) => adapter.addOne(privilege, state)),
   on(PrivilegeActions.allPrivilegesRequested, (state) => ({ ...state, loading: true })),
   on(PrivilegeActions.allPrivilegesRequestCanceled, (state) => ({ ...state, loading: false })),
-  on(PrivilegeActions.allPrivilegesLoaded, (state, { response }) =>
+  on(PrivilegeActions.allPrivilegesApiLoaded, (state, { response }) =>
     adapter.setAll(response.data, {
       ...state,
       allPrivilegesLoaded: true,
@@ -31,10 +31,10 @@ const privilegesReducer = createReducer(
   on(PrivilegeActions.privilegeApiError, (state) => ({ ...state }))
 );
 
-export function reducer(state: PrivilegesState | undefined, action: Action) {
-  return privilegesReducer(state, action);
+export function privilegesReducer(state: PrivilegesState | undefined, action: Action) {
+  return reducer(state, action);
 }
 
-export const privilegesFeatureKey = 'privileges';
+export const privilegesFeatureKey = 'privilege-api';
 
 export const { selectAll, selectEntities, selectIds, selectTotal } = adapter.getSelectors();

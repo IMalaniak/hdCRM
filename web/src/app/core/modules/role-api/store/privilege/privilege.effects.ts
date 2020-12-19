@@ -10,8 +10,8 @@ import { AppState } from '@/core/store';
 import { ToastMessageService } from '@/shared/services';
 import { CollectionApiResponse, ItemApiResponse } from '@/shared/models';
 import * as privilegeActions from './privilege.actions';
-import { PrivilegeService } from '../services';
-import { Privilege } from '../models';
+import { PrivilegeService } from '../../services';
+import { Privilege } from '../../shared/models';
 import { allPrivilegesLoaded } from './privilege.selectors';
 
 @Injectable()
@@ -27,7 +27,7 @@ export class PrivilegeEffects {
       }),
       filter(([_, allPrivilegesLoaded]) => !allPrivilegesLoaded),
       mergeMap(() => this.privilegeService.getList<Privilege>()),
-      map((response: CollectionApiResponse<Privilege>) => privilegeActions.allPrivilegesLoaded({ response })),
+      map((response: CollectionApiResponse<Privilege>) => privilegeActions.allPrivilegesApiLoaded({ response })),
       catchError(() => of(privilegeActions.privilegeApiError()))
     )
   );

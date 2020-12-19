@@ -11,6 +11,8 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/store';
 import { getItemsPerPageState } from '@/core/store/preferences';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
+import { Role } from '@/core/modules/role-api/shared';
+import { deleteRoleRequested } from '@/core/modules/role-api/store/role';
 import { DialogDataModel, PageQuery } from '@/shared/models';
 import {
   IItemsPerPage,
@@ -27,9 +29,7 @@ import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model'
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
 import { RolesDataSource } from '../../services/role.datasource';
-import { Role } from '../../models';
-import { selectRolesTotalCount, selectRolesPageLoading } from '../../store/role.selectors';
-import { deleteRoleRequested, changeIsEditingState } from '../../store/role.actions';
+import { changeIsEditingState, selectRolesPageLoading, selectRolesTotalCount } from '../../store';
 
 @Component({
   selector: 'roles-component',

@@ -6,15 +6,19 @@ import { Subject, Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
+import { Privilege } from '@/core/modules/role-api/shared';
+import {
+  selectPrivilegesLoading,
+  allPrivilegesRequested,
+  selectAllPrivileges,
+  createPrivilegeRequested
+} from '@/core/modules/role-api/store/privilege';
 import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, CONSTANTS, BS_ICONS } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogService } from '@/shared/services';
 import { DialogMode } from '@/shared/models/dialog/dialog-mode.enum';
 import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
 import { DialogCreateEditModel, DialogType } from '@/shared/models';
-import { allPrivilegesRequested, createPrivilegeRequested } from '@/modules/roles/store/privilege.actions';
-import { selectAllPrivileges, selectPrivilegesLoading } from '@/modules/roles/store/privilege.selectors';
-import { Privilege } from '../../../models';
 import { AddPrivilegeDialogComponent } from '../add-dialog/add-privilege-dialog.component';
 
 @Component({

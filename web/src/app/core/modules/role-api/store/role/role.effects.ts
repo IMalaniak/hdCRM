@@ -9,15 +9,16 @@ import { Update } from '@ngrx/entity';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 
 import { AppState } from '@/core/store';
+import { normalizeResponse, roleSchema, partialDataLoaded, roleListSchema } from '@/core/store/normalization';
 import { ToastMessageService } from '@/shared/services';
 import { RoutingConstants } from '@/shared/constants';
-import { normalizeResponse, Page, partialDataLoaded, roleListSchema, roleSchema } from '@/shared/store';
 import { CollectionApiResponse, ItemApiResponse, BaseMessage } from '@/shared/models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
 import * as roleActions from './role.actions';
-import { RoleService } from '../services';
-import { Role } from '../models';
+import { RoleService } from '../../services';
+import { Role } from '../../shared/models';
 import { selectRolesDashboardDataLoaded } from './role.selectors';
+import { Page } from '@/shared/store';
 
 @Injectable()
 export class RoleEffects {

@@ -3,10 +3,10 @@ import { of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { AppState } from '@/core/store';
+import { listPageRequested } from '@/core/modules/role-api/store/role';
+import { Role } from '@/core/modules/role-api/shared';
 import { PageQuery } from '@/shared/models';
 import { CommonDataSource } from '@/shared/services';
-import { Role } from '../models/';
-import { listPageRequested } from '../store/role.actions';
 import { selectRolesOfPage } from '../store/role.selectors';
 
 export class RolesDataSource extends CommonDataSource<Role> {

@@ -6,7 +6,7 @@ import { User } from '@/core/modules/user-api/shared';
 import { APIS } from '@/shared/constants';
 import { BaseCrudService } from '@/shared/services';
 import { CollectionApiResponse } from '@/shared/models';
-import { Role } from '../models';
+import { Role } from '../shared/models';
 
 @Injectable()
 export class RoleService extends BaseCrudService {

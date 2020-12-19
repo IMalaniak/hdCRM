@@ -6,6 +6,7 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { plansFeatureKey, plansReducer, PlanEffects } from './store/plan';
 import { stagesFeatureKey, stagesReducer, StageEffects } from './store/stage';
+import { PlanService, StageService } from './services';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { stagesFeatureKey, stagesReducer, StageEffects } from './store/stage';
     StoreModule.forFeature(plansFeatureKey, plansReducer),
     StoreModule.forFeature(stagesFeatureKey, stagesReducer),
     EffectsModule.forFeature([PlanEffects, StageEffects])
-  ]
+  ],
+  providers: [PlanService, StageService]
 })
 export class PlanApiModule {}

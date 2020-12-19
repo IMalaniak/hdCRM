@@ -1,6 +1,6 @@
 import { Department } from '@/core/modules/department-api/shared';
 import { Plan } from '@/core/modules/plan-api/shared';
-import { Role } from '@/modules/roles/models';
+import { Role } from '@/core/modules/role-api/shared';
 import { User } from './user';
 
 export interface Organization {

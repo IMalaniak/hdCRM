@@ -2,7 +2,7 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { AuthState, authFeatureKey } from './auth.reducer';
 
 import { User, UserSession } from '@/core/modules/user-api/shared';
-import { Privilege } from '@/modules/roles';
+import { Privilege } from '../../role-api/shared';
 
 export const selectAuthState = createFeatureSelector<AuthState>(authFeatureKey);
 

@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { RolesRoutingModule } from './roles-routing.module';
-import { SharedModule } from '@/shared/shared.module';
 
+import { StoreModule } from '@ngrx/store';
+
+import { SharedModule } from '@/shared/shared.module';
+import { RolesRoutingModule } from './roles-routing.module';
 import {
   RolesComponent,
   RoleComponent,
@@ -14,14 +16,7 @@ import {
   AddPrivilegeDialogComponent,
   TemplatesRoleViewComponent
 } from './components';
-
-import { RoleService, PrivilegeService } from './services';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import * as fromRole from './store/role.reducer';
-import { RoleEffects } from './store/role.effects';
-import * as fromPrivilege from './store/privilege.reducer';
-import { PrivilegeEffects } from './store/privilege.effects';
+import { rolesFeatureKey, reducer } from './store/role.reducer';
 
 @NgModule({
   imports: [
@@ -29,9 +24,7 @@ import { PrivilegeEffects } from './store/privilege.effects';
     RouterModule,
     SharedModule,
     RolesRoutingModule,
-    StoreModule.forFeature(fromRole.rolesFeatureKey, fromRole.reducer),
-    StoreModule.forFeature(fromPrivilege.privilegesFeatureKey, fromPrivilege.reducer),
-    EffectsModule.forFeature([RoleEffects, PrivilegeEffects])
+    StoreModule.forFeature(rolesFeatureKey, reducer)
   ],
   declarations: [
     RolesComponent,
@@ -43,7 +36,6 @@ import { PrivilegeEffects } from './store/privilege.effects';
     AddPrivilegeDialogComponent,
     TemplatesRoleViewComponent
   ],
-  providers: [RoleService, PrivilegeService],
   exports: [
     RolesComponent,
     RoleComponent,

@@ -6,11 +6,11 @@ import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 
 import { AppState } from '@/core/store';
+import { Role } from '@/core/modules/role-api/shared';
+import { selectRoleDeepById, roleRequested, updateRoleRequested } from '@/core/modules/role-api/store/role';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { EDIT_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
-import { updateRoleRequested, changeIsEditingState, roleRequested } from '../../store/role.actions';
-import { selectIsEditing, selectRoleDeepById } from '../../store/role.selectors';
-import { Role } from '../../models';
+import { changeIsEditingState, selectIsEditing } from '../../store';
 
 @Component({
   template: `
