@@ -19,8 +19,8 @@ import { tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { IconsService } from '@/core/services';
-import { AppState } from '@/core/reducers';
-import { getItemsPerPageState } from '@/core/reducers/preferences.selectors';
+import { AppState } from '@/core/store';
+import { getItemsPerPageState } from '@/core/store/preferences';
 import { DataColumn } from '@/shared/models/table/data-column.model';
 import { DataRow } from '@/shared/models/table/data-row';
 import {
