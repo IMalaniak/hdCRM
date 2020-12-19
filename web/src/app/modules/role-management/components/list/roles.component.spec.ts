@@ -6,24 +6,22 @@ import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { AppState } from '@/core/store';
 import { initialPreferencesState } from '@/core/store/preferences';
-import { AuthState } from '@/core/modules/auth/store/auth.reducer';
-import { initialUsersState, UsersState } from '@/core/modules/user-api/store';
+import { initialUsersState } from '@/core/modules/user-api/store';
+import { initialRolesState } from '@/core/modules/role-api/store/role';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock } from '@/shared/testing/mocks';
-import { RoleService } from '../../services';
 import { RolesComponent } from './roles.component';
-import { initialRolesState } from '../../store/role.reducer';
-import { RolesState } from '../../store/role.reducer';
+import { initialListState } from '@/shared/store';
 
 describe('RolesComponent', () => {
   let component: RolesComponent;
   let fixture: ComponentFixture<RolesComponent>;
-  const initialState: Partial<AppState> & { roles: RolesState; auth: AuthState; users: UsersState } = {
+  const initialState = {
     preferences: initialPreferencesState,
-    roles: initialRolesState,
-    users: initialUsersState,
+    'role-api': initialRolesState,
+    'role-management': initialListState,
+    'user-api': initialUsersState,
     auth: authStateMock
   };
 
@@ -32,7 +30,7 @@ describe('RolesComponent', () => {
       TestBed.configureTestingModule({
         declarations: [RolesComponent],
         imports: [RouterTestingModule, MatIconTestingModule, BrowserAnimationsModule, HttpClientModule, SharedModule],
-        providers: [RoleService, provideMockStore({ initialState })]
+        providers: [provideMockStore({ initialState })]
       }).compileComponents();
     })
   );

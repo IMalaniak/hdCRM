@@ -1,18 +1,19 @@
-import { SharedModule } from '@/shared/shared.module';
-import { initialPrivilegesState } from '../../../store/privilege.reducer';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
+
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { initialPrivilegesState } from '@/core/modules/role-api/store/privilege';
+import { SharedModule } from '@/shared/shared.module';
 import { PrivilegesComponent } from './privileges.component';
-import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('PrivilegesComponent', () => {
   let component: PrivilegesComponent;
   let fixture: ComponentFixture<PrivilegesComponent>;
   const initialState = {
-    privileges: initialPrivilegesState
+    'privilege-api': initialPrivilegesState
   };
 
   beforeEach(

@@ -9,8 +9,8 @@ import { initialPreferencesState } from '@/core/store/preferences';
 import { initialUsersState } from '@/core/modules/user-api/store';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock } from '@/shared/testing/mocks';
-import { initialPlansState } from '../../store/plan.reducer';
 import { PlanListComponent } from './plan-list.component';
+import { initialPlansState } from '@/core/modules/plan-api/store/plan';
 
 describe('PlanListComponent', () => {
   let component: PlanListComponent;
@@ -18,8 +18,8 @@ describe('PlanListComponent', () => {
   const initialState = {
     preferences: initialPreferencesState,
     auth: authStateMock,
-    plans: initialPlansState,
-    users: initialUsersState
+    'plan-api': initialPlansState,
+    'user-api': initialUsersState
   };
 
   beforeEach(

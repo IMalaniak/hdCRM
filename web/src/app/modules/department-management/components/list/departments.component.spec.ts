@@ -7,9 +7,10 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { initialUsersState } from '@/core/modules/user-api/store';
 import { initialPreferencesState } from '@/core/store/preferences';
+import { initialDepartmentApiState } from '@/core/modules/department-api/store';
+import { initialListState } from '@/shared/store';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock } from '@/shared/testing/mocks';
-import { initialDepartmentsState } from '../../store/department.reducer';
 import { DepartmentsComponent } from './departments.component';
 
 describe('DepartmentsComponent', () => {
@@ -18,8 +19,9 @@ describe('DepartmentsComponent', () => {
   const initialState = {
     preferences: initialPreferencesState,
     auth: authStateMock,
-    departments: initialDepartmentsState,
-    users: initialUsersState
+    'department-api': initialDepartmentApiState,
+    'department-management': initialListState,
+    'user-api': initialUsersState
   };
 
   beforeEach(

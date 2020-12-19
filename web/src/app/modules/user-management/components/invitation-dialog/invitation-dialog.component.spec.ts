@@ -1,16 +1,16 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { initialUsersState } from '../../store/user.reducer';
-import { InvitationDialogComponent } from './invitation-dialog.component';
 import { SharedModule } from '@/shared/shared.module';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogCreateEditModel, DialogMode } from '@/shared/models';
-import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { InvitationDialogComponent } from './invitation-dialog.component';
+import { initialUsersState } from '@/core/modules/user-api/store';
 
 describe('InvitationDialogComponent', () => {
   const dialogDataModel: DialogDataModel<DialogCreateEditModel> = {
@@ -20,7 +20,7 @@ describe('InvitationDialogComponent', () => {
   let component: InvitationDialogComponent;
   let fixture: ComponentFixture<InvitationDialogComponent>;
   const initialState = {
-    users: initialUsersState
+    'user-api': initialUsersState
   };
 
   beforeEach(

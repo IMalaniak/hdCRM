@@ -8,9 +8,10 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { initialPreferencesState } from '@/core/store/preferences';
 import { initialLayoutState } from '@/core/modules/layout/store/layout.reducer';
+import { initialUsersState } from '@/core/modules/user-api/store';
+import { initialListState } from '@/shared/store';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, formsStateMock } from '@/shared/testing/mocks';
-import { initialUsersState } from '../../store/user.reducer';
 import { TemplatesUserProfileComponent } from '../templates';
 import { ProfileComponent } from './profile.component';
 import { OrganismsUserDetailsComponent } from '../organisms';
@@ -21,7 +22,8 @@ describe('ProfileComponent', () => {
   const initialState = {
     auth: authStateMock,
     preferences: initialPreferencesState,
-    users: initialUsersState,
+    'user-api': initialUsersState,
+    'user-management': initialListState,
     layout: initialLayoutState,
     forms: formsStateMock
   };

@@ -11,6 +11,7 @@ import { SharedModule } from '@/shared/shared.module';
 import { authStateMock } from '@/shared/testing/mocks';
 import { UsersComponent } from './users.component';
 import { initialUsersState } from '@/core/modules/user-api/store';
+import { initialListState } from '@/shared/store';
 
 describe('UsersComponent', () => {
   let component: UsersComponent;
@@ -18,7 +19,8 @@ describe('UsersComponent', () => {
   const initialState = {
     auth: authStateMock,
     preferences: initialPreferencesState,
-    users: initialUsersState
+    'user-api': initialUsersState,
+    'user-management': initialListState
   };
 
   beforeEach(

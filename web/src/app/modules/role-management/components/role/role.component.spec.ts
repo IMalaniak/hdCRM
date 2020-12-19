@@ -5,9 +5,10 @@ import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { initialUsersState } from '@/core/modules/user-api/store';
+import { initialRolesState } from '@/core/modules/role-api/store/role';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, formsStateMock } from '@/shared/testing/mocks';
-import { initialRolesState } from '../../store/role.reducer';
+import { initialListState } from '@/shared/store';
 import { RoleComponent } from './role.component';
 import { TemplatesRoleViewComponent } from '../templates';
 
@@ -16,8 +17,9 @@ describe('RoleComponent', () => {
   let fixture: ComponentFixture<RoleComponent>;
   const initialState = {
     auth: authStateMock,
-    users: initialUsersState,
-    roles: initialRolesState,
+    'user-api': initialUsersState,
+    'role-api': initialRolesState,
+    'role-management': initialListState,
     forms: formsStateMock
   };
 

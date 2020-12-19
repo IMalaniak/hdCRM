@@ -8,18 +8,16 @@ import { ListState, Page } from '@/shared/store';
 import * as fromUser from './user.reducer';
 
 export const selectUsersState = createFeatureSelector<ListState>(fromUser.userManagementFeatureKey);
-export const selectUserPagesState = createSelector(selectUsersState, (usersState) => usersState.pages);
+export const selectUserPagesState = createSelector(selectUsersState, (usersState) => usersState?.pages);
 
 export const selectUserPageByKey = (pageQuery: PageQuery) =>
   createSelector(selectUserPagesState, (pagesState) => pagesState.entities[generatePageKey(pageQuery)]);
 
-export const selectUserPageLoading = createSelector(selectUserPagesState, (pagesState) => pagesState.pageLoading);
+export const selectUserPageLoading = createSelector(selectUserPagesState, (pagesState) => pagesState?.pageLoading);
 
-export const selectIsEditing = createSelector(selectUsersState, (usersState) => usersState.editing);
+export const selectIsEditing = createSelector(selectUsersState, (usersState) => usersState?.editing);
 
-export const selectUsersPagesCount = createSelector(selectUsersState, (usersState) => usersState.pages);
-
-export const selectUsersTotalCount = createSelector(selectUserPagesState, (usersState) => usersState.resultsNum);
+export const selectUsersTotalCount = createSelector(selectUserPagesState, (usersState) => usersState?.resultsNum);
 
 export const selectUsersPage = (pageQuery: PageQuery) =>
   createSelector(selectAllUsers, selectUserPageByKey(pageQuery), (allUsers: User[], page: Page) => {

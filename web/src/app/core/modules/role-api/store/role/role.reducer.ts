@@ -13,7 +13,7 @@ const roleAdapter: EntityAdapter<Role> = createEntityAdapter<Role>({
   sortComparer: false
 });
 
-const initialRolesState: RolesState = roleAdapter.getInitialState({
+export const initialRolesState: RolesState = roleAdapter.getInitialState({
   dashboardDataLoaded: false,
   loading: false
 });

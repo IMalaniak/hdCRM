@@ -9,8 +9,8 @@ import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { initialPreferencesState } from '@/core/store/preferences';
+import { Department } from '@/core/modules/department-api/shared';
 import { SharedModule } from '@/shared/shared.module';
-import { Department } from '@/modules/department-management/models';
 import { authStateMock, currentUserMock, formsStateMock } from '@/shared/testing/mocks';
 import { FORMCONSTANTS } from '@/shared/constants';
 import { TemplatesDepartmentViewComponent } from './templates-department-view.component';

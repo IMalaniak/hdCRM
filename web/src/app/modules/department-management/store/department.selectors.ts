@@ -14,7 +14,7 @@ import * as fromDepartment from './department.reducer';
 export const selectDepartmentsState = createFeatureSelector<ListState>(fromDepartment.departmentsFeatureKey);
 export const selectDepartmentPagesState = createSelector(
   selectDepartmentsState,
-  (departmentsState) => departmentsState.pages
+  (departmentsState) => departmentsState?.pages
 );
 
 export const selectDepartmentPageByKey = (pageQuery: PageQuery) =>
@@ -25,11 +25,9 @@ export const selectDepartmentsPageLoading = createSelector(
   (pagesState) => pagesState?.pageLoading
 );
 
-export const selectDepartmentsPagesCount = createSelector(selectDepartmentPagesState, (pagesState) => pagesState.pages);
-
 export const selectDepartmentsTotalCount = createSelector(
   selectDepartmentPagesState,
-  (departmentsState) => departmentsState.resultsNum
+  (departmentsState) => departmentsState?.resultsNum
 );
 
 export const selectDepartmentsOfPage = (pageQuery: PageQuery) =>
@@ -47,4 +45,4 @@ export const selectDepartmentsOfPage = (pageQuery: PageQuery) =>
     }
   );
 
-export const selectIsEditing = createSelector(selectDepartmentsState, (departmentsState) => departmentsState.editing);
+export const selectIsEditing = createSelector(selectDepartmentsState, (departmentsState) => departmentsState?.editing);

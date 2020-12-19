@@ -18,7 +18,6 @@ export const selectPlanPageByKey = (pageQuery: PageQuery) =>
   createSelector(selectPlanPagesState, (pagesState) => pagesState?.entities[generatePageKey(pageQuery)]);
 
 export const selectPlanPageLoading = createSelector(selectPlanPagesState, (plansState) => plansState?.pageLoading);
-export const selectPlansPagesCount = createSelector(selectPlanPagesState, (plansState) => plansState?.pages);
 export const selectPlansTotalCount = createSelector(selectPlanPagesState, (plansState) => plansState?.resultsNum);
 
 export const selectPlansOfPage = (pageQuery: PageQuery) =>
@@ -33,4 +32,4 @@ export const selectPlansOfPage = (pageQuery: PageQuery) =>
     }
   );
 
-export const selectIsEditing = createSelector(selectPlansState, (plansState) => plansState.editing);
+export const selectIsEditing = createSelector(selectPlansState, (plansState) => plansState?.editing);
