@@ -5,8 +5,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { StoreModule } from '@ngrx/store';
 
-import { PlannerRoutingModule } from './planner-routing.module';
 import { SharedModule } from '@/shared/shared.module';
+import { PlanManagementRoutingModule } from './plan-management-routing.module';
 
 import {
   AddPlanComponent,
@@ -26,7 +26,7 @@ import * as fromPlan from './store/plan.reducer';
     RouterModule,
     SharedModule,
     DragDropModule,
-    PlannerRoutingModule,
+    PlanManagementRoutingModule,
     StoreModule.forFeature(fromPlan.plansFeatureKey, fromPlan.reducer)
   ],
   declarations: [
@@ -47,4 +47,4 @@ import * as fromPlan from './store/plan.reducer';
     StagesComponent
   ]
 })
-export class PlannerModule {}
+export class PlanManagementModule {}

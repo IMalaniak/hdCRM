@@ -30,7 +30,8 @@ const routes: Routes = [
         path: PATHS.PLANNER,
         canActivate: [AuthGuard],
         data: { breadcrumb: 'Planner', animation: 'PlannerPage', preload: true, delay: true },
-        loadChildren: () => import('./modules/planner/planner.module').then((m) => m.PlannerModule)
+        loadChildren: () =>
+          import('./modules/plan-management/plan-management.module').then((m) => m.PlanManagementModule)
       },
       {
         path: PATHS.USERS,

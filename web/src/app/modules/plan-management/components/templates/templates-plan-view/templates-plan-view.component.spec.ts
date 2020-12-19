@@ -9,11 +9,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { initialPreferencesState } from '@/core/store/preferences';
+import { Plan } from '@/core/modules/plan-api/shared';
 import { authStateMock, currentUserMock, formsStateMock } from '@/shared/testing/mocks';
 import { FORMCONSTANTS } from '@/shared/constants';
 import { SharedModule } from '@/shared/shared.module';
 import { Asset } from '@/shared/models';
-import { Plan } from '@/modules/planner/models';
 import { TemplatesPlanViewComponent } from './templates-plan-view.component';
 
 describe('TemplatesPlanViewComponent', () => {
