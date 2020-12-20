@@ -14,7 +14,7 @@ import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model'
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
 import { DataColumn } from '@/shared/models/table';
-import { RolesDataSource } from '../../services/role.datasource';
+import { RolesDataSource } from '../../dataSources/role.datasource';
 import { changeIsEditingState, selectRolesPageLoading, selectRolesTotalCount } from '../../store';
 
 @Component({
