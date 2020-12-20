@@ -26,7 +26,6 @@ import { DataRow } from '@/shared/models/table/data-row';
 import {
   BS_ICONS,
   BUTTON_TYPE,
-  COLUMN_LABELS,
   COLUMN_NAMES,
   CONSTANTS,
   IItemsPerPage,
@@ -68,7 +67,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   columnsToDisplay: string[] = [];
-  menuColumnName = COLUMN_LABELS.MENU;
+  menuColumnName = COLUMN_NAMES.MENU;
 
   pageSizeOptions: number[] = pageSizeOptions;
   cellValueType = CellValueType;
@@ -105,10 +104,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
   ngAfterViewInit(): void {
     const sort$ = this.sort.sortChange.pipe(tap(() => (this.paginator.pageIndex = 0)));
     merge(sort$, this.paginator.page)
-      .pipe(
-        // takeUntil(this.unsubscribe),
-        tap(() => this.loadDataPage())
-      )
+      .pipe(tap(() => this.loadDataPage()))
       .subscribe();
 
     this.loadDataPage();

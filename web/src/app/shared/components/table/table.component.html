@@ -131,12 +131,7 @@
       <!-- MENU SETTINGS COLUMN -->
       <ng-container *ngIf="hasSettings">
         <ng-container [matColumnDef]="menuColumnName" [sticky]="true">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            class="menu-column text-center"
-            [class.sticky-with-border]="hasOutlineBorder"
-          >
+          <th mat-header-cell *matHeaderCellDef class="text-center" [class.sticky-with-border]="hasOutlineBorder">
             <atoms-icon-button
               [color]="themePalette.BASIC"
               [matType]="matButtonType.ICON"
@@ -146,7 +141,7 @@
             >
             </atoms-icon-button>
           </th>
-          <td mat-cell *matCellDef class="menu-column"></td>
+          <td mat-cell *matCellDef></td>
         </ng-container>
       </ng-container>
 
