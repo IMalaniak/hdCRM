@@ -3,7 +3,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import { AppState } from '@/core/reducers';
+import { AppState } from '@/core/store';
 import { PageQuery } from '../models';
 import { DataRow } from '../models/table';
 

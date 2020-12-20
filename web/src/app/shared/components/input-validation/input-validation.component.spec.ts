@@ -1,11 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormControl, Validators } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CONSTANTS, InputErrorMessage } from '@/shared/constants';
-import { InputValidationComponent } from './input-validation.component';
 import { SharedModule } from '@/shared/shared.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { InputValidationComponent } from './input-validation.component';
 
 @Component({
   template: `<input-validation-component

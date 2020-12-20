@@ -10,14 +10,18 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 import { environment } from 'environments/environment';
-import { httpInterceptorsProviders } from './_interceptors';
-import { AuthModule } from './auth/auth.module';
-import { LayoutModule } from './layout/layout.module';
-import { reducers, metaReducers } from './reducers';
-import { PreferencesEffects } from './reducers/preferences.effects';
-import { IntegrationsEffects } from './reducers/integration.effects';
-import { DynamicFormEffects } from './reducers/dynamic-form/dynamic-form.effects';
-import { NotificationsEffects } from './reducers/notifications/notifications.effects';
+import { httpInterceptorsProviders } from './interceptors';
+import { AuthModule } from './modules/auth/auth.module';
+import { LayoutModule } from './modules/layout/layout.module';
+import { DepartmentApiModule } from './modules/department-api/department-api.module';
+import { PlanApiModule } from './modules/plan-api/plan-api.module';
+import { UserApiModule } from './modules/user-api/user-api.module';
+import { RoleApiModule } from './modules/role-api/role-api.module';
+import { reducers, metaReducers } from './store';
+import { PreferencesEffects } from './store/preferences';
+import { IntegrationsEffects } from './store/integration';
+import { DynamicFormEffects } from './store/dynamic-form';
+import { NotificationsEffects } from './store/notifications';
 
 @NgModule({
   imports: [
@@ -29,15 +33,15 @@ import { NotificationsEffects } from './reducers/notifications/notifications.eff
     AuthModule.forRoot(),
     LayoutModule,
     StoreModule.forRoot(reducers, {
-      metaReducers,
-      runtimeChecks: {
-        strictStateImmutability: true,
-        strictActionImmutability: true
-      }
+      metaReducers
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([PreferencesEffects, IntegrationsEffects, DynamicFormEffects, NotificationsEffects]),
-    StoreRouterConnectingModule.forRoot()
+    StoreRouterConnectingModule.forRoot(),
+    UserApiModule,
+    DepartmentApiModule,
+    PlanApiModule,
+    RoleApiModule
   ],
   exports: [RouterModule, HttpClientModule, FormsModule, ReactiveFormsModule, LayoutModule],
   providers: [httpInterceptorsProviders]

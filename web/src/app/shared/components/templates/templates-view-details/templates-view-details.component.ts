@@ -4,9 +4,8 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 
-import { AppState } from '@/core/reducers';
-import { formRequested } from '@/core/reducers/dynamic-form/dynamic-form.actions';
-import { selectFormByName } from '@/core/reducers/dynamic-form/dynamic-form.selectors';
+import { AppState } from '@/core/store';
+import { formRequested, selectFormByName } from '@/core/store/dynamic-form';
 import { ACTION_LABELS, CONSTANTS, THEME_PALETTE } from '@/shared/constants';
 import { DialogConfirmModel, DialogDataModel, DynamicForm } from '@/shared/models';
 import { DialogService } from '@/shared/services';

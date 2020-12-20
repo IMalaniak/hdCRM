@@ -2,16 +2,16 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { Store } from '@ngrx/store';
 
-import { initialPreferencesState } from '@/core/reducers/preferences.reducer';
+import { initialPreferencesState } from '@/core/store/preferences';
+import { AppState } from '@/core/store';
 import { CellValue, DataColumn, DataRow } from '@/shared/models/table';
 import { SharedModule } from '@/shared/shared.module';
 import { COLUMN_NAMES } from '@/shared/constants';
-import { TableComponent } from './table.component';
 import { CommonDataSource } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
-import { AppState } from '@/core/reducers';
-import { Store } from '@ngrx/store';
+import { TableComponent } from './table.component';
 
 interface TestData {
   id: number;

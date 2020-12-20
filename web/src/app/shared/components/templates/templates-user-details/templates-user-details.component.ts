@@ -1,12 +1,14 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { User } from '@/modules/users';
-import { Asset } from '@/shared/models';
 import { Observable } from 'rxjs/internal/Observable';
-import { isPrivileged } from '@/core/auth/store/auth.selectors';
+
 import { select, Store } from '@ngrx/store';
-import { AppState } from '@/core/reducers';
-import { BS_ICONS, VIEW_PRIVILEGES } from '@/shared/constants';
+
+import { AppState } from '@/core/store';
 import { IconsService } from '@/core/services';
+import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
+import { User } from '@/core/modules/user-api/shared';
+import { BS_ICONS, VIEW_PRIVILEGES } from '@/shared/constants';
+import { Asset } from '@/shared/models';
 
 @Component({
   selector: 'templates-user-details',

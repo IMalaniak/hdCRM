@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Preferences, PreferencesList } from '../reducers/preferences.reducer';
-import { UserPreferences } from '@/modules/users/models';
+
 import { APIS } from '@/shared/constants';
+import { Preferences, PreferencesList } from '../store/preferences';
+import { UserPreferences } from '../modules/user-api/shared';
 
 @Injectable({
   providedIn: 'root'

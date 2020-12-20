@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { OverlayModule } from '@angular/cdk/overlay';
 
+// TODO: probably we don't need this is shared
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { AppMaterialModule } from './modules/app-material.module';

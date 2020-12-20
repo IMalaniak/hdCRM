@@ -3,9 +3,8 @@ import { Component, EventEmitter, Output, Input, ChangeDetectionStrategy } from 
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs/internal/Observable';
 
-import { AppState } from '@/core/reducers';
-import { getGoogleDriveIntegrationState } from '@/core/reducers/integration.selectors';
-import { toggleGoogleDriveIntegration } from '@/core/reducers/integration.actions';
+import { AppState } from '@/core/store';
+import { getGoogleDriveIntegrationState, toggleGoogleDriveIntegration } from '@/core/store/integration';
 import { IconsService } from '@/core/services';
 import { AttachmentService } from '@/shared/modules/attachments/services';
 import { Asset } from '@/shared/models';

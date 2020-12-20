@@ -1,9 +1,9 @@
+import { User } from '@/core/modules/user-api/shared';
+import { ACTION_LABELS, BS_ICONS, STYLECONSTANTS, THEME_PALETTE } from '@/shared/constants';
 import { CellActionType } from './cellActionType.enum';
 import { CellControlType } from './cellControlType.enum';
 import { CellValueType } from './cellValueType.enum';
 import { CellAction } from './cell-action';
-import { User } from '@/modules/users';
-import { ACTION_LABELS, BS_ICONS, STYLECONSTANTS, THEME_PALETTE } from '@/shared/constants';
 import { Navigation } from './navigation';
 
 export class CellValue {

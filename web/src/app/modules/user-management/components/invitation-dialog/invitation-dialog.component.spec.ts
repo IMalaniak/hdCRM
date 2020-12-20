@@ -1,0 +1,45 @@
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
+
+import { provideMockStore } from '@ngrx/store/testing';
+
+import { SharedModule } from '@/shared/shared.module';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
+import { DialogCreateEditModel, DialogMode } from '@/shared/models';
+import { InvitationDialogComponent } from './invitation-dialog.component';
+import { initialUsersState } from '@/core/modules/user-api/store';
+
+describe('InvitationDialogComponent', () => {
+  const dialogDataModel: DialogDataModel<DialogCreateEditModel> = {
+    dialogModel: new DialogCreateEditModel(DialogMode.CREATE)
+  };
+
+  let component: InvitationDialogComponent;
+  let fixture: ComponentFixture<InvitationDialogComponent>;
+  const initialState = {
+    'user-api': initialUsersState
+  };
+
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [InvitationDialogComponent],
+        imports: [BrowserAnimationsModule, MatIconTestingModule, SharedModule, RouterTestingModule],
+        providers: [provideMockStore({ initialState }), { provide: MAT_DIALOG_DATA, useValue: dialogDataModel }]
+      }).compileComponents();
+    })
+  );
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(InvitationDialogComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

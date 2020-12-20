@@ -1,11 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { AppState } from '@/core/reducers';
-import { Store, select } from '@ngrx/store';
-import { Observable, combineLatest, of } from 'rxjs';
-import { getDateFormatState, getTimeFormatState } from '@/core/reducers/preferences.selectors';
-import { IDateFormat, ITimeFormat } from '../constants';
 import { DatePipe } from '@angular/common';
+import { Observable, combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { Store, select } from '@ngrx/store';
+
+import { AppState } from '@/core/store';
+import { getDateFormatState, getTimeFormatState } from '@/core/store/preferences';
+import { IDateFormat, ITimeFormat } from '../constants';
 
 /**
  * @description CustomDateTimePipe pipe for date and time formatted
