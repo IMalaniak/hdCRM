@@ -12,7 +12,7 @@ import { DataRow, CellValue } from '@/shared/models/table';
 import { selectDepartmentsOfPage } from '../store/department.selectors';
 
 export class DepartmentsDataSource extends CommonDataSource<Department> {
-  loadData(page: PageQuery) {
+  loadData(page: PageQuery): void {
     this.store$
       .pipe(
         select(selectDepartmentsOfPage(page)),
@@ -35,7 +35,7 @@ export class DepartmentsDataSource extends CommonDataSource<Department> {
       [COLUMN_NAMES.TITLE]: CellValue.createStringCell(department.title),
       [COLUMN_NAMES.MANAGER]: CellValue.createLinkCell(
         department.Manager?.fullname,
-        UrlGenerator.getUserUrl(department.Manager.id)
+        UrlGenerator.getUserUrl(department.Manager?.id)
       ),
       [COLUMN_NAMES.WORKERS]: CellValue.createStringCell(department.Workers?.length),
       [COLUMN_NAMES.CREATED_AT]: CellValue.createDateCell(department.createdAt),

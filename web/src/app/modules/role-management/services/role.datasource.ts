@@ -11,7 +11,7 @@ import { selectRolesOfPage } from '../store/role.selectors';
 import { COLUMN_NAMES } from '@/shared/constants/table.constants';
 
 export class RolesDataSource extends CommonDataSource<Role> {
-  loadData(page: PageQuery) {
+  loadData(page: PageQuery): void {
     this.store$
       .pipe(
         select(selectRolesOfPage(page)),

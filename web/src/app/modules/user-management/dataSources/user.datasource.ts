@@ -13,7 +13,7 @@ import { CONSTANTS, LINK_TARGET, LINK_TYPE } from '@/shared/constants';
 import { selectUsersPage } from '../store';
 
 export class UsersDataSource extends CommonDataSource<User> {
-  loadData(page: PageQuery) {
+  loadData(page: PageQuery): void {
     this.store$
       .pipe(
         select(selectUsersPage(page)),
@@ -31,6 +31,7 @@ export class UsersDataSource extends CommonDataSource<User> {
 
   protected mapToDataRows(users: User[]): DataRow[] {
     // TODO: investigate why received error: TypeError: Cannot read property 'add' of undefined
+    // The proble related for createNavigationMethod
     return users.map((user) => ({
       id: user.id,
       [COLUMN_NAMES.SEQUENCE_NUMBER]: CellValue.createSequenceCell(),
@@ -48,7 +49,7 @@ export class UsersDataSource extends CommonDataSource<User> {
       ),
       [COLUMN_NAMES.DEPARTMENT]: CellValue.createLinkCell(
         user.Department?.title,
-        UrlGenerator.getDepartmentUrl(user.Department.id)
+        UrlGenerator.getDepartmentUrl(user.Department?.id)
       ),
       [COLUMN_NAMES.STATE]: CellValue.createStringCell(user.state),
       [COLUMN_NAMES.CREATED_AT]: CellValue.createDateCell(user.createdAt),
