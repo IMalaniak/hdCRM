@@ -18,7 +18,6 @@ import { DepartmentsDataSource } from '../../dataSources';
 import { selectDepartmentsTotalCount, selectDepartmentsPageLoading, changeIsEditingState } from '../../store';
 
 @Component({
-  selector: 'departments',
   templateUrl: './departments.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
