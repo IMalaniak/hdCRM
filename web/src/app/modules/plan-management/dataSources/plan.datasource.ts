@@ -33,8 +33,11 @@ export class PlansDataSource extends CommonDataSource<Plan> {
       id: plan.id,
       [COLUMN_NAMES.SEQUENCE_NUMBER]: CellValue.createSequenceCell(),
       [COLUMN_NAMES.TITLE]: CellValue.createStringCell(plan.title),
-      [COLUMN_NAMES.STAGE]: CellValue.createStringCell(plan.activeStage.keyString),
-      [COLUMN_NAMES.CREATOR]: CellValue.createLinkCell(plan.Creator.fullname, UrlGenerator.getUserUrl(plan.Creator.id)),
+      [COLUMN_NAMES.STAGE]: CellValue.createStringCell(plan.activeStage?.keyString),
+      [COLUMN_NAMES.CREATOR]: CellValue.createLinkCell(
+        plan.Creator?.fullname,
+        UrlGenerator.getUserUrl(plan.Creator?.id)
+      ),
       [COLUMN_NAMES.PARTICIPANTS]: CellValue.createStringCell(plan.Participants?.length),
       [COLUMN_NAMES.CREATED_AT]: CellValue.createDateCell(plan.createdAt),
       [COLUMN_NAMES.UPDATED_AT]: CellValue.createDateCell(plan.updatedAt),

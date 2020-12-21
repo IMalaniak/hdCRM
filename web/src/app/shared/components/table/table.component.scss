@@ -71,6 +71,7 @@ $border: 1px solid;
         max-width: 14rem;
       }
 
+      &-menu,
       &-actions {
         padding: 0;
         width: app-size(spacer, lg, true);
@@ -93,12 +94,6 @@ $border: 1px solid;
       text-transform: uppercase;
       font-weight: bold;
       @include set-textcolor('text');
-    }
-
-    .menu-column {
-      padding: 0;
-      width: app-size(spacer, lg, true);
-      min-width: app-size(spacer, lg, true);
     }
   }
 
