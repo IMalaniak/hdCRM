@@ -36,7 +36,7 @@
     "@ngrx/store-devtools": "10.1.1",
     "@swimlane/ngx-charts": "16.0.0",
     "bootstrap": "4.5.3",
-    "bootstrap-icons": "1.2.1",
+    "bootstrap-icons": "1.2.2",
     "filepond": "4.25.1",
     "filepond-plugin-file-validate-type": "1.2.5",
     "filepond-plugin-image-crop": "2.0.4",
