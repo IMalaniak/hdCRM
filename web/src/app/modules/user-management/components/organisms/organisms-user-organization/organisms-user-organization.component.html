@@ -1,13 +1,7 @@
 <organisms-card cardTitle="Organization" [disableShadow]="true" *ngIf="organization">
   <div content class="row">
     <div class="col-md-12 col-lg-6">
-      <dynamic-form
-        [data]="organization"
-        [formJson]="userOrganizationFormJson$ | async"
-        [editForm]="editForm"
-        (formChanges)="organizationFormValueChanges($event)"
-      >
-      </dynamic-form>
+      <dynamic-form [data]="organization" [formJson]="formJson$ | async" [editForm]="editForm"> </dynamic-form>
     </div>
   </div>
 

@@ -10,14 +10,13 @@ import { AppState } from '@/core/store';
 import { isPrivileged, currentUser } from '@/core/modules/auth/store/auth.selectors';
 import { Plan } from '@/core/modules/plan-api/shared';
 import { selectPlanDeepById, planRequested, updatePlanRequested } from '@/core/modules/plan-api/store/plan';
-import { ADD_PRIVILEGES, DELETE_PRIVILEGES, EDIT_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
+import { ADD_PRIVILEGES, DELETE_PRIVILEGES, EDIT_PRIVILEGES } from '@/shared/constants';
 import { selectIsEditing, changeIsEditingState } from '../../store';
 
 @Component({
   template: `
     <templates-plan-view
       [item]="plan$ | async"
-      [formName]="formName"
       [editForm]="editForm$ | async"
       [canEdit]="canEditPlan$ | async"
       [canAddAttachment]="canAddAttachment$ | async"
@@ -38,8 +37,6 @@ export class PlanComponent implements OnInit {
 
   plan$: Observable<Plan>;
   // configPlanStages = false;
-
-  formName = FORMCONSTANTS.PLAN;
 
   constructor(private route: ActivatedRoute, private store$: Store<AppState>) {}
 

@@ -3,13 +3,7 @@
     <div class="col-sm-12 col-md-7 col-lg-8">
       <organisms-card cardTitle="Details" cardClass="border border-dark mb-3" [disableShadow]="true">
         <section content>
-          <dynamic-form
-            [data]="item"
-            [formJson]="formJson$ | async"
-            [editForm]="editForm"
-            (formChanges)="formValueChanges($event)"
-          >
-          </dynamic-form>
+          <dynamic-form [data]="item" [formJson]="formJson$ | async" [editForm]="editForm"> </dynamic-form>
         </section>
       </organisms-card>
       <!-- <span i18n="@@roleComponentFormLabelsPrivileges">Privileges:</span> -->
@@ -114,6 +108,7 @@
     *ngIf="canEdit"
     [isCreatePage]="isCreatePage"
     [editForm]="editForm"
+    [disabled]="formInvalid"
     (cancelClick)="onClickCancelEdit()"
     (editClick)="onClickEdit()"
     (updateClick)="update()"

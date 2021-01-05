@@ -12,13 +12,13 @@
         <atoms-form-field
           class="mr-0 mr-md-2"
           label="Full name"
-          [control]="userData.get('fullname')"
+          [formControl]="userData.get('fullname')"
         ></atoms-form-field>
         <atoms-form-field
           class="ml-0 ml-md-2"
           [inputType]="inputTypes.EMAIL"
           label="Email"
-          [control]="userData.get('email')"
+          [formControl]="userData.get('email')"
         >
         </atoms-form-field>
       </div>

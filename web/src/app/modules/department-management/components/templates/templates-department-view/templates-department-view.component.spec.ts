@@ -12,7 +12,6 @@ import { initialPreferencesState } from '@/core/store/preferences';
 import { Department } from '@/core/modules/department-api/shared';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, currentUserMock, formsStateMock } from '@/shared/testing/mocks';
-import { FORMCONSTANTS } from '@/shared/constants';
 import { TemplatesDepartmentViewComponent } from './templates-department-view.component';
 
 describe('TemplatesDepartmentViewComponent', () => {
@@ -50,7 +49,6 @@ describe('TemplatesDepartmentViewComponent', () => {
     component = fixture.componentInstance;
     component.item = departmentMock;
     component.canEdit = true;
-    component.formName = FORMCONSTANTS.DEPARTMENT;
     fixture.detectChanges();
   });
 

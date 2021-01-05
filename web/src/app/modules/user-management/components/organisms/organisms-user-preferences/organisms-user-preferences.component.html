@@ -49,7 +49,7 @@
         bindOptValue="value"
         [options]="themes"
         [editForm]="true"
-        [control]="preferencesForm.get('theme')"
+        [formControl]="preferencesForm.get('theme')"
         [fType]="fieldTypes.RADIOGROUP"
         (fieldChange)="onThemeChange($event)"
       ></molecules-form-field>

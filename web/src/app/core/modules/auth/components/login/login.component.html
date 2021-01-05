@@ -17,13 +17,14 @@
               <h2 i18n="@@loginComponentFormHeaderTitleLogin" class="pb-3">Login</h2>
 
               <!-- Login/Email -->
-              <atoms-form-field label="Login/Email" [control]="user.get('login')"> </atoms-form-field>
+              <atoms-form-field label="Login/Email" [formControl]="user.get('login')" [disabled]="true">
+              </atoms-form-field>
 
               <!-- Password -->
               <atoms-form-field
                 label="Password"
                 [inputType]="hidePassword ? inputTypes.PASSWORD : inputTypes.TEXT"
-                [control]="user.get('password')"
+                [formControl]="user.get('password')"
               >
                 <ng-container *ngTemplateOutlet="passwordEye" suffix></ng-container>
               </atoms-form-field>
