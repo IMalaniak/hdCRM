@@ -65,13 +65,7 @@ describe('TemplatesViewDetailsComponent', () => {
   });
 
   it('should emit changes', () => {
-    component.formValues = { ...update };
     component.saveChanges.subscribe((savedItem: TestItem) => expect(savedItem).toEqual({ ...itemMock, ...update }));
     component.save();
-  });
-
-  it('should update item on form change', () => {
-    component.formValueChanges(update);
-    expect(component.formValues).toEqual({ ...update });
   });
 });
