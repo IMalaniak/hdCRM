@@ -1,44 +1,46 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, Input, Output, EventEmitter, Optional, Self } from '@angular/core';
+import { NgControl } from '@angular/forms';
 import { MatRadioChange } from '@angular/material/radio';
 import { MatSelectChange } from '@angular/material/select';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ThemePalette } from '@angular/material/core';
+import { MatFormFieldControl } from '@angular/material/form-field';
 
 import { THEME_PALETTE, IFieldType, InputType } from '@/shared/constants';
+import { ControlValueAccessorComponentModel } from '../../controlValueAccessor';
 
 @Component({
   selector: 'atoms-form-field',
   template: `
-    <ng-container [ngSwitch]="fType" *ngIf="control">
+    <ng-container [ngSwitch]="fType" *ngIf="ngControl.control">
       <!-- INPUT -->
       <input-validation-component
         *ngSwitchDefault
         [label]="label"
-        [canValidate]="(control?.invalid || control?.touched) && canValidate"
-        [inputErrors]="control?.invalid || control?.touched ? control?.errors : {}"
+        [canValidate]="(ngControl.control?.invalid || ngControl.control?.touched) && canValidate"
+        [inputErrors]="ngControl.control?.invalid || ngControl.control?.touched ? ngControl.control?.errors : {}"
       >
         <ng-content prefix select="[prefix]"></ng-content>
         <ng-content suffix select="[suffix]"></ng-content>
-        <input matInput trimInput [type]="inputType" [formControl]="control" />
+        <input matInput trimInput [type]="inputType" [formControl]="ngControl.control" />
       </input-validation-component>
 
       <!-- TEXTAREA -->
       <input-validation-component
         *ngSwitchCase="fieldTypes.TEXTAREA"
         [label]="label"
-        [canValidate]="(control?.invalid || control?.touched) && canValidate"
-        [inputErrors]="control?.invalid || control?.touched ? control?.errors : {}"
+        [canValidate]="(ngControl.control?.invalid || ngControl.control?.touched) && canValidate"
+        [inputErrors]="ngControl.control?.invalid || ngControl.control?.touched ? ngControl.control?.errors : {}"
       >
-        <textarea matInput trimInput [formControl]="control" rows="5"></textarea>
+        <textarea matInput trimInput [formControl]="ngControl.control" rows="5"></textarea>
       </input-validation-component>
 
       <!-- DATE -->
       <input-validation-component
         *ngSwitchCase="fieldTypes.DATE"
         [label]="label"
-        [canValidate]="(control?.invalid || control?.touched) && canValidate"
-        [inputErrors]="control?.invalid || control?.touched ? control?.errors : {}"
+        [canValidate]="(ngControl.control?.invalid || ngControl.control?.touched) && canValidate"
+        [inputErrors]="ngControl.control?.invalid || ngControl.control?.touched ? ngControl.control?.errors : {}"
       >
         <mat-datepicker-toggle suffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker touchUi #picker></mat-datepicker>
@@ -47,8 +49,8 @@ import { THEME_PALETTE, IFieldType, InputType } from '@/shared/constants';
           trimInput
           [type]="inputTypes.DATETIME"
           [matDatepicker]="picker"
-          [formControl]="control"
-          [value]="control.value | dateTimeFormat | async"
+          [formControl]="ngControl.control"
+          [value]="ngControl.control.value | dateTimeFormat | async"
         />
       </input-validation-component>
 
@@ -56,10 +58,10 @@ import { THEME_PALETTE, IFieldType, InputType } from '@/shared/constants';
       <input-validation-component
         *ngSwitchCase="fieldTypes.SELECT"
         [label]="label"
-        [canValidate]="(control?.invalid || control?.touched) && canValidate"
-        [inputErrors]="control?.invalid || control?.touched ? control?.errors : {}"
+        [canValidate]="(ngControl.control?.invalid || ngControl.control?.touched) && canValidate"
+        [inputErrors]="ngControl.control?.invalid || ngControl.control?.touched ? ngControl.control?.errors : {}"
       >
-        <mat-select [formControl]="control">
+        <mat-select [formControl]="ngControl.control">
           <mat-option *ngFor="let option of options" [value]="option.value">{{ option.label }}</mat-option>
         </mat-select>
       </input-validation-component>
@@ -69,7 +71,7 @@ import { THEME_PALETTE, IFieldType, InputType } from '@/shared/constants';
         <h5>{{ label }}</h5>
         <mat-radio-group
           [color]="color"
-          [formControl]="control"
+          [formControl]="ngControl.control"
           (change)="onFieldChange($event)"
           [ngClass]="{ 'd-flex flex-column': optionsColumn }"
         >
@@ -81,23 +83,25 @@ import { THEME_PALETTE, IFieldType, InputType } from '@/shared/constants';
       <mat-checkbox
         [color]="color"
         *ngSwitchCase="fieldTypes.CHECKBOX"
-        [formControl]="control"
+        [formControl]="ngControl.control"
         (change)="onFieldChange($event)"
       >
         {{ label }}
       </mat-checkbox>
     </ng-container>
   `,
-  styleUrls: ['./atoms-form-field.component.scss']
+  styleUrls: ['./atoms-form-field.component.scss'],
+  providers: [{ provide: MatFormFieldControl, useExisting: AtomsFormFieldComponent }]
 })
-export class AtomsFormFieldComponent {
+export class AtomsFormFieldComponent extends ControlValueAccessorComponentModel<
+  Date | string | number | boolean | null | undefined
+> {
   @Input() options?: any;
   @Input() bindOptValue?: string;
   @Input() bindOptLabel?: string;
   @Input() color: ThemePalette = THEME_PALETTE.ACCENT;
   @Input() label: string;
   @Input() fType: IFieldType;
-  @Input() control: FormControl;
   @Input() optionsColumn = true;
   @Input() inputType: InputType = InputType.TEXT;
   @Input() canValidate = true;
@@ -107,6 +111,12 @@ export class AtomsFormFieldComponent {
   fieldTypes = IFieldType;
   inputTypes = InputType;
 
+  constructor(@Optional() @Self() readonly ngControl: NgControl) {
+    super();
+
+    this.ngControl.valueAccessor = this;
+  }
+
   onFieldChange(event: MatRadioChange | MatSelectChange | MatCheckboxChange): void {
     this.fieldChange.emit(event);
   }
@@ -115,4 +125,3 @@ export class AtomsFormFieldComponent {
 // TODO: @IMalaniak:
 // - add input types
 // - check why date is not set for the firt time
-// - apply two way binding
