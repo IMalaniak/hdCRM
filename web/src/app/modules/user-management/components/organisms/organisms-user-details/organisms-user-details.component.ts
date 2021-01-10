@@ -9,7 +9,7 @@ import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model'
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
 import { ACTION_LABELS, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
-import { DynamicFormPageModel } from '@/shared/components/dynamic-form/models/dynamic-form-page.model';
+import { BaseDynamicFormPageModel } from '@/shared/components/base/models/base-dynamic-form-page.model';
 
 @Component({
   selector: 'organisms-user-details',
@@ -17,7 +17,7 @@ import { DynamicFormPageModel } from '@/shared/components/dynamic-form/models/dy
   styleUrls: ['./organisms-user-details.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrganismsUserDetailsComponent extends DynamicFormPageModel<User> {
+export class OrganismsUserDetailsComponent extends BaseDynamicFormPageModel<User> {
   @Input() user: User;
   @Input() canEdit = false;
   @Input() editForm: boolean;

@@ -6,4 +6,4 @@ export * from './dialogs';
 export * from './dynamic-form/dynamic-form.component';
 export * from './input-validation/input-validation.component';
 export * from './table/table.component';
-export * from './controlValueAccessor/control-value-accessor-component.model';
+export * from './base';

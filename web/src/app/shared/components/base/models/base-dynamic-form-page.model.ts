@@ -5,7 +5,7 @@ import { filter, tap } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
-import { DynamicFormComponent } from '../dynamic-form.component';
+import { DynamicFormComponent } from '../../dynamic-form/dynamic-form.component';
 import { DynamicForm } from '@/shared/models';
 import { formRequested, selectFormByName } from '@/core/store/dynamic-form';
 
@@ -13,15 +13,15 @@ import { formRequested, selectFormByName } from '@/core/store/dynamic-form';
   template: ''
 })
 // tslint:disable-next-line:component-class-suffix
-export abstract class DynamicFormPageModel<T> implements OnInit {
-  @ViewChild(DynamicFormComponent) dinamicForm: DynamicFormComponent;
+export abstract class BaseDynamicFormPageModel<T> implements OnInit {
+  @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
 
   formJson$: Observable<DynamicForm>;
 
   protected abstract formName = '';
 
   get formInvalid(): boolean {
-    return this.dinamicForm?.form?.invalid || false;
+    return this.dynamicForm?.form?.invalid || false;
   }
 
   constructor(protected readonly store$: Store<AppState>) {}
@@ -39,6 +39,6 @@ export abstract class DynamicFormPageModel<T> implements OnInit {
   }
 
   protected getFormValues(): T {
-    return this.dinamicForm.form.value;
+    return this.dynamicForm.form.value;
   }
 }

@@ -8,14 +8,14 @@ import { ACTION_LABELS, CONSTANTS, THEME_PALETTE } from '@/shared/constants';
 import { DialogConfirmModel, DialogDataModel } from '@/shared/models';
 import { DialogService } from '@/shared/services';
 import { DialogConfirmComponent } from '@/shared/components/dialogs';
-import { DynamicFormPageModel } from '../../dynamic-form/models/dynamic-form-page.model';
+import { BaseDynamicFormPageModel } from '../../base/models/base-dynamic-form-page.model';
 
 @Component({
   selector: 'templates-view-details',
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TemplatesViewDetailsComponent<T> extends DynamicFormPageModel<T> implements OnDestroy {
+export class TemplatesViewDetailsComponent<T> extends BaseDynamicFormPageModel<T> implements OnDestroy {
   @Input() item: T;
   @Input() editForm: boolean;
   @Input() canEdit: boolean;

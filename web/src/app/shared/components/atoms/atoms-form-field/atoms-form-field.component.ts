@@ -7,7 +7,7 @@ import { ThemePalette } from '@angular/material/core';
 import { MatFormFieldControl } from '@angular/material/form-field';
 
 import { THEME_PALETTE, IFieldType, InputType } from '@/shared/constants';
-import { ControlValueAccessorComponentModel } from '../../controlValueAccessor';
+import { BaseControlValueAccessorComponentModel } from '../../base/componentModels';
 
 @Component({
   selector: 'atoms-form-field',
@@ -93,7 +93,7 @@ import { ControlValueAccessorComponentModel } from '../../controlValueAccessor';
   styleUrls: ['./atoms-form-field.component.scss'],
   providers: [{ provide: MatFormFieldControl, useExisting: AtomsFormFieldComponent }]
 })
-export class AtomsFormFieldComponent extends ControlValueAccessorComponentModel<
+export class AtomsFormFieldComponent extends BaseControlValueAccessorComponentModel<
   Date | string | number | boolean | null | undefined
 > {
   @Input() options?: any;

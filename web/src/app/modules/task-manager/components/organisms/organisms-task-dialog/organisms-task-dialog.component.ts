@@ -20,9 +20,9 @@ import { Task } from '@/modules/task-manager/models';
 })
 export class OrganismsTaskDialogComponent extends DialogCreateEditPageModel {
   // TODO: @ArseniiIrod @IMalaniak investigate what to do with dialog, if it has dynamic form.
-  // It will be better to extends from DynamicFormPageModel to exclude ViewChild and formInvalid state, but for now it -
+  // It will be better to extends from BaseDynamicFormPageModel to exclude ViewChild and formInvalid state, but for now it -
   // is not possible, because this component must has an opportunity to has dinamiclly class extends.
-  @ViewChild(DynamicFormComponent) dinamicForm: DynamicFormComponent;
+  @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
 
   taskFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName(FORMCONSTANTS.TASK)));
 
@@ -30,7 +30,7 @@ export class OrganismsTaskDialogComponent extends DialogCreateEditPageModel {
   themePalette = THEME_PALETTE;
 
   get formInvalidState(): boolean {
-    return this.dinamicForm?.form?.invalid || false;
+    return this.dynamicForm?.form?.invalid || false;
   }
 
   constructor(
@@ -46,7 +46,7 @@ export class OrganismsTaskDialogComponent extends DialogCreateEditPageModel {
   onClose(success: boolean): void {
     const result: DialogResultModel<Task> = {
       success,
-      model: { ...this.model, ...this.dinamicForm.form.value }
+      model: { ...this.model, ...this.dynamicForm.form.value }
     };
     this.dialogRef.close(result);
   }

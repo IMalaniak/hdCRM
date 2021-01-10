@@ -5,7 +5,7 @@ import { ControlValueAccessor } from '@angular/forms';
   template: ''
 })
 // tslint:disable-next-line:component-class-suffix
-export abstract class ControlValueAccessorComponentModel<T> implements ControlValueAccessor {
+export abstract class BaseControlValueAccessorComponentModel<T> implements ControlValueAccessor {
   @Input()
   get value(): T {
     return this._value;
