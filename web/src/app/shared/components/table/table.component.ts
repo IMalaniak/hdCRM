@@ -168,24 +168,21 @@ export class TableComponent implements OnChanges, AfterViewInit {
     return '';
   }
 
-  getHiddenColumnsCount(): number {
-    return this.columns.filter((c) => !c.isVisible).length;
-  }
-
-  hasHiddenColumn(): boolean {
-    return this.columns.filter((c) => !c.isVisible).length > 0;
+  setVisibility(column: DataColumn, event: Event): void {
+    event.stopImmediatePropagation();
+    const i = this.columns.findIndex((col) => col.title === column.title);
+    this.columns[i] = { ...this.columns[i], isVisible: !column.isVisible };
+    this.setColumns();
   }
 
   private setColumns(): void {
     if (this.columns) {
-      let columnsToDisplay: string[] = this.columns.filter((c) => c.isVisible).map((c) => c.title);
+      this.columnsToDisplay = this.columns.filter((c) => c.isVisible).map((c) => c.title);
       const hasActionColumn: boolean = this.columns.some((c) => c.title === COLUMN_NAMES.ACTIONS);
 
       if (this.hasSettings && !hasActionColumn) {
-        columnsToDisplay = [...columnsToDisplay, this.menuColumnName];
+        this.columnsToDisplay = [...this.columnsToDisplay, this.menuColumnName];
       }
-
-      this.columnsToDisplay = [...this.columnsToDisplay, ...columnsToDisplay];
     }
   }
 

@@ -7,6 +7,7 @@ export class DataColumn {
     readonly title: string,
     readonly horizontalAlign: HorizontalAlign = HorizontalAlign.Left,
     public isVisible = true,
+    readonly visibilityConfig = true,
     readonly hasSorting: boolean = true,
     readonly customClass?: string,
     readonly sticky: boolean = false,
@@ -17,6 +18,7 @@ export class DataColumn {
     title,
     horizontalAlign = HorizontalAlign.Left,
     isVisible = true,
+    visibilityConfig = true,
     hasSorting = true,
     customClass,
     sticky = false,
@@ -25,23 +27,40 @@ export class DataColumn {
     title: string;
     horizontalAlign?: HorizontalAlign;
     isVisible?: boolean;
+    visibilityConfig?: boolean;
     hasSorting?: boolean;
     customClass?: string;
     sticky?: boolean;
     stickyEnd?: boolean;
   }): DataColumn {
-    return new DataColumn(title, horizontalAlign, isVisible, hasSorting, customClass, sticky, stickyEnd);
+    return new DataColumn(
+      title,
+      horizontalAlign,
+      isVisible,
+      visibilityConfig,
+      hasSorting,
+      customClass,
+      sticky,
+      stickyEnd
+    );
   }
 
   static createSequenceNumberColumn(): DataColumn {
-    return new DataColumn(COLUMN_NAMES.SEQUENCE_NUMBER, HorizontalAlign.Left, true, false, STYLECONSTANTS.SEQUENCE);
+    return new DataColumn(
+      COLUMN_NAMES.SEQUENCE_NUMBER,
+      HorizontalAlign.Left,
+      true,
+      true,
+      false,
+      STYLECONSTANTS.SEQUENCE
+    );
   }
 
   static createLinkColumn({ title = '', hasSorting = true }: { title: string; hasSorting?: boolean }): DataColumn {
-    return new DataColumn(title, HorizontalAlign.Left, true, hasSorting, STYLECONSTANTS.PL_HEADER_LINK);
+    return new DataColumn(title, HorizontalAlign.Left, true, true, hasSorting, STYLECONSTANTS.PL_HEADER_LINK);
   }
 
   static createActionsColumn(): DataColumn {
-    return new DataColumn(COLUMN_NAMES.ACTIONS, HorizontalAlign.Center, true, false, '', false, true);
+    return new DataColumn(COLUMN_NAMES.ACTIONS, HorizontalAlign.Center, true, false, false, '', false, true);
   }
 }
