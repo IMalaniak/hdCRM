@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import { Service } from 'typedi/decorators/Service';
+import { Service } from 'typedi';
 
 import {
   Department,
