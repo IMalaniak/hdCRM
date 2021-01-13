@@ -101,6 +101,7 @@ describe('TemplatesRoleViewComponent', () => {
   });
 
   it('should emit changes', () => {
+    component.dynamicForm.form.patchValue(update);
     component.saveChanges.subscribe((savedItem: Role) => expect(savedItem).toEqual({ ...roleMock, ...update }));
     component.save();
   });

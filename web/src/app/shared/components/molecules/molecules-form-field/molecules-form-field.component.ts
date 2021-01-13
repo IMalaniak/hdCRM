@@ -1,5 +1,4 @@
-import { Component, Input, HostBinding, ChangeDetectionStrategy, Optional, Self } from '@angular/core';
-import { NgControl } from '@angular/forms';
+import { Component, Input, HostBinding, ChangeDetectionStrategy } from '@angular/core';
 import { MatFormFieldControl } from '@angular/material/form-field';
 
 import { AtomsFormFieldComponent } from '../../atoms';
@@ -35,10 +34,4 @@ export class MoleculesFormFieldComponent extends AtomsFormFieldComponent {
   @Input() editOnly?: boolean;
 
   @HostBinding('class.w-100') fullWidth = true;
-
-  constructor(@Optional() @Self() readonly ngControl: NgControl) {
-    super(ngControl);
-
-    this.ngControl.valueAccessor = this;
-  }
 }

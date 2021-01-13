@@ -40,7 +40,7 @@ export class DynamicFormComponent implements OnChanges {
   constructor(private readonly dynamicFormService: DynamicFormService) {}
 
   ngOnChanges(): void {
-    if (this.formJson && this.data) {
+    if (this.formJson) {
       this.form = this.dynamicFormService.generateFormGroupFrom(this.formJson, this.data);
     }
   }

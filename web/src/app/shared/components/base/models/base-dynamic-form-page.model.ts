@@ -39,6 +39,6 @@ export abstract class BaseDynamicFormPageModel<T> implements OnInit {
   }
 
   protected getFormValues(): T {
-    return this.dynamicForm.form.value;
+    return this.dynamicForm?.form?.value;
   }
 }

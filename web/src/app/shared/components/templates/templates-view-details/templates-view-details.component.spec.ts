@@ -1,13 +1,23 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Component } from '@angular/core';
 
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { initialPreferencesState } from '@/core/store/preferences';
 import { SharedModule } from '@/shared/shared.module';
-import { authStateMock, formsStateMock } from '@/shared/testing/mocks';
+import { authStateMock } from '@/shared/testing/mocks';
+import { FormType, IFieldType } from '@/shared/constants';
 import { TemplatesViewDetailsComponent } from './templates-view-details.component';
+
+@Component({
+  template: ` <dynamic-form [data]="item" [formJson]="formJson$ | async" [editForm]="editForm"> </dynamic-form> `
+})
+export class TestViewComponent extends TemplatesViewDetailsComponent<TestItem> {
+  editForm = false;
+  protected readonly formName = 'testForm';
+}
 
 interface TestItem {
   id: number;
@@ -15,12 +25,33 @@ interface TestItem {
 }
 
 describe('TemplatesViewDetailsComponent', () => {
-  let component: TemplatesViewDetailsComponent<TestItem>;
-  let fixture: ComponentFixture<TemplatesViewDetailsComponent<TestItem>>;
+  let component: TestViewComponent;
+  let fixture: ComponentFixture<TestViewComponent>;
   const initialState = {
     preferences: initialPreferencesState,
     auth: authStateMock,
-    forms: formsStateMock
+    forms: {
+      isLoading: false,
+      ids: [],
+      entities: {
+        testForm: {
+          key: 'testForm',
+          name: 'Test Form',
+          type: FormType.SYSTEM,
+          form: [
+            {
+              controlName: 'title',
+              type: IFieldType.INPUT,
+              label: 'Title',
+              isEditable: true,
+              required: true
+            }
+          ],
+          createdAt: new Date(),
+          updatedAt: new Date()
+        }
+      }
+    }
   };
 
   const itemMock: TestItem = {
@@ -35,7 +66,7 @@ describe('TemplatesViewDetailsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [TemplatesViewDetailsComponent],
+        declarations: [TestViewComponent, TemplatesViewDetailsComponent],
         imports: [BrowserAnimationsModule, HttpClientModule, SharedModule],
         providers: [provideMockStore({ initialState })]
       }).compileComponents();
@@ -43,7 +74,7 @@ describe('TemplatesViewDetailsComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent<TemplatesViewDetailsComponent<TestItem>>(TemplatesViewDetailsComponent);
+    fixture = TestBed.createComponent<TestViewComponent>(TestViewComponent);
     component = fixture.componentInstance;
     component.item = { ...itemMock };
     component.canEdit = true;
@@ -65,6 +96,7 @@ describe('TemplatesViewDetailsComponent', () => {
   });
 
   it('should emit changes', () => {
+    component.dynamicForm.form.patchValue(update);
     component.saveChanges.subscribe((savedItem: TestItem) => expect(savedItem).toEqual({ ...itemMock, ...update }));
     component.save();
   });
