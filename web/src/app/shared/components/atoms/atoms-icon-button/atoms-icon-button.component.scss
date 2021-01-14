@@ -28,11 +28,13 @@
     height: 1.25em;
     font-size: 1.25em;
     vertical-align: sub;
+  }
 
+  mat-icon,
+  .status-icon {
     + span {
-      $divider-margin: 0.6em;
       display: none;
-      margin-left: $divider-margin;
+      margin-left: 0.7em;
 
       @include media-breakpoint-up(sm) {
         display: inline;
@@ -42,7 +44,7 @@
         display: none;
         content: '';
         border-left: 1px solid;
-        margin-right: $divider-margin;
+        margin-right: 0.6em;
         @include media-breakpoint-up(sm) {
           display: inline;
         }

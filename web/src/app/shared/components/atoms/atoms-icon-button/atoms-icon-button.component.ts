@@ -1,4 +1,5 @@
 import { Component, Input, HostBinding, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+
 import { THEME_PALETTE, BUTTON_TYPE, MAT_BUTTON } from '@/shared/constants';
 
 @Component({
@@ -14,7 +15,13 @@ import { THEME_PALETTE, BUTTON_TYPE, MAT_BUTTON } from '@/shared/constants';
         [disabled]="disabled"
         (click)="onClick($event)"
       >
-        <mat-icon *ngIf="icon" [ngClass]="[iconClasses]" [svgIcon]="icon" aria-hidden="false"></mat-icon>
+        <span
+          *ngIf="isLoading"
+          class="status-icon spinner-border spinner-border-sm"
+          aria-hidden="true"
+          role="status"
+        ></span>
+        <mat-icon *ngIf="icon && !isLoading" [ngClass]="[iconClasses]" [svgIcon]="icon" aria-hidden="false"></mat-icon>
         <span><ng-content></ng-content></span>
       </button>
 
@@ -64,6 +71,7 @@ export class AtomsIconButtonComponent {
   @Input() fullWidth = false;
   @Input() disabled = false;
   @Input() showButtonTextOnSm = false;
+  @Input() isLoading = false;
 
   @Output() onclick = new EventEmitter<MouseEvent>();
 
