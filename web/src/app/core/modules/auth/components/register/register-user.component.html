@@ -215,9 +215,10 @@
             </mat-vertical-stepper>
             <div class="d-flex justify-content-end btn-register">
               <atoms-icon-button
+                [icon]="icons.submit"
+                [isLoading]="isLoading$ | async"
                 [disabled]="registerData.invalid || (isLoading$ | async)"
                 (onclick)="onRegisterSubmit()"
-                [icon]="icons.submit"
               >
                 {{ actionLabels.SUBMIT }}
               </atoms-icon-button>

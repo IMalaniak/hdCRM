@@ -41,8 +41,9 @@
 
                 <atoms-icon-button
                   [type]="buttonType.SUBMIT"
+                  [icon]="icons.key"
                   [disabled]="(isLoading$ | async) || this.user.invalid"
-                  [icon]="!(isLoading$ | async) ? icons.key : icons.disabled"
+                  [isLoading]="isLoading$ | async"
                 >
                   {{ actionLabels.LOG_IN }}
                 </atoms-icon-button>
