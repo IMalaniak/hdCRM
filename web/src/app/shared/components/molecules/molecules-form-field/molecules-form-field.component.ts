@@ -15,7 +15,7 @@ import { AtomsFormFieldComponent } from '../../atoms';
       [bindOptLabel]="bindOptLabel"
       [bindOptValue]="bindOptValue"
       [fType]="fType"
-      (fieldChange)="onFieldChange($event)"
+      (onChange)="onValueChange($event)"
     ></atoms-form-field>
 
     <atoms-readonly-form-field

@@ -72,7 +72,7 @@ import { BaseControlValueAccessorComponentModel } from '../../base/componentMode
         <mat-radio-group
           [color]="color"
           [formControl]="ngControl.control"
-          (change)="onFieldChange($event)"
+          (change)="onValueChange($event)"
           [ngClass]="{ 'd-flex flex-column': optionsColumn }"
         >
           <mat-radio-button *ngFor="let option of options" [value]="option.value">{{ option.label }}</mat-radio-button>
@@ -81,10 +81,10 @@ import { BaseControlValueAccessorComponentModel } from '../../base/componentMode
 
       <!-- CHECKBOX -->
       <mat-checkbox
-        [color]="color"
         *ngSwitchCase="fieldTypes.CHECKBOX"
+        [color]="color"
         [formControl]="ngControl.control"
-        (change)="onFieldChange($event)"
+        (change)="onValueChange($event)"
       >
         {{ label }}
       </mat-checkbox>
@@ -106,7 +106,8 @@ export class AtomsFormFieldComponent extends BaseControlValueAccessorComponentMo
   @Input() inputType: InputType = InputType.TEXT;
   @Input() canValidate = true;
 
-  @Output() fieldChange: EventEmitter<MatRadioChange | MatSelectChange | MatCheckboxChange> = new EventEmitter();
+  // tslint:disable-next-line:no-output-on-prefix
+  @Output() onChange: EventEmitter<MatRadioChange | MatSelectChange | MatCheckboxChange> = new EventEmitter();
 
   fieldTypes = IFieldType;
   inputTypes = InputType;
@@ -117,8 +118,8 @@ export class AtomsFormFieldComponent extends BaseControlValueAccessorComponentMo
     this.ngControl.valueAccessor = this;
   }
 
-  onFieldChange(event: MatRadioChange | MatSelectChange | MatCheckboxChange): void {
-    this.fieldChange.emit(event);
+  onValueChange(event: MatRadioChange | MatSelectChange | MatCheckboxChange): void {
+    this.onChange.emit(event);
   }
 }
 
