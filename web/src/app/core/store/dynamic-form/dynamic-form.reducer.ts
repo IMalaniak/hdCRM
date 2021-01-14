@@ -7,11 +7,8 @@ export interface DynamicFormState extends EntityState<DynamicForm> {
   isLoading: boolean;
 }
 
-export function selectFormId(a: DynamicForm): string {
-  return a.key;
-}
 const adapter: EntityAdapter<DynamicForm> = createEntityAdapter<DynamicForm>({
-  selectId: selectFormId
+  selectId: (form: DynamicForm) => form.key
 });
 
 export const initialFormsState: DynamicFormState = adapter.getInitialState({

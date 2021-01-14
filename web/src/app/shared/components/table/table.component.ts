@@ -14,13 +14,14 @@ import { MatTable } from '@angular/material/table';
 import { CdkTable } from '@angular/cdk/table';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { merge, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 import { IconsService } from '@/core/services';
 import { AppState } from '@/core/store';
 import { getItemsPerPageState } from '@/core/store/preferences';
+import { setTableConfig, tableColumnsConfig } from '@/core/modules/layout/store';
 import { DataColumn } from '@/shared/models/table/data-column.model';
 import { DataRow } from '@/shared/models/table/data-row';
 import {
@@ -36,7 +37,7 @@ import {
   THEME_PALETTE
 } from '@/shared/constants';
 import { HorizontalAlign } from '@/shared/models/table/horizontalAlign.enum';
-import { CellActionType, CellControlType, CellValueType } from '@/shared/models/table';
+import { CellActionType, CellControlType, CellValueType, TableConfig } from '@/shared/models/table';
 import { CustomActionEvent } from '@/shared/models/table/custom-action-event';
 import { CommonDataSource } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
@@ -48,7 +49,9 @@ import { PageQuery } from '@/shared/models';
 })
 export class TableComponent implements OnChanges, AfterViewInit {
   itemsPerPageState$: Observable<IItemsPerPage> = this.store$.select(getItemsPerPageState);
+  columnsToDisplay$: Observable<string[]>;
 
+  @Input() id: string;
   @Input() dataSource: CommonDataSource<DataRow>;
   @Input() totalItems: number;
   @Input() columns: DataColumn[];
@@ -66,7 +69,6 @@ export class TableComponent implements OnChanges, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  columnsToDisplay: string[] = [];
   menuColumnName = COLUMN_NAMES.MENU;
 
   pageSizeOptions: number[] = pageSizeOptions;
@@ -172,18 +174,29 @@ export class TableComponent implements OnChanges, AfterViewInit {
     event.stopImmediatePropagation();
     const i = this.columns.findIndex((col) => col.title === column.title);
     this.columns[i] = { ...this.columns[i], isVisible: !column.isVisible };
-    this.setColumns();
+    this.updateTableConfig();
   }
 
   private setColumns(): void {
-    if (this.columns) {
-      this.columnsToDisplay = this.columns.filter((c) => c.isVisible).map((c) => c.title);
-      const hasActionColumn: boolean = this.columns.some((c) => c.title === COLUMN_NAMES.ACTIONS);
+    this.columnsToDisplay$ = this.store$.pipe(
+      select(tableColumnsConfig(this.id)),
+      map((columns) => {
+        if (!columns) {
+          columns = [...this.columns];
+        } else {
+          this.columns = this.columns.map((col, i) => ({ ...col, isVisible: columns[i].isVisible }));
+        }
+        return columns.filter((c) => c.isVisible).map((c) => c.title);
+      })
+    );
+  }
 
-      if (this.hasSettings && !hasActionColumn) {
-        this.columnsToDisplay = [...this.columnsToDisplay, this.menuColumnName];
-      }
-    }
+  private updateTableConfig(): void {
+    const tableConfig: TableConfig = {
+      key: this.id,
+      columns: this.columns.map((col) => ({ title: col.title, isVisible: col.isVisible }))
+    };
+    this.store$.dispatch(setTableConfig({ tableConfig }));
   }
 
   private loadDataPage(): void {

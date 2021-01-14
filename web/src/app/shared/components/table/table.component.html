@@ -138,28 +138,11 @@
         </td>
       </ng-container>
 
-      <!-- MENU SETTINGS COLUMN -->
-      <ng-container *ngIf="hasSettings">
-        <ng-container [matColumnDef]="menuColumnName" [sticky]="true">
-          <th mat-header-cell *matHeaderCellDef class="text-center" [class.sticky-with-border]="hasOutlineBorder">
-            <atoms-icon-button
-              [color]="themePalette.BASIC"
-              [matType]="matButtonType.ICON"
-              [type]="buttonType.BUTTON"
-              [icon]="icons.gear"
-              [matMenuTriggerFor]="menu"
-            >
-            </atoms-icon-button>
-          </th>
-          <td mat-cell *matCellDef></td>
-        </ng-container>
-      </ng-container>
-
       <!-- ROWS -->
-      <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: columnsToDisplay" (click)="rowSelect.emit(row.id)"></tr>
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay$ | async; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay$ | async" (click)="rowSelect.emit(row.id)"></tr>
       <tr *matNoDataRow>
-        <td [attr.colspan]="columnsToDisplay.length">
+        <td [attr.colspan]="(columnsToDisplay$ | async)?.length">
           <atoms-no-content-info [noContentMessage]="noContentMessage"></atoms-no-content-info>
         </td>
       </tr>

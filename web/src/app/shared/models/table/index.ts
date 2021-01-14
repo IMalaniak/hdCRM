@@ -7,3 +7,4 @@ export * from './navigation';
 export * from './cellActionType.enum';
 export * from './cellValueType.enum';
 export * from './cell-action';
+export * from './TableConfig';
