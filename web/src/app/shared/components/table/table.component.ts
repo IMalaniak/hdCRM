@@ -21,7 +21,7 @@ import { select, Store } from '@ngrx/store';
 import { IconsService } from '@/core/services';
 import { AppState } from '@/core/store';
 import { getItemsPerPageState } from '@/core/store/preferences';
-import { setTableConfig, tableColumnsConfig } from '@/core/modules/layout/store';
+import { removeTableConfig, setTableConfig, tableColumnsToDisplay } from '@/core/modules/layout/store';
 import { DataColumn } from '@/shared/models/table/data-column.model';
 import { DataRow } from '@/shared/models/table/data-row';
 import {
@@ -37,7 +37,7 @@ import {
   THEME_PALETTE
 } from '@/shared/constants';
 import { HorizontalAlign } from '@/shared/models/table/horizontalAlign.enum';
-import { CellActionType, CellControlType, CellValueType, TableConfig } from '@/shared/models/table';
+import { CellActionType, CellControlType, CellValueType, TableColumnConfig, TableConfig } from '@/shared/models/table';
 import { CustomActionEvent } from '@/shared/models/table/custom-action-event';
 import { CommonDataSource } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
@@ -69,8 +69,6 @@ export class TableComponent implements OnChanges, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  menuColumnName = COLUMN_NAMES.MENU;
-
   pageSizeOptions: number[] = pageSizeOptions;
   cellValueType = CellValueType;
   cellControlType = CellControlType;
@@ -78,6 +76,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
   matButtonType = MAT_BUTTON;
   themePalette = THEME_PALETTE;
   columnActions = COLUMN_NAMES.ACTIONS;
+  columnsInitialState: TableColumnConfig[];
 
   icons: { [key: string]: BS_ICONS } = {
     checksGrid: BS_ICONS.UiChecksGrid,
@@ -177,16 +176,19 @@ export class TableComponent implements OnChanges, AfterViewInit {
     this.updateTableConfig();
   }
 
+  resetTableConfig(): void {
+    this.store$.dispatch(removeTableConfig({ key: this.id }));
+  }
+
   private setColumns(): void {
+    this.columnsInitialState = this.columns.map((col) => ({ title: col.title, isVisible: col.isVisible }));
     this.columnsToDisplay$ = this.store$.pipe(
-      select(tableColumnsConfig(this.id)),
+      select(tableColumnsToDisplay(this.id)),
       map((columns) => {
         if (!columns) {
-          columns = [...this.columns];
-        } else {
-          this.columns = this.columns.map((col, i) => ({ ...col, isVisible: columns[i].isVisible }));
+          return this.columnsInitialState.filter((c) => c.isVisible).map((c) => c.title);
         }
-        return columns.filter((c) => c.isVisible).map((c) => c.title);
+        return columns;
       })
     );
   }

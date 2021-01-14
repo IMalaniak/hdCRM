@@ -29,21 +29,9 @@
           ]"
           [disabled]="!canSort || !column.hasSorting"
         >
-          <ng-container *ngIf="column.title !== columnActions; else actionsIconTitle">
+          <ng-container *ngIf="column.title !== columnActions">
             {{ column.title }}
           </ng-container>
-
-          <ng-template #actionsIconTitle>
-            <!-- <atoms-icon-button
-              *ngIf="hasSettings"
-              [color]="themePalette.BASIC"
-              [matType]="matButtonType.ICON"
-              [type]="buttonType.BUTTON"
-              [icon]="icons.gear"
-              [matMenuTriggerFor]="menu"
-            >
-            </atoms-icon-button> -->
-          </ng-template>
         </th>
         <td
           mat-cell
@@ -166,7 +154,7 @@
         <span>Configure columns</span>
       </button>
       <!-- reset grid -->
-      <button mat-menu-item>
+      <button mat-menu-item (click)="resetTableConfig()">
         <mat-icon [svgIcon]="icons.arrowClock"> </mat-icon>
         <span>Reset grid</span>
       </button>
