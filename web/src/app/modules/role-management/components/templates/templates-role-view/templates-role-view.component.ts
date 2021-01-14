@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
 import { User } from '@/core/modules/user-api/shared';
@@ -12,6 +13,7 @@ import { DialogService } from '@/shared/services';
 import { DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { UsersDialogComponent } from '@/modules/user-management/components';
 import { PrivilegesDialogComponent } from '@/modules/role-management/components/privileges/dialog/privileges-dialog.component';
+import { selectRolesLoading } from '@/core/modules/role-api/store/role/role.selectors';
 
 @Component({
   selector: 'templates-role-view',
@@ -20,6 +22,8 @@ import { PrivilegesDialogComponent } from '@/modules/role-management/components/
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Role> {
+  isLoading$: Observable<boolean> = this.store$.pipe(select(selectRolesLoading));
+
   matButtonType = MAT_BUTTON;
   columns = COLUMN_NAMES;
   columnLabels = COLUMN_LABELS;

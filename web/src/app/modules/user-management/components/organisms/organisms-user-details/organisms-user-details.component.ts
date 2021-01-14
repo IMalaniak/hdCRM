@@ -21,6 +21,7 @@ export class OrganismsUserDetailsComponent extends BaseDynamicFormPageModel<User
   @Input() user: User;
   @Input() canEdit = false;
   @Input() editForm: boolean;
+  @Input() isLoading = false;
 
   @Output() updateUser: EventEmitter<User> = new EventEmitter();
   @Output() setEditableForm: EventEmitter<boolean> = new EventEmitter();

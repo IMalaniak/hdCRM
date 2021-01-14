@@ -14,7 +14,7 @@
         [counter]="item.Privileges.length"
       >
         <div buttons>
-          <atoms-icon-button *ngIf="editForm" (onclick)="addPrivilegeDialog()" [icon]="listIcons.add">
+          <atoms-icon-button *ngIf="editForm" [icon]="listIcons.add" (onclick)="addPrivilegeDialog()">
             {{ actionLabels.ADD }}
           </atoms-icon-button>
         </div>
@@ -109,6 +109,7 @@
     [isCreatePage]="isCreatePage"
     [editForm]="editForm"
     [disabled]="formInvalid"
+    [isLoading]="isLoading$ | async"
     (cancelClick)="onClickCancelEdit()"
     (editClick)="onClickEdit()"
     (updateClick)="update()"

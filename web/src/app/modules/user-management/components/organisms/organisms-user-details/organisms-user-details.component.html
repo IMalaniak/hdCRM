@@ -9,6 +9,7 @@
     buttons
     *ngIf="canEdit"
     [editForm]="editForm"
+    [isLoading]="isLoading"
     [disabled]="formInvalid"
     (cancelClick)="onClickCancelEdit()"
     (editClick)="onClickEdit()"
