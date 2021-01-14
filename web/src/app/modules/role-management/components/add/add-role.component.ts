@@ -6,7 +6,6 @@ import { AppState } from '@/core/store';
 import { Role } from '@/core/modules/role-api/shared';
 import { createRoleRequested } from '@/core/modules/role-api/store/role';
 import { DynamicForm } from '@/shared/models';
-import { FORMCONSTANTS } from '@/shared/constants';
 
 @Component({
   template: `
@@ -14,7 +13,6 @@ import { FORMCONSTANTS } from '@/shared/constants';
       [item]="role"
       [editForm]="true"
       [canEdit]="true"
-      [formName]="formName"
       [isCreatePage]="true"
       (saveChanges)="onRegisterSubmit($event)"
     ></templates-role-view>
@@ -28,8 +26,6 @@ export class AddRoleComponent {
   } as Role;
   roleFormJson: DynamicForm;
   roleFormValues: Role;
-
-  formName = FORMCONSTANTS.ROLE;
 
   constructor(private store$: Store<AppState>) {}
 

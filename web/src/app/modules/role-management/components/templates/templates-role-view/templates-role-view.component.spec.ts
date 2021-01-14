@@ -10,10 +10,9 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { initialPreferencesState } from '@/core/store/preferences';
 import { Role } from '@/core/modules/role-api/shared';
-import { COLUMN_NAMES, FORMCONSTANTS } from '@/shared/constants';
+import { COLUMN_NAMES } from '@/shared/constants';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, formsStateMock, currentUserMock } from '@/shared/testing/mocks';
-
 import { TemplatesRoleViewComponent } from './templates-role-view.component';
 
 describe('TemplatesRoleViewComponent', () => {
@@ -59,7 +58,6 @@ describe('TemplatesRoleViewComponent', () => {
     fixture = TestBed.createComponent(TemplatesRoleViewComponent);
     component = fixture.componentInstance;
     component.canEdit = true;
-    component.formName = FORMCONSTANTS.ROLE;
     component.item = roleMock;
     fixture.detectChanges();
   });
@@ -103,7 +101,7 @@ describe('TemplatesRoleViewComponent', () => {
   });
 
   it('should emit changes', () => {
-    component.formValues = { ...update };
+    component.dynamicForm.form.patchValue(update);
     component.saveChanges.subscribe((savedItem: Role) => expect(savedItem).toEqual({ ...roleMock, ...update }));
     component.save();
   });

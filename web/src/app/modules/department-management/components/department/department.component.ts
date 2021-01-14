@@ -13,14 +13,13 @@ import {
   updateDepartmentRequested
 } from '@/core/modules/department-api/store';
 import { Department } from '@/core/modules/department-api/shared';
-import { EDIT_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
+import { EDIT_PRIVILEGES } from '@/shared/constants';
 import { changeIsEditingState, selectIsEditing } from '../../store';
 
 @Component({
   template: `
     <templates-department-view
       [editForm]="editForm$ | async"
-      [formName]="formName"
       [item]="department$ | async"
       [canEdit]="canEditDepartment$ | async"
       (saveChanges)="updateDepartment($event)"
@@ -33,8 +32,6 @@ export class DepartmentComponent implements OnInit {
   editForm$: Observable<boolean> = this.store$.pipe(select(selectIsEditing));
   department$: Observable<Department>;
   canEditDepartment$: Observable<boolean>;
-
-  formName = FORMCONSTANTS.DEPARTMENT;
 
   constructor(private route: ActivatedRoute, private store$: Store<AppState>) {}
 

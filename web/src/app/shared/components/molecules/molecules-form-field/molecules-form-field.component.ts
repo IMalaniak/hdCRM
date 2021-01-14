@@ -1,4 +1,5 @@
 import { Component, Input, HostBinding, ChangeDetectionStrategy } from '@angular/core';
+import { MatFormFieldControl } from '@angular/material/form-field';
 
 import { AtomsFormFieldComponent } from '../../atoms';
 
@@ -7,14 +8,14 @@ import { AtomsFormFieldComponent } from '../../atoms';
   template: `
     <atoms-form-field
       *ngIf="editForm && editable"
+      [formControl]="ngControl.control"
       [label]="label"
       [color]="color"
       [options]="options"
       [bindOptLabel]="bindOptLabel"
       [bindOptValue]="bindOptValue"
-      [control]="control"
       [fType]="fType"
-      (fieldChange)="onFieldChange($event)"
+      (onChange)="onValueChange($event)"
     ></atoms-form-field>
 
     <atoms-readonly-form-field
@@ -24,11 +25,10 @@ import { AtomsFormFieldComponent } from '../../atoms';
       [fType]="fType"
     ></atoms-readonly-form-field>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{ provide: MatFormFieldControl, useExisting: MoleculesFormFieldComponent }]
 })
 export class MoleculesFormFieldComponent extends AtomsFormFieldComponent {
-  // @IMalaniak use genericType for value and for options
-  @Input() value: any;
   @Input() editForm = false;
   @Input() editable = true;
   @Input() editOnly?: boolean;

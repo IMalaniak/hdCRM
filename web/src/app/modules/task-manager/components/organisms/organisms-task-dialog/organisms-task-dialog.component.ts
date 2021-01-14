@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/portal';
 
@@ -9,7 +9,7 @@ import { AppState } from '@/core/store';
 import { selectFormByName, formRequested } from '@/core/store/dynamic-form';
 import { DynamicForm } from '@/shared/models';
 import { ACTION_LABELS, FORMCONSTANTS, THEME_PALETTE } from '@/shared/constants';
-import { DialogCreateEditPageModel } from '@/shared/components';
+import { DialogCreateEditPageModel, DynamicFormComponent } from '@/shared/components';
 import { DialogCreateEditModel, DialogDataModel, DialogResultModel } from '@/shared/models';
 import { Task } from '@/modules/task-manager/models';
 
@@ -18,13 +18,20 @@ import { Task } from '@/modules/task-manager/models';
   templateUrl: './organisms-task-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrganismsTaskDialogComponent extends DialogCreateEditPageModel implements OnInit {
-  taskFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName(FORMCONSTANTS.TASK)));
+export class OrganismsTaskDialogComponent extends DialogCreateEditPageModel {
+  // TODO: @ArseniiIrod @IMalaniak investigate what to do with dialog, if it has dynamic form.
+  // It will be better to extends from BaseDynamicFormPageModel to exclude ViewChild and formInvalid state, but for now it -
+  // is not possible, because this component must has an opportunity to has dinamiclly class extends.
+  @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
 
-  taskFormValues: Task;
+  taskFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName(FORMCONSTANTS.TASK)));
 
   actionLabels = ACTION_LABELS;
   themePalette = THEME_PALETTE;
+
+  get formInvalidState(): boolean {
+    return this.dynamicForm?.form?.invalid || false;
+  }
 
   constructor(
     private store$: Store<AppState>,
@@ -32,20 +39,14 @@ export class OrganismsTaskDialogComponent extends DialogCreateEditPageModel impl
     @Inject(MAT_DIALOG_DATA) protected data: DialogDataModel<DialogCreateEditModel>
   ) {
     super(dialogRef, data);
-  }
 
-  ngOnInit(): void {
     this.store$.dispatch(formRequested({ formName: FORMCONSTANTS.TASK }));
-  }
-
-  taskFormValueChanges(formVal: Task): void {
-    this.taskFormValues = { ...this.taskFormValues, ...formVal };
   }
 
   onClose(success: boolean): void {
     const result: DialogResultModel<Task> = {
       success,
-      model: { ...this.model, ...this.taskFormValues }
+      model: { ...this.model, ...this.dynamicForm.form.value }
     };
     this.dialogRef.close(result);
   }

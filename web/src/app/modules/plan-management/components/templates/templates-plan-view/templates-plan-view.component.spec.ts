@@ -11,7 +11,6 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { initialPreferencesState } from '@/core/store/preferences';
 import { Plan } from '@/core/modules/plan-api/shared';
 import { authStateMock, currentUserMock, formsStateMock } from '@/shared/testing/mocks';
-import { FORMCONSTANTS } from '@/shared/constants';
 import { SharedModule } from '@/shared/shared.module';
 import { Asset } from '@/shared/models';
 import { TemplatesPlanViewComponent } from './templates-plan-view.component';
@@ -54,7 +53,6 @@ describe('TemplatesPlanViewComponent', () => {
     fixture = TestBed.createComponent(TemplatesPlanViewComponent);
     component = fixture.componentInstance;
     component.canEdit = true;
-    component.formName = FORMCONSTANTS.PLAN;
     component.item = planMock;
     fixture.detectChanges();
   });

@@ -1,16 +1,15 @@
-import { Component, Input, EventEmitter, Output, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
-import { selectFormByName, formRequested } from '@/core/store/dynamic-form';
 import { User } from '@/core/modules/user-api/shared';
-import { DialogDataModel, DynamicForm } from '@/shared/models';
+import { DialogDataModel } from '@/shared/models';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
 import { ACTION_LABELS, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
+import { BaseDynamicFormPageModel } from '@/shared/components/base/models/base-dynamic-form-page.model';
 
 @Component({
   selector: 'organisms-user-details',
@@ -18,7 +17,7 @@ import { ACTION_LABELS, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
   styleUrls: ['./organisms-user-details.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrganismsUserDetailsComponent implements OnInit {
+export class OrganismsUserDetailsComponent extends BaseDynamicFormPageModel<User> {
   @Input() user: User;
   @Input() canEdit = false;
   @Input() editForm: boolean;
@@ -26,20 +25,11 @@ export class OrganismsUserDetailsComponent implements OnInit {
   @Output() updateUser: EventEmitter<User> = new EventEmitter();
   @Output() setEditableForm: EventEmitter<boolean> = new EventEmitter();
 
-  userFormValues: User;
-
   actionLabels = ACTION_LABELS;
+  protected formName = FORMCONSTANTS.USER;
 
-  userFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName(FORMCONSTANTS.USER)));
-
-  constructor(private store$: Store<AppState>, private dialogService: DialogService) {}
-
-  ngOnInit(): void {
-    this.store$.dispatch(formRequested({ formName: FORMCONSTANTS.USER }));
-  }
-
-  userFormValueChanges(formVal: User): void {
-    this.userFormValues = { ...this.userFormValues, ...formVal };
+  constructor(protected readonly store$: Store<AppState>, private readonly dialogService: DialogService) {
+    super(store$);
   }
 
   onClickEdit(): void {
@@ -48,7 +38,6 @@ export class OrganismsUserDetailsComponent implements OnInit {
 
   onClickCancelEdit(): void {
     this.setEditableForm.emit(false);
-    // this.userForm.reset(this.user);
   }
 
   onUpdateUserSubmit(): void {
@@ -56,7 +45,7 @@ export class OrganismsUserDetailsComponent implements OnInit {
     const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
     this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () =>
-      this.updateUser.emit({ ...this.user, ...this.userFormValues })
+      this.updateUser.emit({ ...this.user, ...this.getFormValues() })
     );
   }
 }

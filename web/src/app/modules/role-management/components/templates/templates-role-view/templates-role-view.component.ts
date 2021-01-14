@@ -1,14 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 import { AppState } from '@/core/store';
 import { User } from '@/core/modules/user-api/shared';
 import { Role, Privilege } from '@/core/modules/role-api/shared';
 import { TemplatesViewDetailsComponent } from '@/shared/components';
-import { MAT_BUTTON, COLUMN_NAMES, COLUMN_LABELS, CONSTANTS, BS_ICONS } from '@/shared/constants';
+import { MAT_BUTTON, COLUMN_NAMES, COLUMN_LABELS, CONSTANTS, BS_ICONS, FORMCONSTANTS } from '@/shared/constants';
 import { DialogService } from '@/shared/services';
 import { DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { UsersDialogComponent } from '@/modules/user-management/components';
@@ -20,7 +19,7 @@ import { PrivilegesDialogComponent } from '@/modules/role-management/components/
   styleUrls: ['./templates-role-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Role> implements OnDestroy {
+export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Role> {
   matButtonType = MAT_BUTTON;
   columns = COLUMN_NAMES;
   columnLabels = COLUMN_LABELS;
@@ -37,13 +36,12 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
     enabled: BS_ICONS.Check,
     disabled: BS_ICONS.X
   };
-
-  private unsubscribe: Subject<void> = new Subject();
+  protected readonly formName = FORMCONSTANTS.ROLE;
 
   constructor(
-    protected store$: Store<AppState>,
-    protected dialogService: DialogService,
-    private cdr: ChangeDetectorRef
+    protected readonly store$: Store<AppState>,
+    protected readonly dialogService: DialogService,
+    private readonly cdr: ChangeDetectorRef
   ) {
     super(store$, dialogService);
   }
@@ -123,17 +121,17 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
   }
 
   onClickEdit(): void {
-    this.isEditing.emit(true);
+    super.onClickEdit();
     this.displayedColumns = [...this.displayedColumns, COLUMN_NAMES.ACTIONS];
   }
 
   onClickCancelEdit(): void {
-    this.isEditing.emit(false);
+    super.onClickCancelEdit();
     this.disableEdit();
   }
 
   save(): void {
-    this.saveChanges.emit({ ...this.item, ...this.formValues });
+    super.save();
     this.disableEdit();
   }
 
@@ -143,10 +141,5 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
 
   cardTitle(): string {
     return this.isCreatePage ? CONSTANTS.TEXTS_CREATE_ROLE : this.item.keyString;
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
   }
 }

@@ -68,12 +68,7 @@
     <div class="col-sm-12 col-md-8 col-lg-7">
       <organisms-card cardTitle="Plan details" cardClass="border border-dark m-0" [disableShadow]="true">
         <section content>
-          <dynamic-form
-            [data]="item"
-            [formJson]="formJson$ | async"
-            [editForm]="editForm"
-            (formChanges)="formValueChanges($event)"
-          ></dynamic-form>
+          <dynamic-form #dynamicForm [data]="item" [formJson]="formJson$ | async" [editForm]="editForm"></dynamic-form>
         </section>
       </organisms-card>
     </div>
@@ -93,6 +88,7 @@
     *ngIf="canEdit"
     [isCreatePage]="isCreatePage"
     [editForm]="editForm"
+    [disabled]="formInvalid"
     (cancelClick)="onClickCancelEdit()"
     (editClick)="onClickEdit()"
     (updateClick)="update()"

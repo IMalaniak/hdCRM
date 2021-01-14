@@ -17,13 +17,13 @@
               <h2 i18n="@@loginComponentFormHeaderTitleLogin" class="pb-3">Login</h2>
 
               <!-- Login/Email -->
-              <atoms-form-field label="Login/Email" [control]="user.get('login')"> </atoms-form-field>
+              <atoms-form-field label="Login/Email" [formControl]="user.get('login')"> </atoms-form-field>
 
               <!-- Password -->
               <atoms-form-field
                 label="Password"
                 [inputType]="hidePassword ? inputTypes.PASSWORD : inputTypes.TEXT"
-                [control]="user.get('password')"
+                [formControl]="user.get('password')"
               >
                 <ng-container *ngTemplateOutlet="passwordEye" suffix></ng-container>
               </atoms-form-field>
@@ -68,7 +68,7 @@
               <h3 i18n="@@loginComponentFormRequestNewPasswordHeader" class="pb-2">Your email or login</h3>
 
               <!-- Login/Email -->
-              <atoms-form-field label="Login/Email" [control]="user.get('login')"> </atoms-form-field>
+              <atoms-form-field label="Login/Email" [formControl]="user.get('login')"> </atoms-form-field>
 
               <div class="d-flex justify-content-between">
                 <atoms-icon-button
@@ -99,7 +99,7 @@
               <atoms-form-field
                 label="New password"
                 [inputType]="hidePassword ? inputTypes.PASSWORD : inputTypes.TEXT"
-                [control]="newPasswordForm.get('newPassword')"
+                [formControl]="newPasswordForm.get('newPassword')"
               >
                 <ng-container *ngTemplateOutlet="passwordEye" suffix></ng-container>
               </atoms-form-field>
@@ -108,7 +108,7 @@
               <atoms-form-field
                 label="Confirm password"
                 [inputType]="inputTypes.PASSWORD"
-                [control]="newPasswordForm.get('verifyPassword')"
+                [formControl]="newPasswordForm.get('verifyPassword')"
               >
               </atoms-form-field>
 

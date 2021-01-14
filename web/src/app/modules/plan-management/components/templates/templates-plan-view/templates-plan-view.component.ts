@@ -1,7 +1,6 @@
-import { ChangeDetectorRef, Component, Input, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { AppState } from '@/core/store';
@@ -10,7 +9,7 @@ import { Plan } from '@/core/modules/plan-api/shared';
 import { Asset, DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
 import { DialogService } from '@/shared/services';
-import { CONSTANTS } from '@/shared/constants';
+import { CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
 import { UsersDialogComponent } from '@/modules/user-management/components';
 
 @Component({
@@ -18,19 +17,19 @@ import { UsersDialogComponent } from '@/modules/user-management/components';
   templateUrl: './templates-plan-view.component.html',
   styleUrls: ['./templates-plan-view.component.scss']
 })
-export class TemplatesPlanViewComponent extends TemplatesViewDetailsComponent<Plan> implements OnDestroy {
+export class TemplatesPlanViewComponent extends TemplatesViewDetailsComponent<Plan> {
   @Input() canAddAttachment: boolean;
   @Input() canDeleteAttachment: boolean;
 
   // TODO: @IMalaniak implement deleting document
   // @Output() deleteDocument: EventEmitter<any> = new EventEmitter();
 
-  private unsubscribe: Subject<void> = new Subject();
+  protected readonly formName = FORMCONSTANTS.PLAN;
 
   constructor(
-    protected store$: Store<AppState>,
-    protected dialogService: DialogService,
-    private cdr: ChangeDetectorRef
+    protected readonly store$: Store<AppState>,
+    protected readonly dialogService: DialogService,
+    private readonly cdr: ChangeDetectorRef
   ) {
     super(store$, dialogService);
   }
@@ -91,10 +90,5 @@ export class TemplatesPlanViewComponent extends TemplatesViewDetailsComponent<Pl
 
   cardTitle(): string {
     return this.isCreatePage ? CONSTANTS.TEXTS_CREATE_PLAN : this.item.title;
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
   }
 }

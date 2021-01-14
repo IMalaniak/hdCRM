@@ -16,10 +16,21 @@ import { ACTION_LABELS, BS_ICONS, THEME_PALETTE } from '@/shared/constants';
     >
       {{ actionLabels.CANCEL }}
     </atoms-icon-button>
-    <atoms-icon-button *ngIf="editForm && !isCreatePage" [icon]="actionIcons.save" (onclick)="updateClick.emit()">
+    <atoms-icon-button
+      *ngIf="editForm && !isCreatePage"
+      [icon]="actionIcons.save"
+      [disabled]="disabled"
+      (onclick)="updateClick.emit()"
+    >
       {{ actionLabels.SAVE }}
     </atoms-icon-button>
-    <atoms-icon-button *ngIf="isCreatePage" buttons (onclick)="saveClick.emit()" [icon]="actionIcons.submit">
+    <atoms-icon-button
+      *ngIf="isCreatePage"
+      buttons
+      [icon]="actionIcons.submit"
+      [disabled]="disabled"
+      (onclick)="saveClick.emit()"
+    >
       {{ actionLabels.SUBMIT }}
     </atoms-icon-button>
   `,
@@ -28,6 +39,7 @@ import { ACTION_LABELS, BS_ICONS, THEME_PALETTE } from '@/shared/constants';
 export class MoleculesCardHeaderActionsComponent {
   @Input() editForm: boolean;
   @Input() isCreatePage: boolean;
+  @Input() disabled = false;
 
   @Output() cancelClick: EventEmitter<any> = new EventEmitter();
   @Output() editClick: EventEmitter<any> = new EventEmitter();

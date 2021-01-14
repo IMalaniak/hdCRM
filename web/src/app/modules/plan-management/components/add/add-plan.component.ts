@@ -7,13 +7,12 @@ import { AppState } from '@/core/store';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { Plan } from '@/core/modules/plan-api/shared';
 import { createPlanRequested } from '@/core/modules/plan-api/store/plan';
-import { ADD_PRIVILEGES, DELETE_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
+import { ADD_PRIVILEGES, DELETE_PRIVILEGES } from '@/shared/constants';
 
 @Component({
   template: `
     <templates-plan-view
       [item]="plan"
-      [formName]="formName"
       [editForm]="true"
       [canEdit]="true"
       [isCreatePage]="true"
@@ -32,9 +31,7 @@ export class AddPlanComponent {
 
   plan = { Participants: [] } as Plan;
 
-  formName = FORMCONSTANTS.PLAN;
-
-  constructor(private store$: Store<AppState>) {}
+  constructor(private readonly store$: Store<AppState>) {}
 
   onSubmit(plan: Plan): void {
     this.store$.dispatch(createPlanRequested({ plan }));
