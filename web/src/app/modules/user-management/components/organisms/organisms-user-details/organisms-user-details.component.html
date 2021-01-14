@@ -1,12 +1,7 @@
 <organisms-card cardTitle="Details" [disableShadow]="true">
   <div content class="row">
     <div class="col-md-12 col-lg-6">
-      <dynamic-form
-        [data]="user"
-        [formJson]="userFormJson$ | async"
-        [editForm]="editForm"
-        (formChanges)="userFormValueChanges($event)"
-      ></dynamic-form>
+      <dynamic-form [data]="user" [formJson]="formJson$ | async" [editForm]="editForm"></dynamic-form>
     </div>
   </div>
 
@@ -14,6 +9,7 @@
     buttons
     *ngIf="canEdit"
     [editForm]="editForm"
+    [disabled]="formInvalid"
     (cancelClick)="onClickCancelEdit()"
     (editClick)="onClickEdit()"
     (updateClick)="onUpdateUserSubmit()"

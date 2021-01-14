@@ -1,9 +1,3 @@
-<component-dialog class="task-dialog" [formInvalid]="false" (dialogClose)="onClose($event)">
-  <dynamic-form
-    [data]="model"
-    [formJson]="taskFormJson$ | async"
-    [editForm]="true"
-    (formChanges)="taskFormValueChanges($event)"
-  >
-  </dynamic-form>
+<component-dialog class="task-dialog" [formInvalid]="formInvalidState" (dialogClose)="onClose($event)">
+  <dynamic-form [data]="model" [formJson]="taskFormJson$ | async" [editForm]="true"> </dynamic-form>
 </component-dialog>

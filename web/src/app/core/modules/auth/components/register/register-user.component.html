@@ -14,13 +14,16 @@
                 >
                 <form [formGroup]="registerData.get('userCredentials')" class="d-flex flex-column">
                   <!-- Login -->
-                  <atoms-form-field label="Login" [control]="getControl('userCredentials', 'login')"></atoms-form-field>
+                  <atoms-form-field
+                    label="Login"
+                    [formControl]="getControl('userCredentials', 'login')"
+                  ></atoms-form-field>
 
                   <!-- Email -->
                   <atoms-form-field
                     label="Email"
                     [inputType]="inputTypes.EMAIL"
-                    [control]="getControl('userCredentials', 'email')"
+                    [formControl]="getControl('userCredentials', 'email')"
                   ></atoms-form-field>
 
                   <!-- Password -->
@@ -28,7 +31,7 @@
                     *ngIf="!getControl('userCredentials', 'generatePassword').value"
                     label="Password"
                     [inputType]="hidePassword ? inputTypes.PASSWORD : inputTypes.TEXT"
-                    [control]="getControl('userCredentials', 'password')"
+                    [formControl]="getControl('userCredentials', 'password')"
                   >
                     <mat-icon
                       suffix
@@ -41,7 +44,7 @@
                   <atoms-form-field
                     color="warn"
                     label="Generate password for me and send it to my email"
-                    [control]="getControl('userCredentials', 'generatePassword')"
+                    [formControl]="getControl('userCredentials', 'generatePassword')"
                     [fType]="fieldTypes.CHECKBOX"
                   ></atoms-form-field>
                 </form>
@@ -57,19 +60,22 @@
                 >
                 <form [formGroup]="registerData.get('userPersonalInfo')" class="d-flex flex-column">
                   <!-- Name -->
-                  <atoms-form-field label="Name" [control]="getControl('userPersonalInfo', 'name')"></atoms-form-field>
+                  <atoms-form-field
+                    label="Name"
+                    [formControl]="getControl('userPersonalInfo', 'name')"
+                  ></atoms-form-field>
 
                   <!-- Surname -->
                   <atoms-form-field
                     label="Surname"
-                    [control]="getControl('userPersonalInfo', 'surname')"
+                    [formControl]="getControl('userPersonalInfo', 'surname')"
                   ></atoms-form-field>
 
                   <!-- Phone -->
                   <atoms-form-field
                     label="Phone"
                     [inputType]="inputTypes.TEL"
-                    [control]="getControl('userPersonalInfo', 'phone')"
+                    [formControl]="getControl('userPersonalInfo', 'phone')"
                   >
                     <span prefix>+ &nbsp;</span>
                   </atoms-form-field>
@@ -100,14 +106,14 @@
                       { label: 'Company', value: orgTypes.COMPANY },
                       { label: 'Private', value: orgTypes.PRIVATE }
                     ]"
-                    [control]="getControl('userOrganization', 'type')"
+                    [formControl]="getControl('userOrganization', 'type')"
                   ></atoms-form-field>
 
                   <!-- Company name -->
                   <atoms-form-field
                     *ngIf="getControl('userOrganization', 'type').value === orgTypes.COMPANY"
                     label="Company name"
-                    [control]="getControl('userOrganization', 'title')"
+                    [formControl]="getControl('userOrganization', 'title')"
                   ></atoms-form-field>
 
                   <!-- Web site address -->
@@ -118,7 +124,7 @@
                     "
                     label="Web site address"
                     [inputType]="inputTypes.URL"
-                    [control]="getControl('userOrganization', 'website')"
+                    [formControl]="getControl('userOrganization', 'website')"
                   ></atoms-form-field>
 
                   <mat-accordion *ngIf="getControl('userOrganization', 'type').value === orgTypes.COMPANY">
@@ -149,40 +155,40 @@
                             value: '250+'
                           }
                         ]"
-                        [control]="getControl('userOrganization', 'employees')"
+                        [formControl]="getControl('userOrganization', 'employees')"
                       ></atoms-form-field>
 
                       <!-- Country -->
                       <atoms-form-field
                         label="Country"
-                        [control]="getControl('userOrganization', 'country')"
+                        [formControl]="getControl('userOrganization', 'country')"
                       ></atoms-form-field>
                       <!-- City -->
                       <atoms-form-field
                         label="City"
-                        [control]="getControl('userOrganization', 'city')"
+                        [formControl]="getControl('userOrganization', 'city')"
                       ></atoms-form-field>
                       <!-- Address -->
                       <atoms-form-field
                         label="Address"
-                        [control]="getControl('userOrganization', 'address')"
+                        [formControl]="getControl('userOrganization', 'address')"
                       ></atoms-form-field>
                       <!-- Postcode -->
                       <atoms-form-field
                         label="Postcode"
-                        [control]="getControl('userOrganization', 'postcode')"
+                        [formControl]="getControl('userOrganization', 'postcode')"
                       ></atoms-form-field>
                       <!-- Phone -->
                       <atoms-form-field
                         label="Phone"
                         [inputType]="inputTypes.TEL"
-                        [control]="getControl('userOrganization', 'phone')"
+                        [formControl]="getControl('userOrganization', 'phone')"
                       ></atoms-form-field>
                       <!-- Email -->
                       <atoms-form-field
                         label="Email"
                         [inputType]="inputTypes.EMAIL"
-                        [control]="getControl('userOrganization', 'email')"
+                        [formControl]="getControl('userOrganization', 'email')"
                       ></atoms-form-field>
                     </mat-expansion-panel>
                   </mat-accordion>

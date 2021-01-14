@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { AppState } from '@/core/store';
@@ -9,7 +8,7 @@ import { User } from '@/core/modules/user-api/shared';
 import { Department } from '@/core/modules/department-api/shared';
 import { DialogService } from '@/shared/services';
 import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
-import { CONSTANTS } from '@/shared/constants';
+import { CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
 import { DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { UsersDialogComponent } from '@/modules/user-management/components';
 
@@ -18,15 +17,13 @@ import { UsersDialogComponent } from '@/modules/user-management/components';
   templateUrl: './templates-department-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TemplatesDepartmentViewComponent
-  extends TemplatesViewDetailsComponent<Department>
-  implements OnInit, OnDestroy {
-  private unsubscribe: Subject<void> = new Subject();
+export class TemplatesDepartmentViewComponent extends TemplatesViewDetailsComponent<Department> {
+  protected readonly formName = FORMCONSTANTS.DEPARTMENT;
 
   constructor(
-    protected store$: Store<AppState>,
-    protected dialogService: DialogService,
-    private cdr: ChangeDetectorRef
+    protected readonly store$: Store<AppState>,
+    protected readonly dialogService: DialogService,
+    private readonly cdr: ChangeDetectorRef
   ) {
     super(store$, dialogService);
   }
@@ -89,10 +86,5 @@ export class TemplatesDepartmentViewComponent
 
   cardTitle(): string {
     return this.isCreatePage ? CONSTANTS.TEXTS_CREATE_DEPARTMENT : this.item.title;
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
   }
 }

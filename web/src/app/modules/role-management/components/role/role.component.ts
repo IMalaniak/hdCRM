@@ -9,7 +9,7 @@ import { AppState } from '@/core/store';
 import { Role } from '@/core/modules/role-api/shared';
 import { selectRoleDeepById, roleRequested, updateRoleRequested } from '@/core/modules/role-api/store/role';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
-import { EDIT_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
+import { EDIT_PRIVILEGES } from '@/shared/constants';
 import { changeIsEditingState, selectIsEditing } from '../../store';
 
 @Component({
@@ -17,7 +17,6 @@ import { changeIsEditingState, selectIsEditing } from '../../store';
     <templates-role-view
       [item]="role$ | async"
       [editForm]="editForm$ | async"
-      [formName]="formName"
       [canEdit]="canEditRole$ | async"
       (isEditing)="onFormStateChange($event)"
       (saveChanges)="updateRole($event)"
@@ -29,8 +28,6 @@ export class RoleComponent implements OnInit {
   editForm$: Observable<boolean> = this.store$.pipe(select(selectIsEditing));
   canEditRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.ROLE)));
   role$: Observable<Role>;
-
-  formName = FORMCONSTANTS.ROLE;
 
   constructor(private route: ActivatedRoute, private store$: Store<AppState>) {}
 
