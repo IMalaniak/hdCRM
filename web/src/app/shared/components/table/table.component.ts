@@ -187,6 +187,10 @@ export class TableComponent implements OnChanges, AfterViewInit {
       map((columns) => {
         if (!columns) {
           return this.columnsInitialState.filter((c) => c.isVisible).map((c) => c.title);
+        } else {
+          this.columns.forEach((col, i) => {
+            this.columns[i] = { ...col, isVisible: columns.some((cTitle) => cTitle === col.title) };
+          });
         }
         return columns;
       })

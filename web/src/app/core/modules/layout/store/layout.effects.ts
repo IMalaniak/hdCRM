@@ -11,7 +11,7 @@ import { MediaQueryService } from '@/core/services';
 import { LocalStorageService } from '@/shared/services';
 import * as layoutActions from './layout.actions';
 import { LayoutState } from './layout.reducer';
-import { getDarkThemeState } from './layout.selectors';
+import { getDarkThemeState, tableConfigState } from './layout.selectors';
 
 @Injectable()
 export class LayoutEffects implements OnInitEffects {
@@ -77,6 +77,20 @@ export class LayoutEffects implements OnInitEffects {
           } else {
             this.overlayContainer.getContainerElement().classList.remove('dark-theme');
           }
+        })
+      ),
+    {
+      dispatch: false
+    }
+  );
+
+  changeTableConfig$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(layoutActions.setTableConfig, layoutActions.removeTableConfig),
+        withLatestFrom(this.store$.pipe(select(tableConfigState))),
+        map(([_, tConfigState]) => {
+          this.localStorage.setObjectKeyValue('layoutSettings', 'tableConfig', tConfigState);
         })
       ),
     {
