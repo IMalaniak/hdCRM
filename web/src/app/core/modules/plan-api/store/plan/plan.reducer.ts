@@ -62,6 +62,6 @@ export function plansReducer(state: PlansState | undefined, action: Action) {
   return reducer(state, action);
 }
 
-export const plansFeatureKey = 'plan';
+export const plansFeatureKey = 'plan-api';
 
 export const { selectAll, selectEntities, selectIds, selectTotal } = plansAdapter.getSelectors();

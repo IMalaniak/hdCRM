@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Actions, ofType, createEffect, OnInitEffects } from '@ngrx/effects';
-import { of } from 'rxjs';
-import * as layoutActions from './layout.actions';
-import { switchMap, map, withLatestFrom } from 'rxjs/operators';
-import { LocalStorageService } from '@/shared/services';
 import { OverlayContainer } from '@angular/cdk/overlay';
+import { of } from 'rxjs';
+import { switchMap, map, withLatestFrom } from 'rxjs/operators';
+
 import { Action, Store, select } from '@ngrx/store';
-import { LayoutState } from './layout.reducer';
-import { getDarkThemeState } from './index';
-import { MediaQueryService } from '@/core/services';
+import { Actions, ofType, createEffect, OnInitEffects } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
+
+import { MediaQueryService } from '@/core/services';
+import { LocalStorageService } from '@/shared/services';
+import * as layoutActions from './layout.actions';
+import { LayoutState } from './layout.reducer';
+import { getDarkThemeState } from './layout.selectors';
 
 @Injectable()
 export class LayoutEffects implements OnInitEffects {
