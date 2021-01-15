@@ -172,10 +172,17 @@ export class TableComponent implements OnChanges, AfterViewInit {
   }
 
   resetTableConfig(): void {
-    this.columns = this.columns.map((col: DataColumn, i: number) => {
-      col = { ...col, isVisible: this.columnsInitialState[i].isVisible };
-      return col;
-    });
+    this.columns = this.columns
+      .map((col: DataColumn, i: number) => {
+        col = { ...col, isVisible: this.columnsInitialState[i].isVisible };
+        return col;
+      })
+      .sort((a: DataColumn, b: DataColumn) => {
+        return (
+          this.columnsInitialState.findIndex((col: TableColumnConfig) => col.title === a.title) -
+          this.columnsInitialState.findIndex((col: TableColumnConfig) => col.title === b.title)
+        );
+      });
     this.store$.dispatch(removeTableConfig({ key: this.id }));
   }
 
@@ -204,10 +211,14 @@ export class TableComponent implements OnChanges, AfterViewInit {
         if (!columns) {
           return this.columnsInitialState.filter((c) => c.isVisible).map((c) => c.title);
         } else {
-          this.columns = this.columns.map((col: DataColumn) => {
-            col = { ...col, isVisible: columns.some((cTitle) => cTitle === col.title) };
-            return col;
-          });
+          this.columns = this.columns
+            .map((col: DataColumn) => {
+              col = { ...col, isVisible: columns.some((cTitle) => cTitle === col.title) };
+              return col;
+            })
+            .sort((a: DataColumn, b: DataColumn) => {
+              return columns.indexOf(a.title) - columns.indexOf(b.title);
+            });
         }
         return columns;
       })
