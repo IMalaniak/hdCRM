@@ -164,19 +164,21 @@
   <!-- MENU COLUMNS-->
   <mat-menu #tableColumns="matMenu">
     <ng-template matMenuContent>
-      <ng-container *ngFor="let column of columns">
-        <ng-container *ngIf="column.hidable">
-          <span mat-menu-item>
-            <mat-checkbox
-              (click)="$event.stopPropagation()"
-              (change)="updateTableConfig()"
-              [(ngModel)]="column.isVisible"
-            >
-              <span class="ml-1 text-capitalize"> {{ column.title }} </span>
-            </mat-checkbox>
-          </span>
-        </ng-container>
-      </ng-container>
+      <div class="column-config-wrapper" cdkDropList (cdkDropListDropped)="dropColumns($event)">
+        <div *ngFor="let column of columns" cdkDragBoundary=".column-config-wrapper" cdkDragLockAxis="y" cdkDrag>
+          <ng-container *ngIf="column.hidable">
+            <span mat-menu-item>
+              <mat-checkbox
+                (click)="$event.stopPropagation()"
+                (change)="updateTableConfig()"
+                [(ngModel)]="column.isVisible"
+              >
+                <span class="ml-1 text-capitalize"> {{ column.title }} </span>
+              </mat-checkbox>
+            </span>
+          </ng-container>
+        </div>
+      </div>
     </ng-template>
   </mat-menu>
 </ng-container>

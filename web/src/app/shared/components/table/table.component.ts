@@ -13,6 +13,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTable } from '@angular/material/table';
 import { CdkTable } from '@angular/cdk/table';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { merge, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
@@ -183,6 +184,13 @@ export class TableComponent implements OnChanges, AfterViewInit {
       columns: this.columns.map((col) => ({ title: col.title, isVisible: col.isVisible }))
     };
     this.store$.dispatch(setTableConfig({ tableConfig }));
+  }
+
+  dropColumns(event: CdkDragDrop<DataColumn[]>): void {
+    console.log(event);
+
+    moveItemInArray(this.columns, event.previousIndex, event.currentIndex);
+    this.updateTableConfig();
   }
 
   private setColumns(): void {
