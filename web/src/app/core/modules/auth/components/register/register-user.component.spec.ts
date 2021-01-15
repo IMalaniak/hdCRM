@@ -1,25 +1,29 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { RegisterUserComponent } from './register-user.component';
-import { AuthenticationService } from '../../services';
 import { HttpClientModule } from '@angular/common/http';
-import { SharedModule } from '@/shared/shared.module';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
-import { MatIconTestingModule } from '@angular/material/icon/testing';
+
+import { SharedModule } from '@/shared/shared.module';
+import { authStateMock } from '@/shared/testing/mocks';
+import { RegisterUserComponent } from './register-user.component';
+import { AuthenticationService } from '../../services';
 
 describe('RegisterUserComponent', () => {
   let component: RegisterUserComponent;
   let fixture: ComponentFixture<RegisterUserComponent>;
+  const initialState = {
+    auth: authStateMock
+  };
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [RegisterUserComponent],
         imports: [RouterTestingModule, MatIconTestingModule, BrowserAnimationsModule, HttpClientModule, SharedModule],
-        providers: [AuthenticationService, provideMockStore({})]
+        providers: [AuthenticationService, provideMockStore({ initialState })]
       }).compileComponents();
     })
   );

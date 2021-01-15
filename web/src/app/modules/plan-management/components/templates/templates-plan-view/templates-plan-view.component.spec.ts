@@ -10,6 +10,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { initialPreferencesState } from '@/core/store/preferences';
 import { Plan } from '@/core/modules/plan-api/shared';
+import { plansFeatureKey, initialPlansState } from '@/core/modules/plan-api/store/plan';
 import { authStateMock, currentUserMock, formsStateMock } from '@/shared/testing/mocks';
 import { SharedModule } from '@/shared/shared.module';
 import { Asset } from '@/shared/models';
@@ -21,7 +22,8 @@ describe('TemplatesPlanViewComponent', () => {
   const initialState = {
     preferences: initialPreferencesState,
     auth: authStateMock,
-    forms: formsStateMock
+    forms: formsStateMock,
+    [plansFeatureKey]: initialPlansState
   };
 
   const planMock: Plan = {

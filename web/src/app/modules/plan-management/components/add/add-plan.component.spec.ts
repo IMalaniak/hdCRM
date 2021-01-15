@@ -6,6 +6,7 @@ import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { plansFeatureKey, initialPlansState } from '@/core/modules/plan-api/store/plan';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, formsStateMock } from '@/shared/testing/mocks';
 import { TemplatesPlanViewComponent } from '../templates';
@@ -16,7 +17,8 @@ describe('AddPlanComponent', () => {
   let fixture: ComponentFixture<AddPlanComponent>;
   const initialState = {
     auth: authStateMock,
-    forms: formsStateMock
+    forms: formsStateMock,
+    [plansFeatureKey]: initialPlansState
   };
 
   beforeEach(

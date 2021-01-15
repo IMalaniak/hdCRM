@@ -6,6 +6,7 @@ import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { departmentsFeatureKey, initialDepartmentApiState } from '@/core/modules/department-api/store';
 import { SharedModule } from '@/shared/shared.module';
 import { formsStateMock } from '@/shared/testing/mocks';
 import { AddDepartmentComponent } from './add-department.component';
@@ -15,7 +16,8 @@ describe('AddDepartmentComponent', () => {
   let component: AddDepartmentComponent;
   let fixture: ComponentFixture<AddDepartmentComponent>;
   const initialState = {
-    forms: formsStateMock
+    forms: formsStateMock,
+    [departmentsFeatureKey]: initialDepartmentApiState
   };
 
   beforeEach(
