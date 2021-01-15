@@ -173,10 +173,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
 
   resetTableConfig(): void {
     this.columns = this.columns
-      .map((col: DataColumn, i: number) => {
-        col = { ...col, isVisible: this.columnsInitialState[i].isVisible };
-        return col;
-      })
+      .map((col: DataColumn, i: number) => ({ ...col, isVisible: this.columnsInitialState[i].isVisible }))
       .sort((a: DataColumn, b: DataColumn) => {
         return (
           this.columnsInitialState.findIndex((col: TableColumnConfig) => col.title === a.title) -
@@ -208,18 +205,16 @@ export class TableComponent implements OnChanges, AfterViewInit {
     this.columnsToDisplay$ = this.store$.pipe(
       select(tableColumnsToDisplay(this.id)),
       map((columns) => {
-        if (!columns) {
-          return this.columnsInitialState.filter((c) => c.isVisible).map((c) => c.title);
-        } else {
+        if (columns) {
           this.columns = this.columns
-            .map((col: DataColumn) => {
-              col = { ...col, isVisible: columns.some((cTitle) => cTitle === col.title) };
-              return col;
-            })
-            .sort((a: DataColumn, b: DataColumn) => {
-              return columns.includes(a.title) ? columns.indexOf(a.title) - columns.indexOf(b.title) : 2;
-            });
+            .map((col: DataColumn) => ({ ...col, isVisible: columns.some((cTitle) => cTitle === col.title) }))
+            .sort((a: DataColumn, b: DataColumn) =>
+              columns.includes(a.title) ? columns.indexOf(a.title) - columns.indexOf(b.title) : 2
+            );
+        } else {
+          return this.columnsInitialState.filter((c) => c.isVisible).map((c) => c.title);
         }
+
         return columns;
       })
     );
