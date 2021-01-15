@@ -217,7 +217,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
               return col;
             })
             .sort((a: DataColumn, b: DataColumn) => {
-              return columns.indexOf(a.title) - columns.indexOf(b.title);
+              return columns.includes(a.title) ? columns.indexOf(a.title) - columns.indexOf(b.title) : 2;
             });
         }
         return columns;
