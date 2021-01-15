@@ -9,10 +9,11 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { initialPreferencesState } from '@/core/store/preferences';
 import { initialUsersState } from '@/core/modules/user-api/store';
 import { initialRolesState } from '@/core/modules/role-api/store/role';
+import { initialLayoutState } from '@/core/modules/layout/store';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock } from '@/shared/testing/mocks';
-import { RolesComponent } from './roles.component';
 import { initialListState } from '@/shared/store';
+import { RolesComponent } from './roles.component';
 
 describe('RolesComponent', () => {
   let component: RolesComponent;
@@ -22,7 +23,8 @@ describe('RolesComponent', () => {
     'role-api': initialRolesState,
     'role-management': initialListState,
     'user-api': initialUsersState,
-    auth: authStateMock
+    auth: authStateMock,
+    layout: initialLayoutState
   };
 
   beforeEach(

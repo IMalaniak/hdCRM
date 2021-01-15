@@ -14,13 +14,14 @@ import { MatTable } from '@angular/material/table';
 import { CdkTable } from '@angular/cdk/table';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { merge, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 import { IconsService } from '@/core/services';
 import { AppState } from '@/core/store';
 import { getItemsPerPageState } from '@/core/store/preferences';
+import { removeTableConfig, setTableConfig, tableColumnsToDisplay } from '@/core/modules/layout/store';
 import { DataColumn } from '@/shared/models/table/data-column.model';
 import { DataRow } from '@/shared/models/table/data-row';
 import {
@@ -36,7 +37,7 @@ import {
   THEME_PALETTE
 } from '@/shared/constants';
 import { HorizontalAlign } from '@/shared/models/table/horizontalAlign.enum';
-import { CellActionType, CellControlType, CellValueType } from '@/shared/models/table';
+import { CellActionType, CellControlType, CellValueType, TableColumnConfig, TableConfig } from '@/shared/models/table';
 import { CustomActionEvent } from '@/shared/models/table/custom-action-event';
 import { CommonDataSource } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
@@ -48,7 +49,9 @@ import { PageQuery } from '@/shared/models';
 })
 export class TableComponent implements OnChanges, AfterViewInit {
   itemsPerPageState$: Observable<IItemsPerPage> = this.store$.select(getItemsPerPageState);
+  columnsToDisplay$: Observable<string[]>;
 
+  @Input() id: string;
   @Input() dataSource: CommonDataSource<DataRow>;
   @Input() totalItems: number;
   @Input() columns: DataColumn[];
@@ -66,9 +69,6 @@ export class TableComponent implements OnChanges, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  columnsToDisplay: string[] = [];
-  menuColumnName = COLUMN_NAMES.MENU;
-
   pageSizeOptions: number[] = pageSizeOptions;
   cellValueType = CellValueType;
   cellControlType = CellControlType;
@@ -76,6 +76,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
   matButtonType = MAT_BUTTON;
   themePalette = THEME_PALETTE;
   columnActions = COLUMN_NAMES.ACTIONS;
+  columnsInitialState: TableColumnConfig[];
 
   icons: { [key: string]: BS_ICONS } = {
     checksGrid: BS_ICONS.UiChecksGrid,
@@ -168,25 +169,38 @@ export class TableComponent implements OnChanges, AfterViewInit {
     return '';
   }
 
-  getHiddenColumnsCount(): number {
-    return this.columns.filter((c) => !c.isVisible).length;
+  resetTableConfig(): void {
+    this.columns = this.columns.map((col: DataColumn, i: number) => {
+      col = { ...col, isVisible: this.columnsInitialState[i].isVisible };
+      return col;
+    });
+    this.store$.dispatch(removeTableConfig({ key: this.id }));
   }
 
-  hasHiddenColumn(): boolean {
-    return this.columns.filter((c) => !c.isVisible).length > 0;
+  updateTableConfig(): void {
+    const tableConfig: TableConfig = {
+      key: this.id,
+      columns: this.columns.map((col) => ({ title: col.title, isVisible: col.isVisible }))
+    };
+    this.store$.dispatch(setTableConfig({ tableConfig }));
   }
 
   private setColumns(): void {
-    if (this.columns) {
-      let columnsToDisplay: string[] = this.columns.filter((c) => c.isVisible).map((c) => c.title);
-      const hasActionColumn: boolean = this.columns.some((c) => c.title === COLUMN_NAMES.ACTIONS);
-
-      if (this.hasSettings && !hasActionColumn) {
-        columnsToDisplay = [...columnsToDisplay, this.menuColumnName];
-      }
-
-      this.columnsToDisplay = [...this.columnsToDisplay, ...columnsToDisplay];
-    }
+    this.columnsInitialState = this.columns.map((col) => ({ title: col.title, isVisible: col.isVisible }));
+    this.columnsToDisplay$ = this.store$.pipe(
+      select(tableColumnsToDisplay(this.id)),
+      map((columns) => {
+        if (!columns) {
+          return this.columnsInitialState.filter((c) => c.isVisible).map((c) => c.title);
+        } else {
+          this.columns = this.columns.map((col: DataColumn) => {
+            col = { ...col, isVisible: columns.some((cTitle) => cTitle === col.title) };
+            return col;
+          });
+        }
+        return columns;
+      })
+    );
   }
 
   private loadDataPage(): void {

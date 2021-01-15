@@ -1,4 +1,6 @@
 import { createAction, props } from '@ngrx/store';
+
+import { TableConfig } from '@/shared/models/table';
 import { LayoutState } from './layout.reducer';
 
 const prefix = '[Layout]';
@@ -15,3 +17,6 @@ export const scaleFontUp = createAction(`${prefix} Scale Font`, props<{ scaled: 
 export const scaleFontUpChangeState = createAction(`${prefix} Scale Font State Changed`, props<{ scaled: boolean }>());
 
 export const initLayoutSettings = createAction(`${prefix} Init Layout Settings`, props<{ settings?: LayoutState }>());
+
+export const setTableConfig = createAction(`${prefix} Set Table Config`, props<{ tableConfig: TableConfig }>());
+export const removeTableConfig = createAction(`${prefix} Remove Table Config`, props<{ key: string }>());

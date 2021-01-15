@@ -7,10 +7,11 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { initialPreferencesState } from '@/core/store/preferences';
 import { initialUsersState } from '@/core/modules/user-api/store';
+import { initialPlansState } from '@/core/modules/plan-api/store/plan';
+import { initialLayoutState } from '@/core/modules/layout/store';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock } from '@/shared/testing/mocks';
 import { PlanListComponent } from './plan-list.component';
-import { initialPlansState } from '@/core/modules/plan-api/store/plan';
 
 describe('PlanListComponent', () => {
   let component: PlanListComponent;
@@ -19,7 +20,8 @@ describe('PlanListComponent', () => {
     preferences: initialPreferencesState,
     auth: authStateMock,
     'plan-api': initialPlansState,
-    'user-api': initialUsersState
+    'user-api': initialUsersState,
+    layout: initialLayoutState
   };
 
   beforeEach(

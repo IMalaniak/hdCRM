@@ -1,6 +1,16 @@
 <ng-container *ngIf="columns">
   <!-- TABLE -->
   <div class="table-container" [class.no-outline-border]="!hasOutlineBorder">
+    <atoms-icon-button
+      *ngIf="hasSettings"
+      class="table-config"
+      [color]="themePalette.BASIC"
+      [matType]="matButtonType.ICON"
+      [type]="buttonType.BUTTON"
+      [icon]="icons.gear"
+      [matMenuTriggerFor]="menu"
+    >
+    </atoms-icon-button>
     <table mat-table #table matSort [dataSource]="dataSource" [trackBy]="trackById">
       <!-- COLUMNS & ROWS-->
       <ng-container
@@ -19,21 +29,9 @@
           ]"
           [disabled]="!canSort || !column.hasSorting"
         >
-          <ng-container *ngIf="column.title !== columnActions; else actionsIconTitle">
+          <ng-container *ngIf="column.title !== columnActions">
             {{ column.title }}
           </ng-container>
-
-          <ng-template #actionsIconTitle>
-            <atoms-icon-button
-              *ngIf="hasSettings"
-              [color]="themePalette.BASIC"
-              [matType]="matButtonType.ICON"
-              [type]="buttonType.BUTTON"
-              [icon]="icons.gear"
-              [matMenuTriggerFor]="menu"
-            >
-            </atoms-icon-button>
-          </ng-template>
         </th>
         <td
           mat-cell
@@ -128,28 +126,11 @@
         </td>
       </ng-container>
 
-      <!-- MENU SETTINGS COLUMN -->
-      <ng-container *ngIf="hasSettings">
-        <ng-container [matColumnDef]="menuColumnName" [sticky]="true">
-          <th mat-header-cell *matHeaderCellDef class="text-center" [class.sticky-with-border]="hasOutlineBorder">
-            <atoms-icon-button
-              [color]="themePalette.BASIC"
-              [matType]="matButtonType.ICON"
-              [type]="buttonType.BUTTON"
-              [icon]="icons.gear"
-              [matMenuTriggerFor]="menu"
-            >
-            </atoms-icon-button>
-          </th>
-          <td mat-cell *matCellDef></td>
-        </ng-container>
-      </ng-container>
-
       <!-- ROWS -->
-      <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: columnsToDisplay" (click)="rowSelect.emit(row.id)"></tr>
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay$ | async; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay$ | async" (click)="rowSelect.emit(row.id)"></tr>
       <tr *matNoDataRow>
-        <td [attr.colspan]="columnsToDisplay.length">
+        <td [attr.colspan]="(columnsToDisplay$ | async)?.length">
           <atoms-no-content-info [noContentMessage]="noContentMessage"></atoms-no-content-info>
         </td>
       </tr>
@@ -169,16 +150,11 @@
     <ng-template matMenuContent>
       <!-- configure columns -->
       <button mat-menu-item [matMenuTriggerFor]="tableColumns">
-        <mat-icon
-          [svgIcon]="icons.checksGrid"
-          [matBadge]="null | memoize: getHiddenColumnsCount:this"
-          [matBadgeHidden]="!(null | memoize: hasHiddenColumn:this)"
-        >
-        </mat-icon>
+        <mat-icon [svgIcon]="icons.checksGrid"> </mat-icon>
         <span>Configure columns</span>
       </button>
       <!-- reset grid -->
-      <button mat-menu-item>
+      <button mat-menu-item (click)="resetTableConfig()">
         <mat-icon [svgIcon]="icons.arrowClock"> </mat-icon>
         <span>Reset grid</span>
       </button>
@@ -188,9 +164,19 @@
   <!-- MENU COLUMNS-->
   <mat-menu #tableColumns="matMenu">
     <ng-template matMenuContent>
-      <mat-checkbox class="mat-menu-item" *ngFor="let column of columns" (click)="$event.stopPropagation()">
-        <span class="ml-1 text-capitalize"> {{ column.title }} </span>
-      </mat-checkbox>
+      <ng-container *ngFor="let column of columns">
+        <ng-container *ngIf="column.hidable">
+          <span mat-menu-item>
+            <mat-checkbox
+              (click)="$event.stopPropagation()"
+              (change)="updateTableConfig()"
+              [(ngModel)]="column.isVisible"
+            >
+              <span class="ml-1 text-capitalize"> {{ column.title }} </span>
+            </mat-checkbox>
+          </span>
+        </ng-container>
+      </ng-container>
     </ng-template>
   </mat-menu>
 </ng-container>
