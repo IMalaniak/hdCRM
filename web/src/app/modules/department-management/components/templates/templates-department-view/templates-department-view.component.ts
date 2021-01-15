@@ -7,12 +7,12 @@ import { select, Store } from '@ngrx/store';
 import { AppState } from '@/core/store';
 import { User } from '@/core/modules/user-api/shared';
 import { Department } from '@/core/modules/department-api/shared';
+import { selectDepartmentsLoading } from '@/core/modules/department-api/store';
 import { DialogService } from '@/shared/services';
 import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
 import { CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
 import { DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { UsersDialogComponent } from '@/modules/user-management/components';
-import { selectDepartmentsLoading } from '@/core/modules/department-api/store/department-api.selectors';
 
 @Component({
   selector: 'templates-department-view',

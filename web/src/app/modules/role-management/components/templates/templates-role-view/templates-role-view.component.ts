@@ -7,13 +7,13 @@ import { select, Store } from '@ngrx/store';
 import { AppState } from '@/core/store';
 import { User } from '@/core/modules/user-api/shared';
 import { Role, Privilege } from '@/core/modules/role-api/shared';
+import { selectRolesLoading } from '@/core/modules/role-api/store/role';
 import { TemplatesViewDetailsComponent } from '@/shared/components';
 import { MAT_BUTTON, COLUMN_NAMES, COLUMN_LABELS, CONSTANTS, BS_ICONS, FORMCONSTANTS } from '@/shared/constants';
 import { DialogService } from '@/shared/services';
 import { DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { UsersDialogComponent } from '@/modules/user-management/components';
 import { PrivilegesDialogComponent } from '@/modules/role-management/components/privileges/dialog/privileges-dialog.component';
-import { selectRolesLoading } from '@/core/modules/role-api/store/role/role.selectors';
 
 @Component({
   selector: 'templates-role-view',
