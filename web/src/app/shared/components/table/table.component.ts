@@ -169,15 +169,20 @@ export class TableComponent implements OnChanges, AfterViewInit {
     return '';
   }
 
-  setVisibility(column: DataColumn, event: Event): void {
-    event.stopImmediatePropagation();
-    const i = this.columns.findIndex((col) => col.title === column.title);
-    this.columns[i] = { ...this.columns[i], isVisible: !column.isVisible };
-    this.updateTableConfig();
+  resetTableConfig(): void {
+    this.columns = this.columns.map((col: DataColumn, i: number) => {
+      col = { ...col, isVisible: this.columnsInitialState[i].isVisible };
+      return col;
+    });
+    this.store$.dispatch(removeTableConfig({ key: this.id }));
   }
 
-  resetTableConfig(): void {
-    this.store$.dispatch(removeTableConfig({ key: this.id }));
+  updateTableConfig(): void {
+    const tableConfig: TableConfig = {
+      key: this.id,
+      columns: this.columns.map((col) => ({ title: col.title, isVisible: col.isVisible }))
+    };
+    this.store$.dispatch(setTableConfig({ tableConfig }));
   }
 
   private setColumns(): void {
@@ -188,21 +193,14 @@ export class TableComponent implements OnChanges, AfterViewInit {
         if (!columns) {
           return this.columnsInitialState.filter((c) => c.isVisible).map((c) => c.title);
         } else {
-          this.columns.forEach((col, i) => {
-            this.columns[i] = { ...col, isVisible: columns.some((cTitle) => cTitle === col.title) };
+          this.columns = this.columns.map((col: DataColumn) => {
+            col = { ...col, isVisible: columns.some((cTitle) => cTitle === col.title) };
+            return col;
           });
         }
         return columns;
       })
     );
-  }
-
-  private updateTableConfig(): void {
-    const tableConfig: TableConfig = {
-      key: this.id,
-      columns: this.columns.map((col) => ({ title: col.title, isVisible: col.isVisible }))
-    };
-    this.store$.dispatch(setTableConfig({ tableConfig }));
   }
 
   private loadDataPage(): void {

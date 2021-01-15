@@ -165,9 +165,13 @@
   <mat-menu #tableColumns="matMenu">
     <ng-template matMenuContent>
       <ng-container *ngFor="let column of columns">
-        <ng-container *ngIf="column.visibilityConfig">
+        <ng-container *ngIf="column.hidable">
           <span mat-menu-item>
-            <mat-checkbox (click)="setVisibility(column, $event)" [checked]="column.isVisible">
+            <mat-checkbox
+              (click)="$event.stopPropagation()"
+              (change)="updateTableConfig()"
+              [(ngModel)]="column.isVisible"
+            >
               <span class="ml-1 text-capitalize"> {{ column.title }} </span>
             </mat-checkbox>
           </span>

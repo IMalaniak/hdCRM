@@ -1,8 +1,7 @@
-/* NgRx */
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+
 import { LayoutState, layoutFeatureKey } from './layout.reducer';
 
-// Selector functions
 const getLayoutFeatureState = createFeatureSelector<LayoutState>(layoutFeatureKey);
 export const tableConfigState = createSelector(getLayoutFeatureState, (state) => state.tableConfig);
 

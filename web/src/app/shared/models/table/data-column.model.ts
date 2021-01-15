@@ -7,7 +7,7 @@ export class DataColumn {
     readonly title: string,
     readonly horizontalAlign: HorizontalAlign = HorizontalAlign.Left,
     public isVisible = true,
-    readonly visibilityConfig = true,
+    readonly hidable = true,
     readonly hasSorting: boolean = true,
     readonly customClass?: string,
     readonly sticky: boolean = false,
@@ -18,7 +18,7 @@ export class DataColumn {
     title,
     horizontalAlign = HorizontalAlign.Left,
     isVisible = true,
-    visibilityConfig = true,
+    hidable = true,
     hasSorting = true,
     customClass,
     sticky = false,
@@ -27,22 +27,13 @@ export class DataColumn {
     title: string;
     horizontalAlign?: HorizontalAlign;
     isVisible?: boolean;
-    visibilityConfig?: boolean;
+    hidable?: boolean;
     hasSorting?: boolean;
     customClass?: string;
     sticky?: boolean;
     stickyEnd?: boolean;
   }): DataColumn {
-    return new DataColumn(
-      title,
-      horizontalAlign,
-      isVisible,
-      visibilityConfig,
-      hasSorting,
-      customClass,
-      sticky,
-      stickyEnd
-    );
+    return new DataColumn(title, horizontalAlign, isVisible, hidable, hasSorting, customClass, sticky, stickyEnd);
   }
 
   static createSequenceNumberColumn(): DataColumn {
