@@ -7,11 +7,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { initialPreferencesState } from '@/core/store/preferences';
+import { initialLayoutState } from '@/core/modules/layout/store';
+import { initialUsersState } from '@/core/modules/user-api/store';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock } from '@/shared/testing/mocks';
-import { UsersComponent } from './users.component';
-import { initialUsersState } from '@/core/modules/user-api/store';
 import { initialListState } from '@/shared/store';
+import { UsersComponent } from './users.component';
 
 describe('UsersComponent', () => {
   let component: UsersComponent;
@@ -20,7 +21,8 @@ describe('UsersComponent', () => {
     auth: authStateMock,
     preferences: initialPreferencesState,
     'user-api': initialUsersState,
-    'user-management': initialListState
+    'user-management': initialListState,
+    layout: initialLayoutState
   };
 
   beforeEach(

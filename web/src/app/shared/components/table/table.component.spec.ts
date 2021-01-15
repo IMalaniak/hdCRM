@@ -12,6 +12,7 @@ import { COLUMN_NAMES } from '@/shared/constants';
 import { CommonDataSource } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
 import { TableComponent } from './table.component';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 interface TestData {
   id: number;
@@ -63,7 +64,7 @@ describe('TableComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [SharedModule, BrowserAnimationsModule],
+        imports: [SharedModule, MatIconTestingModule, BrowserAnimationsModule],
         declarations: [TableComponent],
         providers: [provideMockStore({ initialState })]
       }).compileComponents();
