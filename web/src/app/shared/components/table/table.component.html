@@ -164,8 +164,21 @@
   <!-- MENU COLUMNS-->
   <mat-menu #tableColumns="matMenu">
     <ng-template matMenuContent>
-      <div class="column-config-wrapper" cdkDropList (cdkDropListDropped)="dropColumns($event)">
-        <div *ngFor="let column of columns" cdkDragBoundary=".column-config-wrapper" cdkDragLockAxis="y" cdkDrag>
+      <div
+        class="column-config-wrapper"
+        cdkDropList
+        (cdkDropListDropped)="dropColumns($event)"
+        [cdkDropListSortPredicate]="dropColumnsPredicate"
+        [cdkDropListData]="columns"
+      >
+        <div
+          *ngFor="let column of columns"
+          cdkDragBoundary=".column-config-wrapper"
+          cdkDragLockAxis="y"
+          [cdkDragDisabled]="!column.draggable"
+          cdkDrag
+          [cdkDragData]="column"
+        >
           <ng-container *ngIf="column.hidable">
             <span mat-menu-item>
               <mat-checkbox
