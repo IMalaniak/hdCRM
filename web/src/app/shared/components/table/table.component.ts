@@ -90,7 +90,8 @@ export class TableComponent implements OnChanges, AfterViewInit {
     list: BS_ICONS.List,
     gear: BS_ICONS.Gear,
     arrowClock: BS_ICONS.ArrowClockwise,
-    gripVertival: BS_ICONS.GripVertical
+    gripVertival: BS_ICONS.GripVertical,
+    columnDrag: BS_ICONS.GripHorizontal
   };
 
   constructor(private readonly store$: Store<AppState>, private readonly iconsService: IconsService) {

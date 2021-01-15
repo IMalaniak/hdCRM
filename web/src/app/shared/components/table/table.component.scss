@@ -134,3 +134,18 @@ $border: 1px solid;
 .cdk-drop-list-dragging :not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
+
+span[mat-menu-item] {
+  .mat-checkbox {
+    margin-bottom: 0;
+  }
+}
+
+.drag-handler {
+  margin-left: app-size(spacer, default, true);
+  mat-icon {
+    margin-right: 0 !important;
+    @include set-textcolor('border');
+  }
+  cursor: move;
+}
