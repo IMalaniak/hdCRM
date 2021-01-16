@@ -6,8 +6,6 @@ $border: 1px solid;
 .table-container {
   overflow-x: auto;
   max-height: 41em;
-  border: $border;
-  @include set-bordercolor('border');
   position: relative;
 
   .table-config {
@@ -17,8 +15,20 @@ $border: 1px solid;
     @include getZ-Index(content);
   }
 
-  &.no-outline-border {
-    border: none !important;
+  &.outine-borders {
+    border: $border;
+    @include set-bordercolor('border');
+
+    .mat-table-sticky:not(th) {
+      &:last-of-type {
+        border-left: $border;
+        @include set-bordercolor('border');
+      }
+      &:not(:last-of-type) {
+        border-right: $border;
+        @include set-bordercolor('border');
+      }
+    }
   }
 
   table {
@@ -102,17 +112,6 @@ $border: 1px solid;
       text-transform: uppercase;
       font-weight: bold;
       @include set-textcolor('text');
-    }
-  }
-
-  .sticky-with-border {
-    &:last-of-type {
-      border-left: $border;
-      @include set-bordercolor('border');
-    }
-    &:not(:last-of-type) {
-      border-right: $border;
-      @include set-bordercolor('border');
     }
   }
 }

@@ -50,6 +50,7 @@ import { PageQuery } from '@/shared/models';
 export class TableComponent implements OnChanges, AfterViewInit {
   itemsPerPageState$: Observable<IItemsPerPage> = this.store$.select(getItemsPerPageState);
   columnsToDisplay$: Observable<string[]>;
+  outlineBorders$: Observable<boolean>;
 
   @Input() id: string;
   @Input() dataSource: CommonDataSource<DataRow>;
@@ -58,7 +59,6 @@ export class TableComponent implements OnChanges, AfterViewInit {
   @Input() canSort = true;
   @Input() hasSettings = true;
   @Input() noContentMessage = CONSTANTS.NO_CONTENT_INFO;
-  @Input() hasOutlineBorder = true; // TODO: add logic to set it based on user preference
 
   @Output() readonly rowSelect: EventEmitter<number> = new EventEmitter<number>();
   @Output() readonly editClicked: EventEmitter<number> = new EventEmitter<number>();
@@ -160,13 +160,6 @@ export class TableComponent implements OnChanges, AfterViewInit {
     }
 
     return resultClasses.trim();
-  }
-
-  getActionsStickyBorders(title: string): string {
-    if (title === COLUMN_NAMES.ACTIONS && this.hasOutlineBorder) {
-      return STYLECONSTANTS.STICKY_WITH_BORDER;
-    }
-    return '';
   }
 
   resetTableConfig(): void {
