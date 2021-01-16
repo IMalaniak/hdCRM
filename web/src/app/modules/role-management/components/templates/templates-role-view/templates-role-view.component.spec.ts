@@ -10,6 +10,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { initialPreferencesState } from '@/core/store/preferences';
 import { Role } from '@/core/modules/role-api/shared';
+import { initialRolesState, rolesFeatureKey } from '@/core/modules/role-api/store/role';
 import { COLUMN_NAMES } from '@/shared/constants';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, formsStateMock, currentUserMock } from '@/shared/testing/mocks';
@@ -21,7 +22,8 @@ describe('TemplatesRoleViewComponent', () => {
   const initialState = {
     preferences: initialPreferencesState,
     auth: authStateMock,
-    forms: formsStateMock
+    forms: formsStateMock,
+    [rolesFeatureKey]: initialRolesState
   };
 
   const roleMock: Role = {

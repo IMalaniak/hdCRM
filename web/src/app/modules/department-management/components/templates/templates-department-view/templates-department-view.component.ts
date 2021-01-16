@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-
-import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { select, Store } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
 import { User } from '@/core/modules/user-api/shared';
 import { Department } from '@/core/modules/department-api/shared';
+import { selectDepartmentsLoading } from '@/core/modules/department-api/store';
 import { DialogService } from '@/shared/services';
 import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
 import { CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
@@ -18,6 +20,8 @@ import { UsersDialogComponent } from '@/modules/user-management/components';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TemplatesDepartmentViewComponent extends TemplatesViewDetailsComponent<Department> {
+  isLoading$: Observable<boolean> = this.store$.pipe(select(selectDepartmentsLoading));
+
   protected readonly formName = FORMCONSTANTS.DEPARTMENT;
 
   constructor(

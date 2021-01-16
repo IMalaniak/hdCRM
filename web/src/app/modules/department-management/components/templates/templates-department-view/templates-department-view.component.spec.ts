@@ -10,6 +10,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { initialPreferencesState } from '@/core/store/preferences';
 import { Department } from '@/core/modules/department-api/shared';
+import { departmentsFeatureKey, initialDepartmentApiState } from '@/core/modules/department-api/store';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, currentUserMock, formsStateMock } from '@/shared/testing/mocks';
 import { TemplatesDepartmentViewComponent } from './templates-department-view.component';
@@ -20,7 +21,8 @@ describe('TemplatesDepartmentViewComponent', () => {
   const initialState = {
     preferences: initialPreferencesState,
     auth: authStateMock,
-    forms: formsStateMock
+    forms: formsStateMock,
+    [departmentsFeatureKey]: initialDepartmentApiState
   };
 
   const departmentMock: Department = {

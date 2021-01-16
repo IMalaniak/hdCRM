@@ -57,6 +57,7 @@
     *ngIf="canEdit"
     [isCreatePage]="isCreatePage"
     [editForm]="editForm"
+    [isLoading]="isLoading$ | async"
     [disabled]="formInvalid"
     (cancelClick)="onClickCancelEdit()"
     (editClick)="onClickEdit()"

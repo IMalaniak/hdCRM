@@ -1,11 +1,13 @@
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
-
-import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { select, Store } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
 import { User } from '@/core/modules/user-api/shared';
 import { Plan } from '@/core/modules/plan-api/shared';
+import { selectPlansLoading } from '@/core/modules/plan-api/store/plan';
 import { Asset, DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
 import { DialogService } from '@/shared/services';
@@ -18,6 +20,8 @@ import { UsersDialogComponent } from '@/modules/user-management/components';
   styleUrls: ['./templates-plan-view.component.scss']
 })
 export class TemplatesPlanViewComponent extends TemplatesViewDetailsComponent<Plan> {
+  isLoading$: Observable<boolean> = this.store$.pipe(select(selectPlansLoading));
+
   @Input() canAddAttachment: boolean;
   @Input() canDeleteAttachment: boolean;
 
