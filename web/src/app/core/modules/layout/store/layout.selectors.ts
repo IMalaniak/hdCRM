@@ -15,3 +15,8 @@ export const tableColumnsToDisplay = (key: string) =>
   createSelector(tableConfigState, (state) =>
     state.entities[key]?.columns?.filter((c) => c.isVisible).map((c) => c.title)
   );
+
+export const tableOutlineBorders = (key: string) =>
+  createSelector(tableConfigState, (state) =>
+    state.entities[key] && state.entities[key].outlineBorders !== undefined ? state.entities[key].outlineBorders : true
+  );

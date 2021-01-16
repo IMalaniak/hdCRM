@@ -147,6 +147,18 @@
         <mat-icon [svgIcon]="icons.checksGrid"> </mat-icon>
         <span>Configure columns</span>
       </button>
+      <!-- show borders -->
+      <span mat-menu-item>
+        <mat-icon [svgIcon]="icons.borders"> </mat-icon>
+        <mat-checkbox
+          (click)="$event.stopPropagation()"
+          (ngModelChange)="updateTableConfig($event)"
+          [ngModel]="outlineBorders$"
+          labelPosition="before"
+        >
+          Outline borders
+        </mat-checkbox>
+      </span>
       <!-- reset grid -->
       <button mat-menu-item (click)="resetTableConfig()">
         <mat-icon [svgIcon]="icons.arrowClock"> </mat-icon>

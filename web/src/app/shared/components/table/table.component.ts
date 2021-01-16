@@ -21,7 +21,12 @@ import { select, Store } from '@ngrx/store';
 import { IconsService } from '@/core/services';
 import { AppState } from '@/core/store';
 import { getItemsPerPageState } from '@/core/store/preferences';
-import { removeTableConfig, setTableConfig, tableColumnsToDisplay } from '@/core/modules/layout/store';
+import {
+  removeTableConfig,
+  setTableConfig,
+  tableColumnsToDisplay,
+  tableOutlineBorders
+} from '@/core/modules/layout/store';
 import { DataColumn } from '@/shared/models/table/data-column.model';
 import { DataRow } from '@/shared/models/table/data-row';
 import {
@@ -79,6 +84,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
   columnsInitialState: TableColumnConfig[];
 
   icons: { [key: string]: BS_ICONS } = {
+    borders: BS_ICONS.BorderOuter,
     checksGrid: BS_ICONS.UiChecksGrid,
     threeDots: BS_ICONS.ThreeDotsVertical,
     checkCircle: BS_ICONS.CheckCircle,
@@ -170,15 +176,17 @@ export class TableComponent implements OnChanges, AfterViewInit {
     this.store$.dispatch(removeTableConfig({ key: this.id }));
   }
 
-  updateTableConfig(): void {
+  updateTableConfig(outlineBorders?: boolean): void {
     const tableConfig: TableConfig = {
       key: this.id,
+      outlineBorders,
       columns: this.columns.map((col) => ({ title: col.title, isVisible: col.isVisible }))
     };
     this.store$.dispatch(setTableConfig({ tableConfig }));
   }
 
   private setColumns(): void {
+    this.outlineBorders$ = this.store$.pipe(select(tableOutlineBorders(this.id)));
     this.columnsInitialState = this.columns.map((col) => ({ title: col.title, isVisible: col.isVisible }));
     this.columnsToDisplay$ = this.store$.pipe(
       select(tableColumnsToDisplay(this.id)),
