@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   Output,
   SimpleChanges,
   ViewChild
@@ -14,15 +15,20 @@ import { MatTable } from '@angular/material/table';
 import { CdkTable } from '@angular/cdk/table';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
-import { merge, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { merge, Observable, Subject } from 'rxjs';
+import { map, takeUntil, tap } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 
 import { IconsService } from '@/core/services';
 import { AppState } from '@/core/store';
 import { getItemsPerPageState } from '@/core/store/preferences';
-import { removeTableConfig, setTableConfig, tableColumnsToDisplay } from '@/core/modules/layout/store';
+import {
+  removeTableConfig,
+  setTableConfig,
+  tableColumnsConfig,
+  tableColumnsToDisplay
+} from '@/core/modules/layout/store';
 import { DataColumn } from '@/shared/models/table/data-column.model';
 import { DataRow } from '@/shared/models/table/data-row';
 import {
@@ -48,8 +54,8 @@ import { PageQuery } from '@/shared/models';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnChanges, AfterViewInit {
-  itemsPerPageState$: Observable<IItemsPerPage> = this.store$.select(getItemsPerPageState);
+export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
+  itemsPerPageState$: Observable<IItemsPerPage> = this.store$.pipe(select(getItemsPerPageState));
   columnsToDisplay$: Observable<string[]>;
 
   @Input() id: string;
@@ -94,8 +100,15 @@ export class TableComponent implements OnChanges, AfterViewInit {
     columnDrag: BS_ICONS.GripHorizontal
   };
 
+  private unsubscribe: Subject<void> = new Subject();
+
   constructor(private readonly store$: Store<AppState>, private readonly iconsService: IconsService) {
     this.iconsService.registerIcons([...Object.values(this.icons)]);
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -173,13 +186,12 @@ export class TableComponent implements OnChanges, AfterViewInit {
 
   resetTableConfig(): void {
     this.columns = this.columns
-      .map((col: DataColumn, i: number) => ({ ...col, isVisible: this.columnsInitialState[i].isVisible }))
-      .sort((a: DataColumn, b: DataColumn) => {
-        return (
+      .sort(
+        (a: DataColumn, b: DataColumn) =>
           this.columnsInitialState.findIndex((col: TableColumnConfig) => col.title === a.title) -
           this.columnsInitialState.findIndex((col: TableColumnConfig) => col.title === b.title)
-        );
-      });
+      )
+      .map((col: DataColumn, i: number) => ({ ...col, isVisible: this.columnsInitialState[i].isVisible }));
     this.store$.dispatch(removeTableConfig({ key: this.id }));
   }
 
@@ -204,20 +216,19 @@ export class TableComponent implements OnChanges, AfterViewInit {
     this.columnsInitialState = this.columns.map((col) => ({ title: col.title, isVisible: col.isVisible }));
     this.columnsToDisplay$ = this.store$.pipe(
       select(tableColumnsToDisplay(this.id)),
-      map((columns) => {
-        if (columns) {
-          this.columns = this.columns
-            .map((col: DataColumn) => ({ ...col, isVisible: columns.some((cTitle) => cTitle === col.title) }))
-            .sort((a: DataColumn, b: DataColumn) =>
-              columns.includes(a.title) ? columns.indexOf(a.title) - columns.indexOf(b.title) : 2
-            );
-        } else {
-          return this.columnsInitialState.filter((c) => c.isVisible).map((c) => c.title);
-        }
-
-        return columns;
-      })
+      map((columns) => (!columns ? this.columnsInitialState.filter((c) => c.isVisible).map((c) => c.title) : columns))
     );
+    this.store$.pipe(select(tableColumnsConfig(this.id)), takeUntil(this.unsubscribe)).subscribe((columnsConfig) => {
+      if (columnsConfig) {
+        this.columns = this.columns
+          .sort(
+            (a: DataColumn, b: DataColumn) =>
+              columnsConfig.findIndex((col: TableColumnConfig) => col.title === a.title) -
+              columnsConfig.findIndex((col: TableColumnConfig) => col.title === b.title)
+          )
+          .map((col: DataColumn, i: number) => ({ ...col, isVisible: columnsConfig[i].isVisible }));
+      }
+    });
   }
 
   private loadDataPage(): void {
