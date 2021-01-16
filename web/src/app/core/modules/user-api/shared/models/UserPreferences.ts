@@ -1,11 +1,7 @@
-import { IDateFormat, ITimeFormat, IItemsPerPage, IListView } from '@/shared/constants';
+import { Preferences } from '@/core/store/preferences';
 
-export interface UserPreferences {
+export interface UserPreferences extends Preferences {
   id: number;
-  dateFormat: IDateFormat;
-  timeFormat: ITimeFormat;
-  itemsPerPage: IItemsPerPage;
-  listView: IListView;
   createdAt: Date;
   updatedAt: Date;
   UserId: number;
