@@ -47,17 +47,17 @@
             <ng-container *ngSwitchCase="cellValueType.Value">
               <ng-container [ngSwitch]="row[column.title].controlType">
                 <!-- Sequence number -->
-                <ng-container *ngSwitchCase="cellControlType.SequenceNumber">
+                <ng-container *ngSwitchCase="cellType.Sequence">
                   {{ getSequenceNumber(i + 1) }}
                 </ng-container>
 
                 <!-- String -->
-                <ng-container *ngSwitchCase="cellControlType.String" [ngClass]="row[column.title].customClass">
+                <ng-container *ngSwitchCase="cellType.String" [ngClass]="row[column.title].customClass">
                   {{ row[column.title].value }}
                 </ng-container>
 
                 <!-- Navigation -->
-                <ng-container *ngSwitchCase="cellControlType.Navigation">
+                <ng-container *ngSwitchCase="cellType.Navigation">
                   <atoms-link-button
                     [linkLabel]="row[column.title].value"
                     [linkColor]="themePalette.BASIC"
@@ -70,7 +70,7 @@
                 </ng-container>
 
                 <!-- Checkbox -->
-                <ng-container *ngSwitchCase="cellControlType.Checkbox">
+                <ng-container *ngSwitchCase="cellType.Checkbox">
                   <mat-checkbox
                     [checked]="row[column.title].value"
                     [disabled]="row[column.title].disabled"
@@ -79,7 +79,7 @@
                 </ng-container>
 
                 <!-- Icon -->
-                <ng-container *ngSwitchCase="cellControlType.Icon">
+                <ng-container *ngSwitchCase="cellType.Icon">
                   <mat-icon
                     [color]="row[column.title].customClass"
                     [svgIcon]="row[column.title].value ? icons.checkCircle : icons.xCircle"
@@ -87,7 +87,7 @@
                 </ng-container>
 
                 <!-- Avatar -->
-                <ng-container *ngSwitchCase="cellControlType.Avatar">
+                <ng-container *ngSwitchCase="cellType.Avatar">
                   <atoms-user-pic
                     [avatar]="row[column.title].value?.avatar"
                     [userOnline]="row[column.title].value?.online"
@@ -95,7 +95,7 @@
                 </ng-container>
 
                 <!-- Date -->
-                <ng-container *ngSwitchCase="cellControlType.Date">
+                <ng-container *ngSwitchCase="cellType.Date">
                   {{ row[column.title].value | dateTimeFormat | async }}
                 </ng-container>
               </ng-container>

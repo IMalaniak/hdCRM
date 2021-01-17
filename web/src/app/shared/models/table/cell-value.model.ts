@@ -1,7 +1,7 @@
 import { User } from '@/core/modules/user-api/shared';
 import { ACTION_LABELS, BS_ICONS, STYLECONSTANTS, THEME_PALETTE } from '@/shared/constants';
 import { CellActionType } from './cellActionType.enum';
-import { CellControlType } from './cellControlType.enum';
+import { CellType } from './cellType.enum';
 import { CellValueType } from './cellValueType.enum';
 import { CellAction } from './cell-action';
 import { Navigation } from './navigation';
@@ -11,7 +11,7 @@ export class CellValue {
 
   constructor(
     readonly value: any,
-    readonly controlType: CellControlType,
+    readonly controlType: CellType,
     readonly customClass?: string,
     readonly navigation?: Navigation,
     readonly valueType: CellValueType = CellValueType.Value,
@@ -20,42 +20,42 @@ export class CellValue {
   ) {}
 
   static createSequenceCell(): CellValue {
-    return new CellValue(undefined, CellControlType.SequenceNumber, STYLECONSTANTS.SEQUENCE);
+    return new CellValue(undefined, CellType.Sequence, STYLECONSTANTS.SEQUENCE);
   }
 
   static createStringCell(value: string | number, customClass?: string): CellValue {
-    return value ? new CellValue(value, CellControlType.String, customClass) : this.createEmptyCell();
+    return value ? new CellValue(value, CellType.String, customClass) : this.createEmptyCell();
   }
 
   static createLinkCell(value: string, navigation: Navigation): CellValue {
     return value
-      ? new CellValue(value, CellControlType.Navigation, undefined, navigation)
+      ? new CellValue(value, CellType.Navigation, undefined, navigation)
       : this.createEmptyCell(STYLECONSTANTS.PL_HEADER_LINK);
   }
 
   static createBooleanIconCell(value: boolean, disabledColor = false): CellValue {
     return new CellValue(
       value,
-      CellControlType.Icon,
+      CellType.Icon,
       !disabledColor ? (value ? THEME_PALETTE.ACCENT : THEME_PALETTE.WARN) : ''
     );
   }
 
   static createCheckboxCell(action: CellActionType, value = false): CellValue {
-    let cell: CellValue = new CellValue(value, CellControlType.Checkbox);
+    let cell: CellValue = new CellValue(value, CellType.Checkbox);
     return (cell = { ...cell, cellAction: action });
   }
 
   static createAvatarCell(value: User): CellValue {
-    return new CellValue(value, CellControlType.Avatar);
+    return new CellValue(value, CellType.Avatar);
   }
 
   static createDateCell(value: Date): CellValue {
-    return new CellValue(value, CellControlType.Date);
+    return new CellValue(value, CellType.Date);
   }
 
   static createEmptyCell(customClass = ''): CellValue {
-    return new CellValue('-', CellControlType.String, customClass);
+    return new CellValue('-', CellType.String, customClass);
   }
 
   static createActionsCell(additionalActions?: CellAction[]): CellValue {
@@ -74,6 +74,6 @@ export class CellValue {
     actions = [...actions, { type: CellActionType.Delete, icon: BS_ICONS.Trash, label: ACTION_LABELS.DELETE }];
     // }
 
-    return new CellValue(undefined, CellControlType.Action, undefined, undefined, CellValueType.Actions, actions);
+    return new CellValue(undefined, CellType.Action, undefined, undefined, CellValueType.Actions, actions);
   }
 }

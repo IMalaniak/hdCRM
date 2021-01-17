@@ -37,7 +37,7 @@ import {
   THEME_PALETTE
 } from '@/shared/constants';
 import { HorizontalAlign } from '@/shared/models/table/horizontalAlign.enum';
-import { CellActionType, CellControlType, CellValueType, TableColumnConfig, TableConfig } from '@/shared/models/table';
+import { CellActionType, CellType, CellValueType, TableColumnConfig, TableConfig } from '@/shared/models/table';
 import { CustomActionEvent } from '@/shared/models/table/custom-action-event';
 import { CommonDataSource } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
@@ -71,7 +71,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
 
   pageSizeOptions: number[] = pageSizeOptions;
   cellValueType = CellValueType;
-  cellControlType = CellControlType;
+  cellType = CellType;
   buttonType = BUTTON_TYPE;
   matButtonType = MAT_BUTTON;
   themePalette = THEME_PALETTE;

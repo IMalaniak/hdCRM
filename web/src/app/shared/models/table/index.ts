@@ -2,7 +2,7 @@ export * from './data-column.model';
 export * from './data-row';
 export * from './cell-value.model';
 export * from './horizontalAlign.enum';
-export * from './cellControlType.enum';
+export * from './cellType.enum';
 export * from './navigation';
 export * from './cellActionType.enum';
 export * from './cellValueType.enum';
