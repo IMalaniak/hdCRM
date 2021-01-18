@@ -1,10 +1,10 @@
 import { User } from '@/core/modules/user-api/shared';
 import { ACTION_LABELS, BS_ICONS, STYLECONSTANTS, THEME_PALETTE } from '@/shared/constants';
+import { Navigation } from '@/shared/utils/';
 import { CellActionType } from './cellActionType.enum';
 import { CellType } from './cellType.enum';
 import { CellValueType } from './cellValueType.enum';
 import { CellAction } from './cell-action';
-import { Navigation } from './navigation';
 
 export class CellValue {
   cellAction: CellActionType;

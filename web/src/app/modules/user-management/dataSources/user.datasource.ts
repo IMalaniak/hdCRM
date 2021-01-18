@@ -6,9 +6,9 @@ import { listPageRequested } from '@/core/modules/user-api/store';
 import { User } from '@/core/modules/user-api/shared';
 import { PageQuery } from '@/shared/models';
 import { CommonDataSource } from '@/shared/services';
-import { CellValue, createNavigation, DataRow } from '@/shared/models/table';
+import { CellValue, DataRow } from '@/shared/models/table';
 import { COLUMN_NAMES } from '@/shared/constants/table.constants';
-import { UrlGenerator } from '@/shared/utils';
+import { createNavigation, UrlGenerator } from '@/shared/utils';
 import { CONSTANTS, LINK_TARGET, LINK_TYPE } from '@/shared/constants';
 import { selectUsersPage } from '../store';
 
