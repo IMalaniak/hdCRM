@@ -3,7 +3,6 @@ import { ACTION_LABELS, BS_ICONS, STYLECONSTANTS, THEME_PALETTE } from '@/shared
 import { Navigation } from '@/shared/utils/';
 import { CellActionType } from './cellActionType.enum';
 import { CellType } from './cellType.enum';
-import { CellValueType } from './cellValueType.enum';
 import { CellAction } from './cell-action';
 
 export class CellValue {
@@ -14,9 +13,7 @@ export class CellValue {
     readonly cellType: CellType,
     readonly customClass?: string,
     readonly navigation?: Navigation,
-    readonly valueType: CellValueType = CellValueType.Value,
-    readonly actions: CellAction[] = [],
-    readonly disabled = false
+    readonly actions: CellAction[] = []
   ) {}
 
   static createSequenceCell(): CellValue {
@@ -74,6 +71,6 @@ export class CellValue {
     actions = [...actions, { type: CellActionType.Delete, icon: BS_ICONS.Trash, label: ACTION_LABELS.DELETE }];
     // }
 
-    return new CellValue(undefined, CellType.Action, undefined, undefined, CellValueType.Actions, actions);
+    return new CellValue(undefined, CellType.Actions, undefined, undefined, actions);
   }
 }

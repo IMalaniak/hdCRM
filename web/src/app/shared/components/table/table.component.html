@@ -42,67 +42,62 @@
           ]"
         >
           <!-- CELL SWITCH CASES -->
-          <ng-container [ngSwitch]="row[column.title].valueType">
-            <!-- VALUE COLUMNS -->
-            <ng-container *ngSwitchCase="cellValueType.Value">
-              <ng-container [ngSwitch]="row[column.title].cellType">
-                <!-- Sequence number -->
-                <ng-container *ngSwitchCase="cellType.Sequence">
-                  {{ i | memoize: getSequenceNumber:this }}
-                </ng-container>
-
-                <!-- String -->
-                <ng-container *ngSwitchCase="cellType.String" [ngClass]="row[column.title].customClass">
-                  {{ row[column.title].value }}
-                </ng-container>
-
-                <!-- Navigation -->
-                <ng-container *ngSwitchCase="cellType.Navigation">
-                  <atoms-link-button
-                    linkClass="w-100 text-underline text-left"
-                    [linkLabel]="row[column.title].value"
-                    [linkColor]="themePalette.BASIC"
-                    [linkType]="row[column.title].navigation.linkType"
-                    [linkHref]="row[column.title].navigation.linkHref"
-                    [target]="row[column.title].navigation.target"
-                    (click)="$event.stopPropagation()"
-                  ></atoms-link-button>
-                </ng-container>
-
-                <!-- Checkbox -->
-                <ng-container *ngSwitchCase="cellType.Checkbox">
-                  <mat-checkbox
-                    [checked]="row[column.title].value"
-                    [disabled]="row[column.title].disabled"
-                    (change)="actionClicked(row[column.title].cellAction, i, $event)"
-                  ></mat-checkbox>
-                </ng-container>
-
-                <!-- Icon -->
-                <ng-container *ngSwitchCase="cellType.Icon">
-                  <mat-icon
-                    [color]="row[column.title].customClass"
-                    [svgIcon]="row[column.title].value ? icons.checkCircle : icons.xCircle"
-                  ></mat-icon>
-                </ng-container>
-
-                <!-- Avatar -->
-                <ng-container *ngSwitchCase="cellType.Avatar">
-                  <atoms-user-pic
-                    [avatar]="row[column.title].value?.avatar"
-                    [userOnline]="row[column.title].value?.online"
-                  ></atoms-user-pic>
-                </ng-container>
-
-                <!-- Date -->
-                <ng-container *ngSwitchCase="cellType.Date">
-                  {{ row[column.title].value | dateTimeFormat | async }}
-                </ng-container>
-              </ng-container>
+          <ng-container [ngSwitch]="row[column.title].cellType">
+            <!-- Sequence number -->
+            <ng-container *ngSwitchCase="cellType.Sequence">
+              {{ i | memoize: getSequenceNumber:this }}
             </ng-container>
 
-            <!-- ACTIONS COLUMN -->
-            <ng-container *ngSwitchCase="cellValueType.Actions">
+            <!-- String -->
+            <ng-container *ngSwitchCase="cellType.String" [ngClass]="row[column.title].customClass">
+              {{ row[column.title].value }}
+            </ng-container>
+
+            <!-- Navigation -->
+            <ng-container *ngSwitchCase="cellType.Navigation">
+              <atoms-link-button
+                linkClass="w-100 text-underline text-left"
+                [linkLabel]="row[column.title].value"
+                [linkColor]="themePalette.BASIC"
+                [linkType]="row[column.title].navigation.linkType"
+                [linkHref]="row[column.title].navigation.linkHref"
+                [target]="row[column.title].navigation.target"
+                (click)="$event.stopPropagation()"
+              ></atoms-link-button>
+            </ng-container>
+
+            <!-- Checkbox -->
+            <ng-container *ngSwitchCase="cellType.Checkbox">
+              <mat-checkbox
+                [checked]="row[column.title].value"
+                [disabled]="row[column.title].disabled"
+                (change)="actionClicked(row[column.title].cellAction, i, $event)"
+              ></mat-checkbox>
+            </ng-container>
+
+            <!-- Icon -->
+            <ng-container *ngSwitchCase="cellType.Icon">
+              <mat-icon
+                [color]="row[column.title].customClass"
+                [svgIcon]="row[column.title].value ? icons.checkCircle : icons.xCircle"
+              ></mat-icon>
+            </ng-container>
+
+            <!-- Avatar -->
+            <ng-container *ngSwitchCase="cellType.Avatar">
+              <atoms-user-pic
+                [avatar]="row[column.title].value?.avatar"
+                [userOnline]="row[column.title].value?.online"
+              ></atoms-user-pic>
+            </ng-container>
+
+            <!-- Date -->
+            <ng-container *ngSwitchCase="cellType.Date">
+              {{ row[column.title].value | dateTimeFormat | async }}
+            </ng-container>
+
+            <!-- Actions-->
+            <ng-container *ngSwitchCase="cellType.Actions">
               <atoms-icon-button
                 [color]="themePalette.BASIC"
                 [matType]="matButtonType.ICON"

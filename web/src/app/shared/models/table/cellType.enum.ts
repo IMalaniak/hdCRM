@@ -1,6 +1,6 @@
 export enum CellType {
   Sequence,
-  Action,
+  Actions,
   String,
   Navigation,
   Icon,

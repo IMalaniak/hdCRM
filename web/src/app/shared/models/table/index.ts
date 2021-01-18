@@ -4,6 +4,5 @@ export * from './cell-value.model';
 export * from './horizontalAlign.enum';
 export * from './cellType.enum';
 export * from './cellActionType.enum';
-export * from './cellValueType.enum';
 export * from './cell-action';
 export * from './TableConfig';

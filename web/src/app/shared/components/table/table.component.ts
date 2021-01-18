@@ -37,7 +37,7 @@ import {
   THEME_PALETTE
 } from '@/shared/constants';
 import { HorizontalAlign } from '@/shared/models/table/horizontalAlign.enum';
-import { CellActionType, CellType, CellValueType, TableColumnConfig, TableConfig } from '@/shared/models/table';
+import { CellActionType, CellType, TableColumnConfig, TableConfig } from '@/shared/models/table';
 import { CustomActionEvent } from '@/shared/models/table/custom-action-event';
 import { CommonDataSource } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
@@ -70,7 +70,6 @@ export class TableComponent implements OnChanges, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   pageSizeOptions: number[] = pageSizeOptions;
-  cellValueType = CellValueType;
   cellType = CellType;
   buttonType = BUTTON_TYPE;
   matButtonType = MAT_BUTTON;
