@@ -111,6 +111,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
     this.loadDataPage();
   }
 
+  // TODO: @ArsenIrod: this looks strange...
   actionClicked(action: CellActionType, id: number, event: Event | MatCheckboxChange): void {
     if (event instanceof Event) {
       event.stopImmediatePropagation();
@@ -134,7 +135,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
   }
 
   getSequenceNumber(index: number): number {
-    return index;
+    return this.paginator.pageIndex * this.paginator.pageSize + index + 1;
   }
 
   getColumnClasses(align: HorizontalAlign, customClass?: string): string {
