@@ -11,7 +11,7 @@ export class CellValue {
 
   constructor(
     readonly value: any,
-    readonly controlType: CellType,
+    readonly cellType: CellType,
     readonly customClass?: string,
     readonly navigation?: Navigation,
     readonly valueType: CellValueType = CellValueType.Value,

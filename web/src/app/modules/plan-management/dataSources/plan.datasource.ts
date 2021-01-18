@@ -31,7 +31,7 @@ export class PlansDataSource extends CommonDataSource<Plan> {
   protected mapToDataRows(plans: Plan[]): DataRow[] {
     return plans.map((plan) => ({
       id: plan.id,
-      [COLUMN_NAMES.SEQUENCE_NUMBER]: CellValue.createSequenceCell(),
+      [COLUMN_NAMES.SEQUENCE]: CellValue.createSequenceCell(),
       [COLUMN_NAMES.TITLE]: CellValue.createStringCell(plan.title),
       [COLUMN_NAMES.STAGE]: CellValue.createStringCell(plan.activeStage?.keyString),
       [COLUMN_NAMES.CREATOR]: CellValue.createLinkCell(

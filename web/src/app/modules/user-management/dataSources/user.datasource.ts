@@ -34,7 +34,7 @@ export class UsersDataSource extends CommonDataSource<User> {
     // The proble related for createNavigationMethod
     return users.map((user) => ({
       id: user.id,
-      [COLUMN_NAMES.SEQUENCE_NUMBER]: CellValue.createSequenceCell(),
+      [COLUMN_NAMES.SEQUENCE]: CellValue.createSequenceCell(),
       [COLUMN_NAMES.AVATAR]: CellValue.createAvatarCell(user),
       [COLUMN_NAMES.LOGIN]: CellValue.createStringCell(user.login),
       [COLUMN_NAMES.EMAIL]: CellValue.createLinkCell(

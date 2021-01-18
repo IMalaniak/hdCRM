@@ -37,14 +37,7 @@ export class DataColumn {
   }
 
   static createSequenceNumberColumn(): DataColumn {
-    return new DataColumn(
-      COLUMN_NAMES.SEQUENCE_NUMBER,
-      HorizontalAlign.Left,
-      true,
-      true,
-      false,
-      STYLECONSTANTS.SEQUENCE
-    );
+    return new DataColumn(COLUMN_NAMES.SEQUENCE, HorizontalAlign.Left, true, true, false, STYLECONSTANTS.SEQUENCE);
   }
 
   static createLinkColumn({ title = '', hasSorting = true }: { title: string; hasSorting?: boolean }): DataColumn {

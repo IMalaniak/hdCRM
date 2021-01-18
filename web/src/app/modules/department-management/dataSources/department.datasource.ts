@@ -31,7 +31,7 @@ export class DepartmentsDataSource extends CommonDataSource<Department> {
   protected mapToDataRows(departments: Department[]): DataRow[] {
     return departments.map((department) => ({
       id: department.id,
-      [COLUMN_NAMES.SEQUENCE_NUMBER]: CellValue.createSequenceCell(),
+      [COLUMN_NAMES.SEQUENCE]: CellValue.createSequenceCell(),
       [COLUMN_NAMES.TITLE]: CellValue.createStringCell(department.title),
       [COLUMN_NAMES.MANAGER]: CellValue.createLinkCell(
         department.Manager?.fullname,

@@ -25,6 +25,7 @@ export enum COLUMN_NAMES {
   PHONE = 'phone',
   PRIVILEGES = 'privileges',
   SELECT = 'select',
+  SEQUENCE = '#',
   STAGE = 'stage',
   STATE = 'state',
   SURNAME = 'surname',
@@ -33,8 +34,7 @@ export enum COLUMN_NAMES {
   UPDATED_AT = 'updatedAt',
   USERS = 'users',
   VIEW = 'view',
-  WORKERS = 'workers',
-  SEQUENCE_NUMBER = '#'
+  WORKERS = 'workers'
 }
 
 export enum COLUMN_LABELS {

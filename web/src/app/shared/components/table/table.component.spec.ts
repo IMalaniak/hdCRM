@@ -37,7 +37,7 @@ class TestDataSource extends CommonDataSource<TestData> {
   protected mapToDataRows(items: any[]): DataRow[] {
     return items.map((item: { id: any; title: string; createdAt: Date; updatedAt: Date }) => ({
       id: item.id,
-      [COLUMN_NAMES.SEQUENCE_NUMBER]: CellValue.createSequenceCell(),
+      [COLUMN_NAMES.SEQUENCE]: CellValue.createSequenceCell(),
       [COLUMN_NAMES.TITLE]: CellValue.createStringCell(item.title),
       [COLUMN_NAMES.CREATED_AT]: CellValue.createDateCell(item.createdAt),
       [COLUMN_NAMES.UPDATED_AT]: CellValue.createDateCell(item.updatedAt),

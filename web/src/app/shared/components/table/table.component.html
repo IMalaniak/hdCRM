@@ -41,11 +41,11 @@
             getActionsStickyBorders(column.title)
           ]"
         >
-          <!-- ROW SWITCH CASES -->
+          <!-- CELL SWITCH CASES -->
           <ng-container [ngSwitch]="row[column.title].valueType">
             <!-- VALUE COLUMNS -->
             <ng-container *ngSwitchCase="cellValueType.Value">
-              <ng-container [ngSwitch]="row[column.title].controlType">
+              <ng-container [ngSwitch]="row[column.title].cellType">
                 <!-- Sequence number -->
                 <ng-container *ngSwitchCase="cellType.Sequence">
                   {{ i | memoize: getSequenceNumber:this }}
