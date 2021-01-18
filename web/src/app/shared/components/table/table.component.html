@@ -48,7 +48,7 @@
               <ng-container [ngSwitch]="row[column.title].controlType">
                 <!-- Sequence number -->
                 <ng-container *ngSwitchCase="cellControlType.SequenceNumber">
-                  {{ getSequenceNumber(i + 1) }}
+                  {{ i | memoize: getSequenceNumber:this }}
                 </ng-container>
 
                 <!-- String -->
