@@ -8,6 +8,7 @@ export class DataColumn {
     readonly horizontalAlign: HorizontalAlign = HorizontalAlign.Left,
     public isVisible = true,
     readonly hidable = true,
+    readonly draggable = true,
     readonly hasSorting: boolean = true,
     readonly customClass?: string,
     readonly sticky: boolean = false,
@@ -19,6 +20,7 @@ export class DataColumn {
     horizontalAlign = HorizontalAlign.Left,
     isVisible = true,
     hidable = true,
+    draggable = true,
     hasSorting = true,
     customClass,
     sticky = false,
@@ -28,12 +30,23 @@ export class DataColumn {
     horizontalAlign?: HorizontalAlign;
     isVisible?: boolean;
     hidable?: boolean;
+    draggable?: boolean;
     hasSorting?: boolean;
     customClass?: string;
     sticky?: boolean;
     stickyEnd?: boolean;
   }): DataColumn {
-    return new DataColumn(title, horizontalAlign, isVisible, hidable, hasSorting, customClass, sticky, stickyEnd);
+    return new DataColumn(
+      title,
+      horizontalAlign,
+      isVisible,
+      hidable,
+      draggable,
+      hasSorting,
+      customClass,
+      sticky,
+      stickyEnd
+    );
   }
 
   static createSequenceNumberColumn(): DataColumn {
@@ -43,15 +56,16 @@ export class DataColumn {
       true,
       true,
       false,
+      false,
       STYLECONSTANTS.SEQUENCE
     );
   }
 
   static createLinkColumn({ title = '', hasSorting = true }: { title: string; hasSorting?: boolean }): DataColumn {
-    return new DataColumn(title, HorizontalAlign.Left, true, true, hasSorting, STYLECONSTANTS.PL_HEADER_LINK);
+    return new DataColumn(title, HorizontalAlign.Left, true, true, true, hasSorting, STYLECONSTANTS.PL_HEADER_LINK);
   }
 
   static createActionsColumn(): DataColumn {
-    return new DataColumn(COLUMN_NAMES.ACTIONS, HorizontalAlign.Center, true, false, false, '', false, true);
+    return new DataColumn(COLUMN_NAMES.ACTIONS, HorizontalAlign.Center, true, false, false, false, '', false, true);
   }
 }
