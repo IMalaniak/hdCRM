@@ -13,7 +13,7 @@ import { isPrivileged, currentUser } from '@/core/modules/auth/store/auth.select
 import { IconsService } from '@/core/services';
 import { DialogCreateEditModel, DialogDataModel, DialogMode, DialogType, DialogResultModel } from '@/shared/models';
 import { RoutingConstants, CONSTANTS, UserState, BS_ICONS } from '@/shared/constants';
-import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_NAMES } from '@/shared/constants';
+import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_KEYS } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
@@ -53,16 +53,16 @@ export class UsersComponent implements OnDestroy {
 
   displayedColumns: DataColumn[] = [
     DataColumn.createSequenceNumberColumn(),
-    DataColumn.createColumn({ title: COLUMN_NAMES.AVATAR, hasSorting: false }),
-    DataColumn.createColumn({ title: COLUMN_NAMES.LOGIN }),
-    DataColumn.createLinkColumn({ title: COLUMN_NAMES.EMAIL }),
-    DataColumn.createColumn({ title: COLUMN_NAMES.NAME }),
-    DataColumn.createColumn({ title: COLUMN_NAMES.SURNAME }),
-    DataColumn.createLinkColumn({ title: COLUMN_NAMES.PHONE }),
-    DataColumn.createLinkColumn({ title: COLUMN_NAMES.DEPARTMENT, hasSorting: false }),
-    DataColumn.createColumn({ title: COLUMN_NAMES.STATE }),
-    DataColumn.createColumn({ title: COLUMN_NAMES.CREATED_AT }),
-    DataColumn.createColumn({ title: COLUMN_NAMES.UPDATED_AT }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.AVATAR, hasSorting: false }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.LOGIN }),
+    DataColumn.createLinkColumn({ key: COLUMN_KEYS.EMAIL }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.NAME }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.SURNAME }),
+    DataColumn.createLinkColumn({ key: COLUMN_KEYS.PHONE }),
+    DataColumn.createLinkColumn({ key: COLUMN_KEYS.DEPARTMENT, hasSorting: false }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.STATE }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
     DataColumn.createActionsColumn()
   ];
 

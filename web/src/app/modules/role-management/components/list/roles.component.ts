@@ -9,7 +9,7 @@ import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { deleteRoleRequested } from '@/core/modules/role-api/store/role';
 import { DialogDataModel } from '@/shared/models';
 import { ACTION_LABELS, RoutingConstants, CONSTANTS, BS_ICONS } from '@/shared/constants';
-import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_NAMES } from '@/shared/constants';
+import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_KEYS } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
@@ -43,11 +43,11 @@ export class RolesComponent {
 
   displayedColumns: DataColumn[] = [
     DataColumn.createSequenceNumberColumn(),
-    DataColumn.createColumn({ title: COLUMN_NAMES.TITLE }),
-    DataColumn.createColumn({ title: COLUMN_NAMES.USERS }),
-    DataColumn.createColumn({ title: COLUMN_NAMES.PRIVILEGES }),
-    DataColumn.createColumn({ title: COLUMN_NAMES.CREATED_AT }),
-    DataColumn.createColumn({ title: COLUMN_NAMES.UPDATED_AT }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.TITLE }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.USERS }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.PRIVILEGES }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
     DataColumn.createActionsColumn()
   ];
 

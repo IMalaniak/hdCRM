@@ -9,7 +9,7 @@ import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { deleteDepartmentRequested } from '@/core/modules/department-api/store';
 import { DialogDataModel } from '@/shared/models';
 import { RoutingConstants, CONSTANTS, BS_ICONS } from '@/shared/constants';
-import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_NAMES } from '@/shared/constants';
+import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_KEYS } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
@@ -40,11 +40,11 @@ export class DepartmentsComponent {
 
   displayedColumns: DataColumn[] = [
     DataColumn.createSequenceNumberColumn(),
-    DataColumn.createColumn({ title: COLUMN_NAMES.TITLE }),
-    DataColumn.createLinkColumn({ title: COLUMN_NAMES.MANAGER }),
-    DataColumn.createColumn({ title: COLUMN_NAMES.WORKERS }),
-    DataColumn.createColumn({ title: COLUMN_NAMES.CREATED_AT }),
-    DataColumn.createColumn({ title: COLUMN_NAMES.UPDATED_AT }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.TITLE }),
+    DataColumn.createLinkColumn({ key: COLUMN_KEYS.MANAGER }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.WORKERS }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
     DataColumn.createActionsColumn()
   ];
 

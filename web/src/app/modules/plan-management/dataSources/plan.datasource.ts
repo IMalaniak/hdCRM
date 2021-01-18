@@ -6,7 +6,7 @@ import { Plan } from '@/core/modules/plan-api/shared';
 import { listPageRequested } from '@/core/modules/plan-api/store/plan';
 import { PageQuery } from '@/shared/models';
 import { CommonDataSource } from '@/shared/services';
-import { COLUMN_NAMES } from '@/shared/constants';
+import { COLUMN_KEYS } from '@/shared/constants';
 import { DataRow, CellValue } from '@/shared/models/table';
 import { UrlGenerator } from '@/shared/utils';
 import { selectPlansOfPage } from '../store';
@@ -31,17 +31,17 @@ export class PlansDataSource extends CommonDataSource<Plan> {
   protected mapToDataRows(plans: Plan[]): DataRow[] {
     return plans.map((plan) => ({
       id: plan.id,
-      [COLUMN_NAMES.SEQUENCE]: CellValue.createSequenceCell(),
-      [COLUMN_NAMES.TITLE]: CellValue.createStringCell(plan.title),
-      [COLUMN_NAMES.STAGE]: CellValue.createStringCell(plan.activeStage?.keyString),
-      [COLUMN_NAMES.CREATOR]: CellValue.createLinkCell(
+      [COLUMN_KEYS.SEQUENCE]: CellValue.createSequenceCell(),
+      [COLUMN_KEYS.TITLE]: CellValue.createStringCell(plan.title),
+      [COLUMN_KEYS.STAGE]: CellValue.createStringCell(plan.activeStage?.keyString),
+      [COLUMN_KEYS.CREATOR]: CellValue.createLinkCell(
         plan.Creator?.fullname,
         UrlGenerator.getUserUrl(plan.Creator?.id)
       ),
-      [COLUMN_NAMES.PARTICIPANTS]: CellValue.createStringCell(plan.Participants?.length),
-      [COLUMN_NAMES.CREATED_AT]: CellValue.createDateCell(plan.createdAt),
-      [COLUMN_NAMES.UPDATED_AT]: CellValue.createDateCell(plan.updatedAt),
-      [COLUMN_NAMES.ACTIONS]: CellValue.createActionsCell()
+      [COLUMN_KEYS.PARTICIPANTS]: CellValue.createStringCell(plan.Participants?.length),
+      [COLUMN_KEYS.CREATED_AT]: CellValue.createDateCell(plan.createdAt),
+      [COLUMN_KEYS.UPDATED_AT]: CellValue.createDateCell(plan.updatedAt),
+      [COLUMN_KEYS.ACTIONS]: CellValue.createActionsCell()
     }));
   }
 }

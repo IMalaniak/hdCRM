@@ -17,7 +17,7 @@ export class CellValue {
   ) {}
 
   static createSequenceCell(): CellValue {
-    return new CellValue(undefined, CellType.Sequence, STYLECONSTANTS.SEQUENCE);
+    return new CellValue(undefined, CellType.Sequence);
   }
 
   static createStringCell(value: string | number, customClass?: string): CellValue {

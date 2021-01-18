@@ -27,7 +27,7 @@ import { DataRow } from '@/shared/models/table/data-row';
 import {
   BS_ICONS,
   BUTTON_TYPE,
-  COLUMN_NAMES,
+  COLUMN_KEYS,
   CONSTANTS,
   IItemsPerPage,
   MAT_BUTTON,
@@ -74,7 +74,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
   buttonType = BUTTON_TYPE;
   matButtonType = MAT_BUTTON;
   themePalette = THEME_PALETTE;
-  columnActions = COLUMN_NAMES.ACTIONS;
+  columnActions = COLUMN_KEYS.ACTIONS;
   columnsInitialState: TableColumnConfig[];
 
   icons: { [key: string]: BS_ICONS } = {
@@ -163,7 +163,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
   }
 
   getActionsStickyBorders(title: string): string {
-    if (title === COLUMN_NAMES.ACTIONS && this.hasOutlineBorder) {
+    if (title === COLUMN_KEYS.ACTIONS && this.hasOutlineBorder) {
       return STYLECONSTANTS.STICKY_WITH_BORDER;
     }
     return '';
@@ -180,13 +180,13 @@ export class TableComponent implements OnChanges, AfterViewInit {
   updateTableConfig(): void {
     const tableConfig: TableConfig = {
       key: this.id,
-      columns: this.columns.map((col) => ({ title: col.title, isVisible: col.isVisible }))
+      columns: this.columns.map((col) => ({ title: col.key, isVisible: col.isVisible }))
     };
     this.store$.dispatch(setTableConfig({ tableConfig }));
   }
 
   private setColumns(): void {
-    this.columnsInitialState = this.columns.map((col) => ({ title: col.title, isVisible: col.isVisible }));
+    this.columnsInitialState = this.columns.map((col) => ({ title: col.key, isVisible: col.isVisible }));
     this.columnsToDisplay$ = this.store$.pipe(
       select(tableColumnsToDisplay(this.id)),
       map((columns) => {
@@ -194,7 +194,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
           return this.columnsInitialState.filter((c) => c.isVisible).map((c) => c.title);
         } else {
           this.columns = this.columns.map((col: DataColumn) => {
-            col = { ...col, isVisible: columns.some((cTitle) => cTitle === col.title) };
+            col = { ...col, isVisible: columns.some((cTitle) => cTitle === col.key) };
             return col;
           });
         }
@@ -207,7 +207,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
     const newPage: PageQuery = {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,
-      sortIndex: this.sort.active || COLUMN_NAMES.ID,
+      sortIndex: this.sort.active || COLUMN_KEYS.ID,
       sortDirection: this.sort.direction || SORT_DIRECTION.ASC
     };
 

@@ -1,10 +1,11 @@
 import { STYLECONSTANTS } from '@/shared/constants';
-import { COLUMN_NAMES } from '@/shared/constants/table.constants';
+import { COLUMN_LABELS, COLUMN_KEYS } from '@/shared/constants/table.constants';
 import { HorizontalAlign } from './horizontalAlign.enum';
 
 export class DataColumn {
   constructor(
-    readonly title: string,
+    readonly key: string,
+    readonly label: string,
     readonly horizontalAlign: HorizontalAlign = HorizontalAlign.Left,
     public isVisible = true,
     readonly hidable = true,
@@ -15,7 +16,7 @@ export class DataColumn {
   ) {}
 
   static createColumn({
-    title,
+    key,
     horizontalAlign = HorizontalAlign.Left,
     isVisible = true,
     hidable = true,
@@ -24,7 +25,7 @@ export class DataColumn {
     sticky = false,
     stickyEnd = false
   }: {
-    title: string;
+    key: string;
     horizontalAlign?: HorizontalAlign;
     isVisible?: boolean;
     hidable?: boolean;
@@ -33,18 +34,48 @@ export class DataColumn {
     sticky?: boolean;
     stickyEnd?: boolean;
   }): DataColumn {
-    return new DataColumn(title, horizontalAlign, isVisible, hidable, hasSorting, customClass, sticky, stickyEnd);
+    console.log(key);
+
+    return new DataColumn(
+      key,
+      COLUMN_LABELS[key.toUpperCase()],
+      horizontalAlign,
+      isVisible,
+      hidable,
+      hasSorting,
+      customClass,
+      sticky,
+      stickyEnd
+    );
   }
 
   static createSequenceNumberColumn(): DataColumn {
-    return new DataColumn(COLUMN_NAMES.SEQUENCE, HorizontalAlign.Left, true, true, false, STYLECONSTANTS.SEQUENCE);
+    return new DataColumn(COLUMN_KEYS.SEQUENCE, COLUMN_LABELS.SEQUENCE, HorizontalAlign.Left, true, true, false);
   }
 
-  static createLinkColumn({ title = '', hasSorting = true }: { title: string; hasSorting?: boolean }): DataColumn {
-    return new DataColumn(title, HorizontalAlign.Left, true, true, hasSorting, STYLECONSTANTS.PL_HEADER_LINK);
+  static createLinkColumn({ key, hasSorting = true }: { key: string; hasSorting?: boolean }): DataColumn {
+    return new DataColumn(
+      key,
+      COLUMN_LABELS[key.toUpperCase()],
+      HorizontalAlign.Left,
+      true,
+      true,
+      hasSorting,
+      STYLECONSTANTS.PL_HEADER_LINK
+    );
   }
 
   static createActionsColumn(): DataColumn {
-    return new DataColumn(COLUMN_NAMES.ACTIONS, HorizontalAlign.Center, true, false, false, '', false, true);
+    return new DataColumn(
+      COLUMN_KEYS.ACTIONS,
+      COLUMN_LABELS.ACTIONS,
+      HorizontalAlign.Center,
+      true,
+      false,
+      false,
+      '',
+      false,
+      true
+    );
   }
 }

@@ -15,7 +15,7 @@
       <!-- COLUMNS & ROWS-->
       <ng-container
         *ngFor="let column of columns"
-        [matColumnDef]="column.title"
+        [matColumnDef]="column.key"
         [sticky]="column.sticky"
         [stickyEnd]="column.stickyEnd"
       >
@@ -25,43 +25,43 @@
           mat-sort-header
           [ngClass]="[
             getColumnClasses(column.horizontalAlign, column.customClass),
-            getActionsStickyBorders(column.title)
+            getActionsStickyBorders(column.key)
           ]"
           [disabled]="!canSort || !column.hasSorting"
         >
-          <ng-container *ngIf="column.title !== columnActions">
-            {{ column.title }}
+          <ng-container *ngIf="column.key !== columnActions">
+            {{ column.label }}
           </ng-container>
         </th>
         <td
           mat-cell
           *matCellDef="let row; let i = index"
           [ngClass]="[
-            getColumnClasses(column.horizontalAlign, row[column.title].customClass),
-            getActionsStickyBorders(column.title)
+            getColumnClasses(column.horizontalAlign, row[column.key].customClass),
+            getActionsStickyBorders(column.key)
           ]"
         >
           <!-- CELL SWITCH CASES -->
-          <ng-container [ngSwitch]="row[column.title].cellType">
+          <ng-container [ngSwitch]="row[column.key].cellType">
             <!-- Sequence number -->
             <ng-container *ngSwitchCase="cellType.Sequence">
               {{ i | memoize: getSequenceNumber:this }}
             </ng-container>
 
             <!-- String -->
-            <ng-container *ngSwitchCase="cellType.String" [ngClass]="row[column.title].customClass">
-              {{ row[column.title].value }}
+            <ng-container *ngSwitchCase="cellType.String" [ngClass]="row[column.key].customClass">
+              {{ row[column.key].value }}
             </ng-container>
 
             <!-- Navigation -->
             <ng-container *ngSwitchCase="cellType.Navigation">
               <atoms-link-button
                 linkClass="w-100 text-underline text-left"
-                [linkLabel]="row[column.title].value"
+                [linkLabel]="row[column.key].value"
                 [linkColor]="themePalette.BASIC"
-                [linkType]="row[column.title].navigation.linkType"
-                [linkHref]="row[column.title].navigation.linkHref"
-                [target]="row[column.title].navigation.target"
+                [linkType]="row[column.key].navigation.linkType"
+                [linkHref]="row[column.key].navigation.linkHref"
+                [target]="row[column.key].navigation.target"
                 (click)="$event.stopPropagation()"
               ></atoms-link-button>
             </ng-container>
@@ -69,31 +69,31 @@
             <!-- Checkbox -->
             <ng-container *ngSwitchCase="cellType.Checkbox">
               <mat-checkbox
-                [checked]="row[column.title].value"
-                [disabled]="row[column.title].disabled"
-                (change)="actionClicked(row[column.title].cellAction, i, $event)"
+                [checked]="row[column.key].value"
+                [disabled]="row[column.key].disabled"
+                (change)="actionClicked(row[column.key].cellAction, i, $event)"
               ></mat-checkbox>
             </ng-container>
 
             <!-- Icon -->
             <ng-container *ngSwitchCase="cellType.Icon">
               <mat-icon
-                [color]="row[column.title].customClass"
-                [svgIcon]="row[column.title].value ? icons.checkCircle : icons.xCircle"
+                [color]="row[column.key].customClass"
+                [svgIcon]="row[column.key].value ? icons.checkCircle : icons.xCircle"
               ></mat-icon>
             </ng-container>
 
             <!-- Avatar -->
             <ng-container *ngSwitchCase="cellType.Avatar">
               <atoms-user-pic
-                [avatar]="row[column.title].value?.avatar"
-                [userOnline]="row[column.title].value?.online"
+                [avatar]="row[column.key].value?.avatar"
+                [userOnline]="row[column.key].value?.online"
               ></atoms-user-pic>
             </ng-container>
 
             <!-- Date -->
             <ng-container *ngSwitchCase="cellType.Date">
-              {{ row[column.title].value | dateTimeFormat | async }}
+              {{ row[column.key].value | dateTimeFormat | async }}
             </ng-container>
 
             <!-- Actions-->
@@ -110,7 +110,7 @@
 
               <mat-menu #actionsMenu="matMenu">
                 <ng-template matMenuContent>
-                  <button mat-menu-item *ngFor="let action of row[column.title].actions">
+                  <button mat-menu-item *ngFor="let action of row[column.key].actions">
                     <mat-icon [svgIcon]="icons[action.icon]"> </mat-icon>
                     <span>{{ action.label }}</span>
                   </button>
@@ -167,7 +167,7 @@
               (change)="updateTableConfig()"
               [(ngModel)]="column.isVisible"
             >
-              <span class="ml-1 text-capitalize"> {{ column.title }} </span>
+              <span class="ml-1 text-capitalize"> {{ column.key }} </span>
             </mat-checkbox>
           </span>
         </ng-container>

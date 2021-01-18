@@ -9,7 +9,7 @@ import { User } from '@/core/modules/user-api/shared';
 import { Role, Privilege } from '@/core/modules/role-api/shared';
 import { selectRolesLoading } from '@/core/modules/role-api/store/role';
 import { TemplatesViewDetailsComponent } from '@/shared/components';
-import { MAT_BUTTON, COLUMN_NAMES, COLUMN_LABELS, CONSTANTS, BS_ICONS, FORMCONSTANTS } from '@/shared/constants';
+import { MAT_BUTTON, COLUMN_KEYS, COLUMN_LABELS, CONSTANTS, BS_ICONS, FORMCONSTANTS } from '@/shared/constants';
 import { DialogService } from '@/shared/services';
 import { DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { UsersDialogComponent } from '@/modules/user-management/components';
@@ -25,14 +25,14 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
   isLoading$: Observable<boolean> = this.store$.pipe(select(selectRolesLoading));
 
   matButtonType = MAT_BUTTON;
-  columns = COLUMN_NAMES;
+  columns = COLUMN_KEYS;
   columnLabels = COLUMN_LABELS;
-  displayedColumns: COLUMN_NAMES[] = [
-    COLUMN_NAMES.TITLE,
-    COLUMN_NAMES.VIEW,
-    COLUMN_NAMES.ADD,
-    COLUMN_NAMES.EDIT,
-    COLUMN_NAMES.DELETE
+  displayedColumns: COLUMN_KEYS[] = [
+    COLUMN_KEYS.TITLE,
+    COLUMN_KEYS.VIEW,
+    COLUMN_KEYS.ADD,
+    COLUMN_KEYS.EDIT,
+    COLUMN_KEYS.DELETE
   ];
   listIcons: { [key: string]: BS_ICONS } = {
     add: BS_ICONS.Plus,
@@ -126,7 +126,7 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
 
   onClickEdit(): void {
     super.onClickEdit();
-    this.displayedColumns = [...this.displayedColumns, COLUMN_NAMES.ACTIONS];
+    this.displayedColumns = [...this.displayedColumns, COLUMN_KEYS.ACTIONS];
   }
 
   onClickCancelEdit(): void {
@@ -140,7 +140,7 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
   }
 
   disableEdit(): void {
-    this.displayedColumns = this.displayedColumns.filter((col) => col !== COLUMN_NAMES.ACTIONS);
+    this.displayedColumns = this.displayedColumns.filter((col) => col !== COLUMN_KEYS.ACTIONS);
   }
 
   cardTitle(): string {

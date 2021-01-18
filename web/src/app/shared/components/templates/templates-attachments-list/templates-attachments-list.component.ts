@@ -8,7 +8,7 @@ import { getGoogleDriveIntegrationState, toggleGoogleDriveIntegration } from '@/
 import { IconsService } from '@/core/services';
 import { AttachmentService } from '@/shared/modules/attachments/services';
 import { Asset } from '@/shared/models';
-import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, THEME_PALETTE, MAT_BUTTON, BS_ICONS } from '@/shared/constants';
+import { COLUMN_KEYS, COLUMN_LABELS, ACTION_LABELS, THEME_PALETTE, MAT_BUTTON, BS_ICONS } from '@/shared/constants';
 
 @Component({
   selector: 'templates-attachments-list',
@@ -31,16 +31,16 @@ export class TemplatesAttachmentsListComponent {
 
   themePalette = THEME_PALETTE;
   matButtonTypes = MAT_BUTTON;
-  columns = COLUMN_NAMES;
+  columns = COLUMN_KEYS;
   columnLabels = COLUMN_LABELS;
   actionLabels = ACTION_LABELS;
-  displayedColumns: COLUMN_NAMES[] = [
-    COLUMN_NAMES.ICON,
-    COLUMN_NAMES.TITLE,
-    COLUMN_NAMES.TYPE,
-    COLUMN_NAMES.CREATED_AT,
-    COLUMN_NAMES.UPDATED_AT,
-    COLUMN_NAMES.ACTIONS
+  displayedColumns: COLUMN_KEYS[] = [
+    COLUMN_KEYS.ICON,
+    COLUMN_KEYS.TITLE,
+    COLUMN_KEYS.TYPE,
+    COLUMN_KEYS.CREATED_AT,
+    COLUMN_KEYS.UPDATED_AT,
+    COLUMN_KEYS.ACTIONS
   ];
   listIcons: { [key: string]: BS_ICONS } = {
     remove: BS_ICONS.Trash,

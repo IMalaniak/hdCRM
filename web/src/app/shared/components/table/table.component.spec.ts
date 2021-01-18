@@ -8,7 +8,7 @@ import { initialPreferencesState } from '@/core/store/preferences';
 import { AppState } from '@/core/store';
 import { CellValue, DataColumn, DataRow } from '@/shared/models/table';
 import { SharedModule } from '@/shared/shared.module';
-import { COLUMN_NAMES } from '@/shared/constants';
+import { COLUMN_KEYS } from '@/shared/constants';
 import { CommonDataSource } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
 import { TableComponent } from './table.component';
@@ -37,11 +37,11 @@ class TestDataSource extends CommonDataSource<TestData> {
   protected mapToDataRows(items: any[]): DataRow[] {
     return items.map((item: { id: any; title: string; createdAt: Date; updatedAt: Date }) => ({
       id: item.id,
-      [COLUMN_NAMES.SEQUENCE]: CellValue.createSequenceCell(),
-      [COLUMN_NAMES.TITLE]: CellValue.createStringCell(item.title),
-      [COLUMN_NAMES.CREATED_AT]: CellValue.createDateCell(item.createdAt),
-      [COLUMN_NAMES.UPDATED_AT]: CellValue.createDateCell(item.updatedAt),
-      [COLUMN_NAMES.ACTIONS]: CellValue.createActionsCell()
+      [COLUMN_KEYS.SEQUENCE]: CellValue.createSequenceCell(),
+      [COLUMN_KEYS.TITLE]: CellValue.createStringCell(item.title),
+      [COLUMN_KEYS.CREATED_AT]: CellValue.createDateCell(item.createdAt),
+      [COLUMN_KEYS.UPDATED_AT]: CellValue.createDateCell(item.updatedAt),
+      [COLUMN_KEYS.ACTIONS]: CellValue.createActionsCell()
     }));
   }
 }
@@ -55,9 +55,9 @@ describe('TableComponent', () => {
   let store: MockStore;
   const columns = [
     DataColumn.createSequenceNumberColumn(),
-    DataColumn.createColumn({ title: COLUMN_NAMES.TITLE }),
-    DataColumn.createColumn({ title: COLUMN_NAMES.CREATED_AT }),
-    DataColumn.createColumn({ title: COLUMN_NAMES.UPDATED_AT }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.TITLE }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
     DataColumn.createActionsColumn()
   ];
 
