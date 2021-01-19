@@ -8,12 +8,11 @@ $border: 1px solid;
   max-height: 41em;
   border: $border;
   @include set-bordercolor('border');
-  position: relative;
 
   .table-config {
     position: absolute;
-    top: app-size(spacer, sm, true);
-    right: app-size(spacer, xs, true);
+    top: app-size(spacer, sm, true) + 0.1rem;
+    right: app-size(spacer, xs, true) + 0.05rem;
     @include getZ-Index(content);
   }
 
