@@ -9,6 +9,7 @@ export class DataColumn {
     readonly horizontalAlign: HorizontalAlign = HorizontalAlign.Left,
     public isVisible = true,
     readonly hidable = true,
+    readonly draggable = true,
     readonly hasSorting: boolean = true,
     readonly customClass?: string,
     readonly sticky: boolean = false,
@@ -20,6 +21,7 @@ export class DataColumn {
     horizontalAlign = HorizontalAlign.Left,
     isVisible = true,
     hidable = true,
+    draggable = true,
     hasSorting = true,
     customClass,
     sticky = false,
@@ -29,6 +31,7 @@ export class DataColumn {
     horizontalAlign?: HorizontalAlign;
     isVisible?: boolean;
     hidable?: boolean;
+    draggable?: boolean;
     hasSorting?: boolean;
     customClass?: string;
     sticky?: boolean;
@@ -41,6 +44,7 @@ export class DataColumn {
       isVisible,
       hidable,
       hasSorting,
+      draggable,
       customClass,
       sticky,
       stickyEnd
@@ -48,7 +52,7 @@ export class DataColumn {
   }
 
   static createSequenceNumberColumn(): DataColumn {
-    return new DataColumn(COLUMN_KEYS.SEQUENCE, COLUMN_LABELS.SEQUENCE, HorizontalAlign.Left, true, true, false);
+    return new DataColumn(COLUMN_KEYS.SEQUENCE, COLUMN_LABELS.SEQUENCE, HorizontalAlign.Left, true, true, false, false);
   }
 
   static createLinkColumn({ key, hasSorting = true }: { key: string; hasSorting?: boolean }): DataColumn {
@@ -56,6 +60,7 @@ export class DataColumn {
       key,
       COLUMN_LABELS[key.toUpperCase()],
       HorizontalAlign.Left,
+      true,
       true,
       true,
       hasSorting,
@@ -69,6 +74,7 @@ export class DataColumn {
       COLUMN_LABELS.ACTIONS,
       HorizontalAlign.Center,
       true,
+      false,
       false,
       false,
       '',

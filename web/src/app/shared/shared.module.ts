@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 // TODO: probably we don't need this is shared
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -19,7 +20,8 @@ import { COMPONENTS, DIRECTIVES, PIPES } from './imports';
     AppMaterialModule,
     AttachmentsModule,
     NgxChartsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DragDropModule
   ],
   declarations: [...COMPONENTS, ...PIPES, ...DIRECTIVES],
   exports: [...COMPONENTS, ...PIPES, ...DIRECTIVES, AppMaterialModule, OverlayModule, FormsModule, ReactiveFormsModule],
