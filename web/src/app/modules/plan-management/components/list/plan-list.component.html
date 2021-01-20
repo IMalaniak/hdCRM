@@ -9,7 +9,7 @@
     [dataSource]="dataSource"
     [columns]="displayedColumns"
     [totalItems]="resultsLength$ | async"
-    (rowSelect)="onPlanSelect($event)"
+    (rowAction)="onPlanSelect($event)"
   >
   </table-component>
 </organisms-card>

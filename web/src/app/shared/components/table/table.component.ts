@@ -12,7 +12,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable } from '@angular/material/table';
 import { CdkTable } from '@angular/cdk/table';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { merge, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
@@ -37,8 +36,14 @@ import {
   THEME_PALETTE
 } from '@/shared/constants';
 import { HorizontalAlign } from '@/shared/models/table/horizontalAlign.enum';
-import { CellActionType, CellType, TableColumnConfig, TableConfig } from '@/shared/models/table';
-import { CustomActionEvent } from '@/shared/models/table/custom-action-event';
+import {
+  CellType,
+  RowAction,
+  RowActionData,
+  RowActionType,
+  TableColumnConfig,
+  TableConfig
+} from '@/shared/models/table';
 import { CommonDataSource } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
 
@@ -59,11 +64,11 @@ export class TableComponent implements OnChanges, AfterViewInit {
   @Input() hasSettings = true;
   @Input() noContentMessage = CONSTANTS.NO_CONTENT_INFO;
   @Input() hasOutlineBorder = true; // TODO: add logic to set it based on user preference
+  @Input() rowActions: RowAction<RowActionType, any>[];
 
-  @Output() readonly rowSelect: EventEmitter<number> = new EventEmitter<number>();
-  @Output() readonly editClicked: EventEmitter<number> = new EventEmitter<number>();
-  @Output() readonly deleteClicked: EventEmitter<number> = new EventEmitter<number>();
-  @Output() readonly customActionClicked: EventEmitter<CustomActionEvent> = new EventEmitter<CustomActionEvent>();
+  @Output() readonly rowAction: EventEmitter<RowActionData<RowActionType, any>> = new EventEmitter<
+    RowActionData<RowActionType, any>
+  >();
 
   @ViewChild('table') table: MatTable<CdkTable<DataRow>>;
   @ViewChild(MatSort) sort: MatSort;
@@ -85,6 +90,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
     'info-square': BS_ICONS.InfoSquare,
     pencil: BS_ICONS.Pencil,
     trash: BS_ICONS.Trash,
+    details: BS_ICONS.ArrowRightShort,
     list: BS_ICONS.List,
     gear: BS_ICONS.Gear,
     arrowClock: BS_ICONS.ArrowClockwise,
@@ -108,25 +114,6 @@ export class TableComponent implements OnChanges, AfterViewInit {
       .subscribe();
 
     this.loadDataPage();
-  }
-
-  // TODO: @ArsenIrod: this looks strange...
-  actionClicked(action: CellActionType, id: number, event: Event | MatCheckboxChange): void {
-    if (event instanceof Event) {
-      event.stopImmediatePropagation();
-    }
-
-    switch (action) {
-      case CellActionType.Edit:
-        this.editClicked.emit(id);
-        break;
-      case CellActionType.Delete:
-        this.deleteClicked.emit(id);
-        break;
-      default:
-        this.customActionClicked.emit({ action, id, event });
-        break;
-    }
   }
 
   trackById(_index: number, item: any): void {
@@ -183,6 +170,20 @@ export class TableComponent implements OnChanges, AfterViewInit {
       columns: this.columns.map((col) => ({ title: col.key, isVisible: col.isVisible }))
     };
     this.store$.dispatch(setTableConfig({ tableConfig }));
+  }
+
+  rowDedicatedAction(item: any, data: RowActionData<RowActionType, any>): void {
+    this.rowAction.emit({
+      ...data,
+      item
+    });
+  }
+
+  rowSelect(id: number): void {
+    this.rowAction.emit({
+      item: { id },
+      actionType: RowActionType.DETAILS
+    });
   }
 
   private setColumns(): void {

@@ -34,8 +34,6 @@ export class DataColumn {
     sticky?: boolean;
     stickyEnd?: boolean;
   }): DataColumn {
-    console.log(key);
-
     return new DataColumn(
       key,
       COLUMN_LABELS[key.toUpperCase()],

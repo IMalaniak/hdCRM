@@ -67,13 +67,14 @@
             </ng-container>
 
             <!-- Checkbox -->
-            <ng-container *ngSwitchCase="cellType.Checkbox">
+            <!-- // TODO: in separate task make checkbox to work -->
+            <!-- <ng-container *ngSwitchCase="cellType.Checkbox">
               <mat-checkbox
                 [checked]="row[column.key].value"
                 [disabled]="row[column.key].disabled"
                 (change)="actionClicked(row[column.key].cellAction, i, $event)"
               ></mat-checkbox>
-            </ng-container>
+            </ng-container> -->
 
             <!-- Icon -->
             <ng-container *ngSwitchCase="cellType.Icon">
@@ -98,24 +99,30 @@
 
             <!-- Actions-->
             <ng-container *ngSwitchCase="cellType.Actions">
-              <atoms-icon-button
-                [color]="themePalette.BASIC"
-                [matType]="matButtonType.ICON"
-                [type]="buttonType.BUTTON"
-                [icon]="icons.threeDots"
-                [matMenuTriggerFor]="actionsMenu"
-                (click)="$event.stopPropagation()"
-              >
-              </atoms-icon-button>
+              <ng-container *ngIf="rowActions">
+                <atoms-icon-button
+                  [color]="themePalette.BASIC"
+                  [matType]="matButtonType.ICON"
+                  [type]="buttonType.BUTTON"
+                  [icon]="icons.threeDots"
+                  [matMenuTriggerFor]="actionsMenu"
+                  (click)="$event.stopPropagation()"
+                >
+                </atoms-icon-button>
 
-              <mat-menu #actionsMenu="matMenu">
-                <ng-template matMenuContent>
-                  <button mat-menu-item *ngFor="let action of row[column.key].actions">
-                    <mat-icon [svgIcon]="icons[action.icon]"> </mat-icon>
-                    <span>{{ action.label }}</span>
-                  </button>
-                </ng-template>
-              </mat-menu>
+                <mat-menu #actionsMenu="matMenu">
+                  <ng-template matMenuContent>
+                    <button
+                      mat-menu-item
+                      *ngFor="let action of rowActions"
+                      (click)="rowDedicatedAction(row[column.key].value, action.data)"
+                    >
+                      <mat-icon [svgIcon]="action.icon"> </mat-icon>
+                      <span>{{ action.label }}</span>
+                    </button>
+                  </ng-template>
+                </mat-menu>
+              </ng-container>
             </ng-container>
           </ng-container>
         </td>
@@ -123,7 +130,7 @@
 
       <!-- ROWS -->
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay$ | async; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: columnsToDisplay$ | async" (click)="rowSelect.emit(row.id)"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay$ | async" (click)="rowSelect(row.id)"></tr>
       <tr *matNoDataRow>
         <td [attr.colspan]="(columnsToDisplay$ | async)?.length">
           <atoms-no-content-info [noContentMessage]="noContentMessage"></atoms-no-content-info>

@@ -7,13 +7,14 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/store';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { deleteRoleRequested } from '@/core/modules/role-api/store/role';
+import { Role } from '@/core/modules/role-api/shared';
 import { DialogDataModel } from '@/shared/models';
 import { ACTION_LABELS, RoutingConstants, CONSTANTS, BS_ICONS } from '@/shared/constants';
 import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_KEYS } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
-import { DataColumn } from '@/shared/models/table';
+import { DataColumn, RowAction, RowActionData, RowActionType } from '@/shared/models/table';
 import { RolesDataSource } from '../../dataSources/role.datasource';
 import { changeIsEditingState, selectRolesPageLoading, selectRolesTotalCount } from '../../store';
 
@@ -51,11 +52,52 @@ export class RolesComponent {
     DataColumn.createActionsColumn()
   ];
 
+  rowActions: RowAction<RowActionType, Role>[] = [
+    {
+      icon: BS_ICONS.ArrowRightShort,
+      label: 'Details',
+      data: {
+        actionType: RowActionType.DETAILS
+      }
+    },
+    {
+      icon: BS_ICONS.Pencil,
+      label: 'Edit',
+      data: {
+        actionType: RowActionType.EDIT
+      }
+    },
+    {
+      icon: BS_ICONS.X,
+      label: 'Delete',
+      data: {
+        actionType: RowActionType.DELETE
+      }
+    }
+  ];
+
   constructor(
     private readonly store$: Store<AppState>,
     private readonly router: Router,
     private readonly dialogService: DialogService
   ) {}
+
+  onRowAction(data: RowActionData<RowActionType, Role>): void {
+    switch (data.actionType) {
+      case RowActionType.DETAILS:
+        this.onRoleSelect(data.item.id, false);
+        break;
+      case RowActionType.EDIT:
+        this.onRoleSelect(data.item.id, true);
+        break;
+      case RowActionType.DELETE:
+        this.deleteRole(data.item.id);
+        break;
+
+      default:
+        break;
+    }
+  }
 
   onRoleSelect(id: number, edit: boolean = false): void {
     this.router.navigateByUrl(`${RoutingConstants.ROUTE_ROLES_DETAILS}/${id}`);
@@ -63,7 +105,6 @@ export class RolesComponent {
   }
 
   deleteRole(id: number): void {
-    // TODO: add to html
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_ROLE_CONFIRM);
     const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 

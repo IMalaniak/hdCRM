@@ -1,19 +1,14 @@
 import { User } from '@/core/modules/user-api/shared';
-import { ACTION_LABELS, BS_ICONS, STYLECONSTANTS, THEME_PALETTE } from '@/shared/constants';
+import { STYLECONSTANTS, THEME_PALETTE } from '@/shared/constants';
 import { Navigation } from '@/shared/utils/';
-import { CellActionType } from './cellActionType.enum';
 import { CellType } from './cellType.enum';
-import { CellAction } from './cell-action';
 
 export class CellValue {
-  cellAction: CellActionType;
-
   constructor(
     readonly value: any,
     readonly cellType: CellType,
     readonly customClass?: string,
-    readonly navigation?: Navigation,
-    readonly actions: CellAction[] = []
+    readonly navigation?: Navigation
   ) {}
 
   static createSequenceCell(): CellValue {
@@ -38,10 +33,11 @@ export class CellValue {
     );
   }
 
-  static createCheckboxCell(action: CellActionType, value = false): CellValue {
-    let cell: CellValue = new CellValue(value, CellType.Checkbox);
-    return (cell = { ...cell, cellAction: action });
-  }
+  // TODO: in separate task make checkbox to work
+  // static createCheckboxCell(action: CellActionType, value = false): CellValue {
+  //   let cell: CellValue = new CellValue(value, CellType.Checkbox);
+  //   return (cell = { ...cell, cellAction: action });
+  // }
 
   static createAvatarCell(value: User): CellValue {
     return new CellValue(value, CellType.Avatar);
@@ -55,22 +51,7 @@ export class CellValue {
     return new CellValue('-', CellType.String, customClass);
   }
 
-  static createActionsCell(additionalActions?: CellAction[]): CellValue {
-    // TODO: remove and add saperate logic in ng-content
-    let actions: CellAction[] = [];
-
-    if (additionalActions?.length) {
-      actions = [...actions, ...additionalActions];
-    }
-
-    // if (privilege) {
-    actions = [...actions, { type: CellActionType.Edit, icon: BS_ICONS.Pencil, label: ACTION_LABELS.EDIT }];
-    // }
-
-    // if (privilege) {
-    actions = [...actions, { type: CellActionType.Delete, icon: BS_ICONS.Trash, label: ACTION_LABELS.DELETE }];
-    // }
-
-    return new CellValue(undefined, CellType.Actions, undefined, undefined, actions);
+  static createActionsCell(value: any): CellValue {
+    return new CellValue(value, CellType.Actions);
   }
 }
