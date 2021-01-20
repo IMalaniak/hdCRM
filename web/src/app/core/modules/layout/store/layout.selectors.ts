@@ -11,6 +11,8 @@ export const getScalledFontState = createSelector(getLayoutFeatureState, (state)
 
 export const userDropdownVisible = createSelector(getLayoutFeatureState, (state) => state.userDropdownVisible);
 
+export const tableColumnsConfig = (key: string) =>
+  createSelector(tableConfigState, (state) => state.entities[key]?.columns);
 export const tableColumnsToDisplay = (key: string) =>
   createSelector(tableConfigState, (state) =>
     state.entities[key]?.columns?.filter((c) => c.isVisible).map((c) => c.title)

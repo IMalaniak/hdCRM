@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   Output,
   SimpleChanges,
   ViewChild
@@ -13,8 +14,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTable } from '@angular/material/table';
 import { CdkTable } from '@angular/cdk/table';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { merge, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import { merge, Observable, Subject } from 'rxjs';
+import { map, takeUntil, tap } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 
@@ -24,6 +26,7 @@ import { getItemsPerPageState } from '@/core/store/preferences';
 import {
   removeTableConfig,
   setTableConfig,
+  tableColumnsConfig,
   tableColumnsToDisplay,
   tableOutlineBorders
 } from '@/core/modules/layout/store';
@@ -52,8 +55,8 @@ import { PageQuery } from '@/shared/models';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnChanges, AfterViewInit {
-  itemsPerPageState$: Observable<IItemsPerPage> = this.store$.select(getItemsPerPageState);
+export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
+  itemsPerPageState$: Observable<IItemsPerPage> = this.store$.pipe(select(getItemsPerPageState));
   columnsToDisplay$: Observable<string[]>;
   outlineBorders$: Observable<boolean>;
 
@@ -95,11 +98,19 @@ export class TableComponent implements OnChanges, AfterViewInit {
     list: BS_ICONS.List,
     gear: BS_ICONS.Gear,
     arrowClock: BS_ICONS.ArrowClockwise,
-    gripVertival: BS_ICONS.GripVertical
+    gripVertival: BS_ICONS.GripVertical,
+    columnDrag: BS_ICONS.GripHorizontal
   };
+
+  private unsubscribe: Subject<void> = new Subject();
 
   constructor(private readonly store$: Store<AppState>, private readonly iconsService: IconsService) {
     this.iconsService.registerIcons([...Object.values(this.icons)]);
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -117,6 +128,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
     this.loadDataPage();
   }
 
+  // TODO: @ArsenIrod: this looks strange...
   actionClicked(action: CellActionType, id: number, event: Event | MatCheckboxChange): void {
     if (event instanceof Event) {
       event.stopImmediatePropagation();
@@ -140,7 +152,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
   }
 
   getSequenceNumber(index: number): number {
-    return index;
+    return this.paginator.pageIndex * this.paginator.pageSize + index + 1;
   }
 
   getColumnClasses(align: HorizontalAlign, customClass?: string): string {
@@ -169,10 +181,13 @@ export class TableComponent implements OnChanges, AfterViewInit {
   }
 
   resetTableConfig(): void {
-    this.columns = this.columns.map((col: DataColumn, i: number) => {
-      col = { ...col, isVisible: this.columnsInitialState[i].isVisible };
-      return col;
-    });
+    this.columns = this.columns
+      .sort(
+        (a: DataColumn, b: DataColumn) =>
+          this.columnsInitialState.findIndex((col: TableColumnConfig) => col.title === a.title) -
+          this.columnsInitialState.findIndex((col: TableColumnConfig) => col.title === b.title)
+      )
+      .map((col: DataColumn, i: number) => ({ ...col, isVisible: this.columnsInitialState[i].isVisible }));
     this.store$.dispatch(removeTableConfig({ key: this.id }));
   }
 
@@ -185,23 +200,33 @@ export class TableComponent implements OnChanges, AfterViewInit {
     this.store$.dispatch(setTableConfig({ tableConfig }));
   }
 
+  dropColumns(event: CdkDragDrop<DataColumn[]>): void {
+    moveItemInArray(this.columns, event.previousIndex, event.currentIndex);
+    this.updateTableConfig();
+  }
+
+  dropColumnsPredicate(index: number, _: CdkDrag<DataColumn>, dropList: CdkDropList<DataColumn[]>) {
+    return dropList.data[index].draggable;
+  }
+
   private setColumns(): void {
     this.outlineBorders$ = this.store$.pipe(select(tableOutlineBorders(this.id)));
     this.columnsInitialState = this.columns.map((col) => ({ title: col.title, isVisible: col.isVisible }));
     this.columnsToDisplay$ = this.store$.pipe(
       select(tableColumnsToDisplay(this.id)),
-      map((columns) => {
-        if (!columns) {
-          return this.columnsInitialState.filter((c) => c.isVisible).map((c) => c.title);
-        } else {
-          this.columns = this.columns.map((col: DataColumn) => {
-            col = { ...col, isVisible: columns.some((cTitle) => cTitle === col.title) };
-            return col;
-          });
-        }
-        return columns;
-      })
+      map((columns) => (!columns ? this.columnsInitialState.filter((c) => c.isVisible).map((c) => c.title) : columns))
     );
+    this.store$.pipe(select(tableColumnsConfig(this.id)), takeUntil(this.unsubscribe)).subscribe((columnsConfig) => {
+      if (columnsConfig) {
+        this.columns = this.columns
+          .sort(
+            (a: DataColumn, b: DataColumn) =>
+              columnsConfig.findIndex((col: TableColumnConfig) => col.title === a.title) -
+              columnsConfig.findIndex((col: TableColumnConfig) => col.title === b.title)
+          )
+          .map((col: DataColumn, i: number) => ({ ...col, isVisible: columnsConfig[i].isVisible }));
+      }
+    });
   }
 
   private loadDataPage(): void {

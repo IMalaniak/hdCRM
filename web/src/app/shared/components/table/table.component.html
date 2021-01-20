@@ -42,7 +42,7 @@
               <ng-container [ngSwitch]="row[column.title].controlType">
                 <!-- Sequence number -->
                 <ng-container *ngSwitchCase="cellControlType.SequenceNumber">
-                  {{ getSequenceNumber(i + 1) }}
+                  {{ i | memoize: getSequenceNumber:this }}
                 </ng-container>
 
                 <!-- String -->
@@ -170,9 +170,22 @@
   <!-- MENU COLUMNS-->
   <mat-menu #tableColumns="matMenu">
     <ng-template matMenuContent>
-      <ng-container *ngFor="let column of columns">
-        <ng-container *ngIf="column.hidable">
-          <span mat-menu-item>
+      <div
+        class="column-config-wrapper"
+        cdkDropList
+        (cdkDropListDropped)="dropColumns($event)"
+        [cdkDropListSortPredicate]="dropColumnsPredicate"
+        [cdkDropListData]="columns"
+      >
+        <div
+          *ngFor="let column of columns"
+          cdkDragBoundary=".column-config-wrapper"
+          cdkDragLockAxis="y"
+          [cdkDragDisabled]="!column.draggable"
+          cdkDrag
+          [cdkDragData]="column"
+        >
+          <span *ngIf="column.hidable" mat-menu-item class="d-flex justify-content-between align-items-center">
             <mat-checkbox
               (click)="$event.stopPropagation()"
               (change)="updateTableConfig()"
@@ -180,9 +193,12 @@
             >
               <span class="ml-1 text-capitalize"> {{ column.title }} </span>
             </mat-checkbox>
+            <span class="drag-handler" cdkDragHandle>
+              <mat-icon *ngIf="column.draggable" [svgIcon]="icons.columnDrag"> </mat-icon>
+            </span>
           </span>
-        </ng-container>
-      </ng-container>
+        </div>
+      </div>
     </ng-template>
   </mat-menu>
 </ng-container>
