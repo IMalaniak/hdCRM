@@ -41,7 +41,7 @@ class TestDataSource extends CommonDataSource<TestData> {
       [COLUMN_KEYS.TITLE]: CellValue.createStringCell(item.title),
       [COLUMN_KEYS.CREATED_AT]: CellValue.createDateCell(item.createdAt),
       [COLUMN_KEYS.UPDATED_AT]: CellValue.createDateCell(item.updatedAt),
-      [COLUMN_KEYS.ACTIONS]: CellValue.createActionsCell()
+      [COLUMN_KEYS.ACTIONS]: CellValue.createActionsCell(item)
     }));
   }
 }

@@ -187,7 +187,7 @@
               (change)="updateTableConfig()"
               [(ngModel)]="column.isVisible"
             >
-              <span class="ml-1 text-capitalize"> {{ column.key }} </span>
+              <span class="ml-1 text-capitalize"> {{ column.label }} </span>
             </mat-checkbox>
             <span class="drag-handler" cdkDragHandle>
               <mat-icon *ngIf="column.draggable" [svgIcon]="icons.columnDrag"> </mat-icon>
