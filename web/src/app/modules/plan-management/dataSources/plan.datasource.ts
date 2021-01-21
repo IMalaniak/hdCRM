@@ -41,7 +41,7 @@ export class PlansDataSource extends CommonDataSource<Plan> {
       [COLUMN_KEYS.PARTICIPANTS]: CellValue.createStringCell(plan.Participants?.length),
       [COLUMN_KEYS.CREATED_AT]: CellValue.createDateCell(plan.createdAt),
       [COLUMN_KEYS.UPDATED_AT]: CellValue.createDateCell(plan.updatedAt),
-      [COLUMN_KEYS.ACTIONS]: CellValue.createActionsCell(plan)
+      [COLUMN_KEYS.ACTIONS]: CellValue.createActionsCell()
     }));
   }
 }

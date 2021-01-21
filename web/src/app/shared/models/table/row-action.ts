@@ -1,13 +1,13 @@
 import { BS_ICONS } from '@/shared/constants/icons.enum';
 import { RowActionType } from './rowActionType.enum';
 
-export interface RowActionData<A extends RowActionType, I> {
+export interface RowActionData<A extends RowActionType> {
   actionType: A;
-  item?: I;
+  id?: number;
 }
 
-export interface RowAction<A extends RowActionType, I> {
-  icon: BS_ICONS;
-  label: string;
-  data?: RowActionData<A, I>;
+export interface RowAction<A extends RowActionType> {
+  icon?: BS_ICONS;
+  label?: string;
+  data?: RowActionData<A>;
 }

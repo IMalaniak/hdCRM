@@ -29,7 +29,7 @@
           ]"
           [disabled]="!canSort || !column.hasSorting"
         >
-          <ng-container *ngIf="column.key !== columnActions">
+          <ng-container *ngIf="column.key !== columnActionsKey">
             {{ column.label }}
           </ng-container>
         </th>
@@ -115,9 +115,13 @@
                     <button
                       mat-menu-item
                       *ngFor="let action of rowActions"
-                      (click)="rowDedicatedAction(row[column.key].value, action.data)"
+                      (click)="rowDedicatedAction(row.id, action.data)"
                     >
-                      <mat-icon [svgIcon]="action.icon"> </mat-icon>
+                      <mat-icon
+                        [svgIcon]="action.icon"
+                        [color]="action.data.actionType | memoize: getRowActionIconColor:this"
+                      >
+                      </mat-icon>
                       <span>{{ action.label }}</span>
                     </button>
                   </ng-template>

@@ -54,7 +54,7 @@ export class UsersDataSource extends CommonDataSource<User> {
       [COLUMN_KEYS.STATE]: CellValue.createStringCell(user.state),
       [COLUMN_KEYS.CREATED_AT]: CellValue.createDateCell(user.createdAt),
       [COLUMN_KEYS.UPDATED_AT]: CellValue.createDateCell(user.updatedAt),
-      [COLUMN_KEYS.ACTIONS]: CellValue.createActionsCell(user)
+      [COLUMN_KEYS.ACTIONS]: CellValue.createActionsCell()
     }));
   }
 }

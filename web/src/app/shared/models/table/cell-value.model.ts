@@ -51,7 +51,7 @@ export class CellValue {
     return new CellValue('-', CellType.String, customClass);
   }
 
-  static createActionsCell(value: any): CellValue {
-    return new CellValue(value, CellType.Actions);
+  static createActionsCell(): CellValue {
+    return new CellValue(undefined, CellType.Actions);
   }
 }

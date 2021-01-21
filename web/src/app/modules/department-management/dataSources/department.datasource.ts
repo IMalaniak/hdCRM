@@ -40,7 +40,7 @@ export class DepartmentsDataSource extends CommonDataSource<Department> {
       [COLUMN_KEYS.WORKERS]: CellValue.createStringCell(department.Workers?.length),
       [COLUMN_KEYS.CREATED_AT]: CellValue.createDateCell(department.createdAt),
       [COLUMN_KEYS.UPDATED_AT]: CellValue.createDateCell(department.updatedAt),
-      [COLUMN_KEYS.ACTIONS]: CellValue.createActionsCell(department)
+      [COLUMN_KEYS.ACTIONS]: CellValue.createActionsCell()
     }));
   }
 }

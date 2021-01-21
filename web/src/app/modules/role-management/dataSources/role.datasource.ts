@@ -36,7 +36,7 @@ export class RolesDataSource extends CommonDataSource<Role> {
       [COLUMN_KEYS.PRIVILEGES]: CellValue.createStringCell(role.Privileges?.length),
       [COLUMN_KEYS.CREATED_AT]: CellValue.createDateCell(role.createdAt),
       [COLUMN_KEYS.UPDATED_AT]: CellValue.createDateCell(role.updatedAt),
-      [COLUMN_KEYS.ACTIONS]: CellValue.createActionsCell(role)
+      [COLUMN_KEYS.ACTIONS]: CellValue.createActionsCell()
     }));
   }
 }

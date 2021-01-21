@@ -11,8 +11,7 @@
     [dataSource]="dataSource"
     [columns]="displayedColumns"
     [totalItems]="resultsLength$ | async"
-    [rowActions]="rowActions"
-    (rowAction)="onRowAction($event)"
+    (rowActionClicked)="onRowAction($event)"
   >
   </table-component>
 </organisms-card>

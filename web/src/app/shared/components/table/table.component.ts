@@ -31,6 +31,7 @@ import {
 import { DataColumn } from '@/shared/models/table/data-column.model';
 import { DataRow } from '@/shared/models/table/data-row';
 import {
+  ACTION_LABELS,
   BS_ICONS,
   BUTTON_TYPE,
   COLUMN_KEYS,
@@ -71,10 +72,10 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   @Input() hasSettings = true;
   @Input() noContentMessage = CONSTANTS.NO_CONTENT_INFO;
   @Input() hasOutlineBorder = true; // TODO: add logic to set it based on user preference
-  @Input() rowActions: RowAction<RowActionType, any>[];
+  @Input() additionalRowActions: RowAction<RowActionType>[];
 
-  @Output() readonly rowAction: EventEmitter<RowActionData<RowActionType, any>> = new EventEmitter<
-    RowActionData<RowActionType, any>
+  @Output() readonly rowActionClicked: EventEmitter<RowActionData<RowActionType>> = new EventEmitter<
+    RowActionData<RowActionType>
   >();
 
   @ViewChild('table') table: MatTable<CdkTable<DataRow>>;
@@ -86,7 +87,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   buttonType = BUTTON_TYPE;
   matButtonType = MAT_BUTTON;
   themePalette = THEME_PALETTE;
-  columnActions = COLUMN_KEYS.ACTIONS;
+  columnActionsKey = COLUMN_KEYS.ACTIONS;
   columnsInitialState: TableColumnConfig[];
 
   icons: { [key: string]: BS_ICONS } = {
@@ -94,10 +95,9 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     threeDots: BS_ICONS.ThreeDotsVertical,
     checkCircle: BS_ICONS.CheckCircle,
     xCircle: BS_ICONS.XCircle,
-    'info-square': BS_ICONS.InfoSquare,
+    details: BS_ICONS.InfoSquare,
     pencil: BS_ICONS.Pencil,
     trash: BS_ICONS.Trash,
-    details: BS_ICONS.ArrowRightShort,
     list: BS_ICONS.List,
     gear: BS_ICONS.Gear,
     arrowClock: BS_ICONS.ArrowClockwise,
@@ -105,20 +105,42 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     columnDrag: BS_ICONS.GripHorizontal
   };
 
+  rowActions: RowAction<RowActionType>[] = [
+    {
+      icon: BS_ICONS.InfoSquare,
+      label: ACTION_LABELS.DETAILS,
+      data: {
+        actionType: RowActionType.DETAILS
+      }
+    },
+    {
+      icon: BS_ICONS.Pencil,
+      label: ACTION_LABELS.EDIT,
+      data: {
+        actionType: RowActionType.EDIT
+      }
+    },
+    {
+      icon: BS_ICONS.Trash,
+      label: ACTION_LABELS.DELETE,
+      data: {
+        actionType: RowActionType.DELETE
+      }
+    }
+  ];
+
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(private readonly store$: Store<AppState>, private readonly iconsService: IconsService) {
     this.iconsService.registerIcons([...Object.values(this.icons)]);
   }
 
-  ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.columns && this.columns) {
       this.setColumns();
+    }
+    if (changes.additionalRowActions && this.additionalRowActions) {
+      this.rowActions = [...this.rowActions, ...this.additionalRowActions];
     }
   }
 
@@ -129,6 +151,11 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
       .subscribe();
 
     this.loadDataPage();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   trackById(_index: number, item: any): void {
@@ -190,18 +217,16 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     this.store$.dispatch(setTableConfig({ tableConfig }));
   }
 
-  rowDedicatedAction(item: any, data: RowActionData<RowActionType, any>): void {
-    this.rowAction.emit({
+  rowDedicatedAction(id: number, data: RowActionData<RowActionType>): void {
+    this.rowActionClicked.emit({
       ...data,
-      item
+      id
     });
   }
 
   rowSelect(id: number): void {
-    this.rowAction.emit({
-      item: { id },
-      actionType: RowActionType.DETAILS
-    });
+    // TODO: this is default action - add custom action on row select for example on modals
+    this.rowDedicatedAction(id, { actionType: RowActionType.DETAILS });
   }
 
   dropColumns(event: CdkDragDrop<DataColumn[]>): void {
@@ -211,6 +236,10 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
 
   dropColumnsPredicate(index: number, _: CdkDrag<DataColumn>, dropList: CdkDropList<DataColumn[]>) {
     return dropList.data[index].draggable;
+  }
+
+  getRowActionIconColor(actionType: RowActionType): THEME_PALETTE {
+    return actionType === RowActionType.DELETE ? THEME_PALETTE.WARN : THEME_PALETTE.PRIMARY;
   }
 
   private setColumns(): void {
