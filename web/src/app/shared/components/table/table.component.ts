@@ -73,6 +73,8 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   @Input() noContentMessage = CONSTANTS.NO_CONTENT_INFO;
   @Input() hasOutlineBorder = true; // TODO: add logic to set it based on user preference
   @Input() additionalRowActions: RowAction<RowActionType>[];
+  @Input() canEdit: boolean;
+  @Input() canDelete: boolean;
 
   @Output() readonly rowActionClicked: EventEmitter<RowActionData<RowActionType>> = new EventEmitter<
     RowActionData<RowActionType>
@@ -240,6 +242,17 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
 
   getRowActionIconColor(actionType: RowActionType): THEME_PALETTE {
     return actionType === RowActionType.DELETE ? THEME_PALETTE.WARN : THEME_PALETTE.PRIMARY;
+  }
+
+  getRowActionVisibility(actionType: RowActionType): boolean {
+    switch (actionType) {
+      case RowActionType.EDIT:
+        return this.canEdit ?? true;
+      case RowActionType.DELETE:
+        return this.canDelete ?? true;
+      default:
+        return true;
+    }
   }
 
   private setColumns(): void {

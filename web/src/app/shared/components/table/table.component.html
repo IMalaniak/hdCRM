@@ -112,18 +112,20 @@
 
                 <mat-menu #actionsMenu="matMenu">
                   <ng-template matMenuContent>
-                    <button
-                      mat-menu-item
-                      *ngFor="let action of rowActions"
-                      (click)="rowDedicatedAction(row.id, action.data)"
-                    >
-                      <mat-icon
-                        [svgIcon]="action.icon"
-                        [color]="action.data.actionType | memoize: getRowActionIconColor:this"
+                    <ng-container *ngFor="let action of rowActions">
+                      <button
+                        *ngIf="action.data.actionType | memoize: getRowActionVisibility:this"
+                        mat-menu-item
+                        (click)="rowDedicatedAction(row.id, action.data)"
                       >
-                      </mat-icon>
-                      <span>{{ action.label }}</span>
-                    </button>
+                        <mat-icon
+                          [svgIcon]="action.icon"
+                          [color]="action.data.actionType | memoize: getRowActionIconColor:this"
+                        >
+                        </mat-icon>
+                        <span>{{ action.label }}</span>
+                      </button>
+                    </ng-container>
                   </ng-template>
                 </mat-menu>
               </ng-container>
