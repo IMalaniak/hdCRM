@@ -88,10 +88,11 @@ export class PlanService {
     pageQuery: PageQueryWithOrganization
   ): Promise<Result<CollectionApiResponse<Plan>, BaseResponse>> {
     try {
-      const { limit, offset, sortDirection, sortIndex, OrganizationId } = pageQuery;
+      const { limit, offset, sortDirection, sortIndex, OrganizationId, parsedFilters } = pageQuery;
 
       const data = await Plan.findAndCountAll({
         where: {
+          ...parsedFilters,
           OrganizationId
         },
         include: [...this.includes],

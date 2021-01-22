@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import qs from 'qs';
 import { Service } from 'typedi';
 
 import {
@@ -9,7 +10,8 @@ import {
   RequestWithBody,
   RequestWithQuery,
   CollectionQuery,
-  RoleCreationAttributes
+  RoleCreationAttributes,
+  ParsedFilters
 } from '../models';
 import { RoleService } from '../services';
 import { sendResponse } from './utils';
@@ -52,7 +54,7 @@ export class RoleController {
   ): Promise<void> {
     req.log.info(`Getting roles by page query...`);
 
-    const { pageSize, pageIndex, sortDirection, sortIndex } = req.query;
+    const { pageSize, pageIndex, sortDirection, sortIndex, filters } = req.query;
     const limit = parseInt(pageSize);
     const offset = parseInt(pageIndex) * limit;
     const OrganizationId = req.user.OrganizationId;
@@ -62,6 +64,7 @@ export class RoleController {
       sortIndex,
       limit,
       offset,
+      parsedFilters: filters ? (qs.parse(filters) as ParsedFilters) : {},
       OrganizationId
     });
 

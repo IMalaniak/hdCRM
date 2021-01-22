@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import qs from 'qs';
 import { Service } from 'typedi';
 
 import {
@@ -9,7 +10,8 @@ import {
   RequestWithBody,
   RequestWithQuery,
   CollectionQuery,
-  DepartmentCreationAttributes
+  DepartmentCreationAttributes,
+  ParsedFilters
 } from '../models';
 import { DepartmentService } from '../services';
 import { sendResponse } from './utils';
@@ -49,7 +51,7 @@ export class DepartmentController {
   ): Promise<void> {
     req.log.info(`Getting departments by page query...`);
 
-    const { pageSize, pageIndex, sortDirection, sortIndex } = req.query;
+    const { pageSize, pageIndex, sortDirection, sortIndex, filters } = req.query;
     const limit = parseInt(pageSize);
     const offset = parseInt(pageIndex) * limit;
     const OrganizationId = req.user.OrganizationId;
@@ -59,6 +61,7 @@ export class DepartmentController {
       sortIndex,
       limit,
       offset,
+      parsedFilters: filters ? (qs.parse(filters) as ParsedFilters) : {},
       OrganizationId
     });
 
