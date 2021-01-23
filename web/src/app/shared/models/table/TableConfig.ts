@@ -5,5 +5,6 @@ export interface TableColumnConfig {
 
 export interface TableConfig {
   key: string;
+  outlineBorders: boolean;
   columns: TableColumnConfig[];
 }
