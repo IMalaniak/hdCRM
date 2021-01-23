@@ -83,10 +83,11 @@ export class RoleService {
     pageQuery: PageQueryWithOrganization
   ): Promise<Result<CollectionApiResponse<Role>, BaseResponse>> {
     try {
-      const { limit, offset, sortDirection, sortIndex, OrganizationId } = pageQuery;
+      const { limit, offset, sortDirection, sortIndex, OrganizationId, parsedFilters } = pageQuery;
 
       const data = await Role.findAndCountAll({
         where: {
+          ...parsedFilters,
           OrganizationId
         },
         include: [...this.includes],

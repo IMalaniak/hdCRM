@@ -24,3 +24,4 @@ export * from './UserState';
 export * from './input-error-messages.constants';
 export * from './controlValidator';
 export * from './inputTypes';
+export * from './WhereOperators.enum';

@@ -1,5 +1,6 @@
 import { Service } from 'typedi';
 import jimp from 'jimp';
+import qs from 'qs';
 
 import {
   User,
@@ -16,7 +17,8 @@ import {
   PasswordReset,
   UserAttributes,
   Asset,
-  AssetCreationAttributes
+  AssetCreationAttributes,
+  ParsedFilters
 } from '../models';
 import { UserService } from '../services';
 import { Request, Response } from 'express';
@@ -48,7 +50,7 @@ export class UserController {
   ): Promise<void> {
     req.log.info(`Selecting users by page query...`);
 
-    const { pageSize, pageIndex, sortDirection, sortIndex } = req.query;
+    const { pageSize, pageIndex, sortDirection, sortIndex, filters } = req.query;
     const limit = parseInt(pageSize);
     const offset = parseInt(pageIndex) * limit;
     const OrganizationId = req.user.OrganizationId;
@@ -58,6 +60,7 @@ export class UserController {
       sortIndex,
       limit,
       offset,
+      parsedFilters: filters ? (qs.parse(filters) as ParsedFilters) : {},
       OrganizationId
     });
 

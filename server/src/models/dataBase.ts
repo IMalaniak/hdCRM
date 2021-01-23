@@ -1,4 +1,4 @@
-import { Sequelize } from 'sequelize';
+import { Op, Sequelize } from 'sequelize';
 import { User, UserFactory } from './User';
 import { UserSession, UserSessionFactory } from './UserSession';
 import { PasswordAttribute, PasswordAttributeFactory } from './PasswordAttribute';
@@ -24,6 +24,29 @@ export class DataBase {
 
   constructor(private readonly logger: Logger) {
     this.sequelize = new Sequelize(process.env.DATABASE_URL, {
+      operatorsAliases: {
+        eq: Op.eq,
+        ne: Op.ne,
+        is: Op.is,
+        not: Op.not,
+        or: Op.or,
+        gt: Op.gt,
+        gte: Op.gte,
+        lt: Op.lt,
+        lte: Op.lte,
+        between: Op.between,
+        notBetween: Op.notBetween,
+        in: Op.in,
+        notIn: Op.notIn,
+        like: Op.like,
+        notLike: Op.notLike,
+        startsWith: Op.startsWith,
+        endsWith: Op.endsWith,
+        substring: Op.substring,
+        iLike: Op.iLike,
+        notILike: Op.notILike,
+        any: Op.any
+      },
       ...(process.env.NODE_ENV !== 'development' && {
         ssl: true,
         dialectOptions: {
