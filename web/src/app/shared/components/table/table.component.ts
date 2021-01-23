@@ -85,10 +85,10 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   pageSizeOptions: number[] = pageSizeOptions;
-  cellType = CellType;
-  buttonType = BUTTON_TYPE;
-  matButtonType = MAT_BUTTON;
-  themePalette = THEME_PALETTE;
+  cellType: typeof CellType = CellType;
+  buttonType: typeof BUTTON_TYPE = BUTTON_TYPE;
+  matButtonType: typeof MAT_BUTTON = MAT_BUTTON;
+  themePalette: typeof THEME_PALETTE = THEME_PALETTE;
   columnActionsKey = COLUMN_KEYS.ACTIONS;
   columnsInitialState: TableColumnConfig[];
 
