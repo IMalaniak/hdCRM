@@ -13,7 +13,7 @@ import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_KEYS } from 
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
-import { DataColumn } from '@/shared/models/table';
+import { DataColumn, RowActionData, RowActionType } from '@/shared/models/table';
 import { selectPlanPageLoading, selectPlansTotalCount, changeIsEditingState } from '../../store';
 import { PlansDataSource } from '../../dataSources';
 
@@ -50,6 +50,20 @@ export class PlanListComponent {
     private readonly router: Router,
     private readonly dialogService: DialogService
   ) {}
+
+  onRowAction(data: RowActionData<RowActionType>): void {
+    switch (data.actionType) {
+      case RowActionType.DETAILS:
+        this.onPlanSelect(data.id, false);
+        break;
+      case RowActionType.EDIT:
+        this.onPlanSelect(data.id, true);
+        break;
+      case RowActionType.DELETE:
+        this.deletePlan(data.id);
+        break;
+    }
+  }
 
   onPlanSelect(id: number, edit: boolean = false): void {
     this.router.navigateByUrl(`${RoutingConstants.ROUTE_PLANNER_DETAILS}/${id}`);

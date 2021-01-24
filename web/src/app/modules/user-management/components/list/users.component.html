@@ -9,7 +9,9 @@
     [dataSource]="dataSource"
     [columns]="displayedColumns"
     [totalItems]="resultsLength$ | async"
-    (rowAction)="onUserSelect($event)"
+    [canEdit]="canEditUser$ | async"
+    [canDelete]="canDeleteUser$ | async"
+    (rowActionClicked)="onRowAction($event)"
   >
   </table-component>
 </organisms-card>

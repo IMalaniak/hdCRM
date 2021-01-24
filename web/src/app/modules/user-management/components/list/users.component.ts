@@ -18,6 +18,7 @@ import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model'
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
 import { DataColumn } from '@/shared/models/table/data-column.model';
+import { RowActionData, RowActionType } from '@/shared/models/table';
 import { selectUserPageLoading, selectUsersTotalCount } from '../../store';
 import { UsersDataSource } from '../../dataSources';
 import { InvitationDialogComponent } from '../invitation-dialog/invitation-dialog.component';
@@ -76,6 +77,20 @@ export class UsersComponent implements OnDestroy {
   ) {
     this.iconsService.registerIcons([BS_ICONS.Archive, BS_ICONS.PersonSquare, BS_ICONS.PersonX]);
     this.store$.dispatch(OnlineUserListRequested());
+  }
+
+  onRowAction(data: RowActionData<RowActionType>): void {
+    switch (data.actionType) {
+      case RowActionType.DETAILS:
+        this.onUserSelect(data.id, false);
+        break;
+      case RowActionType.EDIT:
+        this.onUserSelect(data.id, true);
+        break;
+      case RowActionType.DELETE:
+        this.deleteUser(data.id);
+        break;
+    }
   }
 
   openInvitationDialog(): void {

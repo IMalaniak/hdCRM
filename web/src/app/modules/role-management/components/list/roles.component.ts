@@ -68,9 +68,6 @@ export class RolesComponent {
       case RowActionType.DELETE:
         this.deleteRole(data.id);
         break;
-
-      default:
-        break;
     }
   }
 

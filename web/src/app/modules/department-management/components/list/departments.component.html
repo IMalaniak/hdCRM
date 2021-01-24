@@ -11,7 +11,9 @@
     [dataSource]="dataSource"
     [columns]="displayedColumns"
     [totalItems]="resultsLength$ | async"
-    (rowAction)="onDepartmentSelect($event)"
+    [canEdit]="canEditDep$ | async"
+    [canDelete]="canDeleteDep$ | async"
+    (rowActionClicked)="onRowAction($event)"
   >
   </table-component>
 </organisms-card>

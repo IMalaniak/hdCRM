@@ -13,7 +13,7 @@ import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_KEYS } from 
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
-import { DataColumn } from '@/shared/models/table';
+import { DataColumn, RowActionData, RowActionType } from '@/shared/models/table';
 import { DepartmentsDataSource } from '../../dataSources';
 import { selectDepartmentsTotalCount, selectDepartmentsPageLoading, changeIsEditingState } from '../../store';
 
@@ -53,6 +53,20 @@ export class DepartmentsComponent {
     private readonly router: Router,
     private readonly dialogService: DialogService
   ) {}
+
+  onRowAction(data: RowActionData<RowActionType>): void {
+    switch (data.actionType) {
+      case RowActionType.DETAILS:
+        this.onDepartmentSelect(data.id, false);
+        break;
+      case RowActionType.EDIT:
+        this.onDepartmentSelect(data.id, true);
+        break;
+      case RowActionType.DELETE:
+        this.deleteDepartment(data.id);
+        break;
+    }
+  }
 
   onDepartmentSelect(id: number, edit: boolean = false): void {
     this.router.navigate([`${RoutingConstants.ROUTE_DEPARTMENTS_DETAILS}/${id}`]);
