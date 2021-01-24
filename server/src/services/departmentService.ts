@@ -97,10 +97,11 @@ export class DepartmentService {
     pageQuery: PageQueryWithOrganization
   ): Promise<Result<CollectionApiResponse<Department>, BaseResponse>> {
     try {
-      const { limit, offset, sortDirection, sortIndex, OrganizationId } = pageQuery;
+      const { limit, offset, sortDirection, sortIndex, OrganizationId, parsedFilters } = pageQuery;
 
       const data = await Department.findAndCountAll({
         where: {
+          ...parsedFilters,
           OrganizationId
         },
         include: [...this.includes],

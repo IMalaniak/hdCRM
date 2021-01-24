@@ -26,7 +26,8 @@ import {
   removeTableConfig,
   setTableConfig,
   tableColumnsConfig,
-  tableColumnsToDisplay
+  tableColumnsToDisplay,
+  tableOutlineBorders
 } from '@/core/modules/layout/store';
 import { DataColumn } from '@/shared/models/table/data-column.model';
 import { DataRow } from '@/shared/models/table/data-row';
@@ -63,6 +64,7 @@ import { PageQuery } from '@/shared/models';
 export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   itemsPerPageState$: Observable<IItemsPerPage> = this.store$.pipe(select(getItemsPerPageState));
   columnsToDisplay$: Observable<string[]>;
+  outlineBorders$: Observable<boolean>;
 
   @Input() id: string;
   @Input() dataSource: CommonDataSource<DataRow>;
@@ -71,7 +73,6 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   @Input() canSort = true;
   @Input() hasSettings = true;
   @Input() noContentMessage = CONSTANTS.NO_CONTENT_INFO;
-  @Input() hasOutlineBorder = true; // TODO: add logic to set it based on user preference
   @Input() additionalRowActions: RowAction<RowActionType>[];
   @Input() canEdit: boolean;
   @Input() canDelete: boolean;
@@ -93,6 +94,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   columnsInitialState: TableColumnConfig[];
 
   icons: { [key: string]: BS_ICONS } = {
+    borders: BS_ICONS.BorderOuter,
     checksGrid: BS_ICONS.UiChecksGrid,
     threeDots: BS_ICONS.ThreeDotsVertical,
     checkCircle: BS_ICONS.CheckCircle,
@@ -193,13 +195,6 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     return resultClasses.trim();
   }
 
-  getActionsStickyBorders(title: string): string {
-    if (title === COLUMN_KEYS.ACTIONS && this.hasOutlineBorder) {
-      return STYLECONSTANTS.STICKY_WITH_BORDER;
-    }
-    return '';
-  }
-
   resetTableConfig(): void {
     this.columns = this.columns
       .sort(
@@ -211,9 +206,10 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     this.store$.dispatch(removeTableConfig({ key: this.id }));
   }
 
-  updateTableConfig(): void {
+  updateTableConfig(outlineBorders?: boolean): void {
     const tableConfig: TableConfig = {
       key: this.id,
+      outlineBorders,
       columns: this.columns.map((col) => ({ title: col.key, isVisible: col.isVisible }))
     };
     this.store$.dispatch(setTableConfig({ tableConfig }));
@@ -257,6 +253,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
 
   private setColumns(): void {
     this.columnsInitialState = this.columns.map((col) => ({ title: col.key, isVisible: col.isVisible }));
+    this.outlineBorders$ = this.store$.pipe(select(tableOutlineBorders(this.id)));
     this.columnsToDisplay$ = this.store$.pipe(
       select(tableColumnsToDisplay(this.id)),
       map((columns) => (!columns ? this.columnsInitialState.filter((c) => c.isVisible).map((c) => c.title) : columns))

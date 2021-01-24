@@ -6,6 +6,7 @@ export interface CollectionQuery {
   readonly pageIndex: string;
   readonly sortIndex: string;
   readonly sortDirection: string;
+  readonly filters?: string;
 }
 
 export type CustomQuery<T> = T & Query;

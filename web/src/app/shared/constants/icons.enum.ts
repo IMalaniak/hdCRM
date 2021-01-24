@@ -187,6 +187,10 @@ export enum BS_ICONS {
   BackspaceReverse = 'backspace-reverse',
   /** https://icons.getbootstrap.com/icons/backspace */
   Backspace = 'backspace',
+  /** https://icons.getbootstrap.com/icons/badge-3d-fill */
+  Badge3dFill = 'badge-3d-fill',
+  /** https://icons.getbootstrap.com/icons/badge-3d */
+  Badge3d = 'badge-3d',
   /** https://icons.getbootstrap.com/icons/badge-4k-fill */
   Badge4kFill = 'badge-4k-fill',
   /** https://icons.getbootstrap.com/icons/badge-4k */
@@ -199,6 +203,10 @@ export enum BS_ICONS {
   BadgeAdFill = 'badge-ad-fill',
   /** https://icons.getbootstrap.com/icons/badge-ad */
   BadgeAd = 'badge-ad',
+  /** https://icons.getbootstrap.com/icons/badge-ar-fill */
+  BadgeArFill = 'badge-ar-fill',
+  /** https://icons.getbootstrap.com/icons/badge-ar */
+  BadgeAr = 'badge-ar',
   /** https://icons.getbootstrap.com/icons/badge-cc-fill */
   BadgeCcFill = 'badge-cc-fill',
   /** https://icons.getbootstrap.com/icons/badge-cc */
@@ -215,6 +223,14 @@ export enum BS_ICONS {
   BadgeVoFill = 'badge-vo-fill',
   /** https://icons.getbootstrap.com/icons/badge-vo */
   BadgeVo = 'badge-vo',
+  /** https://icons.getbootstrap.com/icons/badge-vr-fill */
+  BadgeVrFill = 'badge-vr-fill',
+  /** https://icons.getbootstrap.com/icons/badge-vr */
+  BadgeVr = 'badge-vr',
+  /** https://icons.getbootstrap.com/icons/badge-wc-fill */
+  BadgeWcFill = 'badge-wc-fill',
+  /** https://icons.getbootstrap.com/icons/badge-wc */
+  BadgeWc = 'badge-wc',
   /** https://icons.getbootstrap.com/icons/bag-check-fill */
   BagCheckFill = 'bag-check-fill',
   /** https://icons.getbootstrap.com/icons/bag-check */
@@ -329,10 +345,30 @@ export enum BS_ICONS {
   BootstrapReboot = 'bootstrap-reboot',
   /** https://icons.getbootstrap.com/icons/bootstrap */
   Bootstrap = 'bootstrap',
+  /** https://icons.getbootstrap.com/icons/border-all */
+  BorderAll = 'border-all',
+  /** https://icons.getbootstrap.com/icons/border-bottom */
+  BorderBottom = 'border-bottom',
+  /** https://icons.getbootstrap.com/icons/border-center */
+  BorderCenter = 'border-center',
+  /** https://icons.getbootstrap.com/icons/border-inner */
+  BorderInner = 'border-inner',
+  /** https://icons.getbootstrap.com/icons/border-left */
+  BorderLeft = 'border-left',
+  /** https://icons.getbootstrap.com/icons/border-middle */
+  BorderMiddle = 'border-middle',
+  /** https://icons.getbootstrap.com/icons/border-outer */
+  BorderOuter = 'border-outer',
+  /** https://icons.getbootstrap.com/icons/border-right */
+  BorderRight = 'border-right',
   /** https://icons.getbootstrap.com/icons/border-style */
   BorderStyle = 'border-style',
+  /** https://icons.getbootstrap.com/icons/border-top */
+  BorderTop = 'border-top',
   /** https://icons.getbootstrap.com/icons/border-width */
   BorderWidth = 'border-width',
+  /** https://icons.getbootstrap.com/icons/border */
+  Border = 'border',
   /** https://icons.getbootstrap.com/icons/bounding-box-circles */
   BoundingBoxCircles = 'bounding-box-circles',
   /** https://icons.getbootstrap.com/icons/bounding-box */
@@ -875,10 +911,14 @@ export enum BS_ICONS {
   CursorText = 'cursor-text',
   /** https://icons.getbootstrap.com/icons/cursor */
   Cursor = 'cursor',
+  /** https://icons.getbootstrap.com/icons/dash-circle-dotted */
+  DashCircleDotted = 'dash-circle-dotted',
   /** https://icons.getbootstrap.com/icons/dash-circle-fill */
   DashCircleFill = 'dash-circle-fill',
   /** https://icons.getbootstrap.com/icons/dash-circle */
   DashCircle = 'dash-circle',
+  /** https://icons.getbootstrap.com/icons/dash-square-dotted */
+  DashSquareDotted = 'dash-square-dotted',
   /** https://icons.getbootstrap.com/icons/dash-square-fill */
   DashSquareFill = 'dash-square-fill',
   /** https://icons.getbootstrap.com/icons/dash-square */
@@ -923,6 +963,12 @@ export enum BS_ICONS {
   Dice6Fill = 'dice-6-fill',
   /** https://icons.getbootstrap.com/icons/dice-6 */
   Dice6 = 'dice-6',
+  /** https://icons.getbootstrap.com/icons/disc-fill */
+  DiscFill = 'disc-fill',
+  /** https://icons.getbootstrap.com/icons/disc */
+  Disc = 'disc',
+  /** https://icons.getbootstrap.com/icons/discord */
+  Discord = 'discord',
   /** https://icons.getbootstrap.com/icons/display-fill */
   DisplayFill = 'display-fill',
   /** https://icons.getbootstrap.com/icons/display */
@@ -1017,6 +1063,10 @@ export enum BS_ICONS {
   EnvelopeOpen = 'envelope-open',
   /** https://icons.getbootstrap.com/icons/envelope */
   Envelope = 'envelope',
+  /** https://icons.getbootstrap.com/icons/eraser-fill */
+  EraserFill = 'eraser-fill',
+  /** https://icons.getbootstrap.com/icons/eraser */
+  Eraser = 'eraser',
   /** https://icons.getbootstrap.com/icons/exclamation-circle-fill */
   ExclamationCircleFill = 'exclamation-circle-fill',
   /** https://icons.getbootstrap.com/icons/exclamation-circle */
@@ -1049,8 +1099,12 @@ export enum BS_ICONS {
   EyeSlash = 'eye-slash',
   /** https://icons.getbootstrap.com/icons/eye */
   Eye = 'eye',
+  /** https://icons.getbootstrap.com/icons/eyedropper */
+  Eyedropper = 'eyedropper',
   /** https://icons.getbootstrap.com/icons/eyeglasses */
   Eyeglasses = 'eyeglasses',
+  /** https://icons.getbootstrap.com/icons/facebook */
+  Facebook = 'facebook',
   /** https://icons.getbootstrap.com/icons/file-arrow-down-fill */
   FileArrowDownFill = 'file-arrow-down-fill',
   /** https://icons.getbootstrap.com/icons/file-arrow-down */
@@ -1387,10 +1441,14 @@ export enum BS_ICONS {
   GiftFill = 'gift-fill',
   /** https://icons.getbootstrap.com/icons/gift */
   Gift = 'gift',
+  /** https://icons.getbootstrap.com/icons/github */
+  Github = 'github',
   /** https://icons.getbootstrap.com/icons/globe */
   Globe = 'globe',
   /** https://icons.getbootstrap.com/icons/globe2 */
   Globe2 = 'globe2',
+  /** https://icons.getbootstrap.com/icons/google */
+  Google = 'google',
   /** https://icons.getbootstrap.com/icons/graph-down */
   GraphDown = 'graph-down',
   /** https://icons.getbootstrap.com/icons/graph-up */
@@ -1421,12 +1479,20 @@ export enum BS_ICONS {
   GripVertical = 'grip-vertical',
   /** https://icons.getbootstrap.com/icons/hammer */
   Hammer = 'hammer',
+  /** https://icons.getbootstrap.com/icons/hand-index-fill */
+  HandIndexFill = 'hand-index-fill',
+  /** https://icons.getbootstrap.com/icons/hand-index-thumb-fill */
+  HandIndexThumbFill = 'hand-index-thumb-fill',
   /** https://icons.getbootstrap.com/icons/hand-index-thumb */
   HandIndexThumb = 'hand-index-thumb',
   /** https://icons.getbootstrap.com/icons/hand-index */
   HandIndex = 'hand-index',
+  /** https://icons.getbootstrap.com/icons/hand-thumbs-down-fill */
+  HandThumbsDownFill = 'hand-thumbs-down-fill',
   /** https://icons.getbootstrap.com/icons/hand-thumbs-down */
   HandThumbsDown = 'hand-thumbs-down',
+  /** https://icons.getbootstrap.com/icons/hand-thumbs-up-fill */
+  HandThumbsUpFill = 'hand-thumbs-up-fill',
   /** https://icons.getbootstrap.com/icons/hand-thumbs-up */
   HandThumbsUp = 'hand-thumbs-up',
   /** https://icons.getbootstrap.com/icons/handbag-fill */
@@ -1521,6 +1587,8 @@ export enum BS_ICONS {
   InputCursorText = 'input-cursor-text',
   /** https://icons.getbootstrap.com/icons/input-cursor */
   InputCursor = 'input-cursor',
+  /** https://icons.getbootstrap.com/icons/instagram */
+  Instagram = 'instagram',
   /** https://icons.getbootstrap.com/icons/intersect */
   Intersect = 'intersect',
   /** https://icons.getbootstrap.com/icons/journal-album */
@@ -1583,6 +1651,10 @@ export enum BS_ICONS {
   LaptopFill = 'laptop-fill',
   /** https://icons.getbootstrap.com/icons/laptop */
   Laptop = 'laptop',
+  /** https://icons.getbootstrap.com/icons/layer-backward */
+  LayerBackward = 'layer-backward',
+  /** https://icons.getbootstrap.com/icons/layer-forward */
+  LayerForward = 'layer-forward',
   /** https://icons.getbootstrap.com/icons/layers-fill */
   LayersFill = 'layers-fill',
   /** https://icons.getbootstrap.com/icons/layers-half */
@@ -1613,6 +1685,14 @@ export enum BS_ICONS {
   LayoutWtf = 'layout-wtf',
   /** https://icons.getbootstrap.com/icons/life-preserver */
   LifePreserver = 'life-preserver',
+  /** https://icons.getbootstrap.com/icons/lightbulb-fill */
+  LightbulbFill = 'lightbulb-fill',
+  /** https://icons.getbootstrap.com/icons/lightbulb-off-fill */
+  LightbulbOffFill = 'lightbulb-off-fill',
+  /** https://icons.getbootstrap.com/icons/lightbulb-off */
+  LightbulbOff = 'lightbulb-off',
+  /** https://icons.getbootstrap.com/icons/lightbulb */
+  Lightbulb = 'lightbulb',
   /** https://icons.getbootstrap.com/icons/lightning-fill */
   LightningFill = 'lightning-fill',
   /** https://icons.getbootstrap.com/icons/lightning */
@@ -1621,6 +1701,8 @@ export enum BS_ICONS {
   Link45deg = 'link-45deg',
   /** https://icons.getbootstrap.com/icons/link */
   Link = 'link',
+  /** https://icons.getbootstrap.com/icons/linkedin */
+  Linkedin = 'linkedin',
   /** https://icons.getbootstrap.com/icons/list-check */
   ListCheck = 'list-check',
   /** https://icons.getbootstrap.com/icons/list-nested */
@@ -1651,6 +1733,12 @@ export enum BS_ICONS {
   MarkdownFill = 'markdown-fill',
   /** https://icons.getbootstrap.com/icons/markdown */
   Markdown = 'markdown',
+  /** https://icons.getbootstrap.com/icons/mask */
+  Mask = 'mask',
+  /** https://icons.getbootstrap.com/icons/megaphone-fill */
+  MegaphoneFill = 'megaphone-fill',
+  /** https://icons.getbootstrap.com/icons/megaphone */
+  Megaphone = 'megaphone',
   /** https://icons.getbootstrap.com/icons/menu-app-fill */
   MenuAppFill = 'menu-app-fill',
   /** https://icons.getbootstrap.com/icons/menu-app */
@@ -1681,10 +1769,16 @@ export enum BS_ICONS {
   Minecart = 'minecart',
   /** https://icons.getbootstrap.com/icons/moon */
   Moon = 'moon',
+  /** https://icons.getbootstrap.com/icons/mouse-fill */
+  MouseFill = 'mouse-fill',
   /** https://icons.getbootstrap.com/icons/mouse */
   Mouse = 'mouse',
+  /** https://icons.getbootstrap.com/icons/mouse2-fill */
+  Mouse2Fill = 'mouse2-fill',
   /** https://icons.getbootstrap.com/icons/mouse2 */
   Mouse2 = 'mouse2',
+  /** https://icons.getbootstrap.com/icons/mouse3-fill */
+  Mouse3Fill = 'mouse3-fill',
   /** https://icons.getbootstrap.com/icons/mouse3 */
   Mouse3 = 'mouse3',
   /** https://icons.getbootstrap.com/icons/music-note-beamed */
@@ -1721,30 +1815,46 @@ export enum BS_ICONS {
   Option = 'option',
   /** https://icons.getbootstrap.com/icons/outlet */
   Outlet = 'outlet',
+  /** https://icons.getbootstrap.com/icons/paint-bucket */
+  PaintBucket = 'paint-bucket',
+  /** https://icons.getbootstrap.com/icons/palette-fill */
+  PaletteFill = 'palette-fill',
+  /** https://icons.getbootstrap.com/icons/palette */
+  Palette = 'palette',
+  /** https://icons.getbootstrap.com/icons/palette2 */
+  Palette2 = 'palette2',
   /** https://icons.getbootstrap.com/icons/paperclip */
   Paperclip = 'paperclip',
   /** https://icons.getbootstrap.com/icons/paragraph */
   Paragraph = 'paragraph',
-  /** https://icons.getbootstrap.com/icons/patch-check-fll */
-  PatchCheckFll = 'patch-check-fll',
+  /** https://icons.getbootstrap.com/icons/patch-check-fill */
+  PatchCheckFill = 'patch-check-fill',
   /** https://icons.getbootstrap.com/icons/patch-check */
   PatchCheck = 'patch-check',
-  /** https://icons.getbootstrap.com/icons/patch-exclamation-fll */
-  PatchExclamationFll = 'patch-exclamation-fll',
+  /** https://icons.getbootstrap.com/icons/patch-exclamation-fill */
+  PatchExclamationFill = 'patch-exclamation-fill',
   /** https://icons.getbootstrap.com/icons/patch-exclamation */
   PatchExclamation = 'patch-exclamation',
-  /** https://icons.getbootstrap.com/icons/patch-minus-fll */
-  PatchMinusFll = 'patch-minus-fll',
+  /** https://icons.getbootstrap.com/icons/patch-minus-fill */
+  PatchMinusFill = 'patch-minus-fill',
   /** https://icons.getbootstrap.com/icons/patch-minus */
   PatchMinus = 'patch-minus',
-  /** https://icons.getbootstrap.com/icons/patch-plus-fll */
-  PatchPlusFll = 'patch-plus-fll',
+  /** https://icons.getbootstrap.com/icons/patch-plus-fill */
+  PatchPlusFill = 'patch-plus-fill',
   /** https://icons.getbootstrap.com/icons/patch-plus */
   PatchPlus = 'patch-plus',
-  /** https://icons.getbootstrap.com/icons/patch-question-fll */
-  PatchQuestionFll = 'patch-question-fll',
+  /** https://icons.getbootstrap.com/icons/patch-question-fill */
+  PatchQuestionFill = 'patch-question-fill',
   /** https://icons.getbootstrap.com/icons/patch-question */
   PatchQuestion = 'patch-question',
+  /** https://icons.getbootstrap.com/icons/pause-btn-fill */
+  PauseBtnFill = 'pause-btn-fill',
+  /** https://icons.getbootstrap.com/icons/pause-btn */
+  PauseBtn = 'pause-btn',
+  /** https://icons.getbootstrap.com/icons/pause-circle-fill */
+  PauseCircleFill = 'pause-circle-fill',
+  /** https://icons.getbootstrap.com/icons/pause-circle */
+  PauseCircle = 'pause-circle',
   /** https://icons.getbootstrap.com/icons/pause-fill */
   PauseFill = 'pause-fill',
   /** https://icons.getbootstrap.com/icons/pause */
@@ -1813,6 +1923,8 @@ export enum BS_ICONS {
   PhoneLandscapeFill = 'phone-landscape-fill',
   /** https://icons.getbootstrap.com/icons/phone-landscape */
   PhoneLandscape = 'phone-landscape',
+  /** https://icons.getbootstrap.com/icons/phone-vibrate-fill */
+  PhoneVibrateFill = 'phone-vibrate-fill',
   /** https://icons.getbootstrap.com/icons/phone-vibrate */
   PhoneVibrate = 'phone-vibrate',
   /** https://icons.getbootstrap.com/icons/phone */
@@ -1821,10 +1933,26 @@ export enum BS_ICONS {
   PieChartFill = 'pie-chart-fill',
   /** https://icons.getbootstrap.com/icons/pie-chart */
   PieChart = 'pie-chart',
+  /** https://icons.getbootstrap.com/icons/pin-angle-fill */
+  PinAngleFill = 'pin-angle-fill',
+  /** https://icons.getbootstrap.com/icons/pin-angle */
+  PinAngle = 'pin-angle',
+  /** https://icons.getbootstrap.com/icons/pin-fill */
+  PinFill = 'pin-fill',
+  /** https://icons.getbootstrap.com/icons/pin */
+  Pin = 'pin',
   /** https://icons.getbootstrap.com/icons/pip-fill */
   PipFill = 'pip-fill',
   /** https://icons.getbootstrap.com/icons/pip */
   Pip = 'pip',
+  /** https://icons.getbootstrap.com/icons/play-btn-fill */
+  PlayBtnFill = 'play-btn-fill',
+  /** https://icons.getbootstrap.com/icons/play-btn */
+  PlayBtn = 'play-btn',
+  /** https://icons.getbootstrap.com/icons/play-circle-fill */
+  PlayCircleFill = 'play-circle-fill',
+  /** https://icons.getbootstrap.com/icons/play-circle */
+  PlayCircle = 'play-circle',
   /** https://icons.getbootstrap.com/icons/play-fill */
   PlayFill = 'play-fill',
   /** https://icons.getbootstrap.com/icons/play */
@@ -1833,10 +1961,14 @@ export enum BS_ICONS {
   PlugFill = 'plug-fill',
   /** https://icons.getbootstrap.com/icons/plug */
   Plug = 'plug',
+  /** https://icons.getbootstrap.com/icons/plus-circle-dotted */
+  PlusCircleDotted = 'plus-circle-dotted',
   /** https://icons.getbootstrap.com/icons/plus-circle-fill */
   PlusCircleFill = 'plus-circle-fill',
   /** https://icons.getbootstrap.com/icons/plus-circle */
   PlusCircle = 'plus-circle',
+  /** https://icons.getbootstrap.com/icons/plus-square-dotted */
+  PlusSquareDotted = 'plus-square-dotted',
   /** https://icons.getbootstrap.com/icons/plus-square-fill */
   PlusSquareFill = 'plus-square-fill',
   /** https://icons.getbootstrap.com/icons/plus-square */
@@ -1885,6 +2017,22 @@ export enum BS_ICONS {
   Reception3 = 'reception-3',
   /** https://icons.getbootstrap.com/icons/reception-4 */
   Reception4 = 'reception-4',
+  /** https://icons.getbootstrap.com/icons/record-btn-fill */
+  RecordBtnFill = 'record-btn-fill',
+  /** https://icons.getbootstrap.com/icons/record-btn */
+  RecordBtn = 'record-btn',
+  /** https://icons.getbootstrap.com/icons/record-circle-fill */
+  RecordCircleFill = 'record-circle-fill',
+  /** https://icons.getbootstrap.com/icons/record-circle */
+  RecordCircle = 'record-circle',
+  /** https://icons.getbootstrap.com/icons/record-fill */
+  RecordFill = 'record-fill',
+  /** https://icons.getbootstrap.com/icons/record */
+  Record = 'record',
+  /** https://icons.getbootstrap.com/icons/record2-fill */
+  Record2Fill = 'record2-fill',
+  /** https://icons.getbootstrap.com/icons/record2 */
+  Record2 = 'record2',
   /** https://icons.getbootstrap.com/icons/reply-all-fill */
   ReplyAllFill = 'reply-all-fill',
   /** https://icons.getbootstrap.com/icons/reply-all */
@@ -1897,6 +2045,16 @@ export enum BS_ICONS {
   RssFill = 'rss-fill',
   /** https://icons.getbootstrap.com/icons/rss */
   Rss = 'rss',
+  /** https://icons.getbootstrap.com/icons/rulers */
+  Rulers = 'rulers',
+  /** https://icons.getbootstrap.com/icons/save-fill */
+  SaveFill = 'save-fill',
+  /** https://icons.getbootstrap.com/icons/save */
+  Save = 'save',
+  /** https://icons.getbootstrap.com/icons/save2-fill */
+  Save2Fill = 'save2-fill',
+  /** https://icons.getbootstrap.com/icons/save2 */
+  Save2 = 'save2',
   /** https://icons.getbootstrap.com/icons/scissors */
   Scissors = 'scissors',
   /** https://icons.getbootstrap.com/icons/screwdriver */
@@ -1971,22 +2129,56 @@ export enum BS_ICONS {
   SimFill = 'sim-fill',
   /** https://icons.getbootstrap.com/icons/sim */
   Sim = 'sim',
+  /** https://icons.getbootstrap.com/icons/skip-backward-btn-fill */
+  SkipBackwardBtnFill = 'skip-backward-btn-fill',
+  /** https://icons.getbootstrap.com/icons/skip-backward-btn */
+  SkipBackwardBtn = 'skip-backward-btn',
+  /** https://icons.getbootstrap.com/icons/skip-backward-circle-fill */
+  SkipBackwardCircleFill = 'skip-backward-circle-fill',
+  /** https://icons.getbootstrap.com/icons/skip-backward-circle */
+  SkipBackwardCircle = 'skip-backward-circle',
   /** https://icons.getbootstrap.com/icons/skip-backward-fill */
   SkipBackwardFill = 'skip-backward-fill',
   /** https://icons.getbootstrap.com/icons/skip-backward */
   SkipBackward = 'skip-backward',
+  /** https://icons.getbootstrap.com/icons/skip-end-btn-fill */
+  SkipEndBtnFill = 'skip-end-btn-fill',
+  /** https://icons.getbootstrap.com/icons/skip-end-btn */
+  SkipEndBtn = 'skip-end-btn',
+  /** https://icons.getbootstrap.com/icons/skip-end-circle-fill */
+  SkipEndCircleFill = 'skip-end-circle-fill',
+  /** https://icons.getbootstrap.com/icons/skip-end-circle */
+  SkipEndCircle = 'skip-end-circle',
   /** https://icons.getbootstrap.com/icons/skip-end-fill */
   SkipEndFill = 'skip-end-fill',
   /** https://icons.getbootstrap.com/icons/skip-end */
   SkipEnd = 'skip-end',
+  /** https://icons.getbootstrap.com/icons/skip-forward-btn-fill */
+  SkipForwardBtnFill = 'skip-forward-btn-fill',
+  /** https://icons.getbootstrap.com/icons/skip-forward-btn */
+  SkipForwardBtn = 'skip-forward-btn',
+  /** https://icons.getbootstrap.com/icons/skip-forward-circle-fill */
+  SkipForwardCircleFill = 'skip-forward-circle-fill',
+  /** https://icons.getbootstrap.com/icons/skip-forward-circle */
+  SkipForwardCircle = 'skip-forward-circle',
   /** https://icons.getbootstrap.com/icons/skip-forward-fill */
   SkipForwardFill = 'skip-forward-fill',
   /** https://icons.getbootstrap.com/icons/skip-forward */
   SkipForward = 'skip-forward',
+  /** https://icons.getbootstrap.com/icons/skip-start-btn-fill */
+  SkipStartBtnFill = 'skip-start-btn-fill',
+  /** https://icons.getbootstrap.com/icons/skip-start-btn */
+  SkipStartBtn = 'skip-start-btn',
+  /** https://icons.getbootstrap.com/icons/skip-start-circle-fill */
+  SkipStartCircleFill = 'skip-start-circle-fill',
+  /** https://icons.getbootstrap.com/icons/skip-start-circle */
+  SkipStartCircle = 'skip-start-circle',
   /** https://icons.getbootstrap.com/icons/skip-start-fill */
   SkipStartFill = 'skip-start-fill',
   /** https://icons.getbootstrap.com/icons/skip-start */
   SkipStart = 'skip-start',
+  /** https://icons.getbootstrap.com/icons/slack */
+  Slack = 'slack',
   /** https://icons.getbootstrap.com/icons/slash-circle-fill */
   SlashCircleFill = 'slash-circle-fill',
   /** https://icons.getbootstrap.com/icons/slash-circle */
@@ -2031,6 +2223,10 @@ export enum BS_ICONS {
   SpeakerFill = 'speaker-fill',
   /** https://icons.getbootstrap.com/icons/speaker */
   Speaker = 'speaker',
+  /** https://icons.getbootstrap.com/icons/speedometer */
+  Speedometer = 'speedometer',
+  /** https://icons.getbootstrap.com/icons/speedometer2 */
+  Speedometer2 = 'speedometer2',
   /** https://icons.getbootstrap.com/icons/spellcheck */
   Spellcheck = 'spellcheck',
   /** https://icons.getbootstrap.com/icons/square-fill */
@@ -2039,6 +2235,8 @@ export enum BS_ICONS {
   SquareHalf = 'square-half',
   /** https://icons.getbootstrap.com/icons/square */
   Square = 'square',
+  /** https://icons.getbootstrap.com/icons/stack */
+  Stack = 'stack',
   /** https://icons.getbootstrap.com/icons/star-fill */
   StarFill = 'star-fill',
   /** https://icons.getbootstrap.com/icons/star-half */
@@ -2053,6 +2251,14 @@ export enum BS_ICONS {
   StickyFill = 'sticky-fill',
   /** https://icons.getbootstrap.com/icons/sticky */
   Sticky = 'sticky',
+  /** https://icons.getbootstrap.com/icons/stop-btn-fill */
+  StopBtnFill = 'stop-btn-fill',
+  /** https://icons.getbootstrap.com/icons/stop-btn */
+  StopBtn = 'stop-btn',
+  /** https://icons.getbootstrap.com/icons/stop-circle-fill */
+  StopCircleFill = 'stop-circle-fill',
+  /** https://icons.getbootstrap.com/icons/stop-circle */
+  StopCircle = 'stop-circle',
   /** https://icons.getbootstrap.com/icons/stop-fill */
   StopFill = 'stop-fill',
   /** https://icons.getbootstrap.com/icons/stop */
@@ -2087,6 +2293,10 @@ export enum BS_ICONS {
   Sun = 'sun',
   /** https://icons.getbootstrap.com/icons/sunglasses */
   Sunglasses = 'sunglasses',
+  /** https://icons.getbootstrap.com/icons/symmetry-horizontal */
+  SymmetryHorizontal = 'symmetry-horizontal',
+  /** https://icons.getbootstrap.com/icons/symmetry-vertical */
+  SymmetryVertical = 'symmetry-vertical',
   /** https://icons.getbootstrap.com/icons/table */
   Table = 'table',
   /** https://icons.getbootstrap.com/icons/tablet-fill */
@@ -2105,6 +2315,8 @@ export enum BS_ICONS {
   TagsFill = 'tags-fill',
   /** https://icons.getbootstrap.com/icons/tags */
   Tags = 'tags',
+  /** https://icons.getbootstrap.com/icons/telegram */
+  Telegram = 'telegram',
   /** https://icons.getbootstrap.com/icons/telephone-fill */
   TelephoneFill = 'telephone-fill',
   /** https://icons.getbootstrap.com/icons/telephone-forward-fill */
@@ -2207,6 +2419,10 @@ export enum BS_ICONS {
   TvFill = 'tv-fill',
   /** https://icons.getbootstrap.com/icons/tv */
   Tv = 'tv',
+  /** https://icons.getbootstrap.com/icons/twitch */
+  Twitch = 'twitch',
+  /** https://icons.getbootstrap.com/icons/twitter */
+  Twitter = 'twitter',
   /** https://icons.getbootstrap.com/icons/type-bold */
   TypeBold = 'type-bold',
   /** https://icons.getbootstrap.com/icons/type-h1 */
@@ -2249,6 +2465,10 @@ export enum BS_ICONS {
   ViewList = 'view-list',
   /** https://icons.getbootstrap.com/icons/view-stacked */
   ViewStacked = 'view-stacked',
+  /** https://icons.getbootstrap.com/icons/vinyl-fill */
+  VinylFill = 'vinyl-fill',
+  /** https://icons.getbootstrap.com/icons/vinyl */
+  Vinyl = 'vinyl',
   /** https://icons.getbootstrap.com/icons/voicemail */
   Voicemail = 'voicemail',
   /** https://icons.getbootstrap.com/icons/volume-down-fill */
@@ -2277,6 +2497,8 @@ export enum BS_ICONS {
   Wallet2 = 'wallet2',
   /** https://icons.getbootstrap.com/icons/watch */
   Watch = 'watch',
+  /** https://icons.getbootstrap.com/icons/whatsapp */
+  Whatsapp = 'whatsapp',
   /** https://icons.getbootstrap.com/icons/wifi-1 */
   Wifi1 = 'wifi-1',
   /** https://icons.getbootstrap.com/icons/wifi-2 */
@@ -2285,6 +2507,10 @@ export enum BS_ICONS {
   WifiOff = 'wifi-off',
   /** https://icons.getbootstrap.com/icons/wifi */
   Wifi = 'wifi',
+  /** https://icons.getbootstrap.com/icons/window-dock */
+  WindowDock = 'window-dock',
+  /** https://icons.getbootstrap.com/icons/window-sidebar */
+  WindowSidebar = 'window-sidebar',
   /** https://icons.getbootstrap.com/icons/window */
   Window = 'window',
   /** https://icons.getbootstrap.com/icons/wrench */
@@ -2307,6 +2533,8 @@ export enum BS_ICONS {
   XSquare = 'x-square',
   /** https://icons.getbootstrap.com/icons/x */
   X = 'x',
+  /** https://icons.getbootstrap.com/icons/youtube */
+  Youtube = 'youtube',
   /** https://icons.getbootstrap.com/icons/zoom-in */
   ZoomIn = 'zoom-in',
   /** https://icons.getbootstrap.com/icons/zoom-out */

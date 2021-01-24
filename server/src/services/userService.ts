@@ -91,11 +91,12 @@ export class UserService {
     pageQuery: PageQueryWithOrganization
   ): Promise<Result<CollectionApiResponse<User>, BaseResponse>> {
     try {
-      const { limit, offset, sortDirection, sortIndex, OrganizationId } = pageQuery;
+      const { limit, offset, sortDirection, sortIndex, OrganizationId, parsedFilters } = pageQuery;
 
       const data = await User.findAndCountAll({
         attributes: { exclude: ['passwordHash', 'salt'] },
         where: {
+          ...parsedFilters,
           OrganizationId
         },
         include: [...this.includes],
