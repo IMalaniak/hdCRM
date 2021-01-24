@@ -13,7 +13,7 @@ import {
   selectAllPrivileges,
   createPrivilegeRequested
 } from '@/core/modules/role-api/store/privilege';
-import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, CONSTANTS, BS_ICONS } from '@/shared/constants';
+import { COLUMN_KEYS, COLUMN_LABELS, ACTION_LABELS, CONSTANTS, BS_ICONS } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogService } from '@/shared/services';
 import { DialogMode } from '@/shared/models/dialog/dialog-mode.enum';
@@ -33,10 +33,10 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
   privileges: Privilege[];
   resultsLength: number;
 
-  columns = COLUMN_NAMES;
+  columns = COLUMN_KEYS;
   columnLabels = COLUMN_LABELS;
   actionLabels = ACTION_LABELS;
-  displayedColumns: COLUMN_NAMES[] = [COLUMN_NAMES.SELECT, COLUMN_NAMES.TITLE, COLUMN_NAMES.KEY];
+  displayedColumns: COLUMN_KEYS[] = [COLUMN_KEYS.SELECT, COLUMN_KEYS.TITLE, COLUMN_KEYS.KEY];
   addPrivilegeIcon = BS_ICONS.Plus;
 
   private unsubscribe: Subject<void> = new Subject();

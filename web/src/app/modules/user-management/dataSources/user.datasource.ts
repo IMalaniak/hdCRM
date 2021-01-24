@@ -6,9 +6,9 @@ import { listPageRequested } from '@/core/modules/user-api/store';
 import { User } from '@/core/modules/user-api/shared';
 import { PageQuery } from '@/shared/models';
 import { CommonDataSource } from '@/shared/services';
-import { CellValue, createNavigation, DataRow } from '@/shared/models/table';
-import { COLUMN_NAMES } from '@/shared/constants/table.constants';
-import { UrlGenerator } from '@/shared/utils';
+import { CellValue, DataRow } from '@/shared/models/table';
+import { COLUMN_KEYS } from '@/shared/constants/table.constants';
+import { createNavigation, UrlGenerator } from '@/shared/utils';
 import { CONSTANTS, LINK_TARGET, LINK_TYPE } from '@/shared/constants';
 import { selectUsersPage } from '../store';
 
@@ -34,27 +34,27 @@ export class UsersDataSource extends CommonDataSource<User> {
     // The proble related for createNavigationMethod
     return users.map((user) => ({
       id: user.id,
-      [COLUMN_NAMES.SEQUENCE_NUMBER]: CellValue.createSequenceCell(),
-      [COLUMN_NAMES.AVATAR]: CellValue.createAvatarCell(user),
-      [COLUMN_NAMES.LOGIN]: CellValue.createStringCell(user.login),
-      [COLUMN_NAMES.EMAIL]: CellValue.createLinkCell(
+      [COLUMN_KEYS.SEQUENCE]: CellValue.createSequenceCell(),
+      [COLUMN_KEYS.AVATAR]: CellValue.createAvatarCell(user),
+      [COLUMN_KEYS.LOGIN]: CellValue.createStringCell(user.login),
+      [COLUMN_KEYS.EMAIL]: CellValue.createLinkCell(
         user.email,
         createNavigation(CONSTANTS.PREFIX_MAIL_TO + `${user.email}`, LINK_TYPE.LINK)
       ),
-      [COLUMN_NAMES.NAME]: CellValue.createStringCell(user.name),
-      [COLUMN_NAMES.SURNAME]: CellValue.createStringCell(user.surname),
-      [COLUMN_NAMES.PHONE]: CellValue.createLinkCell(
+      [COLUMN_KEYS.NAME]: CellValue.createStringCell(user.name),
+      [COLUMN_KEYS.SURNAME]: CellValue.createStringCell(user.surname),
+      [COLUMN_KEYS.PHONE]: CellValue.createLinkCell(
         user.phone,
         createNavigation(CONSTANTS.PREFIX_TEL + `${user.phone}`, LINK_TYPE.LINK, LINK_TARGET.SELF)
       ),
-      [COLUMN_NAMES.DEPARTMENT]: CellValue.createLinkCell(
+      [COLUMN_KEYS.DEPARTMENT]: CellValue.createLinkCell(
         user.Department?.title,
         UrlGenerator.getDepartmentUrl(user.Department?.id)
       ),
-      [COLUMN_NAMES.STATE]: CellValue.createStringCell(user.state),
-      [COLUMN_NAMES.CREATED_AT]: CellValue.createDateCell(user.createdAt),
-      [COLUMN_NAMES.UPDATED_AT]: CellValue.createDateCell(user.updatedAt),
-      [COLUMN_NAMES.ACTIONS]: CellValue.createActionsCell()
+      [COLUMN_KEYS.STATE]: CellValue.createStringCell(user.state),
+      [COLUMN_KEYS.CREATED_AT]: CellValue.createDateCell(user.createdAt),
+      [COLUMN_KEYS.UPDATED_AT]: CellValue.createDateCell(user.updatedAt),
+      [COLUMN_KEYS.ACTIONS]: CellValue.createActionsCell()
     }));
   }
 }

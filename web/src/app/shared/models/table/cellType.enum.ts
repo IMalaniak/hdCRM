@@ -1,6 +1,6 @@
-export enum CellControlType {
-  SequenceNumber,
-  Action,
+export enum CellType {
+  Sequence,
+  Actions,
   String,
   Navigation,
   Icon,

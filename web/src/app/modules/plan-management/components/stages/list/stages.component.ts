@@ -13,7 +13,7 @@ import {
   selectAllStages,
   createStage
 } from '@/core/modules/plan-api/store/stage';
-import { COLUMN_NAMES, COLUMN_LABELS, ACTION_LABELS, CONSTANTS, BS_ICONS } from '@/shared/constants';
+import { COLUMN_KEYS, COLUMN_LABELS, ACTION_LABELS, CONSTANTS, BS_ICONS } from '@/shared/constants';
 import { DialogService } from '@/shared/services';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
@@ -33,10 +33,10 @@ export class StagesComponent implements OnInit, OnDestroy {
   resultsLength: number;
   selection = new SelectionModel<Stage>(true, []);
 
-  columns = COLUMN_NAMES;
+  columns = COLUMN_KEYS;
   columnLabels = COLUMN_LABELS;
   actionLabels = ACTION_LABELS;
-  displayedColumns: COLUMN_NAMES[] = [COLUMN_NAMES.SELECT, COLUMN_NAMES.TITLE];
+  displayedColumns: COLUMN_KEYS[] = [COLUMN_KEYS.SELECT, COLUMN_KEYS.TITLE];
   addStageIcon = BS_ICONS.Plus;
 
   private unsubscribe: Subject<void> = new Subject();

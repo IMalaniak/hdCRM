@@ -4,12 +4,11 @@ export enum SORT_DIRECTION {
   NONE = ''
 }
 
-export enum COLUMN_NAMES {
-  ID = 'id',
+export enum COLUMN_KEYS {
   ACTIONS = 'actions',
   ADD = 'add',
   AVATAR = 'avatar',
-  CREATED_AT = 'createdAt',
+  CREATED_AT = 'created_at',
   CREATOR = 'creator',
   DEADLINE = 'deadline',
   DELETE = 'delete',
@@ -17,6 +16,7 @@ export enum COLUMN_NAMES {
   EDIT = 'edit',
   EMAIL = 'email',
   ICON = 'icon',
+  ID = 'id',
   KEY = 'key',
   LOGIN = 'login',
   MANAGER = 'manager',
@@ -25,20 +25,20 @@ export enum COLUMN_NAMES {
   PHONE = 'phone',
   PRIVILEGES = 'privileges',
   SELECT = 'select',
+  SEQUENCE = 'sequence',
   STAGE = 'stage',
   STATE = 'state',
   SURNAME = 'surname',
   TITLE = 'title',
   TYPE = 'type',
-  UPDATED_AT = 'updatedAt',
+  UPDATED_AT = 'updated_at',
   USERS = 'users',
   VIEW = 'view',
-  WORKERS = 'workers',
-  SEQUENCE_NUMBER = '#'
+  WORKERS = 'workers'
 }
 
 export enum COLUMN_LABELS {
-  ACTIONS = 'Actions',
+  ACTIONS = '',
   ADD = 'Add',
   AVATAR = 'Avatar',
   CREATED_AT = 'Created At',
@@ -49,6 +49,7 @@ export enum COLUMN_LABELS {
   EDIT = 'Edit',
   EMAIL = 'Email',
   ICON = 'Icon',
+  ID = 'Id',
   KEY = 'Key',
   LOGIN = 'Login',
   MANAGER = 'Manager',
@@ -57,6 +58,7 @@ export enum COLUMN_LABELS {
   PHONE = 'Phone',
   PRIVILEGES = 'Privileges',
   SELECT = 'Select',
+  SEQUENCE = '#',
   STAGE = 'Stage',
   STATE = 'State',
   SURNAME = 'Surname',

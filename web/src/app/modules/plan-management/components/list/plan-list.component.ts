@@ -9,11 +9,11 @@ import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { deletePlanRequested } from '@/core/modules/plan-api/store/plan';
 import { DialogDataModel } from '@/shared/models';
 import { RoutingConstants, CONSTANTS, BS_ICONS } from '@/shared/constants';
-import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_NAMES } from '@/shared/constants';
+import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_KEYS } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
-import { DataColumn } from '@/shared/models/table';
+import { DataColumn, RowActionData, RowActionType } from '@/shared/models/table';
 import { selectPlanPageLoading, selectPlansTotalCount, changeIsEditingState } from '../../store';
 import { PlansDataSource } from '../../dataSources';
 
@@ -36,12 +36,12 @@ export class PlanListComponent {
 
   displayedColumns: DataColumn[] = [
     DataColumn.createSequenceNumberColumn(),
-    DataColumn.createColumn({ title: COLUMN_NAMES.TITLE }),
-    DataColumn.createColumn({ title: COLUMN_NAMES.STAGE, hasSorting: false }),
-    DataColumn.createLinkColumn({ title: COLUMN_NAMES.CREATOR, hasSorting: false }),
-    DataColumn.createColumn({ title: COLUMN_NAMES.PARTICIPANTS, hasSorting: false }),
-    DataColumn.createColumn({ title: COLUMN_NAMES.CREATED_AT }),
-    DataColumn.createColumn({ title: COLUMN_NAMES.UPDATED_AT }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.TITLE }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.STAGE, hasSorting: false }),
+    DataColumn.createLinkColumn({ key: COLUMN_KEYS.CREATOR, hasSorting: false }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.PARTICIPANTS, hasSorting: false }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
     DataColumn.createActionsColumn()
   ];
 
@@ -50,6 +50,20 @@ export class PlanListComponent {
     private readonly router: Router,
     private readonly dialogService: DialogService
   ) {}
+
+  onRowAction(data: RowActionData<RowActionType>): void {
+    switch (data.actionType) {
+      case RowActionType.DETAILS:
+        this.onPlanSelect(data.id, false);
+        break;
+      case RowActionType.EDIT:
+        this.onPlanSelect(data.id, true);
+        break;
+      case RowActionType.DELETE:
+        this.deletePlan(data.id);
+        break;
+    }
+  }
 
   onPlanSelect(id: number, edit: boolean = false): void {
     this.router.navigateByUrl(`${RoutingConstants.ROUTE_PLANNER_DETAILS}/${id}`);
