@@ -30,8 +30,6 @@ export class UsersDataSource extends CommonDataSource<User> {
   }
 
   protected mapToDataRows(users: User[]): DataRow[] {
-    // TODO: investigate why received error: TypeError: Cannot read property 'add' of undefined
-    // The proble related for createNavigationMethod
     return users.map((user) => ({
       id: user.id,
       [COLUMN_KEYS.SEQUENCE]: CellValue.createSequenceCell(),
