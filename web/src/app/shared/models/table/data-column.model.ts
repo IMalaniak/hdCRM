@@ -55,6 +55,20 @@ export class DataColumn {
     return new DataColumn(COLUMN_KEYS.SEQUENCE, COLUMN_LABELS.SEQUENCE, HorizontalAlign.Left, true, true, false, false);
   }
 
+  static createCheckboxColumn(): DataColumn {
+    return new DataColumn(
+      COLUMN_KEYS.SELECT,
+      COLUMN_LABELS.SELECT,
+      HorizontalAlign.Center,
+      false,
+      false,
+      false,
+      false,
+      '',
+      true
+    );
+  }
+
   static createLinkColumn({ key, hasSorting = true }: { key: string; hasSorting?: boolean }): DataColumn {
     return new DataColumn(
       key,

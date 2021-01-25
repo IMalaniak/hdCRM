@@ -33,11 +33,9 @@ export class CellValue {
     );
   }
 
-  // TODO: in separate task make checkbox to work
-  // static createCheckboxCell(action: CellActionType, value = false): CellValue {
-  //   let cell: CellValue = new CellValue(value, CellType.Checkbox);
-  //   return (cell = { ...cell, cellAction: action });
-  // }
+  static createCheckboxCell(selectedValue = false): CellValue {
+    return new CellValue(selectedValue, CellType.Checkbox);
+  }
 
   static createAvatarCell(value: User): CellValue {
     return new CellValue(value, CellType.Avatar);
