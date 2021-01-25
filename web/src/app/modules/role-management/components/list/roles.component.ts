@@ -44,8 +44,8 @@ export class RolesComponent {
   displayedColumns: DataColumn[] = [
     DataColumn.createSequenceNumberColumn(),
     DataColumn.createColumn({ key: COLUMN_KEYS.TITLE }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.USERS }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.PRIVILEGES }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.USERS, hasSorting: false }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.PRIVILEGES, hasSorting: false }),
     DataColumn.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
     DataColumn.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
     DataColumn.createActionsColumn()
