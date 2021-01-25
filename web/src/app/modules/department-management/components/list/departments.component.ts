@@ -41,8 +41,8 @@ export class DepartmentsComponent {
   displayedColumns: DataColumn[] = [
     DataColumn.createSequenceNumberColumn(),
     DataColumn.createColumn({ key: COLUMN_KEYS.TITLE }),
-    DataColumn.createLinkColumn({ key: COLUMN_KEYS.MANAGER }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.WORKERS }),
+    DataColumn.createLinkColumn({ key: COLUMN_KEYS.MANAGER, hasSorting: false }),
+    DataColumn.createColumn({ key: COLUMN_KEYS.WORKERS, hasSorting: false }),
     DataColumn.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
     DataColumn.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
     DataColumn.createActionsColumn()
