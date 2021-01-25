@@ -1,5 +1,5 @@
 import { User } from '@/core/modules/user-api/shared';
-import { THEME_PALETTE } from '@/shared/constants';
+import { STYLECONSTANTS, THEME_PALETTE } from '@/shared/constants';
 import { Navigation } from '@/shared/utils/';
 import { CellType } from './cellType.enum';
 
@@ -20,7 +20,9 @@ export class CellValue {
   }
 
   static createLinkCell(value: string, navigation: Navigation): CellValue {
-    return value ? new CellValue(value, CellType.Navigation, undefined, navigation) : this.createEmptyCell();
+    return value
+      ? new CellValue(value, CellType.Navigation, undefined, navigation)
+      : this.createEmptyCell(STYLECONSTANTS.PL_HEADER_LINK);
   }
 
   static createBooleanIconCell(value: boolean, disabledColor = false): CellValue {
@@ -45,8 +47,8 @@ export class CellValue {
     return new CellValue(value, CellType.Date);
   }
 
-  static createEmptyCell(): CellValue {
-    return new CellValue('-', CellType.String);
+  static createEmptyCell(customClass = ''): CellValue {
+    return new CellValue('-', CellType.String, customClass);
   }
 
   static createActionsCell(): CellValue {
