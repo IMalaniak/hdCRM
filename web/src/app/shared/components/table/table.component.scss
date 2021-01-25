@@ -34,6 +34,8 @@ $border: 1px solid;
     min-width: 100%;
     width: 100%;
     white-space: nowrap;
+    border-spacing: 0px;
+    border-collapse: separate;
 
     th,
     td {
@@ -58,6 +60,7 @@ $border: 1px solid;
     }
 
     td {
+      transition: background-color $transition;
       mat-icon {
         height: 1rem;
         width: 1rem;
@@ -89,9 +92,18 @@ $border: 1px solid;
       }
     }
 
-    .mat-row:hover {
-      @include set-bgcolor('border');
-      transition: background-color $transition;
+    .mat-row {
+      &:hover {
+        cursor: pointer;
+        td {
+          @include set-bgcolor('table-hover');
+        }
+      }
+      &:active {
+        td {
+          @include set-bgcolor('table-active');
+        }
+      }
     }
 
     .table-link-pl {
