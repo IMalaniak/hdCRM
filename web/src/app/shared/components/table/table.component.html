@@ -63,14 +63,13 @@
             </ng-container>
 
             <!-- Checkbox -->
-            <!-- // TODO: in separate task make checkbox to work -->
-            <!-- <ng-container *ngSwitchCase="cellType.Checkbox">
+            <ng-container *ngSwitchCase="cellType.Checkbox">
               <mat-checkbox
                 [checked]="row[column.key].value"
                 [disabled]="row[column.key].disabled"
-                (change)="actionClicked(row[column.key].cellAction, i, $event)"
+                (click)="$event.stopPropagation()"
               ></mat-checkbox>
-            </ng-container> -->
+            </ng-container>
 
             <!-- Icon -->
             <ng-container *ngSwitchCase="cellType.Icon">

@@ -54,6 +54,7 @@ export class UsersComponent implements OnDestroy {
 
   displayedColumns: DataColumn[] = [
     DataColumn.createSequenceNumberColumn(),
+    DataColumn.createCheckboxColumn(),
     DataColumn.createColumn({ key: COLUMN_KEYS.AVATAR, hasSorting: false }),
     DataColumn.createColumn({ key: COLUMN_KEYS.LOGIN }),
     DataColumn.createLinkColumn({ key: COLUMN_KEYS.EMAIL }),

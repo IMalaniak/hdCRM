@@ -33,6 +33,7 @@ export class UsersDataSource extends CommonDataSource<User> {
     return users.map((user) => ({
       id: user.id,
       [COLUMN_KEYS.SEQUENCE]: CellValue.createSequenceCell(),
+      [COLUMN_KEYS.SELECT]: CellValue.createCheckboxCell(user.selected),
       [COLUMN_KEYS.AVATAR]: CellValue.createAvatarCell(user),
       [COLUMN_KEYS.LOGIN]: CellValue.createStringCell(user.login),
       [COLUMN_KEYS.EMAIL]: CellValue.createLinkCell(
