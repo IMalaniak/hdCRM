@@ -43,8 +43,8 @@ export class DataColumn {
       horizontalAlign,
       isVisible,
       hidable,
-      hasSorting,
       draggable,
+      hasSorting,
       customClass,
       sticky,
       stickyEnd
