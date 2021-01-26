@@ -19,7 +19,7 @@ import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confi
 import { DialogService } from '@/shared/services';
 import { DataColumn } from '@/shared/models/table/data-column.model';
 import { RowActionData, RowActionType } from '@/shared/models/table';
-import { selectUserPageLoading, selectUsersTotalCount } from '../../store';
+import { selectListDisplayModeIsPopup, selectUserPageLoading, selectUsersTotalCount } from '../../store';
 import { UsersDataSource } from '../../dataSources';
 import { InvitationDialogComponent } from '../invitation-dialog/invitation-dialog.component';
 
@@ -32,6 +32,7 @@ export class UsersComponent implements OnDestroy {
   currentUser$: Observable<User> = this.store$.pipe(select(currentUser));
   loading$: Observable<boolean> = this.store$.pipe(select(selectUserPageLoading));
   resultsLength$: Observable<number> = this.store$.pipe(select(selectUsersTotalCount));
+  isPopupDisplayMode$: Observable<boolean> = this.store$.pipe(select(selectListDisplayModeIsPopup));
   canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.USER)));
   canEditUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.USER)));
   canDeleteUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.USER)));

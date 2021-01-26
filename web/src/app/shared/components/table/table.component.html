@@ -2,7 +2,7 @@
   <!-- TABLE -->
   <div class="table-container" [class.outine-borders]="outlineBorders$ | async">
     <atoms-icon-button
-      *ngIf="hasSettings"
+      *ngIf="hasSettings && !isDisplayModePopup"
       class="table-config"
       [color]="themePalette.BASIC"
       [matType]="matButtonType.ICON"

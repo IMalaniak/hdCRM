@@ -72,6 +72,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   @Input() columns: DataColumn[];
   @Input() canSort = true;
   @Input() hasSettings = true;
+  @Input() isDisplayModePopup = false;
   @Input() noContentMessage = CONSTANTS.NO_CONTENT_INFO;
   @Input() additionalRowActions: RowAction<RowActionType>[];
   @Input() canEdit: boolean;
@@ -256,7 +257,17 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     this.outlineBorders$ = this.store$.pipe(select(tableOutlineBorders(this.id)));
     this.columnsToDisplay$ = this.store$.pipe(
       select(tableColumnsToDisplay(this.id)),
-      map((columns) => (!columns ? this.columnsInitialState.filter((c) => c.isVisible).map((c) => c.title) : columns))
+      map((columns) => (!columns ? this.columnsInitialState.filter((c) => c.isVisible).map((c) => c.title) : columns)),
+      map((columnsToDisplay) => {
+        if (this.isDisplayModePopup) {
+          const selectIndex = this.columns.findIndex((col) => col.key === COLUMN_KEYS.SELECT);
+          if (selectIndex >= 0) {
+            columnsToDisplay = Object.assign([], columnsToDisplay, { [selectIndex]: COLUMN_KEYS.SELECT });
+          }
+          return columnsToDisplay.filter((cTitle) => cTitle !== COLUMN_KEYS.ACTIONS);
+        }
+        return columnsToDisplay;
+      })
     );
     this.store$.pipe(select(tableColumnsConfig(this.id)), takeUntil(this.unsubscribe)).subscribe((columnsConfig) => {
       if (columnsConfig) {

@@ -1,5 +1,10 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
+export enum ListDisplayMode {
+  DEFAULT,
+  POPUP
+}
+
 export interface Page {
   key: string;
   dataIds: number[];
@@ -25,11 +30,13 @@ export const initialPagesState: PagesState = pagesAdapter.getInitialState({
 export interface ListState {
   editing: boolean;
   pages: PagesState;
+  listDisplayMode: ListDisplayMode;
 }
 
-export const initialListState = {
+export const initialListState: ListState = {
   editing: false,
-  pages: initialPagesState
+  pages: initialPagesState,
+  listDisplayMode: ListDisplayMode.DEFAULT
 };
 
 export const {

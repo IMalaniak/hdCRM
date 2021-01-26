@@ -1,5 +1,10 @@
 <organisms-card cardTitle="User list" [showDataLoader]="loading$ | async">
-  <atoms-icon-button buttons *ngIf="canAddUser$ | async" (onclick)="openInvitationDialog()" [icon]="listIcons.add">
+  <atoms-icon-button
+    buttons
+    *ngIf="(canAddUser$ | async) && !(isPopupDisplayMode$ | async)"
+    (onclick)="openInvitationDialog()"
+    [icon]="listIcons.add"
+  >
     Invite users
   </atoms-icon-button>
 
@@ -9,6 +14,7 @@
     [dataSource]="dataSource"
     [columns]="displayedColumns"
     [totalItems]="resultsLength$ | async"
+    [isDisplayModePopup]="isPopupDisplayMode$ | async"
     [canEdit]="canEditUser$ | async"
     [canDelete]="canDeleteUser$ | async"
     (rowActionClicked)="onRowAction($event)"
