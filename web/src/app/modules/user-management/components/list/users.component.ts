@@ -17,8 +17,7 @@ import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_KEYS } from 
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
-import { DataColumn } from '@/shared/models/table/data-column.model';
-import { RowActionData, RowActionType } from '@/shared/models/table';
+import { RowActionData, RowActionType, Column, IColumn } from '@/shared/models/table';
 import { selectListDisplayModeIsPopup, selectUserPageLoading, selectUsersTotalCount } from '../../store';
 import { UsersDataSource } from '../../dataSources';
 import { InvitationDialogComponent } from '../invitation-dialog/invitation-dialog.component';
@@ -53,20 +52,20 @@ export class UsersComponent implements OnDestroy {
     delete: BS_ICONS.Trash
   };
 
-  displayedColumns: DataColumn[] = [
-    DataColumn.createSequenceNumberColumn(),
-    DataColumn.createCheckboxColumn(),
-    DataColumn.createColumn({ key: COLUMN_KEYS.AVATAR, hasSorting: false }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.LOGIN }),
-    DataColumn.createLinkColumn({ key: COLUMN_KEYS.EMAIL }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.NAME }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.SURNAME }),
-    DataColumn.createLinkColumn({ key: COLUMN_KEYS.PHONE }),
-    DataColumn.createLinkColumn({ key: COLUMN_KEYS.DEPARTMENT, hasSorting: false }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.STATE }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
-    DataColumn.createActionsColumn()
+  displayedColumns: IColumn[] = [
+    Column.createSequenceNumberColumn(),
+    Column.createCheckboxColumn(),
+    Column.createColumn({ key: COLUMN_KEYS.AVATAR, hasSorting: false }),
+    Column.createColumn({ key: COLUMN_KEYS.LOGIN }),
+    Column.createLinkColumn({ key: COLUMN_KEYS.EMAIL }),
+    Column.createColumn({ key: COLUMN_KEYS.NAME }),
+    Column.createColumn({ key: COLUMN_KEYS.SURNAME }),
+    Column.createLinkColumn({ key: COLUMN_KEYS.PHONE }),
+    Column.createLinkColumn({ key: COLUMN_KEYS.DEPARTMENT, hasSorting: false }),
+    Column.createColumn({ key: COLUMN_KEYS.STATE }),
+    Column.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
+    Column.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
+    Column.createActionsColumn()
   ];
 
   private unsubscribe: Subject<void> = new Subject();

@@ -29,8 +29,6 @@ import {
   tableColumnsToDisplay,
   tableOutlineBorders
 } from '@/core/modules/layout/store';
-import { DataColumn } from '@/shared/models/table/data-column.model';
-import { DataRow } from '@/shared/models/table/data-row';
 import {
   ACTION_LABELS,
   BS_ICONS,
@@ -44,9 +42,11 @@ import {
   STYLECONSTANTS,
   THEME_PALETTE
 } from '@/shared/constants';
-import { HorizontalAlign } from '@/shared/models/table/horizontalAlign.enum';
 import {
   CellType,
+  DataRow,
+  HorizontalAlign,
+  IColumn,
   RowAction,
   RowActionData,
   RowActionType,
@@ -69,7 +69,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   @Input() id: string;
   @Input() dataSource: CommonDataSource<DataRow>;
   @Input() totalItems: number;
-  @Input() columns: DataColumn[];
+  @Input() columns: IColumn[];
   @Input() canSort = true;
   @Input() hasSettings = true;
   @Input() isDisplayModePopup = false;
@@ -199,11 +199,11 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   resetTableConfig(): void {
     this.columns = this.columns
       .sort(
-        (a: DataColumn, b: DataColumn) =>
+        (a: IColumn, b: IColumn) =>
           this.columnsInitialState.findIndex((col: TableColumnConfig) => col.title === a.key) -
           this.columnsInitialState.findIndex((col: TableColumnConfig) => col.title === b.key)
       )
-      .map((col: DataColumn, i: number) => ({ ...col, isVisible: this.columnsInitialState[i].isVisible }));
+      .map((col: IColumn, i: number) => ({ ...col, isVisible: this.columnsInitialState[i].isVisible }));
     this.store$.dispatch(removeTableConfig({ key: this.id }));
   }
 
@@ -228,12 +228,12 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     this.rowDedicatedAction(id, { actionType: RowActionType.DETAILS });
   }
 
-  dropColumns(event: CdkDragDrop<DataColumn[]>): void {
+  dropColumns(event: CdkDragDrop<IColumn[]>): void {
     moveItemInArray(this.columns, event.previousIndex, event.currentIndex);
     this.updateTableConfig();
   }
 
-  dropColumnsPredicate(index: number, _: CdkDrag<DataColumn>, dropList: CdkDropList<DataColumn[]>) {
+  dropColumnsPredicate(index: number, _: CdkDrag<IColumn>, dropList: CdkDropList<IColumn[]>) {
     return dropList.data[index].draggable;
   }
 
@@ -273,11 +273,11 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
       if (columnsConfig) {
         this.columns = this.columns
           .sort(
-            (a: DataColumn, b: DataColumn) =>
+            (a: IColumn, b: IColumn) =>
               columnsConfig.findIndex((col: TableColumnConfig) => col.title === a.key) -
               columnsConfig.findIndex((col: TableColumnConfig) => col.title === b.key)
           )
-          .map((col: DataColumn, i: number) => ({ ...col, isVisible: columnsConfig[i].isVisible }));
+          .map((col: IColumn, i: number) => ({ ...col, isVisible: columnsConfig[i].isVisible }));
       }
     });
   }
