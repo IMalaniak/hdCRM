@@ -5,7 +5,7 @@ import { ComponentType } from '@angular/cdk/portal';
 import { User } from '@/core/modules/user-api/shared';
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
-import { DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
+import { DialogWithTwoButtonModel, IDialogResult } from '@/shared/models';
 import { DialogBaseModel } from '@/shared/components';
 import { UsersComponent } from '../list/users.component';
 
@@ -27,9 +27,9 @@ export class UsersDialogComponent extends DialogBaseModel<DialogWithTwoButtonMod
   }
 
   onClose(success: boolean): void {
-    const result: DialogResultModel<User[]> = {
+    const result: IDialogResult<User[]> = {
       success,
-      model: null // TODO: how can we override this by using only store?
+      data: null // TODO: how can we override this by using only store?
     };
     this.dialogRef.close(result);
   }

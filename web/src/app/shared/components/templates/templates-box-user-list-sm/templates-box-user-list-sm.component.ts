@@ -8,7 +8,7 @@ import { BS_ICONS, CONSTANTS, MAT_BUTTON } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogWithTwoButtonModel } from '@/shared/models/dialog/dialog-with-two-button.model';
 import { DialogService } from '@/shared/services';
-import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
+import { IDialogResult } from '@/shared/models/dialog/dialog-result';
 import { DialogType } from '@/shared/models';
 import { OrganismsUserDetailsDialogComponent } from '../../organisms/organisms-user-details-dialog/organisms-user-details-dialog.component';
 
@@ -80,9 +80,9 @@ export class TemplatesBoxUserListSmComponent implements OnDestroy {
       .open(OrganismsUserDetailsDialogComponent, dialogDataModel, DialogType.STANDART)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: DialogResultModel<string>) => {
+      .subscribe((result: IDialogResult<string>) => {
         if (result && result.success) {
-          this.route.navigateByUrl(result.model);
+          this.route.navigateByUrl(result.data);
         }
       });
   }

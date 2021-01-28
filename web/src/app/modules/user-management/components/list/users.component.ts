@@ -10,7 +10,7 @@ import { User } from '@/core/modules/user-api/shared';
 import { deleteUser, inviteUsers, OnlineUserListRequested } from '@/core/modules/user-api/store';
 import { isPrivileged, currentUser } from '@/core/modules/auth/store/auth.selectors';
 import { IconsService } from '@/core/services';
-import { DialogCreateEditModel, DialogDataModel, DialogMode, DialogType, DialogResultModel } from '@/shared/models';
+import { DialogCreateEditModel, DialogDataModel, DialogMode, DialogType, IDialogResult } from '@/shared/models';
 import { RoutingConstants, CONSTANTS, UserState, BS_ICONS } from '@/shared/constants';
 import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_KEYS } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
@@ -103,9 +103,9 @@ export class UsersComponent implements OnDestroy {
       .open(InvitationDialogComponent, dialogDataModel, DialogType.STANDART)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: DialogResultModel<User[]>) => {
+      .subscribe((result: IDialogResult<User[]>) => {
         if (result && result.success) {
-          this.store$.dispatch(inviteUsers({ users: result.model }));
+          this.store$.dispatch(inviteUsers({ users: result.data }));
         }
       });
   }

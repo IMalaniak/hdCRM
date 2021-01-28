@@ -11,7 +11,7 @@ import { selectDepartmentsLoading } from '@/core/modules/department-api/store';
 import { DialogService } from '@/shared/services';
 import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
 import { CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
-import { DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
+import { DialogDataModel, IDialogResult, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { UsersDialogComponent } from '@/modules/user-management/components';
 
 @Component({
@@ -41,12 +41,12 @@ export class TemplatesDepartmentViewComponent extends TemplatesViewDetailsCompon
       .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: DialogResultModel<User[]>) => {
+      .subscribe((result: IDialogResult<User[]>) => {
         if (result && result.success) {
           this.item = {
             ...this.item,
-            Manager: { ...result.model[0] },
-            managerId: result.model[0].id
+            Manager: { ...result.data[0] },
+            managerId: result.data[0].id
           };
           this.cdr.detectChanges();
         }
@@ -64,9 +64,9 @@ export class TemplatesDepartmentViewComponent extends TemplatesViewDetailsCompon
       .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: DialogResultModel<User[]>) => {
+      .subscribe((result: IDialogResult<User[]>) => {
         if (result && result.success) {
-          const selectedWorkers: User[] = result.model.filter(
+          const selectedWorkers: User[] = result.data.filter(
             (selectedWorker) => !this.item.Workers.some((user) => user.id === selectedWorker.id)
           );
           if (selectedWorkers?.length) {

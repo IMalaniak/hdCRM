@@ -4,7 +4,7 @@ import { ComponentType } from '@angular/cdk/portal';
 
 import { Privilege } from '@/core/modules/role-api/shared';
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
-import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
+import { DialogDataModel, DialogWithTwoButtonModel, IDialogResult } from '@/shared/models';
 import { DialogBaseModel } from '@/shared/components';
 import { PrivilegesComponent } from '../list/privileges.component';
 
@@ -25,9 +25,9 @@ export class PrivilegesDialogComponent extends DialogBaseModel<DialogWithTwoButt
   }
 
   onClose(success: boolean): void {
-    const result: DialogResultModel<Privilege[]> = {
+    const result: IDialogResult<Privilege[]> = {
       success,
-      model: this.privilegesComponent.selection.selected
+      data: this.privilegesComponent.selection.selected
     };
     this.dialogRef.close(result);
   }

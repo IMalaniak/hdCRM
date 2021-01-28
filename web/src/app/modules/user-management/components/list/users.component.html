@@ -17,6 +17,7 @@
     [isDisplayModePopup]="isPopupDisplayMode$ | async"
     [canEdit]="canEditUser$ | async"
     [canDelete]="canDeleteUser$ | async"
+    [preselectedItems]="[1, 5, 6]"
     (rowActionClicked)="onRowAction($event)"
   >
   </table-component>

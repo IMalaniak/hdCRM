@@ -11,7 +11,7 @@ import { selectRolesLoading } from '@/core/modules/role-api/store/role';
 import { TemplatesViewDetailsComponent } from '@/shared/components';
 import { MAT_BUTTON, COLUMN_KEYS, COLUMN_LABELS, CONSTANTS, BS_ICONS, FORMCONSTANTS } from '@/shared/constants';
 import { DialogService } from '@/shared/services';
-import { DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
+import { DialogDataModel, IDialogResult, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { UsersDialogComponent } from '@/modules/user-management/components';
 import { PrivilegesDialogComponent } from '@/modules/role-management/components/privileges/dialog/privileges-dialog.component';
 
@@ -59,9 +59,9 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
       .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: DialogResultModel<User[]>) => {
+      .subscribe((result: IDialogResult<User[]>) => {
         if (result && result.success) {
-          const selectedUsers: User[] = result.model.filter(
+          const selectedUsers: User[] = result.data.filter(
             (selectedUser) => !this.item.Users.some((user) => user.id === selectedUser.id)
           );
           if (selectedUsers?.length) {
@@ -86,9 +86,9 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
       .open(PrivilegesDialogComponent, dialogDataModel, DialogType.STANDART)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: DialogResultModel<Privilege[]>) => {
+      .subscribe((result: IDialogResult<Privilege[]>) => {
         if (result && result.success) {
-          const selectedPrivileges: Privilege[] = result.model
+          const selectedPrivileges: Privilege[] = result.data
             .filter(
               (selectedPrivilege) => !this.item.Privileges.some((privilege) => privilege.id === selectedPrivilege.id)
             )

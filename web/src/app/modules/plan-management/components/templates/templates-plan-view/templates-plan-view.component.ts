@@ -8,7 +8,7 @@ import { AppState } from '@/core/store';
 import { User } from '@/core/modules/user-api/shared';
 import { Plan } from '@/core/modules/plan-api/shared';
 import { selectPlansLoading } from '@/core/modules/plan-api/store/plan';
-import { Asset, DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
+import { Asset, DialogDataModel, IDialogResult, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
 import { DialogService } from '@/shared/services';
 import { CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
@@ -54,9 +54,9 @@ export class TemplatesPlanViewComponent extends TemplatesViewDetailsComponent<Pl
       .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: DialogResultModel<User[]>) => {
+      .subscribe((result: IDialogResult<User[]>) => {
         if (result && result.success) {
-          const selectedParticipants: User[] = result.model.filter(
+          const selectedParticipants: User[] = result.data.filter(
             (selectedParticipant) => !this.item.Participants.some((user) => user.id === selectedParticipant.id)
           );
           if (selectedParticipants?.length) {

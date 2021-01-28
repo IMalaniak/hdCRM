@@ -8,7 +8,7 @@ import { DialogBaseModel } from '@/shared/components';
 import { DialogDataModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DIALOG, STYLECONSTANTS } from '@/shared/constants';
-import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
+import { IDialogResult } from '@/shared/models/dialog/dialog-result';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,7 @@ export class DialogService {
     this.open(componentType, data, DialogType.CONFIRM)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: DialogResultModel<unknown>) => {
+      .subscribe((result: IDialogResult<unknown>) => {
         if (result && result.success) {
           onConfirmCallback();
         }

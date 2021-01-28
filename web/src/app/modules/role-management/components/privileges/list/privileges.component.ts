@@ -17,7 +17,7 @@ import { COLUMN_KEYS, COLUMN_LABELS, ACTION_LABELS, CONSTANTS, BS_ICONS } from '
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogService } from '@/shared/services';
 import { DialogMode } from '@/shared/models/dialog/dialog-mode.enum';
-import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
+import { IDialogResult } from '@/shared/models/dialog/dialog-result';
 import { DialogCreateEditModel, DialogType } from '@/shared/models';
 import { AddPrivilegeDialogComponent } from '../add-dialog/add-privilege-dialog.component';
 
@@ -82,9 +82,9 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
       .open(AddPrivilegeDialogComponent, dialogDataModel, DialogType.STANDART)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: DialogResultModel<Privilege>) => {
+      .subscribe((result: IDialogResult<Privilege>) => {
         if (result && result.success) {
-          this.store$.dispatch(createPrivilegeRequested({ privilege: result.model }));
+          this.store$.dispatch(createPrivilegeRequested({ privilege: result.data }));
         }
       });
   }

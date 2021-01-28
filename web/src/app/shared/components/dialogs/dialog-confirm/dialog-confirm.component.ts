@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { DialogBaseModel } from '../models/dialog-base.model';
-import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
+import { IDialogResult } from '@/shared/models/dialog/dialog-result';
 import { DialogDataModel } from '@/shared/models';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 
@@ -20,9 +20,8 @@ export class DialogConfirmComponent extends DialogBaseModel<DialogConfirmModel> 
   }
 
   onClose(success: boolean): void {
-    const result: DialogResultModel<unknown> = {
-      success,
-      model: undefined
+    const result: IDialogResult<unknown> = {
+      success
     };
     this.dialogRef.close(result);
   }

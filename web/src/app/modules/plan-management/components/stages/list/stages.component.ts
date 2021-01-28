@@ -16,7 +16,7 @@ import {
 import { COLUMN_KEYS, COLUMN_LABELS, ACTION_LABELS, CONSTANTS, BS_ICONS } from '@/shared/constants';
 import { DialogService } from '@/shared/services';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
-import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
+import { IDialogResult } from '@/shared/models/dialog/dialog-result';
 import { DialogCreateEditModel, DialogMode } from '@/shared/models';
 import { AddStageDialogComponent } from '../add-dialog/add-stage-dialog.component';
 
@@ -76,9 +76,9 @@ export class StagesComponent implements OnInit, OnDestroy {
       .open(AddStageDialogComponent, dialogDataModel)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: DialogResultModel<string>) => {
+      .subscribe((result: IDialogResult<string>) => {
         if (result && result.success) {
-          const stage: Stage = { keyString: result.model } as Stage;
+          const stage: Stage = { keyString: result.data } as Stage;
           this.store$.dispatch(createStage({ stage }));
         }
       });
