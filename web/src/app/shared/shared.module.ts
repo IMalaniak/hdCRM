@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
+import { ReactiveComponentModule } from '@ngrx/component';
 // TODO: probably we don't need this is shared
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
@@ -21,7 +22,8 @@ import { COMPONENTS, DIRECTIVES, PIPES } from './imports';
     AttachmentsModule,
     NgxChartsModule,
     ReactiveFormsModule,
-    DragDropModule
+    DragDropModule,
+    ReactiveComponentModule
   ],
   declarations: [...COMPONENTS, ...PIPES, ...DIRECTIVES],
   exports: [...COMPONENTS, ...PIPES, ...DIRECTIVES, AppMaterialModule, OverlayModule, FormsModule, ReactiveFormsModule],
