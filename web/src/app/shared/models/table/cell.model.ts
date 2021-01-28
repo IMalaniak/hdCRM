@@ -46,7 +46,7 @@ export class Cell {
     return { value, cellType: CellType.Date };
   }
 
-  static createEmptyCell(customClass = ''): ICell {
+  static createEmptyCell(customClass?: string): ICell {
     return { value: '-', cellType: CellType.String, customClass };
   }
 

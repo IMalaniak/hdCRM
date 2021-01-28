@@ -1,6 +1,5 @@
 import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-import { SelectionModel } from '@angular/cdk/collections';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -36,9 +35,7 @@ export class UsersComponent implements OnDestroy {
   canEditUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.USER)));
   canDeleteUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.USER)));
 
-  selection = new SelectionModel<User>(true, []); // TODO:
   dataSource: UsersDataSource = new UsersDataSource(this.store$);
-  // users: User[]; TODO:
 
   userStates = UserState;
   listIcons: { [key: string]: BS_ICONS } = {
@@ -112,20 +109,6 @@ export class UsersComponent implements OnDestroy {
         }
       });
   }
-
-  // TODO:
-  // isAllSelected() {
-  //   const numSelected = this.selection.selected.length;
-  //   const numRows = this.resultsLength;
-  //   return numSelected === numRows;
-  // }
-
-  // /** Selects all rows if they are not all selected; otherwise clear selection. */
-  // masterToggle() {
-  //   this.isAllSelected() ?
-  //       this.selection.clear() :
-  //       this.users.forEach(row => this.selection.select(row));
-  // }
 
   deleteUser(id: number): void {
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_USER_CONFIRM);

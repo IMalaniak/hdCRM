@@ -55,6 +55,7 @@ import {
 } from '@/shared/models/table';
 import { CommonDataSource } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'table-component',
@@ -69,6 +70,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   @Input() id: string;
   @Input() dataSource: CommonDataSource<DataRow>;
   @Input() totalItems: number;
+  @Input() preselectedItems: number[];
   @Input() columns: IColumn[];
   @Input() canSort = true;
   @Input() hasSettings = true;
@@ -86,13 +88,15 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  selection: SelectionModel<number> = new SelectionModel(true);
+
   pageSizeOptions: number[] = pageSizeOptions;
   cellType: typeof CellType = CellType;
   buttonType: typeof BUTTON_TYPE = BUTTON_TYPE;
   matButtonType: typeof MAT_BUTTON = MAT_BUTTON;
   themePalette: typeof THEME_PALETTE = THEME_PALETTE;
   actionLabels: typeof ACTION_LABELS = ACTION_LABELS;
-  columnActionsKey = COLUMN_KEYS.ACTIONS;
+  columnKeys = COLUMN_KEYS;
   columnsInitialState: TableColumnConfig[];
 
   icons: { [key: string]: BS_ICONS } = {
@@ -147,6 +151,9 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     }
     if (changes.additionalRowActions && this.additionalRowActions) {
       this.rowActions = [...this.rowActions, ...this.additionalRowActions];
+    }
+    if (changes.preselectedItems && this.preselectedItems) {
+      this.preselectedItems.forEach((id) => this.selection.select(id));
     }
   }
 
@@ -251,6 +258,11 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
       default:
         return true;
     }
+  }
+
+  selectionChange(id: number): void {
+    this.selection.toggle(id);
+    console.log(this.selection.selected);
   }
 
   private setColumns(): void {

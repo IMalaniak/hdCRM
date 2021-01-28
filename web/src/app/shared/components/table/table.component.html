@@ -66,7 +66,7 @@
           [ngClass]="getColumnClasses(column.horizontalAlign, column.customClass)"
           [disabled]="!canSort || !column.hasSorting"
         >
-          <ng-container *ngIf="column.key !== columnActionsKey">
+          <ng-container *ngIf="column.key !== columnKeys.ACTIONS && column.key !== columnKeys.SELECT">
             {{ column.label }}
           </ng-container>
         </th>
@@ -105,11 +105,13 @@
             <!-- Checkbox -->
             <ng-container *ngSwitchCase="cellType.Checkbox">
               <mat-checkbox
-                [checked]="row[column.key].value"
-                [disabled]="row[column.key].disabled"
+                [checked]="selection.isSelected(row.id)"
                 (click)="$event.stopPropagation()"
+                (change)="$event ? selectionChange(row.id) : null"
               ></mat-checkbox>
             </ng-container>
+
+            <!-- TODO: checkbox and selection are not the same -->
 
             <!-- Icon -->
             <ng-container *ngSwitchCase="cellType.Icon">

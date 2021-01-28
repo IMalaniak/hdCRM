@@ -29,7 +29,7 @@ export class UsersDialogComponent extends DialogBaseModel<DialogWithTwoButtonMod
   onClose(success: boolean): void {
     const result: DialogResultModel<User[]> = {
       success,
-      model: this.usersComponent.selection.selected
+      model: null // TODO: how can we override this by using only store?
     };
     this.dialogRef.close(result);
   }
