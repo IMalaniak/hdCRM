@@ -1,16 +1,56 @@
 <ng-container *ngIf="columns">
+  <!-- TABLE ACTIONS -->
+  <div *ngIf="hasSettings" class="d-flex flex-row mb-3">
+    <!-- show filters -->
+    <!-- TODO: will be added in other task -->
+    <!-- <atoms-icon-button
+      class="mr-2"
+      [type]="buttonType.BUTTON"
+      [matType]="matButtonType.STROKED"
+      [color]="themePalette.BASIC"
+      [icon]="icons.funnel"
+    >
+      {{actionLabels.FILTERS}}
+    </atoms-icon-button> -->
+    <!-- configure columns -->
+    <atoms-icon-button
+      class="mr-2"
+      [matMenuTriggerFor]="tableColumns"
+      [type]="buttonType.BUTTON"
+      [matType]="matButtonType.STROKED"
+      [color]="themePalette.BASIC"
+      [icon]="icons.checksGrid"
+    >
+      {{ actionLabels.CONFIGURE_COLUMNS }}
+    </atoms-icon-button>
+    <!-- show borders -->
+    <ng-container *ngrxLet="outlineBorders$ as borders">
+      <atoms-icon-button
+        class="mr-2"
+        [type]="buttonType.BUTTON"
+        [matType]="matButtonType.STROKED"
+        [color]="themePalette.BASIC"
+        [icon]="icons.borders"
+        (onclick)="updateTableConfig(!borders)"
+      >
+        {{ borders ? actionLabels.HIDE_BORDERS : actionLabels.SHOW_BORDERS }}
+      </atoms-icon-button>
+    </ng-container>
+
+    <!-- reset grid -->
+    <atoms-icon-button
+      [type]="buttonType.BUTTON"
+      [matType]="matButtonType.STROKED"
+      [color]="themePalette.BASIC"
+      [icon]="icons.arrowClock"
+      (onclick)="resetTableConfig()"
+    >
+      {{ actionLabels.RESET }}
+    </atoms-icon-button>
+  </div>
+
   <!-- TABLE -->
   <div class="table-container" [class.outine-borders]="outlineBorders$ | async">
-    <atoms-icon-button
-      *ngIf="hasSettings"
-      class="table-config"
-      [color]="themePalette.BASIC"
-      [matType]="matButtonType.ICON"
-      [type]="buttonType.BUTTON"
-      [icon]="icons.gear"
-      [matMenuTriggerFor]="menu"
-    >
-    </atoms-icon-button>
     <table mat-table #table matSort [dataSource]="dataSource" [trackBy]="trackById">
       <!-- COLUMNS & ROWS-->
       <ng-container
@@ -148,34 +188,6 @@
     [pageSize]="itemsPerPageState$ | async"
     [pageSizeOptions]="pageSizeOptions"
   ></mat-paginator>
-
-  <!-- MENU -->
-  <mat-menu #menu="matMenu">
-    <ng-template matMenuContent>
-      <!-- configure columns -->
-      <button mat-menu-item [matMenuTriggerFor]="tableColumns">
-        <mat-icon [svgIcon]="icons.checksGrid"> </mat-icon>
-        <span>Configure columns</span>
-      </button>
-      <!-- show borders -->
-      <span mat-menu-item>
-        <mat-icon [svgIcon]="icons.borders"> </mat-icon>
-        <mat-checkbox
-          labelPosition="before"
-          (ngModelChange)="updateTableConfig($event)"
-          [ngModel]="outlineBorders$"
-          (click)="$event.stopPropagation()"
-        >
-          Outline borders
-        </mat-checkbox>
-      </span>
-      <!-- reset grid -->
-      <button mat-menu-item (click)="resetTableConfig()">
-        <mat-icon [svgIcon]="icons.arrowClock"> </mat-icon>
-        <span>Reset grid</span>
-      </button>
-    </ng-template>
-  </mat-menu>
 
   <!-- MENU COLUMNS-->
   <mat-menu #tableColumns="matMenu">

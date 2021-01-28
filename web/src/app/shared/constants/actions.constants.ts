@@ -13,5 +13,9 @@ export enum ACTION_LABELS {
   NEXT = 'Next',
   RESET = 'Reset',
   SAVE = 'Save',
-  SUBMIT = 'Submit'
+  SUBMIT = 'Submit',
+  SHOW_BORDERS = 'Show borders',
+  HIDE_BORDERS = 'Hide borders',
+  CONFIGURE_COLUMNS = 'Configure columns',
+  FILTERS = 'Filters'
 }
