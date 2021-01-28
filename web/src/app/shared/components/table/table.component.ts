@@ -103,10 +103,10 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     pencil: BS_ICONS.Pencil,
     trash: BS_ICONS.Trash,
     list: BS_ICONS.List,
-    gear: BS_ICONS.Gear,
     arrowClock: BS_ICONS.ArrowClockwise,
     gripVertival: BS_ICONS.GripVertical,
-    columnDrag: BS_ICONS.GripHorizontal
+    columnDrag: BS_ICONS.GripHorizontal,
+    funnel: BS_ICONS.Funnel
   };
 
   rowActions: RowAction<RowActionType>[] = [

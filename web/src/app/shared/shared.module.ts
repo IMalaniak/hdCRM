@@ -11,6 +11,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AppMaterialModule } from './modules/app-material.module';
 import { AttachmentsModule } from './modules/attachments/attachments.module';
 import { COMPONENTS, DIRECTIVES, PIPES } from './imports';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { COMPONENTS, DIRECTIVES, PIPES } from './imports';
     AttachmentsModule,
     NgxChartsModule,
     ReactiveFormsModule,
-    DragDropModule
+    DragDropModule,
+    ReactiveComponentModule
   ],
   declarations: [...COMPONENTS, ...PIPES, ...DIRECTIVES],
   exports: [...COMPONENTS, ...PIPES, ...DIRECTIVES, AppMaterialModule, OverlayModule, FormsModule, ReactiveFormsModule],

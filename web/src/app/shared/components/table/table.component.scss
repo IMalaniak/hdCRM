@@ -7,13 +7,6 @@ $border: 1px solid;
   overflow-x: auto;
   max-height: 41em;
 
-  .table-config {
-    position: absolute;
-    top: app-size(spacer, sm, true) + 0.1rem;
-    right: app-size(spacer, xs, true) + 0.05rem;
-    @include getZ-Index(content);
-  }
-
   &.outine-borders {
     border: $border;
     @include set-bordercolor('border');

@@ -10,6 +10,10 @@ import { DataRow } from '../models/table';
 export abstract class CommonDataSource<T> implements DataSource<DataRow> {
   protected listSubject = new BehaviorSubject<DataRow[]>([]);
 
+  get isEmpty(): boolean {
+    return !this.listSubject.value?.length;
+  }
+
   constructor(protected readonly store$: Store<AppState>) {}
 
   connect(): Observable<DataRow[]> {
