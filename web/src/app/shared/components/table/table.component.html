@@ -1,16 +1,17 @@
 <ng-container *ngIf="columns">
   <!-- TABLE ACTIONS -->
-  <div *ngIf="!dataSource.isEmpty && hasSettings" class="d-flex flex-row mb-3">
+  <div *ngIf="hasSettings" class="d-flex flex-row mb-3">
     <!-- show filters -->
-    <atoms-icon-button
+    <!-- TODO: will be added in other task -->
+    <!-- <atoms-icon-button
       class="mr-2"
       [type]="buttonType.BUTTON"
       [matType]="matButtonType.STROKED"
       [color]="themePalette.BASIC"
       [icon]="icons.funnel"
     >
-      Configure filters
-    </atoms-icon-button>
+      {{actionLabels.FILTERS}}
+    </atoms-icon-button> -->
     <!-- configure columns -->
     <atoms-icon-button
       class="mr-2"
@@ -20,7 +21,7 @@
       [color]="themePalette.BASIC"
       [icon]="icons.checksGrid"
     >
-      Configure columns
+      {{ actionLabels.CONFIGURE_COLUMNS }}
     </atoms-icon-button>
     <!-- show borders -->
     <ng-container *ngrxLet="outlineBorders$ as borders">
@@ -32,7 +33,7 @@
         [icon]="icons.borders"
         (onclick)="updateTableConfig(!borders)"
       >
-        {{ borders ? 'Disable border' : 'Enable border' }}
+        {{ borders ? actionLabels.HIDE_BORDERS : actionLabels.SHOW_BORDERS }}
       </atoms-icon-button>
     </ng-container>
 
@@ -44,7 +45,7 @@
       [icon]="icons.arrowClock"
       (onclick)="resetTableConfig()"
     >
-      Reset
+      {{ actionLabels.RESET }}
     </atoms-icon-button>
   </div>
 

@@ -90,6 +90,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   buttonType: typeof BUTTON_TYPE = BUTTON_TYPE;
   matButtonType: typeof MAT_BUTTON = MAT_BUTTON;
   themePalette: typeof THEME_PALETTE = THEME_PALETTE;
+  actionLabels: typeof ACTION_LABELS = ACTION_LABELS;
   columnActionsKey = COLUMN_KEYS.ACTIONS;
   columnsInitialState: TableColumnConfig[];
 
