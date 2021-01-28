@@ -232,8 +232,11 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   }
 
   rowSelect(id: number): void {
-    // TODO: this is default action - add custom action on row select for example on modals
-    this.rowDedicatedAction(id, { actionType: RowActionType.DETAILS });
+    if (this.isDisplayModePopup) {
+      this.selectionChange(id);
+    } else {
+      this.rowDedicatedAction(id, { actionType: RowActionType.DETAILS });
+    }
   }
 
   dropColumns(event: CdkDragDrop<IColumn[]>): void {

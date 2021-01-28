@@ -92,14 +92,21 @@
             <!-- Navigation -->
             <ng-container *ngSwitchCase="cellType.Navigation">
               <atoms-link-button
+                *ngIf="!isDisplayModePopup; else simpleSpan"
                 linkClass="w-100 text-underline text-left"
                 [linkLabel]="row[column.key].value"
                 [linkColor]="themePalette.BASIC"
                 [linkType]="row[column.key].navigation.linkType"
                 [linkHref]="row[column.key].navigation.linkHref"
                 [target]="row[column.key].navigation.target"
+                [disabled]="isDisplayModePopup"
                 (click)="$event.stopPropagation()"
               ></atoms-link-button>
+              <ng-template #simpleSpan>
+                <span [ngClass]="column.customClass">
+                  {{ row[column.key].value }}
+                </span>
+              </ng-template>
             </ng-container>
 
             <!-- Checkbox -->
