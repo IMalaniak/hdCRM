@@ -4,6 +4,7 @@ import { RowActionType } from './rowActionType.enum';
 export interface RowActionData<A extends RowActionType> {
   actionType: A;
   id?: number;
+  ids?: number[];
 }
 
 export interface RowAction<A extends RowActionType> {

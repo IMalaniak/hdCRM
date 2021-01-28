@@ -17,7 +17,12 @@ import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model'
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
 import { RowActionData, RowActionType, Column, IColumn } from '@/shared/models/table';
-import { selectListDisplayModeIsPopup, selectUserPageLoading, selectUsersTotalCount } from '../../store';
+import {
+  selectListDisplayModeIsPopup,
+  selectPreselectedUsersIds,
+  selectUserPageLoading,
+  selectUsersTotalCount
+} from '../../store';
 import { UsersDataSource } from '../../dataSources';
 import { InvitationDialogComponent } from '../invitation-dialog/invitation-dialog.component';
 
@@ -31,6 +36,7 @@ export class UsersComponent implements OnDestroy {
   loading$: Observable<boolean> = this.store$.pipe(select(selectUserPageLoading));
   resultsLength$: Observable<number> = this.store$.pipe(select(selectUsersTotalCount));
   isPopupDisplayMode$: Observable<boolean> = this.store$.pipe(select(selectListDisplayModeIsPopup));
+  preselectedUsersIds$: Observable<number[]> = this.store$.pipe(select(selectPreselectedUsersIds));
   canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.USER)));
   canEditUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.USER)));
   canDeleteUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.USER)));
@@ -65,6 +71,8 @@ export class UsersComponent implements OnDestroy {
     Column.createActionsColumn()
   ];
 
+  selectedUsersIds: number[];
+
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
@@ -87,6 +95,9 @@ export class UsersComponent implements OnDestroy {
         break;
       case RowActionType.DELETE:
         this.deleteUser(data.id);
+        break;
+      case RowActionType.SELECT:
+        this.selectedUsersIds = data.ids;
         break;
     }
   }

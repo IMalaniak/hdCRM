@@ -1,5 +1,6 @@
 export enum RowActionType {
   DETAILS,
   EDIT,
-  DELETE
+  DELETE,
+  SELECT
 }

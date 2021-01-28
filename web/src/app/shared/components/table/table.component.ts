@@ -262,7 +262,10 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
 
   selectionChange(id: number): void {
     this.selection.toggle(id);
-    console.log(this.selection.selected);
+    this.rowActionClicked.emit({
+      actionType: RowActionType.SELECT,
+      ids: this.selection.selected
+    });
   }
 
   private setColumns(): void {

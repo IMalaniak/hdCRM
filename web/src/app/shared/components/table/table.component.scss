@@ -9,6 +9,7 @@ $border: 1px solid;
 
   &.outine-borders {
     border: $border;
+    border-bottom: 0;
     @include set-bordercolor('border');
 
     .mat-table-sticky:not(th) {
