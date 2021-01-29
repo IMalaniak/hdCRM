@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { first, takeUntil } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 
@@ -13,6 +13,8 @@ import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
 import { CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
 import { DialogDataModel, IDialogResult, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { UsersDialogComponent } from '@/modules/user-management/components';
+import { prepareSelectionPopup, resetSelectionPopup } from '@/modules/user-management/store';
+import { selectUsersById } from '@/core/modules/user-api/store';
 
 @Component({
   selector: 'templates-department-view',
@@ -57,24 +59,28 @@ export class TemplatesDepartmentViewComponent extends TemplatesViewDetailsCompon
 
   addWorkersDialog(): void {
     const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
-      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_WORKERS)
+      dialogModel: new DialogWithTwoButtonModel()
     };
+    this.store$.dispatch(prepareSelectionPopup({ selectedUsersIds: this.item.Workers.map((user) => user.id) }));
 
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: IDialogResult<User[]>) => {
+      .subscribe((result: IDialogResult<number[]>) => {
         if (result && result.success) {
-          const selectedWorkers: User[] = result.data.filter(
-            (selectedWorker) => !this.item.Workers.some((user) => user.id === selectedWorker.id)
+          const selectedWorkersIds: number[] = result.data.filter(
+            (selectedWorkerId) => !this.item.Workers.some((user) => user.id === selectedWorkerId)
           );
-          if (selectedWorkers?.length) {
-            this.item = {
-              ...this.item,
-              Workers: [...this.item.Workers, ...selectedWorkers]
-            };
-            this.cdr.detectChanges();
+          if (selectedWorkersIds?.length) {
+            this.store$.pipe(select(selectUsersById(selectedWorkersIds)), first()).subscribe((selectedWorkers) => {
+              this.item = {
+                ...this.item,
+                Workers: [...this.item.Workers, ...selectedWorkers]
+              };
+              this.store$.dispatch(resetSelectionPopup());
+              this.cdr.detectChanges();
+            });
           }
         }
       });

@@ -51,7 +51,7 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
     super(store$, dialogService);
   }
 
-  addParticipantDialog(): void {
+  addUserDialog(): void {
     const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
       dialogModel: new DialogWithTwoButtonModel()
     };
