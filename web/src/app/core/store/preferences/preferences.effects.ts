@@ -25,7 +25,7 @@ export class PreferencesEffects {
       withLatestFrom(this.store$.pipe(select(getListLoaded))),
       filter(([_, listLoaded]) => !listLoaded),
       mergeMap(() => this.preferencesService.getList()),
-      map((list) => preferencesActions.preferencesListLoaded({ list })),
+      map((response) => preferencesActions.preferencesListLoaded({ list: response.data })),
       catchError((errorResponse: HttpErrorResponse) =>
         of(preferencesActions.preferencesListLoadFailed({ apiResp: errorResponse.error }))
       )
