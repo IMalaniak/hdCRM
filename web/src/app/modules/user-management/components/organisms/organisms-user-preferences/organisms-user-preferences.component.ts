@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, OnChanges } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MatRadioChange } from '@angular/material/radio';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Observable } from 'rxjs';
 
 import { Store, select } from '@ngrx/store';
@@ -14,7 +15,8 @@ import {
   preferencesListRequested,
   PreferencesList,
   Preferences,
-  getPreferencesList
+  getPreferencesList,
+  changeListBordersVisibility
 } from '@/core/store/preferences';
 import { enableDarkTheme } from '@/core/modules/layout/store/layout.actions';
 import { IFieldType } from '@/shared/constants';
@@ -68,7 +70,8 @@ export class OrganismsUserPreferencesComponent implements OnInit, OnChanges {
       theme: new FormControl(this.enabledDarkTheme),
       // fontSize: new FormControl(null),
       listView: new FormControl(this.userPreferences.listView),
-      itemsPerPage: new FormControl(this.userPreferences.itemsPerPage)
+      itemsPerPage: new FormControl(this.userPreferences.itemsPerPage),
+      listOutlineBorders: new FormControl(this.userPreferences.listOutlineBorders)
     });
   }
 
@@ -90,5 +93,9 @@ export class OrganismsUserPreferencesComponent implements OnInit, OnChanges {
 
   onListViewChange(event: MatRadioChange): void {
     this.store$.dispatch(changeListView({ listView: event.value }));
+  }
+
+  onBordersChange(event: MatCheckboxChange): void {
+    this.store$.dispatch(changeListBordersVisibility({ isVisible: event.checked }));
   }
 }

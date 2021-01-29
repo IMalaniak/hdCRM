@@ -39,10 +39,12 @@ export class PreferencesEffects {
           preferencesActions.changeDateFormat,
           preferencesActions.changeItemsPerPage,
           preferencesActions.changeListView,
-          preferencesActions.changeTimeFormat
+          preferencesActions.changeTimeFormat,
+          preferencesActions.changeListBordersVisibility
         ),
         withLatestFrom(this.store$.pipe(select(getPreferencesState))),
-        exhaustMap(([_, preferences]) => {
+        exhaustMap(([_, preferencesState]) => {
+          const { list, listLoaded, ...preferences } = preferencesState;
           return this.preferencesService.set(preferences);
         })
       ),

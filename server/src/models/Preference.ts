@@ -18,6 +18,7 @@ export interface PreferenceAttributes {
   timeFormat: ITimeFormat;
   dateFormat: IDateFormat;
   itemsPerPage: IItemsPerPage;
+  listOutlineBorders: boolean;
   UserId: number;
 }
 
@@ -29,6 +30,7 @@ export class Preference extends Model<PreferenceAttributes, PreferenceCreationAt
   public timeFormat!: ITimeFormat;
   public dateFormat!: IDateFormat;
   public itemsPerPage!: IItemsPerPage;
+  public listOutlineBorders: boolean;
 
   // timestamps
   public readonly createdAt!: Date;
@@ -84,6 +86,10 @@ export const PreferenceFactory = (sequelize: Sequelize): Model<PreferenceAttribu
         values: enumToArray(IItemsPerPage),
         allowNull: false,
         defaultValue: IItemsPerPage.FIVE
+      },
+      listOutlineBorders: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
       }
     },
     {
