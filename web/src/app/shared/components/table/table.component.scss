@@ -7,6 +7,10 @@ $border: 1px solid;
   overflow-x: auto;
   max-height: 41em;
 
+  &.is-popup {
+    max-height: 20rem;
+  }
+
   &.outine-borders {
     border: $border;
     border-bottom: 0;

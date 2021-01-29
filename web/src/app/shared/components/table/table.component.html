@@ -1,6 +1,6 @@
 <ng-container *ngIf="columns">
   <!-- TABLE ACTIONS -->
-  <div *ngIf="hasSettings && !isDisplayModePopup" class="d-flex flex-row mb-3">
+  <div *ngIf="hasSettings" class="d-flex flex-row mb-3">
     <!-- show filters -->
     <!-- TODO: will be added in other task -->
     <!-- <atoms-icon-button
@@ -50,7 +50,7 @@
   </div>
 
   <!-- TABLE -->
-  <div class="table-container" [class.outine-borders]="outlineBorders$ | async">
+  <div class="table-container" [class.outine-borders]="outlineBorders$ | async" [class.is-popup]="isDisplayModePopup">
     <table mat-table #table matSort [dataSource]="dataSource" [trackBy]="trackById">
       <!-- COLUMNS & ROWS-->
       <ng-container

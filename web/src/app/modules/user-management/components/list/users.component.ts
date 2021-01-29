@@ -40,6 +40,10 @@ export class UsersComponent implements OnDestroy {
   canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.USER)));
   canEditUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.USER)));
   canDeleteUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.USER)));
+  titles = {
+    default: CONSTANTS.TEXTS_SELECT_USERS,
+    popup: CONSTANTS.TEXTS_SELECT_USERS
+  };
 
   dataSource: UsersDataSource = new UsersDataSource(this.store$);
 

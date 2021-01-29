@@ -1,4 +1,7 @@
-<organisms-card cardTitle="User list" [showDataLoader]="loading$ | async">
+<organisms-card
+  [cardTitle]="!(isPopupDisplayMode$ | async) ? titles.default : titles.popup"
+  [showDataLoader]="loading$ | async"
+>
   <atoms-icon-button
     buttons
     *ngIf="(canAddUser$ | async) && !(isPopupDisplayMode$ | async)"

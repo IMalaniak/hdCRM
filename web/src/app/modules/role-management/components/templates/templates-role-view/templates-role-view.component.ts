@@ -53,7 +53,7 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
 
   addParticipantDialog(): void {
     const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
-      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_USERS)
+      dialogModel: new DialogWithTwoButtonModel()
     };
     this.store$.dispatch(prepareSelectionPopup({ selectedUsersIds: this.item.Users.map((user) => user.id) }));
 

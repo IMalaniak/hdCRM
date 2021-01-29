@@ -10,7 +10,14 @@ import { DialogDataModel, DialogWithTwoButtonModel } from '@/shared/models';
 @Component({
   selector: 'component-dialog-base',
   templateUrl: './dialog-base.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: [
+    `
+      .mat-dialog-content {
+        overflow: visible;
+      }
+    `
+  ]
 })
 export class DialogBaseComponent extends DialogBaseModel<DialogWithTwoButtonModel> {
   constructor(
