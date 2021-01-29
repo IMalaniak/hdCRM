@@ -1,0 +1,68 @@
+<ng-container *ngIf="editForm && editable && ngControl.control">
+  <ng-container [ngSwitch]="fType">
+    <!-- INPUT -->
+    <atoms-input
+      *ngSwitchCase="fType.INPUT"
+      [formControl]="ngControl.control"
+      [label]="label"
+      [canValidate]="canValidate"
+    >
+    </atoms-input>
+
+    <!-- TEXTAREA -->
+    <atoms-textarea
+      *ngSwitchCase="fType.TEXTAREA"
+      [formControl]="ngControl.control"
+      [label]="label"
+      [canValidate]="canValidate"
+    >
+    </atoms-textarea>
+
+    <!-- SELECT -->
+    <atoms-select
+      *ngSwitchCase="fType.SELECT"
+      [formControl]="ngControl.control"
+      [options]="options"
+      [label]="label"
+      [canValidate]="canValidate"
+    >
+    </atoms-select>
+
+    <!-- DATE -->
+    <atoms-date
+      *ngSwitchCase="fType.DATE"
+      [formControl]="ngControl.control"
+      [label]="label"
+      [canValidate]="canValidate"
+    >
+    </atoms-date>
+
+    <!-- CHECKBOX -->
+    <atoms-checkbox
+      *ngSwitchCase="fType.CHECKBOX"
+      [formControl]="ngControl.control"
+      [label]="label"
+      [color]="color"
+      (onChange)="onValueChange($event)"
+    >
+    </atoms-checkbox>
+
+    <!-- RADIOGROUP -->
+    <atoms-radiogroup
+      *ngSwitchCase="fType.RADIOGROUP"
+      [formControl]="ngControl.control"
+      [options]="options"
+      [label]="label"
+      [color]="color"
+      (onChange)="onValueChange($event)"
+    >
+    </atoms-radiogroup>
+  </ng-container>
+</ng-container>
+
+<atoms-readonly-form-field
+  *ngIf="!editForm && !editOnly"
+  [fType]="fType"
+  [value]="value"
+  [label]="label"
+></atoms-readonly-form-field>
