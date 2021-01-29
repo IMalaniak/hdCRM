@@ -8,7 +8,6 @@ const ATOMS = [
   _components.AtomsUserPicComponent,
   _components.AtomsLinkButtonComponent,
   _components.AtomsNoContentInfoComponent,
-  _components.AtomsFormFieldComponent,
   _components.AtomsReadonlyFormFieldComponent,
   _components.AtomsIntegrationCardComponent
 ];
