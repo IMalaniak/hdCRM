@@ -14,20 +14,17 @@
                 >
                 <form [formGroup]="registerData.get('userCredentials')" class="d-flex flex-column">
                   <!-- Login -->
-                  <atoms-form-field
-                    label="Login"
-                    [formControl]="getControl('userCredentials', 'login')"
-                  ></atoms-form-field>
+                  <atoms-input label="Login" [formControl]="getControl('userCredentials', 'login')"></atoms-input>
 
                   <!-- Email -->
-                  <atoms-form-field
+                  <atoms-input
                     label="Email"
                     [inputType]="inputTypes.EMAIL"
                     [formControl]="getControl('userCredentials', 'email')"
-                  ></atoms-form-field>
+                  ></atoms-input>
 
                   <!-- Password -->
-                  <atoms-form-field
+                  <atoms-input
                     *ngIf="!getControl('userCredentials', 'generatePassword').value"
                     label="Password"
                     [inputType]="hidePassword ? inputTypes.PASSWORD : inputTypes.TEXT"
@@ -38,15 +35,14 @@
                       (click)="hidePassword = !hidePassword"
                       [svgIcon]="icons[hidePassword ? 'eyeDisabled' : 'eye']"
                     ></mat-icon>
-                  </atoms-form-field>
+                  </atoms-input>
 
                   <!-- Generate Password -->
-                  <atoms-form-field
-                    color="warn"
+                  <atoms-checkbox
                     label="Generate password for me and send it to my email"
+                    color="warn"
                     [formControl]="getControl('userCredentials', 'generatePassword')"
-                    [fType]="fieldTypes.CHECKBOX"
-                  ></atoms-form-field>
+                  ></atoms-checkbox>
                 </form>
                 <div class="d-flex justify-content-end pt-3">
                   <atoms-icon-button [matType]="matButtonTypes.STROKED" (onclick)="stepper.next()" [icon]="icons.right">
@@ -60,25 +56,19 @@
                 >
                 <form [formGroup]="registerData.get('userPersonalInfo')" class="d-flex flex-column">
                   <!-- Name -->
-                  <atoms-form-field
-                    label="Name"
-                    [formControl]="getControl('userPersonalInfo', 'name')"
-                  ></atoms-form-field>
+                  <atoms-input label="Name" [formControl]="getControl('userPersonalInfo', 'name')"></atoms-input>
 
                   <!-- Surname -->
-                  <atoms-form-field
-                    label="Surname"
-                    [formControl]="getControl('userPersonalInfo', 'surname')"
-                  ></atoms-form-field>
+                  <atoms-input label="Surname" [formControl]="getControl('userPersonalInfo', 'surname')"></atoms-input>
 
                   <!-- Phone -->
-                  <atoms-form-field
+                  <atoms-input
                     label="Phone"
                     [inputType]="inputTypes.TEL"
                     [formControl]="getControl('userPersonalInfo', 'phone')"
                   >
                     <span prefix>+ &nbsp;</span>
-                  </atoms-form-field>
+                  </atoms-input>
                 </form>
                 <div class="d-flex justify-content-between">
                   <atoms-icon-button
@@ -99,25 +89,24 @@
                 >
                 <form [formGroup]="registerData.get('userOrganization')" class="d-flex flex-column">
                   <!-- Company type -->
-                  <atoms-form-field
+                  <atoms-radiogroup
                     class="mt-1 mb-4"
-                    [fType]="fieldTypes.RADIOGROUP"
+                    [formControl]="getControl('userOrganization', 'type')"
                     [options]="[
                       { label: 'Company', value: orgTypes.COMPANY },
                       { label: 'Private', value: orgTypes.PRIVATE }
                     ]"
-                    [formControl]="getControl('userOrganization', 'type')"
-                  ></atoms-form-field>
+                  ></atoms-radiogroup>
 
                   <!-- Company name -->
-                  <atoms-form-field
+                  <atoms-input
                     *ngIf="getControl('userOrganization', 'type').value === orgTypes.COMPANY"
                     label="Company name"
                     [formControl]="getControl('userOrganization', 'title')"
-                  ></atoms-form-field>
+                  ></atoms-input>
 
                   <!-- Web site address -->
-                  <atoms-form-field
+                  <atoms-input
                     *ngIf="
                       getControl('userOrganization', 'title').value ||
                       getControl('userOrganization', 'type').value === orgTypes.PRIVATE
@@ -125,7 +114,7 @@
                     label="Web site address"
                     [inputType]="inputTypes.URL"
                     [formControl]="getControl('userOrganization', 'website')"
-                  ></atoms-form-field>
+                  ></atoms-input>
 
                   <mat-accordion *ngIf="getControl('userOrganization', 'type').value === orgTypes.COMPANY">
                     <mat-expansion-panel>
@@ -134,9 +123,8 @@
                         <mat-panel-description> You can fill in this fields later </mat-panel-description>
                       </mat-expansion-panel-header>
                       <!-- Number of employees -->
-                      <atoms-form-field
+                      <atoms-select
                         label="Number of employees"
-                        [fType]="fieldTypes.SELECT"
                         [options]="[
                           {
                             label: '1-10',
@@ -156,40 +144,37 @@
                           }
                         ]"
                         [formControl]="getControl('userOrganization', 'employees')"
-                      ></atoms-form-field>
+                      ></atoms-select>
 
                       <!-- Country -->
-                      <atoms-form-field
+                      <atoms-input
                         label="Country"
                         [formControl]="getControl('userOrganization', 'country')"
-                      ></atoms-form-field>
+                      ></atoms-input>
                       <!-- City -->
-                      <atoms-form-field
-                        label="City"
-                        [formControl]="getControl('userOrganization', 'city')"
-                      ></atoms-form-field>
+                      <atoms-input label="City" [formControl]="getControl('userOrganization', 'city')"></atoms-input>
                       <!-- Address -->
-                      <atoms-form-field
+                      <atoms-input
                         label="Address"
                         [formControl]="getControl('userOrganization', 'address')"
-                      ></atoms-form-field>
+                      ></atoms-input>
                       <!-- Postcode -->
-                      <atoms-form-field
+                      <atoms-input
                         label="Postcode"
                         [formControl]="getControl('userOrganization', 'postcode')"
-                      ></atoms-form-field>
+                      ></atoms-input>
                       <!-- Phone -->
-                      <atoms-form-field
+                      <atoms-input
                         label="Phone"
                         [inputType]="inputTypes.TEL"
                         [formControl]="getControl('userOrganization', 'phone')"
-                      ></atoms-form-field>
+                      ></atoms-input>
                       <!-- Email -->
-                      <atoms-form-field
+                      <atoms-input
                         label="Email"
                         [inputType]="inputTypes.EMAIL"
                         [formControl]="getControl('userOrganization', 'email')"
-                      ></atoms-form-field>
+                      ></atoms-input>
                     </mat-expansion-panel>
                   </mat-accordion>
                 </form>
