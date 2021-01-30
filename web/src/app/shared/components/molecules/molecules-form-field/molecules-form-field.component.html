@@ -1,41 +1,17 @@
 <ng-container *ngIf="editForm && editable && ngControl.control">
   <ng-container [ngSwitch]="fType">
     <!-- INPUT -->
-    <atoms-input
-      *ngSwitchCase="fType.INPUT"
-      [formControl]="ngControl.control"
-      [label]="label"
-      [canValidate]="canValidate"
-    >
-    </atoms-input>
+    <atoms-input *ngSwitchCase="fType.INPUT" [formControl]="ngControl.control" [label]="label"> </atoms-input>
 
     <!-- TEXTAREA -->
-    <atoms-textarea
-      *ngSwitchCase="fType.TEXTAREA"
-      [formControl]="ngControl.control"
-      [label]="label"
-      [canValidate]="canValidate"
-    >
-    </atoms-textarea>
+    <atoms-textarea *ngSwitchCase="fType.TEXTAREA" [formControl]="ngControl.control" [label]="label"> </atoms-textarea>
 
     <!-- SELECT -->
-    <atoms-select
-      *ngSwitchCase="fType.SELECT"
-      [formControl]="ngControl.control"
-      [options]="options"
-      [label]="label"
-      [canValidate]="canValidate"
-    >
+    <atoms-select *ngSwitchCase="fType.SELECT" [formControl]="ngControl.control" [options]="options" [label]="label">
     </atoms-select>
 
     <!-- DATE -->
-    <atoms-date
-      *ngSwitchCase="fType.DATE"
-      [formControl]="ngControl.control"
-      [label]="label"
-      [canValidate]="canValidate"
-    >
-    </atoms-date>
+    <atoms-date *ngSwitchCase="fType.DATE" [formControl]="ngControl.control" [label]="label"> </atoms-date>
 
     <!-- CHECKBOX -->
     <atoms-checkbox

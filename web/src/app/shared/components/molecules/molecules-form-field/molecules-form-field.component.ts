@@ -31,11 +31,10 @@ export class MoleculesFormFieldComponent extends BaseControlValueAccessorCompone
   @Input() editForm = false;
   @Input() editable = true;
   @Input() editOnly?: boolean;
-  @Input() options: string | number;
-  @Input() canValidate = true;
+  @Input() options?: string | number;
   @Input() color: ThemePalette = THEME_PALETTE.ACCENT;
-  @Input() bindOptValue?: string; // TODO: investigate if needed
-  @Input() bindOptLabel?: string; // TODO: investigate if needed
+  @Input() bindOptValue?: string; // TODO: provide logic to use this parameter
+  @Input() bindOptLabel?: string; // TODO: provide logic to use this parameter
 
   // tslint:disable-next-line:no-output-on-prefix
   @Output() onChange: EventEmitter<MatCheckboxChange | MatRadioChange> = new EventEmitter();
