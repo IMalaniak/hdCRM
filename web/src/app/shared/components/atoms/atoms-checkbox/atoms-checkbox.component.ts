@@ -18,6 +18,7 @@ import { THEME_PALETTE } from '@/shared/constants';
   providers: [{ provide: MatFormFieldControl, useExisting: AtomsCheckboxComponent }]
 })
 export class AtomsCheckboxComponent extends BaseControlValueAccessorComponentModel<boolean> {
+  @Input() label = '';
   @Input() color: ThemePalette = THEME_PALETTE.ACCENT;
 
   // tslint:disable-next-line:no-output-on-prefix
