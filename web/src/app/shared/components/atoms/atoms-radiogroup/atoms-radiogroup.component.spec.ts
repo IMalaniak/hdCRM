@@ -1,20 +1,40 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { Component, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AtomsRadiogroupComponent } from './atoms-radiogroup.component';
+import { SharedModule } from '@/shared/shared.module';
+
+@Component({
+  template: `<form [formGroup]="form">
+    <atoms-radiogroup formControlName="radiogroup"> </atoms-radiogroup>
+  </form>`
+})
+class TestAtomsRadiogroupComponent {
+  @ViewChild(AtomsRadiogroupComponent, { static: true })
+  radiogroupInputComponent: AtomsRadiogroupComponent;
+
+  form = new FormGroup({
+    radiogroup: new FormControl(true)
+  });
+}
 
 describe('AtomsRadiogroupComponent', () => {
-  let component: AtomsRadiogroupComponent;
-  let fixture: ComponentFixture<AtomsRadiogroupComponent>;
+  let component: TestAtomsRadiogroupComponent;
+  let fixture: ComponentFixture<TestAtomsRadiogroupComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ AtomsRadiogroupComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [SharedModule, BrowserAnimationsModule],
+        declarations: [AtomsRadiogroupComponent, TestAtomsRadiogroupComponent]
+      }).compileComponents();
     })
-    .compileComponents();
-  });
+  );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AtomsRadiogroupComponent);
+    fixture = TestBed.createComponent(TestAtomsRadiogroupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
