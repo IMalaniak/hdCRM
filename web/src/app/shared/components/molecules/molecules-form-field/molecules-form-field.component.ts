@@ -41,6 +41,8 @@ export class MoleculesFormFieldComponent extends BaseControlValueAccessorCompone
 
   @HostBinding('class.w-100') fullWidth = true;
 
+  fieldTypes: typeof IFieldType = IFieldType;
+
   constructor(@Optional() @Self() readonly ngControl: NgControl) {
     super();
 
