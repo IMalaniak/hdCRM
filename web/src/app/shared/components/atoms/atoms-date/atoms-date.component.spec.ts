@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AtomsDateComponent } from './atoms-date.component';
 import { SharedModule } from '@/shared/shared.module';
+import { StoreModule } from '@ngrx/store';
 
 @Component({
   template: `<form [formGroup]="form">
@@ -27,7 +28,7 @@ describe('AtomsDateComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [SharedModule, BrowserAnimationsModule],
+        imports: [SharedModule, BrowserAnimationsModule, StoreModule.forRoot({}, {})],
         declarations: [AtomsDateComponent, TestAtomsDateComponent]
       }).compileComponents();
     })
