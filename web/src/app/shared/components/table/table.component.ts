@@ -14,14 +14,14 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTable } from '@angular/material/table';
 import { CdkTable } from '@angular/cdk/table';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
-import { merge, Observable, Subject } from 'rxjs';
+import { combineLatest, merge, Observable, Subject } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 
 import { IconsService } from '@/core/services';
 import { AppState } from '@/core/store';
-import { getItemsPerPageState } from '@/core/store/preferences';
+import { getDefaultListOutlineBorders, getItemsPerPageState } from '@/core/store/preferences';
 import {
   removeTableConfig,
   setTableConfig,
@@ -65,6 +65,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   itemsPerPageState$: Observable<IItemsPerPage> = this.store$.pipe(select(getItemsPerPageState));
   columnsToDisplay$: Observable<string[]>;
   outlineBorders$: Observable<boolean>;
+  outlineBordersDefaultPreference$: Observable<boolean> = this.store$.pipe(select(getDefaultListOutlineBorders));
 
   @Input() id: string;
   @Input() dataSource: CommonDataSource<DataRow>;
@@ -254,7 +255,12 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
 
   private setColumns(): void {
     this.columnsInitialState = this.columns.map((col) => ({ title: col.key, isVisible: col.isVisible }));
-    this.outlineBorders$ = this.store$.pipe(select(tableOutlineBorders(this.id)));
+    this.outlineBorders$ = combineLatest([
+      this.outlineBordersDefaultPreference$,
+      this.store$.pipe(select(tableOutlineBorders(this.id)))
+    ]).pipe(
+      map(([defaultPreference, listPreference]) => (listPreference !== undefined ? listPreference : defaultPreference))
+    );
     this.columnsToDisplay$ = this.store$.pipe(
       select(tableColumnsToDisplay(this.id)),
       map((columns) => (!columns ? this.columnsInitialState.filter((c) => c.isVisible).map((c) => c.title) : columns))

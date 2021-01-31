@@ -25,7 +25,7 @@ export class PreferencesEffects {
       withLatestFrom(this.store$.pipe(select(getListLoaded))),
       filter(([_, listLoaded]) => !listLoaded),
       mergeMap(() => this.preferencesService.getList()),
-      map((list) => preferencesActions.preferencesListLoaded({ list })),
+      map((response) => preferencesActions.preferencesListLoaded({ list: response.data })),
       catchError((errorResponse: HttpErrorResponse) =>
         of(preferencesActions.preferencesListLoadFailed({ apiResp: errorResponse.error }))
       )
@@ -39,10 +39,12 @@ export class PreferencesEffects {
           preferencesActions.changeDateFormat,
           preferencesActions.changeItemsPerPage,
           preferencesActions.changeListView,
-          preferencesActions.changeTimeFormat
+          preferencesActions.changeTimeFormat,
+          preferencesActions.changeListBordersVisibility
         ),
         withLatestFrom(this.store$.pipe(select(getPreferencesState))),
-        exhaustMap(([_, preferences]) => {
+        exhaustMap(([_, preferencesState]) => {
+          const { list, listLoaded, ...preferences } = preferencesState;
           return this.preferencesService.set(preferences);
         })
       ),

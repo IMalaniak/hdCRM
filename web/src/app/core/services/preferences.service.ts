@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { APIS } from '@/shared/constants';
 import { Preferences, PreferencesList } from '../store/preferences';
 import { UserPreferences } from '../modules/user-api/shared';
+import { ItemApiResponse } from '@/shared/models';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +13,11 @@ import { UserPreferences } from '../modules/user-api/shared';
 export class PreferencesService {
   constructor(private http: HttpClient) {}
 
-  getList(): Observable<PreferencesList> {
-    return this.http.get<PreferencesList>(APIS.PREFERENCES);
+  getList(): Observable<ItemApiResponse<PreferencesList>> {
+    return this.http.get<ItemApiResponse<PreferencesList>>(APIS.PREFERENCES);
   }
 
-  set(preferences: Preferences): Observable<UserPreferences> {
-    return this.http.post<UserPreferences>(APIS.PREFERENCES, preferences);
+  set(preferences: Preferences): Observable<ItemApiResponse<UserPreferences>> {
+    return this.http.post<ItemApiResponse<UserPreferences>>(APIS.PREFERENCES, preferences);
   }
 }
