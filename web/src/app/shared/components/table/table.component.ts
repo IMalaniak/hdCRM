@@ -14,6 +14,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTable } from '@angular/material/table';
 import { CdkTable } from '@angular/cdk/table';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { combineLatest, merge, Observable, Subject } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
 
@@ -137,7 +138,12 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private readonly store$: Store<AppState>, private readonly iconsService: IconsService) {
+  constructor(
+    private readonly store$: Store<AppState>,
+    private readonly iconsService: IconsService,
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute
+  ) {
     this.iconsService.registerIcons([...Object.values(this.icons)]);
   }
 
@@ -151,6 +157,21 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    const listQueryParams: Partial<PageQuery> = this.activatedRoute.snapshot.queryParams;
+    if (listQueryParams?.pageIndex) {
+      this.paginator.pageIndex = listQueryParams.pageIndex;
+    }
+    if (listQueryParams?.pageSize) {
+      this.paginator.pageSize = listQueryParams.pageSize;
+    }
+    if (listQueryParams?.sortIndex) {
+      this.sort.sort({
+        id: listQueryParams.sortIndex,
+        start: listQueryParams.sortDirection || 'asc',
+        disableClear: false
+      });
+    }
+
     const sort$ = this.sort.sortChange.pipe(tap(() => (this.paginator.pageIndex = 0)));
     merge(sort$, this.paginator.page)
       .pipe(tap(() => this.loadDataPage()))
@@ -278,6 +299,14 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     });
   }
 
+  private setQueryParams(queryParams: Params) {
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: queryParams,
+      queryParamsHandling: 'merge'
+    });
+  }
+
   private loadDataPage(): void {
     const newPage: PageQuery = {
       pageIndex: this.paginator.pageIndex,
@@ -285,7 +314,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
       sortIndex: this.sort.active || COLUMN_KEYS.ID,
       sortDirection: this.sort.direction || SORT_DIRECTION.ASC
     };
-
     this.dataSource.loadData(newPage);
+    this.setQueryParams(newPage);
   }
 }
