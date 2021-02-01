@@ -13,6 +13,7 @@ import { CommonDataSource } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
 import { TableComponent } from './table.component';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 interface TestData {
   id: number;
@@ -64,7 +65,7 @@ describe('TableComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [SharedModule, MatIconTestingModule, BrowserAnimationsModule],
+        imports: [SharedModule, MatIconTestingModule, RouterTestingModule, BrowserAnimationsModule],
         declarations: [TableComponent],
         providers: [provideMockStore({ initialState })]
       }).compileComponents();
