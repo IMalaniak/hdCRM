@@ -64,9 +64,9 @@ import { PageQuery } from '@/shared/models';
 })
 export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   itemsPerPageState$: Observable<IItemsPerPage> = this.store$.pipe(select(getItemsPerPageState));
-  columnsToDisplay$: Observable<string[]>;
-  outlineBorders$: Observable<boolean>;
   outlineBordersDefaultPreference$: Observable<boolean> = this.store$.pipe(select(getDefaultListOutlineBorders));
+  outlineBorders$: Observable<boolean>;
+  columnsToDisplay$: Observable<string[]>;
 
   @Input() id: string;
   @Input() dataSource: CommonDataSource<DataRow>;
@@ -157,7 +157,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    const listQueryParams: Partial<PageQuery> = this.activatedRoute.snapshot.queryParams;
+    const listQueryParams: Partial<PageQuery> = this.validateListQueryParams(this.activatedRoute.snapshot.queryParams);
     if (listQueryParams?.pageIndex) {
       this.paginator.pageIndex = listQueryParams.pageIndex;
     }
@@ -316,5 +316,26 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     };
     this.dataSource.loadData(newPage);
     this.setQueryParams(newPage);
+  }
+
+  private validateListQueryParams(params: Params): Partial<PageQuery> {
+    let pageQuery: Partial<PageQuery> = {};
+    if (params.pageSize) {
+      const pageSize = parseInt(params.pageSize);
+      if (this.pageSizeOptions.includes(pageSize)) {
+        pageQuery = { ...pageQuery, pageSize };
+      }
+    }
+    if (params.pageIndex) {
+      const pageIndex = parseInt(params.pageIndex);
+      pageQuery = { ...pageQuery, pageIndex };
+    }
+    if (params.sortIndex && this.columns.some((col) => col.key === params.sortIndex && col.hasSorting)) {
+      pageQuery = { ...pageQuery, sortIndex: params.sortIndex };
+    }
+    if (params.sortDirection && ['asc', 'desc'].includes(params.sortDirection)) {
+      pageQuery = { ...pageQuery, sortDirection: params.sortDirection };
+    }
+    return pageQuery;
   }
 }
