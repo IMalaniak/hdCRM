@@ -51,6 +51,7 @@ export const selectIsEditing = createSelector(
   selectDepartmentsState,
   (departmentsState) => departmentsState?.isEditing
 );
+
 export const selectDepartmentFromCache = createSelector(
   selectDepartmentsState,
   (departmentsState) => departmentsState.cache.displayedItemCopy

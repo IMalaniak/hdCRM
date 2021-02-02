@@ -11,6 +11,13 @@ const rolesReducer = createReducer(
     ...state,
     isEditing
   })),
+  on(roleActions.roleCached, (state, { displayedItemCopy }) => ({
+    ...state,
+    cache: {
+      ...state.cache,
+      displayedItemCopy
+    }
+  })),
   on(roleApiActions.listPageRequested, (state) => ({
     ...state,
     pages: {

@@ -18,8 +18,7 @@ import {
   StagesComponent,
   TemplatesPlanViewComponent
 } from './components';
-import * as fromPlan from './store/plan.reducer';
-import { PlanEffects } from './store';
+import { PlanEffects, plansFeatureKey, reducer } from './store';
 
 @NgModule({
   imports: [
@@ -28,7 +27,7 @@ import { PlanEffects } from './store';
     SharedModule,
     DragDropModule,
     PlanManagementRoutingModule,
-    StoreModule.forFeature(fromPlan.plansFeatureKey, fromPlan.reducer),
+    StoreModule.forFeature(plansFeatureKey, reducer),
     EffectsModule.forFeature([PlanEffects])
   ],
   declarations: [

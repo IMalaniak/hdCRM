@@ -34,3 +34,5 @@ export const selectRolesOfPage = (pageQuery: PageQuery) =>
   );
 
 export const selectIsEditing = createSelector(selectRolesState, (roleState) => roleState?.isEditing);
+
+export const selectRoleFromCache = createSelector(selectRolesState, (rolesState) => rolesState.cache.displayedItemCopy);

@@ -33,4 +33,5 @@ export const selectPlansOfPage = (pageQuery: PageQuery) =>
   );
 
 export const selectIsEditing = createSelector(selectPlansState, (plansState) => plansState?.isEditing);
+
 export const selectPlanFromCache = createSelector(selectPlansState, (plansState) => plansState.cache.displayedItemCopy);
