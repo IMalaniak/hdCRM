@@ -321,13 +321,13 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   private validateListQueryParams(params: Params): Partial<PageQuery> {
     let pageQuery: Partial<PageQuery> = {};
     if (params.pageSize) {
-      const pageSize = parseInt(params.pageSize);
+      const pageSize = parseInt(params.pageSize, 0);
       if (this.pageSizeOptions.includes(pageSize)) {
         pageQuery = { ...pageQuery, pageSize };
       }
     }
     if (params.pageIndex) {
-      const pageIndex = parseInt(params.pageIndex);
+      const pageIndex = parseInt(params.pageIndex, 0);
       pageQuery = { ...pageQuery, pageIndex };
     }
     if (params.sortIndex && this.columns.some((col) => col.key === params.sortIndex && col.hasSorting)) {

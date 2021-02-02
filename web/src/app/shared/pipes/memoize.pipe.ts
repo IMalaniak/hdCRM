@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+@Pipe({ name: 'memoize' })
 /**
  * @description Memoized pipe for optimization
  * @summary Angular executes a pure pipe only when it detects a pure change
@@ -8,7 +9,6 @@ import { Pipe, PipeTransform } from '@angular/core';
  * @usage {{ value | memoize : method [: context] }}
  * @see https://blog.usejournal.com/angular-optimization-memoized-pipe-functions-in-templates-75f62e16df5a
  */
-@Pipe({ name: 'memoize' })
 export class MemoizePipe implements PipeTransform {
   transform(value: any, handler: (value: any) => any, context?: any): any {
     if (context) {
