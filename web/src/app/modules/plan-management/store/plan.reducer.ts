@@ -9,7 +9,7 @@ const plansReducer = createReducer(
   initialListState,
   on(planActions.changeIsEditingState, (state, { isEditing }) => ({
     ...state,
-    editing: isEditing
+    isEditing
   })),
   on(planApiActions.listPageRequested, (state) => ({
     ...state,
@@ -20,7 +20,7 @@ const plansReducer = createReducer(
   })),
   on(planApiActions.updatePlanSuccess, (state) => ({
     ...state,
-    editing: false
+    isEditing: false
   })),
   on(planApiActions.listPageLoaded, (state, { page, response: { pages, resultsNum } }) => ({
     ...state,

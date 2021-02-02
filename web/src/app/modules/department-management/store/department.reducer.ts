@@ -9,7 +9,7 @@ const reducer = createReducer(
   initialListState,
   on(departmentActions.changeIsEditingState, (state, { isEditing }) => ({
     ...state,
-    editing: isEditing
+    isEditing
   })),
   on(departmentActions.departmentCached, (state, { displayedItemCopy }) => ({
     ...state,
@@ -33,7 +33,7 @@ const reducer = createReducer(
     ...state,
     pages: initialListState.pages
   })),
-  on(departmentApiActions.updateDepartmentSuccess, (state) => ({ ...state, editing: false })),
+  on(departmentApiActions.updateDepartmentSuccess, (state) => ({ ...state, isEditing: false })),
   on(departmentApiActions.listPageLoaded, (state, { page, response: { pages, resultsNum } }) => ({
     ...state,
     pages: pagesAdapter.addOne(page, {

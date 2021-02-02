@@ -32,4 +32,4 @@ export const selectPlansOfPage = (pageQuery: PageQuery) =>
     }
   );
 
-export const selectIsEditing = createSelector(selectPlansState, (plansState) => plansState?.editing);
+export const selectIsEditing = createSelector(selectPlansState, (plansState) => plansState?.isEditing);

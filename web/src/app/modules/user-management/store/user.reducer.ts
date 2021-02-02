@@ -9,7 +9,7 @@ const reducer = createReducer(
   initialListState,
   on(userActions.changeIsEditingState, (state, { isEditing }) => ({
     ...state,
-    editing: isEditing
+    isEditing
   })),
   on(userApiActions.listPageRequested, (state) => ({ ...state, pages: { ...state.pages, pageLoading: true } })),
   on(userApiActions.listPageLoaded, (state, { page, response: { pages, resultsNum } }) => ({
@@ -23,7 +23,7 @@ const reducer = createReducer(
   })),
   on(userApiActions.updateUserSuccess, (state) => ({
     ...state,
-    editing: false
+    isEditing: false
   })),
   on(userApiActions.deleteUser, (state) => ({
     ...state,

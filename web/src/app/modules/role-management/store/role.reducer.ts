@@ -9,7 +9,7 @@ const rolesReducer = createReducer(
   initialListState,
   on(roleActions.changeIsEditingState, (state, { isEditing }) => ({
     ...state,
-    editing: isEditing
+    isEditing
   })),
   on(roleApiActions.listPageRequested, (state) => ({
     ...state,
@@ -37,7 +37,7 @@ const rolesReducer = createReducer(
   })),
   on(roleApiActions.updateRoleSuccess, (state) => ({
     ...state,
-    editing: false
+    isEditing: false
   })),
   on(roleApiActions.rolesApiError, (state) => ({
     ...state,

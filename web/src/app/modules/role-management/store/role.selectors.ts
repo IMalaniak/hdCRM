@@ -33,4 +33,4 @@ export const selectRolesOfPage = (pageQuery: PageQuery) =>
     }
   );
 
-export const selectIsEditing = createSelector(selectRolesState, (roleState) => roleState?.editing);
+export const selectIsEditing = createSelector(selectRolesState, (roleState) => roleState?.isEditing);

@@ -31,13 +31,13 @@ export const initialCacheState: CacheState<unknown> = {
 };
 
 export interface ListState<T> {
-  editing: boolean;
+  isEditing: boolean;
   pages: PagesState;
   cache: CacheState<T>;
 }
 
 export const initialListState: ListState<unknown> = {
-  editing: false,
+  isEditing: false,
   pages: initialPagesState,
   cache: initialCacheState
 };
