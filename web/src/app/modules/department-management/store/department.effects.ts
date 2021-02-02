@@ -8,9 +8,9 @@ import { Update } from '@ngrx/entity';
 import { AppState } from '@/core/store';
 import { Department } from '@/core/modules/department-api/shared';
 import * as departmentApiActions from '@/core/modules/department-api/store/department-api.actions';
+import { selectDepartmentById } from '@/core/modules/department-api/store';
 import * as departmentActions from './department.actions';
 import { selectDepartmentFromCache } from './department.selectors';
-import { selectDepartmentById } from '@/core/modules/department-api/store';
 
 @Injectable()
 export class DepartmentEffects {

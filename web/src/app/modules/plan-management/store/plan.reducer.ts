@@ -11,6 +11,13 @@ const plansReducer = createReducer(
     ...state,
     isEditing
   })),
+  on(planActions.planCached, (state, { displayedItemCopy }) => ({
+    ...state,
+    cache: {
+      ...state.cache,
+      displayedItemCopy
+    }
+  })),
   on(planApiActions.listPageRequested, (state) => ({
     ...state,
     pages: {
