@@ -69,21 +69,16 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
     this.coverTitle = cover.title;
   }
 
-  updateUserStore(asset?: Asset): void {
+  updateUser(user: User, asset?: Asset): void {
     if (asset) {
       this.setCover(asset);
+      user = { ...user, ...(asset && { avatar: asset, avatarId: asset.id }) };
     }
-    const user = { ...this.user, ...(asset && { avatar: asset, avatarId: asset.id }) };
     if (this.isProfilePage) {
       this.store.dispatch(updateUserProfileRequested({ user }));
     } else {
       this.store.dispatch(updateUserRequested({ user }));
     }
-  }
-
-  updateUser(user: User): void {
-    this.user = user;
-    this.updateUserStore();
   }
 
   updateUserOrg(organization: Organization): void {
