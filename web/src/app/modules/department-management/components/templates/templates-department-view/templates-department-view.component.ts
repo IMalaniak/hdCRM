@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { first, takeUntil } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 
@@ -42,9 +42,8 @@ export class TemplatesDepartmentViewComponent extends TemplatesViewDetailsCompon
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
-      .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: IDialogResult<User[]>) => {
-        if (result && result.success) {
+        if (result?.success) {
           this.item = {
             ...this.item,
             Manager: { ...result.data[0] },
@@ -66,9 +65,8 @@ export class TemplatesDepartmentViewComponent extends TemplatesViewDetailsCompon
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
-      .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: IDialogResult<number[]>) => {
-        if (result && result.success) {
+        if (result?.success) {
           const selectedWorkersIds: number[] = result.data.filter(
             (selectedWorkerId) => !this.item.Workers.some((user) => user.id === selectedWorkerId)
           );

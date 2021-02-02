@@ -9,6 +9,7 @@ export interface ICell {
   readonly customClass?: string;
   readonly navigation?: Navigation;
 }
+
 export class Cell {
   static createSequenceCell(): ICell {
     return {

@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
-import { first, takeUntil } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 
@@ -55,9 +55,8 @@ export class TemplatesPlanViewComponent extends TemplatesViewDetailsComponent<Pl
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
-      .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: IDialogResult<number[]>) => {
-        if (result && result.success) {
+        if (result?.success) {
           const selectedParticipantsIds: number[] = result.data?.filter(
             (selectedUserId) => !this.item.Participants.some((user) => user.id === selectedUserId)
           );

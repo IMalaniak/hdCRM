@@ -99,7 +99,6 @@
                 [linkType]="row[column.key].navigation.linkType"
                 [linkHref]="row[column.key].navigation.linkHref"
                 [target]="row[column.key].navigation.target"
-                [disabled]="isDisplayModePopup"
                 (click)="$event.stopPropagation()"
               ></atoms-link-button>
               <ng-template #simpleSpan>

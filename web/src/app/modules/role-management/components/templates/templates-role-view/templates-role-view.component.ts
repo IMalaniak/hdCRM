@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { first, takeUntil } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
@@ -60,9 +60,8 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
-      .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: IDialogResult<number[]>) => {
-        if (result && result.success) {
+        if (result?.success) {
           const selectedUsersIds: number[] = result.data?.filter(
             (selectedUserId) => !this.item.Users.some((user) => user.id === selectedUserId)
           );
@@ -88,9 +87,8 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
     this.dialogService
       .open(PrivilegesDialogComponent, dialogDataModel, DialogType.STANDART)
       .afterClosed()
-      .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: IDialogResult<Privilege[]>) => {
-        if (result && result.success) {
+        if (result?.success) {
           const selectedPrivileges: Privilege[] = result.data
             .filter(
               (selectedPrivilege) => !this.item.Privileges.some((privilege) => privilege.id === selectedPrivilege.id)
