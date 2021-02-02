@@ -299,7 +299,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     });
   }
 
-  private setQueryParams(queryParams: Params) {
+  private setQueryParams(queryParams: Params): void {
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
       queryParams: queryParams,
