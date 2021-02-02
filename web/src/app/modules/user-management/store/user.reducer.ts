@@ -1,6 +1,7 @@
 import { Action, on, createReducer } from '@ngrx/store';
 
 import * as userApiActions from '@/core/modules/user-api/store/user-api.actions';
+import { User } from '@/core/modules/user-api/shared';
 import { initialListState, pagesAdapter, ListState } from '@/shared/store';
 import * as userActions from './user.actions';
 
@@ -38,7 +39,7 @@ const reducer = createReducer(
   }))
 );
 
-export function usersReducer(state: ListState | undefined, action: Action) {
+export function usersReducer(state: ListState<User> | undefined, action: Action) {
   return reducer(state, action);
 }
 

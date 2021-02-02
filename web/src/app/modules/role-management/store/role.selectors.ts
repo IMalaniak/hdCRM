@@ -11,7 +11,7 @@ import { ListState, Page } from '@/shared/store';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
 import * as fromRole from './role.reducer';
 
-export const selectRolesState = createFeatureSelector<ListState>(fromRole.rolesFeatureKey);
+export const selectRolesState = createFeatureSelector<ListState<Role>>(fromRole.rolesFeatureKey);
 export const selectRolePagesState = createSelector(selectRolesState, (rolesState) => rolesState?.pages);
 
 export const selectRolePageByKey = (pageQuery: PageQuery) =>

@@ -14,7 +14,8 @@ import {
   TemplatesDepartmentViewComponent
 } from './components';
 
-import { departmentReducer, departmentsFeatureKey } from './store';
+import { departmentReducer, departmentsFeatureKey, DepartmentEffects } from './store';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { departmentReducer, departmentsFeatureKey } from './store';
     RouterModule,
     SharedModule,
     DepartmentManagementRoutingModule,
-    StoreModule.forFeature(departmentsFeatureKey, departmentReducer)
+    StoreModule.forFeature(departmentsFeatureKey, departmentReducer),
+    EffectsModule.forFeature([DepartmentEffects])
   ],
   declarations: [AddDepartmentComponent, DepartmentComponent, DepartmentsComponent, TemplatesDepartmentViewComponent],
   exports: [AddDepartmentComponent, DepartmentComponent, DepartmentsComponent]

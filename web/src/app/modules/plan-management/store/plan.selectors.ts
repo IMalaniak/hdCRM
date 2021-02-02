@@ -11,7 +11,7 @@ import { PageQuery } from '@/shared/models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
 import { plansFeatureKey } from './plan.reducer';
 
-export const selectPlansState = createFeatureSelector<ListState>(plansFeatureKey);
+export const selectPlansState = createFeatureSelector<ListState<Plan>>(plansFeatureKey);
 export const selectPlanPagesState = createSelector(selectPlansState, (plansState) => plansState?.pages);
 
 export const selectPlanPageByKey = (pageQuery: PageQuery) =>
