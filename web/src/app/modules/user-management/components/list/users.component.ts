@@ -1,7 +1,7 @@
-import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 
@@ -13,12 +13,13 @@ import { IconsService } from '@/core/services';
 import { DialogCreateEditModel, DialogDataModel, DialogMode, DialogType, IDialogResult } from '@/shared/models';
 import { RoutingConstants, CONSTANTS, UserState, BS_ICONS } from '@/shared/constants';
 import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_KEYS } from '@/shared/constants';
+import { ListDisplayMode } from '@/shared/store';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
 import { RowActionData, RowActionType, Column, IColumn } from '@/shared/models/table';
 import {
-  selectListDisplayModeIsPopup,
+  selectListDisplayMode,
   selectPreselectedUsersIds,
   selectUserPageLoading,
   selectUsersTotalCount
@@ -31,19 +32,30 @@ import { InvitationDialogComponent } from '../invitation-dialog/invitation-dialo
   templateUrl: './users.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UsersComponent implements OnDestroy {
+export class UsersComponent {
   currentUser$: Observable<User> = this.store$.pipe(select(currentUser));
   loading$: Observable<boolean> = this.store$.pipe(select(selectUserPageLoading));
   resultsLength$: Observable<number> = this.store$.pipe(select(selectUsersTotalCount));
-  isPopupDisplayMode$: Observable<boolean> = this.store$.pipe(select(selectListDisplayModeIsPopup));
+  displayMode$: Observable<ListDisplayMode> = this.store$.pipe(select(selectListDisplayMode));
   preselectedUsersIds$: Observable<number[]> = this.store$.pipe(select(selectPreselectedUsersIds));
   canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.USER)));
   canEditUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.USER)));
   canDeleteUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.USER)));
-  titles = {
-    default: CONSTANTS.TEXTS_SELECT_USERS,
-    popup: CONSTANTS.TEXTS_SELECT_USERS
-  };
+  cardTitle$: Observable<string> = this.displayMode$.pipe(
+    map((displayMode) => {
+      switch (displayMode) {
+        case ListDisplayMode.POPUP_MULTI_SELECTION:
+          return CONSTANTS.TEXTS_SELECT_USERS;
+        case ListDisplayMode.POPUP_SINGLE_SELECTION:
+          return CONSTANTS.TEXTS_SELECT_USER;
+        default:
+          return CONSTANTS.TEXTS_USER_LIST;
+      }
+    })
+  );
+  displayCardButtons$: Observable<boolean> = combineLatest([this.canAddUser$, this.displayMode$]).pipe(
+    map(([canAddUser, displayMode]) => canAddUser && displayMode === ListDisplayMode.DEFAULT)
+  );
 
   dataSource: UsersDataSource = new UsersDataSource(this.store$);
 
@@ -76,8 +88,6 @@ export class UsersComponent implements OnDestroy {
   ];
 
   selectedUsersIds: number[];
-
-  private unsubscribe: Subject<void> = new Subject();
 
   constructor(
     private router: Router,
@@ -117,7 +127,6 @@ export class UsersComponent implements OnDestroy {
     this.dialogService
       .open(InvitationDialogComponent, dialogDataModel, DialogType.STANDART)
       .afterClosed()
-      .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: IDialogResult<User[]>) => {
         if (result && result.success) {
           this.store$.dispatch(inviteUsers({ users: result.data }));
@@ -149,10 +158,5 @@ export class UsersComponent implements OnDestroy {
     this.router.navigate([`${RoutingConstants.ROUTE_USERS_DETAILS}/${id}`], {
       queryParams: { edit }
     });
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
   }
 }

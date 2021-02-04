@@ -15,9 +15,9 @@ const reducer = createReducer(
     ...state,
     isEditing
   })),
-  on(userActions.prepareSelectionPopup, (state, { selectedUsersIds }) => ({
+  on(userActions.prepareSelectionPopup, (state, { selectedUsersIds, singleSelection }) => ({
     ...state,
-    listDisplayMode: ListDisplayMode.POPUP,
+    listDisplayMode: singleSelection ? ListDisplayMode.POPUP_SINGLE_SELECTION : ListDisplayMode.POPUP_MULTI_SELECTION,
     selectedUsersIds
   })),
   on(userActions.resetSelectionPopup, (state) => ({

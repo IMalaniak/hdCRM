@@ -50,7 +50,11 @@
   </div>
 
   <!-- TABLE -->
-  <div class="table-container" [class.outine-borders]="outlineBorders$ | async" [class.is-popup]="isDisplayModePopup">
+  <div
+    class="table-container"
+    [class.outine-borders]="outlineBorders$ | async"
+    [class.is-popup]="null | memoize: displayModePopup:this"
+  >
     <table mat-table #table matSort [dataSource]="dataSource" [trackBy]="trackById">
       <!-- COLUMNS & ROWS-->
       <ng-container
@@ -91,20 +95,19 @@
 
             <!-- Navigation -->
             <ng-container *ngSwitchCase="cellType.Navigation">
-              <atoms-link-button
-                *ngIf="!isDisplayModePopup; else simpleSpan"
-                linkClass="w-100 text-underline text-left"
-                [linkLabel]="row[column.key].value"
-                [linkColor]="themePalette.BASIC"
-                [linkType]="row[column.key].navigation.linkType"
-                [linkHref]="row[column.key].navigation.linkHref"
-                [target]="row[column.key].navigation.target"
-                (click)="$event.stopPropagation()"
-              ></atoms-link-button>
-              <ng-template #simpleSpan>
-                <span [ngClass]="column.customClass">
-                  {{ row[column.key].value }}
-                </span>
+              <span [ngClass]="column.customClass" *ngIf="null | memoize: displayModePopup:this; else linkButton">
+                {{ row[column.key].value }}
+              </span>
+              <ng-template #linkButton>
+                <atoms-link-button
+                  linkClass="w-100 text-underline text-left"
+                  [linkLabel]="row[column.key].value"
+                  [linkColor]="themePalette.BASIC"
+                  [linkType]="row[column.key].navigation.linkType"
+                  [linkHref]="row[column.key].navigation.linkHref"
+                  [target]="row[column.key].navigation.target"
+                  (click)="$event.stopPropagation()"
+                ></atoms-link-button>
               </ng-template>
             </ng-container>
 

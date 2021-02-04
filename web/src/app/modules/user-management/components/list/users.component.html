@@ -1,10 +1,7 @@
-<organisms-card
-  [cardTitle]="!(isPopupDisplayMode$ | async) ? titles.default : titles.popup"
-  [showDataLoader]="loading$ | async"
->
+<organisms-card [cardTitle]="cardTitle$ | async" [showDataLoader]="loading$ | async">
   <atoms-icon-button
     buttons
-    *ngIf="(canAddUser$ | async) && !(isPopupDisplayMode$ | async)"
+    *ngIf="displayCardButtons$ | async"
     (onclick)="openInvitationDialog()"
     [icon]="listIcons.add"
   >
@@ -17,7 +14,7 @@
     [dataSource]="dataSource"
     [columns]="displayedColumns"
     [totalItems]="resultsLength$ | async"
-    [isDisplayModePopup]="isPopupDisplayMode$ | async"
+    [displayMode]="displayMode$ | async"
     [canEdit]="canEditUser$ | async"
     [canDelete]="canDeleteUser$ | async"
     [preselectedItems]="preselectedUsersIds$ | async"

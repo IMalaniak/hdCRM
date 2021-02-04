@@ -36,7 +36,7 @@ export class TemplatesDepartmentViewComponent extends TemplatesViewDetailsCompon
 
   addManagerDialog(): void {
     const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
-      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_MANAGER)
+      dialogModel: new DialogWithTwoButtonModel()
     };
 
     this.dialogService

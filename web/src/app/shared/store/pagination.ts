@@ -2,7 +2,8 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 export enum ListDisplayMode {
   DEFAULT,
-  POPUP
+  POPUP_MULTI_SELECTION,
+  POPUP_SINGLE_SELECTION
 }
 
 export interface Page {

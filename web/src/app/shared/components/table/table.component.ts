@@ -57,6 +57,7 @@ import {
 import { CommonDataSource } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
 import { SelectionModel } from '@angular/cdk/collections';
+import { ListDisplayMode } from '@/shared/store';
 
 @Component({
   selector: 'table-component',
@@ -76,7 +77,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   @Input() columns: IColumn[];
   @Input() canSort = true;
   @Input() hasSettings = true;
-  @Input() isDisplayModePopup = false;
+  @Input() displayMode = ListDisplayMode.DEFAULT;
   @Input() noContentMessage = CONSTANTS.NO_CONTENT_INFO;
   @Input() additionalRowActions: RowAction<RowActionType>[];
   @Input() canEdit: boolean;
@@ -254,7 +255,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   }
 
   rowSelect(id: number): void {
-    if (this.isDisplayModePopup) {
+    if (this.displayModePopup()) {
       this.selectionChange(id);
     } else {
       this.rowDedicatedAction(id, { actionType: RowActionType.DETAILS });
@@ -293,6 +294,13 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     });
   }
 
+  displayModePopup(): boolean {
+    return (
+      this.displayMode === ListDisplayMode.POPUP_MULTI_SELECTION ||
+      this.displayMode === ListDisplayMode.POPUP_SINGLE_SELECTION
+    );
+  }
+
   private setColumns(): void {
     this.columnsInitialState = this.columns.map((col) => ({ title: col.key, isVisible: col.isVisible }));
     this.outlineBorders$ = combineLatest([
@@ -305,7 +313,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
       select(tableColumnsToDisplay(this.id)),
       map((columns) => (!columns ? this.columnsInitialState.filter((c) => c.isVisible).map((c) => c.title) : columns)),
       map((columnsToDisplay) => {
-        if (this.isDisplayModePopup) {
+        if (this.displayModePopup()) {
           const selectIndex = this.columns.findIndex((col) => col.key === COLUMN_KEYS.SELECT);
           if (selectIndex >= 0) {
             columnsToDisplay = Object.assign([], columnsToDisplay, { [selectIndex]: COLUMN_KEYS.SELECT });
