@@ -91,7 +91,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  selection: SelectionModel<number> = new SelectionModel(true);
+  selection: SelectionModel<number>;
 
   pageSizeOptions: number[] = pageSizeOptions;
   cellType: typeof CellType = CellType;
@@ -160,8 +160,11 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     if (changes.additionalRowActions && this.additionalRowActions) {
       this.rowActions = [...this.rowActions, ...this.additionalRowActions];
     }
-    if (changes.preselectedItems && this.preselectedItems) {
-      this.preselectedItems.forEach((id) => this.selection.select(id));
+    if (changes.preselectedItems && changes.displayMode && this.displayMode && this.preselectedItems) {
+      this.selection = new SelectionModel(
+        this.displayMode === ListDisplayMode.POPUP_MULTI_SELECTION,
+        this.preselectedItems
+      );
     }
   }
 
@@ -294,6 +297,10 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     });
   }
 
+  isHighlighted(id: number): boolean {
+    return this.displayMode === ListDisplayMode.POPUP_SINGLE_SELECTION && this.selection.isSelected(id);
+  }
+
   displayModePopup(): boolean {
     return (
       this.displayMode === ListDisplayMode.POPUP_MULTI_SELECTION ||
@@ -314,9 +321,11 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
       map((columns) => (!columns ? this.columnsInitialState.filter((c) => c.isVisible).map((c) => c.title) : columns)),
       map((columnsToDisplay) => {
         if (this.displayModePopup()) {
-          const selectIndex = this.columns.findIndex((col) => col.key === COLUMN_KEYS.SELECT);
-          if (selectIndex >= 0) {
-            columnsToDisplay = Object.assign([], columnsToDisplay, { [selectIndex]: COLUMN_KEYS.SELECT });
+          if (this.displayMode === ListDisplayMode.POPUP_MULTI_SELECTION) {
+            const selectIndex = this.columns.findIndex((col) => col.key === COLUMN_KEYS.SELECT);
+            if (selectIndex >= 0) {
+              columnsToDisplay = Object.assign([], columnsToDisplay, { [selectIndex]: COLUMN_KEYS.SELECT });
+            }
           }
           return columnsToDisplay.filter((cTitle) => cTitle !== COLUMN_KEYS.ACTIONS);
         }

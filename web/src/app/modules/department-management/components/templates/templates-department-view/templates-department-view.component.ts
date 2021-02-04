@@ -5,7 +5,6 @@ import { first } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
-import { User } from '@/core/modules/user-api/shared';
 import { Department } from '@/core/modules/department-api/shared';
 import { selectDepartmentsLoading } from '@/core/modules/department-api/store';
 import { DialogService } from '@/shared/services';
@@ -14,7 +13,7 @@ import { CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
 import { DialogDataModel, IDialogResult, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { UsersDialogComponent } from '@/modules/user-management/components';
 import { prepareSelectionPopup, resetSelectionPopup } from '@/modules/user-management/store';
-import { selectUsersById } from '@/core/modules/user-api/store';
+import { selectUserById, selectUsersById } from '@/core/modules/user-api/store';
 
 @Component({
   selector: 'templates-department-view',
@@ -38,22 +37,25 @@ export class TemplatesDepartmentViewComponent extends TemplatesViewDetailsCompon
     const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
       dialogModel: new DialogWithTwoButtonModel()
     };
+    this.store$.dispatch(prepareSelectionPopup({ selectedUsersIds: [this.item.Manager?.id], singleSelection: true }));
 
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
-      .subscribe((result: IDialogResult<User[]>) => {
+      .subscribe((result: IDialogResult<number[]>) => {
         if (result?.success) {
-          this.item = {
-            ...this.item,
-            Manager: { ...result.data[0] },
-            managerId: result.data[0].id
-          };
+          this.store$.pipe(select(selectUserById(result.data[0])), first()).subscribe((selectedManager) => {
+            this.item = {
+              ...this.item,
+              Manager: { ...selectedManager },
+              managerId: selectedManager.id
+            };
+            this.cdr.detectChanges();
+          });
           this.cdr.detectChanges();
         }
+        this.store$.dispatch(resetSelectionPopup());
       });
-
-    // TODO: @ArsenIrod add afterOpened logic
   }
 
   addWorkersDialog(): void {

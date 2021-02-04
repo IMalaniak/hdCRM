@@ -182,7 +182,12 @@
 
       <!-- ROWS -->
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay$ | async; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: columnsToDisplay$ | async" (click)="rowSelect(row.id)"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: columnsToDisplay$ | async"
+        [ngClass]="{ selected: isHighlighted(row.id) }"
+        (click)="rowSelect(row.id)"
+      ></tr>
       <tr *matNoDataRow>
         <td [attr.colspan]="(columnsToDisplay$ | async)?.length">
           <atoms-no-content-info [noContentMessage]="noContentMessage"></atoms-no-content-info>
