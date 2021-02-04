@@ -133,8 +133,8 @@ export class UserEffects {
   );
 
   constructor(
-    private actions$: Actions,
-    private userService: UserService,
-    private toastMessageService: ToastMessageService
+    private readonly actions$: Actions,
+    private readonly userService: UserService,
+    private readonly toastMessageService: ToastMessageService
   ) {}
 }

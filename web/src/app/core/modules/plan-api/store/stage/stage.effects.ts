@@ -49,9 +49,9 @@ export class StageEffects {
   );
 
   constructor(
-    private actions$: Actions,
-    private store: Store<AppState>,
-    private stageService: StageService,
-    private toastMessageService: ToastMessageService
+    private readonly actions$: Actions,
+    private readonly store: Store<AppState>,
+    private readonly stageService: StageService,
+    private readonly toastMessageService: ToastMessageService
   ) {}
 }

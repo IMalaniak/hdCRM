@@ -40,5 +40,5 @@ export class DepartmentEffects {
     )
   );
 
-  constructor(private actions$: Actions, private store$: Store<AppState>) {}
+  constructor(private readonly actions$: Actions, private readonly store$: Store<AppState>) {}
 }
