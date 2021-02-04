@@ -2,10 +2,9 @@ import { Component, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/portal';
 
-import { User } from '@/core/modules/user-api/shared';
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
-import { DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
+import { DialogWithTwoButtonModel, IDialogResult } from '@/shared/models';
 import { DialogBaseModel } from '@/shared/components';
 import { UsersComponent } from '../list/users.component';
 
@@ -27,9 +26,9 @@ export class UsersDialogComponent extends DialogBaseModel<DialogWithTwoButtonMod
   }
 
   onClose(success: boolean): void {
-    const result: DialogResultModel<User[]> = {
+    const result: IDialogResult<number[]> = {
       success,
-      model: this.usersComponent.selection.selected
+      data: this.usersComponent.selectedUsersIds
     };
     this.dialogRef.close(result);
   }

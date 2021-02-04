@@ -50,8 +50,6 @@ export class CONSTANTS {
   static TEXTS_CREATE_STAGE = 'Create stage';
   static TEXTS_SELECT_MANAGER = 'Select manager';
   static TEXTS_SELECT_USERS = 'Select users';
-  static TEXTS_SELECT_WORKERS = 'Select workers';
-  static TEXTS_SELECT_PARTICIPANS = 'Select participants';
   static TEXTS_SELECT_PRIVILEGES = 'Select privileges';
   static TEXTS_UPDATE_TASK = 'Update task';
 }

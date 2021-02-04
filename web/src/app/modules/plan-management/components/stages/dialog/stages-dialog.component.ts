@@ -4,7 +4,7 @@ import { ComponentType } from '@angular/cdk/portal';
 
 import { Stage } from '@/core/modules/plan-api/shared';
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
-import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
+import { DialogDataModel, DialogWithTwoButtonModel, IDialogResult } from '@/shared/models';
 import { DialogBaseModel } from '@/shared/components';
 import { StagesComponent } from '../list/stages.component';
 
@@ -26,9 +26,9 @@ export class StagesDialogComponent extends DialogBaseModel<DialogWithTwoButtonMo
   }
 
   onClose(success: boolean): void {
-    const result: DialogResultModel<Stage[]> = {
+    const result: IDialogResult<Stage[]> = {
       success,
-      model: this.stagesComponent.selection.selected
+      data: this.stagesComponent.selection.selected
     };
     this.dialogRef.close(result);
   }

@@ -1,18 +1,19 @@
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
-import { User } from '@/core/modules/user-api/shared';
 import { Plan } from '@/core/modules/plan-api/shared';
 import { selectPlansLoading } from '@/core/modules/plan-api/store/plan';
-import { Asset, DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
+import { Asset, DialogDataModel, IDialogResult, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
 import { DialogService } from '@/shared/services';
 import { CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
 import { UsersDialogComponent } from '@/modules/user-management/components';
+import { prepareSelectionPopup, resetSelectionPopup } from '@/modules/user-management/store';
+import { selectUsersById } from '@/core/modules/user-api/store';
 
 @Component({
   selector: 'templates-plan-view',
@@ -47,29 +48,30 @@ export class TemplatesPlanViewComponent extends TemplatesViewDetailsComponent<Pl
 
   addParticipantDialog(): void {
     const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
-      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_PARTICIPANS)
+      dialogModel: new DialogWithTwoButtonModel()
     };
+    this.store$.dispatch(prepareSelectionPopup({ selectedUsersIds: this.item.Participants.map((user) => user.id) }));
 
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: DialogResultModel<User[]>) => {
-        if (result && result.success) {
-          const selectedParticipants: User[] = result.model.filter(
-            (selectedParticipant) => !this.item.Participants.some((user) => user.id === selectedParticipant.id)
+      .subscribe((result: IDialogResult<number[]>) => {
+        if (result?.success) {
+          const selectedParticipantsIds: number[] = result.data?.filter(
+            (selectedUserId) => !this.item.Participants.some((user) => user.id === selectedUserId)
           );
-          if (selectedParticipants?.length) {
-            this.item = {
-              ...this.item,
-              Participants: [...this.item.Participants, ...selectedParticipants]
-            };
-            this.cdr.detectChanges();
+          if (selectedParticipantsIds?.length) {
+            this.store$.pipe(select(selectUsersById(selectedParticipantsIds)), first()).subscribe((selectedUsers) => {
+              this.item = {
+                ...this.item,
+                Participants: [...this.item.Participants, ...selectedUsers]
+              };
+              this.cdr.detectChanges();
+            });
           }
         }
+        this.store$.dispatch(resetSelectionPopup());
       });
-
-    // TODO: @ArsenIrod add afterOpened logic
   }
 
   addDocument(doc: Asset): void {

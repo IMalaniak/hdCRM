@@ -30,8 +30,6 @@ import {
   tableColumnsToDisplay,
   tableOutlineBorders
 } from '@/core/modules/layout/store';
-import { DataColumn } from '@/shared/models/table/data-column.model';
-import { DataRow } from '@/shared/models/table/data-row';
 import {
   ACTION_LABELS,
   BS_ICONS,
@@ -45,9 +43,11 @@ import {
   STYLECONSTANTS,
   THEME_PALETTE
 } from '@/shared/constants';
-import { HorizontalAlign } from '@/shared/models/table/horizontalAlign.enum';
 import {
   CellType,
+  DataRow,
+  HorizontalAlign,
+  IColumn,
   RowAction,
   RowActionData,
   RowActionType,
@@ -56,6 +56,7 @@ import {
 } from '@/shared/models/table';
 import { CommonDataSource } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'table-component',
@@ -71,9 +72,11 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   @Input() id: string;
   @Input() dataSource: CommonDataSource<DataRow>;
   @Input() totalItems: number;
-  @Input() columns: DataColumn[];
+  @Input() preselectedItems: number[];
+  @Input() columns: IColumn[];
   @Input() canSort = true;
   @Input() hasSettings = true;
+  @Input() isDisplayModePopup = false;
   @Input() noContentMessage = CONSTANTS.NO_CONTENT_INFO;
   @Input() additionalRowActions: RowAction<RowActionType>[];
   @Input() canEdit: boolean;
@@ -87,13 +90,15 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  selection: SelectionModel<number> = new SelectionModel(true);
+
   pageSizeOptions: number[] = pageSizeOptions;
   cellType: typeof CellType = CellType;
   buttonType: typeof BUTTON_TYPE = BUTTON_TYPE;
   matButtonType: typeof MAT_BUTTON = MAT_BUTTON;
   themePalette: typeof THEME_PALETTE = THEME_PALETTE;
   actionLabels: typeof ACTION_LABELS = ACTION_LABELS;
-  columnActionsKey = COLUMN_KEYS.ACTIONS;
+  columnKeys: typeof COLUMN_KEYS = COLUMN_KEYS;
   columnsInitialState: TableColumnConfig[];
 
   icons: { [key: string]: BS_ICONS } = {
@@ -153,6 +158,9 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     }
     if (changes.additionalRowActions && this.additionalRowActions) {
       this.rowActions = [...this.rowActions, ...this.additionalRowActions];
+    }
+    if (changes.preselectedItems && this.preselectedItems) {
+      this.preselectedItems.forEach((id) => this.selection.select(id));
     }
   }
 
@@ -221,11 +229,11 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   resetTableConfig(): void {
     this.columns = this.columns
       .sort(
-        (a: DataColumn, b: DataColumn) =>
+        (a: IColumn, b: IColumn) =>
           this.columnsInitialState.findIndex((col: TableColumnConfig) => col.title === a.key) -
           this.columnsInitialState.findIndex((col: TableColumnConfig) => col.title === b.key)
       )
-      .map((col: DataColumn, i: number) => ({ ...col, isVisible: this.columnsInitialState[i].isVisible }));
+      .map((col: IColumn, i: number) => ({ ...col, isVisible: this.columnsInitialState[i].isVisible }));
     this.store$.dispatch(removeTableConfig({ key: this.id }));
   }
 
@@ -246,16 +254,19 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   }
 
   rowSelect(id: number): void {
-    // TODO: this is default action - add custom action on row select for example on modals
-    this.rowDedicatedAction(id, { actionType: RowActionType.DETAILS });
+    if (this.isDisplayModePopup) {
+      this.selectionChange(id);
+    } else {
+      this.rowDedicatedAction(id, { actionType: RowActionType.DETAILS });
+    }
   }
 
-  dropColumns(event: CdkDragDrop<DataColumn[]>): void {
+  dropColumns(event: CdkDragDrop<IColumn[]>): void {
     moveItemInArray(this.columns, event.previousIndex, event.currentIndex);
     this.updateTableConfig();
   }
 
-  dropColumnsPredicate(index: number, _: CdkDrag<DataColumn>, dropList: CdkDropList<DataColumn[]>) {
+  dropColumnsPredicate(index: number, _: CdkDrag<IColumn>, dropList: CdkDropList<IColumn[]>) {
     return dropList.data[index].draggable;
   }
 
@@ -274,6 +285,14 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     }
   }
 
+  selectionChange(id: number): void {
+    this.selection.toggle(id);
+    this.rowActionClicked.emit({
+      actionType: RowActionType.SELECT,
+      ids: this.selection.selected
+    });
+  }
+
   private setColumns(): void {
     this.columnsInitialState = this.columns.map((col) => ({ title: col.key, isVisible: col.isVisible }));
     this.outlineBorders$ = combineLatest([
@@ -284,17 +303,27 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     );
     this.columnsToDisplay$ = this.store$.pipe(
       select(tableColumnsToDisplay(this.id)),
-      map((columns) => (!columns ? this.columnsInitialState.filter((c) => c.isVisible).map((c) => c.title) : columns))
+      map((columns) => (!columns ? this.columnsInitialState.filter((c) => c.isVisible).map((c) => c.title) : columns)),
+      map((columnsToDisplay) => {
+        if (this.isDisplayModePopup) {
+          const selectIndex = this.columns.findIndex((col) => col.key === COLUMN_KEYS.SELECT);
+          if (selectIndex >= 0) {
+            columnsToDisplay = Object.assign([], columnsToDisplay, { [selectIndex]: COLUMN_KEYS.SELECT });
+          }
+          return columnsToDisplay.filter((cTitle) => cTitle !== COLUMN_KEYS.ACTIONS);
+        }
+        return columnsToDisplay;
+      })
     );
     this.store$.pipe(select(tableColumnsConfig(this.id)), takeUntil(this.unsubscribe)).subscribe((columnsConfig) => {
       if (columnsConfig) {
         this.columns = this.columns
           .sort(
-            (a: DataColumn, b: DataColumn) =>
+            (a: IColumn, b: IColumn) =>
               columnsConfig.findIndex((col: TableColumnConfig) => col.title === a.key) -
               columnsConfig.findIndex((col: TableColumnConfig) => col.title === b.key)
           )
-          .map((col: DataColumn, i: number) => ({ ...col, isVisible: columnsConfig[i].isVisible }));
+          .map((col: IColumn, i: number) => ({ ...col, isVisible: columnsConfig[i].isVisible }));
       }
     });
   }

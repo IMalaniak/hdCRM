@@ -15,6 +15,8 @@ export const selectUserPageByKey = (pageQuery: PageQuery) =>
 
 export const selectAllUserEntities = createSelector(selectUsersState, fromUser.selectEntities);
 export const selectAllUsers = createSelector(selectUsersState, fromUser.selectAll);
+export const selectUsersById = (userIds: number[]) =>
+  createSelector(selectAllUsers, (users) => users.filter((user) => userIds.includes(user.id)));
 
 export const selectUsersByState = (state: UserState) =>
   createSelector(selectAllUsers, (users) => users.filter((user) => user.state === state));

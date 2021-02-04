@@ -10,7 +10,7 @@ import { selectFormByName, formRequested } from '@/core/store/dynamic-form';
 import { DynamicForm } from '@/shared/models';
 import { ACTION_LABELS, FORMCONSTANTS, THEME_PALETTE } from '@/shared/constants';
 import { DialogCreateEditPageModel, DynamicFormComponent } from '@/shared/components';
-import { DialogCreateEditModel, DialogDataModel, DialogResultModel } from '@/shared/models';
+import { DialogCreateEditModel, DialogDataModel, IDialogResult } from '@/shared/models';
 import { Task } from '@/modules/task-manager/models';
 
 @Component({
@@ -44,9 +44,9 @@ export class OrganismsTaskDialogComponent extends DialogCreateEditPageModel {
   }
 
   onClose(success: boolean): void {
-    const result: DialogResultModel<Task> = {
+    const result: IDialogResult<Task> = {
       success,
-      model: { ...this.model, ...this.dynamicForm.form.value }
+      data: { ...this.model, ...this.dynamicForm.form.value }
     };
     this.dialogRef.close(result);
   }

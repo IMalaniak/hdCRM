@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 
 import { initialPreferencesState } from '@/core/store/preferences';
 import { AppState } from '@/core/store';
-import { CellValue, DataColumn, DataRow } from '@/shared/models/table';
+import { Cell, Column, DataRow, IColumn } from '@/shared/models/table';
 import { SharedModule } from '@/shared/shared.module';
 import { COLUMN_KEYS } from '@/shared/constants';
 import { CommonDataSource } from '@/shared/services';
@@ -38,11 +38,11 @@ class TestDataSource extends CommonDataSource<TestData> {
   protected mapToDataRows(items: any[]): DataRow[] {
     return items.map((item: { id: any; title: string; createdAt: Date; updatedAt: Date }) => ({
       id: item.id,
-      [COLUMN_KEYS.SEQUENCE]: CellValue.createSequenceCell(),
-      [COLUMN_KEYS.TITLE]: CellValue.createStringCell(item.title),
-      [COLUMN_KEYS.CREATED_AT]: CellValue.createDateCell(item.createdAt),
-      [COLUMN_KEYS.UPDATED_AT]: CellValue.createDateCell(item.updatedAt),
-      [COLUMN_KEYS.ACTIONS]: CellValue.createActionsCell()
+      [COLUMN_KEYS.SEQUENCE]: Cell.createSequenceCell(),
+      [COLUMN_KEYS.TITLE]: Cell.createStringCell(item.title),
+      [COLUMN_KEYS.CREATED_AT]: Cell.createDateCell(item.createdAt),
+      [COLUMN_KEYS.UPDATED_AT]: Cell.createDateCell(item.updatedAt),
+      [COLUMN_KEYS.ACTIONS]: Cell.createActionsCell()
     }));
   }
 }
@@ -54,12 +54,12 @@ describe('TableComponent', () => {
     preferences: initialPreferencesState
   };
   let store: MockStore;
-  const columns = [
-    DataColumn.createSequenceNumberColumn(),
-    DataColumn.createColumn({ key: COLUMN_KEYS.TITLE }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
-    DataColumn.createActionsColumn()
+  const columns: IColumn[] = [
+    Column.createSequenceNumberColumn(),
+    Column.createColumn({ key: COLUMN_KEYS.TITLE }),
+    Column.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
+    Column.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
+    Column.createActionsColumn()
   ];
 
   beforeEach(

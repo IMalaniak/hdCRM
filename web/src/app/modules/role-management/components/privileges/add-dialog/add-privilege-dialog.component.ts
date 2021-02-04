@@ -6,7 +6,7 @@ import { ComponentType } from '@angular/cdk/portal';
 import { Privilege } from '@/core/modules/role-api/shared';
 import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
-import { DialogCreateEditModel, DialogResultModel } from '@/shared/models';
+import { DialogCreateEditModel, IDialogResult } from '@/shared/models';
 import { DialogCreateEditPageModel } from '@/shared/components';
 
 @Component({
@@ -38,9 +38,9 @@ export class AddPrivilegeDialogComponent extends DialogCreateEditPageModel imple
   }
 
   onClose(success: boolean): void {
-    const result: DialogResultModel<Privilege> = {
+    const result: IDialogResult<Privilege> = {
       success,
-      model: this.privilegeGroup.value
+      data: this.privilegeGroup.value
     };
     this.dialogRef.close(result);
   }

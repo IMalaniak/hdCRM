@@ -50,7 +50,7 @@
   </div>
 
   <!-- TABLE -->
-  <div class="table-container" [class.outine-borders]="outlineBorders$ | async">
+  <div class="table-container" [class.outine-borders]="outlineBorders$ | async" [class.is-popup]="isDisplayModePopup">
     <table mat-table #table matSort [dataSource]="dataSource" [trackBy]="trackById">
       <!-- COLUMNS & ROWS-->
       <ng-container
@@ -66,7 +66,7 @@
           [ngClass]="getColumnClasses(column.horizontalAlign, column.customClass)"
           [disabled]="!canSort || !column.hasSorting"
         >
-          <ng-container *ngIf="column.key !== columnActionsKey">
+          <ng-container *ngIf="column.key !== columnKeys.ACTIONS && column.key !== columnKeys.SELECT">
             {{ column.label }}
           </ng-container>
         </th>
@@ -92,6 +92,7 @@
             <!-- Navigation -->
             <ng-container *ngSwitchCase="cellType.Navigation">
               <atoms-link-button
+                *ngIf="!isDisplayModePopup; else simpleSpan"
                 linkClass="w-100 text-underline text-left"
                 [linkLabel]="row[column.key].value"
                 [linkColor]="themePalette.BASIC"
@@ -100,17 +101,23 @@
                 [target]="row[column.key].navigation.target"
                 (click)="$event.stopPropagation()"
               ></atoms-link-button>
+              <ng-template #simpleSpan>
+                <span [ngClass]="column.customClass">
+                  {{ row[column.key].value }}
+                </span>
+              </ng-template>
             </ng-container>
 
             <!-- Checkbox -->
-            <!-- // TODO: in separate task make checkbox to work -->
-            <!-- <ng-container *ngSwitchCase="cellType.Checkbox">
+            <ng-container *ngSwitchCase="cellType.Checkbox">
               <mat-checkbox
-                [checked]="row[column.key].value"
-                [disabled]="row[column.key].disabled"
-                (change)="actionClicked(row[column.key].cellAction, i, $event)"
+                [checked]="selection.isSelected(row.id)"
+                (click)="$event.stopPropagation()"
+                (change)="$event ? selectionChange(row.id) : null"
               ></mat-checkbox>
-            </ng-container> -->
+            </ng-container>
+
+            <!-- TODO: checkbox and selection are not the same -->
 
             <!-- Icon -->
             <ng-container *ngSwitchCase="cellType.Icon">
