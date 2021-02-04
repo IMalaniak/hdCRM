@@ -9,3 +9,4 @@ export const getPreferencesList = createSelector(getPreferencesState, (state) =>
 export const getDateFormatState = createSelector(getPreferencesState, (state) => state.dateFormat);
 export const getTimeFormatState = createSelector(getPreferencesState, (state) => state.timeFormat);
 export const getItemsPerPageState = createSelector(getPreferencesState, (state) => state.itemsPerPage);
+export const getDefaultListOutlineBorders = createSelector(getPreferencesState, (state) => state.listOutlineBorders);

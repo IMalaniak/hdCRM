@@ -15,7 +15,7 @@ export const selectUserPageByKey = (pageQuery: PageQuery) =>
 
 export const selectUserPageLoading = createSelector(selectUserPagesState, (pagesState) => pagesState?.pageLoading);
 
-export const selectIsEditing = createSelector(selectUsersState, (usersState) => usersState?.editing);
+export const selectIsEditing = createSelector(selectUsersState, (usersState) => usersState?.isEditing);
 
 export const selectUsersTotalCount = createSelector(selectUserPagesState, (usersState) => usersState?.resultsNum);
 

@@ -14,14 +14,15 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTable } from '@angular/material/table';
 import { CdkTable } from '@angular/cdk/table';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
-import { merge, Observable, Subject } from 'rxjs';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { combineLatest, merge, Observable, Subject } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 
 import { IconsService } from '@/core/services';
 import { AppState } from '@/core/store';
-import { getItemsPerPageState } from '@/core/store/preferences';
+import { getDefaultListOutlineBorders, getItemsPerPageState } from '@/core/store/preferences';
 import {
   removeTableConfig,
   setTableConfig,
@@ -64,8 +65,9 @@ import { SelectionModel } from '@angular/cdk/collections';
 })
 export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   itemsPerPageState$: Observable<IItemsPerPage> = this.store$.pipe(select(getItemsPerPageState));
-  columnsToDisplay$: Observable<string[]>;
+  outlineBordersDefaultPreference$: Observable<boolean> = this.store$.pipe(select(getDefaultListOutlineBorders));
   outlineBorders$: Observable<boolean>;
+  columnsToDisplay$: Observable<string[]>;
 
   @Input() id: string;
   @Input() dataSource: CommonDataSource<DataRow>;
@@ -141,7 +143,12 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private readonly store$: Store<AppState>, private readonly iconsService: IconsService) {
+  constructor(
+    private readonly store$: Store<AppState>,
+    private readonly iconsService: IconsService,
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute
+  ) {
     this.iconsService.registerIcons([...Object.values(this.icons)]);
   }
 
@@ -158,6 +165,21 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    const listQueryParams: Partial<PageQuery> = this.validateListQueryParams(this.activatedRoute.snapshot.queryParams);
+    if (listQueryParams?.pageIndex) {
+      this.paginator.pageIndex = listQueryParams.pageIndex;
+    }
+    if (listQueryParams?.pageSize) {
+      this.paginator.pageSize = listQueryParams.pageSize;
+    }
+    if (listQueryParams?.sortIndex) {
+      this.sort.sort({
+        id: listQueryParams.sortIndex,
+        start: listQueryParams.sortDirection || 'asc',
+        disableClear: false
+      });
+    }
+
     const sort$ = this.sort.sortChange.pipe(tap(() => (this.paginator.pageIndex = 0)));
     merge(sort$, this.paginator.page)
       .pipe(tap(() => this.loadDataPage()))
@@ -273,7 +295,12 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
 
   private setColumns(): void {
     this.columnsInitialState = this.columns.map((col) => ({ title: col.key, isVisible: col.isVisible }));
-    this.outlineBorders$ = this.store$.pipe(select(tableOutlineBorders(this.id)));
+    this.outlineBorders$ = combineLatest([
+      this.outlineBordersDefaultPreference$,
+      this.store$.pipe(select(tableOutlineBorders(this.id)))
+    ]).pipe(
+      map(([defaultPreference, listPreference]) => (listPreference !== undefined ? listPreference : defaultPreference))
+    );
     this.columnsToDisplay$ = this.store$.pipe(
       select(tableColumnsToDisplay(this.id)),
       map((columns) => (!columns ? this.columnsInitialState.filter((c) => c.isVisible).map((c) => c.title) : columns)),
@@ -301,6 +328,14 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     });
   }
 
+  private setQueryParams(queryParams: Params): void {
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: queryParams,
+      queryParamsHandling: 'merge'
+    });
+  }
+
   private loadDataPage(): void {
     const newPage: PageQuery = {
       pageIndex: this.paginator.pageIndex,
@@ -308,7 +343,28 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
       sortIndex: this.sort.active || COLUMN_KEYS.ID,
       sortDirection: this.sort.direction || SORT_DIRECTION.ASC
     };
-
     this.dataSource.loadData(newPage);
+    this.setQueryParams(newPage);
+  }
+
+  private validateListQueryParams(params: Params): Partial<PageQuery> {
+    let pageQuery: Partial<PageQuery> = {};
+    if (params.pageSize) {
+      const pageSize = parseInt(params.pageSize, 0);
+      if (this.pageSizeOptions.includes(pageSize)) {
+        pageQuery = { ...pageQuery, pageSize };
+      }
+    }
+    if (params.pageIndex) {
+      const pageIndex = parseInt(params.pageIndex, 0);
+      pageQuery = { ...pageQuery, pageIndex };
+    }
+    if (params.sortIndex && this.columns.some((col) => col.key === params.sortIndex && col.hasSorting)) {
+      pageQuery = { ...pageQuery, sortIndex: params.sortIndex };
+    }
+    if (params.sortDirection && ['asc', 'desc'].includes(params.sortDirection)) {
+      pageQuery = { ...pageQuery, sortDirection: params.sortDirection };
+    }
+    return pageQuery;
   }
 }

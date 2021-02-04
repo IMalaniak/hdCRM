@@ -13,6 +13,10 @@ export const changeItemsPerPage = createAction(
   props<{ itemsPerPage: IItemsPerPage }>()
 );
 export const changeListView = createAction(`${prefix} Change List View Format`, props<{ listView: IListView }>());
+export const changeListBordersVisibility = createAction(
+  `${prefix} Change List Borders Visibility`,
+  props<{ isVisible: boolean }>()
+);
 export const initPreferences = createAction(
   `${prefix} Init Preferences Settings`,
   props<{ preferences: Preferences }>()

@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Store } from '@ngrx/store';
@@ -12,7 +14,6 @@ import { COLUMN_KEYS } from '@/shared/constants';
 import { CommonDataSource } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
 import { TableComponent } from './table.component';
-import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 interface TestData {
   id: number;
@@ -64,7 +65,7 @@ describe('TableComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [SharedModule, MatIconTestingModule, BrowserAnimationsModule],
+        imports: [SharedModule, MatIconTestingModule, RouterTestingModule, BrowserAnimationsModule],
         declarations: [TableComponent],
         providers: [provideMockStore({ initialState })]
       }).compileComponents();

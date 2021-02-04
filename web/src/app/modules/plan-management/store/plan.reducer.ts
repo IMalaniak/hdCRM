@@ -1,6 +1,7 @@
 import { createReducer, on, Action } from '@ngrx/store';
 
 import * as planApiActions from '@/core/modules/plan-api/store/plan/plan.actions';
+import { Plan } from '@/core/modules/plan-api/shared';
 import { initialListState, ListState, pagesAdapter } from '@/shared/store';
 import * as planActions from './plan.actions';
 
@@ -8,7 +9,14 @@ const plansReducer = createReducer(
   initialListState,
   on(planActions.changeIsEditingState, (state, { isEditing }) => ({
     ...state,
-    editing: isEditing
+    isEditing
+  })),
+  on(planActions.planCached, (state, { displayedItemCopy }) => ({
+    ...state,
+    cache: {
+      ...state.cache,
+      displayedItemCopy
+    }
   })),
   on(planApiActions.listPageRequested, (state) => ({
     ...state,
@@ -19,7 +27,7 @@ const plansReducer = createReducer(
   })),
   on(planApiActions.updatePlanSuccess, (state) => ({
     ...state,
-    editing: false
+    isEditing: false
   })),
   on(planApiActions.listPageLoaded, (state, { page, response: { pages, resultsNum } }) => ({
     ...state,
@@ -33,7 +41,7 @@ const plansReducer = createReducer(
   on(planApiActions.planApiError, (state) => ({ ...state, pages: { ...state.pages, pageLoading: false } }))
 );
 
-export function reducer(state: ListState | undefined, action: Action) {
+export function reducer(state: ListState<Plan> | undefined, action: Action) {
   return plansReducer(state, action);
 }
 

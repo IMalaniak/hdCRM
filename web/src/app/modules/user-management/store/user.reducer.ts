@@ -2,9 +2,10 @@ import { Action, on, createReducer } from '@ngrx/store';
 
 import * as userApiActions from '@/core/modules/user-api/store/user-api.actions';
 import { initialListState, pagesAdapter, ListState, ListDisplayMode } from '@/shared/store';
+import { User } from '@/core/modules/user-api/shared';
 import * as userActions from './user.actions';
 
-export interface UserListState extends ListState {
+export interface UserListState extends ListState<User> {
   selectedUsersIds: number[] | null;
 }
 
@@ -12,7 +13,7 @@ const reducer = createReducer(
   initialListState,
   on(userActions.changeIsEditingState, (state, { isEditing }) => ({
     ...state,
-    editing: isEditing
+    isEditing
   })),
   on(userActions.prepareSelectionPopup, (state, { selectedUsersIds }) => ({
     ...state,
@@ -36,7 +37,7 @@ const reducer = createReducer(
   })),
   on(userApiActions.updateUserSuccess, (state) => ({
     ...state,
-    editing: false
+    isEditing: false
   })),
   on(userApiActions.deleteUser, (state) => ({
     ...state,

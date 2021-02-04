@@ -124,9 +124,9 @@ export class PlanEffects {
   );
 
   constructor(
-    private actions$: Actions,
-    private planService: PlanService,
-    private router: Router,
-    private toastMessageService: ToastMessageService
+    private readonly actions$: Actions,
+    private readonly planService: PlanService,
+    private readonly router: Router,
+    private readonly toastMessageService: ToastMessageService
   ) {}
 }
