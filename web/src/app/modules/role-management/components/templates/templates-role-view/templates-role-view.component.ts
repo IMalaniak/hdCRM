@@ -71,11 +71,11 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
                 ...this.item,
                 Users: [...this.item.Users, ...selectedUsers]
               };
-              this.store$.dispatch(resetSelectionPopup());
               this.cdr.detectChanges();
             });
           }
         }
+        this.store$.dispatch(resetSelectionPopup());
       });
   }
 

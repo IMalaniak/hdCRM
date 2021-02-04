@@ -66,11 +66,11 @@ export class TemplatesPlanViewComponent extends TemplatesViewDetailsComponent<Pl
                 ...this.item,
                 Participants: [...this.item.Participants, ...selectedUsers]
               };
-              this.store$.dispatch(resetSelectionPopup());
               this.cdr.detectChanges();
             });
           }
         }
+        this.store$.dispatch(resetSelectionPopup());
       });
   }
 

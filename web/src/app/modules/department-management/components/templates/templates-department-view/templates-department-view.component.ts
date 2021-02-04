@@ -76,11 +76,11 @@ export class TemplatesDepartmentViewComponent extends TemplatesViewDetailsCompon
                 ...this.item,
                 Workers: [...this.item.Workers, ...selectedWorkers]
               };
-              this.store$.dispatch(resetSelectionPopup());
               this.cdr.detectChanges();
             });
           }
         }
+        this.store$.dispatch(resetSelectionPopup());
       });
   }
 

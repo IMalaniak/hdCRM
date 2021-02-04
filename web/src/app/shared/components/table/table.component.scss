@@ -3,12 +3,16 @@
 
 $border: 1px solid;
 
+:host {
+  display: block;
+}
+
 .table-container {
-  overflow-x: auto;
-  max-height: 41em;
+  overflow: auto;
+  max-height: calc(100vh - 17.6rem);
 
   &.is-popup {
-    max-height: 20rem;
+    max-height: calc(100vh - 33rem);
   }
 
   &.outine-borders {
