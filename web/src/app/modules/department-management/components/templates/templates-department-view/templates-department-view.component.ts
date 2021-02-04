@@ -52,7 +52,6 @@ export class TemplatesDepartmentViewComponent extends TemplatesViewDetailsCompon
             };
             this.cdr.detectChanges();
           });
-          this.cdr.detectChanges();
         }
         this.store$.dispatch(resetSelectionPopup());
       });

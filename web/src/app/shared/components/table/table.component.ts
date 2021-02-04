@@ -361,7 +361,9 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
       sortDirection: this.sort.direction || SORT_DIRECTION.ASC
     };
     this.dataSource.loadData(newPage);
-    this.setQueryParams(newPage);
+    if (!this.displayModePopup()) {
+      this.setQueryParams(newPage);
+    }
   }
 
   private validateListQueryParams(params: Params): Partial<PageQuery> {
