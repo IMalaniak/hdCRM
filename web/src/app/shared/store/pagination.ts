@@ -11,6 +11,10 @@ export interface PagesState extends EntityState<Page> {
   resultsNum: number;
 }
 
+export interface CacheState<T> {
+  displayedItemCopy: T;
+}
+
 export const pagesAdapter: EntityAdapter<Page> = createEntityAdapter<Page>({
   selectId: (page: Page) => page.key,
   sortComparer: false
@@ -22,14 +26,20 @@ export const initialPagesState: PagesState = pagesAdapter.getInitialState({
   resultsNum: null
 });
 
-export interface ListState {
-  editing: boolean;
+export const initialCacheState: CacheState<unknown> = {
+  displayedItemCopy: null
+};
+
+export interface ListState<T> {
+  isEditing: boolean;
   pages: PagesState;
+  cache: CacheState<T>;
 }
 
-export const initialListState = {
-  editing: false,
-  pages: initialPagesState
+export const initialListState: ListState<unknown> = {
+  isEditing: false,
+  pages: initialPagesState,
+  cache: initialCacheState
 };
 
 export const {

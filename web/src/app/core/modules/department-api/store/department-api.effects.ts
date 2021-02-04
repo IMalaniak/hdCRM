@@ -166,10 +166,10 @@ export class DepartmentEffects {
   );
 
   constructor(
-    private actions$: Actions,
-    private store$: Store<AppState>,
-    private departmentService: DepartmentService,
-    private router: Router,
-    private toastMessageService: ToastMessageService
+    private readonly actions$: Actions,
+    private readonly store$: Store<AppState>,
+    private readonly departmentService: DepartmentService,
+    private readonly router: Router,
+    private readonly toastMessageService: ToastMessageService
   ) {}
 }

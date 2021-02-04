@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 import { SharedModule } from '@/shared/shared.module';
 import { RoleManagmentRoutingModule } from './role-management-routing.module';
@@ -15,7 +16,7 @@ import {
   AddPrivilegeDialogComponent,
   TemplatesRoleViewComponent
 } from './components';
-import { rolesFeatureKey, reducer } from './store/role.reducer';
+import { rolesFeatureKey, reducer, RoleEffects } from './store';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { rolesFeatureKey, reducer } from './store/role.reducer';
     RouterModule,
     SharedModule,
     RoleManagmentRoutingModule,
-    StoreModule.forFeature(rolesFeatureKey, reducer)
+    StoreModule.forFeature(rolesFeatureKey, reducer),
+    EffectsModule.forFeature([RoleEffects])
   ],
   declarations: [
     RolesComponent,

@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 import { SharedModule } from '@/shared/shared.module';
 import { PlanManagementRoutingModule } from './plan-management-routing.module';
@@ -17,8 +18,7 @@ import {
   StagesComponent,
   TemplatesPlanViewComponent
 } from './components';
-
-import * as fromPlan from './store/plan.reducer';
+import { PlanEffects, plansFeatureKey, reducer } from './store';
 
 @NgModule({
   imports: [
@@ -27,7 +27,8 @@ import * as fromPlan from './store/plan.reducer';
     SharedModule,
     DragDropModule,
     PlanManagementRoutingModule,
-    StoreModule.forFeature(fromPlan.plansFeatureKey, fromPlan.reducer)
+    StoreModule.forFeature(plansFeatureKey, reducer),
+    EffectsModule.forFeature([PlanEffects])
   ],
   declarations: [
     AddPlanComponent,

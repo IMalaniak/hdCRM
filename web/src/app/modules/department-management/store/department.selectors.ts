@@ -11,7 +11,9 @@ import { generatePageKey } from '@/shared/utils/generatePageKey';
 import { ListState, Page } from '@/shared/store';
 import * as fromDepartment from './department.reducer';
 
-export const selectDepartmentsState = createFeatureSelector<ListState>(fromDepartment.departmentsFeatureKey);
+export const selectDepartmentsState = createFeatureSelector<ListState<Department>>(
+  fromDepartment.departmentsFeatureKey
+);
 export const selectDepartmentPagesState = createSelector(
   selectDepartmentsState,
   (departmentsState) => departmentsState?.pages
@@ -45,4 +47,12 @@ export const selectDepartmentsOfPage = (pageQuery: PageQuery) =>
     }
   );
 
-export const selectIsEditing = createSelector(selectDepartmentsState, (departmentsState) => departmentsState?.editing);
+export const selectIsEditing = createSelector(
+  selectDepartmentsState,
+  (departmentsState) => departmentsState?.isEditing
+);
+
+export const selectDepartmentFromCache = createSelector(
+  selectDepartmentsState,
+  (departmentsState) => departmentsState.cache.displayedItemCopy
+);

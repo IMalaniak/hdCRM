@@ -11,7 +11,7 @@ import { isPrivileged, currentUser } from '@/core/modules/auth/store/auth.select
 import { Plan } from '@/core/modules/plan-api/shared';
 import { selectPlanDeepById, planRequested, updatePlanRequested } from '@/core/modules/plan-api/store/plan';
 import { ADD_PRIVILEGES, DELETE_PRIVILEGES, EDIT_PRIVILEGES } from '@/shared/constants';
-import { selectIsEditing, changeIsEditingState } from '../../store';
+import { selectIsEditing, changeIsEditingState, cachePlan, restoreFromCache } from '../../store';
 
 @Component({
   template: `
@@ -48,6 +48,8 @@ export class PlanComponent implements OnInit {
       tap((plan) => {
         if (!plan) {
           this.store$.dispatch(planRequested({ id }));
+        } else {
+          this.store$.dispatch(cachePlan({ id }));
         }
       }),
       filter((plan) => !!plan)
@@ -61,6 +63,9 @@ export class PlanComponent implements OnInit {
   }
 
   onFormStateChange(isEditing: boolean): void {
+    if (!isEditing) {
+      this.store$.dispatch(restoreFromCache());
+    }
     this.store$.dispatch(changeIsEditingState({ isEditing }));
   }
 
