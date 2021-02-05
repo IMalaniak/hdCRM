@@ -48,7 +48,7 @@ class TestDataSource extends CommonDataSource<TestData> {
   }
 }
 
-fdescribe('TableComponent', () => {
+describe('TableComponent', () => {
   let component: TableComponent;
   let fixture: ComponentFixture<TableComponent>;
   const initialState = {

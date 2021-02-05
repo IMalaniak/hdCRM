@@ -16,7 +16,7 @@ import { CdkTable } from '@angular/cdk/table';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { combineLatest, merge, Observable, Subject } from 'rxjs';
-import { map, takeUntil, tap } from 'rxjs/operators';
+import { delay, map, startWith, takeUntil, tap } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 
@@ -186,10 +186,12 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
 
     const sort$ = this.sort.sortChange.pipe(tap(() => (this.paginator.pageIndex = 0)));
     merge(sort$, this.paginator.page)
-      .pipe(tap(() => this.loadDataPage()))
+      .pipe(
+        startWith([null, null]),
+        delay(0),
+        tap(() => this.loadDataPage())
+      )
       .subscribe();
-
-    this.loadDataPage();
   }
 
   ngOnDestroy(): void {
