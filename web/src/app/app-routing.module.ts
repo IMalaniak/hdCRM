@@ -2,24 +2,12 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuard } from '@/core/guards';
-import { PublicViewComponent, PrivateViewComponent } from './core/modules/layout/view-containers';
+import { PrivateViewComponent } from './core/modules/layout/view-containers';
 import { PageNotFoundComponent, InternalServerErrorComponent } from './core/modules/layout/components';
 import { DelayedPreloadingStrategy } from './core/strategies';
 import { PATHS } from './shared/constants';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: PublicViewComponent,
-    children: [
-      { path: '', pathMatch: PATHS.PATH_MATCH_FULL, redirectTo: PATHS.HOME },
-      {
-        path: PATHS.HOME,
-        data: { breadcrumb: 'Home' },
-        loadChildren: () => import('./modules/home/home.module').then((m) => m.HomeModule)
-      }
-    ]
-  },
   {
     path: '',
     component: PrivateViewComponent,

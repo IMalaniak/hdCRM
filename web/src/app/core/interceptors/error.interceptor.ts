@@ -53,7 +53,7 @@ export class ErrorInterceptor implements HttpInterceptor {
           this.store$.dispatch(refreshSession());
         } else if (err.status === 403 && request.url.includes(APIS.REFRESH_SESSION)) {
           this.store$.pipe(select(selectUrl), first()).subscribe((url) => {
-            if (url && !url.includes(PATHS.HOME) && !url.includes(PATHS.AUTH)) {
+            if (url && !url.includes(PATHS.AUTH)) {
               this.store$.dispatch(redirectToLogin());
             }
           });
