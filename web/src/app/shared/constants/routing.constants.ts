@@ -1,6 +1,5 @@
 export class PATHS {
   // app
-  static HOME = 'home';
   static DASHBOARD = 'dashboard';
   static INTERNAL_ERROR = 'server-error';
 
@@ -45,7 +44,7 @@ export class RoutingConstants {
   static BASE_URL = '/';
 
   // app
-  static ROUTE_HOME = `${RoutingConstants.BASE_URL}${PATHS.HOME}`;
+  static ROUTE_HOME = `${RoutingConstants.BASE_URL}`;
   static ROUTE_DASHBOARD = `${RoutingConstants.BASE_URL}${PATHS.DASHBOARD}`;
   static ROUTE_INTERNAL_ERROR = `${RoutingConstants.BASE_URL}${PATHS.INTERNAL_ERROR}`;
 

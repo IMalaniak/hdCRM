@@ -7,7 +7,7 @@ import { select, Store } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
 import { selectRoute } from '@/core/store/router.selectors';
-import { BS_ICONS } from '@/shared/constants';
+import { BS_ICONS, RoutingConstants } from '@/shared/constants';
 import { Breadcrumb } from './breadcrumb';
 
 @Component({
@@ -25,7 +25,7 @@ export class BreadcrumbsComponent {
       map((currentRoute) => {
         const home: Breadcrumb = {
           keyString: 'home',
-          url: '/home'
+          url: RoutingConstants.ROUTE_HOME
         };
         const breadcrumbs = this.getBreadcrumbs(currentRoute);
         return [home, ...breadcrumbs];
