@@ -36,7 +36,7 @@ export class Routes {
   ) {}
 
   public async register(expressRouter: Router) {
-    expressRouter.use('/api-docs', swaggerUi.serve, swaggerUi.setup(apiDocs));
+    expressRouter.use('/api-docs', this.passport.authenticate('basic'), swaggerUi.serve, swaggerUi.setup(apiDocs));
     expressRouter.use('/api/auth', this.authRoutes.register());
     expressRouter.use('/api', this.passport.authenticate(), this.registerApiRoutes());
   }
