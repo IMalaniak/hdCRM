@@ -11,7 +11,7 @@ export class Passport {
   constructor(private readonly userService: UserService) {}
 
   private opts: StrategyOptions = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.ACCESS_TOKEN_SECRET,
     // issuer: 'auth@mywebmaster.pp.ua',
     audience: Config.WEB_URL
