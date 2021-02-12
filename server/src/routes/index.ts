@@ -1,5 +1,8 @@
 import { Service } from 'typedi';
 import { Router } from 'express';
+import * as swaggerUi from 'swagger-ui-express';
+
+import { apiDocs } from '../apiDocs';
 import { Passport } from '../config';
 import { AuthRoutes } from './authRoutes';
 import { DepartmentRoutes } from './departmentRoutes';
@@ -33,6 +36,7 @@ export class Routes {
   ) {}
 
   public async register(expressRouter: Router) {
+    expressRouter.use('/api-docs', this.passport.authenticate('basic'), swaggerUi.serve, swaggerUi.setup(apiDocs));
     expressRouter.use('/api/auth', this.authRoutes.register());
     expressRouter.use('/api', this.passport.authenticate(), this.registerApiRoutes());
   }

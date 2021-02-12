@@ -26,8 +26,8 @@ export class PlanStage extends Model<PlanStageAttributes, PlanStageCreationAttri
   // from associations
   public PlanId!: number;
   public StageId!: number;
-
-  public readonly Stage?: Stage;
+  public readonly Plan!: Plan;
+  public readonly Stage!: Stage;
 
   public static associations: {
     Plan: Association<PlanStage, Plan>;
