@@ -1,5 +1,5 @@
 import { JsonObject } from 'swagger-ui-express';
-import { FieldType, FormType } from './constants';
+import { FieldType, FormType, IDateFormat, IItemsPerPage, IListView, ITimeFormat } from './constants';
 import { enumToArray } from './utils/EnumToArray';
 
 const buildCollectionApiResponse = ($ref: string) => {
@@ -51,41 +51,6 @@ export const apiDocs: JsonObject = {
     description: 'HDCRM Main API',
     version: '1.0'
   },
-  tags: [
-    {
-      name: 'Auth'
-    },
-    {
-      name: 'Departments'
-    },
-    {
-      name: 'Files'
-    },
-    {
-      name: 'Forms'
-    },
-    {
-      name: 'Plans'
-    }
-    // {
-    //   name: 'Preferences'
-    // },
-    // {
-    //   name: 'Roles'
-    // },
-    // {
-    //   name: 'Stages'
-    // },
-    // {
-    //   name: 'Task priorities'
-    // },
-    // {
-    //   name: 'Tasks'
-    // },
-    // {
-    //   name: 'Users'
-    // }
-  ],
   paths: {
     '/api/auth/register': {
       post: {
@@ -454,7 +419,7 @@ export const apiDocs: JsonObject = {
         ],
         parameters: [
           {
-            $ref: '#/parameters/departmentId'
+            $ref: '#/parameters/id'
           }
         ],
         responses: {
@@ -487,7 +452,7 @@ export const apiDocs: JsonObject = {
         ],
         parameters: [
           {
-            $ref: '#/parameters/departmentId'
+            $ref: '#/parameters/id'
           }
         ],
         requestBody: {
@@ -529,7 +494,7 @@ export const apiDocs: JsonObject = {
         ],
         parameters: [
           {
-            $ref: '#/parameters/departmentId'
+            $ref: '#/parameters/id'
           }
         ],
         responses: {
@@ -804,7 +769,7 @@ export const apiDocs: JsonObject = {
         ],
         parameters: [
           {
-            $ref: '#/parameters/planId'
+            $ref: '#/parameters/id'
           }
         ],
         responses: {
@@ -837,7 +802,7 @@ export const apiDocs: JsonObject = {
         ],
         parameters: [
           {
-            $ref: '#/parameters/planId'
+            $ref: '#/parameters/id'
           }
         ],
         requestBody: {
@@ -879,12 +844,712 @@ export const apiDocs: JsonObject = {
         ],
         parameters: [
           {
-            $ref: '#/parameters/planId'
+            $ref: '#/parameters/id'
           }
         ],
         responses: {
           '200': {
             description: 'Plan deleted successfully',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/BaseResponse'
+                }
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      }
+    },
+    '/api/preferences': {
+      get: {
+        summary: 'Get list of preferences',
+        tags: ['Preferences'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'Preferences list',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/PreferenceList'
+                }
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      },
+      post: {
+        summary: 'Set new preference',
+        tags: ['Preferences'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Preference'
+              }
+            }
+          }
+        },
+        responses: {
+          '200': {
+            description: 'Preference',
+            content: {
+              'application/json': {
+                schema: buildItemApiResponse('#/components/schemas/Preference')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      }
+    },
+    '/api/privileges': {
+      get: {
+        summary: 'Get list of privileges',
+        tags: ['Privileges'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'Privilege list',
+            content: {
+              'application/json': {
+                schema: buildCollectionApiResponse('#/components/schemas/Privilege')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      },
+      post: {
+        summary: 'Create a new privilege',
+        tags: ['Privileges'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/PrivilegeCreationAttributes'
+              }
+            }
+          }
+        },
+        responses: {
+          '200': {
+            description: 'Privilege',
+            content: {
+              'application/json': {
+                schema: buildItemApiResponse('#/components/schemas/Privilege')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      }
+    },
+    '/api/roles': {
+      get: {
+        summary: 'Get filtered list of roles',
+        tags: ['Roles'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        parameters: [
+          {
+            $ref: '#/parameters/pageSize'
+          },
+          {
+            $ref: '#/parameters/pageIndex'
+          },
+          {
+            $ref: '#/parameters/sortIndex'
+          },
+          {
+            $ref: '#/parameters/sortDirection'
+          },
+          {
+            $ref: '#/parameters/filters'
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'Role list',
+            content: {
+              'application/json': {
+                schema: buildCollectionApiResponse('#/components/schemas/Role')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      },
+      post: {
+        summary: 'Create a new role',
+        tags: ['Roles'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/RoleCreationAttributes'
+              }
+            }
+          }
+        },
+        responses: {
+          '200': {
+            description: 'Role',
+            content: {
+              'application/json': {
+                schema: buildItemApiResponse('#/components/schemas/Role')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      }
+    },
+    '/api/roles/{id}': {
+      get: {
+        summary: 'Get role by id',
+        tags: ['Roles'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        parameters: [
+          {
+            $ref: '#/parameters/id'
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'Role',
+            content: {
+              'application/json': {
+                schema: buildItemApiResponse('#/components/schemas/Role')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      },
+      put: {
+        summary: 'Update role',
+        tags: ['Roles'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        parameters: [
+          {
+            $ref: '#/parameters/id'
+          }
+        ],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Role'
+              }
+            }
+          }
+        },
+        responses: {
+          '200': {
+            description: 'Role updated',
+            content: {
+              'application/json': {
+                schema: buildItemApiResponse('#/components/schemas/Role')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      },
+      delete: {
+        summary: 'Delete role by id',
+        tags: ['Roles'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        parameters: [
+          {
+            $ref: '#/parameters/id'
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'Role deleted successfully',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/BaseResponse'
+                }
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      }
+    },
+    '/api/roles/dashboard': {
+      get: {
+        summary: 'Get roles dashboard data',
+        tags: ['Roles'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'Roles dashboard data',
+            content: {
+              'application/json': {
+                schema: buildCollectionApiResponse('#/components/schemas/Role')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      }
+    },
+    '/api/stages': {
+      get: {
+        summary: 'Get list of stages',
+        tags: ['Stages'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'Stages list',
+            content: {
+              'application/json': {
+                schema: buildCollectionApiResponse('#/components/schemas/Stage')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      },
+      post: {
+        summary: 'Create new stage',
+        tags: ['Stages'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Stage'
+              }
+            }
+          }
+        },
+        responses: {
+          '200': {
+            description: 'Stage',
+            content: {
+              'application/json': {
+                schema: buildItemApiResponse('#/components/schemas/Stage')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      }
+    },
+    '/api/task-priorities': {
+      get: {
+        summary: 'Get list of task priorities',
+        tags: ['Task priorities'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'Task priorities list',
+            content: {
+              'application/json': {
+                schema: buildCollectionApiResponse('#/components/schemas/TaskPriority')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      }
+    },
+    '/api/tasks': {
+      get: {
+        summary: 'Get list of tasks',
+        tags: ['Tasks'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'Task list',
+            content: {
+              'application/json': {
+                schema: buildCollectionApiResponse('#/components/schemas/Task')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      },
+      post: {
+        summary: 'Create a new task',
+        tags: ['Tasks'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/TaskCreationAttributes'
+              }
+            }
+          }
+        },
+        responses: {
+          '200': {
+            description: 'Task',
+            content: {
+              'application/json': {
+                schema: buildItemApiResponse('#/components/schemas/Task')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      }
+    },
+    '/api/tasks/{id}': {
+      get: {
+        summary: 'Get task by id',
+        tags: ['Tasks'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        parameters: [
+          {
+            $ref: '#/parameters/id'
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'Task',
+            content: {
+              'application/json': {
+                schema: buildItemApiResponse('#/components/schemas/Task')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      },
+      put: {
+        summary: 'Update task',
+        tags: ['Tasks'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        parameters: [
+          {
+            $ref: '#/parameters/id'
+          }
+        ],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Task'
+              }
+            }
+          }
+        },
+        responses: {
+          '200': {
+            description: 'Task updated',
+            content: {
+              'application/json': {
+                schema: buildItemApiResponse('#/components/schemas/Task')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      },
+      delete: {
+        summary: 'Delete task by id',
+        tags: ['Tasks'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        parameters: [
+          {
+            $ref: '#/parameters/id'
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'Task deleted successfully',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/BaseResponse'
+                }
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      }
+    },
+    '/api/tasks/task-multiple/{taskIds}': {
+      put: {
+        summary: 'Update task',
+        tags: ['Tasks'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        parameters: [
+          {
+            schema: {
+              name: 'taskIds',
+              in: 'path',
+              description: 'The identifier of the item',
+              required: true,
+              schema: {
+                type: 'string'
+              }
+            }
+          }
+        ],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                parameters: {
+                  taskIds: {
+                    type: 'array',
+                    items: {
+                      type: 'number'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        responses: {
+          '200': {
+            description: 'Tasks deleted',
             content: {
               'application/json': {
                 schema: {
@@ -911,18 +1576,20 @@ export const apiDocs: JsonObject = {
       in: 'query',
       name: 'pageSize',
       schema: {
-        type: 'string'
+        type: 'number'
       },
       required: true,
+      default: 10,
       description: 'Results page size'
     },
     pageIndex: {
       in: 'query',
       name: 'pageIndex',
       schema: {
-        type: 'string'
+        type: 'number'
       },
       required: true,
+      default: 0,
       description: 'Results page index'
     },
     sortIndex: {
@@ -931,6 +1598,7 @@ export const apiDocs: JsonObject = {
       schema: {
         type: 'string'
       },
+      default: 'id',
       required: true,
       description: 'Column name to sort result by'
     },
@@ -941,6 +1609,7 @@ export const apiDocs: JsonObject = {
         type: 'string',
         enum: ['asc', 'desc']
       },
+      default: 'asc',
       required: true,
       description: 'Results page index'
     },
@@ -952,19 +1621,10 @@ export const apiDocs: JsonObject = {
       },
       description: 'Filters'
     },
-    departmentId: {
+    id: {
       name: 'id',
       in: 'path',
-      description: 'The identifier of the Department',
-      required: true,
-      schema: {
-        type: 'string'
-      }
-    },
-    planId: {
-      name: 'id',
-      in: 'path',
-      description: 'The identifier of the Plan',
+      description: 'The identifier of the item',
       required: true,
       schema: {
         type: 'string'
@@ -1096,40 +1756,6 @@ export const apiDocs: JsonObject = {
         },
         required: ['key', 'name', 'type', 'form']
       },
-      UserCreationAttributes: {
-        type: 'object',
-        properties: {
-          email: {
-            type: 'string',
-            example: 'john.doe@test.com'
-          },
-          login: {
-            type: 'string',
-            example: 'johnDoe'
-          },
-          password: {
-            type: 'string',
-            example: 'SomeCoolPassword'
-          },
-          name: {
-            type: 'string',
-            example: 'John'
-          },
-          surname: {
-            type: 'string',
-            example: 'Doe'
-          },
-          phone: {
-            type: 'string',
-            example: '380676767676'
-          },
-          Organization: {
-            type: 'object',
-            $ref: '#/components/schemas/OrganizationCreationAttributes'
-          }
-        },
-        required: ['email', 'login', 'name', 'surname']
-      },
       DepartmentCreationAttributes: {
         type: 'object',
         description: 'Department creation attributes',
@@ -1175,9 +1801,19 @@ export const apiDocs: JsonObject = {
           description: {
             type: 'string',
             example: 'This is the description of the department'
+          },
+          createdAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
+          },
+          updatedAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
           }
         },
-        required: ['id', 'OrganizationId', 'title']
+        required: ['id', 'OrganizationId', 'title', 'createdAt', 'updatedAt']
       },
       PlanCreationAttributes: {
         type: 'object',
@@ -1238,14 +1874,526 @@ export const apiDocs: JsonObject = {
             items: {
               $ref: '#/components/schemas/User'
             }
+          },
+          createdAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
+          },
+          updatedAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
           }
         },
-        required: ['id', 'OrganizationId', 'title', 'CreatorId', 'activeStageId']
+        required: ['id', 'OrganizationId', 'title', 'CreatorId', 'activeStageId', 'createdAt', 'updatedAt']
+      },
+      PreferenceCreationAttributes: {
+        type: 'object',
+        description: 'Preference creation attributes',
+        properties: {
+          listView: {
+            type: 'string',
+            enum: enumToArray(IListView),
+            default: IListView.LIST
+          },
+          timeFormat: {
+            type: 'string',
+            enum: enumToArray(ITimeFormat),
+            default: ITimeFormat.LONG_TIME
+          },
+          dateFormat: {
+            type: 'string',
+            enum: enumToArray(IDateFormat),
+            default: IDateFormat.FULL_DATE
+          },
+          itemsPerPage: {
+            type: 'string',
+            enum: enumToArray(IItemsPerPage),
+            default: IItemsPerPage.FIVE
+          },
+          listOutlineBorders: {
+            type: 'boolean',
+            default: true
+          },
+          UserId: {
+            type: 'number',
+            example: 1
+          }
+        },
+        required: ['UserId', 'listView', 'timeFormat', 'dateFormat', 'itemsPerPage', 'listOutlineBorders']
+      },
+      Preference: {
+        type: 'object',
+        description: 'Preference attributes',
+        properties: {
+          listView: {
+            type: 'string',
+            enum: enumToArray(IListView)
+          },
+          timeFormat: {
+            type: 'string',
+            enum: enumToArray(ITimeFormat)
+          },
+          dateFormat: {
+            type: 'string',
+            enum: enumToArray(IDateFormat)
+          },
+          itemsPerPage: {
+            type: 'string',
+            enum: enumToArray(IItemsPerPage)
+          },
+          listOutlineBorders: {
+            type: 'boolean'
+          },
+          UserId: {
+            type: 'number',
+            example: 1
+          },
+          createdAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
+          },
+          updatedAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
+          }
+        },
+        required: [
+          'UserId',
+          'listView',
+          'timeFormat',
+          'dateFormat',
+          'itemsPerPage',
+          'listOutlineBorders',
+          'createdAt',
+          'updatedAt'
+        ]
+      },
+      PreferenceList: {
+        type: 'object',
+        description: 'Preference list attributes',
+        properties: {
+          success: {
+            type: 'boolean'
+          },
+          data: {
+            type: 'object',
+            properties: {
+              listView: {
+                type: 'array',
+                items: {
+                  type: 'string',
+                  enum: enumToArray(IListView)
+                }
+              },
+              timeFormat: {
+                type: 'array',
+                items: {
+                  type: 'string',
+                  enum: enumToArray(ITimeFormat)
+                }
+              },
+              dateFormat: {
+                type: 'array',
+                items: {
+                  type: 'string',
+                  enum: enumToArray(IDateFormat)
+                }
+              },
+              itemsPerPage: {
+                type: 'array',
+                items: {
+                  type: 'string',
+                  enum: enumToArray(IItemsPerPage)
+                }
+              }
+            }
+          }
+        },
+        required: ['success', 'data']
+      },
+      PrivilegeCreationAttributes: {
+        type: 'object',
+        description: 'Privilege creation attributes',
+        properties: {
+          keyString: {
+            type: 'string',
+            example: 'userManagement'
+          },
+          title: {
+            type: 'string',
+            example: 'User Management'
+          }
+        },
+        required: ['keyString']
+      },
+      RolePrivilege: {
+        type: 'object',
+        description: 'Role Privilege attributes',
+        properties: {
+          RoleId: {
+            type: 'number',
+            example: 1
+          },
+          PrivilegeId: {
+            type: 'number',
+            example: 1
+          },
+          view: {
+            type: 'boolean'
+          },
+          edit: {
+            type: 'boolean'
+          },
+          add: {
+            type: 'boolean'
+          },
+          delete: {
+            type: 'boolean'
+          },
+          Role: {
+            type: 'object',
+            schema: {
+              $ref: '#/components/schemas/Role'
+            }
+          },
+          Privilege: {
+            type: 'object',
+            schema: {
+              $ref: '#/components/schemas/Privilege'
+            }
+          },
+          createdAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
+          },
+          updatedAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
+          }
+        },
+        required: ['RoleId', 'PrivilegeId', 'add', 'view', 'edit', 'delete', 'createdAt', 'updatedAt']
+      },
+      Privilege: {
+        type: 'object',
+        description: 'Plan attributes',
+        properties: {
+          id: {
+            type: 'number',
+            example: 1
+          },
+          keyString: {
+            type: 'string',
+            example: 'userManagement'
+          },
+          title: {
+            type: 'string',
+            example: 'User Management'
+          },
+          Roles: {
+            type: 'array',
+            items: {
+              $ref: '#/components/schemas/Role'
+            }
+          },
+          RolePrivilege: {
+            type: 'object',
+            schema: {
+              $ref: '#/components/schemas/RolePrivilege'
+            }
+          }
+        },
+        required: ['id', 'keyString', 'RolePrivilege']
+      },
+      RoleCreationAttributes: {
+        type: 'object',
+        description: 'Role creation attributes',
+        properties: {
+          keyString: {
+            type: 'string',
+            example: 'Administrator'
+          },
+          Privileges: {
+            type: 'array',
+            items: {
+              $ref: '#/components/schemas/Privilege'
+            }
+          },
+          Users: {
+            type: 'array',
+            items: {
+              $ref: '#/components/schemas/User'
+            }
+          }
+        },
+        required: ['keyString']
+      },
+      Role: {
+        type: 'object',
+        description: 'Role attributes',
+        properties: {
+          id: {
+            type: 'number',
+            example: 1
+          },
+          OrganizationId: {
+            type: 'number',
+            example: 1
+          },
+          keyString: {
+            type: 'string',
+            example: 'Administrator'
+          },
+          Privileges: {
+            type: 'array',
+            items: {
+              $ref: '#/components/schemas/Privilege'
+            }
+          },
+          Users: {
+            type: 'array',
+            items: {
+              $ref: '#/components/schemas/User'
+            }
+          },
+          createdAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
+          },
+          updatedAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
+          }
+        },
+        required: ['id', 'OrganizationId', 'keyString', 'createdAt', 'updatedAt']
+      },
+      StageCreationAttributes: {
+        type: 'object',
+        description: 'Stage creation attributes',
+        properties: {
+          keyString: {
+            type: 'string',
+            example: 'inProgress'
+          }
+        },
+        required: ['keyString']
+      },
+      Stage: {
+        type: 'object',
+        description: 'Stage attributes',
+        properties: {
+          id: {
+            type: 'number',
+            example: 1
+          },
+          keyString: {
+            type: 'string',
+            example: 'inProgress'
+          },
+          Plans: {
+            type: 'array',
+            items: {
+              $ref: '#/components/schemas/Plan'
+            }
+          },
+          Details: {
+            $ref: '#/components/schemas/PlanStage'
+          }
+        },
+        required: ['id', 'keyString']
+      },
+      PlanStage: {
+        type: 'object',
+        description: 'Plan Stage attributes',
+        properties: {
+          id: {
+            type: 'number',
+            example: 1
+          },
+          PlanId: {
+            type: 'number',
+            example: 1
+          },
+          StageId: {
+            type: 'number',
+            example: 1
+          },
+          order: {
+            type: 'number',
+            example: 1
+          },
+          completed: {
+            type: 'boolean'
+          },
+          description: {
+            type: 'string'
+          },
+          Plan: {
+            $ref: '#/components/schemas/Plan'
+          },
+          Stage: {
+            $ref: '#/components/schemas/Stage'
+          },
+          createdAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
+          },
+          updatedAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
+          }
+        },
+        required: ['id', 'PlanId', 'StageId', 'order', 'completed', 'Plan', 'Stage', 'createdAt', 'updatedAt']
+      },
+      TaskPriority: {
+        type: 'object',
+        description: 'TaskPriority attributes',
+        properties: {
+          id: {
+            type: 'number',
+            example: 1
+          },
+          value: {
+            type: 'number',
+            example: 1
+          },
+          label: {
+            type: 'string',
+            example: 'Important'
+          },
+          Tasks: {
+            type: 'array',
+            items: {
+              $ref: '#/components/schemas/Task'
+            }
+          }
+        },
+        required: ['id', 'value', 'label']
+      },
+      TaskCreationAttributes: {
+        type: 'object',
+        description: 'Task attributes',
+        properties: {
+          CreatorId: {
+            type: 'number',
+            example: 1
+          },
+          TaskPriorityId: {
+            type: 'number',
+            example: 1
+          },
+          title: {
+            type: 'string',
+            example: 'Important'
+          },
+          isCompleted: {
+            type: 'boolean',
+            default: false
+          },
+          description: {
+            type: 'string',
+            example: 'This is task description'
+          }
+        },
+        required: ['CreatorId', 'TaskPriorityId', 'title']
+      },
+      Task: {
+        type: 'object',
+        description: 'Task attributes',
+        properties: {
+          id: {
+            type: 'number',
+            example: 1
+          },
+          CreatorId: {
+            type: 'number',
+            example: 1
+          },
+          Creator: {
+            $ref: '#/components/schemas/User'
+          },
+          TaskPriorityId: {
+            type: 'number',
+            example: 1
+          },
+          Priority: {
+            $ref: '#/components/schemas/TaskPriority'
+          },
+          title: {
+            type: 'string',
+            example: 'Important'
+          },
+          isCompleted: {
+            type: 'boolean'
+          },
+          description: {
+            type: 'string',
+            example: 'This is task description'
+          },
+          createdAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
+          },
+          updatedAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
+          }
+        },
+        required: ['id', 'CreatorId', 'TaskPriorityId', 'title', 'isCompleted', 'createdAt', 'updatedAt']
+      },
+      UserCreationAttributes: {
+        type: 'object',
+        properties: {
+          email: {
+            type: 'string',
+            example: 'john.doe@test.com'
+          },
+          login: {
+            type: 'string',
+            example: 'johnDoe'
+          },
+          password: {
+            type: 'string',
+            example: 'SomeCoolPassword'
+          },
+          name: {
+            type: 'string',
+            example: 'John'
+          },
+          surname: {
+            type: 'string',
+            example: 'Doe'
+          },
+          phone: {
+            type: 'string',
+            example: '380676767676'
+          },
+          Organization: {
+            type: 'object',
+            $ref: '#/components/schemas/OrganizationCreationAttributes'
+          }
+        },
+        required: ['email', 'login', 'name', 'surname']
       },
       User: {
         type: 'object',
         properties: {
           id: {
+            type: 'number',
+            example: 1
+          },
+          OrganizationId: {
             type: 'number',
             example: 1
           },
@@ -1272,9 +2420,19 @@ export const apiDocs: JsonObject = {
           Organization: {
             type: 'object',
             $ref: '#/components/schemas/Organization'
+          },
+          createdAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
+          },
+          updatedAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
           }
         },
-        required: ['email', 'login', 'name', 'surname']
+        required: ['id', 'OrganizationId', 'email', 'login', 'name', 'surname', 'createdAt', 'updatedAt']
       },
       OrganizationCreationAttributes: {
         type: 'object',
@@ -1364,9 +2522,19 @@ export const apiDocs: JsonObject = {
           website: {
             type: 'string',
             example: 'http://my-org.com'
+          },
+          createdAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
+          },
+          updatedAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
           }
         },
-        required: ['title', 'type', 'name', 'surname']
+        required: ['id', 'title', 'type', 'name', 'surname', 'createdAt', 'updatedAt']
       }
     }
   }

@@ -25,8 +25,8 @@ export class RolePrivilege extends Model<RolePrivilegeAttributes> {
   // from assotiations
   public RoleId!: number;
   public PrivilegeId!: number;
-  public readonly Roles?: Role[];
-  public readonly Privileges?: Privilege[];
+  public readonly Role?: Role;
+  public readonly Privilege?: Privilege;
 
   public static associations: {
     Roles: Association<RolePrivilege, Role>;
