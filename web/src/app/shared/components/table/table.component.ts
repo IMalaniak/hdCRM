@@ -16,7 +16,7 @@ import { CdkTable } from '@angular/cdk/table';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { combineLatest, merge, Observable, Subject } from 'rxjs';
-import { map, takeUntil, tap } from 'rxjs/operators';
+import { delay, map, startWith, takeUntil, tap } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 
@@ -57,6 +57,7 @@ import {
 import { CommonDataSource } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
 import { SelectionModel } from '@angular/cdk/collections';
+import { ListDisplayMode } from '@/shared/store';
 
 @Component({
   selector: 'table-component',
@@ -76,7 +77,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   @Input() columns: IColumn[];
   @Input() canSort = true;
   @Input() hasSettings = true;
-  @Input() isDisplayModePopup = false;
+  @Input() displayMode = ListDisplayMode.DEFAULT;
   @Input() noContentMessage = CONSTANTS.NO_CONTENT_INFO;
   @Input() additionalRowActions: RowAction<RowActionType>[];
   @Input() canEdit: boolean;
@@ -90,7 +91,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  selection: SelectionModel<number> = new SelectionModel(true);
+  selection: SelectionModel<number>;
 
   pageSizeOptions: number[] = pageSizeOptions;
   cellType: typeof CellType = CellType;
@@ -159,8 +160,11 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     if (changes.additionalRowActions && this.additionalRowActions) {
       this.rowActions = [...this.rowActions, ...this.additionalRowActions];
     }
-    if (changes.preselectedItems && this.preselectedItems) {
-      this.preselectedItems.forEach((id) => this.selection.select(id));
+    if (changes.preselectedItems && changes.displayMode && this.displayMode && this.preselectedItems) {
+      this.selection = new SelectionModel(
+        this.displayMode === ListDisplayMode.POPUP_MULTI_SELECTION,
+        this.preselectedItems
+      );
     }
   }
 
@@ -182,10 +186,12 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
 
     const sort$ = this.sort.sortChange.pipe(tap(() => (this.paginator.pageIndex = 0)));
     merge(sort$, this.paginator.page)
-      .pipe(tap(() => this.loadDataPage()))
+      .pipe(
+        startWith([null, null]),
+        delay(0),
+        tap(() => this.loadDataPage())
+      )
       .subscribe();
-
-    this.loadDataPage();
   }
 
   ngOnDestroy(): void {
@@ -254,7 +260,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   }
 
   rowSelect(id: number): void {
-    if (this.isDisplayModePopup) {
+    if (this.displayModePopup()) {
       this.selectionChange(id);
     } else {
       this.rowDedicatedAction(id, { actionType: RowActionType.DETAILS });
@@ -293,6 +299,17 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     });
   }
 
+  isHighlighted(id: number): boolean {
+    return this.displayMode === ListDisplayMode.POPUP_SINGLE_SELECTION && this.selection.isSelected(id);
+  }
+
+  displayModePopup(): boolean {
+    return (
+      this.displayMode === ListDisplayMode.POPUP_MULTI_SELECTION ||
+      this.displayMode === ListDisplayMode.POPUP_SINGLE_SELECTION
+    );
+  }
+
   private setColumns(): void {
     this.columnsInitialState = this.columns.map((col) => ({ title: col.key, isVisible: col.isVisible }));
     this.outlineBorders$ = combineLatest([
@@ -305,10 +322,12 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
       select(tableColumnsToDisplay(this.id)),
       map((columns) => (!columns ? this.columnsInitialState.filter((c) => c.isVisible).map((c) => c.title) : columns)),
       map((columnsToDisplay) => {
-        if (this.isDisplayModePopup) {
-          const selectIndex = this.columns.findIndex((col) => col.key === COLUMN_KEYS.SELECT);
-          if (selectIndex >= 0) {
-            columnsToDisplay = Object.assign([], columnsToDisplay, { [selectIndex]: COLUMN_KEYS.SELECT });
+        if (this.displayModePopup()) {
+          if (this.displayMode === ListDisplayMode.POPUP_MULTI_SELECTION) {
+            const selectIndex = this.columns.findIndex((col) => col.key === COLUMN_KEYS.SELECT);
+            if (selectIndex >= 0) {
+              columnsToDisplay = Object.assign([], columnsToDisplay, { [selectIndex]: COLUMN_KEYS.SELECT });
+            }
           }
           return columnsToDisplay.filter((cTitle) => cTitle !== COLUMN_KEYS.ACTIONS);
         }
@@ -344,7 +363,9 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
       sortDirection: this.sort.direction || SORT_DIRECTION.ASC
     };
     this.dataSource.loadData(newPage);
-    this.setQueryParams(newPage);
+    if (!this.displayModePopup()) {
+      this.setQueryParams(newPage);
+    }
   }
 
   private validateListQueryParams(params: Params): Partial<PageQuery> {

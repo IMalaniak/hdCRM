@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 
 import { initialPreferencesState } from '@/core/store/preferences';
 import { AppState } from '@/core/store';
+import { initialLayoutState } from '@/core/modules/layout/store';
 import { Cell, Column, DataRow, IColumn } from '@/shared/models/table';
 import { SharedModule } from '@/shared/shared.module';
 import { COLUMN_KEYS } from '@/shared/constants';
@@ -51,11 +52,13 @@ describe('TableComponent', () => {
   let component: TableComponent;
   let fixture: ComponentFixture<TableComponent>;
   const initialState = {
-    preferences: initialPreferencesState
+    preferences: initialPreferencesState,
+    layout: initialLayoutState
   };
   let store: MockStore;
   const columns: IColumn[] = [
     Column.createSequenceNumberColumn(),
+    Column.createCheckboxColumn(),
     Column.createColumn({ key: COLUMN_KEYS.TITLE }),
     Column.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
     Column.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
@@ -78,6 +81,8 @@ describe('TableComponent', () => {
     component = fixture.componentInstance;
     component.columns = columns;
     component.dataSource = new TestDataSource(store as Store<AppState>);
+    component.totalItems = 1;
+    component.id = 'test-list';
     fixture.detectChanges();
   });
 

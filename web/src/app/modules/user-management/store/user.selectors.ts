@@ -4,7 +4,7 @@ import { User } from '@/core/modules/user-api/shared';
 import { selectAllUsers } from '@/core/modules/user-api/store';
 import { PageQuery } from '@/shared/models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
-import { ListDisplayMode, Page } from '@/shared/store';
+import { Page } from '@/shared/store';
 import { userManagementFeatureKey, UserListState } from './user.reducer';
 
 export const selectUsersState = createFeatureSelector<UserListState>(userManagementFeatureKey);
@@ -28,9 +28,6 @@ export const selectUsersPage = (pageQuery: PageQuery) =>
     }
   });
 
-export const selectListDisplayModeIsPopup = createSelector(
-  selectUsersState,
-  (userState) => userState.listDisplayMode === ListDisplayMode.POPUP
-);
+export const selectListDisplayMode = createSelector(selectUsersState, (userState) => userState.listDisplayMode);
 
 export const selectPreselectedUsersIds = createSelector(selectUsersState, (userState) => userState.selectedUsersIds);

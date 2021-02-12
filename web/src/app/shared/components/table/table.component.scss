@@ -102,6 +102,7 @@ $border: 1px solid;
           @include set-bgcolor('table-hover');
         }
       }
+      &.selected,
       &:active {
         td {
           @include set-bgcolor('table-active');

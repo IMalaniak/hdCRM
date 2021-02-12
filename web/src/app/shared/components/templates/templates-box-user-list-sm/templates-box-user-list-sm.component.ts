@@ -1,7 +1,5 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 
 import { User } from '@/core/modules/user-api/shared';
 import { BS_ICONS, CONSTANTS, MAT_BUTTON } from '@/shared/constants';
@@ -43,7 +41,7 @@ import { OrganismsUserDetailsDialogComponent } from '../../organisms/organisms-u
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TemplatesBoxUserListSmComponent implements OnDestroy {
+export class TemplatesBoxUserListSmComponent {
   @Input() editMode = false;
   @Input() users: User[];
   @Input() user: User;
@@ -57,8 +55,6 @@ export class TemplatesBoxUserListSmComponent implements OnDestroy {
   matButtonTypes = MAT_BUTTON;
   changeUserIcon = BS_ICONS.PersonCheck;
   addUserIcon = BS_ICONS.PersonPlus;
-
-  private unsubscribe: Subject<void> = new Subject();
 
   constructor(private dialogService: DialogService, private route: Router) {}
 
@@ -79,16 +75,10 @@ export class TemplatesBoxUserListSmComponent implements OnDestroy {
     this.dialogService
       .open(OrganismsUserDetailsDialogComponent, dialogDataModel, DialogType.STANDART)
       .afterClosed()
-      .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: IDialogResult<string>) => {
-        if (result && result.success) {
+        if (result?.success) {
           this.route.navigateByUrl(result.data);
         }
       });
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
   }
 }

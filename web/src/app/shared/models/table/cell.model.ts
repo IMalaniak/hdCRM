@@ -18,7 +18,7 @@ export class Cell {
   }
 
   static createStringCell(value: string | number, customClass?: string): ICell {
-    return value ? { value, cellType: CellType.String, customClass } : this.createEmptyCell();
+    return value ? { value, cellType: CellType.String, ...(customClass && { customClass }) } : this.createEmptyCell();
   }
 
   static createLinkCell(value: string, navigation: Navigation): ICell {
@@ -48,7 +48,7 @@ export class Cell {
   }
 
   static createEmptyCell(customClass?: string): ICell {
-    return { value: '-', cellType: CellType.String, customClass };
+    return { value: '-', cellType: CellType.String, ...(customClass && { customClass }) };
   }
 
   static createActionsCell(): ICell {

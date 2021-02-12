@@ -41,15 +41,18 @@ export class CONSTANTS {
   static TEXTS_GOOGLE_DRIVE_INTEGRATION_ENABLED = 'Google Drive integration is enabled!';
   static TEXTS_GOOGLE_DRIVE_INTEGRATION_DISABLED = 'Google Drive integration is disabled!';
 
-  // TODO: dialog text
+  // dialog text
   static TEXTS_MORE_DETAILS = 'More details';
   static TEXTS_INVITE_USERS = 'Invite users';
   static TEXTS_SEND_INVITATIONS = 'Send invitations';
   static TEXTS_CREATE_TASK = 'Create task';
   static TEXTS_CREATE_PRIVILEGE = 'Create privilege';
   static TEXTS_CREATE_STAGE = 'Create stage';
-  static TEXTS_SELECT_MANAGER = 'Select manager';
+  static TEXTS_SELECT_USER = 'Select user';
   static TEXTS_SELECT_USERS = 'Select users';
   static TEXTS_SELECT_PRIVILEGES = 'Select privileges';
   static TEXTS_UPDATE_TASK = 'Update task';
+
+  // card titles
+  static TEXTS_USER_LIST = 'User list';
 }
