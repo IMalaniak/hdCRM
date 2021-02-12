@@ -67,10 +67,6 @@ export class UserRoutes {
       this.userController.deleteAvatar(req, res)
     );
 
-    this.router.put('/updateUserState', async (req: RequestWithBody<User>, res: Response<ItemApiResponse<User>>) =>
-      this.userController.updateOne(req, res)
-    );
-
     this.router.delete('/:id', async (req: Request<{ id: string }>, res: Response<BaseResponse>) =>
       this.userController.deleteOne(req, res)
     );

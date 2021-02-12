@@ -29,23 +29,6 @@ export class UserService extends BaseCrudService {
     return this.http.post<CollectionApiResponse<User>>(APIS.USERS_INVITE, users);
   }
 
-  updateUserState(user: User): Observable<ItemApiResponse<User>> {
-    return this.http.put<ItemApiResponse<User>>(APIS.UPDATE_USER_STATE, user);
-  }
-
-  // TODO @IMalaniak recreate this
-  // changeStateOfSelected(users: User[], state: UserStates): Observable<User[]> {
-  //   let userIds: number[] = [];
-  //   for (const user of users) {
-  //     userIds = [...userIds, user.id];
-  //   }
-  //   const data = {
-  //     userIds: userIds,
-  //     stateId: state.id
-  //   };
-  //   return this.http.put<User[]>(APIS.USERS_CHANGE_STATE_OF_SELECTED, data);
-  // }
-
   changeOldPassword(data: NewPassword): Observable<BaseMessage> {
     return this.http.post<BaseMessage>(APIS.USERS_CHANGE_PASSWORD, data, { withCredentials: true });
   }
