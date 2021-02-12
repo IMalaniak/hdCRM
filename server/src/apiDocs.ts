@@ -1,5 +1,5 @@
 import { JsonObject } from 'swagger-ui-express';
-import { FieldType, FormType, IDateFormat, IItemsPerPage, IListView, ITimeFormat } from './constants';
+import { FieldType, FormType, IDateFormat, IItemsPerPage, IListView, ITimeFormat, UserState } from './constants';
 import { enumToArray } from './utils/EnumToArray';
 
 const buildCollectionApiResponse = ($ref: string) => {
@@ -1540,7 +1540,8 @@ export const apiDocs: JsonObject = {
                     type: 'array',
                     items: {
                       type: 'number'
-                    }
+                    },
+                    required: true
                   }
                 }
               }
@@ -1550,6 +1551,514 @@ export const apiDocs: JsonObject = {
         responses: {
           '200': {
             description: 'Tasks deleted',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/BaseResponse'
+                }
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      }
+    },
+    '/api/users': {
+      get: {
+        summary: 'Get filtered list of users',
+        tags: ['Users'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        parameters: [
+          {
+            $ref: '#/parameters/pageSize'
+          },
+          {
+            $ref: '#/parameters/pageIndex'
+          },
+          {
+            $ref: '#/parameters/sortIndex'
+          },
+          {
+            $ref: '#/parameters/sortDirection'
+          },
+          {
+            $ref: '#/parameters/filters'
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'User list',
+            content: {
+              'application/json': {
+                schema: buildCollectionApiResponse('#/components/schemas/User')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      },
+      post: {
+        summary: 'Create a new user',
+        tags: ['Users'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/UserCreationAttributes'
+              }
+            }
+          }
+        },
+        responses: {
+          '200': {
+            description: 'User',
+            content: {
+              'application/json': {
+                schema: buildItemApiResponse('#/components/schemas/User')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      }
+    },
+    '/api/users/{id}': {
+      get: {
+        summary: 'Get user by id',
+        tags: ['Users'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        parameters: [
+          {
+            $ref: '#/parameters/id'
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'User',
+            content: {
+              'application/json': {
+                schema: buildItemApiResponse('#/components/schemas/User')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      },
+      put: {
+        summary: 'Update user',
+        tags: ['Users'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        parameters: [
+          {
+            $ref: '#/parameters/id'
+          }
+        ],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/User'
+              }
+            }
+          }
+        },
+        responses: {
+          '200': {
+            description: 'User updated',
+            content: {
+              'application/json': {
+                schema: buildItemApiResponse('#/components/schemas/User')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      },
+      delete: {
+        summary: 'Delete user by id',
+        tags: ['Users'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        parameters: [
+          {
+            $ref: '#/parameters/id'
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'User deleted successfully',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/BaseResponse'
+                }
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      }
+    },
+    '/api/users/profile': {
+      get: {
+        summary: 'Get user profile',
+        tags: ['Users'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'User',
+            content: {
+              'application/json': {
+                schema: buildItemApiResponse('#/components/schemas/User')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      },
+      put: {
+        summary: 'Update user profile',
+        tags: ['Users'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/User'
+              }
+            }
+          }
+        },
+        responses: {
+          '200': {
+            description: 'User updated',
+            content: {
+              'application/json': {
+                schema: buildItemApiResponse('#/components/schemas/User')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      }
+    },
+    '/api/users/invite': {
+      post: {
+        summary: 'Invite a new user',
+        tags: ['Users'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'array',
+                items: {
+                  $ref: '#/components/schemas/UserCreationAttributes'
+                }
+              }
+            }
+          }
+        },
+        responses: {
+          '200': {
+            description: 'User',
+            content: {
+              'application/json': {
+                schema: buildCollectionApiResponse('#/components/schemas/User')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      }
+    },
+    '/api/users/session/{id}': {
+      delete: {
+        summary: 'Delete user session by id',
+        tags: ['Users'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        parameters: [
+          {
+            $ref: '#/parameters/id'
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'User session deleted successfully',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/BaseResponse'
+                }
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      }
+    },
+    '/api/users/session-multiple/{id}': {
+      put: {
+        summary: 'Delete multiple user sessions by id',
+        tags: ['Users'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        parameters: [
+          {
+            schema: {
+              name: 'sessionIds',
+              in: 'path',
+              description: 'Identifiers of the items',
+              required: true,
+              schema: {
+                type: 'string'
+              }
+            }
+          }
+        ],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                parameters: {
+                  sessionIds: {
+                    type: 'array',
+                    items: {
+                      type: 'number'
+                    },
+                    required: true
+                  }
+                }
+              }
+            }
+          }
+        },
+        responses: {
+          '200': {
+            description: 'User sessions deleted successfully',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/BaseResponse'
+                }
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      }
+    },
+    '/api/users/org/{id}': {
+      put: {
+        summary: 'Update user organization by id',
+        tags: ['Users'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        parameters: [
+          {
+            $ref: '#/parameters/id'
+          }
+        ],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Organization'
+              }
+            }
+          }
+        },
+        responses: {
+          '200': {
+            description: 'User organization updated successfully',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/BaseResponse'
+                }
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      }
+    },
+    '/api/users/change-password': {
+      post: {
+        summary: 'Change user password',
+        tags: ['Users'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                description: 'Change user password',
+                type: 'object',
+                properties: {
+                  oldPassword: {
+                    type: 'string'
+                  },
+                  newPassword: {
+                    type: 'string'
+                  },
+                  verifyPassword: {
+                    type: 'string'
+                  },
+                  deleteSessions: {
+                    type: 'boolean'
+                  }
+                },
+                required: ['oldPassword', 'newPassword', 'verifyPassword', 'deleteSessions']
+              }
+            }
+          }
+        },
+        responses: {
+          '200': {
+            description: 'Password have been changed',
             content: {
               'application/json': {
                 schema: {
@@ -2397,6 +2906,18 @@ export const apiDocs: JsonObject = {
             type: 'number',
             example: 1
           },
+          DepartmentId: {
+            type: 'number',
+            example: 1
+          },
+          RoleId: {
+            type: 'number',
+            example: 1
+          },
+          avatarId: {
+            type: 'number',
+            example: 1
+          },
           email: {
             type: 'string',
             example: 'john.doe@test.com'
@@ -2413,13 +2934,47 @@ export const apiDocs: JsonObject = {
             type: 'string',
             example: 'Doe'
           },
+          fullname: {
+            type: 'string',
+            example: 'John Doe'
+          },
           phone: {
             type: 'string',
             example: '380676767676'
           },
+          defaultLang: {
+            type: 'string',
+            example: 'en'
+          },
+          state: {
+            type: 'string',
+            enum: enumToArray(UserState)
+          },
           Organization: {
             type: 'object',
             $ref: '#/components/schemas/Organization'
+          },
+          Department: {
+            type: 'object',
+            $ref: '#/components/schemas/Department'
+          },
+          Role: {
+            type: 'object',
+            $ref: '#/components/schemas/Role'
+          },
+          Preference: {
+            type: 'object',
+            $ref: '#/components/schemas/Preference'
+          },
+          UserSessions: {
+            type: 'array',
+            items: {
+              $ref: '#/components/schemas/UserSession'
+            }
+          },
+          PasswordAttributes: {
+            type: 'object',
+            $ref: '#/components/schemas/PasswordAttributes'
           },
           createdAt: {
             type: 'string',
@@ -2432,7 +2987,84 @@ export const apiDocs: JsonObject = {
             example: '2020-10-11T17:39:36.493Z'
           }
         },
-        required: ['id', 'OrganizationId', 'email', 'login', 'name', 'surname', 'createdAt', 'updatedAt']
+        required: ['id', 'OrganizationId', 'email', 'login', 'name', 'surname', 'state', 'createdAt', 'updatedAt']
+      },
+      UserSession: {
+        type: 'object',
+        properties: {
+          id: {
+            type: 'number',
+            example: 1
+          },
+          UserId: {
+            type: 'number',
+            example: 1
+          },
+          IP: {
+            type: 'string',
+            example: '192.168.0.1'
+          },
+          isSuccess: {
+            type: 'boolean'
+          },
+          UA: {
+            type: 'string',
+            example:
+              'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36'
+          },
+          createdAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
+          },
+          updatedAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
+          }
+        },
+        required: ['id', 'UserId', 'IP', 'isSuccess', 'UA', 'createdAt', 'updatedAt']
+      },
+      PasswordAttributes: {
+        type: 'object',
+        properties: {
+          id: {
+            type: 'number',
+            example: 1
+          },
+          UserId: {
+            type: 'number',
+            example: 1
+          },
+          token: {
+            type: 'string',
+            example: 'token'
+          },
+          tokenExpire: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
+          },
+          passwordExpire: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
+          },
+          User: {
+            $ref: '#/components/schemas/User'
+          },
+          createdAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
+          },
+          updatedAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2020-10-11T17:39:36.493Z'
+          }
+        },
+        required: ['id', 'UserId', 'passwordExpire', 'createdAt', 'updatedAt']
       },
       OrganizationCreationAttributes: {
         type: 'object',
