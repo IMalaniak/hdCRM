@@ -36,7 +36,7 @@
         "${workspaceFolder}/.mocharc.json",
         "--colors",
         "--recursive",
-        "test/**/*.unit.test.?s?(x)"
+        "**/src/**/*.spec.ts"
       ],
       "cwd": "${workspaceFolder}",
       "env": {

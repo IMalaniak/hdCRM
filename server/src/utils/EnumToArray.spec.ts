@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { IListView } from '../../src/constants';
-import { enumToArray } from '../../src/utils/EnumToArray';
+import { IListView } from '../constants';
+import { enumToArray } from './EnumToArray';
 
 describe('EnumToArray', () => {
   it('checks enum to array convertion', () => {

@@ -12,7 +12,7 @@
     "migrate:undo": "node -r dotenv/config node_modules/.bin/sequelize db:migrate:undo",
     "migrate:undo:all": "node -r dotenv/config node_modules/.bin/sequelize db:migrate:undo:all",
     "prepare-db": "node -r dotenv/config node_modules/.bin/sequelize db:seed:all",
-    "test": "mocha -r ts-node/register 'test/**/*.ts'"
+    "test": "mocha -r ts-node/register '**/src/**/*.spec.ts'"
   },
   "engines": {
     "node": "14.x.x"

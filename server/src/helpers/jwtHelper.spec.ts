@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { Config } from '../../src/config';
-import { JwtHelper } from '../../src/helpers/jwtHelper';
+import { Config } from '../config';
+import { JwtHelper } from './jwtHelper';
 
 describe('jwtHelper', async () => {
   const jwtHelper: JwtHelper = new JwtHelper();
