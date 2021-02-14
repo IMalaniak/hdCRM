@@ -19,7 +19,6 @@ import {
   changeListBordersVisibility
 } from '@/core/store/preferences';
 import { enableDarkTheme } from '@/core/modules/layout/store/layout.actions';
-import { IFieldType } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-user-preferences',
@@ -44,7 +43,6 @@ export class OrganismsUserPreferencesComponent implements OnInit, OnChanges {
       label: 'Light'
     }
   ];
-  fieldTypes = IFieldType;
 
   currentDate = new Date();
   preferencesForm: FormGroup;

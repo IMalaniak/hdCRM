@@ -43,15 +43,15 @@
           <mat-radio-button *ngFor="let lang of languages" value="">{{ lang }}</mat-radio-button>
         </mat-radio-group>
       </div> -->
-      <atoms-form-field
+      <atoms-radiogroup
         label="Theme"
-        bindOptLabel="label"
-        bindOptValue="value"
-        [options]="themes"
         [formControl]="preferencesForm.get('theme')"
-        [fType]="fieldTypes.RADIOGROUP"
+        [options]="themes"
         (onChange)="onThemeChange($event)"
-      ></atoms-form-field>
+      ></atoms-radiogroup>
+      <!-- bindOptLabel="label"
+      bindOptValue="value" -->
+      <!-- Provide logic to it -->
     </div>
 
     <div class="col-12 col-sm-4 col-md-4 col-lg-4">
