@@ -1,14 +1,12 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 
 import { User } from '@/core/modules/user-api/shared';
 import { BS_ICONS, CONSTANTS, MAT_BUTTON } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogWithTwoButtonModel } from '@/shared/models/dialog/dialog-with-two-button.model';
 import { DialogService } from '@/shared/services';
-import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
+import { IDialogResult } from '@/shared/models/dialog/dialog-result';
 import { DialogType } from '@/shared/models';
 import { OrganismsUserDetailsDialogComponent } from '../../organisms/organisms-user-details-dialog/organisms-user-details-dialog.component';
 
@@ -43,7 +41,7 @@ import { OrganismsUserDetailsDialogComponent } from '../../organisms/organisms-u
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TemplatesBoxUserListSmComponent implements OnDestroy {
+export class TemplatesBoxUserListSmComponent {
   @Input() editMode = false;
   @Input() users: User[];
   @Input() user: User;
@@ -57,8 +55,6 @@ export class TemplatesBoxUserListSmComponent implements OnDestroy {
   matButtonTypes = MAT_BUTTON;
   changeUserIcon = BS_ICONS.PersonCheck;
   addUserIcon = BS_ICONS.PersonPlus;
-
-  private unsubscribe: Subject<void> = new Subject();
 
   constructor(private dialogService: DialogService, private route: Router) {}
 
@@ -79,16 +75,10 @@ export class TemplatesBoxUserListSmComponent implements OnDestroy {
     this.dialogService
       .open(OrganismsUserDetailsDialogComponent, dialogDataModel, DialogType.STANDART)
       .afterClosed()
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: DialogResultModel<string>) => {
-        if (result && result.success) {
-          this.route.navigateByUrl(result.model);
+      .subscribe((result: IDialogResult<string>) => {
+        if (result?.success) {
+          this.route.navigateByUrl(result.data);
         }
       });
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
   }
 }

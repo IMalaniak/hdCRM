@@ -14,7 +14,7 @@ import {
 } from '@/core/modules/department-api/store';
 import { Department } from '@/core/modules/department-api/shared';
 import { EDIT_PRIVILEGES } from '@/shared/constants';
-import { changeIsEditingState, selectIsEditing } from '../../store';
+import { changeIsEditingState, cacheDepartment, selectIsEditing, restoreFromCache } from '../../store';
 
 @Component({
   template: `
@@ -43,6 +43,8 @@ export class DepartmentComponent implements OnInit {
       tap((department) => {
         if (!department) {
           this.store$.dispatch(departmentRequested({ id }));
+        } else {
+          this.store$.dispatch(cacheDepartment({ id }));
         }
       }),
       filter((department) => !!department)
@@ -56,6 +58,9 @@ export class DepartmentComponent implements OnInit {
   }
 
   onFormStateChange(isEditing: boolean): void {
+    if (!isEditing) {
+      this.store$.dispatch(restoreFromCache());
+    }
     this.store$.dispatch(changeIsEditingState({ isEditing }));
   }
 

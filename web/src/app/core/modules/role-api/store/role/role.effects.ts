@@ -145,10 +145,10 @@ export class RoleEffects {
   );
 
   constructor(
-    private actions$: Actions,
-    private store$: Store<AppState>,
-    private router: Router,
-    private roleService: RoleService,
-    private toastMessageService: ToastMessageService
+    private readonly actions$: Actions,
+    private readonly store$: Store<AppState>,
+    private readonly router: Router,
+    private readonly roleService: RoleService,
+    private readonly toastMessageService: ToastMessageService
   ) {}
 }

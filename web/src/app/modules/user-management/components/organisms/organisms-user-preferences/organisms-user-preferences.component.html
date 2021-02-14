@@ -43,16 +43,15 @@
           <mat-radio-button *ngFor="let lang of languages" value="">{{ lang }}</mat-radio-button>
         </mat-radio-group>
       </div> -->
-      <molecules-form-field
+      <atoms-form-field
         label="Theme"
         bindOptLabel="label"
         bindOptValue="value"
         [options]="themes"
-        [editForm]="true"
         [formControl]="preferencesForm.get('theme')"
         [fType]="fieldTypes.RADIOGROUP"
         (onChange)="onThemeChange($event)"
-      ></molecules-form-field>
+      ></atoms-form-field>
     </div>
 
     <div class="col-12 col-sm-4 col-md-4 col-lg-4">
@@ -63,15 +62,19 @@
         </mat-radio-group>
       </div> -->
       <div class="preferences-detail">
-        <h5>List view</h5>
+        <h5>List Preferences</h5>
+        <mat-checkbox formControlName="listOutlineBorders" (change)="onBordersChange($event)">
+          List borders
+        </mat-checkbox>
+      </div>
+      <!-- <h5>List view</h5>
         <mat-radio-group formControlName="listView" (change)="onListViewChange($event)">
           <mat-radio-button *ngFor="let listView of preferences.listView" [value]="listView">{{
             listView | titlecase
           }}</mat-radio-button>
-        </mat-radio-group>
-      </div>
+        </mat-radio-group> -->
       <div class="preferences-detail">
-        <h5>Items per page (table)</h5>
+        <h5>Items per page (lists)</h5>
         <mat-radio-group formControlName="itemsPerPage" (change)="onItemsPerPageChange($event)">
           <mat-radio-button *ngFor="let itemsPerPage of preferences.itemsPerPage" [value]="itemsPerPage">{{
             itemsPerPage

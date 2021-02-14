@@ -13,7 +13,7 @@ import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_KEYS } from 
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
-import { DataColumn, RowActionData, RowActionType } from '@/shared/models/table';
+import { Column, IColumn, RowActionData, RowActionType } from '@/shared/models/table';
 import { DepartmentsDataSource } from '../../dataSources';
 import { selectDepartmentsTotalCount, selectDepartmentsPageLoading, changeIsEditingState } from '../../store';
 
@@ -38,14 +38,14 @@ export class DepartmentsComponent {
     delete: BS_ICONS.Trash
   };
 
-  displayedColumns: DataColumn[] = [
-    DataColumn.createSequenceNumberColumn(),
-    DataColumn.createColumn({ key: COLUMN_KEYS.TITLE }),
-    DataColumn.createLinkColumn({ key: COLUMN_KEYS.MANAGER, hasSorting: false }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.WORKERS, hasSorting: false }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
-    DataColumn.createActionsColumn()
+  displayedColumns: IColumn[] = [
+    Column.createSequenceNumberColumn(),
+    Column.createColumn({ key: COLUMN_KEYS.TITLE }),
+    Column.createLinkColumn({ key: COLUMN_KEYS.MANAGER, hasSorting: false }),
+    Column.createColumn({ key: COLUMN_KEYS.WORKERS, hasSorting: false }),
+    Column.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
+    Column.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
+    Column.createActionsColumn()
   ];
 
   constructor(

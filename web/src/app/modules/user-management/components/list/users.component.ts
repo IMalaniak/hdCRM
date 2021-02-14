@@ -1,8 +1,7 @@
-import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-import { SelectionModel } from '@angular/cdk/collections';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 
@@ -11,15 +10,20 @@ import { User } from '@/core/modules/user-api/shared';
 import { deleteUser, inviteUsers, OnlineUserListRequested } from '@/core/modules/user-api/store';
 import { isPrivileged, currentUser } from '@/core/modules/auth/store/auth.selectors';
 import { IconsService } from '@/core/services';
-import { DialogCreateEditModel, DialogDataModel, DialogMode, DialogType, DialogResultModel } from '@/shared/models';
+import { DialogCreateEditModel, DialogDataModel, DialogMode, DialogType, IDialogResult } from '@/shared/models';
 import { RoutingConstants, CONSTANTS, UserState, BS_ICONS } from '@/shared/constants';
 import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_KEYS } from '@/shared/constants';
+import { ListDisplayMode } from '@/shared/store';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
-import { DataColumn } from '@/shared/models/table/data-column.model';
-import { RowActionData, RowActionType } from '@/shared/models/table';
-import { selectUserPageLoading, selectUsersTotalCount } from '../../store';
+import { RowActionData, RowActionType, Column, IColumn } from '@/shared/models/table';
+import {
+  selectListDisplayMode,
+  selectPreselectedUsersIds,
+  selectUserPageLoading,
+  selectUsersTotalCount
+} from '../../store';
 import { UsersDataSource } from '../../dataSources';
 import { InvitationDialogComponent } from '../invitation-dialog/invitation-dialog.component';
 
@@ -28,17 +32,32 @@ import { InvitationDialogComponent } from '../invitation-dialog/invitation-dialo
   templateUrl: './users.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UsersComponent implements OnDestroy {
+export class UsersComponent {
   currentUser$: Observable<User> = this.store$.pipe(select(currentUser));
   loading$: Observable<boolean> = this.store$.pipe(select(selectUserPageLoading));
   resultsLength$: Observable<number> = this.store$.pipe(select(selectUsersTotalCount));
+  displayMode$: Observable<ListDisplayMode> = this.store$.pipe(select(selectListDisplayMode));
+  preselectedUsersIds$: Observable<number[]> = this.store$.pipe(select(selectPreselectedUsersIds));
   canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.USER)));
   canEditUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.USER)));
   canDeleteUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.USER)));
+  cardTitle$: Observable<string> = this.displayMode$.pipe(
+    map((displayMode) => {
+      switch (displayMode) {
+        case ListDisplayMode.POPUP_MULTI_SELECTION:
+          return CONSTANTS.TEXTS_SELECT_USERS;
+        case ListDisplayMode.POPUP_SINGLE_SELECTION:
+          return CONSTANTS.TEXTS_SELECT_USER;
+        default:
+          return CONSTANTS.TEXTS_USER_LIST;
+      }
+    })
+  );
+  displayCardButtons$: Observable<boolean> = combineLatest([this.canAddUser$, this.displayMode$]).pipe(
+    map(([canAddUser, displayMode]) => canAddUser && displayMode === ListDisplayMode.DEFAULT)
+  );
 
-  selection = new SelectionModel<User>(true, []); // TODO:
   dataSource: UsersDataSource = new UsersDataSource(this.store$);
-  // users: User[]; TODO:
 
   userStates = UserState;
   listIcons: { [key: string]: BS_ICONS } = {
@@ -52,22 +71,23 @@ export class UsersComponent implements OnDestroy {
     delete: BS_ICONS.Trash
   };
 
-  displayedColumns: DataColumn[] = [
-    DataColumn.createSequenceNumberColumn(),
-    DataColumn.createColumn({ key: COLUMN_KEYS.AVATAR, hasSorting: false }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.LOGIN }),
-    DataColumn.createLinkColumn({ key: COLUMN_KEYS.EMAIL }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.NAME }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.SURNAME }),
-    DataColumn.createLinkColumn({ key: COLUMN_KEYS.PHONE }),
-    DataColumn.createLinkColumn({ key: COLUMN_KEYS.DEPARTMENT, hasSorting: false }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.STATE }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
-    DataColumn.createActionsColumn()
+  displayedColumns: IColumn[] = [
+    Column.createSequenceNumberColumn(),
+    Column.createCheckboxColumn(),
+    Column.createColumn({ key: COLUMN_KEYS.AVATAR, hasSorting: false }),
+    Column.createColumn({ key: COLUMN_KEYS.LOGIN }),
+    Column.createLinkColumn({ key: COLUMN_KEYS.EMAIL }),
+    Column.createColumn({ key: COLUMN_KEYS.NAME }),
+    Column.createColumn({ key: COLUMN_KEYS.SURNAME }),
+    Column.createLinkColumn({ key: COLUMN_KEYS.PHONE }),
+    Column.createLinkColumn({ key: COLUMN_KEYS.DEPARTMENT, hasSorting: false }),
+    Column.createColumn({ key: COLUMN_KEYS.STATE }),
+    Column.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
+    Column.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
+    Column.createActionsColumn()
   ];
 
-  private unsubscribe: Subject<void> = new Subject();
+  selectedUsersIds: number[];
 
   constructor(
     private router: Router,
@@ -90,6 +110,9 @@ export class UsersComponent implements OnDestroy {
       case RowActionType.DELETE:
         this.deleteUser(data.id);
         break;
+      case RowActionType.SELECT:
+        this.selectedUsersIds = data.ids;
+        break;
     }
   }
 
@@ -104,27 +127,12 @@ export class UsersComponent implements OnDestroy {
     this.dialogService
       .open(InvitationDialogComponent, dialogDataModel, DialogType.STANDART)
       .afterClosed()
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: DialogResultModel<User[]>) => {
+      .subscribe((result: IDialogResult<User[]>) => {
         if (result && result.success) {
-          this.store$.dispatch(inviteUsers({ users: result.model }));
+          this.store$.dispatch(inviteUsers({ users: result.data }));
         }
       });
   }
-
-  // TODO:
-  // isAllSelected() {
-  //   const numSelected = this.selection.selected.length;
-  //   const numRows = this.resultsLength;
-  //   return numSelected === numRows;
-  // }
-
-  // /** Selects all rows if they are not all selected; otherwise clear selection. */
-  // masterToggle() {
-  //   this.isAllSelected() ?
-  //       this.selection.clear() :
-  //       this.users.forEach(row => this.selection.select(row));
-  // }
 
   deleteUser(id: number): void {
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_USER_CONFIRM);
@@ -150,10 +158,5 @@ export class UsersComponent implements OnDestroy {
     this.router.navigate([`${RoutingConstants.ROUTE_USERS_DETAILS}/${id}`], {
       queryParams: { edit }
     });
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
   }
 }

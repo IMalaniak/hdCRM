@@ -2,19 +2,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+
 import { SharedModule } from '@/shared/shared.module';
 import { DepartmentManagementRoutingModule } from './department-management-routing.module';
-
-import { StoreModule } from '@ngrx/store';
-
 import {
   AddDepartmentComponent,
   DepartmentComponent,
   DepartmentsComponent,
   TemplatesDepartmentViewComponent
 } from './components';
-
-import { departmentReducer, departmentsFeatureKey } from './store';
+import { departmentReducer, departmentsFeatureKey, DepartmentEffects } from './store';
 
 @NgModule({
   imports: [
@@ -22,7 +21,8 @@ import { departmentReducer, departmentsFeatureKey } from './store';
     RouterModule,
     SharedModule,
     DepartmentManagementRoutingModule,
-    StoreModule.forFeature(departmentsFeatureKey, departmentReducer)
+    StoreModule.forFeature(departmentsFeatureKey, departmentReducer),
+    EffectsModule.forFeature([DepartmentEffects])
   ],
   declarations: [AddDepartmentComponent, DepartmentComponent, DepartmentsComponent, TemplatesDepartmentViewComponent],
   exports: [AddDepartmentComponent, DepartmentComponent, DepartmentsComponent]

@@ -4,10 +4,10 @@ import { User } from '@/core/modules/user-api/shared';
 import { selectAllUsers } from '@/core/modules/user-api/store';
 import { PageQuery } from '@/shared/models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
-import { ListState, Page } from '@/shared/store';
-import * as fromUser from './user.reducer';
+import { Page } from '@/shared/store';
+import { userManagementFeatureKey, UserListState } from './user.reducer';
 
-export const selectUsersState = createFeatureSelector<ListState>(fromUser.userManagementFeatureKey);
+export const selectUsersState = createFeatureSelector<UserListState>(userManagementFeatureKey);
 export const selectUserPagesState = createSelector(selectUsersState, (usersState) => usersState?.pages);
 
 export const selectUserPageByKey = (pageQuery: PageQuery) =>
@@ -15,7 +15,7 @@ export const selectUserPageByKey = (pageQuery: PageQuery) =>
 
 export const selectUserPageLoading = createSelector(selectUserPagesState, (pagesState) => pagesState?.pageLoading);
 
-export const selectIsEditing = createSelector(selectUsersState, (usersState) => usersState?.editing);
+export const selectIsEditing = createSelector(selectUsersState, (usersState) => usersState?.isEditing);
 
 export const selectUsersTotalCount = createSelector(selectUserPagesState, (usersState) => usersState?.resultsNum);
 
@@ -27,3 +27,7 @@ export const selectUsersPage = (pageQuery: PageQuery) =>
       return page.dataIds.map((id) => allUsers.find((user) => user.id === id));
     }
   });
+
+export const selectListDisplayMode = createSelector(selectUsersState, (userState) => userState.listDisplayMode);
+
+export const selectPreselectedUsersIds = createSelector(selectUsersState, (userState) => userState.selectedUsersIds);

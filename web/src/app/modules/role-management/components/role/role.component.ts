@@ -10,7 +10,7 @@ import { Role } from '@/core/modules/role-api/shared';
 import { selectRoleDeepById, roleRequested, updateRoleRequested } from '@/core/modules/role-api/store/role';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { EDIT_PRIVILEGES } from '@/shared/constants';
-import { changeIsEditingState, selectIsEditing } from '../../store';
+import { cacheRole, changeIsEditingState, restoreFromCache, selectIsEditing } from '../../store';
 
 @Component({
   template: `
@@ -39,6 +39,8 @@ export class RoleComponent implements OnInit {
       tap((role) => {
         if (!role) {
           this.store$.dispatch(roleRequested({ id }));
+        } else {
+          this.store$.dispatch(cacheRole({ id }));
         }
       }),
       filter((role) => !!role)
@@ -46,6 +48,9 @@ export class RoleComponent implements OnInit {
   }
 
   onFormStateChange(isEditing: boolean): void {
+    if (!isEditing) {
+      this.store$.dispatch(restoreFromCache());
+    }
     this.store$.dispatch(changeIsEditingState({ isEditing }));
   }
 

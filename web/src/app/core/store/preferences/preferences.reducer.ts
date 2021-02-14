@@ -8,6 +8,7 @@ export interface Preferences {
   timeFormat: ITimeFormat;
   itemsPerPage: IItemsPerPage;
   listView: IListView;
+  listOutlineBorders: boolean;
 }
 
 export interface PreferencesList {
@@ -27,6 +28,7 @@ export const initialPreferencesState: PreferencesState = {
   timeFormat: ITimeFormat.MEDIUM_TIME,
   itemsPerPage: IItemsPerPage.FIVE,
   listView: IListView.LIST,
+  listOutlineBorders: true,
   listLoaded: false,
   list: null
 };
@@ -37,6 +39,10 @@ const reducer = createReducer(
   on(PreferencesActions.changeTimeFormat, (state, { timeFormat }) => ({ ...state, timeFormat })),
   on(PreferencesActions.changeItemsPerPage, (state, { itemsPerPage }) => ({ ...state, itemsPerPage })),
   on(PreferencesActions.changeListView, (state, { listView }) => ({ ...state, listView })),
+  on(PreferencesActions.changeListBordersVisibility, (state, { isVisible }) => ({
+    ...state,
+    listOutlineBorders: isVisible
+  })),
   on(PreferencesActions.initPreferences, (state, { preferences }) => ({ ...state, ...preferences })),
   on(PreferencesActions.preferencesListLoaded, (state, { list }) => ({ ...state, list }))
 );

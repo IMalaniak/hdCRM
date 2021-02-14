@@ -94,7 +94,7 @@ export class AuthController {
         expires.setFullYear(expires.getFullYear() + 1);
         res.cookie('refresh_token', body.refreshToken, { httpOnly: true, expires });
         res.status(StatusCodes.OK);
-        res.json(`JWT ${body.accessToken}`);
+        res.json(body.accessToken);
       },
       (error) => {
         res.status(StatusCodes.BAD_REQUEST);
@@ -113,7 +113,7 @@ export class AuthController {
     return result.match<void>(
       (body) => {
         res.status(StatusCodes.OK);
-        res.json(`JWT ${body.accessToken}`);
+        res.json(body.accessToken);
       },
       (error) => {
         res.status(StatusCodes.BAD_REQUEST);

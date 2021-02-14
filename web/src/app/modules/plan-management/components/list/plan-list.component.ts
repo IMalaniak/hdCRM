@@ -13,7 +13,7 @@ import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_KEYS } from 
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
-import { DataColumn, RowActionData, RowActionType } from '@/shared/models/table';
+import { Column, IColumn, RowActionData, RowActionType } from '@/shared/models/table';
 import { selectPlanPageLoading, selectPlansTotalCount, changeIsEditingState } from '../../store';
 import { PlansDataSource } from '../../dataSources';
 
@@ -34,15 +34,15 @@ export class PlanListComponent {
     add: BS_ICONS.Plus
   };
 
-  displayedColumns: DataColumn[] = [
-    DataColumn.createSequenceNumberColumn(),
-    DataColumn.createColumn({ key: COLUMN_KEYS.TITLE }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.STAGE, hasSorting: false }),
-    DataColumn.createLinkColumn({ key: COLUMN_KEYS.CREATOR, hasSorting: false }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.PARTICIPANTS, hasSorting: false }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
-    DataColumn.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
-    DataColumn.createActionsColumn()
+  displayedColumns: IColumn[] = [
+    Column.createSequenceNumberColumn(),
+    Column.createColumn({ key: COLUMN_KEYS.TITLE }),
+    Column.createColumn({ key: COLUMN_KEYS.STAGE, hasSorting: false }),
+    Column.createLinkColumn({ key: COLUMN_KEYS.CREATOR, hasSorting: false }),
+    Column.createColumn({ key: COLUMN_KEYS.PARTICIPANTS, hasSorting: false }),
+    Column.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
+    Column.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
+    Column.createActionsColumn()
   ];
 
   constructor(

@@ -25,7 +25,7 @@ export class JwtInterceptor implements HttpInterceptor {
           if (token && !request.url.includes(APIS.REFRESH_SESSION)) {
             request = request.clone({
               setHeaders: {
-                Authorization: `${token}`
+                Authorization: `Bearer ${token}`
               }
             });
           }

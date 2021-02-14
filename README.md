@@ -26,6 +26,7 @@
     - [Scope](#scope-1)
     - [Pull Request Process](#pull-request-process)
   - [Authors](#authors)
+  - [Usefull links](#usefull-links)
 
 ## Introduction
 
@@ -302,3 +303,9 @@ The scope should be the id of the GitHub tasks
 | **Ivan Malaniak**                                           | **Arsenii Irod**                                             |
 | [github/IMalaniak](https://github.com/IMalaniak)            | [github/ArseniiIrod](https://github.com/ArseniiIrod)         |
 | [ivanmalaniak.pp.ua](https://ivanmalaniak.pp.ua)            |                                                              |
+
+## Usefull links
+
+|             |                     Local                     |                                                      Prod |
+| ----------- | :-------------------------------------------: | --------------------------------------------------------: |
+| Swagger API | [/api-docs](https://locallhost:3000/api-docs) | [/api-docs](https://https://hdcrm.herokuapp.com/api-docs) |

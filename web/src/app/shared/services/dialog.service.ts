@@ -1,21 +1,17 @@
 import { Injectable } from '@angular/core';
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 
 import { DialogBaseModel } from '@/shared/components';
 import { DialogDataModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DIALOG, STYLECONSTANTS } from '@/shared/constants';
-import { DialogResultModel } from '@/shared/models/dialog/dialog-result.model';
+import { IDialogResult } from '@/shared/models/dialog/dialog-result';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DialogService {
-  private unsubscribe: Subject<void> = new Subject();
-
   constructor(private _matDialog: MatDialog) {}
 
   confirm<T extends DialogConfirmModel>(
@@ -25,9 +21,8 @@ export class DialogService {
   ): void {
     this.open(componentType, data, DialogType.CONFIRM)
       .afterClosed()
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: DialogResultModel<unknown>) => {
-        if (result && result.success) {
+      .subscribe((result: IDialogResult<unknown>) => {
+        if (result?.success) {
           onConfirmCallback();
         }
       });

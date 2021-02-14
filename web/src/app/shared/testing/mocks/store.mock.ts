@@ -90,8 +90,7 @@ export const currentUserMock = ({
 export const authStateMock: AuthState = {
   loggedIn: true,
   sessionId: 1,
-  accessToken:
-    'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInNlc3Npb25JZCI6NTAsImlhdCI6MTYwMDc3OTg2MiwiZXhwIjoxNjAwNzgwNzYyLCJhdWQiOiJodHRwczovL2hkY3JtLmhlcm9rdWFwcC5jb20ifQ.AMrp2MucBLTFODwSdUTv6agy7q5dPHo3jnW6cP65KKk',
+  accessToken: 'token',
   isTokenValid: true,
   isTokenRefreshing: false,
   currentUser: currentUserMock,

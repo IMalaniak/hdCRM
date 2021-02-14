@@ -54,9 +54,9 @@ export class PrivilegeEffects {
   );
 
   constructor(
-    private actions$: Actions,
-    private store: Store<AppState>,
-    private privilegeService: PrivilegeService,
-    private toastMessageService: ToastMessageService
+    private readonly actions$: Actions,
+    private readonly store: Store<AppState>,
+    private readonly privilegeService: PrivilegeService,
+    private readonly toastMessageService: ToastMessageService
   ) {}
 }

@@ -5,7 +5,7 @@ import { ComponentType } from '@angular/cdk/portal';
 import { User } from '@/core/modules/user-api/shared';
 import { THEME_PALETTE, MAT_BUTTON, RoutingConstants } from '@/shared/constants';
 import { DialogBaseModel } from '../../dialogs';
-import { DialogDataModel, DialogWithTwoButtonModel, DialogResultModel } from '@/shared/models';
+import { DialogDataModel, DialogWithTwoButtonModel, IDialogResult } from '@/shared/models';
 
 @Component({
   selector: 'organisms-user-details-dialog',
@@ -27,9 +27,9 @@ export class OrganismsUserDetailsDialogComponent extends DialogBaseModel<DialogW
 
   onClose(success: boolean): void {
     const userDetailsRoute = `${RoutingConstants.ROUTE_USERS_DETAILS}/${this.user.id}`;
-    const result: DialogResultModel<string> = {
+    const result: IDialogResult<string> = {
       success,
-      model: userDetailsRoute
+      data: userDetailsRoute
     };
     this.dialogRef.close(result);
   }

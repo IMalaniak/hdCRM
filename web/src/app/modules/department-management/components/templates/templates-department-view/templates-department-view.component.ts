@@ -1,18 +1,19 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
-import { User } from '@/core/modules/user-api/shared';
 import { Department } from '@/core/modules/department-api/shared';
 import { selectDepartmentsLoading } from '@/core/modules/department-api/store';
 import { DialogService } from '@/shared/services';
 import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
 import { CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
-import { DialogDataModel, DialogResultModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
+import { DialogDataModel, IDialogResult, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { UsersDialogComponent } from '@/modules/user-management/components';
+import { prepareSelectionPopup, resetSelectionPopup } from '@/modules/user-management/store';
+import { selectUserById, selectUsersById } from '@/core/modules/user-api/store';
 
 @Component({
   selector: 'templates-department-view',
@@ -34,49 +35,53 @@ export class TemplatesDepartmentViewComponent extends TemplatesViewDetailsCompon
 
   addManagerDialog(): void {
     const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
-      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_MANAGER)
+      dialogModel: new DialogWithTwoButtonModel()
     };
+    this.store$.dispatch(prepareSelectionPopup({ selectedUsersIds: [this.item.Manager?.id], singleSelection: true }));
 
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: DialogResultModel<User[]>) => {
-        if (result && result.success) {
-          this.item = {
-            ...this.item,
-            Manager: { ...result.model[0] },
-            managerId: result.model[0].id
-          };
-          this.cdr.detectChanges();
+      .subscribe((result: IDialogResult<number[]>) => {
+        if (result?.success) {
+          this.store$.pipe(select(selectUserById(result.data[0])), first()).subscribe((selectedManager) => {
+            this.item = {
+              ...this.item,
+              Manager: { ...selectedManager },
+              managerId: selectedManager.id
+            };
+            this.cdr.detectChanges();
+          });
         }
+        this.store$.dispatch(resetSelectionPopup());
       });
-
-    // TODO: @ArsenIrod add afterOpened logic
   }
 
   addWorkersDialog(): void {
     const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
-      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_WORKERS)
+      dialogModel: new DialogWithTwoButtonModel()
     };
+    this.store$.dispatch(prepareSelectionPopup({ selectedUsersIds: this.item.Workers.map((user) => user.id) }));
 
     this.dialogService
       .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
       .afterClosed()
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((result: DialogResultModel<User[]>) => {
-        if (result && result.success) {
-          const selectedWorkers: User[] = result.model.filter(
-            (selectedWorker) => !this.item.Workers.some((user) => user.id === selectedWorker.id)
+      .subscribe((result: IDialogResult<number[]>) => {
+        if (result?.success) {
+          const selectedWorkersIds: number[] = result.data.filter(
+            (selectedWorkerId) => !this.item.Workers.some((user) => user.id === selectedWorkerId)
           );
-          if (selectedWorkers?.length) {
-            this.item = {
-              ...this.item,
-              Workers: [...this.item.Workers, ...selectedWorkers]
-            };
-            this.cdr.detectChanges();
+          if (selectedWorkersIds?.length) {
+            this.store$.pipe(select(selectUsersById(selectedWorkersIds)), first()).subscribe((selectedWorkers) => {
+              this.item = {
+                ...this.item,
+                Workers: [...this.item.Workers, ...selectedWorkers]
+              };
+              this.cdr.detectChanges();
+            });
           }
         }
+        this.store$.dispatch(resetSelectionPopup());
       });
   }
 

@@ -1,5 +1,10 @@
-<organisms-card cardTitle="User list" [showDataLoader]="loading$ | async">
-  <atoms-icon-button buttons *ngIf="canAddUser$ | async" (onclick)="openInvitationDialog()" [icon]="listIcons.add">
+<organisms-card [cardTitle]="cardTitle$ | async" [showDataLoader]="loading$ | async">
+  <atoms-icon-button
+    buttons
+    *ngIf="displayCardButtons$ | async"
+    (onclick)="openInvitationDialog()"
+    [icon]="listIcons.add"
+  >
     Invite users
   </atoms-icon-button>
 
@@ -9,8 +14,10 @@
     [dataSource]="dataSource"
     [columns]="displayedColumns"
     [totalItems]="resultsLength$ | async"
+    [displayMode]="displayMode$ | async"
     [canEdit]="canEditUser$ | async"
     [canDelete]="canDeleteUser$ | async"
+    [preselectedItems]="preselectedUsersIds$ | async"
     (rowActionClicked)="onRowAction($event)"
   >
   </table-component>

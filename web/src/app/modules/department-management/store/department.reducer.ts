@@ -1,6 +1,7 @@
 import { createReducer, on, Action } from '@ngrx/store';
 
 import * as departmentApiActions from '@/core/modules/department-api/store/department-api.actions';
+import { Department } from '@/core/modules/department-api/shared';
 import { initialListState, ListState, pagesAdapter } from '@/shared/store';
 import * as departmentActions from './department.actions';
 
@@ -8,7 +9,14 @@ const reducer = createReducer(
   initialListState,
   on(departmentActions.changeIsEditingState, (state, { isEditing }) => ({
     ...state,
-    editing: isEditing
+    isEditing
+  })),
+  on(departmentActions.departmentCached, (state, { displayedItemCopy }) => ({
+    ...state,
+    cache: {
+      ...state.cache,
+      displayedItemCopy
+    }
   })),
   on(departmentApiActions.listPageRequested, (state) => ({
     ...state,
@@ -25,6 +33,7 @@ const reducer = createReducer(
     ...state,
     pages: initialListState.pages
   })),
+  on(departmentApiActions.updateDepartmentSuccess, (state) => ({ ...state, isEditing: false })),
   on(departmentApiActions.listPageLoaded, (state, { page, response: { pages, resultsNum } }) => ({
     ...state,
     pages: pagesAdapter.addOne(page, {
@@ -40,7 +49,7 @@ const reducer = createReducer(
   }))
 );
 
-export function departmentReducer(state: ListState | undefined, action: Action) {
+export function departmentReducer(state: ListState<Department> | undefined, action: Action) {
   return reducer(state, action);
 }
 

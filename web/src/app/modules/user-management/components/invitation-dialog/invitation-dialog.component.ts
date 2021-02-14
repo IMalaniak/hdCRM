@@ -11,7 +11,7 @@ import { AppState } from '@/core/store';
 import { User } from '@/core/modules/user-api/shared';
 import { selectAllUsers } from '@/core/modules/user-api/store';
 import { CONSTANTS, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE, BS_ICONS, InputType } from '@/shared/constants';
-import { DialogCreateEditModel, DialogDataModel, DialogResultModel } from '@/shared/models';
+import { DialogCreateEditModel, DialogDataModel, IDialogResult } from '@/shared/models';
 import { DialogBaseModel } from '@/shared/components';
 
 @Component({
@@ -77,9 +77,9 @@ export class InvitationDialogComponent extends DialogBaseModel<DialogCreateEditM
   }
 
   onClose(success: boolean): void {
-    const result: DialogResultModel<User[]> = {
+    const result: IDialogResult<User[]> = {
       success,
-      model: this.invitedUsers
+      data: this.invitedUsers
     };
     this.dialogRef.close(result);
   }
