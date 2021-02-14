@@ -3,9 +3,10 @@ import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { provideMockStore } from '@ngrx/store/testing';
+
 import { AtomsDateComponent } from './atoms-date.component';
 import { SharedModule } from '@/shared/shared.module';
-import { StoreModule } from '@ngrx/store';
 
 @Component({
   template: `<form [formGroup]="form">
@@ -28,8 +29,9 @@ describe('AtomsDateComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [SharedModule, BrowserAnimationsModule, StoreModule.forRoot({}, {})],
-        declarations: [AtomsDateComponent, TestAtomsDateComponent]
+        imports: [SharedModule, BrowserAnimationsModule],
+        declarations: [AtomsDateComponent, TestAtomsDateComponent],
+        providers: [provideMockStore({})]
       }).compileComponents();
     })
   );

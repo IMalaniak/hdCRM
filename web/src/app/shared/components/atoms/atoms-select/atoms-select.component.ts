@@ -20,10 +20,10 @@ import { BaseControlValueAccessorComponentModel } from '../../base/componentMode
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: MatFormFieldControl, useExisting: AtomsSelectComponent }]
 })
-export class AtomsSelectComponent extends BaseControlValueAccessorComponentModel<string | number | null | undefined> {
+export class AtomsSelectComponent extends BaseControlValueAccessorComponentModel<any[] | null | undefined> {
   @Input() canValidate = true;
   @Input() label = '';
-  @Input() options: string | number;
+  @Input() options: any[];
 
   constructor(@Optional() @Self() readonly ngControl: NgControl) {
     super();

@@ -18,7 +18,7 @@ import { BaseControlValueAccessorComponentModel } from '../../base/componentMode
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: MatFormFieldControl, useExisting: AtomsTextareaComponent }]
 })
-export class AtomsTextareaComponent extends BaseControlValueAccessorComponentModel<string | number | null | undefined> {
+export class AtomsTextareaComponent extends BaseControlValueAccessorComponentModel<string | null | undefined> {
   @Input() canValidate = true;
   @Input() label = '';
   @Input() rows = 5;

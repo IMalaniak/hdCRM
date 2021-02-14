@@ -24,15 +24,15 @@ import { IFieldType, THEME_PALETTE } from '@/shared/constants';
   providers: [{ provide: MatFormFieldControl, useExisting: MoleculesFormFieldComponent }]
 })
 export class MoleculesFormFieldComponent extends BaseControlValueAccessorComponentModel<
-  string | number | boolean | Date | null | undefined
+  string | number | boolean | Date | null | undefined | any[]
 > {
   @Input() fType: IFieldType;
   @Input() label = '';
   @Input() editForm = false;
   @Input() editable = true;
   @Input() editOnly?: boolean;
-  @Input() options?: string | number;
-  @Input() color: ThemePalette = THEME_PALETTE.ACCENT;
+  @Input() options?: any[];
+  @Input() color: ThemePalette = THEME_PALETTE.PRIMARY;
   @Input() bindOptValue?: string; // TODO: provide logic to use this parameter
   @Input() bindOptLabel?: string; // TODO: provide logic to use this parameter
 

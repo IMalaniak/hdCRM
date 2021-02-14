@@ -24,11 +24,11 @@ import { THEME_PALETTE } from '@/shared/constants';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: MatFormFieldControl, useExisting: AtomsRadiogroupComponent }]
 })
-export class AtomsRadiogroupComponent extends BaseControlValueAccessorComponentModel<boolean> {
+export class AtomsRadiogroupComponent extends BaseControlValueAccessorComponentModel<any[]> {
   @Input() label = '';
-  @Input() options: string | number;
+  @Input() options: any[];
   @Input() optionsColumn = true;
-  @Input() color: ThemePalette = THEME_PALETTE.ACCENT;
+  @Input() color: ThemePalette = THEME_PALETTE.PRIMARY;
 
   // tslint:disable-next-line:no-output-on-prefix
   @Output() onChange: EventEmitter<MatCheckboxChange> = new EventEmitter();

@@ -69,7 +69,7 @@
               <h3 i18n="@@loginComponentFormRequestNewPasswordHeader" class="pb-2">Your email or login</h3>
 
               <!-- Login/Email -->
-              <inputType label="Login/Email" [formControl]="user.get('login')"> </inputType>
+              <atoms-input label="Login/Email" [formControl]="user.get('login')"> </atoms-input>
 
               <div class="d-flex justify-content-between">
                 <atoms-icon-button
@@ -97,13 +97,13 @@
               <h3 i18n="@@loginComponentFormPasswordResetHeader" class="pb-2">Reset password</h3>
 
               <!-- New password -->
-              <inputType
+              <atoms-input
                 label="New password"
                 [inputType]="hidePassword ? inputTypes.PASSWORD : inputTypes.TEXT"
                 [formControl]="newPasswordForm.get('newPassword')"
               >
                 <ng-container *ngTemplateOutlet="passwordEye" suffix></ng-container>
-              </inputType>
+              </atoms-input>
 
               <!-- Confirm password -->
               <atoms-input

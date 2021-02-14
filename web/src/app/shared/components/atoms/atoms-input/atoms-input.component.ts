@@ -13,7 +13,7 @@ import { InputType } from '@/shared/constants';
       [canValidate]="(ngControl.control?.invalid || ngControl.control?.touched) && canValidate"
       [inputErrors]="ngControl.control?.invalid || ngControl.control?.touched ? ngControl.control?.errors : {}"
     >
-      <input matInput trimInput [type]="inputType" [formControl]="ngControl.control" autocomplete="autocomplete" />
+      <input matInput trimInput [type]="inputType" [formControl]="ngControl.control" />
       <ng-content prefix select="[prefix]"></ng-content>
       <ng-content suffix select="[suffix]"></ng-content>
     </input-validation-component>
@@ -24,9 +24,7 @@ export class AtomsInputComponent extends BaseControlValueAccessorComponentModel<
   @Input() canValidate = true;
   @Input() label = '';
   @Input() inputType: InputType = InputType.TEXT;
-  @Input() autocomplete: 'on' | 'off' = 'on';
-
-  inputTypes: typeof InputType = InputType;
+  @Input() autocomplete: 'on' | 'off' = 'on'; // TODO: investigate the universal method to control autocomplete, the brackets don't work
 
   constructor(@Optional() @Self() readonly ngControl: NgControl) {
     super();
