@@ -7,6 +7,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { AtomsDateComponent } from './atoms-date.component';
 import { SharedModule } from '@/shared/shared.module';
+import { initialPreferencesState } from '@/core/store/preferences';
 
 @Component({
   template: `<form [formGroup]="form">
@@ -25,13 +26,16 @@ class TestAtomsDateComponent {
 describe('AtomsDateComponent', () => {
   let component: TestAtomsDateComponent;
   let fixture: ComponentFixture<TestAtomsDateComponent>;
+  const initialState = {
+    preferences: initialPreferencesState
+  };
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [SharedModule, BrowserAnimationsModule],
         declarations: [AtomsDateComponent, TestAtomsDateComponent],
-        providers: [provideMockStore({})]
+        providers: [provideMockStore({ initialState })]
       }).compileComponents();
     })
   );
