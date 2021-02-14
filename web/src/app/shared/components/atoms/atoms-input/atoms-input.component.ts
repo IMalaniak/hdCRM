@@ -24,7 +24,7 @@ export class AtomsInputComponent extends BaseControlValueAccessorComponentModel<
   @Input() canValidate = true;
   @Input() label = '';
   @Input() inputType: InputType = InputType.TEXT;
-  @Input() autocomplete: 'on' | 'off' = 'on'; // TODO: investigate the universal method to control autocomplete, the brackets don't work
+  @Input() autocomplete: 'on' | 'off' = 'on'; // TODO: investigate the universal method to control autocomplete, the autocomplete don't work
 
   constructor(@Optional() @Self() readonly ngControl: NgControl) {
     super();
