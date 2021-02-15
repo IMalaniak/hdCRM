@@ -77,5 +77,5 @@ jobs:
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./web/coverage/Iconv.info
+          files: ./web/coverage/Icov.info
           flags: unittests
