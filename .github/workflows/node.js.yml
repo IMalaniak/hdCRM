@@ -73,3 +73,9 @@ jobs:
       - run: npm ci
       - run: node_modules/.bin/gulp installAll
       - run: node_modules/.bin/gulp testAll
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./web/coverage/Iconv.info
+          flags: unittests
