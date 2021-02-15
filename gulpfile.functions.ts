@@ -112,15 +112,18 @@ export function task(options: { name: string; desc?: string; fct: any; alias?: s
 export function mochaRunner({
   testStage,
   cwd,
-  baseDir = 'tests'
+  baseDir = 'tests',
+  coverage = true
 }: {
   testStage: string;
   cwd: string;
   baseDir?: string;
+  coverage?: boolean;
 }): () => Promise<void> {
   const pattern = baseDir === 'tests' ? `${baseDir}/${testStage}/*.spec.?s?(x)` : `${baseDir}/**/*.spec.?s?(x)`;
   const mocha = `node_modules/.bin/mocha '${pattern}' --exit${testStage === 'architecture' && ' --timeout 10000'}`;
-  const command = `NODE_PATH=./ NODE_ENV=test ${mocha}`;
+  const nyc = `${coverage && 'node_modules/.bin/nyc'}`;
+  const command = `NODE_PATH=./ NODE_ENV=test ${nyc} ${mocha}`;
 
   return doRun(command, {
     cwd,

@@ -12,7 +12,8 @@
     "migrate:undo": "node -r dotenv/config node_modules/.bin/sequelize db:migrate:undo",
     "migrate:undo:all": "node -r dotenv/config node_modules/.bin/sequelize db:migrate:undo:all",
     "prepare-db": "node -r dotenv/config node_modules/.bin/sequelize db:seed:all",
-    "test": "mocha -r ts-node/register '**/src/**/*.spec.ts'",
+    "test": "NODE_PATH=./ NODE_ENV=test node_modules/.bin/mocha 'src/**/*.spec.ts'",
+    "test:coverage": "nyc npm run test",
     "test:architecture": "mocha -r ts-node/register 'tests/architecture/architecture.spec.ts' --timeout 10000"
   },
   "engines": {
@@ -46,6 +47,7 @@
     "typedi": "0.10.0"
   },
   "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "1.0.1",
     "@types/chai": "4.2.15",
     "@types/cookie-parser": "1.4.2",
     "@types/cors": "2.8.9",
@@ -69,6 +71,7 @@
     "nyc": "15.1.0",
     "prettier": "2.2.1",
     "sequelize-cli": "6.2.0",
+    "source-map-support": "0.5.19",
     "ts-node": "9.1.1",
     "tsarch": "^5.2.0",
     "tslint": "6.1.3",
