@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { Config } from '../../src/config';
-import { JwtHelper } from '../../src/helpers/jwtHelper';
+import { Config } from '../config';
+import { JwtHelper } from './jwtHelper';
 
 describe('jwtHelper', async () => {
   const jwtHelper: JwtHelper = new JwtHelper();
@@ -19,11 +19,13 @@ describe('jwtHelper', async () => {
     const iat = Math.floor(new Date().getTime() / 1000);
     const accessToken = jwtHelper.generateToken({ type: 'access', payload });
 
+    // tslint:disable-next-line: no-unused-expression
     expect(accessToken).to.not.be.empty;
 
     const decodedResult = jwtHelper.getDecoded(accessToken);
 
     if (decodedResult.isOk()) {
+      // tslint:disable-next-line: no-unused-expression
       expect(decodedResult.value).to.not.be.empty;
 
       const decodedExpectation = {

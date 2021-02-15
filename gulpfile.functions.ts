@@ -112,15 +112,18 @@ export function task(options: { name: string; desc?: string; fct: any; alias?: s
 export function mochaRunner({
   testStage,
   cwd,
-  baseDir = 'test'
+  baseDir = 'tests',
+  coverage = true
 }: {
   testStage: string;
   cwd: string;
   baseDir?: string;
+  coverage?: boolean;
 }): () => Promise<void> {
-  const pattern = `${baseDir}/**/*.${testStage}.test.?s?(x)`;
-  const mocha = `node_modules/.bin/mocha '${pattern}' --exit`;
-  const command = `NODE_PATH=./ NODE_ENV=test ${mocha}`;
+  const pattern = baseDir === 'tests' ? `${baseDir}/${testStage}/*.spec.?s?(x)` : `${baseDir}/**/*.spec.?s?(x)`;
+  const mocha = `node_modules/.bin/mocha '${pattern}' --exit${testStage === 'architecture' && ' --timeout 10000'}`;
+  const nyc = `${coverage ? 'node_modules/.bin/nyc' : ''}`;
+  const command = `NODE_PATH=./ NODE_ENV=test ${nyc} ${mocha}`;
 
   return doRun(command, {
     cwd,
@@ -137,7 +140,8 @@ export function generateTestTask(module: string, testStage: string, baseDir?: st
         : mochaRunner({
             testStage,
             cwd: module,
-            baseDir
+            baseDir,
+            coverage: testStage !== 'architecture'
           }),
     desc: `Runs all ${testStage} tests on ${module} (without npm install beforehand)`
   });

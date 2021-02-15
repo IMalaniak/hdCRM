@@ -41,7 +41,8 @@ artifactModules.forEach((it) => {
     desc: `Lints ${it}`
   });
 
-  generateTestTask(it, 'unit');
+  generateTestTask(it, 'unit', 'src');
+  generateTestTask(it, 'architecture');
 });
 
 // tslint:disable:no-var-requires
@@ -56,6 +57,11 @@ require('./gulpfile.server');
 task({
   name: 'testAll',
   fct: series('server:exec-unit-test', 'web:exec-unit-test')
+});
+
+task({
+  name: 'testArch',
+  fct: series('server:exec-architecture-test')
 });
 
 task({

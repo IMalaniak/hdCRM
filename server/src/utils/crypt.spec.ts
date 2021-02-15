@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { Crypt } from '../../src/utils/crypt';
+import { Crypt } from './crypt';
 
 describe('Crypt', () => {
   const crypt: Crypt = new Crypt();
