@@ -14,7 +14,7 @@
     "prepare-db": "node -r dotenv/config node_modules/.bin/sequelize db:seed:all",
     "test": "NODE_PATH=./ NODE_ENV=test node_modules/.bin/mocha 'src/**/*.spec.ts'",
     "test:coverage": "nyc npm run test",
-    "test:architecture": "mocha -r ts-node/register 'tests/architecture/architecture.spec.ts' --timeout 10000"
+    "test:architecture": "NODE_PATH=./ NODE_ENV=test node_modules/.bin/mocha 'tests/architecture/architecture.spec.ts' --timeout 10000"
   },
   "engines": {
     "node": "14.x.x"

@@ -36,10 +36,32 @@
         "${workspaceFolder}/.mocharc.json",
         "--colors",
         "--recursive",
-        "**/src/**/*.spec.ts"
+        "src/**/*.spec.ts"
       ],
       "cwd": "${workspaceFolder}",
       "env": {
+        "NODE_PATH": "./",
+        "NODE_ENV": "test"
+      },
+      "internalConsoleOptions": "openOnSessionStart"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Mocha Architecture Tests",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+      "args": [
+        "--timeout",
+        "999999",
+        "--config",
+        "${workspaceFolder}/.mocharc.json",
+        "--colors",
+        "--recursive",
+        "tests/architecture/architecture.spec.ts"
+      ],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "NODE_PATH": "./",
         "NODE_ENV": "test"
       },
       "internalConsoleOptions": "openOnSessionStart"

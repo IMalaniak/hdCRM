@@ -122,7 +122,7 @@ export function mochaRunner({
 }): () => Promise<void> {
   const pattern = baseDir === 'tests' ? `${baseDir}/${testStage}/*.spec.?s?(x)` : `${baseDir}/**/*.spec.?s?(x)`;
   const mocha = `node_modules/.bin/mocha '${pattern}' --exit${testStage === 'architecture' && ' --timeout 10000'}`;
-  const nyc = `${coverage && 'node_modules/.bin/nyc'}`;
+  const nyc = `${coverage ? 'node_modules/.bin/nyc' : ''}`;
   const command = `NODE_PATH=./ NODE_ENV=test ${nyc} ${mocha}`;
 
   return doRun(command, {
@@ -140,7 +140,8 @@ export function generateTestTask(module: string, testStage: string, baseDir?: st
         : mochaRunner({
             testStage,
             cwd: module,
-            baseDir
+            baseDir,
+            coverage: testStage !== 'architecture'
           }),
     desc: `Runs all ${testStage} tests on ${module} (without npm install beforehand)`
   });
