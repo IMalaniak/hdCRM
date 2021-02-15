@@ -1,37 +1,55 @@
-import { Component, Input, HostBinding, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Input,
+  HostBinding,
+  ChangeDetectionStrategy,
+  Optional,
+  Self,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { MatFormFieldControl } from '@angular/material/form-field';
+import { NgControl } from '@angular/forms';
+import { ThemePalette } from '@angular/material/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatRadioChange } from '@angular/material/radio';
 
-import { AtomsFormFieldComponent } from '../../atoms';
+import { BaseControlValueAccessorComponentModel } from '../../base/componentModels';
+import { IFieldType, THEME_PALETTE } from '@/shared/constants';
 
 @Component({
   selector: 'molecules-form-field',
-  template: `
-    <atoms-form-field
-      *ngIf="editForm && editable"
-      [formControl]="ngControl.control"
-      [label]="label"
-      [color]="color"
-      [options]="options"
-      [bindOptLabel]="bindOptLabel"
-      [bindOptValue]="bindOptValue"
-      [fType]="fType"
-      (onChange)="onValueChange($event)"
-    ></atoms-form-field>
-
-    <atoms-readonly-form-field
-      *ngIf="!editForm && !editOnly"
-      [label]="label"
-      [value]="value"
-      [fType]="fType"
-    ></atoms-readonly-form-field>
-  `,
+  templateUrl: 'molecules-form-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: MatFormFieldControl, useExisting: MoleculesFormFieldComponent }]
 })
-export class MoleculesFormFieldComponent extends AtomsFormFieldComponent {
+export class MoleculesFormFieldComponent extends BaseControlValueAccessorComponentModel<
+  string | number | boolean | Date | null | undefined | any[]
+> {
+  @Input() fType: IFieldType;
+  @Input() label = '';
   @Input() editForm = false;
   @Input() editable = true;
   @Input() editOnly?: boolean;
+  @Input() options?: any[];
+  @Input() color: ThemePalette = THEME_PALETTE.PRIMARY;
+  @Input() bindOptValue?: string; // TODO: provide logic to use this parameter
+  @Input() bindOptLabel?: string; // TODO: provide logic to use this parameter
+
+  // tslint:disable-next-line:no-output-on-prefix
+  @Output() onChange: EventEmitter<MatCheckboxChange | MatRadioChange> = new EventEmitter();
 
   @HostBinding('class.w-100') fullWidth = true;
+
+  fieldTypes: typeof IFieldType = IFieldType;
+
+  constructor(@Optional() @Self() readonly ngControl: NgControl) {
+    super();
+
+    this.ngControl.valueAccessor = this;
+  }
+
+  protected onValueChange(event: MatCheckboxChange | MatRadioChange): void {
+    this.onChange.emit(event);
+  }
 }

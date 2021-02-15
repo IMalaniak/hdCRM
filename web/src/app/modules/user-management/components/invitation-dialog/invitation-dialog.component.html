@@ -9,18 +9,14 @@
     </mat-list>
     <form [formGroup]="userData">
       <div class="form-container">
-        <atoms-form-field
-          class="mr-0 mr-md-2"
-          label="Full name"
-          [formControl]="userData.get('fullname')"
-        ></atoms-form-field>
-        <atoms-form-field
+        <atoms-input label="Full name" class="mr-0 mr-md-2" [formControl]="userData.get('fullname')"></atoms-input>
+        <atoms-input
+          label="Email"
           class="ml-0 ml-md-2"
           [inputType]="inputTypes.EMAIL"
-          label="Email"
           [formControl]="userData.get('email')"
         >
-        </atoms-form-field>
+        </atoms-input>
       </div>
       <atoms-icon-button
         (onclick)="addUserToInvitation(userData.value)"

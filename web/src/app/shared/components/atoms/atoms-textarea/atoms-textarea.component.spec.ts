@@ -1,40 +1,40 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { AtomsTextareaComponent } from './atoms-textarea.component';
 import { SharedModule } from '@/shared/shared.module';
-import { AtomsFormFieldComponent } from './atoms-form-field.component';
 
 @Component({
   template: `<form [formGroup]="form">
-    <atoms-form-field formControlName="input"> </atoms-form-field>
+    <atoms-textarea formControlName="textarea"> </atoms-textarea>
   </form>`
 })
-class TestInputComponent {
-  @ViewChild(AtomsFormFieldComponent, { static: true })
-  textInputComponent: AtomsFormFieldComponent;
+class TestAtomsTextareaComponent {
+  @ViewChild(AtomsTextareaComponent, { static: true })
+  textareaInputComponent: AtomsTextareaComponent;
 
   form = new FormGroup({
-    input: new FormControl('Test Value')
+    textarea: new FormControl('Test value')
   });
 }
 
-describe('AtomsFormFieldComponent', () => {
-  let component: TestInputComponent;
-  let fixture: ComponentFixture<TestInputComponent>;
+describe('AtomsTextareaComponent', () => {
+  let component: TestAtomsTextareaComponent;
+  let fixture: ComponentFixture<TestAtomsTextareaComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [SharedModule, BrowserAnimationsModule],
-        declarations: [TestInputComponent, AtomsFormFieldComponent]
+        declarations: [AtomsTextareaComponent, TestAtomsTextareaComponent]
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TestInputComponent);
+    fixture = TestBed.createComponent(TestAtomsTextareaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

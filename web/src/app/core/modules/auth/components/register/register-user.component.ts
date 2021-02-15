@@ -9,7 +9,6 @@ import { IconsService } from '@/core/services';
 import { User } from '@/core/modules/user-api/shared';
 import {
   CONSTANTS,
-  IFieldType,
   ACTION_LABELS,
   BUTTON_TYPE,
   MAT_BUTTON,
@@ -34,7 +33,6 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
 
   registerData: FormGroup;
   hidePassword = true;
-  fieldTypes = IFieldType;
 
   orgTypes = OrgType;
   actionLabels = ACTION_LABELS;

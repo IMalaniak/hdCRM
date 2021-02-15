@@ -1,0 +1,16 @@
+<input-validation-component
+  [label]="label"
+  [canValidate]="(ngControl.control?.invalid || ngControl.control?.touched) && canValidate"
+  [inputErrors]="ngControl.control?.invalid || ngControl.control?.touched ? ngControl.control?.errors : {}"
+>
+  <input
+    matInput
+    trimInput
+    [formControl]="ngControl.control"
+    [type]="inputType.DATETIME"
+    [matDatepicker]="picker"
+    [value]="ngControl.control.value | dateTimeFormat | async"
+  />
+  <mat-datepicker-toggle suffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker touchUi #picker></mat-datepicker>
+</input-validation-component>

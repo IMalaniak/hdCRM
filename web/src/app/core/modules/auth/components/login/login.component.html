@@ -17,16 +17,16 @@
               <h2 i18n="@@loginComponentFormHeaderTitleLogin" class="pb-3">Login</h2>
 
               <!-- Login/Email -->
-              <atoms-form-field label="Login/Email" [formControl]="user.get('login')"> </atoms-form-field>
+              <atoms-input label="Login/Email" [formControl]="user.get('login')"> </atoms-input>
 
               <!-- Password -->
-              <atoms-form-field
+              <atoms-input
                 label="Password"
                 [inputType]="hidePassword ? inputTypes.PASSWORD : inputTypes.TEXT"
                 [formControl]="user.get('password')"
               >
                 <ng-container *ngTemplateOutlet="passwordEye" suffix></ng-container>
-              </atoms-form-field>
+              </atoms-input>
 
               <div class="d-flex flex-row justify-content-between align-items-center">
                 <atoms-icon-button
@@ -69,7 +69,7 @@
               <h3 i18n="@@loginComponentFormRequestNewPasswordHeader" class="pb-2">Your email or login</h3>
 
               <!-- Login/Email -->
-              <atoms-form-field label="Login/Email" [formControl]="user.get('login')"> </atoms-form-field>
+              <atoms-input label="Login/Email" [formControl]="user.get('login')"> </atoms-input>
 
               <div class="d-flex justify-content-between">
                 <atoms-icon-button
@@ -97,21 +97,21 @@
               <h3 i18n="@@loginComponentFormPasswordResetHeader" class="pb-2">Reset password</h3>
 
               <!-- New password -->
-              <atoms-form-field
+              <atoms-input
                 label="New password"
                 [inputType]="hidePassword ? inputTypes.PASSWORD : inputTypes.TEXT"
                 [formControl]="newPasswordForm.get('newPassword')"
               >
                 <ng-container *ngTemplateOutlet="passwordEye" suffix></ng-container>
-              </atoms-form-field>
+              </atoms-input>
 
               <!-- Confirm password -->
-              <atoms-form-field
+              <atoms-input
                 label="Confirm password"
                 [inputType]="inputTypes.PASSWORD"
                 [formControl]="newPasswordForm.get('verifyPassword')"
               >
-              </atoms-form-field>
+              </atoms-input>
 
               <div class="d-flex flex-row justify-content-between mt-1">
                 <atoms-icon-button

@@ -8,9 +8,14 @@ const ATOMS = [
   _components.AtomsUserPicComponent,
   _components.AtomsLinkButtonComponent,
   _components.AtomsNoContentInfoComponent,
-  _components.AtomsFormFieldComponent,
   _components.AtomsReadonlyFormFieldComponent,
-  _components.AtomsIntegrationCardComponent
+  _components.AtomsIntegrationCardComponent,
+  _components.AtomsInputComponent,
+  _components.AtomsTextareaComponent,
+  _components.AtomsSelectComponent,
+  _components.AtomsDateComponent,
+  _components.AtomsCheckboxComponent,
+  _components.AtomsRadiogroupComponent
 ];
 const MOLECULES = [
   _components.MoleculesProfilePicWithUploaderComponent,
