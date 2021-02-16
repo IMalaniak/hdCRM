@@ -14,9 +14,6 @@ import {
 import { CONSTANTS } from '../constants';
 import { BaseService } from './base/BaseService';
 
-Container.set(CONSTANTS.MODEL, Role);
-Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_ROLE);
-
 @Service()
 export class RoleService extends BaseService<RoleCreationAttributes, RoleAttributes, Role> {
   public readonly enableSideEffects = true;
@@ -97,5 +94,11 @@ export class RoleService extends BaseService<RoleCreationAttributes, RoleAttribu
     }
 
     return this.findByPk(id);
+  }
+
+  constructor() {
+    super();
+    Container.set(CONSTANTS.MODEL, Role);
+    Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_ROLE);
   }
 }

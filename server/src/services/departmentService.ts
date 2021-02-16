@@ -13,9 +13,6 @@ import {
 import { CONSTANTS } from '../constants';
 import { BaseService } from './base/BaseService';
 
-Container.set(CONSTANTS.MODEL, Department);
-Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_DEPARTMENT);
-
 @Service()
 export class DepartmentService extends BaseService<DepartmentCreationAttributes, DepartmentAttributes, Department> {
   public readonly enableSideEffects = true;
@@ -90,6 +87,12 @@ export class DepartmentService extends BaseService<DepartmentCreationAttributes,
       }
     }
     return this.findByPk(id);
+  }
+
+  constructor() {
+    super();
+    Container.set(CONSTANTS.MODEL, Department);
+    Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_DEPARTMENT);
   }
 
   private async addParentDepartment(department: Department, parentDepartment: Department): Promise<void> {

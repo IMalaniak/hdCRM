@@ -31,7 +31,7 @@ export class PlanController {
     } = req;
     req.log.info(`Selecting plan by id: ${id}...`);
 
-    const result = await this.planService.getDataById(id);
+    const result = await this.planService.getById(id);
 
     return sendResponse<ItemApiResponse<Plan>, BaseResponse>(result, res);
   }
@@ -81,7 +81,7 @@ export class PlanController {
   ): Promise<void> {
     req.log.info(`Updating plan by id: ${req.body.id}...`);
 
-    const result = await this.planService.updateOne(req.body);
+    const result = await this.planService.update(req.body);
 
     return sendResponse<ItemApiResponse<Plan>, BaseResponse>(result, res);
   }
