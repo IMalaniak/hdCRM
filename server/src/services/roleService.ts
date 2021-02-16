@@ -16,7 +16,7 @@ import { BaseService } from './base/BaseService';
 
 @Service()
 export class RoleService extends BaseService<RoleCreationAttributes, RoleAttributes, Role> {
-  public readonly enableSideEffects = true;
+  public excludes: string[] = [];
   public readonly includes: IncludeOptions[] = [
     {
       association: Role.associations.Privileges,

@@ -1,4 +1,3 @@
-import { Service } from 'typedi';
 import {
   Sequelize,
   Model,
@@ -40,7 +39,6 @@ export interface DepartmentAttributes {
 export interface DepartmentCreationAttributes
   extends Optional<DepartmentAttributes, 'id' | 'description' | 'parentDepId'> {}
 
-@Service()
 export class Department extends Model<DepartmentAttributes, DepartmentCreationAttributes> {
   public id!: number;
   public title!: string;

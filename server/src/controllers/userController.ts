@@ -88,7 +88,7 @@ export class UserController {
   ): Promise<void> {
     req.log.info(`Updating user by id: ${req.body.id}...`);
 
-    const result = await this.userService.updateOne(req.body);
+    const result = await this.userService.update(req.body);
 
     return sendResponse<ItemApiResponse<User>, BaseResponse>(result, res);
   }

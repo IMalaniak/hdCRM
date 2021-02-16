@@ -15,7 +15,7 @@ import { BaseService } from './base/BaseService';
 
 @Service()
 export class DepartmentService extends BaseService<DepartmentCreationAttributes, DepartmentAttributes, Department> {
-  public readonly enableSideEffects = true;
+  public excludes: string[] = [];
   public readonly includes: IncludeOptions[] = [
     {
       association: Department.associations.ParentDepartment,

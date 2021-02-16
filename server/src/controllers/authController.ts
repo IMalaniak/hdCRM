@@ -44,7 +44,7 @@ export class AuthController {
       ...(!req.body.Organization.title && { title: `PRIVATE_ORG_FOR_${req.body.name}_${req.body.surname}` })
     };
 
-    const user: UserCreationAttributes = {
+    const user: Partial<UserCreationAttributes> = {
       email: req.body.email,
       login: req.body.login,
       passwordHash: passwordData.passwordHash,

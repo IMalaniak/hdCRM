@@ -1,4 +1,4 @@
-import { Service } from 'typedi';
+import Container, { Service } from 'typedi';
 import { Op, IncludeOptions } from 'sequelize';
 import { err, ok, Result } from 'neverthrow';
 import path from 'path';
@@ -16,7 +16,6 @@ import {
   Asset,
   ItemApiResponse,
   BaseResponse,
-  PageQueryWithOrganization,
   CollectionApiResponse,
   PasswordReset,
   AssetCreationAttributes,
@@ -25,15 +24,15 @@ import {
 import { CONSTANTS, MailThemes } from '../constants';
 import { Mailer } from '../mailer/nodeMailerTemplates';
 import { Crypt } from '../utils/crypt';
-import { Logger } from '../utils/Logger';
 import { Config } from '../config';
 import { reduceResults } from './utils';
+import { BaseService } from './base/BaseService';
 
 @Service()
-export class UserService {
+export class UserService extends BaseService<UserCreationAttributes, UserAttributes, User> {
   private unlinkAsync = promisify(fs.unlink);
-
-  private includes: IncludeOptions[] = [
+  public excludes: string[] = ['passwordHash', 'salt'];
+  public readonly includes: IncludeOptions[] = [
     {
       association: User.associations.Role,
       required: false,
@@ -71,86 +70,10 @@ export class UserService {
     }
   ];
 
-  constructor(private readonly mailer: Mailer, private readonly crypt: Crypt, private readonly logger: Logger) {}
-
-  public async getById(id: number | string): Promise<Result<ItemApiResponse<User>, BaseResponse>> {
-    try {
-      const data = await this.findByPk(id);
-      if (data) {
-        return ok({ success: true, data });
-      } else {
-        return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No user with such id', data: null });
-      }
-    } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
-    }
-  }
-
-  public async getPage(
-    pageQuery: PageQueryWithOrganization
-  ): Promise<Result<CollectionApiResponse<User>, BaseResponse>> {
-    try {
-      const { limit, offset, sortDirection, sortIndex, OrganizationId, parsedFilters } = pageQuery;
-
-      const data = await User.findAndCountAll({
-        attributes: { exclude: ['passwordHash', 'salt'] },
-        where: {
-          ...parsedFilters,
-          OrganizationId
-        },
-        include: [...this.includes],
-        limit,
-        offset,
-        order: [[sortIndex, sortDirection]],
-        distinct: true
-      });
-
-      if (data.count) {
-        const pages = Math.ceil(data.count / limit);
-        const ids: number[] = data.rows.map((user) => user.id);
-        return ok({ success: true, ids, data: data.rows, resultsNum: data.count, pages });
-      } else {
-        return ok({ success: false, message: 'No users by this query', data: [] });
-      }
-    } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
-    }
-  }
-
-  public async create(user: UserCreationAttributes): Promise<Result<ItemApiResponse<User>, BaseResponse>> {
-    try {
-      const data = await User.create(user);
-      if (data) {
-        return ok({ success: true, message: 'User created successfully!', data });
-      }
-    } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
-    }
-  }
-
-  public async updateOne(user: UserAttributes): Promise<Result<ItemApiResponse<User>, BaseResponse>> {
-    try {
-      await User.update(
-        {
-          ...user
-        },
-        {
-          where: { id: user.id }
-        }
-      );
-
-      const data = await this.findByPk(user.id);
-
-      if (data) {
-        return ok({ success: true, message: 'User updated successfully!', data });
-      }
-    } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
-    }
+  constructor(private readonly mailer: Mailer, private readonly crypt: Crypt) {
+    super();
+    Container.set(CONSTANTS.MODEL, User);
+    Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_PLAN);
   }
 
   public async updatePassword(
@@ -192,23 +115,6 @@ export class UserService {
         }
       } else {
         return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'New passwords do not match!' });
-      }
-    } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
-    }
-  }
-
-  public async delete(id: number | number[] | string | string[]): Promise<Result<BaseResponse, BaseResponse>> {
-    try {
-      const deleted = await User.destroy({
-        where: { id }
-      });
-
-      if (deleted > 0) {
-        return ok({ success: true, message: `Deleted ${deleted} user` });
-      } else {
-        return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No users by this query', data: null });
       }
     } catch (error) {
       this.logger.error(error);
@@ -435,12 +341,8 @@ export class UserService {
     }
   }
 
-  // Private functions
-  private findByPk(id: number | string): Promise<User> {
-    return User.findByPk(id, {
-      attributes: { exclude: ['passwordHash', 'salt'] },
-      include: [...this.includes]
-    });
+  public sideEffect(_, id: number): Promise<User> {
+    return this.findByPk(id);
   }
 
   // TODO: check if I can set types dynamically for params

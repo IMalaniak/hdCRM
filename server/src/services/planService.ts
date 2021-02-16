@@ -24,7 +24,7 @@ import { BaseService } from './base/BaseService';
 export class PlanService extends BaseService<PlanCreationAttributes, PlanAttributes, Plan> {
   private unlinkAsync = promisify(fs.unlink);
 
-  public readonly enableSideEffects = true;
+  public excludes: string[] = [];
   public readonly includes: IncludeOptions[] = [
     {
       association: Plan.associations.Creator,

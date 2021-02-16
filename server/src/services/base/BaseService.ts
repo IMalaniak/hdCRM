@@ -29,7 +29,7 @@ export abstract class BaseService<C, A extends IdItem & OrgIdItem, M extends Mod
   logger: Logger;
 
   public abstract readonly includes: IncludeOptions[];
-  public abstract readonly enableSideEffects: boolean;
+  public abstract excludes: string[];
 
   public async getById(id: number | string): Promise<Result<ItemApiResponse<M>, BaseResponse>> {
     try {
@@ -85,9 +85,7 @@ export abstract class BaseService<C, A extends IdItem & OrgIdItem, M extends Mod
         ...item
       });
 
-      const data = this.enableSideEffects
-        ? await this.sideEffect(item, createdItem.id)
-        : await this.findByPk(createdItem.id);
+      const data = await this.sideEffect(item, createdItem.id);
 
       if (data) {
         return ok({ success: true, message: `New ${this.modelName} created successfully!`, data });
@@ -109,7 +107,7 @@ export abstract class BaseService<C, A extends IdItem & OrgIdItem, M extends Mod
         }
       );
 
-      const data = this.enableSideEffects ? await this.sideEffect(item, item.id) : await this.findByPk(item.id);
+      const data = await this.sideEffect(item, item.id);
 
       if (data) {
         return ok({ success: true, message: `The ${this.modelName} updated successfully!`, data });
@@ -146,6 +144,7 @@ export abstract class BaseService<C, A extends IdItem & OrgIdItem, M extends Mod
 
   public findByPk(id: number | string): Promise<M> {
     return this.MODEL.findByPk(id, {
+      attributes: { exclude: [...this.excludes] },
       include: [...this.includes]
     });
   }
