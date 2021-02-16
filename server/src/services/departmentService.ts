@@ -1,4 +1,4 @@
-import { Service } from 'typedi';
+import Container, { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 import { IncludeOptions, Op } from 'sequelize';
 
@@ -7,18 +7,19 @@ import {
   CollectionApiResponse,
   Department,
   User,
-  ItemApiResponse,
-  PageQueryWithOrganization,
   DepartmentCreationAttributes,
-  DepartmentAttributes,
-  ErrorOrigin
+  DepartmentAttributes
 } from '../models';
 import { CONSTANTS } from '../constants';
-import { Logger } from '../utils/Logger';
+import { BaseService } from './base/BaseService';
+
+Container.set(CONSTANTS.MODEL, Department);
+Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_DEPARTMENT);
 
 @Service()
-export class DepartmentService {
-  private includes: IncludeOptions[] = [
+export class DepartmentService extends BaseService<DepartmentCreationAttributes, DepartmentAttributes, Department> {
+  public readonly enableSideEffects = true;
+  public readonly includes: IncludeOptions[] = [
     {
       association: Department.associations.ParentDepartment,
       required: false
@@ -49,11 +50,9 @@ export class DepartmentService {
     }
   ];
 
-  constructor(private readonly logger: Logger) {}
-
   public async getDashboardData(orgId: number): Promise<Result<CollectionApiResponse<Department>, BaseResponse>> {
     try {
-      const data = await Department.findAndCountAll({
+      const data = await this.MODEL.findAndCountAll({
         attributes: ['title', 'id'],
         where: {
           OrganizationId: orgId
@@ -74,157 +73,23 @@ export class DepartmentService {
     }
   }
 
-  public async getDataById(id: number | string): Promise<Result<ItemApiResponse<Department>, BaseResponse>> {
-    try {
-      const department = await this.findByPk(id);
-      if (department) {
-        return ok({ success: true, data: department });
-      } else {
-        return err({
-          success: false,
-          errorOrigin: ErrorOrigin.CLIENT,
-          message: 'No department with such id',
-          data: null
-        });
-      }
-    } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
-    }
-  }
-
-  public async getPage(
-    pageQuery: PageQueryWithOrganization
-  ): Promise<Result<CollectionApiResponse<Department>, BaseResponse>> {
-    try {
-      const { limit, offset, sortDirection, sortIndex, OrganizationId, parsedFilters } = pageQuery;
-
-      const data = await Department.findAndCountAll({
-        where: {
-          ...parsedFilters,
-          OrganizationId
-        },
-        include: [...this.includes],
-        limit,
-        offset,
-        order: [[sortIndex, sortDirection]],
-        distinct: true
-      });
-
-      if (data.count) {
-        const pages = Math.ceil(data.count / limit);
-        const ids: number[] = data.rows.map((dep) => dep.id);
-        return ok({ success: true, ids, data: data.rows, resultsNum: data.count, pages });
-      } else {
-        return ok({ success: false, message: 'No departments by this query', data: [] });
-      }
-    } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
-    }
-  }
-
-  public async create(
-    department: DepartmentCreationAttributes
-  ): Promise<Result<ItemApiResponse<Department>, BaseResponse>> {
-    try {
-      const createdDep = await Department.create({
-        title: department.title,
-        description: department.description,
-        OrganizationId: department.OrganizationId,
-        ...(department.Manager && { managerId: department.Manager.id })
-      });
+  public async sideEffect(department: Department): Promise<Department> {
+    if (department.ParentDepartment || department.SubDepartments?.length || department.Workers?.length) {
+      const updated = await this.MODEL.findByPk(department.id, { attributes: ['id'] });
 
       if (department.ParentDepartment) {
-        await this.addParentDepartment(createdDep, department.ParentDepartment);
+        await this.addParentDepartment(updated, department.ParentDepartment);
       }
 
       if (department.SubDepartments?.length) {
-        await this.addSubDepartments(createdDep, department.SubDepartments);
+        await this.addSubDepartments(updated, department.SubDepartments);
       }
 
       if (department.Workers?.length) {
-        await this.addWorkers(createdDep, department.Workers);
+        await this.addWorkers(updated, department.Workers);
       }
-
-      const data = await this.findByPk(createdDep.id);
-
-      if (data) {
-        return ok({ success: true, message: 'Department created successfully!', data });
-      }
-    } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
-  }
-
-  public async updateOne(department: DepartmentAttributes): Promise<Result<ItemApiResponse<Department>, BaseResponse>> {
-    try {
-      await Department.update(
-        {
-          title: department.title,
-          description: department.description,
-          ...(department.Manager && { managerId: department.Manager.id })
-        },
-        {
-          where: { id: department.id }
-        }
-      );
-
-      if (department.ParentDepartment || department.SubDepartments?.length || department.Workers?.length) {
-        const updated = await Department.findByPk(department.id, { attributes: ['id'] });
-
-        if (department.ParentDepartment) {
-          await this.addParentDepartment(updated, department.ParentDepartment);
-        }
-
-        if (department.SubDepartments?.length) {
-          await this.addSubDepartments(updated, department.SubDepartments);
-        }
-
-        if (department.Workers?.length) {
-          await this.addWorkers(updated, department.Workers);
-        }
-      }
-
-      const data = await this.findByPk(department.id);
-
-      if (data) {
-        return ok({ success: true, message: 'Department updated successfully!', data });
-      }
-    } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
-    }
-  }
-
-  public async delete(id: string | number | string[] | number[]): Promise<Result<BaseResponse, BaseResponse>> {
-    try {
-      const deleted = await Department.destroy({
-        where: { id }
-      });
-
-      if (deleted > 0) {
-        return ok({ success: true, message: `Deleted ${deleted} department` });
-      } else {
-        return err({
-          success: false,
-          errorOrigin: ErrorOrigin.CLIENT,
-          message: 'No departments by this query',
-          data: null
-        });
-      }
-    } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
-    }
-  }
-
-  // Private functions
-  private findByPk(id: number | string): Promise<Department> {
-    return Department.findByPk(id, {
-      include: [...this.includes]
-    });
+    return this.findByPk(department.id);
   }
 
   private async addParentDepartment(department: Department, parentDepartment: Department): Promise<void> {
@@ -232,7 +97,7 @@ export class DepartmentService {
   }
 
   private async addSubDepartments(department: Department, subDepartmentIds: { id: number }[]): Promise<void> {
-    const subDepartments = await Department.findAll({ where: { [Op.or]: subDepartmentIds }, attributes: ['id'] });
+    const subDepartments = await this.MODEL.findAll({ where: { [Op.or]: subDepartmentIds }, attributes: ['id'] });
     return await department.setSubDepartments(subDepartments);
   }
 

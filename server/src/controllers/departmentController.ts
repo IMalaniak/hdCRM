@@ -40,7 +40,7 @@ export class DepartmentController {
       params: { id }
     } = req;
     req.log.info(`Selecting department by id: ${id}...`);
-    const result = await this.departmentService.getDataById(id);
+    const result = await this.departmentService.getById(id);
 
     return sendResponse<ItemApiResponse<Department>, BaseResponse>(result, res);
   }
@@ -89,7 +89,7 @@ export class DepartmentController {
   ): Promise<void> {
     req.log.info(`Updating department by id: ${req.body.id}...`);
 
-    const result = await this.departmentService.updateOne(req.body);
+    const result = await this.departmentService.update(req.body);
 
     return sendResponse<ItemApiResponse<Department>, BaseResponse>(result, res);
   }
