@@ -73,9 +73,9 @@ export class DepartmentService extends BaseService<DepartmentCreationAttributes,
     }
   }
 
-  public async sideEffect(department: Department): Promise<Department> {
+  public async sideEffect(department: Department, id: number): Promise<Department> {
     if (department.ParentDepartment || department.SubDepartments?.length || department.Workers?.length) {
-      const updated = await this.MODEL.findByPk(department.id, { attributes: ['id'] });
+      const updated = await this.MODEL.findByPk(id, { attributes: ['id'] });
 
       if (department.ParentDepartment) {
         await this.addParentDepartment(updated, department.ParentDepartment);
@@ -89,7 +89,7 @@ export class DepartmentService extends BaseService<DepartmentCreationAttributes,
         await this.addWorkers(updated, department.Workers);
       }
     }
-    return this.findByPk(department.id);
+    return this.findByPk(id);
   }
 
   private async addParentDepartment(department: Department, parentDepartment: Department): Promise<void> {

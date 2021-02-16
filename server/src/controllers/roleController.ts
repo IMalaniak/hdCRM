@@ -43,7 +43,7 @@ export class RoleController {
     } = req;
     req.log.info(`Selecting role by id: ${id}...`);
 
-    const result = await this.roleService.getDataById(id);
+    const result = await this.roleService.getById(id);
 
     return sendResponse<ItemApiResponse<Role>, BaseResponse>(result, res);
   }
@@ -92,7 +92,7 @@ export class RoleController {
   ): Promise<void> {
     req.log.info(`Updating role by id: ${req.body.id}...`);
 
-    const result = await this.roleService.updateOne(req.body);
+    const result = await this.roleService.update(req.body);
 
     return sendResponse<ItemApiResponse<Role>, BaseResponse>(result, res);
   }
