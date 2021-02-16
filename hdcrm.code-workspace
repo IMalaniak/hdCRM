@@ -39,7 +39,7 @@
     "mochaExplorer.nodePath": null,
     "mochaExplorer.mochaPath": "./node_modules/mocha",
     "mochaExplorer.files": ["src/**/*.spec.ts", "tests/**/*.spec.ts"],
-    "mochaExplorer.require": "ts-node/register",
+    "mochaExplorer.require": ["ts-node/register", "reflect-metadata"],
     "mochaExplorer.timeout": 10000,
     "errorLens.enabledDiagnosticLevels": ["error", "warning"]
   },
