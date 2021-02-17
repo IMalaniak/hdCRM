@@ -19,18 +19,18 @@ export class RoleService extends BaseService<RoleCreationAttributes, RoleAttribu
   public excludes: string[] = [];
   public readonly includes: IncludeOptions[] = [
     {
-      association: Role.associations.Privileges,
+      association: Role.associations?.Privileges,
       through: {
         attributes: ['view', 'edit', 'add', 'delete']
       },
       required: false
     },
     {
-      association: Role.associations.Users,
+      association: Role.associations?.Users,
       attributes: { exclude: ['passwordHash', 'salt'] },
       include: [
         {
-          association: User.associations.avatar,
+          association: User.associations?.avatar,
           required: false
         }
       ],
@@ -47,7 +47,7 @@ export class RoleService extends BaseService<RoleCreationAttributes, RoleAttribu
         },
         include: [
           {
-            association: Role.associations.Users,
+            association: Role.associations?.Users,
             attributes: ['id'],
             required: true
           }
