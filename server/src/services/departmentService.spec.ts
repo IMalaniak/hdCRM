@@ -3,12 +3,11 @@
 import { fail } from 'assert';
 import { expect } from 'chai';
 import { Result } from 'neverthrow';
-import { CreateOptions } from 'sequelize';
 import sinon from 'sinon';
 import Container from 'typedi';
 
 import { CONSTANTS } from '../constants';
-import { BaseResponse, Department, DepartmentCreationAttributes, User } from '../models';
+import { BaseResponse, Department, User } from '../models';
 import { Logger } from '../utils/Logger';
 import { DepartmentService } from './departmentService';
 
@@ -18,10 +17,6 @@ describe('DepartmentService', () => {
   let spyLogger: sinon.SinonSpy;
 
   let findByPkStub: sinon.SinonStub;
-  let createStub: sinon.SinonStub<
-    [values: DepartmentCreationAttributes, options: CreateOptions<any>],
-    Promise<Department>
-  >;
   let updateStub: sinon.SinonStub;
   let findAndCountAllStub: sinon.SinonStub;
   let findAllDepsStub: sinon.SinonStub;
@@ -30,9 +25,6 @@ describe('DepartmentService', () => {
   // fakes
   const departmentFake = {
     id: 1,
-    managerId: 1,
-    OrganizationId: 1,
-    title: 'Test',
     ParentDepartment: {
       id: 2
     },
@@ -42,9 +34,6 @@ describe('DepartmentService', () => {
 
   const departmentFakeResponse = {
     id: 1,
-    managerId: 1,
-    OrganizationId: 1,
-    title: 'Test',
     ParentDepartment: {
       id: 2
     },
@@ -56,10 +45,7 @@ describe('DepartmentService', () => {
   } as Department;
 
   const departmentFake2 = {
-    id: 2,
-    managerId: 2,
-    OrganizationId: 1,
-    title: 'Test2'
+    id: 2
   } as Department;
 
   const expect500 = (result: Result<BaseResponse, BaseResponse>) => {
@@ -74,7 +60,6 @@ describe('DepartmentService', () => {
 
   before(() => {
     findByPkStub = sinon.stub(Department, 'findByPk');
-    createStub = sinon.stub(Department, 'create') as any;
     updateStub = sinon.stub(Department, 'update');
     findAndCountAllStub = sinon.stub(Department, 'findAndCountAll');
     findAllDepsStub = sinon.stub(Department, 'findAll');
@@ -83,7 +68,6 @@ describe('DepartmentService', () => {
 
   after(() => {
     findByPkStub.restore();
-    createStub.restore();
     updateStub.restore();
     findAndCountAllStub.restore();
     findAllDepsStub.restore();
@@ -98,7 +82,6 @@ describe('DepartmentService', () => {
 
   afterEach(() => {
     findByPkStub.reset();
-    createStub.reset();
     updateStub.reset();
     findAndCountAllStub.reset();
     findAllDepsStub.reset();
