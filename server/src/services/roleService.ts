@@ -12,7 +12,7 @@ import {
   Privilege
 } from '../models';
 import { CONSTANTS } from '../constants';
-import { BaseService } from './base/BaseService';
+import { BaseService } from './base/baseService';
 
 @Service()
 export class RoleService extends BaseService<RoleCreationAttributes, RoleAttributes, Role> {

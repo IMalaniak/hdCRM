@@ -11,7 +11,7 @@ import {
   DepartmentAttributes
 } from '../models';
 import { CONSTANTS } from '../constants';
-import { BaseService } from './base/BaseService';
+import { BaseService } from './base/baseService';
 
 @Service()
 export class DepartmentService extends BaseService<DepartmentCreationAttributes, DepartmentAttributes, Department> {

@@ -26,7 +26,7 @@ import { Mailer } from '../mailer/nodeMailerTemplates';
 import { Crypt } from '../utils/crypt';
 import { Config } from '../config';
 import { reduceResults } from './utils';
-import { BaseService } from './base/BaseService';
+import { BaseService } from './base/baseService';
 
 @Service()
 export class UserService extends BaseService<UserCreationAttributes, UserAttributes, User> {

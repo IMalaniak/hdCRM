@@ -18,7 +18,7 @@ import {
   AssetCreationAttributes
 } from '../models';
 import { CONSTANTS } from '../constants';
-import { BaseService } from './base/BaseService';
+import { BaseService } from './base/baseService';
 
 @Service()
 export class PlanService extends BaseService<PlanCreationAttributes, PlanAttributes, Plan> {

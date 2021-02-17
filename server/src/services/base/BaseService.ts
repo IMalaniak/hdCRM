@@ -40,8 +40,7 @@ export abstract class BaseService<C, A extends IdItem & OrgIdItem, M extends Mod
         return err({
           success: false,
           errorOrigin: ErrorOrigin.CLIENT,
-          message: `No ${this.modelName} with such id`,
-          data: null
+          message: `No ${this.modelName} with such id`
         });
       }
     } catch (error) {
@@ -84,12 +83,8 @@ export abstract class BaseService<C, A extends IdItem & OrgIdItem, M extends Mod
       const createdItem = await this.MODEL.create({
         ...item
       });
-
       const data = await this.sideEffect(item, createdItem.id);
-
-      if (data) {
-        return ok({ success: true, message: `New ${this.modelName} created successfully!`, data });
-      }
+      return ok({ success: true, message: `New ${this.modelName} created successfully!`, data });
     } catch (error) {
       this.logger.error(error);
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
@@ -98,7 +93,7 @@ export abstract class BaseService<C, A extends IdItem & OrgIdItem, M extends Mod
 
   public async update(item: A): Promise<Result<ItemApiResponse<M>, BaseResponse>> {
     try {
-      await this.MODEL.update(
+      const [number] = await this.MODEL.update(
         {
           ...item
         },
@@ -107,10 +102,15 @@ export abstract class BaseService<C, A extends IdItem & OrgIdItem, M extends Mod
         }
       );
 
-      const data = await this.sideEffect(item, item.id);
-
-      if (data) {
+      if (number > 0) {
+        const data = await this.sideEffect(item, item.id);
         return ok({ success: true, message: `The ${this.modelName} updated successfully!`, data });
+      } else {
+        return err({
+          success: false,
+          errorOrigin: ErrorOrigin.CLIENT,
+          message: `No ${this.modelName}s by this query`
+        });
       }
     } catch (error) {
       this.logger.error(error);
@@ -130,8 +130,7 @@ export abstract class BaseService<C, A extends IdItem & OrgIdItem, M extends Mod
         return err({
           success: false,
           errorOrigin: ErrorOrigin.CLIENT,
-          message: `No ${this.modelName}s by this query`,
-          data: null
+          message: `No ${this.modelName}s by this query`
         });
       }
     } catch (error) {

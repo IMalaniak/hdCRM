@@ -26,9 +26,9 @@ import { Organization } from './Organization';
 export interface DepartmentAttributes {
   id: number;
   title: string;
-  description?: string;
   OrganizationId: number;
-  parentDepId: number;
+  description?: string;
+  parentDepId?: number;
   managerId: number;
   Manager?: User;
   ParentDepartment?: Department;
