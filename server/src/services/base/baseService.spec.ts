@@ -40,7 +40,15 @@ describe('BaseService', () => {
   let loggerInstance: Logger;
   let spyLogger: sinon.SinonSpy;
 
-  // fakes
+  let findByPkStub: sinon.SinonStub;
+  let createStub: sinon.SinonStub<
+    [values: DepartmentCreationAttributes, options: CreateOptions<any>],
+    Promise<Department>
+  >;
+  let updateStub: sinon.SinonStub;
+  let deleteStub: sinon.SinonStub;
+  let findAndCountAllStub: sinon.SinonStub;
+
   const departmentFake = {
     id: 1,
     managerId: 1,
@@ -64,24 +72,31 @@ describe('BaseService', () => {
     OrganizationId: 1
   };
 
-  // fake functions
-  const findByPkStub = sinon.stub(Department, 'findByPk');
-  const createStub: sinon.SinonStub<[values: any, options: CreateOptions<any>], Promise<Department>> = sinon.stub(
-    Department,
-    'create'
-  ) as any;
-  const updateStub = sinon.stub(Department, 'update');
-  const deleteStub = sinon.stub(Department, 'destroy');
-  const findAndCountAllStub = sinon.stub(Department, 'findAndCountAll');
-
   const expect500 = (result: Result<BaseResponse, BaseResponse>) => {
     if (result.isErr()) {
       expect(result.error.success).to.be.false;
       expect(result.error.message).to.equal(CONSTANTS.TEXTS_API_GENERIC_ERROR);
+      expect(spyLogger.calledOnce).to.be.true;
     } else {
       fail('The "result" expected to be an error');
     }
   };
+
+  before(() => {
+    findByPkStub = sinon.stub(Department, 'findByPk');
+    createStub = sinon.stub(Department, 'create') as any;
+    updateStub = sinon.stub(Department, 'update');
+    deleteStub = sinon.stub(Department, 'destroy');
+    findAndCountAllStub = sinon.stub(Department, 'findAndCountAll');
+  });
+
+  after(() => {
+    findByPkStub.restore();
+    createStub.restore();
+    updateStub.restore();
+    deleteStub.restore();
+    findAndCountAllStub.restore();
+  });
 
   beforeEach(() => {
     loggerInstance = Container.get(Logger);
@@ -134,7 +149,6 @@ describe('BaseService', () => {
     expect(result.isOk()).to.be.false;
     expect(result.isErr()).to.be.true;
     expect500(result);
-    expect(spyLogger.calledOnce).to.be.true;
   });
 
   it('should return an array of items when calling getPage', async () => {

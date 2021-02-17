@@ -2,8 +2,6 @@ import { expect } from 'chai';
 import { FileConditionBuilder, filesOfProject } from 'tsarch';
 import { doesNotMatchRegex } from './utils/architectureHelpers';
 
-// import path from 'path';
-
 describe('Architecture tests', () => {
   let files: FileConditionBuilder;
 
