@@ -14,7 +14,7 @@ import {
   DepartmentAttributes,
   DepartmentCreationAttributes,
   ErrorOrigin,
-  PageQueryWithOrganization
+  PageQuery
 } from '../../models';
 import { Logger } from '../../utils/Logger';
 import { BaseService } from './baseService';
@@ -63,13 +63,12 @@ describe('BaseService', () => {
     title: 'Test2'
   } as Department;
 
-  const pageQuery: PageQueryWithOrganization = {
+  const pageQuery: PageQuery = {
     limit: 10,
     offset: 0,
     sortIndex: 'id',
     sortDirection: 'asc',
-    parsedFilters: {},
-    OrganizationId: 1
+    parsedFilters: {}
   };
 
   const expect500 = (result: Result<BaseResponse, BaseResponse>) => {
@@ -155,7 +154,7 @@ describe('BaseService', () => {
 
   it('should return an array of items when calling getPage', async () => {
     findAndCountAllStub.resolves({ rows: [departmentFake, departmentFake2], count: 2 });
-    const result = await serviceInstance.getPage(pageQuery);
+    const result = await serviceInstance.getPage(pageQuery, 1);
     expect(findAndCountAllStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
@@ -170,7 +169,7 @@ describe('BaseService', () => {
 
   it('should return an empty array of items when calling getPage', async () => {
     findAndCountAllStub.resolves({ rows: [], count: 0 });
-    const result = await serviceInstance.getPage(pageQuery);
+    const result = await serviceInstance.getPage(pageQuery, 1);
     expect(findAndCountAllStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
@@ -183,7 +182,7 @@ describe('BaseService', () => {
 
   it('should throw an error when calling getPage', async () => {
     findAndCountAllStub.throws();
-    const result = await serviceInstance.getPage(pageQuery);
+    const result = await serviceInstance.getPage(pageQuery, 1);
     expect(findAndCountAllStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.false;
     expect(result.isErr()).to.be.true;

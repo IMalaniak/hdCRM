@@ -47,14 +47,16 @@ export class PlanController {
     const offset = parseInt(pageIndex) * limit;
     const OrganizationId = req.user.OrganizationId;
 
-    const result = await this.planService.getPage({
-      sortDirection: sortDirection.toUpperCase(),
-      sortIndex,
-      limit,
-      offset,
-      parsedFilters: filters ? (qs.parse(filters) as ParsedFilters) : {},
+    const result = await this.planService.getPage(
+      {
+        sortDirection: sortDirection.toUpperCase(),
+        sortIndex,
+        limit,
+        offset,
+        parsedFilters: filters ? (qs.parse(filters) as ParsedFilters) : {}
+      },
       OrganizationId
-    });
+    );
 
     return sendResponse<CollectionApiResponse<Plan>, BaseResponse>(result, res);
   }

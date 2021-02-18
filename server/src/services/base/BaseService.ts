@@ -1,24 +1,17 @@
 import { err, ok, Result } from 'neverthrow';
-import { IncludeOptions, Model } from 'sequelize';
+import { IncludeOptions, Model, WhereOptions } from 'sequelize';
 import { Inject } from 'typedi';
 
 import { CONSTANTS } from '../../constants';
-import {
-  BaseResponse,
-  CollectionApiResponse,
-  ErrorOrigin,
-  ItemApiResponse,
-  PageQueryWithOrganization
-} from '../../models';
+import { BaseResponse, CollectionApiResponse, ErrorOrigin, ItemApiResponse, PageQuery } from '../../models';
 import { Logger } from '../../utils/Logger';
-import { IBaseService, IdItem, OrgIdItem } from './IBaseService';
+import { IBaseService } from './IBaseService';
 
 type NonAbstract<T> = { [P in keyof T]: T[P] };
 type Constructor<T> = new () => T;
 type NonAbstractTypeOfModel<T> = Constructor<T> & NonAbstract<typeof Model>;
 
-export abstract class BaseService<C, A extends IdItem & OrgIdItem, M extends Model<A, C> & IdItem>
-  implements IBaseService<C, A, M> {
+export abstract class BaseService<C, A, M extends Model<A, C>> implements IBaseService<C, A, M> {
   @Inject(CONSTANTS.MODEL)
   MODEL: NonAbstractTypeOfModel<M>;
 
@@ -28,6 +21,7 @@ export abstract class BaseService<C, A extends IdItem & OrgIdItem, M extends Mod
   @Inject()
   logger: Logger;
 
+  public readonly primaryKey: string = 'id';
   public abstract readonly includes: IncludeOptions[];
   public abstract excludes: string[];
 
@@ -49,14 +43,17 @@ export abstract class BaseService<C, A extends IdItem & OrgIdItem, M extends Mod
     }
   }
 
-  public async getPage(pageQuery: PageQueryWithOrganization): Promise<Result<CollectionApiResponse<M>, BaseResponse>> {
+  public async getPage(
+    pageQuery: PageQuery,
+    OrganizationId?: number
+  ): Promise<Result<CollectionApiResponse<M>, BaseResponse>> {
     try {
-      const { limit, offset, sortDirection, sortIndex, OrganizationId, parsedFilters } = pageQuery;
+      const { limit, offset, sortDirection, sortIndex, parsedFilters } = pageQuery;
 
       const data = await this.MODEL.findAndCountAll({
         where: {
           ...parsedFilters,
-          OrganizationId
+          ...(OrganizationId && { OrganizationId })
         },
         include: [...this.includes],
         limit,
@@ -67,7 +64,7 @@ export abstract class BaseService<C, A extends IdItem & OrgIdItem, M extends Mod
 
       if (data.count) {
         const pages = Math.ceil(data.count / limit);
-        const ids: number[] = data.rows.map((dep) => dep.id);
+        const ids: number[] = data.rows.map((dep) => dep[this.primaryKey]);
         return ok({ success: true, ids, data: data.rows, resultsNum: data.count, pages });
       } else {
         return ok({ success: false, message: `No ${this.modelName}s by this query`, data: [] });
@@ -83,7 +80,7 @@ export abstract class BaseService<C, A extends IdItem & OrgIdItem, M extends Mod
       const createdItem = await this.MODEL.create({
         ...item
       });
-      const data = await this.sideEffect(item, createdItem.id);
+      const data = await this.sideEffect(item, createdItem[this.primaryKey]);
       return ok({ success: true, message: `New ${this.modelName} created successfully!`, data });
     } catch (error) {
       this.logger.error(error);
@@ -98,12 +95,12 @@ export abstract class BaseService<C, A extends IdItem & OrgIdItem, M extends Mod
           ...item
         },
         {
-          where: { id: item.id }
+          where: { [this.primaryKey]: item[this.primaryKey] } as WhereOptions<M['_attributes']>
         }
       );
 
       if (number > 0) {
-        const data = await this.sideEffect(item, item.id);
+        const data = await this.sideEffect(item, item[this.primaryKey]);
         return ok({ success: true, message: `The ${this.modelName} updated successfully!`, data });
       } else {
         return err({
@@ -118,10 +115,10 @@ export abstract class BaseService<C, A extends IdItem & OrgIdItem, M extends Mod
     }
   }
 
-  public async delete(id: string | number | string[] | number[]): Promise<Result<BaseResponse, BaseResponse>> {
+  public async delete(key: string | number | string[] | number[]): Promise<Result<BaseResponse, BaseResponse>> {
     try {
       const deleted = await this.MODEL.destroy({
-        where: { id }
+        where: { [this.primaryKey]: key } as WhereOptions<M['_attributes']>
       });
 
       if (deleted > 0) {
@@ -139,10 +136,10 @@ export abstract class BaseService<C, A extends IdItem & OrgIdItem, M extends Mod
     }
   }
 
-  public abstract sideEffect(item: C | A | M, id: number): Promise<M>;
+  public abstract sideEffect(item: C | A | M, key: number | string): Promise<M>;
 
-  public findByPk(id: number | string): Promise<M> {
-    return this.MODEL.findByPk(id, {
+  public findByPk(key: number | string): Promise<M> {
+    return this.MODEL.findByPk(key, {
       attributes: { exclude: [...this.excludes] },
       include: [...this.includes]
     });
