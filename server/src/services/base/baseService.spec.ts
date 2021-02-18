@@ -121,7 +121,7 @@ describe('BaseService', () => {
 
   it('should return a departmentFake when calling getById', async () => {
     findByPkStub.withArgs(1).resolves(departmentFake);
-    const result = await serviceInstance.getById(1);
+    const result = await serviceInstance.getByPk(1);
     expect(findByPkStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
@@ -133,7 +133,7 @@ describe('BaseService', () => {
 
   it('should return empty response when calling getById', async () => {
     findByPkStub.withArgs(3).resolves(null);
-    const result = await serviceInstance.getById(3);
+    const result = await serviceInstance.getByPk(3);
     expect(findByPkStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.false;
     expect(result.isErr()).to.be.true;
@@ -146,7 +146,7 @@ describe('BaseService', () => {
 
   it('should throw an error when calling getById', async () => {
     findByPkStub.withArgs('wrong params').throws();
-    const result = await serviceInstance.getById('wrong params');
+    const result = await serviceInstance.getByPk('wrong params');
     expect(findByPkStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.false;
     expect(result.isErr()).to.be.true;

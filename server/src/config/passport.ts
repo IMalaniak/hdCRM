@@ -35,7 +35,7 @@ export class Passport {
     passport.use(
       new Strategy(this.opts, async (jwtPayload, done) => {
         try {
-          const userResult = await this.userService.getById(jwtPayload.userId);
+          const userResult = await this.userService.getByPk(jwtPayload.userId);
           if (userResult.isOk()) {
             return done(null, userResult.value.data);
           } else {

@@ -40,7 +40,7 @@ export class DepartmentController {
       params: { id }
     } = req;
     req.log.info(`Selecting department by id: ${id}...`);
-    const result = await this.departmentService.getById(id);
+    const result = await this.departmentService.getByPk(id);
 
     return sendResponse<ItemApiResponse<Department>, BaseResponse>(result, res);
   }

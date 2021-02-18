@@ -43,7 +43,7 @@ export class RoleController {
     } = req;
     req.log.info(`Selecting role by id: ${id}...`);
 
-    const result = await this.roleService.getById(id);
+    const result = await this.roleService.getByPk(id);
 
     return sendResponse<ItemApiResponse<Role>, BaseResponse>(result, res);
   }

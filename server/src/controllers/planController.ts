@@ -31,7 +31,7 @@ export class PlanController {
     } = req;
     req.log.info(`Selecting plan by id: ${id}...`);
 
-    const result = await this.planService.getById(id);
+    const result = await this.planService.getByPk(id);
 
     return sendResponse<ItemApiResponse<Plan>, BaseResponse>(result, res);
   }

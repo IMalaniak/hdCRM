@@ -31,9 +31,9 @@ export abstract class BaseService<C, A extends IdItem & OrgIdItem, M extends Mod
   public abstract readonly includes: IncludeOptions[];
   public abstract excludes: string[];
 
-  public async getById(id: number | string): Promise<Result<ItemApiResponse<M>, BaseResponse>> {
+  public async getByPk(key: number | string): Promise<Result<ItemApiResponse<M>, BaseResponse>> {
     try {
-      const data = await this.findByPk(id);
+      const data = await this.findByPk(key);
       if (data) {
         return ok({ success: true, data });
       } else {

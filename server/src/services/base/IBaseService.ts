@@ -11,7 +11,7 @@ export interface OrgIdItem {
 }
 
 export interface IBaseService<C, A extends IdItem & OrgIdItem, M extends Model<A, C>> {
-  getById: (id: number | string) => Promise<Result<ItemApiResponse<M>, BaseResponse>>;
+  getByPk: (id: number | string) => Promise<Result<ItemApiResponse<M>, BaseResponse>>;
   getPage: (pageQuery: PageQueryWithOrganization) => Promise<Result<CollectionApiResponse<M>, BaseResponse>>;
   create: (item: C) => Promise<Result<ItemApiResponse<M>, BaseResponse>>;
   update: (item: A) => Promise<Result<ItemApiResponse<M>, BaseResponse>>;

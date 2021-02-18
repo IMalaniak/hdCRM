@@ -39,7 +39,7 @@ export class UserController {
     } = req;
     req.log.info(`Selecting user by id: ${id}...`);
 
-    const result = await this.userService.getById(id);
+    const result = await this.userService.getByPk(id);
 
     return sendResponse<ItemApiResponse<User>, BaseResponse>(result, res);
   }
