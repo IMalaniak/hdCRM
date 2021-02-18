@@ -83,6 +83,9 @@ describe('BaseService', () => {
   };
 
   before(() => {
+    loggerInstance = Container.get(Logger);
+    spyLogger = sinon.spy(loggerInstance, 'error');
+
     findByPkStub = sinon.stub(Department, 'findByPk');
     createStub = sinon.stub(Department, 'create') as any;
     updateStub = sinon.stub(Department, 'update');
@@ -96,11 +99,10 @@ describe('BaseService', () => {
     updateStub.restore();
     deleteStub.restore();
     findAndCountAllStub.restore();
+    spyLogger.restore();
   });
 
   beforeEach(() => {
-    loggerInstance = Container.get(Logger);
-    spyLogger = sinon.spy(loggerInstance, 'error');
     serviceInstance = Container.get(TestBaseService);
   });
 
@@ -110,7 +112,7 @@ describe('BaseService', () => {
     updateStub.reset();
     deleteStub.reset();
     findAndCountAllStub.reset();
-    spyLogger.restore();
+    spyLogger.resetHistory();
   });
 
   it('should be defined', () => {
@@ -257,10 +259,7 @@ describe('BaseService', () => {
   it('should throw an error trying to update an item', async () => {
     findByPkStub.throws();
     const result = await serviceInstance.update({
-      id: 1,
-      title: 'Test',
-      OrganizationId: 1,
-      managerId: 1
+      ...departmentFake
     });
     expect(updateStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.false;

@@ -34,11 +34,11 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
   public excludes: string[] = ['passwordHash', 'salt'];
   public readonly includes: IncludeOptions[] = [
     {
-      association: User.associations.Role,
+      association: User.associations?.Role,
       required: false,
       include: [
         {
-          association: Role.associations.Privileges,
+          association: Role.associations?.Privileges,
           through: {
             attributes: ['view', 'edit', 'add', 'delete']
           },
@@ -47,26 +47,26 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
       ]
     },
     {
-      association: User.associations.UserSessions
+      association: User.associations?.UserSessions
     },
     {
-      association: User.associations.Preference,
+      association: User.associations?.Preference,
       required: false
     },
     {
-      association: User.associations.PasswordAttributes,
+      association: User.associations?.PasswordAttributes,
       attributes: ['updatedAt', 'passwordExpire'],
       required: false
     },
     {
-      association: User.associations.avatar
+      association: User.associations?.avatar
     },
     {
-      association: User.associations.Department,
+      association: User.associations?.Department,
       required: false
     },
     {
-      association: User.associations.Organization
+      association: User.associations?.Organization
     }
   ];
 
@@ -77,7 +77,7 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
   }
 
   public async updatePassword(
-    passData: PasswordReset & { userId: number; sessionId?: number }
+    passData: Partial<PasswordReset> & { userId: number; sessionId?: number }
   ): Promise<Result<BaseResponse, BaseResponse>> {
     try {
       if (passData.newPassword === passData.verifyPassword) {
@@ -128,7 +128,7 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
       if (data) {
         return ok({ success: true, data });
       } else {
-        return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No session with such id', data: null });
+        return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No session with such id' });
       }
     } catch (error) {
       this.logger.error(error);
@@ -163,8 +163,7 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
         return err({
           success: false,
           errorOrigin: ErrorOrigin.CLIENT,
-          message: 'No sessions by this query',
-          data: null
+          message: 'No sessions by this query'
         });
       }
     } catch (error) {
@@ -188,8 +187,7 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
         return err({
           success: false,
           errorOrigin: ErrorOrigin.CLIENT,
-          message: 'No sessions by this query',
-          data: null
+          message: 'No sessions by this query'
         });
       }
     } catch (error) {

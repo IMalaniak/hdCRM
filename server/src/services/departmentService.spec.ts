@@ -59,6 +59,9 @@ describe('DepartmentService', () => {
   };
 
   before(() => {
+    loggerInstance = Container.get(Logger);
+    spyLogger = sinon.spy(loggerInstance, 'error');
+
     findByPkStub = sinon.stub(Department, 'findByPk');
     updateStub = sinon.stub(Department, 'update');
     findAndCountAllStub = sinon.stub(Department, 'findAndCountAll');
@@ -72,11 +75,10 @@ describe('DepartmentService', () => {
     findAndCountAllStub.restore();
     findAllDepsStub.restore();
     findAllUsersStub.restore();
+    spyLogger.restore();
   });
 
   beforeEach(() => {
-    loggerInstance = Container.get(Logger);
-    spyLogger = sinon.spy(loggerInstance, 'error');
     serviceInstance = Container.get(DepartmentService);
   });
 
@@ -86,7 +88,7 @@ describe('DepartmentService', () => {
     findAndCountAllStub.reset();
     findAllDepsStub.reset();
     findAllUsersStub.reset();
-    spyLogger.restore();
+    spyLogger.resetHistory();
   });
 
   it('should be defined', () => {

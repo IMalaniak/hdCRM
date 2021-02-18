@@ -51,6 +51,9 @@ describe('RoleService', () => {
   };
 
   before(() => {
+    loggerInstance = Container.get(Logger);
+    spyLogger = sinon.spy(loggerInstance, 'error');
+
     findByPkStub = sinon.stub(Role, 'findByPk');
     updateStub = sinon.stub(Role, 'update');
     findAndCountAllStub = sinon.stub(Role, 'findAndCountAll');
@@ -64,11 +67,10 @@ describe('RoleService', () => {
     findAndCountAllStub.restore();
     findAllUsersStub.restore();
     findAllPrivilegesStub.restore();
+    spyLogger.restore();
   });
 
   beforeEach(() => {
-    loggerInstance = Container.get(Logger);
-    spyLogger = sinon.spy(loggerInstance, 'error');
     serviceInstance = Container.get(RoleService);
   });
 
@@ -78,7 +80,7 @@ describe('RoleService', () => {
     findAndCountAllStub.reset();
     findAllUsersStub.reset();
     findAllPrivilegesStub.reset();
-    spyLogger.restore();
+    spyLogger.resetHistory();
   });
 
   it('should be defined', () => {
