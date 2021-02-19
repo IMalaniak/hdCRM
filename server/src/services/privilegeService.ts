@@ -18,7 +18,7 @@ export class PrivilegeService {
   public async getAll(): Promise<Result<CollectionApiResponse<any>, BaseResponse>> {
     try {
       const data = await Privilege.findAndCountAll();
-      if (data) {
+      if (data.count) {
         return ok({ success: true, data: data.rows, resultsNum: data.count });
       } else {
         return ok({ success: false, message: 'No privileges', data: [] });
