@@ -15,7 +15,6 @@ import { BaseService } from './base/baseService';
 
 @Service()
 export class DepartmentService extends BaseService<DepartmentCreationAttributes, DepartmentAttributes, Department> {
-  public excludes: string[] = [];
   public readonly includes: IncludeOptions[] = [
     {
       association: Department.associations?.ParentDepartment,
@@ -46,6 +45,12 @@ export class DepartmentService extends BaseService<DepartmentCreationAttributes,
       required: false
     }
   ];
+
+  constructor() {
+    super();
+    Container.set(CONSTANTS.MODEL, Department);
+    Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_DEPARTMENT);
+  }
 
   public async getDashboardData(orgId: number): Promise<Result<CollectionApiResponse<Department>, BaseResponse>> {
     try {
@@ -87,12 +92,6 @@ export class DepartmentService extends BaseService<DepartmentCreationAttributes,
       }
     }
     return this.findByPk(id);
-  }
-
-  constructor() {
-    super();
-    Container.set(CONSTANTS.MODEL, Department);
-    Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_DEPARTMENT);
   }
 
   private async addParentDepartment(department: Department, parentDepartment: Department): Promise<void> {

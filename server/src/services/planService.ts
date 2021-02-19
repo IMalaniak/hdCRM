@@ -24,7 +24,6 @@ import { BaseService } from './base/baseService';
 export class PlanService extends BaseService<PlanCreationAttributes, PlanAttributes, Plan> {
   private unlinkAsync = promisify(fs.unlink);
 
-  public excludes: string[] = [];
   public readonly includes: IncludeOptions[] = [
     {
       association: Plan.associations?.Creator,
@@ -65,6 +64,12 @@ export class PlanService extends BaseService<PlanCreationAttributes, PlanAttribu
       order: [Sequelize.col('order')]
     }
   ];
+
+  constructor() {
+    super();
+    Container.set(CONSTANTS.MODEL, Plan);
+    Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_PLAN);
+  }
 
   public async addDocument(params: {
     document: AssetCreationAttributes;
@@ -156,11 +161,5 @@ export class PlanService extends BaseService<PlanCreationAttributes, PlanAttribu
       ).setParticipants(users);
     }
     return this.findByPk(id);
-  }
-
-  constructor() {
-    super();
-    Container.set(CONSTANTS.MODEL, Plan);
-    Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_PLAN);
   }
 }

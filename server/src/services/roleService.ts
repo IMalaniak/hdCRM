@@ -16,7 +16,6 @@ import { BaseService } from './base/baseService';
 
 @Service()
 export class RoleService extends BaseService<RoleCreationAttributes, RoleAttributes, Role> {
-  public excludes: string[] = [];
   public readonly includes: IncludeOptions[] = [
     {
       association: Role.associations?.Privileges,
@@ -37,6 +36,12 @@ export class RoleService extends BaseService<RoleCreationAttributes, RoleAttribu
       required: false
     }
   ];
+
+  constructor() {
+    super();
+    Container.set(CONSTANTS.MODEL, Role);
+    Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_ROLE);
+  }
 
   public async getDashboardData(OrganizationId: number): Promise<Result<CollectionApiResponse<Role>, BaseResponse>> {
     try {
@@ -94,11 +99,5 @@ export class RoleService extends BaseService<RoleCreationAttributes, RoleAttribu
     }
 
     return this.findByPk(id);
-  }
-
-  constructor() {
-    super();
-    Container.set(CONSTANTS.MODEL, Role);
-    Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_ROLE);
   }
 }

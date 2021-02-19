@@ -22,8 +22,8 @@ export abstract class BaseService<C, A, M extends Model<A, C>> implements IBaseS
   logger: Logger;
 
   public readonly primaryKey: string = 'id';
-  public abstract readonly includes: IncludeOptions[];
-  public abstract excludes: string[];
+  public includes: IncludeOptions[] = [];
+  public excludes: string[] = [];
 
   public async getByPk(key: number | string): Promise<Result<ItemApiResponse<M>, BaseResponse>> {
     try {
