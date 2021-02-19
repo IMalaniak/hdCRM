@@ -18,7 +18,7 @@ export class StageService extends BaseService<StageCreationAttributes, StageAttr
       const data = await Stage.findAndCountAll({
         include: [
           {
-            association: Stage.associations.Plans,
+            association: Stage.associations?.Plans,
             where: {
               OrganizationId
             },
@@ -26,10 +26,10 @@ export class StageService extends BaseService<StageCreationAttributes, StageAttr
           }
         ]
       });
-      if (data) {
+      if (data.count) {
         return ok({ success: true, data: data.rows, resultsNum: data.count });
       } else {
-        return ok({ success: false, message: 'No stages', data: [] });
+        return ok({ success: false, message: `No ${CONSTANTS.MODELS_NAME_STAGE}s by this query`, data: [] });
       }
     } catch (error) {
       this.logger.error(error);
