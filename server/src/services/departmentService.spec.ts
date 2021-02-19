@@ -88,6 +88,10 @@ describe('DepartmentService', () => {
     findAndCountAllStub.reset();
     findAllDepsStub.reset();
     findAllUsersStub.reset();
+    (departmentFakeResponse.setParentDepartment as sinon.SinonSpy).resetHistory();
+    (departmentFakeResponse.setSubDepartments as sinon.SinonSpy).resetHistory();
+    (departmentFakeResponse.setWorkers as sinon.SinonSpy).resetHistory();
+
     spyLogger.resetHistory();
   });
 

@@ -46,6 +46,7 @@ describe('PlanService', () => {
     findByPkStub.reset();
     updateStub.reset();
     findAllUsersStub.reset();
+    (planFakeResponse.setParticipants as sinon.SinonSpy).resetHistory();
   });
 
   it('should be defined', () => {

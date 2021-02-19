@@ -80,6 +80,9 @@ describe('RoleService', () => {
     findAndCountAllStub.reset();
     findAllUsersStub.reset();
     findAllPrivilegesStub.reset();
+    (roleFakeResponse.setUsers as sinon.SinonSpy).resetHistory();
+    (roleFakeResponse.setPrivileges as sinon.SinonSpy).resetHistory();
+
     spyLogger.resetHistory();
   });
 
