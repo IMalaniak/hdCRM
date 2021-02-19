@@ -39,7 +39,7 @@ export class TaskService extends BaseService<TaskCreationAttributes, TaskAttribu
       if (data.length) {
         return ok({ success: true, data });
       } else {
-        return ok({ success: false, message: 'No tasks by this query', data: [] });
+        return ok({ success: false, message: `No ${CONSTANTS.MODELS_NAME_TASK}s by this query`, data: [] });
       }
     } catch (error) {
       this.logger.error(error);
