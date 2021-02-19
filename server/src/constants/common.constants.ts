@@ -3,6 +3,7 @@ export class CONSTANTS {
   static MODEL = 'model';
   static MODELS_NAME = 'models-name';
   static MODELS_NAME_DEPARTMENT = 'department';
+  static MODELS_NAME_FORM = 'form';
   static MODELS_NAME_PLAN = 'plan';
   static MODELS_NAME_ROLE = 'role';
 
