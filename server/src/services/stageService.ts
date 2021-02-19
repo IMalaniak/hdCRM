@@ -36,8 +36,4 @@ export class StageService extends BaseService<StageCreationAttributes, StageAttr
       return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
-
-  public sideEffect(_, key: string | number): Promise<Stage> {
-    return this.findByPk(key);
-  }
 }

@@ -66,7 +66,7 @@ export class RoleService extends BaseService<RoleCreationAttributes, RoleAttribu
     }
   }
 
-  public async sideEffect(role: Role, id: number): Promise<Role> {
+  public async postAction(role: Role, id: number): Promise<Role> {
     if (role.Privileges) {
       const privIds = role.Privileges.map((priv) => {
         return {

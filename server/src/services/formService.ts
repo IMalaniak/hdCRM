@@ -13,8 +13,4 @@ export class FormService extends BaseService<FormAttributes, FormAttributes, For
     Container.set(CONSTANTS.MODEL, Form);
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_FORM);
   }
-
-  public sideEffect(_, key: number): Promise<Form> {
-    return this.findByPk(key);
-  }
 }

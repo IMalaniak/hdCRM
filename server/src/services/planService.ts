@@ -114,7 +114,7 @@ export class PlanService extends BaseService<PlanCreationAttributes, PlanAttribu
     }
   }
 
-  public async sideEffect(plan: Plan, id: number): Promise<Plan> {
+  public async postAction(plan: Plan, id: number): Promise<Plan> {
     // TODO: refactor this
     if (!plan.Stages) {
       const stages = await Stage.findAll({

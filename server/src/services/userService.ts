@@ -339,10 +339,6 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
     }
   }
 
-  public sideEffect(_, id: number): Promise<User> {
-    return this.findByPk(id);
-  }
-
   // TODO: check if I can set types dynamically for params
   private sendMail(type: MailThemes, params?: any): Promise<void> {
     switch (type) {

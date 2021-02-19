@@ -80,7 +80,7 @@ export abstract class BaseService<C, A, M extends Model<A, C>> implements IBaseS
       const createdItem = await this.MODEL.create({
         ...item
       });
-      const data = await this.sideEffect(item, createdItem[this.primaryKey]);
+      const data = await this.postAction(item, createdItem[this.primaryKey]);
       return ok({ success: true, message: `New ${this.modelName} created successfully!`, data });
     } catch (error) {
       this.logger.error(error);
@@ -100,7 +100,7 @@ export abstract class BaseService<C, A, M extends Model<A, C>> implements IBaseS
       );
 
       if (number > 0) {
-        const data = await this.sideEffect(item, item[this.primaryKey]);
+        const data = await this.postAction(item, item[this.primaryKey]);
         return ok({ success: true, message: `The ${this.modelName} updated successfully!`, data });
       } else {
         return err({
@@ -136,7 +136,9 @@ export abstract class BaseService<C, A, M extends Model<A, C>> implements IBaseS
     }
   }
 
-  public abstract sideEffect(item: C | A | M, key: number | string): Promise<M>;
+  public postAction(_: C | A | M, key: string | number): Promise<M> {
+    return this.findByPk(key);
+  }
 
   public findByPk(key: number | string): Promise<M> {
     return this.MODEL.findByPk(key, {

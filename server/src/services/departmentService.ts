@@ -75,7 +75,7 @@ export class DepartmentService extends BaseService<DepartmentCreationAttributes,
     }
   }
 
-  public async sideEffect(department: Department, id: number): Promise<Department> {
+  public async postAction(department: Department, id: number): Promise<Department> {
     if (department.ParentDepartment || department.SubDepartments?.length || department.Workers?.length) {
       const updated = await this.MODEL.findByPk(id, { attributes: ['id'] });
 

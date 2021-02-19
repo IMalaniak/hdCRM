@@ -29,10 +29,6 @@ export class TestBaseService extends BaseService<DepartmentCreationAttributes, D
     Container.set(CONSTANTS.MODEL, Department);
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_DEPARTMENT);
   }
-
-  public sideEffect(_, id: number): Promise<Department> {
-    return this.findByPk(id);
-  }
 }
 
 describe('BaseService', () => {
