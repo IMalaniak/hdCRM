@@ -6,7 +6,8 @@ import {
   CollectionApiResponse,
   Department,
   DepartmentCreationAttributes,
-  DepartmentAttributes
+  DepartmentAttributes,
+  RequestWithBody
 } from '../models';
 import { DepartmentService } from '../services';
 import { BaseController } from './base/BaseController';
@@ -32,5 +33,12 @@ export class DepartmentController extends BaseController<
     const result = await this.dataBaseService.getDashboardData(OrganizationId);
 
     return sendResponse<CollectionApiResponse<Department>, BaseResponse>(result, res);
+  }
+
+  public generateCreationAttributes(req: RequestWithBody<DepartmentCreationAttributes>): DepartmentCreationAttributes {
+    return {
+      ...req.body,
+      OrganizationId: req.user.OrganizationId
+    };
   }
 }

@@ -51,6 +51,7 @@ export abstract class BaseController<C, A, M extends Model<A, C>> {
         offset,
         parsedFilters: filters ? (qs.parse(filters) as ParsedFilters) : {}
       },
+      // TODO: optional OrganizationId
       OrganizationId
     );
 
@@ -60,10 +61,7 @@ export abstract class BaseController<C, A, M extends Model<A, C>> {
   public async create(req: RequestWithBody<C>, res: Response<ItemApiResponse<M> | BaseResponse>): Promise<void> {
     req.log.info(`Creating new ${this.modelName}...`);
 
-    const item: C = {
-      ...req.body,
-      OrganizationId: req.user.OrganizationId
-    };
+    const item: C = this.generateCreationAttributes(req);
     const result = await this.dataBaseService.create(item);
 
     return sendResponse<ItemApiResponse<M>, BaseResponse>(result, res);
@@ -85,5 +83,9 @@ export abstract class BaseController<C, A, M extends Model<A, C>> {
     const result = await this.dataBaseService.delete(id);
 
     return sendResponse<BaseResponse, BaseResponse>(result, res);
+  }
+
+  public generateCreationAttributes(req: RequestWithBody<C>): C {
+    return req.body;
   }
 }
