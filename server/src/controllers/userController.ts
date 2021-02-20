@@ -25,7 +25,7 @@ import { BaseController } from './base/BaseController';
 
 @Service()
 export class UserController extends BaseController<UserCreationAttributes, UserAttributes, User> {
-  constructor(readonly userService: UserService, private readonly jwtHelper: JwtHelper) {
+  constructor(readonly dataBaseService: UserService, private readonly jwtHelper: JwtHelper) {
     super();
   }
 
@@ -49,7 +49,7 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
       ...(req.body.deleteSessions && { sessionId: sId })
     };
 
-    const result = await this.userService.updatePassword(passData);
+    const result = await this.dataBaseService.updatePassword(passData);
 
     return sendResponse<BaseResponse, BaseResponse>(result, res);
   }
@@ -63,7 +63,7 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
     } = req;
     req.log.info(`Getting user session by id: ${id}...`);
 
-    const result = await this.userService.getSession(id);
+    const result = await this.dataBaseService.getSession(id);
 
     return sendResponse<ItemApiResponse<UserSession>, BaseResponse>(result, res);
   }
@@ -74,7 +74,7 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
   ): Promise<void> {
     const currentUser = req.user;
     req.log.info(`Getting session list for user id: ${currentUser.id}...`);
-    const result = await this.userService.getSessionList(currentUser);
+    const result = await this.dataBaseService.getSessionList(currentUser);
 
     return sendResponse<CollectionApiResponse<UserSession>, BaseResponse>(result, res);
   }
@@ -85,7 +85,7 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
     } = req;
     req.log.info(`Removing user session`);
 
-    const result = await this.userService.removeSession(id);
+    const result = await this.dataBaseService.removeSession(id);
 
     return sendResponse<BaseResponse, BaseResponse>(result, res);
   }
@@ -98,7 +98,7 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
       body: { sessionIds }
     } = req;
     req.log.info(`Removing user sessions`);
-    const result = await this.userService.removeSession(sessionIds);
+    const result = await this.dataBaseService.removeSession(sessionIds);
 
     return sendResponse<BaseResponse, BaseResponse>(result, res);
   }
@@ -109,7 +109,7 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
   ): Promise<void> {
     req.log.info(`Update user organization by id: ${req.body.id}`);
 
-    const result = await this.userService.updateOrg(req.body);
+    const result = await this.dataBaseService.updateOrg(req.body);
 
     return sendResponse<ItemApiResponse<Organization>, BaseResponse>(result, res);
   }
@@ -120,7 +120,7 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
   ): Promise<void> {
     req.log.info(`Invite multiple users`);
 
-    const result = await this.userService.inviteMultiple(req.body, req.user.OrganizationId);
+    const result = await this.dataBaseService.inviteMultiple(req.body, req.user.OrganizationId);
 
     return sendResponse<CollectionApiResponse<User>, BaseResponse>(result, res);
   }
@@ -149,7 +149,7 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
       userId: req.params.id
     };
 
-    const result = await this.userService.updateAvatar(params);
+    const result = await this.dataBaseService.updateAvatar(params);
 
     return sendResponse<ItemApiResponse<Asset>, BaseResponse>(result, res);
   }
@@ -160,7 +160,7 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
     } = req;
     req.log.info(`Delete user avatar by id: ${id}`);
 
-    const result = await this.userService.deleteAvatar(id);
+    const result = await this.dataBaseService.deleteAvatar(id);
 
     return sendResponse<BaseResponse, BaseResponse>(result, res);
   }

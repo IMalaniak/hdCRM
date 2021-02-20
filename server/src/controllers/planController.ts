@@ -18,7 +18,7 @@ import { sendResponse } from './utils';
 
 @Service()
 export class PlanController extends BaseController<PlanCreationAttributes, PlanAttributes, Plan> {
-  constructor(readonly planService: PlanService) {
+  constructor(readonly dataBaseService: PlanService) {
     super();
   }
 
@@ -37,7 +37,7 @@ export class PlanController extends BaseController<PlanCreationAttributes, PlanA
       planId: req.params.planId
     };
 
-    const result = await this.planService.addDocument(params);
+    const result = await this.dataBaseService.addDocument(params);
 
     return sendResponse<ItemApiResponse<Asset>, BaseResponse>(result, res);
   }
@@ -50,7 +50,7 @@ export class PlanController extends BaseController<PlanCreationAttributes, PlanA
       query: { docId }
     } = req;
     req.log.info(`Deleting plan document by id: ${docId}...`);
-    const result = await this.planService.deleteDocument(docId);
+    const result = await this.dataBaseService.deleteDocument(docId);
 
     return sendResponse<BaseResponse, BaseResponse>(result, res);
   }

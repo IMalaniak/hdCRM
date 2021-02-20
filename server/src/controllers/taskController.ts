@@ -16,7 +16,7 @@ import { sendResponse } from './utils';
 
 @Service()
 export class TaskController extends BaseController<TaskCreationAttributes, TaskAttributes, Task> {
-  constructor(readonly taskService: TaskService) {
+  constructor(readonly dataBaseService: TaskService) {
     super();
   }
 
@@ -24,7 +24,7 @@ export class TaskController extends BaseController<TaskCreationAttributes, TaskA
     const creatorId = req.user.id;
     req.log.info(`Selecting all tasks...`);
 
-    const result = await this.taskService.getAll(creatorId);
+    const result = await this.dataBaseService.getAll(creatorId);
 
     return sendResponse<CollectionApiResponse<Task>, BaseResponse>(result, res);
   }
@@ -34,7 +34,7 @@ export class TaskController extends BaseController<TaskCreationAttributes, TaskA
       body: { taskIds }
     } = req;
     req.log.info(`Deleting tasks by id: ${taskIds}...`);
-    const result = await this.taskService.delete(taskIds);
+    const result = await this.dataBaseService.delete(taskIds);
 
     return sendResponse<BaseResponse, BaseResponse>(result, res);
   }
@@ -42,7 +42,7 @@ export class TaskController extends BaseController<TaskCreationAttributes, TaskA
   public async getPrioriities(req: Request, res: Response<CollectionApiResponse<TaskPriority>>): Promise<void> {
     req.log.info(`Selecting all tasks...`);
 
-    const result = await this.taskService.getPriorities();
+    const result = await this.dataBaseService.getPriorities();
 
     return sendResponse<CollectionApiResponse<TaskPriority>, BaseResponse>(result, res);
   }

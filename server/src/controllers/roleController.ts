@@ -15,7 +15,7 @@ import { sendResponse } from './utils';
 
 @Service()
 export class RoleController extends BaseController<RoleCreationAttributes, RoleAttributes, Role> {
-  constructor(readonly roleService: RoleService) {
+  constructor(readonly dataBaseService: RoleService) {
     super();
   }
 
@@ -28,7 +28,7 @@ export class RoleController extends BaseController<RoleCreationAttributes, RoleA
     const {
       user: { OrganizationId }
     } = req;
-    const result = await this.roleService.getDashboardData(OrganizationId);
+    const result = await this.dataBaseService.getDashboardData(OrganizationId);
 
     return sendResponse<CollectionApiResponse<Role>, BaseResponse>(result, res);
   }
