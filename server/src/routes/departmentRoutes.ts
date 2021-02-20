@@ -29,7 +29,7 @@ export class DepartmentRoutes {
     this.router.get(
       '/:id',
       async (req: Request<{ id: string }>, res: Response<ItemApiResponse<Department> | BaseResponse>) =>
-        this.departmentController.getDataById(req, res)
+        this.departmentController.getByPk(req, res)
     );
 
     this.router.get(
@@ -49,7 +49,7 @@ export class DepartmentRoutes {
     this.router.put(
       '/:id',
       async (req: RequestWithBody<Department>, res: Response<ItemApiResponse<Department> | BaseResponse>) =>
-        this.departmentController.updateOne(req, res)
+        this.departmentController.update(req, res)
     );
 
     this.router.delete('/:id', async (req: Request<{ id: string }>, res: Response<BaseResponse>) =>
