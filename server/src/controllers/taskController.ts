@@ -4,18 +4,21 @@ import { Service } from 'typedi';
 import {
   BaseResponse,
   CollectionApiResponse,
-  ItemApiResponse,
   RequestWithBody,
   Task,
+  TaskAttributes,
   TaskCreationAttributes,
   TaskPriority
 } from '../models';
 import { TaskService } from '../services';
+import { BaseController } from './base/BaseController';
 import { sendResponse } from './utils';
 
 @Service()
-export class TaskController {
-  constructor(private readonly taskService: TaskService) {}
+export class TaskController extends BaseController<TaskCreationAttributes, TaskAttributes, Task> {
+  constructor(readonly taskService: TaskService) {
+    super();
+  }
 
   public async getAll(req: Request, res: Response<CollectionApiResponse<Task> | BaseResponse>): Promise<void> {
     const creatorId = req.user.id;
@@ -24,41 +27,6 @@ export class TaskController {
     const result = await this.taskService.getAll(creatorId);
 
     return sendResponse<CollectionApiResponse<Task>, BaseResponse>(result, res);
-  }
-
-  public async create(
-    req: RequestWithBody<TaskCreationAttributes>,
-    res: Response<ItemApiResponse<Task> | BaseResponse>
-  ): Promise<void> {
-    req.log.info(`Creating new task...`);
-
-    const task: TaskCreationAttributes = {
-      ...req.body,
-      CreatorId: req.user.id
-    };
-    const result = await this.taskService.create(task);
-
-    return sendResponse<ItemApiResponse<Task>, BaseResponse>(result, res);
-  }
-
-  public async updateOne(
-    req: RequestWithBody<Task>,
-    res: Response<ItemApiResponse<Task> | BaseResponse>
-  ): Promise<void> {
-    req.log.info(`Updating task by id: ${req.body.id}...`);
-    const result = await this.taskService.update(req.body);
-
-    return sendResponse<ItemApiResponse<Task>, BaseResponse>(result, res);
-  }
-
-  public async delete(req: Request<{ id: string }>, res: Response<BaseResponse>): Promise<void> {
-    const {
-      params: { id }
-    } = req;
-    req.log.info(`Deleting task by id: ${id}...`);
-    const result = await this.taskService.delete(id);
-
-    return sendResponse<BaseResponse, BaseResponse>(result, res);
   }
 
   public async deleteMultiple(req: RequestWithBody<{ taskIds: number[] }>, res: Response<BaseResponse>): Promise<void> {
@@ -77,5 +45,12 @@ export class TaskController {
     const result = await this.taskService.getPriorities();
 
     return sendResponse<CollectionApiResponse<TaskPriority>, BaseResponse>(result, res);
+  }
+
+  public generateCreationAttributes(req: RequestWithBody<TaskCreationAttributes>): TaskCreationAttributes {
+    return {
+      ...req.body,
+      CreatorId: req.user.id
+    };
   }
 }

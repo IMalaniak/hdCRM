@@ -27,7 +27,7 @@ export class TaskRoutes {
     );
 
     this.router.put('/:id', async (req: RequestWithBody<Task>, res: Response<ItemApiResponse<Task>>) =>
-      this.taskController.updateOne(req, res)
+      this.taskController.update(req, res)
     );
 
     this.router.delete('/:id', async (req: Request<{ id: string }>, res: Response<BaseResponse>) =>
