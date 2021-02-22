@@ -10,7 +10,7 @@ import {
   RoleAttributes
 } from '../models';
 import { RoleService } from '../services';
-import { BaseController } from './base/BaseController';
+import { BaseController } from './base/baseController';
 import { sendResponse } from './utils';
 
 @Service()

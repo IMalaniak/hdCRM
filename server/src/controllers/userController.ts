@@ -21,7 +21,7 @@ import { Request, Response } from 'express';
 import { sendResponse } from './utils';
 import { parseCookies } from '../utils/parseCookies';
 import { JwtHelper } from '../helpers/jwtHelper';
-import { BaseController } from './base/BaseController';
+import { BaseController } from './base/baseController';
 
 @Service()
 export class UserController extends BaseController<UserCreationAttributes, UserAttributes, User> {

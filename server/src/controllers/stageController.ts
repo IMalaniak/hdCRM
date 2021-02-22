@@ -4,7 +4,7 @@ import { Service } from 'typedi';
 import { BaseResponse, CollectionApiResponse, Stage, StageCreationAttributes, StageAttributes } from '../models';
 import { sendResponse } from './utils';
 import { StageService } from '../services';
-import { BaseController } from './base/BaseController';
+import { BaseController } from './base/baseController';
 
 @Service()
 export class StageController extends BaseController<StageCreationAttributes, StageAttributes, Stage> {

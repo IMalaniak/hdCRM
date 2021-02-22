@@ -13,7 +13,7 @@ import {
   RequestWithBody
 } from '../models';
 import { PlanService } from '../services';
-import { BaseController } from './base/BaseController';
+import { BaseController } from './base/baseController';
 import { sendResponse } from './utils';
 
 @Service()

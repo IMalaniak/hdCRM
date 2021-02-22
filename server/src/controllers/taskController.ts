@@ -11,7 +11,7 @@ import {
   TaskPriority
 } from '../models';
 import { TaskService } from '../services';
-import { BaseController } from './base/BaseController';
+import { BaseController } from './base/baseController';
 import { sendResponse } from './utils';
 
 @Service()
