@@ -5,8 +5,8 @@ import { StatusCodes } from 'http-status-codes';
 import { ok } from 'neverthrow';
 import sinon from 'sinon';
 import Container from 'typedi';
-import { CONSTANTS } from '../constants';
 
+import { CONSTANTS } from '../constants';
 import { Department } from '../models';
 import { DepartmentService } from '../services';
 import { DepartmentController } from './departmentController';

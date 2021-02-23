@@ -10,7 +10,7 @@
   "exclude": [
     "**/*.spec.ts",
     "src/apiDocs.ts",
-    "src/index.ts",
+    "**/index.ts",
     "src/app.ts",
     "src/server.ts"
   ],
