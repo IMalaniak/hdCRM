@@ -27,6 +27,8 @@ export class DepartmentController extends BaseController<
     req: Request,
     res: Response<CollectionApiResponse<Department> | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Geting department dashboard data...`);
+
     const {
       user: { OrganizationId }
     } = req;

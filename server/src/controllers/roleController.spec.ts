@@ -7,17 +7,17 @@ import sinon from 'sinon';
 import Container from 'typedi';
 import { CONSTANTS } from '../constants';
 
-import { Department } from '../models';
-import { DepartmentService } from '../services';
-import { DepartmentController } from './departmentController';
+import { Role } from '../models';
+import { RoleService } from '../services';
+import { RoleController } from './roleController';
 
-describe('DepartmentController', () => {
-  let controllerInstance: DepartmentController;
-  let dataBaseServiceInstance: DepartmentService;
+describe('RoleController', () => {
+  let controllerInstance: RoleController;
+  let dataBaseServiceInstance: RoleService;
 
-  const departmentFake = {
+  const roleFake = {
     id: 1
-  } as Department;
+  } as Role;
 
   const reqLogFake = {
     log: {
@@ -34,8 +34,8 @@ describe('DepartmentController', () => {
   };
 
   beforeEach(() => {
-    controllerInstance = Container.get(DepartmentController);
-    dataBaseServiceInstance = Container.get(DepartmentService);
+    controllerInstance = Container.get(RoleController);
+    dataBaseServiceInstance = Container.get(RoleService);
   });
 
   afterEach(() => {
@@ -50,28 +50,28 @@ describe('DepartmentController', () => {
 
   it('should send success response when calling getDashboardData', async () => {
     const getDashboardDataStub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'getDashboardData');
-    getDashboardDataStub.resolves(ok({ success: true, data: [departmentFake] }));
+    getDashboardDataStub.resolves(ok({ success: true, data: [roleFake] }));
 
     await controllerInstance.getDashboardData(reqLogFake as any, resFake as any);
 
     expect(getDashboardDataStub.calledOnce).to.be.true;
-    expect(reqLogFake.log.info.calledOnceWith(`Geting department dashboard data...`)).to.be.true;
+    expect(reqLogFake.log.info.calledOnceWith(`Geting roles dashboard data...`)).to.be.true;
     expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWith({ success: true, data: [departmentFake] })).to.be.true;
+    expect(resFake.send.calledOnceWith({ success: true, data: [roleFake] })).to.be.true;
     getDashboardDataStub.restore();
   });
 
   it('should send success response when calling create', async () => {
     const createStub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'create');
-    createStub.resolves(ok({ success: true, data: departmentFake }));
+    createStub.resolves(ok({ success: true, data: roleFake }));
     const request = { ...reqLogFake, params: { id: 1 } };
 
     await controllerInstance.create(request as any, resFake as any);
 
     expect(createStub.calledOnce).to.be.true;
-    expect(reqLogFake.log.info.calledOnceWith(`Creating new ${CONSTANTS.MODELS_NAME_DEPARTMENT}...`)).to.be.true;
+    expect(reqLogFake.log.info.calledOnceWith(`Creating new ${CONSTANTS.MODELS_NAME_ROLE}...`)).to.be.true;
     expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWithExactly({ success: true, data: departmentFake })).to.be.true;
+    expect(resFake.send.calledOnceWithExactly({ success: true, data: roleFake })).to.be.true;
     createStub.restore();
   });
 });
