@@ -24,10 +24,7 @@ describe('BaseController', () => {
   let dataBaseServiceInstance: DepartmentService;
 
   const departmentFake = {
-    id: 1,
-    managerId: 1,
-    OrganizationId: 1,
-    title: 'Test'
+    id: 1
   } as Department;
 
   const reqLogFake = {

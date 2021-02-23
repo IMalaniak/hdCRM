@@ -1,3 +1,4 @@
 {
-  "require": ["ts-node/register", "reflect-metadata"]
+  "require": ["ts-node/register", "reflect-metadata", "source-map-support/register"],
+  "recursive": true
 }
