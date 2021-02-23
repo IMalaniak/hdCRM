@@ -6,7 +6,7 @@ import { ok } from 'neverthrow';
 import sinon from 'sinon';
 import Container from 'typedi';
 
-import { Stage } from '../models';
+import { Privilege } from '../models';
 import { PrivilegeService } from '../services';
 import { PrivilegeController } from './privilegeController';
 
@@ -16,7 +16,7 @@ describe('PrivilegeController', () => {
 
   const privilegeFake = {
     id: 1
-  } as Stage;
+  } as Privilege;
 
   const reqLogFake = {
     log: {
