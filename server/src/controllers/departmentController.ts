@@ -40,7 +40,7 @@ export class DepartmentController {
       params: { id }
     } = req;
     req.log.info(`Selecting department by id: ${id}...`);
-    const result = await this.departmentService.getDataById(id);
+    const result = await this.departmentService.getByPk(id);
 
     return sendResponse<ItemApiResponse<Department>, BaseResponse>(result, res);
   }
@@ -56,14 +56,16 @@ export class DepartmentController {
     const offset = parseInt(pageIndex) * limit;
     const OrganizationId = req.user.OrganizationId;
 
-    const result = await this.departmentService.getPage({
-      sortDirection: sortDirection.toUpperCase(),
-      sortIndex,
-      limit,
-      offset,
-      parsedFilters: filters ? (qs.parse(filters) as ParsedFilters) : {},
+    const result = await this.departmentService.getPage(
+      {
+        sortDirection: sortDirection.toUpperCase(),
+        sortIndex,
+        limit,
+        offset,
+        parsedFilters: filters ? (qs.parse(filters) as ParsedFilters) : {}
+      },
       OrganizationId
-    });
+    );
 
     return sendResponse<CollectionApiResponse<Department>, BaseResponse>(result, res);
   }
@@ -89,7 +91,7 @@ export class DepartmentController {
   ): Promise<void> {
     req.log.info(`Updating department by id: ${req.body.id}...`);
 
-    const result = await this.departmentService.updateOne(req.body);
+    const result = await this.departmentService.update(req.body);
 
     return sendResponse<ItemApiResponse<Department>, BaseResponse>(result, res);
   }

@@ -33,7 +33,7 @@ export class AuthService {
 
   public async register(params: {
     organization: OrganizationCreationAttributes;
-    user: UserCreationAttributes;
+    user: Partial<UserCreationAttributes>;
     password: string;
   }): Promise<Result<BaseResponse, BaseResponse>> {
     const { organization, user, password } = params;

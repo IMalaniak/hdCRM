@@ -1397,39 +1397,39 @@ export const apiDocs: JsonObject = {
       }
     },
     '/api/tasks/{id}': {
-      get: {
-        summary: 'Get task by id',
-        tags: ['Tasks'],
-        security: [
-          {
-            bearerAuth: []
-          }
-        ],
-        parameters: [
-          {
-            $ref: '#/parameters/id'
-          }
-        ],
-        responses: {
-          '200': {
-            description: 'Task',
-            content: {
-              'application/json': {
-                schema: buildItemApiResponse('#/components/schemas/Task')
-              }
-            }
-          },
-          '400': {
-            $ref: '#/components/responses/BadRequest'
-          },
-          '401': {
-            $ref: '#/components/responses/Unauthorized'
-          },
-          '500': {
-            description: 'Internal server error'
-          }
-        }
-      },
+      // get: {
+      //   summary: 'Get task by id',
+      //   tags: ['Tasks'],
+      //   security: [
+      //     {
+      //       bearerAuth: []
+      //     }
+      //   ],
+      //   parameters: [
+      //     {
+      //       $ref: '#/parameters/id'
+      //     }
+      //   ],
+      //   responses: {
+      //     '200': {
+      //       description: 'Task',
+      //       content: {
+      //         'application/json': {
+      //           schema: buildItemApiResponse('#/components/schemas/Task')
+      //         }
+      //       }
+      //     },
+      //     '400': {
+      //       $ref: '#/components/responses/BadRequest'
+      //     },
+      //     '401': {
+      //       $ref: '#/components/responses/Unauthorized'
+      //     },
+      //     '500': {
+      //       description: 'Internal server error'
+      //     }
+      //   }
+      // },
       put: {
         summary: 'Update task',
         tags: ['Tasks'],
@@ -1510,7 +1510,7 @@ export const apiDocs: JsonObject = {
     },
     '/api/tasks/task-multiple/{taskIds}': {
       put: {
-        summary: 'Update task',
+        summary: 'Delete multiple tasks',
         tags: ['Tasks'],
         security: [
           {

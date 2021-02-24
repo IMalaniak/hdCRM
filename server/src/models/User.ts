@@ -50,13 +50,13 @@ export interface UserAttributes {
   login: string;
   name: string;
   surname: string;
-  fullname?: string;
-  phone?: string;
+  OrganizationId: number;
   passwordHash: string;
   salt: string;
+  fullname?: string;
+  phone?: string;
   state?: UserState;
   defaultLang?: string;
-  OrganizationId?: number;
   RoleId?: number;
   avatarId?: number;
   DepartmentId?: number;

@@ -17,7 +17,7 @@ export class FormController {
       params: { formName }
     } = req;
     req.log.info(`Selecting form by key: ${formName}...`);
-    const result = await this.formService.getBy(formName);
+    const result = await this.formService.getByPk(formName);
 
     return sendResponse<ItemApiResponse<Form>, BaseResponse>(result, res);
   }

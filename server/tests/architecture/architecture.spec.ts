@@ -2,8 +2,6 @@ import { expect } from 'chai';
 import { FileConditionBuilder, filesOfProject } from 'tsarch';
 import { doesNotMatchRegex } from './utils/architectureHelpers';
 
-// import path from 'path';
-
 describe('Architecture tests', () => {
   let files: FileConditionBuilder;
 
@@ -16,7 +14,7 @@ describe('Architecture tests', () => {
       .inFolder('controllers')
       .matchingPattern(doesNotMatchRegex(['utils', 'index.ts']))
       .should()
-      .matchPattern('.*Controller.ts')
+      .matchPattern('.*Controller.ts|.*Controller.spec.ts')
       .check();
 
     expect(violations).deep.equal([]);
@@ -27,7 +25,7 @@ describe('Architecture tests', () => {
       .inFolder('services')
       .matchingPattern(doesNotMatchRegex(['utils', 'index.ts']))
       .should()
-      .matchPattern('.*Service.ts')
+      .matchPattern('.*Service.ts|.*Service.spec.ts')
       .check();
 
     expect(violations).deep.equal([]);
@@ -38,7 +36,7 @@ describe('Architecture tests', () => {
       .inFolder('routes')
       .matchingPattern(doesNotMatchRegex(['index.ts']))
       .should()
-      .matchPattern('.*Routes.ts')
+      .matchPattern('.*Routes.ts|.*Routes.spec.ts')
       .check();
 
     expect(violations).deep.equal([]);

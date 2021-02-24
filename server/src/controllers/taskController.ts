@@ -46,7 +46,7 @@ export class TaskController {
     res: Response<ItemApiResponse<Task> | BaseResponse>
   ): Promise<void> {
     req.log.info(`Updating task by id: ${req.body.id}...`);
-    const result = await this.taskService.updateOne(req.body);
+    const result = await this.taskService.update(req.body);
 
     return sendResponse<ItemApiResponse<Task>, BaseResponse>(result, res);
   }

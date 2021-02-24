@@ -7,7 +7,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Mocha Server Test",
+      "name": "Mocha Unit Test",
       "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
       "args": [
         "--timeout",
@@ -27,7 +27,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Mocha All Server Unit Tests",
+      "name": "Mocha All Unit Tests",
       "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
       "args": [
         "--timeout",

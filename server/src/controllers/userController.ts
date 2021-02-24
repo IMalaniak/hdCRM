@@ -39,7 +39,7 @@ export class UserController {
     } = req;
     req.log.info(`Selecting user by id: ${id}...`);
 
-    const result = await this.userService.getById(id);
+    const result = await this.userService.getByPk(id);
 
     return sendResponse<ItemApiResponse<User>, BaseResponse>(result, res);
   }
@@ -55,14 +55,16 @@ export class UserController {
     const offset = parseInt(pageIndex) * limit;
     const OrganizationId = req.user.OrganizationId;
 
-    const result = await this.userService.getPage({
-      sortDirection: sortDirection.toUpperCase(),
-      sortIndex,
-      limit,
-      offset,
-      parsedFilters: filters ? (qs.parse(filters) as ParsedFilters) : {},
+    const result = await this.userService.getPage(
+      {
+        sortDirection: sortDirection.toUpperCase(),
+        sortIndex,
+        limit,
+        offset,
+        parsedFilters: filters ? (qs.parse(filters) as ParsedFilters) : {}
+      },
       OrganizationId
-    });
+    );
 
     return sendResponse<CollectionApiResponse<User>, BaseResponse>(result, res);
   }
@@ -88,7 +90,7 @@ export class UserController {
   ): Promise<void> {
     req.log.info(`Updating user by id: ${req.body.id}...`);
 
-    const result = await this.userService.updateOne(req.body);
+    const result = await this.userService.update(req.body);
 
     return sendResponse<ItemApiResponse<User>, BaseResponse>(result, res);
   }

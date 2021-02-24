@@ -1,29 +1,31 @@
-import { Service } from 'typedi';
+import Container, { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 import { IncludeOptions } from 'sequelize';
 
 import {
   BaseResponse,
   Task,
-  ItemApiResponse,
   TaskAttributes,
   TaskCreationAttributes,
   TaskPriority,
-  CollectionApiResponse,
-  ErrorOrigin
+  CollectionApiResponse
 } from '../models';
 import { CONSTANTS } from '../constants';
-import { Logger } from '../utils/Logger';
+import { BaseService } from './base/baseService';
 
 @Service()
-export class TaskService {
-  private includes: IncludeOptions[] = [
+export class TaskService extends BaseService<TaskCreationAttributes, TaskAttributes, Task> {
+  public includes: IncludeOptions[] = [
     {
       model: TaskPriority as any
     }
   ];
 
-  constructor(private readonly logger: Logger) {}
+  constructor() {
+    super();
+    Container.set(CONSTANTS.MODEL, Task);
+    Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_TASK);
+  }
 
   public async getAll(CreatorId: number): Promise<Result<CollectionApiResponse<Task>, BaseResponse>> {
     try {
@@ -37,72 +39,7 @@ export class TaskService {
       if (data.length) {
         return ok({ success: true, data });
       } else {
-        return ok({ success: false, message: 'No tasks by this query', data: [] });
-      }
-    } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
-    }
-  }
-
-  public async getBy(id: number | string): Promise<Result<ItemApiResponse<Task>, BaseResponse>> {
-    try {
-      const task = await Task.findByPk(id);
-      if (task) {
-        return ok({ success: true, data: task });
-      } else {
-        return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No task with such key', data: null });
-      }
-    } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
-    }
-  }
-
-  public async create(task: TaskCreationAttributes): Promise<Result<ItemApiResponse<Task>, BaseResponse>> {
-    try {
-      const data = await Task.create(task);
-      if (data) {
-        return ok({ success: true, message: 'Task is created successfully!', data });
-      }
-    } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
-    }
-  }
-
-  public async updateOne(task: TaskAttributes): Promise<Result<ItemApiResponse<Task>, BaseResponse>> {
-    try {
-      await Task.update(
-        {
-          ...task
-        },
-        {
-          where: { id: task.id }
-        }
-      );
-
-      const data = await Task.findByPk(task.id);
-
-      if (data) {
-        return ok({ success: true, message: 'Task is updated successfully!', data });
-      }
-    } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
-    }
-  }
-
-  public async delete(id: string | string[] | number | number[]): Promise<Result<BaseResponse, BaseResponse>> {
-    try {
-      const deleted = await Task.destroy({
-        where: { id }
-      });
-
-      if (deleted > 0) {
-        return ok({ success: true, message: `Deleted ${deleted} task(s)` });
-      } else {
-        return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No tasks by this query', data: null });
+        return ok({ success: false, message: `No ${CONSTANTS.MODELS_NAME_TASK}s by this query`, data: [] });
       }
     } catch (error) {
       this.logger.error(error);

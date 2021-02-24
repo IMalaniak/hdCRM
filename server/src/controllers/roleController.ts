@@ -43,7 +43,7 @@ export class RoleController {
     } = req;
     req.log.info(`Selecting role by id: ${id}...`);
 
-    const result = await this.roleService.getDataById(id);
+    const result = await this.roleService.getByPk(id);
 
     return sendResponse<ItemApiResponse<Role>, BaseResponse>(result, res);
   }
@@ -59,14 +59,16 @@ export class RoleController {
     const offset = parseInt(pageIndex) * limit;
     const OrganizationId = req.user.OrganizationId;
 
-    const result = await this.roleService.getPage({
-      sortDirection: sortDirection.toUpperCase(),
-      sortIndex,
-      limit,
-      offset,
-      parsedFilters: filters ? (qs.parse(filters) as ParsedFilters) : {},
+    const result = await this.roleService.getPage(
+      {
+        sortDirection: sortDirection.toUpperCase(),
+        sortIndex,
+        limit,
+        offset,
+        parsedFilters: filters ? (qs.parse(filters) as ParsedFilters) : {}
+      },
       OrganizationId
-    });
+    );
 
     return sendResponse<CollectionApiResponse<Role>, BaseResponse>(result, res);
   }
@@ -92,7 +94,7 @@ export class RoleController {
   ): Promise<void> {
     req.log.info(`Updating role by id: ${req.body.id}...`);
 
-    const result = await this.roleService.updateOne(req.body);
+    const result = await this.roleService.update(req.body);
 
     return sendResponse<ItemApiResponse<Role>, BaseResponse>(result, res);
   }

@@ -10,23 +10,18 @@ export class PreferenceService {
   constructor(private readonly logger: Logger) {}
 
   public async getAll(): Promise<Result<ItemApiResponse<any>, BaseResponse>> {
-    try {
-      const preferencesList = Object.keys(Preference.rawAttributes)
-        .filter((key) => Preference.rawAttributes[key].values)
-        .reduce((acc, key) => {
-          return {
-            ...acc,
-            [key]: Preference.rawAttributes[key].values
-          };
-        }, {});
-      if (preferencesList) {
-        return ok({ success: true, data: preferencesList });
-      } else {
-        return ok({ success: false, message: 'No preferences', data: [] });
-      }
-    } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+    const preferencesList = Object.keys(Preference.rawAttributes)
+      .filter((key) => Preference.rawAttributes[key].values)
+      .reduce((acc, key) => {
+        return {
+          ...acc,
+          [key]: Preference.rawAttributes[key].values
+        };
+      }, {});
+    if (Object.keys(preferencesList).length) {
+      return ok({ success: true, data: preferencesList });
+    } else {
+      return ok({ success: false, message: 'No preferences', data: {} });
     }
   }
 
