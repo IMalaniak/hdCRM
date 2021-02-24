@@ -33,14 +33,14 @@ export class TaskController extends BaseController<TaskCreationAttributes, TaskA
     const {
       body: { taskIds }
     } = req;
-    req.log.info(`Deleting tasks by id: ${taskIds}...`);
+    req.log.info(`Deleting multiple tasks...`);
     const result = await this.dataBaseService.delete(taskIds);
 
     return sendResponse<BaseResponse, BaseResponse>(result, res);
   }
 
-  public async getPrioriities(req: Request, res: Response<CollectionApiResponse<TaskPriority>>): Promise<void> {
-    req.log.info(`Selecting all tasks...`);
+  public async getPriorities(req: Request, res: Response<CollectionApiResponse<TaskPriority>>): Promise<void> {
+    req.log.info(`Selecting all task priorities...`);
 
     const result = await this.dataBaseService.getPriorities();
 
