@@ -57,7 +57,7 @@ describe('UserController', () => {
     await controllerInstance.create(request as any, resFake as any);
 
     expect(createStub.calledOnce).to.be.true;
-    expect(reqLogFake.log.info.calledOnceWith(`Creating new ${CONSTANTS.MODELS_NAME_PLAN}...`)).to.be.true;
+    expect(reqLogFake.log.info.calledOnceWith(`Creating new ${CONSTANTS.MODELS_NAME_USER}...`)).to.be.true;
     expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
     expect(resFake.send.calledOnceWithExactly({ success: true, data: fakeObj })).to.be.true;
     createStub.restore();
