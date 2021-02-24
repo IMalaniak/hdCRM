@@ -8,6 +8,7 @@ export class CONSTANTS {
   static MODELS_NAME_ROLE = 'role';
   static MODELS_NAME_STAGE = 'stage';
   static MODELS_NAME_TASK = 'task';
+  static MODELS_NAME_USER = 'user';
 
   // texts
   static TEXTS_API_GENERIC_ERROR = 'Sorry, something went wrong executing this request!';

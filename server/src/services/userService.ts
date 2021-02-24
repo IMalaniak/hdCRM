@@ -73,7 +73,7 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
   constructor(private readonly mailer: Mailer, private readonly crypt: Crypt) {
     super();
     Container.set(CONSTANTS.MODEL, User);
-    Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_PLAN);
+    Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_USER);
   }
 
   public async updatePassword(
