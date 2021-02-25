@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { Service } from 'typedi';
+import Container, { Service } from 'typedi';
 
+import { CONSTANTS } from '../constants';
 import {
   BaseResponse,
   Plan,
@@ -20,6 +21,7 @@ import { sendResponse } from './utils';
 export class PlanController extends BaseController<PlanCreationAttributes, PlanAttributes, Plan> {
   constructor(readonly dataBaseService: PlanService) {
     super();
+    Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_PLAN);
   }
 
   public async addDocument(

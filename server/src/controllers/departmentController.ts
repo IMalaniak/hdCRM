@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { Service } from 'typedi';
+import Container, { Service } from 'typedi';
 
+import { CONSTANTS } from '../constants';
 import {
   BaseResponse,
   CollectionApiResponse,
@@ -21,6 +22,7 @@ export class DepartmentController extends BaseController<
 > {
   constructor(readonly dataBaseService: DepartmentService) {
     super();
+    Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_DEPARTMENT);
   }
 
   public async getDashboardData(

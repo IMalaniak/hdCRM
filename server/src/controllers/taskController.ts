@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { Service } from 'typedi';
+import Container, { Service } from 'typedi';
 
+import { CONSTANTS } from '../constants';
 import {
   BaseResponse,
   CollectionApiResponse,
@@ -18,6 +19,7 @@ import { sendResponse } from './utils';
 export class TaskController extends BaseController<TaskCreationAttributes, TaskAttributes, Task> {
   constructor(readonly dataBaseService: TaskService) {
     super();
+    Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_TASK);
   }
 
   public async getAll(req: Request, res: Response<CollectionApiResponse<Task> | BaseResponse>): Promise<void> {

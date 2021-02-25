@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { Service } from 'typedi';
+import Container, { Service } from 'typedi';
 
+import { CONSTANTS } from '../constants';
 import {
   BaseResponse,
   CollectionApiResponse,
@@ -17,6 +18,7 @@ import { sendResponse } from './utils';
 export class RoleController extends BaseController<RoleCreationAttributes, RoleAttributes, Role> {
   constructor(readonly dataBaseService: RoleService) {
     super();
+    Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_ROLE);
   }
 
   public async getDashboardData(

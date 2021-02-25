@@ -50,17 +50,17 @@ describe('UserController', () => {
   });
 
   it('should send success response when calling create', async () => {
-    const createStub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'create');
-    createStub.resolves(ok({ success: true, data: fakeObj }));
+    const stub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'create');
+    stub.resolves(ok({ success: true, data: fakeObj }));
     const request = { ...reqLogFake, params: { id: 1 } };
 
     await controllerInstance.create(request as any, resFake as any);
 
-    expect(createStub.calledOnce).to.be.true;
+    expect(stub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Creating new ${CONSTANTS.MODELS_NAME_USER}...`)).to.be.true;
     expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
     expect(resFake.send.calledOnceWithExactly({ success: true, data: fakeObj })).to.be.true;
-    createStub.restore();
+    stub.restore();
   });
 
   it('should send success response when calling updatePassword', async () => {

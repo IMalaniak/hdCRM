@@ -1,6 +1,9 @@
-import { Service } from 'typedi';
+import { Request, Response } from 'express';
+import Container, { Service } from 'typedi';
 import jimp from 'jimp';
 
+import { CONSTANTS } from '../constants';
+import { JwtHelper } from '../helpers/jwtHelper';
 import {
   User,
   UserSession,
@@ -17,16 +20,15 @@ import {
   AssetCreationAttributes
 } from '../models';
 import { UserService } from '../services';
-import { Request, Response } from 'express';
-import { sendResponse } from './utils';
 import { parseCookies } from '../utils/parseCookies';
-import { JwtHelper } from '../helpers/jwtHelper';
+import { sendResponse } from './utils';
 import { BaseController } from './base/baseController';
 
 @Service()
 export class UserController extends BaseController<UserCreationAttributes, UserAttributes, User> {
   constructor(readonly dataBaseService: UserService, private readonly jwtHelper: JwtHelper) {
     super();
+    Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_USER);
   }
 
   public async updatePassword(req: RequestWithBody<PasswordReset>, res: Response<BaseResponse>): Promise<void> {
