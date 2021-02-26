@@ -48,7 +48,7 @@
     "ngx-filepond": "6.0.0",
     "normalizr": "3.6.1",
     "rxjs": "6.6.6",
-    "socket.io-client": "3.1.1",
+    "socket.io-client": "3.1.2",
     "tslib": "2.1.0",
     "ua-parser-js": "0.7.24",
     "uuid": "8.3.2",
