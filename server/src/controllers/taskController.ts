@@ -17,7 +17,7 @@ import { sendResponse } from './utils';
 
 @Service()
 export class TaskController extends BaseController<TaskCreationAttributes, TaskAttributes, Task> {
-  constructor(readonly dataBaseService: TaskService) {
+  constructor(protected readonly dataBaseService: TaskService) {
     super();
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_TASK);
   }

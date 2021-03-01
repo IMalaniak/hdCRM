@@ -20,7 +20,7 @@ export class DepartmentController extends BaseController<
   DepartmentAttributes,
   Department
 > {
-  constructor(readonly dataBaseService: DepartmentService) {
+  constructor(protected readonly dataBaseService: DepartmentService) {
     super();
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_DEPARTMENT);
   }

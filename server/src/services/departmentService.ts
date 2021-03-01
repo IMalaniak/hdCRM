@@ -15,7 +15,7 @@ import { BaseService } from './base/baseService';
 
 @Service()
 export class DepartmentService extends BaseService<DepartmentCreationAttributes, DepartmentAttributes, Department> {
-  public readonly includes: IncludeOptions[] = [
+  protected readonly includes: IncludeOptions[] = [
     {
       association: Department.associations?.ParentDepartment,
       required: false
@@ -75,7 +75,7 @@ export class DepartmentService extends BaseService<DepartmentCreationAttributes,
     }
   }
 
-  public async postAction(department: Department, id: number): Promise<Department> {
+  protected async postAction(department: Department, id: number): Promise<Department> {
     if (department.ParentDepartment || department.SubDepartments?.length || department.Workers?.length) {
       const updated = await this.MODEL.findByPk(id, { attributes: ['id'] });
 

@@ -26,7 +26,7 @@ import { BaseController } from './base/baseController';
 
 @Service()
 export class UserController extends BaseController<UserCreationAttributes, UserAttributes, User> {
-  constructor(readonly dataBaseService: UserService, private readonly jwtHelper: JwtHelper) {
+  constructor(protected readonly dataBaseService: UserService, private readonly jwtHelper: JwtHelper) {
     super();
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_USER);
   }

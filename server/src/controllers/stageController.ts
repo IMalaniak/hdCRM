@@ -9,7 +9,7 @@ import { BaseController } from './base/baseController';
 
 @Service()
 export class StageController extends BaseController<StageCreationAttributes, StageAttributes, Stage> {
-  constructor(readonly dataBaseService: StageService) {
+  constructor(protected readonly dataBaseService: StageService) {
     super();
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_STAGE);
   }

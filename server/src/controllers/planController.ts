@@ -19,7 +19,7 @@ import { sendResponse } from './utils';
 
 @Service()
 export class PlanController extends BaseController<PlanCreationAttributes, PlanAttributes, Plan> {
-  constructor(readonly dataBaseService: PlanService) {
+  constructor(protected readonly dataBaseService: PlanService) {
     super();
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_PLAN);
   }

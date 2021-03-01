@@ -6,7 +6,7 @@ import { BaseService } from './base/baseService';
 
 @Service()
 export class FormService extends BaseService<FormAttributes, FormAttributes, Form> {
-  public readonly primaryKey = 'key';
+  protected readonly primaryKey = 'key';
 
   constructor() {
     super();

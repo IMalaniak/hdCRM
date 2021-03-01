@@ -7,7 +7,7 @@ import { BaseController } from './base/baseController';
 
 @Service()
 export class FormController extends BaseController<FormAttributes, FormAttributes, Form> {
-  constructor(readonly dataBaseService: FormService) {
+  constructor(protected readonly dataBaseService: FormService) {
     super();
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_FORM);
   }

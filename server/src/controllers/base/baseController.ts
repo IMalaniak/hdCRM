@@ -17,10 +17,10 @@ import { CONSTANTS } from '../../constants';
 import { IBaseService } from '../../services/base/IBaseService';
 
 export abstract class BaseController<C, A, M extends Model<A, C>> {
-  readonly dataBaseService: IBaseService<C, A, M>;
+  protected readonly dataBaseService: IBaseService<C, A, M>;
 
   @Inject(CONSTANTS.MODELS_NAME)
-  modelName: string;
+  protected modelName: string;
 
   public async getByPk(req: Request<{ id: string }>, res: Response<ItemApiResponse<M> | BaseResponse>): Promise<void> {
     const {

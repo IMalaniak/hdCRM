@@ -16,7 +16,7 @@ import { sendResponse } from './utils';
 
 @Service()
 export class RoleController extends BaseController<RoleCreationAttributes, RoleAttributes, Role> {
-  constructor(readonly dataBaseService: RoleService) {
+  constructor(protected readonly dataBaseService: RoleService) {
     super();
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_ROLE);
   }
