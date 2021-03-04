@@ -11,8 +11,8 @@ export class FormRoutes {
   constructor(private readonly formController: FormController) {}
 
   public register(): Router {
-    this.router.get('/:formName', async (req: Request<{ formName: string }>, res: Response<ItemApiResponse<Form>>) =>
-      this.formController.getBy(req, res)
+    this.router.get('/:id', async (req: Request<{ id: string }>, res: Response<ItemApiResponse<Form>>) =>
+      this.formController.getByPk(req, res)
     );
 
     this.router.post('/', async (req: RequestWithBody<FormAttributes>, res: Response<ItemApiResponse<Form>>) =>

@@ -1,3 +1,7 @@
 {
-  "require": ["ts-node/register", "reflect-metadata"]
+  "require": ["ts-node/register", "source-map-support/register", "reflect-metadata"],
+  "recursive": true,
+  "full-trace": true,
+  "bail": true,
+  "color": true
 }

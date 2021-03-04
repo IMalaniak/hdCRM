@@ -33,7 +33,7 @@ export class UserRoutes {
     });
 
     this.router.get('/:id', async (req: Request<{ id: string }>, res: Response<ItemApiResponse<User>>) =>
-      this.userController.getById(req, res)
+      this.userController.getByPk(req, res)
     );
 
     this.router.get('/', async (req: RequestWithQuery<CollectionQuery>, res: Response<CollectionApiResponse<User>>) =>
@@ -45,11 +45,11 @@ export class UserRoutes {
     );
 
     this.router.put('/:id', async (req: RequestWithBody<User>, res: Response<ItemApiResponse<User>>) =>
-      this.userController.updateOne(req, res)
+      this.userController.update(req, res)
     );
 
     this.router.put('/profile/', async (req: RequestWithBody<User>, res: Response<ItemApiResponse<User>>) =>
-      this.userController.updateOne(req, res)
+      this.userController.update(req, res)
     );
 
     this.router.post('/change-password', async (req: RequestWithBody<PasswordReset>, res: Response<BaseResponse>) =>
@@ -68,7 +68,7 @@ export class UserRoutes {
     );
 
     this.router.delete('/:id', async (req: Request<{ id: string }>, res: Response<BaseResponse>) =>
-      this.userController.deleteOne(req, res)
+      this.userController.delete(req, res)
     );
 
     this.router.post(

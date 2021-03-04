@@ -23,7 +23,7 @@ export class PlanRoutes {
 
   public register(): Router {
     this.router.get('/:id', async (req: Request<{ id: string }>, res: Response<ItemApiResponse<Plan>>) =>
-      this.planController.getDataById(req, res)
+      this.planController.getByPk(req, res)
     );
 
     this.router.get('/', async (req: RequestWithQuery<CollectionQuery>, res: Response<CollectionApiResponse<Plan>>) =>
@@ -35,7 +35,7 @@ export class PlanRoutes {
     );
 
     this.router.put('/:id', async (req: RequestWithBody<Plan>, res: Response<ItemApiResponse<Plan>>) =>
-      this.planController.updateOne(req, res)
+      this.planController.update(req, res)
     );
 
     this.router.post(

@@ -13,17 +13,17 @@ type NonAbstractTypeOfModel<T> = Constructor<T> & NonAbstract<typeof Model>;
 
 export abstract class BaseService<C, A, M extends Model<A, C>> implements IBaseService<C, A, M> {
   @Inject(CONSTANTS.MODEL)
-  MODEL: NonAbstractTypeOfModel<M>;
+  protected MODEL: NonAbstractTypeOfModel<M>;
 
   @Inject(CONSTANTS.MODELS_NAME)
-  modelName: string;
+  protected modelName: string;
 
   @Inject()
-  logger: Logger;
+  protected logger: Logger;
 
-  public readonly primaryKey: string = 'id';
-  public includes: IncludeOptions[] = [];
-  public excludes: string[] = [];
+  protected readonly primaryKey: string = 'id';
+  protected includes: IncludeOptions[] = [];
+  protected excludes: string[] = [];
 
   public async getByPk(key: number | string): Promise<Result<ItemApiResponse<M>, BaseResponse>> {
     try {
@@ -136,11 +136,11 @@ export abstract class BaseService<C, A, M extends Model<A, C>> implements IBaseS
     }
   }
 
-  public postAction(_: C | A | M, key: string | number): Promise<M> {
+  protected postAction(_: C | A | M, key: string | number): Promise<M> {
     return this.findByPk(key);
   }
 
-  public findByPk(key: number | string): Promise<M> {
+  protected findByPk(key: number | string): Promise<M> {
     return this.MODEL.findByPk(key, {
       attributes: { exclude: [...this.excludes] },
       include: [...this.includes]

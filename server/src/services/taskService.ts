@@ -15,7 +15,7 @@ import { BaseService } from './base/baseService';
 
 @Service()
 export class TaskService extends BaseService<TaskCreationAttributes, TaskAttributes, Task> {
-  public includes: IncludeOptions[] = [
+  protected includes: IncludeOptions[] = [
     {
       model: TaskPriority as any
     }

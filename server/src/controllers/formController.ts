@@ -1,46 +1,14 @@
-import { Request, Response } from 'express';
-import { Service } from 'typedi';
+import Container, { Service } from 'typedi';
 
-import { BaseResponse, Form, FormAttributes, ItemApiResponse, RequestWithBody } from '../models';
+import { CONSTANTS } from '../constants';
+import { Form, FormAttributes } from '../models';
 import { FormService } from '../services';
-import { sendResponse } from './utils';
+import { BaseController } from './base/baseController';
 
 @Service()
-export class FormController {
-  constructor(private readonly formService: FormService) {}
-
-  public async getBy(
-    req: Request<{ formName: string }>,
-    res: Response<ItemApiResponse<Form> | BaseResponse>
-  ): Promise<void> {
-    const {
-      params: { formName }
-    } = req;
-    req.log.info(`Selecting form by key: ${formName}...`);
-    const result = await this.formService.getByPk(formName);
-
-    return sendResponse<ItemApiResponse<Form>, BaseResponse>(result, res);
-  }
-
-  public async create(
-    req: RequestWithBody<FormAttributes>,
-    res: Response<ItemApiResponse<Form> | BaseResponse>
-  ): Promise<void> {
-    req.log.info(`Creating new form...`);
-
-    const result = await this.formService.create(req.body);
-
-    return sendResponse<ItemApiResponse<Form>, BaseResponse>(result, res);
-  }
-
-  public async delete(req: Request<{ id: string }>, res: Response<BaseResponse>): Promise<void> {
-    const {
-      params: { id }
-    } = req;
-    req.log.info(`Deleting form(s) by key: ${id}...`);
-
-    const result = await this.formService.delete(id);
-
-    return sendResponse<BaseResponse, BaseResponse>(result, res);
+export class FormController extends BaseController<FormAttributes, FormAttributes, Form> {
+  constructor(protected readonly dataBaseService: FormService) {
+    super();
+    Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_FORM);
   }
 }

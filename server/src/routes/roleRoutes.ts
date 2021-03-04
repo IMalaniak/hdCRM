@@ -33,11 +33,11 @@ export class RoleRoutes {
     );
 
     this.router.get('/:id', (req: Request<{ id: string }>, res: Response<ItemApiResponse<Role>>) =>
-      this.roleController.getDataById(req, res)
+      this.roleController.getByPk(req, res)
     );
 
     this.router.put('/:id', (req: RequestWithBody<Role>, res: Response<ItemApiResponse<Role>>) =>
-      this.roleController.updateOne(req, res)
+      this.roleController.update(req, res)
     );
 
     this.router.delete('/:id', (req: Request<{ id: string }>, res: Response<BaseResponse>) =>

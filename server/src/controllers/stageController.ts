@@ -1,37 +1,24 @@
 import { Request, Response } from 'express';
-import { Service } from 'typedi';
+import Container, { Service } from 'typedi';
 
-import {
-  BaseResponse,
-  CollectionApiResponse,
-  ItemApiResponse,
-  Stage,
-  StageCreationAttributes,
-  RequestWithBody
-} from '../models';
-import { sendResponse } from './utils';
+import { CONSTANTS } from '../constants';
+import { BaseResponse, CollectionApiResponse, Stage, StageCreationAttributes, StageAttributes } from '../models';
 import { StageService } from '../services';
+import { sendResponse } from './utils';
+import { BaseController } from './base/baseController';
 
 @Service()
-export class StageController {
-  constructor(private readonly stageService: StageService) {}
+export class StageController extends BaseController<StageCreationAttributes, StageAttributes, Stage> {
+  constructor(protected readonly dataBaseService: StageService) {
+    super();
+    Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_STAGE);
+  }
 
   public async getAll(req: Request, res: Response<CollectionApiResponse<any> | BaseResponse>): Promise<void> {
     req.log.info(`Selecting stages list...`);
 
-    const result = await this.stageService.getAll(req.user.OrganizationId);
+    const result = await this.dataBaseService.getAll(req.user.OrganizationId);
 
     return sendResponse<CollectionApiResponse<any>, BaseResponse>(result, res);
-  }
-
-  public async create(
-    req: RequestWithBody<StageCreationAttributes>,
-    res: Response<ItemApiResponse<Stage> | BaseResponse>
-  ): Promise<void> {
-    req.log.info(`Creating new stage...`);
-
-    const result = await this.stageService.create(req.body);
-
-    return sendResponse<ItemApiResponse<Stage>, BaseResponse>(result, res);
   }
 }

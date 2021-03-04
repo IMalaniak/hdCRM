@@ -12,7 +12,7 @@ export class TaskPriorityRoutes {
 
   public register(): Router {
     this.router.get('/', async (req, res: Response<CollectionApiResponse<TaskPriority>>) =>
-      this.taskController.getPrioriities(req, res)
+      this.taskController.getPriorities(req, res)
     );
 
     return this.router;

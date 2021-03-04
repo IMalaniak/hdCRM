@@ -24,7 +24,7 @@ import { BaseService } from './base/baseService';
 export class PlanService extends BaseService<PlanCreationAttributes, PlanAttributes, Plan> {
   private unlinkAsync = promisify(fs.unlink);
 
-  public readonly includes: IncludeOptions[] = [
+  protected readonly includes: IncludeOptions[] = [
     {
       association: Plan.associations?.Creator,
       attributes: { exclude: ['passwordHash', 'salt'] },
@@ -114,7 +114,7 @@ export class PlanService extends BaseService<PlanCreationAttributes, PlanAttribu
     }
   }
 
-  public async postAction(plan: Plan, id: number): Promise<Plan> {
+  protected async postAction(plan: Plan, id: number): Promise<Plan> {
     // TODO: refactor this
     if (!plan.Stages) {
       const stages = await Stage.findAll({

@@ -1,108 +1,48 @@
 import { Request, Response } from 'express';
-import qs from 'qs';
-import { Service } from 'typedi';
+import Container, { Service } from 'typedi';
 
+import { CONSTANTS } from '../constants';
 import {
   BaseResponse,
   CollectionApiResponse,
   Department,
-  ItemApiResponse,
-  RequestWithBody,
-  RequestWithQuery,
-  CollectionQuery,
   DepartmentCreationAttributes,
-  ParsedFilters
+  DepartmentAttributes,
+  RequestWithBody
 } from '../models';
 import { DepartmentService } from '../services';
+import { BaseController } from './base/baseController';
 import { sendResponse } from './utils';
 
 @Service()
-export class DepartmentController {
-  constructor(private readonly departmentService: DepartmentService) {}
+export class DepartmentController extends BaseController<
+  DepartmentCreationAttributes,
+  DepartmentAttributes,
+  Department
+> {
+  constructor(protected readonly dataBaseService: DepartmentService) {
+    super();
+    Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_DEPARTMENT);
+  }
 
   public async getDashboardData(
     req: Request,
     res: Response<CollectionApiResponse<Department> | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Geting department dashboard data...`);
+
     const {
       user: { OrganizationId }
     } = req;
-    const result = await this.departmentService.getDashboardData(OrganizationId);
+    const result = await this.dataBaseService.getDashboardData(OrganizationId);
 
     return sendResponse<CollectionApiResponse<Department>, BaseResponse>(result, res);
   }
 
-  public async getDataById(
-    req: Request<{ id: string }>,
-    res: Response<ItemApiResponse<Department> | BaseResponse>
-  ): Promise<void> {
-    const {
-      params: { id }
-    } = req;
-    req.log.info(`Selecting department by id: ${id}...`);
-    const result = await this.departmentService.getByPk(id);
-
-    return sendResponse<ItemApiResponse<Department>, BaseResponse>(result, res);
-  }
-
-  public async getPage(
-    req: RequestWithQuery<CollectionQuery>,
-    res: Response<CollectionApiResponse<Department> | BaseResponse>
-  ): Promise<void> {
-    req.log.info(`Getting departments by page query...`);
-
-    const { pageSize, pageIndex, sortDirection, sortIndex, filters } = req.query;
-    const limit = parseInt(pageSize);
-    const offset = parseInt(pageIndex) * limit;
-    const OrganizationId = req.user.OrganizationId;
-
-    const result = await this.departmentService.getPage(
-      {
-        sortDirection: sortDirection.toUpperCase(),
-        sortIndex,
-        limit,
-        offset,
-        parsedFilters: filters ? (qs.parse(filters) as ParsedFilters) : {}
-      },
-      OrganizationId
-    );
-
-    return sendResponse<CollectionApiResponse<Department>, BaseResponse>(result, res);
-  }
-
-  public async create(
-    req: RequestWithBody<DepartmentCreationAttributes>,
-    res: Response<ItemApiResponse<Department> | BaseResponse>
-  ): Promise<void> {
-    req.log.info(`Creating new department...`);
-
-    const department: DepartmentCreationAttributes = {
+  public generateCreationAttributes(req: RequestWithBody<DepartmentCreationAttributes>): DepartmentCreationAttributes {
+    return {
       ...req.body,
       OrganizationId: req.user.OrganizationId
     };
-    const result = await this.departmentService.create(department);
-
-    return sendResponse<ItemApiResponse<Department>, BaseResponse>(result, res);
-  }
-
-  public async updateOne(
-    req: RequestWithBody<Department>,
-    res: Response<ItemApiResponse<Department> | BaseResponse>
-  ): Promise<void> {
-    req.log.info(`Updating department by id: ${req.body.id}...`);
-
-    const result = await this.departmentService.update(req.body);
-
-    return sendResponse<ItemApiResponse<Department>, BaseResponse>(result, res);
-  }
-
-  public async delete(req: Request<{ id: string }>, res: Response<BaseResponse>): Promise<void> {
-    const {
-      params: { id }
-    } = req;
-    req.log.info(`Deleting department(s) by id: ${id}...`);
-    const result = await this.departmentService.delete(id);
-
-    return sendResponse<BaseResponse, BaseResponse>(result, res);
   }
 }

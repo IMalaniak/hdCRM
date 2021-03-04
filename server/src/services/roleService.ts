@@ -16,7 +16,7 @@ import { BaseService } from './base/baseService';
 
 @Service()
 export class RoleService extends BaseService<RoleCreationAttributes, RoleAttributes, Role> {
-  public readonly includes: IncludeOptions[] = [
+  protected readonly includes: IncludeOptions[] = [
     {
       association: Role.associations?.Privileges,
       through: {
@@ -66,7 +66,7 @@ export class RoleService extends BaseService<RoleCreationAttributes, RoleAttribu
     }
   }
 
-  public async postAction(role: Role, id: number): Promise<Role> {
+  protected async postAction(role: Role, id: number): Promise<Role> {
     if (role.Privileges) {
       const privIds = role.Privileges.map((priv) => {
         return {

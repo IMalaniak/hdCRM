@@ -31,8 +31,8 @@ import { BaseService } from './base/baseService';
 @Service()
 export class UserService extends BaseService<UserCreationAttributes, UserAttributes, User> {
   private unlinkAsync = promisify(fs.unlink);
-  public excludes: string[] = ['passwordHash', 'salt'];
-  public readonly includes: IncludeOptions[] = [
+  protected excludes: string[] = ['passwordHash', 'salt'];
+  protected readonly includes: IncludeOptions[] = [
     {
       association: User.associations?.Role,
       required: false,

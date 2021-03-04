@@ -1,109 +1,34 @@
-import { Service } from 'typedi';
+import { Request, Response } from 'express';
+import Container, { Service } from 'typedi';
 import jimp from 'jimp';
-import qs from 'qs';
 
+import { CONSTANTS } from '../constants';
+import { JwtHelper } from '../helpers/jwtHelper';
 import {
   User,
   UserSession,
   Organization,
-  CollectionQuery,
   OrganizationAttributes,
   ItemApiResponse,
   BaseResponse,
   CollectionApiResponse,
-  RequestWithQuery,
   RequestWithBody,
   UserCreationAttributes,
   PasswordReset,
   UserAttributes,
   Asset,
-  AssetCreationAttributes,
-  ParsedFilters
+  AssetCreationAttributes
 } from '../models';
 import { UserService } from '../services';
-import { Request, Response } from 'express';
-import { sendResponse } from './utils';
 import { parseCookies } from '../utils/parseCookies';
-import { JwtHelper } from '../helpers/jwtHelper';
+import { sendResponse } from './utils';
+import { BaseController } from './base/baseController';
 
 @Service()
-export class UserController {
-  constructor(private readonly userService: UserService, private readonly jwtHelper: JwtHelper) {}
-
-  public async getById(
-    req: Request<{ id: string }>,
-    res: Response<ItemApiResponse<User> | BaseResponse>
-  ): Promise<void> {
-    const {
-      params: { id }
-    } = req;
-    req.log.info(`Selecting user by id: ${id}...`);
-
-    const result = await this.userService.getByPk(id);
-
-    return sendResponse<ItemApiResponse<User>, BaseResponse>(result, res);
-  }
-
-  public async getPage(
-    req: RequestWithQuery<CollectionQuery>,
-    res: Response<CollectionApiResponse<User> | BaseResponse>
-  ): Promise<void> {
-    req.log.info(`Selecting users by page query...`);
-
-    const { pageSize, pageIndex, sortDirection, sortIndex, filters } = req.query;
-    const limit = parseInt(pageSize);
-    const offset = parseInt(pageIndex) * limit;
-    const OrganizationId = req.user.OrganizationId;
-
-    const result = await this.userService.getPage(
-      {
-        sortDirection: sortDirection.toUpperCase(),
-        sortIndex,
-        limit,
-        offset,
-        parsedFilters: filters ? (qs.parse(filters) as ParsedFilters) : {}
-      },
-      OrganizationId
-    );
-
-    return sendResponse<CollectionApiResponse<User>, BaseResponse>(result, res);
-  }
-
-  public async create(
-    req: RequestWithBody<UserCreationAttributes>,
-    res: Response<ItemApiResponse<User> | BaseResponse>
-  ): Promise<void> {
-    req.log.info(`Creating new user...`);
-
-    const user: UserCreationAttributes = {
-      ...req.body,
-      OrganizationId: req.user.OrganizationId
-    };
-    const result = await this.userService.create(user);
-
-    return sendResponse<ItemApiResponse<User>, BaseResponse>(result, res);
-  }
-
-  public async updateOne(
-    req: RequestWithBody<User>,
-    res: Response<ItemApiResponse<User> | BaseResponse>
-  ): Promise<void> {
-    req.log.info(`Updating user by id: ${req.body.id}...`);
-
-    const result = await this.userService.update(req.body);
-
-    return sendResponse<ItemApiResponse<User>, BaseResponse>(result, res);
-  }
-
-  public async deleteOne(req: Request<{ id: string }>, res: Response<BaseResponse>): Promise<void> {
-    const {
-      params: { id }
-    } = req;
-    req.log.info(`Deleting user by id: ${id}...`);
-
-    const result = await this.userService.delete(id);
-
-    return sendResponse<BaseResponse, BaseResponse>(result, res);
+export class UserController extends BaseController<UserCreationAttributes, UserAttributes, User> {
+  constructor(protected readonly dataBaseService: UserService, private readonly jwtHelper: JwtHelper) {
+    super();
+    Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_USER);
   }
 
   public async updatePassword(req: RequestWithBody<PasswordReset>, res: Response<BaseResponse>): Promise<void> {
@@ -126,7 +51,7 @@ export class UserController {
       ...(req.body.deleteSessions && { sessionId: sId })
     };
 
-    const result = await this.userService.updatePassword(passData);
+    const result = await this.dataBaseService.updatePassword(passData);
 
     return sendResponse<BaseResponse, BaseResponse>(result, res);
   }
@@ -140,7 +65,7 @@ export class UserController {
     } = req;
     req.log.info(`Getting user session by id: ${id}...`);
 
-    const result = await this.userService.getSession(id);
+    const result = await this.dataBaseService.getSession(id);
 
     return sendResponse<ItemApiResponse<UserSession>, BaseResponse>(result, res);
   }
@@ -151,7 +76,7 @@ export class UserController {
   ): Promise<void> {
     const currentUser = req.user;
     req.log.info(`Getting session list for user id: ${currentUser.id}...`);
-    const result = await this.userService.getSessionList(currentUser);
+    const result = await this.dataBaseService.getSessionList(currentUser);
 
     return sendResponse<CollectionApiResponse<UserSession>, BaseResponse>(result, res);
   }
@@ -162,7 +87,7 @@ export class UserController {
     } = req;
     req.log.info(`Removing user session`);
 
-    const result = await this.userService.removeSession(id);
+    const result = await this.dataBaseService.removeSession(id);
 
     return sendResponse<BaseResponse, BaseResponse>(result, res);
   }
@@ -175,7 +100,7 @@ export class UserController {
       body: { sessionIds }
     } = req;
     req.log.info(`Removing user sessions`);
-    const result = await this.userService.removeSession(sessionIds);
+    const result = await this.dataBaseService.removeSession(sessionIds);
 
     return sendResponse<BaseResponse, BaseResponse>(result, res);
   }
@@ -186,7 +111,7 @@ export class UserController {
   ): Promise<void> {
     req.log.info(`Update user organization by id: ${req.body.id}`);
 
-    const result = await this.userService.updateOrg(req.body);
+    const result = await this.dataBaseService.updateOrg(req.body);
 
     return sendResponse<ItemApiResponse<Organization>, BaseResponse>(result, res);
   }
@@ -197,7 +122,7 @@ export class UserController {
   ): Promise<void> {
     req.log.info(`Invite multiple users`);
 
-    const result = await this.userService.inviteMultiple(req.body, req.user.OrganizationId);
+    const result = await this.dataBaseService.inviteMultiple(req.body, req.user.OrganizationId);
 
     return sendResponse<CollectionApiResponse<User>, BaseResponse>(result, res);
   }
@@ -226,7 +151,7 @@ export class UserController {
       userId: req.params.id
     };
 
-    const result = await this.userService.updateAvatar(params);
+    const result = await this.dataBaseService.updateAvatar(params);
 
     return sendResponse<ItemApiResponse<Asset>, BaseResponse>(result, res);
   }
@@ -237,8 +162,15 @@ export class UserController {
     } = req;
     req.log.info(`Delete user avatar by id: ${id}`);
 
-    const result = await this.userService.deleteAvatar(id);
+    const result = await this.dataBaseService.deleteAvatar(id);
 
     return sendResponse<BaseResponse, BaseResponse>(result, res);
+  }
+
+  public generateCreationAttributes(req: RequestWithBody<UserCreationAttributes>): UserCreationAttributes {
+    return {
+      ...req.body,
+      OrganizationId: req.user.OrganizationId
+    };
   }
 }
