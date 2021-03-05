@@ -15,8 +15,4 @@ describe('FormService', () => {
   it('should be defined', () => {
     expect(serviceInstance).to.not.be.undefined;
   });
-
-  it('should check primary key be defined', () => {
-    expect(serviceInstance.primaryKey).to.equal('key');
-  });
 });
