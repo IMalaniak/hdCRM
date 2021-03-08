@@ -595,6 +595,51 @@ export const apiDocs: JsonObject = {
       }
     },
     '/api/forms/': {
+      get: {
+        summary: 'Get filtered list of forms',
+        tags: ['Forms'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        parameters: [
+          {
+            $ref: '#/parameters/pageSize'
+          },
+          {
+            $ref: '#/parameters/pageIndex'
+          },
+          {
+            $ref: '#/parameters/sortIndex'
+          },
+          {
+            $ref: '#/parameters/sortDirection'
+          },
+          {
+            $ref: '#/parameters/filters'
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'Forms list',
+            content: {
+              'application/json': {
+                schema: buildCollectionApiResponse('#/components/schemas/FormAttributes')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      },
       post: {
         summary: 'Create new form',
         tags: ['Forms'],
@@ -659,6 +704,83 @@ export const apiDocs: JsonObject = {
             content: {
               'application/json': {
                 schema: buildItemApiResponse('#/components/schemas/FormAttributes')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      },
+      put: {
+        summary: 'Update form',
+        tags: ['Forms'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        parameters: [
+          {
+            $ref: '#/parameters/formName'
+          }
+        ],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/FormAttributes'
+              }
+            }
+          }
+        },
+        responses: {
+          '200': {
+            description: 'Form updated',
+            content: {
+              'application/json': {
+                schema: buildItemApiResponse('#/components/schemas/FormAttributes')
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/BadRequest'
+          },
+          '401': {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          '500': {
+            description: 'Internal server error'
+          }
+        }
+      },
+      delete: {
+        summary: 'Delete form by formName',
+        tags: ['Forms'],
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        parameters: [
+          {
+            $ref: '#/parameters/formName'
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'Form deleted successfully',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/BaseResponse'
+                }
               }
             }
           },
