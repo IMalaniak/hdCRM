@@ -62,7 +62,7 @@
     "@ngrx/schematics": "11.0.1",
     "@types/jasmine": "3.6.6",
     "@types/jasminewd2": "2.0.8",
-    "@types/node": "13.13.46",
+    "@types/node": "13.13.47",
     "@types/ua-parser-js": "0.7.35",
     "@types/uuid": "8.3.0",
     "codelyzer": "6.0.1",
