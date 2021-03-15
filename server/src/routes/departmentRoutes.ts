@@ -1,61 +1,30 @@
 import { Request, Response, Router } from 'express';
 import { Service } from 'typedi';
 
+import { BaseRoutes } from './base/baseRoutes';
 import {
   Department,
   BaseResponse,
   CollectionApiResponse,
-  ItemApiResponse,
-  CollectionQuery,
-  RequestWithQuery,
-  RequestWithBody,
-  DepartmentCreationAttributes
+  DepartmentCreationAttributes,
+  DepartmentAttributes
 } from '../models';
 import { DepartmentController } from '../controllers';
 
 @Service()
-export class DepartmentRoutes {
-  private router: Router = Router();
-
-  constructor(private readonly departmentController: DepartmentController) {}
+export class DepartmentRoutes extends BaseRoutes<DepartmentCreationAttributes, DepartmentAttributes, Department> {
+  constructor(protected readonly routesController: DepartmentController) {
+    super();
+  }
 
   public register(): Router {
     this.router.get(
       '/dashboard',
       async (req: Request, res: Response<CollectionApiResponse<Department> | BaseResponse>) =>
-        this.departmentController.getDashboardData(req, res)
+        this.routesController.getDashboardData(req, res)
     );
 
-    this.router.get(
-      '/:id',
-      async (req: Request<{ id: string }>, res: Response<ItemApiResponse<Department> | BaseResponse>) =>
-        this.departmentController.getByPk(req, res)
-    );
-
-    this.router.get(
-      '/',
-      async (req: RequestWithQuery<CollectionQuery>, res: Response<CollectionApiResponse<Department> | BaseResponse>) =>
-        this.departmentController.getPage(req, res)
-    );
-
-    this.router.post(
-      '/',
-      async (
-        req: RequestWithBody<DepartmentCreationAttributes>,
-        res: Response<ItemApiResponse<Department> | BaseResponse>
-      ) => this.departmentController.create(req, res)
-    );
-
-    this.router.put(
-      '/:id',
-      async (req: RequestWithBody<Department>, res: Response<ItemApiResponse<Department> | BaseResponse>) =>
-        this.departmentController.update(req, res)
-    );
-
-    this.router.delete('/:id', async (req: Request<{ id: string }>, res: Response<BaseResponse>) =>
-      this.departmentController.delete(req, res)
-    );
-
+    this.buildBaseRouter();
     return this.router;
   }
 }
