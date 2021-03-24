@@ -31,7 +31,7 @@
     "jimp": "0.16.1",
     "jsonwebtoken": "8.5.1",
     "multer": "1.4.2",
-    "neverthrow": "4.2.0",
+    "neverthrow": "4.2.1",
     "nodemailer": "6.5.0",
     "passport": "*",
     "passport-http": "0.3.0",
