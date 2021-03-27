@@ -60,7 +60,7 @@
     "@angular/compiler-cli": "11.2.7",
     "@angular/language-service": "11.2.7",
     "@ngrx/schematics": "11.0.1",
-    "@types/jasmine": "3.6.8",
+    "@types/jasmine": "3.6.9",
     "@types/jasminewd2": "2.0.8",
     "@types/node": "13.13.48",
     "@types/ua-parser-js": "0.7.35",
