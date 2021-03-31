@@ -4,10 +4,10 @@
 name: Node.js CI
 
 on:
-#   push:
-#     branches: [dev]
   pull_request:
     branches: [dev]
+    paths:
+      - 'web/**'
 
 jobs:
   build:
@@ -24,9 +24,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
-      - run: node_modules/.bin/gulp installAll
-      - run: node_modules/.bin/gulp lintAll
-      - run: node_modules/.bin/gulp compileAll
+      - run: node_modules/.bin/gulp server:install
+      - run: node_modules/.bin/gulp server:lint
+      - run: node_modules/.bin/gulp server:compile
   testing:
     runs-on: ubuntu-latest
 
@@ -41,12 +41,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
-      - run: node_modules/.bin/gulp installAll
-      - run: node_modules/.bin/gulp testArch
-      - run: node_modules/.bin/gulp testAll
+      - run: node_modules/.bin/gulp server:install
+      - run: node_modules/.bin/gulp server:exec-architecture-test
+      - run: node_modules/.bin/gulp server:exec-unit-test
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./web/coverage/lcov.info,./server/coverage/lcov.info
-          flags: unittests
+          files: ./server/coverage/lcov.info
+          flags: server-unit-tests
