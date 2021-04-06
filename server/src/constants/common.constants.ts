@@ -12,4 +12,6 @@ export class CONSTANTS {
 
   // texts
   static TEXTS_API_GENERIC_ERROR = 'Sorry, something went wrong executing this request!';
+  static TEXTS_DATABASE_ERROR = 'Error connecting to the database';
+  static TEXTS_NOT_AUTHORIZED_ERROR = 'Sorry, you are not authorized to perform this request!';
 }
