@@ -1,4 +1,4 @@
-import { BaseMessage } from './BaseMessage';
+import { BaseMessage } from './baseMessage';
 
 export interface CollectionApiResponse<T> extends BaseMessage {
   readonly resultsNum?: number;

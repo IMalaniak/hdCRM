@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { MoleculesServerMessageComponent } from '../components/molecules';
-import { BaseMessage } from '../models';
+import { MoleculesToastMessageComponent } from '../components/molecules';
+import { ToastMessage } from '../models/toastMessage';
 @Injectable({
   providedIn: 'root'
 })
 export class ToastMessageService {
   constructor(private readonly _snackBar: MatSnackBar) {}
 
-  snack(serverResponse: BaseMessage, duration = 5000): void {
-    this._snackBar.openFromComponent(MoleculesServerMessageComponent, {
-      data: serverResponse,
+  snack(data: ToastMessage, duration = 5000): void {
+    this._snackBar.openFromComponent(MoleculesToastMessageComponent, {
+      data,
       duration,
       panelClass: 'p-0'
     });

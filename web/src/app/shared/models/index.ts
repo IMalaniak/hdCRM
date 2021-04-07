@@ -1,4 +1,4 @@
-export * from './BaseMessage';
+export * from './baseMessage';
 export * from './apiResponse';
 export * from './asset';
 export * from './dynamicForm';

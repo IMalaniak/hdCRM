@@ -21,7 +21,7 @@ const MOLECULES = [
   _components.MoleculesProfilePicWithUploaderComponent,
   _components.MoleculesUserListSmItemComponent,
   _components.MoleculesChartComponent,
-  _components.MoleculesServerMessageComponent,
+  _components.MoleculesToastMessageComponent,
   _components.MoleculesFormFieldComponent,
   _components.MoleculesCardHeaderActionsComponent
 ];
