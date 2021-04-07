@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 
-import { Preference, ItemApiResponse, PreferenceCreationAttributes, User } from '../models';
+import { Preference, ItemApiResponse, PreferenceCreationAttributes, User, BaseResponse } from '../models';
 import { Logger } from '../utils/Logger';
 import { CustomError, InternalServerError } from '../errors';
 
@@ -9,7 +9,7 @@ import { CustomError, InternalServerError } from '../errors';
 export class PreferenceService {
   constructor(private readonly logger: Logger) {}
 
-  public async getAll(): Promise<Result<ItemApiResponse<any>, CustomError>> {
+  public async getAll(): Promise<Result<ItemApiResponse<any> | BaseResponse, CustomError>> {
     const preferencesList = Object.keys(Preference.rawAttributes)
       .filter((key) => Preference.rawAttributes[key].values)
       .reduce((acc, key) => {
@@ -21,7 +21,7 @@ export class PreferenceService {
     if (Object.keys(preferencesList).length) {
       return ok({ data: preferencesList });
     } else {
-      return ok({ message: 'No preferences', data: null });
+      return ok({});
     }
   }
 

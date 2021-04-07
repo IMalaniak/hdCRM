@@ -1,7 +1,7 @@
 import Container, { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 
-import { Stage, CollectionApiResponse, StageCreationAttributes, StageAttributes } from '../models';
+import { Stage, CollectionApiResponse, StageCreationAttributes, StageAttributes, BaseResponse } from '../models';
 import { CONSTANTS } from '../constants';
 import { BaseService } from './base/baseService';
 import { CustomError, InternalServerError } from '../errors';
@@ -14,7 +14,9 @@ export class StageService extends BaseService<StageCreationAttributes, StageAttr
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_STAGE);
   }
 
-  public async getAll(OrganizationId: number): Promise<Result<CollectionApiResponse<Stage>, CustomError>> {
+  public async getAll(
+    OrganizationId: number
+  ): Promise<Result<CollectionApiResponse<Stage> | BaseResponse, CustomError>> {
     try {
       const data = await Stage.findAndCountAll({
         include: [
@@ -30,7 +32,7 @@ export class StageService extends BaseService<StageCreationAttributes, StageAttr
       if (data.count) {
         return ok({ data: data.rows, resultsNum: data.count });
       } else {
-        return ok({ message: `No ${CONSTANTS.MODELS_NAME_STAGE}s by this query`, data: [] });
+        return ok({});
       }
     } catch (error) {
       this.logger.error(error.message);

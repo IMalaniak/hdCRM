@@ -15,7 +15,7 @@ export class PreferenceController {
 
     const result = await this.preferenceService.getAll();
 
-    return sendResponse<ItemApiResponse<any>, CustomError>(result, res);
+    return sendResponse<ItemApiResponse<any> | BaseResponse, CustomError>(result, res);
   }
 
   public async set(

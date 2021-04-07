@@ -29,7 +29,7 @@ export class TaskController extends BaseController<TaskCreationAttributes, TaskA
 
     const result = await this.dataBaseService.getAll(creatorId);
 
-    return sendResponse<CollectionApiResponse<Task>, CustomError>(result, res);
+    return sendResponse<CollectionApiResponse<Task> | BaseResponse, CustomError>(result, res);
   }
 
   public async deleteMultiple(
@@ -53,7 +53,7 @@ export class TaskController extends BaseController<TaskCreationAttributes, TaskA
 
     const result = await this.dataBaseService.getPriorities();
 
-    return sendResponse<CollectionApiResponse<TaskPriority>, CustomError>(result, res);
+    return sendResponse<CollectionApiResponse<TaskPriority> | BaseResponse, CustomError>(result, res);
   }
 
   protected generateCreationAttributes(req: RequestWithBody<TaskCreationAttributes>): TaskCreationAttributes {

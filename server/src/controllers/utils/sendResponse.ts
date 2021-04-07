@@ -5,13 +5,17 @@ import { CustomError } from '../../errors/custom-error';
 
 import { BaseResponse } from '../../models';
 
-export function sendResponse<OK extends BaseResponse, ERR extends CustomError>(
+interface DataType {
+  data?: unknown;
+}
+
+export function sendResponse<OK extends BaseResponse & DataType, ERR extends CustomError>(
   result: Result<OK, ERR>,
   res: Response<OK | BaseResponse>
 ): void {
   return result.match<void>(
     (body) => {
-      res.status(body.data ? StatusCodes.OK : StatusCodes.NO_CONTENT);
+      res.status(body.message || body.data ? StatusCodes.OK : StatusCodes.NO_CONTENT);
       res.send(body);
     },
     (error) => {

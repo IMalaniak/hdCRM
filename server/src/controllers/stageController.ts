@@ -20,6 +20,6 @@ export class StageController extends BaseController<StageCreationAttributes, Sta
 
     const result = await this.dataBaseService.getAll(req.user.OrganizationId);
 
-    return sendResponse<CollectionApiResponse<any>, CustomError>(result, res);
+    return sendResponse<CollectionApiResponse<any> | BaseResponse, CustomError>(result, res);
   }
 }

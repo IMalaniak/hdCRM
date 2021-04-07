@@ -130,14 +130,16 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
     }
   }
 
-  public async getSessionList(user: User): Promise<Result<CollectionApiResponse<UserSession>, CustomError>> {
+  public async getSessionList(
+    user: User
+  ): Promise<Result<CollectionApiResponse<UserSession> | BaseResponse, CustomError>> {
     try {
       const data = await user.getUserSessions();
 
       if (data.length) {
         return ok({ data });
       } else {
-        return ok({ message: 'No sessions by this query', data: [] });
+        return ok({});
       }
     } catch (error) {
       this.logger.error(error.message);

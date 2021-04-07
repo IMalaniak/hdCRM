@@ -2,7 +2,14 @@ import Container, { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 import { IncludeOptions } from 'sequelize';
 
-import { Task, TaskAttributes, TaskCreationAttributes, TaskPriority, CollectionApiResponse } from '../models';
+import {
+  Task,
+  TaskAttributes,
+  TaskCreationAttributes,
+  TaskPriority,
+  CollectionApiResponse,
+  BaseResponse
+} from '../models';
 import { CONSTANTS } from '../constants';
 import { BaseService } from './base/baseService';
 import { CustomError, InternalServerError } from '../errors';
@@ -21,7 +28,7 @@ export class TaskService extends BaseService<TaskCreationAttributes, TaskAttribu
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_TASK);
   }
 
-  public async getAll(CreatorId: number): Promise<Result<CollectionApiResponse<Task>, CustomError>> {
+  public async getAll(CreatorId: number): Promise<Result<CollectionApiResponse<Task> | BaseResponse, CustomError>> {
     try {
       const data = await Task.findAll({
         where: {
@@ -33,7 +40,7 @@ export class TaskService extends BaseService<TaskCreationAttributes, TaskAttribu
       if (data.length) {
         return ok({ data });
       } else {
-        return ok({ message: `No ${CONSTANTS.MODELS_NAME_TASK}s by this query`, data: [] });
+        return ok({});
       }
     } catch (error) {
       this.logger.error(error.message);
@@ -41,14 +48,14 @@ export class TaskService extends BaseService<TaskCreationAttributes, TaskAttribu
     }
   }
 
-  public async getPriorities(): Promise<Result<CollectionApiResponse<TaskPriority>, CustomError>> {
+  public async getPriorities(): Promise<Result<CollectionApiResponse<TaskPriority> | BaseResponse, CustomError>> {
     try {
       const data = await TaskPriority.findAll();
 
       if (data.length) {
         return ok({ data });
       } else {
-        return ok({ message: 'No tasks priorities by this query', data: [] });
+        return ok({});
       }
     } catch (error) {
       this.logger.error(error.message);

@@ -21,12 +21,12 @@ describe('sendResponse', () => {
   });
 
   it('should send success response with no content', async () => {
-    const result: Result<BaseResponse, CustomError> = ok({ message: 'No content' });
+    const result: Result<BaseResponse, CustomError> = ok({});
 
     sendResponse<BaseResponse, CustomError>(result, resFake as any);
 
     expect(resFake.status.calledOnceWith(StatusCodes.NO_CONTENT)).to.be.true;
-    expect(resFake.send.calledOnceWithExactly({ message: 'No content' })).to.be.true;
+    expect(resFake.send.calledOnceWithExactly({})).to.be.true;
   });
 
   it('should send success response', async () => {

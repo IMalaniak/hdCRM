@@ -82,7 +82,7 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
     req.log.info(`Getting session list for user id: ${currentUser.id}...`);
     const result = await this.dataBaseService.getSessionList(currentUser);
 
-    return sendResponse<CollectionApiResponse<UserSession>, CustomError>(result, res);
+    return sendResponse<CollectionApiResponse<UserSession> | BaseResponse, CustomError>(result, res);
   }
 
   public async removeSession(req: Request<{ id: string }>, res: Response<BaseResponse | CustomError>): Promise<void> {

@@ -43,7 +43,7 @@ export abstract class BaseService<C, A, M extends Model<A, C>> implements IBaseS
   public async getPage(
     pageQuery: PageQuery,
     OrganizationId?: number
-  ): Promise<Result<CollectionApiResponse<M>, CustomError>> {
+  ): Promise<Result<CollectionApiResponse<M> | BaseResponse, CustomError>> {
     try {
       const { limit, offset, sortDirection, sortIndex, parsedFilters } = pageQuery;
 
@@ -64,7 +64,7 @@ export abstract class BaseService<C, A, M extends Model<A, C>> implements IBaseS
         const ids: number[] = data.rows.map((dep) => dep[this.primaryKey]);
         return ok({ ids, data: data.rows, resultsNum: data.count, pages });
       } else {
-        return ok({ message: `No ${this.modelName}s by this query`, data: [] });
+        return ok({});
       }
     } catch (error) {
       this.logger.error(error.message);

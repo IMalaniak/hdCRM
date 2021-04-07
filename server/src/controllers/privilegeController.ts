@@ -22,7 +22,7 @@ export class PrivilegeController {
 
     const result = await this.privilegeService.getAll();
 
-    return sendResponse<CollectionApiResponse<any>, CustomError>(result, res);
+    return sendResponse<CollectionApiResponse<any> | BaseResponse, CustomError>(result, res);
   }
 
   public async create(

@@ -56,7 +56,7 @@ export abstract class BaseController<C, A, M extends Model<A, C>> {
       OrganizationId
     );
 
-    return sendResponse<CollectionApiResponse<M>, CustomError>(result, res);
+    return sendResponse<CollectionApiResponse<M> | BaseResponse, CustomError>(result, res);
   }
 
   public async create(req: RequestWithBody<C>, res: Response<ItemApiResponse<M> | BaseResponse>): Promise<void> {

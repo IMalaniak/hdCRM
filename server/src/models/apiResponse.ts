@@ -1,6 +1,5 @@
 export interface BaseResponse {
   message?: string;
-  data?: unknown;
 }
 
 export interface CollectionApiResponse<T> extends BaseResponse {
