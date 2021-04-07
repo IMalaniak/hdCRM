@@ -2,11 +2,13 @@
 
 import { fail } from 'assert';
 import { expect } from 'chai';
+import { StatusCodes } from 'http-status-codes';
 import { Result } from 'neverthrow';
 import sinon from 'sinon';
 import Container from 'typedi';
 
 import { CONSTANTS } from '../constants';
+import { CustomError } from '../errors';
 import { BaseResponse, Privilege, Role, User } from '../models';
 import { Logger } from '../utils/Logger';
 import { RoleService } from './roleService';
@@ -40,9 +42,9 @@ describe('RoleService', () => {
     id: 2
   } as Role;
 
-  const expect500 = (result: Result<BaseResponse, BaseResponse>) => {
+  const expect500 = (result: Result<BaseResponse, CustomError>) => {
     if (result.isErr()) {
-      expect(result.error.success).to.be.false;
+      expect(result.error.statusCode).to.equal(StatusCodes.INTERNAL_SERVER_ERROR);
       expect(result.error.message).to.equal(CONSTANTS.TEXTS_API_GENERIC_ERROR);
       expect(spyLogger.calledOnce).to.be.true;
     } else {
@@ -97,7 +99,6 @@ describe('RoleService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.true;
       expect(result.value.resultsNum).to.equal(2);
       expect(result.value.data).to.deep.equal([roleFake, roleFake2]);
     }
@@ -139,7 +140,6 @@ describe('RoleService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.true;
       expect(result.value.data).to.deep.equal(roleFakeResponse);
     }
   });

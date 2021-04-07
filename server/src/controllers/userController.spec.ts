@@ -51,7 +51,7 @@ describe('UserController', () => {
 
   it('should send success response when calling create', async () => {
     const stub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'create');
-    stub.resolves(ok({ success: true, data: fakeObj }));
+    stub.resolves(ok({ data: fakeObj }));
     const request = { ...reqLogFake, params: { id: 1 } };
 
     await controllerInstance.create(request as any, resFake as any);
@@ -59,7 +59,7 @@ describe('UserController', () => {
     expect(stub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Creating new ${CONSTANTS.MODELS_NAME_USER}...`)).to.be.true;
     expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWithExactly({ success: true, data: fakeObj })).to.be.true;
+    expect(resFake.send.calledOnceWithExactly({ data: fakeObj })).to.be.true;
     stub.restore();
   });
 
@@ -68,7 +68,7 @@ describe('UserController', () => {
     const jwtHelperInstance = Container.get(JwtHelper);
     const jwtHelperStub: sinon.SinonStub = sinon.stub(jwtHelperInstance, 'getDecoded');
     jwtHelperStub.withArgs('token').returns(ok({ sessionId: 1 }));
-    stub.resolves(ok({ success: true, message: 'updated' }));
+    stub.resolves(ok({ message: 'updated' }));
     const request = {
       ...reqLogFake,
       headers: {
@@ -86,15 +86,15 @@ describe('UserController', () => {
 
     expect(stub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Changing user password...`)).to.be.true;
-    expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWithExactly({ success: true, message: 'updated' })).to.be.true;
+    expect(resFake.status.calledOnceWith(StatusCodes.NO_CONTENT)).to.be.true;
+    expect(resFake.send.calledOnceWithExactly({ message: 'updated' })).to.be.true;
     stub.restore();
     jwtHelperStub.restore();
   });
 
   it('should send success response when calling getSession', async () => {
     const stub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'getSession');
-    stub.resolves(ok({ success: true, data: fakeObj }));
+    stub.resolves(ok({ data: fakeObj }));
     const request = { ...reqLogFake, params: { id: 1 } };
 
     await controllerInstance.getSession(request as any, resFake as any);
@@ -102,13 +102,13 @@ describe('UserController', () => {
     expect(stub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Getting user session by id: 1...`)).to.be.true;
     expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWithExactly({ success: true, data: fakeObj })).to.be.true;
+    expect(resFake.send.calledOnceWithExactly({ data: fakeObj })).to.be.true;
     stub.restore();
   });
 
   it('should send success response when calling getSessionList', async () => {
     const stub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'getSessionList');
-    stub.resolves(ok({ success: true, data: [fakeObj] }));
+    stub.resolves(ok({ data: [fakeObj] }));
     const request = { ...reqLogFake, params: { id: 1 } };
 
     await controllerInstance.getSessionList(request as any, resFake as any);
@@ -116,41 +116,41 @@ describe('UserController', () => {
     expect(stub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Getting session list for user id: 1...`)).to.be.true;
     expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWithExactly({ success: true, data: [fakeObj] })).to.be.true;
+    expect(resFake.send.calledOnceWithExactly({ data: [fakeObj] })).to.be.true;
     stub.restore();
   });
 
   it('should send success response when calling removeSession', async () => {
     const deleteStub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'removeSession');
-    deleteStub.resolves(ok({ success: true, message: `Deleted 1` }));
+    deleteStub.resolves(ok({ message: `Deleted 1` }));
     const request = { ...reqLogFake, params: { id: 1 } };
 
     await controllerInstance.removeSession(request as any, resFake as any);
 
     expect(deleteStub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Removing user session`)).to.be.true;
-    expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWithExactly({ success: true, message: `Deleted 1` })).to.be.true;
+    expect(resFake.status.calledOnceWith(StatusCodes.NO_CONTENT)).to.be.true;
+    expect(resFake.send.calledOnceWithExactly({ message: `Deleted 1` })).to.be.true;
     deleteStub.restore();
   });
 
   it('should send success response when calling removeSessionMultiple', async () => {
     const deleteStub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'removeSession');
-    deleteStub.resolves(ok({ success: true, message: `Deleted 1` }));
+    deleteStub.resolves(ok({ message: `Deleted 1` }));
     const request = { ...reqLogFake, body: { sessionIds: [1] } };
 
     await controllerInstance.removeSessionMultiple(request as any, resFake as any);
 
     expect(deleteStub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Removing user sessions`)).to.be.true;
-    expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWithExactly({ success: true, message: `Deleted 1` })).to.be.true;
+    expect(resFake.status.calledOnceWith(StatusCodes.NO_CONTENT)).to.be.true;
+    expect(resFake.send.calledOnceWithExactly({ message: `Deleted 1` })).to.be.true;
     deleteStub.restore();
   });
 
   it('should send success response when calling updateOrg', async () => {
     const updateStub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'updateOrg');
-    updateStub.resolves(ok({ success: true, data: fakeObj }));
+    updateStub.resolves(ok({ data: fakeObj }));
     const request = { ...reqLogFake, body: { id: 1 } };
 
     await controllerInstance.updateOrg(request as any, resFake as any);
@@ -158,13 +158,13 @@ describe('UserController', () => {
     expect(updateStub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Update user organization by id: 1`)).to.be.true;
     expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWithExactly({ success: true, data: fakeObj })).to.be.true;
+    expect(resFake.send.calledOnceWithExactly({ data: fakeObj })).to.be.true;
     updateStub.restore();
   });
 
   it('should send success response when calling inviteMultiple', async () => {
     const stub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'inviteMultiple');
-    stub.resolves(ok({ success: true, data: [fakeObj] }));
+    stub.resolves(ok({ data: [fakeObj] }));
     const request = { ...reqLogFake, body: [{ id: 1 }] };
 
     await controllerInstance.inviteMultiple(request as any, resFake as any);
@@ -172,7 +172,7 @@ describe('UserController', () => {
     expect(stub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Invite multiple users`)).to.be.true;
     expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWithExactly({ success: true, data: [fakeObj] })).to.be.true;
+    expect(resFake.send.calledOnceWithExactly({ data: [fakeObj] })).to.be.true;
     stub.restore();
   });
 });

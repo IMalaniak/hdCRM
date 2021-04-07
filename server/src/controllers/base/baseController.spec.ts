@@ -58,7 +58,7 @@ describe('BaseController', () => {
 
   it('should send success response when calling getByPk', async () => {
     const getByPkStub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'getByPk');
-    getByPkStub.resolves(ok({ success: true, data: departmentFake }));
+    getByPkStub.resolves(ok({ data: departmentFake }));
     const request = { ...reqLogFake, params: { id: 1 } };
 
     await controllerInstance.getByPk(request as any, resFake as any);
@@ -68,13 +68,13 @@ describe('BaseController', () => {
       reqLogFake.log.info.calledOnceWith(`Selecting ${CONSTANTS.MODELS_NAME_DEPARTMENT} by id: ${departmentFake.id}...`)
     ).to.be.true;
     expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWithExactly({ success: true, data: departmentFake })).to.be.true;
+    expect(resFake.send.calledOnceWithExactly({ data: departmentFake })).to.be.true;
     getByPkStub.restore();
   });
 
   it('should send success response when calling getPage', async () => {
     const getPageStub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'getPage');
-    getPageStub.resolves(ok({ success: true, data: [departmentFake] }));
+    getPageStub.resolves(ok({ data: [departmentFake] }));
     const request = {
       ...reqLogFake,
       query: {
@@ -91,13 +91,13 @@ describe('BaseController', () => {
     expect(reqLogFake.log.info.calledOnceWith(`Getting ${CONSTANTS.MODELS_NAME_DEPARTMENT} by page query...`)).to.be
       .true;
     expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWith({ success: true, data: [departmentFake] })).to.be.true;
+    expect(resFake.send.calledOnceWith({ data: [departmentFake] })).to.be.true;
     getPageStub.restore();
   });
 
   it('should send success response with filtered data when calling getPage', async () => {
     const getPageStub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'getPage');
-    getPageStub.resolves(ok({ success: true, data: [departmentFake] }));
+    getPageStub.resolves(ok({ data: [departmentFake] }));
     const request = {
       ...reqLogFake,
       query: {
@@ -115,13 +115,13 @@ describe('BaseController', () => {
     expect(reqLogFake.log.info.calledOnceWith(`Getting ${CONSTANTS.MODELS_NAME_DEPARTMENT} by page query...`)).to.be
       .true;
     expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWith({ success: true, data: [departmentFake] })).to.be.true;
+    expect(resFake.send.calledOnceWith({ data: [departmentFake] })).to.be.true;
     getPageStub.restore();
   });
 
   it('should send success response when calling create', async () => {
     const createStub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'create');
-    createStub.resolves(ok({ success: true, data: departmentFake }));
+    createStub.resolves(ok({ data: departmentFake }));
     const request = { ...reqLogFake, params: { id: 1 } };
 
     await controllerInstance.create(request as any, resFake as any);
@@ -129,13 +129,13 @@ describe('BaseController', () => {
     expect(createStub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Creating new ${CONSTANTS.MODELS_NAME_DEPARTMENT}...`)).to.be.true;
     expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWithExactly({ success: true, data: departmentFake })).to.be.true;
+    expect(resFake.send.calledOnceWithExactly({ data: departmentFake })).to.be.true;
     createStub.restore();
   });
 
   it('should send success response when calling update', async () => {
     const updateStub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'update');
-    updateStub.resolves(ok({ success: true, data: departmentFake }));
+    updateStub.resolves(ok({ data: departmentFake }));
     const request = { ...reqLogFake, params: { id: 1 } };
 
     await controllerInstance.update(request as any, resFake as any);
@@ -143,13 +143,13 @@ describe('BaseController', () => {
     expect(updateStub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Updating ${CONSTANTS.MODELS_NAME_DEPARTMENT} by id...`)).to.be.true;
     expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWithExactly({ success: true, data: departmentFake })).to.be.true;
+    expect(resFake.send.calledOnceWithExactly({ data: departmentFake })).to.be.true;
     updateStub.restore();
   });
 
   it('should send success response when calling delete', async () => {
     const deleteStub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'delete');
-    deleteStub.resolves(ok({ success: true, message: `Deleted 1` }));
+    deleteStub.resolves(ok({ message: `Deleted 1` }));
     const request = { ...reqLogFake, params: { id: 1 } };
 
     await controllerInstance.delete(request as any, resFake as any);
@@ -158,8 +158,8 @@ describe('BaseController', () => {
     expect(
       reqLogFake.log.info.calledOnceWith(`Deleting ${CONSTANTS.MODELS_NAME_DEPARTMENT} by id: ${departmentFake.id}...`)
     ).to.be.true;
-    expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWithExactly({ success: true, message: `Deleted 1` })).to.be.true;
+    expect(resFake.status.calledOnceWith(StatusCodes.NO_CONTENT)).to.be.true;
+    expect(resFake.send.calledOnceWithExactly({ message: `Deleted 1` })).to.be.true;
     deleteStub.restore();
   });
 });

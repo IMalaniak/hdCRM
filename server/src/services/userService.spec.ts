@@ -2,6 +2,7 @@
 
 import { fail } from 'assert';
 import { expect } from 'chai';
+import { StatusCodes } from 'http-status-codes';
 import { Result } from 'neverthrow';
 import { CreateOptions } from 'sequelize';
 import sinon from 'sinon';
@@ -9,16 +10,9 @@ import Container from 'typedi';
 import { Config } from '../config';
 
 import { CONSTANTS } from '../constants';
+import { CustomError } from '../errors';
 import { Mailer } from '../mailer/nodeMailerTemplates';
-import {
-  BaseResponse,
-  ErrorOrigin,
-  Organization,
-  Privilege,
-  User,
-  UserCreationAttributes,
-  UserSession
-} from '../models';
+import { BaseResponse, Organization, Privilege, User, UserCreationAttributes, UserSession } from '../models';
 import { Crypt } from '../utils/crypt';
 import { Logger } from '../utils/Logger';
 import { UserService } from './userService';
@@ -65,9 +59,9 @@ describe('UserService', () => {
     id: 1
   } as UserSession;
 
-  const expect500 = (result: Result<BaseResponse, BaseResponse>) => {
+  const expect500 = (result: Result<BaseResponse, CustomError>) => {
     if (result.isErr()) {
-      expect(result.error.success).to.be.false;
+      expect(result.error.statusCode).to.equal(StatusCodes.INTERNAL_SERVER_ERROR);
       expect(result.error.message).to.equal(CONSTANTS.TEXTS_API_GENERIC_ERROR);
       expect(spyLogger.calledOnce).to.be.true;
     } else {
@@ -163,8 +157,7 @@ describe('UserService', () => {
     expect(result.isOk()).to.be.false;
     expect(result.isErr()).to.be.true;
     if (result.isErr()) {
-      expect(result.error.success).to.be.false;
-      expect(result.error.errorOrigin).to.equal(ErrorOrigin.CLIENT);
+      expect(result.error.statusCode).to.equal(StatusCodes.BAD_REQUEST);
       expect(result.error.message).to.equal('New passwords do not match!');
     }
   });
@@ -185,8 +178,7 @@ describe('UserService', () => {
     expect(result.isOk()).to.be.false;
     expect(result.isErr()).to.be.true;
     if (result.isErr()) {
-      expect(result.error.success).to.be.false;
-      expect(result.error.errorOrigin).to.equal(ErrorOrigin.CLIENT);
+      expect(result.error.statusCode).to.equal(StatusCodes.UNAUTHORIZED);
       expect(result.error.message).to.equal('Current password you provided is not correct!');
     }
   });
@@ -215,7 +207,6 @@ describe('UserService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.true;
       expect(result.value.message).to.equal('You have successfully changed your password.');
     }
   });
@@ -249,7 +240,6 @@ describe('UserService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.true;
       expect(result.value.message).to.equal(
         'You have changed your password, but there was a problem trying to delete your other active sessions, please do it manually in the "Sessions tab".'
       );
@@ -276,7 +266,6 @@ describe('UserService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.true;
       expect(result.value.data.id).to.equal(1);
     }
   });
@@ -288,8 +277,7 @@ describe('UserService', () => {
     expect(result.isOk()).to.be.false;
     expect(result.isErr()).to.be.true;
     if (result.isErr()) {
-      expect(result.error.success).to.be.false;
-      expect(result.error.errorOrigin).to.equal(ErrorOrigin.CLIENT);
+      expect(result.error.statusCode).to.equal(StatusCodes.NOT_FOUND);
       expect(result.error.message).to.equal(`No session with such id`);
     }
   });
@@ -310,7 +298,6 @@ describe('UserService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.true;
       expect(result.value.data.length).to.equal(1);
       expect(result.value.data[0].id).to.equal(1);
     }
@@ -323,7 +310,6 @@ describe('UserService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.false;
       expect(result.value.message).to.equal('No sessions by this query');
       expect(result.value.data.length).to.equal(0);
     }
@@ -349,7 +335,6 @@ describe('UserService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.true;
       expect(result.value.message).to.equal(`Deleted 1 session(s)`);
     }
   });
@@ -365,8 +350,7 @@ describe('UserService', () => {
     expect(result.isOk()).to.be.false;
     expect(result.isErr()).to.be.true;
     if (result.isErr()) {
-      expect(result.error.success).to.be.false;
-      expect(result.error.errorOrigin).to.equal(ErrorOrigin.CLIENT);
+      expect(result.error.statusCode).to.equal(StatusCodes.NOT_FOUND);
       expect(result.error.message).to.equal(`No sessions by this query`);
     }
   });
@@ -387,7 +371,6 @@ describe('UserService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.true;
       expect(result.value.message).to.equal(`Deleted 1 session(s)`);
     }
   });
@@ -399,9 +382,8 @@ describe('UserService', () => {
     expect(result.isOk()).to.be.false;
     expect(result.isErr()).to.be.true;
     if (result.isErr()) {
-      expect(result.error.success).to.be.false;
+      expect(result.error.statusCode).to.equal(StatusCodes.NOT_FOUND);
       expect(result.error.message).to.equal('No sessions by this query');
-      expect(result.error.errorOrigin).to.equal(ErrorOrigin.CLIENT);
     }
   });
 
@@ -432,7 +414,6 @@ describe('UserService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.true;
       expect(result.value.message).to.equal('Organization is updated successfully!');
       expect(result.value.data).to.deep.equal(orgFake);
     }
@@ -479,7 +460,6 @@ describe('UserService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.true;
       expect(result.value.message).to.equal('Invitation have been sent successfully!');
       expect(result.value.data).to.deep.equal(userFake);
     }
@@ -561,7 +541,6 @@ describe('UserService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.true;
       expect(result.value.message).to.equal('Invitations have been sent successfully!');
       expect(result.value.data).to.deep.equal([userFake]);
     }
@@ -619,7 +598,6 @@ describe('UserService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.true;
       expect(result.value.message).to.equal('Success, but not all users were invited due to some problems...');
       expect(result.value.data).to.deep.equal([userFake]);
     }

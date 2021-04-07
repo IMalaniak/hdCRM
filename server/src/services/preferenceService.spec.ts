@@ -2,11 +2,13 @@
 
 import { fail } from 'assert';
 import { expect } from 'chai';
+import { StatusCodes } from 'http-status-codes';
 import { Result } from 'neverthrow';
 import sinon from 'sinon';
 import Container from 'typedi';
 
 import { CONSTANTS, IListView } from '../constants';
+import { CustomError } from '../errors';
 import { BaseResponse, Preference, PreferenceCreationAttributes, User } from '../models';
 import { enumToArray } from '../utils/EnumToArray';
 import { Logger } from '../utils/Logger';
@@ -27,9 +29,9 @@ describe('PreferenceService', () => {
     update: sinon.stub() as any
   } as Preference;
 
-  const expect500 = (result: Result<BaseResponse, BaseResponse>) => {
+  const expect500 = (result: Result<BaseResponse, CustomError>) => {
     if (result.isErr()) {
-      expect(result.error.success).to.be.false;
+      expect(result.error.statusCode).to.equal(StatusCodes.INTERNAL_SERVER_ERROR);
       expect(result.error.message).to.equal(CONSTANTS.TEXTS_API_GENERIC_ERROR);
       expect(spyLogger.calledOnce).to.be.true;
     } else {
@@ -73,7 +75,6 @@ describe('PreferenceService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.true;
       expect(result.value.data).to.deep.equal({ listView: ['list', 'card'] });
     }
   });
@@ -85,8 +86,7 @@ describe('PreferenceService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.false;
-      expect(result.value.data).to.deep.equal({});
+      expect(result.value.data).to.deep.equal(null);
     }
   });
 
@@ -99,7 +99,6 @@ describe('PreferenceService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.true;
       expect(result.value.data.id).to.equal(1);
     }
   });
@@ -113,7 +112,6 @@ describe('PreferenceService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.true;
       expect(result.value.data.id).to.equal(1);
     }
   });

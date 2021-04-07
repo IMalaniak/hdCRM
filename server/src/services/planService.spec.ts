@@ -78,7 +78,6 @@ describe('PlanService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.true;
       expect(result.value.data).to.deep.equal(planFakeResponse);
     }
   });

@@ -2,20 +2,15 @@
 
 import { fail } from 'assert';
 import { expect } from 'chai';
+import { StatusCodes } from 'http-status-codes';
 import { Result } from 'neverthrow';
 import { CreateOptions, IncludeOptions } from 'sequelize';
 import sinon from 'sinon';
 import Container, { Service } from 'typedi';
 
 import { CONSTANTS } from '../../constants';
-import {
-  BaseResponse,
-  Department,
-  DepartmentAttributes,
-  DepartmentCreationAttributes,
-  ErrorOrigin,
-  PageQuery
-} from '../../models';
+import { CustomError } from '../../errors';
+import { BaseResponse, Department, DepartmentAttributes, DepartmentCreationAttributes, PageQuery } from '../../models';
 import { Logger } from '../../utils/Logger';
 import { BaseService } from './baseService';
 
@@ -67,9 +62,9 @@ describe('BaseService', () => {
     parsedFilters: {}
   };
 
-  const expect500 = (result: Result<BaseResponse, BaseResponse>) => {
+  const expect500 = (result: Result<BaseResponse, CustomError>) => {
     if (result.isErr()) {
-      expect(result.error.success).to.be.false;
+      expect(result.error.statusCode).to.equal(StatusCodes.INTERNAL_SERVER_ERROR);
       expect(result.error.message).to.equal(CONSTANTS.TEXTS_API_GENERIC_ERROR);
       expect(spyLogger.calledOnce).to.be.true;
     } else {
@@ -121,7 +116,6 @@ describe('BaseService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.true;
       expect(result.value.data.id).to.equal(1);
     }
   });
@@ -133,8 +127,7 @@ describe('BaseService', () => {
     expect(result.isOk()).to.be.false;
     expect(result.isErr()).to.be.true;
     if (result.isErr()) {
-      expect(result.error.success).to.be.false;
-      expect(result.error.errorOrigin).to.equal(ErrorOrigin.CLIENT);
+      expect(result.error.statusCode).to.equal(StatusCodes.NOT_FOUND);
       expect(result.error.message).to.equal(`No ${CONSTANTS.MODELS_NAME_DEPARTMENT} with such id`);
     }
   });
@@ -155,7 +148,6 @@ describe('BaseService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.true;
       expect(result.value.ids).to.deep.equal([1, 2]);
       expect(result.value.resultsNum).to.equal(2);
       expect(result.value.pages).to.equal(1);
@@ -170,7 +162,6 @@ describe('BaseService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.false;
       expect(result.value.data).to.deep.equal([]);
       expect(result.value.message).to.equal(`No ${CONSTANTS.MODELS_NAME_DEPARTMENT}s by this query`);
     }
@@ -193,7 +184,6 @@ describe('BaseService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.true;
       expect(result.value.data).to.deep.equal(departmentFake);
     }
   });
@@ -225,7 +215,6 @@ describe('BaseService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.true;
       expect(result.value.data).to.deep.equal(departmentFake);
     }
   });
@@ -246,7 +235,7 @@ describe('BaseService', () => {
     expect(result.isOk()).to.be.false;
     expect(result.isErr()).to.be.true;
     if (result.isErr()) {
-      expect(result.error.success).to.be.false;
+      expect(result.error.statusCode).to.equal(StatusCodes.NOT_FOUND);
       expect(result.error.message).to.equal(`No ${CONSTANTS.MODELS_NAME_DEPARTMENT}s by this query`);
     }
   });
@@ -273,7 +262,6 @@ describe('BaseService', () => {
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     if (result.isOk()) {
-      expect(result.value.success).to.be.true;
       expect(result.value.message).to.equal(`Deleted 1 ${CONSTANTS.MODELS_NAME_DEPARTMENT}(s)`);
     }
   });
@@ -289,7 +277,7 @@ describe('BaseService', () => {
     expect(result.isOk()).to.be.false;
     expect(result.isErr()).to.be.true;
     if (result.isErr()) {
-      expect(result.error.success).to.be.false;
+      expect(result.error.statusCode).to.equal(StatusCodes.NOT_FOUND);
       expect(result.error.message).to.equal(`No ${CONSTANTS.MODELS_NAME_DEPARTMENT}s by this query`);
     }
   });

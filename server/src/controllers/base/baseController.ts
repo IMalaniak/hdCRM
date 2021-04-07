@@ -76,7 +76,7 @@ export abstract class BaseController<C, A, M extends Model<A, C>> {
     return sendResponse<ItemApiResponse<M>, CustomError>(result, res);
   }
 
-  public async delete(req: Request<{ id: string }>, res: Response<CustomError>): Promise<void> {
+  public async delete(req: Request<{ id: string }>, res: Response<BaseResponse | CustomError>): Promise<void> {
     const {
       params: { id }
     } = req;
