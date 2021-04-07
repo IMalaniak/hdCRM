@@ -10,14 +10,13 @@ import { ToastMessage } from '@/shared/models/toastMessage';
     <mat-card
       [ngClass]="{
         'success-message': toast.type === notificationTypes.SUCCESS,
-        'failed-message': toast.type === notificationTypes.ERROR
+        'failed-message': toast.type === notificationTypes.ERROR,
+        'warn-message': toast.type === notificationTypes.WARN,
+        'info-message': toast.type === notificationTypes.INFO
       }"
     >
       <mat-card-content class="d-flex flex-row align-items-center p-1">
-        <mat-icon
-          [svgIcon]="cardIcons[toast.type === notificationTypes.SUCCESS ? 'success' : 'failure']"
-          aria-hidden="false"
-        ></mat-icon>
+        <mat-icon [svgIcon]="cardIcons[toast.type]" aria-hidden="false"></mat-icon>
         <div class="ml-3">
           <span>{{ toast.message }}</span>
         </div>
@@ -29,8 +28,10 @@ import { ToastMessage } from '@/shared/models/toastMessage';
 export class MoleculesToastMessageComponent {
   notificationTypes = NOTIFICATION_TYPES;
   cardIcons: { [key: string]: BS_ICONS } = {
-    success: BS_ICONS.Check,
-    failure: BS_ICONS.X
+    [NOTIFICATION_TYPES.SUCCESS]: BS_ICONS.Check,
+    [NOTIFICATION_TYPES.ERROR]: BS_ICONS.X,
+    [NOTIFICATION_TYPES.INFO]: BS_ICONS.Info,
+    [NOTIFICATION_TYPES.WARN]: BS_ICONS.Exclamation
   };
   constructor(@Inject(MAT_SNACK_BAR_DATA) public toast: ToastMessage) {}
 }

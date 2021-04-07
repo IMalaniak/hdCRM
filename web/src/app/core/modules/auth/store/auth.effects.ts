@@ -60,7 +60,7 @@ export class AuthEffects implements OnInitEffects {
             this.router.navigateByUrl(returnUrl);
           }),
           catchError((errorResponse: HttpErrorResponse) => {
-            this.toastMessageService.snack(errorResponse.error);
+            this.toastMessageService.error(errorResponse.error.message);
             return of(authActions.authApiError());
           })
         )
@@ -92,11 +92,11 @@ export class AuthEffects implements OnInitEffects {
       switchMap((user) =>
         this.authService.requestPasswordReset(user).pipe(
           map((apiResp: BaseMessage) => {
-            this.toastMessageService.snack(apiResp);
+            this.toastMessageService.success(apiResp.message);
             return authActions.resetPasswordSuccess();
           }),
           catchError((errorResponse: HttpErrorResponse) => {
-            this.toastMessageService.snack(errorResponse.error);
+            this.toastMessageService.error(errorResponse.error.message);
             return of(authActions.authApiError());
           })
         )
@@ -111,11 +111,11 @@ export class AuthEffects implements OnInitEffects {
       switchMap((newPassword) =>
         this.authService.resetPassword(newPassword).pipe(
           map((apiResp: BaseMessage) => {
-            this.toastMessageService.snack(apiResp);
+            this.toastMessageService.success(apiResp.message);
             return authActions.resetPasswordSuccess();
           }),
           catchError((errorResponse: HttpErrorResponse) => {
-            this.toastMessageService.snack(errorResponse.error);
+            this.toastMessageService.error(errorResponse.error.message);
             return of(authActions.authApiError());
           })
         )
@@ -130,11 +130,11 @@ export class AuthEffects implements OnInitEffects {
       concatMap((token) =>
         this.authService.activateAccount(token).pipe(
           map((apiResp: BaseMessage) => {
-            this.toastMessageService.snack(apiResp);
+            this.toastMessageService.success(apiResp.message);
             return authActions.activateAccountSuccess();
           }),
           catchError((errorResponse: HttpErrorResponse) => {
-            this.toastMessageService.snack(errorResponse.error);
+            this.toastMessageService.error(errorResponse.error.message);
             return of(authActions.authApiError());
           })
         )
@@ -148,11 +148,7 @@ export class AuthEffects implements OnInitEffects {
         ofType(authActions.redirectToLogin),
         withLatestFrom(this.store$.pipe(select(selectUrl))),
         map(([_, returnUrl]) => {
-          const response: BaseMessage = {
-            success: false,
-            message: CONSTANTS.TEXTS_YOU_ARE_NOT_AUTHORIZED
-          };
-          this.toastMessageService.snack(response);
+          this.toastMessageService.error(CONSTANTS.TEXTS_YOU_ARE_NOT_AUTHORIZED);
           this.router.navigate([RoutingConstants.ROUTE_AUTH_LOGIN], {
             queryParams: { returnUrl }
           });
@@ -222,7 +218,7 @@ export class AuthEffects implements OnInitEffects {
       map((payload) => payload.id),
       switchMap((id) => this.authService.deleteSession(id)),
       map((apiResp: BaseMessage) => {
-        this.toastMessageService.snack(apiResp);
+        this.toastMessageService.success(apiResp.message);
         return authActions.deleteSessionSuccess();
       }),
       catchError(() => of(authActions.authApiError()))
@@ -235,7 +231,7 @@ export class AuthEffects implements OnInitEffects {
       map((payload) => payload.sessionIds),
       switchMap((sessionIds) => this.authService.deleteSessionMultiple(sessionIds)),
       map((apiResp: BaseMessage) => {
-        this.toastMessageService.snack(apiResp);
+        this.toastMessageService.success(apiResp.message);
         return authActions.deleteSessionSuccess();
       }),
       catchError(() => of(authActions.authApiError()))
@@ -270,7 +266,7 @@ export class AuthEffects implements OnInitEffects {
       map((payload) => payload.user),
       switchMap((user) => this.authService.updateProfile(user)),
       switchMap((response: ItemApiResponse<User>) => {
-        this.toastMessageService.snack(response);
+        this.toastMessageService.success(response.message);
         return [
           authActions.updateUserProfileSuccess({ currentUser: response.data }),
           changeIsEditingState({ isEditing: false })
@@ -286,7 +282,7 @@ export class AuthEffects implements OnInitEffects {
       map((payload) => payload.organization),
       switchMap((organization) => this.authService.updateOrg(organization)),
       switchMap((response: ItemApiResponse<Organization>) => {
-        this.toastMessageService.snack(response);
+        this.toastMessageService.success(response.message);
         return [
           authActions.updateUserOrgSuccess({ organization: response.data }),
           changeIsEditingState({ isEditing: false })

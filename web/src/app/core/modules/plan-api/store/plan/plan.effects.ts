@@ -26,7 +26,7 @@ export class PlanEffects {
       mergeMap((plan: Plan) =>
         this.planService.create<Plan>(this.planService.formatBeforeSend(plan)).pipe(
           switchMap((response: ItemApiResponse<Plan>) => {
-            this.toastMessageService.snack(response);
+            this.toastMessageService.success(response.message);
             this.router.navigateByUrl(RoutingConstants.ROUTE_PLANNER);
             const { Plans, Users } = normalizeResponse<Plan>(response, planSchema);
             response = { ...response, data: Plans[0] };
@@ -36,7 +36,7 @@ export class PlanEffects {
             ];
           }),
           catchError((errorResponse: HttpErrorResponse) => {
-            this.toastMessageService.snack(errorResponse.error);
+            this.toastMessageService.error(errorResponse.error.message);
             return of(planActions.planApiError());
           })
         )
@@ -92,11 +92,11 @@ export class PlanEffects {
               id: response.data.id,
               changes: response.data
             };
-            this.toastMessageService.snack(response);
+            this.toastMessageService.success(response.message);
             return [planActions.updatePlanSuccess({ plan }), ...(Users ? [partialDataLoaded({ Users })] : [])];
           }),
           catchError((errorResponse: HttpErrorResponse) => {
-            this.toastMessageService.snack(errorResponse.error);
+            this.toastMessageService.error(errorResponse.error.message);
             return of(planActions.planApiError());
           })
         )
@@ -111,11 +111,11 @@ export class PlanEffects {
       mergeMap((id: number) =>
         this.planService.delete(id).pipe(
           map((response: BaseMessage) => {
-            this.toastMessageService.snack(response);
+            this.toastMessageService.success(response.message);
             return planActions.deletePlanSuccess({ id });
           }),
           catchError((errorResponse: HttpErrorResponse) => {
-            this.toastMessageService.snack(errorResponse.error);
+            this.toastMessageService.error(errorResponse.error.message);
             return of(planActions.planApiError());
           })
         )

@@ -9,7 +9,6 @@ import { AppState } from '@/core/store';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { ToastMessageService } from '@/shared/services';
 import { CONSTANTS } from '@/shared/constants';
-import { BaseMessage } from '@/shared/models';
 
 @Injectable({ providedIn: 'root' })
 export class PrivilegeGuard implements CanActivate {
@@ -21,11 +20,7 @@ export class PrivilegeGuard implements CanActivate {
       skipWhile((flag) => flag === undefined),
       tap((privileged) => {
         if (!privileged) {
-          const response: BaseMessage = {
-            success: false,
-            message: CONSTANTS.TEXTS_PRIVILEGE_GUARD_ERROR
-          };
-          this.toastMessageService.snack(response);
+          this.toastMessageService.error(CONSTANTS.TEXTS_PRIVILEGE_GUARD_ERROR);
         }
       })
     );

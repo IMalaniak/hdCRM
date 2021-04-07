@@ -3,7 +3,8 @@
 
 .success-message,
 .failed-message,
-.process-message {
+.info-message,
+.warn-message {
   span,
   mat-icon {
     @include set-textcolor('text-contrast');
@@ -18,6 +19,10 @@
   @include set-bgcolor('warn');
 }
 
-.process-message {
+.info-message {
   @include set-bgcolor('primary');
+}
+
+.warn-message {
+  @include set-bgcolor('warn');
 }
