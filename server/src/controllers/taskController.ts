@@ -23,7 +23,7 @@ export class TaskController extends BaseController<TaskCreationAttributes, TaskA
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_TASK);
   }
 
-  public async getAll(req: Request, res: Response<CollectionApiResponse<Task> | CustomError>): Promise<void> {
+  public async getAll(req: Request, res: Response<CollectionApiResponse<Task> | BaseResponse>): Promise<void> {
     const creatorId = req.user.id;
     req.log.info(`Selecting all tasks...`);
 
@@ -34,7 +34,7 @@ export class TaskController extends BaseController<TaskCreationAttributes, TaskA
 
   public async deleteMultiple(
     req: RequestWithBody<{ taskIds: number[] }>,
-    res: Response<BaseResponse | CustomError>
+    res: Response<BaseResponse | BaseResponse>
   ): Promise<void> {
     const {
       body: { taskIds }
@@ -47,7 +47,7 @@ export class TaskController extends BaseController<TaskCreationAttributes, TaskA
 
   public async getPriorities(
     req: Request,
-    res: Response<CollectionApiResponse<TaskPriority> | CustomError>
+    res: Response<CollectionApiResponse<TaskPriority> | BaseResponse>
   ): Promise<void> {
     req.log.info(`Selecting all task priorities...`);
 

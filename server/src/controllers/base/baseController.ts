@@ -23,7 +23,7 @@ export abstract class BaseController<C, A, M extends Model<A, C>> {
   @Inject(CONSTANTS.MODELS_NAME)
   protected modelName: string;
 
-  public async getByPk(req: Request<{ id: string }>, res: Response<ItemApiResponse<M> | CustomError>): Promise<void> {
+  public async getByPk(req: Request<{ id: string }>, res: Response<ItemApiResponse<M> | BaseResponse>): Promise<void> {
     const {
       params: { id }
     } = req;
@@ -35,7 +35,7 @@ export abstract class BaseController<C, A, M extends Model<A, C>> {
 
   public async getPage(
     req: RequestWithQuery<CollectionQuery>,
-    res: Response<CollectionApiResponse<M> | CustomError>
+    res: Response<CollectionApiResponse<M> | BaseResponse>
   ): Promise<void> {
     req.log.info(`Getting ${this.modelName} by page query...`);
 
@@ -59,7 +59,7 @@ export abstract class BaseController<C, A, M extends Model<A, C>> {
     return sendResponse<CollectionApiResponse<M>, CustomError>(result, res);
   }
 
-  public async create(req: RequestWithBody<C>, res: Response<ItemApiResponse<M> | CustomError>): Promise<void> {
+  public async create(req: RequestWithBody<C>, res: Response<ItemApiResponse<M> | BaseResponse>): Promise<void> {
     req.log.info(`Creating new ${this.modelName}...`);
 
     const item: C = this.generateCreationAttributes(req);
@@ -68,7 +68,7 @@ export abstract class BaseController<C, A, M extends Model<A, C>> {
     return sendResponse<ItemApiResponse<M>, CustomError>(result, res);
   }
 
-  public async update(req: RequestWithBody<A>, res: Response<ItemApiResponse<M> | CustomError>): Promise<void> {
+  public async update(req: RequestWithBody<A>, res: Response<ItemApiResponse<M> | BaseResponse>): Promise<void> {
     req.log.info(`Updating ${this.modelName} by id...`);
 
     const result = await this.dataBaseService.update(req.body);
@@ -76,7 +76,7 @@ export abstract class BaseController<C, A, M extends Model<A, C>> {
     return sendResponse<ItemApiResponse<M>, CustomError>(result, res);
   }
 
-  public async delete(req: Request<{ id: string }>, res: Response<BaseResponse | CustomError>): Promise<void> {
+  public async delete(req: Request<{ id: string }>, res: Response<BaseResponse | BaseResponse>): Promise<void> {
     const {
       params: { id }
     } = req;

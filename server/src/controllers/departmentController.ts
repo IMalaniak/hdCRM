@@ -8,7 +8,8 @@ import {
   Department,
   DepartmentCreationAttributes,
   DepartmentAttributes,
-  RequestWithBody
+  RequestWithBody,
+  BaseResponse
 } from '../models';
 import { DepartmentService } from '../services';
 import { BaseController } from './base/baseController';
@@ -27,7 +28,7 @@ export class DepartmentController extends BaseController<
 
   public async getDashboardData(
     req: Request,
-    res: Response<CollectionApiResponse<Department> | CustomError>
+    res: Response<CollectionApiResponse<Department> | BaseResponse>
   ): Promise<void> {
     req.log.info(`Geting department dashboard data...`);
 

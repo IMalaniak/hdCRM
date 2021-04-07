@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { Service } from 'typedi';
 
 import {
+  BaseResponse,
   CollectionApiResponse,
   ItemApiResponse,
   Privilege,
@@ -16,7 +17,7 @@ import { CustomError } from '../errors';
 export class PrivilegeController {
   constructor(private readonly privilegeService: PrivilegeService) {}
 
-  public async getAll(req: Request, res: Response<CollectionApiResponse<any> | CustomError>): Promise<void> {
+  public async getAll(req: Request, res: Response<CollectionApiResponse<any> | BaseResponse>): Promise<void> {
     req.log.info(`Selecting privileges list...`);
 
     const result = await this.privilegeService.getAll();
@@ -26,7 +27,7 @@ export class PrivilegeController {
 
   public async create(
     req: RequestWithBody<PrivilegeCreationAttributes>,
-    res: Response<ItemApiResponse<Privilege> | CustomError>
+    res: Response<ItemApiResponse<Privilege> | BaseResponse>
   ): Promise<void> {
     req.log.info(`Creating new privilege...`);
 

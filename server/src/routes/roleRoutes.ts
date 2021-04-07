@@ -3,8 +3,7 @@ import { Service } from 'typedi';
 import { RoleController } from '../controllers';
 
 import { BaseRoutes } from './base/baseRoutes';
-import { Role, CollectionApiResponse, RoleCreationAttributes, RoleAttributes } from '../models';
-import { CustomError } from '../errors';
+import { Role, CollectionApiResponse, RoleCreationAttributes, RoleAttributes, BaseResponse } from '../models';
 
 @Service()
 export class RoleRoutes extends BaseRoutes<RoleCreationAttributes, RoleAttributes, Role> {
@@ -13,7 +12,7 @@ export class RoleRoutes extends BaseRoutes<RoleCreationAttributes, RoleAttribute
   }
 
   public register(): Router {
-    this.router.get('/dashboard', (req: Request, res: Response<CollectionApiResponse<Role> | CustomError>) =>
+    this.router.get('/dashboard', (req: Request, res: Response<CollectionApiResponse<Role> | BaseResponse>) =>
       this.routesController.getDashboardData(req, res)
     );
 

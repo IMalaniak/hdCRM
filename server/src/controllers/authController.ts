@@ -25,7 +25,7 @@ export class AuthController {
     private readonly jwtHelper: JwtHelper
   ) {}
 
-  public async register(req: Request, res: Response<BaseResponse | CustomError>): Promise<void> {
+  public async register(req: Request, res: Response<BaseResponse | BaseResponse>): Promise<void> {
     req.log.info('Registering new user...');
 
     const password = req.body.password ? req.body.password : this.crypt.genRandomString(12);
@@ -63,7 +63,7 @@ export class AuthController {
 
   public async activateAccount(
     req: RequestWithBody<{ token: string }>,
-    res: Response<BaseResponse | CustomError>
+    res: Response<BaseResponse | BaseResponse>
   ): Promise<void> {
     req.log.info(`Activating new user...`);
 
@@ -76,7 +76,7 @@ export class AuthController {
 
   public async authenticate(
     req: RequestWithBody<{ login: string; password: string }>,
-    res: Response<string | CustomError>
+    res: Response<string | BaseResponse>
   ): Promise<void> {
     req.log.info(`Authenticating web client...`);
 
@@ -102,12 +102,12 @@ export class AuthController {
       },
       (error) => {
         res.status(StatusCodes.BAD_REQUEST);
-        res.send(error);
+        res.send(error.serializeErrors());
       }
     );
   }
 
-  public async refreshSession(req: Request, res: Response<string | CustomError>): Promise<void> {
+  public async refreshSession(req: Request, res: Response<string | BaseResponse>): Promise<void> {
     req.log.info(`Refreshing session...`);
 
     const cookies = parseCookies(req) as any;
@@ -121,12 +121,12 @@ export class AuthController {
       },
       (error) => {
         res.status(StatusCodes.BAD_REQUEST);
-        res.send(error);
+        res.send(error.serializeErrors());
       }
     );
   }
 
-  public async logout(req: Request, res: Response<BaseResponse | CustomError>): Promise<void> {
+  public async logout(req: Request, res: Response<BaseResponse | BaseResponse>): Promise<void> {
     req.log.info(`Logging user out...`);
 
     const cookies = parseCookies(req) as any;
@@ -141,7 +141,7 @@ export class AuthController {
     res.status(StatusCodes.OK).json({ message: 'logged out' });
   }
 
-  public async forgotPassword(req: Request, res: Response<CustomError>): Promise<void> {
+  public async forgotPassword(req: Request, res: Response<BaseResponse>): Promise<void> {
     req.log.info(`Forget password requesting...`);
 
     const loginOrEmail = req.body.login;
@@ -150,7 +150,7 @@ export class AuthController {
     return sendResponse<BaseResponse, CustomError>(result, res);
   }
 
-  public async resetPassword(req: RequestWithBody<PasswordReset>, res: Response<CustomError>): Promise<void> {
+  public async resetPassword(req: RequestWithBody<PasswordReset>, res: Response<BaseResponse>): Promise<void> {
     req.log.info(`Reseting new password...`);
 
     const result = await this.authService.resetPassword(req.body);

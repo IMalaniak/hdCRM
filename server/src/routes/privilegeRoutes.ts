@@ -6,10 +6,10 @@ import {
   RequestWithBody,
   CollectionApiResponse,
   ItemApiResponse,
-  PrivilegeCreationAttributes
+  PrivilegeCreationAttributes,
+  BaseResponse
 } from '../models';
 import { PrivilegeController } from '../controllers';
-import { CustomError } from '../errors';
 
 @Service()
 export class PrivilegeRoutes {
@@ -22,11 +22,11 @@ export class PrivilegeRoutes {
       '/',
       async (
         req: RequestWithBody<PrivilegeCreationAttributes>,
-        res: Response<ItemApiResponse<Privilege> | CustomError>
+        res: Response<ItemApiResponse<Privilege> | BaseResponse>
       ) => this.privilegeController.create(req, res)
     );
 
-    this.router.get('/', async (req, res: Response<CollectionApiResponse<Privilege> | CustomError>) =>
+    this.router.get('/', async (req, res: Response<CollectionApiResponse<Privilege> | BaseResponse>) =>
       this.privilegeController.getAll(req, res)
     );
 

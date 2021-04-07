@@ -3,7 +3,14 @@ import Container, { Service } from 'typedi';
 
 import { CONSTANTS } from '../constants';
 import { CustomError } from '../errors';
-import { CollectionApiResponse, Role, RequestWithBody, RoleCreationAttributes, RoleAttributes } from '../models';
+import {
+  CollectionApiResponse,
+  Role,
+  RequestWithBody,
+  RoleCreationAttributes,
+  RoleAttributes,
+  BaseResponse
+} from '../models';
 import { RoleService } from '../services';
 import { BaseController } from './base/baseController';
 import { sendResponse } from './utils';
@@ -15,7 +22,10 @@ export class RoleController extends BaseController<RoleCreationAttributes, RoleA
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_ROLE);
   }
 
-  public async getDashboardData(req: Request, res: Response<CollectionApiResponse<Role> | CustomError>): Promise<void> {
+  public async getDashboardData(
+    req: Request,
+    res: Response<CollectionApiResponse<Role> | BaseResponse>
+  ): Promise<void> {
     req.log.info(`Geting roles dashboard data...`);
 
     const {

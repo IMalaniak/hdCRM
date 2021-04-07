@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Service } from 'typedi';
 
-import { ItemApiResponse, Preference, PreferenceCreationAttributes, RequestWithBody } from '../models';
+import { BaseResponse, ItemApiResponse, Preference, PreferenceCreationAttributes, RequestWithBody } from '../models';
 import { sendResponse } from './utils';
 import { PreferenceService } from '../services/preferenceService';
 import { CustomError } from '../errors';
@@ -10,7 +10,7 @@ import { CustomError } from '../errors';
 export class PreferenceController {
   constructor(private readonly preferenceService: PreferenceService) {}
 
-  public async getAll(req: Request, res: Response<ItemApiResponse<any> | CustomError>): Promise<void> {
+  public async getAll(req: Request, res: Response<ItemApiResponse<any> | BaseResponse>): Promise<void> {
     req.log.info(`Selecting preferences list...`);
 
     const result = await this.preferenceService.getAll();
@@ -20,7 +20,7 @@ export class PreferenceController {
 
   public async set(
     req: RequestWithBody<PreferenceCreationAttributes>,
-    res: Response<ItemApiResponse<Preference> | CustomError>
+    res: Response<ItemApiResponse<Preference> | BaseResponse>
   ): Promise<void> {
     req.log.info(`Setting user preferences, userId: ${req.user.id}`);
 

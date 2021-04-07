@@ -27,7 +27,7 @@ export class PlanController extends BaseController<PlanCreationAttributes, PlanA
 
   public async addDocument(
     req: Request<{ planId: string }>,
-    res: Response<ItemApiResponse<Asset> | CustomError>
+    res: Response<ItemApiResponse<Asset> | BaseResponse>
   ): Promise<void> {
     req.log.info(`Uploading plan document: ${req.file.originalname}...`);
 
@@ -47,7 +47,7 @@ export class PlanController extends BaseController<PlanCreationAttributes, PlanA
 
   public async deleteDocument(
     req: RequestWithQuery<{ planId: string; docId: string }>,
-    res: Response<CustomError>
+    res: Response<BaseResponse>
   ): Promise<void> {
     const {
       query: { docId }

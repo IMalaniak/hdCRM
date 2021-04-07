@@ -34,7 +34,7 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
 
   public async updatePassword(
     req: RequestWithBody<PasswordReset>,
-    res: Response<BaseResponse | CustomError>
+    res: Response<BaseResponse | BaseResponse>
   ): Promise<void> {
     req.log.info(`Changing user password...`);
 
@@ -62,7 +62,7 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
 
   public async getSession(
     req: Request<{ id: string }>,
-    res: Response<ItemApiResponse<UserSession> | CustomError>
+    res: Response<ItemApiResponse<UserSession> | BaseResponse>
   ): Promise<void> {
     const {
       params: { id }
@@ -76,7 +76,7 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
 
   public async getSessionList(
     req: Request,
-    res: Response<CollectionApiResponse<UserSession> | CustomError>
+    res: Response<CollectionApiResponse<UserSession> | BaseResponse>
   ): Promise<void> {
     const currentUser = req.user;
     req.log.info(`Getting session list for user id: ${currentUser.id}...`);
@@ -98,7 +98,7 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
 
   public async removeSessionMultiple(
     req: RequestWithBody<{ sessionIds: number[] }>,
-    res: Response<BaseResponse | CustomError>
+    res: Response<BaseResponse>
   ): Promise<void> {
     const {
       body: { sessionIds }
@@ -111,7 +111,7 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
 
   public async updateOrg(
     req: RequestWithBody<OrganizationAttributes>,
-    res: Response<ItemApiResponse<Organization> | CustomError>
+    res: Response<ItemApiResponse<Organization> | BaseResponse>
   ): Promise<void> {
     req.log.info(`Update user organization by id: ${req.body.id}`);
 
@@ -122,7 +122,7 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
 
   public async inviteMultiple(
     req: RequestWithBody<UserAttributes[]>,
-    res: Response<CollectionApiResponse<User> | CustomError>
+    res: Response<CollectionApiResponse<User> | BaseResponse>
   ): Promise<void> {
     req.log.info(`Invite multiple users`);
 
@@ -133,7 +133,7 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
 
   public async updateAvatar(
     req: Request<{ id: string }>,
-    res: Response<ItemApiResponse<Asset> | CustomError>
+    res: Response<ItemApiResponse<Asset> | BaseResponse>
   ): Promise<void> {
     req.log.info(`Update user avatar`);
 
@@ -160,7 +160,7 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
     return sendResponse<ItemApiResponse<Asset>, CustomError>(result, res);
   }
 
-  public async deleteAvatar(req: Request<{ id: string }>, res: Response<BaseResponse | CustomError>): Promise<void> {
+  public async deleteAvatar(req: Request<{ id: string }>, res: Response<BaseResponse>): Promise<void> {
     const {
       params: { id }
     } = req;

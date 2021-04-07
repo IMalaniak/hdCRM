@@ -13,7 +13,6 @@ import {
 } from '../models';
 import uploads from '../multer/multerConfig';
 import { PlanController } from '../controllers';
-import { CustomError } from '../errors';
 
 @Service()
 export class PlanRoutes extends BaseRoutes<PlanCreationAttributes, PlanAttributes, Plan> {
@@ -28,13 +27,13 @@ export class PlanRoutes extends BaseRoutes<PlanCreationAttributes, PlanAttribute
       '/documents/:planId',
       uploads.single('uploader'),
       // we use single because filepond send file by one
-      async (req: Request<{ planId: string }>, res: Response<ItemApiResponse<Asset> | CustomError>) =>
+      async (req: Request<{ planId: string }>, res: Response<ItemApiResponse<Asset> | BaseResponse>) =>
         this.routesController.addDocument(req, res)
     );
 
     this.router.delete(
       '/documents',
-      async (req: RequestWithQuery<{ planId: string; docId: string }>, res: Response<BaseResponse | CustomError>) =>
+      async (req: RequestWithQuery<{ planId: string; docId: string }>, res: Response<BaseResponse>) =>
         this.routesController.deleteDocument(req, res)
     );
 
