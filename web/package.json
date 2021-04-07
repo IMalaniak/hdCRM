@@ -38,7 +38,7 @@
     "@swimlane/ngx-charts": "17.0.1",
     "bootstrap": "4.6.0",
     "bootstrap-icons": "1.4.1",
-    "filepond": "4.26.2",
+    "filepond": "4.27.0",
     "filepond-plugin-file-validate-type": "1.2.5",
     "filepond-plugin-image-crop": "2.0.4",
     "filepond-plugin-image-exif-orientation": "1.0.9",
