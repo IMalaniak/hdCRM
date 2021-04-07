@@ -49,20 +49,20 @@ describe('PrivilegeController', () => {
 
   it('should send success response when calling getAll', async () => {
     const getAllStub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'getAll');
-    getAllStub.resolves(ok({ success: true, data: [privilegeFake] }));
+    getAllStub.resolves(ok({ data: [privilegeFake] }));
 
     await controllerInstance.getAll(reqLogFake as any, resFake as any);
 
     expect(getAllStub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Selecting privileges list...`)).to.be.true;
     expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWith({ success: true, data: [privilegeFake] })).to.be.true;
+    expect(resFake.send.calledOnceWith({ data: [privilegeFake] })).to.be.true;
     getAllStub.restore();
   });
 
   it('should send success response when calling create', async () => {
     const createStub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'create');
-    createStub.resolves(ok({ success: true, data: privilegeFake }));
+    createStub.resolves(ok({ data: privilegeFake }));
     const request = { ...reqLogFake, params: { id: 1 } };
 
     await controllerInstance.create(request as any, resFake as any);
@@ -70,7 +70,7 @@ describe('PrivilegeController', () => {
     expect(createStub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Creating new privilege...`)).to.be.true;
     expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWithExactly({ success: true, data: privilegeFake })).to.be.true;
+    expect(resFake.send.calledOnceWithExactly({ data: privilegeFake })).to.be.true;
     createStub.restore();
   });
 });

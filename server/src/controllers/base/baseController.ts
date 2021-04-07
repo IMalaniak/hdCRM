@@ -15,6 +15,7 @@ import {
 } from '../../models';
 import { CONSTANTS } from '../../constants';
 import { IBaseService } from '../../services/base/IBaseService';
+import { CustomError } from '../../errors/custom-error';
 
 export abstract class BaseController<C, A, M extends Model<A, C>> {
   protected readonly dataBaseService: IBaseService<C, A, M>;
@@ -29,7 +30,7 @@ export abstract class BaseController<C, A, M extends Model<A, C>> {
     req.log.info(`Selecting ${this.modelName} by id: ${id}...`);
     const result = await this.dataBaseService.getByPk(id);
 
-    return sendResponse<ItemApiResponse<M>, BaseResponse>(result, res);
+    return sendResponse<ItemApiResponse<M>, CustomError>(result, res);
   }
 
   public async getPage(
@@ -55,7 +56,7 @@ export abstract class BaseController<C, A, M extends Model<A, C>> {
       OrganizationId
     );
 
-    return sendResponse<CollectionApiResponse<M>, BaseResponse>(result, res);
+    return sendResponse<CollectionApiResponse<M> | BaseResponse, CustomError>(result, res);
   }
 
   public async create(req: RequestWithBody<C>, res: Response<ItemApiResponse<M> | BaseResponse>): Promise<void> {
@@ -64,7 +65,7 @@ export abstract class BaseController<C, A, M extends Model<A, C>> {
     const item: C = this.generateCreationAttributes(req);
     const result = await this.dataBaseService.create(item);
 
-    return sendResponse<ItemApiResponse<M>, BaseResponse>(result, res);
+    return sendResponse<ItemApiResponse<M>, CustomError>(result, res);
   }
 
   public async update(req: RequestWithBody<A>, res: Response<ItemApiResponse<M> | BaseResponse>): Promise<void> {
@@ -72,20 +73,20 @@ export abstract class BaseController<C, A, M extends Model<A, C>> {
 
     const result = await this.dataBaseService.update(req.body);
 
-    return sendResponse<ItemApiResponse<M>, BaseResponse>(result, res);
+    return sendResponse<ItemApiResponse<M>, CustomError>(result, res);
   }
 
-  public async delete(req: Request<{ id: string }>, res: Response<BaseResponse>): Promise<void> {
+  public async delete(req: Request<{ id: string }>, res: Response<BaseResponse | BaseResponse>): Promise<void> {
     const {
       params: { id }
     } = req;
     req.log.info(`Deleting ${this.modelName} by id: ${id}...`);
     const result = await this.dataBaseService.delete(id);
 
-    return sendResponse<BaseResponse, BaseResponse>(result, res);
+    return sendResponse<BaseResponse, CustomError>(result, res);
   }
 
-  public generateCreationAttributes(req: RequestWithBody<C>): C {
+  protected generateCreationAttributes(req: RequestWithBody<C>): C {
     return req.body;
   }
 }

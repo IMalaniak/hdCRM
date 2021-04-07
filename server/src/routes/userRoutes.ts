@@ -26,15 +26,15 @@ export class UserRoutes extends BaseRoutes<UserCreationAttributes, UserAttribute
   }
 
   public register(): Router {
-    this.buildBaseRouter();
-
-    this.router.get('/profile/', (req: Request, res: Response<ItemApiResponse<User>>) => {
+    this.router.get('/profile/', (req: Request, res: Response<ItemApiResponse<User> | BaseResponse>) => {
       req.log.info(`Geting user profile...`);
-      return res.status(StatusCodes.OK).json({ success: true, data: req.user });
+      return res.status(StatusCodes.OK).json({ data: req.user });
     });
 
-    this.router.put('/profile/', async (req: RequestWithBody<User>, res: Response<ItemApiResponse<User>>) =>
-      this.routesController.update(req, res)
+    this.router.put(
+      '/profile/',
+      async (req: RequestWithBody<User>, res: Response<ItemApiResponse<User> | BaseResponse>) =>
+        this.routesController.update(req, res)
     );
 
     this.router.post('/change-password', async (req: RequestWithBody<PasswordReset>, res: Response<BaseResponse>) =>
@@ -70,10 +70,13 @@ export class UserRoutes extends BaseRoutes<UserCreationAttributes, UserAttribute
 
     this.router.put(
       '/org/:id',
-      async (req: RequestWithBody<OrganizationAttributes>, res: Response<ItemApiResponse<Organization>>) =>
-        this.routesController.updateOrg(req, res)
+      async (
+        req: RequestWithBody<OrganizationAttributes>,
+        res: Response<ItemApiResponse<Organization> | BaseResponse>
+      ) => this.routesController.updateOrg(req, res)
     );
 
+    this.buildBaseRouter();
     return this.router;
   }
 }

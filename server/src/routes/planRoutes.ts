@@ -27,7 +27,7 @@ export class PlanRoutes extends BaseRoutes<PlanCreationAttributes, PlanAttribute
       '/documents/:planId',
       uploads.single('uploader'),
       // we use single because filepond send file by one
-      async (req: Request<{ planId: string }>, res: Response<ItemApiResponse<Asset>>) =>
+      async (req: Request<{ planId: string }>, res: Response<ItemApiResponse<Asset> | BaseResponse>) =>
         this.routesController.addDocument(req, res)
     );
 

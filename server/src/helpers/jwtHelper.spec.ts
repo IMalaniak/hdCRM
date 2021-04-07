@@ -1,9 +1,11 @@
 import { expect } from 'chai';
 import { Config } from '../config';
+import { Logger } from '../utils/Logger';
 import { JwtHelper } from './jwtHelper';
 
 describe('jwtHelper', async () => {
-  const jwtHelper: JwtHelper = new JwtHelper();
+  const logger = new Logger();
+  const jwtHelper: JwtHelper = new JwtHelper(logger);
 
   it('should generate access token and then decode it', () => {
     process.env.ACCESS_TOKEN_LIFETIME = '15 min';

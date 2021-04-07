@@ -2,13 +2,14 @@ import { Request, Response } from 'express';
 import Container, { Service } from 'typedi';
 
 import { CONSTANTS } from '../constants';
+import { CustomError } from '../errors';
 import {
-  BaseResponse,
   CollectionApiResponse,
   Department,
   DepartmentCreationAttributes,
   DepartmentAttributes,
-  RequestWithBody
+  RequestWithBody,
+  BaseResponse
 } from '../models';
 import { DepartmentService } from '../services';
 import { BaseController } from './base/baseController';
@@ -36,10 +37,12 @@ export class DepartmentController extends BaseController<
     } = req;
     const result = await this.dataBaseService.getDashboardData(OrganizationId);
 
-    return sendResponse<CollectionApiResponse<Department>, BaseResponse>(result, res);
+    return sendResponse<CollectionApiResponse<Department>, CustomError>(result, res);
   }
 
-  public generateCreationAttributes(req: RequestWithBody<DepartmentCreationAttributes>): DepartmentCreationAttributes {
+  protected generateCreationAttributes(
+    req: RequestWithBody<DepartmentCreationAttributes>
+  ): DepartmentCreationAttributes {
     return {
       ...req.body,
       OrganizationId: req.user.OrganizationId

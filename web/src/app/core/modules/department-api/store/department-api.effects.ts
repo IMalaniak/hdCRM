@@ -34,7 +34,7 @@ export class DepartmentEffects {
       mergeMap((department: Department) =>
         this.departmentService.create<Department>(this.departmentService.formatBeforeSend(department)).pipe(
           switchMap((response: ItemApiResponse<Department>) => {
-            this.toastMessageService.snack(response);
+            this.toastMessageService.success(response.message);
             this.router.navigateByUrl(RoutingConstants.ROUTE_DEPARTMENTS);
             const { Departments, Users } = normalizeResponse<Department>(response, departmentSchema);
             response = { ...response, data: Departments[0] };
@@ -46,7 +46,7 @@ export class DepartmentEffects {
             ];
           }),
           catchError((errorResponse: HttpErrorResponse) => {
-            this.toastMessageService.snack(errorResponse.error);
+            this.toastMessageService.error(errorResponse.error.message);
             return of(departmentApiActions.departmentApiError());
           })
         )
@@ -110,14 +110,14 @@ export class DepartmentEffects {
                 id: response.data.id,
                 changes: response.data
               };
-              this.toastMessageService.snack(response);
+              this.toastMessageService.success(response.message);
               return [
                 departmentApiActions.updateDepartmentSuccess({ department }),
                 ...(Users ? [partialDataLoaded({ Users })] : [])
               ];
             }),
             catchError((errorResponse: HttpErrorResponse) => {
-              this.toastMessageService.snack(errorResponse.error);
+              this.toastMessageService.error(errorResponse.error.message);
               return of(departmentApiActions.departmentApiError());
             })
           )
@@ -132,11 +132,11 @@ export class DepartmentEffects {
       mergeMap((id: number) =>
         this.departmentService.delete(id).pipe(
           map((response: BaseMessage) => {
-            this.toastMessageService.snack(response);
+            this.toastMessageService.success(response.message);
             return departmentApiActions.deleteDepartmentSuccess({ id });
           }),
           catchError((errorResponse: HttpErrorResponse) => {
-            this.toastMessageService.snack(errorResponse.error);
+            this.toastMessageService.error(errorResponse.error.message);
             return of(departmentApiActions.departmentApiError());
           })
         )

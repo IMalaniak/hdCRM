@@ -146,11 +146,7 @@ export class UsersComponent {
   //   const userState = { id: user.id, state } as User;
 
   //   this.userService.updateUserState(userState).subscribe((response: ItemApiResponse<User>) => {
-  //     const serverResponse = {
-  //       success: response.success,
-  //       message: `User state was changed to: ${response.data.state}`
-  //     };
-  //     this.toastMessageService.snack(serverResponse);
+  //     this.toastMessageService.success(`User state was changed to: ${response.data.state}`);
   //   });
   // }
 

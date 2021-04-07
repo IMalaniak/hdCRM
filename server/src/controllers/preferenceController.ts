@@ -4,6 +4,7 @@ import { Service } from 'typedi';
 import { BaseResponse, ItemApiResponse, Preference, PreferenceCreationAttributes, RequestWithBody } from '../models';
 import { sendResponse } from './utils';
 import { PreferenceService } from '../services/preferenceService';
+import { CustomError } from '../errors';
 
 @Service()
 export class PreferenceController {
@@ -14,7 +15,7 @@ export class PreferenceController {
 
     const result = await this.preferenceService.getAll();
 
-    return sendResponse<ItemApiResponse<any>, BaseResponse>(result, res);
+    return sendResponse<ItemApiResponse<any> | BaseResponse, CustomError>(result, res);
   }
 
   public async set(
@@ -25,6 +26,6 @@ export class PreferenceController {
 
     const result = await this.preferenceService.set(req.user, req.body);
 
-    return sendResponse<ItemApiResponse<Preference>, BaseResponse>(result, res);
+    return sendResponse<ItemApiResponse<Preference>, CustomError>(result, res);
   }
 }

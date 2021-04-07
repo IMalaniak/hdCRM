@@ -4,10 +4,10 @@ import { Service } from 'typedi';
 import { BaseRoutes } from './base/baseRoutes';
 import {
   Department,
-  BaseResponse,
   CollectionApiResponse,
   DepartmentCreationAttributes,
-  DepartmentAttributes
+  DepartmentAttributes,
+  BaseResponse
 } from '../models';
 import { DepartmentController } from '../controllers';
 

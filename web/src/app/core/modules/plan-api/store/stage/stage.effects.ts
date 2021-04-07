@@ -34,13 +34,13 @@ export class StageEffects {
       mergeMap((stage: Stage) =>
         this.stageService.create<Stage>(stage).pipe(
           map((response: ItemApiResponse<Stage>) => {
-            this.toastMessageService.snack(response);
+            this.toastMessageService.success(response.message);
             return stageActions.createStageSuccess({
               stage: response.data
             });
           }),
           catchError((errorResponse: HttpErrorResponse) => {
-            this.toastMessageService.snack(errorResponse.error);
+            this.toastMessageService.error(errorResponse.error.message);
             return of(stageActions.stageApiError());
           })
         )

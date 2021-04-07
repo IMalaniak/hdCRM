@@ -1,9 +1,11 @@
 import jwt from 'jsonwebtoken';
 import { Service } from 'typedi';
-
-import { JwtPayload, JwtDecoded, User, UserSession, BaseResponse, ErrorOrigin } from '../models';
-import { Config } from '../config';
 import { err, ok, Result } from 'neverthrow';
+
+import { JwtPayload, JwtDecoded, User, UserSession } from '../models';
+import { Config } from '../config';
+import { CustomError, NotFoundError, NotAuthorizedError, InternalServerError } from '../errors';
+import { Logger } from '../utils/Logger';
 
 interface TokenProps {
   type: 'access' | 'refresh';
@@ -17,6 +19,8 @@ interface VerifyProps {
 
 @Service({ global: true })
 export class JwtHelper {
+  constructor(private readonly logger: Logger) {}
+
   generateToken({ type, payload }: TokenProps): string {
     return jwt.sign(payload, type === 'access' ? process.env.ACCESS_TOKEN_SECRET : process.env.REFRESH_TOKEN_SECRET, {
       expiresIn: type === 'access' ? process.env.ACCESS_TOKEN_LIFETIME : process.env.REFRESH_TOKEN_LIFETIME,
@@ -24,16 +28,17 @@ export class JwtHelper {
     });
   }
 
-  getDecoded(token: string): Result<JwtDecoded, string> {
+  getDecoded(token: string): Result<JwtDecoded, CustomError> {
     try {
       const verified = jwt.decode(token) as JwtDecoded;
       return ok(verified);
     } catch (error) {
-      return err(error);
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 
-  async getVerified({ type, token }: VerifyProps): Promise<Result<JwtDecoded, BaseResponse>> {
+  async getVerified({ type, token }: VerifyProps): Promise<Result<JwtDecoded, CustomError>> {
     try {
       const verified = jwt.verify(
         token,
@@ -49,18 +54,19 @@ export class JwtHelper {
         if (user) {
           return ok(verified);
         } else {
-          return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No user registered' });
+          return err(new NotFoundError('No user registered'));
         }
       } else {
         const session = await UserSession.findByPk(verified.sessionId, { attributes: ['id'] });
         if (session) {
           return ok(verified);
         } else {
-          return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No session registered' });
+          return err(new NotAuthorizedError('No session registered'));
         }
       }
     } catch (error) {
-      return err({ success: false, errorOrigin: ErrorOrigin.SERVER, message: error.message });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 }

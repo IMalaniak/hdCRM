@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import Container, { Service } from 'typedi';
 
 import { CONSTANTS } from '../constants';
+import { CustomError } from '../errors';
 import {
   BaseResponse,
   CollectionApiResponse,
@@ -28,28 +29,34 @@ export class TaskController extends BaseController<TaskCreationAttributes, TaskA
 
     const result = await this.dataBaseService.getAll(creatorId);
 
-    return sendResponse<CollectionApiResponse<Task>, BaseResponse>(result, res);
+    return sendResponse<CollectionApiResponse<Task> | BaseResponse, CustomError>(result, res);
   }
 
-  public async deleteMultiple(req: RequestWithBody<{ taskIds: number[] }>, res: Response<BaseResponse>): Promise<void> {
+  public async deleteMultiple(
+    req: RequestWithBody<{ taskIds: number[] }>,
+    res: Response<BaseResponse | BaseResponse>
+  ): Promise<void> {
     const {
       body: { taskIds }
     } = req;
     req.log.info(`Deleting multiple tasks...`);
     const result = await this.dataBaseService.delete(taskIds);
 
-    return sendResponse<BaseResponse, BaseResponse>(result, res);
+    return sendResponse<BaseResponse, CustomError>(result, res);
   }
 
-  public async getPriorities(req: Request, res: Response<CollectionApiResponse<TaskPriority>>): Promise<void> {
+  public async getPriorities(
+    req: Request,
+    res: Response<CollectionApiResponse<TaskPriority> | BaseResponse>
+  ): Promise<void> {
     req.log.info(`Selecting all task priorities...`);
 
     const result = await this.dataBaseService.getPriorities();
 
-    return sendResponse<CollectionApiResponse<TaskPriority>, BaseResponse>(result, res);
+    return sendResponse<CollectionApiResponse<TaskPriority> | BaseResponse, CustomError>(result, res);
   }
 
-  public generateCreationAttributes(req: RequestWithBody<TaskCreationAttributes>): TaskCreationAttributes {
+  protected generateCreationAttributes(req: RequestWithBody<TaskCreationAttributes>): TaskCreationAttributes {
     return {
       ...req.body,
       CreatorId: req.user.id

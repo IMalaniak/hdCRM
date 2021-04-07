@@ -6,7 +6,8 @@ import {
   RequestWithBody,
   CollectionApiResponse,
   ItemApiResponse,
-  PrivilegeCreationAttributes
+  PrivilegeCreationAttributes,
+  BaseResponse
 } from '../models';
 import { PrivilegeController } from '../controllers';
 
@@ -19,11 +20,13 @@ export class PrivilegeRoutes {
   public register(): Router {
     this.router.post(
       '/',
-      async (req: RequestWithBody<PrivilegeCreationAttributes>, res: Response<ItemApiResponse<Privilege>>) =>
-        this.privilegeController.create(req, res)
+      async (
+        req: RequestWithBody<PrivilegeCreationAttributes>,
+        res: Response<ItemApiResponse<Privilege> | BaseResponse>
+      ) => this.privilegeController.create(req, res)
     );
 
-    this.router.get('/', async (req, res: Response<CollectionApiResponse<Privilege>>) =>
+    this.router.get('/', async (req, res: Response<CollectionApiResponse<Privilege> | BaseResponse>) =>
       this.privilegeController.getAll(req, res)
     );
 

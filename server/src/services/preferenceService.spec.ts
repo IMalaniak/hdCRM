@@ -2,12 +2,14 @@
 
 import { fail } from 'assert';
 import { expect } from 'chai';
+import { StatusCodes } from 'http-status-codes';
 import { Result } from 'neverthrow';
 import sinon from 'sinon';
 import Container from 'typedi';
 
 import { CONSTANTS, IListView } from '../constants';
-import { BaseResponse, Preference, PreferenceCreationAttributes, User } from '../models';
+import { CustomError } from '../errors';
+import { BaseResponse, ItemApiResponse, Preference, PreferenceCreationAttributes, User } from '../models';
 import { enumToArray } from '../utils/EnumToArray';
 import { Logger } from '../utils/Logger';
 import { PreferenceService } from './preferenceService';
@@ -27,9 +29,9 @@ describe('PreferenceService', () => {
     update: sinon.stub() as any
   } as Preference;
 
-  const expect500 = (result: Result<BaseResponse, BaseResponse>) => {
+  const expect500 = (result: Result<BaseResponse, CustomError>) => {
     if (result.isErr()) {
-      expect(result.error.success).to.be.false;
+      expect(result.error.statusCode).to.equal(StatusCodes.INTERNAL_SERVER_ERROR);
       expect(result.error.message).to.equal(CONSTANTS.TEXTS_API_GENERIC_ERROR);
       expect(spyLogger.calledOnce).to.be.true;
     } else {
@@ -72,10 +74,8 @@ describe('PreferenceService', () => {
     const result = await serviceInstance.getAll();
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.success).to.be.true;
-      expect(result.value.data).to.deep.equal({ listView: ['list', 'card'] });
-    }
+
+    expect((result._unsafeUnwrap() as ItemApiResponse<any>).data).to.deep.equal({ listView: ['list', 'card'] });
   });
 
   it('should return empty list when calling getAll', async () => {
@@ -84,10 +84,7 @@ describe('PreferenceService', () => {
     const result = await serviceInstance.getAll();
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.success).to.be.false;
-      expect(result.value.data).to.deep.equal({});
-    }
+    expect(result._unsafeUnwrap() as ItemApiResponse<any>).to.deep.equal({});
   });
 
   it('should update existing user preference', async () => {
@@ -98,10 +95,7 @@ describe('PreferenceService', () => {
     expect((preferenceFake.update as sinon.SinonStub).calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.success).to.be.true;
-      expect(result.value.data.id).to.equal(1);
-    }
+    expect(result._unsafeUnwrap().data.id).to.equal(1);
   });
 
   it('should create new user preference', async () => {
@@ -112,10 +106,7 @@ describe('PreferenceService', () => {
     expect((userFake.createPreference as sinon.SinonStub).calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.success).to.be.true;
-      expect(result.value.data.id).to.equal(1);
-    }
+    expect(result._unsafeUnwrap().data.id).to.equal(1);
   });
 
   it('should throw an error when creating a new item', async () => {

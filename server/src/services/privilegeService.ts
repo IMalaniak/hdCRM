@@ -2,45 +2,45 @@ import { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 
 import {
-  BaseResponse,
   Privilege,
   ItemApiResponse,
   CollectionApiResponse,
-  PrivilegeCreationAttributes
+  PrivilegeCreationAttributes,
+  BaseResponse
 } from '../models';
-import { CONSTANTS } from '../constants';
 import { Logger } from '../utils/Logger';
+import { CustomError, InternalServerError } from '../errors';
 
 @Service()
 export class PrivilegeService {
   constructor(private readonly logger: Logger) {}
 
-  public async getAll(): Promise<Result<CollectionApiResponse<any>, BaseResponse>> {
+  public async getAll(): Promise<Result<CollectionApiResponse<any> | BaseResponse, CustomError>> {
     try {
       const data = await Privilege.findAndCountAll();
       if (data.count) {
-        return ok({ success: true, data: data.rows, resultsNum: data.count });
+        return ok({ data: data.rows, resultsNum: data.count });
       } else {
-        return ok({ success: false, message: 'No privileges', data: [] });
+        return ok({});
       }
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 
   public async create(
     privilege: PrivilegeCreationAttributes
-  ): Promise<Result<ItemApiResponse<Privilege>, BaseResponse>> {
+  ): Promise<Result<ItemApiResponse<Privilege>, CustomError>> {
     try {
       const data = await Privilege.create({
         ...privilege
       });
 
-      return ok({ success: true, message: 'Privilege is created successfully!', data });
+      return ok({ message: 'Privilege is created successfully!', data });
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 }

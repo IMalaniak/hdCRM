@@ -27,7 +27,7 @@ describe('BaseCrudService', () => {
   });
 
   it('should return expected item', () => {
-    httpClientSpy.get.and.returnValue(of({ success: true, data: user }));
+    httpClientSpy.get.and.returnValue(of({ data: user }));
 
     service.getOne<User>(1).subscribe((response: ItemApiResponse<User>) => expect(response.data).toEqual(user));
 
@@ -35,7 +35,7 @@ describe('BaseCrudService', () => {
   });
 
   it('should return expected full list of items', () => {
-    httpClientSpy.get.and.returnValue(of({ success: true, data: [user] }));
+    httpClientSpy.get.and.returnValue(of({ data: [user] }));
 
     service
       .getList<User>()
@@ -45,7 +45,7 @@ describe('BaseCrudService', () => {
   });
 
   it('should return expected sorted list of items', () => {
-    httpClientSpy.get.and.returnValue(of({ success: true, data: [user] }));
+    httpClientSpy.get.and.returnValue(of({ data: [user] }));
 
     service
       .getList<User>({ sortDirection: 'asc', sortIndex: 'id', pageIndex: 1, pageSize: 5 })
@@ -61,7 +61,7 @@ describe('BaseCrudService', () => {
   });
 
   it('should return created item', () => {
-    httpClientSpy.post.and.returnValue(of({ success: true, data: user }));
+    httpClientSpy.post.and.returnValue(of({ data: user }));
 
     service.create<User>(user).subscribe((response: ItemApiResponse<User>) => expect(response.data).toEqual(user));
 
@@ -69,7 +69,7 @@ describe('BaseCrudService', () => {
   });
 
   it('should return updated item', () => {
-    httpClientSpy.put.and.returnValue(of({ success: true, data: user }));
+    httpClientSpy.put.and.returnValue(of({ data: user }));
 
     service
       .update<User>(user, user.id)
@@ -79,7 +79,7 @@ describe('BaseCrudService', () => {
   });
 
   it('should return delete success message', () => {
-    httpClientSpy.delete.and.returnValue(of({ success: true, message: 'User deleted' }));
+    httpClientSpy.delete.and.returnValue(of({ message: 'User deleted' }));
 
     service.delete(user.id).subscribe((response: BaseMessage) => expect(response.message).toEqual('User deleted'));
 

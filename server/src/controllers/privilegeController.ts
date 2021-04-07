@@ -11,6 +11,7 @@ import {
 } from '../models';
 import { sendResponse } from './utils';
 import { PrivilegeService } from '../services';
+import { CustomError } from '../errors';
 
 @Service()
 export class PrivilegeController {
@@ -21,7 +22,7 @@ export class PrivilegeController {
 
     const result = await this.privilegeService.getAll();
 
-    return sendResponse<CollectionApiResponse<any>, BaseResponse>(result, res);
+    return sendResponse<CollectionApiResponse<any> | BaseResponse, CustomError>(result, res);
   }
 
   public async create(
@@ -32,6 +33,6 @@ export class PrivilegeController {
 
     const result = await this.privilegeService.create(req.body);
 
-    return sendResponse<ItemApiResponse<Privilege>, BaseResponse>(result, res);
+    return sendResponse<ItemApiResponse<Privilege>, CustomError>(result, res);
   }
 }

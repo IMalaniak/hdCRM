@@ -50,20 +50,20 @@ describe('DepartmentController', () => {
 
   it('should send success response when calling getDashboardData', async () => {
     const getDashboardDataStub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'getDashboardData');
-    getDashboardDataStub.resolves(ok({ success: true, data: [departmentFake] }));
+    getDashboardDataStub.resolves(ok({ data: [departmentFake] }));
 
     await controllerInstance.getDashboardData(reqLogFake as any, resFake as any);
 
     expect(getDashboardDataStub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Geting department dashboard data...`)).to.be.true;
     expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWith({ success: true, data: [departmentFake] })).to.be.true;
+    expect(resFake.send.calledOnceWith({ data: [departmentFake] })).to.be.true;
     getDashboardDataStub.restore();
   });
 
   it('should send success response when calling create', async () => {
     const createStub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'create');
-    createStub.resolves(ok({ success: true, data: departmentFake }));
+    createStub.resolves(ok({ data: departmentFake }));
     const request = { ...reqLogFake, params: { id: 1 } };
 
     await controllerInstance.create(request as any, resFake as any);
@@ -71,7 +71,7 @@ describe('DepartmentController', () => {
     expect(createStub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Creating new ${CONSTANTS.MODELS_NAME_DEPARTMENT}...`)).to.be.true;
     expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWithExactly({ success: true, data: departmentFake })).to.be.true;
+    expect(resFake.send.calledOnceWithExactly({ data: departmentFake })).to.be.true;
     createStub.restore();
   });
 });

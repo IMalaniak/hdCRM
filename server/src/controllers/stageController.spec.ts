@@ -49,14 +49,14 @@ describe('StageController', () => {
 
   it('should send success response when calling getAll', async () => {
     const getAllStub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'getAll');
-    getAllStub.resolves(ok({ success: true, data: [stageFake] }));
+    getAllStub.resolves(ok({ data: [stageFake] }));
 
     await controllerInstance.getAll(reqLogFake as any, resFake as any);
 
     expect(getAllStub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Selecting stages list...`)).to.be.true;
     expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWith({ success: true, data: [stageFake] })).to.be.true;
+    expect(resFake.send.calledOnceWith({ data: [stageFake] })).to.be.true;
     getAllStub.restore();
   });
 });

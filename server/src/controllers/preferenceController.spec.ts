@@ -50,27 +50,27 @@ describe('PreferenceController', () => {
 
   it('should send success response when calling getAll', async () => {
     const getAllStub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'getAll');
-    getAllStub.resolves(ok({ success: true, data: {} }));
+    getAllStub.resolves(ok({ data: {} }));
 
     await controllerInstance.getAll(reqLogFake as any, resFake as any);
 
     expect(getAllStub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Selecting preferences list...`)).to.be.true;
     expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWith({ success: true, data: {} })).to.be.true;
+    expect(resFake.send.calledOnceWith({ data: {} })).to.be.true;
     getAllStub.restore();
   });
 
   it('should send success response when calling set', async () => {
     const setStub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'set');
-    setStub.resolves(ok({ success: true, data: preferenceFake }));
+    setStub.resolves(ok({ data: preferenceFake }));
 
     await controllerInstance.set(reqLogFake as any, resFake as any);
 
     expect(setStub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Setting user preferences, userId: ${reqLogFake.user.id}`)).to.be.true;
     expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWithExactly({ success: true, data: preferenceFake })).to.be.true;
+    expect(resFake.send.calledOnceWithExactly({ data: preferenceFake })).to.be.true;
     setStub.restore();
   });
 });

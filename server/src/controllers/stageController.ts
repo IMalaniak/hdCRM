@@ -2,10 +2,11 @@ import { Request, Response } from 'express';
 import Container, { Service } from 'typedi';
 
 import { CONSTANTS } from '../constants';
-import { BaseResponse, CollectionApiResponse, Stage, StageCreationAttributes, StageAttributes } from '../models';
+import { CollectionApiResponse, Stage, StageCreationAttributes, StageAttributes, BaseResponse } from '../models';
 import { StageService } from '../services';
 import { sendResponse } from './utils';
 import { BaseController } from './base/baseController';
+import { CustomError } from '../errors';
 
 @Service()
 export class StageController extends BaseController<StageCreationAttributes, StageAttributes, Stage> {
@@ -19,6 +20,6 @@ export class StageController extends BaseController<StageCreationAttributes, Sta
 
     const result = await this.dataBaseService.getAll(req.user.OrganizationId);
 
-    return sendResponse<CollectionApiResponse<any>, BaseResponse>(result, res);
+    return sendResponse<CollectionApiResponse<any> | BaseResponse, CustomError>(result, res);
   }
 }

@@ -2,7 +2,7 @@ import { Response, Router } from 'express';
 import { Service } from 'typedi';
 
 import { TaskController } from '../controllers';
-import { CollectionApiResponse, TaskPriority } from '../models';
+import { BaseResponse, CollectionApiResponse, TaskPriority } from '../models';
 
 @Service()
 export class TaskPriorityRoutes {
@@ -11,7 +11,7 @@ export class TaskPriorityRoutes {
   constructor(private readonly taskController: TaskController) {}
 
   public register(): Router {
-    this.router.get('/', async (req, res: Response<CollectionApiResponse<TaskPriority>>) =>
+    this.router.get('/', async (req, res: Response<CollectionApiResponse<TaskPriority> | BaseResponse>) =>
       this.taskController.getPriorities(req, res)
     );
 

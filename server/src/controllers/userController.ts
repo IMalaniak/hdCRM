@@ -23,6 +23,7 @@ import { UserService } from '../services';
 import { parseCookies } from '../utils/parseCookies';
 import { sendResponse } from './utils';
 import { BaseController } from './base/baseController';
+import { CustomError } from '../errors';
 
 @Service()
 export class UserController extends BaseController<UserCreationAttributes, UserAttributes, User> {
@@ -31,7 +32,10 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_USER);
   }
 
-  public async updatePassword(req: RequestWithBody<PasswordReset>, res: Response<BaseResponse>): Promise<void> {
+  public async updatePassword(
+    req: RequestWithBody<PasswordReset>,
+    res: Response<BaseResponse | BaseResponse>
+  ): Promise<void> {
     req.log.info(`Changing user password...`);
 
     let sId: number;
@@ -53,7 +57,7 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
 
     const result = await this.dataBaseService.updatePassword(passData);
 
-    return sendResponse<BaseResponse, BaseResponse>(result, res);
+    return sendResponse<BaseResponse, CustomError>(result, res);
   }
 
   public async getSession(
@@ -67,7 +71,7 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
 
     const result = await this.dataBaseService.getSession(id);
 
-    return sendResponse<ItemApiResponse<UserSession>, BaseResponse>(result, res);
+    return sendResponse<ItemApiResponse<UserSession>, CustomError>(result, res);
   }
 
   public async getSessionList(
@@ -78,10 +82,10 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
     req.log.info(`Getting session list for user id: ${currentUser.id}...`);
     const result = await this.dataBaseService.getSessionList(currentUser);
 
-    return sendResponse<CollectionApiResponse<UserSession>, BaseResponse>(result, res);
+    return sendResponse<CollectionApiResponse<UserSession> | BaseResponse, CustomError>(result, res);
   }
 
-  public async removeSession(req: Request<{ id: string }>, res: Response<BaseResponse>): Promise<void> {
+  public async removeSession(req: Request<{ id: string }>, res: Response<BaseResponse | CustomError>): Promise<void> {
     const {
       params: { id }
     } = req;
@@ -89,7 +93,7 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
 
     const result = await this.dataBaseService.removeSession(id);
 
-    return sendResponse<BaseResponse, BaseResponse>(result, res);
+    return sendResponse<BaseResponse, CustomError>(result, res);
   }
 
   public async removeSessionMultiple(
@@ -102,18 +106,18 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
     req.log.info(`Removing user sessions`);
     const result = await this.dataBaseService.removeSession(sessionIds);
 
-    return sendResponse<BaseResponse, BaseResponse>(result, res);
+    return sendResponse<BaseResponse, CustomError>(result, res);
   }
 
   public async updateOrg(
     req: RequestWithBody<OrganizationAttributes>,
-    res: Response<ItemApiResponse<Organization>>
+    res: Response<ItemApiResponse<Organization> | BaseResponse>
   ): Promise<void> {
     req.log.info(`Update user organization by id: ${req.body.id}`);
 
     const result = await this.dataBaseService.updateOrg(req.body);
 
-    return sendResponse<ItemApiResponse<Organization>, BaseResponse>(result, res);
+    return sendResponse<ItemApiResponse<Organization>, CustomError>(result, res);
   }
 
   public async inviteMultiple(
@@ -124,7 +128,7 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
 
     const result = await this.dataBaseService.inviteMultiple(req.body, req.user.OrganizationId);
 
-    return sendResponse<CollectionApiResponse<User>, BaseResponse>(result, res);
+    return sendResponse<CollectionApiResponse<User>, CustomError>(result, res);
   }
 
   public async updateAvatar(
@@ -153,7 +157,7 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
 
     const result = await this.dataBaseService.updateAvatar(params);
 
-    return sendResponse<ItemApiResponse<Asset>, BaseResponse>(result, res);
+    return sendResponse<ItemApiResponse<Asset>, CustomError>(result, res);
   }
 
   public async deleteAvatar(req: Request<{ id: string }>, res: Response<BaseResponse>): Promise<void> {
@@ -164,10 +168,10 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
 
     const result = await this.dataBaseService.deleteAvatar(id);
 
-    return sendResponse<BaseResponse, BaseResponse>(result, res);
+    return sendResponse<BaseResponse, CustomError>(result, res);
   }
 
-  public generateCreationAttributes(req: RequestWithBody<UserCreationAttributes>): UserCreationAttributes {
+  protected generateCreationAttributes(req: RequestWithBody<UserCreationAttributes>): UserCreationAttributes {
     return {
       ...req.body,
       OrganizationId: req.user.OrganizationId

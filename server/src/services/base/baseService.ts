@@ -3,7 +3,8 @@ import { IncludeOptions, Model, WhereOptions } from 'sequelize';
 import { Inject } from 'typedi';
 
 import { CONSTANTS } from '../../constants';
-import { BaseResponse, CollectionApiResponse, ErrorOrigin, ItemApiResponse, PageQuery } from '../../models';
+import { CustomError, InternalServerError, NotFoundError } from '../../errors';
+import { BaseResponse, CollectionApiResponse, ItemApiResponse, PageQuery } from '../../models';
 import { Logger } from '../../utils/Logger';
 import { IBaseService } from './IBaseService';
 
@@ -25,28 +26,24 @@ export abstract class BaseService<C, A, M extends Model<A, C>> implements IBaseS
   protected includes: IncludeOptions[] = [];
   protected excludes: string[] = [];
 
-  public async getByPk(key: number | string): Promise<Result<ItemApiResponse<M>, BaseResponse>> {
+  public async getByPk(key: number | string): Promise<Result<ItemApiResponse<M>, CustomError>> {
     try {
       const data = await this.findByPk(key);
       if (data) {
-        return ok({ success: true, data });
+        return ok({ data });
       } else {
-        return err({
-          success: false,
-          errorOrigin: ErrorOrigin.CLIENT,
-          message: `No ${this.modelName} with such id`
-        });
+        return err(new NotFoundError(`No ${this.modelName} with such id`));
       }
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 
   public async getPage(
     pageQuery: PageQuery,
     OrganizationId?: number
-  ): Promise<Result<CollectionApiResponse<M>, BaseResponse>> {
+  ): Promise<Result<CollectionApiResponse<M> | BaseResponse, CustomError>> {
     try {
       const { limit, offset, sortDirection, sortIndex, parsedFilters } = pageQuery;
 
@@ -65,30 +62,30 @@ export abstract class BaseService<C, A, M extends Model<A, C>> implements IBaseS
       if (data.count) {
         const pages = Math.ceil(data.count / limit);
         const ids: number[] = data.rows.map((dep) => dep[this.primaryKey]);
-        return ok({ success: true, ids, data: data.rows, resultsNum: data.count, pages });
+        return ok({ ids, data: data.rows, resultsNum: data.count, pages });
       } else {
-        return ok({ success: false, message: `No ${this.modelName}s by this query`, data: [] });
+        return ok({});
       }
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 
-  public async create(item: C): Promise<Result<ItemApiResponse<M>, BaseResponse>> {
+  public async create(item: C): Promise<Result<ItemApiResponse<M>, CustomError>> {
     try {
       const createdItem = await this.MODEL.create({
         ...item
       });
       const data = await this.postAction(item, createdItem[this.primaryKey]);
-      return ok({ success: true, message: `New ${this.modelName} created successfully!`, data });
+      return ok({ message: `New ${this.modelName} created successfully!`, data });
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 
-  public async update(item: A): Promise<Result<ItemApiResponse<M>, BaseResponse>> {
+  public async update(item: A): Promise<Result<ItemApiResponse<M>, CustomError>> {
     try {
       const [number] = await this.MODEL.update(
         {
@@ -101,38 +98,30 @@ export abstract class BaseService<C, A, M extends Model<A, C>> implements IBaseS
 
       if (number > 0) {
         const data = await this.postAction(item, item[this.primaryKey]);
-        return ok({ success: true, message: `The ${this.modelName} updated successfully!`, data });
+        return ok({ message: `The ${this.modelName} updated successfully!`, data });
       } else {
-        return err({
-          success: false,
-          errorOrigin: ErrorOrigin.CLIENT,
-          message: `No ${this.modelName}s by this query`
-        });
+        return err(new NotFoundError(`No ${this.modelName}s by this query`));
       }
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 
-  public async delete(key: string | number | string[] | number[]): Promise<Result<BaseResponse, BaseResponse>> {
+  public async delete(key: string | number | string[] | number[]): Promise<Result<BaseResponse, CustomError>> {
     try {
       const deleted = await this.MODEL.destroy({
         where: { [this.primaryKey]: key } as WhereOptions<M['_attributes']>
       });
 
       if (deleted > 0) {
-        return ok({ success: true, message: `Deleted ${deleted} ${this.modelName}(s)` });
+        return ok({ message: `Deleted ${deleted} ${this.modelName}(s)` });
       } else {
-        return err({
-          success: false,
-          errorOrigin: ErrorOrigin.CLIENT,
-          message: `No ${this.modelName}s by this query`
-        });
+        return err(new NotFoundError(`No ${this.modelName}s by this query`));
       }
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 

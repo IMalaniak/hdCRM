@@ -19,6 +19,7 @@ import {
 } from '../models';
 import { CONSTANTS } from '../constants';
 import { BaseService } from './base/baseService';
+import { CustomError, InternalServerError } from '../errors';
 
 @Service()
 export class PlanService extends BaseService<PlanCreationAttributes, PlanAttributes, Plan> {
@@ -74,7 +75,7 @@ export class PlanService extends BaseService<PlanCreationAttributes, PlanAttribu
   public async addDocument(params: {
     document: AssetCreationAttributes;
     planId: string;
-  }): Promise<Result<ItemApiResponse<Asset>, BaseResponse>> {
+  }): Promise<Result<ItemApiResponse<Asset>, CustomError>> {
     try {
       const { document, planId } = params;
 
@@ -85,17 +86,16 @@ export class PlanService extends BaseService<PlanCreationAttributes, PlanAttribu
       const doc = await plan.createDocument(document as any);
 
       return ok({
-        success: true,
         message: 'Doccument added!',
         data: doc
       });
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 
-  public async deleteDocument(id: string): Promise<Result<BaseResponse, BaseResponse>> {
+  public async deleteDocument(id: string): Promise<Result<BaseResponse, CustomError>> {
     try {
       const docToBeDeleted = await Asset.findByPk(id);
 
@@ -106,11 +106,11 @@ export class PlanService extends BaseService<PlanCreationAttributes, PlanAttribu
 
         await docToBeDeleted.destroy();
 
-        return ok({ success: true, message: 'Document deleted successfully!' });
+        return ok({ message: 'Document deleted successfully!' });
       }
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 

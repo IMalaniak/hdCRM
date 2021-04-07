@@ -29,7 +29,7 @@ export class RoleEffects {
       mergeMap((role: Role) =>
         this.roleService.create<Role>(this.roleService.formatBeforeSend({ ...role })).pipe(
           switchMap((response: ItemApiResponse<Role>) => {
-            this.toastMessageService.snack(response);
+            this.toastMessageService.success(response.message);
             this.router.navigateByUrl(RoutingConstants.ROUTE_ROLES);
             const { Users, Roles } = normalizeResponse<Role>(response, roleSchema);
             response = { ...response, data: Roles[0] };
@@ -39,7 +39,7 @@ export class RoleEffects {
             ];
           }),
           catchError((errorResponse: HttpErrorResponse) => {
-            this.toastMessageService.snack(errorResponse.error);
+            this.toastMessageService.error(errorResponse.error.message);
             return of(roleActions.rolesApiError());
           })
         )
@@ -95,11 +95,11 @@ export class RoleEffects {
               id: response.data.id,
               changes: response.data
             };
-            this.toastMessageService.snack(response);
+            this.toastMessageService.success(response.message);
             return [roleActions.updateRoleSuccess({ role }), ...(Users ? [partialDataLoaded({ Users })] : [])];
           }),
           catchError((errorResponse: HttpErrorResponse) => {
-            this.toastMessageService.snack(errorResponse.error);
+            this.toastMessageService.error(errorResponse.error.message);
             return of(roleActions.rolesApiError());
           })
         )
@@ -114,11 +114,11 @@ export class RoleEffects {
       mergeMap((id: number) =>
         this.roleService.delete(id).pipe(
           map((response: BaseMessage) => {
-            this.toastMessageService.snack(response);
+            this.toastMessageService.success(response.message);
             return roleActions.deleteRoleSuccess({ id });
           }),
           catchError((errorResponse: HttpErrorResponse) => {
-            this.toastMessageService.snack(errorResponse.error);
+            this.toastMessageService.error(errorResponse.error.message);
             return of(roleActions.rolesApiError());
           })
         )

@@ -1,7 +1,7 @@
 import { Response, Router } from 'express';
 import { Service } from 'typedi';
 
-import { Preference, RequestWithBody, BaseResponse, PreferenceCreationAttributes, ItemApiResponse } from '../models';
+import { Preference, RequestWithBody, PreferenceCreationAttributes, ItemApiResponse, BaseResponse } from '../models';
 import { PreferenceController } from '../controllers';
 
 @Service()

@@ -31,13 +31,13 @@ export class TaskEffects {
       mergeMap((task: Task) =>
         this.taskService.create<Task>(task).pipe(
           map((response: ItemApiResponse<Task>) => {
-            this.toastMessageService.snack(response);
+            this.toastMessageService.success(response.message);
             return TaskActions.createTaskSuccess({
               task: response.data
             });
           }),
           catchError((errorResponse: HttpErrorResponse) => {
-            this.toastMessageService.snack(errorResponse.error);
+            this.toastMessageService.error(errorResponse.error.message);
             return of(TaskActions.tasksApiError());
           })
         )
@@ -56,7 +56,7 @@ export class TaskEffects {
               id: response.data.id,
               changes: response.data
             };
-            this.toastMessageService.snack(response);
+            this.toastMessageService.success(response.message);
             return TaskActions.updateTaskSuccess({ task });
           }),
           catchError(() => of(TaskActions.tasksApiError()))
@@ -72,7 +72,7 @@ export class TaskEffects {
         ofType(TaskActions.deleteTask),
         map((payload) => payload.id),
         mergeMap((id) => this.taskService.delete(id)),
-        map((response: BaseMessage) => of(this.toastMessageService.snack(response))),
+        map((response: BaseMessage) => of(this.toastMessageService.success(response.message))),
         catchError(() => of(TaskActions.tasksApiError()))
       ),
     {
@@ -87,7 +87,7 @@ export class TaskEffects {
       switchMap((taskIds: number[]) =>
         this.taskService.deleteMultipleTask(taskIds).pipe(
           map((response: BaseMessage) => {
-            this.toastMessageService.snack(response);
+            this.toastMessageService.success(response.message);
             return TaskActions.deleteMultipleTaskSuccess({ taskIds });
           }),
           catchError(() => of(TaskActions.tasksApiError()))

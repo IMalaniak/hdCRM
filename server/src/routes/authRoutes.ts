@@ -27,7 +27,7 @@ export class AuthRoutes {
         this.authController.authenticate(req, res)
     );
 
-    this.router.get('/refresh-session', async (req: Request, res: Response<BaseResponse | string>) =>
+    this.router.get('/refresh-session', async (req: Request, res: Response<string | BaseResponse>) =>
       this.authController.refreshSession(req, res)
     );
 

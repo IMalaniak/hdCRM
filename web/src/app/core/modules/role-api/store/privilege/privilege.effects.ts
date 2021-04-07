@@ -39,13 +39,13 @@ export class PrivilegeEffects {
       mergeMap((privilege: Privilege) =>
         this.privilegeService.create<Privilege>(privilege).pipe(
           map((response: ItemApiResponse<Privilege>) => {
-            this.toastMessageService.snack(response);
+            this.toastMessageService.success(response.message);
             return privilegeActions.createPrivilegeSuccess({
               privilege: response.data
             });
           }),
           catchError((errorResponse: HttpErrorResponse) => {
-            this.toastMessageService.snack(errorResponse.error);
+            this.toastMessageService.error(errorResponse.error.message);
             return of(privilegeActions.privilegeApiError());
           })
         )

@@ -12,15 +12,15 @@ import {
   UserAttributes,
   UserSession,
   User,
-  PasswordReset,
-  ErrorOrigin
+  PasswordReset
 } from '../models';
-import { CONSTANTS, MailThemes, UserState } from '../constants';
+import { MailThemes, UserState } from '../constants';
 import { Config } from '../config';
 import { Crypt } from '../utils/crypt';
 import { Mailer } from '../mailer/nodeMailerTemplates';
 import { JwtHelper } from '../helpers/jwtHelper';
 import { Logger } from '../utils/Logger';
+import { BadRequestError, CustomError, InternalServerError, NotAuthorizedError, NotFoundError } from '../errors';
 
 @Service()
 export class AuthService {
@@ -35,7 +35,7 @@ export class AuthService {
     organization: OrganizationCreationAttributes;
     user: Partial<UserCreationAttributes>;
     password: string;
-  }): Promise<Result<BaseResponse, BaseResponse>> {
+  }): Promise<Result<BaseResponse, CustomError>> {
     const { organization, user, password } = params;
 
     try {
@@ -74,16 +74,15 @@ export class AuthService {
       });
 
       return ok({
-        success: true,
         message: 'Activation link has been sent'
       });
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 
-  public async activateAccount(token: string): Promise<Result<BaseResponse, BaseResponse>> {
+  public async activateAccount(token: string): Promise<Result<BaseResponse, CustomError>> {
     try {
       const pa = await PasswordAttribute.findOne({
         where: {
@@ -103,19 +102,14 @@ export class AuthService {
 
         await this.sendMail(MailThemes.ActivationConfirm, user);
         return ok({
-          success: true,
           message: 'You account has been activated successfully!'
         });
       } else {
-        return err({
-          success: false,
-          errorOrigin: ErrorOrigin.CLIENT,
-          message: 'Your activation token is invalid or has expired!'
-        });
+        return err(new BadRequestError('Your activation token is invalid or has expired!'));
       }
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 
@@ -126,7 +120,7 @@ export class AuthService {
       IP: string;
       UA: string;
     };
-  }): Promise<Result<{ refreshToken: string; accessToken: string }, BaseResponse>> {
+  }): Promise<Result<{ refreshToken: string; accessToken: string }, CustomError>> {
     const { loginOrEmail, password, connection } = params;
     try {
       const user = await User.findOne({
@@ -143,38 +137,29 @@ export class AuthService {
         attributes: ['id', 'passwordHash', 'salt', 'state']
       });
       if (!user) {
-        return err({
-          success: false,
-          errorOrigin: ErrorOrigin.CLIENT,
-          message: 'Sorry, there are no user with this email or login!'
-        });
+        return err(new NotFoundError('Sorry, there are no user with this email or login!'));
       }
 
       if (user.state === UserState.INITIALIZED) {
         await this.saveLogInAttempt(connection, user, false);
-        return err({
-          success: false,
-          errorOrigin: ErrorOrigin.CLIENT,
-          message:
+        return err(
+          new NotAuthorizedError(
             'Sorry, Your account is not activated, please use activation link we sent You or contact administrator!'
-        });
+          )
+        );
       } else if (user.state === UserState.DISABLED || user.state === UserState.ARCHIVE) {
         await this.saveLogInAttempt(connection, user, false);
-        return err({
-          success: false,
-          errorOrigin: ErrorOrigin.CLIENT,
-          message: 'Sorry, Your account have been disabled, please contact administrator!'
-        });
+        return err(new NotAuthorizedError('Sorry, Your account have been disabled, please contact administrator!'));
       }
 
       const isMatch = this.crypt.validatePassword(password, user.passwordHash, user.salt);
       if (isMatch) {
         if (this.isPasswordExpired(await user.getPasswordAttributes())) {
-          return err({
-            success: false,
-            errorOrigin: ErrorOrigin.CLIENT,
-            message: 'Your password has expired, please click on "forgot password" button to reset your password!'
-          });
+          return err(
+            new NotAuthorizedError(
+              'Your password has expired, please click on "forgot password" button to reset your password!'
+            )
+          );
         } else {
           const userSession = await this.saveLogInAttempt(connection, user, true);
           const accessToken = this.jwtHelper.generateToken({
@@ -190,32 +175,31 @@ export class AuthService {
         }
       } else {
         this.saveLogInAttempt(connection, user, false).then(() => {
-          return err({
-            success: false,
-            errorOrigin: ErrorOrigin.CLIENT,
-            message:
+          return err(
+            new NotAuthorizedError(
               'Password that You provided is not correct, please make sure you have the right password or contact administrator!'
-          });
+            )
+          );
         });
       }
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 
-  public async refreshSession(token: string): Promise<Result<{ accessToken: string }, BaseResponse>> {
+  public async refreshSession(token: string): Promise<Result<{ accessToken: string }, CustomError>> {
     if (token) {
       const verifiedResult = await this.jwtHelper.getVerified({ type: 'refresh', token });
       if (verifiedResult.isOk()) {
         const { sessionId, userId } = verifiedResult.value;
         const userPA = await PasswordAttribute.findOne({ where: { UserId: userId } });
         if (this.isPasswordExpired(userPA)) {
-          return err({
-            success: false,
-            errorOrigin: ErrorOrigin.CLIENT,
-            message: 'Your password has expired, please click on "forgot password" button to reset your password!'
-          });
+          return err(
+            new NotAuthorizedError(
+              'Your password has expired, please click on "forgot password" button to reset your password!'
+            )
+          );
         } else {
           const accessToken = this.jwtHelper.generateToken({ type: 'access', payload: { userId, sessionId } });
           return ok({ accessToken });
@@ -224,15 +208,11 @@ export class AuthService {
         return err(verifiedResult.error);
       }
     } else {
-      return err({
-        success: false,
-        errorOrigin: ErrorOrigin.CLIENT,
-        message: 'No refresh token!'
-      });
+      return err(new BadRequestError('No refresh token!'));
     }
   }
 
-  public async forgotPassword(loginOrEmail: string): Promise<Result<BaseResponse, BaseResponse>> {
+  public async forgotPassword(loginOrEmail: string): Promise<Result<BaseResponse, CustomError>> {
     try {
       const user = await User.findOne({
         where: {
@@ -267,23 +247,18 @@ export class AuthService {
         });
 
         return ok({
-          success: true,
           message: 'A message has been sent to your email address. Follow the instructions to reset your password.'
         });
       } else {
-        return err({
-          success: false,
-          errorOrigin: ErrorOrigin.CLIENT,
-          message: 'The following user does not exist! Please, provide correct email or login!'
-        });
+        return err(new NotFoundError('The following user does not exist! Please, provide correct email or login!'));
       }
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 
-  public async resetPassword(params: PasswordReset): Promise<Result<BaseResponse, BaseResponse>> {
+  public async resetPassword(params: PasswordReset): Promise<Result<BaseResponse, CustomError>> {
     try {
       const pa = await PasswordAttribute.findOne({
         where: {
@@ -309,22 +284,17 @@ export class AuthService {
 
           await this.sendMail(MailThemes.PasswordResetConfirm, user);
           return ok({
-            success: true,
             message: 'You have successfully changed your password.'
           });
         } else {
-          return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'Passwords do not match' });
+          return err(new BadRequestError('Passwords do not match'));
         }
       } else {
-        return err({
-          success: false,
-          errorOrigin: ErrorOrigin.CLIENT,
-          message: 'Your password reset token is invalid or has expired!'
-        });
+        return err(new NotAuthorizedError('Your password reset token is invalid or has expired!'));
       }
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import Container, { Service } from 'typedi';
 
 import { CONSTANTS } from '../constants';
+import { CustomError } from '../errors';
 import {
   BaseResponse,
   Plan,
@@ -41,7 +42,7 @@ export class PlanController extends BaseController<PlanCreationAttributes, PlanA
 
     const result = await this.dataBaseService.addDocument(params);
 
-    return sendResponse<ItemApiResponse<Asset>, BaseResponse>(result, res);
+    return sendResponse<ItemApiResponse<Asset>, CustomError>(result, res);
   }
 
   public async deleteDocument(
@@ -54,10 +55,10 @@ export class PlanController extends BaseController<PlanCreationAttributes, PlanA
     req.log.info(`Deleting plan document by id: ${docId}...`);
     const result = await this.dataBaseService.deleteDocument(docId);
 
-    return sendResponse<BaseResponse, BaseResponse>(result, res);
+    return sendResponse<BaseResponse, CustomError>(result, res);
   }
 
-  public generateCreationAttributes(req: RequestWithBody<PlanCreationAttributes>): PlanCreationAttributes {
+  protected generateCreationAttributes(req: RequestWithBody<PlanCreationAttributes>): PlanCreationAttributes {
     return {
       ...req.body,
       OrganizationId: req.user.OrganizationId,

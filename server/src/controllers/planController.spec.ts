@@ -50,7 +50,7 @@ describe('PlanController', () => {
 
   it('should send success response when calling create', async () => {
     const createStub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'create');
-    createStub.resolves(ok({ success: true, data: planFake }));
+    createStub.resolves(ok({ data: planFake }));
     const request = { ...reqLogFake, params: { id: 1 } };
 
     await controllerInstance.create(request as any, resFake as any);
@@ -58,7 +58,7 @@ describe('PlanController', () => {
     expect(createStub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Creating new ${CONSTANTS.MODELS_NAME_PLAN}...`)).to.be.true;
     expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
-    expect(resFake.send.calledOnceWithExactly({ success: true, data: planFake })).to.be.true;
+    expect(resFake.send.calledOnceWithExactly({ data: planFake })).to.be.true;
     createStub.restore();
   });
 });

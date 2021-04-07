@@ -2,16 +2,10 @@ import Container, { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 import { IncludeOptions, Op } from 'sequelize';
 
-import {
-  BaseResponse,
-  CollectionApiResponse,
-  Department,
-  User,
-  DepartmentCreationAttributes,
-  DepartmentAttributes
-} from '../models';
+import { CollectionApiResponse, Department, User, DepartmentCreationAttributes, DepartmentAttributes } from '../models';
 import { CONSTANTS } from '../constants';
 import { BaseService } from './base/baseService';
+import { CustomError, InternalServerError } from '../errors';
 
 @Service()
 export class DepartmentService extends BaseService<DepartmentCreationAttributes, DepartmentAttributes, Department> {
@@ -52,7 +46,7 @@ export class DepartmentService extends BaseService<DepartmentCreationAttributes,
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_DEPARTMENT);
   }
 
-  public async getDashboardData(orgId: number): Promise<Result<CollectionApiResponse<Department>, BaseResponse>> {
+  public async getDashboardData(orgId: number): Promise<Result<CollectionApiResponse<Department>, CustomError>> {
     try {
       const data = await this.MODEL.findAndCountAll({
         attributes: ['title', 'id'],
@@ -68,10 +62,10 @@ export class DepartmentService extends BaseService<DepartmentCreationAttributes,
         ],
         order: [['id', 'ASC']]
       });
-      return ok({ success: true, data: data.rows, resultsNum: data.count });
+      return ok({ data: data.rows, resultsNum: data.count });
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 

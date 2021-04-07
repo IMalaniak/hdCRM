@@ -2,13 +2,14 @@ import { Request, Response } from 'express';
 import Container, { Service } from 'typedi';
 
 import { CONSTANTS } from '../constants';
+import { CustomError } from '../errors';
 import {
-  BaseResponse,
   CollectionApiResponse,
   Role,
   RequestWithBody,
   RoleCreationAttributes,
-  RoleAttributes
+  RoleAttributes,
+  BaseResponse
 } from '../models';
 import { RoleService } from '../services';
 import { BaseController } from './base/baseController';
@@ -32,10 +33,10 @@ export class RoleController extends BaseController<RoleCreationAttributes, RoleA
     } = req;
     const result = await this.dataBaseService.getDashboardData(OrganizationId);
 
-    return sendResponse<CollectionApiResponse<Role>, BaseResponse>(result, res);
+    return sendResponse<CollectionApiResponse<Role>, CustomError>(result, res);
   }
 
-  public generateCreationAttributes(req: RequestWithBody<RoleCreationAttributes>): RoleCreationAttributes {
+  protected generateCreationAttributes(req: RequestWithBody<RoleCreationAttributes>): RoleCreationAttributes {
     return {
       ...req.body,
       OrganizationId: req.user.OrganizationId

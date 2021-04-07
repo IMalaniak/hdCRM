@@ -53,7 +53,7 @@ export class UserEffects {
               id: response.data.id,
               changes: response.data
             };
-            this.toastMessageService.snack(response);
+            this.toastMessageService.success(response.message);
             return userApiActions.updateUserSuccess({ user });
           }),
           catchError(() => of(userApiActions.userApiError()))
@@ -89,7 +89,7 @@ export class UserEffects {
         ofType(userApiActions.deleteUser),
         map((payload) => payload.id),
         mergeMap((id) => this.userService.delete(id)),
-        map((response: BaseMessage) => of(this.toastMessageService.snack(response))),
+        map((response: BaseMessage) => of(this.toastMessageService.success(response.message))),
         catchError(() => of(userApiActions.userApiError()))
       ),
     {
@@ -104,7 +104,7 @@ export class UserEffects {
       mergeMap((users: User[]) =>
         this.userService.inviteUsers(users).pipe(
           map((response: CollectionApiResponse<User>) => {
-            this.toastMessageService.snack(response);
+            this.toastMessageService.success(response.message);
             return userApiActions.usersInvited({ invitedUsers: response.data });
           })
         )
@@ -120,11 +120,11 @@ export class UserEffects {
       switchMap((newPassword) =>
         this.userService.changeOldPassword(newPassword).pipe(
           map((response: BaseMessage) => {
-            this.toastMessageService.snack(response);
+            this.toastMessageService.success(response.message);
             return userApiActions.changePasswordSuccess();
           }),
           catchError((errorResponse: HttpErrorResponse) => {
-            this.toastMessageService.snack(errorResponse.error);
+            this.toastMessageService.error(errorResponse.error.message);
             return of(userApiActions.userApiError());
           })
         )
