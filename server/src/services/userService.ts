@@ -18,8 +18,7 @@ import {
   BaseResponse,
   CollectionApiResponse,
   PasswordReset,
-  AssetCreationAttributes,
-  ErrorOrigin
+  AssetCreationAttributes
 } from '../models';
 import { CONSTANTS, MailThemes } from '../constants';
 import { Mailer } from '../mailer/nodeMailerTemplates';
@@ -27,6 +26,7 @@ import { Crypt } from '../utils/crypt';
 import { Config } from '../config';
 import { reduceResults } from './utils';
 import { BaseService } from './base/baseService';
+import { BadRequestError, CustomError, InternalServerError, NotAuthorizedError, NotFoundError } from '../errors';
 
 @Service()
 export class UserService extends BaseService<UserCreationAttributes, UserAttributes, User> {
@@ -78,7 +78,7 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
 
   public async updatePassword(
     passData: Partial<PasswordReset> & { userId: number; sessionId?: number }
-  ): Promise<Result<BaseResponse, BaseResponse>> {
+  ): Promise<Result<BaseResponse, CustomError>> {
     try {
       if (passData.newPassword === passData.verifyPassword) {
         const user = await User.findByPk(passData.userId);
@@ -96,107 +96,93 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
             const sessionRemoved = await this.removeUserSessionsExept(passData.userId, passData.sessionId);
             if (sessionRemoved.isErr()) {
               return ok({
-                success: true,
                 message:
                   'You have changed your password, but there was a problem trying to delete your other active sessions, please do it manually in the "Sessions tab".'
               });
             }
           }
           return ok({
-            success: true,
             message: 'You have successfully changed your password.'
           });
         } else {
-          return err({
-            success: false,
-            errorOrigin: ErrorOrigin.CLIENT,
-            message: 'Current password you provided is not correct!'
-          });
+          return err(new NotAuthorizedError('Current password you provided is not correct!'));
         }
       } else {
-        return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'New passwords do not match!' });
+        return err(new BadRequestError('New passwords do not match!'));
       }
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 
-  public async getSession(id: number | string): Promise<Result<ItemApiResponse<UserSession>, BaseResponse>> {
+  public async getSession(id: number | string): Promise<Result<ItemApiResponse<UserSession>, CustomError>> {
     try {
       const data = await UserSession.findByPk(id);
       if (data) {
-        return ok({ success: true, data });
+        return ok({ data });
       } else {
-        return err({ success: false, errorOrigin: ErrorOrigin.CLIENT, message: 'No session with such id' });
+        return err(new NotFoundError('No session with such id'));
       }
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 
-  public async getSessionList(user: User): Promise<Result<CollectionApiResponse<UserSession>, BaseResponse>> {
+  public async getSessionList(user: User): Promise<Result<CollectionApiResponse<UserSession>, CustomError>> {
     try {
       const data = await user.getUserSessions();
 
       if (data.length) {
-        return ok({ success: true, data });
+        return ok({ data });
       } else {
-        return ok({ success: false, message: 'No sessions by this query', data: [] });
+        return ok({ message: 'No sessions by this query', data: [] });
       }
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 
-  public async removeSession(id: number | string | number[] | string[]): Promise<Result<BaseResponse, BaseResponse>> {
+  public async removeSession(id: number | string | number[] | string[]): Promise<Result<BaseResponse, CustomError>> {
     try {
       const deleted = await UserSession.destroy({
         where: { id }
       });
 
       if (deleted > 0) {
-        return ok({ success: true, message: `Deleted ${deleted} session(s)` });
+        return ok({ message: `Deleted ${deleted} session(s)` });
       } else {
-        return err({
-          success: false,
-          errorOrigin: ErrorOrigin.CLIENT,
-          message: 'No sessions by this query'
-        });
+        return err(new NotFoundError('No sessions by this query'));
       }
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 
   public async removeUserSessionsExept(
     UserId: number,
     currentSessionId: number
-  ): Promise<Result<BaseResponse, BaseResponse>> {
+  ): Promise<Result<BaseResponse, CustomError>> {
     try {
       const deleted = await UserSession.destroy({
         where: { UserId, [Op.and]: [{ [Op.not]: [{ id: currentSessionId }] }] }
       });
 
       if (deleted > 0) {
-        return ok({ success: true, message: `Deleted ${deleted} session(s)` });
+        return ok({ message: `Deleted ${deleted} session(s)` });
       } else {
-        return err({
-          success: false,
-          errorOrigin: ErrorOrigin.CLIENT,
-          message: 'No sessions by this query'
-        });
+        return err(new NotFoundError('No sessions by this query'));
       }
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 
-  public async updateOrg(org: OrganizationAttributes): Promise<Result<ItemApiResponse<Organization>, BaseResponse>> {
+  public async updateOrg(org: OrganizationAttributes): Promise<Result<ItemApiResponse<Organization>, CustomError>> {
     try {
       await Organization.update(
         {
@@ -210,15 +196,15 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
       const data = await Organization.findByPk(org.id);
 
       if (data) {
-        return ok({ success: true, message: 'Organization is updated successfully!', data });
+        return ok({ message: 'Organization is updated successfully!', data });
       }
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 
-  public async invite(user: UserAttributes, orgId: number): Promise<Result<ItemApiResponse<User>, BaseResponse>> {
+  public async invite(user: UserAttributes, orgId: number): Promise<Result<ItemApiResponse<User>, CustomError>> {
     try {
       const password = this.crypt.genRandomString(12);
       const passwordData = this.crypt.saltHashPassword(password);
@@ -245,20 +231,20 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
           url: `${Config.WEB_URL}/auth/activate-account/${token.value}`
         });
 
-        return ok({ success: true, message: 'Invitation have been sent successfully!', data });
+        return ok({ message: 'Invitation have been sent successfully!', data });
       } else {
         return err(result.error);
       }
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 
   public async inviteMultiple(
     users: UserAttributes[],
     orgId: number
-  ): Promise<Result<CollectionApiResponse<User>, BaseResponse>> {
+  ): Promise<Result<CollectionApiResponse<User>, CustomError>> {
     const results = await Promise.all(users.map((user: UserAttributes) => this.invite(user, orgId)));
     const { values, errors } = reduceResults(results);
     const invitedUsers: User[] = values.map((value) => value.data);
@@ -267,19 +253,18 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
       return err(errors[0]);
     } else if (errors.length && invitedUsers.length) {
       return ok({
-        success: true,
         message: 'Success, but not all users were invited due to some problems...',
         data: invitedUsers
       });
     } else {
-      return ok({ success: true, message: 'Invitations have been sent successfully!', data: invitedUsers });
+      return ok({ message: 'Invitations have been sent successfully!', data: invitedUsers });
     }
   }
 
   public async updateAvatar(params: {
     avatar: AssetCreationAttributes;
     userId: string;
-  }): Promise<Result<ItemApiResponse<Asset>, BaseResponse>> {
+  }): Promise<Result<ItemApiResponse<Asset>, CustomError>> {
     let message: string;
 
     try {
@@ -306,17 +291,16 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
       const newAvatar = await user.createAvatar(avatar as any);
 
       return ok({
-        success: true,
         message,
         data: newAvatar
       });
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 
-  public async deleteAvatar(userId: string): Promise<Result<BaseResponse, BaseResponse>> {
+  public async deleteAvatar(userId: string): Promise<Result<BaseResponse, CustomError>> {
     try {
       const user = await User.findByPk(userId);
       const userAvatar = await user.getAvatar();
@@ -331,11 +315,11 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
         await this.unlinkAsync(destination);
         await this.unlinkAsync(thumbDestination);
 
-        return ok({ success: true, message: 'Profile picture is deleted' });
+        return ok({ message: 'Profile picture is deleted' });
       }
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 

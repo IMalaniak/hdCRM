@@ -1,9 +1,10 @@
 import Container, { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 
-import { BaseResponse, Stage, CollectionApiResponse, StageCreationAttributes, StageAttributes } from '../models';
+import { Stage, CollectionApiResponse, StageCreationAttributes, StageAttributes } from '../models';
 import { CONSTANTS } from '../constants';
 import { BaseService } from './base/baseService';
+import { CustomError, InternalServerError } from '../errors';
 
 @Service()
 export class StageService extends BaseService<StageCreationAttributes, StageAttributes, Stage> {
@@ -13,7 +14,7 @@ export class StageService extends BaseService<StageCreationAttributes, StageAttr
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_STAGE);
   }
 
-  public async getAll(OrganizationId: number): Promise<Result<CollectionApiResponse<Stage>, BaseResponse>> {
+  public async getAll(OrganizationId: number): Promise<Result<CollectionApiResponse<Stage>, CustomError>> {
     try {
       const data = await Stage.findAndCountAll({
         include: [
@@ -27,13 +28,13 @@ export class StageService extends BaseService<StageCreationAttributes, StageAttr
         ]
       });
       if (data.count) {
-        return ok({ success: true, data: data.rows, resultsNum: data.count });
+        return ok({ data: data.rows, resultsNum: data.count });
       } else {
-        return ok({ success: false, message: `No ${CONSTANTS.MODELS_NAME_STAGE}s by this query`, data: [] });
+        return ok({ message: `No ${CONSTANTS.MODELS_NAME_STAGE}s by this query`, data: [] });
       }
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 }

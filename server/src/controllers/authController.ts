@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { Service } from 'typedi';
+import { CustomError } from '../errors/custom-error';
 import { JwtHelper } from '../helpers/jwtHelper';
 
 import {
@@ -24,7 +25,7 @@ export class AuthController {
     private readonly jwtHelper: JwtHelper
   ) {}
 
-  public async register(req: Request, res: Response<BaseResponse>): Promise<void> {
+  public async register(req: Request, res: Response<BaseResponse | CustomError>): Promise<void> {
     req.log.info('Registering new user...');
 
     const password = req.body.password ? req.body.password : this.crypt.genRandomString(12);
@@ -57,22 +58,25 @@ export class AuthController {
 
     const result = await this.authService.register({ organization, user, password });
 
-    return sendResponse<BaseResponse, BaseResponse>(result, res);
+    return sendResponse<BaseResponse, CustomError>(result, res);
   }
 
-  public async activateAccount(req: RequestWithBody<{ token: string }>, res: Response<BaseResponse>): Promise<void> {
+  public async activateAccount(
+    req: RequestWithBody<{ token: string }>,
+    res: Response<BaseResponse | CustomError>
+  ): Promise<void> {
     req.log.info(`Activating new user...`);
 
     const { token } = req.body;
 
     const result = await this.authService.activateAccount(token);
 
-    return sendResponse<BaseResponse, BaseResponse>(result, res);
+    return sendResponse<BaseResponse, CustomError>(result, res);
   }
 
   public async authenticate(
     req: RequestWithBody<{ login: string; password: string }>,
-    res: Response<string | BaseResponse>
+    res: Response<string | CustomError>
   ): Promise<void> {
     req.log.info(`Authenticating web client...`);
 
@@ -103,7 +107,7 @@ export class AuthController {
     );
   }
 
-  public async refreshSession(req: Request, res: Response<BaseResponse | string>): Promise<void> {
+  public async refreshSession(req: Request, res: Response<string | CustomError>): Promise<void> {
     req.log.info(`Refreshing session...`);
 
     const cookies = parseCookies(req) as any;
@@ -122,7 +126,7 @@ export class AuthController {
     );
   }
 
-  public async logout(req: Request, res: Response<BaseResponse>): Promise<void> {
+  public async logout(req: Request, res: Response<BaseResponse | CustomError>): Promise<void> {
     req.log.info(`Logging user out...`);
 
     const cookies = parseCookies(req) as any;
@@ -134,22 +138,22 @@ export class AuthController {
     const expires = new Date(1970);
     res.cookie('refresh_token', null, { httpOnly: true, expires });
     req.logout();
-    res.status(StatusCodes.OK).json({ success: true, message: 'logged out' });
+    res.status(StatusCodes.OK).json({ message: 'logged out' });
   }
 
-  public async forgotPassword(req: Request, res: Response<BaseResponse>): Promise<void> {
+  public async forgotPassword(req: Request, res: Response<CustomError>): Promise<void> {
     req.log.info(`Forget password requesting...`);
 
     const loginOrEmail = req.body.login;
 
     const result = await this.authService.forgotPassword(loginOrEmail);
-    return sendResponse<BaseResponse, BaseResponse>(result, res);
+    return sendResponse<BaseResponse, CustomError>(result, res);
   }
 
-  public async resetPassword(req: RequestWithBody<PasswordReset>, res: Response<BaseResponse>): Promise<void> {
+  public async resetPassword(req: RequestWithBody<PasswordReset>, res: Response<CustomError>): Promise<void> {
     req.log.info(`Reseting new password...`);
 
     const result = await this.authService.resetPassword(req.body);
-    return sendResponse<BaseResponse, BaseResponse>(result, res);
+    return sendResponse<BaseResponse, CustomError>(result, res);
   }
 }

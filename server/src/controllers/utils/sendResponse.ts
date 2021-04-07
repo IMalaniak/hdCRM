@@ -1,21 +1,22 @@
 import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { Result } from 'neverthrow';
+import { CustomError } from '../../errors/custom-error';
 
-import { BaseResponse, ErrorOrigin } from '../../models';
+import { BaseResponse } from '../../models';
 
-export function sendResponse<OK extends BaseResponse, ERR extends BaseResponse>(
+export function sendResponse<OK extends BaseResponse, ERR extends CustomError>(
   result: Result<OK, ERR>,
-  res: Response<OK | ERR>
+  res: Response<OK | BaseResponse>
 ): void {
   return result.match<void>(
     (body) => {
-      res.status(body.success ? StatusCodes.OK : StatusCodes.NO_CONTENT);
+      res.status(body.data ? StatusCodes.OK : StatusCodes.NO_CONTENT);
       res.send(body);
     },
     (error) => {
-      res.status(error.errorOrigin === ErrorOrigin.CLIENT ? StatusCodes.NOT_FOUND : StatusCodes.BAD_REQUEST);
-      res.send(error);
+      res.status(error.statusCode);
+      res.send(error.serializeErrors());
     }
   );
 }

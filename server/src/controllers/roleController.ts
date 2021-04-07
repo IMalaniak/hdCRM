@@ -2,14 +2,8 @@ import { Request, Response } from 'express';
 import Container, { Service } from 'typedi';
 
 import { CONSTANTS } from '../constants';
-import {
-  BaseResponse,
-  CollectionApiResponse,
-  Role,
-  RequestWithBody,
-  RoleCreationAttributes,
-  RoleAttributes
-} from '../models';
+import { CustomError } from '../errors';
+import { CollectionApiResponse, Role, RequestWithBody, RoleCreationAttributes, RoleAttributes } from '../models';
 import { RoleService } from '../services';
 import { BaseController } from './base/baseController';
 import { sendResponse } from './utils';
@@ -21,10 +15,7 @@ export class RoleController extends BaseController<RoleCreationAttributes, RoleA
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_ROLE);
   }
 
-  public async getDashboardData(
-    req: Request,
-    res: Response<CollectionApiResponse<Role> | BaseResponse>
-  ): Promise<void> {
+  public async getDashboardData(req: Request, res: Response<CollectionApiResponse<Role> | CustomError>): Promise<void> {
     req.log.info(`Geting roles dashboard data...`);
 
     const {
@@ -32,10 +23,10 @@ export class RoleController extends BaseController<RoleCreationAttributes, RoleA
     } = req;
     const result = await this.dataBaseService.getDashboardData(OrganizationId);
 
-    return sendResponse<CollectionApiResponse<Role>, BaseResponse>(result, res);
+    return sendResponse<CollectionApiResponse<Role>, CustomError>(result, res);
   }
 
-  public generateCreationAttributes(req: RequestWithBody<RoleCreationAttributes>): RoleCreationAttributes {
+  protected generateCreationAttributes(req: RequestWithBody<RoleCreationAttributes>): RoleCreationAttributes {
     return {
       ...req.body,
       OrganizationId: req.user.OrganizationId

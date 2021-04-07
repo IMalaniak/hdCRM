@@ -1,12 +1,14 @@
+import { StatusCodes } from 'http-status-codes';
+
 import { CONSTANTS } from '../constants';
 import { BaseResponse } from '../models';
 import { CustomError } from './custom-error';
 
 export class NotAuthorizedError extends CustomError {
-  statusCode = 401;
+  statusCode = StatusCodes.UNAUTHORIZED;
 
-  constructor() {
-    super(CONSTANTS.TEXTS_NOT_AUTHORIZED_ERROR);
+  constructor(customMessage?: string) {
+    super(customMessage ?? CONSTANTS.TEXTS_NOT_AUTHORIZED_ERROR);
 
     Object.setPrototypeOf(this, NotAuthorizedError.prototype);
   }

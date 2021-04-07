@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import Container, { Service } from 'typedi';
 
 import { CONSTANTS } from '../constants';
+import { CustomError } from '../errors';
 import {
   BaseResponse,
   Plan,
@@ -26,7 +27,7 @@ export class PlanController extends BaseController<PlanCreationAttributes, PlanA
 
   public async addDocument(
     req: Request<{ planId: string }>,
-    res: Response<ItemApiResponse<Asset> | BaseResponse>
+    res: Response<ItemApiResponse<Asset> | CustomError>
   ): Promise<void> {
     req.log.info(`Uploading plan document: ${req.file.originalname}...`);
 
@@ -41,12 +42,12 @@ export class PlanController extends BaseController<PlanCreationAttributes, PlanA
 
     const result = await this.dataBaseService.addDocument(params);
 
-    return sendResponse<ItemApiResponse<Asset>, BaseResponse>(result, res);
+    return sendResponse<ItemApiResponse<Asset>, CustomError>(result, res);
   }
 
   public async deleteDocument(
     req: RequestWithQuery<{ planId: string; docId: string }>,
-    res: Response<BaseResponse>
+    res: Response<CustomError>
   ): Promise<void> {
     const {
       query: { docId }
@@ -54,10 +55,10 @@ export class PlanController extends BaseController<PlanCreationAttributes, PlanA
     req.log.info(`Deleting plan document by id: ${docId}...`);
     const result = await this.dataBaseService.deleteDocument(docId);
 
-    return sendResponse<BaseResponse, BaseResponse>(result, res);
+    return sendResponse<BaseResponse, CustomError>(result, res);
   }
 
-  public generateCreationAttributes(req: RequestWithBody<PlanCreationAttributes>): PlanCreationAttributes {
+  protected generateCreationAttributes(req: RequestWithBody<PlanCreationAttributes>): PlanCreationAttributes {
     return {
       ...req.body,
       OrganizationId: req.user.OrganizationId,

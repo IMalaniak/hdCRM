@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import Container, { Service } from 'typedi';
 
 import { CONSTANTS } from '../constants';
+import { CustomError } from '../errors';
 import {
-  BaseResponse,
   CollectionApiResponse,
   Department,
   DepartmentCreationAttributes,
@@ -27,7 +27,7 @@ export class DepartmentController extends BaseController<
 
   public async getDashboardData(
     req: Request,
-    res: Response<CollectionApiResponse<Department> | BaseResponse>
+    res: Response<CollectionApiResponse<Department> | CustomError>
   ): Promise<void> {
     req.log.info(`Geting department dashboard data...`);
 
@@ -36,10 +36,12 @@ export class DepartmentController extends BaseController<
     } = req;
     const result = await this.dataBaseService.getDashboardData(OrganizationId);
 
-    return sendResponse<CollectionApiResponse<Department>, BaseResponse>(result, res);
+    return sendResponse<CollectionApiResponse<Department>, CustomError>(result, res);
   }
 
-  public generateCreationAttributes(req: RequestWithBody<DepartmentCreationAttributes>): DepartmentCreationAttributes {
+  protected generateCreationAttributes(
+    req: RequestWithBody<DepartmentCreationAttributes>
+  ): DepartmentCreationAttributes {
     return {
       ...req.body,
       OrganizationId: req.user.OrganizationId

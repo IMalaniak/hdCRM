@@ -1,8 +1,10 @@
+import { StatusCodes } from 'http-status-codes';
+
 import { BaseResponse } from '../models';
 import { CustomError } from './custom-error';
 
 export class NotFoundError extends CustomError {
-  statusCode = 404;
+  statusCode = StatusCodes.NOT_FOUND;
 
   constructor(public message: string) {
     super(message);

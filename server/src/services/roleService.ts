@@ -2,17 +2,10 @@ import Container, { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 import { IncludeOptions, Op } from 'sequelize';
 
-import {
-  BaseResponse,
-  CollectionApiResponse,
-  Role,
-  User,
-  RoleCreationAttributes,
-  RoleAttributes,
-  Privilege
-} from '../models';
+import { CollectionApiResponse, Role, User, RoleCreationAttributes, RoleAttributes, Privilege } from '../models';
 import { CONSTANTS } from '../constants';
 import { BaseService } from './base/baseService';
+import { CustomError, InternalServerError } from '../errors';
 
 @Service()
 export class RoleService extends BaseService<RoleCreationAttributes, RoleAttributes, Role> {
@@ -43,7 +36,7 @@ export class RoleService extends BaseService<RoleCreationAttributes, RoleAttribu
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_ROLE);
   }
 
-  public async getDashboardData(OrganizationId: number): Promise<Result<CollectionApiResponse<Role>, BaseResponse>> {
+  public async getDashboardData(OrganizationId: number): Promise<Result<CollectionApiResponse<Role>, CustomError>> {
     try {
       const data = await this.MODEL.findAndCountAll({
         attributes: ['keyString', 'id'],
@@ -59,10 +52,10 @@ export class RoleService extends BaseService<RoleCreationAttributes, RoleAttribu
         ],
         order: [['id', 'ASC']]
       });
-      return ok({ success: true, data: data.rows, resultsNum: data.count });
+      return ok({ data: data.rows, resultsNum: data.count });
     } catch (error) {
-      this.logger.error(error);
-      return err({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      this.logger.error(error.message);
+      return err(new InternalServerError());
     }
   }
 

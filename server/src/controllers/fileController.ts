@@ -23,12 +23,12 @@ export class FileController {
         res.download(filepath);
       } else {
         res.status(StatusCodes.NOT_FOUND);
-        res.send({ success: false, message: 'Sorry, file not found...' });
+        res.send({ message: 'Sorry, file not found...' });
       }
     } catch (error) {
       req.log.error(error);
       res.status(StatusCodes.BAD_REQUEST);
-      res.send({ success: false, message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
+      res.send({ message: CONSTANTS.TEXTS_API_GENERIC_ERROR });
     }
   }
 }

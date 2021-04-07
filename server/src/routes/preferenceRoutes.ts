@@ -1,8 +1,9 @@
 import { Response, Router } from 'express';
 import { Service } from 'typedi';
 
-import { Preference, RequestWithBody, BaseResponse, PreferenceCreationAttributes, ItemApiResponse } from '../models';
+import { Preference, RequestWithBody, PreferenceCreationAttributes, ItemApiResponse } from '../models';
 import { PreferenceController } from '../controllers';
+import { CustomError } from '../errors';
 
 @Service()
 export class PreferenceRoutes {
@@ -17,7 +18,7 @@ export class PreferenceRoutes {
       '/',
       async (
         req: RequestWithBody<PreferenceCreationAttributes>,
-        res: Response<ItemApiResponse<Preference> | BaseResponse>
+        res: Response<ItemApiResponse<Preference> | CustomError>
       ) => this.preferenceController.set(req, res)
     );
 
