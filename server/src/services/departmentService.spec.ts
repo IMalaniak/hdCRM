@@ -107,10 +107,8 @@ describe('DepartmentService', () => {
     expect(findAndCountAllStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.resultsNum).to.equal(2);
-      expect(result.value.data).to.deep.equal([departmentFake, departmentFake2]);
-    }
+    expect(result._unsafeUnwrap().resultsNum).to.equal(2);
+    expect(result._unsafeUnwrap().data).to.deep.equal([departmentFake, departmentFake2]);
   });
 
   it('should throw an error when calling getDashboardData', async () => {
@@ -154,8 +152,6 @@ describe('DepartmentService', () => {
     expect(findByPkStub.calledTwice).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.data).to.deep.equal(departmentFakeResponse);
-    }
+    expect(result._unsafeUnwrap().data).to.deep.equal(departmentFakeResponse);
   });
 });

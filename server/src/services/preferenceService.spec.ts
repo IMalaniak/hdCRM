@@ -9,7 +9,7 @@ import Container from 'typedi';
 
 import { CONSTANTS, IListView } from '../constants';
 import { CustomError } from '../errors';
-import { BaseResponse, Preference, PreferenceCreationAttributes, User } from '../models';
+import { BaseResponse, ItemApiResponse, Preference, PreferenceCreationAttributes, User } from '../models';
 import { enumToArray } from '../utils/EnumToArray';
 import { Logger } from '../utils/Logger';
 import { PreferenceService } from './preferenceService';
@@ -74,9 +74,8 @@ describe('PreferenceService', () => {
     const result = await serviceInstance.getAll();
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.data).to.deep.equal({ listView: ['list', 'card'] });
-    }
+
+    expect((result._unsafeUnwrap() as ItemApiResponse<any>).data).to.deep.equal({ listView: ['list', 'card'] });
   });
 
   it('should return empty list when calling getAll', async () => {
@@ -85,9 +84,7 @@ describe('PreferenceService', () => {
     const result = await serviceInstance.getAll();
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.data).to.deep.equal(null);
-    }
+    expect(result._unsafeUnwrap() as ItemApiResponse<any>).to.deep.equal({});
   });
 
   it('should update existing user preference', async () => {
@@ -98,9 +95,7 @@ describe('PreferenceService', () => {
     expect((preferenceFake.update as sinon.SinonStub).calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.data.id).to.equal(1);
-    }
+    expect(result._unsafeUnwrap().data.id).to.equal(1);
   });
 
   it('should create new user preference', async () => {
@@ -111,9 +106,7 @@ describe('PreferenceService', () => {
     expect((userFake.createPreference as sinon.SinonStub).calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.data.id).to.equal(1);
-    }
+    expect(result._unsafeUnwrap().data.id).to.equal(1);
   });
 
   it('should throw an error when creating a new item', async () => {

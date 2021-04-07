@@ -158,7 +158,7 @@ describe('BaseController', () => {
     expect(
       reqLogFake.log.info.calledOnceWith(`Deleting ${CONSTANTS.MODELS_NAME_DEPARTMENT} by id: ${departmentFake.id}...`)
     ).to.be.true;
-    expect(resFake.status.calledOnceWith(StatusCodes.NO_CONTENT)).to.be.true;
+    expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
     expect(resFake.send.calledOnceWithExactly({ message: `Deleted 1` })).to.be.true;
     deleteStub.restore();
   });

@@ -84,7 +84,7 @@ describe('TaskController', () => {
 
     expect(deleteStub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Deleting multiple tasks...`)).to.be.true;
-    expect(resFake.status.calledOnceWith(StatusCodes.NO_CONTENT)).to.be.true;
+    expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
     expect(resFake.send.calledOnceWithExactly({ message: `Deleted 2` })).to.be.true;
     deleteStub.restore();
   });

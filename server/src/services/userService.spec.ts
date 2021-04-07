@@ -12,7 +12,15 @@ import { Config } from '../config';
 import { CONSTANTS } from '../constants';
 import { CustomError } from '../errors';
 import { Mailer } from '../mailer/nodeMailerTemplates';
-import { BaseResponse, Organization, Privilege, User, UserCreationAttributes, UserSession } from '../models';
+import {
+  BaseResponse,
+  CollectionApiResponse,
+  Organization,
+  Privilege,
+  User,
+  UserCreationAttributes,
+  UserSession
+} from '../models';
 import { Crypt } from '../utils/crypt';
 import { Logger } from '../utils/Logger';
 import { UserService } from './userService';
@@ -156,10 +164,8 @@ describe('UserService', () => {
     });
     expect(result.isOk()).to.be.false;
     expect(result.isErr()).to.be.true;
-    if (result.isErr()) {
-      expect(result.error.statusCode).to.equal(StatusCodes.BAD_REQUEST);
-      expect(result.error.message).to.equal('New passwords do not match!');
-    }
+    expect(result._unsafeUnwrapErr().statusCode).to.equal(StatusCodes.BAD_REQUEST);
+    expect(result._unsafeUnwrapErr().message).to.equal('New passwords do not match!');
   });
 
   it('should return error because old password is not correct', async () => {
@@ -177,10 +183,8 @@ describe('UserService', () => {
     expect(cryptValidatePasswordStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.false;
     expect(result.isErr()).to.be.true;
-    if (result.isErr()) {
-      expect(result.error.statusCode).to.equal(StatusCodes.UNAUTHORIZED);
-      expect(result.error.message).to.equal('Current password you provided is not correct!');
-    }
+    expect(result._unsafeUnwrapErr().statusCode).to.equal(StatusCodes.UNAUTHORIZED);
+    expect(result._unsafeUnwrapErr().message).to.equal('Current password you provided is not correct!');
   });
 
   it('should change password when calling updatePassword', async () => {
@@ -206,9 +210,7 @@ describe('UserService', () => {
     expect(cryptSaltHashPasswordStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.message).to.equal('You have successfully changed your password.');
-    }
+    expect(result._unsafeUnwrap().message).to.equal('You have successfully changed your password.');
   });
 
   it('should change password but fail to remove sessions when calling updatePassword', async () => {
@@ -239,11 +241,9 @@ describe('UserService', () => {
     expect(destroySessionStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.message).to.equal(
-        'You have changed your password, but there was a problem trying to delete your other active sessions, please do it manually in the "Sessions tab".'
-      );
-    }
+    expect(result._unsafeUnwrap().message).to.equal(
+      'You have changed your password, but there was a problem trying to delete your other active sessions, please do it manually in the "Sessions tab".'
+    );
   });
 
   it('should throw an error when calling updatePassword', async () => {
@@ -265,9 +265,7 @@ describe('UserService', () => {
     expect(findSessionByPkStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.data.id).to.equal(1);
-    }
+    expect(result._unsafeUnwrap().data.id).to.equal(1);
   });
 
   it('should return empty response when calling getById', async () => {
@@ -276,10 +274,8 @@ describe('UserService', () => {
     expect(findSessionByPkStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.false;
     expect(result.isErr()).to.be.true;
-    if (result.isErr()) {
-      expect(result.error.statusCode).to.equal(StatusCodes.NOT_FOUND);
-      expect(result.error.message).to.equal(`No session with such id`);
-    }
+    expect(result._unsafeUnwrapErr().statusCode).to.equal(StatusCodes.NOT_FOUND);
+    expect(result._unsafeUnwrapErr().message).to.equal(`No session with such id`);
   });
 
   it('should throw an error when calling getById', async () => {
@@ -297,10 +293,9 @@ describe('UserService', () => {
     expect((userFake.getUserSessions as sinon.SinonStub).calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.data.length).to.equal(1);
-      expect(result.value.data[0].id).to.equal(1);
-    }
+    const response = result._unsafeUnwrap() as CollectionApiResponse<any>;
+    expect(response.data.length).to.equal(1);
+    expect(response.data[0].id).to.equal(1);
   });
 
   it('should return an empty array when calling getSessionList', async () => {
@@ -309,10 +304,7 @@ describe('UserService', () => {
     expect((userFake.getUserSessions as sinon.SinonStub).calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.message).to.equal('No sessions by this query');
-      expect(result.value.data.length).to.equal(0);
-    }
+    expect(result._unsafeUnwrap()).to.deep.equal({});
   });
 
   it('should throw an error when calling getSessionList', async () => {
@@ -334,9 +326,7 @@ describe('UserService', () => {
     expect(destroySessionStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.message).to.equal(`Deleted 1 session(s)`);
-    }
+    expect(result._unsafeUnwrap().message).to.equal(`Deleted 1 session(s)`);
   });
 
   it('should inform that there is no session to delete', async () => {
@@ -349,10 +339,8 @@ describe('UserService', () => {
     expect(destroySessionStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.false;
     expect(result.isErr()).to.be.true;
-    if (result.isErr()) {
-      expect(result.error.statusCode).to.equal(StatusCodes.NOT_FOUND);
-      expect(result.error.message).to.equal(`No sessions by this query`);
-    }
+    expect(result._unsafeUnwrapErr().statusCode).to.equal(StatusCodes.NOT_FOUND);
+    expect(result._unsafeUnwrapErr().message).to.equal(`No sessions by this query`);
   });
 
   it('should throw en error trying to delete session', async () => {
@@ -370,9 +358,7 @@ describe('UserService', () => {
     expect(destroySessionStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.message).to.equal(`Deleted 1 session(s)`);
-    }
+    expect(result._unsafeUnwrap().message).to.equal(`Deleted 1 session(s)`);
   });
 
   it('should inform that there are no session to remove when calling removeUserSessionsExept', async () => {
@@ -381,10 +367,8 @@ describe('UserService', () => {
     expect(destroySessionStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.false;
     expect(result.isErr()).to.be.true;
-    if (result.isErr()) {
-      expect(result.error.statusCode).to.equal(StatusCodes.NOT_FOUND);
-      expect(result.error.message).to.equal('No sessions by this query');
-    }
+    expect(result._unsafeUnwrapErr().statusCode).to.equal(StatusCodes.NOT_FOUND);
+    expect(result._unsafeUnwrapErr().message).to.equal('No sessions by this query');
   });
 
   it('should throw an error when calling removeUserSessionsExept', async () => {
@@ -413,10 +397,8 @@ describe('UserService', () => {
     expect(updateOrgStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.message).to.equal('Organization is updated successfully!');
-      expect(result.value.data).to.deep.equal(orgFake);
-    }
+    expect(result._unsafeUnwrap().message).to.equal('Organization is updated successfully!');
+    expect(result._unsafeUnwrap().data).to.deep.equal(orgFake);
   });
 
   it('should throw an error trying to update an item', async () => {
@@ -459,10 +441,8 @@ describe('UserService', () => {
 
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.message).to.equal('Invitation have been sent successfully!');
-      expect(result.value.data).to.deep.equal(userFake);
-    }
+    expect(result._unsafeUnwrap().message).to.equal('Invitation have been sent successfully!');
+    expect(result._unsafeUnwrap().data).to.deep.equal(userFake);
   });
 
   it('should throw error when addind invited user', async () => {
@@ -540,10 +520,8 @@ describe('UserService', () => {
 
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.message).to.equal('Invitations have been sent successfully!');
-      expect(result.value.data).to.deep.equal([userFake]);
-    }
+    expect(result._unsafeUnwrap().message).to.equal('Invitations have been sent successfully!');
+    expect(result._unsafeUnwrap().data).to.deep.equal([userFake]);
   });
 
   it('should fail inviting multiple users', async () => {
@@ -597,9 +575,8 @@ describe('UserService', () => {
 
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.message).to.equal('Success, but not all users were invited due to some problems...');
-      expect(result.value.data).to.deep.equal([userFake]);
-    }
+    const response = result._unsafeUnwrap() as CollectionApiResponse<any>;
+    expect(response.message).to.equal('Success, but not all users were invited due to some problems...');
+    expect(response.data).to.deep.equal([userFake]);
   });
 });

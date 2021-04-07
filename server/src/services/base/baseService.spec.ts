@@ -10,7 +10,14 @@ import Container, { Service } from 'typedi';
 
 import { CONSTANTS } from '../../constants';
 import { CustomError } from '../../errors';
-import { BaseResponse, Department, DepartmentAttributes, DepartmentCreationAttributes, PageQuery } from '../../models';
+import {
+  BaseResponse,
+  CollectionApiResponse,
+  Department,
+  DepartmentAttributes,
+  DepartmentCreationAttributes,
+  PageQuery
+} from '../../models';
 import { Logger } from '../../utils/Logger';
 import { BaseService } from './baseService';
 
@@ -115,9 +122,7 @@ describe('BaseService', () => {
     expect(findByPkStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.data.id).to.equal(1);
-    }
+    expect(result._unsafeUnwrap().data.id).to.equal(1);
   });
 
   it('should return empty response when calling getById', async () => {
@@ -126,10 +131,8 @@ describe('BaseService', () => {
     expect(findByPkStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.false;
     expect(result.isErr()).to.be.true;
-    if (result.isErr()) {
-      expect(result.error.statusCode).to.equal(StatusCodes.NOT_FOUND);
-      expect(result.error.message).to.equal(`No ${CONSTANTS.MODELS_NAME_DEPARTMENT} with such id`);
-    }
+    expect(result._unsafeUnwrapErr().statusCode).to.equal(StatusCodes.NOT_FOUND);
+    expect(result._unsafeUnwrapErr().message).to.equal(`No ${CONSTANTS.MODELS_NAME_DEPARTMENT} with such id`);
   });
 
   it('should throw an error when calling getById', async () => {
@@ -147,12 +150,12 @@ describe('BaseService', () => {
     expect(findAndCountAllStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.ids).to.deep.equal([1, 2]);
-      expect(result.value.resultsNum).to.equal(2);
-      expect(result.value.pages).to.equal(1);
-      expect(result.value.data).to.deep.equal([departmentFake, departmentFake2]);
-    }
+
+    const response = result._unsafeUnwrap() as CollectionApiResponse<Department>;
+    expect(response.ids).to.deep.equal([1, 2]);
+    expect(response.resultsNum).to.equal(2);
+    expect(response.pages).to.equal(1);
+    expect(response.data).to.deep.equal([departmentFake, departmentFake2]);
   });
 
   it('should return an empty array of items when calling getPage', async () => {
@@ -161,10 +164,7 @@ describe('BaseService', () => {
     expect(findAndCountAllStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.data).to.deep.equal([]);
-      expect(result.value.message).to.equal(`No ${CONSTANTS.MODELS_NAME_DEPARTMENT}s by this query`);
-    }
+    expect(result._unsafeUnwrap()).to.deep.equal({});
   });
 
   it('should throw an error when calling getPage', async () => {
@@ -183,9 +183,7 @@ describe('BaseService', () => {
     expect(createStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.data).to.deep.equal(departmentFake);
-    }
+    expect(result._unsafeUnwrap().data).to.deep.equal(departmentFake);
   });
 
   it('should throw an error when creating a new item', async () => {
@@ -214,9 +212,7 @@ describe('BaseService', () => {
     expect(findByPkStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.data).to.deep.equal(departmentFake);
-    }
+    expect(result._unsafeUnwrap().data).to.deep.equal(departmentFake);
   });
 
   it('should inform that there is no item to update an item', async () => {
@@ -234,10 +230,8 @@ describe('BaseService', () => {
     expect(updateStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.false;
     expect(result.isErr()).to.be.true;
-    if (result.isErr()) {
-      expect(result.error.statusCode).to.equal(StatusCodes.NOT_FOUND);
-      expect(result.error.message).to.equal(`No ${CONSTANTS.MODELS_NAME_DEPARTMENT}s by this query`);
-    }
+    expect(result._unsafeUnwrapErr().statusCode).to.equal(StatusCodes.NOT_FOUND);
+    expect(result._unsafeUnwrapErr().message).to.equal(`No ${CONSTANTS.MODELS_NAME_DEPARTMENT}s by this query`);
   });
 
   it('should throw an error trying to update an item', async () => {
@@ -261,9 +255,7 @@ describe('BaseService', () => {
     expect(deleteStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.message).to.equal(`Deleted 1 ${CONSTANTS.MODELS_NAME_DEPARTMENT}(s)`);
-    }
+    expect(result._unsafeUnwrap().message).to.equal(`Deleted 1 ${CONSTANTS.MODELS_NAME_DEPARTMENT}(s)`);
   });
 
   it('should inform that there is no item to delete', async () => {
@@ -276,10 +268,8 @@ describe('BaseService', () => {
     expect(deleteStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.false;
     expect(result.isErr()).to.be.true;
-    if (result.isErr()) {
-      expect(result.error.statusCode).to.equal(StatusCodes.NOT_FOUND);
-      expect(result.error.message).to.equal(`No ${CONSTANTS.MODELS_NAME_DEPARTMENT}s by this query`);
-    }
+    expect(result._unsafeUnwrapErr().statusCode).to.equal(StatusCodes.NOT_FOUND);
+    expect(result._unsafeUnwrapErr().message).to.equal(`No ${CONSTANTS.MODELS_NAME_DEPARTMENT}s by this query`);
   });
 
   it('should throw en error trying to delete an item', async () => {

@@ -86,7 +86,7 @@ describe('UserController', () => {
 
     expect(stub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Changing user password...`)).to.be.true;
-    expect(resFake.status.calledOnceWith(StatusCodes.NO_CONTENT)).to.be.true;
+    expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
     expect(resFake.send.calledOnceWithExactly({ message: 'updated' })).to.be.true;
     stub.restore();
     jwtHelperStub.restore();
@@ -129,7 +129,7 @@ describe('UserController', () => {
 
     expect(deleteStub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Removing user session`)).to.be.true;
-    expect(resFake.status.calledOnceWith(StatusCodes.NO_CONTENT)).to.be.true;
+    expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
     expect(resFake.send.calledOnceWithExactly({ message: `Deleted 1` })).to.be.true;
     deleteStub.restore();
   });
@@ -143,7 +143,7 @@ describe('UserController', () => {
 
     expect(deleteStub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Removing user sessions`)).to.be.true;
-    expect(resFake.status.calledOnceWith(StatusCodes.NO_CONTENT)).to.be.true;
+    expect(resFake.status.calledOnceWith(StatusCodes.OK)).to.be.true;
     expect(resFake.send.calledOnceWithExactly({ message: `Deleted 1` })).to.be.true;
     deleteStub.restore();
   });

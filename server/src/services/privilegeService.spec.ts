@@ -9,7 +9,7 @@ import Container from 'typedi';
 
 import { CONSTANTS } from '../constants';
 import { CustomError } from '../errors';
-import { BaseResponse, Privilege, PrivilegeCreationAttributes } from '../models';
+import { BaseResponse, CollectionApiResponse, Privilege, PrivilegeCreationAttributes } from '../models';
 import { Logger } from '../utils/Logger';
 import { PrivilegeService } from './privilegeService';
 
@@ -65,10 +65,9 @@ describe('PrivilegeService', () => {
     expect(findAndCountAllStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.resultsNum).to.equal(2);
-      expect(result.value.data).to.deep.equal([{ id: 1 }, { id: 2 }]);
-    }
+    const response = result._unsafeUnwrap() as CollectionApiResponse<any>;
+    expect(response.resultsNum).to.equal(2);
+    expect(response.data).to.deep.equal([{ id: 1 }, { id: 2 }]);
   });
 
   it('should return an empty array of items when calling getAll', async () => {
@@ -77,10 +76,7 @@ describe('PrivilegeService', () => {
     expect(findAndCountAllStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.data).to.deep.equal([]);
-      expect(result.value.message).to.equal('No privileges');
-    }
+    expect(result._unsafeUnwrap()).to.deep.equal({});
   });
 
   it('should throw an error when calling getAll', async () => {
@@ -98,9 +94,7 @@ describe('PrivilegeService', () => {
     expect(createStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
-    if (result.isOk()) {
-      expect(result.value.data).to.deep.equal({ id: 1 });
-    }
+    expect(result._unsafeUnwrap().data).to.deep.equal({ id: 1 });
   });
 
   it('should throw an error when creating a new item', async () => {
