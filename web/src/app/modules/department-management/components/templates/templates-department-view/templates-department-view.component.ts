@@ -9,7 +9,7 @@ import { Department } from '@/core/modules/department-api/shared';
 import { selectDepartmentsLoading } from '@/core/modules/department-api/store';
 import { DialogService } from '@/shared/services';
 import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
-import { CONSTANTS, FORM_NAME } from '@/shared/constants';
+import { CommonConstants, FormNameConstants } from '@/shared/constants';
 import { DialogDataModel, IDialogResult, DIALOG_TYPE, DialogWithTwoButtonModel } from '@/shared/models';
 import { UsersDialogComponent } from '@/modules/user-management/components';
 import { prepareSelectionPopup, resetSelectionPopup } from '@/modules/user-management/store';
@@ -23,7 +23,7 @@ import { selectUserById, selectUsersById } from '@/core/modules/user-api/store';
 export class TemplatesDepartmentViewComponent extends TemplatesViewDetailsComponent<Department> {
   isLoading$: Observable<boolean> = this.store$.pipe(select(selectDepartmentsLoading));
 
-  protected readonly formName = FORM_NAME.DEPARTMENT;
+  protected readonly formName = FormNameConstants.DEPARTMENT;
 
   constructor(
     protected readonly store$: Store<AppState>,
@@ -94,6 +94,6 @@ export class TemplatesDepartmentViewComponent extends TemplatesViewDetailsCompon
   }
 
   cardTitle(): string {
-    return this.isCreatePage ? CONSTANTS.TEXTS_CREATE_DEPARTMENT : this.item.title;
+    return this.isCreatePage ? CommonConstants.TEXTS_CREATE_DEPARTMENT : this.item.title;
   }
 }

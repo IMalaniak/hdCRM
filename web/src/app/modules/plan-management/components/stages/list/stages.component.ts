@@ -13,7 +13,7 @@ import {
   selectAllStages,
   createStage
 } from '@/core/modules/plan-api/store/stage';
-import { COLUMN_KEY, COLUMN_LABEL, ACTION_LABEL, CONSTANTS, BS_ICON } from '@/shared/constants';
+import { COLUMN_KEY, COLUMN_LABEL, ACTION_LABEL, CommonConstants, BS_ICON } from '@/shared/constants';
 import { DialogService } from '@/shared/services';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { IDialogResult } from '@/shared/models/dialog/dialog-result';
@@ -69,7 +69,11 @@ export class StagesComponent implements OnInit, OnDestroy {
   }
 
   createStageDialog(): void {
-    const dialogModel = new DialogCreateEditModel(DIALOG_MODE.CREATE, CONSTANTS.TEXTS_CREATE_STAGE, ACTION_LABEL.SAVE);
+    const dialogModel = new DialogCreateEditModel(
+      DIALOG_MODE.CREATE,
+      CommonConstants.TEXTS_CREATE_STAGE,
+      ACTION_LABEL.SAVE
+    );
     const dialogDataModel: DialogDataModel<DialogCreateEditModel> = { dialogModel };
 
     this.dialogService

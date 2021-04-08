@@ -35,7 +35,7 @@ import {
   BS_ICON,
   BUTTON_TYPE,
   COLUMN_KEY,
-  CONSTANTS,
+  CommonConstants,
   ITEMS_PER_PAGE,
   MAT_BUTTON,
   pageSizeOptions,
@@ -78,7 +78,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   @Input() canSort = true;
   @Input() hasSettings = true;
   @Input() displayMode = ListDisplayMode.DEFAULT;
-  @Input() noContentMessage = CONSTANTS.NO_CONTENT_INFO;
+  @Input() noContentMessage = CommonConstants.NO_CONTENT_INFO;
   @Input() additionalRowActions: RowAction<ROW_ACTION_TYPE>[];
   @Input() canEdit: boolean;
   @Input() canDelete: boolean;

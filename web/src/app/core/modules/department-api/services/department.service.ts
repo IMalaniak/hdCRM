@@ -3,21 +3,21 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { User } from '@/core/modules/user-api/shared';
-import { API_ROUTES } from '@/shared/constants';
+import { ApiRoutesConstants } from '@/shared/constants';
 import { BaseCrudService } from '@/shared/services';
 import { CollectionApiResponse } from '@/shared/models';
 import { Department } from '../shared/models';
 
 @Injectable()
 export class DepartmentService extends BaseCrudService {
-  protected readonly url = API_ROUTES.DEPARTMENTS;
+  protected readonly url = ApiRoutesConstants.DEPARTMENTS;
 
   constructor(protected readonly http: HttpClient) {
     super(http);
   }
 
   getDashboardData(): Observable<CollectionApiResponse<Department>> {
-    return this.http.get<CollectionApiResponse<Department>>(API_ROUTES.DEPARTMENTS_DASHBOARD);
+    return this.http.get<CollectionApiResponse<Department>>(ApiRoutesConstants.DEPARTMENTS_DASHBOARD);
   }
 
   formatBeforeSend(dep: Department): Department {

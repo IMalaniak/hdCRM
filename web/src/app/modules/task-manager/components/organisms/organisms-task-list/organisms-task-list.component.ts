@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
-import { DIALOG, ACTION_LABEL, MAT_BUTTON, THEME_PALETTE, CONSTANTS, BS_ICON } from '@/shared/constants';
+import { DialogConstants, ACTION_LABEL, MAT_BUTTON, THEME_PALETTE, CommonConstants, BS_ICON } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
@@ -62,8 +62,8 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
   openTaskDialog(taskToUpdate?: Task): void {
     const dialogModel: DialogCreateEditModel = new DialogCreateEditModel(
       taskToUpdate ? DIALOG_MODE.EDIT : DIALOG_MODE.CREATE,
-      taskToUpdate ? CONSTANTS.TEXTS_UPDATE_TASK : CONSTANTS.TEXTS_CREATE_TASK,
-      taskToUpdate ? DIALOG.SAVE : DIALOG.CREATE
+      taskToUpdate ? CommonConstants.TEXTS_UPDATE_TASK : CommonConstants.TEXTS_CREATE_TASK,
+      taskToUpdate ? DialogConstants.SAVE : DialogConstants.CREATE
     );
     const dialogDataModel: DialogDataModel<DialogCreateEditModel> = { dialogModel, model: taskToUpdate };
 
@@ -87,7 +87,9 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
   }
 
   deleteMultipleTask(): void {
-    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_TASKS_COMPLETED_CONFIRM);
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(
+      CommonConstants.TEXTS_DELETE_TASKS_COMPLETED_CONFIRM
+    );
     const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
     this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () => {

@@ -1,4 +1,4 @@
-export class FORM_NAME {
+export class FormNameConstants {
   // system forms names:
   static USER = 'user';
   static PLAN = 'plan';

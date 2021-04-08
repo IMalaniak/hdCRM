@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PATHS, VIEW_PRIVILEGE, ADD_PRIVILEGE, FORM_NAME } from '@/shared/constants';
+import { PathConstants, VIEW_PRIVILEGE, ADD_PRIVILEGE, FormNameConstants } from '@/shared/constants';
 import { AddPlanComponent, PlanListComponent, PlanComponent, StagesComponent } from './components';
 import { PrivilegeGuard } from '@/shared/guards';
 
 const routes: Routes = [
-  { path: '', pathMatch: PATHS.PATH_MATCH_FULL, redirectTo: PATHS.LIST },
+  { path: '', pathMatch: PathConstants.PATH_MATCH_FULL, redirectTo: PathConstants.LIST },
   {
-    path: PATHS.LIST,
+    path: PathConstants.LIST,
     data: {
       breadcrumb: 'List',
       animation: 'PlannerListPage',
@@ -18,29 +18,29 @@ const routes: Routes = [
     component: PlanListComponent
   },
   {
-    path: PATHS.DETAILS_ID,
+    path: PathConstants.DETAILS_ID,
     data: {
       breadcrumb: 'Details',
       animation: 'PlannerDetailsPage',
       privilege: VIEW_PRIVILEGE.PLAN,
-      formName: FORM_NAME.PLAN
+      formName: FormNameConstants.PLAN
     },
     canActivate: [PrivilegeGuard],
     component: PlanComponent
   },
   {
-    path: PATHS.ADD,
+    path: PathConstants.ADD,
     data: {
       breadcrumb: 'Add plan',
       animation: 'PlannerAddPage',
       privilege: ADD_PRIVILEGE.PLAN,
-      formName: FORM_NAME.PLAN
+      formName: FormNameConstants.PLAN
     },
     canActivate: [PrivilegeGuard],
     component: AddPlanComponent
   },
   {
-    path: PATHS.STAGES,
+    path: PathConstants.STAGES,
     data: {
       breadcrumb: 'Stages',
       animation: 'PlannerStagesPage',

@@ -9,7 +9,7 @@ import { CommonDataSource } from '@/shared/services';
 import { Cell, DataRow } from '@/shared/models/table';
 import { COLUMN_KEY } from '@/shared/constants/table.constants';
 import { createNavigation, UrlGenerator } from '@/shared/utils';
-import { CONSTANTS, LINK_TARGET, LINK_TYPE } from '@/shared/constants';
+import { CommonConstants, LINK_TARGET, LINK_TYPE } from '@/shared/constants';
 import { selectUsersPage } from '../store';
 
 export class UsersDataSource extends CommonDataSource<User> {
@@ -38,13 +38,13 @@ export class UsersDataSource extends CommonDataSource<User> {
       [COLUMN_KEY.LOGIN]: Cell.createStringCell(user.login),
       [COLUMN_KEY.EMAIL]: Cell.createLinkCell(
         user.email,
-        createNavigation(CONSTANTS.PREFIX_MAIL_TO + `${user.email}`, LINK_TYPE.LINK)
+        createNavigation(CommonConstants.PREFIX_MAIL_TO + `${user.email}`, LINK_TYPE.LINK)
       ),
       [COLUMN_KEY.NAME]: Cell.createStringCell(user.name),
       [COLUMN_KEY.SURNAME]: Cell.createStringCell(user.surname),
       [COLUMN_KEY.PHONE]: Cell.createLinkCell(
         user.phone,
-        createNavigation(CONSTANTS.PREFIX_TEL + `${user.phone}`, LINK_TYPE.LINK, LINK_TARGET.SELF)
+        createNavigation(CommonConstants.PREFIX_TEL + `${user.phone}`, LINK_TYPE.LINK, LINK_TARGET.SELF)
       ),
       [COLUMN_KEY.DEPARTMENT]: Cell.createLinkCell(
         user.Department?.title,

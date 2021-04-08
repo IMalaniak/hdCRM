@@ -11,7 +11,7 @@ import { deleteUser, inviteUsers, OnlineUserListRequested } from '@/core/modules
 import { isPrivileged, currentUser } from '@/core/modules/auth/store/auth.selectors';
 import { IconsService } from '@/core/services';
 import { DialogCreateEditModel, DialogDataModel, DIALOG_MODE, DIALOG_TYPE, IDialogResult } from '@/shared/models';
-import { ROUTING, CONSTANTS, BS_ICON } from '@/shared/constants';
+import { RoutingConstants, CommonConstants, BS_ICON } from '@/shared/constants';
 import { ADD_PRIVILEGE, EDIT_PRIVILEGE, DELETE_PRIVILEGE, COLUMN_KEY } from '@/shared/constants';
 import { ListDisplayMode } from '@/shared/store';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
@@ -45,11 +45,11 @@ export class UsersComponent {
     map((displayMode) => {
       switch (displayMode) {
         case ListDisplayMode.POPUP_MULTI_SELECTION:
-          return CONSTANTS.TEXTS_SELECT_USERS;
+          return CommonConstants.TEXTS_SELECT_USERS;
         case ListDisplayMode.POPUP_SINGLE_SELECTION:
-          return CONSTANTS.TEXTS_SELECT_USER;
+          return CommonConstants.TEXTS_SELECT_USER;
         default:
-          return CONSTANTS.TEXTS_USER_LIST;
+          return CommonConstants.TEXTS_USER_LIST;
       }
     })
   );
@@ -119,8 +119,8 @@ export class UsersComponent {
   openInvitationDialog(): void {
     const dialogModel: DialogCreateEditModel = new DialogCreateEditModel(
       DIALOG_MODE.CREATE,
-      CONSTANTS.TEXTS_INVITE_USERS,
-      CONSTANTS.TEXTS_SEND_INVITATIONS
+      CommonConstants.TEXTS_INVITE_USERS,
+      CommonConstants.TEXTS_SEND_INVITATIONS
     );
     const dialogDataModel: DialogDataModel<DialogCreateEditModel> = { dialogModel };
 
@@ -135,7 +135,7 @@ export class UsersComponent {
   }
 
   deleteUser(id: number): void {
-    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_USER_CONFIRM);
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CommonConstants.TEXTS_DELETE_USER_CONFIRM);
     const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
     this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () => this.store$.dispatch(deleteUser({ id })));
@@ -151,7 +151,7 @@ export class UsersComponent {
   // }
 
   onUserSelect(id: number, edit: boolean = false): void {
-    this.router.navigate([`${ROUTING.ROUTE_USERS_DETAILS}/${id}`], {
+    this.router.navigate([`${RoutingConstants.ROUTE_USERS_DETAILS}/${id}`], {
       queryParams: { edit }
     });
   }

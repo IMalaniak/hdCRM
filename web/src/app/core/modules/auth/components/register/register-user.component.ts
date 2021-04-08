@@ -8,12 +8,12 @@ import { Store, select } from '@ngrx/store';
 import { IconsService } from '@/core/services';
 import { User } from '@/core/modules/user-api/shared';
 import {
-  CONSTANTS,
+  CommonConstants,
   ACTION_LABEL,
   BUTTON_TYPE,
   MAT_BUTTON,
   THEME_PALETTE,
-  ROUTING,
+  RoutingConstants,
   ORGANIZATION_TYPE,
   BS_ICON,
   INPUT_TYPE
@@ -40,7 +40,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   matButtonTypes = MAT_BUTTON;
   inputTypes = INPUT_TYPE;
   themePalette = THEME_PALETTE;
-  loginRoute = ROUTING.ROUTE_AUTH_LOGIN;
+  loginRoute = RoutingConstants.ROUTE_AUTH_LOGIN;
   icons: { [key: string]: BS_ICON } = {
     right: BS_ICON.ArrowRight,
     left: BS_ICON.ArrowLeft,
@@ -71,7 +71,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
           Validators.required,
           Validators.minLength(6),
           Validators.maxLength(25),
-          Validators.pattern(CONSTANTS.LOGIN_REGEX)
+          Validators.pattern(CommonConstants.LOGIN_REGEX)
         ]),
         email: new FormControl(null, [Validators.required, Validators.email]),
         password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
@@ -81,33 +81,33 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
         name: new FormControl(null, [
           Validators.required,
           Validators.maxLength(25),
-          Validators.pattern(CONSTANTS.ONLY_TEXT_REGEX)
+          Validators.pattern(CommonConstants.ONLY_TEXT_REGEX)
         ]),
         surname: new FormControl(null, [
           Validators.required,
           Validators.maxLength(25),
-          Validators.pattern(CONSTANTS.ONLY_TEXT_REGEX)
+          Validators.pattern(CommonConstants.ONLY_TEXT_REGEX)
         ]),
-        phone: new FormControl(null, [Validators.pattern(CONSTANTS.PHONE_REGEX)])
+        phone: new FormControl(null, [Validators.pattern(CommonConstants.PHONE_REGEX)])
       }),
       userOrganization: this.fb.group({
         type: new FormControl(null),
         title: new FormControl(null, [
           Validators.required,
           Validators.maxLength(50),
-          Validators.pattern(CONSTANTS.ONLY_TEXT_REGEX)
+          Validators.pattern(CommonConstants.ONLY_TEXT_REGEX)
         ]),
         employees: new FormControl(null),
         country: new FormControl(null),
         city: new FormControl(null),
         address: new FormControl(null),
         postcode: new FormControl(null),
-        phone: new FormControl(null, Validators.pattern(CONSTANTS.PHONE_REGEX)),
+        phone: new FormControl(null, Validators.pattern(CommonConstants.PHONE_REGEX)),
         email: new FormControl(null, Validators.email),
         website: new FormControl(null, [
           Validators.required,
           Validators.maxLength(100),
-          Validators.pattern(CONSTANTS.WWW_REGEX)
+          Validators.pattern(CommonConstants.WWW_REGEX)
         ])
       })
     });
@@ -140,17 +140,17 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
           orgTitle.setValidators([
             Validators.required,
             Validators.maxLength(50),
-            Validators.pattern(CONSTANTS.ONLY_TEXT_REGEX)
+            Validators.pattern(CommonConstants.ONLY_TEXT_REGEX)
           ]);
           orgWebsite.setValidators([
             Validators.required,
             Validators.maxLength(100),
-            Validators.pattern(CONSTANTS.WWW_REGEX)
+            Validators.pattern(CommonConstants.WWW_REGEX)
           ]);
         } else if (value === ORGANIZATION_TYPE.PRIVATE) {
           orgTitle.setValidators(null);
           orgTitle.reset();
-          orgWebsite.setValidators([Validators.maxLength(100), Validators.pattern(CONSTANTS.WWW_REGEX)]);
+          orgWebsite.setValidators([Validators.maxLength(100), Validators.pattern(CommonConstants.WWW_REGEX)]);
           orgWebsite.reset();
         }
         orgTitle.updateValueAndValidity();

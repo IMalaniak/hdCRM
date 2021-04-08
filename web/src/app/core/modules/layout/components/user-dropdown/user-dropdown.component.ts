@@ -14,7 +14,7 @@ import {
   BS_ICON,
   BUTTON_TYPE,
   MAT_BUTTON,
-  ROUTING,
+  RoutingConstants,
   THEME_PALETTE
 } from '@/shared/constants';
 import { closeUserDropdown, toggleUserDropdown } from '../../store/layout.actions';
@@ -37,7 +37,7 @@ export class UserDropdownComponent {
   buttonTypes = BUTTON_TYPE;
   matButtonTypes = MAT_BUTTON;
   themePalette = THEME_PALETTE;
-  myProfileRoute = ROUTING.ROUTE_MY_PROFILE;
+  myProfileRoute = RoutingConstants.ROUTE_MY_PROFILE;
   userDropdownIcons: { [key: string]: BS_ICON } = {
     profile: BS_ICON.Person,
     invite: BS_ICON.PersonPlus,

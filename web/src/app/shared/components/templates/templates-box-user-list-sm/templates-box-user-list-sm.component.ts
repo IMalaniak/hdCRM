@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from 
 import { Router } from '@angular/router';
 
 import { User } from '@/core/modules/user-api/shared';
-import { BS_ICON, CONSTANTS, MAT_BUTTON } from '@/shared/constants';
+import { BS_ICON, CommonConstants, MAT_BUTTON } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogWithTwoButtonModel } from '@/shared/models/dialog/dialog-with-two-button.model';
 import { DialogService } from '@/shared/services';
@@ -68,7 +68,7 @@ export class TemplatesBoxUserListSmComponent {
 
   openUserDetailsDialog(user: User): void {
     const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
-      dialogModel: new DialogWithTwoButtonModel(null, CONSTANTS.TEXTS_MORE_DETAILS),
+      dialogModel: new DialogWithTwoButtonModel(null, CommonConstants.TEXTS_MORE_DETAILS),
       model: user
     };
 

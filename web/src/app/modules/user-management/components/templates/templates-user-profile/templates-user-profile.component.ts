@@ -13,7 +13,7 @@ import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { User, Organization } from '@/core/modules/user-api/shared';
 import { updateUserRequested } from '@/core/modules/user-api/store';
 import { Asset } from '@/shared/models';
-import { TAB_PRIVILEGE, CONSTANTS, TAB_NAME, TAB_LABEL } from '@/shared/constants';
+import { TAB_PRIVILEGE, CommonConstants, TAB_NAME, TAB_LABEL } from '@/shared/constants';
 import { changeIsEditingState } from '@/modules/user-management/store';
 
 @Component({
@@ -41,8 +41,8 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   tabLabels = TAB_LABEL;
 
   baseUrl = environment.baseUrl;
-  coverUrl = CONSTANTS.NO_IMAGE_URL;
-  coverTitle = CONSTANTS.NO_IMAGE_TITLE;
+  coverUrl = CommonConstants.NO_IMAGE_URL;
+  coverTitle = CommonConstants.NO_IMAGE_TITLE;
 
   constructor(private store: Store<AppState>, private route: ActivatedRoute) {}
 

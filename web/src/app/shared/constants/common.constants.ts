@@ -1,4 +1,4 @@
-export class CONSTANTS {
+export class CommonConstants {
   static NO_CONTENT_INFO = 'No content';
   static PREFIX_MAIL_TO = 'mailto:';
   static PREFIX_TEL = 'tel:';

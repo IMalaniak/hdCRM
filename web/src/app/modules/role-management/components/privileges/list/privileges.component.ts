@@ -13,7 +13,7 @@ import {
   selectAllPrivileges,
   createPrivilegeRequested
 } from '@/core/modules/role-api/store/privilege';
-import { COLUMN_KEY, COLUMN_LABEL, ACTION_LABEL, CONSTANTS, BS_ICON } from '@/shared/constants';
+import { COLUMN_KEY, COLUMN_LABEL, ACTION_LABEL, CommonConstants, BS_ICON } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogService } from '@/shared/services';
 import { DIALOG_MODE } from '@/shared/models/dialog/dialog-mode.enum';
@@ -73,7 +73,7 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
   createPrivilegeDialog(): void {
     const dialogModel = new DialogCreateEditModel(
       DIALOG_MODE.CREATE,
-      CONSTANTS.TEXTS_CREATE_PRIVILEGE,
+      CommonConstants.TEXTS_CREATE_PRIVILEGE,
       ACTION_LABEL.SUBMIT
     );
     const dialogDataModel: DialogDataModel<DialogCreateEditModel> = { dialogModel };

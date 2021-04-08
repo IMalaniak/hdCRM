@@ -9,7 +9,7 @@ import { Update } from '@ngrx/entity';
 
 import { normalizeResponse, planSchema, partialDataLoaded, planListSchema } from '@/core/store/normalization';
 import { ToastMessageService } from '@/shared/services';
-import { ROUTING } from '@/shared/constants';
+import { RoutingConstants } from '@/shared/constants';
 import { Page } from '@/shared/store';
 import { CollectionApiResponse, ItemApiResponse, BaseMessage } from '@/shared/models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
@@ -27,7 +27,7 @@ export class PlanEffects {
         this.planService.create<Plan>(this.planService.formatBeforeSend(plan)).pipe(
           switchMap((response: ItemApiResponse<Plan>) => {
             this.toastMessageService.success(response.message);
-            this.router.navigateByUrl(ROUTING.ROUTE_PLANNER);
+            this.router.navigateByUrl(RoutingConstants.ROUTE_PLANNER);
             const { Plans, Users } = normalizeResponse<Plan>(response, planSchema);
             response = { ...response, data: Plans[0] };
             return [

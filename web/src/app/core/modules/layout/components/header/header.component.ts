@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
-import { MAT_BUTTON, THEME_PALETTE, CONSTANTS, BS_ICON } from '@/shared/constants';
+import { MAT_BUTTON, THEME_PALETTE, CommonConstants, BS_ICON } from '@/shared/constants';
 import { IconsService, MediaQueryService } from '@/core/services';
 
 @Component({
@@ -35,6 +35,6 @@ export class HeaderComponent implements OnInit {
   }
 
   themeTipMessage(): string {
-    return this.enableDarkTheme ? CONSTANTS.TEXTS_THEME_LIGHT : CONSTANTS.TEXTS_THEME_DARK;
+    return this.enableDarkTheme ? CommonConstants.TEXTS_THEME_LIGHT : CommonConstants.TEXTS_THEME_DARK;
   }
 }

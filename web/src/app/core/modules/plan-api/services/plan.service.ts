@@ -4,13 +4,13 @@ import { Observable } from 'rxjs';
 
 import { User } from '@/core/modules/user-api/shared';
 import { BaseMessage } from '@/shared/models';
-import { API_ROUTES } from '@/shared/constants';
+import { ApiRoutesConstants } from '@/shared/constants';
 import { BaseCrudService } from '@/shared/services';
 import { Plan } from '../shared/models';
 
 @Injectable()
 export class PlanService extends BaseCrudService {
-  protected readonly url = API_ROUTES.PLANS;
+  protected readonly url = ApiRoutesConstants.PLANS;
 
   constructor(protected readonly http: HttpClient) {
     super(http);
@@ -26,7 +26,7 @@ export class PlanService extends BaseCrudService {
   // }
 
   deleteDoc(req: any): Observable<BaseMessage> {
-    return this.http.delete<BaseMessage>(API_ROUTES.PLANS_DOCUMENTS, {
+    return this.http.delete<BaseMessage>(ApiRoutesConstants.PLANS_DOCUMENTS, {
       params: new HttpParams().set('docId', req.docId.toString()).set('planId', req.planId.toString())
     });
   }

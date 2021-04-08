@@ -6,7 +6,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { SharedModule } from '@/shared/shared.module';
 import { routerStoreMock } from '@/shared/testing/mocks';
-import { ROUTING } from '@/shared/constants';
+import { RoutingConstants } from '@/shared/constants';
 import { Breadcrumb } from './breadcrumb';
 import { BreadcrumbsComponent } from './breadcrumbs.component';
 
@@ -42,7 +42,7 @@ describe('BreadcrumbsComponent', () => {
       expect(breadcrumbs).toEqual([
         {
           keyString: 'home',
-          url: ROUTING.ROUTE_HOME
+          url: RoutingConstants.ROUTE_HOME
         },
         {
           keyString: 'Planner',

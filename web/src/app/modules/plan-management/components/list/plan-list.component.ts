@@ -8,7 +8,7 @@ import { AppState } from '@/core/store';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { deletePlanRequested } from '@/core/modules/plan-api/store/plan';
 import { DialogDataModel } from '@/shared/models';
-import { ROUTING, CONSTANTS, BS_ICON } from '@/shared/constants';
+import { RoutingConstants, CommonConstants, BS_ICON } from '@/shared/constants';
 import { ADD_PRIVILEGE, EDIT_PRIVILEGE, DELETE_PRIVILEGE, COLUMN_KEY } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
@@ -29,7 +29,7 @@ export class PlanListComponent {
   canEditPlan$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGE.PLAN)));
   canDeletePlan$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGE.PLAN)));
 
-  addPlanRoute = ROUTING.ROUTE_PLANNER_ADD;
+  addPlanRoute = RoutingConstants.ROUTE_PLANNER_ADD;
   listIcons: { [key: string]: BS_ICON } = {
     add: BS_ICON.Plus
   };
@@ -66,12 +66,12 @@ export class PlanListComponent {
   }
 
   onPlanSelect(id: number, edit: boolean = false): void {
-    this.router.navigateByUrl(`${ROUTING.ROUTE_PLANNER_DETAILS}/${id}`);
+    this.router.navigateByUrl(`${RoutingConstants.ROUTE_PLANNER_DETAILS}/${id}`);
     this.store$.dispatch(changeIsEditingState({ isEditing: edit }));
   }
 
   deletePlan(id: number): void {
-    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_PLAN_CONFIRM);
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CommonConstants.TEXTS_DELETE_PLAN_CONFIRM);
     const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
     this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () =>

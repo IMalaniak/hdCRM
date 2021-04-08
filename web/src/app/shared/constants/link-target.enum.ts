@@ -4,8 +4,3 @@ export enum LINK_TARGET {
   PRENT = '_parent',
   TOP = '_top'
 }
-
-export enum LINK_TYPE {
-  LINK = 'link',
-  ROUTER = 'router'
-}

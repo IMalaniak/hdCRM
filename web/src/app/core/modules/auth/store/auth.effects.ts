@@ -13,7 +13,7 @@ import { selectUrl } from '@/core/store/router.selectors';
 import { Organization, User } from '@/core/modules/user-api/shared';
 import { SocketService, ToastMessageService } from '@/shared/services';
 import { BaseMessage, ItemApiResponse } from '@/shared/models';
-import { SOCKET_EVENT, ROUTING, CONSTANTS } from '@/shared/constants';
+import { SOCKET_EVENT, RoutingConstants, CommonConstants } from '@/shared/constants';
 import { changeIsEditingState } from '@/modules/user-management/store';
 import * as authActions from './auth.actions';
 import { AuthenticationService } from '../services';
@@ -38,7 +38,7 @@ export class AuthEffects implements OnInitEffects {
       switchMap((registerData) =>
         this.authService.registerUser(registerData).pipe(
           map(() => authActions.registerSuccess()),
-          tap(() => this.router.navigateByUrl(ROUTING.ROUTE_AUTH_REGISTER_SUCCESS)),
+          tap(() => this.router.navigateByUrl(RoutingConstants.ROUTE_AUTH_REGISTER_SUCCESS)),
           catchError(() => of(authActions.authApiError()))
         )
       )
@@ -56,7 +56,7 @@ export class AuthEffects implements OnInitEffects {
             return [authActions.logInSuccess({ accessToken }), authActions.setSessionId({ sessionId })];
           }),
           tap(() => {
-            const returnUrl = this.route.snapshot.queryParams['returnUrl'] || ROUTING.ROUTE_DASHBOARD;
+            const returnUrl = this.route.snapshot.queryParams['returnUrl'] || RoutingConstants.ROUTE_DASHBOARD;
             this.router.navigateByUrl(returnUrl);
           }),
           catchError((errorResponse: HttpErrorResponse) => {
@@ -76,7 +76,7 @@ export class AuthEffects implements OnInitEffects {
           this.authService.logout().subscribe(() => {
             // TODO check if this is unsubscribed
             this.scktService.emit(SOCKET_EVENT.ISOFFLINE);
-            this.router.navigateByUrl(ROUTING.ROUTE_HOME);
+            this.router.navigateByUrl(RoutingConstants.ROUTE_HOME);
           })
         )
       ),
@@ -148,8 +148,8 @@ export class AuthEffects implements OnInitEffects {
         ofType(authActions.redirectToLogin),
         withLatestFrom(this.store$.pipe(select(selectUrl))),
         map(([_, returnUrl]) => {
-          this.toastMessageService.error(CONSTANTS.TEXTS_YOU_ARE_NOT_AUTHORIZED);
-          this.router.navigate([ROUTING.ROUTE_AUTH_LOGIN], {
+          this.toastMessageService.error(CommonConstants.TEXTS_YOU_ARE_NOT_AUTHORIZED);
+          this.router.navigate([RoutingConstants.ROUTE_AUTH_LOGIN], {
             queryParams: { returnUrl }
           });
         })

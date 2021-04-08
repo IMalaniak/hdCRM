@@ -5,7 +5,7 @@ import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 
 import { ToastMessageService } from '@/shared/services';
-import { CONSTANTS } from '@/shared/constants';
+import { CommonConstants } from '@/shared/constants';
 import * as integrationsActions from './integration.actions';
 import { IntegrationsService } from '../../services/integrations.service';
 import { AppState } from '../index';
@@ -28,14 +28,14 @@ export class IntegrationsEffects {
         if (!googleDriveIntegrationState) {
           return this.integrationsService.getGoogleDriveToken().pipe(
             map((googleDriveToken) => {
-              this.toastMessageService.success(CONSTANTS.TEXTS_GOOGLE_DRIVE_INTEGRATION_ENABLED);
+              this.toastMessageService.success(CommonConstants.TEXTS_GOOGLE_DRIVE_INTEGRATION_ENABLED);
               return integrationsActions.googleDriveIntegrationLoaded({ googleDriveToken });
             })
           );
         } else {
           return this.integrationsService.removeGoogleDriveToken().pipe(
             map(() => {
-              this.toastMessageService.success(CONSTANTS.TEXTS_GOOGLE_DRIVE_INTEGRATION_DISABLED);
+              this.toastMessageService.success(CommonConstants.TEXTS_GOOGLE_DRIVE_INTEGRATION_DISABLED);
               return integrationsActions.googleDriveIntegrationDisable();
             })
           );

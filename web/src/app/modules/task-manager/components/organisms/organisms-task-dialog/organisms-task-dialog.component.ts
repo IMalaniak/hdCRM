@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { AppState } from '@/core/store';
 import { selectFormByName, formRequested } from '@/core/store/dynamic-form';
 import { DynamicForm } from '@/shared/models';
-import { ACTION_LABEL, FORM_NAME, THEME_PALETTE } from '@/shared/constants';
+import { ACTION_LABEL, FormNameConstants, THEME_PALETTE } from '@/shared/constants';
 import { DialogCreateEditPageModel, DynamicFormComponent } from '@/shared/components';
 import { DialogCreateEditModel, DialogDataModel, IDialogResult } from '@/shared/models';
 import { Task } from '@/modules/task-manager/models';
@@ -24,7 +24,7 @@ export class OrganismsTaskDialogComponent extends DialogCreateEditPageModel {
   // is not possible, because this component must has an opportunity to has dinamiclly class extends.
   @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
 
-  taskFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName(FORM_NAME.TASK)));
+  taskFormJson$: Observable<DynamicForm> = this.store$.pipe(select(selectFormByName(FormNameConstants.TASK)));
 
   actionLabels = ACTION_LABEL;
   themePalette = THEME_PALETTE;
@@ -40,7 +40,7 @@ export class OrganismsTaskDialogComponent extends DialogCreateEditPageModel {
   ) {
     super(dialogRef, data);
 
-    this.store$.dispatch(formRequested({ formName: FORM_NAME.TASK }));
+    this.store$.dispatch(formRequested({ formName: FormNameConstants.TASK }));
   }
 
   onClose(success: boolean): void {

@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ProfileComponent, UserComponent, UsersComponent } from './components';
-import { PATHS, VIEW_PRIVILEGE } from '@/shared/constants';
+import { PathConstants, VIEW_PRIVILEGE } from '@/shared/constants';
 import { PrivilegeGuard } from '@/shared/guards';
 
 const routes: Routes = [
-  { path: '', pathMatch: PATHS.PATH_MATCH_FULL, redirectTo: PATHS.LIST },
+  { path: '', pathMatch: PathConstants.PATH_MATCH_FULL, redirectTo: PathConstants.LIST },
   {
-    path: PATHS.LIST,
+    path: PathConstants.LIST,
     data: {
       breadcrumb: 'List',
       animation: 'UsersListPage',
@@ -17,7 +17,7 @@ const routes: Routes = [
     component: UsersComponent
   },
   {
-    path: PATHS.DETAILS_ID,
+    path: PathConstants.DETAILS_ID,
     data: {
       breadcrumb: 'Details',
       animation: 'UserDetailsPage',
@@ -27,7 +27,7 @@ const routes: Routes = [
     component: UserComponent
   },
   {
-    path: PATHS.MY_PROFILE,
+    path: PathConstants.MY_PROFILE,
     data: { breadcrumb: 'My profile', animation: 'MyProfilePage' },
     component: ProfileComponent
   }

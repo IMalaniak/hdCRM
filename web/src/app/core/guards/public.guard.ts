@@ -5,7 +5,7 @@ import { tap, skipWhile } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 
-import { ROUTING } from '@/shared/constants';
+import { RoutingConstants } from '@/shared/constants';
 import { AppState } from '../store';
 import { isLoggedOut, isLoading } from '../modules/auth/store/auth.selectors';
 
@@ -19,7 +19,7 @@ export class PublicGuard implements CanActivate {
       select(isLoggedOut),
       tap((loggedOut) => {
         if (!loggedOut) {
-          this.router.navigateByUrl(ROUTING.ROUTE_DASHBOARD);
+          this.router.navigateByUrl(RoutingConstants.ROUTE_DASHBOARD);
         }
       })
     );

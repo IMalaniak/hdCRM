@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PATHS, VIEW_PRIVILEGE, ADD_PRIVILEGE, FORM_NAME } from '@/shared/constants';
+import { PathConstants, VIEW_PRIVILEGE, ADD_PRIVILEGE, FormNameConstants } from '@/shared/constants';
 import { PrivilegeGuard } from '@/shared/guards';
 import { AddDepartmentComponent, DepartmentComponent, DepartmentsComponent } from './components';
 
 const routes: Routes = [
-  { path: '', pathMatch: PATHS.PATH_MATCH_FULL, redirectTo: PATHS.LIST },
+  { path: '', pathMatch: PathConstants.PATH_MATCH_FULL, redirectTo: PathConstants.LIST },
   {
-    path: PATHS.LIST,
+    path: PathConstants.LIST,
     data: {
       breadcrumb: 'List',
       animation: 'DepartmentsListPage',
@@ -18,23 +18,23 @@ const routes: Routes = [
     component: DepartmentsComponent
   },
   {
-    path: PATHS.DETAILS_ID,
+    path: PathConstants.DETAILS_ID,
     data: {
       breadcrumb: 'Details',
       animation: 'DepartmentDetailsPage',
       privilege: VIEW_PRIVILEGE.DEPARTMENT,
-      formName: FORM_NAME.DEPARTMENT
+      formName: FormNameConstants.DEPARTMENT
     },
     canActivate: [PrivilegeGuard],
     component: DepartmentComponent
   },
   {
-    path: PATHS.ADD,
+    path: PathConstants.ADD,
     data: {
       breadcrumb: 'Add new department',
       animation: 'AddDepartmentPage',
       privilege: ADD_PRIVILEGE.DEPARTMENT,
-      formName: FORM_NAME.DEPARTMENT
+      formName: FormNameConstants.DEPARTMENT
     },
     canActivate: [PrivilegeGuard],
     component: AddDepartmentComponent

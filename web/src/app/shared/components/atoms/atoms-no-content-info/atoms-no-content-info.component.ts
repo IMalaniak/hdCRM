@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 
-import { CONSTANTS } from '@/shared/constants';
+import { CommonConstants } from '@/shared/constants';
 
 @Component({
   selector: 'atoms-no-content-info',
@@ -15,5 +15,5 @@ import { CONSTANTS } from '@/shared/constants';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AtomsNoContentInfoComponent {
-  @Input() noContentMessage = CONSTANTS.NO_CONTENT_INFO;
+  @Input() noContentMessage = CommonConstants.NO_CONTENT_INFO;
 }

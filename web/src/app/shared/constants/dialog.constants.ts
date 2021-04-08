@@ -1,4 +1,4 @@
-export class DIALOG {
+export class DialogConstants {
   static CONFIRM = 'Are You sure?';
   static OK = 'OK';
   static CANCEL = 'Cancel';

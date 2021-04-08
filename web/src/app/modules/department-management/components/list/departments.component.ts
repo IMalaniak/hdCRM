@@ -8,7 +8,7 @@ import { AppState } from '@/core/store';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { deleteDepartmentRequested } from '@/core/modules/department-api/store';
 import { DialogDataModel } from '@/shared/models';
-import { ROUTING, CONSTANTS, BS_ICON } from '@/shared/constants';
+import { RoutingConstants, CommonConstants, BS_ICON } from '@/shared/constants';
 import { ADD_PRIVILEGE, EDIT_PRIVILEGE, DELETE_PRIVILEGE, COLUMN_KEY } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
@@ -29,7 +29,7 @@ export class DepartmentsComponent {
   canEditDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGE.DEPARTMENT)));
   canDeleteDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGE.DEPARTMENT)));
 
-  addDepartmentRoute = ROUTING.ROUTE_DEPARTMENTS_ADD;
+  addDepartmentRoute = RoutingConstants.ROUTE_DEPARTMENTS_ADD;
   listIcons: { [key: string]: BS_ICON } = {
     matMenu: BS_ICON.ThreeDotsVertical,
     add: BS_ICON.Plus,
@@ -69,12 +69,12 @@ export class DepartmentsComponent {
   }
 
   onDepartmentSelect(id: number, edit: boolean = false): void {
-    this.router.navigate([`${ROUTING.ROUTE_DEPARTMENTS_DETAILS}/${id}`]);
+    this.router.navigate([`${RoutingConstants.ROUTE_DEPARTMENTS_DETAILS}/${id}`]);
     this.store$.dispatch(changeIsEditingState({ isEditing: edit }));
   }
 
   deleteDepartment(id: number): void {
-    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_DEPARTMENT_CONFIRM);
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CommonConstants.TEXTS_DELETE_DEPARTMENT_CONFIRM);
     const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
     this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () =>

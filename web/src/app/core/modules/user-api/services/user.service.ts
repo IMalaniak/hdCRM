@@ -5,13 +5,13 @@ import { take } from 'rxjs/operators';
 
 import { BaseCrudService, SocketService } from '@/shared/services';
 import { NewPassword, BaseMessage, CollectionApiResponse } from '@/shared/models';
-import { SOCKET_EVENT, API_ROUTES } from '@/shared/constants';
+import { SOCKET_EVENT, ApiRoutesConstants } from '@/shared/constants';
 import { User } from '../shared';
 import { Role } from '../../role-api/shared';
 
 @Injectable()
 export class UserService extends BaseCrudService {
-  protected readonly url = API_ROUTES.USERS;
+  protected readonly url = ApiRoutesConstants.USERS;
 
   userOnline$: Observable<any> = this.socket.onEvent(SOCKET_EVENT.ISONLINE);
   userOffline$: Observable<any> = this.socket.onEvent(SOCKET_EVENT.ISOFFLINE);
@@ -26,11 +26,11 @@ export class UserService extends BaseCrudService {
   }
 
   inviteUsers(users: User[]): Observable<CollectionApiResponse<User>> {
-    return this.http.post<CollectionApiResponse<User>>(API_ROUTES.USERS_INVITE, users);
+    return this.http.post<CollectionApiResponse<User>>(ApiRoutesConstants.USERS_INVITE, users);
   }
 
   changeOldPassword(data: NewPassword): Observable<BaseMessage> {
-    return this.http.post<BaseMessage>(API_ROUTES.USERS_CHANGE_PASSWORD, data, { withCredentials: true });
+    return this.http.post<BaseMessage>(ApiRoutesConstants.USERS_CHANGE_PASSWORD, data, { withCredentials: true });
   }
 
   formatBeforeSend(user: User): User {

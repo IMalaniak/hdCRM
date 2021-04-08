@@ -8,7 +8,7 @@ import { DialogDataModel } from '@/shared/models';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
-import { ACTION_LABEL, CONSTANTS, FORM_NAME } from '@/shared/constants';
+import { ACTION_LABEL, CommonConstants, FormNameConstants } from '@/shared/constants';
 import { BaseDynamicFormPageModel } from '@/shared/components/base/models/base-dynamic-form-page.model';
 
 @Component({
@@ -27,7 +27,7 @@ export class OrganismsUserDetailsComponent extends BaseDynamicFormPageModel<User
   @Output() setEditableForm: EventEmitter<boolean> = new EventEmitter();
 
   actionLabels = ACTION_LABEL;
-  protected formName = FORM_NAME.USER;
+  protected formName = FormNameConstants.USER;
 
   constructor(protected readonly store$: Store<AppState>, private readonly dialogService: DialogService) {
     super(store$);
@@ -42,7 +42,7 @@ export class OrganismsUserDetailsComponent extends BaseDynamicFormPageModel<User
   }
 
   onUpdateUserSubmit(): void {
-    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_UPDATE_COMMON_CONFIRM);
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CommonConstants.TEXTS_UPDATE_COMMON_CONFIRM);
     const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
     this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () =>

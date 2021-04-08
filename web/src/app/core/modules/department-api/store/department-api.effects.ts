@@ -17,7 +17,7 @@ import {
 } from '@/core/store/normalization';
 import { ToastMessageService } from '@/shared/services';
 import { CollectionApiResponse, ItemApiResponse, BaseMessage, PageQuery } from '@/shared/models';
-import { ROUTING } from '@/shared/constants';
+import { RoutingConstants } from '@/shared/constants';
 import { Page } from '@/shared/store';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
 import * as departmentApiActions from './department-api.actions';
@@ -35,7 +35,7 @@ export class DepartmentEffects {
         this.departmentService.create<Department>(this.departmentService.formatBeforeSend(department)).pipe(
           switchMap((response: ItemApiResponse<Department>) => {
             this.toastMessageService.success(response.message);
-            this.router.navigateByUrl(ROUTING.ROUTE_DEPARTMENTS);
+            this.router.navigateByUrl(RoutingConstants.ROUTE_DEPARTMENTS);
             const { Departments, Users } = normalizeResponse<Department>(response, departmentSchema);
             response = { ...response, data: Departments[0] };
             return [

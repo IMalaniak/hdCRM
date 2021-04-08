@@ -16,7 +16,7 @@ import {
   MatFormFieldControl
 } from '@angular/material/form-field';
 
-import { VALIDATE_CONTROL, INPUT_ERROR } from '@/shared/constants';
+import { VALIDATE_CONTROL, InputErrorConstants } from '@/shared/constants';
 
 interface ErrorMessage {
   key: string;
@@ -107,23 +107,23 @@ export class InputValidationComponent implements OnInit, OnChanges {
   private getErrorMessage(key: VALIDATE_CONTROL): ErrorMessage {
     switch (key) {
       case VALIDATE_CONTROL.REQUIRED:
-        return { key, message: INPUT_ERROR.IS_REQUIRED };
+        return { key, message: InputErrorConstants.IS_REQUIRED };
       case VALIDATE_CONTROL.MIN_LENGTH:
-        return { key, message: INPUT_ERROR.IS_TOO_SHORT };
+        return { key, message: InputErrorConstants.IS_TOO_SHORT };
       case VALIDATE_CONTROL.MAX_LENGTH:
-        return { key, message: INPUT_ERROR.IS_TOO_LONG };
+        return { key, message: InputErrorConstants.IS_TOO_LONG };
       case VALIDATE_CONTROL.EMAIL:
-        return { key, message: INPUT_ERROR.INVALID_EMAIL };
+        return { key, message: InputErrorConstants.INVALID_EMAIL };
       case VALIDATE_CONTROL.PATTERN:
-        return { key, message: INPUT_ERROR.IS_INVALID };
+        return { key, message: InputErrorConstants.IS_INVALID };
       case VALIDATE_CONTROL.MIN:
-        return { key, message: INPUT_ERROR.MIN_VALUE };
+        return { key, message: InputErrorConstants.MIN_VALUE };
       case VALIDATE_CONTROL.MAX:
-        return { key, message: INPUT_ERROR.MAX_VALUE };
+        return { key, message: InputErrorConstants.MAX_VALUE };
       case VALIDATE_CONTROL.CONFIRM_PASSWORD:
-        return { key, message: INPUT_ERROR.PASSWORD_NOT_MATCH };
+        return { key, message: InputErrorConstants.PASSWORD_NOT_MATCH };
       default:
-        return { key, message: INPUT_ERROR.IS_INVALID };
+        return { key, message: InputErrorConstants.IS_INVALID };
     }
   }
 

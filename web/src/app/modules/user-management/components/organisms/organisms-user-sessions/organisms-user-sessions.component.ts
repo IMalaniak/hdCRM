@@ -7,7 +7,7 @@ import { AppState } from '@/core/store';
 import { IconsService } from '@/core/services';
 import { deleteSession, deleteMultipleSession } from '@/core/modules/auth/store/auth.actions';
 import { User, UserSession } from '@/core/modules/user-api/shared';
-import { MAT_BUTTON, THEME_PALETTE, CONSTANTS, BS_ICON } from '@/shared/constants';
+import { MAT_BUTTON, THEME_PALETTE, CommonConstants, BS_ICON } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
@@ -78,12 +78,12 @@ export class OrganismsUserSessionsComponent implements OnChanges {
   }
 
   onRemoveSession(sessionId: number): void {
-    this.onRemove(sessionId, CONSTANTS.TEXTS_SESSION_DEACTIVATE_CONFIRM);
+    this.onRemove(sessionId, CommonConstants.TEXTS_SESSION_DEACTIVATE_CONFIRM);
   }
 
   onRemoveOtherSessions(): void {
     const sessionIds: number[] = this.otherActiveSessions.map((session) => session.id);
-    this.onRemove(sessionIds, CONSTANTS.TEXTS_SESSION_DEACTIVATE_ALL_CONFIRM);
+    this.onRemove(sessionIds, CommonConstants.TEXTS_SESSION_DEACTIVATE_ALL_CONFIRM);
   }
 
   removeSession(sessionIds: number | number[]): void {

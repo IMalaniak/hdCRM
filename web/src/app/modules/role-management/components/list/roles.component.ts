@@ -8,7 +8,7 @@ import { AppState } from '@/core/store';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { deleteRoleRequested } from '@/core/modules/role-api/store/role';
 import { DialogDataModel } from '@/shared/models';
-import { ACTION_LABEL, ROUTING, CONSTANTS, BS_ICON } from '@/shared/constants';
+import { ACTION_LABEL, RoutingConstants, CommonConstants, BS_ICON } from '@/shared/constants';
 import { ADD_PRIVILEGE, EDIT_PRIVILEGE, DELETE_PRIVILEGE, COLUMN_KEY } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
@@ -32,7 +32,7 @@ export class RolesComponent {
   canDeleteRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGE.ROLE)));
 
   actionLabels = ACTION_LABEL;
-  addRoleRoute = ROUTING.ROUTE_ROLES_ADD;
+  addRoleRoute = RoutingConstants.ROUTE_ROLES_ADD;
   listIcons: { [key: string]: BS_ICON } = {
     matMenu: BS_ICON.ThreeDotsVertical,
     add: BS_ICON.Plus,
@@ -72,12 +72,12 @@ export class RolesComponent {
   }
 
   onRoleSelect(id: number, edit: boolean = false): void {
-    this.router.navigateByUrl(`${ROUTING.ROUTE_ROLES_DETAILS}/${id}`);
+    this.router.navigateByUrl(`${RoutingConstants.ROUTE_ROLES_DETAILS}/${id}`);
     this.store$.dispatch(changeIsEditingState({ isEditing: edit }));
   }
 
   deleteRole(id: number): void {
-    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_ROLE_CONFIRM);
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CommonConstants.TEXTS_DELETE_ROLE_CONFIRM);
     const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
     this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () =>

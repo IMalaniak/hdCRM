@@ -9,7 +9,7 @@ import { Role, Privilege } from '@/core/modules/role-api/shared';
 import { selectRolesLoading } from '@/core/modules/role-api/store/role';
 import { selectUsersById } from '@/core/modules/user-api/store';
 import { TemplatesViewDetailsComponent } from '@/shared/components';
-import { MAT_BUTTON, COLUMN_KEY, COLUMN_LABEL, CONSTANTS, BS_ICON, FORM_NAME } from '@/shared/constants';
+import { MAT_BUTTON, COLUMN_KEY, COLUMN_LABEL, CommonConstants, BS_ICON, FormNameConstants } from '@/shared/constants';
 import { DialogService } from '@/shared/services';
 import { DialogDataModel, IDialogResult, DIALOG_TYPE, DialogWithTwoButtonModel } from '@/shared/models';
 import { UsersDialogComponent } from '@/modules/user-management/components';
@@ -41,7 +41,7 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
     enabled: BS_ICON.Check,
     disabled: BS_ICON.X
   };
-  protected readonly formName = FORM_NAME.ROLE;
+  protected readonly formName = FormNameConstants.ROLE;
 
   constructor(
     protected readonly store$: Store<AppState>,
@@ -81,7 +81,7 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
 
   addPrivilegeDialog(): void {
     const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
-      dialogModel: new DialogWithTwoButtonModel(CONSTANTS.TEXTS_SELECT_PRIVILEGES)
+      dialogModel: new DialogWithTwoButtonModel(CommonConstants.TEXTS_SELECT_PRIVILEGES)
     };
 
     this.dialogService
@@ -145,6 +145,6 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
   }
 
   cardTitle(): string {
-    return this.isCreatePage ? CONSTANTS.TEXTS_CREATE_ROLE : this.item.keyString;
+    return this.isCreatePage ? CommonConstants.TEXTS_CREATE_ROLE : this.item.keyString;
   }
 }

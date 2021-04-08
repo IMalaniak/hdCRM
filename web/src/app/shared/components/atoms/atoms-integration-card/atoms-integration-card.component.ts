@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CONSTANTS } from '@/shared/constants';
+import { CommonConstants } from '@/shared/constants';
 
 @Component({
   selector: 'atoms-integration-card',
@@ -13,7 +13,7 @@ import { CONSTANTS } from '@/shared/constants';
 export class AtomsIntegrationCardComponent {
   @Input() src: string;
 
-  @Input() imgTitle = CONSTANTS.NO_IMAGE_TITLE;
+  @Input() imgTitle = CommonConstants.NO_IMAGE_TITLE;
 
   @Input() cardClass = '';
 

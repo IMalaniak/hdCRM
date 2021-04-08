@@ -10,7 +10,7 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/store';
 import { User } from '@/core/modules/user-api/shared';
 import { selectAllUsers } from '@/core/modules/user-api/store';
-import { CONSTANTS, ACTION_LABEL, MAT_BUTTON, THEME_PALETTE, BS_ICON, INPUT_TYPE } from '@/shared/constants';
+import { CommonConstants, ACTION_LABEL, MAT_BUTTON, THEME_PALETTE, BS_ICON, INPUT_TYPE } from '@/shared/constants';
 import { DialogCreateEditModel, DialogDataModel, IDialogResult } from '@/shared/models';
 import { DialogBaseModel } from '@/shared/components';
 
@@ -57,7 +57,7 @@ export class InvitationDialogComponent extends DialogBaseModel<DialogCreateEditM
       fullname: new FormControl(null, [
         Validators.required,
         Validators.maxLength(25),
-        Validators.pattern(CONSTANTS.ONLY_TEXT_REGEX)
+        Validators.pattern(CommonConstants.ONLY_TEXT_REGEX)
       ]),
       email: new FormControl(null, [Validators.required, Validators.email])
     });

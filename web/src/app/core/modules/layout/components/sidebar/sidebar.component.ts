@@ -5,7 +5,7 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/store';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { IconsService, MediaQueryService } from '@/core/services';
-import { BS_ICON, ROUTING, VIEW_PRIVILEGE } from '@/shared/constants';
+import { BS_ICON, RoutingConstants, VIEW_PRIVILEGE } from '@/shared/constants';
 import { MenuItem } from './menuItem';
 
 @Component({
@@ -43,41 +43,41 @@ export class SidebarComponent {
   private generateMenu(): void {
     this.sidebarMenuItems = [
       {
-        url: ROUTING.ROUTE_HOME,
+        url: RoutingConstants.ROUTE_HOME,
         title: 'Home',
         i18n: '@@sidebarMenuHome',
         icon: BS_ICON.House,
         disable: !this.mediaQueryService.isPhone
       },
       {
-        url: ROUTING.ROUTE_DASHBOARD,
+        url: RoutingConstants.ROUTE_DASHBOARD,
         title: 'Dashboard',
         i18n: '@@sidebarMenuDashboard',
         icon: BS_ICON.ColumnsGap
       },
       {
-        url: ROUTING.ROUTE_USERS,
+        url: RoutingConstants.ROUTE_USERS,
         title: 'Users',
         i18n: '@@sidebarMenuUsers',
         icon: BS_ICON.People,
         privilege: this.store$.pipe(select(isPrivileged(VIEW_PRIVILEGE.USER)))
       },
       {
-        url: ROUTING.ROUTE_ROLES,
+        url: RoutingConstants.ROUTE_ROLES,
         title: 'Roles',
         i18n: '@@sidebarMenuRoles',
         icon: BS_ICON.Person,
         privilege: this.store$.pipe(select(isPrivileged(VIEW_PRIVILEGE.ROLE)))
       },
       {
-        url: ROUTING.ROUTE_PLANNER,
+        url: RoutingConstants.ROUTE_PLANNER,
         title: 'Plans',
         i18n: '@@sidebarMenuPlans',
         icon: BS_ICON.Calendar2Week,
         privilege: this.store$.pipe(select(isPrivileged(VIEW_PRIVILEGE.PLAN)))
       },
       {
-        url: ROUTING.ROUTE_DEPARTMENTS,
+        url: RoutingConstants.ROUTE_DEPARTMENTS,
         title: 'Departments',
         i18n: '@@sidebarMenuDepartments',
         icon: BS_ICON.Building,
