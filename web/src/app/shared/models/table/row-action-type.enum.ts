@@ -1,4 +1,4 @@
-export enum RowActionType {
+export enum ROW_ACTION_TYPE {
   DETAILS,
   EDIT,
   DELETE,

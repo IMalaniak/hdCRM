@@ -13,7 +13,7 @@ import { ADD_PRIVILEGE, EDIT_PRIVILEGE, DELETE_PRIVILEGE, COLUMN_KEY } from '@/s
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
-import { Column, IColumn, RowActionData, RowActionType } from '@/shared/models/table';
+import { Column, IColumn, RowActionData, ROW_ACTION_TYPE } from '@/shared/models/table';
 import { DepartmentsDataSource } from '../../dataSources';
 import { selectDepartmentsTotalCount, selectDepartmentsPageLoading, changeIsEditingState } from '../../store';
 
@@ -54,15 +54,15 @@ export class DepartmentsComponent {
     private readonly dialogService: DialogService
   ) {}
 
-  onRowAction(data: RowActionData<RowActionType>): void {
+  onRowAction(data: RowActionData<ROW_ACTION_TYPE>): void {
     switch (data.actionType) {
-      case RowActionType.DETAILS:
+      case ROW_ACTION_TYPE.DETAILS:
         this.onDepartmentSelect(data.id, false);
         break;
-      case RowActionType.EDIT:
+      case ROW_ACTION_TYPE.EDIT:
         this.onDepartmentSelect(data.id, true);
         break;
-      case RowActionType.DELETE:
+      case ROW_ACTION_TYPE.DELETE:
         this.deleteDepartment(data.id);
         break;
     }

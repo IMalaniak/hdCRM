@@ -9,11 +9,11 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { SharedModule } from '@/shared/shared.module';
 import { formsStateMock } from '@/shared/testing/mocks';
 import { OrganismsTaskDialogComponent } from './organisms-task-dialog.component';
-import { DialogCreateEditModel, DialogDataModel, DialogMode } from '@/shared/models/dialog';
+import { DialogCreateEditModel, DialogDataModel, DIALOG_MODE } from '@/shared/models/dialog';
 
 describe('OrganismsTaskDialogComponent', () => {
   const dialogDataModel: DialogDataModel<DialogCreateEditModel> = {
-    dialogModel: new DialogCreateEditModel(DialogMode.CREATE)
+    dialogModel: new DialogCreateEditModel(DIALOG_MODE.CREATE)
   };
 
   let component: OrganismsTaskDialogComponent;

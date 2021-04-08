@@ -12,7 +12,7 @@ import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model'
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
-import { DialogCreateEditModel, DialogMode, DialogType, IDialogResult } from '@/shared/models';
+import { DialogCreateEditModel, DIALOG_MODE, DIALOG_TYPE, IDialogResult } from '@/shared/models';
 import {
   deleteTask,
   createTask,
@@ -61,14 +61,14 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
 
   openTaskDialog(taskToUpdate?: Task): void {
     const dialogModel: DialogCreateEditModel = new DialogCreateEditModel(
-      taskToUpdate ? DialogMode.EDIT : DialogMode.CREATE,
+      taskToUpdate ? DIALOG_MODE.EDIT : DIALOG_MODE.CREATE,
       taskToUpdate ? CONSTANTS.TEXTS_UPDATE_TASK : CONSTANTS.TEXTS_CREATE_TASK,
       taskToUpdate ? DIALOG.SAVE : DIALOG.CREATE
     );
     const dialogDataModel: DialogDataModel<DialogCreateEditModel> = { dialogModel, model: taskToUpdate };
 
     this.dialogService
-      .open(OrganismsTaskDialogComponent, dialogDataModel, DialogType.STANDART)
+      .open(OrganismsTaskDialogComponent, dialogDataModel, DIALOG_TYPE.STANDART)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: IDialogResult<Task>) => {

@@ -1,4 +1,4 @@
-export enum CellType {
+export enum CELL_TYPE {
   Sequence,
   Actions,
   String,

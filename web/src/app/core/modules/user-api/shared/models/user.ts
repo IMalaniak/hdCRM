@@ -6,7 +6,7 @@ import { TimeStamps } from '@/shared/models/base';
 import { UserSession } from './userSession';
 import { PasswordAttributes } from './passwordAttributes';
 import { BelongsToOrganization } from './organization';
-import { UserPreferences } from './UserPreferences';
+import { UserPreferences } from './userPreferences';
 import { USER_STATE } from './user-state.enum';
 
 export interface User extends TimeStamps, BelongsToOrganization {

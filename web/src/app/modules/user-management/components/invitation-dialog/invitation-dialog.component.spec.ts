@@ -8,13 +8,13 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { SharedModule } from '@/shared/shared.module';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
-import { DialogCreateEditModel, DialogMode } from '@/shared/models';
+import { DialogCreateEditModel, DIALOG_MODE } from '@/shared/models';
 import { InvitationDialogComponent } from './invitation-dialog.component';
 import { initialUsersState } from '@/core/modules/user-api/store';
 
 describe('InvitationDialogComponent', () => {
   const dialogDataModel: DialogDataModel<DialogCreateEditModel> = {
-    dialogModel: new DialogCreateEditModel(DialogMode.CREATE)
+    dialogModel: new DialogCreateEditModel(DIALOG_MODE.CREATE)
   };
 
   let component: InvitationDialogComponent;

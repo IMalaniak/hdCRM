@@ -1,4 +1,4 @@
-export class SingleChartData {
+export class SingleChartDataModel {
   data: any[]; // TODO: ArseniiIrod add type
 
   constructor(data: any[], paramX: string, paramY: string) {

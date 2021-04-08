@@ -1,11 +1,11 @@
 import { STYLE } from '@/shared/constants';
 import { COLUMN_LABEL, COLUMN_KEY } from '@/shared/constants/table.constants';
-import { HorizontalAlign } from './horizontalAlign.enum';
+import { HORIZONTAL_ALIGN } from './horizontal-align.enum';
 
 export interface IColumn {
   readonly key: string;
   readonly label: string;
-  readonly horizontalAlign: HorizontalAlign;
+  readonly horizontalAlign: HORIZONTAL_ALIGN;
   readonly isVisible: boolean;
   readonly hidable: boolean;
   readonly draggable: boolean;
@@ -17,7 +17,7 @@ export interface IColumn {
 export class Column {
   static createColumn({
     key,
-    horizontalAlign = HorizontalAlign.Left,
+    horizontalAlign = HORIZONTAL_ALIGN.LEFT,
     isVisible = true,
     hidable = true,
     draggable = true,
@@ -47,7 +47,7 @@ export class Column {
   static createCheckboxColumn(): IColumn {
     return this.createColumn({
       key: COLUMN_KEY.SELECT,
-      horizontalAlign: HorizontalAlign.Center,
+      horizontalAlign: HORIZONTAL_ALIGN.CENTER,
       isVisible: false,
       hidable: false,
       draggable: false,
@@ -67,7 +67,7 @@ export class Column {
   static createActionsColumn(): IColumn {
     return this.createColumn({
       key: COLUMN_KEY.ACTIONS,
-      horizontalAlign: HorizontalAlign.Center,
+      horizontalAlign: HORIZONTAL_ALIGN.CENTER,
       hidable: false,
       draggable: false,
       hasSorting: false,

@@ -10,7 +10,7 @@ import { selectDepartmentsLoading } from '@/core/modules/department-api/store';
 import { DialogService } from '@/shared/services';
 import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
 import { CONSTANTS, FORM_NAME } from '@/shared/constants';
-import { DialogDataModel, IDialogResult, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
+import { DialogDataModel, IDialogResult, DIALOG_TYPE, DialogWithTwoButtonModel } from '@/shared/models';
 import { UsersDialogComponent } from '@/modules/user-management/components';
 import { prepareSelectionPopup, resetSelectionPopup } from '@/modules/user-management/store';
 import { selectUserById, selectUsersById } from '@/core/modules/user-api/store';
@@ -40,7 +40,7 @@ export class TemplatesDepartmentViewComponent extends TemplatesViewDetailsCompon
     this.store$.dispatch(prepareSelectionPopup({ selectedUsersIds: [this.item.Manager?.id], singleSelection: true }));
 
     this.dialogService
-      .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
+      .open(UsersDialogComponent, dialogDataModel, DIALOG_TYPE.MAX)
       .afterClosed()
       .subscribe((result: IDialogResult<number[]>) => {
         if (result?.success) {
@@ -64,7 +64,7 @@ export class TemplatesDepartmentViewComponent extends TemplatesViewDetailsCompon
     this.store$.dispatch(prepareSelectionPopup({ selectedUsersIds: this.item.Workers.map((user) => user.id) }));
 
     this.dialogService
-      .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
+      .open(UsersDialogComponent, dialogDataModel, DIALOG_TYPE.MAX)
       .afterClosed()
       .subscribe((result: IDialogResult<number[]>) => {
         if (result?.success) {

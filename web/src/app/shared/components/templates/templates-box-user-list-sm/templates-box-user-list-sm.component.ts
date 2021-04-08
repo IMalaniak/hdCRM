@@ -7,7 +7,7 @@ import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogWithTwoButtonModel } from '@/shared/models/dialog/dialog-with-two-button.model';
 import { DialogService } from '@/shared/services';
 import { IDialogResult } from '@/shared/models/dialog/dialog-result';
-import { DialogType } from '@/shared/models';
+import { DIALOG_TYPE } from '@/shared/models';
 import { OrganismsUserDetailsDialogComponent } from '../../organisms/organisms-user-details-dialog/organisms-user-details-dialog.component';
 
 @Component({
@@ -73,7 +73,7 @@ export class TemplatesBoxUserListSmComponent {
     };
 
     this.dialogService
-      .open(OrganismsUserDetailsDialogComponent, dialogDataModel, DialogType.STANDART)
+      .open(OrganismsUserDetailsDialogComponent, dialogDataModel, DIALOG_TYPE.STANDART)
       .afterClosed()
       .subscribe((result: IDialogResult<string>) => {
         if (result?.success) {

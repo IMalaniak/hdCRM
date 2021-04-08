@@ -17,7 +17,7 @@ import { COLUMN_KEY, COLUMN_LABEL, ACTION_LABEL, CONSTANTS, BS_ICON } from '@/sh
 import { DialogService } from '@/shared/services';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { IDialogResult } from '@/shared/models/dialog/dialog-result';
-import { DialogCreateEditModel, DialogMode } from '@/shared/models';
+import { DialogCreateEditModel, DIALOG_MODE } from '@/shared/models';
 import { AddStageDialogComponent } from '../add-dialog/add-stage-dialog.component';
 
 @Component({
@@ -69,7 +69,7 @@ export class StagesComponent implements OnInit, OnDestroy {
   }
 
   createStageDialog(): void {
-    const dialogModel = new DialogCreateEditModel(DialogMode.CREATE, CONSTANTS.TEXTS_CREATE_STAGE, ACTION_LABEL.SAVE);
+    const dialogModel = new DialogCreateEditModel(DIALOG_MODE.CREATE, CONSTANTS.TEXTS_CREATE_STAGE, ACTION_LABEL.SAVE);
     const dialogDataModel: DialogDataModel<DialogCreateEditModel> = { dialogModel };
 
     this.dialogService

@@ -1,4 +1,4 @@
-export enum DialogType {
+export enum DIALOG_TYPE {
   STANDART,
   CONFIRM,
   FIT_CONTENT,

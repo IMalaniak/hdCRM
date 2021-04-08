@@ -11,7 +11,7 @@ import { selectUsersById } from '@/core/modules/user-api/store';
 import { TemplatesViewDetailsComponent } from '@/shared/components';
 import { MAT_BUTTON, COLUMN_KEY, COLUMN_LABEL, CONSTANTS, BS_ICON, FORM_NAME } from '@/shared/constants';
 import { DialogService } from '@/shared/services';
-import { DialogDataModel, IDialogResult, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
+import { DialogDataModel, IDialogResult, DIALOG_TYPE, DialogWithTwoButtonModel } from '@/shared/models';
 import { UsersDialogComponent } from '@/modules/user-management/components';
 import { PrivilegesDialogComponent } from '@/modules/role-management/components/privileges/dialog/privileges-dialog.component';
 import { resetSelectionPopup, prepareSelectionPopup } from '@/modules/user-management/store';
@@ -58,7 +58,7 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
     this.store$.dispatch(prepareSelectionPopup({ selectedUsersIds: this.item.Users.map((user) => user.id) }));
 
     this.dialogService
-      .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
+      .open(UsersDialogComponent, dialogDataModel, DIALOG_TYPE.MAX)
       .afterClosed()
       .subscribe((result: IDialogResult<number[]>) => {
         if (result?.success) {
@@ -85,7 +85,7 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
     };
 
     this.dialogService
-      .open(PrivilegesDialogComponent, dialogDataModel, DialogType.STANDART)
+      .open(PrivilegesDialogComponent, dialogDataModel, DIALOG_TYPE.STANDART)
       .afterClosed()
       .subscribe((result: IDialogResult<Privilege[]>) => {
         if (result?.success) {

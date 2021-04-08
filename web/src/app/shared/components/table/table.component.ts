@@ -44,13 +44,13 @@ import {
   THEME_PALETTE
 } from '@/shared/constants';
 import {
-  CellType,
+  CELL_TYPE,
   DataRow,
-  HorizontalAlign,
+  HORIZONTAL_ALIGN,
   IColumn,
   RowAction,
   RowActionData,
-  RowActionType,
+  ROW_ACTION_TYPE,
   TableColumnConfig,
   TableConfig
 } from '@/shared/models/table';
@@ -79,12 +79,12 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   @Input() hasSettings = true;
   @Input() displayMode = ListDisplayMode.DEFAULT;
   @Input() noContentMessage = CONSTANTS.NO_CONTENT_INFO;
-  @Input() additionalRowActions: RowAction<RowActionType>[];
+  @Input() additionalRowActions: RowAction<ROW_ACTION_TYPE>[];
   @Input() canEdit: boolean;
   @Input() canDelete: boolean;
 
-  @Output() readonly rowActionClicked: EventEmitter<RowActionData<RowActionType>> = new EventEmitter<
-    RowActionData<RowActionType>
+  @Output() readonly rowActionClicked: EventEmitter<RowActionData<ROW_ACTION_TYPE>> = new EventEmitter<
+    RowActionData<ROW_ACTION_TYPE>
   >();
 
   @ViewChild('table') table: MatTable<CdkTable<DataRow>>;
@@ -94,7 +94,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   selection: SelectionModel<number>;
 
   pageSizeOptions: number[] = pageSizeOptions;
-  cellType: typeof CellType = CellType;
+  cellType: typeof CELL_TYPE = CELL_TYPE;
   buttonType: typeof BUTTON_TYPE = BUTTON_TYPE;
   matButtonType: typeof MAT_BUTTON = MAT_BUTTON;
   themePalette: typeof THEME_PALETTE = THEME_PALETTE;
@@ -118,26 +118,26 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     funnel: BS_ICON.Funnel
   };
 
-  rowActions: RowAction<RowActionType>[] = [
+  rowActions: RowAction<ROW_ACTION_TYPE>[] = [
     {
       icon: BS_ICON.InfoSquare,
       label: ACTION_LABEL.DETAILS,
       data: {
-        actionType: RowActionType.DETAILS
+        actionType: ROW_ACTION_TYPE.DETAILS
       }
     },
     {
       icon: BS_ICON.Pencil,
       label: ACTION_LABEL.EDIT,
       data: {
-        actionType: RowActionType.EDIT
+        actionType: ROW_ACTION_TYPE.EDIT
       }
     },
     {
       icon: BS_ICON.Trash,
       label: ACTION_LABEL.DELETE,
       data: {
-        actionType: RowActionType.DELETE
+        actionType: ROW_ACTION_TYPE.DELETE
       }
     }
   ];
@@ -207,17 +207,17 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     return this.paginator.pageIndex * this.paginator.pageSize + index + 1;
   }
 
-  getColumnClasses(align: HorizontalAlign, customClass?: string): string {
+  getColumnClasses(align: HORIZONTAL_ALIGN, customClass?: string): string {
     let resultClasses: string;
 
     switch (align) {
-      case HorizontalAlign.Left:
+      case HORIZONTAL_ALIGN.LEFT:
         resultClasses = STYLE.TEXT_LEFT;
         break;
-      case HorizontalAlign.Center:
+      case HORIZONTAL_ALIGN.CENTER:
         resultClasses = STYLE.TEXT_CENTER;
         break;
-      case HorizontalAlign.Right:
+      case HORIZONTAL_ALIGN.RIGHT:
         resultClasses = STYLE.TEXT_RIGHT;
         break;
       default:
@@ -252,7 +252,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     this.store$.dispatch(setTableConfig({ tableConfig }));
   }
 
-  rowDedicatedAction(id: number, data: RowActionData<RowActionType>): void {
+  rowDedicatedAction(id: number, data: RowActionData<ROW_ACTION_TYPE>): void {
     this.rowActionClicked.emit({
       ...data,
       id
@@ -263,7 +263,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     if (this.displayModePopup()) {
       this.selectionChange(id);
     } else {
-      this.rowDedicatedAction(id, { actionType: RowActionType.DETAILS });
+      this.rowDedicatedAction(id, { actionType: ROW_ACTION_TYPE.DETAILS });
     }
   }
 
@@ -276,15 +276,15 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     return dropList.data[index].draggable;
   }
 
-  getRowActionIconColor(actionType: RowActionType): THEME_PALETTE {
-    return actionType === RowActionType.DELETE ? THEME_PALETTE.WARN : THEME_PALETTE.PRIMARY;
+  getRowActionIconColor(actionType: ROW_ACTION_TYPE): THEME_PALETTE {
+    return actionType === ROW_ACTION_TYPE.DELETE ? THEME_PALETTE.WARN : THEME_PALETTE.PRIMARY;
   }
 
-  getRowActionVisibility(actionType: RowActionType): boolean {
+  getRowActionVisibility(actionType: ROW_ACTION_TYPE): boolean {
     switch (actionType) {
-      case RowActionType.EDIT:
+      case ROW_ACTION_TYPE.EDIT:
         return this.canEdit ?? true;
-      case RowActionType.DELETE:
+      case ROW_ACTION_TYPE.DELETE:
         return this.canDelete ?? true;
       default:
         return true;
@@ -294,7 +294,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   selectionChange(id: number): void {
     this.selection.toggle(id);
     this.rowActionClicked.emit({
-      actionType: RowActionType.SELECT,
+      actionType: ROW_ACTION_TYPE.SELECT,
       ids: this.selection.selected
     });
   }

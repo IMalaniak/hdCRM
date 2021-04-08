@@ -1,10 +1,5 @@
 import { LINK_TARGET, LINK_TYPE } from '@/shared/constants';
-
-export interface Navigation {
-  linkHref: any[] | string;
-  linkType: LINK_TYPE;
-  target: LINK_TARGET;
-}
+import { Navigation } from '../models';
 
 export const createNavigation = (
   linkHref: any[] | string,

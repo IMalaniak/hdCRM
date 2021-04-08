@@ -16,9 +16,9 @@ import {
 import { COLUMN_KEY, COLUMN_LABEL, ACTION_LABEL, CONSTANTS, BS_ICON } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogService } from '@/shared/services';
-import { DialogMode } from '@/shared/models/dialog/dialog-mode.enum';
+import { DIALOG_MODE } from '@/shared/models/dialog/dialog-mode.enum';
 import { IDialogResult } from '@/shared/models/dialog/dialog-result';
-import { DialogCreateEditModel, DialogType } from '@/shared/models';
+import { DialogCreateEditModel, DIALOG_TYPE } from '@/shared/models';
 import { AddPrivilegeDialogComponent } from '../add-dialog/add-privilege-dialog.component';
 
 @Component({
@@ -72,14 +72,14 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
 
   createPrivilegeDialog(): void {
     const dialogModel = new DialogCreateEditModel(
-      DialogMode.CREATE,
+      DIALOG_MODE.CREATE,
       CONSTANTS.TEXTS_CREATE_PRIVILEGE,
       ACTION_LABEL.SUBMIT
     );
     const dialogDataModel: DialogDataModel<DialogCreateEditModel> = { dialogModel };
 
     this.dialogService
-      .open(AddPrivilegeDialogComponent, dialogDataModel, DialogType.STANDART)
+      .open(AddPrivilegeDialogComponent, dialogDataModel, DIALOG_TYPE.STANDART)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: IDialogResult<Privilege>) => {

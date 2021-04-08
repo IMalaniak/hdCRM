@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { FileTypes } from '@/shared/models';
 import { BS_ICON } from '@/shared/constants';
 
 @Injectable({
@@ -10,7 +9,7 @@ import { BS_ICON } from '@/shared/constants';
 })
 export class AttachmentService {
   private api = '/files';
-  fileTypesMap: FileTypes = {
+  fileTypesMap: { [key: string]: string[] } = {
     msWord: ['doc', 'docx'],
     msPPoint: ['ppt', 'pptx'],
     image: ['png', 'jpg', 'jpeg', 'png', 'bmp', 'gif'],

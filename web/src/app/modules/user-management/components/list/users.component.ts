@@ -10,14 +10,14 @@ import { User, USER_STATE } from '@/core/modules/user-api/shared';
 import { deleteUser, inviteUsers, OnlineUserListRequested } from '@/core/modules/user-api/store';
 import { isPrivileged, currentUser } from '@/core/modules/auth/store/auth.selectors';
 import { IconsService } from '@/core/services';
-import { DialogCreateEditModel, DialogDataModel, DialogMode, DialogType, IDialogResult } from '@/shared/models';
+import { DialogCreateEditModel, DialogDataModel, DIALOG_MODE, DIALOG_TYPE, IDialogResult } from '@/shared/models';
 import { ROUTING, CONSTANTS, BS_ICON } from '@/shared/constants';
 import { ADD_PRIVILEGE, EDIT_PRIVILEGE, DELETE_PRIVILEGE, COLUMN_KEY } from '@/shared/constants';
 import { ListDisplayMode } from '@/shared/store';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
-import { RowActionData, RowActionType, Column, IColumn } from '@/shared/models/table';
+import { RowActionData, ROW_ACTION_TYPE, Column, IColumn } from '@/shared/models/table';
 import {
   selectListDisplayMode,
   selectPreselectedUsersIds,
@@ -99,18 +99,18 @@ export class UsersComponent {
     this.store$.dispatch(OnlineUserListRequested());
   }
 
-  onRowAction(data: RowActionData<RowActionType>): void {
+  onRowAction(data: RowActionData<ROW_ACTION_TYPE>): void {
     switch (data.actionType) {
-      case RowActionType.DETAILS:
+      case ROW_ACTION_TYPE.DETAILS:
         this.onUserSelect(data.id, false);
         break;
-      case RowActionType.EDIT:
+      case ROW_ACTION_TYPE.EDIT:
         this.onUserSelect(data.id, true);
         break;
-      case RowActionType.DELETE:
+      case ROW_ACTION_TYPE.DELETE:
         this.deleteUser(data.id);
         break;
-      case RowActionType.SELECT:
+      case ROW_ACTION_TYPE.SELECT:
         this.selectedUsersIds = data.ids;
         break;
     }
@@ -118,14 +118,14 @@ export class UsersComponent {
 
   openInvitationDialog(): void {
     const dialogModel: DialogCreateEditModel = new DialogCreateEditModel(
-      DialogMode.CREATE,
+      DIALOG_MODE.CREATE,
       CONSTANTS.TEXTS_INVITE_USERS,
       CONSTANTS.TEXTS_SEND_INVITATIONS
     );
     const dialogDataModel: DialogDataModel<DialogCreateEditModel> = { dialogModel };
 
     this.dialogService
-      .open(InvitationDialogComponent, dialogDataModel, DialogType.STANDART)
+      .open(InvitationDialogComponent, dialogDataModel, DIALOG_TYPE.STANDART)
       .afterClosed()
       .subscribe((result: IDialogResult<User[]>) => {
         if (result && result.success) {
