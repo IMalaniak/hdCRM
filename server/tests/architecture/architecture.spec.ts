@@ -14,7 +14,7 @@ describe('Architecture tests', () => {
       .inFolder('controllers')
       .matchingPattern(doesNotMatchRegex(['utils', 'index.ts']))
       .should()
-      .matchPattern('.*Controller.ts|.*Controller.spec.ts')
+      .matchPattern('.*.controller.ts|.*.controller.spec.ts')
       .check();
 
     expect(violations).deep.equal([]);
@@ -25,7 +25,7 @@ describe('Architecture tests', () => {
       .inFolder('services')
       .matchingPattern(doesNotMatchRegex(['utils', 'index.ts']))
       .should()
-      .matchPattern('.*Service.ts|.*Service.spec.ts')
+      .matchPattern('.*.service.ts|.*.service.spec.ts')
       .check();
 
     expect(violations).deep.equal([]);
@@ -36,7 +36,7 @@ describe('Architecture tests', () => {
       .inFolder('routes')
       .matchingPattern(doesNotMatchRegex(['index.ts']))
       .should()
-      .matchPattern('.*Routes.ts|.*Routes.spec.ts')
+      .matchPattern('.*.routes.ts|.*.routes.spec.ts')
       .check();
 
     expect(violations).deep.equal([]);
