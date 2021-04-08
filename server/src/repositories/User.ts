@@ -41,7 +41,7 @@ import { Department } from './Department';
 import { Organization } from './Organization';
 import { Task } from './Task';
 import { Preference } from './Preference';
-import { enumToArray } from '../utils';
+import { enumToArray } from '../utils/enumToArray';
 import { USER_STATE } from '../constants';
 
 export interface UserAttributes {

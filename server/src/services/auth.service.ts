@@ -16,8 +16,10 @@ import {
   UserAttributes,
   UserSession
 } from '../repositories';
-import { CryptoUtils, EmailUtils, JwtUtils } from '../utils';
 import { Logger } from '../utils/Logger';
+import { CryptoUtils } from '../utils/crypto.utils';
+import { EmailUtils } from '../utils/email.utils';
+import { JwtUtils } from '../utils/jwt.utils';
 
 @Service()
 export class AuthService {

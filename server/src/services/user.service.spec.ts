@@ -13,7 +13,8 @@ import { CONSTANTS } from '../constants';
 import { CustomError } from '../errors';
 import { BaseResponse, CollectionApiResponse } from '../models';
 import { UserCreationAttributes, User, Organization, UserSession, Privilege } from '../repositories';
-import { CryptoUtils, EmailUtils } from '../utils';
+import { CryptoUtils } from '../utils/crypto.utils';
+import { EmailUtils } from '../utils/email.utils';
 import { Logger } from '../utils/Logger';
 import { UserService } from './user.service';
 

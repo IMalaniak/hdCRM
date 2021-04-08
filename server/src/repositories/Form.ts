@@ -1,7 +1,7 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
 
 import { FIELD_TYPE, FORM_TYPE } from '../constants';
-import { enumToArray } from '../utils';
+import { enumToArray } from '../utils/enumToArray';
 
 export interface FormItemOption {
   value: boolean | number | string;

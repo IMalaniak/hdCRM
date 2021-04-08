@@ -3,7 +3,6 @@ import Container, { Service } from 'typedi';
 import jimp from 'jimp';
 
 import { CONSTANTS } from '../constants';
-import { JwtUtils, parseCookies } from '../utils';
 import { ItemApiResponse, BaseResponse, CollectionApiResponse, RequestWithBody, PasswordReset } from '../models';
 import { UserService } from '../services';
 import { CustomError } from '../errors';
@@ -17,6 +16,8 @@ import {
   Asset,
   AssetCreationAttributes
 } from '../repositories';
+import { JwtUtils } from '../utils/jwt.utils';
+import { parseCookies } from '../utils/parseCookies';
 import { sendResponse } from './utils';
 import { BaseController } from './base/base.controller';
 

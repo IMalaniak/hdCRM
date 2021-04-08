@@ -3,10 +3,12 @@ import { StatusCodes } from 'http-status-codes';
 import { Service } from 'typedi';
 
 import { CustomError } from '../errors/custom-error';
-import { CryptoUtils, JwtUtils, parseCookies } from '../utils';
 import { BaseResponse, PasswordReset, RequestWithBody } from '../models';
 import { OrganizationCreationAttributes, UserCreationAttributes } from '../repositories';
 import { AuthService, UserService } from '../services';
+import { CryptoUtils } from '../utils/crypto.utils';
+import { JwtUtils } from '../utils/jwt.utils';
+import { parseCookies } from '../utils/parseCookies';
 import { sendResponse } from './utils';
 
 @Service()

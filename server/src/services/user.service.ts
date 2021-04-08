@@ -20,7 +20,8 @@ import {
   AssetCreationAttributes,
   Asset
 } from '../repositories';
-import { EmailUtils, CryptoUtils } from '../utils';
+import { CryptoUtils } from '../utils/crypto.utils';
+import { EmailUtils } from '../utils/email.utils';
 import { reduceResults } from './utils';
 import { BaseService } from './base/base.service';
 

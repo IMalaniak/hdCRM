@@ -3,7 +3,7 @@ import { Service } from 'typedi';
 
 import { BaseRoutes } from './base/base.routes';
 import { BaseResponse, ItemApiResponse, RequestWithQuery } from '../models';
-import { uploads } from '../utils';
+import { uploads } from '../utils/multerConfig';
 import { PlanController } from '../controllers';
 import { PlanCreationAttributes, PlanAttributes, Plan, Asset } from '../repositories';
 

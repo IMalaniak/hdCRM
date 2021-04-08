@@ -2,8 +2,8 @@ import { Service } from 'typedi';
 import { Socket, Server } from 'socket.io';
 
 import { User } from '../repositories';
-import { SocketUtils, UserOnline } from '../utils';
 import { Logger } from '../utils/Logger';
+import { SocketUtils, UserOnline } from '../utils/socket.utils';
 
 export enum GlobalEvents {
   CONNECT = 'connect',
