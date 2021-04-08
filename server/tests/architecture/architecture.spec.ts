@@ -42,6 +42,28 @@ describe('Architecture tests', () => {
     expect(violations).deep.equal([]);
   });
 
+  it('does not find a violation for errors', async () => {
+    const violations = await files
+      .inFolder('errors')
+      .matchingPattern(doesNotMatchRegex(['index.ts']))
+      .should()
+      .matchPattern('.*-error.ts')
+      .check();
+
+    expect(violations).deep.equal([]);
+  });
+
+  it('does not find a violation for constants', async () => {
+    const violations = await files
+      .inFolder('constants')
+      .matchingPattern(doesNotMatchRegex(['index.ts']))
+      .should()
+      .matchPattern('.*.constants.ts|.*.enum.ts')
+      .check();
+
+    expect(violations).deep.equal([]);
+  });
+
   it('layers in the right direction', async () => {
     const violations = await files.inFolder('services').shouldNot().dependOnFiles().inFolder('controllers').check();
     const violations2 = await files.inFolder('routes').shouldNot().dependOnFiles().inFolder('controllers').check();
