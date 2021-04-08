@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PATHS, VIEW_PRIVILEGES, ADD_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
+import { PATHS, VIEW_PRIVILEGE, ADD_PRIVILEGE, FORM_NAME } from '@/shared/constants';
 import { AddPlanComponent, PlanListComponent, PlanComponent, StagesComponent } from './components';
 import { PrivilegeGuard } from '@/shared/guards';
 
@@ -12,7 +12,7 @@ const routes: Routes = [
     data: {
       breadcrumb: 'List',
       animation: 'PlannerListPage',
-      privilege: VIEW_PRIVILEGES.PLAN
+      privilege: VIEW_PRIVILEGE.PLAN
     },
     canActivate: [PrivilegeGuard],
     component: PlanListComponent
@@ -22,8 +22,8 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Details',
       animation: 'PlannerDetailsPage',
-      privilege: VIEW_PRIVILEGES.PLAN,
-      formName: FORMCONSTANTS.PLAN
+      privilege: VIEW_PRIVILEGE.PLAN,
+      formName: FORM_NAME.PLAN
     },
     canActivate: [PrivilegeGuard],
     component: PlanComponent
@@ -33,8 +33,8 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Add plan',
       animation: 'PlannerAddPage',
-      privilege: ADD_PRIVILEGES.PLAN,
-      formName: FORMCONSTANTS.PLAN
+      privilege: ADD_PRIVILEGE.PLAN,
+      formName: FORM_NAME.PLAN
     },
     canActivate: [PrivilegeGuard],
     component: AddPlanComponent
@@ -44,7 +44,7 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Stages',
       animation: 'PlannerStagesPage',
-      privilege: VIEW_PRIVILEGES.STAGES
+      privilege: VIEW_PRIVILEGE.STAGES
     },
     canActivate: [PrivilegeGuard],
     component: StagesComponent

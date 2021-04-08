@@ -2,12 +2,12 @@ import { Department } from '@/core/modules/department-api/shared';
 import { Role } from '@/core/modules/role-api/shared';
 import { Asset } from '@/shared/models';
 import { TimeStamps } from '@/shared/models/base';
-import { UserState } from '@/shared/constants';
 
 import { UserSession } from './userSession';
 import { PasswordAttributes } from './passwordAttributes';
 import { BelongsToOrganization } from './organization';
 import { UserPreferences } from './UserPreferences';
+import { USER_STATE } from './user-state.enum';
 
 export interface User extends TimeStamps, BelongsToOrganization {
   id: number;
@@ -21,7 +21,7 @@ export interface User extends TimeStamps, BelongsToOrganization {
   Role: Role;
   RoleId: number;
   defaultLang: string;
-  state: UserState;
+  state: USER_STATE;
   Department: Department;
   DepartmentId: number;
   avatarId: number;

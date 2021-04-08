@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { ComponentType } from '@angular/cdk/portal';
 
 import { Privilege } from '@/core/modules/role-api/shared';
-import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
+import { ACTION_LABEL, THEME_PALETTE } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogCreateEditModel, IDialogResult } from '@/shared/models';
 import { DialogCreateEditPageModel } from '@/shared/components';
@@ -15,7 +15,7 @@ import { DialogCreateEditPageModel } from '@/shared/components';
 })
 export class AddPrivilegeDialogComponent extends DialogCreateEditPageModel implements OnInit {
   privilegeGroup: FormGroup;
-  actionLabels = ACTION_LABELS;
+  actionLabels = ACTION_LABEL;
   themePalette = THEME_PALETTE;
 
   constructor(

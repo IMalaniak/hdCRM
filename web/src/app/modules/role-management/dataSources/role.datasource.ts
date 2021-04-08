@@ -8,7 +8,7 @@ import { PageQuery } from '@/shared/models';
 import { CommonDataSource } from '@/shared/services';
 import { Cell, DataRow } from '@/shared/models/table';
 import { selectRolesOfPage } from '../store/role.selectors';
-import { COLUMN_KEYS } from '@/shared/constants/table.constants';
+import { COLUMN_KEY } from '@/shared/constants/table.constants';
 
 export class RolesDataSource extends CommonDataSource<Role> {
   loadData(page: PageQuery): void {
@@ -30,13 +30,13 @@ export class RolesDataSource extends CommonDataSource<Role> {
   protected mapToDataRows(roles: Role[]): DataRow[] {
     return roles.map((role) => ({
       id: role.id,
-      [COLUMN_KEYS.SEQUENCE]: Cell.createSequenceCell(),
-      [COLUMN_KEYS.TITLE]: Cell.createStringCell(role.keyString),
-      [COLUMN_KEYS.USERS]: Cell.createStringCell(role.Users?.length),
-      [COLUMN_KEYS.PRIVILEGES]: Cell.createStringCell(role.Privileges?.length),
-      [COLUMN_KEYS.CREATED_AT]: Cell.createDateCell(role.createdAt),
-      [COLUMN_KEYS.UPDATED_AT]: Cell.createDateCell(role.updatedAt),
-      [COLUMN_KEYS.ACTIONS]: Cell.createActionsCell()
+      [COLUMN_KEY.SEQUENCE]: Cell.createSequenceCell(),
+      [COLUMN_KEY.TITLE]: Cell.createStringCell(role.keyString),
+      [COLUMN_KEY.USERS]: Cell.createStringCell(role.Users?.length),
+      [COLUMN_KEY.PRIVILEGES]: Cell.createStringCell(role.Privileges?.length),
+      [COLUMN_KEY.CREATED_AT]: Cell.createDateCell(role.createdAt),
+      [COLUMN_KEY.UPDATED_AT]: Cell.createDateCell(role.updatedAt),
+      [COLUMN_KEY.ACTIONS]: Cell.createActionsCell()
     }));
   }
 }

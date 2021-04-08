@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 
-import { BS_ICONS, NOTIFICATION_TYPES } from '@/shared/constants';
+import { BS_ICON, NOTIFICATION_TYPE } from '@/shared/constants';
 import { ToastMessage } from '@/shared/models/toastMessage';
 
 @Component({
@@ -26,12 +26,12 @@ import { ToastMessage } from '@/shared/models/toastMessage';
   styleUrls: ['./molecules-toast-message.component.scss']
 })
 export class MoleculesToastMessageComponent {
-  notificationTypes = NOTIFICATION_TYPES;
-  cardIcons: { [key: string]: BS_ICONS } = {
-    [NOTIFICATION_TYPES.SUCCESS]: BS_ICONS.Check,
-    [NOTIFICATION_TYPES.ERROR]: BS_ICONS.X,
-    [NOTIFICATION_TYPES.INFO]: BS_ICONS.Info,
-    [NOTIFICATION_TYPES.WARN]: BS_ICONS.Exclamation
+  notificationTypes = NOTIFICATION_TYPE;
+  cardIcons: { [key: string]: BS_ICON } = {
+    [NOTIFICATION_TYPE.SUCCESS]: BS_ICON.Check,
+    [NOTIFICATION_TYPE.ERROR]: BS_ICON.X,
+    [NOTIFICATION_TYPE.INFO]: BS_ICON.Info,
+    [NOTIFICATION_TYPE.WARN]: BS_ICON.Exclamation
   };
   constructor(@Inject(MAT_SNACK_BAR_DATA) public toast: ToastMessage) {}
 }

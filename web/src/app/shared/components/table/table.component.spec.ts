@@ -11,7 +11,7 @@ import { AppState } from '@/core/store';
 import { initialLayoutState } from '@/core/modules/layout/store';
 import { Cell, Column, DataRow, IColumn } from '@/shared/models/table';
 import { SharedModule } from '@/shared/shared.module';
-import { COLUMN_KEYS } from '@/shared/constants';
+import { COLUMN_KEY } from '@/shared/constants';
 import { CommonDataSource } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
 import { TableComponent } from './table.component';
@@ -39,11 +39,11 @@ class TestDataSource extends CommonDataSource<TestData> {
   protected mapToDataRows(items: any[]): DataRow[] {
     return items.map((item: { id: any; title: string; createdAt: Date; updatedAt: Date }) => ({
       id: item.id,
-      [COLUMN_KEYS.SEQUENCE]: Cell.createSequenceCell(),
-      [COLUMN_KEYS.TITLE]: Cell.createStringCell(item.title),
-      [COLUMN_KEYS.CREATED_AT]: Cell.createDateCell(item.createdAt),
-      [COLUMN_KEYS.UPDATED_AT]: Cell.createDateCell(item.updatedAt),
-      [COLUMN_KEYS.ACTIONS]: Cell.createActionsCell()
+      [COLUMN_KEY.SEQUENCE]: Cell.createSequenceCell(),
+      [COLUMN_KEY.TITLE]: Cell.createStringCell(item.title),
+      [COLUMN_KEY.CREATED_AT]: Cell.createDateCell(item.createdAt),
+      [COLUMN_KEY.UPDATED_AT]: Cell.createDateCell(item.updatedAt),
+      [COLUMN_KEY.ACTIONS]: Cell.createActionsCell()
     }));
   }
 }
@@ -59,9 +59,9 @@ describe('TableComponent', () => {
   const columns: IColumn[] = [
     Column.createSequenceNumberColumn(),
     Column.createCheckboxColumn(),
-    Column.createColumn({ key: COLUMN_KEYS.TITLE }),
-    Column.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
-    Column.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
+    Column.createColumn({ key: COLUMN_KEY.TITLE }),
+    Column.createColumn({ key: COLUMN_KEY.CREATED_AT }),
+    Column.createColumn({ key: COLUMN_KEY.UPDATED_AT }),
     Column.createActionsColumn()
   ];
 

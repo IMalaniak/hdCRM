@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/portal';
 
 import { User } from '@/core/modules/user-api/shared';
-import { THEME_PALETTE, MAT_BUTTON, RoutingConstants } from '@/shared/constants';
+import { THEME_PALETTE, MAT_BUTTON, ROUTING } from '@/shared/constants';
 import { DialogBaseModel } from '../../dialogs';
 import { DialogDataModel, DialogWithTwoButtonModel, IDialogResult } from '@/shared/models';
 
@@ -26,7 +26,7 @@ export class OrganismsUserDetailsDialogComponent extends DialogBaseModel<DialogW
   }
 
   onClose(success: boolean): void {
-    const userDetailsRoute = `${RoutingConstants.ROUTE_USERS_DETAILS}/${this.user.id}`;
+    const userDetailsRoute = `${ROUTING.ROUTE_USERS_DETAILS}/${this.user.id}`;
     const result: IDialogResult<string> = {
       success,
       data: userDetailsRoute

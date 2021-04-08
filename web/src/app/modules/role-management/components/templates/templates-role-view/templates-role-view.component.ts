@@ -9,7 +9,7 @@ import { Role, Privilege } from '@/core/modules/role-api/shared';
 import { selectRolesLoading } from '@/core/modules/role-api/store/role';
 import { selectUsersById } from '@/core/modules/user-api/store';
 import { TemplatesViewDetailsComponent } from '@/shared/components';
-import { MAT_BUTTON, COLUMN_KEYS, COLUMN_LABELS, CONSTANTS, BS_ICONS, FORMCONSTANTS } from '@/shared/constants';
+import { MAT_BUTTON, COLUMN_KEY, COLUMN_LABEL, CONSTANTS, BS_ICON, FORM_NAME } from '@/shared/constants';
 import { DialogService } from '@/shared/services';
 import { DialogDataModel, IDialogResult, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { UsersDialogComponent } from '@/modules/user-management/components';
@@ -26,22 +26,22 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
   isLoading$: Observable<boolean> = this.store$.pipe(select(selectRolesLoading));
 
   matButtonType = MAT_BUTTON;
-  columns = COLUMN_KEYS;
-  columnLabels = COLUMN_LABELS;
-  displayedColumns: COLUMN_KEYS[] = [
-    COLUMN_KEYS.TITLE,
-    COLUMN_KEYS.VIEW,
-    COLUMN_KEYS.ADD,
-    COLUMN_KEYS.EDIT,
-    COLUMN_KEYS.DELETE
+  columns = COLUMN_KEY;
+  columnLabels = COLUMN_LABEL;
+  displayedColumns: COLUMN_KEY[] = [
+    COLUMN_KEY.TITLE,
+    COLUMN_KEY.VIEW,
+    COLUMN_KEY.ADD,
+    COLUMN_KEY.EDIT,
+    COLUMN_KEY.DELETE
   ];
-  listIcons: { [key: string]: BS_ICONS } = {
-    add: BS_ICONS.Plus,
-    delete: BS_ICONS.Trash,
-    enabled: BS_ICONS.Check,
-    disabled: BS_ICONS.X
+  listIcons: { [key: string]: BS_ICON } = {
+    add: BS_ICON.Plus,
+    delete: BS_ICON.Trash,
+    enabled: BS_ICON.Check,
+    disabled: BS_ICON.X
   };
-  protected readonly formName = FORMCONSTANTS.ROLE;
+  protected readonly formName = FORM_NAME.ROLE;
 
   constructor(
     protected readonly store$: Store<AppState>,
@@ -127,7 +127,7 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
 
   onClickEdit(): void {
     super.onClickEdit();
-    this.displayedColumns = [...this.displayedColumns, COLUMN_KEYS.ACTIONS];
+    this.displayedColumns = [...this.displayedColumns, COLUMN_KEY.ACTIONS];
   }
 
   onClickCancelEdit(): void {
@@ -141,7 +141,7 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
   }
 
   disableEdit(): void {
-    this.displayedColumns = this.displayedColumns.filter((col) => col !== COLUMN_KEYS.ACTIONS);
+    this.displayedColumns = this.displayedColumns.filter((col) => col !== COLUMN_KEY.ACTIONS);
   }
 
   cardTitle(): string {

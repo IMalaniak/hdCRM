@@ -13,7 +13,7 @@ import {
   updateDepartmentRequested
 } from '@/core/modules/department-api/store';
 import { Department } from '@/core/modules/department-api/shared';
-import { EDIT_PRIVILEGES } from '@/shared/constants';
+import { EDIT_PRIVILEGE } from '@/shared/constants';
 import { changeIsEditingState, cacheDepartment, selectIsEditing, restoreFromCache } from '../../store';
 
 @Component({
@@ -51,7 +51,7 @@ export class DepartmentComponent implements OnInit {
     );
 
     this.canEditDepartment$ = combineLatest([
-      this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.DEPARTMENT))),
+      this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGE.DEPARTMENT))),
       this.store$.pipe(select(currentUser)),
       this.department$
     ]).pipe(map(([editPriv, appUser, department]) => editPriv || appUser.id === department.managerId));

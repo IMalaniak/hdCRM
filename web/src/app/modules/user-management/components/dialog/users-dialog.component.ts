@@ -2,7 +2,7 @@ import { Component, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/portal';
 
-import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
+import { ACTION_LABEL, THEME_PALETTE } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogWithTwoButtonModel, IDialogResult } from '@/shared/models';
 import { DialogBaseModel } from '@/shared/components';
@@ -15,7 +15,7 @@ import { UsersComponent } from '../list/users.component';
 export class UsersDialogComponent extends DialogBaseModel<DialogWithTwoButtonModel> {
   @ViewChild(UsersComponent) usersComponent: UsersComponent;
 
-  actionLabels = ACTION_LABELS;
+  actionLabels = ACTION_LABEL;
   themePalette = THEME_PALETTE;
 
   constructor(

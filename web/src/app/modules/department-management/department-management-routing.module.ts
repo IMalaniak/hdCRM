@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PATHS, VIEW_PRIVILEGES, ADD_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
+import { PATHS, VIEW_PRIVILEGE, ADD_PRIVILEGE, FORM_NAME } from '@/shared/constants';
 import { PrivilegeGuard } from '@/shared/guards';
 import { AddDepartmentComponent, DepartmentComponent, DepartmentsComponent } from './components';
 
@@ -12,7 +12,7 @@ const routes: Routes = [
     data: {
       breadcrumb: 'List',
       animation: 'DepartmentsListPage',
-      privilege: VIEW_PRIVILEGES.DEPARTMENT
+      privilege: VIEW_PRIVILEGE.DEPARTMENT
     },
     canActivate: [PrivilegeGuard],
     component: DepartmentsComponent
@@ -22,8 +22,8 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Details',
       animation: 'DepartmentDetailsPage',
-      privilege: VIEW_PRIVILEGES.DEPARTMENT,
-      formName: FORMCONSTANTS.DEPARTMENT
+      privilege: VIEW_PRIVILEGE.DEPARTMENT,
+      formName: FORM_NAME.DEPARTMENT
     },
     canActivate: [PrivilegeGuard],
     component: DepartmentComponent
@@ -33,8 +33,8 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Add new department',
       animation: 'AddDepartmentPage',
-      privilege: ADD_PRIVILEGES.DEPARTMENT,
-      formName: FORMCONSTANTS.DEPARTMENT
+      privilege: ADD_PRIVILEGE.DEPARTMENT,
+      formName: FORM_NAME.DEPARTMENT
     },
     canActivate: [PrivilegeGuard],
     component: AddDepartmentComponent

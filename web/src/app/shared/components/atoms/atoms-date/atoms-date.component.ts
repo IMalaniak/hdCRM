@@ -3,7 +3,7 @@ import { MatFormFieldControl } from '@angular/material/form-field';
 import { NgControl } from '@angular/forms';
 
 import { BaseControlValueAccessorComponentModel } from '../../base/componentModels';
-import { InputType } from '@/shared/constants';
+import { INPUT_TYPE } from '@/shared/constants';
 
 @Component({
   selector: 'atoms-date',
@@ -14,7 +14,7 @@ export class AtomsDateComponent extends BaseControlValueAccessorComponentModel<D
   @Input() canValidate = true;
   @Input() label = '';
 
-  inputType: typeof InputType = InputType;
+  inputType: typeof INPUT_TYPE = INPUT_TYPE;
 
   constructor(@Optional() @Self() readonly ngControl: NgControl) {
     super();

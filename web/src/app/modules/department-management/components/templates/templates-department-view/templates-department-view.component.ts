@@ -9,7 +9,7 @@ import { Department } from '@/core/modules/department-api/shared';
 import { selectDepartmentsLoading } from '@/core/modules/department-api/store';
 import { DialogService } from '@/shared/services';
 import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
-import { CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
+import { CONSTANTS, FORM_NAME } from '@/shared/constants';
 import { DialogDataModel, IDialogResult, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { UsersDialogComponent } from '@/modules/user-management/components';
 import { prepareSelectionPopup, resetSelectionPopup } from '@/modules/user-management/store';
@@ -23,7 +23,7 @@ import { selectUserById, selectUsersById } from '@/core/modules/user-api/store';
 export class TemplatesDepartmentViewComponent extends TemplatesViewDetailsComponent<Department> {
   isLoading$: Observable<boolean> = this.store$.pipe(select(selectDepartmentsLoading));
 
-  protected readonly formName = FORMCONSTANTS.DEPARTMENT;
+  protected readonly formName = FORM_NAME.DEPARTMENT;
 
   constructor(
     protected readonly store$: Store<AppState>,

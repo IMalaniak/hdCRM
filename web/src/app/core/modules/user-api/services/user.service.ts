@@ -5,32 +5,32 @@ import { take } from 'rxjs/operators';
 
 import { BaseCrudService, SocketService } from '@/shared/services';
 import { NewPassword, BaseMessage, CollectionApiResponse } from '@/shared/models';
-import { SocketEvent, APIS } from '@/shared/constants';
+import { SOCKET_EVENT, API_ROUTES } from '@/shared/constants';
 import { User } from '../shared';
 import { Role } from '../../role-api/shared';
 
 @Injectable()
 export class UserService extends BaseCrudService {
-  protected readonly url = APIS.USERS;
+  protected readonly url = API_ROUTES.USERS;
 
-  userOnline$: Observable<any> = this.socket.onEvent(SocketEvent.ISONLINE);
-  userOffline$: Observable<any> = this.socket.onEvent(SocketEvent.ISOFFLINE);
-  onlineUsersListed$: Observable<any> = this.socket.onEvent(SocketEvent.USERSONLINE).pipe(take(1));
+  userOnline$: Observable<any> = this.socket.onEvent(SOCKET_EVENT.ISONLINE);
+  userOffline$: Observable<any> = this.socket.onEvent(SOCKET_EVENT.ISOFFLINE);
+  onlineUsersListed$: Observable<any> = this.socket.onEvent(SOCKET_EVENT.USERSONLINE).pipe(take(1));
 
   constructor(protected readonly http: HttpClient, private socket: SocketService) {
     super(http);
   }
 
   listOnline() {
-    this.socket.emit(SocketEvent.USERSONLINE);
+    this.socket.emit(SOCKET_EVENT.USERSONLINE);
   }
 
   inviteUsers(users: User[]): Observable<CollectionApiResponse<User>> {
-    return this.http.post<CollectionApiResponse<User>>(APIS.USERS_INVITE, users);
+    return this.http.post<CollectionApiResponse<User>>(API_ROUTES.USERS_INVITE, users);
   }
 
   changeOldPassword(data: NewPassword): Observable<BaseMessage> {
-    return this.http.post<BaseMessage>(APIS.USERS_CHANGE_PASSWORD, data, { withCredentials: true });
+    return this.http.post<BaseMessage>(API_ROUTES.USERS_CHANGE_PASSWORD, data, { withCredentials: true });
   }
 
   formatBeforeSend(user: User): User {

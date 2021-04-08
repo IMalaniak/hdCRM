@@ -5,7 +5,7 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { DialogBaseModel } from '@/shared/components';
 import { DialogDataModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
-import { DIALOG, STYLECONSTANTS } from '@/shared/constants';
+import { DIALOG, STYLE } from '@/shared/constants';
 import { IDialogResult } from '@/shared/models/dialog/dialog-result';
 
 @Injectable({
@@ -37,7 +37,7 @@ export class DialogService {
       data,
       closeOnNavigation: true,
       disableClose: true,
-      height: STYLECONSTANTS.FIT_CONTENT,
+      height: STYLE.FIT_CONTENT,
       maxWidth: DIALOG.MAX_WIDTH,
       maxHeight: DIALOG.MAX_HEIGHT,
       ...this.getConfig(dialogType)
@@ -60,7 +60,7 @@ export class DialogService {
         };
       default:
         return {
-          width: STYLECONSTANTS.FIT_CONTENT
+          width: STYLE.FIT_CONTENT
         };
     }
   }

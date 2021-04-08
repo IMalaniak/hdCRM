@@ -1,5 +1,5 @@
-import { STYLECONSTANTS } from '@/shared/constants';
-import { COLUMN_LABELS, COLUMN_KEYS } from '@/shared/constants/table.constants';
+import { STYLE } from '@/shared/constants';
+import { COLUMN_LABEL, COLUMN_KEY } from '@/shared/constants/table.constants';
 import { HorizontalAlign } from './horizontalAlign.enum';
 
 export interface IColumn {
@@ -28,7 +28,7 @@ export class Column {
   }: Partial<IColumn>): IColumn {
     return {
       key,
-      label: COLUMN_LABELS[key.toUpperCase()],
+      label: COLUMN_LABEL[key.toUpperCase()],
       horizontalAlign,
       isVisible,
       hidable,
@@ -41,12 +41,12 @@ export class Column {
   }
 
   static createSequenceNumberColumn(): IColumn {
-    return this.createColumn({ key: COLUMN_KEYS.SEQUENCE, draggable: false, hasSorting: false });
+    return this.createColumn({ key: COLUMN_KEY.SEQUENCE, draggable: false, hasSorting: false });
   }
 
   static createCheckboxColumn(): IColumn {
     return this.createColumn({
-      key: COLUMN_KEYS.SELECT,
+      key: COLUMN_KEY.SELECT,
       horizontalAlign: HorizontalAlign.Center,
       isVisible: false,
       hidable: false,
@@ -60,13 +60,13 @@ export class Column {
     return this.createColumn({
       key,
       hasSorting,
-      customClass: STYLECONSTANTS.PL_HEADER_LINK
+      customClass: STYLE.PL_HEADER_LINK
     });
   }
 
   static createActionsColumn(): IColumn {
     return this.createColumn({
-      key: COLUMN_KEYS.ACTIONS,
+      key: COLUMN_KEY.ACTIONS,
       horizontalAlign: HorizontalAlign.Center,
       hidable: false,
       draggable: false,

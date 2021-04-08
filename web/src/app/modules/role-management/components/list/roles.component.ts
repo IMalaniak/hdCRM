@@ -8,8 +8,8 @@ import { AppState } from '@/core/store';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { deleteRoleRequested } from '@/core/modules/role-api/store/role';
 import { DialogDataModel } from '@/shared/models';
-import { ACTION_LABELS, RoutingConstants, CONSTANTS, BS_ICONS } from '@/shared/constants';
-import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_KEYS } from '@/shared/constants';
+import { ACTION_LABEL, ROUTING, CONSTANTS, BS_ICON } from '@/shared/constants';
+import { ADD_PRIVILEGE, EDIT_PRIVILEGE, DELETE_PRIVILEGE, COLUMN_KEY } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
@@ -27,27 +27,27 @@ export class RolesComponent {
   dataSource: RolesDataSource = new RolesDataSource(this.store$);
   loading$: Observable<boolean> = this.store$.pipe(select(selectRolesPageLoading));
   resultsLength$: Observable<number> = this.store$.pipe(select(selectRolesTotalCount));
-  canAddRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.ROLE)));
-  canEditRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.ROLE)));
-  canDeleteRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.ROLE)));
+  canAddRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGE.ROLE)));
+  canEditRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGE.ROLE)));
+  canDeleteRole$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGE.ROLE)));
 
-  actionLabels = ACTION_LABELS;
-  addRoleRoute = RoutingConstants.ROUTE_ROLES_ADD;
-  listIcons: { [key: string]: BS_ICONS } = {
-    matMenu: BS_ICONS.ThreeDotsVertical,
-    add: BS_ICONS.Plus,
-    info: BS_ICONS.InfoSquare,
-    edit: BS_ICONS.Pencil,
-    delete: BS_ICONS.Trash
+  actionLabels = ACTION_LABEL;
+  addRoleRoute = ROUTING.ROUTE_ROLES_ADD;
+  listIcons: { [key: string]: BS_ICON } = {
+    matMenu: BS_ICON.ThreeDotsVertical,
+    add: BS_ICON.Plus,
+    info: BS_ICON.InfoSquare,
+    edit: BS_ICON.Pencil,
+    delete: BS_ICON.Trash
   };
 
   displayedColumns: IColumn[] = [
     Column.createSequenceNumberColumn(),
-    Column.createColumn({ key: COLUMN_KEYS.TITLE }),
-    Column.createColumn({ key: COLUMN_KEYS.USERS, hasSorting: false }),
-    Column.createColumn({ key: COLUMN_KEYS.PRIVILEGES, hasSorting: false }),
-    Column.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
-    Column.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
+    Column.createColumn({ key: COLUMN_KEY.TITLE }),
+    Column.createColumn({ key: COLUMN_KEY.USERS, hasSorting: false }),
+    Column.createColumn({ key: COLUMN_KEY.PRIVILEGES, hasSorting: false }),
+    Column.createColumn({ key: COLUMN_KEY.CREATED_AT }),
+    Column.createColumn({ key: COLUMN_KEY.UPDATED_AT }),
     Column.createActionsColumn()
   ];
 
@@ -72,7 +72,7 @@ export class RolesComponent {
   }
 
   onRoleSelect(id: number, edit: boolean = false): void {
-    this.router.navigateByUrl(`${RoutingConstants.ROUTE_ROLES_DETAILS}/${id}`);
+    this.router.navigateByUrl(`${ROUTING.ROUTE_ROLES_DETAILS}/${id}`);
     this.store$.dispatch(changeIsEditingState({ isEditing: edit }));
   }
 

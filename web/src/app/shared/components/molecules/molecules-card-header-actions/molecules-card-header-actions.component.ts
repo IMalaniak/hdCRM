@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { ACTION_LABELS, BS_ICONS, THEME_PALETTE } from '@/shared/constants';
+import { ACTION_LABEL, BS_ICON, THEME_PALETTE } from '@/shared/constants';
 
 @Component({
   selector: 'molecules-card-header-actions',
@@ -49,12 +49,12 @@ export class MoleculesCardHeaderActionsComponent {
   @Output() saveClick: EventEmitter<any> = new EventEmitter();
   @Output() updateClick: EventEmitter<any> = new EventEmitter();
 
-  actionLabels = ACTION_LABELS;
+  actionLabels = ACTION_LABEL;
   themePalette = THEME_PALETTE;
-  actionIcons: { [key: string]: BS_ICONS } = {
-    edit: BS_ICONS.Pencil,
-    cancel: BS_ICONS.X,
-    save: BS_ICONS.ClipboardCheck,
-    submit: BS_ICONS.Upload
+  actionIcons: { [key: string]: BS_ICON } = {
+    edit: BS_ICON.Pencil,
+    cancel: BS_ICON.X,
+    save: BS_ICON.ClipboardCheck,
+    submit: BS_ICON.Upload
   };
 }

@@ -6,7 +6,7 @@ import { AppState } from '@/core/store';
 import { Organization } from '@/core/modules/user-api/shared';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
-import { ACTION_LABELS, CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
+import { ACTION_LABEL, CONSTANTS, FORM_NAME } from '@/shared/constants';
 import { DialogService } from '@/shared/services';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { BaseDynamicFormPageModel } from '@/shared/components/base/models/base-dynamic-form-page.model';
@@ -25,8 +25,8 @@ export class OrganismsUserOrganizationComponent extends BaseDynamicFormPageModel
   @Output() updateOrg: EventEmitter<Organization> = new EventEmitter();
   @Output() setEditableForm: EventEmitter<boolean> = new EventEmitter();
 
-  actionLabels = ACTION_LABELS;
-  protected readonly formName = FORMCONSTANTS.USER_ORGANIZATION;
+  actionLabels = ACTION_LABEL;
+  protected readonly formName = FORM_NAME.USER_ORGANIZATION;
 
   constructor(protected readonly store$: Store<AppState>, private readonly dialogService: DialogService) {
     super(store$);

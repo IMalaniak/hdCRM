@@ -9,7 +9,7 @@ import { AppState } from '@/core/store';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { User } from '@/core/modules/user-api/shared';
 import { selectUserApiIsLoading, selectUserById, userRequested } from '@/core/modules/user-api/store';
-import { EDIT_PRIVILEGES } from '@/shared/constants';
+import { EDIT_PRIVILEGE } from '@/shared/constants';
 import { selectIsEditing } from '../../store';
 
 @Component({
@@ -21,7 +21,7 @@ export class UserComponent implements OnInit {
   user$: Observable<User>;
   editForm$: Observable<boolean> = this.store.pipe(select(selectIsEditing));
   isLoading$: Observable<boolean> = this.store.pipe(select(selectUserApiIsLoading));
-  canEdit$: Observable<boolean> = this.store.pipe(select(isPrivileged(EDIT_PRIVILEGES.USER)));
+  canEdit$: Observable<boolean> = this.store.pipe(select(isPrivileged(EDIT_PRIVILEGE.USER)));
 
   constructor(private route: ActivatedRoute, private store: Store<AppState>) {}
 

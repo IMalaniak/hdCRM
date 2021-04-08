@@ -4,7 +4,7 @@ export enum SORT_DIRECTION {
   NONE = ''
 }
 
-export enum COLUMN_KEYS {
+export enum COLUMN_KEY {
   ACTIONS = 'actions',
   ADD = 'add',
   AVATAR = 'avatar',
@@ -37,7 +37,7 @@ export enum COLUMN_KEYS {
   WORKERS = 'workers'
 }
 
-export enum COLUMN_LABELS {
+export enum COLUMN_LABEL {
   ACTIONS = '',
   ADD = 'Add',
   AVATAR = 'Avatar',

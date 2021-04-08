@@ -1,7 +1,7 @@
 import { AuthState } from '@/core/modules/auth/store/auth.reducer';
 import { User } from '@/core/modules/user-api/shared';
 import { DynamicFormState } from '@/core/store/dynamic-form';
-import { FormType, IFieldType } from '@/shared/constants';
+import { FORM_TYPE, FIELD_TYPE } from '@/shared/constants';
 
 export const currentUserMock = ({
   fullname: 'User Tester',
@@ -103,43 +103,43 @@ export const formsStateMock: DynamicFormState = {
     user: {
       key: 'user',
       name: 'User Model Form',
-      type: FormType.SYSTEM,
+      type: FORM_TYPE.SYSTEM,
       form: [
         {
           controlName: 'name',
-          type: IFieldType.INPUT,
+          type: FIELD_TYPE.INPUT,
           label: 'Name',
           isEditable: true,
           required: true
         },
         {
           controlName: 'surname',
-          type: IFieldType.INPUT,
+          type: FIELD_TYPE.INPUT,
           label: 'Surname',
           isEditable: true
         },
         {
           controlName: 'login',
-          type: IFieldType.INPUT,
+          type: FIELD_TYPE.INPUT,
           label: 'Login',
           isEditable: false,
           required: true
         },
         {
           controlName: 'email',
-          type: IFieldType.INPUT,
+          type: FIELD_TYPE.INPUT,
           label: 'Email',
           isEditable: true
         },
         {
           controlName: 'phone',
-          type: IFieldType.INPUT,
+          type: FIELD_TYPE.INPUT,
           label: 'Phone',
           isEditable: true
         },
         {
           controlName: 'StateId',
-          type: IFieldType.SELECT,
+          type: FIELD_TYPE.SELECT,
           label: 'State',
           isEditable: true,
           editOnly: true,
@@ -164,13 +164,13 @@ export const formsStateMock: DynamicFormState = {
         },
         {
           controlName: 'createdAt',
-          type: IFieldType.DATE,
+          type: FIELD_TYPE.DATE,
           label: 'Date Created',
           isEditable: false
         },
         {
           controlName: 'updatedAt',
-          type: IFieldType.DATE,
+          type: FIELD_TYPE.DATE,
           label: 'Date Updated',
           isEditable: false
         }
@@ -181,42 +181,42 @@ export const formsStateMock: DynamicFormState = {
     plan: {
       key: 'plan',
       name: 'Plan Model Form',
-      type: FormType.SYSTEM,
+      type: FORM_TYPE.SYSTEM,
       form: [
         {
           controlName: 'title',
-          type: IFieldType.INPUT,
+          type: FIELD_TYPE.INPUT,
           label: 'Title',
           isEditable: true,
           required: true
         },
         {
           controlName: 'description',
-          type: IFieldType.TEXTAREA,
+          type: FIELD_TYPE.TEXTAREA,
           label: 'Description',
           isEditable: true
         },
         {
           controlName: 'budget',
-          type: IFieldType.INPUT,
+          type: FIELD_TYPE.INPUT,
           label: 'Budget',
           isEditable: true
         },
         {
           controlName: 'deadline',
-          type: IFieldType.DATE,
+          type: FIELD_TYPE.DATE,
           label: 'Deadline',
           isEditable: true
         },
         {
           controlName: 'createdAt',
-          type: IFieldType.DATE,
+          type: FIELD_TYPE.DATE,
           label: 'Date Created',
           isEditable: false
         },
         {
           controlName: 'updatedAt',
-          type: IFieldType.DATE,
+          type: FIELD_TYPE.DATE,
           label: 'Date Updated',
           isEditable: false
         }
@@ -227,67 +227,67 @@ export const formsStateMock: DynamicFormState = {
     'user-organization': {
       key: 'user-organization',
       name: 'User Organization Model Form',
-      type: FormType.SYSTEM,
+      type: FORM_TYPE.SYSTEM,
       form: [
         {
           controlName: 'title',
-          type: IFieldType.INPUT,
+          type: FIELD_TYPE.INPUT,
           label: 'Title',
           isEditable: true,
           required: true
         },
         {
           controlName: 'type',
-          type: IFieldType.INPUT,
+          type: FIELD_TYPE.INPUT,
           label: 'Type',
           isEditable: false,
           required: true
         },
         {
           controlName: 'country',
-          type: IFieldType.INPUT,
+          type: FIELD_TYPE.INPUT,
           label: 'Country',
           isEditable: true
         },
         {
           controlName: 'city',
-          type: IFieldType.INPUT,
+          type: FIELD_TYPE.INPUT,
           label: 'City',
           isEditable: true
         },
         {
           controlName: 'address',
-          type: IFieldType.INPUT,
+          type: FIELD_TYPE.INPUT,
           label: 'Address',
           isEditable: true
         },
         {
           controlName: 'postcode',
-          type: IFieldType.INPUT,
+          type: FIELD_TYPE.INPUT,
           label: 'Postcode',
           isEditable: true
         },
         {
           controlName: 'phone',
-          type: IFieldType.INPUT,
+          type: FIELD_TYPE.INPUT,
           label: 'Phone',
           isEditable: true
         },
         {
           controlName: 'email',
-          type: IFieldType.INPUT,
+          type: FIELD_TYPE.INPUT,
           label: 'Email',
           isEditable: true
         },
         {
           controlName: 'website',
-          type: IFieldType.INPUT,
+          type: FIELD_TYPE.INPUT,
           label: 'Website',
           isEditable: true
         },
         {
           controlName: 'updatedAt',
-          type: IFieldType.DATE,
+          type: FIELD_TYPE.DATE,
           label: 'Date Updated',
           isEditable: false
         }
@@ -298,24 +298,24 @@ export const formsStateMock: DynamicFormState = {
     task: {
       key: 'task',
       name: 'Task Model Form',
-      type: FormType.SYSTEM,
+      type: FORM_TYPE.SYSTEM,
       form: [
         {
           controlName: 'title',
-          type: IFieldType.INPUT,
+          type: FIELD_TYPE.INPUT,
           label: 'Title',
           isEditable: true,
           required: true
         },
         {
           controlName: 'description',
-          type: IFieldType.TEXTAREA,
+          type: FIELD_TYPE.TEXTAREA,
           label: 'Description',
           isEditable: true
         },
         {
           controlName: 'TaskPriorityId',
-          type: IFieldType.SELECT,
+          type: FIELD_TYPE.SELECT,
           label: 'Priority',
           isEditable: true,
           editOnly: true,
@@ -345,24 +345,24 @@ export const formsStateMock: DynamicFormState = {
     role: {
       key: 'role',
       name: 'Role Model Form',
-      type: FormType.SYSTEM,
+      type: FORM_TYPE.SYSTEM,
       form: [
         {
           controlName: 'keyString',
-          type: IFieldType.INPUT,
+          type: FIELD_TYPE.INPUT,
           label: 'Title',
           isEditable: true,
           required: true
         },
         {
           controlName: 'createdAt',
-          type: IFieldType.DATE,
+          type: FIELD_TYPE.DATE,
           label: 'Date Created',
           isEditable: false
         },
         {
           controlName: 'updatedAt',
-          type: IFieldType.DATE,
+          type: FIELD_TYPE.DATE,
           label: 'Date Updated',
           isEditable: false
         }
@@ -373,30 +373,30 @@ export const formsStateMock: DynamicFormState = {
     department: {
       key: 'department',
       name: 'Department Model Form',
-      type: FormType.SYSTEM,
+      type: FORM_TYPE.SYSTEM,
       form: [
         {
           controlName: 'title',
-          type: IFieldType.INPUT,
+          type: FIELD_TYPE.INPUT,
           label: 'Title',
           isEditable: true,
           required: true
         },
         {
           controlName: 'description',
-          type: IFieldType.TEXTAREA,
+          type: FIELD_TYPE.TEXTAREA,
           label: 'Description',
           isEditable: true
         },
         {
           controlName: 'createdAt',
-          type: IFieldType.DATE,
+          type: FIELD_TYPE.DATE,
           label: 'Date Created',
           isEditable: false
         },
         {
           controlName: 'updatedAt',
-          type: IFieldType.DATE,
+          type: FIELD_TYPE.DATE,
           label: 'Date Updated',
           isEditable: false
         }

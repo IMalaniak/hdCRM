@@ -6,7 +6,7 @@ import { catchError, first, retryWhen, filter, last, mergeMap } from 'rxjs/opera
 
 import { Store, select } from '@ngrx/store';
 
-import { APIS, PATHS, RoutingConstants } from '@/shared/constants';
+import { API_ROUTES, PATHS, ROUTING } from '@/shared/constants';
 import { AppState } from '../store';
 import { selectUrl } from '../store/router.selectors';
 import { refreshSession, redirectToLogin } from '../modules/auth/store/auth.actions';
@@ -15,7 +15,7 @@ const genericRetryStrategy = ({
   maxRetryAttempts = 3,
   scalingDuration = 1000,
   excludedStatusCodes = [],
-  excludeUrl = [APIS.REFRESH_SESSION]
+  excludeUrl = [API_ROUTES.REFRESH_SESSION]
 }: {
   maxRetryAttempts?: number;
   scalingDuration?: number;
@@ -48,10 +48,10 @@ export class ErrorInterceptor implements HttpInterceptor {
       catchError((err) => {
         // i put here >= sign because there is more than one type of 500 error
         if (err.status >= 500) {
-          this.router.navigateByUrl(RoutingConstants.ROUTE_INTERNAL_ERROR);
-        } else if (err.status === 401 && !request.url.includes(APIS.REFRESH_SESSION)) {
+          this.router.navigateByUrl(ROUTING.ROUTE_INTERNAL_ERROR);
+        } else if (err.status === 401 && !request.url.includes(API_ROUTES.REFRESH_SESSION)) {
           this.store$.dispatch(refreshSession());
-        } else if (err.status === 403 && request.url.includes(APIS.REFRESH_SESSION)) {
+        } else if (err.status === 403 && request.url.includes(API_ROUTES.REFRESH_SESSION)) {
           this.store$.pipe(select(selectUrl), first()).subscribe((url) => {
             if (url && !url.includes(PATHS.AUTH)) {
               this.store$.dispatch(redirectToLogin());

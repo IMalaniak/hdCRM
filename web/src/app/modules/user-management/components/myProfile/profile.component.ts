@@ -8,7 +8,7 @@ import { getPreferencesState, Preferences } from '@/core/store/preferences';
 import { getSessionId, currentUser } from '@/core/modules/auth/store/auth.selectors';
 import { User } from '@/core/modules/user-api/shared';
 import { selectUserApiIsLoading } from '@/core/modules/user-api/store';
-import { TAB_NAMES } from '@/shared/constants';
+import { TAB_NAME } from '@/shared/constants';
 import { selectIsEditing } from '../../store';
 
 @Component({
@@ -23,13 +23,13 @@ export class ProfileComponent {
   currentSessionId$: Observable<number> = this.store.pipe(select(getSessionId));
   userPreferences$: Observable<Preferences> = this.store.pipe(select(getPreferencesState));
 
-  tabsToShow: TAB_NAMES[] = [
-    TAB_NAMES.DETAILS,
-    TAB_NAMES.ORGANIZATION,
-    TAB_NAMES.PASSWORD,
-    TAB_NAMES.SESSIONS,
-    TAB_NAMES.PREFERENCES,
-    TAB_NAMES.INTEGRATIONS
+  tabsToShow: TAB_NAME[] = [
+    TAB_NAME.DETAILS,
+    TAB_NAME.ORGANIZATION,
+    TAB_NAME.PASSWORD,
+    TAB_NAME.SESSIONS,
+    TAB_NAME.PREFERENCES,
+    TAB_NAME.INTEGRATIONS
   ];
 
   constructor(private store: Store<AppState>) {}

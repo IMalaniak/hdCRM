@@ -7,7 +7,7 @@ import { AppState } from '@/core/store';
 import { IconsService } from '@/core/services';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { User } from '@/core/modules/user-api/shared';
-import { BS_ICONS, VIEW_PRIVILEGES } from '@/shared/constants';
+import { BS_ICON, VIEW_PRIVILEGE } from '@/shared/constants';
 import { Asset } from '@/shared/models';
 
 @Component({
@@ -17,26 +17,26 @@ import { Asset } from '@/shared/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TemplatesUserDetailsComponent {
-  canViewDepartment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(VIEW_PRIVILEGES.DEPARTMENT)));
+  canViewDepartment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(VIEW_PRIVILEGE.DEPARTMENT)));
 
   @Input() user: User;
   @Input() isDialog = false;
 
   @Output() addFileCall: EventEmitter<Asset> = new EventEmitter();
 
-  icons: { [key: string]: BS_ICONS } = {
-    user: BS_ICONS.Person,
-    info: BS_ICONS.InfoSquare,
-    department: BS_ICONS.Building,
-    role: BS_ICONS.Person,
-    state: BS_ICONS.ToggleOn,
-    contacts: BS_ICONS.FilePerson,
-    mail: BS_ICONS.Envelope,
-    phone: BS_ICONS.Telephone
+  icons: { [key: string]: BS_ICON } = {
+    user: BS_ICON.Person,
+    info: BS_ICON.InfoSquare,
+    department: BS_ICON.Building,
+    role: BS_ICON.Person,
+    state: BS_ICON.ToggleOn,
+    contacts: BS_ICON.FilePerson,
+    mail: BS_ICON.Envelope,
+    phone: BS_ICON.Telephone
   };
 
   constructor(private store$: Store<AppState>, private readonly iconsService: IconsService) {
-    this.iconsService.registerIcons([BS_ICONS.ToggleOn, BS_ICONS.FilePerson, BS_ICONS.Envelope, BS_ICONS.Telephone]);
+    this.iconsService.registerIcons([BS_ICON.ToggleOn, BS_ICON.FilePerson, BS_ICON.Envelope, BS_ICON.Telephone]);
   }
 
   onAddFile(asset: Asset): void {

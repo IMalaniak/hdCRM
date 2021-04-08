@@ -8,7 +8,7 @@ import { getGoogleDriveIntegrationState, toggleGoogleDriveIntegration } from '@/
 import { IconsService } from '@/core/services';
 import { AttachmentService } from '@/shared/modules/attachments/services';
 import { Asset } from '@/shared/models';
-import { COLUMN_KEYS, COLUMN_LABELS, ACTION_LABELS, THEME_PALETTE, MAT_BUTTON, BS_ICONS } from '@/shared/constants';
+import { COLUMN_KEY, COLUMN_LABEL, ACTION_LABEL, THEME_PALETTE, MAT_BUTTON, BS_ICON } from '@/shared/constants';
 
 @Component({
   selector: 'templates-attachments-list',
@@ -31,21 +31,21 @@ export class TemplatesAttachmentsListComponent {
 
   themePalette = THEME_PALETTE;
   matButtonTypes = MAT_BUTTON;
-  columns = COLUMN_KEYS;
-  columnLabels = COLUMN_LABELS;
-  actionLabels = ACTION_LABELS;
-  displayedColumns: COLUMN_KEYS[] = [
-    COLUMN_KEYS.ICON,
-    COLUMN_KEYS.TITLE,
-    COLUMN_KEYS.TYPE,
-    COLUMN_KEYS.CREATED_AT,
-    COLUMN_KEYS.UPDATED_AT,
-    COLUMN_KEYS.ACTIONS
+  columns = COLUMN_KEY;
+  columnLabels = COLUMN_LABEL;
+  actionLabels = ACTION_LABEL;
+  displayedColumns: COLUMN_KEY[] = [
+    COLUMN_KEY.ICON,
+    COLUMN_KEY.TITLE,
+    COLUMN_KEY.TYPE,
+    COLUMN_KEY.CREATED_AT,
+    COLUMN_KEY.UPDATED_AT,
+    COLUMN_KEY.ACTIONS
   ];
-  listIcons: { [key: string]: BS_ICONS } = {
-    remove: BS_ICONS.Trash,
-    done: BS_ICONS.Check,
-    add: BS_ICONS.FileEarmarkPlus
+  listIcons: { [key: string]: BS_ICON } = {
+    remove: BS_ICON.Trash,
+    done: BS_ICON.Check,
+    add: BS_ICON.FileEarmarkPlus
   };
 
   constructor(
@@ -54,14 +54,14 @@ export class TemplatesAttachmentsListComponent {
     private readonly iconsService: IconsService
   ) {
     this.iconsService.registerIcons([
-      BS_ICONS.FileEarmarkPlus,
-      BS_ICONS.FileEarmarkWord,
-      BS_ICONS.FileEarmarkPpt,
-      BS_ICONS.FileEarmarkImage,
-      BS_ICONS.FileEarmarkPlay,
-      BS_ICONS.FileEarmarkText,
-      BS_ICONS.FileEarmarkZip,
-      BS_ICONS.FileEarmark
+      BS_ICON.FileEarmarkPlus,
+      BS_ICON.FileEarmarkWord,
+      BS_ICON.FileEarmarkPpt,
+      BS_ICON.FileEarmarkImage,
+      BS_ICON.FileEarmarkPlay,
+      BS_ICON.FileEarmarkText,
+      BS_ICON.FileEarmarkZip,
+      BS_ICON.FileEarmark
     ]);
   }
 
@@ -73,7 +73,7 @@ export class TemplatesAttachmentsListComponent {
     this.uploaderVisible = false;
   }
 
-  fileTypeIcon(file: string): BS_ICONS {
+  fileTypeIcon(file: string): BS_ICON {
     return this.attachmentService.getIcon(file);
   }
 

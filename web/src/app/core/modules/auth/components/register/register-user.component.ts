@@ -9,14 +9,14 @@ import { IconsService } from '@/core/services';
 import { User } from '@/core/modules/user-api/shared';
 import {
   CONSTANTS,
-  ACTION_LABELS,
+  ACTION_LABEL,
   BUTTON_TYPE,
   MAT_BUTTON,
   THEME_PALETTE,
-  RoutingConstants,
-  OrgType,
-  BS_ICONS,
-  InputType
+  ROUTING,
+  ORGANIZATION_TYPE,
+  BS_ICON,
+  INPUT_TYPE
 } from '@/shared/constants';
 import { AuthState } from '../../store/auth.reducer';
 import { registerUser } from '../../store/auth.actions';
@@ -34,22 +34,22 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   registerData: FormGroup;
   hidePassword = true;
 
-  orgTypes = OrgType;
-  actionLabels = ACTION_LABELS;
+  orgTypes = ORGANIZATION_TYPE;
+  actionLabels = ACTION_LABEL;
   buttonTypes = BUTTON_TYPE;
   matButtonTypes = MAT_BUTTON;
-  inputTypes = InputType;
+  inputTypes = INPUT_TYPE;
   themePalette = THEME_PALETTE;
-  loginRoute = RoutingConstants.ROUTE_AUTH_LOGIN;
-  icons: { [key: string]: BS_ICONS } = {
-    right: BS_ICONS.ArrowRight,
-    left: BS_ICONS.ArrowLeft,
-    reset: BS_ICONS.ArrowCounterclockwise,
-    submit: BS_ICONS.Upload,
-    eye: BS_ICONS.Eye,
-    eyeDisabled: BS_ICONS.EyeSlash,
-    stepperEdit: BS_ICONS.PencilSquare,
-    stepperDone: BS_ICONS.Check
+  loginRoute = ROUTING.ROUTE_AUTH_LOGIN;
+  icons: { [key: string]: BS_ICON } = {
+    right: BS_ICON.ArrowRight,
+    left: BS_ICON.ArrowLeft,
+    reset: BS_ICON.ArrowCounterclockwise,
+    submit: BS_ICON.Upload,
+    eye: BS_ICON.Eye,
+    eyeDisabled: BS_ICON.EyeSlash,
+    stepperEdit: BS_ICON.PencilSquare,
+    stepperDone: BS_ICON.Check
   };
 
   private unsubscribe: Subject<void> = new Subject();
@@ -136,7 +136,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
     this.getControl('userOrganization', 'type')
       .valueChanges.pipe(takeUntil(this.unsubscribe))
       .subscribe((value) => {
-        if (value === OrgType.COMPANY) {
+        if (value === ORGANIZATION_TYPE.COMPANY) {
           orgTitle.setValidators([
             Validators.required,
             Validators.maxLength(50),
@@ -147,7 +147,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
             Validators.maxLength(100),
             Validators.pattern(CONSTANTS.WWW_REGEX)
           ]);
-        } else if (value === OrgType.PRIVATE) {
+        } else if (value === ORGANIZATION_TYPE.PRIVATE) {
           orgTitle.setValidators(null);
           orgTitle.reset();
           orgWebsite.setValidators([Validators.maxLength(100), Validators.pattern(CONSTANTS.WWW_REGEX)]);

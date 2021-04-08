@@ -1,8 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { currentUser } from '@/core/modules/auth/store/auth.selectors';
-import { UserState } from '@/shared/constants';
 import * as fromUser from './user-api.reducer';
+import { USER_STATE } from '../shared/models';
 
 export const selectUsersState = createFeatureSelector<fromUser.UsersState>(fromUser.usersFeatureKey);
 
@@ -14,7 +14,7 @@ export const selectAllUsers = createSelector(selectUsersState, fromUser.selectAl
 export const selectUsersById = (userIds: number[]) =>
   createSelector(selectAllUsers, (users) => users.filter((user) => userIds.includes(user.id)));
 
-export const selectUsersByState = (state: UserState) =>
+export const selectUsersByState = (state: USER_STATE) =>
   createSelector(selectAllUsers, (users) => users.filter((user) => user.state === state));
 
 export const selectUsersOnline = createSelector(selectAllUsers, currentUser, (users, appUser) =>

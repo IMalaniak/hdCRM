@@ -9,12 +9,12 @@ import { currentUser, isPrivileged } from '@/core/modules/auth/store/auth.select
 import { logOut } from '@/core/modules/auth/store/auth.actions';
 import { User } from '@/core/modules/user-api/shared';
 import {
-  ACTION_LABELS,
-  ADD_PRIVILEGES,
-  BS_ICONS,
+  ACTION_LABEL,
+  ADD_PRIVILEGE,
+  BS_ICON,
   BUTTON_TYPE,
   MAT_BUTTON,
-  RoutingConstants,
+  ROUTING,
   THEME_PALETTE
 } from '@/shared/constants';
 import { closeUserDropdown, toggleUserDropdown } from '../../store/layout.actions';
@@ -28,24 +28,24 @@ import { userDropdownVisible } from '../../store';
 })
 export class UserDropdownComponent {
   currentUser$: Observable<User> = this.store$.select(currentUser);
-  canAddUser$: Observable<boolean> = this.store$.select(isPrivileged(ADD_PRIVILEGES.USER));
+  canAddUser$: Observable<boolean> = this.store$.select(isPrivileged(ADD_PRIVILEGE.USER));
 
   isShowUserMenu$: Observable<boolean> = this.store$.select(userDropdownVisible);
   @Output() logOut: EventEmitter<any> = new EventEmitter();
 
-  actionLabels = ACTION_LABELS;
+  actionLabels = ACTION_LABEL;
   buttonTypes = BUTTON_TYPE;
   matButtonTypes = MAT_BUTTON;
   themePalette = THEME_PALETTE;
-  myProfileRoute = RoutingConstants.ROUTE_MY_PROFILE;
-  userDropdownIcons: { [key: string]: BS_ICONS } = {
-    profile: BS_ICONS.Person,
-    invite: BS_ICONS.PersonPlus,
-    logOut: BS_ICONS.BoxArrowRight,
-    away: BS_ICONS.Clock,
-    busy: BS_ICONS.SlashCircle,
-    online: BS_ICONS.AppIndicator,
-    onBreak: BS_ICONS.Cup
+  myProfileRoute = ROUTING.ROUTE_MY_PROFILE;
+  userDropdownIcons: { [key: string]: BS_ICON } = {
+    profile: BS_ICON.Person,
+    invite: BS_ICON.PersonPlus,
+    logOut: BS_ICON.BoxArrowRight,
+    away: BS_ICON.Clock,
+    busy: BS_ICON.SlashCircle,
+    online: BS_ICON.AppIndicator,
+    onBreak: BS_ICON.Cup
   };
 
   constructor(

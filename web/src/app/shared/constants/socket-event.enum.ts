@@ -1,5 +1,5 @@
 // Socket.io events
-export enum SocketEvent {
+export enum SOCKET_EVENT {
   CONNECT = 'connect',
   DISCONNECT = 'disconnect',
   ISONLINE = 'is-online',

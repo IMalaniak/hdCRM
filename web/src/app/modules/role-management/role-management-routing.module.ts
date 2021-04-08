@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { RolesComponent, RoleComponent, AddRoleComponent } from './components';
-import { PATHS, VIEW_PRIVILEGES, ADD_PRIVILEGES, FORMCONSTANTS } from '@/shared/constants';
+import { PATHS, VIEW_PRIVILEGE, ADD_PRIVILEGE, FORM_NAME } from '@/shared/constants';
 import { PrivilegeGuard } from '@/shared/guards';
 
 const routes: Routes = [
@@ -11,7 +11,7 @@ const routes: Routes = [
     data: {
       breadcrumb: 'List',
       animation: 'RolesListPage',
-      privilege: VIEW_PRIVILEGES.ROLE
+      privilege: VIEW_PRIVILEGE.ROLE
     },
     canActivate: [PrivilegeGuard],
     component: RolesComponent
@@ -21,8 +21,8 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Details',
       animation: 'RoleDetailsPage',
-      privilege: VIEW_PRIVILEGES.ROLE,
-      formName: FORMCONSTANTS.ROLE
+      privilege: VIEW_PRIVILEGE.ROLE,
+      formName: FORM_NAME.ROLE
     },
     canActivate: [PrivilegeGuard],
     component: RoleComponent
@@ -32,8 +32,8 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Add role',
       animation: 'AddRolePage',
-      privilege: ADD_PRIVILEGES.ROLE,
-      formName: FORMCONSTANTS.ROLE
+      privilege: ADD_PRIVILEGE.ROLE,
+      formName: FORM_NAME.ROLE
     },
     canActivate: [PrivilegeGuard],
     component: AddRoleComponent

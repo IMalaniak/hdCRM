@@ -11,7 +11,7 @@ import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { AppState } from '@/core/store';
 import { normalizeResponse, roleSchema, partialDataLoaded, roleListSchema } from '@/core/store/normalization';
 import { ToastMessageService } from '@/shared/services';
-import { RoutingConstants } from '@/shared/constants';
+import { ROUTING } from '@/shared/constants';
 import { CollectionApiResponse, ItemApiResponse, BaseMessage } from '@/shared/models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
 import * as roleActions from './role.actions';
@@ -30,7 +30,7 @@ export class RoleEffects {
         this.roleService.create<Role>(this.roleService.formatBeforeSend({ ...role })).pipe(
           switchMap((response: ItemApiResponse<Role>) => {
             this.toastMessageService.success(response.message);
-            this.router.navigateByUrl(RoutingConstants.ROUTE_ROLES);
+            this.router.navigateByUrl(ROUTING.ROUTE_ROLES);
             const { Users, Roles } = normalizeResponse<Role>(response, roleSchema);
             response = { ...response, data: Roles[0] };
             return [

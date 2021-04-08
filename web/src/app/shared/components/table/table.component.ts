@@ -31,16 +31,16 @@ import {
   tableOutlineBorders
 } from '@/core/modules/layout/store';
 import {
-  ACTION_LABELS,
-  BS_ICONS,
+  ACTION_LABEL,
+  BS_ICON,
   BUTTON_TYPE,
-  COLUMN_KEYS,
+  COLUMN_KEY,
   CONSTANTS,
-  IItemsPerPage,
+  ITEMS_PER_PAGE,
   MAT_BUTTON,
   pageSizeOptions,
   SORT_DIRECTION,
-  STYLECONSTANTS,
+  STYLE,
   THEME_PALETTE
 } from '@/shared/constants';
 import {
@@ -65,7 +65,7 @@ import { ListDisplayMode } from '@/shared/store';
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
-  itemsPerPageState$: Observable<IItemsPerPage> = this.store$.pipe(select(getItemsPerPageState));
+  itemsPerPageState$: Observable<ITEMS_PER_PAGE> = this.store$.pipe(select(getItemsPerPageState));
   outlineBordersDefaultPreference$: Observable<boolean> = this.store$.pipe(select(getDefaultListOutlineBorders));
   outlineBorders$: Observable<boolean>;
   columnsToDisplay$: Observable<string[]>;
@@ -98,44 +98,44 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   buttonType: typeof BUTTON_TYPE = BUTTON_TYPE;
   matButtonType: typeof MAT_BUTTON = MAT_BUTTON;
   themePalette: typeof THEME_PALETTE = THEME_PALETTE;
-  actionLabels: typeof ACTION_LABELS = ACTION_LABELS;
-  columnKeys: typeof COLUMN_KEYS = COLUMN_KEYS;
+  actionLabels: typeof ACTION_LABEL = ACTION_LABEL;
+  columnKeys: typeof COLUMN_KEY = COLUMN_KEY;
   columnsInitialState: TableColumnConfig[];
 
-  icons: { [key: string]: BS_ICONS } = {
-    borders: BS_ICONS.BorderOuter,
-    checksGrid: BS_ICONS.UiChecksGrid,
-    threeDots: BS_ICONS.ThreeDotsVertical,
-    checkCircle: BS_ICONS.CheckCircle,
-    xCircle: BS_ICONS.XCircle,
-    details: BS_ICONS.InfoSquare,
-    pencil: BS_ICONS.Pencil,
-    trash: BS_ICONS.Trash,
-    list: BS_ICONS.List,
-    arrowClock: BS_ICONS.ArrowClockwise,
-    gripVertival: BS_ICONS.GripVertical,
-    columnDrag: BS_ICONS.GripHorizontal,
-    funnel: BS_ICONS.Funnel
+  icons: { [key: string]: BS_ICON } = {
+    borders: BS_ICON.BorderOuter,
+    checksGrid: BS_ICON.UiChecksGrid,
+    threeDots: BS_ICON.ThreeDotsVertical,
+    checkCircle: BS_ICON.CheckCircle,
+    xCircle: BS_ICON.XCircle,
+    details: BS_ICON.InfoSquare,
+    pencil: BS_ICON.Pencil,
+    trash: BS_ICON.Trash,
+    list: BS_ICON.List,
+    arrowClock: BS_ICON.ArrowClockwise,
+    gripVertival: BS_ICON.GripVertical,
+    columnDrag: BS_ICON.GripHorizontal,
+    funnel: BS_ICON.Funnel
   };
 
   rowActions: RowAction<RowActionType>[] = [
     {
-      icon: BS_ICONS.InfoSquare,
-      label: ACTION_LABELS.DETAILS,
+      icon: BS_ICON.InfoSquare,
+      label: ACTION_LABEL.DETAILS,
       data: {
         actionType: RowActionType.DETAILS
       }
     },
     {
-      icon: BS_ICONS.Pencil,
-      label: ACTION_LABELS.EDIT,
+      icon: BS_ICON.Pencil,
+      label: ACTION_LABEL.EDIT,
       data: {
         actionType: RowActionType.EDIT
       }
     },
     {
-      icon: BS_ICONS.Trash,
-      label: ACTION_LABELS.DELETE,
+      icon: BS_ICON.Trash,
+      label: ACTION_LABEL.DELETE,
       data: {
         actionType: RowActionType.DELETE
       }
@@ -212,16 +212,16 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
 
     switch (align) {
       case HorizontalAlign.Left:
-        resultClasses = STYLECONSTANTS.TEXT_LEFT;
+        resultClasses = STYLE.TEXT_LEFT;
         break;
       case HorizontalAlign.Center:
-        resultClasses = STYLECONSTANTS.TEXT_CENTER;
+        resultClasses = STYLE.TEXT_CENTER;
         break;
       case HorizontalAlign.Right:
-        resultClasses = STYLECONSTANTS.TEXT_RIGHT;
+        resultClasses = STYLE.TEXT_RIGHT;
         break;
       default:
-        resultClasses = STYLECONSTANTS.TEXT_LEFT;
+        resultClasses = STYLE.TEXT_LEFT;
         break;
     }
 
@@ -324,12 +324,12 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
       map((columnsToDisplay) => {
         if (this.displayModePopup()) {
           if (this.displayMode === ListDisplayMode.POPUP_MULTI_SELECTION) {
-            const selectIndex = this.columns.findIndex((col) => col.key === COLUMN_KEYS.SELECT);
+            const selectIndex = this.columns.findIndex((col) => col.key === COLUMN_KEY.SELECT);
             if (selectIndex >= 0) {
-              columnsToDisplay = Object.assign([], columnsToDisplay, { [selectIndex]: COLUMN_KEYS.SELECT });
+              columnsToDisplay = Object.assign([], columnsToDisplay, { [selectIndex]: COLUMN_KEY.SELECT });
             }
           }
-          return columnsToDisplay.filter((cTitle) => cTitle !== COLUMN_KEYS.ACTIONS);
+          return columnsToDisplay.filter((cTitle) => cTitle !== COLUMN_KEY.ACTIONS);
         }
         return columnsToDisplay;
       })
@@ -359,7 +359,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     const newPage: PageQuery = {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,
-      sortIndex: this.sort.active || COLUMN_KEYS.ID,
+      sortIndex: this.sort.active || COLUMN_KEY.ID,
       sortDirection: this.sort.direction || SORT_DIRECTION.ASC
     };
     this.dataSource.loadData(newPage);

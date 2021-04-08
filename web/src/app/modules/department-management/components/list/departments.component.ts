@@ -8,8 +8,8 @@ import { AppState } from '@/core/store';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { deleteDepartmentRequested } from '@/core/modules/department-api/store';
 import { DialogDataModel } from '@/shared/models';
-import { RoutingConstants, CONSTANTS, BS_ICONS } from '@/shared/constants';
-import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_KEYS } from '@/shared/constants';
+import { ROUTING, CONSTANTS, BS_ICON } from '@/shared/constants';
+import { ADD_PRIVILEGE, EDIT_PRIVILEGE, DELETE_PRIVILEGE, COLUMN_KEY } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
@@ -25,26 +25,26 @@ export class DepartmentsComponent {
   dataSource: DepartmentsDataSource = new DepartmentsDataSource(this.store$);
   loading$: Observable<boolean> = this.store$.pipe(select(selectDepartmentsPageLoading));
   resultsLength$: Observable<number> = this.store$.pipe(select(selectDepartmentsTotalCount));
-  canAddDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.DEPARTMENT)));
-  canEditDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.DEPARTMENT)));
-  canDeleteDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.DEPARTMENT)));
+  canAddDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGE.DEPARTMENT)));
+  canEditDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGE.DEPARTMENT)));
+  canDeleteDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGE.DEPARTMENT)));
 
-  addDepartmentRoute = RoutingConstants.ROUTE_DEPARTMENTS_ADD;
-  listIcons: { [key: string]: BS_ICONS } = {
-    matMenu: BS_ICONS.ThreeDotsVertical,
-    add: BS_ICONS.Plus,
-    info: BS_ICONS.InfoSquare,
-    edit: BS_ICONS.Pencil,
-    delete: BS_ICONS.Trash
+  addDepartmentRoute = ROUTING.ROUTE_DEPARTMENTS_ADD;
+  listIcons: { [key: string]: BS_ICON } = {
+    matMenu: BS_ICON.ThreeDotsVertical,
+    add: BS_ICON.Plus,
+    info: BS_ICON.InfoSquare,
+    edit: BS_ICON.Pencil,
+    delete: BS_ICON.Trash
   };
 
   displayedColumns: IColumn[] = [
     Column.createSequenceNumberColumn(),
-    Column.createColumn({ key: COLUMN_KEYS.TITLE }),
-    Column.createLinkColumn({ key: COLUMN_KEYS.MANAGER, hasSorting: false }),
-    Column.createColumn({ key: COLUMN_KEYS.WORKERS, hasSorting: false }),
-    Column.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
-    Column.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
+    Column.createColumn({ key: COLUMN_KEY.TITLE }),
+    Column.createLinkColumn({ key: COLUMN_KEY.MANAGER, hasSorting: false }),
+    Column.createColumn({ key: COLUMN_KEY.WORKERS, hasSorting: false }),
+    Column.createColumn({ key: COLUMN_KEY.CREATED_AT }),
+    Column.createColumn({ key: COLUMN_KEY.UPDATED_AT }),
     Column.createActionsColumn()
   ];
 
@@ -69,7 +69,7 @@ export class DepartmentsComponent {
   }
 
   onDepartmentSelect(id: number, edit: boolean = false): void {
-    this.router.navigate([`${RoutingConstants.ROUTE_DEPARTMENTS_DETAILS}/${id}`]);
+    this.router.navigate([`${ROUTING.ROUTE_DEPARTMENTS_DETAILS}/${id}`]);
     this.store$.dispatch(changeIsEditingState({ isEditing: edit }));
   }
 

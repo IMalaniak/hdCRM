@@ -1,4 +1,4 @@
-export enum IFieldType {
+export enum FIELD_TYPE {
   INPUT = 'input',
   SELECT = 'select',
   TEXTAREA = 'textarea',

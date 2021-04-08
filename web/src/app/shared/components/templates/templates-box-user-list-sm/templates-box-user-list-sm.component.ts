@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from 
 import { Router } from '@angular/router';
 
 import { User } from '@/core/modules/user-api/shared';
-import { BS_ICONS, CONSTANTS, MAT_BUTTON } from '@/shared/constants';
+import { BS_ICON, CONSTANTS, MAT_BUTTON } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogWithTwoButtonModel } from '@/shared/models/dialog/dialog-with-two-button.model';
 import { DialogService } from '@/shared/services';
@@ -53,8 +53,8 @@ export class TemplatesBoxUserListSmComponent {
   @Output() userClick: EventEmitter<User> = new EventEmitter();
 
   matButtonTypes = MAT_BUTTON;
-  changeUserIcon = BS_ICONS.PersonCheck;
-  addUserIcon = BS_ICONS.PersonPlus;
+  changeUserIcon = BS_ICON.PersonCheck;
+  addUserIcon = BS_ICON.PersonPlus;
 
   constructor(private dialogService: DialogService, private route: Router) {}
 

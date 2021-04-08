@@ -6,13 +6,13 @@ import { map } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
-import { User } from '@/core/modules/user-api/shared';
+import { User, USER_STATE } from '@/core/modules/user-api/shared';
 import { deleteUser, inviteUsers, OnlineUserListRequested } from '@/core/modules/user-api/store';
 import { isPrivileged, currentUser } from '@/core/modules/auth/store/auth.selectors';
 import { IconsService } from '@/core/services';
 import { DialogCreateEditModel, DialogDataModel, DialogMode, DialogType, IDialogResult } from '@/shared/models';
-import { RoutingConstants, CONSTANTS, UserState, BS_ICONS } from '@/shared/constants';
-import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_KEYS } from '@/shared/constants';
+import { ROUTING, CONSTANTS, BS_ICON } from '@/shared/constants';
+import { ADD_PRIVILEGE, EDIT_PRIVILEGE, DELETE_PRIVILEGE, COLUMN_KEY } from '@/shared/constants';
 import { ListDisplayMode } from '@/shared/store';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
@@ -38,9 +38,9 @@ export class UsersComponent {
   resultsLength$: Observable<number> = this.store$.pipe(select(selectUsersTotalCount));
   displayMode$: Observable<ListDisplayMode> = this.store$.pipe(select(selectListDisplayMode));
   preselectedUsersIds$: Observable<number[]> = this.store$.pipe(select(selectPreselectedUsersIds));
-  canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.USER)));
-  canEditUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.USER)));
-  canDeleteUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.USER)));
+  canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGE.USER)));
+  canEditUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGE.USER)));
+  canDeleteUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGE.USER)));
   cardTitle$: Observable<string> = this.displayMode$.pipe(
     map((displayMode) => {
       switch (displayMode) {
@@ -59,31 +59,31 @@ export class UsersComponent {
 
   dataSource: UsersDataSource = new UsersDataSource(this.store$);
 
-  userStates = UserState;
-  listIcons: { [key: string]: BS_ICONS } = {
-    matMenu: BS_ICONS.ThreeDotsVertical,
-    add: BS_ICONS.PersonPlus,
-    info: BS_ICONS.PersonSquare,
-    activate: BS_ICONS.PersonCheck,
-    archivate: BS_ICONS.Archive,
-    disable: BS_ICONS.PersonX,
-    edit: BS_ICONS.Pencil,
-    delete: BS_ICONS.Trash
+  userStates = USER_STATE;
+  listIcons: { [key: string]: BS_ICON } = {
+    matMenu: BS_ICON.ThreeDotsVertical,
+    add: BS_ICON.PersonPlus,
+    info: BS_ICON.PersonSquare,
+    activate: BS_ICON.PersonCheck,
+    archivate: BS_ICON.Archive,
+    disable: BS_ICON.PersonX,
+    edit: BS_ICON.Pencil,
+    delete: BS_ICON.Trash
   };
 
   displayedColumns: IColumn[] = [
     Column.createSequenceNumberColumn(),
     Column.createCheckboxColumn(),
-    Column.createColumn({ key: COLUMN_KEYS.AVATAR, hasSorting: false }),
-    Column.createColumn({ key: COLUMN_KEYS.LOGIN }),
-    Column.createLinkColumn({ key: COLUMN_KEYS.EMAIL }),
-    Column.createColumn({ key: COLUMN_KEYS.NAME }),
-    Column.createColumn({ key: COLUMN_KEYS.SURNAME }),
-    Column.createLinkColumn({ key: COLUMN_KEYS.PHONE }),
-    Column.createLinkColumn({ key: COLUMN_KEYS.DEPARTMENT, hasSorting: false }),
-    Column.createColumn({ key: COLUMN_KEYS.STATE }),
-    Column.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
-    Column.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
+    Column.createColumn({ key: COLUMN_KEY.AVATAR, hasSorting: false }),
+    Column.createColumn({ key: COLUMN_KEY.LOGIN }),
+    Column.createLinkColumn({ key: COLUMN_KEY.EMAIL }),
+    Column.createColumn({ key: COLUMN_KEY.NAME }),
+    Column.createColumn({ key: COLUMN_KEY.SURNAME }),
+    Column.createLinkColumn({ key: COLUMN_KEY.PHONE }),
+    Column.createLinkColumn({ key: COLUMN_KEY.DEPARTMENT, hasSorting: false }),
+    Column.createColumn({ key: COLUMN_KEY.STATE }),
+    Column.createColumn({ key: COLUMN_KEY.CREATED_AT }),
+    Column.createColumn({ key: COLUMN_KEY.UPDATED_AT }),
     Column.createActionsColumn()
   ];
 
@@ -95,7 +95,7 @@ export class UsersComponent {
     private dialogService: DialogService,
     private readonly iconsService: IconsService
   ) {
-    this.iconsService.registerIcons([BS_ICONS.Archive, BS_ICONS.PersonSquare, BS_ICONS.PersonX]);
+    this.iconsService.registerIcons([BS_ICON.Archive, BS_ICON.PersonSquare, BS_ICON.PersonX]);
     this.store$.dispatch(OnlineUserListRequested());
   }
 
@@ -151,7 +151,7 @@ export class UsersComponent {
   // }
 
   onUserSelect(id: number, edit: boolean = false): void {
-    this.router.navigate([`${RoutingConstants.ROUTE_USERS_DETAILS}/${id}`], {
+    this.router.navigate([`${ROUTING.ROUTE_USERS_DETAILS}/${id}`], {
       queryParams: { edit }
     });
   }

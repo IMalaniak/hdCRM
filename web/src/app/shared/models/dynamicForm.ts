@@ -1,4 +1,4 @@
-import { FormType, IFieldType } from '../constants';
+import { FORM_TYPE, FIELD_TYPE } from '../constants';
 import { TimeStamps } from './base';
 
 export interface DynamicFormItemOption {
@@ -8,7 +8,7 @@ export interface DynamicFormItemOption {
 
 export interface DynamicFormItem {
   controlName: string;
-  type: IFieldType;
+  type: FIELD_TYPE;
   label: string;
   isEditable: boolean;
   editOnly?: boolean;
@@ -21,6 +21,6 @@ export interface DynamicFormItem {
 export interface DynamicForm extends TimeStamps {
   key: string;
   name: string;
-  type: FormType;
+  type: FORM_TYPE;
   form: DynamicFormItem[];
 }

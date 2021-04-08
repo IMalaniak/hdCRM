@@ -1,4 +1,4 @@
-export enum ACTION_LABELS {
+export enum ACTION_LABEL {
   ADD = 'Add',
   BACK = 'Back',
   CANCEL = 'Cancel',

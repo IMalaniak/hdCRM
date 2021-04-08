@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { BS_ICONS, THEME_PALETTE } from '@/shared/constants';
+import { BS_ICON, THEME_PALETTE } from '@/shared/constants';
 
 @Component({
   selector: 'app-internal-server-error',
@@ -10,5 +10,5 @@ import { BS_ICONS, THEME_PALETTE } from '@/shared/constants';
 })
 export class InternalServerErrorComponent {
   themePalette = THEME_PALETTE;
-  arrow: BS_ICONS.ArrowLeft;
+  arrow: BS_ICON.ArrowLeft;
 }

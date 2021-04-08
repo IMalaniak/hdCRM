@@ -8,7 +8,7 @@ import { IconsService } from '@/core/services';
 import { changeOldPassword } from '@/core/modules/user-api/store';
 import { NewPassword } from '@/shared/models';
 import { ConfirmPasswordValidator } from '@/shared/validators';
-import { ACTION_LABELS, BS_ICONS, InputType } from '@/shared/constants';
+import { ACTION_LABEL, BS_ICON, INPUT_TYPE } from '@/shared/constants';
 
 @Component({
   selector: 'organisms-user-passwords',
@@ -20,12 +20,12 @@ export class OrganismsUserPasswordsComponent implements OnInit {
   @Input() isLoading: boolean;
 
   userNewPassword: FormGroup;
-  inputTypes = InputType;
-  actionLabels = ACTION_LABELS;
-  icons: { [key: string]: BS_ICONS } = {
-    save: BS_ICONS.ClipboardCheck,
-    eye: BS_ICONS.Eye,
-    eyeDisabled: BS_ICONS.EyeSlash
+  inputTypes = INPUT_TYPE;
+  actionLabels = ACTION_LABEL;
+  icons: { [key: string]: BS_ICON } = {
+    save: BS_ICON.ClipboardCheck,
+    eye: BS_ICON.Eye,
+    eyeDisabled: BS_ICON.EyeSlash
   };
   hidePassword = true;
 

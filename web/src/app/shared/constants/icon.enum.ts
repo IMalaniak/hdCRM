@@ -1,4 +1,4 @@
-export enum ICONS {
+export enum ICON {
   SOCIAL_Email = 'email',
   SOCIAL_Facebook = 'facebook',
   SOCIAL_Instagram = 'instagram',
@@ -8,7 +8,7 @@ export enum ICONS {
 }
 
 /** Enum with all Bootstrap icons. */
-export enum BS_ICONS {
+export enum BS_ICON {
   /** https://icons.getbootstrap.com/icons/alarm-fill */
   AlarmFill = 'alarm-fill',
   /** https://icons.getbootstrap.com/icons/alarm */

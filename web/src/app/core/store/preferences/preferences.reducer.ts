@@ -1,21 +1,21 @@
 import { createReducer, on, Action } from '@ngrx/store';
 import * as PreferencesActions from './preferences.actions';
 
-import { IDateFormat, IItemsPerPage, IListView, ITimeFormat } from '@/shared/constants';
+import { DATE_FORMAT, ITEMS_PER_PAGE, LIST_VIEW, TIME_FORMAT } from '@/shared/constants';
 
 export interface Preferences {
-  dateFormat: IDateFormat;
-  timeFormat: ITimeFormat;
-  itemsPerPage: IItemsPerPage;
-  listView: IListView;
+  dateFormat: DATE_FORMAT;
+  timeFormat: TIME_FORMAT;
+  itemsPerPage: ITEMS_PER_PAGE;
+  listView: LIST_VIEW;
   listOutlineBorders: boolean;
 }
 
 export interface PreferencesList {
-  dateFormat: IDateFormat[];
-  timeFormat: ITimeFormat[];
-  itemsPerPage: IItemsPerPage[];
-  listView: IListView[];
+  dateFormat: DATE_FORMAT[];
+  timeFormat: TIME_FORMAT[];
+  itemsPerPage: ITEMS_PER_PAGE[];
+  listView: LIST_VIEW[];
 }
 
 export interface PreferencesState extends Preferences {
@@ -24,10 +24,10 @@ export interface PreferencesState extends Preferences {
 }
 
 export const initialPreferencesState: PreferencesState = {
-  dateFormat: IDateFormat.MEDIUM_DATE,
-  timeFormat: ITimeFormat.MEDIUM_TIME,
-  itemsPerPage: IItemsPerPage.FIVE,
-  listView: IListView.LIST,
+  dateFormat: DATE_FORMAT.MEDIUM_DATE,
+  timeFormat: TIME_FORMAT.MEDIUM_TIME,
+  itemsPerPage: ITEMS_PER_PAGE.FIVE,
+  listView: LIST_VIEW.LIST,
   listOutlineBorders: true,
   listLoaded: false,
   list: null

@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/portal';
 
 import { Stage } from '@/core/modules/plan-api/shared';
-import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
+import { ACTION_LABEL, THEME_PALETTE } from '@/shared/constants';
 import { DialogDataModel, DialogWithTwoButtonModel, IDialogResult } from '@/shared/models';
 import { DialogBaseModel } from '@/shared/components';
 import { StagesComponent } from '../list/stages.component';
@@ -15,7 +15,7 @@ import { StagesComponent } from '../list/stages.component';
 export class StagesDialogComponent extends DialogBaseModel<DialogWithTwoButtonModel> {
   @ViewChild(StagesComponent) stagesComponent: StagesComponent;
 
-  actionLabels = ACTION_LABELS;
+  actionLabels = ACTION_LABEL;
   themePalette = THEME_PALETTE;
 
   constructor(

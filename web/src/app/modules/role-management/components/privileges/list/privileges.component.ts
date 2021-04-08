@@ -13,7 +13,7 @@ import {
   selectAllPrivileges,
   createPrivilegeRequested
 } from '@/core/modules/role-api/store/privilege';
-import { COLUMN_KEYS, COLUMN_LABELS, ACTION_LABELS, CONSTANTS, BS_ICONS } from '@/shared/constants';
+import { COLUMN_KEY, COLUMN_LABEL, ACTION_LABEL, CONSTANTS, BS_ICON } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogService } from '@/shared/services';
 import { DialogMode } from '@/shared/models/dialog/dialog-mode.enum';
@@ -33,11 +33,11 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
   privileges: Privilege[];
   resultsLength: number;
 
-  columns = COLUMN_KEYS;
-  columnLabels = COLUMN_LABELS;
-  actionLabels = ACTION_LABELS;
-  displayedColumns: COLUMN_KEYS[] = [COLUMN_KEYS.SELECT, COLUMN_KEYS.TITLE, COLUMN_KEYS.KEY];
-  addPrivilegeIcon = BS_ICONS.Plus;
+  columns = COLUMN_KEY;
+  columnLabels = COLUMN_LABEL;
+  actionLabels = ACTION_LABEL;
+  displayedColumns: COLUMN_KEY[] = [COLUMN_KEY.SELECT, COLUMN_KEY.TITLE, COLUMN_KEY.KEY];
+  addPrivilegeIcon = BS_ICON.Plus;
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -74,7 +74,7 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
     const dialogModel = new DialogCreateEditModel(
       DialogMode.CREATE,
       CONSTANTS.TEXTS_CREATE_PRIVILEGE,
-      ACTION_LABELS.SUBMIT
+      ACTION_LABEL.SUBMIT
     );
     const dialogDataModel: DialogDataModel<DialogCreateEditModel> = { dialogModel };
 

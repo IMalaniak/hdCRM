@@ -1,4 +1,4 @@
-export enum WhereOperators {
+export enum WHERE_OPERATOR {
   EQUAL = 'eq',
   NOT_EQUAL = 'ne',
   IS = 'is',

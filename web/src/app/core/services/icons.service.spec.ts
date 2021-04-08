@@ -2,7 +2,7 @@
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { BS_ICONS, ICONS } from '@/shared/constants';
+import { BS_ICON, ICON } from '@/shared/constants';
 import { IconsService } from './icons.service';
 
 describe('IconsService', () => {
@@ -10,7 +10,7 @@ describe('IconsService', () => {
   let matIconRegistrySpy: jasmine.SpyObj<MatIconRegistry>;
   let domSanitizerSpy: jasmine.SpyObj<DomSanitizer>;
 
-  const icons = [ICONS.SOCIAL_Email, BS_ICONS.Building];
+  const icons = [ICON.SOCIAL_Email, BS_ICON.Building];
 
   beforeEach(() => {
     domSanitizerSpy = jasmine.createSpyObj('DomSanitizer', ['bypassSecurityTrustResourceUrl']);
@@ -26,10 +26,10 @@ describe('IconsService', () => {
     service.registerIcons([...icons]);
     expect(matIconRegistrySpy.addSvgIcon).toHaveBeenCalledTimes(2);
     expect(domSanitizerSpy.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith(
-      `../../../assets/images/icons/${ICONS.SOCIAL_Email.toString()}.svg`
+      `../../../assets/images/icons/${ICON.SOCIAL_Email.toString()}.svg`
     );
     expect(domSanitizerSpy.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith(
-      `../../../assets/images/bs-icons/${BS_ICONS.Building.toString()}.svg`
+      `../../../assets/images/bs-icons/${BS_ICON.Building.toString()}.svg`
     );
   });
 });

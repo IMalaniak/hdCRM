@@ -7,7 +7,7 @@ import { AppState } from '@/core/store';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { Plan } from '@/core/modules/plan-api/shared';
 import { createPlanRequested } from '@/core/modules/plan-api/store/plan';
-import { ADD_PRIVILEGES, DELETE_PRIVILEGES } from '@/shared/constants';
+import { ADD_PRIVILEGE, DELETE_PRIVILEGE } from '@/shared/constants';
 
 @Component({
   template: `
@@ -24,10 +24,10 @@ import { ADD_PRIVILEGES, DELETE_PRIVILEGES } from '@/shared/constants';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddPlanComponent {
-  canAddAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.PLAN_ATTACHMENT)));
+  canAddAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGE.PLAN_ATTACHMENT)));
   // TODO: @IMalaniak use this for stages configurations
   // configStages$: Observable<boolean> = this.store.pipe(select(isPrivileged('stage-edit')));
-  canDeleteAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.PLAN_ATTACHMENT)));
+  canDeleteAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGE.PLAN_ATTACHMENT)));
 
   plan = { Participants: [] } as Plan;
 

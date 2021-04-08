@@ -10,7 +10,7 @@ import { selectPlansLoading } from '@/core/modules/plan-api/store/plan';
 import { Asset, DialogDataModel, IDialogResult, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
 import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
 import { DialogService } from '@/shared/services';
-import { CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
+import { CONSTANTS, FORM_NAME } from '@/shared/constants';
 import { UsersDialogComponent } from '@/modules/user-management/components';
 import { prepareSelectionPopup, resetSelectionPopup } from '@/modules/user-management/store';
 import { selectUsersById } from '@/core/modules/user-api/store';
@@ -29,7 +29,7 @@ export class TemplatesPlanViewComponent extends TemplatesViewDetailsComponent<Pl
   // TODO: @IMalaniak implement deleting document
   // @Output() deleteDocument: EventEmitter<any> = new EventEmitter();
 
-  protected readonly formName = FORMCONSTANTS.PLAN;
+  protected readonly formName = FORM_NAME.PLAN;
 
   constructor(
     protected readonly store$: Store<AppState>,

@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
-import { DIALOG, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE, CONSTANTS, BS_ICONS } from '@/shared/constants';
+import { DIALOG, ACTION_LABEL, MAT_BUTTON, THEME_PALETTE, CONSTANTS, BS_ICON } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
@@ -34,17 +34,17 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatAccordion) taskAccordion: MatAccordion;
 
-  actionLabels = ACTION_LABELS;
+  actionLabels = ACTION_LABEL;
   themePalette = THEME_PALETTE;
   matButtonType = MAT_BUTTON;
-  listIcons: { [key: string]: BS_ICONS } = {
-    matMenu: BS_ICONS.ThreeDotsVertical,
-    delete: BS_ICONS.Trash,
-    edit: BS_ICONS.Pencil,
-    add: BS_ICONS.Plus,
-    collapse: BS_ICONS.ArrowsCollapse,
-    expand: BS_ICONS.ArrowsExpand,
-    flag: BS_ICONS.Flag
+  listIcons: { [key: string]: BS_ICON } = {
+    matMenu: BS_ICON.ThreeDotsVertical,
+    delete: BS_ICON.Trash,
+    edit: BS_ICON.Pencil,
+    add: BS_ICON.Plus,
+    collapse: BS_ICON.ArrowsCollapse,
+    expand: BS_ICON.ArrowsExpand,
+    flag: BS_ICON.Flag
   };
 
   private unsubscribe: Subject<void> = new Subject();

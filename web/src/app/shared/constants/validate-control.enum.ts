@@ -1,4 +1,4 @@
-export enum ControlValidator {
+export enum VALIDATE_CONTROL {
   REQUIRED = 'required',
   MIN_LENGTH = 'minlength',
   MAX_LENGTH = 'maxlength',

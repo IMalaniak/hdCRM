@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ProfileComponent, UserComponent, UsersComponent } from './components';
-import { PATHS, VIEW_PRIVILEGES } from '@/shared/constants';
+import { PATHS, VIEW_PRIVILEGE } from '@/shared/constants';
 import { PrivilegeGuard } from '@/shared/guards';
 
 const routes: Routes = [
@@ -11,7 +11,7 @@ const routes: Routes = [
     data: {
       breadcrumb: 'List',
       animation: 'UsersListPage',
-      privilege: VIEW_PRIVILEGES.USER
+      privilege: VIEW_PRIVILEGE.USER
     },
     canActivate: [PrivilegeGuard],
     component: UsersComponent
@@ -21,7 +21,7 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Details',
       animation: 'UserDetailsPage',
-      privilege: VIEW_PRIVILEGES.USER
+      privilege: VIEW_PRIVILEGE.USER
     },
     canActivate: [PrivilegeGuard],
     component: UserComponent

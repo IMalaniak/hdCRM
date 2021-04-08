@@ -1,4 +1,4 @@
-export enum NOTIFICATION_TYPES {
+export enum NOTIFICATION_TYPE {
   SUCCESS,
   WARN,
   INFO,

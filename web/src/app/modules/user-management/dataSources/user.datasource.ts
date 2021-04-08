@@ -7,7 +7,7 @@ import { User } from '@/core/modules/user-api/shared';
 import { PageQuery } from '@/shared/models';
 import { CommonDataSource } from '@/shared/services';
 import { Cell, DataRow } from '@/shared/models/table';
-import { COLUMN_KEYS } from '@/shared/constants/table.constants';
+import { COLUMN_KEY } from '@/shared/constants/table.constants';
 import { createNavigation, UrlGenerator } from '@/shared/utils';
 import { CONSTANTS, LINK_TARGET, LINK_TYPE } from '@/shared/constants';
 import { selectUsersPage } from '../store';
@@ -32,28 +32,28 @@ export class UsersDataSource extends CommonDataSource<User> {
   protected mapToDataRows(users: User[]): DataRow[] {
     return users.map((user) => ({
       id: user.id,
-      [COLUMN_KEYS.SEQUENCE]: Cell.createSequenceCell(),
-      [COLUMN_KEYS.SELECT]: Cell.createCheckboxCell(),
-      [COLUMN_KEYS.AVATAR]: Cell.createAvatarCell(user),
-      [COLUMN_KEYS.LOGIN]: Cell.createStringCell(user.login),
-      [COLUMN_KEYS.EMAIL]: Cell.createLinkCell(
+      [COLUMN_KEY.SEQUENCE]: Cell.createSequenceCell(),
+      [COLUMN_KEY.SELECT]: Cell.createCheckboxCell(),
+      [COLUMN_KEY.AVATAR]: Cell.createAvatarCell(user),
+      [COLUMN_KEY.LOGIN]: Cell.createStringCell(user.login),
+      [COLUMN_KEY.EMAIL]: Cell.createLinkCell(
         user.email,
         createNavigation(CONSTANTS.PREFIX_MAIL_TO + `${user.email}`, LINK_TYPE.LINK)
       ),
-      [COLUMN_KEYS.NAME]: Cell.createStringCell(user.name),
-      [COLUMN_KEYS.SURNAME]: Cell.createStringCell(user.surname),
-      [COLUMN_KEYS.PHONE]: Cell.createLinkCell(
+      [COLUMN_KEY.NAME]: Cell.createStringCell(user.name),
+      [COLUMN_KEY.SURNAME]: Cell.createStringCell(user.surname),
+      [COLUMN_KEY.PHONE]: Cell.createLinkCell(
         user.phone,
         createNavigation(CONSTANTS.PREFIX_TEL + `${user.phone}`, LINK_TYPE.LINK, LINK_TARGET.SELF)
       ),
-      [COLUMN_KEYS.DEPARTMENT]: Cell.createLinkCell(
+      [COLUMN_KEY.DEPARTMENT]: Cell.createLinkCell(
         user.Department?.title,
         UrlGenerator.getDepartmentUrl(user.Department?.id)
       ),
-      [COLUMN_KEYS.STATE]: Cell.createStringCell(user.state),
-      [COLUMN_KEYS.CREATED_AT]: Cell.createDateCell(user.createdAt),
-      [COLUMN_KEYS.UPDATED_AT]: Cell.createDateCell(user.updatedAt),
-      [COLUMN_KEYS.ACTIONS]: Cell.createActionsCell()
+      [COLUMN_KEY.STATE]: Cell.createStringCell(user.state),
+      [COLUMN_KEY.CREATED_AT]: Cell.createDateCell(user.createdAt),
+      [COLUMN_KEY.UPDATED_AT]: Cell.createDateCell(user.updatedAt),
+      [COLUMN_KEY.ACTIONS]: Cell.createActionsCell()
     }));
   }
 }

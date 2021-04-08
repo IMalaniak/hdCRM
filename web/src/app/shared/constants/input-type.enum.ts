@@ -1,4 +1,4 @@
-export enum InputType {
+export enum INPUT_TYPE {
   TEXT = 'text',
   EMAIL = 'email',
   BUTTON = 'button',

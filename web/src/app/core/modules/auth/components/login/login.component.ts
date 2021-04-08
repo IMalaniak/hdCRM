@@ -10,14 +10,14 @@ import { IconsService } from '@/core/services';
 import { ConfirmPasswordValidator } from '@/shared/validators';
 import { NewPassword } from '@/shared/models';
 import {
-  ACTION_LABELS,
+  ACTION_LABEL,
   THEME_PALETTE,
   BUTTON_TYPE,
   MAT_BUTTON,
   PATHS,
-  RoutingConstants,
-  BS_ICONS,
-  InputType
+  ROUTING,
+  BS_ICON,
+  INPUT_TYPE
 } from '@/shared/constants';
 import * as authActions from '../../store/auth.actions';
 import * as authSelectors from '../../store/auth.selectors';
@@ -36,21 +36,21 @@ export class LoginComponent implements OnInit, OnDestroy {
   hidePassword = true;
   token: string;
 
-  actionLabels = ACTION_LABELS;
+  actionLabels = ACTION_LABEL;
   themePalette = THEME_PALETTE;
   buttonType = BUTTON_TYPE;
   matButtonTypes = MAT_BUTTON;
-  inputTypes = InputType;
+  inputTypes = INPUT_TYPE;
   paths = PATHS;
-  routes = RoutingConstants;
-  icons: { [key: string]: BS_ICONS } = {
-    key: BS_ICONS.Key,
-    disabled: BS_ICONS.SlashCircle,
-    cancel: BS_ICONS.X,
-    arrow: BS_ICONS.ArrowRight,
-    submit: BS_ICONS.Check,
-    eye: BS_ICONS.Eye,
-    eyeDisabled: BS_ICONS.EyeSlash
+  routes = ROUTING;
+  icons: { [key: string]: BS_ICON } = {
+    key: BS_ICON.Key,
+    disabled: BS_ICON.SlashCircle,
+    cancel: BS_ICON.X,
+    arrow: BS_ICON.ArrowRight,
+    submit: BS_ICON.Check,
+    eye: BS_ICON.Eye,
+    eyeDisabled: BS_ICON.EyeSlash
   };
 
   private unsubscribe: Subject<void> = new Subject();

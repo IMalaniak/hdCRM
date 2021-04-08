@@ -1,4 +1,4 @@
-export enum UserState {
+export enum USER_STATE {
   INITIALIZED = 'initialized',
   ACTIVE = 'active',
   DISABLED = 'disabled',

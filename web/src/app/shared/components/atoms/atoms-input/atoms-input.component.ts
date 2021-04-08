@@ -3,7 +3,7 @@ import { MatFormFieldControl } from '@angular/material/form-field';
 import { NgControl } from '@angular/forms';
 
 import { BaseControlValueAccessorComponentModel } from '../../base/componentModels';
-import { InputType } from '@/shared/constants';
+import { INPUT_TYPE } from '@/shared/constants';
 
 @Component({
   selector: 'atoms-input',
@@ -23,7 +23,7 @@ import { InputType } from '@/shared/constants';
 export class AtomsInputComponent extends BaseControlValueAccessorComponentModel<string | number | null | undefined> {
   @Input() canValidate = true;
   @Input() label = '';
-  @Input() inputType: InputType = InputType.TEXT;
+  @Input() inputType: INPUT_TYPE = INPUT_TYPE.TEXT;
   @Input() autocomplete: 'on' | 'off' = 'on'; // TODO: investigate the universal method to control autocomplete, the autocomplete don't work
 
   constructor(@Optional() @Self() readonly ngControl: NgControl) {
