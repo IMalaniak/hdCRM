@@ -1,15 +1,15 @@
 import { Department } from '@/core/modules/department-api/shared';
 import { Role } from '@/core/modules/role-api/shared';
 import { Asset } from '@/shared/models';
+import { TimeStamps } from '@/shared/models/base';
 import { UserState } from '@/shared/constants';
 
 import { UserSession } from './userSession';
 import { PasswordAttributes } from './passwordAttributes';
-import { Organization } from './organization';
+import { BelongsToOrganization } from './organization';
 import { UserPreferences } from './UserPreferences';
-import { TimeStamps } from '@/shared/models/base';
 
-export interface User extends TimeStamps {
+export interface User extends TimeStamps, BelongsToOrganization {
   id: number;
   name: string;
   surname: string;
@@ -28,8 +28,6 @@ export interface User extends TimeStamps {
   avatar: Asset;
   UserSessions: UserSession[];
   PasswordAttributes: PasswordAttributes;
-  Organization: Organization;
-  OrganizationId: number;
-  online: boolean;
   Preference: UserPreferences;
+  online: boolean;
 }

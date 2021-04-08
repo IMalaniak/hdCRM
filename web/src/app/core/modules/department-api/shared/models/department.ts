@@ -1,7 +1,7 @@
-import { User } from '@/core/modules/user-api/shared';
+import { BelongsToOrganization, User } from '@/core/modules/user-api/shared';
 import { TimeStamps } from '@/shared/models/base';
 
-export interface Department extends TimeStamps {
+export interface Department extends TimeStamps, BelongsToOrganization {
   id: number;
   title: string;
   description: string;

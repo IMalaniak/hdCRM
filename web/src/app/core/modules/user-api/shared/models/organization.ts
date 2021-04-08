@@ -22,3 +22,8 @@ export interface Organization extends TimeStamps {
   Roles: Role[];
   Users: User[];
 }
+
+export interface BelongsToOrganization {
+  readonly Organization: Organization;
+  readonly OrganizationId: number;
+}
