@@ -8,16 +8,16 @@ import {
   Optional
 } from 'sequelize';
 
-import { IListView, ITimeFormat, IDateFormat, IItemsPerPage } from '../constants';
-import { enumToArray } from '../utils/EnumToArray';
+import { LIST_VIEW, TIME_FORMAT, DATE_FORMAT, ITEMS_PER_PAGE } from '../constants';
+import { enumToArray } from '../utils/enumToArray';
 import { User } from './User';
 
 export interface PreferenceAttributes {
   id: number;
-  listView: IListView;
-  timeFormat: ITimeFormat;
-  dateFormat: IDateFormat;
-  itemsPerPage: IItemsPerPage;
+  listView: LIST_VIEW;
+  timeFormat: TIME_FORMAT;
+  dateFormat: DATE_FORMAT;
+  itemsPerPage: ITEMS_PER_PAGE;
   listOutlineBorders: boolean;
   UserId: number;
 }
@@ -26,10 +26,10 @@ export interface PreferenceCreationAttributes extends Optional<PreferenceAttribu
 
 export class Preference extends Model<PreferenceAttributes, PreferenceCreationAttributes> {
   public id!: number;
-  public listView!: IListView;
-  public timeFormat!: ITimeFormat;
-  public dateFormat!: IDateFormat;
-  public itemsPerPage!: IItemsPerPage;
+  public listView!: LIST_VIEW;
+  public timeFormat!: TIME_FORMAT;
+  public dateFormat!: DATE_FORMAT;
+  public itemsPerPage!: ITEMS_PER_PAGE;
   public listOutlineBorders: boolean;
 
   // timestamps
@@ -65,27 +65,27 @@ export const PreferenceFactory = (sequelize: Sequelize): Model<PreferenceAttribu
       },
       listView: {
         type: DataTypes.ENUM,
-        values: enumToArray(IListView),
+        values: enumToArray(LIST_VIEW),
         allowNull: false,
-        defaultValue: IListView.LIST
+        defaultValue: LIST_VIEW.LIST
       },
       timeFormat: {
         type: DataTypes.ENUM,
-        values: enumToArray(ITimeFormat),
+        values: enumToArray(TIME_FORMAT),
         allowNull: false,
-        defaultValue: ITimeFormat.LONG_TIME
+        defaultValue: TIME_FORMAT.LONG_TIME
       },
       dateFormat: {
         type: DataTypes.ENUM,
-        values: enumToArray(IDateFormat),
+        values: enumToArray(DATE_FORMAT),
         allowNull: false,
-        defaultValue: IDateFormat.FULL_DATE
+        defaultValue: DATE_FORMAT.FULL_DATE
       },
       itemsPerPage: {
         type: DataTypes.ENUM,
-        values: enumToArray(IItemsPerPage),
+        values: enumToArray(ITEMS_PER_PAGE),
         allowNull: false,
-        defaultValue: IItemsPerPage.FIVE
+        defaultValue: ITEMS_PER_PAGE.FIVE
       },
       listOutlineBorders: {
         type: DataTypes.BOOLEAN,

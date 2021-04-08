@@ -1,7 +1,7 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
 
-import { FieldType, FormType } from '../constants';
-import { enumToArray } from '../utils/EnumToArray';
+import { FIELD_TYPE, FORM_TYPE } from '../constants';
+import { enumToArray } from '../utils/enumToArray';
 
 export interface FormItemOption {
   value: boolean | number | string;
@@ -10,7 +10,7 @@ export interface FormItemOption {
 
 export interface FormItem {
   controlName: string;
-  type: FieldType;
+  type: FIELD_TYPE;
   label: string;
   isEditable: boolean;
   editOnly?: boolean;
@@ -23,14 +23,14 @@ export interface FormItem {
 export interface FormAttributes {
   key: string;
   name: string;
-  type: FormType;
+  type: FORM_TYPE;
   form: FormItem[];
 }
 
 export class Form extends Model<FormAttributes> {
   public key!: string;
   public name!: string;
-  public type!: FormType;
+  public type!: FORM_TYPE;
   public form!: FormItem[];
 
   // timestamps
@@ -59,7 +59,7 @@ export const FormFactory = (sequelize: Sequelize): Model<FormAttributes> => {
       },
       type: {
         type: DataTypes.ENUM,
-        values: enumToArray(FormType),
+        values: enumToArray(FORM_TYPE),
         allowNull: false
       },
       form: {

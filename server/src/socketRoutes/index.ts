@@ -2,7 +2,7 @@ import { Service } from 'typedi';
 import { Socket, Server } from 'socket.io';
 
 import { User } from '../models';
-import { SocketHelper, UserOnline } from '../helpers/socketHelper';
+import { SocketHelper, UserOnline } from '../helpers/socket.helper';
 import { Logger } from '../utils/Logger';
 
 export enum GlobalEvents {

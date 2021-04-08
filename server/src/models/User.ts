@@ -41,8 +41,8 @@ import { Department } from './Department';
 import { Organization } from './Organization';
 import { Task } from './Task';
 import { Preference } from './Preference';
-import { enumToArray } from '../utils/EnumToArray';
-import { UserState } from '../constants';
+import { enumToArray } from '../utils/enumToArray';
+import { USER_STATE } from '../constants';
 
 export interface UserAttributes {
   id: number;
@@ -55,7 +55,7 @@ export interface UserAttributes {
   salt: string;
   fullname?: string;
   phone?: string;
-  state?: UserState;
+  state?: USER_STATE;
   defaultLang?: string;
   RoleId?: number;
   avatarId?: number;
@@ -75,7 +75,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
   public phone!: string;
   public passwordHash!: string;
   public salt!: string;
-  public state!: UserState;
+  public state!: USER_STATE;
   public defaultLang!: string;
 
   // timestamps
@@ -262,9 +262,9 @@ export const UserFactory = (sequelize: Sequelize): Model<UserAttributes, UserCre
       },
       state: {
         type: DataTypes.ENUM,
-        values: enumToArray(UserState),
+        values: enumToArray(USER_STATE),
         allowNull: false,
-        defaultValue: UserState.INITIALIZED
+        defaultValue: USER_STATE.INITIALIZED
       }
     },
     {
