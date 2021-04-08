@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
-import { MAT_BUTTON, THEME_PALETTE, CONSTANTS, BS_ICONS } from '@/shared/constants';
+import { MAT_BUTTON, THEME_PALETTE, CommonConstants, BS_ICON } from '@/shared/constants';
 import { IconsService, MediaQueryService } from '@/core/services';
 
 @Component({
@@ -19,9 +19,9 @@ export class HeaderComponent implements OnInit {
   matButtonTypes = MAT_BUTTON;
   themePalette = THEME_PALETTE;
   breadcrumbsVisible = !this.mediaQueryService.isPhone;
-  themeChangeIcons: { [key: string]: BS_ICONS } = {
-    light: BS_ICONS.Sun,
-    dark: BS_ICONS.Moon
+  themeChangeIcons: { [key: string]: BS_ICON } = {
+    light: BS_ICON.Sun,
+    dark: BS_ICON.Moon
   };
 
   constructor(private readonly mediaQueryService: MediaQueryService, private readonly iconsService: IconsService) {
@@ -35,6 +35,6 @@ export class HeaderComponent implements OnInit {
   }
 
   themeTipMessage(): string {
-    return this.enableDarkTheme ? CONSTANTS.TEXTS_THEME_LIGHT : CONSTANTS.TEXTS_THEME_DARK;
+    return this.enableDarkTheme ? CommonConstants.TEXTS_THEME_LIGHT : CommonConstants.TEXTS_THEME_DARK;
   }
 }

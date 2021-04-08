@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Asset } from '@/shared/models';
-import { BS_ICONS, MAT_BUTTON, THEME_PALETTE } from '@/shared/constants';
+import { BS_ICON, MAT_BUTTON, THEME_PALETTE } from '@/shared/constants';
 
 @Component({
   selector: 'molecules-profile-pic-with-uploader',
@@ -38,8 +38,8 @@ export class MoleculesProfilePicWithUploaderComponent {
 
   themePalette = THEME_PALETTE;
   matButtonTypes = MAT_BUTTON;
-  cancelIcon = BS_ICONS.X;
-  editIcon = BS_ICONS.Pencil;
+  cancelIcon = BS_ICON.X;
+  editIcon = BS_ICON.Pencil;
 
   changePic = false;
   changePicButtonVisible = false;

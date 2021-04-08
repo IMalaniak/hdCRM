@@ -1,10 +1,10 @@
 import { User } from '@/core/modules/user-api/shared';
-import { STYLECONSTANTS, THEME_PALETTE } from '@/shared/constants';
-import { Navigation } from '@/shared/utils/';
-import { CellType } from './cellType.enum';
+import { STYLE, THEME_PALETTE } from '@/shared/constants';
+import { Navigation } from '../navigation';
+import { CELL_TYPE } from './cell-type.enum';
 
 export interface ICell {
-  readonly cellType: CellType;
+  readonly cellType: CELL_TYPE;
   readonly value?: any;
   readonly customClass?: string;
   readonly navigation?: Navigation;
@@ -13,45 +13,43 @@ export interface ICell {
 export class Cell {
   static createSequenceCell(): ICell {
     return {
-      cellType: CellType.Sequence
+      cellType: CELL_TYPE.Sequence
     };
   }
 
   static createStringCell(value: string | number, customClass?: string): ICell {
-    return value ? { value, cellType: CellType.String, ...(customClass && { customClass }) } : this.createEmptyCell();
+    return value ? { value, cellType: CELL_TYPE.String, ...(customClass && { customClass }) } : this.createEmptyCell();
   }
 
   static createLinkCell(value: string, navigation: Navigation): ICell {
-    return value
-      ? { value, cellType: CellType.Navigation, navigation }
-      : this.createEmptyCell(STYLECONSTANTS.PL_HEADER_LINK);
+    return value ? { value, cellType: CELL_TYPE.Navigation, navigation } : this.createEmptyCell(STYLE.PL_HEADER_LINK);
   }
 
   static createBooleanIconCell(value: boolean, disabledColor = false): ICell {
     return {
       value,
-      cellType: CellType.Icon,
+      cellType: CELL_TYPE.Icon,
       customClass: !disabledColor ? (value ? THEME_PALETTE.ACCENT : THEME_PALETTE.WARN) : ''
     };
   }
 
   static createCheckboxCell(value = false): ICell {
-    return { value, cellType: CellType.Checkbox };
+    return { value, cellType: CELL_TYPE.Checkbox };
   }
 
   static createAvatarCell(value: User): ICell {
-    return { value, cellType: CellType.Avatar };
+    return { value, cellType: CELL_TYPE.Avatar };
   }
 
   static createDateCell(value: Date): ICell {
-    return { value, cellType: CellType.Date };
+    return { value, cellType: CELL_TYPE.Date };
   }
 
   static createEmptyCell(customClass?: string): ICell {
-    return { value: '-', cellType: CellType.String, ...(customClass && { customClass }) };
+    return { value: '-', cellType: CELL_TYPE.String, ...(customClass && { customClass }) };
   }
 
   static createActionsCell(): ICell {
-    return { cellType: CellType.Actions };
+    return { cellType: CELL_TYPE.Actions };
   }
 }

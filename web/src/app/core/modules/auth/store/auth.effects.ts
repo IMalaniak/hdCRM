@@ -13,7 +13,7 @@ import { selectUrl } from '@/core/store/router.selectors';
 import { Organization, User } from '@/core/modules/user-api/shared';
 import { SocketService, ToastMessageService } from '@/shared/services';
 import { BaseMessage, ItemApiResponse } from '@/shared/models';
-import { SocketEvent, RoutingConstants, CONSTANTS } from '@/shared/constants';
+import { SOCKET_EVENT, RoutingConstants, CommonConstants } from '@/shared/constants';
 import { changeIsEditingState } from '@/modules/user-management/store';
 import * as authActions from './auth.actions';
 import { AuthenticationService } from '../services';
@@ -75,7 +75,7 @@ export class AuthEffects implements OnInitEffects {
         tap(() =>
           this.authService.logout().subscribe(() => {
             // TODO check if this is unsubscribed
-            this.scktService.emit(SocketEvent.ISOFFLINE);
+            this.scktService.emit(SOCKET_EVENT.ISOFFLINE);
             this.router.navigateByUrl(RoutingConstants.ROUTE_HOME);
           })
         )
@@ -148,7 +148,7 @@ export class AuthEffects implements OnInitEffects {
         ofType(authActions.redirectToLogin),
         withLatestFrom(this.store$.pipe(select(selectUrl))),
         map(([_, returnUrl]) => {
-          this.toastMessageService.error(CONSTANTS.TEXTS_YOU_ARE_NOT_AUTHORIZED);
+          this.toastMessageService.error(CommonConstants.TEXTS_YOU_ARE_NOT_AUTHORIZED);
           this.router.navigate([RoutingConstants.ROUTE_AUTH_LOGIN], {
             queryParams: { returnUrl }
           });
@@ -166,7 +166,7 @@ export class AuthEffects implements OnInitEffects {
       switchMap(({ data }) => {
         const currentUser = { ...data, online: true };
 
-        this.scktService.emit(SocketEvent.ISONLINE, {
+        this.scktService.emit(SOCKET_EVENT.ISONLINE, {
           id: currentUser.id,
           name: currentUser.name,
           surname: currentUser.surname,

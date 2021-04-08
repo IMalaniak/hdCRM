@@ -7,7 +7,7 @@ import { AppState } from '@/core/store';
 import { IconsService } from '@/core/services';
 import { deleteSession, deleteMultipleSession } from '@/core/modules/auth/store/auth.actions';
 import { User, UserSession } from '@/core/modules/user-api/shared';
-import { MAT_BUTTON, THEME_PALETTE, CONSTANTS, BS_ICONS } from '@/shared/constants';
+import { MAT_BUTTON, THEME_PALETTE, CommonConstants, BS_ICON } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
@@ -28,14 +28,14 @@ export class OrganismsUserSessionsComponent implements OnChanges {
 
   themePalette = THEME_PALETTE;
   matButtonType = MAT_BUTTON;
-  removeIcon = BS_ICONS.X;
+  removeIcon = BS_ICON.X;
 
   constructor(
     private store: Store<AppState>,
     private dialogService: DialogService,
     private readonly iconsService: IconsService
   ) {
-    this.iconsService.registerIcons([BS_ICONS.Phone, BS_ICONS.Tablet, BS_ICONS.Display]);
+    this.iconsService.registerIcons([BS_ICON.Phone, BS_ICON.Tablet, BS_ICON.Display]);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -56,17 +56,17 @@ export class OrganismsUserSessionsComponent implements OnChanges {
     return `${parsedUA.getBrowser().name} on ${parsedUA.getOS().name} ${parsedUA.getOS().version}`;
   }
 
-  getDeviceIcon(ua: string): BS_ICONS {
+  getDeviceIcon(ua: string): BS_ICON {
     const parsedUA = new UAParser(ua);
     switch (parsedUA.getDevice().type) {
       case 'mobile':
-        return BS_ICONS.Phone;
+        return BS_ICON.Phone;
 
       case 'tablet':
-        return BS_ICONS.Tablet;
+        return BS_ICON.Tablet;
 
       default:
-        return BS_ICONS.Display;
+        return BS_ICON.Display;
     }
   }
 
@@ -78,12 +78,12 @@ export class OrganismsUserSessionsComponent implements OnChanges {
   }
 
   onRemoveSession(sessionId: number): void {
-    this.onRemove(sessionId, CONSTANTS.TEXTS_SESSION_DEACTIVATE_CONFIRM);
+    this.onRemove(sessionId, CommonConstants.TEXTS_SESSION_DEACTIVATE_CONFIRM);
   }
 
   onRemoveOtherSessions(): void {
     const sessionIds: number[] = this.otherActiveSessions.map((session) => session.id);
-    this.onRemove(sessionIds, CONSTANTS.TEXTS_SESSION_DEACTIVATE_ALL_CONFIRM);
+    this.onRemove(sessionIds, CommonConstants.TEXTS_SESSION_DEACTIVATE_ALL_CONFIRM);
   }
 
   removeSession(sessionIds: number | number[]): void {

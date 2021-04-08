@@ -10,14 +10,14 @@ import { IconsService } from '@/core/services';
 import { ConfirmPasswordValidator } from '@/shared/validators';
 import { NewPassword } from '@/shared/models';
 import {
-  ACTION_LABELS,
+  ACTION_LABEL,
   THEME_PALETTE,
   BUTTON_TYPE,
   MAT_BUTTON,
-  PATHS,
+  PathConstants,
   RoutingConstants,
-  BS_ICONS,
-  InputType
+  BS_ICON,
+  INPUT_TYPE
 } from '@/shared/constants';
 import * as authActions from '../../store/auth.actions';
 import * as authSelectors from '../../store/auth.selectors';
@@ -36,21 +36,21 @@ export class LoginComponent implements OnInit, OnDestroy {
   hidePassword = true;
   token: string;
 
-  actionLabels = ACTION_LABELS;
+  actionLabels = ACTION_LABEL;
   themePalette = THEME_PALETTE;
   buttonType = BUTTON_TYPE;
   matButtonTypes = MAT_BUTTON;
-  inputTypes = InputType;
-  paths = PATHS;
+  inputTypes = INPUT_TYPE;
+  paths = PathConstants;
   routes = RoutingConstants;
-  icons: { [key: string]: BS_ICONS } = {
-    key: BS_ICONS.Key,
-    disabled: BS_ICONS.SlashCircle,
-    cancel: BS_ICONS.X,
-    arrow: BS_ICONS.ArrowRight,
-    submit: BS_ICONS.Check,
-    eye: BS_ICONS.Eye,
-    eyeDisabled: BS_ICONS.EyeSlash
+  icons: { [key: string]: BS_ICON } = {
+    key: BS_ICON.Key,
+    disabled: BS_ICON.SlashCircle,
+    cancel: BS_ICON.X,
+    arrow: BS_ICON.ArrowRight,
+    submit: BS_ICON.Check,
+    eye: BS_ICON.Eye,
+    eyeDisabled: BS_ICON.EyeSlash
   };
 
   private unsubscribe: Subject<void> = new Subject();
@@ -67,14 +67,17 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.currentPath = this.route.snapshot.url[0].path;
 
-    if (this.currentPath === PATHS.REQUEST_NEW_PASSWORD || this.currentPath === PATHS.LOGIN) {
+    if (this.currentPath === PathConstants.REQUEST_NEW_PASSWORD || this.currentPath === PathConstants.LOGIN) {
       this.prepareUserForm();
-    } else if (this.currentPath === PATHS.PASSWORD_RESET || this.currentPath === PATHS.ACTIVATE_ACCOUNT) {
+    } else if (
+      this.currentPath === PathConstants.PASSWORD_RESET ||
+      this.currentPath === PathConstants.ACTIVATE_ACCOUNT
+    ) {
       this.token = this.route.snapshot.paramMap.get('token');
-      if (this.currentPath === PATHS.ACTIVATE_ACCOUNT) {
+      if (this.currentPath === PathConstants.ACTIVATE_ACCOUNT) {
         this.prepareUserForm();
         this.activateAccount();
-      } else if (this.currentPath === PATHS.PASSWORD_RESET) {
+      } else if (this.currentPath === PathConstants.PASSWORD_RESET) {
         this.preparePasswordResetForm();
       }
     }
@@ -85,7 +88,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       login: new FormControl(null, [Validators.required]),
       password: new FormControl(null)
     });
-    if (this.currentPath === PATHS.LOGIN) {
+    if (this.currentPath === PathConstants.LOGIN) {
       this.user.get('password').setValidators([Validators.required, Validators.minLength(6)]);
     }
   }

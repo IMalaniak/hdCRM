@@ -15,7 +15,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatRadioChange } from '@angular/material/radio';
 
 import { BaseControlValueAccessorComponentModel } from '../../base/componentModels';
-import { IFieldType, THEME_PALETTE } from '@/shared/constants';
+import { FIELD_TYPE, THEME_PALETTE } from '@/shared/constants';
 
 @Component({
   selector: 'molecules-form-field',
@@ -26,7 +26,7 @@ import { IFieldType, THEME_PALETTE } from '@/shared/constants';
 export class MoleculesFormFieldComponent extends BaseControlValueAccessorComponentModel<
   string | number | boolean | Date | null | undefined | any[]
 > {
-  @Input() fType: IFieldType;
+  @Input() fType: FIELD_TYPE;
   @Input() label = '';
   @Input() editForm = false;
   @Input() editable = true;
@@ -41,7 +41,7 @@ export class MoleculesFormFieldComponent extends BaseControlValueAccessorCompone
 
   @HostBinding('class.w-100') fullWidth = true;
 
-  fieldTypes: typeof IFieldType = IFieldType;
+  fieldTypes: typeof FIELD_TYPE = FIELD_TYPE;
 
   constructor(@Optional() @Self() readonly ngControl: NgControl) {
     super();

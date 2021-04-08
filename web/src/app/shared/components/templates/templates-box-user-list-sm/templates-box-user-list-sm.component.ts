@@ -2,12 +2,12 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from 
 import { Router } from '@angular/router';
 
 import { User } from '@/core/modules/user-api/shared';
-import { BS_ICONS, CONSTANTS, MAT_BUTTON } from '@/shared/constants';
+import { BS_ICON, CommonConstants, MAT_BUTTON } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogWithTwoButtonModel } from '@/shared/models/dialog/dialog-with-two-button.model';
 import { DialogService } from '@/shared/services';
 import { IDialogResult } from '@/shared/models/dialog/dialog-result';
-import { DialogType } from '@/shared/models';
+import { DIALOG_TYPE } from '@/shared/models';
 import { OrganismsUserDetailsDialogComponent } from '../../organisms/organisms-user-details-dialog/organisms-user-details-dialog.component';
 
 @Component({
@@ -53,8 +53,8 @@ export class TemplatesBoxUserListSmComponent {
   @Output() userClick: EventEmitter<User> = new EventEmitter();
 
   matButtonTypes = MAT_BUTTON;
-  changeUserIcon = BS_ICONS.PersonCheck;
-  addUserIcon = BS_ICONS.PersonPlus;
+  changeUserIcon = BS_ICON.PersonCheck;
+  addUserIcon = BS_ICON.PersonPlus;
 
   constructor(private dialogService: DialogService, private route: Router) {}
 
@@ -68,12 +68,12 @@ export class TemplatesBoxUserListSmComponent {
 
   openUserDetailsDialog(user: User): void {
     const dialogDataModel: DialogDataModel<DialogWithTwoButtonModel> = {
-      dialogModel: new DialogWithTwoButtonModel(null, CONSTANTS.TEXTS_MORE_DETAILS),
+      dialogModel: new DialogWithTwoButtonModel(null, CommonConstants.TEXTS_MORE_DETAILS),
       model: user
     };
 
     this.dialogService
-      .open(OrganismsUserDetailsDialogComponent, dialogDataModel, DialogType.STANDART)
+      .open(OrganismsUserDetailsDialogComponent, dialogDataModel, DIALOG_TYPE.STANDART)
       .afterClosed()
       .subscribe((result: IDialogResult<string>) => {
         if (result?.success) {

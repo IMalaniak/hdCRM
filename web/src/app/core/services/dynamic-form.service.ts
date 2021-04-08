@@ -4,7 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 import { ItemApiResponse, DynamicForm } from '@/shared/models';
-import { APIS } from '@/shared/constants';
+import { ApiRoutesConstants } from '@/shared/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class DynamicFormService {
   constructor(private readonly http: HttpClient) {}
 
   getOne(formName: string): Observable<ItemApiResponse<DynamicForm>> {
-    return this.http.get<ItemApiResponse<DynamicForm>>(`${APIS.FORMS}/${formName}`);
+    return this.http.get<ItemApiResponse<DynamicForm>>(`${ApiRoutesConstants.FORMS}/${formName}`);
   }
 
   generateFormGroupFrom(json: DynamicForm, data?: any): FormGroup {

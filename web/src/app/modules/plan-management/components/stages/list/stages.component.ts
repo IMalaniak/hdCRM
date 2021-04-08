@@ -13,11 +13,11 @@ import {
   selectAllStages,
   createStage
 } from '@/core/modules/plan-api/store/stage';
-import { COLUMN_KEYS, COLUMN_LABELS, ACTION_LABELS, CONSTANTS, BS_ICONS } from '@/shared/constants';
+import { COLUMN_KEY, COLUMN_LABEL, ACTION_LABEL, CommonConstants, BS_ICON } from '@/shared/constants';
 import { DialogService } from '@/shared/services';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { IDialogResult } from '@/shared/models/dialog/dialog-result';
-import { DialogCreateEditModel, DialogMode } from '@/shared/models';
+import { DialogCreateEditModel, DIALOG_MODE } from '@/shared/models';
 import { AddStageDialogComponent } from '../add-dialog/add-stage-dialog.component';
 
 @Component({
@@ -33,11 +33,11 @@ export class StagesComponent implements OnInit, OnDestroy {
   resultsLength: number;
   selection = new SelectionModel<Stage>(true, []);
 
-  columns = COLUMN_KEYS;
-  columnLabels = COLUMN_LABELS;
-  actionLabels = ACTION_LABELS;
-  displayedColumns: COLUMN_KEYS[] = [COLUMN_KEYS.SELECT, COLUMN_KEYS.TITLE];
-  addStageIcon = BS_ICONS.Plus;
+  columns = COLUMN_KEY;
+  columnLabels = COLUMN_LABEL;
+  actionLabels = ACTION_LABEL;
+  displayedColumns: COLUMN_KEY[] = [COLUMN_KEY.SELECT, COLUMN_KEY.TITLE];
+  addStageIcon = BS_ICON.Plus;
 
   private unsubscribe: Subject<void> = new Subject();
 
@@ -69,7 +69,11 @@ export class StagesComponent implements OnInit, OnDestroy {
   }
 
   createStageDialog(): void {
-    const dialogModel = new DialogCreateEditModel(DialogMode.CREATE, CONSTANTS.TEXTS_CREATE_STAGE, ACTION_LABELS.SAVE);
+    const dialogModel = new DialogCreateEditModel(
+      DIALOG_MODE.CREATE,
+      CommonConstants.TEXTS_CREATE_STAGE,
+      ACTION_LABEL.SAVE
+    );
     const dialogDataModel: DialogDataModel<DialogCreateEditModel> = { dialogModel };
 
     this.dialogService

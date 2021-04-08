@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { APIS } from '@/shared/constants';
+import { ApiRoutesConstants } from '@/shared/constants';
 import { BaseCrudService } from '@/shared/services';
 
 @Injectable()
 export class StageService extends BaseCrudService {
-  protected readonly url = APIS.STAGES;
+  protected readonly url = ApiRoutesConstants.STAGES;
 
   constructor(protected readonly http: HttpClient) {
     super(http);

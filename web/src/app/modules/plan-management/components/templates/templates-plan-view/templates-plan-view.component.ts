@@ -7,10 +7,10 @@ import { select, Store } from '@ngrx/store';
 import { AppState } from '@/core/store';
 import { Plan } from '@/core/modules/plan-api/shared';
 import { selectPlansLoading } from '@/core/modules/plan-api/store/plan';
-import { Asset, DialogDataModel, IDialogResult, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
+import { Asset, DialogDataModel, IDialogResult, DIALOG_TYPE, DialogWithTwoButtonModel } from '@/shared/models';
 import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
 import { DialogService } from '@/shared/services';
-import { CONSTANTS, FORMCONSTANTS } from '@/shared/constants';
+import { CommonConstants, FormNameConstants } from '@/shared/constants';
 import { UsersDialogComponent } from '@/modules/user-management/components';
 import { prepareSelectionPopup, resetSelectionPopup } from '@/modules/user-management/store';
 import { selectUsersById } from '@/core/modules/user-api/store';
@@ -29,7 +29,7 @@ export class TemplatesPlanViewComponent extends TemplatesViewDetailsComponent<Pl
   // TODO: @IMalaniak implement deleting document
   // @Output() deleteDocument: EventEmitter<any> = new EventEmitter();
 
-  protected readonly formName = FORMCONSTANTS.PLAN;
+  protected readonly formName = FormNameConstants.PLAN;
 
   constructor(
     protected readonly store$: Store<AppState>,
@@ -53,7 +53,7 @@ export class TemplatesPlanViewComponent extends TemplatesViewDetailsComponent<Pl
     this.store$.dispatch(prepareSelectionPopup({ selectedUsersIds: this.item.Participants.map((user) => user.id) }));
 
     this.dialogService
-      .open(UsersDialogComponent, dialogDataModel, DialogType.MAX)
+      .open(UsersDialogComponent, dialogDataModel, DIALOG_TYPE.MAX)
       .afterClosed()
       .subscribe((result: IDialogResult<number[]>) => {
         if (result?.success) {
@@ -95,6 +95,6 @@ export class TemplatesPlanViewComponent extends TemplatesViewDetailsComponent<Pl
   }
 
   cardTitle(): string {
-    return this.isCreatePage ? CONSTANTS.TEXTS_CREATE_PLAN : this.item.title;
+    return this.isCreatePage ? CommonConstants.TEXTS_CREATE_PLAN : this.item.title;
   }
 }

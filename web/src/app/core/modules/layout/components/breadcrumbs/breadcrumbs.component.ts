@@ -7,7 +7,7 @@ import { select, Store } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
 import { selectRoute } from '@/core/store/router.selectors';
-import { BS_ICONS, RoutingConstants } from '@/shared/constants';
+import { BS_ICON, RoutingConstants } from '@/shared/constants';
 import { Breadcrumb } from './breadcrumb';
 
 @Component({
@@ -17,7 +17,7 @@ import { Breadcrumb } from './breadcrumb';
 })
 export class BreadcrumbsComponent {
   breadcrumbs$: Observable<Breadcrumb[]>;
-  homeIcon = BS_ICONS.House;
+  homeIcon = BS_ICON.House;
 
   constructor(private store$: Store<AppState>) {
     this.breadcrumbs$ = this.store$.pipe(

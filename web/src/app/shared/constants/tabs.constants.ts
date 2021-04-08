@@ -1,4 +1,4 @@
-export enum TAB_NAMES {
+export enum TAB_NAME {
   DETAILS = 'details',
   INTEGRATIONS = 'integrations',
   ORGANIZATION = 'org',
@@ -7,7 +7,7 @@ export enum TAB_NAMES {
   SESSIONS = 'sessions'
 }
 
-export enum TAB_LABELS {
+export enum TAB_LABEL {
   DETAILS = 'Details',
   INTEGRATIONS = 'Integrations',
   ORGANIZATION = 'Organization',

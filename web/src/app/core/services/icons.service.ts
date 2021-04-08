@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { BS_ICONS, ICONS } from '@/shared/constants';
+import { BS_ICON, ICON } from '@/shared/constants';
 
 type LibFolder = 'bs-icons' | 'icons';
 
@@ -12,8 +12,8 @@ type LibFolder = 'bs-icons' | 'icons';
 export class IconsService {
   constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {}
 
-  public registerIcons(icons: (ICONS | BS_ICONS)[]): void {
-    icons.forEach((icon: ICONS | BS_ICONS) => {
+  public registerIcons(icons: (ICON | BS_ICON)[]): void {
+    icons.forEach((icon: ICON | BS_ICON) => {
       this.register(icon.toString(), this.getLib(icon));
     });
   }
@@ -25,8 +25,8 @@ export class IconsService {
     );
   }
 
-  private getLib(icon: ICONS | BS_ICONS): LibFolder {
-    if (Object.values(ICONS).includes(icon as ICONS)) {
+  private getLib(icon: ICON | BS_ICON): LibFolder {
+    if (Object.values(ICON).includes(icon as ICON)) {
       return 'icons';
     }
 

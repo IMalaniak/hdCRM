@@ -8,7 +8,7 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@/core/store';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { ToastMessageService } from '@/shared/services';
-import { CONSTANTS } from '@/shared/constants';
+import { CommonConstants } from '@/shared/constants';
 
 @Injectable({ providedIn: 'root' })
 export class PrivilegeGuard implements CanActivate {
@@ -20,7 +20,7 @@ export class PrivilegeGuard implements CanActivate {
       skipWhile((flag) => flag === undefined),
       tap((privileged) => {
         if (!privileged) {
-          this.toastMessageService.error(CONSTANTS.TEXTS_PRIVILEGE_GUARD_ERROR);
+          this.toastMessageService.error(CommonConstants.TEXTS_PRIVILEGE_GUARD_ERROR);
         }
       })
     );

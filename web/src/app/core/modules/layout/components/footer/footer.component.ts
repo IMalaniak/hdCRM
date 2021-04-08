@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { IconsService } from '@/core/services';
-import { ICONS } from '@/shared/constants';
+import { ICON } from '@/shared/constants';
 
 @Component({
   selector: 'footer-component',
@@ -11,12 +11,12 @@ import { ICONS } from '@/shared/constants';
 })
 export class FooterComponent {
   socialIcons = {
-    email: ICONS.SOCIAL_Email,
-    fb: ICONS.SOCIAL_Facebook,
-    ig: ICONS.SOCIAL_Instagram,
-    linkedIn: ICONS.SOCIAL_LinkedIn,
-    tw: ICONS.SOCIAL_Twitter,
-    telegram: ICONS.SOCIAL_Telegram
+    email: ICON.SOCIAL_Email,
+    fb: ICON.SOCIAL_Facebook,
+    ig: ICON.SOCIAL_Instagram,
+    linkedIn: ICON.SOCIAL_LinkedIn,
+    tw: ICON.SOCIAL_Twitter,
+    telegram: ICON.SOCIAL_Telegram
   };
   constructor(private readonly iconsService: IconsService) {
     this.iconsService.registerIcons([...Object.values(this.socialIcons)]);

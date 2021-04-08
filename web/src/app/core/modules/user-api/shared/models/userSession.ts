@@ -1,12 +1,11 @@
+import { TimeStamps } from '@/shared/models/base';
 import { User } from '..';
 
-export interface UserSession {
+export interface UserSession extends TimeStamps {
   id: number;
   IP: string;
   UA: string;
   UserId: number;
   User: User;
   isSuccess: boolean;
-  readonly createdAt: Date;
-  readonly updatedAt: Date;
 }

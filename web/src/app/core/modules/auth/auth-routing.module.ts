@@ -2,42 +2,42 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent, RegisterUserComponent, RegisterSuccessComponent } from './components';
 import { PublicGuard } from '@/core/guards';
-import { PATHS } from '@/shared/constants';
+import { PathConstants } from '@/shared/constants';
 
 const routes: Routes = [
   {
-    path: PATHS.AUTH,
+    path: PathConstants.AUTH,
     data: { breadcrumb: 'Authorization', animation: 'PublicView' },
     canActivate: [PublicGuard],
     children: [
-      { path: '', pathMatch: PATHS.PATH_MATCH_FULL, redirectTo: PATHS.LOGIN },
+      { path: '', pathMatch: PathConstants.PATH_MATCH_FULL, redirectTo: PathConstants.LOGIN },
       {
-        path: PATHS.LOGIN,
+        path: PathConstants.LOGIN,
         data: { breadcrumb: 'Login' },
         component: LoginComponent
       },
       {
-        path: PATHS.ACTIVATE_ACCOUNT_TOKEN,
+        path: PathConstants.ACTIVATE_ACCOUNT_TOKEN,
         data: { breadcrumb: 'Account activation' },
         component: LoginComponent
       },
       {
-        path: PATHS.REQUEST_NEW_PASSWORD,
+        path: PathConstants.REQUEST_NEW_PASSWORD,
         data: { breadcrumb: 'Request new password' },
         component: LoginComponent
       },
       {
-        path: PATHS.PASSWORD_RESET_TOKEN,
+        path: PathConstants.PASSWORD_RESET_TOKEN,
         data: { breadcrumb: 'Reset password' },
         component: LoginComponent
       },
       {
-        path: PATHS.REGISTER,
+        path: PathConstants.REGISTER,
         data: { breadcrumb: 'Register' },
         component: RegisterUserComponent
       },
       {
-        path: PATHS.REGISTER_SUCESS,
+        path: PathConstants.REGISTER_SUCESS,
         data: { breadcrumb: 'Successfull registration' },
         component: RegisterSuccessComponent
       }

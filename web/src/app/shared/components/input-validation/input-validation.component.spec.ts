@@ -3,7 +3,7 @@ import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angul
 import { FormControl, Validators } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { CONSTANTS, InputErrorMessage } from '@/shared/constants';
+import { CommonConstants, InputErrorConstants } from '@/shared/constants';
 import { SharedModule } from '@/shared/shared.module';
 import { InputValidationComponent } from './input-validation.component';
 
@@ -71,17 +71,17 @@ describe('InputValidationComponent', () => {
     component.control.setValue(null);
     fixture.detectChanges();
     tick();
-    expect(component.child.errorMessage).toEqual(InputErrorMessage.IS_REQUIRED);
+    expect(component.child.errorMessage).toEqual(InputErrorConstants.IS_REQUIRED);
 
     component.control.setValue('test');
     fixture.detectChanges();
     tick();
-    expect(component.child.errorMessage).toEqual(InputErrorMessage.IS_TOO_SHORT);
+    expect(component.child.errorMessage).toEqual(InputErrorConstants.IS_TOO_SHORT);
 
     component.control.setValue('testtesttesttest');
     fixture.detectChanges();
     tick();
-    expect(component.child.errorMessage).toEqual(InputErrorMessage.IS_TOO_LONG);
+    expect(component.child.errorMessage).toEqual(InputErrorConstants.IS_TOO_LONG);
 
     component.control.reset();
     component.control.setValidators([Validators.email]);
@@ -89,16 +89,16 @@ describe('InputValidationComponent', () => {
     component.control.setValue('test.com');
     fixture.detectChanges();
     tick();
-    expect(component.child.errorMessage).toEqual(InputErrorMessage.INVALID_EMAIL);
+    expect(component.child.errorMessage).toEqual(InputErrorConstants.INVALID_EMAIL);
   }));
 
   it('should set error message with regex', fakeAsync(() => {
-    component.control.setValidators([Validators.pattern(CONSTANTS.WWW_REGEX)]);
+    component.control.setValidators([Validators.pattern(CommonConstants.WWW_REGEX)]);
     component.control.updateValueAndValidity();
     component.control.setValue('testtest@');
     fixture.detectChanges();
     tick();
-    expect(component.child.errorMessage).toEqual(InputErrorMessage.IS_INVALID);
+    expect(component.child.errorMessage).toEqual(InputErrorConstants.IS_INVALID);
   }));
 
   it('should set error with min and max value', fakeAsync(() => {
@@ -107,11 +107,11 @@ describe('InputValidationComponent', () => {
     component.control.setValue(1);
     fixture.detectChanges();
     tick();
-    expect(component.child.errorMessage).toEqual(InputErrorMessage.MIN_VALUE);
+    expect(component.child.errorMessage).toEqual(InputErrorConstants.MIN_VALUE);
 
     component.control.setValue(20);
     fixture.detectChanges();
     tick();
-    expect(component.child.errorMessage).toEqual(InputErrorMessage.MAX_VALUE);
+    expect(component.child.errorMessage).toEqual(InputErrorConstants.MAX_VALUE);
   }));
 });

@@ -2,15 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { FileTypes } from '@/shared/models';
-import { BS_ICONS } from '@/shared/constants';
+import { BS_ICON } from '@/shared/constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AttachmentService {
   private api = '/files';
-  fileTypesMap: FileTypes = {
+  fileTypesMap: { [key: string]: string[] } = {
     msWord: ['doc', 'docx'],
     msPPoint: ['ppt', 'pptx'],
     image: ['png', 'jpg', 'jpeg', 'png', 'bmp', 'gif'],
@@ -21,29 +20,29 @@ export class AttachmentService {
 
   constructor(private http: HttpClient) {}
 
-  getIcon(filename: string): BS_ICONS {
+  getIcon(filename: string): BS_ICON {
     const fType = this.getExtension(filename);
 
     if (this.isFileDoc(fType)) {
-      return BS_ICONS.FileEarmarkWord;
+      return BS_ICON.FileEarmarkWord;
     }
     if (this.isFilePPoint(fType)) {
-      return BS_ICONS.FileEarmarkPpt;
+      return BS_ICON.FileEarmarkPpt;
     }
     if (this.isFileImg(fType)) {
-      return BS_ICONS.FileEarmarkImage;
+      return BS_ICON.FileEarmarkImage;
     }
     if (this.isFileVideo(fType)) {
-      return BS_ICONS.FileEarmarkPlay;
+      return BS_ICON.FileEarmarkPlay;
     }
     if (this.isFileText(fType)) {
-      return BS_ICONS.FileEarmarkText;
+      return BS_ICON.FileEarmarkText;
     }
     if (this.isFileZip(fType)) {
-      return BS_ICONS.FileEarmarkZip;
+      return BS_ICON.FileEarmarkZip;
     }
 
-    return BS_ICONS.FileEarmark;
+    return BS_ICON.FileEarmark;
   }
 
   getExtension(filename: string): string {

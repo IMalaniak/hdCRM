@@ -1,0 +1,5 @@
+export enum HORIZONTAL_ALIGN {
+  LEFT,
+  CENTER,
+  RIGHT
+}

@@ -3,9 +3,9 @@ import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 
 import { DialogBaseModel } from '@/shared/components';
-import { DialogDataModel, DialogType, DialogWithTwoButtonModel } from '@/shared/models';
+import { DialogDataModel, DIALOG_TYPE, DialogWithTwoButtonModel } from '@/shared/models';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
-import { DIALOG, STYLECONSTANTS } from '@/shared/constants';
+import { DialogConstants, STYLE } from '@/shared/constants';
 import { IDialogResult } from '@/shared/models/dialog/dialog-result';
 
 @Injectable({
@@ -19,7 +19,7 @@ export class DialogService {
     data: DialogDataModel<T>,
     onConfirmCallback: Function
   ): void {
-    this.open(componentType, data, DialogType.CONFIRM)
+    this.open(componentType, data, DIALOG_TYPE.CONFIRM)
       .afterClosed()
       .subscribe((result: IDialogResult<unknown>) => {
         if (result?.success) {
@@ -31,36 +31,36 @@ export class DialogService {
   open<T extends DialogWithTwoButtonModel>(
     componentType: ComponentType<DialogBaseModel<T>>,
     data: DialogDataModel<T>,
-    dialogType: DialogType = DialogType.FIT_CONTENT
+    dialogType: DIALOG_TYPE = DIALOG_TYPE.FIT_CONTENT
   ): MatDialogRef<DialogBaseModel<T>> {
     return this._matDialog.open(componentType, {
       data,
       closeOnNavigation: true,
       disableClose: true,
-      height: STYLECONSTANTS.FIT_CONTENT,
-      maxWidth: DIALOG.MAX_WIDTH,
-      maxHeight: DIALOG.MAX_HEIGHT,
+      height: STYLE.FIT_CONTENT,
+      maxWidth: DialogConstants.MAX_WIDTH,
+      maxHeight: DialogConstants.MAX_HEIGHT,
       ...this.getConfig(dialogType)
     });
   }
 
-  private getConfig(dialogType?: DialogType): MatDialogConfig {
+  private getConfig(dialogType?: DIALOG_TYPE): MatDialogConfig {
     switch (dialogType) {
-      case DialogType.CONFIRM:
+      case DIALOG_TYPE.CONFIRM:
         return {
           width: '28em'
         };
-      case DialogType.STANDART:
+      case DIALOG_TYPE.STANDART:
         return {
           width: '32em'
         };
-      case DialogType.MAX:
+      case DIALOG_TYPE.MAX:
         return {
-          width: DIALOG.MAX_WIDTH
+          width: DialogConstants.MAX_WIDTH
         };
       default:
         return {
-          width: STYLECONSTANTS.FIT_CONTENT
+          width: STYLE.FIT_CONTENT
         };
     }
   }

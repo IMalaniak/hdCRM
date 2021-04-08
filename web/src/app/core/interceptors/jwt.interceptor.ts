@@ -5,7 +5,7 @@ import { mergeMap, first } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 
-import { APIS } from '@/shared/constants';
+import { ApiRoutesConstants } from '@/shared/constants';
 import { getToken } from '../modules/auth/store/auth.selectors';
 import { AppState } from '../store';
 
@@ -22,7 +22,7 @@ export class JwtInterceptor implements HttpInterceptor {
         select(getToken),
         first(),
         mergeMap((token: string) => {
-          if (token && !request.url.includes(APIS.REFRESH_SESSION)) {
+          if (token && !request.url.includes(ApiRoutesConstants.REFRESH_SESSION)) {
             request = request.clone({
               setHeaders: {
                 Authorization: `Bearer ${token}`

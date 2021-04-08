@@ -3,7 +3,7 @@ import { ComponentType } from '@angular/cdk/portal';
 import { Component, Inject } from '@angular/core';
 
 import { DialogBaseModel } from './dialog-base.model';
-import { DialogMode } from '@/shared/models/dialog/dialog-mode.enum';
+import { DIALOG_MODE } from '@/shared/models/dialog/dialog-mode.enum';
 import { DialogCreateEditModel, DialogDataModel } from '@/shared/models';
 
 @Component({
@@ -23,7 +23,7 @@ export abstract class DialogCreateEditPageModel extends DialogBaseModel<DialogCr
   }
 
   initializeModel(): void {
-    this.isCreateMode = this.dialogModel.dialogMode === DialogMode.CREATE;
+    this.isCreateMode = this.dialogModel.dialogMode === DIALOG_MODE.CREATE;
     if (this.isCreateMode) {
       if (!this.data.model) {
         this.model = {} as any;

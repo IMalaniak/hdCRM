@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/portal';
 
 import { Privilege } from '@/core/modules/role-api/shared';
-import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
+import { ACTION_LABEL, THEME_PALETTE } from '@/shared/constants';
 import { DialogDataModel, DialogWithTwoButtonModel, IDialogResult } from '@/shared/models';
 import { DialogBaseModel } from '@/shared/components';
 import { PrivilegesComponent } from '../list/privileges.component';
@@ -14,7 +14,7 @@ import { PrivilegesComponent } from '../list/privileges.component';
 export class PrivilegesDialogComponent extends DialogBaseModel<DialogWithTwoButtonModel> {
   @ViewChild(PrivilegesComponent) privilegesComponent: PrivilegesComponent;
 
-  actionLabels = ACTION_LABELS;
+  actionLabels = ACTION_LABEL;
   themePalette = THEME_PALETTE;
 
   constructor(

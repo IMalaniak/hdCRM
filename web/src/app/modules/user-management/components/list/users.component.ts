@@ -6,18 +6,18 @@ import { map } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
-import { User } from '@/core/modules/user-api/shared';
+import { User, USER_STATE } from '@/core/modules/user-api/shared';
 import { deleteUser, inviteUsers, OnlineUserListRequested } from '@/core/modules/user-api/store';
 import { isPrivileged, currentUser } from '@/core/modules/auth/store/auth.selectors';
 import { IconsService } from '@/core/services';
-import { DialogCreateEditModel, DialogDataModel, DialogMode, DialogType, IDialogResult } from '@/shared/models';
-import { RoutingConstants, CONSTANTS, UserState, BS_ICONS } from '@/shared/constants';
-import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_KEYS } from '@/shared/constants';
+import { DialogCreateEditModel, DialogDataModel, DIALOG_MODE, DIALOG_TYPE, IDialogResult } from '@/shared/models';
+import { RoutingConstants, CommonConstants, BS_ICON } from '@/shared/constants';
+import { ADD_PRIVILEGE, EDIT_PRIVILEGE, DELETE_PRIVILEGE, COLUMN_KEY } from '@/shared/constants';
 import { ListDisplayMode } from '@/shared/store';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
-import { RowActionData, RowActionType, Column, IColumn } from '@/shared/models/table';
+import { RowActionData, ROW_ACTION_TYPE, Column, IColumn } from '@/shared/models/table';
 import {
   selectListDisplayMode,
   selectPreselectedUsersIds,
@@ -38,18 +38,18 @@ export class UsersComponent {
   resultsLength$: Observable<number> = this.store$.pipe(select(selectUsersTotalCount));
   displayMode$: Observable<ListDisplayMode> = this.store$.pipe(select(selectListDisplayMode));
   preselectedUsersIds$: Observable<number[]> = this.store$.pipe(select(selectPreselectedUsersIds));
-  canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.USER)));
-  canEditUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.USER)));
-  canDeleteUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.USER)));
+  canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGE.USER)));
+  canEditUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGE.USER)));
+  canDeleteUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGE.USER)));
   cardTitle$: Observable<string> = this.displayMode$.pipe(
     map((displayMode) => {
       switch (displayMode) {
         case ListDisplayMode.POPUP_MULTI_SELECTION:
-          return CONSTANTS.TEXTS_SELECT_USERS;
+          return CommonConstants.TEXTS_SELECT_USERS;
         case ListDisplayMode.POPUP_SINGLE_SELECTION:
-          return CONSTANTS.TEXTS_SELECT_USER;
+          return CommonConstants.TEXTS_SELECT_USER;
         default:
-          return CONSTANTS.TEXTS_USER_LIST;
+          return CommonConstants.TEXTS_USER_LIST;
       }
     })
   );
@@ -59,31 +59,31 @@ export class UsersComponent {
 
   dataSource: UsersDataSource = new UsersDataSource(this.store$);
 
-  userStates = UserState;
-  listIcons: { [key: string]: BS_ICONS } = {
-    matMenu: BS_ICONS.ThreeDotsVertical,
-    add: BS_ICONS.PersonPlus,
-    info: BS_ICONS.PersonSquare,
-    activate: BS_ICONS.PersonCheck,
-    archivate: BS_ICONS.Archive,
-    disable: BS_ICONS.PersonX,
-    edit: BS_ICONS.Pencil,
-    delete: BS_ICONS.Trash
+  userStates = USER_STATE;
+  listIcons: { [key: string]: BS_ICON } = {
+    matMenu: BS_ICON.ThreeDotsVertical,
+    add: BS_ICON.PersonPlus,
+    info: BS_ICON.PersonSquare,
+    activate: BS_ICON.PersonCheck,
+    archivate: BS_ICON.Archive,
+    disable: BS_ICON.PersonX,
+    edit: BS_ICON.Pencil,
+    delete: BS_ICON.Trash
   };
 
   displayedColumns: IColumn[] = [
     Column.createSequenceNumberColumn(),
     Column.createCheckboxColumn(),
-    Column.createColumn({ key: COLUMN_KEYS.AVATAR, hasSorting: false }),
-    Column.createColumn({ key: COLUMN_KEYS.LOGIN }),
-    Column.createLinkColumn({ key: COLUMN_KEYS.EMAIL }),
-    Column.createColumn({ key: COLUMN_KEYS.NAME }),
-    Column.createColumn({ key: COLUMN_KEYS.SURNAME }),
-    Column.createLinkColumn({ key: COLUMN_KEYS.PHONE }),
-    Column.createLinkColumn({ key: COLUMN_KEYS.DEPARTMENT, hasSorting: false }),
-    Column.createColumn({ key: COLUMN_KEYS.STATE }),
-    Column.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
-    Column.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
+    Column.createColumn({ key: COLUMN_KEY.AVATAR, hasSorting: false }),
+    Column.createColumn({ key: COLUMN_KEY.LOGIN }),
+    Column.createLinkColumn({ key: COLUMN_KEY.EMAIL }),
+    Column.createColumn({ key: COLUMN_KEY.NAME }),
+    Column.createColumn({ key: COLUMN_KEY.SURNAME }),
+    Column.createLinkColumn({ key: COLUMN_KEY.PHONE }),
+    Column.createLinkColumn({ key: COLUMN_KEY.DEPARTMENT, hasSorting: false }),
+    Column.createColumn({ key: COLUMN_KEY.STATE }),
+    Column.createColumn({ key: COLUMN_KEY.CREATED_AT }),
+    Column.createColumn({ key: COLUMN_KEY.UPDATED_AT }),
     Column.createActionsColumn()
   ];
 
@@ -95,22 +95,22 @@ export class UsersComponent {
     private dialogService: DialogService,
     private readonly iconsService: IconsService
   ) {
-    this.iconsService.registerIcons([BS_ICONS.Archive, BS_ICONS.PersonSquare, BS_ICONS.PersonX]);
+    this.iconsService.registerIcons([BS_ICON.Archive, BS_ICON.PersonSquare, BS_ICON.PersonX]);
     this.store$.dispatch(OnlineUserListRequested());
   }
 
-  onRowAction(data: RowActionData<RowActionType>): void {
+  onRowAction(data: RowActionData<ROW_ACTION_TYPE>): void {
     switch (data.actionType) {
-      case RowActionType.DETAILS:
+      case ROW_ACTION_TYPE.DETAILS:
         this.onUserSelect(data.id, false);
         break;
-      case RowActionType.EDIT:
+      case ROW_ACTION_TYPE.EDIT:
         this.onUserSelect(data.id, true);
         break;
-      case RowActionType.DELETE:
+      case ROW_ACTION_TYPE.DELETE:
         this.deleteUser(data.id);
         break;
-      case RowActionType.SELECT:
+      case ROW_ACTION_TYPE.SELECT:
         this.selectedUsersIds = data.ids;
         break;
     }
@@ -118,14 +118,14 @@ export class UsersComponent {
 
   openInvitationDialog(): void {
     const dialogModel: DialogCreateEditModel = new DialogCreateEditModel(
-      DialogMode.CREATE,
-      CONSTANTS.TEXTS_INVITE_USERS,
-      CONSTANTS.TEXTS_SEND_INVITATIONS
+      DIALOG_MODE.CREATE,
+      CommonConstants.TEXTS_INVITE_USERS,
+      CommonConstants.TEXTS_SEND_INVITATIONS
     );
     const dialogDataModel: DialogDataModel<DialogCreateEditModel> = { dialogModel };
 
     this.dialogService
-      .open(InvitationDialogComponent, dialogDataModel, DialogType.STANDART)
+      .open(InvitationDialogComponent, dialogDataModel, DIALOG_TYPE.STANDART)
       .afterClosed()
       .subscribe((result: IDialogResult<User[]>) => {
         if (result && result.success) {
@@ -135,7 +135,7 @@ export class UsersComponent {
   }
 
   deleteUser(id: number): void {
-    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_USER_CONFIRM);
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CommonConstants.TEXTS_DELETE_USER_CONFIRM);
     const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
     this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () => this.store$.dispatch(deleteUser({ id })));

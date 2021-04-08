@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Manager, Socket } from 'socket.io-client';
 import { Observable } from 'rxjs';
 
-import { SocketEvent } from '../constants';
+import { SOCKET_EVENT } from '../constants';
 import { environment } from 'environments/environment';
 
 @Injectable({
@@ -18,12 +18,12 @@ export class SocketService {
   }
 
   // TODO type declaration?
-  public emit(event: SocketEvent, params?: any) {
+  public emit(event: SOCKET_EVENT, params?: any) {
     return this.socket.emit(event, params);
   }
 
-  public onEvent(event: SocketEvent): Observable<any> {
-    return new Observable<SocketEvent>((observer) => {
+  public onEvent(event: SOCKET_EVENT): Observable<any> {
+    return new Observable<SOCKET_EVENT>((observer) => {
       this.socket.on(event, (params) => observer.next(params));
     });
   }

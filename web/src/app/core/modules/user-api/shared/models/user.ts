@@ -1,14 +1,15 @@
 import { Department } from '@/core/modules/department-api/shared';
 import { Role } from '@/core/modules/role-api/shared';
 import { Asset } from '@/shared/models';
-import { UserState } from '@/shared/constants';
+import { TimeStamps } from '@/shared/models/base';
 
 import { UserSession } from './userSession';
 import { PasswordAttributes } from './passwordAttributes';
-import { Organization } from './organization';
-import { UserPreferences } from './UserPreferences';
+import { BelongsToOrganization } from './organization';
+import { UserPreferences } from './userPreferences';
+import { USER_STATE } from './user-state.enum';
 
-export interface User {
+export interface User extends TimeStamps, BelongsToOrganization {
   id: number;
   name: string;
   surname: string;
@@ -17,26 +18,16 @@ export interface User {
   email: string;
   phone: string;
   password: string;
-  createdAt: Date;
-  updatedAt: Date;
   Role: Role;
   RoleId: number;
-  selectedRoleIds: number[];
   defaultLang: string;
-  state: UserState;
+  state: USER_STATE;
   Department: Department;
   DepartmentId: number;
   avatarId: number;
   avatar: Asset;
-  token?: string;
   UserSessions: UserSession[];
   PasswordAttributes: PasswordAttributes;
-  Organization: Organization;
-  OrganizationId: number;
-  online: boolean;
-  lastSocketId: string;
-  activeSockets?: string[];
-  OrgRoom: string;
-  rooms?: string[];
   Preference: UserPreferences;
+  online: boolean;
 }

@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
-import { ACTION_LABELS, CONSTANTS, THEME_PALETTE } from '@/shared/constants';
+import { ACTION_LABEL, CommonConstants, THEME_PALETTE } from '@/shared/constants';
 import { DialogConfirmModel, DialogDataModel } from '@/shared/models';
 import { DialogService } from '@/shared/services';
 import { DialogConfirmComponent } from '@/shared/components/dialogs';
@@ -24,7 +24,7 @@ export class TemplatesViewDetailsComponent<T> extends BaseDynamicFormPageModel<T
   @Output() isEditing: EventEmitter<boolean> = new EventEmitter();
   @Output() saveChanges: EventEmitter<T> = new EventEmitter();
 
-  actionLabels = ACTION_LABELS;
+  actionLabels = ACTION_LABEL;
   themePalette = THEME_PALETTE;
 
   protected unsubscribe: Subject<void> = new Subject();
@@ -43,7 +43,7 @@ export class TemplatesViewDetailsComponent<T> extends BaseDynamicFormPageModel<T
   }
 
   update(): void {
-    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_UPDATE_COMMON_CONFIRM);
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CommonConstants.TEXTS_UPDATE_COMMON_CONFIRM);
     const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
     this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () => {

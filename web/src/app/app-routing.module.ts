@@ -5,7 +5,7 @@ import { AuthGuard } from '@/core/guards';
 import { PrivateViewComponent } from './core/modules/layout/view-containers';
 import { PageNotFoundComponent, InternalServerErrorComponent } from './core/modules/layout/components';
 import { DelayedPreloadingStrategy } from './core/strategies';
-import { PATHS } from './shared/constants';
+import { PathConstants } from './shared/constants';
 
 const routes: Routes = [
   {
@@ -13,36 +13,36 @@ const routes: Routes = [
     component: PrivateViewComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', pathMatch: PATHS.PATH_MATCH_FULL, redirectTo: PATHS.DASHBOARD },
+      { path: '', pathMatch: PathConstants.PATH_MATCH_FULL, redirectTo: PathConstants.DASHBOARD },
       {
-        path: PATHS.PLANNER,
+        path: PathConstants.PLANNER,
         canActivate: [AuthGuard],
         data: { breadcrumb: 'Planner', animation: 'PlannerPage', preload: true, delay: true },
         loadChildren: () =>
           import('./modules/plan-management/plan-management.module').then((m) => m.PlanManagementModule)
       },
       {
-        path: PATHS.USERS,
+        path: PathConstants.USERS,
         canActivate: [AuthGuard],
         data: { breadcrumb: 'App Users', animation: 'UsersPage', preload: true, delay: false },
         loadChildren: () =>
           import('./modules/user-management/user-management.module').then((m) => m.UserManagementModule)
       },
       {
-        path: PATHS.ROLES,
+        path: PathConstants.ROLES,
         canActivate: [AuthGuard],
         data: { breadcrumb: 'App Roles', animation: 'RolesPage', preload: true, delay: true },
         loadChildren: () =>
           import('./modules/role-management/role-management.module').then((m) => m.RoleManagementModule)
       },
       {
-        path: PATHS.DASHBOARD,
+        path: PathConstants.DASHBOARD,
         canActivate: [AuthGuard],
         data: { animation: 'DashboardPage', preload: true, delay: true },
         loadChildren: () => import('./modules/dashboard/dashboard.module').then((m) => m.DashboardModule)
       },
       {
-        path: PATHS.DEPARTMENTS,
+        path: PathConstants.DEPARTMENTS,
         canActivate: [AuthGuard],
         data: {
           breadcrumb: 'Departments',
@@ -58,7 +58,7 @@ const routes: Routes = [
     ],
     data: { animation: 'PrivateView' }
   },
-  { path: PATHS.INTERNAL_ERROR, component: InternalServerErrorComponent },
+  { path: PathConstants.INTERNAL_ERROR, component: InternalServerErrorComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 

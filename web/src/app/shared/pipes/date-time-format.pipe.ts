@@ -7,7 +7,7 @@ import { Store, select } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
 import { getDateFormatState, getTimeFormatState } from '@/core/store/preferences';
-import { IDateFormat, ITimeFormat } from '../constants';
+import { DATE_FORMAT, TIME_FORMAT } from '../constants';
 
 /**
  * @description CustomDateTimePipe pipe for date and time formatted
@@ -24,8 +24,8 @@ export class DateTimeFormatPipe implements PipeTransform {
    * @returns A date string in format which is recieved from preference store
    */
 
-  dateFormatState$: Observable<IDateFormat> = this.store$.pipe(select(getDateFormatState));
-  timeFormatState$: Observable<ITimeFormat> = this.store$.pipe(select(getTimeFormatState));
+  dateFormatState$: Observable<DATE_FORMAT> = this.store$.pipe(select(getDateFormatState));
+  timeFormatState$: Observable<TIME_FORMAT> = this.store$.pipe(select(getTimeFormatState));
 
   constructor(private store$: Store<AppState>, private datePipe: DatePipe) {}
 

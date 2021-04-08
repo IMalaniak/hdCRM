@@ -8,7 +8,7 @@ import http from 'http';
 import cors from 'cors';
 import PinoHttp from 'pino-http';
 
-import { DataBase } from './models';
+import { DataBase } from './repositories';
 import { Routes } from './routes';
 import { Passport } from './config/passport';
 import { SocketRouter } from './socketRoutes';

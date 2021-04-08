@@ -8,12 +8,12 @@ import { AppState } from '@/core/store';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { deleteDepartmentRequested } from '@/core/modules/department-api/store';
 import { DialogDataModel } from '@/shared/models';
-import { RoutingConstants, CONSTANTS, BS_ICONS } from '@/shared/constants';
-import { ADD_PRIVILEGES, EDIT_PRIVILEGES, DELETE_PRIVILEGES, COLUMN_KEYS } from '@/shared/constants';
+import { RoutingConstants, CommonConstants, BS_ICON } from '@/shared/constants';
+import { ADD_PRIVILEGE, EDIT_PRIVILEGE, DELETE_PRIVILEGE, COLUMN_KEY } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
-import { Column, IColumn, RowActionData, RowActionType } from '@/shared/models/table';
+import { Column, IColumn, RowActionData, ROW_ACTION_TYPE } from '@/shared/models/table';
 import { DepartmentsDataSource } from '../../dataSources';
 import { selectDepartmentsTotalCount, selectDepartmentsPageLoading, changeIsEditingState } from '../../store';
 
@@ -25,26 +25,26 @@ export class DepartmentsComponent {
   dataSource: DepartmentsDataSource = new DepartmentsDataSource(this.store$);
   loading$: Observable<boolean> = this.store$.pipe(select(selectDepartmentsPageLoading));
   resultsLength$: Observable<number> = this.store$.pipe(select(selectDepartmentsTotalCount));
-  canAddDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.DEPARTMENT)));
-  canEditDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.DEPARTMENT)));
-  canDeleteDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.DEPARTMENT)));
+  canAddDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGE.DEPARTMENT)));
+  canEditDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGE.DEPARTMENT)));
+  canDeleteDep$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGE.DEPARTMENT)));
 
   addDepartmentRoute = RoutingConstants.ROUTE_DEPARTMENTS_ADD;
-  listIcons: { [key: string]: BS_ICONS } = {
-    matMenu: BS_ICONS.ThreeDotsVertical,
-    add: BS_ICONS.Plus,
-    info: BS_ICONS.InfoSquare,
-    edit: BS_ICONS.Pencil,
-    delete: BS_ICONS.Trash
+  listIcons: { [key: string]: BS_ICON } = {
+    matMenu: BS_ICON.ThreeDotsVertical,
+    add: BS_ICON.Plus,
+    info: BS_ICON.InfoSquare,
+    edit: BS_ICON.Pencil,
+    delete: BS_ICON.Trash
   };
 
   displayedColumns: IColumn[] = [
     Column.createSequenceNumberColumn(),
-    Column.createColumn({ key: COLUMN_KEYS.TITLE }),
-    Column.createLinkColumn({ key: COLUMN_KEYS.MANAGER, hasSorting: false }),
-    Column.createColumn({ key: COLUMN_KEYS.WORKERS, hasSorting: false }),
-    Column.createColumn({ key: COLUMN_KEYS.CREATED_AT }),
-    Column.createColumn({ key: COLUMN_KEYS.UPDATED_AT }),
+    Column.createColumn({ key: COLUMN_KEY.TITLE }),
+    Column.createLinkColumn({ key: COLUMN_KEY.MANAGER, hasSorting: false }),
+    Column.createColumn({ key: COLUMN_KEY.WORKERS, hasSorting: false }),
+    Column.createColumn({ key: COLUMN_KEY.CREATED_AT }),
+    Column.createColumn({ key: COLUMN_KEY.UPDATED_AT }),
     Column.createActionsColumn()
   ];
 
@@ -54,15 +54,15 @@ export class DepartmentsComponent {
     private readonly dialogService: DialogService
   ) {}
 
-  onRowAction(data: RowActionData<RowActionType>): void {
+  onRowAction(data: RowActionData<ROW_ACTION_TYPE>): void {
     switch (data.actionType) {
-      case RowActionType.DETAILS:
+      case ROW_ACTION_TYPE.DETAILS:
         this.onDepartmentSelect(data.id, false);
         break;
-      case RowActionType.EDIT:
+      case ROW_ACTION_TYPE.EDIT:
         this.onDepartmentSelect(data.id, true);
         break;
-      case RowActionType.DELETE:
+      case ROW_ACTION_TYPE.DELETE:
         this.deleteDepartment(data.id);
         break;
     }
@@ -74,7 +74,7 @@ export class DepartmentsComponent {
   }
 
   deleteDepartment(id: number): void {
-    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_DEPARTMENT_CONFIRM);
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CommonConstants.TEXTS_DELETE_DEPARTMENT_CONFIRM);
     const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
     this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () =>

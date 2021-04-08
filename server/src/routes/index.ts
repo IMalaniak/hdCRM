@@ -4,18 +4,18 @@ import * as swaggerUi from 'swagger-ui-express';
 
 import { apiDocs } from '../apiDocs';
 import { Passport } from '../config';
-import { AuthRoutes } from './authRoutes';
-import { DepartmentRoutes } from './departmentRoutes';
-import { FileRoutes } from './fileRoutes';
-import { FormRoutes } from './formRoutes';
-import { PlanRoutes } from './planRoutes';
-import { PreferenceRoutes } from './preferenceRoutes';
-import { PrivilegeRoutes } from './privilegeRoutes';
-import { RoleRoutes } from './roleRoutes';
-import { StageRoutes } from './stageRoutes';
-import { TaskRoutes } from './taskRoutes';
-import { TaskPriorityRoutes } from './taskPriorityRoutes';
-import { UserRoutes } from './userRoutes';
+import { AuthRoutes } from './auth.routes';
+import { DepartmentRoutes } from './department.routes';
+import { FileRoutes } from './file.routes';
+import { FormRoutes } from './form.routes';
+import { PlanRoutes } from './plan.routes';
+import { PreferenceRoutes } from './preference.routes';
+import { PrivilegeRoutes } from './privilege.routes';
+import { RoleRoutes } from './role.routes';
+import { StageRoutes } from './stage.routes';
+import { TaskRoutes } from './task.routes';
+import { TaskPriorityRoutes } from './task-priority.routes';
+import { UserRoutes } from './user.routes';
 
 @Service()
 export class Routes {

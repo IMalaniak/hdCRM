@@ -17,7 +17,7 @@ import { Department } from '@/core/modules/department-api/shared';
 import { selectAllStages, allStagesRequestedFromDashboard } from '@/core/modules/plan-api/store/stage';
 import { Stage } from '@/core/modules/plan-api/shared';
 import { Role } from '@/core/modules/role-api/shared';
-import { VIEW_PRIVILEGES } from '@/shared/constants';
+import { VIEW_PRIVILEGE } from '@/shared/constants';
 
 @Component({
   selector: 'app-dashboard',
@@ -32,9 +32,9 @@ export class DashboardComponent implements OnInit {
   rolesChartData$: Observable<Role[]> = this.store.pipe(select(selectAllRoles));
   planStagesChartData$: Observable<Stage[]> = this.store.pipe(select(selectAllStages));
   departmentsChartData$: Observable<Department[]> = this.store.pipe(select(selectAllDepartments));
-  canViewRoles$: Observable<boolean> = this.store.pipe(select(isPrivileged(VIEW_PRIVILEGES.ROLE)));
-  canViewPlan$: Observable<boolean> = this.store.pipe(select(isPrivileged(VIEW_PRIVILEGES.PLAN)));
-  canViewDepartments$: Observable<boolean> = this.store.pipe(select(isPrivileged(VIEW_PRIVILEGES.DEPARTMENT)));
+  canViewRoles$: Observable<boolean> = this.store.pipe(select(isPrivileged(VIEW_PRIVILEGE.ROLE)));
+  canViewPlan$: Observable<boolean> = this.store.pipe(select(isPrivileged(VIEW_PRIVILEGE.PLAN)));
+  canViewDepartments$: Observable<boolean> = this.store.pipe(select(isPrivileged(VIEW_PRIVILEGE.DEPARTMENT)));
 
   constructor(private store: Store<AppState>) {}
 

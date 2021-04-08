@@ -9,7 +9,7 @@ import { Update } from '@ngrx/entity';
 import { currentUserLoaded } from '@/core/modules/auth/store/auth.actions';
 import { NotificationsService } from '@/core/services';
 import { Notification } from '@/shared/models';
-import { NOTIFICATION_TYPES } from '@/shared/constants';
+import { NOTIFICATION_TYPE } from '@/shared/constants';
 import { DateUtilityService } from '@/shared/services';
 import { AppState } from '../index';
 import * as notificationsActions from './notifications.actions';
@@ -84,7 +84,7 @@ export class NotificationsEffects {
               `Your password is going to expire in ${passwordExpireAfter} day${
                 passwordExpireAfter > 1 && 's'
               }, please change your password!`,
-              NOTIFICATION_TYPES.WARN
+              NOTIFICATION_TYPE.WARN
             );
             this.notificationsService.ignore({ ['passwordExpire']: this.dateUtility.addFutureDays(1) });
             return of(

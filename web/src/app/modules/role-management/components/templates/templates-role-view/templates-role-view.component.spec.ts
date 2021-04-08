@@ -11,7 +11,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { initialPreferencesState } from '@/core/store/preferences';
 import { Role } from '@/core/modules/role-api/shared';
 import { initialRolesState, rolesFeatureKey } from '@/core/modules/role-api/store/role';
-import { COLUMN_KEYS } from '@/shared/constants';
+import { COLUMN_KEY } from '@/shared/constants';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, formsStateMock, currentUserMock } from '@/shared/testing/mocks';
 import { TemplatesRoleViewComponent } from './templates-role-view.component';
@@ -26,7 +26,7 @@ describe('TemplatesRoleViewComponent', () => {
     [rolesFeatureKey]: initialRolesState
   };
 
-  const roleMock: Role = {
+  const roleMock = {
     id: 1,
     keyString: 'Test role',
     Users: [currentUserMock],
@@ -40,7 +40,7 @@ describe('TemplatesRoleViewComponent', () => {
     ],
     createdAt: new Date(),
     updatedAt: new Date()
-  };
+  } as Role;
 
   const update = {
     keyString: 'New title'
@@ -93,13 +93,13 @@ describe('TemplatesRoleViewComponent', () => {
   it('should emit true when edit button is clicked', () => {
     component.isEditing.subscribe((isEditing: boolean) => expect(isEditing).toBe(true));
     component.onClickEdit();
-    expect(component.displayedColumns.includes(COLUMN_KEYS.ACTIONS)).toBe(true);
+    expect(component.displayedColumns.includes(COLUMN_KEY.ACTIONS)).toBe(true);
   });
 
   it('should emit false when cancel button is clicked', () => {
     component.isEditing.subscribe((isEditing: boolean) => expect(isEditing).toBe(false));
     component.onClickCancelEdit();
-    expect(component.displayedColumns.includes(COLUMN_KEYS.ACTIONS)).toBe(false);
+    expect(component.displayedColumns.includes(COLUMN_KEY.ACTIONS)).toBe(false);
   });
 
   it('should emit changes', () => {

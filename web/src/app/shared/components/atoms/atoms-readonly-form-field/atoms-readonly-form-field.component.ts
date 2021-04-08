@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { IFieldType } from '@/shared/constants';
+import { FIELD_TYPE } from '@/shared/constants';
 
 @Component({
   selector: 'atoms-readonly-form-field',
@@ -18,9 +18,9 @@ export class AtomsReadonlyFormFieldComponent {
   @Input() label: string;
   // TODO @IMalaniak change this to have a type
   @Input() value: any;
-  @Input() fType: IFieldType;
+  @Input() fType: FIELD_TYPE;
 
-  fieldTypes = IFieldType;
+  fieldTypes = FIELD_TYPE;
 
   checkIsDate(): boolean {
     return this.fType === this.fieldTypes.DATE;

@@ -1,4 +1,4 @@
-import { NOTIFICATION_TYPES } from '@/shared/constants';
+import { NOTIFICATION_TYPE } from '@/shared/constants';
 import { DateUtilityService } from '@/shared/services';
 import { Notification } from '@/shared/models';
 
@@ -16,14 +16,14 @@ describe('NotificationsService', () => {
       {
         id: '1',
         description: 'Test description',
-        type: NOTIFICATION_TYPES.WARN,
+        type: NOTIFICATION_TYPE.WARN,
         read: false,
         date: new Date('2020-12-14T11:04:06.317Z')
       },
       {
         id: '2',
         description: 'Test 2 description',
-        type: NOTIFICATION_TYPES.INFO,
+        type: NOTIFICATION_TYPE.INFO,
         read: true,
         date: new Date('2020-12-14T11:04:06.317Z')
       }
@@ -54,11 +54,11 @@ describe('NotificationsService', () => {
   it('should create a notification', () => {
     const expected: Partial<Notification> = {
       description: 'New notification',
-      type: NOTIFICATION_TYPES.INFO,
+      type: NOTIFICATION_TYPE.INFO,
       read: false
     };
 
-    expect(service.create('New notification', NOTIFICATION_TYPES.INFO)).toEqual(jasmine.objectContaining(expected));
+    expect(service.create('New notification', NOTIFICATION_TYPE.INFO)).toEqual(jasmine.objectContaining(expected));
   });
 
   it('should mark notification as read', () => {
@@ -67,14 +67,14 @@ describe('NotificationsService', () => {
       {
         id: '1',
         description: 'Test description',
-        type: NOTIFICATION_TYPES.WARN,
+        type: NOTIFICATION_TYPE.WARN,
         read: true,
         date: new Date('2020-12-14T11:04:06.317Z')
       },
       {
         id: '2',
         description: 'Test 2 description',
-        type: NOTIFICATION_TYPES.INFO,
+        type: NOTIFICATION_TYPE.INFO,
         read: true,
         date: new Date('2020-12-14T11:04:06.317Z')
       }
@@ -87,7 +87,7 @@ describe('NotificationsService', () => {
       {
         id: '2',
         description: 'Test 2 description',
-        type: NOTIFICATION_TYPES.INFO,
+        type: NOTIFICATION_TYPE.INFO,
         read: true,
         date: new Date('2020-12-14T11:04:06.317Z')
       }

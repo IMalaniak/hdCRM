@@ -13,7 +13,7 @@ import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { User, Organization } from '@/core/modules/user-api/shared';
 import { updateUserRequested } from '@/core/modules/user-api/store';
 import { Asset } from '@/shared/models';
-import { TAB_PRIVILEGES, CONSTANTS, TAB_NAMES, TAB_LABELS } from '@/shared/constants';
+import { TAB_PRIVILEGE, CommonConstants, TAB_NAME, TAB_LABEL } from '@/shared/constants';
 import { changeIsEditingState } from '@/modules/user-management/store';
 
 @Component({
@@ -24,9 +24,9 @@ import { changeIsEditingState } from '@/modules/user-management/store';
 })
 export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   enableDarkTheme$: Observable<boolean> = this.store.pipe(select(fromLayout.getDarkThemeState));
-  canViewPreferences$: Observable<boolean> = this.store.pipe(select(isPrivileged(TAB_PRIVILEGES.PREFERENCE)));
-  canViewIntegrations$: Observable<boolean> = this.store.pipe(select(isPrivileged(TAB_PRIVILEGES.INTEGRATION)));
-  canViewOrganization$: Observable<boolean> = this.store.pipe(select(isPrivileged(TAB_PRIVILEGES.ORGANIZATION)));
+  canViewPreferences$: Observable<boolean> = this.store.pipe(select(isPrivileged(TAB_PRIVILEGE.PREFERENCE)));
+  canViewIntegrations$: Observable<boolean> = this.store.pipe(select(isPrivileged(TAB_PRIVILEGE.INTEGRATION)));
+  canViewOrganization$: Observable<boolean> = this.store.pipe(select(isPrivileged(TAB_PRIVILEGE.ORGANIZATION)));
 
   @Input() user: User;
   @Input() userPreferences: Preferences;
@@ -34,15 +34,15 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   @Input() canEdit: boolean;
   @Input() isLoading: boolean;
   @Input() editForm: boolean;
-  @Input() tabsToShow: TAB_NAMES[] = [TAB_NAMES.DETAILS];
+  @Input() tabsToShow: TAB_NAME[] = [TAB_NAME.DETAILS];
   @Input() isProfilePage = false;
 
-  tabNames = TAB_NAMES;
-  tabLabels = TAB_LABELS;
+  tabNames = TAB_NAME;
+  tabLabels = TAB_LABEL;
 
   baseUrl = environment.baseUrl;
-  coverUrl = CONSTANTS.NO_IMAGE_URL;
-  coverTitle = CONSTANTS.NO_IMAGE_TITLE;
+  coverUrl = CommonConstants.NO_IMAGE_URL;
+  coverTitle = CommonConstants.NO_IMAGE_TITLE;
 
   constructor(private store: Store<AppState>, private route: ActivatedRoute) {}
 
@@ -89,7 +89,7 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
     }
   }
 
-  isTabToShow(tab: TAB_NAMES): boolean {
+  isTabToShow(tab: TAB_NAME): boolean {
     return this.tabsToShow.includes(tab);
   }
 

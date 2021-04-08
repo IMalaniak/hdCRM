@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { DateUtilityService, LocalStorageService } from '@/shared/services';
 import { Notification } from '@/shared/models';
-import { NOTIFICATION_TYPES } from '@/shared/constants';
+import { NOTIFICATION_TYPE } from '@/shared/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,7 @@ export class NotificationsService {
     return this.localStorage.getObject(this.key)?.ignoreList || {};
   }
 
-  create(description: string, type: NOTIFICATION_TYPES): Notification {
+  create(description: string, type: NOTIFICATION_TYPE): Notification {
     const notification: Notification = {
       description,
       date: new Date(),

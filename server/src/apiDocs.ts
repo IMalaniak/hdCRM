@@ -1,6 +1,6 @@
 import { JsonObject } from 'swagger-ui-express';
-import { FieldType, FormType, IDateFormat, IItemsPerPage, IListView, ITimeFormat, UserState } from './constants';
-import { enumToArray } from './utils/EnumToArray';
+import { FIELD_TYPE, FORM_TYPE, DATE_FORMAT, ITEMS_PER_PAGE, LIST_VIEW, TIME_FORMAT, USER_STATE } from './constants';
+import { enumToArray } from './utils/enumToArray';
 
 const buildCollectionApiResponse = ($ref: string) => {
   return {
@@ -2357,7 +2357,7 @@ export const apiDocs: JsonObject = {
         properties: {
           controlName: { type: 'string' },
           label: { type: 'string' },
-          type: { type: 'string', enum: enumToArray(FieldType) },
+          type: { type: 'string', enum: enumToArray(FIELD_TYPE) },
           color: { type: 'string' },
           isEditable: { type: 'boolean' },
           editOnly: { type: 'boolean' },
@@ -2377,7 +2377,7 @@ export const apiDocs: JsonObject = {
         properties: {
           key: { type: 'string' },
           name: { type: 'string' },
-          type: { type: 'string', enum: enumToArray(FormType) },
+          type: { type: 'string', enum: enumToArray(FORM_TYPE) },
           form: {
             type: 'array',
             items: {
@@ -2525,23 +2525,23 @@ export const apiDocs: JsonObject = {
         properties: {
           listView: {
             type: 'string',
-            enum: enumToArray(IListView),
-            default: IListView.LIST
+            enum: enumToArray(LIST_VIEW),
+            default: LIST_VIEW.LIST
           },
           timeFormat: {
             type: 'string',
-            enum: enumToArray(ITimeFormat),
-            default: ITimeFormat.LONG_TIME
+            enum: enumToArray(TIME_FORMAT),
+            default: TIME_FORMAT.LONG_TIME
           },
           dateFormat: {
             type: 'string',
-            enum: enumToArray(IDateFormat),
-            default: IDateFormat.FULL_DATE
+            enum: enumToArray(DATE_FORMAT),
+            default: DATE_FORMAT.FULL_DATE
           },
           itemsPerPage: {
             type: 'string',
-            enum: enumToArray(IItemsPerPage),
-            default: IItemsPerPage.FIVE
+            enum: enumToArray(ITEMS_PER_PAGE),
+            default: ITEMS_PER_PAGE.FIVE
           },
           listOutlineBorders: {
             type: 'boolean',
@@ -2560,19 +2560,19 @@ export const apiDocs: JsonObject = {
         properties: {
           listView: {
             type: 'string',
-            enum: enumToArray(IListView)
+            enum: enumToArray(LIST_VIEW)
           },
           timeFormat: {
             type: 'string',
-            enum: enumToArray(ITimeFormat)
+            enum: enumToArray(TIME_FORMAT)
           },
           dateFormat: {
             type: 'string',
-            enum: enumToArray(IDateFormat)
+            enum: enumToArray(DATE_FORMAT)
           },
           itemsPerPage: {
             type: 'string',
-            enum: enumToArray(IItemsPerPage)
+            enum: enumToArray(ITEMS_PER_PAGE)
           },
           listOutlineBorders: {
             type: 'boolean'
@@ -2617,28 +2617,28 @@ export const apiDocs: JsonObject = {
                 type: 'array',
                 items: {
                   type: 'string',
-                  enum: enumToArray(IListView)
+                  enum: enumToArray(LIST_VIEW)
                 }
               },
               timeFormat: {
                 type: 'array',
                 items: {
                   type: 'string',
-                  enum: enumToArray(ITimeFormat)
+                  enum: enumToArray(TIME_FORMAT)
                 }
               },
               dateFormat: {
                 type: 'array',
                 items: {
                   type: 'string',
-                  enum: enumToArray(IDateFormat)
+                  enum: enumToArray(DATE_FORMAT)
                 }
               },
               itemsPerPage: {
                 type: 'array',
                 items: {
                   type: 'string',
-                  enum: enumToArray(IItemsPerPage)
+                  enum: enumToArray(ITEMS_PER_PAGE)
                 }
               }
             }
@@ -3070,7 +3070,7 @@ export const apiDocs: JsonObject = {
           },
           state: {
             type: 'string',
-            enum: enumToArray(UserState)
+            enum: enumToArray(USER_STATE)
           },
           Organization: {
             type: 'object',

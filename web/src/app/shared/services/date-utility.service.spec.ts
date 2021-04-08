@@ -23,6 +23,6 @@ describe('DateUtilityService', () => {
   it('should add one day from today', () => {
     const target = new Date();
     target.setDate(target.getDate() + 1);
-    expect(service.addFutureDays(1)).toEqual(target);
+    expect(service.addFutureDays(1).getDate()).toEqual(target.getDate());
   });
 });

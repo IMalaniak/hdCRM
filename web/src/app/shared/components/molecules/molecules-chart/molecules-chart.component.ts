@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { SingleChartData } from '@/shared/models';
+import { SingleChartDataModel } from '@/shared/models';
 
 @Component({
   selector: 'molecules-chart',
@@ -49,9 +49,9 @@ export class MoleculesChartComponent implements OnInit {
   @Input() xAxisLabel: string;
   @Input() yAxisLabel: string;
 
-  chart: SingleChartData;
+  chart: SingleChartDataModel;
 
   ngOnInit(): void {
-    this.chart = new SingleChartData(this.results, this.paramX, this.paramY);
+    this.chart = new SingleChartDataModel(this.results, this.paramX, this.paramY);
   }
 }

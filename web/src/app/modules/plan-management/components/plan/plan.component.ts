@@ -10,7 +10,7 @@ import { AppState } from '@/core/store';
 import { isPrivileged, currentUser } from '@/core/modules/auth/store/auth.selectors';
 import { Plan } from '@/core/modules/plan-api/shared';
 import { selectPlanDeepById, planRequested, updatePlanRequested } from '@/core/modules/plan-api/store/plan';
-import { ADD_PRIVILEGES, DELETE_PRIVILEGES, EDIT_PRIVILEGES } from '@/shared/constants';
+import { ADD_PRIVILEGE, DELETE_PRIVILEGE, EDIT_PRIVILEGE } from '@/shared/constants';
 import { selectIsEditing, changeIsEditingState, cachePlan, restoreFromCache } from '../../store';
 
 @Component({
@@ -29,10 +29,10 @@ import { selectIsEditing, changeIsEditingState, cachePlan, restoreFromCache } fr
 })
 export class PlanComponent implements OnInit {
   canEditPlan$: Observable<boolean>;
-  canAddAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGES.PLAN_ATTACHMENT)));
+  canAddAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGE.PLAN_ATTACHMENT)));
   // TODO: @IMalaniak use this when implementing configure stages
   // configStages$: Observable<boolean> = this.store.pipe(select(isPrivileged('stage-edit')));
-  canDeleteAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGES.PLAN_ATTACHMENT)));
+  canDeleteAttachment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(DELETE_PRIVILEGE.PLAN_ATTACHMENT)));
   editForm$: Observable<boolean> = this.store$.pipe(select(selectIsEditing));
 
   plan$: Observable<Plan>;
@@ -56,7 +56,7 @@ export class PlanComponent implements OnInit {
     );
 
     this.canEditPlan$ = combineLatest([
-      this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGES.PLAN))),
+      this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGE.PLAN))),
       this.store$.pipe(select(currentUser)),
       this.plan$
     ]).pipe(map(([editPriv, appUser, plan]) => editPriv || appUser.id === plan.CreatorId));

@@ -1,11 +1,11 @@
-import { STYLECONSTANTS } from '@/shared/constants';
-import { COLUMN_LABELS, COLUMN_KEYS } from '@/shared/constants/table.constants';
-import { HorizontalAlign } from './horizontalAlign.enum';
+import { STYLE } from '@/shared/constants';
+import { COLUMN_LABEL, COLUMN_KEY } from '@/shared/constants/table.constants';
+import { HORIZONTAL_ALIGN } from './horizontal-align.enum';
 
 export interface IColumn {
   readonly key: string;
   readonly label: string;
-  readonly horizontalAlign: HorizontalAlign;
+  readonly horizontalAlign: HORIZONTAL_ALIGN;
   readonly isVisible: boolean;
   readonly hidable: boolean;
   readonly draggable: boolean;
@@ -17,7 +17,7 @@ export interface IColumn {
 export class Column {
   static createColumn({
     key,
-    horizontalAlign = HorizontalAlign.Left,
+    horizontalAlign = HORIZONTAL_ALIGN.LEFT,
     isVisible = true,
     hidable = true,
     draggable = true,
@@ -28,7 +28,7 @@ export class Column {
   }: Partial<IColumn>): IColumn {
     return {
       key,
-      label: COLUMN_LABELS[key.toUpperCase()],
+      label: COLUMN_LABEL[key.toUpperCase()],
       horizontalAlign,
       isVisible,
       hidable,
@@ -41,13 +41,13 @@ export class Column {
   }
 
   static createSequenceNumberColumn(): IColumn {
-    return this.createColumn({ key: COLUMN_KEYS.SEQUENCE, draggable: false, hasSorting: false });
+    return this.createColumn({ key: COLUMN_KEY.SEQUENCE, draggable: false, hasSorting: false });
   }
 
   static createCheckboxColumn(): IColumn {
     return this.createColumn({
-      key: COLUMN_KEYS.SELECT,
-      horizontalAlign: HorizontalAlign.Center,
+      key: COLUMN_KEY.SELECT,
+      horizontalAlign: HORIZONTAL_ALIGN.CENTER,
       isVisible: false,
       hidable: false,
       draggable: false,
@@ -60,14 +60,14 @@ export class Column {
     return this.createColumn({
       key,
       hasSorting,
-      customClass: STYLECONSTANTS.PL_HEADER_LINK
+      customClass: STYLE.PL_HEADER_LINK
     });
   }
 
   static createActionsColumn(): IColumn {
     return this.createColumn({
-      key: COLUMN_KEYS.ACTIONS,
-      horizontalAlign: HorizontalAlign.Center,
+      key: COLUMN_KEY.ACTIONS,
+      horizontalAlign: HORIZONTAL_ALIGN.CENTER,
       hidable: false,
       draggable: false,
       hasSorting: false,

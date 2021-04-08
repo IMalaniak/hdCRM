@@ -31,26 +31,26 @@ import {
   tableOutlineBorders
 } from '@/core/modules/layout/store';
 import {
-  ACTION_LABELS,
-  BS_ICONS,
+  ACTION_LABEL,
+  BS_ICON,
   BUTTON_TYPE,
-  COLUMN_KEYS,
-  CONSTANTS,
-  IItemsPerPage,
+  COLUMN_KEY,
+  CommonConstants,
+  ITEMS_PER_PAGE,
   MAT_BUTTON,
   pageSizeOptions,
   SORT_DIRECTION,
-  STYLECONSTANTS,
+  STYLE,
   THEME_PALETTE
 } from '@/shared/constants';
 import {
-  CellType,
+  CELL_TYPE,
   DataRow,
-  HorizontalAlign,
+  HORIZONTAL_ALIGN,
   IColumn,
   RowAction,
   RowActionData,
-  RowActionType,
+  ROW_ACTION_TYPE,
   TableColumnConfig,
   TableConfig
 } from '@/shared/models/table';
@@ -65,7 +65,7 @@ import { ListDisplayMode } from '@/shared/store';
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
-  itemsPerPageState$: Observable<IItemsPerPage> = this.store$.pipe(select(getItemsPerPageState));
+  itemsPerPageState$: Observable<ITEMS_PER_PAGE> = this.store$.pipe(select(getItemsPerPageState));
   outlineBordersDefaultPreference$: Observable<boolean> = this.store$.pipe(select(getDefaultListOutlineBorders));
   outlineBorders$: Observable<boolean>;
   columnsToDisplay$: Observable<string[]>;
@@ -78,13 +78,13 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   @Input() canSort = true;
   @Input() hasSettings = true;
   @Input() displayMode = ListDisplayMode.DEFAULT;
-  @Input() noContentMessage = CONSTANTS.NO_CONTENT_INFO;
-  @Input() additionalRowActions: RowAction<RowActionType>[];
+  @Input() noContentMessage = CommonConstants.NO_CONTENT_INFO;
+  @Input() additionalRowActions: RowAction<ROW_ACTION_TYPE>[];
   @Input() canEdit: boolean;
   @Input() canDelete: boolean;
 
-  @Output() readonly rowActionClicked: EventEmitter<RowActionData<RowActionType>> = new EventEmitter<
-    RowActionData<RowActionType>
+  @Output() readonly rowActionClicked: EventEmitter<RowActionData<ROW_ACTION_TYPE>> = new EventEmitter<
+    RowActionData<ROW_ACTION_TYPE>
   >();
 
   @ViewChild('table') table: MatTable<CdkTable<DataRow>>;
@@ -94,50 +94,50 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   selection: SelectionModel<number>;
 
   pageSizeOptions: number[] = pageSizeOptions;
-  cellType: typeof CellType = CellType;
+  cellType: typeof CELL_TYPE = CELL_TYPE;
   buttonType: typeof BUTTON_TYPE = BUTTON_TYPE;
   matButtonType: typeof MAT_BUTTON = MAT_BUTTON;
   themePalette: typeof THEME_PALETTE = THEME_PALETTE;
-  actionLabels: typeof ACTION_LABELS = ACTION_LABELS;
-  columnKeys: typeof COLUMN_KEYS = COLUMN_KEYS;
+  actionLabels: typeof ACTION_LABEL = ACTION_LABEL;
+  columnKeys: typeof COLUMN_KEY = COLUMN_KEY;
   columnsInitialState: TableColumnConfig[];
 
-  icons: { [key: string]: BS_ICONS } = {
-    borders: BS_ICONS.BorderOuter,
-    checksGrid: BS_ICONS.UiChecksGrid,
-    threeDots: BS_ICONS.ThreeDotsVertical,
-    checkCircle: BS_ICONS.CheckCircle,
-    xCircle: BS_ICONS.XCircle,
-    details: BS_ICONS.InfoSquare,
-    pencil: BS_ICONS.Pencil,
-    trash: BS_ICONS.Trash,
-    list: BS_ICONS.List,
-    arrowClock: BS_ICONS.ArrowClockwise,
-    gripVertival: BS_ICONS.GripVertical,
-    columnDrag: BS_ICONS.GripHorizontal,
-    funnel: BS_ICONS.Funnel
+  icons: { [key: string]: BS_ICON } = {
+    borders: BS_ICON.BorderOuter,
+    checksGrid: BS_ICON.UiChecksGrid,
+    threeDots: BS_ICON.ThreeDotsVertical,
+    checkCircle: BS_ICON.CheckCircle,
+    xCircle: BS_ICON.XCircle,
+    details: BS_ICON.InfoSquare,
+    pencil: BS_ICON.Pencil,
+    trash: BS_ICON.Trash,
+    list: BS_ICON.List,
+    arrowClock: BS_ICON.ArrowClockwise,
+    gripVertival: BS_ICON.GripVertical,
+    columnDrag: BS_ICON.GripHorizontal,
+    funnel: BS_ICON.Funnel
   };
 
-  rowActions: RowAction<RowActionType>[] = [
+  rowActions: RowAction<ROW_ACTION_TYPE>[] = [
     {
-      icon: BS_ICONS.InfoSquare,
-      label: ACTION_LABELS.DETAILS,
+      icon: BS_ICON.InfoSquare,
+      label: ACTION_LABEL.DETAILS,
       data: {
-        actionType: RowActionType.DETAILS
+        actionType: ROW_ACTION_TYPE.DETAILS
       }
     },
     {
-      icon: BS_ICONS.Pencil,
-      label: ACTION_LABELS.EDIT,
+      icon: BS_ICON.Pencil,
+      label: ACTION_LABEL.EDIT,
       data: {
-        actionType: RowActionType.EDIT
+        actionType: ROW_ACTION_TYPE.EDIT
       }
     },
     {
-      icon: BS_ICONS.Trash,
-      label: ACTION_LABELS.DELETE,
+      icon: BS_ICON.Trash,
+      label: ACTION_LABEL.DELETE,
       data: {
-        actionType: RowActionType.DELETE
+        actionType: ROW_ACTION_TYPE.DELETE
       }
     }
   ];
@@ -207,21 +207,21 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     return this.paginator.pageIndex * this.paginator.pageSize + index + 1;
   }
 
-  getColumnClasses(align: HorizontalAlign, customClass?: string): string {
+  getColumnClasses(align: HORIZONTAL_ALIGN, customClass?: string): string {
     let resultClasses: string;
 
     switch (align) {
-      case HorizontalAlign.Left:
-        resultClasses = STYLECONSTANTS.TEXT_LEFT;
+      case HORIZONTAL_ALIGN.LEFT:
+        resultClasses = STYLE.TEXT_LEFT;
         break;
-      case HorizontalAlign.Center:
-        resultClasses = STYLECONSTANTS.TEXT_CENTER;
+      case HORIZONTAL_ALIGN.CENTER:
+        resultClasses = STYLE.TEXT_CENTER;
         break;
-      case HorizontalAlign.Right:
-        resultClasses = STYLECONSTANTS.TEXT_RIGHT;
+      case HORIZONTAL_ALIGN.RIGHT:
+        resultClasses = STYLE.TEXT_RIGHT;
         break;
       default:
-        resultClasses = STYLECONSTANTS.TEXT_LEFT;
+        resultClasses = STYLE.TEXT_LEFT;
         break;
     }
 
@@ -252,7 +252,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     this.store$.dispatch(setTableConfig({ tableConfig }));
   }
 
-  rowDedicatedAction(id: number, data: RowActionData<RowActionType>): void {
+  rowDedicatedAction(id: number, data: RowActionData<ROW_ACTION_TYPE>): void {
     this.rowActionClicked.emit({
       ...data,
       id
@@ -263,7 +263,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     if (this.displayModePopup()) {
       this.selectionChange(id);
     } else {
-      this.rowDedicatedAction(id, { actionType: RowActionType.DETAILS });
+      this.rowDedicatedAction(id, { actionType: ROW_ACTION_TYPE.DETAILS });
     }
   }
 
@@ -276,15 +276,15 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     return dropList.data[index].draggable;
   }
 
-  getRowActionIconColor(actionType: RowActionType): THEME_PALETTE {
-    return actionType === RowActionType.DELETE ? THEME_PALETTE.WARN : THEME_PALETTE.PRIMARY;
+  getRowActionIconColor(actionType: ROW_ACTION_TYPE): THEME_PALETTE {
+    return actionType === ROW_ACTION_TYPE.DELETE ? THEME_PALETTE.WARN : THEME_PALETTE.PRIMARY;
   }
 
-  getRowActionVisibility(actionType: RowActionType): boolean {
+  getRowActionVisibility(actionType: ROW_ACTION_TYPE): boolean {
     switch (actionType) {
-      case RowActionType.EDIT:
+      case ROW_ACTION_TYPE.EDIT:
         return this.canEdit ?? true;
-      case RowActionType.DELETE:
+      case ROW_ACTION_TYPE.DELETE:
         return this.canDelete ?? true;
       default:
         return true;
@@ -294,7 +294,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   selectionChange(id: number): void {
     this.selection.toggle(id);
     this.rowActionClicked.emit({
-      actionType: RowActionType.SELECT,
+      actionType: ROW_ACTION_TYPE.SELECT,
       ids: this.selection.selected
     });
   }
@@ -324,12 +324,12 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
       map((columnsToDisplay) => {
         if (this.displayModePopup()) {
           if (this.displayMode === ListDisplayMode.POPUP_MULTI_SELECTION) {
-            const selectIndex = this.columns.findIndex((col) => col.key === COLUMN_KEYS.SELECT);
+            const selectIndex = this.columns.findIndex((col) => col.key === COLUMN_KEY.SELECT);
             if (selectIndex >= 0) {
-              columnsToDisplay = Object.assign([], columnsToDisplay, { [selectIndex]: COLUMN_KEYS.SELECT });
+              columnsToDisplay = Object.assign([], columnsToDisplay, { [selectIndex]: COLUMN_KEY.SELECT });
             }
           }
-          return columnsToDisplay.filter((cTitle) => cTitle !== COLUMN_KEYS.ACTIONS);
+          return columnsToDisplay.filter((cTitle) => cTitle !== COLUMN_KEY.ACTIONS);
         }
         return columnsToDisplay;
       })
@@ -359,7 +359,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     const newPage: PageQuery = {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,
-      sortIndex: this.sort.active || COLUMN_KEYS.ID,
+      sortIndex: this.sort.active || COLUMN_KEY.ID,
       sortDirection: this.sort.direction || SORT_DIRECTION.ASC
     };
     this.dataSource.loadData(newPage);

@@ -2,7 +2,7 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { CONSTANTS } from '@/shared/constants';
+import { CommonConstants } from '@/shared/constants';
 import { AtomsNoContentInfoComponent } from './atoms-no-content-info.component';
 
 describe('AtomsNocontentInfoComponent', () => {
@@ -29,6 +29,6 @@ describe('AtomsNocontentInfoComponent', () => {
     const debugElement: DebugElement = fixture.debugElement;
     const textDe = debugElement.query(By.css('p'));
     const text: HTMLElement = textDe.nativeElement;
-    expect(text.textContent).toEqual(CONSTANTS.NO_CONTENT_INFO);
+    expect(text.textContent).toEqual(CommonConstants.NO_CONTENT_INFO);
   });
 });

@@ -1,4 +1,6 @@
-export interface PlanStage {
+import { TimeStamps } from '@/shared/models/base';
+
+export interface PlanStage extends TimeStamps {
   id: number;
   PlanId: number;
   StageId: number;
@@ -6,6 +8,4 @@ export interface PlanStage {
   description: string;
   order: number;
   completed: boolean;
-  createdAt: Date;
-  updatedAt: Date;
 }

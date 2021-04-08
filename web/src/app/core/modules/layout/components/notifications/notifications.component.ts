@@ -18,7 +18,7 @@ import {
   removeNotification,
   toggleDropdown
 } from '@/core/store/notifications/notifications.actions';
-import { BS_ICONS, MAT_BUTTON, NOTIFICATION_TYPES, THEME_PALETTE } from '@/shared/constants';
+import { BS_ICON, MAT_BUTTON, NOTIFICATION_TYPE, THEME_PALETTE } from '@/shared/constants';
 import { Notification } from '@/shared/models';
 
 @Component({
@@ -35,16 +35,16 @@ export class NotificationsComponent {
 
   matButtonTypes = MAT_BUTTON;
   themePalette = THEME_PALETTE;
-  notificationTypes = NOTIFICATION_TYPES;
-  notificationsIcons: { [key: string]: BS_ICONS } = {
-    matMenu: BS_ICONS.ThreeDots,
-    configure: BS_ICONS.Sliders,
-    bell: BS_ICONS.Bell,
-    doubleCheck: BS_ICONS.Check2All,
-    check: BS_ICONS.Check,
-    remove: BS_ICONS.X,
-    typeInfo: BS_ICONS.InfoCircle,
-    typeWarn: BS_ICONS.ExclamationCircle
+  notificationTypes = NOTIFICATION_TYPE;
+  notificationsIcons: { [key: string]: BS_ICON } = {
+    matMenu: BS_ICON.ThreeDots,
+    configure: BS_ICON.Sliders,
+    bell: BS_ICON.Bell,
+    doubleCheck: BS_ICON.Check2All,
+    check: BS_ICON.Check,
+    remove: BS_ICON.X,
+    typeInfo: BS_ICON.InfoCircle,
+    typeWarn: BS_ICON.ExclamationCircle
   };
 
   constructor(

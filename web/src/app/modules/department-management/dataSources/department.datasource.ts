@@ -6,7 +6,7 @@ import { listPageRequested } from '@/core/modules/department-api/store';
 import { Department } from '@/core/modules/department-api/shared';
 import { PageQuery } from '@/shared/models';
 import { CommonDataSource } from '@/shared/services';
-import { COLUMN_KEYS } from '@/shared/constants/table.constants';
+import { COLUMN_KEY } from '@/shared/constants/table.constants';
 import { UrlGenerator } from '@/shared/utils/url.generator';
 import { DataRow, Cell } from '@/shared/models/table';
 import { selectDepartmentsOfPage } from '../store/department.selectors';
@@ -31,16 +31,16 @@ export class DepartmentsDataSource extends CommonDataSource<Department> {
   protected mapToDataRows(departments: Department[]): DataRow[] {
     return departments.map((department) => ({
       id: department.id,
-      [COLUMN_KEYS.SEQUENCE]: Cell.createSequenceCell(),
-      [COLUMN_KEYS.TITLE]: Cell.createStringCell(department.title),
-      [COLUMN_KEYS.MANAGER]: Cell.createLinkCell(
+      [COLUMN_KEY.SEQUENCE]: Cell.createSequenceCell(),
+      [COLUMN_KEY.TITLE]: Cell.createStringCell(department.title),
+      [COLUMN_KEY.MANAGER]: Cell.createLinkCell(
         department.Manager?.fullname,
         UrlGenerator.getUserUrl(department.Manager?.id)
       ),
-      [COLUMN_KEYS.WORKERS]: Cell.createStringCell(department.Workers?.length),
-      [COLUMN_KEYS.CREATED_AT]: Cell.createDateCell(department.createdAt),
-      [COLUMN_KEYS.UPDATED_AT]: Cell.createDateCell(department.updatedAt),
-      [COLUMN_KEYS.ACTIONS]: Cell.createActionsCell()
+      [COLUMN_KEY.WORKERS]: Cell.createStringCell(department.Workers?.length),
+      [COLUMN_KEY.CREATED_AT]: Cell.createDateCell(department.createdAt),
+      [COLUMN_KEY.UPDATED_AT]: Cell.createDateCell(department.updatedAt),
+      [COLUMN_KEY.ACTIONS]: Cell.createActionsCell()
     }));
   }
 }

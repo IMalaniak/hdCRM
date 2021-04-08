@@ -5,7 +5,7 @@ export enum THEME_PALETTE {
   ACCENT = 'accent'
 }
 
-export enum STYLECONSTANTS {
+export enum STYLE {
   FIT_CONTENT = 'fit-content',
   PL_HEADER_LINK = 'pl-header-link',
   STICKY_WITH_BORDER = 'sticky-with-border',

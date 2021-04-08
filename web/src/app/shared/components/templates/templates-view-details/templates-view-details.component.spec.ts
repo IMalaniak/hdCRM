@@ -8,7 +8,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { initialPreferencesState } from '@/core/store/preferences';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock } from '@/shared/testing/mocks';
-import { FormType, IFieldType } from '@/shared/constants';
+import { FORM_TYPE, FIELD_TYPE } from '@/shared/constants';
 import { TemplatesViewDetailsComponent } from './templates-view-details.component';
 
 @Component({
@@ -37,11 +37,11 @@ describe('TemplatesViewDetailsComponent', () => {
         testForm: {
           key: 'testForm',
           name: 'Test Form',
-          type: FormType.SYSTEM,
+          type: FORM_TYPE.SYSTEM,
           form: [
             {
               controlName: 'title',
-              type: IFieldType.INPUT,
+              type: FIELD_TYPE.INPUT,
               label: 'Title',
               isEditable: true,
               required: true

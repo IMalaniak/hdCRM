@@ -16,7 +16,7 @@ import {
   MatFormFieldControl
 } from '@angular/material/form-field';
 
-import { ControlValidator, InputErrorMessage } from '@/shared/constants';
+import { VALIDATE_CONTROL, InputErrorConstants } from '@/shared/constants';
 
 interface ErrorMessage {
   key: string;
@@ -98,32 +98,32 @@ export class InputValidationComponent implements OnInit, OnChanges {
   }
 
   private handleError(): void {
-    Object.keys(this.inputErrors).forEach((key: ControlValidator) => {
+    Object.keys(this.inputErrors).forEach((key: VALIDATE_CONTROL) => {
       const errorMessage: ErrorMessage = this.getErrorMessage(key);
       this.errors[key] = errorMessage.message;
     });
   }
 
-  private getErrorMessage(key: ControlValidator): ErrorMessage {
+  private getErrorMessage(key: VALIDATE_CONTROL): ErrorMessage {
     switch (key) {
-      case ControlValidator.REQUIRED:
-        return { key, message: InputErrorMessage.IS_REQUIRED };
-      case ControlValidator.MIN_LENGTH:
-        return { key, message: InputErrorMessage.IS_TOO_SHORT };
-      case ControlValidator.MAX_LENGTH:
-        return { key, message: InputErrorMessage.IS_TOO_LONG };
-      case ControlValidator.EMAIL:
-        return { key, message: InputErrorMessage.INVALID_EMAIL };
-      case ControlValidator.PATTERN:
-        return { key, message: InputErrorMessage.IS_INVALID };
-      case ControlValidator.MIN:
-        return { key, message: InputErrorMessage.MIN_VALUE };
-      case ControlValidator.MAX:
-        return { key, message: InputErrorMessage.MAX_VALUE };
-      case ControlValidator.CONFIRM_PASSWORD:
-        return { key, message: InputErrorMessage.PASSWORD_NOT_MATCH };
+      case VALIDATE_CONTROL.REQUIRED:
+        return { key, message: InputErrorConstants.IS_REQUIRED };
+      case VALIDATE_CONTROL.MIN_LENGTH:
+        return { key, message: InputErrorConstants.IS_TOO_SHORT };
+      case VALIDATE_CONTROL.MAX_LENGTH:
+        return { key, message: InputErrorConstants.IS_TOO_LONG };
+      case VALIDATE_CONTROL.EMAIL:
+        return { key, message: InputErrorConstants.INVALID_EMAIL };
+      case VALIDATE_CONTROL.PATTERN:
+        return { key, message: InputErrorConstants.IS_INVALID };
+      case VALIDATE_CONTROL.MIN:
+        return { key, message: InputErrorConstants.MIN_VALUE };
+      case VALIDATE_CONTROL.MAX:
+        return { key, message: InputErrorConstants.MAX_VALUE };
+      case VALIDATE_CONTROL.CONFIRM_PASSWORD:
+        return { key, message: InputErrorConstants.PASSWORD_NOT_MATCH };
       default:
-        return { key, message: InputErrorMessage.IS_INVALID };
+        return { key, message: InputErrorConstants.IS_INVALID };
     }
   }
 

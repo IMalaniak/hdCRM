@@ -7,12 +7,12 @@ import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
-import { DIALOG, ACTION_LABELS, MAT_BUTTON, THEME_PALETTE, CONSTANTS, BS_ICONS } from '@/shared/constants';
+import { DialogConstants, ACTION_LABEL, MAT_BUTTON, THEME_PALETTE, CommonConstants, BS_ICON } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
-import { DialogCreateEditModel, DialogMode, DialogType, IDialogResult } from '@/shared/models';
+import { DialogCreateEditModel, DIALOG_MODE, DIALOG_TYPE, IDialogResult } from '@/shared/models';
 import {
   deleteTask,
   createTask,
@@ -34,17 +34,17 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatAccordion) taskAccordion: MatAccordion;
 
-  actionLabels = ACTION_LABELS;
+  actionLabels = ACTION_LABEL;
   themePalette = THEME_PALETTE;
   matButtonType = MAT_BUTTON;
-  listIcons: { [key: string]: BS_ICONS } = {
-    matMenu: BS_ICONS.ThreeDotsVertical,
-    delete: BS_ICONS.Trash,
-    edit: BS_ICONS.Pencil,
-    add: BS_ICONS.Plus,
-    collapse: BS_ICONS.ArrowsCollapse,
-    expand: BS_ICONS.ArrowsExpand,
-    flag: BS_ICONS.Flag
+  listIcons: { [key: string]: BS_ICON } = {
+    matMenu: BS_ICON.ThreeDotsVertical,
+    delete: BS_ICON.Trash,
+    edit: BS_ICON.Pencil,
+    add: BS_ICON.Plus,
+    collapse: BS_ICON.ArrowsCollapse,
+    expand: BS_ICON.ArrowsExpand,
+    flag: BS_ICON.Flag
   };
 
   private unsubscribe: Subject<void> = new Subject();
@@ -61,14 +61,14 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
 
   openTaskDialog(taskToUpdate?: Task): void {
     const dialogModel: DialogCreateEditModel = new DialogCreateEditModel(
-      taskToUpdate ? DialogMode.EDIT : DialogMode.CREATE,
-      taskToUpdate ? CONSTANTS.TEXTS_UPDATE_TASK : CONSTANTS.TEXTS_CREATE_TASK,
-      taskToUpdate ? DIALOG.SAVE : DIALOG.CREATE
+      taskToUpdate ? DIALOG_MODE.EDIT : DIALOG_MODE.CREATE,
+      taskToUpdate ? CommonConstants.TEXTS_UPDATE_TASK : CommonConstants.TEXTS_CREATE_TASK,
+      taskToUpdate ? DialogConstants.SAVE : DialogConstants.CREATE
     );
     const dialogDataModel: DialogDataModel<DialogCreateEditModel> = { dialogModel, model: taskToUpdate };
 
     this.dialogService
-      .open(OrganismsTaskDialogComponent, dialogDataModel, DialogType.STANDART)
+      .open(OrganismsTaskDialogComponent, dialogDataModel, DIALOG_TYPE.STANDART)
       .afterClosed()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((result: IDialogResult<Task>) => {
@@ -87,7 +87,9 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
   }
 
   deleteMultipleTask(): void {
-    const dialogModel: DialogConfirmModel = new DialogConfirmModel(CONSTANTS.TEXTS_DELETE_TASKS_COMPLETED_CONFIRM);
+    const dialogModel: DialogConfirmModel = new DialogConfirmModel(
+      CommonConstants.TEXTS_DELETE_TASKS_COMPLETED_CONFIRM
+    );
     const dialogDataModel: DialogDataModel<DialogConfirmModel> = { dialogModel };
 
     this.dialogService.confirm(DialogConfirmComponent, dialogDataModel, () => {

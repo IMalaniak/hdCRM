@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { ComponentType } from '@angular/cdk/portal';
 
-import { ACTION_LABELS, THEME_PALETTE } from '@/shared/constants';
+import { ACTION_LABEL, THEME_PALETTE } from '@/shared/constants';
 import { DialogCreateEditPageModel } from '@/shared/components';
 import { DialogCreateEditModel, DialogDataModel, IDialogResult } from '@/shared/models';
 
@@ -12,7 +12,7 @@ import { DialogCreateEditModel, DialogDataModel, IDialogResult } from '@/shared/
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddStageDialogComponent extends DialogCreateEditPageModel {
-  actionLabels = ACTION_LABELS;
+  actionLabels = ACTION_LABEL;
   themePalette = THEME_PALETTE;
   keyString: FormControl;
 

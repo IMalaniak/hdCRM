@@ -7,7 +7,7 @@ import { Store, select } from '@ngrx/store';
 
 import { AppState } from '@/core/store';
 import { IconsService, MediaQueryService } from '@/core/services';
-import { BS_ICONS } from '@/shared/constants';
+import { BS_ICON } from '@/shared/constants';
 import { privateRouterTransition } from '@/shared/animations';
 import * as layoutActions from '../store/layout.actions';
 import * as fromLayout from '../store';
@@ -67,20 +67,20 @@ export class PrivateViewComponent implements OnInit, OnDestroy {
     private readonly iconsService: IconsService
   ) {
     this.iconsService.registerIcons([
-      BS_ICONS.ThreeDotsVertical,
-      BS_ICONS.PersonPlus,
-      BS_ICONS.PersonCheck,
-      BS_ICONS.Plus,
-      BS_ICONS.Pencil,
-      BS_ICONS.X,
-      BS_ICONS.Check,
-      BS_ICONS.ClipboardCheck,
-      BS_ICONS.Upload,
-      BS_ICONS.InfoSquare,
-      BS_ICONS.Trash,
-      BS_ICONS.ArrowsCollapse,
-      BS_ICONS.ArrowsExpand,
-      BS_ICONS.Flag
+      BS_ICON.ThreeDotsVertical,
+      BS_ICON.PersonPlus,
+      BS_ICON.PersonCheck,
+      BS_ICON.Plus,
+      BS_ICON.Pencil,
+      BS_ICON.X,
+      BS_ICON.Check,
+      BS_ICON.ClipboardCheck,
+      BS_ICON.Upload,
+      BS_ICON.InfoSquare,
+      BS_ICON.Trash,
+      BS_ICON.ArrowsCollapse,
+      BS_ICON.ArrowsExpand,
+      BS_ICON.Flag
     ]);
   }
 
