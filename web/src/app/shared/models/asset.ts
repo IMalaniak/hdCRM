@@ -1,10 +1,10 @@
-export interface Asset {
+import { TimeStamps } from './base';
+
+export interface Asset extends TimeStamps {
   id: number;
   title: string;
   location: string;
   type: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
 export interface TempAddedAsset {

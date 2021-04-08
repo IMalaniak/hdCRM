@@ -1,4 +1,5 @@
 import { FormType, IFieldType } from '../constants';
+import { TimeStamps } from './base';
 
 export interface DynamicFormItemOption {
   value: boolean | number | string;
@@ -17,11 +18,9 @@ export interface DynamicFormItem {
   multiple?: boolean;
 }
 
-export interface DynamicForm {
+export interface DynamicForm extends TimeStamps {
   key: string;
   name: string;
   type: FormType;
   form: DynamicFormItem[];
-  createdAt: Date;
-  updatedAt: Date;
 }

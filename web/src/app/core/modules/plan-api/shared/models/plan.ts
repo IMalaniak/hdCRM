@@ -1,8 +1,9 @@
 import { User } from '@/core/modules/user-api/shared';
 import { Asset } from '@/shared/models';
+import { TimeStamps } from '@/shared/models/base';
 import { Stage } from './stage';
 
-export interface Plan {
+export interface Plan extends TimeStamps {
   id: number;
   title: string;
   description: string;
@@ -16,6 +17,4 @@ export interface Plan {
   Participants: User[];
   Documents: Asset[];
   deadline: Date;
-  createdAt: Date;
-  updatedAt: Date;
 }

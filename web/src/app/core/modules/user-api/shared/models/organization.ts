@@ -1,9 +1,10 @@
 import { Department } from '@/core/modules/department-api/shared';
 import { Plan } from '@/core/modules/plan-api/shared';
 import { Role } from '@/core/modules/role-api/shared';
+import { TimeStamps } from '@/shared/models/base';
 import { User } from './user';
 
-export interface Organization {
+export interface Organization extends TimeStamps {
   id: number;
   title: string;
   type: string;
@@ -15,9 +16,6 @@ export interface Organization {
   phone: number;
   email: string;
   website: string;
-
-  createdAt: Date;
-  updatedAt: Date;
 
   Departments: Department[];
   Plans: Plan[];

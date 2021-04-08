@@ -74,7 +74,6 @@ export const currentUserMock = ({
   Organization: {
     id: 1,
     title: 'root',
-    token: null,
     type: 'root',
     country: 'Poland',
     city: 'Warsaw',
