@@ -16,11 +16,11 @@ export class StageController extends BaseController<StageCreationAttributes, Sta
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_STAGE);
   }
 
-  public async getAll(req: Request, res: Response<CollectionApiResponse<any> | BaseResponse>): Promise<void> {
+  public async getAll(req: Request, res: Response<CollectionApiResponse<Stage> | BaseResponse>): Promise<void> {
     req.log.info(`Selecting stages list...`);
 
     const result = await this.dataBaseService.getAll(req.user.OrganizationId);
 
-    return sendResponse<CollectionApiResponse<any> | BaseResponse, CustomError>(result, res);
+    return sendResponse<CollectionApiResponse<Stage> | BaseResponse, CustomError>(result, res);
   }
 }
