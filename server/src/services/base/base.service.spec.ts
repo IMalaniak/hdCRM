@@ -10,14 +10,8 @@ import Container, { Service } from 'typedi';
 
 import { CONSTANTS } from '../../constants';
 import { CustomError } from '../../errors';
-import {
-  BaseResponse,
-  CollectionApiResponse,
-  Department,
-  DepartmentAttributes,
-  DepartmentCreationAttributes,
-  PageQuery
-} from '../../models';
+import { BaseResponse, CollectionApiResponse, PageQuery } from '../../models';
+import { DepartmentCreationAttributes, DepartmentAttributes, Department } from '../../repositories';
 import { Logger } from '../../utils/Logger';
 import { BaseService } from './base.service';
 

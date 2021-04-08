@@ -2,14 +2,9 @@ import { Request, Response, Router } from 'express';
 import { Service } from 'typedi';
 
 import { BaseRoutes } from './base/base.routes';
-import {
-  Department,
-  CollectionApiResponse,
-  DepartmentCreationAttributes,
-  DepartmentAttributes,
-  BaseResponse
-} from '../models';
+import { CollectionApiResponse, BaseResponse } from '../models';
 import { DepartmentController } from '../controllers';
+import { Department, DepartmentAttributes, DepartmentCreationAttributes } from '../repositories';
 
 @Service()
 export class DepartmentRoutes extends BaseRoutes<DepartmentCreationAttributes, DepartmentAttributes, Department> {

@@ -4,26 +4,22 @@ import jimp from 'jimp';
 
 import { CONSTANTS } from '../constants';
 import { JwtHelper } from '../helpers/jwt.helper';
-import {
-  User,
-  UserSession,
-  Organization,
-  OrganizationAttributes,
-  ItemApiResponse,
-  BaseResponse,
-  CollectionApiResponse,
-  RequestWithBody,
-  UserCreationAttributes,
-  PasswordReset,
-  UserAttributes,
-  Asset,
-  AssetCreationAttributes
-} from '../models';
+import { ItemApiResponse, BaseResponse, CollectionApiResponse, RequestWithBody, PasswordReset } from '../models';
 import { UserService } from '../services';
 import { parseCookies } from '../utils/parseCookies';
 import { sendResponse } from './utils';
 import { BaseController } from './base/base.controller';
 import { CustomError } from '../errors';
+import {
+  UserCreationAttributes,
+  UserAttributes,
+  User,
+  UserSession,
+  OrganizationAttributes,
+  Organization,
+  Asset,
+  AssetCreationAttributes
+} from '../repositories';
 
 @Service()
 export class UserController extends BaseController<UserCreationAttributes, UserAttributes, User> {

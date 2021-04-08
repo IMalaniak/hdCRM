@@ -6,7 +6,7 @@ import { ok } from 'neverthrow';
 import sinon from 'sinon';
 import Container from 'typedi';
 
-import { Preference } from '../models';
+import { Preference } from '../repositories';
 import { PreferenceService } from '../services';
 import { PreferenceController } from './preference.controller';
 

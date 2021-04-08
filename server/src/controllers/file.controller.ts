@@ -3,8 +3,9 @@ import { Service } from 'typedi';
 import path from 'path';
 import { StatusCodes } from 'http-status-codes';
 
-import { Asset, BaseResponse } from '../models';
+import { BaseResponse } from '../models';
 import { CONSTANTS } from '../constants';
+import { Asset } from '../repositories';
 
 @Service()
 export class FileController {

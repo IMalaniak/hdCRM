@@ -9,7 +9,8 @@ import Container from 'typedi';
 
 import { CONSTANTS, LIST_VIEW } from '../constants';
 import { CustomError } from '../errors';
-import { BaseResponse, ItemApiResponse, Preference, PreferenceCreationAttributes, User } from '../models';
+import { BaseResponse, ItemApiResponse } from '../models';
+import { User, Preference, PreferenceCreationAttributes } from '../repositories';
 import { enumToArray } from '../utils/enumToArray';
 import { Logger } from '../utils/Logger';
 import { PreferenceService } from './preference.service';

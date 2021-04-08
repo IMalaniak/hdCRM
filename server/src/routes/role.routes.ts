@@ -3,7 +3,8 @@ import { Service } from 'typedi';
 import { RoleController } from '../controllers';
 
 import { BaseRoutes } from './base/base.routes';
-import { Role, CollectionApiResponse, RoleCreationAttributes, RoleAttributes, BaseResponse } from '../models';
+import { CollectionApiResponse, BaseResponse } from '../models';
+import { RoleCreationAttributes, RoleAttributes, Role } from '../repositories';
 
 @Service()
 export class RoleRoutes extends BaseRoutes<RoleCreationAttributes, RoleAttributes, Role> {

@@ -1,10 +1,11 @@
 import Container, { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 
-import { Stage, CollectionApiResponse, StageCreationAttributes, StageAttributes, BaseResponse } from '../models';
+import { CollectionApiResponse, BaseResponse } from '../models';
 import { CONSTANTS } from '../constants';
 import { BaseService } from './base/base.service';
 import { CustomError, InternalServerError } from '../errors';
+import { StageCreationAttributes, StageAttributes, Stage } from '../repositories';
 
 @Service()
 export class StageService extends BaseService<StageCreationAttributes, StageAttributes, Stage> {

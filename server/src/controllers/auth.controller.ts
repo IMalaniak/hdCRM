@@ -4,13 +4,8 @@ import { Service } from 'typedi';
 import { CustomError } from '../errors/custom-error';
 import { JwtHelper } from '../helpers/jwt.helper';
 
-import {
-  BaseResponse,
-  OrganizationCreationAttributes,
-  PasswordReset,
-  RequestWithBody,
-  UserCreationAttributes
-} from '../models';
+import { BaseResponse, PasswordReset, RequestWithBody } from '../models';
+import { OrganizationCreationAttributes, UserCreationAttributes } from '../repositories';
 import { AuthService, UserService } from '../services';
 import { Crypt } from '../utils/crypt';
 import { parseCookies } from '../utils/parseCookies';

@@ -12,15 +12,8 @@ import { Config } from '../config';
 import { CONSTANTS } from '../constants';
 import { CustomError } from '../errors';
 import { Mailer } from '../mailer/nodeMailerTemplates';
-import {
-  BaseResponse,
-  CollectionApiResponse,
-  Organization,
-  Privilege,
-  User,
-  UserCreationAttributes,
-  UserSession
-} from '../models';
+import { BaseResponse, CollectionApiResponse } from '../models';
+import { UserCreationAttributes, User, Organization, UserSession, Privilege } from '../repositories';
 import { Crypt } from '../utils/crypt';
 import { Logger } from '../utils/Logger';
 import { UserService } from './user.service';

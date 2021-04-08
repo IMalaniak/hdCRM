@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import Container from 'typedi';
 
 import { CONSTANTS } from '../constants';
-import { Role } from '../models';
+import { Role } from '../repositories';
 import { RoleService } from '../services';
 import { RoleController } from './role.controller';
 

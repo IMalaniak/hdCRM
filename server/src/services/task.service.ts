@@ -2,17 +2,11 @@ import Container, { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 import { IncludeOptions } from 'sequelize';
 
-import {
-  Task,
-  TaskAttributes,
-  TaskCreationAttributes,
-  TaskPriority,
-  CollectionApiResponse,
-  BaseResponse
-} from '../models';
+import { CollectionApiResponse, BaseResponse } from '../models';
 import { CONSTANTS } from '../constants';
 import { BaseService } from './base/base.service';
 import { CustomError, InternalServerError } from '../errors';
+import { TaskCreationAttributes, TaskAttributes, Task, TaskPriority } from '../repositories';
 
 @Service()
 export class TaskService extends BaseService<TaskCreationAttributes, TaskAttributes, Task> {

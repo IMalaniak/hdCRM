@@ -3,15 +3,8 @@ import Container, { Service } from 'typedi';
 
 import { CONSTANTS } from '../constants';
 import { CustomError } from '../errors';
-import {
-  BaseResponse,
-  CollectionApiResponse,
-  RequestWithBody,
-  Task,
-  TaskAttributes,
-  TaskCreationAttributes,
-  TaskPriority
-} from '../models';
+import { BaseResponse, CollectionApiResponse, RequestWithBody } from '../models';
+import { TaskCreationAttributes, TaskAttributes, Task, TaskPriority } from '../repositories';
 import { TaskService } from '../services';
 import { BaseController } from './base/base.controller';
 import { sendResponse } from './utils';

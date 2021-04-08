@@ -9,7 +9,8 @@ import Container from 'typedi';
 
 import { CONSTANTS } from '../constants';
 import { CustomError } from '../errors';
-import { BaseResponse, Privilege, Role, User } from '../models';
+import { BaseResponse } from '../models';
+import { Role, User, Privilege } from '../repositories';
 import { Logger } from '../utils/Logger';
 import { RoleService } from './role.service';
 

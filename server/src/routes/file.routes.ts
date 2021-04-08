@@ -1,8 +1,9 @@
 import { Request, Response, Router } from 'express';
 import { Service } from 'typedi';
 
-import { Asset, BaseResponse } from '../models';
+import { BaseResponse } from '../models';
 import { FileController } from '../controllers';
+import { Asset } from '../repositories';
 
 @Service()
 export class FileRoutes {

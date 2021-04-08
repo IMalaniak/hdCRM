@@ -2,8 +2,9 @@ import { Response, Router } from 'express';
 import { Service } from 'typedi';
 
 import { BaseRoutes } from './base/base.routes';
-import { Task, BaseResponse, RequestWithBody, TaskCreationAttributes, TaskAttributes } from '../models';
 import { TaskController } from '../controllers';
+import { RequestWithBody, BaseResponse } from '../models';
+import { TaskCreationAttributes, TaskAttributes, Task } from '../repositories';
 
 @Service()
 export class TaskRoutes extends BaseRoutes<TaskCreationAttributes, TaskAttributes, Task> {

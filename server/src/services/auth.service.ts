@@ -2,18 +2,7 @@ import { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 import { Op } from 'sequelize';
 
-import {
-  BaseResponse,
-  OrganizationCreationAttributes,
-  UserCreationAttributes,
-  Organization,
-  Privilege,
-  PasswordAttribute,
-  UserAttributes,
-  UserSession,
-  User,
-  PasswordReset
-} from '../models';
+import { BaseResponse, PasswordReset } from '../models';
 import { MAIL_THEME, USER_STATE } from '../constants';
 import { Config } from '../config';
 import { Crypt } from '../utils/crypt';
@@ -21,6 +10,16 @@ import { Mailer } from '../mailer/nodeMailerTemplates';
 import { JwtHelper } from '../helpers/jwt.helper';
 import { Logger } from '../utils/Logger';
 import { BadRequestError, CustomError, InternalServerError, NotAuthorizedError, NotFoundError } from '../errors';
+import {
+  OrganizationCreationAttributes,
+  UserCreationAttributes,
+  Organization,
+  Privilege,
+  PasswordAttribute,
+  User,
+  UserAttributes,
+  UserSession
+} from '../repositories';
 
 @Service()
 export class AuthService {

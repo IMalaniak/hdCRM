@@ -3,17 +3,8 @@ import Container, { Service } from 'typedi';
 
 import { CONSTANTS } from '../constants';
 import { CustomError } from '../errors';
-import {
-  BaseResponse,
-  Plan,
-  ItemApiResponse,
-  RequestWithQuery,
-  PlanCreationAttributes,
-  AssetCreationAttributes,
-  Asset,
-  PlanAttributes,
-  RequestWithBody
-} from '../models';
+import { BaseResponse, ItemApiResponse, RequestWithQuery, RequestWithBody } from '../models';
+import { PlanCreationAttributes, PlanAttributes, Plan, Asset, AssetCreationAttributes } from '../repositories';
 import { PlanService } from '../services';
 import { BaseController } from './base/base.controller';
 import { sendResponse } from './utils';

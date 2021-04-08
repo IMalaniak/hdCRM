@@ -3,14 +3,8 @@ import Container, { Service } from 'typedi';
 
 import { CONSTANTS } from '../constants';
 import { CustomError } from '../errors';
-import {
-  CollectionApiResponse,
-  Role,
-  RequestWithBody,
-  RoleCreationAttributes,
-  RoleAttributes,
-  BaseResponse
-} from '../models';
+import { CollectionApiResponse, RequestWithBody, BaseResponse } from '../models';
+import { RoleCreationAttributes, RoleAttributes, Role } from '../repositories';
 import { RoleService } from '../services';
 import { BaseController } from './base/base.controller';
 import { sendResponse } from './utils';

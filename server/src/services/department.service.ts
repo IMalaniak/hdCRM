@@ -2,10 +2,11 @@ import Container, { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 import { IncludeOptions, Op } from 'sequelize';
 
-import { CollectionApiResponse, Department, User, DepartmentCreationAttributes, DepartmentAttributes } from '../models';
+import { CollectionApiResponse } from '../models';
 import { CONSTANTS } from '../constants';
 import { BaseService } from './base/base.service';
 import { CustomError, InternalServerError } from '../errors';
+import { DepartmentCreationAttributes, DepartmentAttributes, Department, User } from '../repositories';
 
 @Service()
 export class DepartmentService extends BaseService<DepartmentCreationAttributes, DepartmentAttributes, Department> {

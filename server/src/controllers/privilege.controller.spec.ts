@@ -6,7 +6,7 @@ import { ok } from 'neverthrow';
 import sinon from 'sinon';
 import Container from 'typedi';
 
-import { Privilege } from '../models';
+import { Privilege } from '../repositories';
 import { PrivilegeService } from '../services';
 import { PrivilegeController } from './privilege.controller';
 

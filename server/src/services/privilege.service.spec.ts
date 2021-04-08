@@ -9,7 +9,8 @@ import Container from 'typedi';
 
 import { CONSTANTS } from '../constants';
 import { CustomError } from '../errors';
-import { BaseResponse, CollectionApiResponse, Privilege, PrivilegeCreationAttributes } from '../models';
+import { BaseResponse, CollectionApiResponse } from '../models';
+import { Privilege, PrivilegeCreationAttributes } from '../repositories';
 import { Logger } from '../utils/Logger';
 import { PrivilegeService } from './privilege.service';
 

@@ -1,15 +1,10 @@
 import { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 
-import {
-  Privilege,
-  ItemApiResponse,
-  CollectionApiResponse,
-  PrivilegeCreationAttributes,
-  BaseResponse
-} from '../models';
+import { ItemApiResponse, CollectionApiResponse, BaseResponse } from '../models';
 import { Logger } from '../utils/Logger';
 import { CustomError, InternalServerError } from '../errors';
+import { Privilege, PrivilegeCreationAttributes } from '../repositories';
 
 @Service()
 export class PrivilegeService {

@@ -1,4 +1,4 @@
-import { User as dbUser } from '../../src/models';
+import { User as dbUser } from '../../src/repositories';
 
 declare global {
   namespace Express {

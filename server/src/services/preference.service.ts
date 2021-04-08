@@ -1,9 +1,10 @@
 import { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 
-import { Preference, ItemApiResponse, PreferenceCreationAttributes, User, BaseResponse } from '../models';
+import { ItemApiResponse, BaseResponse } from '../models';
 import { Logger } from '../utils/Logger';
 import { CustomError, InternalServerError } from '../errors';
+import { Preference, User, PreferenceCreationAttributes } from '../repositories';
 
 @Service()
 export class PreferenceService {

@@ -1,6 +1,6 @@
 import Container, { Service } from 'typedi';
 
-import { Form, FormAttributes } from '../models';
+import { Form, FormAttributes } from '../repositories';
 import { CONSTANTS } from '../constants';
 import { BaseService } from './base/base.service';
 

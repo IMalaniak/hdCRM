@@ -9,7 +9,8 @@ import Container from 'typedi';
 
 import { CONSTANTS } from '../constants';
 import { CustomError } from '../errors';
-import { BaseResponse, CollectionApiResponse, Stage } from '../models';
+import { BaseResponse, CollectionApiResponse } from '../models';
+import { Stage } from '../repositories';
 import { Logger } from '../utils/Logger';
 import { StageService } from './stage.service';
 

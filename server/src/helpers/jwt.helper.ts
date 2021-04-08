@@ -2,10 +2,11 @@ import jwt from 'jsonwebtoken';
 import { Service } from 'typedi';
 import { err, ok, Result } from 'neverthrow';
 
-import { JwtPayload, JwtDecoded, User, UserSession } from '../models';
+import { JwtPayload, JwtDecoded } from '../models';
 import { Config } from '../config';
 import { CustomError, NotFoundError, NotAuthorizedError, InternalServerError } from '../errors';
 import { Logger } from '../utils/Logger';
+import { User, UserSession } from '../repositories';
 
 interface TokenProps {
   type: 'access' | 'refresh';

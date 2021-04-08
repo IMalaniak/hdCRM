@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import Container from 'typedi';
 
 import { CONSTANTS } from '../constants';
-import { Plan } from '../models';
+import { Plan } from '../repositories';
 import { PlanService } from '../services';
 import { PlanController } from './plan.controller';
 

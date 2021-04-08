@@ -9,7 +9,8 @@ import Container from 'typedi';
 
 import { CONSTANTS } from '../constants';
 import { CustomError } from '../errors';
-import { BaseResponse, CollectionApiResponse, Task, TaskPriority } from '../models';
+import { BaseResponse, CollectionApiResponse } from '../models';
+import { Task, TaskPriority } from '../repositories';
 import { Logger } from '../utils/Logger';
 import { TaskService } from './task.service';
 

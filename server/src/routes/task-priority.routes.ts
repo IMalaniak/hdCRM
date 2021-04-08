@@ -2,7 +2,8 @@ import { Response, Router } from 'express';
 import { Service } from 'typedi';
 
 import { TaskController } from '../controllers';
-import { BaseResponse, CollectionApiResponse, TaskPriority } from '../models';
+import { BaseResponse, CollectionApiResponse } from '../models';
+import { TaskPriority } from '../repositories/TaskPriority';
 
 @Service()
 export class TaskPriorityRoutes {

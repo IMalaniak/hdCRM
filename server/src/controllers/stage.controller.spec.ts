@@ -6,7 +6,7 @@ import { ok } from 'neverthrow';
 import sinon from 'sinon';
 import Container from 'typedi';
 
-import { Stage } from '../models';
+import { Stage } from '../repositories';
 import { StageService } from '../services';
 import { StageController } from './stage.controller';
 

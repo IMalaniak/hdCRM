@@ -2,7 +2,7 @@ import Email from 'email-templates';
 import path from 'path';
 import { Service } from 'typedi';
 
-import { User } from '../models';
+import { User } from '../repositories';
 
 @Service({ global: true })
 export class Mailer {

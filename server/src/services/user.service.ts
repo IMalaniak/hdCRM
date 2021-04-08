@@ -5,21 +5,7 @@ import path from 'path';
 import fs from 'fs';
 import { promisify } from 'util';
 
-import {
-  User,
-  UserSession,
-  Role,
-  Organization,
-  UserCreationAttributes,
-  UserAttributes,
-  OrganizationAttributes,
-  Asset,
-  ItemApiResponse,
-  BaseResponse,
-  CollectionApiResponse,
-  PasswordReset,
-  AssetCreationAttributes
-} from '../models';
+import { ItemApiResponse, BaseResponse, CollectionApiResponse, PasswordReset } from '../models';
 import { CONSTANTS, MAIL_THEME } from '../constants';
 import { Mailer } from '../mailer/nodeMailerTemplates';
 import { Crypt } from '../utils/crypt';
@@ -27,6 +13,17 @@ import { Config } from '../config';
 import { reduceResults } from './utils';
 import { BaseService } from './base/base.service';
 import { BadRequestError, CustomError, InternalServerError, NotAuthorizedError, NotFoundError } from '../errors';
+import {
+  UserCreationAttributes,
+  UserAttributes,
+  User,
+  Role,
+  UserSession,
+  OrganizationAttributes,
+  Organization,
+  AssetCreationAttributes,
+  Asset
+} from '../repositories';
 
 @Service()
 export class UserService extends BaseService<UserCreationAttributes, UserAttributes, User> {

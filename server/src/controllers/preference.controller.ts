@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import { Service } from 'typedi';
 
-import { BaseResponse, ItemApiResponse, Preference, PreferenceCreationAttributes, RequestWithBody } from '../models';
+import { BaseResponse, ItemApiResponse, RequestWithBody } from '../models';
 import { sendResponse } from './utils';
 import { PreferenceService } from '../services/preference.service';
 import { CustomError } from '../errors';
+import { PreferenceCreationAttributes, Preference } from '../repositories';
 
 @Service()
 export class PreferenceController {

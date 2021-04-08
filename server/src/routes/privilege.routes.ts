@@ -1,15 +1,9 @@
 import { Response, Router } from 'express';
 import { Service } from 'typedi';
 
-import {
-  Privilege,
-  RequestWithBody,
-  CollectionApiResponse,
-  ItemApiResponse,
-  PrivilegeCreationAttributes,
-  BaseResponse
-} from '../models';
+import { RequestWithBody, CollectionApiResponse, ItemApiResponse, BaseResponse } from '../models';
 import { PrivilegeController } from '../controllers';
+import { PrivilegeCreationAttributes, Privilege } from '../repositories';
 
 @Service()
 export class PrivilegeRoutes {

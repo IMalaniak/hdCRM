@@ -9,7 +9,8 @@ import Container from 'typedi';
 
 import { CONSTANTS } from '../constants';
 import { CustomError } from '../errors';
-import { BaseResponse, Department, User } from '../models';
+import { BaseResponse } from '../models';
+import { Department, User } from '../repositories';
 import { Logger } from '../utils/Logger';
 import { DepartmentService } from './department.service';
 

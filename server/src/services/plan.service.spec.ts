@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import Container from 'typedi';
 
-import { Plan, User } from '../models';
+import { Plan, User } from '../repositories';
 import { PlanService } from './plan.service';
 
 describe('PlanService', () => {

@@ -3,21 +3,17 @@ import { Request, Response, Router } from 'express';
 import { Service } from 'typedi';
 
 import { BaseRoutes } from './base/base.routes';
-import {
-  User,
-  Organization,
-  Asset,
-  CollectionApiResponse,
-  BaseResponse,
-  ItemApiResponse,
-  RequestWithBody,
-  UserCreationAttributes,
-  UserAttributes,
-  OrganizationAttributes,
-  PasswordReset
-} from '../models';
+import { CollectionApiResponse, BaseResponse, ItemApiResponse, RequestWithBody, PasswordReset } from '../models';
 import { UserController } from '../controllers';
 import uploads from '../multer/multerConfig';
+import {
+  UserCreationAttributes,
+  UserAttributes,
+  User,
+  Asset,
+  OrganizationAttributes,
+  Organization
+} from '../repositories';
 
 @Service()
 export class UserRoutes extends BaseRoutes<UserCreationAttributes, UserAttributes, User> {
