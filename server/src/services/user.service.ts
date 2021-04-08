@@ -7,11 +7,7 @@ import { promisify } from 'util';
 
 import { ItemApiResponse, BaseResponse, CollectionApiResponse, PasswordReset } from '../models';
 import { CONSTANTS, MAIL_THEME } from '../constants';
-import { Mailer } from '../mailer/nodeMailerTemplates';
-import { Crypt } from '../utils/crypt';
 import { Config } from '../config';
-import { reduceResults } from './utils';
-import { BaseService } from './base/base.service';
 import { BadRequestError, CustomError, InternalServerError, NotAuthorizedError, NotFoundError } from '../errors';
 import {
   UserCreationAttributes,
@@ -24,6 +20,9 @@ import {
   AssetCreationAttributes,
   Asset
 } from '../repositories';
+import { EmailUtils, CryptoUtils } from '../utils';
+import { reduceResults } from './utils';
+import { BaseService } from './base/base.service';
 
 @Service()
 export class UserService extends BaseService<UserCreationAttributes, UserAttributes, User> {
@@ -67,7 +66,7 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
     }
   ];
 
-  constructor(private readonly mailer: Mailer, private readonly crypt: Crypt) {
+  constructor(private readonly mailer: EmailUtils, private readonly crypt: CryptoUtils) {
     super();
     Container.set(CONSTANTS.MODEL, User);
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_USER);

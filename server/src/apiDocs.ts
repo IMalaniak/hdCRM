@@ -1,6 +1,6 @@
 import { JsonObject } from 'swagger-ui-express';
 import { FIELD_TYPE, FORM_TYPE, DATE_FORMAT, ITEMS_PER_PAGE, LIST_VIEW, TIME_FORMAT, USER_STATE } from './constants';
-import { enumToArray } from './utils/enumToArray';
+import { enumToArray } from './utils';
 
 const buildCollectionApiResponse = ($ref: string) => {
   return {

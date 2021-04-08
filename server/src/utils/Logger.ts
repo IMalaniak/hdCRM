@@ -1,7 +1,7 @@
 import pino from 'pino';
 import { Service } from 'typedi';
 
-@Service({ global: true })
+@Service()
 export class Logger {
   private logger = pino({
     enabled: process.env.NODE_ENV !== 'test',

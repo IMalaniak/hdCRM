@@ -1,8 +1,8 @@
 import { Service } from 'typedi';
 import { Socket, Server } from 'socket.io';
 
-import { User } from '../models';
-import { SocketHelper, UserOnline } from '../helpers/socket.helper';
+import { User } from '../repositories';
+import { SocketUtils, UserOnline } from '../utils';
 import { Logger } from '../utils/Logger';
 
 export enum GlobalEvents {
@@ -20,7 +20,7 @@ export enum GlobalEvents {
 export class SocketRouter {
   public io: Server;
 
-  constructor(private readonly socketHelper: SocketHelper, private readonly logger: Logger) {}
+  constructor(private readonly socketHelper: SocketUtils, private readonly logger: Logger) {}
 
   public initSocketConnection(io: Server) {
     this.io = io;

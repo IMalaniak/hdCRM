@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import { Crypt } from './crypt';
+import { CryptoUtils } from './crypto.utils';
 
-describe('Crypt', () => {
-  const crypt: Crypt = new Crypt();
+describe('CryptoUtils', () => {
+  const crypt: CryptoUtils = new CryptoUtils();
 
   it('check random string length', () => {
     const randomString = crypt.genRandomString(12);

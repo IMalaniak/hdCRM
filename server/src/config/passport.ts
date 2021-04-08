@@ -6,7 +6,7 @@ import passport from 'passport';
 import { Config } from './config';
 import { UserService } from '../services';
 
-@Service({ global: true })
+@Service()
 export class Passport {
   constructor(private readonly userService: UserService) {}
 

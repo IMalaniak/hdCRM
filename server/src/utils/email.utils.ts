@@ -4,8 +4,8 @@ import { Service } from 'typedi';
 
 import { User } from '../repositories';
 
-@Service({ global: true })
-export class Mailer {
+@Service()
+export class EmailUtils {
   sender = process.env.NODE_MAILER_SENDER;
   password = process.env.NODE_MAILER_PASSWORD;
 

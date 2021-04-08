@@ -14,7 +14,7 @@ export interface UserOnline {
 }
 
 @Service()
-export class SocketHelper {
+export class SocketUtils {
   private userList: UserOnline[];
 
   constructor() {

@@ -11,7 +11,7 @@ import { CONSTANTS, LIST_VIEW } from '../constants';
 import { CustomError } from '../errors';
 import { BaseResponse, ItemApiResponse } from '../models';
 import { User, Preference, PreferenceCreationAttributes } from '../repositories';
-import { enumToArray } from '../utils/enumToArray';
+import { enumToArray } from '../utils';
 import { Logger } from '../utils/Logger';
 import { PreferenceService } from './preference.service';
 

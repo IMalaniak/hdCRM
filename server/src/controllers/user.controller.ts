@@ -3,12 +3,9 @@ import Container, { Service } from 'typedi';
 import jimp from 'jimp';
 
 import { CONSTANTS } from '../constants';
-import { JwtHelper } from '../helpers/jwt.helper';
+import { JwtUtils, parseCookies } from '../utils';
 import { ItemApiResponse, BaseResponse, CollectionApiResponse, RequestWithBody, PasswordReset } from '../models';
 import { UserService } from '../services';
-import { parseCookies } from '../utils/parseCookies';
-import { sendResponse } from './utils';
-import { BaseController } from './base/base.controller';
 import { CustomError } from '../errors';
 import {
   UserCreationAttributes,
@@ -20,10 +17,12 @@ import {
   Asset,
   AssetCreationAttributes
 } from '../repositories';
+import { sendResponse } from './utils';
+import { BaseController } from './base/base.controller';
 
 @Service()
 export class UserController extends BaseController<UserCreationAttributes, UserAttributes, User> {
-  constructor(protected readonly dataBaseService: UserService, private readonly jwtHelper: JwtHelper) {
+  constructor(protected readonly dataBaseService: UserService, private readonly jwtHelper: JwtUtils) {
     super();
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_USER);
   }

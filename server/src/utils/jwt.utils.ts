@@ -18,8 +18,8 @@ interface VerifyProps {
   token: string;
 }
 
-@Service({ global: true })
-export class JwtHelper {
+@Service()
+export class JwtUtils {
   constructor(private readonly logger: Logger) {}
 
   generateToken({ type, payload }: TokenProps): string {

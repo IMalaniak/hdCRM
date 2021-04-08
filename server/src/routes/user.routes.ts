@@ -5,7 +5,7 @@ import { Service } from 'typedi';
 import { BaseRoutes } from './base/base.routes';
 import { CollectionApiResponse, BaseResponse, ItemApiResponse, RequestWithBody, PasswordReset } from '../models';
 import { UserController } from '../controllers';
-import uploads from '../multer/multerConfig';
+import { uploads } from '../utils';
 import {
   UserCreationAttributes,
   UserAttributes,

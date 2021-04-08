@@ -1,4 +1,7 @@
+import { Service } from 'typedi';
 import { Op, Sequelize } from 'sequelize';
+
+import { Logger } from '../utils/Logger';
 import { User, UserFactory } from './User';
 import { UserSession, UserSessionFactory } from './UserSession';
 import { PasswordAttribute, PasswordAttributeFactory } from './PasswordAttribute';
@@ -15,8 +18,6 @@ import { TaskFactory, Task } from './Task';
 import { TaskPriorityFactory, TaskPriority } from './TaskPriority';
 import { PreferenceFactory, Preference } from './Preference';
 import { FormFactory } from './Form';
-import { Service } from 'typedi';
-import { Logger } from '../utils/Logger';
 
 @Service()
 export class DataBase {

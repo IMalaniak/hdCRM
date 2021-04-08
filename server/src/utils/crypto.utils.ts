@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import { Service } from 'typedi';
 
 @Service()
-export class Crypt {
+export class CryptoUtils {
   genRandomString(length: number) {
     return crypto
       .randomBytes(Math.ceil(length / 2))

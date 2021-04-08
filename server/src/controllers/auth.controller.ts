@@ -1,14 +1,12 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { Service } from 'typedi';
-import { CustomError } from '../errors/custom-error';
-import { JwtHelper } from '../helpers/jwt.helper';
 
+import { CustomError } from '../errors/custom-error';
+import { CryptoUtils, JwtUtils, parseCookies } from '../utils';
 import { BaseResponse, PasswordReset, RequestWithBody } from '../models';
 import { OrganizationCreationAttributes, UserCreationAttributes } from '../repositories';
 import { AuthService, UserService } from '../services';
-import { Crypt } from '../utils/crypt';
-import { parseCookies } from '../utils/parseCookies';
 import { sendResponse } from './utils';
 
 @Service()
@@ -16,8 +14,8 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService,
-    private readonly crypt: Crypt,
-    private readonly jwtHelper: JwtHelper
+    private readonly crypt: CryptoUtils,
+    private readonly jwtHelper: JwtUtils
   ) {}
 
   public async register(req: Request, res: Response<BaseResponse | BaseResponse>): Promise<void> {

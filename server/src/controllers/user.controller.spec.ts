@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import Container from 'typedi';
 
 import { CONSTANTS } from '../constants';
-import { JwtHelper } from '../helpers/jwt.helper';
+import { JwtUtils } from '../utils';
 import { UserService } from '../services';
 import { UserController } from './user.controller';
 
@@ -65,7 +65,7 @@ describe('UserController', () => {
 
   it('should send success response when calling updatePassword', async () => {
     const stub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'updatePassword');
-    const jwtHelperInstance = Container.get(JwtHelper);
+    const jwtHelperInstance = Container.get(JwtUtils);
     const jwtHelperStub: sinon.SinonStub = sinon.stub(jwtHelperInstance, 'getDecoded');
     jwtHelperStub.withArgs('token').returns(ok({ sessionId: 1 }));
     stub.resolves(ok({ message: 'updated' }));

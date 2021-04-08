@@ -5,10 +5,6 @@ import { Op } from 'sequelize';
 import { BaseResponse, PasswordReset } from '../models';
 import { MAIL_THEME, USER_STATE } from '../constants';
 import { Config } from '../config';
-import { Crypt } from '../utils/crypt';
-import { Mailer } from '../mailer/nodeMailerTemplates';
-import { JwtHelper } from '../helpers/jwt.helper';
-import { Logger } from '../utils/Logger';
 import { BadRequestError, CustomError, InternalServerError, NotAuthorizedError, NotFoundError } from '../errors';
 import {
   OrganizationCreationAttributes,
@@ -20,13 +16,15 @@ import {
   UserAttributes,
   UserSession
 } from '../repositories';
+import { CryptoUtils, EmailUtils, JwtUtils } from '../utils';
+import { Logger } from '../utils/Logger';
 
 @Service()
 export class AuthService {
   constructor(
-    private readonly crypt: Crypt,
-    private readonly mailer: Mailer,
-    private readonly jwtHelper: JwtHelper,
+    private readonly crypt: CryptoUtils,
+    private readonly mailer: EmailUtils,
+    private readonly jwtHelper: JwtUtils,
     private readonly logger: Logger
   ) {}
 

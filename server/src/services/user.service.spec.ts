@@ -11,10 +11,9 @@ import { Config } from '../config';
 
 import { CONSTANTS } from '../constants';
 import { CustomError } from '../errors';
-import { Mailer } from '../mailer/nodeMailerTemplates';
 import { BaseResponse, CollectionApiResponse } from '../models';
 import { UserCreationAttributes, User, Organization, UserSession, Privilege } from '../repositories';
-import { Crypt } from '../utils/crypt';
+import { CryptoUtils, EmailUtils } from '../utils';
 import { Logger } from '../utils/Logger';
 import { UserService } from './user.service';
 
@@ -85,13 +84,13 @@ describe('UserService', () => {
     findAllUsersStub = sinon.stub(User, 'findAll');
     findAllPrivilegesStub = sinon.stub(Privilege, 'findAll');
 
-    const cryptInstance = Container.get(Crypt);
+    const cryptInstance = Container.get(CryptoUtils);
     cryptValidatePasswordStub = sinon.stub(cryptInstance, 'validatePassword');
     cryptSaltHashPasswordStub = sinon.stub(cryptInstance, 'saltHashPassword');
     cryptGenRandomStringStub = sinon.stub(cryptInstance, 'genRandomString');
     cryptGenTimeLimitedTokenStub = sinon.stub(cryptInstance, 'genTimeLimitedToken');
 
-    const mailerInstance = Container.get(Mailer);
+    const mailerInstance = Container.get(EmailUtils);
     mailerSendPasswordResetConfirmationStub = sinon.stub(mailerInstance, 'sendPasswordResetConfirmation');
     mailerSendInvitationStub = sinon.stub(mailerInstance, 'sendInvitation');
   });
