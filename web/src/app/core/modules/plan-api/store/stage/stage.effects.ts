@@ -21,7 +21,7 @@ export class StageEffects {
       ofType(stageActions.allStagesRequestedFromDashboard, stageActions.allStagesRequestedFromDialogWindow),
       withLatestFrom(this.store.pipe(select(allStagesLoaded))),
       filter(([_, allStagesLoaded]) => !allStagesLoaded),
-      mergeMap(() => this.stageService.getList<Stage>()),
+      mergeMap(() => this.stageService.getDashboardData()),
       map((response: CollectionApiResponse<Stage>) => stageActions.allStagesApiLoaded({ response })),
       catchError(() => of(stageActions.stageApiError()))
     )

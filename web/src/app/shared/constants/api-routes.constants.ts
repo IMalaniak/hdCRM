@@ -39,6 +39,7 @@ export class ApiRoutesConstants {
 
   // stages
   static STAGES = '/stages';
+  static STAGES_DASHBOARD = `${ApiRoutesConstants.STAGES}/dashboard`;
 
   // privileges
   static PRIVILEGES = '/privileges';
