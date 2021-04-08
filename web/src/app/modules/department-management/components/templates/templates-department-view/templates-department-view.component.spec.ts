@@ -25,7 +25,7 @@ describe('TemplatesDepartmentViewComponent', () => {
     [departmentsFeatureKey]: initialDepartmentApiState
   };
 
-  const departmentMock: Department = {
+  const departmentMock = {
     id: 1,
     title: 'Test department',
     description: 'Test description',
@@ -34,7 +34,7 @@ describe('TemplatesDepartmentViewComponent', () => {
     Workers: [currentUserMock],
     createdAt: new Date(),
     updatedAt: new Date()
-  };
+  } as Department;
 
   beforeEach(
     waitForAsync(() => {

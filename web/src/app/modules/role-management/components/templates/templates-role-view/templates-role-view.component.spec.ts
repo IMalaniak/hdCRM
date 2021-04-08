@@ -26,7 +26,7 @@ describe('TemplatesRoleViewComponent', () => {
     [rolesFeatureKey]: initialRolesState
   };
 
-  const roleMock: Role = {
+  const roleMock = {
     id: 1,
     keyString: 'Test role',
     Users: [currentUserMock],
@@ -40,7 +40,7 @@ describe('TemplatesRoleViewComponent', () => {
     ],
     createdAt: new Date(),
     updatedAt: new Date()
-  };
+  } as Role;
 
   const update = {
     keyString: 'New title'
