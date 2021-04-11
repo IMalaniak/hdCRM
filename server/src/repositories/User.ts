@@ -62,8 +62,7 @@ export interface UserAttributes {
   DepartmentId?: number;
 }
 
-export interface UserCreationAttributes
-  extends Optional<UserAttributes, 'id' | 'fullname' | 'phone' | 'defaultLang' | 'avatarId' | 'DepartmentId'> {}
+export type UserCreationAttributes = Optional<UserAttributes, 'id' | 'fullname' | 'phone' | 'defaultLang' | 'avatarId' | 'DepartmentId'>
 
 export class User extends Model<UserAttributes, UserCreationAttributes> {
   public id!: number;

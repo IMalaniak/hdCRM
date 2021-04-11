@@ -8,7 +8,7 @@ export interface TaskPriorityAttributes {
   value: number;
 }
 
-export interface TaskPriorityCreationAttributes extends Optional<TaskPriorityAttributes, 'id'> {}
+export type TaskPriorityCreationAttributes = Optional<TaskPriorityAttributes, 'id'>
 
 export class TaskPriority extends Model<TaskPriorityAttributes, TaskPriorityCreationAttributes> {
   public id!: number;

@@ -12,7 +12,7 @@ export interface TaskAttributes {
   TaskPriorityId: number;
 }
 
-export interface TaskCreationAttributes extends Optional<TaskAttributes, 'id' | 'description' | 'isCompleted'> {}
+export type TaskCreationAttributes = Optional<TaskAttributes, 'id' | 'description' | 'isCompleted'>
 
 export class Task extends Model<TaskAttributes, TaskCreationAttributes> {
   public id!: number;

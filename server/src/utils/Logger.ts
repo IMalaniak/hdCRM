@@ -3,7 +3,7 @@ import { Service } from 'typedi';
 
 @Service()
 export class Logger {
-  private logger = pino({
+  private readonly logger = pino({
     enabled: process.env.NODE_ENV !== 'test',
     level: LogLevel.DEBUG,
     prettyPrint:

@@ -7,7 +7,7 @@ import { PrivilegeCreationAttributes, Privilege } from '../repositories';
 
 @Service()
 export class PrivilegeRoutes {
-  private router: Router = Router();
+  private readonly router: Router = Router();
 
   constructor(private readonly privilegeController: PrivilegeController) {}
 

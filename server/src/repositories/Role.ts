@@ -40,7 +40,7 @@ export interface RoleAttributes {
   Users?: User[];
 }
 
-export interface RoleCreationAttributes extends Optional<RoleAttributes, 'id'> {}
+export type RoleCreationAttributes = Optional<RoleAttributes, 'id'>
 
 export class Role extends Model<RoleAttributes, RoleCreationAttributes> {
   public id!: number;

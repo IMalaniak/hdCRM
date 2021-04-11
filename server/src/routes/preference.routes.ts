@@ -7,7 +7,7 @@ import { PreferenceCreationAttributes, Preference } from '../repositories';
 
 @Service()
 export class PreferenceRoutes {
-  private router: Router = Router();
+  private readonly router: Router = Router();
 
   constructor(private readonly preferenceController: PreferenceController) {}
 

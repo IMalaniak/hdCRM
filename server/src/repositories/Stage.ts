@@ -34,7 +34,7 @@ export interface StageAttributes {
   keyString: string;
 }
 
-export interface StageCreationAttributes extends Optional<StageAttributes, 'id'> {}
+export type StageCreationAttributes = Optional<StageAttributes, 'id'>
 
 export class Stage extends Model<StageAttributes, StageCreationAttributes> {
   public id!: number;

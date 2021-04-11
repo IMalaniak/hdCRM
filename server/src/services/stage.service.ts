@@ -22,7 +22,7 @@ export class StageService extends BaseService<StageCreationAttributes, StageAttr
       const data = await Stage.findAndCountAll({
         include: [
           {
-            association: Stage.associations?.Plans,
+            association: Stage.associations.Plans,
             where: {
               OrganizationId
             },

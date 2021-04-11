@@ -26,7 +26,7 @@ export interface AssetAttributes {
   type: string;
 }
 
-export interface AssetCreationAttributes extends Optional<AssetAttributes, 'id'> {}
+export type AssetCreationAttributes = Optional<AssetAttributes, 'id'>
 export class Asset extends Model<AssetAttributes, AssetCreationAttributes> {
   public id!: number;
   public title!: string;

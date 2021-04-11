@@ -22,7 +22,7 @@ export interface PreferenceAttributes {
   UserId: number;
 }
 
-export interface PreferenceCreationAttributes extends Optional<PreferenceAttributes, 'id'> {}
+export type PreferenceCreationAttributes = Optional<PreferenceAttributes, 'id'>
 
 export class Preference extends Model<PreferenceAttributes, PreferenceCreationAttributes> {
   public id!: number;

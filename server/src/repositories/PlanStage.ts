@@ -11,7 +11,7 @@ export interface PlanStageAttributes {
   StageId: number;
 }
 
-export interface PlanStageCreationAttributes extends Optional<PlanStageAttributes, 'id' | 'description'> {}
+export type PlanStageCreationAttributes = Optional<PlanStageAttributes, 'id' | 'description'>
 
 export class PlanStage extends Model<PlanStageAttributes, PlanStageCreationAttributes> {
   public id!: number;

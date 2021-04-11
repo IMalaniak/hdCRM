@@ -23,7 +23,7 @@ describe('UserService', () => {
   let loggerInstance: Logger;
   let spyLogger: sinon.SinonSpy;
 
-  let createStub: sinon.SinonStub<[values: UserCreationAttributes, options?: CreateOptions<any>], Promise<User>>;
+  let createStub: sinon.SinonStub<[values: UserCreationAttributes, options?: CreateOptions], Promise<User>>;
   let findUserByPkStub: sinon.SinonStub;
   let findOrgByPkStub: sinon.SinonStub;
   let updateOrgStub: sinon.SinonStub;

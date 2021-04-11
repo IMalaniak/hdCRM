@@ -9,7 +9,7 @@ import { Asset } from '../repositories';
 
 @Service()
 export class FileController {
-  private destination = path.join(__dirname, '../uploads');
+  private readonly destination = path.join(__dirname, '../uploads');
 
   public async download(req: Request<{ fileID: string }>, res: Response<Asset | BaseResponse>): Promise<void> {
     const {

@@ -36,8 +36,7 @@ export interface DepartmentAttributes {
   Workers?: User[];
 }
 
-export interface DepartmentCreationAttributes
-  extends Optional<DepartmentAttributes, 'id' | 'description' | 'parentDepId'> {}
+export type DepartmentCreationAttributes = Optional<DepartmentAttributes, 'id' | 'description' | 'parentDepId'>
 
 export class Department extends Model<DepartmentAttributes, DepartmentCreationAttributes> {
   public id!: number;

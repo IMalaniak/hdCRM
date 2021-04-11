@@ -6,7 +6,7 @@ import { AuthController } from '../controllers';
 
 @Service()
 export class AuthRoutes {
-  private router: Router = Router();
+  private readonly router: Router = Router();
 
   constructor(private readonly authController: AuthController) {}
 

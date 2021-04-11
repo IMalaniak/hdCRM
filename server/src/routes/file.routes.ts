@@ -7,7 +7,7 @@ import { Asset } from '../repositories';
 
 @Service()
 export class FileRoutes {
-  private router: Router = Router();
+  private readonly router: Router = Router();
 
   constructor(private readonly fileController: FileController) {}
 

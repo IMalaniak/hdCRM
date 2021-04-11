@@ -10,7 +10,7 @@ export interface PasswordAttributeAttributes {
   UserId: number;
 }
 
-export interface PasswordAttributeCreationAttributes extends Optional<PasswordAttributeAttributes, 'id'> {}
+export type PasswordAttributeCreationAttributes = Optional<PasswordAttributeAttributes, 'id'>
 
 export class PasswordAttribute extends Model<PasswordAttributeAttributes, PasswordAttributeCreationAttributes> {
   public id!: number;

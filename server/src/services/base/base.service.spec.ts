@@ -34,7 +34,7 @@ describe('BaseService', () => {
 
   let findByPkStub: sinon.SinonStub;
   let createStub: sinon.SinonStub<
-    [values: DepartmentCreationAttributes, options: CreateOptions<any>],
+    [values: DepartmentCreationAttributes, options: CreateOptions],
     Promise<Department>
   >;
   let updateStub: sinon.SinonStub;

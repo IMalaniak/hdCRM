@@ -25,7 +25,7 @@ export interface PrivilegeAttributes {
   title?: string;
 }
 
-export interface PrivilegeCreationAttributes extends Optional<PrivilegeAttributes, 'id' | 'title'> {}
+export type PrivilegeCreationAttributes = Optional<PrivilegeAttributes, 'id' | 'title'>
 
 export class Privilege extends Model<PrivilegeAttributes, PrivilegeCreationAttributes> {
   public id!: number;

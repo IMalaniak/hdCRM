@@ -37,11 +37,10 @@ export interface PlanAttributes {
   Participants?: User[];
 }
 
-export interface PlanCreationAttributes
-  extends Optional<
+export type PlanCreationAttributes = Optional<
     PlanAttributes,
     'id' | 'description' | 'deadline' | 'budget' | 'progress' | 'activeStageId' | 'Participants'
-  > {}
+  >
 
 export class Plan extends Model<PlanAttributes, PlanCreationAttributes> {
   public id!: number;

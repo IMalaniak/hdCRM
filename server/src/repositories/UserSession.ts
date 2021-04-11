@@ -10,7 +10,7 @@ export interface UserSessionAttributes {
   UserId: number;
 }
 
-export interface UserSessionCreationAttributes extends Optional<UserSessionAttributes, 'id'> {}
+export type UserSessionCreationAttributes = Optional<UserSessionAttributes, 'id'>
 
 export class UserSession extends Model<UserSessionAttributes, UserSessionCreationAttributes> {
   public id!: number;

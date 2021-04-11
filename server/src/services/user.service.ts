@@ -27,15 +27,15 @@ import { BaseService } from './base/base.service';
 
 @Service()
 export class UserService extends BaseService<UserCreationAttributes, UserAttributes, User> {
-  private unlinkAsync = promisify(fs.unlink);
+  private readonly unlinkAsync = promisify(fs.unlink);
   protected excludes: string[] = ['passwordHash', 'salt'];
   protected readonly includes: IncludeOptions[] = [
     {
-      association: User.associations?.Role,
+      association: User.associations.Role,
       required: false,
       include: [
         {
-          association: Role.associations?.Privileges,
+          association: Role.associations.Privileges,
           through: {
             attributes: ['view', 'edit', 'add', 'delete']
           },
@@ -44,26 +44,26 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
       ]
     },
     {
-      association: User.associations?.UserSessions
+      association: User.associations.UserSessions
     },
     {
-      association: User.associations?.Preference,
+      association: User.associations.Preference,
       required: false
     },
     {
-      association: User.associations?.PasswordAttributes,
+      association: User.associations.PasswordAttributes,
       attributes: ['updatedAt', 'passwordExpire'],
       required: false
     },
     {
-      association: User.associations?.avatar
+      association: User.associations.avatar
     },
     {
-      association: User.associations?.Department,
+      association: User.associations.Department,
       required: false
     },
     {
-      association: User.associations?.Organization
+      association: User.associations.Organization
     }
   ];
 

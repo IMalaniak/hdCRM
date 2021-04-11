@@ -36,11 +36,10 @@ export interface OrganizationAttributes {
   employees?: string;
 }
 
-export interface OrganizationCreationAttributes
-  extends Optional<
+export type OrganizationCreationAttributes = Optional<
     OrganizationAttributes,
     'id' | 'token' | 'country' | 'city' | 'address' | 'postcode' | 'phone' | 'email' | 'website' | 'employees'
-  > {}
+  >
 
 export class Organization extends Model<OrganizationAttributes, OrganizationCreationAttributes> {
   public id!: number;

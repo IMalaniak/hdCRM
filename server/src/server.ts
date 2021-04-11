@@ -17,10 +17,10 @@ import { Logger } from './utils/Logger';
 
 @Service({ global: true })
 export class Server {
-  private app: Application;
-  private server: http.Server;
-  private socket: SocketServer;
-  private router: Router;
+  private readonly app: Application;
+  private readonly server: http.Server;
+  private readonly socket: SocketServer;
+  private readonly router: Router;
 
   constructor(
     private readonly dBase: DataBase,

@@ -10,7 +10,7 @@ import { UserService } from '../services';
 export class Passport {
   constructor(private readonly userService: UserService) {}
 
-  private opts: StrategyOptions = {
+  private readonly opts: StrategyOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.ACCESS_TOKEN_SECRET,
     // issuer: 'auth@mywebmaster.pp.ua',
