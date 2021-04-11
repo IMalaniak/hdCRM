@@ -74,18 +74,20 @@ function tslint({ cwd, fix = false }) {
   });
 }
 
-function eslint({ glob, cwd, fix = false, ignoreSubfolders = false }) {
-  const folders = ignoreSubfolders ? [glob] : [...findSourceFoldersIn(cwd).map((dir) => `${dir}/**/${glob}`), glob];
-  const files = folders.map((it) => `'${it}'`).join(' ');
+function eslint({ cwd, fix = false }: { cwd: string; fix?: boolean }) {
+  const path = cwd === '.' ? '*.ts' : '.';
+  const baseExtensions = '--ext .json,.ts';
+  const ext = cwd === 'client' ? `${baseExtensions},.tsx` : baseExtensions;
+  const ignorePath = './.eslintignore';
   const fixParam = fix ? '--fix' : '';
-  return doRun(`node_modules/.bin/eslint ${files} ${fixParam}`, { cwd });
+  return doRun(`npx eslint ${fixParam} ${path} ${ext} --ignore-path '${ignorePath}'`, { cwd });
 }
 
 export function lint(cwd, fix = false) {
   if (fs.existsSync(`${cwd}/tsconfig.json`) && fs.existsSync(`${cwd}/tslint.json`)) {
     return tslint({ cwd, fix });
   }
-  return eslint({ glob: '*.js?(x)', cwd, fix });
+  return eslint({ cwd, fix });
 }
 
 export function mkdir(subdir, runOptions) {
