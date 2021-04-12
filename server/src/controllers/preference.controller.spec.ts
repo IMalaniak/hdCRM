@@ -8,6 +8,7 @@ import Container from 'typedi';
 
 import { Preference } from '../repositories';
 import { PreferenceService } from '../services';
+
 import { PreferenceController } from './preference.controller';
 
 describe('PreferenceController', () => {

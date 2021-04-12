@@ -6,6 +6,7 @@ import { CustomError } from '../errors';
 import { CollectionApiResponse, RequestWithBody, BaseResponse } from '../models';
 import { DepartmentCreationAttributes, DepartmentAttributes, Department } from '../repositories';
 import { DepartmentService } from '../services';
+
 import { BaseController } from './base/base.controller';
 import { sendResponse } from './utils';
 

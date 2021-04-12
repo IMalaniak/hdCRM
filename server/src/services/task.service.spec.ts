@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { fail } from 'assert';
+
 import { expect } from 'chai';
 import { StatusCodes } from 'http-status-codes';
 import { Result } from 'neverthrow';
@@ -12,6 +13,7 @@ import { CustomError } from '../errors';
 import { BaseResponse, CollectionApiResponse } from '../models';
 import { Task, TaskPriority } from '../repositories';
 import { Logger } from '../utils/Logger';
+
 import { TaskService } from './task.service';
 
 describe('TaskService', () => {

@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+
 import { CryptoUtils } from './crypto.utils';
 
 describe('CryptoUtils', () => {

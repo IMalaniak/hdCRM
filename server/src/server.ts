@@ -1,10 +1,11 @@
+import path from 'path';
+import http from 'http';
+
 import express, { Application, Router } from 'express';
 import { Service } from 'typedi';
 import { Server as SocketServer } from 'socket.io';
-import path from 'path';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import http from 'http';
 import cors from 'cors';
 import PinoHttp from 'pino-http';
 

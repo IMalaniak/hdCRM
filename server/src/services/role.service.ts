@@ -4,9 +4,10 @@ import { IncludeOptions, Op } from 'sequelize';
 
 import { CollectionApiResponse } from '../models';
 import { CONSTANTS } from '../constants';
-import { BaseService } from './base/base.service';
 import { CustomError, InternalServerError } from '../errors';
 import { RoleCreationAttributes, RoleAttributes, Role, User, Privilege } from '../repositories';
+
+import { BaseService } from './base/base.service';
 
 @Service()
 export class RoleService extends BaseService<RoleCreationAttributes, RoleAttributes, Role> {

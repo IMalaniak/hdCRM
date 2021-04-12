@@ -4,14 +4,15 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { fail } from 'assert';
+
 import { expect } from 'chai';
 import { StatusCodes } from 'http-status-codes';
 import { Result } from 'neverthrow';
 import { CreateOptions } from 'sequelize';
 import sinon from 'sinon';
 import Container from 'typedi';
-import { Config } from '../config';
 
+import { Config } from '../config';
 import { CONSTANTS } from '../constants';
 import { CustomError } from '../errors';
 import { BaseResponse, CollectionApiResponse } from '../models';
@@ -19,6 +20,7 @@ import { UserCreationAttributes, User, Organization, UserSession, Privilege } fr
 import { CryptoUtils } from '../utils/crypto.utils';
 import { EmailUtils } from '../utils/email.utils';
 import { Logger } from '../utils/Logger';
+
 import { UserService } from './user.service';
 
 describe('UserService', () => {

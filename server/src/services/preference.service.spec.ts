@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { fail } from 'assert';
+
 import { expect } from 'chai';
 import { StatusCodes } from 'http-status-codes';
 import { Result } from 'neverthrow';
@@ -14,6 +15,7 @@ import { BaseResponse, ItemApiResponse } from '../models';
 import { User, Preference, PreferenceCreationAttributes } from '../repositories';
 import { enumToArray } from '../utils/enumToArray';
 import { Logger } from '../utils/Logger';
+
 import { PreferenceService } from './preference.service';
 
 describe('PreferenceService', () => {

@@ -164,7 +164,7 @@ module.exports = {
     'import/no-deprecated': 'error',
     'import/no-extraneous-dependencies': 'off',
     'import/no-internal-modules': 'off',
-    'import/order': 'off',
+    'import/order': ['error', { 'newlines-between': 'always' }],
     'jsdoc/check-alignment': 'error',
     'jsdoc/check-indentation': 'error',
     'jsdoc/newline-after-description': 'error',

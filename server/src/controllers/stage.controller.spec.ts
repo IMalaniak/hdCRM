@@ -8,6 +8,7 @@ import Container from 'typedi';
 
 import { Stage } from '../repositories';
 import { StageService } from '../services';
+
 import { StageController } from './stage.controller';
 
 describe('StageController', () => {

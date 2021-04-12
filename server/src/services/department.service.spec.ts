@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { fail } from 'assert';
+
 import { expect } from 'chai';
 import { StatusCodes } from 'http-status-codes';
 import { Result } from 'neverthrow';
@@ -13,6 +14,7 @@ import { CustomError } from '../errors';
 import { BaseResponse } from '../models';
 import { Department, User } from '../repositories';
 import { Logger } from '../utils/Logger';
+
 import { DepartmentService } from './department.service';
 
 describe('DepartmentService', () => {

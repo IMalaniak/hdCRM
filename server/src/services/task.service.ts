@@ -4,9 +4,10 @@ import { IncludeOptions } from 'sequelize';
 
 import { CollectionApiResponse, BaseResponse } from '../models';
 import { CONSTANTS } from '../constants';
-import { BaseService } from './base/base.service';
 import { CustomError, InternalServerError } from '../errors';
 import { TaskCreationAttributes, TaskAttributes, Task, TaskPriority } from '../repositories';
+
+import { BaseService } from './base/base.service';
 
 @Service()
 export class TaskService extends BaseService<TaskCreationAttributes, TaskAttributes, Task> {

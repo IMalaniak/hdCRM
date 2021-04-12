@@ -10,6 +10,7 @@ import {
 
 import { LIST_VIEW, TIME_FORMAT, DATE_FORMAT, ITEMS_PER_PAGE } from '../constants';
 import { enumToArray } from '../utils/enumToArray';
+
 import { User } from './User';
 
 export interface PreferenceAttributes {

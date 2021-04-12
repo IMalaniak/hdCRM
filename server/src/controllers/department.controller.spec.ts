@@ -9,6 +9,7 @@ import Container from 'typedi';
 import { CONSTANTS } from '../constants';
 import { Department } from '../repositories';
 import { DepartmentService } from '../services';
+
 import { DepartmentController } from './department.controller';
 
 describe('DepartmentController', () => {

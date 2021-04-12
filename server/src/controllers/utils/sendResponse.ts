@@ -1,8 +1,8 @@
 import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { Result } from 'neverthrow';
-import { CustomError } from '../../errors/custom-error';
 
+import { CustomError } from '../../errors/custom-error';
 import { BaseResponse } from '../../models';
 
 interface DataType {

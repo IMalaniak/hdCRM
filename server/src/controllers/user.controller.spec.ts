@@ -9,6 +9,7 @@ import Container from 'typedi';
 import { CONSTANTS } from '../constants';
 import { JwtUtils } from '../utils/jwt.utils';
 import { UserService } from '../services';
+
 import { UserController } from './user.controller';
 
 describe('UserController', () => {

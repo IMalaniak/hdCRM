@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import Container from 'typedi';
+
 import { App } from './app';
 import { Logger } from './utils/Logger';
 

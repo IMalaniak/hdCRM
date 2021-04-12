@@ -1,6 +1,7 @@
+import path from 'path';
+
 import { Request, Response } from 'express';
 import { Service } from 'typedi';
-import path from 'path';
 import { StatusCodes } from 'http-status-codes';
 
 import { BaseResponse } from '../models';

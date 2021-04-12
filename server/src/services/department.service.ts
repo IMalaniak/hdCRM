@@ -4,9 +4,10 @@ import { IncludeOptions, Op } from 'sequelize';
 
 import { CollectionApiResponse } from '../models';
 import { CONSTANTS } from '../constants';
-import { BaseService } from './base/base.service';
 import { CustomError, InternalServerError } from '../errors';
 import { DepartmentCreationAttributes, DepartmentAttributes, Department, User } from '../repositories';
+
+import { BaseService } from './base/base.service';
 
 @Service()
 export class DepartmentService extends BaseService<DepartmentCreationAttributes, DepartmentAttributes, Department> {

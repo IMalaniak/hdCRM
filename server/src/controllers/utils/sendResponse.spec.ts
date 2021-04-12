@@ -4,9 +4,10 @@ import { expect } from 'chai';
 import { StatusCodes } from 'http-status-codes';
 import { err, ok, Result } from 'neverthrow';
 import sinon from 'sinon';
-import { BadRequestError, CustomError, NotFoundError } from '../../errors';
 
+import { BadRequestError, CustomError, NotFoundError } from '../../errors';
 import { BaseResponse, CollectionApiResponse } from '../../models';
+
 import { sendResponse } from './sendResponse';
 
 describe('sendResponse', () => {

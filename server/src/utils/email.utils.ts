@@ -1,5 +1,6 @@
-import Email from 'email-templates';
 import path from 'path';
+
+import Email from 'email-templates';
 import { Service } from 'typedi';
 
 import { User } from '../repositories';

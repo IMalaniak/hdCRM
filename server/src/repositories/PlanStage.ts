@@ -1,4 +1,5 @@
 import { Sequelize, Model, DataTypes, Optional, Association } from 'sequelize';
+
 import { Plan } from './Plan';
 import { Stage } from './Stage';
 

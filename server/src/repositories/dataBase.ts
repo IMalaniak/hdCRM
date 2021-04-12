@@ -2,6 +2,7 @@ import { Service } from 'typedi';
 import { Op, Sequelize } from 'sequelize';
 
 import { Logger } from '../utils/Logger';
+
 import { User, userFactory } from './User';
 import { UserSession, userSessionFactory } from './UserSession';
 import { PasswordAttribute, passwordAttributeFactory } from './PasswordAttribute';

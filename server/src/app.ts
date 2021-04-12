@@ -1,5 +1,6 @@
 import { Application } from 'express';
 import { Service, Container } from 'typedi';
+
 import { Server } from './server';
 
 @Service({ global: true })

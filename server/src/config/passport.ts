@@ -4,9 +4,10 @@ import { BasicStrategy } from 'passport-http';
 import passport from 'passport';
 import { RequestHandler } from 'express';
 
-import { Config } from './config';
 import { UserService } from '../services';
 import { JwtPayload } from '../models';
+
+import { Config } from './config';
 
 @Service()
 export class Passport {

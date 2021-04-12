@@ -9,6 +9,7 @@ import { AuthService, UserService } from '../services';
 import { CryptoUtils } from '../utils/crypto.utils';
 import { JwtUtils } from '../utils/jwt.utils';
 import { parseCookies } from '../utils/parseCookies';
+
 import { sendResponse } from './utils';
 
 type RegisterBody = UserCreationAttributes & { Organization: OrganizationCreationAttributes; password: string };

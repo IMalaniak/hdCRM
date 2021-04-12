@@ -6,6 +6,7 @@ import sinon from 'sinon';
 import Container from 'typedi';
 
 import { Plan, User } from '../repositories';
+
 import { PlanService } from './plan.service';
 
 describe('PlanService', () => {

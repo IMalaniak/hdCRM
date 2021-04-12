@@ -6,6 +6,7 @@ import { CustomError } from '../errors';
 import { CollectionApiResponse, RequestWithBody, BaseResponse } from '../models';
 import { RoleCreationAttributes, RoleAttributes, Role } from '../repositories';
 import { RoleService } from '../services';
+
 import { BaseController } from './base/base.controller';
 import { sendResponse } from './utils';
 

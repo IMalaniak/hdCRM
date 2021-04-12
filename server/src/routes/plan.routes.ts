@@ -2,11 +2,12 @@
 import { Request, Response, Router } from 'express';
 import { Service } from 'typedi';
 
-import { BaseRoutes } from './base/base.routes';
 import { BaseResponse, ItemApiResponse, RequestWithQuery } from '../models';
 import { uploads } from '../utils/multerConfig';
 import { PlanController } from '../controllers';
 import { PlanCreationAttributes, PlanAttributes, Plan, Asset } from '../repositories';
+
+import { BaseRoutes } from './base/base.routes';
 
 @Service()
 export class PlanRoutes extends BaseRoutes<PlanCreationAttributes, PlanAttributes, Plan> {

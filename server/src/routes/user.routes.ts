@@ -3,7 +3,6 @@ import { StatusCodes } from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 import { Service } from 'typedi';
 
-import { BaseRoutes } from './base/base.routes';
 import { CollectionApiResponse, BaseResponse, ItemApiResponse, RequestWithBody, PasswordReset } from '../models';
 import { UserController } from '../controllers';
 import { uploads } from '../utils/multerConfig';
@@ -15,6 +14,8 @@ import {
   OrganizationAttributes,
   Organization
 } from '../repositories';
+
+import { BaseRoutes } from './base/base.routes';
 
 @Service()
 export class UserRoutes extends BaseRoutes<UserCreationAttributes, UserAttributes, User> {

@@ -32,6 +32,9 @@ import {
   Optional
 } from 'sequelize';
 
+import { enumToArray } from '../utils/enumToArray';
+import { USER_STATE } from '../constants';
+
 import { UserSession } from './UserSession';
 import { PasswordAttribute } from './PasswordAttribute';
 import { Role } from './Role';
@@ -41,8 +44,6 @@ import { Department } from './Department';
 import { Organization } from './Organization';
 import { Task } from './Task';
 import { Preference } from './Preference';
-import { enumToArray } from '../utils/enumToArray';
-import { USER_STATE } from '../constants';
 
 export interface UserAttributes {
   id: number;

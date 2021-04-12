@@ -3,9 +3,10 @@ import { Result, ok, err } from 'neverthrow';
 
 import { CollectionApiResponse, BaseResponse } from '../models';
 import { CONSTANTS } from '../constants';
-import { BaseService } from './base/base.service';
 import { CustomError, InternalServerError } from '../errors';
 import { StageCreationAttributes, StageAttributes, Stage } from '../repositories';
+
+import { BaseService } from './base/base.service';
 
 @Service()
 export class StageService extends BaseService<StageCreationAttributes, StageAttributes, Stage> {

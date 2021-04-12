@@ -8,6 +8,7 @@ import Container from 'typedi';
 
 import { Privilege } from '../repositories';
 import { PrivilegeService } from '../services';
+
 import { PrivilegeController } from './privilege.controller';
 
 describe('PrivilegeController', () => {

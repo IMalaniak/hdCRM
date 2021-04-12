@@ -4,6 +4,7 @@ import * as swaggerUi from 'swagger-ui-express';
 
 import { apiDocs } from '../apiDocs';
 import { Passport } from '../config';
+
 import { AuthRoutes } from './auth.routes';
 import { DepartmentRoutes } from './department.routes';
 import { FileRoutes } from './file.routes';

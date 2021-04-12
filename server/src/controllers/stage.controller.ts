@@ -4,10 +4,11 @@ import Container, { Service } from 'typedi';
 import { CONSTANTS } from '../constants';
 import { CollectionApiResponse, BaseResponse } from '../models';
 import { StageService } from '../services';
-import { sendResponse } from './utils';
-import { BaseController } from './base/base.controller';
 import { CustomError } from '../errors';
 import { StageCreationAttributes, StageAttributes, Stage } from '../repositories';
+
+import { sendResponse } from './utils';
+import { BaseController } from './base/base.controller';
 
 @Service()
 export class StageController extends BaseController<StageCreationAttributes, StageAttributes, Stage> {
