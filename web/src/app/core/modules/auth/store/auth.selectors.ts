@@ -24,14 +24,11 @@ export const isLoggedIn = createSelector(selectAuthState, isTokenValid, (auth, v
 export const isLoggedOut = createSelector(isLoggedIn, (loggedIn) => !loggedIn);
 
 // get an array pf currentUser privileges
-export const getPrivileges = createSelector<{ [key: string]: unknown }, User, Privilege[]>(
-  currentUser,
-  (user) => user?.Role?.Privileges
-);
+export const getPrivileges = createSelector<unknown, User, Privilege[]>(currentUser, (user) => user?.Role?.Privileges);
 
 // check if currentUser has privilege
 export const isPrivileged = (privilegeCheck: string) =>
-  createSelector<{ [key: string]: unknown }, Privilege[], boolean>(getPrivileges, (privileges) => {
+  createSelector<unknown, Privilege[], boolean>(getPrivileges, (privileges) => {
     if (privileges?.length) {
       const [symbol, action] = privilegeCheck.split('-');
       const check: Privilege = privileges.find((privilege) => privilege.keyString === symbol);
@@ -39,17 +36,14 @@ export const isPrivileged = (privilegeCheck: string) =>
     }
   });
 
-export const lastSuccesfulSession = createSelector<{ [key: string]: unknown }, User, UserSession>(
-  currentUser,
-  (user) => {
-    const filteredSessions: UserSession[] = user?.UserSessions?.filter((session) => session.isSuccess);
-    if (filteredSessions?.length) {
-      return filteredSessions.reduce((a, b) => (a.updatedAt > b.updatedAt ? a : b));
-    }
+export const lastSuccesfulSession = createSelector<unknown, User, UserSession>(currentUser, (user) => {
+  const filteredSessions: UserSession[] = user?.UserSessions?.filter((session) => session.isSuccess);
+  if (filteredSessions?.length) {
+    return filteredSessions.reduce((a, b) => (a.updatedAt > b.updatedAt ? a : b));
   }
-);
+});
 
-export const lastFailedSession = createSelector<{ [key: string]: unknown }, User, UserSession>(currentUser, (user) => {
+export const lastFailedSession = createSelector<unknown, User, UserSession>(currentUser, (user) => {
   const filteredSessions: UserSession[] = user?.UserSessions?.filter((session) => !session.isSuccess);
   if (filteredSessions?.length) {
     return filteredSessions.reduce((a, b) => (a.updatedAt > b.updatedAt ? a : b));

@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-
 // import filepond module
 import { FilePondModule, registerPlugin } from 'ngx-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
