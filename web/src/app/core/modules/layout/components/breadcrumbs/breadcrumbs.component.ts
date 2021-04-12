@@ -59,7 +59,7 @@ export class BreadcrumbsComponent {
       // add breadcrumb
       const breadcrumb: Breadcrumb = {
         keyString: child.data[ROUTE_DATA_BREADCRUMB],
-        url: url
+        url
       };
       breadcrumbs.push(breadcrumb);
 

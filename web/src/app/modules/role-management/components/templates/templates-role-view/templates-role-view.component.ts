@@ -93,8 +93,7 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
             .filter(
               (selectedPrivilege) => !this.item.Privileges.some((privilege) => privilege.id === selectedPrivilege.id)
             )
-            ?.map((selectedPrivilege) => {
-              return {
+            ?.map((selectedPrivilege) => ({
                 ...selectedPrivilege,
                 RolePrivilege: {
                   add: false,
@@ -102,8 +101,7 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
                   edit: false,
                   delete: false
                 }
-              };
-            });
+              }));
           if (selectedPrivileges?.length) {
             this.item = {
               ...this.item,

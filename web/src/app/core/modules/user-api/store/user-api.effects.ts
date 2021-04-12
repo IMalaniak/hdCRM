@@ -64,13 +64,13 @@ export class UserEffects {
 
   listOnlineUsers$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(userApiActions.OnlineUserListRequested),
+      ofType(userApiActions.onlineUserListRequested),
       tap(() => {
         this.userService.listOnline();
       }),
-      mergeMap(() => {
-        return this.userService.onlineUsersListed$.pipe(map((list) => userApiActions.OnlineUserListLoaded({ list })));
-      })
+      mergeMap(() =>
+        this.userService.onlineUsersListed$.pipe(map((list) => userApiActions.onlineUserListLoaded({ list })))
+      )
     )
   );
 

@@ -21,8 +21,8 @@ const genericRetryStrategy = ({
   scalingDuration?: number;
   excludedStatusCodes?: number[];
   excludeUrl?: string[];
-} = {}) => (attempts: Observable<any>) => {
-  return attempts.pipe(
+} = {}) => (attempts: Observable<any>) =>
+  attempts.pipe(
     mergeMap((error, i) => {
       const retryAttempt = i + 1;
       // if maximum number of retries have been met
@@ -38,7 +38,6 @@ const genericRetryStrategy = ({
       return timer(retryAttempt * scalingDuration);
     })
   );
-};
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(private router: Router, private store$: Store<AppState>) {}

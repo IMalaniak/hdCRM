@@ -21,16 +21,6 @@ import { getToken } from './auth.selectors';
 
 @Injectable()
 export class AuthEffects implements OnInitEffects {
-  constructor(
-    private actions$: Actions,
-    private authService: AuthenticationService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private scktService: SocketService,
-    private store$: Store<AppState>,
-    private toastMessageService: ToastMessageService
-  ) {}
-
   registerUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authActions.registerUser),
@@ -175,6 +165,7 @@ export class AuthEffects implements OnInitEffects {
         });
 
         if (currentUser.Preference) {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           const { id, UserId, createdAt, updatedAt, ...preferences } = currentUser.Preference;
           return [
             authActions.currentUserLoaded({ currentUser }),
@@ -204,9 +195,7 @@ export class AuthEffects implements OnInitEffects {
             const sessionId = this.authService.getTokenDecoded(accessToken).sessionId;
             return [authActions.refreshSessionSuccess({ accessToken }), authActions.setSessionId({ sessionId })];
           }),
-          catchError(() => {
-            return of(authActions.refreshSessionFailure());
-          })
+          catchError(() => of(authActions.refreshSessionFailure()))
         )
       )
     )
@@ -291,6 +280,16 @@ export class AuthEffects implements OnInitEffects {
       catchError(() => of(authActions.authApiError()))
     )
   );
+
+  constructor(
+    private actions$: Actions,
+    private authService: AuthenticationService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private scktService: SocketService,
+    private store$: Store<AppState>,
+    private toastMessageService: ToastMessageService
+  ) {}
 
   ngrxOnInitEffects(): Action {
     return authActions.refreshSession();

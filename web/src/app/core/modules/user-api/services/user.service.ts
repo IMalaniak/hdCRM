@@ -11,11 +11,11 @@ import { Role } from '../../role-api/shared';
 
 @Injectable()
 export class UserService extends BaseCrudService {
-  protected readonly url = ApiRoutesConstants.USERS;
-
   userOnline$: Observable<any> = this.socket.onEvent(SOCKET_EVENT.ISONLINE);
   userOffline$: Observable<any> = this.socket.onEvent(SOCKET_EVENT.ISOFFLINE);
   onlineUsersListed$: Observable<any> = this.socket.onEvent(SOCKET_EVENT.USERSONLINE).pipe(take(1));
+
+  protected readonly url = ApiRoutesConstants.USERS;
 
   constructor(protected readonly http: HttpClient, private socket: SocketService) {
     super(http);

@@ -13,13 +13,6 @@ import { getGoogleDriveIntegrationState } from './integration.selectors';
 
 @Injectable()
 export class IntegrationsEffects {
-  constructor(
-    private store$: Store<AppState>,
-    private actions$: Actions,
-    private integrationsService: IntegrationsService,
-    private toastMessageService: ToastMessageService
-  ) {}
-
   toggleGoogleDriveIntegration$ = createEffect(() =>
     this.actions$.pipe(
       ofType(integrationsActions.toggleGoogleDriveIntegration),
@@ -43,4 +36,11 @@ export class IntegrationsEffects {
       })
     )
   );
+
+  constructor(
+    private store$: Store<AppState>,
+    private actions$: Actions,
+    private integrationsService: IntegrationsService,
+    private toastMessageService: ToastMessageService
+  ) {}
 }

@@ -12,9 +12,9 @@ export const selectDepartmentsState = createFeatureSelector<fromDepartment.Depar
 export const selectDepartmentById = (departmentId: number) =>
   createSelector(selectDepartmentsState, (departmentsState) => departmentsState.entities[departmentId]);
 export const selectDepartmentDeepById = (departmentId: number) =>
-  createSelector(selectDepartmentById(departmentId), selectAllUserEntities, (department, userEntities) => {
-    return denormalize(department, departmentSchema, { Users: userEntities });
-  });
+  createSelector(selectDepartmentById(departmentId), selectAllUserEntities, (department, userEntities) =>
+    denormalize(department, departmentSchema, { Users: userEntities })
+  );
 
 export const selectAllDepartments = createSelector(selectDepartmentsState, fromDepartment.selectAll);
 export const selectAllDepartmentEntities = createSelector(selectDepartmentsState, fromDepartment.selectEntities);

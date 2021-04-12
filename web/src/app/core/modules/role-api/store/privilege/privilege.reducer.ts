@@ -31,9 +31,7 @@ const reducer = createReducer(
   on(PrivilegeActions.privilegeApiError, (state) => ({ ...state }))
 );
 
-export function privilegesReducer(state: PrivilegesState | undefined, action: Action) {
-  return reducer(state, action);
-}
+export const privilegesReducer = (state: PrivilegesState | undefined, action: Action) => reducer(state, action);
 
 export const privilegesFeatureKey = 'privilege-api';
 

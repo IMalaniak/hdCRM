@@ -49,8 +49,6 @@ const reducer = createReducer(
   }))
 );
 
-export function departmentReducer(state: ListState<Department> | undefined, action: Action) {
-  return reducer(state, action);
-}
+export const departmentReducer = (state: ListState<Department> | undefined, action: Action) => reducer(state, action);
 
 export const departmentsFeatureKey = 'department-management';

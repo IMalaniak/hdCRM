@@ -8,10 +8,10 @@ export class CommonConstants {
   static NO_IMAGE_TITLE = 'noimage';
 
   // regex
-  static PHONE_REGEX: RegExp = /^[0-9]+$/;
-  static LOGIN_REGEX: RegExp = /^[a-zA-Z0-9]+$/;
-  static WWW_REGEX: RegExp = /^(http:\/\/www.|https:\/\/www.|http:\/\/|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
-  static ONLY_TEXT_REGEX: RegExp = /^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/;
+  static PHONE_REGEX = /^[0-9]+$/;
+  static LOGIN_REGEX = /^[a-zA-Z0-9]+$/;
+  static WWW_REGEX = /^(http:\/\/www.|https:\/\/www.|http:\/\/|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
+  static ONLY_TEXT_REGEX = /^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/;
 
   // texts
   static TEXTS_PRIVILEGE_GUARD_ERROR = 'Sorry, You have no rights to see this page!';

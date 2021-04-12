@@ -52,8 +52,6 @@ const rolesReducer = createReducer(
   }))
 );
 
-export function reducer(state: ListState<Role> | undefined, action: Action) {
-  return rolesReducer(state, action);
-}
+export const reducer = (state: ListState<Role> | undefined, action: Action) => rolesReducer(state, action);
 
 export const rolesFeatureKey = 'role-management';

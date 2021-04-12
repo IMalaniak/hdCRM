@@ -36,6 +36,7 @@ export class DepartmentEffects {
           switchMap((response: ItemApiResponse<Department>) => {
             this.toastMessageService.success(response.message);
             this.router.navigateByUrl(RoutingConstants.ROUTE_DEPARTMENTS);
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             const { Departments, Users } = normalizeResponse<Department>(response, departmentSchema);
             response = { ...response, data: Departments[0] };
             return [
@@ -60,6 +61,7 @@ export class DepartmentEffects {
       map((payload) => payload.id),
       mergeMap((id: number) => this.departmentService.getOne<Department>(id)),
       switchMap((response: ItemApiResponse<Department>) => {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         const { Departments, Users } = normalizeResponse<Department>(response, departmentSchema);
         response = { ...response, data: Departments[0] };
         return [
@@ -79,6 +81,7 @@ export class DepartmentEffects {
         this.departmentService.getList<Department>(pageQuery).pipe(
           switchMap((response: CollectionApiResponse<Department>) => {
             const page: Page = { dataIds: response.ids, key: generatePageKey(pageQuery) };
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             const { Departments, Users } = normalizeResponse<Department>(response, departmentListSchema);
             if (!Departments) {
               return EMPTY;
@@ -104,6 +107,7 @@ export class DepartmentEffects {
           .update<Department>(this.departmentService.formatBeforeSend(department), department.id)
           .pipe(
             switchMap((response: ItemApiResponse<Department>) => {
+              // eslint-disable-next-line @typescript-eslint/naming-convention
               const { Departments, Users } = normalizeResponse<Department>(response, departmentSchema);
               response = { ...response, data: Departments[0] };
               const department: Update<Department> = {
@@ -151,6 +155,7 @@ export class DepartmentEffects {
       filter(([_, selectDashboardDepDataLoaded]) => !selectDashboardDepDataLoaded),
       mergeMap(() => this.departmentService.getDashboardData()),
       switchMap((response: CollectionApiResponse<Department>) => {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         const { Departments, Users } = normalizeResponse<Department>(response, departmentListSchema);
         if (!Departments) {
           return EMPTY;

@@ -17,7 +17,7 @@ export class DialogService {
   confirm<T extends DialogConfirmModel>(
     componentType: ComponentType<DialogBaseModel<T>>,
     data: DialogDataModel<T>,
-    onConfirmCallback: Function
+    onConfirmCallback: () => void
   ): void {
     this.open(componentType, data, DIALOG_TYPE.CONFIRM)
       .afterClosed()

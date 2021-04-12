@@ -24,11 +24,12 @@ export class RoleService extends BaseCrudService {
     let formated = { ...role };
     if (role.Users && role.Users.length) {
       formated = Object.assign({}, formated, {
-        Users: formated.Users.map((user) => {
-          return <User>{
-            id: user.id
-          };
-        })
+        Users: formated.Users.map(
+          (user) =>
+            ({
+              id: user.id
+            } as User)
+        )
       });
     }
     return formated;

@@ -13,12 +13,6 @@ import { AppState } from '../index';
 
 @Injectable()
 export class PreferencesEffects {
-  constructor(
-    private actions$: Actions,
-    private store$: Store<AppState>,
-    private preferencesService: PreferencesService
-  ) {}
-
   loadPreferencesList$ = createEffect(() =>
     this.actions$.pipe(
       ofType(preferencesActions.preferencesListRequested),
@@ -50,4 +44,10 @@ export class PreferencesEffects {
       ),
     { dispatch: false }
   );
+
+  constructor(
+    private actions$: Actions,
+    private store$: Store<AppState>,
+    private preferencesService: PreferencesService
+  ) {}
 }

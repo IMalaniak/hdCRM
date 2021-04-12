@@ -23,9 +23,10 @@ export abstract class BaseControlValueAccessorComponentModel<T> implements Contr
     return this._isDisabled;
   }
 
+  propagateChange = Function.prototype;
+  propagateTouched = Function.prototype;
+
   protected _value: T;
-  propagateChange: Function = Function.prototype;
-  propagateTouched: Function = Function.prototype;
 
   private _isDisabled: boolean;
 

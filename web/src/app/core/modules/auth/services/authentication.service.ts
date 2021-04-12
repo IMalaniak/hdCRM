@@ -39,7 +39,7 @@ export class AuthenticationService {
 
   activateAccount(token: string): Observable<BaseMessage> {
     return this.http.post<BaseMessage>(ApiRoutesConstants.ACTIVATE_ACCOUNT, {
-      token: token
+      token
     });
   }
 

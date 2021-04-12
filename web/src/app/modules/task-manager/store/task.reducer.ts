@@ -16,7 +16,7 @@ export interface TaskManagerState {
   priorities: TaskPriorityState;
 }
 
-function sortTasks(t1: Task, t2: Task) {
+const sortTasks = (t1: Task, t2: Task) => {
   const compareByPriority: number = t2.TaskPriorityId - t1.TaskPriorityId;
   const compareByCompleteness: number = +t2.isCompleted + +t1.isCompleted;
   if (compareByCompleteness !== 0) {
@@ -28,7 +28,7 @@ function sortTasks(t1: Task, t2: Task) {
   } else {
     return +t2.createdAt - +t1.createdAt;
   }
-}
+};
 
 export const taskAdapter: EntityAdapter<Task> = createEntityAdapter<Task>({
   sortComparer: sortTasks
@@ -97,9 +97,7 @@ const taskManagerReducer = createReducer(
   }))
 );
 
-export function reducer(state: TaskManagerState | undefined, action: Action) {
-  return taskManagerReducer(state, action);
-}
+export const reducer = (state: TaskManagerState | undefined, action: Action) => taskManagerReducer(state, action);
 
 export const taskFeatureKey = 'tasks';
 

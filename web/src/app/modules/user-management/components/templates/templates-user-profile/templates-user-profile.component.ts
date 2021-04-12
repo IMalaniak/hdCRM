@@ -23,11 +23,6 @@ import { changeIsEditingState } from '@/modules/user-management/store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TemplatesUserProfileComponent implements OnInit, OnChanges {
-  enableDarkTheme$: Observable<boolean> = this.store.pipe(select(fromLayout.getDarkThemeState));
-  canViewPreferences$: Observable<boolean> = this.store.pipe(select(isPrivileged(TAB_PRIVILEGE.PREFERENCE)));
-  canViewIntegrations$: Observable<boolean> = this.store.pipe(select(isPrivileged(TAB_PRIVILEGE.INTEGRATION)));
-  canViewOrganization$: Observable<boolean> = this.store.pipe(select(isPrivileged(TAB_PRIVILEGE.ORGANIZATION)));
-
   @Input() user: User;
   @Input() userPreferences: Preferences;
   @Input() currentSessionId: number;
@@ -36,6 +31,11 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   @Input() editForm: boolean;
   @Input() tabsToShow: TAB_NAME[] = [TAB_NAME.DETAILS];
   @Input() isProfilePage = false;
+
+  enableDarkTheme$: Observable<boolean> = this.store.pipe(select(fromLayout.getDarkThemeState));
+  canViewPreferences$: Observable<boolean> = this.store.pipe(select(isPrivileged(TAB_PRIVILEGE.PREFERENCE)));
+  canViewIntegrations$: Observable<boolean> = this.store.pipe(select(isPrivileged(TAB_PRIVILEGE.INTEGRATION)));
+  canViewOrganization$: Observable<boolean> = this.store.pipe(select(isPrivileged(TAB_PRIVILEGE.ORGANIZATION)));
 
   tabNames = TAB_NAME;
   tabLabels = TAB_LABEL;

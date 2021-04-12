@@ -17,12 +17,12 @@ import { Asset } from '@/shared/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TemplatesUserDetailsComponent {
-  canViewDepartment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(VIEW_PRIVILEGE.DEPARTMENT)));
-
   @Input() user: User;
   @Input() isDialog = false;
 
   @Output() addFileCall: EventEmitter<Asset> = new EventEmitter();
+
+  canViewDepartment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(VIEW_PRIVILEGE.DEPARTMENT)));
 
   icons: { [key: string]: BS_ICON } = {
     user: BS_ICON.Person,

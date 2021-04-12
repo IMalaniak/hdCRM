@@ -34,9 +34,7 @@ const reducer = createReducer(
   on(StageActions.stageApiError, (state) => ({ ...state, loading: false }))
 );
 
-export function stagesReducer(state: StagesState | undefined, action: Action) {
-  return reducer(state, action);
-}
+export const stagesReducer = (state: StagesState | undefined, action: Action) => reducer(state, action);
 
 export const stagesFeatureKey = 'stage-api';
 

@@ -37,14 +37,12 @@ export const selectDepartmentsOfPage = (pageQuery: PageQuery) =>
     selectAllDepartmentEntities,
     selectDepartmentPageByKey(pageQuery),
     selectAllUserEntities,
-    (departmentEntities: Dictionary<Department>, page: Page, userEntities) => {
-      return page
+    (departmentEntities: Dictionary<Department>, page: Page, userEntities) => page
         ? (denormalize(page.dataIds, departmentListSchema, {
             Users: userEntities,
             Departments: departmentEntities
           }) as Department[])
-        : [];
-    }
+        : []
   );
 
 export const selectIsEditing = createSelector(

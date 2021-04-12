@@ -27,8 +27,6 @@ const dynamicFormReducer = createReducer(
   on(dynamicFormActions.formsApiError, (state) => ({ ...state, isLoading: false }))
 );
 
-export function formReducer(state: DynamicFormState | undefined, action: Action) {
-  return dynamicFormReducer(state, action);
-}
+export const formReducer = (state: DynamicFormState | undefined, action: Action) => dynamicFormReducer(state, action);
 
 export const { selectAll, selectEntities, selectIds, selectTotal } = adapter.getSelectors();

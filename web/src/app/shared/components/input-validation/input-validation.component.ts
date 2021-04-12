@@ -76,6 +76,7 @@ export class InputValidationComponent implements OnInit, OnChanges {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures
   get hintMessage(): string {
     if (this._hintMessage) {
       return this._hintMessage;

@@ -47,6 +47,4 @@ const reducer = createReducer(
   on(PreferencesActions.preferencesListLoaded, (state, { list }) => ({ ...state, list }))
 );
 
-export function preferencesReducer(state: PreferencesState | undefined, action: Action) {
-  return reducer(state, action);
-}
+export const preferencesReducer = (state: PreferencesState | undefined, action: Action) => reducer(state, action);

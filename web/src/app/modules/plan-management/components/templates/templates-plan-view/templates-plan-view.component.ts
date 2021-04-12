@@ -21,10 +21,10 @@ import { selectUsersById } from '@/core/modules/user-api/store';
   styleUrls: ['./templates-plan-view.component.scss']
 })
 export class TemplatesPlanViewComponent extends TemplatesViewDetailsComponent<Plan> {
-  isLoading$: Observable<boolean> = this.store$.pipe(select(selectPlansLoading));
-
   @Input() canAddAttachment: boolean;
   @Input() canDeleteAttachment: boolean;
+
+  isLoading$: Observable<boolean> = this.store$.pipe(select(selectPlansLoading));
 
   // TODO: @IMalaniak implement deleting document
   // @Output() deleteDocument: EventEmitter<any> = new EventEmitter();

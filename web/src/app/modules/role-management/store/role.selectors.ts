@@ -26,11 +26,8 @@ export const selectRolesOfPage = (pageQuery: PageQuery) =>
     selectAllRoleEntities,
     selectRolePageByKey(pageQuery),
     selectAllUserEntities,
-    (roleEntities: Dictionary<Role>, page: Page, userEntities) => {
-      return page
-        ? (denormalize(page.dataIds, roleListSchema, { Users: userEntities, Roles: roleEntities }) as Role[])
-        : [];
-    }
+    (roleEntities: Dictionary<Role>, page: Page, userEntities) =>
+      page ? (denormalize(page.dataIds, roleListSchema, { Users: userEntities, Roles: roleEntities }) as Role[]) : []
   );
 
 export const selectIsEditing = createSelector(selectRolesState, (roleState) => roleState?.isEditing);

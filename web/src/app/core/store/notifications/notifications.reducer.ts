@@ -54,8 +54,6 @@ const reducer = createReducer(
   )
 );
 
-export function notificationsReducer(state: NotificationsState | undefined, action: Action) {
-  return reducer(state, action);
-}
+export const notificationsReducer = (state: NotificationsState | undefined, action: Action) => reducer(state, action);
 
 export const { selectAll, selectEntities, selectIds, selectTotal } = adapter.getSelectors();

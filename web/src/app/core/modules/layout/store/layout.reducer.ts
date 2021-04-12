@@ -49,8 +49,6 @@ const layoutReducer = createReducer(
   }))
 );
 
-export function reducer(state: LayoutState | undefined, action: Action) {
-  return layoutReducer(state, action);
-}
+export const reducer = (state: LayoutState | undefined, action: Action) => layoutReducer(state, action);
 
 export const layoutFeatureKey = 'layout';

@@ -27,10 +27,10 @@ import { enableDarkTheme } from '@/core/modules/layout/store/layout.actions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganismsUserPreferencesComponent implements OnInit, OnChanges {
-  preferencesList$: Observable<PreferencesList> = this.store$.pipe(select(getPreferencesList));
-
   @Input() enabledDarkTheme: boolean;
   @Input() userPreferences: Preferences;
+
+  preferencesList$: Observable<PreferencesList> = this.store$.pipe(select(getPreferencesList));
 
   // TODO: @IMalaniak this we change to come from BE
   themes = [

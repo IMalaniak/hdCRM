@@ -57,7 +57,7 @@ import {
 import { CommonDataSource } from '@/shared/services';
 import { PageQuery } from '@/shared/models';
 import { SelectionModel } from '@angular/cdk/collections';
-import { ListDisplayMode } from '@/shared/store';
+import { LIST_DISPLAY_MODE } from '@/shared/store';
 
 @Component({
   selector: 'table-component',
@@ -65,11 +65,6 @@ import { ListDisplayMode } from '@/shared/store';
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
-  itemsPerPageState$: Observable<ITEMS_PER_PAGE> = this.store$.pipe(select(getItemsPerPageState));
-  outlineBordersDefaultPreference$: Observable<boolean> = this.store$.pipe(select(getDefaultListOutlineBorders));
-  outlineBorders$: Observable<boolean>;
-  columnsToDisplay$: Observable<string[]>;
-
   @Input() id: string;
   @Input() dataSource: CommonDataSource<DataRow>;
   @Input() totalItems: number;
@@ -77,7 +72,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   @Input() columns: IColumn[];
   @Input() canSort = true;
   @Input() hasSettings = true;
-  @Input() displayMode = ListDisplayMode.DEFAULT;
+  @Input() displayMode = LIST_DISPLAY_MODE.DEFAULT;
   @Input() noContentMessage = CommonConstants.NO_CONTENT_INFO;
   @Input() additionalRowActions: RowAction<ROW_ACTION_TYPE>[];
   @Input() canEdit: boolean;
@@ -90,6 +85,11 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   @ViewChild('table') table: MatTable<CdkTable<DataRow>>;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  itemsPerPageState$: Observable<ITEMS_PER_PAGE> = this.store$.pipe(select(getItemsPerPageState));
+  outlineBordersDefaultPreference$: Observable<boolean> = this.store$.pipe(select(getDefaultListOutlineBorders));
+  outlineBorders$: Observable<boolean>;
+  columnsToDisplay$: Observable<string[]>;
 
   selection: SelectionModel<number>;
 
@@ -162,7 +162,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
     }
     if (changes.preselectedItems && changes.displayMode && this.displayMode && this.preselectedItems) {
       this.selection = new SelectionModel(
-        this.displayMode === ListDisplayMode.POPUP_MULTI_SELECTION,
+        this.displayMode === LIST_DISPLAY_MODE.POPUP_MULTI_SELECTION,
         this.preselectedItems
       );
     }
@@ -300,13 +300,13 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   }
 
   isHighlighted(id: number): boolean {
-    return this.displayMode === ListDisplayMode.POPUP_SINGLE_SELECTION && this.selection.isSelected(id);
+    return this.displayMode === LIST_DISPLAY_MODE.POPUP_SINGLE_SELECTION && this.selection.isSelected(id);
   }
 
   displayModePopup(): boolean {
     return (
-      this.displayMode === ListDisplayMode.POPUP_MULTI_SELECTION ||
-      this.displayMode === ListDisplayMode.POPUP_SINGLE_SELECTION
+      this.displayMode === LIST_DISPLAY_MODE.POPUP_MULTI_SELECTION ||
+      this.displayMode === LIST_DISPLAY_MODE.POPUP_SINGLE_SELECTION
     );
   }
 
@@ -323,7 +323,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
       map((columns) => (!columns ? this.columnsInitialState.filter((c) => c.isVisible).map((c) => c.title) : columns)),
       map((columnsToDisplay) => {
         if (this.displayModePopup()) {
-          if (this.displayMode === ListDisplayMode.POPUP_MULTI_SELECTION) {
+          if (this.displayMode === LIST_DISPLAY_MODE.POPUP_MULTI_SELECTION) {
             const selectIndex = this.columns.findIndex((col) => col.key === COLUMN_KEY.SELECT);
             if (selectIndex >= 0) {
               columnsToDisplay = Object.assign([], columnsToDisplay, { [selectIndex]: COLUMN_KEY.SELECT });
@@ -350,7 +350,7 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   private setQueryParams(queryParams: Params): void {
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
-      queryParams: queryParams,
+      queryParams,
       queryParamsHandling: 'merge'
     });
   }
@@ -371,13 +371,13 @@ export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   private validateListQueryParams(params: Params): Partial<PageQuery> {
     let pageQuery: Partial<PageQuery> = {};
     if (params.pageSize) {
-      const pageSize = parseInt(params.pageSize, 0);
+      const pageSize = +params.pageSize;
       if (this.pageSizeOptions.includes(pageSize)) {
         pageQuery = { ...pageQuery, pageSize };
       }
     }
     if (params.pageIndex) {
-      const pageIndex = parseInt(params.pageIndex, 0);
+      const pageIndex = +params.pageIndex;
       pageQuery = { ...pageQuery, pageIndex };
     }
     if (params.sortIndex && this.columns.some((col) => col.key === params.sortIndex && col.hasSorting)) {

@@ -70,9 +70,7 @@ const reducer = createReducer(
   }))
 );
 
-export function rolesReducer(state: RolesState | undefined, action: Action) {
-  return reducer(state, action);
-}
+export const rolesReducer = (state: RolesState | undefined, action: Action) => reducer(state, action);
 
 export const rolesFeatureKey = 'role-api';
 

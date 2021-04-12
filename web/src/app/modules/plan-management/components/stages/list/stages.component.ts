@@ -65,7 +65,11 @@ export class StagesComponent implements OnInit, OnDestroy {
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle(): void {
-    this.isAllSelected() ? this.selection.clear() : this.stages.forEach((row) => this.selection.select(row));
+    if (this.isAllSelected()) {
+      this.selection.clear();
+    } else {
+      this.stages.forEach((row) => this.selection.select(row));
+    }
   }
 
   createStageDialog(): void {

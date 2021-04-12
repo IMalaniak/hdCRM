@@ -25,11 +25,9 @@ export const selectPlansOfPage = (pageQuery: PageQuery) =>
     selectAllPlanEntities,
     selectPlanPageByKey(pageQuery),
     selectAllUserEntities,
-    (planEntities: Dictionary<Plan>, page: Page, userEntities) => {
-      return page
+    (planEntities: Dictionary<Plan>, page: Page, userEntities) => page
         ? (denormalize(page.dataIds, planListSchema, { Users: userEntities, Plans: planEntities }) as Plan[])
-        : [];
-    }
+        : []
   );
 
 export const selectIsEditing = createSelector(selectPlansState, (plansState) => plansState?.isEditing);

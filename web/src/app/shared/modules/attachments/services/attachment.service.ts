@@ -8,7 +8,6 @@ import { BS_ICON } from '@/shared/constants';
   providedIn: 'root'
 })
 export class AttachmentService {
-  private api = '/files';
   fileTypesMap: { [key: string]: string[] } = {
     msWord: ['doc', 'docx'],
     msPPoint: ['ppt', 'pptx'],
@@ -17,6 +16,8 @@ export class AttachmentService {
     text: ['txt'],
     compressed: ['zip', 'rar']
   };
+
+  private api = '/files';
 
   constructor(private http: HttpClient) {}
 

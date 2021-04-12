@@ -82,10 +82,6 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
       });
   }
 
-  protected deleteTask(id: number): void {
-    this.store$.dispatch(deleteTask({ id }));
-  }
-
   deleteMultipleTask(): void {
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(
       CommonConstants.TEXTS_DELETE_TASKS_COMPLETED_CONFIRM
@@ -109,5 +105,9 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
+  }
+
+  protected deleteTask(id: number): void {
+    this.store$.dispatch(deleteTask({ id }));
   }
 }

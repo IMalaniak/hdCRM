@@ -10,9 +10,7 @@ export const selectRolesState = createFeatureSelector<fromRole.RolesState>(fromR
 export const selectRoleById = (roleId: number) =>
   createSelector(selectRolesState, (rolesState) => rolesState.entities[roleId]);
 export const selectRoleDeepById = (roleId: number) =>
-  createSelector(selectRoleById(roleId), selectAllUserEntities, (role, userEntities) => {
-    return denormalize(role, roleSchema, { Users: userEntities });
-  });
+  createSelector(selectRoleById(roleId), selectAllUserEntities, (role, userEntities) => denormalize(role, roleSchema, { Users: userEntities }));
 
 export const selectAllRoleIds = createSelector(selectRolesState, fromRole.selectIds);
 export const selectAllRoleEntities = createSelector(selectRolesState, fromRole.selectEntities);

@@ -15,14 +15,6 @@ import { getDarkThemeState, tableConfigState } from './layout.selectors';
 
 @Injectable()
 export class LayoutEffects implements OnInitEffects {
-  constructor(
-    private actions$: Actions,
-    private localStorage: LocalStorageService,
-    private overlayContainer: OverlayContainer,
-    private mediaQueryService: MediaQueryService,
-    private store$: Store<LayoutState>
-  ) {}
-
   navigationEnded$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ROUTER_NAVIGATED),
@@ -97,6 +89,14 @@ export class LayoutEffects implements OnInitEffects {
       dispatch: false
     }
   );
+
+  constructor(
+    private actions$: Actions,
+    private localStorage: LocalStorageService,
+    private overlayContainer: OverlayContainer,
+    private mediaQueryService: MediaQueryService,
+    private store$: Store<LayoutState>
+  ) {}
 
   ngrxOnInitEffects(): Action {
     let settings: LayoutState = this.localStorage.getObject('layoutSettings');

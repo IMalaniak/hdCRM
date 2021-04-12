@@ -67,7 +67,11 @@ export class PrivilegesComponent implements OnInit, OnDestroy {
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle(): void {
-    this.isAllSelected() ? this.selection.clear() : this.privileges.forEach((row) => this.selection.select(row));
+    if (this.isAllSelected()) {
+      this.selection.clear();
+    } else {
+      this.privileges.forEach((row) => this.selection.select(row));
+    }
   }
 
   createPrivilegeDialog(): void {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 export enum ICON {
   SOCIAL_Email = 'email',
   SOCIAL_Facebook = 'facebook',

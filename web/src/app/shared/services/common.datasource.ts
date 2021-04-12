@@ -22,12 +22,14 @@ export abstract class CommonDataSource<T> implements DataSource<DataRow> {
 
   /**
    * Provides logic to retrieve data from Store
+   *
    * @param page is query params with page data
    */
   abstract loadData(page: PageQuery): void;
 
   /**
    * Provides logic to map retrieved data from Store to DataRow
+   *
    * @param data array of objects retrieved from Store
    */
   protected abstract mapToDataRows(data: T[]): DataRow[];

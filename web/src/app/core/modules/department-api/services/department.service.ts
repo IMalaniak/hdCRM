@@ -24,11 +24,12 @@ export class DepartmentService extends BaseCrudService {
     let formated = { ...dep };
     if (formated.Workers && formated.Workers.length) {
       formated = Object.assign({}, formated, {
-        Workers: formated.Workers.map((worker) => {
-          return <User>{
-            id: worker.id
-          };
-        })
+        Workers: formated.Workers.map(
+          (worker) =>
+            ({
+              id: worker.id
+            } as User)
+        )
       });
     }
 

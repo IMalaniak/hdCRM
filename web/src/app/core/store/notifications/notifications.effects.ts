@@ -17,13 +17,6 @@ import { selectUnreadNotifications } from './notifications.selectors';
 
 @Injectable()
 export class NotificationsEffects {
-  constructor(
-    private readonly store$: Store<AppState>,
-    private readonly actions$: Actions,
-    private readonly notificationsService: NotificationsService,
-    private readonly dateUtility: DateUtilityService
-  ) {}
-
   markAsRead$ = createEffect(() =>
     this.actions$.pipe(
       ofType(notificationsActions.markAsRead),
@@ -98,6 +91,13 @@ export class NotificationsEffects {
       })
     )
   );
+
+  constructor(
+    private readonly store$: Store<AppState>,
+    private readonly actions$: Actions,
+    private readonly notificationsService: NotificationsService,
+    private readonly dateUtility: DateUtilityService
+  ) {}
 
   ngrxOnInitEffects(): Action {
     const notifications: Notification[] = this.notificationsService.getList();

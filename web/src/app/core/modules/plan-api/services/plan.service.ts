@@ -41,11 +41,12 @@ export class PlanService extends BaseCrudService {
     }
     if (formated.Participants && formated.Participants.length) {
       formated = Object.assign({}, formated, {
-        Participants: formated.Participants.map((participant) => {
-          return <User>{
-            id: participant.id
-          };
-        })
+        Participants: formated.Participants.map(
+          (participant) =>
+            ({
+              id: participant.id
+            } as User)
+        )
       });
     }
     return formated;

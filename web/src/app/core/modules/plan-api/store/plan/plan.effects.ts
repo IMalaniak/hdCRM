@@ -28,6 +28,7 @@ export class PlanEffects {
           switchMap((response: ItemApiResponse<Plan>) => {
             this.toastMessageService.success(response.message);
             this.router.navigateByUrl(RoutingConstants.ROUTE_PLANNER);
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             const { Plans, Users } = normalizeResponse<Plan>(response, planSchema);
             response = { ...response, data: Plans[0] };
             return [
@@ -50,6 +51,7 @@ export class PlanEffects {
       map((payload) => payload.id),
       mergeMap((id) => this.planService.getOne<Plan>(id)),
       switchMap((response: ItemApiResponse<Plan>) => {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         const { Plans, Users } = normalizeResponse<Plan>(response, planSchema);
         response = { ...response, data: Plans[0] };
         return [planActions.planLoaded({ plan: response.data }), ...(Users ? [partialDataLoaded({ Users })] : [])];
@@ -66,6 +68,7 @@ export class PlanEffects {
         this.planService.getList<Plan>(pageQuery).pipe(
           switchMap((response: CollectionApiResponse<Plan>) => {
             const page: Page = { dataIds: response.ids, key: generatePageKey(pageQuery) };
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             const { Plans, Users } = normalizeResponse<Plan>(response, planListSchema);
             if (!Plans) {
               return EMPTY;
@@ -86,6 +89,7 @@ export class PlanEffects {
       mergeMap((plan: Plan) =>
         this.planService.update<Plan>(this.planService.formatBeforeSend(plan), plan.id).pipe(
           switchMap((response: ItemApiResponse<Plan>) => {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             const { Plans, Users } = normalizeResponse<Plan>(response, planSchema);
             response = { ...response, data: Plans[0] };
             const plan: Update<Plan> = {

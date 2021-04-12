@@ -25,6 +25,4 @@ const reducer = createReducer(
   }))
 );
 
-export function integrationsReducer(state: IntegrationsState | undefined, action: Action) {
-  return reducer(state, action);
-}
+export const integrationsReducer = (state: IntegrationsState | undefined, action: Action) => reducer(state, action);

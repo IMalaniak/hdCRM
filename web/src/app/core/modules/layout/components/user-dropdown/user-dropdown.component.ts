@@ -27,11 +27,11 @@ import { userDropdownVisible } from '../../store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserDropdownComponent {
+  @Output() logOut: EventEmitter<any> = new EventEmitter();
+
   currentUser$: Observable<User> = this.store$.select(currentUser);
   canAddUser$: Observable<boolean> = this.store$.select(isPrivileged(ADD_PRIVILEGE.USER));
-
   isShowUserMenu$: Observable<boolean> = this.store$.select(userDropdownVisible);
-  @Output() logOut: EventEmitter<any> = new EventEmitter();
 
   actionLabels = ACTION_LABEL;
   buttonTypes = BUTTON_TYPE;

@@ -61,7 +61,7 @@
 
   <div
     content
-    *ngIf="uploaderVisible && !(googleDriveIntegrationState$ | async)"
+    *ngIf="uploaderVisible && (googleDriveIntegrationState$ | async) === false"
     class="d-flex flex-column justify-content-center align-items-center mt-5"
   >
     <h5>Please, integrate your Google Drive in order to upload files</h5>

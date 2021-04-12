@@ -46,7 +46,7 @@ export class OrganismsUserPasswordsComponent implements OnInit {
         deleteSessions: new FormControl(true)
       },
       {
-        validators: ConfirmPasswordValidator.MatchPassword
+        validators: ConfirmPasswordValidator.matchPassword
       }
     );
   }

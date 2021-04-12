@@ -10,9 +10,9 @@ export const selectPlansState = createFeatureSelector<fromPlan.PlansState>(fromP
 export const selectPlanById = (planId: number) =>
   createSelector(selectPlansState, (plansState) => plansState?.entities[planId]);
 export const selectPlanDeepById = (planId: number) =>
-  createSelector(selectPlanById(planId), selectAllUserEntities, (plan, userEntities) => {
-    return denormalize(plan, planSchema, { Users: userEntities });
-  });
+  createSelector(selectPlanById(planId), selectAllUserEntities, (plan, userEntities) =>
+    denormalize(plan, planSchema, { Users: userEntities })
+  );
 
 export const selectAllPlanIds = createSelector(selectPlansState, fromPlan.selectIds);
 export const selectAllPlanEntities = createSelector(selectPlansState, fromPlan.selectEntities);

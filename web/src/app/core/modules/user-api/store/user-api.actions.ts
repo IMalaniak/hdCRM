@@ -23,8 +23,8 @@ export const listPageLoaded = createAction(
   props<{ response: CollectionApiResponse<User>; page: Page }>()
 );
 
-export const OnlineUserListRequested = createAction('[Users] Online Users Requested');
-export const OnlineUserListLoaded = createAction(`${apiPrefix} Online User List Loaded`, props<{ list: User[] }>());
+export const onlineUserListRequested = createAction('[Users] Online Users Requested');
+export const onlineUserListLoaded = createAction(`${apiPrefix} Online User List Loaded`, props<{ list: User[] }>());
 
 export const userOnline = createAction('[User Socket API] User Online', props<{ user: User }>());
 export const userOffline = createAction('[User Socket API] User Offline', props<{ user: User }>());

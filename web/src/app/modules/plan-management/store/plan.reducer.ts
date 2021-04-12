@@ -41,8 +41,6 @@ const plansReducer = createReducer(
   on(planApiActions.planApiError, (state) => ({ ...state, pages: { ...state.pages, pageLoading: false } }))
 );
 
-export function reducer(state: ListState<Plan> | undefined, action: Action) {
-  return plansReducer(state, action);
-}
+export const reducer = (state: ListState<Plan> | undefined, action: Action) => plansReducer(state, action);
 
 export const plansFeatureKey = 'plan-management';

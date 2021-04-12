@@ -1,7 +1,7 @@
 import { Action, on, createReducer } from '@ngrx/store';
 
 import * as userApiActions from '@/core/modules/user-api/store/user-api.actions';
-import { initialListState, pagesAdapter, ListState, ListDisplayMode } from '@/shared/store';
+import { initialListState, pagesAdapter, ListState, LIST_DISPLAY_MODE } from '@/shared/store';
 import { User } from '@/core/modules/user-api/shared';
 import * as userActions from './user.actions';
 
@@ -17,12 +17,14 @@ const reducer = createReducer(
   })),
   on(userActions.prepareSelectionPopup, (state, { selectedUsersIds, singleSelection }) => ({
     ...state,
-    listDisplayMode: singleSelection ? ListDisplayMode.POPUP_SINGLE_SELECTION : ListDisplayMode.POPUP_MULTI_SELECTION,
+    listDisplayMode: singleSelection
+      ? LIST_DISPLAY_MODE.POPUP_SINGLE_SELECTION
+      : LIST_DISPLAY_MODE.POPUP_MULTI_SELECTION,
     selectedUsersIds
   })),
   on(userActions.resetSelectionPopup, (state) => ({
     ...state,
-    listDisplayMode: ListDisplayMode.DEFAULT,
+    listDisplayMode: LIST_DISPLAY_MODE.DEFAULT,
     selectedUsersIds: null
   })),
   on(userApiActions.listPageRequested, (state) => ({ ...state, pages: { ...state.pages, pageLoading: true } })),
@@ -53,8 +55,6 @@ const reducer = createReducer(
   }))
 );
 
-export function usersReducer(state: UserListState | undefined, action: Action) {
-  return reducer(state, action);
-}
+export const usersReducer = (state: UserListState | undefined, action: Action) => reducer(state, action);
 
 export const userManagementFeatureKey = 'user-management';

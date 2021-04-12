@@ -58,9 +58,7 @@ const reducer = createReducer(
   on(planActions.planApiError, (state) => ({ ...state, loading: false }))
 );
 
-export function plansReducer(state: PlansState | undefined, action: Action) {
-  return reducer(state, action);
-}
+export const plansReducer = (state: PlansState | undefined, action: Action) => reducer(state, action);
 
 export const plansFeatureKey = 'plan-api';
 
