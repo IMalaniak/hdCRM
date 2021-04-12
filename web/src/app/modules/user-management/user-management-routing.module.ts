@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ProfileComponent, UserComponent, UsersComponent } from './components';
 import { PathConstants, VIEW_PRIVILEGE } from '@/shared/constants';
 import { PrivilegeGuard } from '@/shared/guards';
+
+import { ProfileComponent, UserComponent, UsersComponent } from './components';
 
 const routes: Routes = [
   { path: '', pathMatch: PathConstants.PATH_MATCH_FULL, redirectTo: PathConstants.LIST },

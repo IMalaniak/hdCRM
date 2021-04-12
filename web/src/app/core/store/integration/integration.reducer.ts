@@ -1,5 +1,6 @@
-import * as IntegrationActions from './integration.actions';
 import { createReducer, on, Action } from '@ngrx/store';
+
+import * as IntegrationActions from './integration.actions';
 
 export interface IntegrationsState {
   enabledGoogleDriveIntegration: boolean;

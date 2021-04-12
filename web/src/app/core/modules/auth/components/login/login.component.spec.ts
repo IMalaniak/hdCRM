@@ -1,15 +1,16 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { LoginComponent } from './login.component';
-import { AuthenticationService } from '../../services';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from '@/shared/shared.module';
 import { ActivatedRoute } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideMockStore } from '@ngrx/store/testing';
-import { AuthState, initialState as initialAuthState } from '../../store/auth.reducer';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
+
+import { AuthState, initialState as initialAuthState } from '../../store/auth.reducer';
+import { AuthenticationService } from '../../services';
+
+import { LoginComponent } from './login.component';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;

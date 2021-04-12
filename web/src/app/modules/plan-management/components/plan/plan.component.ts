@@ -3,14 +3,13 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, combineLatest } from 'rxjs';
 import { map, tap, filter } from 'rxjs/operators';
-
 import { Store, select } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { isPrivileged, currentUser } from '@/core/modules/auth/store/auth.selectors';
 import { Plan } from '@/core/modules/plan-api/shared';
 import { selectPlanDeepById, planRequested, updatePlanRequested } from '@/core/modules/plan-api/store/plan';
 import { ADD_PRIVILEGE, DELETE_PRIVILEGE, EDIT_PRIVILEGE } from '@/shared/constants';
+
 import { selectIsEditing, changeIsEditingState, cachePlan, restoreFromCache } from '../../store';
 
 @Component({

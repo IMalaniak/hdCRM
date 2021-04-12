@@ -1,9 +1,7 @@
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
-
 import { select, Store } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { Plan } from '@/core/modules/plan-api/shared';
 import { selectPlansLoading } from '@/core/modules/plan-api/store/plan';

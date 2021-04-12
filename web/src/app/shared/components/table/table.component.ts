@@ -17,9 +17,7 @@ import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { combineLatest, merge, Observable, Subject } from 'rxjs';
 import { delay, map, startWith, takeUntil, tap } from 'rxjs/operators';
-
 import { select, Store } from '@ngrx/store';
-
 import { IconsService } from '@/core/services';
 import { AppState } from '@/core/store';
 import { getDefaultListOutlineBorders, getItemsPerPageState } from '@/core/store/preferences';

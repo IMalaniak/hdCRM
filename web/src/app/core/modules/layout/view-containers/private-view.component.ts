@@ -2,13 +2,12 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ChangeDetectionStr
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-
 import { Store, select } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { IconsService, MediaQueryService } from '@/core/services';
 import { BS_ICON } from '@/shared/constants';
 import { privateRouterTransition } from '@/shared/animations';
+
 import * as layoutActions from '../store/layout.actions';
 import * as fromLayout from '../store';
 

@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { EMPTY, of } from 'rxjs';
-
 import { Action, Store } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Update } from '@ngrx/entity';
-
 import { currentUserLoaded } from '@/core/modules/auth/store/auth.actions';
 import { NotificationsService } from '@/core/services';
 import { Notification } from '@/shared/models';
 import { NOTIFICATION_TYPE } from '@/shared/constants';
 import { DateUtilityService } from '@/shared/services';
+
 import { AppState } from '../index';
+
 import * as notificationsActions from './notifications.actions';
 import { selectUnreadNotifications } from './notifications.selectors';
 

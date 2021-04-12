@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { normalize, schema } from 'normalizr';
-
 import { CollectionApiResponse, ItemApiResponse } from '@/shared/models';
+
 import { Department } from '../modules/department-api/shared';
 import { User } from '../modules/user-api/shared';
 import { Plan } from '../modules/plan-api/shared';

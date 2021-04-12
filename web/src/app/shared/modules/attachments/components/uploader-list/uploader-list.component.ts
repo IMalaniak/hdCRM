@@ -1,8 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ChangeDetectionStrategy } from '@angular/core';
-
 import { Store, select } from '@ngrx/store';
 import { FilePond } from 'filepond';
-
 import { environment } from 'environments/environment';
 import { AppState } from '@/core/store';
 import { getToken } from '@/core/modules/auth/store/auth.selectors';

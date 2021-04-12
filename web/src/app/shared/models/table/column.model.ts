@@ -1,5 +1,6 @@
 import { STYLE } from '@/shared/constants';
 import { COLUMN_LABEL, COLUMN_KEY } from '@/shared/constants/table.constants';
+
 import { HORIZONTAL_ALIGN } from './horizontal-align.enum';
 
 export interface IColumn {

@@ -3,22 +3,23 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { EMPTY, of } from 'rxjs';
 import { mergeMap, map, catchError, withLatestFrom, filter, switchMap } from 'rxjs/operators';
-
 import { Store, select } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-
 import { AppState } from '@/core/store';
 import { normalizeResponse, roleSchema, partialDataLoaded, roleListSchema } from '@/core/store/normalization';
 import { ToastMessageService } from '@/shared/services';
 import { RoutingConstants } from '@/shared/constants';
 import { CollectionApiResponse, ItemApiResponse, BaseMessage } from '@/shared/models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
-import * as roleActions from './role.actions';
+import { Page } from '@/shared/store';
+
 import { RoleService } from '../../services';
 import { Role } from '../../shared/models';
+
+import * as roleActions from './role.actions';
 import { selectRolesDashboardDataLoaded } from './role.selectors';
-import { Page } from '@/shared/store';
+
 
 @Injectable()
 export class RoleEffects {

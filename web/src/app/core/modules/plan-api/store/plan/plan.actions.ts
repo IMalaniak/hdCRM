@@ -1,8 +1,8 @@
 import { createAction, props } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
-
 import { Page } from '@/shared/store';
 import { PageQuery, CollectionApiResponse } from '@/shared/models';
+
 import { Plan } from '../../shared/models';
 
 const detailsPrefix = '[Plan Details]';

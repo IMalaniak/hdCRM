@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
-
 import { CommonConstants } from '@/shared/constants';
 
 @Component({

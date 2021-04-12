@@ -2,15 +2,14 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-
 import { provideMockStore } from '@ngrx/store/testing';
-
 import { SharedModule } from '@/shared/shared.module';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogCreateEditModel, DIALOG_MODE } from '@/shared/models';
-import { InvitationDialogComponent } from './invitation-dialog.component';
 import { initialUsersState } from '@/core/modules/user-api/store';
+
+import { InvitationDialogComponent } from './invitation-dialog.component';
 
 describe('InvitationDialogComponent', () => {
   const dialogDataModel: DialogDataModel<DialogCreateEditModel> = {

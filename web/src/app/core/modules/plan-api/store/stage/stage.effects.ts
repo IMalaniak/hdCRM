@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 import { mergeMap, map, withLatestFrom, filter, catchError } from 'rxjs/operators';
-
 import { Store, select } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-
 import { AppState } from '@/core/store';
 import { ToastMessageService } from '@/shared/services';
 import { CollectionApiResponse, ItemApiResponse } from '@/shared/models';
-import * as stageActions from './stage.actions';
+
 import { StageService } from '../../services';
 import { Stage } from '../../shared/models';
+
+import * as stageActions from './stage.actions';
 import { allStagesLoaded } from './stage.selectors';
 
 @Injectable()

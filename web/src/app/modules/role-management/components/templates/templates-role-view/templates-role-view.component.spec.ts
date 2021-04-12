@@ -5,15 +5,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-
 import { provideMockStore } from '@ngrx/store/testing';
-
 import { initialPreferencesState } from '@/core/store/preferences';
 import { Role } from '@/core/modules/role-api/shared';
 import { initialRolesState, rolesFeatureKey } from '@/core/modules/role-api/store/role';
 import { COLUMN_KEY } from '@/shared/constants';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, formsStateMock, currentUserMock } from '@/shared/testing/mocks';
+
 import { TemplatesRoleViewComponent } from './templates-role-view.component';
 
 describe('TemplatesRoleViewComponent', () => {

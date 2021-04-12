@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-
 import { ACTION_LABEL, BS_ICON, THEME_PALETTE } from '@/shared/constants';
 
 @Component({

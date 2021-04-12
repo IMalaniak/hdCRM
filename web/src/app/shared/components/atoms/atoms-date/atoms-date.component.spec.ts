@@ -2,12 +2,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { provideMockStore } from '@ngrx/store/testing';
-
-import { AtomsDateComponent } from './atoms-date.component';
 import { SharedModule } from '@/shared/shared.module';
 import { initialPreferencesState } from '@/core/store/preferences';
+
+import { AtomsDateComponent } from './atoms-date.component';
 
 @Component({
   template: `<form [formGroup]="form">

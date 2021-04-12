@@ -1,7 +1,7 @@
-import * as AuthActions from './auth.actions';
 import { createReducer, Action, on } from '@ngrx/store';
-
 import { User } from '@/core/modules/user-api/shared';
+
+import * as AuthActions from './auth.actions';
 
 export interface AuthState {
   loggedIn: boolean;

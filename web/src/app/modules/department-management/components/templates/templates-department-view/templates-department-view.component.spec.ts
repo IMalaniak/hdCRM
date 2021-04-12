@@ -5,14 +5,13 @@ import { By } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-
 import { provideMockStore } from '@ngrx/store/testing';
-
 import { initialPreferencesState } from '@/core/store/preferences';
 import { Department } from '@/core/modules/department-api/shared';
 import { departmentsFeatureKey, initialDepartmentApiState } from '@/core/modules/department-api/store';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, currentUserMock, formsStateMock } from '@/shared/testing/mocks';
+
 import { TemplatesDepartmentViewComponent } from './templates-department-view.component';
 
 describe('TemplatesDepartmentViewComponent', () => {

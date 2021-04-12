@@ -1,16 +1,16 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-
 import { provideMockStore } from '@ngrx/store/testing';
-
 import { initialUsersState } from '@/core/modules/user-api/store';
 import { initialRolesState } from '@/core/modules/role-api/store/role';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, formsStateMock } from '@/shared/testing/mocks';
 import { initialListState } from '@/shared/store';
-import { RoleComponent } from './role.component';
+
 import { TemplatesRoleViewComponent } from '../templates';
+
+import { RoleComponent } from './role.component';
 
 describe('RoleComponent', () => {
   let component: RoleComponent;

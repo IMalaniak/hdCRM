@@ -64,6 +64,7 @@
         "brace-style": ["error", "1tbs"],
         "id-blacklist": "off",
         "id-match": "off",
+        "import/order": ["error", { "newlines-between": "always" }],
         "linebreak-style": "off",
         "max-len": [
           "off",

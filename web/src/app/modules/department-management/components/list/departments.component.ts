@@ -1,9 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-
 import { Store, select } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { deleteDepartmentRequested } from '@/core/modules/department-api/store';
@@ -14,6 +12,7 @@ import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model'
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
 import { Column, IColumn, RowActionData, ROW_ACTION_TYPE } from '@/shared/models/table';
+
 import { DepartmentsDataSource } from '../../dataSources';
 import { selectDepartmentsTotalCount, selectDepartmentsPageLoading, changeIsEditingState } from '../../store';
 

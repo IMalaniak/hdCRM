@@ -1,6 +1,5 @@
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from 'environments/environment';
-
 import { routerReducer, RouterReducerState, SerializedRouterStateSnapshot } from '@ngrx/router-store';
 
 import { preferencesReducer, PreferencesState } from './preferences';

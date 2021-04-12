@@ -1,8 +1,9 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-
 import { currentUser } from '@/core/modules/auth/store/auth.selectors';
-import * as fromUser from './user-api.reducer';
+
 import { USER_STATE } from '../shared/models';
+
+import * as fromUser from './user-api.reducer';
 
 export const selectUsersState = createFeatureSelector<fromUser.UsersState>(fromUser.usersFeatureKey);
 

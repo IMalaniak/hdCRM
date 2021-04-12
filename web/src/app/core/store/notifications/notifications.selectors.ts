@@ -1,5 +1,7 @@
 import { createSelector } from '@ngrx/store';
+
 import { AppState } from '..';
+
 import * as fromNotifications from './notifications.reducer';
 
 export const selectNotificationsState = (state: AppState) => state.notifications;

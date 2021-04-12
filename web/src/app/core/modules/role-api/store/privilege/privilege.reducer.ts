@@ -1,7 +1,9 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Privilege } from '../../shared/models';
-import * as PrivilegeActions from './privilege.actions';
 import { createReducer, on, Action } from '@ngrx/store';
+
+import { Privilege } from '../../shared/models';
+
+import * as PrivilegeActions from './privilege.actions';
 
 export interface PrivilegesState extends EntityState<Privilege> {
   allPrivilegesLoaded: boolean;

@@ -1,9 +1,7 @@
 import { Component, Input, SimpleChanges, OnChanges, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-
 import { Store, select } from '@ngrx/store';
-
 import { environment } from 'environments/environment';
 import { AppState } from '@/core/store';
 import { Preferences } from '@/core/store/preferences';

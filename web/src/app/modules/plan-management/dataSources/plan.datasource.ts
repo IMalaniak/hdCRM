@@ -1,7 +1,6 @@
 import { select } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-
 import { Plan } from '@/core/modules/plan-api/shared';
 import { listPageRequested } from '@/core/modules/plan-api/store/plan';
 import { PageQuery } from '@/shared/models';
@@ -9,6 +8,7 @@ import { CommonDataSource } from '@/shared/services';
 import { COLUMN_KEY } from '@/shared/constants';
 import { DataRow, Cell } from '@/shared/models/table';
 import { UrlGenerator } from '@/shared/utils';
+
 import { selectPlansOfPage } from '../store';
 
 export class PlansDataSource extends CommonDataSource<Plan> {

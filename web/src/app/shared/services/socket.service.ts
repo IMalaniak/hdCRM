@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Manager, Socket } from 'socket.io-client';
 import { Observable } from 'rxjs';
+import { environment } from 'environments/environment';
 
 import { SOCKET_EVENT } from '../constants';
-import { environment } from 'environments/environment';
 
 @Injectable({
   providedIn: 'root'

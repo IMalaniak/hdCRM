@@ -3,15 +3,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-
 import { provideMockStore } from '@ngrx/store/testing';
-
 import { initialUsersState } from '@/core/modules/user-api/store';
 import { initialDepartmentApiState } from '@/core/modules/department-api/store';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, formsStateMock } from '@/shared/testing/mocks';
-import { DepartmentComponent } from './department.component';
+
 import { TemplatesDepartmentViewComponent } from '../templates';
+
+import { DepartmentComponent } from './department.component';
 
 describe('DepartmentComponent', () => {
   let component: DepartmentComponent;

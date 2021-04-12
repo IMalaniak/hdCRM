@@ -13,9 +13,9 @@ import { NgControl } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatRadioChange } from '@angular/material/radio';
+import { FIELD_TYPE, THEME_PALETTE } from '@/shared/constants';
 
 import { BaseControlValueAccessorComponentModel } from '../../base/componentModels';
-import { FIELD_TYPE, THEME_PALETTE } from '@/shared/constants';
 
 @Component({
   selector: 'molecules-form-field',

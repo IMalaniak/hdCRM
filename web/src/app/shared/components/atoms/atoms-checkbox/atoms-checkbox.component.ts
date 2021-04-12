@@ -3,9 +3,9 @@ import { MatFormFieldControl } from '@angular/material/form-field';
 import { NgControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ThemePalette } from '@angular/material/core';
+import { THEME_PALETTE } from '@/shared/constants';
 
 import { BaseControlValueAccessorComponentModel } from '../../base/componentModels';
-import { THEME_PALETTE } from '@/shared/constants';
 
 @Component({
   selector: 'atoms-checkbox',

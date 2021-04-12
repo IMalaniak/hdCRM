@@ -1,8 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-
 import { select, Store } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { IconsService } from '@/core/services';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';

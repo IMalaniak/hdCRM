@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-
 import { select, Store } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { Role, Privilege } from '@/core/modules/role-api/shared';
 import { selectRolesLoading } from '@/core/modules/role-api/store/role';

@@ -1,8 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { denormalize } from 'normalizr';
-
 import { selectAllUserEntities } from '@/core/modules/user-api/store';
 import { roleSchema } from '@/core/store/normalization';
+
 import * as fromRole from './role.reducer';
 
 export const selectRolesState = createFeatureSelector<fromRole.RolesState>(fromRole.rolesFeatureKey);

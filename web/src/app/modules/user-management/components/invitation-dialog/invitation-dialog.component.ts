@@ -4,9 +4,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { ComponentType } from '@angular/cdk/portal';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
 import { Store, select } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { User } from '@/core/modules/user-api/shared';
 import { selectAllUsers } from '@/core/modules/user-api/store';

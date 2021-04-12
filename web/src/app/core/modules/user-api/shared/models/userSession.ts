@@ -1,4 +1,5 @@
 import { TimeStamps } from '@/shared/models/base';
+
 import { User } from '..';
 
 export interface UserSession extends TimeStamps {

@@ -1,6 +1,8 @@
 import { User } from '@/core/modules/user-api/shared';
 import { STYLE, THEME_PALETTE } from '@/shared/constants';
+
 import { Navigation } from '../navigation';
+
 import { CELL_TYPE } from './cell-type.enum';
 
 export interface ICell {

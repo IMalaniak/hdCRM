@@ -2,6 +2,7 @@ import { createReducer, on, Action } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
 import { Department } from '../shared/models';
+
 import * as departmentApiActions from './department-api.actions';
 
 export interface DepartmentApiState extends EntityState<Department> {

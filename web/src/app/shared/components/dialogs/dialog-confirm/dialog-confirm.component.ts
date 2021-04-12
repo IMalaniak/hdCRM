@@ -1,11 +1,11 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-import { DialogBaseModel } from '../models/dialog-base.model';
 import { IDialogResult } from '@/shared/models/dialog/dialog-result';
 import { DialogDataModel } from '@/shared/models';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
+
+import { DialogBaseModel } from '../models/dialog-base.model';
 
 @Component({
   templateUrl: './dialog-confirm.component.html',

@@ -1,7 +1,5 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-
 import { Store } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { Organization } from '@/core/modules/user-api/shared';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';

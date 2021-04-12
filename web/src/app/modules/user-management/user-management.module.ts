@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
 import { StoreModule } from '@ngrx/store';
-
 import { SharedModule } from '@/shared/shared.module';
+
 import { UserManagementRoutingModule } from './user-management-routing.module';
 import {
   ProfileComponent,

@@ -2,6 +2,7 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { createReducer, on, Action } from '@ngrx/store';
 
 import { Stage } from '../../shared/models';
+
 import * as StageActions from './stage.actions';
 
 export interface StagesState extends EntityState<Stage> {

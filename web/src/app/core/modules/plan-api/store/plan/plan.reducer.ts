@@ -2,6 +2,7 @@ import { createReducer, on, Action } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
 import { Plan } from '../../shared/models';
+
 import * as planActions from './plan.actions';
 
 export interface PlansState extends EntityState<Plan> {

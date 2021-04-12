@@ -2,7 +2,6 @@ import { initialIntegrationsState } from '@/core/store/integration/integration.r
 import { SharedModule } from '@/shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { OrganismsUserIntegrationsComponent } from './organisms-user-integrations.component';

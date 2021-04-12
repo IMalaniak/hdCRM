@@ -1,6 +1,5 @@
 import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { MatListOption } from '@angular/material/list';
-
 import { User } from '@/core/modules/user-api/shared';
 
 @Component({

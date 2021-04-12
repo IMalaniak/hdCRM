@@ -1,17 +1,17 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-
 import { provideMockStore } from '@ngrx/store/testing';
-
 import { initialNotificationsState } from '@/core/store/notifications';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock, routerStoreMock } from '@/shared/testing/mocks';
+
 import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component';
 import { NotificationsComponent } from '../notifications/notifications.component';
-import { HeaderComponent } from './header.component';
 import { UserDropdownComponent } from '../user-dropdown/user-dropdown.component';
 import { initialLayoutState } from '../../store/layout.reducer';
+
+import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;

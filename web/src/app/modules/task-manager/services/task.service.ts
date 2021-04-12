@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
 import { BaseMessage } from '@/shared/models';
 import { ApiRoutesConstants } from '@/shared/constants';
 import { BaseCrudService } from '@/shared/services';

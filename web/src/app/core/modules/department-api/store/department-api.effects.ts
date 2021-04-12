@@ -3,11 +3,9 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { EMPTY, of } from 'rxjs';
 import { mergeMap, map, catchError, withLatestFrom, filter, switchMap } from 'rxjs/operators';
-
 import { Store, select } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Update } from '@ngrx/entity';
-
 import { AppState } from '@/core/store';
 import {
   departmentListSchema,
@@ -20,10 +18,12 @@ import { CollectionApiResponse, ItemApiResponse, BaseMessage, PageQuery } from '
 import { RoutingConstants } from '@/shared/constants';
 import { Page } from '@/shared/store';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
-import * as departmentApiActions from './department-api.actions';
-import { selectDashboardDepDataLoaded } from './department-api.selectors';
+
 import { DepartmentService } from '../services';
 import { Department } from '../shared/models';
+
+import * as departmentApiActions from './department-api.actions';
+import { selectDashboardDepDataLoaded } from './department-api.selectors';
 
 @Injectable()
 export class DepartmentEffects {

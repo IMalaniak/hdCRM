@@ -3,10 +3,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { tap, map, switchMap, catchError, concatMap, withLatestFrom, mergeMap, exhaustMap } from 'rxjs/operators';
-
 import { Actions, ofType, createEffect, OnInitEffects } from '@ngrx/effects';
 import { Store, select, Action } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { initPreferences } from '@/core/store/preferences';
 import { selectUrl } from '@/core/store/router.selectors';
@@ -15,8 +13,10 @@ import { SocketService, ToastMessageService } from '@/shared/services';
 import { BaseMessage, ItemApiResponse } from '@/shared/models';
 import { SOCKET_EVENT, RoutingConstants, CommonConstants } from '@/shared/constants';
 import { changeIsEditingState } from '@/modules/user-management/store';
-import * as authActions from './auth.actions';
+
 import { AuthenticationService } from '../services';
+
+import * as authActions from './auth.actions';
 import { getToken } from './auth.selectors';
 
 @Injectable()

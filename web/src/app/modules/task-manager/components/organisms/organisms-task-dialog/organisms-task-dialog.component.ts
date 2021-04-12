@@ -1,10 +1,8 @@
 import { Component, Inject, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/portal';
-
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-
 import { AppState } from '@/core/store';
 import { selectFormByName, formRequested } from '@/core/store/dynamic-form';
 import { DynamicForm } from '@/shared/models';

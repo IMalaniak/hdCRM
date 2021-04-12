@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
-
 import { select, Store } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
-import { DynamicFormComponent } from '../../dynamic-form/dynamic-form.component';
 import { DynamicForm } from '@/shared/models';
 import { formRequested, selectFormByName } from '@/core/store/dynamic-form';
+
+import { DynamicFormComponent } from '../../dynamic-form/dynamic-form.component';
 
 @Component({
   template: ''

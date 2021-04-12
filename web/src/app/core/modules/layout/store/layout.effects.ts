@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { of } from 'rxjs';
 import { switchMap, map, withLatestFrom } from 'rxjs/operators';
-
 import { Action, Store, select } from '@ngrx/store';
 import { Actions, ofType, createEffect, OnInitEffects } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-
 import { MediaQueryService } from '@/core/services';
 import { LocalStorageService } from '@/shared/services';
+
 import * as layoutActions from './layout.actions';
 import { LayoutState } from './layout.reducer';
 import { getDarkThemeState, tableConfigState } from './layout.selectors';

@@ -1,7 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { Store, select } from '@ngrx/store';
-
 import { Observable } from 'rxjs';
 import { tap, withLatestFrom, map, take } from 'rxjs/operators';
 

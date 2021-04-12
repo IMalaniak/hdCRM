@@ -2,7 +2,6 @@ import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { ComponentType } from '@angular/cdk/portal';
-
 import { ACTION_LABEL, THEME_PALETTE } from '@/shared/constants';
 import { DialogCreateEditPageModel } from '@/shared/components';
 import { DialogCreateEditModel, DialogDataModel, IDialogResult } from '@/shared/models';

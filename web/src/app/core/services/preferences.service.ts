@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
 import { ApiRoutesConstants } from '@/shared/constants';
+import { ItemApiResponse } from '@/shared/models';
+
 import { Preferences, PreferencesList } from '../store/preferences';
 import { UserPreferences } from '../modules/user-api/shared';
-import { ItemApiResponse } from '@/shared/models';
 
 @Injectable({
   providedIn: 'root'

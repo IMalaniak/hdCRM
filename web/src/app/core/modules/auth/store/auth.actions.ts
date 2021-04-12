@@ -1,5 +1,4 @@
 import { props, createAction } from '@ngrx/store';
-
 import { Organization, User } from '@/core/modules/user-api/shared';
 import { NewPassword } from '@/shared/models';
 

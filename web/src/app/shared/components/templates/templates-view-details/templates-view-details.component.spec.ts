@@ -2,13 +2,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Component } from '@angular/core';
-
 import { provideMockStore } from '@ngrx/store/testing';
-
 import { initialPreferencesState } from '@/core/store/preferences';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock } from '@/shared/testing/mocks';
 import { FORM_TYPE, FIELD_TYPE } from '@/shared/constants';
+
 import { TemplatesViewDetailsComponent } from './templates-view-details.component';
 
 @Component({

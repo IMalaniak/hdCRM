@@ -1,11 +1,10 @@
 import { Component, Input, HostBinding, ChangeDetectionStrategy } from '@angular/core';
-
 import { Store, select } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import { IconsService, MediaQueryService } from '@/core/services';
 import { BS_ICON, RoutingConstants, VIEW_PRIVILEGE } from '@/shared/constants';
+
 import { MenuItem } from './menuItem';
 
 @Component({

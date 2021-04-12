@@ -1,5 +1,6 @@
 /* NgRx */
 import { createSelector } from '@ngrx/store';
+
 import { AppState } from '../index';
 
 // Selector functions

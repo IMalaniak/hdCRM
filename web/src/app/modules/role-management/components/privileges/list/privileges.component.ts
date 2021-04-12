@@ -2,9 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { takeUntil, map } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
-
 import { Store, select } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { Privilege } from '@/core/modules/role-api/shared';
 import {
@@ -19,6 +17,7 @@ import { DialogService } from '@/shared/services';
 import { DIALOG_MODE } from '@/shared/models/dialog/dialog-mode.enum';
 import { IDialogResult } from '@/shared/models/dialog/dialog-result';
 import { DialogCreateEditModel, DIALOG_TYPE } from '@/shared/models';
+
 import { AddPrivilegeDialogComponent } from '../add-dialog/add-privilege-dialog.component';
 
 @Component({

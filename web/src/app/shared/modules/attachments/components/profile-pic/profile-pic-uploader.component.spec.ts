@@ -1,9 +1,8 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { provideMockStore } from '@ngrx/store/testing';
-
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock } from '@/shared/testing/mocks';
+
 import { ProfilepicUploaderComponent } from './profile-pic-uploader.component';
 
 describe('ProfilepicUploaderComponent', () => {

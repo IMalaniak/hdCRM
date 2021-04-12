@@ -3,13 +3,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
-
 import { provideMockStore } from '@ngrx/store/testing';
-
 import { SharedModule } from '@/shared/shared.module';
 import { formsStateMock } from '@/shared/testing/mocks';
-import { OrganismsTaskDialogComponent } from './organisms-task-dialog.component';
 import { DialogCreateEditModel, DialogDataModel, DIALOG_MODE } from '@/shared/models/dialog';
+
+import { OrganismsTaskDialogComponent } from './organisms-task-dialog.component';
 
 describe('OrganismsTaskDialogComponent', () => {
   const dialogDataModel: DialogDataModel<DialogCreateEditModel> = {

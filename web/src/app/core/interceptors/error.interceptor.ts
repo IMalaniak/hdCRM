@@ -3,10 +3,9 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/c
 import { Router } from '@angular/router';
 import { Observable, throwError, timer } from 'rxjs';
 import { catchError, first, retryWhen, filter, last, mergeMap } from 'rxjs/operators';
-
 import { Store, select } from '@ngrx/store';
-
 import { ApiRoutesConstants, PathConstants, RoutingConstants } from '@/shared/constants';
+
 import { AppState } from '../store';
 import { selectUrl } from '../store/router.selectors';
 import { refreshSession, redirectToLogin } from '../modules/auth/store/auth.actions';

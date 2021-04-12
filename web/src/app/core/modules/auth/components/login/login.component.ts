@@ -2,9 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
-
 import { Store, select } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { IconsService } from '@/core/services';
 import { ConfirmPasswordValidator } from '@/shared/validators';
@@ -19,6 +17,7 @@ import {
   BS_ICON,
   INPUT_TYPE
 } from '@/shared/constants';
+
 import * as authActions from '../../store/auth.actions';
 import * as authSelectors from '../../store/auth.selectors';
 

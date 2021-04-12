@@ -2,9 +2,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/
 import { SelectionModel } from '@angular/cdk/collections';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-
 import { Store, select } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { Stage } from '@/core/modules/plan-api/shared';
 import {
@@ -18,6 +16,7 @@ import { DialogService } from '@/shared/services';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { IDialogResult } from '@/shared/models/dialog/dialog-result';
 import { DialogCreateEditModel, DIALOG_MODE } from '@/shared/models';
+
 import { AddStageDialogComponent } from '../add-dialog/add-stage-dialog.component';
 
 @Component({

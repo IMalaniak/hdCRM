@@ -1,6 +1,7 @@
 import { BelongsToOrganization, User } from '@/core/modules/user-api/shared';
 import { Asset } from '@/shared/models';
 import { TimeStamps } from '@/shared/models/base';
+
 import { Stage } from './stage';
 
 export interface Plan extends TimeStamps, BelongsToOrganization {

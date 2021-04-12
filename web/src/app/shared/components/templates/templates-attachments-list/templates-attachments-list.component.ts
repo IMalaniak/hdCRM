@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Output, Input, ChangeDetectionStrategy } from '@angular/core';
-
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs/internal/Observable';
-
 import { AppState } from '@/core/store';
 import { getGoogleDriveIntegrationState, toggleGoogleDriveIntegration } from '@/core/store/integration';
 import { IconsService } from '@/core/services';

@@ -2,9 +2,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
 import { Store, select } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { User, USER_STATE } from '@/core/modules/user-api/shared';
 import { deleteUser, inviteUsers, onlineUserListRequested } from '@/core/modules/user-api/store';
@@ -18,6 +16,7 @@ import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model'
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
 import { RowActionData, ROW_ACTION_TYPE, Column, IColumn } from '@/shared/models/table';
+
 import {
   selectListDisplayMode,
   selectPreselectedUsersIds,
