@@ -42,7 +42,11 @@
     "mochaExplorer.require": ["ts-node/register", "reflect-metadata"],
     "mochaExplorer.timeout": 10000,
     "errorLens.enabledDiagnosticLevels": ["error", "warning"],
-    "eslint.workingDirectories": ["./web", "./server"]
+    "eslint.workingDirectories": ["./web", "./server"],
+    "eslint.options": {
+      "extensions": [".ts", ".html"]
+    },
+    "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "html"]
   },
   "extensions": {
     "recommendations": [

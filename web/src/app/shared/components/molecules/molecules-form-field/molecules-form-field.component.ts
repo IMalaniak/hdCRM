@@ -36,7 +36,7 @@ export class MoleculesFormFieldComponent extends BaseControlValueAccessorCompone
   @Input() bindOptValue?: string; // TODO: provide logic to use this parameter
   @Input() bindOptLabel?: string; // TODO: provide logic to use this parameter
 
-  // tslint:disable-next-line:no-output-on-prefix
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onChange: EventEmitter<MatCheckboxChange | MatRadioChange> = new EventEmitter();
 
   @HostBinding('class.w-100') fullWidth = true;

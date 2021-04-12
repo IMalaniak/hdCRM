@@ -72,7 +72,9 @@ function eslint({ cwd, fix = false }: { cwd: string; fix?: boolean }) {
   const ext = '--ext .ts';
   const ignorePath = './.eslintignore';
   const fixParam = fix ? '--fix' : '';
-  return doRun(`npx eslint ${fixParam} ${path} ${ext} --ignore-path '${ignorePath}'`, { cwd });
+  return cwd === 'web'
+    ? doRun(`node_modules/.bin/ng lint ${fixParam}`, { cwd })
+    : doRun(`npx eslint ${fixParam} ${path} ${ext} --ignore-path '${ignorePath}'`, { cwd });
 }
 
 export function lint(cwd, fix = false) {

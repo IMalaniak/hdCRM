@@ -4,7 +4,7 @@ import { ControlValueAccessor } from '@angular/forms';
 @Component({
   template: ''
 })
-// tslint:disable-next-line:component-class-suffix
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export abstract class BaseControlValueAccessorComponentModel<T> implements ControlValueAccessor {
   @Input()
   get value(): T {
