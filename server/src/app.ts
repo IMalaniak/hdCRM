@@ -6,7 +6,7 @@ import { Server } from './server';
 export class App {
   constructor(private readonly server: Server) {}
 
-  public expressApp: Application;
+  public expressApp!: Application;
 
   public static async start(): Promise<App> {
     const application = Container.get(App);

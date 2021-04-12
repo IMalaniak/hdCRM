@@ -11,7 +11,7 @@ export interface PlanStageAttributes {
   StageId: number;
 }
 
-export type PlanStageCreationAttributes = Optional<PlanStageAttributes, 'id' | 'description'>
+export type PlanStageCreationAttributes = Optional<PlanStageAttributes, 'id' | 'description'>;
 
 export class PlanStage extends Model<PlanStageAttributes, PlanStageCreationAttributes> {
   public id!: number;
@@ -35,7 +35,7 @@ export class PlanStage extends Model<PlanStageAttributes, PlanStageCreationAttri
   };
 }
 
-export const PlanStageFactory = (sequelize: Sequelize): Model<PlanStageAttributes, PlanStageCreationAttributes> => {
+export const planStageFactory = (sequelize: Sequelize): Model => {
   return PlanStage.init(
     {
       id: {

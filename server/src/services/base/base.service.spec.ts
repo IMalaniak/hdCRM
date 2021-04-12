@@ -1,4 +1,4 @@
-// tslint:disable: no-unused-expression
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { fail } from 'assert';
 import { expect } from 'chai';
@@ -33,10 +33,7 @@ describe('BaseService', () => {
   let spyLogger: sinon.SinonSpy;
 
   let findByPkStub: sinon.SinonStub;
-  let createStub: sinon.SinonStub<
-    [values: DepartmentCreationAttributes, options: CreateOptions],
-    Promise<Department>
-  >;
+  let createStub: sinon.SinonStub<[values: DepartmentCreationAttributes, options: CreateOptions], Promise<Department>>;
   let updateStub: sinon.SinonStub;
   let deleteStub: sinon.SinonStub;
   let findAndCountAllStub: sinon.SinonStub;
@@ -78,6 +75,7 @@ describe('BaseService', () => {
     spyLogger = sinon.spy(loggerInstance, 'error');
 
     findByPkStub = sinon.stub(Department, 'findByPk');
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     createStub = sinon.stub(Department, 'create') as any;
     updateStub = sinon.stub(Department, 'update');
     deleteStub = sinon.stub(Department, 'destroy');

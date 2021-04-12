@@ -12,7 +12,7 @@ import { TaskCreationAttributes, TaskAttributes, Task, TaskPriority } from '../r
 export class TaskService extends BaseService<TaskCreationAttributes, TaskAttributes, Task> {
   protected includes: IncludeOptions[] = [
     {
-      model: TaskPriority as any
+      model: TaskPriority
     }
   ];
 
@@ -22,11 +22,11 @@ export class TaskService extends BaseService<TaskCreationAttributes, TaskAttribu
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_TASK);
   }
 
-  public async getAll(CreatorId: number): Promise<Result<CollectionApiResponse<Task> | BaseResponse, CustomError>> {
+  public async getAll(creatorId: number): Promise<Result<CollectionApiResponse<Task> | BaseResponse, CustomError>> {
     try {
       const data = await Task.findAll({
         where: {
-          CreatorId
+          CreatorId: creatorId
         },
         include: this.includes
       });
@@ -37,7 +37,7 @@ export class TaskService extends BaseService<TaskCreationAttributes, TaskAttribu
         return ok({});
       }
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
@@ -52,7 +52,7 @@ export class TaskService extends BaseService<TaskCreationAttributes, TaskAttribu
         return ok({});
       }
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }

@@ -65,14 +65,14 @@ export class DepartmentService extends BaseService<DepartmentCreationAttributes,
       });
       return ok({ data: data.rows, resultsNum: data.count });
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
 
   protected async postAction(department: Department, id: number): Promise<Department> {
     if (department.ParentDepartment || department.SubDepartments?.length || department.Workers?.length) {
-      const updated = await this.MODEL.findByPk(id, { attributes: ['id'] });
+      const updated = (await this.MODEL.findByPk(id, { attributes: ['id'] })) as Department;
 
       if (department.ParentDepartment) {
         await this.addParentDepartment(updated, department.ParentDepartment);
@@ -86,20 +86,20 @@ export class DepartmentService extends BaseService<DepartmentCreationAttributes,
         await this.addWorkers(updated, department.Workers);
       }
     }
-    return this.findByPk(id);
+    return this.findByPk(id) as Promise<Department>;
   }
 
   private async addParentDepartment(department: Department, parentDepartment: Department): Promise<void> {
-    return await department.setParentDepartment(parentDepartment.id);
+    return department.setParentDepartment(parentDepartment.id);
   }
 
   private async addSubDepartments(department: Department, subDepartmentIds: { id: number }[]): Promise<void> {
     const subDepartments = await this.MODEL.findAll({ where: { [Op.or]: subDepartmentIds }, attributes: ['id'] });
-    return await department.setSubDepartments(subDepartments);
+    return department.setSubDepartments(subDepartments);
   }
 
   private async addWorkers(department: Department, workerIds: { id: number }[]): Promise<void> {
     const workers = await User.findAll({ where: { [Op.or]: workerIds }, attributes: ['id'] });
-    return await department.setWorkers(workers);
+    return department.setWorkers(workers);
   }
 }

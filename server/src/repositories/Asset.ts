@@ -26,7 +26,7 @@ export interface AssetAttributes {
   type: string;
 }
 
-export type AssetCreationAttributes = Optional<AssetAttributes, 'id'>
+export type AssetCreationAttributes = Optional<AssetAttributes, 'id'>;
 export class Asset extends Model<AssetAttributes, AssetCreationAttributes> {
   public id!: number;
   public title!: string;
@@ -68,7 +68,7 @@ export class Asset extends Model<AssetAttributes, AssetCreationAttributes> {
   };
 }
 
-export const AssetFactory = (sequelize: Sequelize): Model<AssetAttributes, AssetCreationAttributes> => {
+export const assetFactory = (sequelize: Sequelize): Model => {
   return Asset.init(
     {
       id: {

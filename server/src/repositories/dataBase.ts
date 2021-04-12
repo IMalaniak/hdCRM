@@ -2,29 +2,30 @@ import { Service } from 'typedi';
 import { Op, Sequelize } from 'sequelize';
 
 import { Logger } from '../utils/Logger';
-import { User, UserFactory } from './User';
-import { UserSession, UserSessionFactory } from './UserSession';
-import { PasswordAttribute, PasswordAttributeFactory } from './PasswordAttribute';
-import { Role, RoleFactory } from './Role';
-import { Privilege, PrivilegeFactory } from './Privilege';
-import { Asset, AssetFactory } from './Asset';
-import { Plan, PlanFactory } from './Plan';
-import { Stage, StageFactory } from './Stage';
-import { PlanStage, PlanStageFactory } from './PlanStage';
-import { Department, DepartmentFactory } from './Department';
-import { RolePrivilege, RolePrivilegeFactory } from './RolePrivileges';
-import { OrganizationFactory, Organization } from './Organization';
-import { TaskFactory, Task } from './Task';
-import { TaskPriorityFactory, TaskPriority } from './TaskPriority';
-import { PreferenceFactory, Preference } from './Preference';
-import { FormFactory } from './Form';
+import { User, userFactory } from './User';
+import { UserSession, userSessionFactory } from './UserSession';
+import { PasswordAttribute, passwordAttributeFactory } from './PasswordAttribute';
+import { Role, roleFactory } from './Role';
+import { Privilege, privilegeFactory } from './Privilege';
+import { Asset, assetFactory } from './Asset';
+import { Plan, planFactory } from './Plan';
+import { Stage, stageFactory } from './Stage';
+import { PlanStage, planStageFactory } from './PlanStage';
+import { Department, departmentFactory } from './Department';
+import { RolePrivilege, rolePrivilegeFactory } from './RolePrivileges';
+import { organizationFactory, Organization } from './Organization';
+import { taskFactory, Task } from './Task';
+import { taskPriorityFactory, TaskPriority } from './TaskPriority';
+import { preferenceFactory, Preference } from './Preference';
+import { formFactory } from './Form';
 
 @Service()
 export class DataBase {
   sequelize: Sequelize;
 
   constructor(private readonly logger: Logger) {
-    this.sequelize = new Sequelize(process.env.DATABASE_URL, {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    this.sequelize = new Sequelize(process.env.DATABASE_URL!, {
       operatorsAliases: {
         eq: Op.eq,
         ne: Op.ne,
@@ -46,6 +47,7 @@ export class DataBase {
         substring: Op.substring,
         iLike: Op.iLike,
         notILike: Op.notILike,
+        // eslint-disable-next-line id-blacklist
         any: Op.any
       },
       ...(process.env.NODE_ENV !== 'development' && {
@@ -63,22 +65,22 @@ export class DataBase {
   }
 
   private createModels(): void {
-    OrganizationFactory(this.sequelize);
-    AssetFactory(this.sequelize);
-    DepartmentFactory(this.sequelize);
-    PasswordAttributeFactory(this.sequelize);
-    PlanFactory(this.sequelize);
-    PlanStageFactory(this.sequelize);
-    PrivilegeFactory(this.sequelize);
-    RoleFactory(this.sequelize);
-    RolePrivilegeFactory(this.sequelize);
-    StageFactory(this.sequelize);
-    UserFactory(this.sequelize);
-    UserSessionFactory(this.sequelize);
-    TaskFactory(this.sequelize);
-    TaskPriorityFactory(this.sequelize);
-    PreferenceFactory(this.sequelize);
-    FormFactory(this.sequelize);
+    organizationFactory(this.sequelize);
+    assetFactory(this.sequelize);
+    departmentFactory(this.sequelize);
+    passwordAttributeFactory(this.sequelize);
+    planFactory(this.sequelize);
+    planStageFactory(this.sequelize);
+    privilegeFactory(this.sequelize);
+    roleFactory(this.sequelize);
+    rolePrivilegeFactory(this.sequelize);
+    stageFactory(this.sequelize);
+    userFactory(this.sequelize);
+    userSessionFactory(this.sequelize);
+    taskFactory(this.sequelize);
+    taskPriorityFactory(this.sequelize);
+    preferenceFactory(this.sequelize);
+    formFactory(this.sequelize);
 
     // associations
     Organization.hasMany(Department, {
@@ -136,11 +138,11 @@ export class DataBase {
     });
 
     Role.belongsToMany(Privilege, {
-      through: RolePrivilege as any,
+      through: RolePrivilege,
       foreignKey: 'RoleId'
     });
     Privilege.belongsToMany(Role, {
-      through: RolePrivilege as any,
+      through: RolePrivilege,
       foreignKey: 'PrivilegeId'
     });
 
@@ -152,13 +154,13 @@ export class DataBase {
     Plan.belongsTo(Stage, { as: 'activeStage' });
     Plan.belongsToMany(Stage, {
       as: 'Stages',
-      through: PlanStage as any,
+      through: PlanStage,
       foreignKey: 'PlanId'
     });
     Stage.hasMany(Plan, { foreignKey: 'activeStageId' });
     Stage.belongsToMany(Plan, {
       as: 'StagePlans',
-      through: PlanStage as any,
+      through: PlanStage,
       foreignKey: 'StageId'
     });
     Asset.belongsToMany(Plan, { through: 'PlanAssets', foreignKey: 'AssetId' });

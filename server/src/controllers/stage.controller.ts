@@ -19,7 +19,8 @@ export class StageController extends BaseController<StageCreationAttributes, Sta
   public async getAll(req: Request, res: Response<CollectionApiResponse<Stage> | BaseResponse>): Promise<void> {
     req.log.info(`Selecting stages list...`);
 
-    const result = await this.dataBaseService.getAll(req.user.OrganizationId);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const result = await this.dataBaseService.getAll(req.user!.OrganizationId);
 
     return sendResponse<CollectionApiResponse<Stage> | BaseResponse, CustomError>(result, res);
   }

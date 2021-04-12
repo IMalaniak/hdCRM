@@ -34,7 +34,7 @@ export interface StageAttributes {
   keyString: string;
 }
 
-export type StageCreationAttributes = Optional<StageAttributes, 'id'>
+export type StageCreationAttributes = Optional<StageAttributes, 'id'>;
 
 export class Stage extends Model<StageAttributes, StageCreationAttributes> {
   public id!: number;
@@ -72,7 +72,7 @@ export class Stage extends Model<StageAttributes, StageCreationAttributes> {
   };
 }
 
-export const StageFactory = (sequelize: Sequelize): Model<StageAttributes, StageCreationAttributes> => {
+export const stageFactory = (sequelize: Sequelize): Model => {
   return Stage.init(
     {
       id: {

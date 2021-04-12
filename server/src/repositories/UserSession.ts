@@ -6,17 +6,17 @@ export interface UserSessionAttributes {
   id: number;
   IP: string;
   isSuccess: boolean;
-  UA: string;
+  UA?: string;
   UserId: number;
 }
 
-export type UserSessionCreationAttributes = Optional<UserSessionAttributes, 'id'>
+export type UserSessionCreationAttributes = Optional<UserSessionAttributes, 'id'>;
 
 export class UserSession extends Model<UserSessionAttributes, UserSessionCreationAttributes> {
   public id!: number;
   public IP!: string;
   public isSuccess!: boolean;
-  public UA!: string;
+  public UA?: string;
 
   // timestamps
   public readonly createdAt!: Date;
@@ -34,9 +34,7 @@ export class UserSession extends Model<UserSessionAttributes, UserSessionCreatio
   };
 }
 
-export const UserSessionFactory = (
-  sequelize: Sequelize
-): Model<UserSessionAttributes, UserSessionCreationAttributes> => {
+export const userSessionFactory = (sequelize: Sequelize): Model => {
   return UserSession.init(
     {
       id: {

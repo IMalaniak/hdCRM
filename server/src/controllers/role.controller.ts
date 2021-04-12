@@ -21,11 +21,8 @@ export class RoleController extends BaseController<RoleCreationAttributes, RoleA
     res: Response<CollectionApiResponse<Role> | BaseResponse>
   ): Promise<void> {
     req.log.info(`Geting roles dashboard data...`);
-
-    const {
-      user: { OrganizationId }
-    } = req;
-    const result = await this.dataBaseService.getDashboardData(OrganizationId);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const result = await this.dataBaseService.getDashboardData(req.user!.OrganizationId);
 
     return sendResponse<CollectionApiResponse<Role>, CustomError>(result, res);
   }
@@ -33,7 +30,8 @@ export class RoleController extends BaseController<RoleCreationAttributes, RoleA
   protected generateCreationAttributes(req: RequestWithBody<RoleCreationAttributes>): RoleCreationAttributes {
     return {
       ...req.body,
-      OrganizationId: req.user.OrganizationId
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      OrganizationId: req.user!.OrganizationId
     };
   }
 }

@@ -1,3 +1,3 @@
-export const enumToArray = (en: { [key: number]: string }): string[] => {
-  return Object.keys(en).map((key) => en[key]);
+export const enumToArray = (en: { [key: string]: string }): string[] => {
+  return Object.keys(en).map((key: string) => en[key] as string);
 };

@@ -12,7 +12,7 @@ export interface TaskAttributes {
   TaskPriorityId: number;
 }
 
-export type TaskCreationAttributes = Optional<TaskAttributes, 'id' | 'description' | 'isCompleted'>
+export type TaskCreationAttributes = Optional<TaskAttributes, 'id' | 'description' | 'isCompleted'>;
 
 export class Task extends Model<TaskAttributes, TaskCreationAttributes> {
   public id!: number;
@@ -40,7 +40,7 @@ export class Task extends Model<TaskAttributes, TaskCreationAttributes> {
   };
 }
 
-export const TaskFactory = (sequelize: Sequelize): Model<TaskAttributes, TaskCreationAttributes> => {
+export const taskFactory = (sequelize: Sequelize): Model => {
   return Task.init(
     {
       id: {

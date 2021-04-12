@@ -9,6 +9,6 @@ App.start()
   .then(() => {
     logger.info('Application started');
   })
-  .catch((error) => {
-    logger.error(`Uncaught exception! Application will terminate, ${error}`);
+  .catch((error: Error) => {
+    logger.error(`Uncaught exception! Application will terminate, ${error.message}`);
   });

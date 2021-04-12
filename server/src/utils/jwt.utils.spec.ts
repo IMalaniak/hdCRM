@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { expect } from 'chai';
 import { Config } from '../config';
 import { Logger } from './Logger';
 import { JwtUtils } from './jwt.utils';
 
-describe('JwtUtils', async () => {
+describe('JwtUtils', () => {
   const logger = new Logger();
   const jwtHelper: JwtUtils = new JwtUtils(logger);
 

@@ -25,12 +25,12 @@ export interface PrivilegeAttributes {
   title?: string;
 }
 
-export type PrivilegeCreationAttributes = Optional<PrivilegeAttributes, 'id' | 'title'>
+export type PrivilegeCreationAttributes = Optional<PrivilegeAttributes, 'id' | 'title'>;
 
 export class Privilege extends Model<PrivilegeAttributes, PrivilegeCreationAttributes> {
   public id!: number;
   public keyString!: string;
-  public title: string;
+  public title!: string;
 
   public addRole!: BelongsToManyAddAssociationMixin<Role, number>;
   public addRoles!: BelongsToManyAddAssociationsMixin<Role, number>;
@@ -44,14 +44,14 @@ export class Privilege extends Model<PrivilegeAttributes, PrivilegeCreationAttri
   public setRoles!: BelongsToManySetAssociationsMixin<Role, number>;
 
   public readonly Roles?: Role[];
-  public RolePrivilege: RolePrivilege;
+  public RolePrivilege?: RolePrivilege;
 
   public static associations: {
     Roles: Association<Privilege, Role>;
   };
 }
 
-export const PrivilegeFactory = (sequelize: Sequelize): Model<PrivilegeAttributes, PrivilegeCreationAttributes> => {
+export const privilegeFactory = (sequelize: Sequelize): Model => {
   return Privilege.init(
     {
       id: {

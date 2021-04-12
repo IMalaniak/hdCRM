@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { Service } from 'typedi';
 import { Router, Request, Response } from 'express';
 

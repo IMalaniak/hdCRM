@@ -1,4 +1,4 @@
-// tslint:disable: no-unused-expression
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { fail } from 'assert';
 import { expect } from 'chai';

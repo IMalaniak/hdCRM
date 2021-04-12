@@ -62,7 +62,10 @@ export interface UserAttributes {
   DepartmentId?: number;
 }
 
-export type UserCreationAttributes = Optional<UserAttributes, 'id' | 'fullname' | 'phone' | 'defaultLang' | 'avatarId' | 'DepartmentId'>
+export type UserCreationAttributes = Optional<
+  UserAttributes,
+  'id' | 'fullname' | 'phone' | 'defaultLang' | 'avatarId' | 'DepartmentId'
+>;
 
 export class User extends Model<UserAttributes, UserCreationAttributes> {
   public id!: number;
@@ -173,7 +176,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
   };
 }
 
-export const UserFactory = (sequelize: Sequelize): Model<UserAttributes, UserCreationAttributes> => {
+export const userFactory = (sequelize: Sequelize): Model => {
   return User.init(
     {
       id: {
@@ -225,7 +228,7 @@ export const UserFactory = (sequelize: Sequelize): Model<UserAttributes, UserCre
           return `${this.name} ${this.surname}`;
         },
         set(value: string) {
-          return ([this.name, this.surname] = [...value.split(' ')]);
+          return ([this.name, this.surname] = [...value.split(' ')] as [string, string]);
         }
       },
       phone: {

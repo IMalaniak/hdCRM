@@ -10,13 +10,13 @@ import { Preference, User, PreferenceCreationAttributes } from '../repositories'
 export class PreferenceService {
   constructor(private readonly logger: Logger) {}
 
-  public async getAll(): Promise<Result<ItemApiResponse<any> | BaseResponse, CustomError>> {
+  public getAll(): Result<ItemApiResponse<any> | BaseResponse, CustomError> {
     const preferencesList = Object.keys(Preference.rawAttributes)
-      .filter((key) => Preference.rawAttributes[key].values)
+      .filter((key) => Preference.rawAttributes[key]?.values)
       .reduce((acc, key) => {
         return {
           ...acc,
-          [key]: Preference.rawAttributes[key].values
+          [key]: Preference.rawAttributes[key]?.values
         };
       }, {});
     if (Object.keys(preferencesList).length) {
@@ -33,12 +33,12 @@ export class PreferenceService {
     const userPreference = await user.getPreference();
 
     try {
-      const data = userPreference
+      const data = userPreference.id
         ? await userPreference.update(preference)
         : await user.createPreference(preference as any);
       return ok({ data });
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }

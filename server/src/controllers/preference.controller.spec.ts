@@ -1,4 +1,4 @@
-// tslint:disable: no-unused-expression
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { expect } from 'chai';
 import { StatusCodes } from 'http-status-codes';
@@ -48,11 +48,11 @@ describe('PreferenceController', () => {
     expect(controllerInstance).to.not.be.undefined;
   });
 
-  it('should send success response when calling getAll', async () => {
+  it('should send success response when calling getAll', () => {
     const getAllStub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'getAll');
     getAllStub.resolves(ok({ data: {} }));
 
-    await controllerInstance.getAll(reqLogFake as any, resFake as any);
+    controllerInstance.getAll(reqLogFake as any, resFake as any);
 
     expect(getAllStub.calledOnce).to.be.true;
     expect(reqLogFake.log.info.calledOnceWith(`Selecting preferences list...`)).to.be.true;

@@ -1,4 +1,4 @@
-// tslint:disable: no-unused-expression
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { expect } from 'chai';
 import { StatusCodes } from 'http-status-codes';
@@ -20,7 +20,7 @@ describe('sendResponse', () => {
     resFake.send.resetHistory();
   });
 
-  it('should send success response with no content', async () => {
+  it('should send success response with no content', () => {
     const result: Result<BaseResponse, CustomError> = ok({});
 
     sendResponse<BaseResponse, CustomError>(result, resFake as any);
@@ -29,7 +29,7 @@ describe('sendResponse', () => {
     expect(resFake.send.calledOnceWithExactly({})).to.be.true;
   });
 
-  it('should send success response', async () => {
+  it('should send success response', () => {
     const result: Result<CollectionApiResponse<{ id: number }>, CustomError> = ok({
       message: 'Content',
       data: []
@@ -41,7 +41,7 @@ describe('sendResponse', () => {
     expect(resFake.send.calledOnceWithExactly({ message: 'Content', data: [] })).to.be.true;
   });
 
-  it('should send error response with not found', async () => {
+  it('should send error response with not found', () => {
     const result: Result<BaseResponse, CustomError> = err(new NotFoundError('Missing param'));
 
     sendResponse<BaseResponse, CustomError>(result, resFake as any);
@@ -50,7 +50,7 @@ describe('sendResponse', () => {
     expect(resFake.send.calledOnceWithExactly({ message: 'Missing param' })).to.be.true;
   });
 
-  it('should send error response with bad request', async () => {
+  it('should send error response with bad request', () => {
     const result: Result<BaseResponse, CustomError> = err(new BadRequestError('Smth wrong'));
 
     sendResponse<BaseResponse, CustomError>(result, resFake as any);

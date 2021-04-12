@@ -55,13 +55,6 @@ export function doRun(command, options: RunOptions = {}): () => Promise<void> {
   };
 }
 
-function findSourceFoldersIn(dir) {
-  const toSearch = ['src', 'test'];
-  return toSearch.filter((path) => {
-    return fs.existsSync(`${dir}/${path}`);
-  });
-}
-
 function tslint({ cwd, fix = false }) {
   const fixParam = fix ? '--fix --force' : '';
   const prettierConfigPath = cwd === '.' ? '' : '../';
@@ -76,8 +69,7 @@ function tslint({ cwd, fix = false }) {
 
 function eslint({ cwd, fix = false }: { cwd: string; fix?: boolean }) {
   const path = cwd === '.' ? '*.ts' : '.';
-  const baseExtensions = '--ext .json,.ts';
-  const ext = cwd === 'client' ? `${baseExtensions},.tsx` : baseExtensions;
+  const ext = '--ext .ts';
   const ignorePath = './.eslintignore';
   const fixParam = fix ? '--fix' : '';
   return doRun(`npx eslint ${fixParam} ${path} ${ext} --ignore-path '${ignorePath}'`, { cwd });

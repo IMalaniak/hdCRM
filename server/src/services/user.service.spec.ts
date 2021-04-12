@@ -1,4 +1,7 @@
-// tslint:disable: no-unused-expression
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { fail } from 'assert';
 import { expect } from 'chai';
@@ -244,6 +247,7 @@ describe('UserService', () => {
     const result = await serviceInstance.updatePassword({
       newPassword: 'new_password',
       verifyPassword: 'new_password',
+      oldPassword: 'old_password',
       userId: 1
     });
     expect(findUserByPkStub.calledOnce).to.be.true;
@@ -418,7 +422,7 @@ describe('UserService', () => {
       .withArgs({
         user: userFake,
         password: 'password',
-        url: `${Config.WEB_URL}/auth/activate-account/token`
+        url: `${Config.WEB_URL!}/auth/activate-account/token`
       })
       .resolves();
 
@@ -497,7 +501,7 @@ describe('UserService', () => {
       .withArgs({
         user: userFake,
         password: 'password',
-        url: `${Config.WEB_URL}/auth/activate-account/token`
+        url: `${Config.WEB_URL!}/auth/activate-account/token`
       })
       .resolves();
 
@@ -552,7 +556,7 @@ describe('UserService', () => {
       .withArgs({
         user: userFake,
         password: 'password',
-        url: `${Config.WEB_URL}/auth/activate-account/token`
+        url: `${Config.WEB_URL!}/auth/activate-account/token`
       })
       .resolves();
 

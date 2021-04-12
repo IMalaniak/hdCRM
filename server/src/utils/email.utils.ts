@@ -11,7 +11,8 @@ export class EmailUtils {
 
   newEmail = new Email({
     message: {
-      from: `HDCRM <${this.sender}>`
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      from: `HDCRM <${this.sender!}>`
     },
     // uncomment below to send emails in development/test env:
     // send: false,
@@ -29,7 +30,7 @@ export class EmailUtils {
     }
   });
 
-  sendPasswordReset(params: { user: User; tokenUrl: string }): Promise<void> {
+  sendPasswordReset(params: { user: User; tokenUrl: string }): Promise<any> {
     const { user, tokenUrl } = params;
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'resetPassword'),
@@ -45,7 +46,7 @@ export class EmailUtils {
     });
   }
 
-  sendPasswordResetConfirmation(user: User): Promise<void> {
+  sendPasswordResetConfirmation(user: User): Promise<any> {
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'resetPasswordConfirmation'),
       message: {
@@ -59,7 +60,7 @@ export class EmailUtils {
     });
   }
 
-  sendActivation(params: { user: User; tmpPassword: string; url: string }): Promise<void> {
+  sendActivation(params: { user: User; tmpPassword: string; url: string }): Promise<any> {
     const { user, tmpPassword, url } = params;
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'initActivation'),
@@ -76,7 +77,7 @@ export class EmailUtils {
     });
   }
 
-  sendActivationConfirmation(user: User): Promise<void> {
+  sendActivationConfirmation(user: User): Promise<any> {
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'confirmActivation'),
       message: {
@@ -90,7 +91,7 @@ export class EmailUtils {
     });
   }
 
-  sendInvitation(params: { user: User; tmpPassword: string; url: string }): Promise<void> {
+  sendInvitation(params: { user: User; tmpPassword: string; url: string }): Promise<any> {
     const { user, tmpPassword, url } = params;
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'userInvitation'),
@@ -99,7 +100,7 @@ export class EmailUtils {
         to: user.email
       },
       locals: {
-        organization: user.Organization.title,
+        organization: user.Organization?.title,
         email: user.email,
         name: user.name,
         username: user.login,

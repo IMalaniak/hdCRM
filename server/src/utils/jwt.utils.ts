@@ -23,7 +23,8 @@ export class JwtUtils {
   constructor(private readonly logger: Logger) {}
 
   generateToken({ type, payload }: TokenProps): string {
-    return jwt.sign(payload, type === 'access' ? process.env.ACCESS_TOKEN_SECRET : process.env.REFRESH_TOKEN_SECRET, {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return jwt.sign(payload, type === 'access' ? process.env.ACCESS_TOKEN_SECRET! : process.env.REFRESH_TOKEN_SECRET!, {
       expiresIn: type === 'access' ? process.env.ACCESS_TOKEN_LIFETIME : process.env.REFRESH_TOKEN_LIFETIME,
       audience: Config.WEB_URL
     });
@@ -34,7 +35,7 @@ export class JwtUtils {
       const verified = jwt.decode(token) as JwtDecoded;
       return ok(verified);
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
@@ -43,7 +44,8 @@ export class JwtUtils {
     try {
       const verified = jwt.verify(
         token,
-        type === 'access' ? process.env.ACCESS_TOKEN_SECRET : process.env.REFRESH_TOKEN_SECRET,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        type === 'access' ? process.env.ACCESS_TOKEN_SECRET! : process.env.REFRESH_TOKEN_SECRET!,
         {
           audience: Config.WEB_URL
         }
@@ -66,7 +68,7 @@ export class JwtUtils {
         }
       }
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }

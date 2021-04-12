@@ -15,7 +15,7 @@ export function sendResponse<OK extends BaseResponse & DataType, ERR extends Cus
 ): void {
   return result.match<void>(
     (body) => {
-      res.status(body.message || body.data ? StatusCodes.OK : StatusCodes.NO_CONTENT);
+      res.status(body.message || Boolean(body.data) ? StatusCodes.OK : StatusCodes.NO_CONTENT);
       res.send(body);
     },
     (error) => {

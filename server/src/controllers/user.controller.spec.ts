@@ -1,4 +1,4 @@
-// tslint:disable: no-unused-expression
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { expect } from 'chai';
 import { StatusCodes } from 'http-status-codes';
@@ -17,7 +17,7 @@ describe('UserController', () => {
 
   const fakeObj = {
     id: 1
-  } as any;
+  };
 
   const reqLogFake = {
     log: {

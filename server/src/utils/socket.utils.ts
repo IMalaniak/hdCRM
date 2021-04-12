@@ -7,8 +7,8 @@ export interface UserOnline {
   fullname: string;
   avatar: any; // TODO Asset
   lastSocketId: string;
-  activeSockets?: string[];
-  OrgRoom: string;
+  activeSockets: string[];
+  orgRoom: string;
   rooms?: string[];
   online: boolean;
 }
@@ -21,8 +21,8 @@ export class SocketUtils {
     this.userList = [];
   }
 
-  public addUser(newUser: UserOnline) {
-    let userExist: UserOnline = this.userList.find((user) => user.id === newUser.id);
+  public addUser(newUser: UserOnline): void {
+    let userExist = this.userList.find((user) => user.id === newUser.id);
     if (userExist) {
       userExist = { ...userExist, activeSockets: [...userExist.activeSockets, newUser.lastSocketId] };
     } else {
@@ -31,8 +31,8 @@ export class SocketUtils {
     }
   }
 
-  public removeActiveSocket(lastSocketId: string) {
-    const userExist: UserOnline = this.userList.find((user) => user.activeSockets.includes(lastSocketId));
+  public removeActiveSocket(lastSocketId: string): UserOnline | undefined {
+    const userExist = this.userList.find((user) => user.activeSockets.includes(lastSocketId));
     if (userExist) {
       if (userExist.activeSockets.length >= 2) {
         const i = userExist.activeSockets.indexOf(lastSocketId);
@@ -44,23 +44,23 @@ export class SocketUtils {
     return userExist;
   }
 
-  public removeUser(lastSocketId: string) {
-    const userExist: UserOnline = this.userList.find((user) => user.activeSockets.includes(lastSocketId));
+  public removeUser(lastSocketId: string): UserOnline | undefined {
+    const userExist = this.userList.find((user) => user.activeSockets.includes(lastSocketId));
     if (userExist) {
       this.userList = this.userList.filter((user) => user.id !== userExist.id);
     }
     return userExist;
   }
 
-  public getUser(lastSocketId: string) {
+  public getUser(lastSocketId: string): UserOnline | undefined {
     return this.userList.find((user) => user.activeSockets.includes(lastSocketId));
   }
 
-  public getUsersList(room: string) {
-    return this.userList.filter((user) => user.rooms.includes(room));
+  public getUsersList(room: string): UserOnline[] {
+    return this.userList.filter((user) => user.rooms?.includes(room));
   }
 
-  public getOthersInRoom(currentUserId: number, room: string) {
+  public getOthersInRoom(currentUserId: number, room: string): UserOnline[] {
     return this.getUsersList(room).filter((user) => user.id !== currentUserId);
   }
 

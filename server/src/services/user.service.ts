@@ -74,11 +74,15 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
   }
 
   public async updatePassword(
-    passData: Partial<PasswordReset> & { userId: number; sessionId?: number }
+    passData: PasswordReset & { userId: number; sessionId?: number }
   ): Promise<Result<BaseResponse, CustomError>> {
     try {
       if (passData.newPassword === passData.verifyPassword) {
         const user = await User.findByPk(passData.userId);
+
+        if (!user) {
+          return err(new NotFoundError('User not found!'));
+        }
 
         const validatePassword = this.crypt.validatePassword(passData.oldPassword, user.passwordHash, user.salt);
         if (validatePassword) {
@@ -87,7 +91,7 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
           user.salt = newPasswordData.salt;
 
           await user.save();
-          await this.sendMail(MAIL_THEME.PasswordResetConfirm, user);
+          await this.sendMail(MAIL_THEME.PASSWORD_RESET_CONFIRM, user);
 
           if (passData.deleteSessions) {
             const sessionRemoved = await this.removeUserSessionsExept(passData.userId, passData.sessionId);
@@ -108,7 +112,7 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
         return err(new BadRequestError('New passwords do not match!'));
       }
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
@@ -122,7 +126,7 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
         return err(new NotFoundError('No session with such id'));
       }
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
@@ -139,7 +143,7 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
         return ok({});
       }
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
@@ -156,18 +160,18 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
         return err(new NotFoundError('No sessions by this query'));
       }
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
 
   public async removeUserSessionsExept(
-    UserId: number,
-    currentSessionId: number
+    userId: number,
+    currentSessionId: number | undefined
   ): Promise<Result<BaseResponse, CustomError>> {
     try {
       const deleted = await UserSession.destroy({
-        where: { UserId, [Op.and]: [{ [Op.not]: [{ id: currentSessionId }] }] }
+        where: { UserId: userId, [Op.and]: [{ [Op.not]: [{ id: currentSessionId }] }] }
       });
 
       if (deleted > 0) {
@@ -176,7 +180,7 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
         return err(new NotFoundError('No sessions by this query'));
       }
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
@@ -192,13 +196,11 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
         }
       );
 
-      const data = await Organization.findByPk(org.id);
+      const data = (await Organization.findByPk(org.id)) as Organization;
 
-      if (data) {
-        return ok({ message: 'Organization is updated successfully!', data });
-      }
+      return ok({ message: 'Organization is updated successfully!', data });
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
@@ -210,6 +212,9 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
       user.passwordHash = passwordData.passwordHash;
       user.salt = passwordData.salt;
       user.OrganizationId = orgId;
+      if (!user.fullname) {
+        return err(new BadRequestError('Full name is not provided'));
+      }
       user.login = user.fullname.replace(' ', '_');
       const result = await this.create(user);
 
@@ -224,10 +229,11 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
 
         const newUser = await this.findByPk(data.id);
 
-        await this.sendMail(MAIL_THEME.Invitation, {
+        await this.sendMail(MAIL_THEME.INVITATION, {
           user: newUser,
           password,
-          url: `${Config.WEB_URL}/auth/activate-account/${token.value}`
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          url: `${Config.WEB_URL!}/auth/activate-account/${token.value}`
         });
 
         return ok({ message: 'Invitation have been sent successfully!', data });
@@ -235,7 +241,7 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
         return err(result.error);
       }
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
@@ -248,7 +254,7 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
     const { values, errors } = reduceResults(results);
     const invitedUsers: User[] = values.map((value) => value.data);
 
-    if (errors.length && !invitedUsers.length) {
+    if (errors.length && errors[0] && !invitedUsers.length) {
       return err(errors[0]);
     } else if (errors.length && invitedUsers.length) {
       return ok({
@@ -270,9 +276,12 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
       const { avatar, userId } = params;
 
       const user = await User.findByPk(userId);
+      if (!user) {
+        return err(new NotFoundError('User not found!'));
+      }
       const userAvatar = await user.getAvatar();
 
-      if (userAvatar) {
+      if (userAvatar.id) {
         await Asset.destroy({
           where: { id: avatar.id }
         });
@@ -294,7 +303,7 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
         data: newAvatar
       });
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
@@ -302,8 +311,11 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
   public async deleteAvatar(userId: string): Promise<Result<BaseResponse, CustomError>> {
     try {
       const user = await User.findByPk(userId);
+      if (!user) {
+        return err(new NotFoundError('User not found!'));
+      }
       const userAvatar = await user.getAvatar();
-      if (userAvatar) {
+      if (userAvatar.id) {
         await Asset.destroy({
           where: { id: userAvatar.id }
         });
@@ -315,20 +327,24 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
         await this.unlinkAsync(thumbDestination);
 
         return ok({ message: 'Profile picture is deleted' });
+      } else {
+        return err(new NotFoundError('Avatar not found!'));
       }
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
 
   // TODO: check if I can set types dynamically for params
-  private sendMail(type: MAIL_THEME, params?: any): Promise<void> {
+  private sendMail(type: MAIL_THEME, params?: any): Promise<any> {
     switch (type) {
-      case MAIL_THEME.PasswordResetConfirm:
+      case MAIL_THEME.PASSWORD_RESET_CONFIRM:
         return this.mailer.sendPasswordResetConfirmation(params);
-      case MAIL_THEME.Invitation:
+      case MAIL_THEME.INVITATION:
         return this.mailer.sendInvitation(params);
+      default:
+        return Promise.reject();
     }
   }
 }

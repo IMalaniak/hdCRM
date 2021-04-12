@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { Response, Router } from 'express';
 import { Service } from 'typedi';
 
@@ -12,7 +13,7 @@ export class PreferenceRoutes {
   constructor(private readonly preferenceController: PreferenceController) {}
 
   public register(): Router {
-    this.router.get('/', async (req, res: Response) => this.preferenceController.getAll(req, res));
+    this.router.get('/', (req, res: Response) => this.preferenceController.getAll(req, res));
 
     this.router.post(
       '/',

@@ -126,7 +126,7 @@ module.exports = {
       {
         allowNullableString: true,
         allowNullableObject: true,
-        allowNullableBoolean: false,
+        allowNullableBoolean: true,
         allowNullableNumber: true
       }
     ],

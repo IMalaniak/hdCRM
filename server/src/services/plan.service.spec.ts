@@ -1,4 +1,5 @@
-// tslint:disable: no-unused-expression
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -65,7 +66,7 @@ describe('PlanService', () => {
       )
       .resolves([1, [planFake]]);
     findByPkStub.withArgs(1).resolves(planFakeResponse);
-    findAllUsersStub.resolves([...planFake.Participants]);
+    findAllUsersStub.resolves([...(planFake.Participants as User[])]);
 
     const result = await serviceInstance.update(planFake);
     expect(updateStub.calledOnce).to.be.true;

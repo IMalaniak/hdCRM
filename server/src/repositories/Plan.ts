@@ -38,9 +38,9 @@ export interface PlanAttributes {
 }
 
 export type PlanCreationAttributes = Optional<
-    PlanAttributes,
-    'id' | 'description' | 'deadline' | 'budget' | 'progress' | 'activeStageId' | 'Participants'
-  >
+  PlanAttributes,
+  'id' | 'description' | 'deadline' | 'budget' | 'progress' | 'activeStageId' | 'Participants'
+>;
 
 export class Plan extends Model<PlanAttributes, PlanCreationAttributes> {
   public id!: number;
@@ -120,7 +120,7 @@ export class Plan extends Model<PlanAttributes, PlanCreationAttributes> {
   };
 }
 
-export const PlanFactory = (sequelize: Sequelize): Model<PlanAttributes, PlanCreationAttributes> => {
+export const planFactory = (sequelize: Sequelize): Model => {
   return Plan.init(
     {
       id: {

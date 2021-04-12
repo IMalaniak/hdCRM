@@ -8,7 +8,7 @@ export interface TaskPriorityAttributes {
   value: number;
 }
 
-export type TaskPriorityCreationAttributes = Optional<TaskPriorityAttributes, 'id'>
+export type TaskPriorityCreationAttributes = Optional<TaskPriorityAttributes, 'id'>;
 
 export class TaskPriority extends Model<TaskPriorityAttributes, TaskPriorityCreationAttributes> {
   public id!: number;
@@ -22,9 +22,7 @@ export class TaskPriority extends Model<TaskPriorityAttributes, TaskPriorityCrea
   };
 }
 
-export const TaskPriorityFactory = (
-  sequelize: Sequelize
-): Model<TaskPriorityAttributes, TaskPriorityCreationAttributes> => {
+export const taskPriorityFactory = (sequelize: Sequelize): Model => {
   return TaskPriority.init(
     {
       id: {

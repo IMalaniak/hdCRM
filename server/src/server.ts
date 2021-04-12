@@ -62,13 +62,15 @@ export class Server {
   }
 
   public async start(): Promise<Application> {
-    await this.routes.register(this.router);
+    this.routes.register(this.router);
     this.setupStaticFolders();
 
     // Sync DB
     await this.dBase.connection.sync().then(() => {
-      this.server.listen(parseInt(process.env.PORT), () => {
-        this.logger.info(`Server is listening on ${process.env.PORT}`);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const portNumber = +process.env.PORT!;
+      this.server.listen(portNumber, () => {
+        this.logger.info(`Server is listening on ${portNumber}`);
       });
     });
     return this.app;

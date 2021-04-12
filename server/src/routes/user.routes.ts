@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 import { Service } from 'typedi';
@@ -24,7 +25,8 @@ export class UserRoutes extends BaseRoutes<UserCreationAttributes, UserAttribute
   public register(): Router {
     this.router.get('/profile/', (req: Request, res: Response<ItemApiResponse<User> | BaseResponse>) => {
       req.log.info(`Geting user profile...`);
-      return res.status(StatusCodes.OK).json({ data: req.user });
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return res.status(StatusCodes.OK).json({ data: req.user! });
     });
 
     this.router.put(
