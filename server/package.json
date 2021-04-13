@@ -36,7 +36,7 @@
     "passport": "*",
     "passport-http": "0.3.0",
     "passport-jwt": "4.0.0",
-    "pg": "8.5.1",
+    "pg": "8.6.0",
     "pg-hstore": "2.3.3",
     "pino-http": "5.5.0",
     "pino-pretty": "4.7.1",
