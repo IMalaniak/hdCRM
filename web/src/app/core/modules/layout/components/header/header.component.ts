@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy } from '@angular/core';
-
 import { MAT_BUTTON, THEME_PALETTE, CommonConstants, BS_ICON } from '@/shared/constants';
 import { IconsService, MediaQueryService } from '@/core/services';
 

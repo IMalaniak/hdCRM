@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { Response, Router } from 'express';
 import { Service } from 'typedi';
 
-import { BaseRoutes } from './base/base.routes';
 import { TaskController } from '../controllers';
 import { RequestWithBody, BaseResponse } from '../models';
 import { TaskCreationAttributes, TaskAttributes, Task } from '../repositories';
+
+import { BaseRoutes } from './base/base.routes';
 
 @Service()
 export class TaskRoutes extends BaseRoutes<TaskCreationAttributes, TaskAttributes, Task> {

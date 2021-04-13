@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-
 import { TableConfig } from '@/shared/models/table';
+
 import { LayoutState } from './layout.reducer';
 
 const prefix = '[Layout]';

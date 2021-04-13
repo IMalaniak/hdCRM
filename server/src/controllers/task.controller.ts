@@ -6,6 +6,7 @@ import { CustomError } from '../errors';
 import { BaseResponse, CollectionApiResponse, RequestWithBody } from '../models';
 import { TaskCreationAttributes, TaskAttributes, Task, TaskPriority } from '../repositories';
 import { TaskService } from '../services';
+
 import { BaseController } from './base/base.controller';
 import { sendResponse } from './utils';
 
@@ -17,7 +18,8 @@ export class TaskController extends BaseController<TaskCreationAttributes, TaskA
   }
 
   public async getAll(req: Request, res: Response<CollectionApiResponse<Task> | BaseResponse>): Promise<void> {
-    const creatorId = req.user.id;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const creatorId = req.user!.id;
     req.log.info(`Selecting all tasks...`);
 
     const result = await this.dataBaseService.getAll(creatorId);
@@ -52,7 +54,8 @@ export class TaskController extends BaseController<TaskCreationAttributes, TaskA
   protected generateCreationAttributes(req: RequestWithBody<TaskCreationAttributes>): TaskCreationAttributes {
     return {
       ...req.body,
-      CreatorId: req.user.id
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      CreatorId: req.user!.id
     };
   }
 }

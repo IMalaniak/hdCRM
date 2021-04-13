@@ -40,7 +40,7 @@ export interface RoleAttributes {
   Users?: User[];
 }
 
-export interface RoleCreationAttributes extends Optional<RoleAttributes, 'id'> {}
+export type RoleCreationAttributes = Optional<RoleAttributes, 'id'>;
 
 export class Role extends Model<RoleAttributes, RoleCreationAttributes> {
   public id!: number;
@@ -89,7 +89,7 @@ export class Role extends Model<RoleAttributes, RoleCreationAttributes> {
   };
 }
 
-export const RoleFactory = (sequelize: Sequelize): Model<RoleAttributes, RoleCreationAttributes> => {
+export const roleFactory = (sequelize: Sequelize): Model => {
   return Role.init(
     {
       id: {

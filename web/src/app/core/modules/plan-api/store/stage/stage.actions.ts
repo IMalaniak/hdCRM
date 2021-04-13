@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
-
 import { CollectionApiResponse } from '@/shared/models';
+
 import { Stage } from '../../shared/models';
 
 const listPrefix = '[Stages List]';

@@ -1,9 +1,9 @@
 import { Component, Input, Optional, Self } from '@angular/core';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { NgControl } from '@angular/forms';
+import { INPUT_TYPE } from '@/shared/constants';
 
 import { BaseControlValueAccessorComponentModel } from '../../base/componentModels';
-import { INPUT_TYPE } from '@/shared/constants';
 
 @Component({
   selector: 'atoms-input',

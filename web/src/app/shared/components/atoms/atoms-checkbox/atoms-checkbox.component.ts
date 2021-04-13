@@ -3,9 +3,9 @@ import { MatFormFieldControl } from '@angular/material/form-field';
 import { NgControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ThemePalette } from '@angular/material/core';
+import { THEME_PALETTE } from '@/shared/constants';
 
 import { BaseControlValueAccessorComponentModel } from '../../base/componentModels';
-import { THEME_PALETTE } from '@/shared/constants';
 
 @Component({
   selector: 'atoms-checkbox',
@@ -21,7 +21,7 @@ export class AtomsCheckboxComponent extends BaseControlValueAccessorComponentMod
   @Input() label = '';
   @Input() color: ThemePalette = THEME_PALETTE.ACCENT;
 
-  // tslint:disable-next-line:no-output-on-prefix
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onChange: EventEmitter<MatCheckboxChange> = new EventEmitter();
 
   constructor(@Optional() @Self() readonly ngControl: NgControl) {

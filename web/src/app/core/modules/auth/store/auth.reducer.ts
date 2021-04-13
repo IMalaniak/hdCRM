@@ -1,7 +1,7 @@
-import * as AuthActions from './auth.actions';
 import { createReducer, Action, on } from '@ngrx/store';
-
 import { User } from '@/core/modules/user-api/shared';
+
+import * as AuthActions from './auth.actions';
 
 export interface AuthState {
   loggedIn: boolean;
@@ -82,8 +82,6 @@ const authReducer = createReducer(
   }))
 );
 
-export function reducer(state: AuthState | undefined, action: Action) {
-  return authReducer(state, action);
-}
+export const reducer = (state: AuthState | undefined, action: Action) => authReducer(state, action);
 
 export const authFeatureKey = 'auth';

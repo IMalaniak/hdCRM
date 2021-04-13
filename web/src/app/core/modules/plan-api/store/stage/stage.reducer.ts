@@ -2,6 +2,7 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { createReducer, on, Action } from '@ngrx/store';
 
 import { Stage } from '../../shared/models';
+
 import * as StageActions from './stage.actions';
 
 export interface StagesState extends EntityState<Stage> {
@@ -34,9 +35,7 @@ const reducer = createReducer(
   on(StageActions.stageApiError, (state) => ({ ...state, loading: false }))
 );
 
-export function stagesReducer(state: StagesState | undefined, action: Action) {
-  return reducer(state, action);
-}
+export const stagesReducer = (state: StagesState | undefined, action: Action) => reducer(state, action);
 
 export const stagesFeatureKey = 'stage-api';
 

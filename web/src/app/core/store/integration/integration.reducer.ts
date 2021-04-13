@@ -1,5 +1,6 @@
-import * as IntegrationActions from './integration.actions';
 import { createReducer, on, Action } from '@ngrx/store';
+
+import * as IntegrationActions from './integration.actions';
 
 export interface IntegrationsState {
   enabledGoogleDriveIntegration: boolean;
@@ -25,6 +26,4 @@ const reducer = createReducer(
   }))
 );
 
-export function integrationsReducer(state: IntegrationsState | undefined, action: Action) {
-  return reducer(state, action);
-}
+export const integrationsReducer = (state: IntegrationsState | undefined, action: Action) => reducer(state, action);

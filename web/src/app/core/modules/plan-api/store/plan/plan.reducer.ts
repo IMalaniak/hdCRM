@@ -2,6 +2,7 @@ import { createReducer, on, Action } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
 import { Plan } from '../../shared/models';
+
 import * as planActions from './plan.actions';
 
 export interface PlansState extends EntityState<Plan> {
@@ -58,9 +59,7 @@ const reducer = createReducer(
   on(planActions.planApiError, (state) => ({ ...state, loading: false }))
 );
 
-export function plansReducer(state: PlansState | undefined, action: Action) {
-  return reducer(state, action);
-}
+export const plansReducer = (state: PlansState | undefined, action: Action) => reducer(state, action);
 
 export const plansFeatureKey = 'plan-api';
 

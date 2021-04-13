@@ -2,13 +2,12 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ChangeDetectionStr
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-
 import { Store, select } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { IconsService, MediaQueryService } from '@/core/services';
 import { BS_ICON } from '@/shared/constants';
 import { privateRouterTransition } from '@/shared/animations';
+
 import * as layoutActions from '../store/layout.actions';
 import * as fromLayout from '../store';
 
@@ -33,7 +32,7 @@ import * as fromLayout from '../store';
           <div
             class="overlay"
             *ngIf="mediaQueryService.isMobileDevice"
-            [ngClass]="{ isVisible: !(sidebarMinimized$ | async) }"
+            [ngClass]="{ isVisible: (sidebarMinimized$ | async) === false }"
             (click)="onOverlayClick()"
           ></div>
           <div class="wrapper">
@@ -52,11 +51,11 @@ import * as fromLayout from '../store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PrivateViewComponent implements OnInit, OnDestroy {
+  @ViewChild('contentWrapper') contentWrapper: ElementRef;
+
   scaleFontUp$: Observable<boolean> = this.store$.pipe(select(fromLayout.getScalledFontState));
   enableDarkTheme$: Observable<boolean> = this.store$.pipe(select(fromLayout.getDarkThemeState));
   sidebarMinimized$: Observable<boolean> = this.store$.pipe(select(fromLayout.getSidebarState));
-
-  @ViewChild('contentWrapper') contentWrapper: ElementRef;
 
   private unsubscribe: Subject<void> = new Subject();
 

@@ -34,7 +34,7 @@ export class RolePrivilege extends Model<RolePrivilegeAttributes> {
   };
 }
 
-export const RolePrivilegeFactory = (sequelize: Sequelize): Model => {
+export const rolePrivilegeFactory = (sequelize: Sequelize): Model => {
   return RolePrivilege.init(
     {
       RoleId: {

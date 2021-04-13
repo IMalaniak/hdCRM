@@ -3,9 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-
 import { provideMockStore } from '@ngrx/store/testing';
-
 import { initialPreferencesState } from '@/core/store/preferences';
 import { initialUsersState } from '@/core/modules/user-api/store';
 import { initialRolesState } from '@/core/modules/role-api/store/role';
@@ -13,6 +11,7 @@ import { initialLayoutState } from '@/core/modules/layout/store';
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock } from '@/shared/testing/mocks';
 import { initialListState } from '@/shared/store';
+
 import { RolesComponent } from './roles.component';
 
 describe('RolesComponent', () => {

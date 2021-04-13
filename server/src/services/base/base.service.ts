@@ -13,13 +13,13 @@ type NonAbstractTypeOfModel<T> = Constructor<T> & NonAbstract<typeof Model>;
 
 export abstract class BaseService<C, A, M extends Model<A, C>> {
   @Inject(CONSTANTS.MODEL)
-  protected MODEL: NonAbstractTypeOfModel<M>;
+  protected MODEL!: NonAbstractTypeOfModel<M>;
 
   @Inject(CONSTANTS.MODELS_NAME)
-  protected modelName: string;
+  protected modelName!: string;
 
   @Inject()
-  protected logger: Logger;
+  protected logger!: Logger;
 
   protected readonly primaryKey: string = 'id';
   protected includes: IncludeOptions[] = [];
@@ -34,22 +34,23 @@ export abstract class BaseService<C, A, M extends Model<A, C>> {
         return err(new NotFoundError(`No ${this.modelName} with such id`));
       }
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
 
   public async getPage(
     pageQuery: PageQuery,
-    OrganizationId?: number
+    organizationId?: number
   ): Promise<Result<CollectionApiResponse<M> | BaseResponse, CustomError>> {
     try {
       const { limit, offset, sortDirection, sortIndex, parsedFilters } = pageQuery;
 
       const data = await this.MODEL.findAndCountAll({
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         where: {
-          ...parsedFilters,
-          ...(OrganizationId && { OrganizationId })
+          ...(parsedFilters as any),
+          ...(organizationId && { OrganizationId: organizationId })
         },
         include: [...this.includes],
         limit,
@@ -60,13 +61,13 @@ export abstract class BaseService<C, A, M extends Model<A, C>> {
 
       if (data.count) {
         const pages = Math.ceil(data.count / limit);
-        const ids: number[] = data.rows.map((dep) => dep[this.primaryKey]);
+        const ids: number[] = data.rows.map((dep) => (dep as { [key: string]: any })[this.primaryKey] as number);
         return ok({ ids, data: data.rows, resultsNum: data.count, pages });
       } else {
         return ok({});
       }
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
@@ -76,33 +77,36 @@ export abstract class BaseService<C, A, M extends Model<A, C>> {
       const createdItem = await this.MODEL.create({
         ...item
       });
-      const data = await this.postAction(item, createdItem[this.primaryKey]);
+      const data = await this.postAction(item, (createdItem as { [key: string]: any })[this.primaryKey]);
       return ok({ message: `New ${this.modelName} created successfully!`, data });
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
 
   public async update(item: A): Promise<Result<ItemApiResponse<M>, CustomError>> {
     try {
-      const [number] = await this.MODEL.update(
+      const [num] = await this.MODEL.update(
         {
           ...item
         },
         {
-          where: { [this.primaryKey]: item[this.primaryKey] } as WhereOptions<M['_attributes']>
+          where: {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            [this.primaryKey]: (item as { [key: string]: any })[this.primaryKey]
+          } as WhereOptions<M['_attributes']>
         }
       );
 
-      if (number > 0) {
-        const data = await this.postAction(item, item[this.primaryKey]);
+      if (num > 0) {
+        const data = await this.postAction(item, (item as { [key: string]: any })[this.primaryKey]);
         return ok({ message: `The ${this.modelName} updated successfully!`, data });
       } else {
         return err(new NotFoundError(`No ${this.modelName}s by this query`));
       }
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
@@ -119,16 +123,16 @@ export abstract class BaseService<C, A, M extends Model<A, C>> {
         return err(new NotFoundError(`No ${this.modelName}s by this query`));
       }
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
 
   protected postAction(_: C | A | M, key: string | number): Promise<M> {
-    return this.findByPk(key);
+    return this.findByPk(key) as Promise<M>;
   }
 
-  protected findByPk(key: number | string): Promise<M> {
+  protected findByPk(key: number | string): Promise<M | null> {
     return this.MODEL.findByPk(key, {
       attributes: { exclude: [...this.excludes] },
       include: [...this.includes]

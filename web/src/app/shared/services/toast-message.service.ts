@@ -12,6 +12,7 @@ export class ToastMessageService {
 
   /**
    * error
+   *
    * @description Shows toast message with error type
    */
   public error(message: string) {
@@ -20,6 +21,7 @@ export class ToastMessageService {
 
   /**
    * warn
+   *
    * @description Shows toast message with warn type
    */
   public warn(message: string) {
@@ -28,6 +30,7 @@ export class ToastMessageService {
 
   /**
    * success
+   *
    * @description Shows toast message with success type
    */
   public success(message: string) {
@@ -36,6 +39,7 @@ export class ToastMessageService {
 
   /**
    * info
+   *
    * @description Shows toast message with info type
    */
   public info(message: string) {

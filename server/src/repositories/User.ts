@@ -32,6 +32,9 @@ import {
   Optional
 } from 'sequelize';
 
+import { enumToArray } from '../utils/enumToArray';
+import { USER_STATE } from '../constants';
+
 import { UserSession } from './UserSession';
 import { PasswordAttribute } from './PasswordAttribute';
 import { Role } from './Role';
@@ -41,8 +44,6 @@ import { Department } from './Department';
 import { Organization } from './Organization';
 import { Task } from './Task';
 import { Preference } from './Preference';
-import { enumToArray } from '../utils/enumToArray';
-import { USER_STATE } from '../constants';
 
 export interface UserAttributes {
   id: number;
@@ -62,8 +63,10 @@ export interface UserAttributes {
   DepartmentId?: number;
 }
 
-export interface UserCreationAttributes
-  extends Optional<UserAttributes, 'id' | 'fullname' | 'phone' | 'defaultLang' | 'avatarId' | 'DepartmentId'> {}
+export type UserCreationAttributes = Optional<
+  UserAttributes,
+  'id' | 'fullname' | 'phone' | 'defaultLang' | 'avatarId' | 'DepartmentId'
+>;
 
 export class User extends Model<UserAttributes, UserCreationAttributes> {
   public id!: number;
@@ -174,7 +177,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
   };
 }
 
-export const UserFactory = (sequelize: Sequelize): Model<UserAttributes, UserCreationAttributes> => {
+export const userFactory = (sequelize: Sequelize): Model => {
   return User.init(
     {
       id: {
@@ -226,7 +229,7 @@ export const UserFactory = (sequelize: Sequelize): Model<UserAttributes, UserCre
           return `${this.name} ${this.surname}`;
         },
         set(value: string) {
-          return ([this.name, this.surname] = [...value.split(' ')]);
+          return ([this.name, this.surname] = [...value.split(' ')] as [string, string]);
         }
       },
       phone: {

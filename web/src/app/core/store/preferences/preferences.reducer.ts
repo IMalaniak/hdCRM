@@ -1,7 +1,8 @@
 import { createReducer, on, Action } from '@ngrx/store';
+import { DATE_FORMAT, ITEMS_PER_PAGE, LIST_VIEW, TIME_FORMAT } from '@/shared/constants';
+
 import * as PreferencesActions from './preferences.actions';
 
-import { DATE_FORMAT, ITEMS_PER_PAGE, LIST_VIEW, TIME_FORMAT } from '@/shared/constants';
 
 export interface Preferences {
   dateFormat: DATE_FORMAT;
@@ -47,6 +48,4 @@ const reducer = createReducer(
   on(PreferencesActions.preferencesListLoaded, (state, { list }) => ({ ...state, list }))
 );
 
-export function preferencesReducer(state: PreferencesState | undefined, action: Action) {
-  return reducer(state, action);
-}
+export const preferencesReducer = (state: PreferencesState | undefined, action: Action) => reducer(state, action);

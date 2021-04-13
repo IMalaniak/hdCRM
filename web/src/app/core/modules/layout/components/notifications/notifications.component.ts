@@ -1,8 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
-
 import { Store } from '@ngrx/store';
-
 import { IconsService, MediaQueryService } from '@/core/services';
 import { AppState } from '@/core/store';
 import {

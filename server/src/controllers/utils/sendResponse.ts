@@ -1,8 +1,8 @@
 import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { Result } from 'neverthrow';
-import { CustomError } from '../../errors/custom-error';
 
+import { CustomError } from '../../errors/custom-error';
 import { BaseResponse } from '../../models';
 
 interface DataType {
@@ -15,7 +15,7 @@ export function sendResponse<OK extends BaseResponse & DataType, ERR extends Cus
 ): void {
   return result.match<void>(
     (body) => {
-      res.status(body.message || body.data ? StatusCodes.OK : StatusCodes.NO_CONTENT);
+      res.status(body.message || Boolean(body.data) ? StatusCodes.OK : StatusCodes.NO_CONTENT);
       res.send(body);
     },
     (error) => {

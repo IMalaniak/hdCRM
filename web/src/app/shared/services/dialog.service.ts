@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-
 import { DialogBaseModel } from '@/shared/components';
 import { DialogDataModel, DIALOG_TYPE, DialogWithTwoButtonModel } from '@/shared/models';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
@@ -17,7 +16,7 @@ export class DialogService {
   confirm<T extends DialogConfirmModel>(
     componentType: ComponentType<DialogBaseModel<T>>,
     data: DialogDataModel<T>,
-    onConfirmCallback: Function
+    onConfirmCallback: () => void
   ): void {
     this.open(componentType, data, DIALOG_TYPE.CONFIRM)
       .afterClosed()

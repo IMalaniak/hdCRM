@@ -2,10 +2,9 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/c
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { mergeMap, first } from 'rxjs/operators';
-
 import { select, Store } from '@ngrx/store';
-
 import { ApiRoutesConstants } from '@/shared/constants';
+
 import { getToken } from '../modules/auth/store/auth.selectors';
 import { AppState } from '../store';
 

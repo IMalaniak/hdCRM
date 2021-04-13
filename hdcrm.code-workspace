@@ -41,14 +41,18 @@
     "mochaExplorer.files": ["src/**/*.spec.ts", "tests/**/*.spec.ts"],
     "mochaExplorer.require": ["ts-node/register", "reflect-metadata"],
     "mochaExplorer.timeout": 10000,
-    "errorLens.enabledDiagnosticLevels": ["error", "warning"]
+    "errorLens.enabledDiagnosticLevels": ["error", "warning"],
+    "eslint.workingDirectories": ["./web", "./server"],
+    "eslint.options": {
+      "extensions": [".ts", ".html"]
+    },
+    "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "html"]
   },
   "extensions": {
     "recommendations": [
       "esbenp.prettier-vscode",
       "yzhang.markdown-all-in-one",
       "christian-kohler.path-intellisense",
-      "rbbit.typescript-hero",
       "alefragnani.bookmarks",
       "eamodio.gitlens",
       "hbenl.vscode-test-explorer-liveshare",

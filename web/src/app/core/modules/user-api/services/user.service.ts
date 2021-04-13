@@ -2,20 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-
 import { BaseCrudService, SocketService } from '@/shared/services';
 import { NewPassword, BaseMessage, CollectionApiResponse } from '@/shared/models';
 import { SOCKET_EVENT, ApiRoutesConstants } from '@/shared/constants';
+
 import { User } from '../shared';
 import { Role } from '../../role-api/shared';
 
 @Injectable()
 export class UserService extends BaseCrudService {
-  protected readonly url = ApiRoutesConstants.USERS;
-
   userOnline$: Observable<any> = this.socket.onEvent(SOCKET_EVENT.ISONLINE);
   userOffline$: Observable<any> = this.socket.onEvent(SOCKET_EVENT.ISOFFLINE);
   onlineUsersListed$: Observable<any> = this.socket.onEvent(SOCKET_EVENT.USERSONLINE).pipe(take(1));
+
+  protected readonly url = ApiRoutesConstants.USERS;
 
   constructor(protected readonly http: HttpClient, private socket: SocketService) {
     super(http);

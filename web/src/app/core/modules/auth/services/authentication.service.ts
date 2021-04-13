@@ -1,7 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
 import { User, Organization } from '@/core/modules/user-api/shared';
 import { BaseMessage, NewPassword, JwtDecoded, ItemApiResponse } from '@/shared/models';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -39,7 +38,7 @@ export class AuthenticationService {
 
   activateAccount(token: string): Observable<BaseMessage> {
     return this.http.post<BaseMessage>(ApiRoutesConstants.ACTIVATE_ACCOUNT, {
-      token: token
+      token
     });
   }
 

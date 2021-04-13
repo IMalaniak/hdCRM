@@ -1,8 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-
 import { select, Store } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { IconsService } from '@/core/services';
 import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
@@ -17,12 +15,12 @@ import { Asset } from '@/shared/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TemplatesUserDetailsComponent {
-  canViewDepartment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(VIEW_PRIVILEGE.DEPARTMENT)));
-
   @Input() user: User;
   @Input() isDialog = false;
 
   @Output() addFileCall: EventEmitter<Asset> = new EventEmitter();
+
+  canViewDepartment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(VIEW_PRIVILEGE.DEPARTMENT)));
 
   icons: { [key: string]: BS_ICON } = {
     user: BS_ICON.Person,

@@ -6,6 +6,7 @@ import { CustomError } from '../errors';
 import { CollectionApiResponse, RequestWithBody, BaseResponse } from '../models';
 import { DepartmentCreationAttributes, DepartmentAttributes, Department } from '../repositories';
 import { DepartmentService } from '../services';
+
 import { BaseController } from './base/base.controller';
 import { sendResponse } from './utils';
 
@@ -26,10 +27,8 @@ export class DepartmentController extends BaseController<
   ): Promise<void> {
     req.log.info(`Geting department dashboard data...`);
 
-    const {
-      user: { OrganizationId }
-    } = req;
-    const result = await this.dataBaseService.getDashboardData(OrganizationId);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const result = await this.dataBaseService.getDashboardData(req.user!.OrganizationId);
 
     return sendResponse<CollectionApiResponse<Department>, CustomError>(result, res);
   }
@@ -39,7 +38,8 @@ export class DepartmentController extends BaseController<
   ): DepartmentCreationAttributes {
     return {
       ...req.body,
-      OrganizationId: req.user.OrganizationId
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      OrganizationId: req.user!.OrganizationId
     };
   }
 }

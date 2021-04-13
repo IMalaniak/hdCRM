@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+
 import { AtomsUserPicComponent } from '../atoms-user-pic/atoms-user-pic.component';
 
 @Component({

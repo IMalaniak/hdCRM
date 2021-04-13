@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-
 import { provideMockStore } from '@ngrx/store/testing';
-
 import { SharedModule } from '@/shared/shared.module';
 import { authStateMock } from '@/shared/testing/mocks';
-import { UserDropdownComponent } from './user-dropdown.component';
+
 import { initialLayoutState } from '../../store/layout.reducer';
+
+import { UserDropdownComponent } from './user-dropdown.component';
 
 describe('UserDropdownComponent', () => {
   let component: UserDropdownComponent;

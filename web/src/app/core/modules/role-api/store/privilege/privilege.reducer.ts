@@ -1,7 +1,9 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Privilege } from '../../shared/models';
-import * as PrivilegeActions from './privilege.actions';
 import { createReducer, on, Action } from '@ngrx/store';
+
+import { Privilege } from '../../shared/models';
+
+import * as PrivilegeActions from './privilege.actions';
 
 export interface PrivilegesState extends EntityState<Privilege> {
   allPrivilegesLoaded: boolean;
@@ -31,9 +33,7 @@ const reducer = createReducer(
   on(PrivilegeActions.privilegeApiError, (state) => ({ ...state }))
 );
 
-export function privilegesReducer(state: PrivilegesState | undefined, action: Action) {
-  return reducer(state, action);
-}
+export const privilegesReducer = (state: PrivilegesState | undefined, action: Action) => reducer(state, action);
 
 export const privilegesFeatureKey = 'privilege-api';
 

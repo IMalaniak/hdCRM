@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
+
 import { Task, TaskPriority } from '../models';
 
 const detailsPrefix = '[Task Details]';

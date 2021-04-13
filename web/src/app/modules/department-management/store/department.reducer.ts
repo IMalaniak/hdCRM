@@ -1,8 +1,8 @@
 import { createReducer, on, Action } from '@ngrx/store';
-
 import * as departmentApiActions from '@/core/modules/department-api/store/department-api.actions';
 import { Department } from '@/core/modules/department-api/shared';
 import { initialListState, ListState, pagesAdapter } from '@/shared/store';
+
 import * as departmentActions from './department.actions';
 
 const reducer = createReducer(
@@ -49,8 +49,6 @@ const reducer = createReducer(
   }))
 );
 
-export function departmentReducer(state: ListState<Department> | undefined, action: Action) {
-  return reducer(state, action);
-}
+export const departmentReducer = (state: ListState<Department> | undefined, action: Action) => reducer(state, action);
 
 export const departmentsFeatureKey = 'department-management';

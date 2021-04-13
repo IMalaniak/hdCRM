@@ -1,7 +1,8 @@
-import * as dynamicFormActions from './dynamic-form.actions';
 import { createReducer, on, Action } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { DynamicForm } from '@/shared/models';
+
+import * as dynamicFormActions from './dynamic-form.actions';
 
 export interface DynamicFormState extends EntityState<DynamicForm> {
   isLoading: boolean;
@@ -27,8 +28,6 @@ const dynamicFormReducer = createReducer(
   on(dynamicFormActions.formsApiError, (state) => ({ ...state, isLoading: false }))
 );
 
-export function formReducer(state: DynamicFormState | undefined, action: Action) {
-  return dynamicFormReducer(state, action);
-}
+export const formReducer = (state: DynamicFormState | undefined, action: Action) => dynamicFormReducer(state, action);
 
 export const { selectAll, selectEntities, selectIds, selectTotal } = adapter.getSelectors();

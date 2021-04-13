@@ -1,6 +1,8 @@
-// tslint:disable: no-unused-expression
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { fail } from 'assert';
+
 import { expect } from 'chai';
 import { StatusCodes } from 'http-status-codes';
 import { Result } from 'neverthrow';
@@ -13,6 +15,7 @@ import { BaseResponse, ItemApiResponse } from '../models';
 import { User, Preference, PreferenceCreationAttributes } from '../repositories';
 import { enumToArray } from '../utils/enumToArray';
 import { Logger } from '../utils/Logger';
+
 import { PreferenceService } from './preference.service';
 
 describe('PreferenceService', () => {
@@ -65,24 +68,26 @@ describe('PreferenceService', () => {
     expect(serviceInstance).to.not.be.undefined;
   });
 
-  it('should return preference list when calling getAll', async () => {
+  it('should return preference list when calling getAll', () => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     (Preference as any).rawAttributes = {
       listView: {
         values: enumToArray(LIST_VIEW)
       }
     };
 
-    const result = await serviceInstance.getAll();
+    const result = serviceInstance.getAll();
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
 
     expect((result._unsafeUnwrap() as ItemApiResponse<any>).data).to.deep.equal({ listView: ['list', 'card'] });
   });
 
-  it('should return empty list when calling getAll', async () => {
+  it('should return empty list when calling getAll', () => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     (Preference as any).rawAttributes = {};
 
-    const result = await serviceInstance.getAll();
+    const result = serviceInstance.getAll();
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     expect(result._unsafeUnwrap() as ItemApiResponse<any>).to.deep.equal({});

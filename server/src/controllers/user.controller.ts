@@ -18,6 +18,7 @@ import {
 } from '../repositories';
 import { JwtUtils } from '../utils/jwt.utils';
 import { parseCookies } from '../utils/parseCookies';
+
 import { sendResponse } from './utils';
 import { BaseController } from './base/base.controller';
 
@@ -34,9 +35,9 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
   ): Promise<void> {
     req.log.info(`Changing user password...`);
 
-    let sId: number;
+    let sId: number | undefined;
     if (req.body.deleteSessions) {
-      const cookies = parseCookies(req) as any;
+      const cookies = parseCookies(req);
       if (cookies.refresh_token) {
         const decodedResult = this.jwtHelper.getDecoded(cookies.refresh_token);
         if (decodedResult.isOk()) {
@@ -47,7 +48,8 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
 
     const passData: PasswordReset & { userId: number; sessionId?: number } = {
       ...req.body,
-      userId: req.user.id,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      userId: req.user!.id,
       ...(req.body.deleteSessions && { sessionId: sId })
     };
 
@@ -74,7 +76,8 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
     req: Request,
     res: Response<CollectionApiResponse<UserSession> | BaseResponse>
   ): Promise<void> {
-    const currentUser = req.user;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const currentUser = req.user!;
     req.log.info(`Getting session list for user id: ${currentUser.id}...`);
     const result = await this.dataBaseService.getSessionList(currentUser);
 
@@ -122,7 +125,8 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
   ): Promise<void> {
     req.log.info(`Invite multiple users`);
 
-    const result = await this.dataBaseService.inviteMultiple(req.body, req.user.OrganizationId);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const result = await this.dataBaseService.inviteMultiple(req.body, req.user!.OrganizationId);
 
     return sendResponse<CollectionApiResponse<User>, CustomError>(result, res);
   }
@@ -133,19 +137,16 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
   ): Promise<void> {
     req.log.info(`Update user avatar`);
 
-    if (req.file) {
-      jimp.read(req.file.path).then((tpl) =>
-        tpl
-          .clone()
-          .resize(100, jimp.AUTO)
-          .write(req.file.destination + '/thumbnails/' + req.file.originalname)
-      );
-    }
+    const tpl = await jimp.read(req.file.path);
+    tpl
+      .clone()
+      .resize(100, jimp.AUTO)
+      .write(req.file.destination + '/thumbnails/' + req.file.originalname);
 
     const params: { avatar: AssetCreationAttributes; userId: string } = {
       avatar: {
         title: req.file.originalname,
-        location: req.file.destination.split('uploads')[1],
+        location: req.file.destination.split('uploads')[1] as string,
         type: req.file.mimetype
       },
       userId: req.params.id
@@ -170,7 +171,8 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
   protected generateCreationAttributes(req: RequestWithBody<UserCreationAttributes>): UserCreationAttributes {
     return {
       ...req.body,
-      OrganizationId: req.user.OrganizationId
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      OrganizationId: req.user!.OrganizationId
     };
   }
 }

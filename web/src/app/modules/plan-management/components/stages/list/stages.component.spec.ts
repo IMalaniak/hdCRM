@@ -3,10 +3,9 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-
 import { provideMockStore } from '@ngrx/store/testing';
-
 import { initialStagesState } from '@/core/modules/plan-api/store/stage';
+
 import { StagesComponent } from './stages.component';
 
 describe('StagesComponent', () => {

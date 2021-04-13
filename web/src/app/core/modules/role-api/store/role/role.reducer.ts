@@ -2,6 +2,7 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
 import { Role } from '../../shared/models';
+
 import * as roleActions from './role.actions';
 
 export interface RolesState extends EntityState<Role> {
@@ -70,9 +71,7 @@ const reducer = createReducer(
   }))
 );
 
-export function rolesReducer(state: RolesState | undefined, action: Action) {
-  return reducer(state, action);
-}
+export const rolesReducer = (state: RolesState | undefined, action: Action) => reducer(state, action);
 
 export const rolesFeatureKey = 'role-api';
 

@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Output, Input, ChangeDetectionStrategy } from '@angular/core';
-
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs/internal/Observable';
-
 import { AppState } from '@/core/store';
 import { getGoogleDriveIntegrationState, toggleGoogleDriveIntegration } from '@/core/store/integration';
 import { IconsService } from '@/core/services';
@@ -17,8 +15,6 @@ import { COLUMN_KEY, COLUMN_LABEL, ACTION_LABEL, THEME_PALETTE, MAT_BUTTON, BS_I
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TemplatesAttachmentsListComponent {
-  googleDriveIntegrationState$: Observable<boolean> = this.store$.pipe(select(getGoogleDriveIntegrationState));
-
   @Input() apiUrl: string;
   @Input() attachments: Asset[];
   @Input() canAdd: boolean;
@@ -26,6 +22,8 @@ export class TemplatesAttachmentsListComponent {
 
   @Output() deleteFileCall: EventEmitter<any> = new EventEmitter();
   @Output() addFileCall: EventEmitter<any> = new EventEmitter();
+
+  googleDriveIntegrationState$: Observable<boolean> = this.store$.pipe(select(getGoogleDriveIntegrationState));
 
   uploaderVisible = false;
 

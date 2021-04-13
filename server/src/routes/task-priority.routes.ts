@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { Response, Router } from 'express';
 import { Service } from 'typedi';
 
@@ -7,7 +8,7 @@ import { TaskPriority } from '../repositories/TaskPriority';
 
 @Service()
 export class TaskPriorityRoutes {
-  private router: Router = Router();
+  private readonly router: Router = Router();
 
   constructor(private readonly taskController: TaskController) {}
 

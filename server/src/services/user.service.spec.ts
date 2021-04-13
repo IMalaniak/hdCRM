@@ -1,14 +1,18 @@
-// tslint:disable: no-unused-expression
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { fail } from 'assert';
+
 import { expect } from 'chai';
 import { StatusCodes } from 'http-status-codes';
 import { Result } from 'neverthrow';
 import { CreateOptions } from 'sequelize';
 import sinon from 'sinon';
 import Container from 'typedi';
-import { Config } from '../config';
 
+import { Config } from '../config';
 import { CONSTANTS } from '../constants';
 import { CustomError } from '../errors';
 import { BaseResponse, CollectionApiResponse } from '../models';
@@ -16,6 +20,7 @@ import { UserCreationAttributes, User, Organization, UserSession, Privilege } fr
 import { CryptoUtils } from '../utils/crypto.utils';
 import { EmailUtils } from '../utils/email.utils';
 import { Logger } from '../utils/Logger';
+
 import { UserService } from './user.service';
 
 describe('UserService', () => {
@@ -23,7 +28,7 @@ describe('UserService', () => {
   let loggerInstance: Logger;
   let spyLogger: sinon.SinonSpy;
 
-  let createStub: sinon.SinonStub<[values: UserCreationAttributes, options?: CreateOptions<any>], Promise<User>>;
+  let createStub: sinon.SinonStub<[values: UserCreationAttributes, options?: CreateOptions], Promise<User>>;
   let findUserByPkStub: sinon.SinonStub;
   let findOrgByPkStub: sinon.SinonStub;
   let updateOrgStub: sinon.SinonStub;
@@ -244,6 +249,7 @@ describe('UserService', () => {
     const result = await serviceInstance.updatePassword({
       newPassword: 'new_password',
       verifyPassword: 'new_password',
+      oldPassword: 'old_password',
       userId: 1
     });
     expect(findUserByPkStub.calledOnce).to.be.true;
@@ -418,7 +424,7 @@ describe('UserService', () => {
       .withArgs({
         user: userFake,
         password: 'password',
-        url: `${Config.WEB_URL}/auth/activate-account/token`
+        url: `${Config.WEB_URL!}/auth/activate-account/token`
       })
       .resolves();
 
@@ -497,7 +503,7 @@ describe('UserService', () => {
       .withArgs({
         user: userFake,
         password: 'password',
-        url: `${Config.WEB_URL}/auth/activate-account/token`
+        url: `${Config.WEB_URL!}/auth/activate-account/token`
       })
       .resolves();
 
@@ -552,7 +558,7 @@ describe('UserService', () => {
       .withArgs({
         user: userFake,
         password: 'password',
-        url: `${Config.WEB_URL}/auth/activate-account/token`
+        url: `${Config.WEB_URL!}/auth/activate-account/token`
       })
       .resolves();
 

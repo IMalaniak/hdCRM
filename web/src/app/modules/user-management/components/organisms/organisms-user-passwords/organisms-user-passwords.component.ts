@@ -1,8 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-
 import { Store } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { IconsService } from '@/core/services';
 import { changeOldPassword } from '@/core/modules/user-api/store';
@@ -46,7 +44,7 @@ export class OrganismsUserPasswordsComponent implements OnInit {
         deleteSessions: new FormControl(true)
       },
       {
-        validators: ConfirmPasswordValidator.MatchPassword
+        validators: ConfirmPasswordValidator.matchPassword
       }
     );
   }

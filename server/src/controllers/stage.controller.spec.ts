@@ -1,4 +1,4 @@
-// tslint:disable: no-unused-expression
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { expect } from 'chai';
 import { StatusCodes } from 'http-status-codes';
@@ -8,6 +8,7 @@ import Container from 'typedi';
 
 import { Stage } from '../repositories';
 import { StageService } from '../services';
+
 import { StageController } from './stage.controller';
 
 describe('StageController', () => {

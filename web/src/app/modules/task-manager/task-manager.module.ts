@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
-import * as taskReducer from './store/task.reducer';
 import { EffectsModule } from '@ngrx/effects';
+import { SharedModule } from '@/shared/shared.module';
+
+import * as taskReducer from './store/task.reducer';
 import { TaskEffects } from './store/task.effects';
 import { TaskService } from './services';
-import { SharedModule } from '@/shared/shared.module';
 import * as _components from './components';
 
 @NgModule({

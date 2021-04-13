@@ -1,4 +1,5 @@
 import { FORM_TYPE, FIELD_TYPE } from '../constants';
+
 import { TimeStamps } from './base';
 
 export interface DynamicFormItemOption {

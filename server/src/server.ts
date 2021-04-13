@@ -1,10 +1,11 @@
+import path from 'path';
+import http from 'http';
+
 import express, { Application, Router } from 'express';
 import { Service } from 'typedi';
 import { Server as SocketServer } from 'socket.io';
-import path from 'path';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import http from 'http';
 import cors from 'cors';
 import PinoHttp from 'pino-http';
 
@@ -17,10 +18,10 @@ import { Logger } from './utils/Logger';
 
 @Service({ global: true })
 export class Server {
-  private app: Application;
-  private server: http.Server;
-  private socket: SocketServer;
-  private router: Router;
+  private readonly app: Application;
+  private readonly server: http.Server;
+  private readonly socket: SocketServer;
+  private readonly router: Router;
 
   constructor(
     private readonly dBase: DataBase,
@@ -62,13 +63,15 @@ export class Server {
   }
 
   public async start(): Promise<Application> {
-    await this.routes.register(this.router);
+    this.routes.register(this.router);
     this.setupStaticFolders();
 
     // Sync DB
     await this.dBase.connection.sync().then(() => {
-      this.server.listen(parseInt(process.env.PORT), () => {
-        this.logger.info(`Server is listening on ${process.env.PORT}`);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const portNumber = +process.env.PORT!;
+      this.server.listen(portNumber, () => {
+        this.logger.info(`Server is listening on ${portNumber}`);
       });
     });
     return this.app;

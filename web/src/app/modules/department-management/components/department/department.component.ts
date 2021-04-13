@@ -2,9 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, tap, filter } from 'rxjs/operators';
 import { Observable, combineLatest } from 'rxjs';
-
 import { Store, select } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { currentUser, isPrivileged } from '@/core/modules/auth/store/auth.selectors';
 import {
@@ -14,6 +12,7 @@ import {
 } from '@/core/modules/department-api/store';
 import { Department } from '@/core/modules/department-api/shared';
 import { EDIT_PRIVILEGE } from '@/shared/constants';
+
 import { changeIsEditingState, cacheDepartment, selectIsEditing, restoreFromCache } from '../../store';
 
 @Component({

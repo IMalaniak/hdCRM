@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import Container, { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 
 import { CollectionApiResponse, BaseResponse } from '../models';
 import { CONSTANTS } from '../constants';
-import { BaseService } from './base/base.service';
 import { CustomError, InternalServerError } from '../errors';
 import { StageCreationAttributes, StageAttributes, Stage } from '../repositories';
+
+import { BaseService } from './base/base.service';
 
 @Service()
 export class StageService extends BaseService<StageCreationAttributes, StageAttributes, Stage> {
@@ -16,7 +18,7 @@ export class StageService extends BaseService<StageCreationAttributes, StageAttr
   }
 
   public async getAll(
-    OrganizationId: number
+    organizationId: number
   ): Promise<Result<CollectionApiResponse<Stage> | BaseResponse, CustomError>> {
     try {
       const data = await Stage.findAndCountAll({
@@ -24,7 +26,7 @@ export class StageService extends BaseService<StageCreationAttributes, StageAttr
           {
             association: Stage.associations?.Plans,
             where: {
-              OrganizationId
+              OrganizationId: organizationId
             },
             attributes: ['id']
           }
@@ -36,7 +38,7 @@ export class StageService extends BaseService<StageCreationAttributes, StageAttr
         return ok({});
       }
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }

@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 import { mergeMap, map, catchError, withLatestFrom, filter, tap } from 'rxjs/operators';
-
 import { Store, select } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-
 import { AppState } from '@/core/store';
 import { ToastMessageService } from '@/shared/services';
 import { CollectionApiResponse, ItemApiResponse } from '@/shared/models';
-import * as privilegeActions from './privilege.actions';
+
 import { PrivilegeService } from '../../services';
 import { Privilege } from '../../shared/models';
+
+import * as privilegeActions from './privilege.actions';
 import { allPrivilegesLoaded } from './privilege.selectors';
 
 @Injectable()

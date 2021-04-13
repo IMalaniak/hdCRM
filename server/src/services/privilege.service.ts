@@ -19,7 +19,7 @@ export class PrivilegeService {
         return ok({});
       }
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
@@ -34,7 +34,7 @@ export class PrivilegeService {
 
       return ok({ message: 'Privilege is created successfully!', data });
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }

@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import Container, { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 import { IncludeOptions, Op } from 'sequelize';
 
 import { CollectionApiResponse } from '../models';
 import { CONSTANTS } from '../constants';
-import { BaseService } from './base/base.service';
 import { CustomError, InternalServerError } from '../errors';
 import { RoleCreationAttributes, RoleAttributes, Role, User, Privilege } from '../repositories';
+
+import { BaseService } from './base/base.service';
 
 @Service()
 export class RoleService extends BaseService<RoleCreationAttributes, RoleAttributes, Role> {
@@ -37,12 +39,12 @@ export class RoleService extends BaseService<RoleCreationAttributes, RoleAttribu
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_ROLE);
   }
 
-  public async getDashboardData(OrganizationId: number): Promise<Result<CollectionApiResponse<Role>, CustomError>> {
+  public async getDashboardData(organizationId: number): Promise<Result<CollectionApiResponse<Role>, CustomError>> {
     try {
       const data = await this.MODEL.findAndCountAll({
         attributes: ['keyString', 'id'],
         where: {
-          OrganizationId
+          OrganizationId: organizationId
         },
         include: [
           {
@@ -55,7 +57,7 @@ export class RoleService extends BaseService<RoleCreationAttributes, RoleAttribu
       });
       return ok({ data: data.rows, resultsNum: data.count });
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
@@ -75,11 +77,11 @@ export class RoleService extends BaseService<RoleCreationAttributes, RoleAttribu
       });
 
       privileges = privileges.map((privilege) => {
-        privilege.RolePrivilege = role.Privileges.find((reqPriv) => reqPriv.id === privilege.id).RolePrivilege;
+        privilege.RolePrivilege = role.Privileges?.find((reqPriv) => reqPriv.id === privilege.id)?.RolePrivilege;
         return privilege;
       });
 
-      await (await Role.findByPk(id, { attributes: ['id'] })).setPrivileges(privileges);
+      await ((await Role.findByPk(id, { attributes: ['id'] })) as Role).setPrivileges(privileges);
     }
 
     if (role.Users) {
@@ -89,9 +91,9 @@ export class RoleService extends BaseService<RoleCreationAttributes, RoleAttribu
         }
       });
 
-      await (await Role.findByPk(id, { attributes: ['id'] })).setUsers(users);
+      await ((await Role.findByPk(id, { attributes: ['id'] })) as Role).setUsers(users);
     }
 
-    return this.findByPk(id);
+    return this.findByPk(id) as Promise<Role>;
   }
 }

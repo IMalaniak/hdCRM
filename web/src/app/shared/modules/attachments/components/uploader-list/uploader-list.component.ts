@@ -1,8 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ChangeDetectionStrategy } from '@angular/core';
-
 import { Store, select } from '@ngrx/store';
 import { FilePond } from 'filepond';
-
 import { environment } from 'environments/environment';
 import { AppState } from '@/core/store';
 import { getToken } from '@/core/modules/auth/store/auth.selectors';
@@ -80,9 +78,7 @@ export class UploaderListComponent implements OnInit {
     const asset: Asset = JSON.parse(data);
     this.addFileCall.emit(asset);
     setTimeout(() => {
-      const toRemove = this.tempFiles.find((item) => {
-        return item.name === asset.title;
-      });
+      const toRemove = this.tempFiles.find((item) => item.name === asset.title);
       this.uploader.removeFile(toRemove.id);
     }, 3000);
   }

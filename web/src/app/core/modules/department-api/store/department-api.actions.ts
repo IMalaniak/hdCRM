@@ -1,8 +1,8 @@
 import { createAction, props } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
-
 import { PageQuery, CollectionApiResponse } from '@/shared/models';
 import { Page } from '@/shared/store';
+
 import { Department } from '../shared/models';
 
 const detailsPrefix = '[Department Details]';

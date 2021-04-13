@@ -3,9 +3,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatAccordion } from '@angular/material/expansion';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-
 import { Store } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { DialogConstants, ACTION_LABEL, MAT_BUTTON, THEME_PALETTE, CommonConstants, BS_ICON } from '@/shared/constants';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
@@ -13,6 +11,7 @@ import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
 import { DialogCreateEditModel, DIALOG_MODE, DIALOG_TYPE, IDialogResult } from '@/shared/models';
+
 import {
   deleteTask,
   createTask,
@@ -82,10 +81,6 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
       });
   }
 
-  protected deleteTask(id: number): void {
-    this.store$.dispatch(deleteTask({ id }));
-  }
-
   deleteMultipleTask(): void {
     const dialogModel: DialogConfirmModel = new DialogConfirmModel(
       CommonConstants.TEXTS_DELETE_TASKS_COMPLETED_CONFIRM
@@ -109,5 +104,9 @@ export class OrganismsTaskListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
+  }
+
+  protected deleteTask(id: number): void {
+    this.store$.dispatch(deleteTask({ id }));
   }
 }

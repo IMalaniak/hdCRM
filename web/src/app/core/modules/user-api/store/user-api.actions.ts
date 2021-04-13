@@ -1,8 +1,8 @@
 import { createAction, props } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
-
 import { PageQuery, NewPassword, CollectionApiResponse } from '@/shared/models';
 import { Page } from '@/shared/store';
+
 import { User } from '../shared';
 
 const detailsPrefix = '[User Details]';
@@ -23,8 +23,8 @@ export const listPageLoaded = createAction(
   props<{ response: CollectionApiResponse<User>; page: Page }>()
 );
 
-export const OnlineUserListRequested = createAction('[Users] Online Users Requested');
-export const OnlineUserListLoaded = createAction(`${apiPrefix} Online User List Loaded`, props<{ list: User[] }>());
+export const onlineUserListRequested = createAction('[Users] Online Users Requested');
+export const onlineUserListLoaded = createAction(`${apiPrefix} Online User List Loaded`, props<{ list: User[] }>());
 
 export const userOnline = createAction('[User Socket API] User Online', props<{ user: User }>());
 export const userOffline = createAction('[User Socket API] User Offline', props<{ user: User }>());

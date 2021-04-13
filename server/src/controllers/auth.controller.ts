@@ -4,13 +4,15 @@ import { Service } from 'typedi';
 
 import { CustomError } from '../errors/custom-error';
 import { BaseResponse, PasswordReset, RequestWithBody } from '../models';
-import { OrganizationCreationAttributes, UserCreationAttributes } from '../repositories';
+import { Organization, OrganizationCreationAttributes, UserCreationAttributes } from '../repositories';
 import { AuthService, UserService } from '../services';
 import { CryptoUtils } from '../utils/crypto.utils';
 import { JwtUtils } from '../utils/jwt.utils';
 import { parseCookies } from '../utils/parseCookies';
+
 import { sendResponse } from './utils';
 
+type RegisterBody = UserCreationAttributes & { Organization: OrganizationCreationAttributes; password: string };
 @Service()
 export class AuthController {
   constructor(
@@ -20,22 +22,22 @@ export class AuthController {
     private readonly jwtHelper: JwtUtils
   ) {}
 
-  public async register(req: Request, res: Response<BaseResponse | BaseResponse>): Promise<void> {
+  public async register(req: RequestWithBody<RegisterBody>, res: Response<BaseResponse | BaseResponse>): Promise<void> {
     req.log.info('Registering new user...');
 
     const password = req.body.password ? req.body.password : this.crypt.genRandomString(12);
     const passwordData = this.crypt.saltHashPassword(password);
 
-    const OrgDefaults: any = {
+    const orgDefaults = {
       Roles: [
         {
           keyString: 'admin'
         }
       ]
-    };
+    } as Organization;
 
     const organization: OrganizationCreationAttributes = {
-      ...OrgDefaults,
+      ...orgDefaults,
       ...req.body.Organization,
       ...(!req.body.Organization.title && { title: `PRIVATE_ORG_FOR_${req.body.name}_${req.body.surname}` })
     };
@@ -105,7 +107,7 @@ export class AuthController {
   public async refreshSession(req: Request, res: Response<string | BaseResponse>): Promise<void> {
     req.log.info(`Refreshing session...`);
 
-    const cookies = parseCookies(req) as any;
+    const cookies = parseCookies(req);
 
     const result = await this.authService.refreshSession(cookies.refresh_token);
 
@@ -124,10 +126,12 @@ export class AuthController {
   public async logout(req: Request, res: Response<BaseResponse | BaseResponse>): Promise<void> {
     req.log.info(`Logging user out...`);
 
-    const cookies = parseCookies(req) as any;
-    const decodedResult = this.jwtHelper.getDecoded(cookies.refresh_token);
-    if (decodedResult.isOk()) {
-      await this.userService.removeSession(decodedResult.value.sessionId);
+    const cookies = parseCookies(req);
+    if (cookies.refresh_token) {
+      const decodedResult = this.jwtHelper.getDecoded(cookies.refresh_token);
+      if (decodedResult.isOk()) {
+        await this.userService.removeSession(decodedResult.value.sessionId);
+      }
     }
     // force cookie expiration
     const expires = new Date(1970);
@@ -136,7 +140,7 @@ export class AuthController {
     res.status(StatusCodes.OK).json({ message: 'logged out' });
   }
 
-  public async forgotPassword(req: Request, res: Response<BaseResponse>): Promise<void> {
+  public async forgotPassword(req: RequestWithBody<{ login: string }>, res: Response<BaseResponse>): Promise<void> {
     req.log.info(`Forget password requesting...`);
 
     const loginOrEmail = req.body.login;

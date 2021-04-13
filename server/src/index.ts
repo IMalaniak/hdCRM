@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import Container from 'typedi';
+
 import { App } from './app';
 import { Logger } from './utils/Logger';
 
@@ -9,6 +10,6 @@ App.start()
   .then(() => {
     logger.info('Application started');
   })
-  .catch((error) => {
-    logger.error(`Uncaught exception! Application will terminate, ${error}`);
+  .catch((error: Error) => {
+    logger.error(`Uncaught exception! Application will terminate, ${error.message}`);
   });

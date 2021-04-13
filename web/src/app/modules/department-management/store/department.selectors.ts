@@ -1,7 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Dictionary } from '@ngrx/entity';
 import { denormalize } from 'normalizr';
-
 import { selectAllUserEntities } from '@/core/modules/user-api/store';
 import { selectAllDepartmentEntities } from '@/core/modules/department-api/store';
 import { Department } from '@/core/modules/department-api/shared';
@@ -9,6 +8,7 @@ import { departmentListSchema } from '@/core/store/normalization';
 import { PageQuery } from '@/shared/models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
 import { ListState, Page } from '@/shared/store';
+
 import * as fromDepartment from './department.reducer';
 
 export const selectDepartmentsState = createFeatureSelector<ListState<Department>>(
@@ -37,14 +37,12 @@ export const selectDepartmentsOfPage = (pageQuery: PageQuery) =>
     selectAllDepartmentEntities,
     selectDepartmentPageByKey(pageQuery),
     selectAllUserEntities,
-    (departmentEntities: Dictionary<Department>, page: Page, userEntities) => {
-      return page
+    (departmentEntities: Dictionary<Department>, page: Page, userEntities) => page
         ? (denormalize(page.dataIds, departmentListSchema, {
             Users: userEntities,
             Departments: departmentEntities
           }) as Department[])
-        : [];
-    }
+        : []
   );
 
 export const selectIsEditing = createSelector(

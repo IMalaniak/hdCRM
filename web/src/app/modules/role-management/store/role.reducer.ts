@@ -1,8 +1,8 @@
 import { Action, createReducer, on } from '@ngrx/store';
-
 import * as roleApiActions from '@/core/modules/role-api/store/role/role.actions';
 import { Role } from '@/core/modules/role-api/shared';
 import { initialListState, ListState, pagesAdapter } from '@/shared/store';
+
 import * as roleActions from './role.actions';
 
 const rolesReducer = createReducer(
@@ -52,8 +52,6 @@ const rolesReducer = createReducer(
   }))
 );
 
-export function reducer(state: ListState<Role> | undefined, action: Action) {
-  return rolesReducer(state, action);
-}
+export const reducer = (state: ListState<Role> | undefined, action: Action) => rolesReducer(state, action);
 
 export const rolesFeatureKey = 'role-management';

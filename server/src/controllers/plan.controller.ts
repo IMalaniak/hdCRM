@@ -6,6 +6,7 @@ import { CustomError } from '../errors';
 import { BaseResponse, ItemApiResponse, RequestWithQuery, RequestWithBody } from '../models';
 import { PlanCreationAttributes, PlanAttributes, Plan, Asset, AssetCreationAttributes } from '../repositories';
 import { PlanService } from '../services';
+
 import { BaseController } from './base/base.controller';
 import { sendResponse } from './utils';
 
@@ -25,7 +26,7 @@ export class PlanController extends BaseController<PlanCreationAttributes, PlanA
     const params: { document: AssetCreationAttributes; planId: string } = {
       document: {
         title: req.file.originalname,
-        location: req.file.destination.split('uploads')[1],
+        location: req.file.destination.split('uploads')[1] as string,
         type: req.file.mimetype
       },
       planId: req.params.planId
@@ -50,10 +51,12 @@ export class PlanController extends BaseController<PlanCreationAttributes, PlanA
   }
 
   protected generateCreationAttributes(req: RequestWithBody<PlanCreationAttributes>): PlanCreationAttributes {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const user = req.user!;
     return {
       ...req.body,
-      OrganizationId: req.user.OrganizationId,
-      CreatorId: req.user.id
+      OrganizationId: user.OrganizationId,
+      CreatorId: user.id
     };
   }
 }

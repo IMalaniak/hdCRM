@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
-import { TaskService } from '../services';
-import * as TaskActions from './task.actions';
-import { Task, TaskPriority } from '../models';
 import { Update } from '@ngrx/entity';
 import { ToastMessageService } from '@/shared/services';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CollectionApiResponse, ItemApiResponse, BaseMessage } from '@/shared/models';
+
+import { Task, TaskPriority } from '../models';
+import { TaskService } from '../services';
+
+import * as TaskActions from './task.actions';
 
 @Injectable()
 export class TaskEffects {

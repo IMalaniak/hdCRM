@@ -3,22 +3,23 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { EMPTY, of } from 'rxjs';
 import { mergeMap, map, catchError, withLatestFrom, filter, switchMap } from 'rxjs/operators';
-
 import { Store, select } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-
 import { AppState } from '@/core/store';
 import { normalizeResponse, roleSchema, partialDataLoaded, roleListSchema } from '@/core/store/normalization';
 import { ToastMessageService } from '@/shared/services';
 import { RoutingConstants } from '@/shared/constants';
 import { CollectionApiResponse, ItemApiResponse, BaseMessage } from '@/shared/models';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
-import * as roleActions from './role.actions';
+import { Page } from '@/shared/store';
+
 import { RoleService } from '../../services';
 import { Role } from '../../shared/models';
+
+import * as roleActions from './role.actions';
 import { selectRolesDashboardDataLoaded } from './role.selectors';
-import { Page } from '@/shared/store';
+
 
 @Injectable()
 export class RoleEffects {
@@ -31,6 +32,7 @@ export class RoleEffects {
           switchMap((response: ItemApiResponse<Role>) => {
             this.toastMessageService.success(response.message);
             this.router.navigateByUrl(RoutingConstants.ROUTE_ROLES);
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             const { Users, Roles } = normalizeResponse<Role>(response, roleSchema);
             response = { ...response, data: Roles[0] };
             return [
@@ -53,6 +55,7 @@ export class RoleEffects {
       map((payload) => payload.id),
       mergeMap((id) => this.roleService.getOne<Role>(id)),
       switchMap((response: ItemApiResponse<Role>) => {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         const { Users, Roles } = normalizeResponse<Role>(response, roleSchema);
         response = { ...response, data: Roles[0] };
         return [roleActions.roleLoaded({ role: response.data }), ...(Users ? [partialDataLoaded({ Users })] : [])];
@@ -69,6 +72,7 @@ export class RoleEffects {
         this.roleService.getList<Role>(pageQuery).pipe(
           switchMap((response: CollectionApiResponse<Role>) => {
             const page: Page = { dataIds: response.ids, key: generatePageKey(pageQuery) };
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             const { Users, Roles } = normalizeResponse<Role>(response, roleListSchema);
             if (!Roles) {
               return EMPTY;
@@ -89,6 +93,7 @@ export class RoleEffects {
       mergeMap((role: Role) =>
         this.roleService.update<Role>(this.roleService.formatBeforeSend(role), role.id).pipe(
           switchMap((response: ItemApiResponse<Role>) => {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             const { Users, Roles } = normalizeResponse<Role>(response, roleSchema);
             response = { ...response, data: Roles[0] };
             const role: Update<Role> = {
@@ -133,6 +138,7 @@ export class RoleEffects {
       filter(([_, rolesDashboardDataLoaded]) => !rolesDashboardDataLoaded),
       mergeMap(() => this.roleService.getDashboardData()),
       switchMap((response) => {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         const { Users, Roles } = normalizeResponse<Role>(response, roleListSchema);
         if (!Roles) {
           return EMPTY;

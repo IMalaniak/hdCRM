@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-
 import { BS_ICON, THEME_PALETTE } from '@/shared/constants';
 
 @Component({

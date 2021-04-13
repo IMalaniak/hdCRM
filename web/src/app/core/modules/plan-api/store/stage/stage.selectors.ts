@@ -1,4 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+
 import * as fromStage from './stage.reducer';
 
 export const selectStagesState = createFeatureSelector<fromStage.StagesState>(fromStage.stagesFeatureKey);

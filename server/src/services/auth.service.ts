@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 import { Op } from 'sequelize';
@@ -39,24 +40,26 @@ export class AuthService {
 
     try {
       const createdOrg = await Organization.create(organization, {
-        include: [{ association: Organization.associations.Roles }]
+        include: [{ association: Organization.associations?.Roles }]
       });
       const createdUser = await createdOrg.createUser({
         ...user
       });
 
       const privileges = await Privilege.findAll();
-      const adminRole = createdOrg.Roles[0];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const adminRole = createdOrg.Roles![0]!;
       await adminRole.setPrivileges(privileges);
-      await adminRole.getPrivileges().then((rPrivileges) => {
-        rPrivileges.forEach((privilege) => {
-          privilege.RolePrivilege.add = true;
-          privilege.RolePrivilege.delete = true;
-          privilege.RolePrivilege.edit = true;
-          privilege.RolePrivilege.view = true;
-          privilege.RolePrivilege.save();
-        });
-      });
+      const rPrivileges = await adminRole.getPrivileges();
+      for (const privilege of rPrivileges) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const rPriv = privilege.RolePrivilege!;
+        rPriv.add = true;
+        rPriv.delete = true;
+        rPriv.edit = true;
+        rPriv.view = true;
+        await rPriv.save();
+      }
       await adminRole.addUser(createdUser);
 
       const token = this.crypt.genTimeLimitedToken(24 * 60);
@@ -66,17 +69,18 @@ export class AuthService {
         passwordExpire: token.expireDate
       });
 
-      await this.sendMail(MAIL_THEME.Activation, {
+      await this.sendMail(MAIL_THEME.ACTIVATIONN, {
         user: createdUser,
         tmpPassword: password,
-        url: `${Config.WEB_URL}/auth/activate-account/${token.value}`
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        url: `${Config.WEB_URL!}/auth/activate-account/${token.value}`
       });
 
       return ok({
         message: 'Activation link has been sent'
       });
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
@@ -99,7 +103,7 @@ export class AuthService {
         pa.tokenExpire = null;
         await pa.save();
 
-        await this.sendMail(MAIL_THEME.ActivationConfirm, user);
+        await this.sendMail(MAIL_THEME.ACTIVATION_CONFIRM, user);
         return ok({
           message: 'You account has been activated successfully!'
         });
@@ -107,7 +111,7 @@ export class AuthService {
         return err(new BadRequestError('Your activation token is invalid or has expired!'));
       }
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
@@ -117,7 +121,7 @@ export class AuthService {
     password: string;
     connection: {
       IP: string;
-      UA: string;
+      UA: string | undefined;
     };
   }): Promise<Result<{ refreshToken: string; accessToken: string }, CustomError>> {
     const { loginOrEmail, password, connection } = params;
@@ -173,27 +177,26 @@ export class AuthService {
           return ok({ accessToken, refreshToken });
         }
       } else {
-        this.saveLogInAttempt(connection, user, false).then(() => {
-          return err(
-            new NotAuthorizedError(
-              'Password that You provided is not correct, please make sure you have the right password or contact administrator!'
-            )
-          );
-        });
+        await this.saveLogInAttempt(connection, user, false);
+        return err(
+          new NotAuthorizedError(
+            'Password that You provided is not correct, please make sure you have the right password or contact administrator!'
+          )
+        );
       }
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
 
-  public async refreshSession(token: string): Promise<Result<{ accessToken: string }, CustomError>> {
+  public async refreshSession(token: string | undefined): Promise<Result<{ accessToken: string }, CustomError>> {
     if (token) {
       const verifiedResult = await this.jwtHelper.getVerified({ type: 'refresh', token });
       if (verifiedResult.isOk()) {
         const { sessionId, userId } = verifiedResult.value;
         const userPA = await PasswordAttribute.findOne({ where: { UserId: userId } });
-        if (this.isPasswordExpired(userPA)) {
+        if (userPA && this.isPasswordExpired(userPA)) {
           return err(
             new NotAuthorizedError(
               'Your password has expired, please click on "forgot password" button to reset your password!'
@@ -229,7 +232,7 @@ export class AuthService {
         const pa = await user.getPasswordAttributes();
         const token = this.crypt.genTimeLimitedToken(5);
 
-        if (pa) {
+        if (pa.id) {
           pa.token = token.value;
           pa.tokenExpire = token.expireDate;
           await pa.save();
@@ -240,9 +243,10 @@ export class AuthService {
           });
         }
 
-        await this.sendMail(MAIL_THEME.PasswordReset, {
+        await this.sendMail(MAIL_THEME.PASSWORD_RESET, {
           user,
-          tokenUrl: `${Config.WEB_URL}/auth/password-reset/${token.value}`
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          tokenUrl: `${Config.WEB_URL!}/auth/password-reset/${token.value}`
         });
 
         return ok({
@@ -252,7 +256,7 @@ export class AuthService {
         return err(new NotFoundError('The following user does not exist! Please, provide correct email or login!'));
       }
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
@@ -281,7 +285,7 @@ export class AuthService {
           pa.passwordExpire.setDate(pa.passwordExpire.getDate() + 30);
           await pa.save();
 
-          await this.sendMail(MAIL_THEME.PasswordResetConfirm, user);
+          await this.sendMail(MAIL_THEME.PASSWORD_RESET_CONFIRM, user);
           return ok({
             message: 'You have successfully changed your password.'
           });
@@ -292,14 +296,14 @@ export class AuthService {
         return err(new NotAuthorizedError('Your password reset token is invalid or has expired!'));
       }
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
 
   // Private functions
   private saveLogInAttempt(
-    connection: { IP: string; UA: string },
+    connection: { IP: string; UA: string | undefined },
     user: UserAttributes,
     isSuccess: boolean
   ): Promise<UserSession> {
@@ -307,20 +311,22 @@ export class AuthService {
     return UserSession.create({
       IP,
       UserId: user.id,
-      UA,
-      isSuccess
+      isSuccess,
+      UA
     });
   }
 
   // TODO: check if I can set types dynamically for params
-  private sendMail(type: MAIL_THEME, params?: any): Promise<void> {
+  private sendMail(type: MAIL_THEME, params?: any): Promise<any> {
     switch (type) {
-      case MAIL_THEME.Activation:
+      case MAIL_THEME.ACTIVATIONN:
         return this.mailer.sendActivation(params);
-      case MAIL_THEME.ActivationConfirm:
+      case MAIL_THEME.ACTIVATION_CONFIRM:
         return this.mailer.sendActivationConfirmation(params);
-      case MAIL_THEME.PasswordReset:
+      case MAIL_THEME.PASSWORD_RESET:
         return this.mailer.sendPasswordReset(params);
+      default:
+        return Promise.reject();
     }
   }
 

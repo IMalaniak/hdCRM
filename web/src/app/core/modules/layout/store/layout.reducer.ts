@@ -1,7 +1,7 @@
 import { createReducer, on, Action } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-
 import { TableConfig } from '@/shared/models/table';
+
 import * as LayoutActions from './layout.actions';
 
 const tableConfigAdapter: EntityAdapter<TableConfig> = createEntityAdapter<TableConfig>({
@@ -49,8 +49,6 @@ const layoutReducer = createReducer(
   }))
 );
 
-export function reducer(state: LayoutState | undefined, action: Action) {
-  return layoutReducer(state, action);
-}
+export const reducer = (state: LayoutState | undefined, action: Action) => layoutReducer(state, action);
 
 export const layoutFeatureKey = 'layout';

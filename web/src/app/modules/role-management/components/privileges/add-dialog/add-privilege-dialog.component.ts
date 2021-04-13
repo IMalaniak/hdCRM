@@ -2,7 +2,6 @@ import { Component, ChangeDetectionStrategy, OnInit, Inject } from '@angular/cor
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ComponentType } from '@angular/cdk/portal';
-
 import { Privilege } from '@/core/modules/role-api/shared';
 import { ACTION_LABEL, THEME_PALETTE } from '@/shared/constants';
 import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';

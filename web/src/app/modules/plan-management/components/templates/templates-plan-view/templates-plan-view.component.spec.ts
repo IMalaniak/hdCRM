@@ -5,15 +5,14 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { provideMockStore } from '@ngrx/store/testing';
-
 import { initialPreferencesState } from '@/core/store/preferences';
 import { Plan } from '@/core/modules/plan-api/shared';
 import { plansFeatureKey, initialPlansState } from '@/core/modules/plan-api/store/plan';
 import { authStateMock, currentUserMock, formsStateMock } from '@/shared/testing/mocks';
 import { SharedModule } from '@/shared/shared.module';
 import { Asset } from '@/shared/models';
+
 import { TemplatesPlanViewComponent } from './templates-plan-view.component';
 
 describe('TemplatesPlanViewComponent', () => {

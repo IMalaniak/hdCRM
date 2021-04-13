@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
 import { User } from '@/core/modules/user-api/shared';
 import { ApiRoutesConstants } from '@/shared/constants';
 import { BaseCrudService } from '@/shared/services';
 import { CollectionApiResponse } from '@/shared/models';
+
 import { Department } from '../shared/models';
 
 @Injectable()
@@ -24,11 +24,12 @@ export class DepartmentService extends BaseCrudService {
     let formated = { ...dep };
     if (formated.Workers && formated.Workers.length) {
       formated = Object.assign({}, formated, {
-        Workers: formated.Workers.map((worker) => {
-          return <User>{
-            id: worker.id
-          };
-        })
+        Workers: formated.Workers.map(
+          (worker) =>
+            ({
+              id: worker.id
+            } as User)
+        )
       });
     }
 

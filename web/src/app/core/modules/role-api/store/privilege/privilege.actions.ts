@@ -1,7 +1,8 @@
 import { createAction, props } from '@ngrx/store';
-import { Privilege } from '../../shared/models';
 import { Update } from '@ngrx/entity';
 import { CollectionApiResponse } from '@/shared/models';
+
+import { Privilege } from '../../shared/models';
 
 const listPrefix = '[Privileges List]';
 const apiPrefix = '[Privileges API]';

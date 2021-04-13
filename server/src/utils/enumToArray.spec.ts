@@ -1,5 +1,7 @@
 import { expect } from 'chai';
+
 import { LIST_VIEW } from '../constants';
+
 import { enumToArray } from './enumToArray';
 
 describe('enumToArray', () => {

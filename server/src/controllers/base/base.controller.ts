@@ -18,10 +18,10 @@ import { BaseService } from '../../services/base/base.service';
 import { CustomError } from '../../errors/custom-error';
 
 export abstract class BaseController<C, A, M extends Model<A, C>> {
-  protected readonly dataBaseService: BaseService<C, A, M>;
+  protected readonly dataBaseService!: BaseService<C, A, M>;
 
   @Inject(CONSTANTS.MODELS_NAME)
-  protected modelName: string;
+  protected modelName!: string;
 
   public async getByPk(req: Request<{ id: string }>, res: Response<ItemApiResponse<M> | BaseResponse>): Promise<void> {
     const {
@@ -40,9 +40,8 @@ export abstract class BaseController<C, A, M extends Model<A, C>> {
     req.log.info(`Getting ${this.modelName} by page query...`);
 
     const { pageSize, pageIndex, sortDirection, sortIndex, filters } = req.query;
-    const limit = parseInt(pageSize);
-    const offset = parseInt(pageIndex) * limit;
-    const OrganizationId = req.user.OrganizationId;
+    const limit = +pageSize;
+    const offset = +pageIndex * limit;
 
     const result = await this.dataBaseService.getPage(
       {
@@ -53,7 +52,8 @@ export abstract class BaseController<C, A, M extends Model<A, C>> {
         parsedFilters: filters ? (qs.parse(filters) as ParsedFilters) : {}
       },
       // TODO: optional OrganizationId
-      OrganizationId
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      req.user!.OrganizationId
     );
 
     return sendResponse<CollectionApiResponse<M> | BaseResponse, CustomError>(result, res);

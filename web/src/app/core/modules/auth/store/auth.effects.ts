@@ -3,10 +3,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { tap, map, switchMap, catchError, concatMap, withLatestFrom, mergeMap, exhaustMap } from 'rxjs/operators';
-
 import { Actions, ofType, createEffect, OnInitEffects } from '@ngrx/effects';
 import { Store, select, Action } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { initPreferences } from '@/core/store/preferences';
 import { selectUrl } from '@/core/store/router.selectors';
@@ -15,22 +13,14 @@ import { SocketService, ToastMessageService } from '@/shared/services';
 import { BaseMessage, ItemApiResponse } from '@/shared/models';
 import { SOCKET_EVENT, RoutingConstants, CommonConstants } from '@/shared/constants';
 import { changeIsEditingState } from '@/modules/user-management/store';
-import * as authActions from './auth.actions';
+
 import { AuthenticationService } from '../services';
+
+import * as authActions from './auth.actions';
 import { getToken } from './auth.selectors';
 
 @Injectable()
 export class AuthEffects implements OnInitEffects {
-  constructor(
-    private actions$: Actions,
-    private authService: AuthenticationService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private scktService: SocketService,
-    private store$: Store<AppState>,
-    private toastMessageService: ToastMessageService
-  ) {}
-
   registerUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authActions.registerUser),
@@ -175,6 +165,7 @@ export class AuthEffects implements OnInitEffects {
         });
 
         if (currentUser.Preference) {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           const { id, UserId, createdAt, updatedAt, ...preferences } = currentUser.Preference;
           return [
             authActions.currentUserLoaded({ currentUser }),
@@ -204,9 +195,7 @@ export class AuthEffects implements OnInitEffects {
             const sessionId = this.authService.getTokenDecoded(accessToken).sessionId;
             return [authActions.refreshSessionSuccess({ accessToken }), authActions.setSessionId({ sessionId })];
           }),
-          catchError(() => {
-            return of(authActions.refreshSessionFailure());
-          })
+          catchError(() => of(authActions.refreshSessionFailure()))
         )
       )
     )
@@ -291,6 +280,16 @@ export class AuthEffects implements OnInitEffects {
       catchError(() => of(authActions.authApiError()))
     )
   );
+
+  constructor(
+    private actions$: Actions,
+    private authService: AuthenticationService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private scktService: SocketService,
+    private store$: Store<AppState>,
+    private toastMessageService: ToastMessageService
+  ) {}
 
   ngrxOnInitEffects(): Action {
     return authActions.refreshSession();

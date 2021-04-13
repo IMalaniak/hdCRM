@@ -3,7 +3,7 @@ import { NgControl } from '@angular/forms';
 import { TrimInputDirective } from './trim-input.directive';
 
 describe('TrimInputDirective', () => {
-  // tslint:disable-next-line:prefer-const
+  // eslint-disable-next-line prefer-const
   let control: NgControl;
 
   it('should create an instance', () => {

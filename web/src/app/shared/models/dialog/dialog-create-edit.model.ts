@@ -1,4 +1,5 @@
 import { DialogConstants } from '@/shared/constants';
+
 import { DIALOG_MODE } from './dialog-mode.enum';
 import { DialogWithTwoButtonModel } from './dialog-with-two-button.model';
 

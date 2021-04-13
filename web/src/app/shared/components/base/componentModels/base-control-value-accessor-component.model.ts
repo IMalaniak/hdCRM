@@ -4,7 +4,7 @@ import { ControlValueAccessor } from '@angular/forms';
 @Component({
   template: ''
 })
-// tslint:disable-next-line:component-class-suffix
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export abstract class BaseControlValueAccessorComponentModel<T> implements ControlValueAccessor {
   @Input()
   get value(): T {
@@ -23,9 +23,10 @@ export abstract class BaseControlValueAccessorComponentModel<T> implements Contr
     return this._isDisabled;
   }
 
+  propagateChange = Function.prototype;
+  propagateTouched = Function.prototype;
+
   protected _value: T;
-  propagateChange: Function = Function.prototype;
-  propagateTouched: Function = Function.prototype;
 
   private _isDisabled: boolean;
 

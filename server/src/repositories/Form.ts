@@ -38,7 +38,7 @@ export class Form extends Model<FormAttributes> {
   public readonly updatedAt!: Date;
 }
 
-export const FormFactory = (sequelize: Sequelize): Model<FormAttributes> => {
+export const formFactory = (sequelize: Sequelize): Model => {
   return Form.init(
     {
       key: {

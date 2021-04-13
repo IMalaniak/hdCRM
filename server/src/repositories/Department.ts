@@ -36,8 +36,7 @@ export interface DepartmentAttributes {
   Workers?: User[];
 }
 
-export interface DepartmentCreationAttributes
-  extends Optional<DepartmentAttributes, 'id' | 'description' | 'parentDepId'> {}
+export type DepartmentCreationAttributes = Optional<DepartmentAttributes, 'id' | 'description' | 'parentDepId'>;
 
 export class Department extends Model<DepartmentAttributes, DepartmentCreationAttributes> {
   public id!: number;
@@ -101,7 +100,7 @@ export class Department extends Model<DepartmentAttributes, DepartmentCreationAt
   };
 }
 
-export const DepartmentFactory = (sequelize: Sequelize): Model<DepartmentAttributes, DepartmentCreationAttributes> => {
+export const departmentFactory = (sequelize: Sequelize): Model => {
   return Department.init(
     {
       id: {

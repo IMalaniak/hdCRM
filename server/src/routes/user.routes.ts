@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 import { Service } from 'typedi';
 
-import { BaseRoutes } from './base/base.routes';
 import { CollectionApiResponse, BaseResponse, ItemApiResponse, RequestWithBody, PasswordReset } from '../models';
 import { UserController } from '../controllers';
 import { uploads } from '../utils/multerConfig';
@@ -15,6 +15,8 @@ import {
   Organization
 } from '../repositories';
 
+import { BaseRoutes } from './base/base.routes';
+
 @Service()
 export class UserRoutes extends BaseRoutes<UserCreationAttributes, UserAttributes, User> {
   constructor(protected readonly routesController: UserController) {
@@ -24,7 +26,8 @@ export class UserRoutes extends BaseRoutes<UserCreationAttributes, UserAttribute
   public register(): Router {
     this.router.get('/profile/', (req: Request, res: Response<ItemApiResponse<User> | BaseResponse>) => {
       req.log.info(`Geting user profile...`);
-      return res.status(StatusCodes.OK).json({ data: req.user });
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return res.status(StatusCodes.OK).json({ data: req.user! });
     });
 
     this.router.put(

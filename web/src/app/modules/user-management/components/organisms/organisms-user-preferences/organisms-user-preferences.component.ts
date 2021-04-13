@@ -3,9 +3,7 @@ import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MatRadioChange } from '@angular/material/radio';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Observable } from 'rxjs';
-
 import { Store, select } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import {
   changeTimeFormat,
@@ -27,10 +25,10 @@ import { enableDarkTheme } from '@/core/modules/layout/store/layout.actions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganismsUserPreferencesComponent implements OnInit, OnChanges {
-  preferencesList$: Observable<PreferencesList> = this.store$.pipe(select(getPreferencesList));
-
   @Input() enabledDarkTheme: boolean;
   @Input() userPreferences: Preferences;
+
+  preferencesList$: Observable<PreferencesList> = this.store$.pipe(select(getPreferencesList));
 
   // TODO: @IMalaniak this we change to come from BE
   themes = [

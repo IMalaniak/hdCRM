@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { map, mergeMap, catchError, withLatestFrom, filter } from 'rxjs/operators';
-
 import { DynamicFormService } from '@/core/services/dynamic-form.service';
 import { ItemApiResponse, DynamicForm } from '@/shared/models';
+
+import { AppState } from '..';
+
 import * as dynamicFormActions from './dynamic-form.actions';
 import { selectFormIds } from './dynamic-form.selectors';
-import { AppState } from '..';
 
 @Injectable()
 export class DynamicFormEffects {

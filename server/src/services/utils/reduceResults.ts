@@ -5,7 +5,7 @@ interface ValueErrorSplit<V, E> {
   errors: E[];
 }
 
-export function reduceResults<V, E>(results: Result<V, E>[]) {
+export function reduceResults<V, E>(results: Result<V, E>[]): ValueErrorSplit<V, E> {
   return results.reduce(
     (acc, current) => {
       if (current.isOk()) {

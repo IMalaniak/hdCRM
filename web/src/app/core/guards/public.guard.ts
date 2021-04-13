@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap, skipWhile } from 'rxjs/operators';
-
 import { Store, select } from '@ngrx/store';
-
 import { RoutingConstants } from '@/shared/constants';
+
 import { AppState } from '../store';
 import { isLoggedOut, isLoading } from '../modules/auth/store/auth.selectors';
 

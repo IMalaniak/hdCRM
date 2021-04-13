@@ -1,7 +1,5 @@
 import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
-
 import { Store } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { User } from '@/core/modules/user-api/shared';
 import { DialogDataModel } from '@/shared/models';

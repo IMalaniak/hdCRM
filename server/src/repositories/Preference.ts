@@ -10,6 +10,7 @@ import {
 
 import { LIST_VIEW, TIME_FORMAT, DATE_FORMAT, ITEMS_PER_PAGE } from '../constants';
 import { enumToArray } from '../utils/enumToArray';
+
 import { User } from './User';
 
 export interface PreferenceAttributes {
@@ -22,7 +23,7 @@ export interface PreferenceAttributes {
   UserId: number;
 }
 
-export interface PreferenceCreationAttributes extends Optional<PreferenceAttributes, 'id'> {}
+export type PreferenceCreationAttributes = Optional<PreferenceAttributes, 'id'>;
 
 export class Preference extends Model<PreferenceAttributes, PreferenceCreationAttributes> {
   public id!: number;
@@ -30,7 +31,7 @@ export class Preference extends Model<PreferenceAttributes, PreferenceCreationAt
   public timeFormat!: TIME_FORMAT;
   public dateFormat!: DATE_FORMAT;
   public itemsPerPage!: ITEMS_PER_PAGE;
-  public listOutlineBorders: boolean;
+  public listOutlineBorders!: boolean;
 
   // timestamps
   public readonly createdAt!: Date;
@@ -48,7 +49,7 @@ export class Preference extends Model<PreferenceAttributes, PreferenceCreationAt
   };
 }
 
-export const PreferenceFactory = (sequelize: Sequelize): Model<PreferenceAttributes, PreferenceCreationAttributes> => {
+export const preferenceFactory = (sequelize: Sequelize): Model => {
   return Preference.init(
     {
       id: {

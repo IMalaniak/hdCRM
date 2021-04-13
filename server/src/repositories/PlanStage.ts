@@ -1,4 +1,5 @@
 import { Sequelize, Model, DataTypes, Optional, Association } from 'sequelize';
+
 import { Plan } from './Plan';
 import { Stage } from './Stage';
 
@@ -11,7 +12,7 @@ export interface PlanStageAttributes {
   StageId: number;
 }
 
-export interface PlanStageCreationAttributes extends Optional<PlanStageAttributes, 'id' | 'description'> {}
+export type PlanStageCreationAttributes = Optional<PlanStageAttributes, 'id' | 'description'>;
 
 export class PlanStage extends Model<PlanStageAttributes, PlanStageCreationAttributes> {
   public id!: number;
@@ -35,7 +36,7 @@ export class PlanStage extends Model<PlanStageAttributes, PlanStageCreationAttri
   };
 }
 
-export const PlanStageFactory = (sequelize: Sequelize): Model<PlanStageAttributes, PlanStageCreationAttributes> => {
+export const planStageFactory = (sequelize: Sequelize): Model => {
   return PlanStage.init(
     {
       id: {

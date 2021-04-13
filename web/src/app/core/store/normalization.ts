@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { normalize, schema } from 'normalizr';
-
 import { CollectionApiResponse, ItemApiResponse } from '@/shared/models';
+
 import { Department } from '../modules/department-api/shared';
 import { User } from '../modules/user-api/shared';
 import { Plan } from '../modules/plan-api/shared';
@@ -38,11 +38,12 @@ export const departmentSchema = new schema.Entity<Department>('Departments', {
 export const departmentListSchema = new schema.Array<Department>(departmentSchema);
 departmentSchema.define({ ParentDepartment: departmentSchema, SubDepartments: departmentListSchema });
 
-export function normalizeResponse<T>(
+export const normalizeResponse = <T>(
   response: CollectionApiResponse<T> | ItemApiResponse<T>,
   schema: schema.Array<T> | schema.Entity
-): Collections {
+): Collections => {
   const {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     entities: { Departments, Plans, Roles, Users }
   } = normalize(response.data, schema);
 
@@ -52,4 +53,4 @@ export function normalizeResponse<T>(
     ...(Roles && { Roles: Object.values(Roles) }),
     ...(Users && { Users: Object.values(Users) })
   };
-}
+};

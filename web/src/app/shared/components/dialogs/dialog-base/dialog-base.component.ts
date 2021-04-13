@@ -3,9 +3,9 @@ import { ComponentType } from '@angular/cdk/portal';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NavigationStart, Router } from '@angular/router';
 import { filter, first } from 'rxjs/operators';
+import { DialogDataModel, DialogWithTwoButtonModel } from '@/shared/models';
 
 import { DialogBaseModel } from '../models';
-import { DialogDataModel, DialogWithTwoButtonModel } from '@/shared/models';
 
 @Component({
   selector: 'component-dialog-base',

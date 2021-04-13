@@ -4,6 +4,7 @@ import * as swaggerUi from 'swagger-ui-express';
 
 import { apiDocs } from '../apiDocs';
 import { Passport } from '../config';
+
 import { AuthRoutes } from './auth.routes';
 import { DepartmentRoutes } from './department.routes';
 import { FileRoutes } from './file.routes';
@@ -35,7 +36,7 @@ export class Routes {
     private readonly userRoutes: UserRoutes
   ) {}
 
-  public async register(expressRouter: Router) {
+  public register(expressRouter: Router): void {
     expressRouter.use('/api-docs', this.passport.authenticate('basic'), swaggerUi.serve, swaggerUi.setup(apiDocs));
     expressRouter.use('/api/auth', this.authRoutes.register());
     expressRouter.use('/api', this.passport.authenticate(), this.registerApiRoutes());

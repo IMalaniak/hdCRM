@@ -1,4 +1,4 @@
-// tslint:disable: no-unused-expression
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { expect } from 'chai';
 import { StatusCodes } from 'http-status-codes';
@@ -8,6 +8,7 @@ import Container from 'typedi';
 
 import { Privilege } from '../repositories';
 import { PrivilegeService } from '../services';
+
 import { PrivilegeController } from './privilege.controller';
 
 describe('PrivilegeController', () => {

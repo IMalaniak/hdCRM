@@ -2,22 +2,21 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
 import { Store, select } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { User, USER_STATE } from '@/core/modules/user-api/shared';
-import { deleteUser, inviteUsers, OnlineUserListRequested } from '@/core/modules/user-api/store';
+import { deleteUser, inviteUsers, onlineUserListRequested } from '@/core/modules/user-api/store';
 import { isPrivileged, currentUser } from '@/core/modules/auth/store/auth.selectors';
 import { IconsService } from '@/core/services';
 import { DialogCreateEditModel, DialogDataModel, DIALOG_MODE, DIALOG_TYPE, IDialogResult } from '@/shared/models';
 import { RoutingConstants, CommonConstants, BS_ICON } from '@/shared/constants';
 import { ADD_PRIVILEGE, EDIT_PRIVILEGE, DELETE_PRIVILEGE, COLUMN_KEY } from '@/shared/constants';
-import { ListDisplayMode } from '@/shared/store';
+import { LIST_DISPLAY_MODE } from '@/shared/store';
 import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
 import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogService } from '@/shared/services';
 import { RowActionData, ROW_ACTION_TYPE, Column, IColumn } from '@/shared/models/table';
+
 import {
   selectListDisplayMode,
   selectPreselectedUsersIds,
@@ -36,7 +35,7 @@ export class UsersComponent {
   currentUser$: Observable<User> = this.store$.pipe(select(currentUser));
   loading$: Observable<boolean> = this.store$.pipe(select(selectUserPageLoading));
   resultsLength$: Observable<number> = this.store$.pipe(select(selectUsersTotalCount));
-  displayMode$: Observable<ListDisplayMode> = this.store$.pipe(select(selectListDisplayMode));
+  displayMode$: Observable<LIST_DISPLAY_MODE> = this.store$.pipe(select(selectListDisplayMode));
   preselectedUsersIds$: Observable<number[]> = this.store$.pipe(select(selectPreselectedUsersIds));
   canAddUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(ADD_PRIVILEGE.USER)));
   canEditUser$: Observable<boolean> = this.store$.pipe(select(isPrivileged(EDIT_PRIVILEGE.USER)));
@@ -44,9 +43,9 @@ export class UsersComponent {
   cardTitle$: Observable<string> = this.displayMode$.pipe(
     map((displayMode) => {
       switch (displayMode) {
-        case ListDisplayMode.POPUP_MULTI_SELECTION:
+        case LIST_DISPLAY_MODE.POPUP_MULTI_SELECTION:
           return CommonConstants.TEXTS_SELECT_USERS;
-        case ListDisplayMode.POPUP_SINGLE_SELECTION:
+        case LIST_DISPLAY_MODE.POPUP_SINGLE_SELECTION:
           return CommonConstants.TEXTS_SELECT_USER;
         default:
           return CommonConstants.TEXTS_USER_LIST;
@@ -54,7 +53,7 @@ export class UsersComponent {
     })
   );
   displayCardButtons$: Observable<boolean> = combineLatest([this.canAddUser$, this.displayMode$]).pipe(
-    map(([canAddUser, displayMode]) => canAddUser && displayMode === ListDisplayMode.DEFAULT)
+    map(([canAddUser, displayMode]) => canAddUser && displayMode === LIST_DISPLAY_MODE.DEFAULT)
   );
 
   dataSource: UsersDataSource = new UsersDataSource(this.store$);
@@ -96,7 +95,7 @@ export class UsersComponent {
     private readonly iconsService: IconsService
   ) {
     this.iconsService.registerIcons([BS_ICON.Archive, BS_ICON.PersonSquare, BS_ICON.PersonX]);
-    this.store$.dispatch(OnlineUserListRequested());
+    this.store$.dispatch(onlineUserListRequested());
   }
 
   onRowAction(data: RowActionData<ROW_ACTION_TYPE>): void {

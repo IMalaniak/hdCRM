@@ -4,15 +4,16 @@ import { IncludeOptions } from 'sequelize';
 
 import { CollectionApiResponse, BaseResponse } from '../models';
 import { CONSTANTS } from '../constants';
-import { BaseService } from './base/base.service';
 import { CustomError, InternalServerError } from '../errors';
 import { TaskCreationAttributes, TaskAttributes, Task, TaskPriority } from '../repositories';
+
+import { BaseService } from './base/base.service';
 
 @Service()
 export class TaskService extends BaseService<TaskCreationAttributes, TaskAttributes, Task> {
   protected includes: IncludeOptions[] = [
     {
-      model: TaskPriority as any
+      model: TaskPriority
     }
   ];
 
@@ -22,11 +23,11 @@ export class TaskService extends BaseService<TaskCreationAttributes, TaskAttribu
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_TASK);
   }
 
-  public async getAll(CreatorId: number): Promise<Result<CollectionApiResponse<Task> | BaseResponse, CustomError>> {
+  public async getAll(creatorId: number): Promise<Result<CollectionApiResponse<Task> | BaseResponse, CustomError>> {
     try {
       const data = await Task.findAll({
         where: {
-          CreatorId
+          CreatorId: creatorId
         },
         include: this.includes
       });
@@ -37,7 +38,7 @@ export class TaskService extends BaseService<TaskCreationAttributes, TaskAttribu
         return ok({});
       }
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
@@ -52,7 +53,7 @@ export class TaskService extends BaseService<TaskCreationAttributes, TaskAttribu
         return ok({});
       }
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }

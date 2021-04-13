@@ -2,17 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 import { mergeMap, map, catchError, tap, switchMap } from 'rxjs/operators';
-
 import { Update } from '@ngrx/entity';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-
 import { ToastMessageService } from '@/shared/services';
 import { CollectionApiResponse, ItemApiResponse, BaseMessage } from '@/shared/models';
 import { Page } from '@/shared/store';
 import { generatePageKey } from '@/shared/utils/generatePageKey';
-import * as userApiActions from './user-api.actions';
+
 import { UserService } from '../services';
 import { User } from '../shared';
+
+import * as userApiActions from './user-api.actions';
 
 @Injectable()
 export class UserEffects {
@@ -64,13 +64,13 @@ export class UserEffects {
 
   listOnlineUsers$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(userApiActions.OnlineUserListRequested),
+      ofType(userApiActions.onlineUserListRequested),
       tap(() => {
         this.userService.listOnline();
       }),
-      mergeMap(() => {
-        return this.userService.onlineUsersListed$.pipe(map((list) => userApiActions.OnlineUserListLoaded({ list })));
-      })
+      mergeMap(() =>
+        this.userService.onlineUsersListed$.pipe(map((list) => userApiActions.onlineUserListLoaded({ list })))
+      )
     )
   );
 

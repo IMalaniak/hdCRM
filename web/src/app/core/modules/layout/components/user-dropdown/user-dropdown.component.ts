@@ -1,8 +1,6 @@
 import { Component, ChangeDetectionStrategy, EventEmitter, Output } from '@angular/core';
 import { Observable } from 'rxjs';
-
 import { Store } from '@ngrx/store';
-
 import { MediaQueryService, IconsService } from '@/core/services';
 import { AppState } from '@/core/store';
 import { currentUser, isPrivileged } from '@/core/modules/auth/store/auth.selectors';
@@ -17,6 +15,7 @@ import {
   RoutingConstants,
   THEME_PALETTE
 } from '@/shared/constants';
+
 import { closeUserDropdown, toggleUserDropdown } from '../../store/layout.actions';
 import { userDropdownVisible } from '../../store';
 
@@ -27,11 +26,11 @@ import { userDropdownVisible } from '../../store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserDropdownComponent {
+  @Output() logOut: EventEmitter<any> = new EventEmitter();
+
   currentUser$: Observable<User> = this.store$.select(currentUser);
   canAddUser$: Observable<boolean> = this.store$.select(isPrivileged(ADD_PRIVILEGE.USER));
-
   isShowUserMenu$: Observable<boolean> = this.store$.select(userDropdownVisible);
-  @Output() logOut: EventEmitter<any> = new EventEmitter();
 
   actionLabels = ACTION_LABEL;
   buttonTypes = BUTTON_TYPE;

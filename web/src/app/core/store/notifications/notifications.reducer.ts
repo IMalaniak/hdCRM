@@ -1,6 +1,7 @@
 import { createReducer, on, Action } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Notification } from '@/shared/models';
+
 import * as notificationsActions from './notifications.actions';
 
 export interface NotificationsState extends EntityState<Notification> {
@@ -54,8 +55,6 @@ const reducer = createReducer(
   )
 );
 
-export function notificationsReducer(state: NotificationsState | undefined, action: Action) {
-  return reducer(state, action);
-}
+export const notificationsReducer = (state: NotificationsState | undefined, action: Action) => reducer(state, action);
 
 export const { selectAll, selectEntities, selectIds, selectTotal } = adapter.getSelectors();

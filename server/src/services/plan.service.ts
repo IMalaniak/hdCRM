@@ -1,14 +1,15 @@
-import Container, { Service } from 'typedi';
-import { Result, ok, err } from 'neverthrow';
-import { IncludeOptions, IncludeThroughOptions, Op, Sequelize } from 'sequelize';
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import path from 'path';
 import fs from 'fs';
 import { promisify } from 'util';
 
+import { IncludeOptions, IncludeThroughOptions, Op, Sequelize } from 'sequelize';
+import { Result, ok, err } from 'neverthrow';
+import Container, { Service } from 'typedi';
+
 import { BaseResponse, ItemApiResponse } from '../models';
 import { CONSTANTS } from '../constants';
-import { BaseService } from './base/base.service';
-import { CustomError, InternalServerError } from '../errors';
+import { CustomError, InternalServerError, NotFoundError } from '../errors';
 import {
   PlanCreationAttributes,
   PlanAttributes,
@@ -19,9 +20,11 @@ import {
   Stage
 } from '../repositories';
 
+import { BaseService } from './base/base.service';
+
 @Service()
 export class PlanService extends BaseService<PlanCreationAttributes, PlanAttributes, Plan> {
-  private unlinkAsync = promisify(fs.unlink);
+  private readonly unlinkAsync = promisify(fs.unlink);
 
   protected readonly includes: IncludeOptions[] = [
     {
@@ -81,6 +84,10 @@ export class PlanService extends BaseService<PlanCreationAttributes, PlanAttribu
         attributes: ['id']
       });
 
+      if (!plan) {
+        return err(new NotFoundError('Plan not found!'));
+      }
+
       const doc = await plan.createDocument(document as any);
 
       return ok({
@@ -88,7 +95,7 @@ export class PlanService extends BaseService<PlanCreationAttributes, PlanAttribu
         data: doc
       });
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
@@ -100,14 +107,16 @@ export class PlanService extends BaseService<PlanCreationAttributes, PlanAttribu
       if (docToBeDeleted) {
         const destination =
           path.join(__dirname, '../../uploads') + docToBeDeleted.location + '/' + docToBeDeleted.title;
-        this.unlinkAsync(destination);
+        await this.unlinkAsync(destination);
 
         await docToBeDeleted.destroy();
 
         return ok({ message: 'Document deleted successfully!' });
+      } else {
+        return err(new InternalServerError());
       }
     } catch (error) {
-      this.logger.error(error.message);
+      this.logger.error(error);
       return err(new InternalServerError());
     }
   }
@@ -123,26 +132,24 @@ export class PlanService extends BaseService<PlanCreationAttributes, PlanAttribu
         }
       });
 
-      if (stages) {
+      if (stages.length) {
+        /* eslint-disable */
         stages.forEach(async (stage, i) => {
           if (stage.keyString === 'created') {
-            await (
-              await Plan.findByPk(id, {
-                attributes: ['id']
-              })
-            ).setActiveStage(stage);
-          }
-          await (
-            await Plan.findByPk(id, {
+            ((await Plan.findByPk(id, {
               attributes: ['id']
-            })
-          ).addStage(stage, {
+            })) as Plan).setActiveStage(stage);
+          }
+          await ((await Plan.findByPk(id, {
+            attributes: ['id']
+          })) as Plan).addStage(stage, {
             through: {
               order: i,
               completed: false
             }
           });
         });
+        /* eslint-enable */
       }
     }
 
@@ -152,12 +159,10 @@ export class PlanService extends BaseService<PlanCreationAttributes, PlanAttribu
           [Op.or]: plan.Participants as { id: number }[]
         }
       });
-      await (
-        await Plan.findByPk(id, {
-          attributes: ['id']
-        })
-      ).setParticipants(users);
+      await ((await Plan.findByPk(id, {
+        attributes: ['id']
+      })) as Plan).setParticipants(users);
     }
-    return this.findByPk(id);
+    return this.findByPk(id) as Promise<Plan>;
   }
 }

@@ -1,4 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+
 import * as fromTask from './task.reducer';
 
 export const selectTaskManagerState = createFeatureSelector<fromTask.TaskManagerState>(fromTask.taskFeatureKey);

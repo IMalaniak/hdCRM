@@ -1,7 +1,6 @@
 import { select } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-
 import { listPageRequested } from '@/core/modules/user-api/store';
 import { User } from '@/core/modules/user-api/shared';
 import { PageQuery } from '@/shared/models';
@@ -10,6 +9,7 @@ import { Cell, DataRow } from '@/shared/models/table';
 import { COLUMN_KEY } from '@/shared/constants/table.constants';
 import { createNavigation, UrlGenerator } from '@/shared/utils';
 import { CommonConstants, LINK_TARGET, LINK_TYPE } from '@/shared/constants';
+
 import { selectUsersPage } from '../store';
 
 export class UsersDataSource extends CommonDataSource<User> {

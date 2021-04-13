@@ -1,8 +1,9 @@
 import { Action, on, createReducer } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-
 import { partialDataLoaded } from '@/core/store/normalization';
+
 import { User } from '../shared';
+
 import * as userApiActions from './user-api.actions';
 
 export interface UsersState extends EntityState<User> {
@@ -21,7 +22,7 @@ const usersReducer = createReducer(
   initialUsersState,
   on(
     userApiActions.userRequested,
-    userApiActions.OnlineUserListRequested,
+    userApiActions.onlineUserListRequested,
     userApiActions.listPageRequested,
     userApiActions.changeOldPassword,
     userApiActions.updateUserRequested,
@@ -34,7 +35,7 @@ const usersReducer = createReducer(
       loading: false
     })
   ),
-  on(userApiActions.OnlineUserListLoaded, (state, { list }) =>
+  on(userApiActions.onlineUserListLoaded, (state, { list }) =>
     usersAdapter.upsertMany(list, {
       ...state,
       loading: false
@@ -68,6 +69,7 @@ const usersReducer = createReducer(
       loading: false
     })
   ),
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   on(partialDataLoaded, (state, { Users }) => {
     if (Users) {
       return usersAdapter.upsertMany(Users, {
@@ -81,9 +83,7 @@ const usersReducer = createReducer(
   }))
 );
 
-export function reducer(state: UsersState | undefined, action: Action) {
-  return usersReducer(state, action);
-}
+export const reducer = (state: UsersState | undefined, action: Action) => usersReducer(state, action);
 
 export const usersFeatureKey = 'user-api';
 

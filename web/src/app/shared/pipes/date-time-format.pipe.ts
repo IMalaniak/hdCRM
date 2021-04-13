@@ -2,11 +2,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-
 import { Store, select } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { getDateFormatState, getTimeFormatState } from '@/core/store/preferences';
+
 import { DATE_FORMAT, TIME_FORMAT } from '../constants';
 
 /**

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { Request, Response, Router } from 'express';
 import { Model } from 'sequelize';
 
@@ -14,7 +15,7 @@ import {
 export abstract class BaseRoutes<C, A, M extends Model<A, C>> {
   protected readonly router: Router = Router();
 
-  protected readonly routesController: BaseController<C, A, M>;
+  protected readonly routesController!: BaseController<C, A, M>;
 
   public register(): Router {
     this.buildBaseRouter();

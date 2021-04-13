@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-
 import { v4 as uuidv4 } from 'uuid';
-
 import { DateUtilityService, LocalStorageService } from '@/shared/services';
 import { Notification } from '@/shared/models';
 import { NOTIFICATION_TYPE } from '@/shared/constants';

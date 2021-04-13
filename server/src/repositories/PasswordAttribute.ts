@@ -4,18 +4,18 @@ import { User } from './User';
 
 export interface PasswordAttributeAttributes {
   id: number;
-  token: string;
-  tokenExpire: Date;
+  token: string | null;
+  tokenExpire: Date | null;
   passwordExpire: Date;
   UserId: number;
 }
 
-export interface PasswordAttributeCreationAttributes extends Optional<PasswordAttributeAttributes, 'id'> {}
+export type PasswordAttributeCreationAttributes = Optional<PasswordAttributeAttributes, 'id'>;
 
 export class PasswordAttribute extends Model<PasswordAttributeAttributes, PasswordAttributeCreationAttributes> {
   public id!: number;
-  public token!: string;
-  public tokenExpire!: Date;
+  public token!: string | null;
+  public tokenExpire!: Date | null;
   public passwordExpire!: Date;
 
   // timestamps
@@ -34,9 +34,7 @@ export class PasswordAttribute extends Model<PasswordAttributeAttributes, Passwo
   };
 }
 
-export const PasswordAttributeFactory = (
-  sequelize: Sequelize
-): Model<PasswordAttributeAttributes, PasswordAttributeCreationAttributes> => {
+export const passwordAttributeFactory = (sequelize: Sequelize): Model => {
   return PasswordAttribute.init(
     {
       id: {

@@ -1,13 +1,20 @@
 import { Request } from 'express';
 
-export const parseCookies = (request: Request) => {
-  const list = {};
+interface ParsedCookies {
+  [key: string]: string;
+}
+
+export const parseCookies = (request: Request): ParsedCookies => {
+  const list: ParsedCookies = {};
   const rc = request.headers.cookie;
 
   if (rc) {
     rc.split(';').forEach((cookie: string) => {
       const parts = cookie.split('=');
-      list[parts.shift().trim()] = decodeURI(parts.join('='));
+      const index = parts.shift()?.trim();
+      if (index) {
+        list[index] = decodeURI(parts.join('='));
+      }
     });
   }
 

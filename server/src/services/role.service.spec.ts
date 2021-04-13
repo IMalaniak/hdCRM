@@ -1,6 +1,8 @@
-// tslint:disable: no-unused-expression
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { fail } from 'assert';
+
 import { expect } from 'chai';
 import { StatusCodes } from 'http-status-codes';
 import { Result } from 'neverthrow';
@@ -12,6 +14,7 @@ import { CustomError } from '../errors';
 import { BaseResponse } from '../models';
 import { Role, User, Privilege } from '../repositories';
 import { Logger } from '../utils/Logger';
+
 import { RoleService } from './role.service';
 
 describe('RoleService', () => {
@@ -124,8 +127,8 @@ describe('RoleService', () => {
       )
       .resolves([1, [roleFake]]);
     findByPkStub.withArgs(1).resolves(roleFakeResponse);
-    findAllUsersStub.resolves([...roleFake.Users]);
-    findAllPrivilegesStub.resolves([...roleFake.Privileges]);
+    findAllUsersStub.resolves([...(roleFake.Users as User[])]);
+    findAllPrivilegesStub.resolves([...(roleFake.Privileges as Privilege[])]);
 
     const result = await serviceInstance.update(roleFake);
     expect(updateStub.calledOnce).to.be.true;

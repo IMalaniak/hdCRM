@@ -2,6 +2,7 @@ import { createReducer, on, Action } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
 import { Department } from '../shared/models';
+
 import * as departmentApiActions from './department-api.actions';
 
 export interface DepartmentApiState extends EntityState<Department> {
@@ -72,9 +73,7 @@ const reducer = createReducer(
   }))
 );
 
-export function departmentReducer(state: DepartmentApiState | undefined, action: Action) {
-  return reducer(state, action);
-}
+export const departmentReducer = (state: DepartmentApiState | undefined, action: Action) => reducer(state, action);
 
 export const departmentsFeatureKey = 'department-api';
 

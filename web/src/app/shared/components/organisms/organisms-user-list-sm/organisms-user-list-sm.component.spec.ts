@@ -1,6 +1,6 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SharedModule } from '@/shared/shared.module';
+
 import { OrganismsUserListSmComponent } from './organisms-user-list-sm.component';
 
 describe('OrganismsUserListSmComponent', () => {

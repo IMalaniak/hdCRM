@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
 import { User } from '@/core/modules/user-api/shared';
 import { ApiRoutesConstants } from '@/shared/constants';
 import { BaseCrudService } from '@/shared/services';
 import { CollectionApiResponse } from '@/shared/models';
+
 import { Role } from '../shared/models';
 
 @Injectable()
@@ -24,11 +24,12 @@ export class RoleService extends BaseCrudService {
     let formated = { ...role };
     if (role.Users && role.Users.length) {
       formated = Object.assign({}, formated, {
-        Users: formated.Users.map((user) => {
-          return <User>{
-            id: user.id
-          };
-        })
+        Users: formated.Users.map(
+          (user) =>
+            ({
+              id: user.id
+            } as User)
+        )
       });
     }
     return formated;

@@ -1,10 +1,10 @@
 export enum CELL_TYPE {
-  Sequence,
-  Actions,
-  String,
-  Navigation,
-  Icon,
-  Checkbox,
-  Avatar,
-  Date
+  SEQUENCE,
+  ACTIONS,
+  STRING,
+  NAVIGATION,
+  ICON,
+  CHECKBOX,
+  AVATAR,
+  DATE
 }

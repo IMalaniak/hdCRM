@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
-export enum ListDisplayMode {
+export enum LIST_DISPLAY_MODE {
   DEFAULT,
   POPUP_MULTI_SELECTION,
   POPUP_SINGLE_SELECTION
@@ -39,14 +39,14 @@ export const initialCacheState: CacheState<unknown> = {
 export interface ListState<T> {
   isEditing: boolean;
   pages: PagesState;
-  listDisplayMode: ListDisplayMode;
+  listDisplayMode: LIST_DISPLAY_MODE;
   cache: CacheState<T>;
 }
 
 export const initialListState: ListState<unknown> = {
   isEditing: false,
   pages: initialPagesState,
-  listDisplayMode: ListDisplayMode.DEFAULT,
+  listDisplayMode: LIST_DISPLAY_MODE.DEFAULT,
   cache: initialCacheState
 };
 

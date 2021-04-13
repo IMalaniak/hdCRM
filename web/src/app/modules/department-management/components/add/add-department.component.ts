@@ -1,7 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-
 import { Store } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { createDepartmentRequested } from '@/core/modules/department-api/store';
 import { Department } from '@/core/modules/department-api/shared';

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { Request, Response, Router } from 'express';
 import { Service } from 'typedi';
 
@@ -6,7 +7,7 @@ import { AuthController } from '../controllers';
 
 @Service()
 export class AuthRoutes {
-  private router: Router = Router();
+  private readonly router: Router = Router();
 
   constructor(private readonly authController: AuthController) {}
 

@@ -36,11 +36,10 @@ export interface OrganizationAttributes {
   employees?: string;
 }
 
-export interface OrganizationCreationAttributes
-  extends Optional<
-    OrganizationAttributes,
-    'id' | 'token' | 'country' | 'city' | 'address' | 'postcode' | 'phone' | 'email' | 'website' | 'employees'
-  > {}
+export type OrganizationCreationAttributes = Optional<
+  OrganizationAttributes,
+  'id' | 'token' | 'country' | 'city' | 'address' | 'postcode' | 'phone' | 'email' | 'website' | 'employees'
+>;
 
 export class Organization extends Model<OrganizationAttributes, OrganizationCreationAttributes> {
   public id!: number;
@@ -117,9 +116,7 @@ export class Organization extends Model<OrganizationAttributes, OrganizationCrea
   };
 }
 
-export const OrganizationFactory = (
-  sequelize: Sequelize
-): Model<OrganizationAttributes, OrganizationCreationAttributes> => {
+export const organizationFactory = (sequelize: Sequelize): Model => {
   return Organization.init(
     {
       id: {

@@ -1,9 +1,7 @@
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
-
 import { select, Store } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { Plan } from '@/core/modules/plan-api/shared';
 import { selectPlansLoading } from '@/core/modules/plan-api/store/plan';
@@ -21,10 +19,10 @@ import { selectUsersById } from '@/core/modules/user-api/store';
   styleUrls: ['./templates-plan-view.component.scss']
 })
 export class TemplatesPlanViewComponent extends TemplatesViewDetailsComponent<Plan> {
-  isLoading$: Observable<boolean> = this.store$.pipe(select(selectPlansLoading));
-
   @Input() canAddAttachment: boolean;
   @Input() canDeleteAttachment: boolean;
+
+  isLoading$: Observable<boolean> = this.store$.pipe(select(selectPlansLoading));
 
   // TODO: @IMalaniak implement deleting document
   // @Output() deleteDocument: EventEmitter<any> = new EventEmitter();

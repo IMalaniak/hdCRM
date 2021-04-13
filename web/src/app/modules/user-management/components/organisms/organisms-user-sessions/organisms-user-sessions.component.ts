@@ -1,8 +1,6 @@
 import { Component, OnChanges, Input, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
-
 import { Store } from '@ngrx/store';
 import { UAParser } from 'ua-parser-js';
-
 import { AppState } from '@/core/store';
 import { IconsService } from '@/core/services';
 import { deleteSession, deleteMultipleSession } from '@/core/modules/auth/store/auth.actions';

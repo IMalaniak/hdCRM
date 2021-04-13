@@ -3,14 +3,14 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-
 import { provideMockStore } from '@ngrx/store/testing';
-
 import { departmentsFeatureKey, initialDepartmentApiState } from '@/core/modules/department-api/store';
 import { SharedModule } from '@/shared/shared.module';
 import { formsStateMock } from '@/shared/testing/mocks';
-import { AddDepartmentComponent } from './add-department.component';
+
 import { TemplatesDepartmentViewComponent } from '../templates';
+
+import { AddDepartmentComponent } from './add-department.component';
 
 describe('AddDepartmentComponent', () => {
   let component: AddDepartmentComponent;

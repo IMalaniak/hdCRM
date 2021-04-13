@@ -1,13 +1,12 @@
 import { Output, EventEmitter, Component, Input, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/portal';
-
 import { DialogDataModel, DialogWithTwoButtonModel } from '@/shared/models';
 
 @Component({
   template: ''
 })
-// tslint:disable-next-line:component-class-suffix
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export abstract class DialogBaseModel<T extends DialogWithTwoButtonModel> {
   @Input() closeButtonVisible = true;
   @Input() formInvalid = false;

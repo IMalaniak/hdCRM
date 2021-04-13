@@ -2,29 +2,33 @@ import { Service } from 'typedi';
 import { Strategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
 import { BasicStrategy } from 'passport-http';
 import passport from 'passport';
+import { RequestHandler } from 'express';
+
+import { UserService } from '../services';
+import { JwtPayload } from '../models';
 
 import { Config } from './config';
-import { UserService } from '../services';
 
 @Service()
 export class Passport {
   constructor(private readonly userService: UserService) {}
 
-  private opts: StrategyOptions = {
+  private readonly opts: StrategyOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.ACCESS_TOKEN_SECRET,
-    // issuer: 'auth@mywebmaster.pp.ua',
     audience: Config.WEB_URL
   };
 
-  public authenticate(strategy: 'jwt' | 'basic' = 'jwt') {
+  public authenticate(strategy: 'jwt' | 'basic' = 'jwt'): RequestHandler {
     switch (strategy) {
       case 'jwt':
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return passport.authenticate('jwt', {
           session: false,
           failWithError: true
         });
       case 'basic':
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return passport.authenticate('basic', { session: false });
     }
   }
@@ -33,7 +37,8 @@ export class Passport {
     passport.initialize();
     // passport.session();
     passport.use(
-      new Strategy(this.opts, async (jwtPayload, done) => {
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      new Strategy(this.opts, async (jwtPayload: JwtPayload, done) => {
         try {
           const userResult = await this.userService.getByPk(jwtPayload.userId);
           if (userResult.isOk()) {

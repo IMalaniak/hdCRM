@@ -1,8 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UploaderListComponent, ProfilepicUploaderComponent } from './components';
-import { AttachmentService } from './services';
-
 // import filepond module
 import { FilePondModule, registerPlugin } from 'ngx-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
@@ -11,6 +8,9 @@ import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orien
 import FilePondPluginImageCrop from 'filepond-plugin-image-crop';
 import FilePondPluginImageResize from 'filepond-plugin-image-resize';
 import FilePondPluginImageTransform from 'filepond-plugin-image-transform';
+
+import { AttachmentService } from './services';
+import { UploaderListComponent, ProfilepicUploaderComponent } from './components';
 
 registerPlugin(
   FilePondPluginFileValidateType,

@@ -1,5 +1,6 @@
 import { RoutingConstants } from '../constants/routing.constants';
 import { Navigation } from '../models';
+
 import { createNavigation } from './createNavigation';
 
 export class UrlGenerator {

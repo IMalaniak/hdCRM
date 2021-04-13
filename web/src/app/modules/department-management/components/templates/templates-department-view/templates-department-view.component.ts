@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
-
 import { select, Store } from '@ngrx/store';
-
 import { AppState } from '@/core/store';
 import { Department } from '@/core/modules/department-api/shared';
 import { selectDepartmentsLoading } from '@/core/modules/department-api/store';

@@ -1,6 +1,8 @@
-// tslint:disable: no-unused-expression
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { fail } from 'assert';
+
 import { expect } from 'chai';
 import { StatusCodes } from 'http-status-codes';
 import { Result } from 'neverthrow';
@@ -12,6 +14,7 @@ import { CustomError } from '../errors';
 import { BaseResponse } from '../models';
 import { Department, User } from '../repositories';
 import { Logger } from '../utils/Logger';
+
 import { DepartmentService } from './department.service';
 
 describe('DepartmentService', () => {
@@ -133,14 +136,15 @@ describe('DepartmentService', () => {
       )
       .resolves([1, [departmentFake]]);
     findByPkStub.withArgs(1).resolves(departmentFakeResponse);
-    findAllDepsStub.resolves([...departmentFake.SubDepartments]);
-    findAllUsersStub.resolves([...departmentFake.Workers]);
+    findAllDepsStub.resolves([...(departmentFake.SubDepartments as Department[])]);
+    findAllUsersStub.resolves([...(departmentFake.Workers as User[])]);
 
     const result = await serviceInstance.update(departmentFake);
     expect(updateStub.calledOnce).to.be.true;
 
     expect(
-      (departmentFakeResponse.setParentDepartment as sinon.SinonSpy).calledOnceWith(departmentFake.ParentDepartment.id)
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      (departmentFakeResponse.setParentDepartment as sinon.SinonSpy).calledOnceWith(departmentFake.ParentDepartment!.id)
     ).to.be.true;
     expect(
       (departmentFakeResponse.setSubDepartments as sinon.SinonSpy).calledOnceWithExactly(departmentFake.SubDepartments)

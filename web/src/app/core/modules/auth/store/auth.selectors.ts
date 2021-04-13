@@ -1,8 +1,9 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
-import { AuthState, authFeatureKey } from './auth.reducer';
-
 import { User, UserSession } from '@/core/modules/user-api/shared';
+
 import { Privilege } from '../../role-api/shared';
+
+import { AuthState, authFeatureKey } from './auth.reducer';
 
 export const selectAuthState = createFeatureSelector<AuthState>(authFeatureKey);
 
@@ -23,30 +24,26 @@ export const isLoggedIn = createSelector(selectAuthState, isTokenValid, (auth, v
 export const isLoggedOut = createSelector(isLoggedIn, (loggedIn) => !loggedIn);
 
 // get an array pf currentUser privileges
-export const getPrivileges = createSelector<object, User, Privilege[]>(currentUser, (user) => {
-  return user?.Role?.Privileges;
-});
+export const getPrivileges = createSelector<unknown, User, Privilege[]>(currentUser, (user) => user?.Role?.Privileges);
 
 // check if currentUser has privilege
 export const isPrivileged = (privilegeCheck: string) =>
-  createSelector<object, Privilege[], boolean>(getPrivileges, (privileges) => {
+  createSelector<unknown, Privilege[], boolean>(getPrivileges, (privileges) => {
     if (privileges?.length) {
       const [symbol, action] = privilegeCheck.split('-');
-      const check: Privilege = privileges.find((privilege) => {
-        return privilege.keyString === symbol;
-      });
+      const check: Privilege = privileges.find((privilege) => privilege.keyString === symbol);
       return check && check.RolePrivilege && check.RolePrivilege[action];
     }
   });
 
-export const lastSuccesfulSession = createSelector<object, User, UserSession>(currentUser, (user) => {
+export const lastSuccesfulSession = createSelector<unknown, User, UserSession>(currentUser, (user) => {
   const filteredSessions: UserSession[] = user?.UserSessions?.filter((session) => session.isSuccess);
   if (filteredSessions?.length) {
     return filteredSessions.reduce((a, b) => (a.updatedAt > b.updatedAt ? a : b));
   }
 });
 
-export const lastFailedSession = createSelector<object, User, UserSession>(currentUser, (user) => {
+export const lastFailedSession = createSelector<unknown, User, UserSession>(currentUser, (user) => {
   const filteredSessions: UserSession[] = user?.UserSessions?.filter((session) => !session.isSuccess);
   if (filteredSessions?.length) {
     return filteredSessions.reduce((a, b) => (a.updatedAt > b.updatedAt ? a : b));

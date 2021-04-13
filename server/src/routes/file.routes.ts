@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { Request, Response, Router } from 'express';
 import { Service } from 'typedi';
 
@@ -7,7 +8,7 @@ import { Asset } from '../repositories';
 
 @Service()
 export class FileRoutes {
-  private router: Router = Router();
+  private readonly router: Router = Router();
 
   constructor(private readonly fileController: FileController) {}
 

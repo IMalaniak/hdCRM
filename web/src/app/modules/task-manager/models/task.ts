@@ -1,4 +1,5 @@
 import { TimeStamps } from '@/shared/models/base';
+
 import { TaskPriority } from './task-priority';
 
 export interface Task extends TimeStamps {

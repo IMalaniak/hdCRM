@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { withLatestFrom, switchMap, map } from 'rxjs/operators';
-
 import { Store, select } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Update } from '@ngrx/entity';
-
 import { AppState } from '@/core/store';
 import { Department } from '@/core/modules/department-api/shared';
 import * as departmentApiActions from '@/core/modules/department-api/store/department-api.actions';
 import { selectDepartmentById } from '@/core/modules/department-api/store';
+
 import * as departmentActions from './department.actions';
 import { selectDepartmentFromCache } from './department.selectors';
 
