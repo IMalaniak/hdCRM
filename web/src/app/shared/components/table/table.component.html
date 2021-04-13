@@ -81,20 +81,20 @@
         >
           <!-- CELL SWITCH CASES -->
           <ng-container [ngSwitch]="row[column.key].cellType">
-            <!-- Sequence number -->
-            <ng-container *ngSwitchCase="cellType.Sequence">
+            <!-- SEQUENCE -->
+            <ng-container *ngSwitchCase="cellType.SEQUENCE">
               {{ i | memoize: getSequenceNumber:this }}
             </ng-container>
 
-            <!-- String -->
-            <ng-container *ngSwitchCase="cellType.String">
+            <!-- STRING -->
+            <ng-container *ngSwitchCase="cellType.STRING">
               <span [ngClass]="row[column.key].customClass">
                 {{ row[column.key].value }}
               </span>
             </ng-container>
 
-            <!-- Navigation -->
-            <ng-container *ngSwitchCase="cellType.Navigation">
+            <!-- NAVIGATION -->
+            <ng-container *ngSwitchCase="cellType.NAVIGATION">
               <span [ngClass]="column.customClass" *ngIf="null | memoize: displayModePopup:this; else linkButton">
                 {{ row[column.key].value }}
               </span>
@@ -111,8 +111,8 @@
               </ng-template>
             </ng-container>
 
-            <!-- Checkbox -->
-            <ng-container *ngSwitchCase="cellType.Checkbox">
+            <!-- CHECKBOX -->
+            <ng-container *ngSwitchCase="cellType.CHECKBOX">
               <mat-checkbox
                 [checked]="selection.isSelected(row.id)"
                 (click)="$event.stopPropagation()"
@@ -122,29 +122,29 @@
 
             <!-- TODO: checkbox and selection are not the same -->
 
-            <!-- Icon -->
-            <ng-container *ngSwitchCase="cellType.Icon">
+            <!-- ICON -->
+            <ng-container *ngSwitchCase="cellType.ICON">
               <mat-icon
                 [color]="row[column.key].customClass"
                 [svgIcon]="row[column.key].value ? icons.checkCircle : icons.xCircle"
               ></mat-icon>
             </ng-container>
 
-            <!-- Avatar -->
-            <ng-container *ngSwitchCase="cellType.Avatar">
+            <!-- AVATAR -->
+            <ng-container *ngSwitchCase="cellType.AVATAR">
               <atoms-user-pic
                 [avatar]="row[column.key].value?.avatar"
                 [userOnline]="row[column.key].value?.online"
               ></atoms-user-pic>
             </ng-container>
 
-            <!-- Date -->
-            <ng-container *ngSwitchCase="cellType.Date">
+            <!-- DATE -->
+            <ng-container *ngSwitchCase="cellType.DATE">
               {{ row[column.key].value | dateTimeFormat | async }}
             </ng-container>
 
-            <!-- Actions-->
-            <ng-container *ngSwitchCase="cellType.Actions">
+            <!-- ACTIONS-->
+            <ng-container *ngSwitchCase="cellType.ACTIONS">
               <ng-container *ngIf="rowActions">
                 <atoms-icon-button
                   [color]="themePalette.BASIC"
