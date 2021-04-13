@@ -21,6 +21,7 @@ export abstract class BaseService<C, A, M extends Model<A, C>> {
   @Inject()
   protected logger!: Logger;
 
+  protected readonly primaryKey: string = 'id';
   protected includes: IncludeOptions[] = [];
   protected excludes: string[] = [];
 
@@ -46,8 +47,9 @@ export abstract class BaseService<C, A, M extends Model<A, C>> {
       const { limit, offset, sortDirection, sortIndex, parsedFilters } = pageQuery;
 
       const data = await this.MODEL.findAndCountAll({
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         where: {
-          ...parsedFilters,
+          ...(parsedFilters as any),
           ...(organizationId && { OrganizationId: organizationId })
         },
         include: [...this.includes],
@@ -59,9 +61,7 @@ export abstract class BaseService<C, A, M extends Model<A, C>> {
 
       if (data.count) {
         const pages = Math.ceil(data.count / limit);
-        const ids: number[] = data.rows.map(
-          (dep) => (dep as { [key: string]: any })[this.MODEL.primaryKeyAttribute] as number
-        );
+        const ids: number[] = data.rows.map((dep) => (dep as { [key: string]: any })[this.primaryKey] as number);
         return ok({ ids, data: data.rows, resultsNum: data.count, pages });
       } else {
         return ok({});
@@ -77,7 +77,7 @@ export abstract class BaseService<C, A, M extends Model<A, C>> {
       const createdItem = await this.MODEL.create({
         ...item
       });
-      const data = await this.postAction(item, (createdItem as { [key: string]: any })[this.MODEL.primaryKeyAttribute]);
+      const data = await this.postAction(item, (createdItem as { [key: string]: any })[this.primaryKey]);
       return ok({ message: `New ${this.modelName} created successfully!`, data });
     } catch (error) {
       this.logger.error(error);
@@ -94,13 +94,13 @@ export abstract class BaseService<C, A, M extends Model<A, C>> {
         {
           where: {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            [this.MODEL.primaryKeyAttribute]: (item as { [key: string]: any })[this.MODEL.primaryKeyAttribute]
+            [this.primaryKey]: (item as { [key: string]: any })[this.primaryKey]
           } as WhereOptions<M['_attributes']>
         }
       );
 
       if (num > 0) {
-        const data = await this.postAction(item, (item as { [key: string]: any })[this.MODEL.primaryKeyAttribute]);
+        const data = await this.postAction(item, (item as { [key: string]: any })[this.primaryKey]);
         return ok({ message: `The ${this.modelName} updated successfully!`, data });
       } else {
         return err(new NotFoundError(`No ${this.modelName}s by this query`));
@@ -114,7 +114,7 @@ export abstract class BaseService<C, A, M extends Model<A, C>> {
   public async delete(key: string | number | string[] | number[]): Promise<Result<BaseResponse, CustomError>> {
     try {
       const deleted = await this.MODEL.destroy({
-        where: { [this.MODEL.primaryKeyAttribute]: key } as WhereOptions<M['_attributes']>
+        where: { [this.primaryKey]: key } as WhereOptions<M['_attributes']>
       });
 
       if (deleted > 0) {

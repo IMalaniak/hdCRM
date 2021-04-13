@@ -51,7 +51,7 @@ describe('PreferenceController', () => {
 
   it('should send success response when calling getAll', () => {
     const getAllStub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'getAll');
-    getAllStub.resolves(ok({ data: {} }));
+    getAllStub.returns(ok({ data: {} }));
 
     controllerInstance.getAll(reqLogFake as any, resFake as any);
 

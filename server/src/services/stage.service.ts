@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import Container, { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 
@@ -23,7 +24,7 @@ export class StageService extends BaseService<StageCreationAttributes, StageAttr
       const data = await Stage.findAndCountAll({
         include: [
           {
-            association: Stage.associations.Plans,
+            association: Stage.associations?.Plans,
             where: {
               OrganizationId: organizationId
             },

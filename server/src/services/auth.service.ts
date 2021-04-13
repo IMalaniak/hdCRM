@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 import { Op } from 'sequelize';
@@ -39,7 +40,7 @@ export class AuthService {
 
     try {
       const createdOrg = await Organization.create(organization, {
-        include: [{ association: Organization.associations.Roles }]
+        include: [{ association: Organization.associations?.Roles }]
       });
       const createdUser = await createdOrg.createUser({
         ...user

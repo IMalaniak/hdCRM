@@ -33,7 +33,8 @@ export class PreferenceService {
     const userPreference = await user.getPreference();
 
     try {
-      const data = userPreference.id
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      const data = userPreference?.id
         ? await userPreference.update(preference)
         : await user.createPreference(preference as any);
       return ok({ data });
