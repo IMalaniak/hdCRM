@@ -5,7 +5,7 @@
     {
       "files": ["*.ts"],
       "parserOptions": {
-        "project": ["tsconfig.json", "e2e/tsconfig.json"],
+        "project": ["./tsconfig.json"],
         "createDefaultProgram": true
       },
       "extends": [
@@ -64,7 +64,32 @@
         "brace-style": ["error", "1tbs"],
         "id-blacklist": "off",
         "id-match": "off",
-        "import/order": ["error", { "newlines-between": "always" }],
+        "import/order": [
+          "error",
+          {
+            "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+            "pathGroups": [
+              {
+                "pattern": "@core/**",
+                "group": "internal"
+              },
+              {
+                "pattern": "@modules/**",
+                "group": "internal"
+              },
+              {
+                "pattern": "@shared/**",
+                "group": "internal"
+              }
+            ],
+            "pathGroupsExcludedImportTypes": ["builtin"],
+            "alphabetize": {
+              "order": "asc",
+              "caseInsensitive": true
+            },
+            "newlines-between": "always"
+          }
+        ],
         "linebreak-style": "off",
         "max-len": [
           "off",
