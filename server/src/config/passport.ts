@@ -5,13 +5,14 @@ import passport from 'passport';
 import { RequestHandler } from 'express';
 
 import { UserService } from '../services';
-import { JwtPayload } from '../models';
+import { JwtData, JwtPayload } from '../models';
+import { CryptoUtils } from '../utils/crypto.utils';
 
 import { Config } from './config';
 
 @Service()
 export class Passport {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService, private readonly crypt: CryptoUtils) {}
 
   private readonly opts: StrategyOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -38,9 +39,10 @@ export class Passport {
     // passport.session();
     passport.use(
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      new Strategy(this.opts, async (jwtPayload: JwtPayload, done) => {
+      new Strategy(this.opts, async (payload: JwtPayload, done) => {
         try {
-          const userResult = await this.userService.getByPk(jwtPayload.userId);
+          const { userId } = this.crypt.base64ToJson<JwtData>(payload.sub);
+          const userResult = await this.userService.getByPk(userId);
           if (userResult.isOk()) {
             return done(null, userResult.value.data);
           } else {

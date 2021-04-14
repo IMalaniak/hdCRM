@@ -41,4 +41,16 @@ export class CryptoUtils {
       expireDate: this.setExpireMinutes(new Date(), minutes)
     };
   }
+
+  jsonToBase64(json: { [key: string]: any }): string {
+    const data = JSON.stringify(json);
+    const buff = Buffer.from(data);
+    return buff.toString('base64');
+  }
+
+  base64ToJson<R extends { [key: string]: any }>(str: string): R {
+    const buff = Buffer.from(str, 'base64');
+    const encoded = buff.toString('ascii');
+    return JSON.parse(encoded) as R;
+  }
 }
