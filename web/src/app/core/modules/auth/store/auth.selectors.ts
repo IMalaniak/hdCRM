@@ -1,5 +1,6 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
-import { User, UserSession } from '@/core/modules/user-api/shared';
+
+import { User, UserSession } from '@core/modules/user-api/shared';
 
 import { Privilege } from '../../role-api/shared';
 

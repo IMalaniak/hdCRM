@@ -1,5 +1,5 @@
-import { createReducer, on, Action } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+import { createReducer, on, Action } from '@ngrx/store';
 
 import { Department } from '../shared/models';
 

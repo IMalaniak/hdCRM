@@ -1,12 +1,13 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from '@/core/modules/user-api/shared';
-import { BS_ICON, CommonConstants, MAT_BUTTON } from '@/shared/constants';
-import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
-import { DialogWithTwoButtonModel } from '@/shared/models/dialog/dialog-with-two-button.model';
-import { DialogService } from '@/shared/services';
-import { IDialogResult } from '@/shared/models/dialog/dialog-result';
-import { DIALOG_TYPE } from '@/shared/models';
+
+import { User } from '@core/modules/user-api/shared';
+import { BS_ICON, CommonConstants, MAT_BUTTON } from '@shared/constants';
+import { DIALOG_TYPE } from '@shared/models';
+import { DialogDataModel } from '@shared/models/dialog/dialog-data.model';
+import { IDialogResult } from '@shared/models/dialog/dialog-result';
+import { DialogWithTwoButtonModel } from '@shared/models/dialog/dialog-with-two-button.model';
+import { DialogService } from '@shared/services';
 
 import { OrganismsUserDetailsDialogComponent } from '../../organisms/organisms-user-details-dialog/organisms-user-details-dialog.component';
 

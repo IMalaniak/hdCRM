@@ -1,5 +1,6 @@
-import { BS_ICON } from '@/shared/constants';
 import { Observable } from 'rxjs';
+
+import { BS_ICON } from '@shared/constants';
 
 export class MenuItem {
   url: string;

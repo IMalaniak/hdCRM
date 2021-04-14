@@ -1,4 +1,4 @@
-import { DialogConstants } from '@/shared/constants/dialog.constants';
+import { DialogConstants } from '@shared/constants/dialog.constants';
 
 import { DialogWithTwoButtonModel } from './dialog-with-two-button.model';
 

@@ -1,13 +1,13 @@
-import { Department } from '@/core/modules/department-api/shared';
-import { Role } from '@/core/modules/role-api/shared';
-import { Asset } from '@/shared/models';
-import { TimeStamps } from '@/shared/models/base';
+import { Department } from '@core/modules/department-api/shared';
+import { Role } from '@core/modules/role-api/shared';
+import { Asset } from '@shared/models';
+import { TimeStamps } from '@shared/models/base';
 
-import { UserSession } from './userSession';
-import { PasswordAttributes } from './passwordAttributes';
 import { BelongsToOrganization } from './organization';
-import { UserPreferences } from './userPreferences';
+import { PasswordAttributes } from './passwordAttributes';
 import { USER_STATE } from './user-state.enum';
+import { UserPreferences } from './userPreferences';
+import { UserSession } from './userSession';
 
 export interface User extends TimeStamps, BelongsToOrganization {
   id: number;

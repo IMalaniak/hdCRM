@@ -1,23 +1,24 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
-import { EMPTY, of } from 'rxjs';
-import { mergeMap, map, catchError, withLatestFrom, filter, switchMap } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Update } from '@ngrx/entity';
-import { AppState } from '@/core/store';
+import { Store, select } from '@ngrx/store';
+import { EMPTY, of } from 'rxjs';
+import { mergeMap, map, catchError, withLatestFrom, filter, switchMap } from 'rxjs/operators';
+
+import { AppState } from '@core/store';
 import {
   departmentListSchema,
   departmentSchema,
   normalizeResponse,
   partialDataLoaded
-} from '@/core/store/normalization';
-import { ToastMessageService } from '@/shared/services';
-import { CollectionApiResponse, ItemApiResponse, BaseMessage, PageQuery } from '@/shared/models';
-import { RoutingConstants } from '@/shared/constants';
-import { Page } from '@/shared/store';
-import { generatePageKey } from '@/shared/utils/generatePageKey';
+} from '@core/store/normalization';
+import { RoutingConstants } from '@shared/constants';
+import { CollectionApiResponse, ItemApiResponse, BaseMessage, PageQuery } from '@shared/models';
+import { ToastMessageService } from '@shared/services';
+import { Page } from '@shared/store';
+import { generatePageKey } from '@shared/utils/generatePageKey';
 
 import { DepartmentService } from '../services';
 import { Department } from '../shared/models';

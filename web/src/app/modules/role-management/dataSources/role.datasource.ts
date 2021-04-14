@@ -1,12 +1,13 @@
 import { select } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { listPageRequested } from '@/core/modules/role-api/store/role';
-import { Role } from '@/core/modules/role-api/shared';
-import { PageQuery } from '@/shared/models';
-import { CommonDataSource } from '@/shared/services';
-import { Cell, DataRow } from '@/shared/models/table';
-import { COLUMN_KEY } from '@/shared/constants/table.constants';
+
+import { Role } from '@core/modules/role-api/shared';
+import { listPageRequested } from '@core/modules/role-api/store/role';
+import { COLUMN_KEY } from '@shared/constants/table.constants';
+import { PageQuery } from '@shared/models';
+import { Cell, DataRow } from '@shared/models/table';
+import { CommonDataSource } from '@shared/services';
 
 import { selectRolesOfPage } from '../store/role.selectors';
 

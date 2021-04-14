@@ -1,14 +1,15 @@
-import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store, select } from '@ngrx/store';
 import { Observable, throwError, timer } from 'rxjs';
 import { catchError, first, retryWhen, filter, last, mergeMap } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
-import { ApiRoutesConstants, PathConstants, RoutingConstants } from '@/shared/constants';
 
+import { ApiRoutesConstants, PathConstants, RoutingConstants } from '@shared/constants';
+
+import { refreshSession, redirectToLogin } from '../modules/auth/store/auth.actions';
 import { AppState } from '../store';
 import { selectUrl } from '../store/router.selectors';
-import { refreshSession, redirectToLogin } from '../modules/auth/store/auth.actions';
 
 const genericRetryStrategy = ({
   maxRetryAttempts = 3,

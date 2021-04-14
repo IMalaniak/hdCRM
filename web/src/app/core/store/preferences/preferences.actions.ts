@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
-import { BaseMessage } from '@/shared/models';
-import { DATE_FORMAT, TIME_FORMAT, ITEMS_PER_PAGE, LIST_VIEW } from '@/shared/constants';
+
+import { DATE_FORMAT, TIME_FORMAT, ITEMS_PER_PAGE, LIST_VIEW } from '@shared/constants';
+import { BaseMessage } from '@shared/models';
 
 import { Preferences, PreferencesList } from './preferences.reducer';
 

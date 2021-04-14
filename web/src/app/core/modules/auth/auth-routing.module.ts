@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PublicGuard } from '@/core/guards';
-import { PathConstants } from '@/shared/constants';
+
+import { PublicGuard } from '@core/guards';
+import { PathConstants } from '@shared/constants';
 
 import { LoginComponent, RegisterUserComponent, RegisterSuccessComponent } from './components';
 

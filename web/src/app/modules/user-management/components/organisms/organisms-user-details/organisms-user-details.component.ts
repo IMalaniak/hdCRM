@@ -1,13 +1,14 @@
 import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '@/core/store';
-import { User } from '@/core/modules/user-api/shared';
-import { DialogDataModel } from '@/shared/models';
-import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
-import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
-import { DialogService } from '@/shared/services';
-import { ACTION_LABEL, CommonConstants, FormNameConstants } from '@/shared/constants';
-import { BaseDynamicFormPageModel } from '@/shared/components/base/models/base-dynamic-form-page.model';
+
+import { User } from '@core/modules/user-api/shared';
+import { AppState } from '@core/store';
+import { BaseDynamicFormPageModel } from '@shared/components/base/models/base-dynamic-form-page.model';
+import { DialogConfirmComponent } from '@shared/components/dialogs/dialog-confirm/dialog-confirm.component';
+import { ACTION_LABEL, CommonConstants, FormNameConstants } from '@shared/constants';
+import { DialogDataModel } from '@shared/models';
+import { DialogConfirmModel } from '@shared/models/dialog/dialog-confirm.model';
+import { DialogService } from '@shared/services';
 
 @Component({
   selector: 'organisms-user-details',

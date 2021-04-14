@@ -1,13 +1,14 @@
 import { select } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { listPageRequested } from '@/core/modules/department-api/store';
-import { Department } from '@/core/modules/department-api/shared';
-import { PageQuery } from '@/shared/models';
-import { CommonDataSource } from '@/shared/services';
-import { COLUMN_KEY } from '@/shared/constants/table.constants';
-import { UrlGenerator } from '@/shared/utils/url.generator';
-import { DataRow, Cell } from '@/shared/models/table';
+
+import { Department } from '@core/modules/department-api/shared';
+import { listPageRequested } from '@core/modules/department-api/store';
+import { COLUMN_KEY } from '@shared/constants/table.constants';
+import { PageQuery } from '@shared/models';
+import { DataRow, Cell } from '@shared/models/table';
+import { CommonDataSource } from '@shared/services';
+import { UrlGenerator } from '@shared/utils/url.generator';
 
 import { selectDepartmentsOfPage } from '../store/department.selectors';
 

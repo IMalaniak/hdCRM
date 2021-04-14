@@ -2,11 +2,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
-import { initialUsersState } from '@/core/modules/user-api/store';
-import { initialPlansState } from '@/core/modules/plan-api/store/plan';
-import { SharedModule } from '@/shared/shared.module';
-import { initialListState } from '@/shared/store';
-import { authStateMock, formsStateMock } from '@/shared/testing/mocks';
+
+import { initialPlansState } from '@core/modules/plan-api/store/plan';
+import { initialUsersState } from '@core/modules/user-api/store';
+import { SharedModule } from '@shared/shared.module';
+import { initialListState } from '@shared/store';
+import { authStateMock, formsStateMock } from '@shared/testing/mocks';
 
 import { TemplatesPlanViewComponent } from '../templates';
 

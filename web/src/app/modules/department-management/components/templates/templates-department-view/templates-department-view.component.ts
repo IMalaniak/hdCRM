@@ -1,17 +1,18 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { select, Store } from '@ngrx/store';
-import { AppState } from '@/core/store';
-import { Department } from '@/core/modules/department-api/shared';
-import { selectDepartmentsLoading } from '@/core/modules/department-api/store';
-import { DialogService } from '@/shared/services';
-import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
-import { CommonConstants, FormNameConstants } from '@/shared/constants';
-import { DialogDataModel, IDialogResult, DIALOG_TYPE, DialogWithTwoButtonModel } from '@/shared/models';
-import { UsersDialogComponent } from '@/modules/user-management/components';
-import { prepareSelectionPopup, resetSelectionPopup } from '@/modules/user-management/store';
-import { selectUserById, selectUsersById } from '@/core/modules/user-api/store';
+
+import { Department } from '@core/modules/department-api/shared';
+import { selectDepartmentsLoading } from '@core/modules/department-api/store';
+import { selectUserById, selectUsersById } from '@core/modules/user-api/store';
+import { AppState } from '@core/store';
+import { UsersDialogComponent } from '@modules/user-management/components';
+import { prepareSelectionPopup, resetSelectionPopup } from '@modules/user-management/store';
+import { TemplatesViewDetailsComponent } from '@shared/components/templates';
+import { CommonConstants, FormNameConstants } from '@shared/constants';
+import { DialogDataModel, IDialogResult, DIALOG_TYPE, DialogWithTwoButtonModel } from '@shared/models';
+import { DialogService } from '@shared/services';
 
 @Component({
   selector: 'templates-department-view',

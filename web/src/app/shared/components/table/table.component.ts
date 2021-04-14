@@ -1,3 +1,6 @@
+import { SelectionModel } from '@angular/cdk/collections';
+import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkTable } from '@angular/cdk/table';
 import {
   AfterViewInit,
   Component,
@@ -9,25 +12,24 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { CdkTable } from '@angular/cdk/table';
-import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { select, Store } from '@ngrx/store';
 import { combineLatest, merge, Observable, Subject } from 'rxjs';
 import { delay, map, startWith, takeUntil, tap } from 'rxjs/operators';
-import { select, Store } from '@ngrx/store';
-import { IconsService } from '@/core/services';
-import { AppState } from '@/core/store';
-import { getDefaultListOutlineBorders, getItemsPerPageState } from '@/core/store/preferences';
+
 import {
   removeTableConfig,
   setTableConfig,
   tableColumnsConfig,
   tableColumnsToDisplay,
   tableOutlineBorders
-} from '@/core/modules/layout/store';
+} from '@core/modules/layout/store';
+import { IconsService } from '@core/services';
+import { AppState } from '@core/store';
+import { getDefaultListOutlineBorders, getItemsPerPageState } from '@core/store/preferences';
 import {
   ACTION_LABEL,
   BS_ICON,
@@ -40,7 +42,8 @@ import {
   SORT_DIRECTION,
   STYLE,
   THEME_PALETTE
-} from '@/shared/constants';
+} from '@shared/constants';
+import { PageQuery } from '@shared/models';
 import {
   CELL_TYPE,
   DataRow,
@@ -51,11 +54,9 @@ import {
   ROW_ACTION_TYPE,
   TableColumnConfig,
   TableConfig
-} from '@/shared/models/table';
-import { CommonDataSource } from '@/shared/services';
-import { PageQuery } from '@/shared/models';
-import { SelectionModel } from '@angular/cdk/collections';
-import { LIST_DISPLAY_MODE } from '@/shared/store';
+} from '@shared/models/table';
+import { CommonDataSource } from '@shared/services';
+import { LIST_DISPLAY_MODE } from '@shared/store';
 
 @Component({
   selector: 'table-component',

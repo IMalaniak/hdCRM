@@ -1,11 +1,12 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
-import { AppState } from '@/core/store';
-import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
-import { Plan } from '@/core/modules/plan-api/shared';
-import { createPlanRequested } from '@/core/modules/plan-api/store/plan';
-import { ADD_PRIVILEGE, DELETE_PRIVILEGE } from '@/shared/constants';
+import { Observable } from 'rxjs';
+
+import { isPrivileged } from '@core/modules/auth/store/auth.selectors';
+import { Plan } from '@core/modules/plan-api/shared';
+import { createPlanRequested } from '@core/modules/plan-api/store/plan';
+import { AppState } from '@core/store';
+import { ADD_PRIVILEGE, DELETE_PRIVILEGE } from '@shared/constants';
 
 @Component({
   template: `

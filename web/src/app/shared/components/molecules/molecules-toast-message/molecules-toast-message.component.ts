@@ -1,7 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
-import { BS_ICON, NOTIFICATION_TYPE } from '@/shared/constants';
-import { ToastMessage } from '@/shared/models/toastMessage';
+
+import { BS_ICON, NOTIFICATION_TYPE } from '@shared/constants';
+import { ToastMessage } from '@shared/models/toastMessage';
 
 @Component({
   selector: 'molecules-toast-message',

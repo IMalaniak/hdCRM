@@ -1,5 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { currentUser } from '@/core/modules/auth/store/auth.selectors';
+
+import { currentUser } from '@core/modules/auth/store/auth.selectors';
 
 import { USER_STATE } from '../shared/models';
 

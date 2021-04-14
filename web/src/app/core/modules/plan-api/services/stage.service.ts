@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiRoutesConstants } from '@/shared/constants';
-import { BaseCrudService } from '@/shared/services';
-import { CollectionApiResponse } from '@/shared/models';
+
+import { ApiRoutesConstants } from '@shared/constants';
+import { CollectionApiResponse } from '@shared/models';
+import { BaseCrudService } from '@shared/services';
 
 import { Stage } from '../shared';
 

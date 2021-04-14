@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { map, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
-import { ToastMessageService } from '@/shared/services';
-import { CommonConstants } from '@/shared/constants';
+import { map, mergeMap, withLatestFrom } from 'rxjs/operators';
+
+import { CommonConstants } from '@shared/constants';
+import { ToastMessageService } from '@shared/services';
 
 import { IntegrationsService } from '../../services/integrations.service';
 import { AppState } from '../index';

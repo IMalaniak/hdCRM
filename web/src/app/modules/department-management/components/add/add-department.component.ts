@@ -1,8 +1,9 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '@/core/store';
-import { createDepartmentRequested } from '@/core/modules/department-api/store';
-import { Department } from '@/core/modules/department-api/shared';
+
+import { Department } from '@core/modules/department-api/shared';
+import { createDepartmentRequested } from '@core/modules/department-api/store';
+import { AppState } from '@core/store';
 
 @Component({
   template: `

@@ -1,9 +1,10 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '@/core/store';
-import { Role } from '@/core/modules/role-api/shared';
-import { createRoleRequested } from '@/core/modules/role-api/store/role';
-import { DynamicForm } from '@/shared/models';
+
+import { Role } from '@core/modules/role-api/shared';
+import { createRoleRequested } from '@core/modules/role-api/store/role';
+import { AppState } from '@core/store';
+import { DynamicForm } from '@shared/models';
 
 @Component({
   template: `

@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { environment } from 'environments/environment';
-import { AppState } from '@/core/store';
-import { getToken } from '@/core/modules/auth/store/auth.selectors';
-import { Asset } from '@/shared/models';
+
+import { getToken } from '@core/modules/auth/store/auth.selectors';
+import { AppState } from '@core/store';
+import { Asset } from '@shared/models';
 
 @Component({
   selector: 'profile-pic-uploader-component',

@@ -1,12 +1,13 @@
 import { HttpClientModule } from '@angular/common/http';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { provideMockStore } from '@ngrx/store/testing';
-import { plansFeatureKey, initialPlansState } from '@/core/modules/plan-api/store/plan';
-import { SharedModule } from '@/shared/shared.module';
-import { authStateMock, formsStateMock } from '@/shared/testing/mocks';
+
+import { plansFeatureKey, initialPlansState } from '@core/modules/plan-api/store/plan';
+import { SharedModule } from '@shared/shared.module';
+import { authStateMock, formsStateMock } from '@shared/testing/mocks';
 
 import { TemplatesPlanViewComponent } from '../templates';
 

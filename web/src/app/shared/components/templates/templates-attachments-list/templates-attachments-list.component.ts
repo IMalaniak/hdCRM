@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Output, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs/internal/Observable';
-import { AppState } from '@/core/store';
-import { getGoogleDriveIntegrationState, toggleGoogleDriveIntegration } from '@/core/store/integration';
-import { IconsService } from '@/core/services';
-import { AttachmentService } from '@/shared/modules/attachments/services';
-import { Asset } from '@/shared/models';
-import { COLUMN_KEY, COLUMN_LABEL, ACTION_LABEL, THEME_PALETTE, MAT_BUTTON, BS_ICON } from '@/shared/constants';
+
+import { IconsService } from '@core/services';
+import { AppState } from '@core/store';
+import { getGoogleDriveIntegrationState, toggleGoogleDriveIntegration } from '@core/store/integration';
+import { COLUMN_KEY, COLUMN_LABEL, ACTION_LABEL, THEME_PALETTE, MAT_BUTTON, BS_ICON } from '@shared/constants';
+import { Asset } from '@shared/models';
+import { AttachmentService } from '@shared/modules/attachments/services';
 
 @Component({
   selector: 'templates-attachments-list',

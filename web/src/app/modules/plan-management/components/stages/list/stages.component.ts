@@ -1,21 +1,22 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Store, select } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
-import { AppState } from '@/core/store';
-import { Stage } from '@/core/modules/plan-api/shared';
+
+import { Stage } from '@core/modules/plan-api/shared';
 import {
   selectStagesLoading,
   allStagesRequestedFromDialogWindow,
   selectAllStages,
   createStage
-} from '@/core/modules/plan-api/store/stage';
-import { COLUMN_KEY, COLUMN_LABEL, ACTION_LABEL, CommonConstants, BS_ICON } from '@/shared/constants';
-import { DialogService } from '@/shared/services';
-import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
-import { IDialogResult } from '@/shared/models/dialog/dialog-result';
-import { DialogCreateEditModel, DIALOG_MODE } from '@/shared/models';
+} from '@core/modules/plan-api/store/stage';
+import { AppState } from '@core/store';
+import { COLUMN_KEY, COLUMN_LABEL, ACTION_LABEL, CommonConstants, BS_ICON } from '@shared/constants';
+import { DialogCreateEditModel, DIALOG_MODE } from '@shared/models';
+import { DialogDataModel } from '@shared/models/dialog/dialog-data.model';
+import { IDialogResult } from '@shared/models/dialog/dialog-result';
+import { DialogService } from '@shared/services';
 
 import { AddStageDialogComponent } from '../add-dialog/add-stage-dialog.component';
 

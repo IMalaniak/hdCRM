@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { Plan } from '@/core/modules/plan-api/shared';
+
+import { Plan } from '@core/modules/plan-api/shared';
 
 const detailsPrefix = '[Plan Details]';
 

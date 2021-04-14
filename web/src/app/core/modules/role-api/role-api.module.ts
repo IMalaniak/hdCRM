@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StoreModule } from '@ngrx/store';
+import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 
 import { RoleService, PrivilegeService } from './services';
 import { privilegesFeatureKey, privilegesReducer, PrivilegeEffects } from './store/privilege';

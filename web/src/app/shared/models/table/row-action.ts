@@ -1,4 +1,4 @@
-import { BS_ICON } from '@/shared/constants/icon.enum';
+import { BS_ICON } from '@shared/constants/icon.enum';
 
 import { ROW_ACTION_TYPE } from './row-action-type.enum';
 

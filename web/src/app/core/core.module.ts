@@ -1,26 +1,26 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { StoreModule } from '@ngrx/store';
+import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'environments/environment';
 
 import { httpInterceptorsProviders } from './interceptors';
 import { AuthModule } from './modules/auth/auth.module';
-import { LayoutModule } from './modules/layout/layout.module';
 import { DepartmentApiModule } from './modules/department-api/department-api.module';
+import { LayoutModule } from './modules/layout/layout.module';
 import { PlanApiModule } from './modules/plan-api/plan-api.module';
-import { UserApiModule } from './modules/user-api/user-api.module';
 import { RoleApiModule } from './modules/role-api/role-api.module';
+import { UserApiModule } from './modules/user-api/user-api.module';
 import { reducers, metaReducers } from './store';
-import { PreferencesEffects } from './store/preferences';
-import { IntegrationsEffects } from './store/integration';
 import { DynamicFormEffects } from './store/dynamic-form';
+import { IntegrationsEffects } from './store/integration';
 import { NotificationsEffects } from './store/notifications';
+import { PreferencesEffects } from './store/preferences';
 
 @NgModule({
   imports: [

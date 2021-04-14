@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { DynamicForm } from '@/shared/models';
+
+import { DynamicForm } from '@shared/models';
 
 const prefix = '[Forms]';
 const apiPrefix = '[Forms API]';

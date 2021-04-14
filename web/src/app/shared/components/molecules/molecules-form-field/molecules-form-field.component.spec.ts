@@ -1,7 +1,8 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, ViewChild } from '@angular/core';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, FormControl } from '@angular/forms';
-import { SharedModule } from '@/shared/shared.module';
+
+import { SharedModule } from '@shared/shared.module';
 
 import { MoleculesFormFieldComponent } from './molecules-form-field.component';
 

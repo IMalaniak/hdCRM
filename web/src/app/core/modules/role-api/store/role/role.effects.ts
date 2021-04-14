@@ -1,25 +1,25 @@
-import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
+import { Update } from '@ngrx/entity';
+import { Store, select } from '@ngrx/store';
 import { EMPTY, of } from 'rxjs';
 import { mergeMap, map, catchError, withLatestFrom, filter, switchMap } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
-import { Update } from '@ngrx/entity';
-import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { AppState } from '@/core/store';
-import { normalizeResponse, roleSchema, partialDataLoaded, roleListSchema } from '@/core/store/normalization';
-import { ToastMessageService } from '@/shared/services';
-import { RoutingConstants } from '@/shared/constants';
-import { CollectionApiResponse, ItemApiResponse, BaseMessage } from '@/shared/models';
-import { generatePageKey } from '@/shared/utils/generatePageKey';
-import { Page } from '@/shared/store';
+
+import { AppState } from '@core/store';
+import { normalizeResponse, roleSchema, partialDataLoaded, roleListSchema } from '@core/store/normalization';
+import { RoutingConstants } from '@shared/constants';
+import { CollectionApiResponse, ItemApiResponse, BaseMessage } from '@shared/models';
+import { ToastMessageService } from '@shared/services';
+import { Page } from '@shared/store';
+import { generatePageKey } from '@shared/utils/generatePageKey';
 
 import { RoleService } from '../../services';
 import { Role } from '../../shared/models';
 
 import * as roleActions from './role.actions';
 import { selectRolesDashboardDataLoaded } from './role.selectors';
-
 
 @Injectable()
 export class RoleEffects {

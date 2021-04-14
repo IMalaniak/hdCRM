@@ -1,7 +1,7 @@
-import { Department } from '@/core/modules/department-api/shared';
-import { Plan } from '@/core/modules/plan-api/shared';
-import { Role } from '@/core/modules/role-api/shared';
-import { TimeStamps } from '@/shared/models/base';
+import { Department } from '@core/modules/department-api/shared';
+import { Plan } from '@core/modules/plan-api/shared';
+import { Role } from '@core/modules/role-api/shared';
+import { TimeStamps } from '@shared/models/base';
 
 import { User } from './user';
 

@@ -1,17 +1,19 @@
 import { Component, OnDestroy, OnInit, Input, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatAccordion } from '@angular/material/expansion';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppState } from '@/core/store';
-import { DialogConstants, ACTION_LABEL, MAT_BUTTON, THEME_PALETTE, CommonConstants, BS_ICON } from '@/shared/constants';
-import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
-import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
-import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
-import { DialogService } from '@/shared/services';
-import { DialogCreateEditModel, DIALOG_MODE, DIALOG_TYPE, IDialogResult } from '@/shared/models';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
+import { AppState } from '@core/store';
+import { DialogConfirmComponent } from '@shared/components/dialogs/dialog-confirm/dialog-confirm.component';
+import { DialogConstants, ACTION_LABEL, MAT_BUTTON, THEME_PALETTE, CommonConstants, BS_ICON } from '@shared/constants';
+import { DialogCreateEditModel, DIALOG_MODE, DIALOG_TYPE, IDialogResult } from '@shared/models';
+import { DialogConfirmModel } from '@shared/models/dialog/dialog-confirm.model';
+import { DialogDataModel } from '@shared/models/dialog/dialog-data.model';
+import { DialogService } from '@shared/services';
+
+import { Task } from '../../../models';
 import {
   deleteTask,
   createTask,
@@ -20,7 +22,6 @@ import {
   deleteMultipleTaskRequested
 } from '../../../store/task.actions';
 import { OrganismsTaskDialogComponent } from '../organisms-task-dialog/organisms-task-dialog.component';
-import { Task } from '../../../models';
 
 @Component({
   selector: 'organisms-task-list',

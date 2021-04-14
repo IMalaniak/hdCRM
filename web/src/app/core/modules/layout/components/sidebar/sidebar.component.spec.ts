@@ -1,9 +1,10 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { authStateMock } from '@/shared/testing/mocks';
-import { provideMockStore } from '@ngrx/store/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-import { SharedModule } from '@/shared/shared.module';
+import { RouterTestingModule } from '@angular/router/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+
+import { SharedModule } from '@shared/shared.module';
+import { authStateMock } from '@shared/testing/mocks';
 
 import { SidebarComponent } from './sidebar.component';
 

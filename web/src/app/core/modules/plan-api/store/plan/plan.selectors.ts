@@ -1,7 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { denormalize } from 'normalizr';
-import { selectAllUserEntities } from '@/core/modules/user-api/store';
-import { planSchema } from '@/core/store/normalization';
+
+import { selectAllUserEntities } from '@core/modules/user-api/store';
+import { planSchema } from '@core/store/normalization';
 
 import * as fromPlan from './plan.reducer';
 

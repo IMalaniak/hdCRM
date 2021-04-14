@@ -1,10 +1,11 @@
-import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormControl, Validators } from '@angular/forms';
 import { ComponentType } from '@angular/cdk/portal';
-import { ACTION_LABEL, THEME_PALETTE } from '@/shared/constants';
-import { DialogCreateEditPageModel } from '@/shared/components';
-import { DialogCreateEditModel, DialogDataModel, IDialogResult } from '@/shared/models';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+import { DialogCreateEditPageModel } from '@shared/components';
+import { ACTION_LABEL, THEME_PALETTE } from '@shared/constants';
+import { DialogCreateEditModel, DialogDataModel, IDialogResult } from '@shared/models';
 
 @Component({
   templateUrl: 'add-stage-dialog.component.html',

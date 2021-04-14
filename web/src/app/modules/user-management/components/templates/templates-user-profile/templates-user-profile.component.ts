@@ -1,18 +1,19 @@
 import { Component, Input, SimpleChanges, OnChanges, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { environment } from 'environments/environment';
-import { AppState } from '@/core/store';
-import { Preferences } from '@/core/store/preferences';
-import * as fromLayout from '@/core/modules/layout/store';
-import { updateUserOrgRequested, updateUserProfileRequested } from '@/core/modules/auth/store/auth.actions';
-import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
-import { User, Organization } from '@/core/modules/user-api/shared';
-import { updateUserRequested } from '@/core/modules/user-api/store';
-import { Asset } from '@/shared/models';
-import { TAB_PRIVILEGE, CommonConstants, TAB_NAME, TAB_LABEL } from '@/shared/constants';
-import { changeIsEditingState } from '@/modules/user-management/store';
+import { Observable } from 'rxjs';
+
+import { updateUserOrgRequested, updateUserProfileRequested } from '@core/modules/auth/store/auth.actions';
+import { isPrivileged } from '@core/modules/auth/store/auth.selectors';
+import * as fromLayout from '@core/modules/layout/store';
+import { User, Organization } from '@core/modules/user-api/shared';
+import { updateUserRequested } from '@core/modules/user-api/store';
+import { AppState } from '@core/store';
+import { Preferences } from '@core/store/preferences';
+import { changeIsEditingState } from '@modules/user-management/store';
+import { TAB_PRIVILEGE, CommonConstants, TAB_NAME, TAB_LABEL } from '@shared/constants';
+import { Asset } from '@shared/models';
 
 @Component({
   selector: 'templates-user-profile',

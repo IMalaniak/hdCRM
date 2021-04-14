@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { withLatestFrom, switchMap, map } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Update } from '@ngrx/entity';
-import { AppState } from '@/core/store';
-import { Role } from '@/core/modules/role-api/shared';
-import * as roleApiActions from '@/core/modules/role-api/store/role/role.actions';
-import { selectRoleById } from '@/core/modules/role-api/store/role';
+import { Store, select } from '@ngrx/store';
+import { withLatestFrom, switchMap, map } from 'rxjs/operators';
+
+import { Role } from '@core/modules/role-api/shared';
+import { selectRoleById } from '@core/modules/role-api/store/role';
+import * as roleApiActions from '@core/modules/role-api/store/role/role.actions';
+import { AppState } from '@core/store';
 
 import * as roleActions from './role.actions';
 import { selectRoleFromCache } from './role.selectors';

@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
-import { LINK_TARGET, THEME_PALETTE, LINK_TYPE } from '@/shared/constants';
+
+import { LINK_TARGET, THEME_PALETTE, LINK_TYPE } from '@shared/constants';
 
 @Component({
   selector: 'atoms-link-button',

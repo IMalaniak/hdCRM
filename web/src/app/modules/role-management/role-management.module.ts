@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { SharedModule } from '@/shared/shared.module';
+import { StoreModule } from '@ngrx/store';
 
-import { RoleManagmentRoutingModule } from './role-management-routing.module';
+import { SharedModule } from '@shared/shared.module';
+
 import {
   RolesComponent,
   RoleComponent,
@@ -15,6 +15,7 @@ import {
   AddPrivilegeDialogComponent,
   TemplatesRoleViewComponent
 } from './components';
+import { RoleManagmentRoutingModule } from './role-management-routing.module';
 import { rolesFeatureKey, reducer, RoleEffects } from './store';
 
 @NgModule({

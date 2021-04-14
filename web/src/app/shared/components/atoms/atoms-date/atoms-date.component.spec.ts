@@ -1,10 +1,11 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Component, ViewChild } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideMockStore } from '@ngrx/store/testing';
-import { SharedModule } from '@/shared/shared.module';
-import { initialPreferencesState } from '@/core/store/preferences';
+
+import { initialPreferencesState } from '@core/store/preferences';
+import { SharedModule } from '@shared/shared.module';
 
 import { AtomsDateComponent } from './atoms-date.component';
 

@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Optional, Output, Self } from '@angular/core';
-import { MatFormFieldControl } from '@angular/material/form-field';
 import { NgControl } from '@angular/forms';
-import { ThemePalette } from '@angular/material/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { THEME_PALETTE } from '@/shared/constants';
+import { ThemePalette } from '@angular/material/core';
+import { MatFormFieldControl } from '@angular/material/form-field';
+
+import { THEME_PALETTE } from '@shared/constants';
 
 import { BaseControlValueAccessorComponentModel } from '../../base/componentModels';
 

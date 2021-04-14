@@ -1,7 +1,7 @@
-import { AuthState } from '@/core/modules/auth/store/auth.reducer';
-import { User } from '@/core/modules/user-api/shared';
-import { DynamicFormState } from '@/core/store/dynamic-form';
-import { FORM_TYPE, FIELD_TYPE } from '@/shared/constants';
+import { AuthState } from '@core/modules/auth/store/auth.reducer';
+import { User } from '@core/modules/user-api/shared';
+import { DynamicFormState } from '@core/store/dynamic-form';
+import { FORM_TYPE, FIELD_TYPE } from '@shared/constants';
 
 export const currentUserMock = ({
   fullname: 'User Tester',

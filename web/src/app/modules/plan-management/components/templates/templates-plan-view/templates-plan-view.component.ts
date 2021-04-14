@@ -1,17 +1,18 @@
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { select, Store } from '@ngrx/store';
-import { AppState } from '@/core/store';
-import { Plan } from '@/core/modules/plan-api/shared';
-import { selectPlansLoading } from '@/core/modules/plan-api/store/plan';
-import { Asset, DialogDataModel, IDialogResult, DIALOG_TYPE, DialogWithTwoButtonModel } from '@/shared/models';
-import { TemplatesViewDetailsComponent } from '@/shared/components/templates';
-import { DialogService } from '@/shared/services';
-import { CommonConstants, FormNameConstants } from '@/shared/constants';
-import { UsersDialogComponent } from '@/modules/user-management/components';
-import { prepareSelectionPopup, resetSelectionPopup } from '@/modules/user-management/store';
-import { selectUsersById } from '@/core/modules/user-api/store';
+
+import { Plan } from '@core/modules/plan-api/shared';
+import { selectPlansLoading } from '@core/modules/plan-api/store/plan';
+import { selectUsersById } from '@core/modules/user-api/store';
+import { AppState } from '@core/store';
+import { UsersDialogComponent } from '@modules/user-management/components';
+import { prepareSelectionPopup, resetSelectionPopup } from '@modules/user-management/store';
+import { TemplatesViewDetailsComponent } from '@shared/components/templates';
+import { CommonConstants, FormNameConstants } from '@shared/constants';
+import { Asset, DialogDataModel, IDialogResult, DIALOG_TYPE, DialogWithTwoButtonModel } from '@shared/models';
+import { DialogService } from '@shared/services';
 
 @Component({
   selector: 'templates-plan-view',

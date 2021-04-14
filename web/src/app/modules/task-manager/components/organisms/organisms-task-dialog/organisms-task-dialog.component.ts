@@ -1,15 +1,16 @@
+import { ComponentType } from '@angular/cdk/portal';
 import { Component, Inject, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ComponentType } from '@angular/cdk/portal';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { AppState } from '@/core/store';
-import { selectFormByName, formRequested } from '@/core/store/dynamic-form';
-import { DynamicForm } from '@/shared/models';
-import { ACTION_LABEL, FormNameConstants, THEME_PALETTE } from '@/shared/constants';
-import { DialogCreateEditPageModel, DynamicFormComponent } from '@/shared/components';
-import { DialogCreateEditModel, DialogDataModel, IDialogResult } from '@/shared/models';
-import { Task } from '@/modules/task-manager/models';
+
+import { AppState } from '@core/store';
+import { selectFormByName, formRequested } from '@core/store/dynamic-form';
+import { Task } from '@modules/task-manager/models';
+import { DialogCreateEditPageModel, DynamicFormComponent } from '@shared/components';
+import { ACTION_LABEL, FormNameConstants, THEME_PALETTE } from '@shared/constants';
+import { DynamicForm } from '@shared/models';
+import { DialogCreateEditModel, DialogDataModel, IDialogResult } from '@shared/models';
 
 @Component({
   selector: 'organisms-task-dialog',

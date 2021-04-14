@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { of } from 'rxjs';
-import { withLatestFrom, exhaustMap, filter, map, mergeMap, catchError } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
+import { of } from 'rxjs';
+import { withLatestFrom, exhaustMap, filter, map, mergeMap, catchError } from 'rxjs/operators';
 
 import { PreferencesService } from '../../services/preferences.service';
 import { AppState } from '../index';

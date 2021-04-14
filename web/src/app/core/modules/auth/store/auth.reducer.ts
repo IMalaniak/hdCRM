@@ -1,5 +1,6 @@
 import { createReducer, Action, on } from '@ngrx/store';
-import { User } from '@/core/modules/user-api/shared';
+
+import { User } from '@core/modules/user-api/shared';
 
 import * as AuthActions from './auth.actions';
 

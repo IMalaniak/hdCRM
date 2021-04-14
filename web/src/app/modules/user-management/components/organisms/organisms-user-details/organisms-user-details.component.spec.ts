@@ -1,8 +1,9 @@
-import { SharedModule } from '@/shared/shared.module';
-import { formsStateMock } from '@/shared/testing/mocks';
 import { HttpClientModule } from '@angular/common/http';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore } from '@ngrx/store/testing';
+
+import { SharedModule } from '@shared/shared.module';
+import { formsStateMock } from '@shared/testing/mocks';
 
 import { OrganismsUserDetailsComponent } from './organisms-user-details.component';
 

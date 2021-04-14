@@ -1,10 +1,11 @@
+import { ComponentType } from '@angular/cdk/portal';
 import { Component, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ComponentType } from '@angular/cdk/portal';
-import { Privilege } from '@/core/modules/role-api/shared';
-import { ACTION_LABEL, THEME_PALETTE } from '@/shared/constants';
-import { DialogDataModel, DialogWithTwoButtonModel, IDialogResult } from '@/shared/models';
-import { DialogBaseModel } from '@/shared/components';
+
+import { Privilege } from '@core/modules/role-api/shared';
+import { DialogBaseModel } from '@shared/components';
+import { ACTION_LABEL, THEME_PALETTE } from '@shared/constants';
+import { DialogDataModel, DialogWithTwoButtonModel, IDialogResult } from '@shared/models';
 
 import { PrivilegesComponent } from '../list/privileges.component';
 

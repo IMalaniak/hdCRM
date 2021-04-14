@@ -1,9 +1,10 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { IDialogResult } from '@/shared/models/dialog/dialog-result';
-import { DialogDataModel } from '@/shared/models';
-import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
+
+import { DialogDataModel } from '@shared/models';
+import { DialogConfirmModel } from '@shared/models/dialog/dialog-confirm.model';
+import { IDialogResult } from '@shared/models/dialog/dialog-result';
 
 import { DialogBaseModel } from '../models/dialog-base.model';
 

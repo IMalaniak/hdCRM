@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
-import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppState } from '@/core/store';
-import { ACTION_LABEL, CommonConstants, THEME_PALETTE } from '@/shared/constants';
-import { DialogConfirmModel, DialogDataModel } from '@/shared/models';
-import { DialogService } from '@/shared/services';
-import { DialogConfirmComponent } from '@/shared/components/dialogs';
+import { Subject } from 'rxjs';
+
+import { AppState } from '@core/store';
+import { DialogConfirmComponent } from '@shared/components/dialogs';
+import { ACTION_LABEL, CommonConstants, THEME_PALETTE } from '@shared/constants';
+import { DialogConfirmModel, DialogDataModel } from '@shared/models';
+import { DialogService } from '@shared/services';
 
 import { BaseDynamicFormPageModel } from '../../base/models/base-dynamic-form-page.model';
 

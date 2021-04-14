@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { StoreModule } from '@ngrx/store';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
-import { SharedModule } from '@/shared/shared.module';
+import { StoreModule } from '@ngrx/store';
 
-import { PlanManagementRoutingModule } from './plan-management-routing.module';
+import { SharedModule } from '@shared/shared.module';
+
 import {
   AddPlanComponent,
   PlanListComponent,
@@ -16,6 +16,7 @@ import {
   StagesComponent,
   TemplatesPlanViewComponent
 } from './components';
+import { PlanManagementRoutingModule } from './plan-management-routing.module';
 import { PlanEffects, plansFeatureKey, reducer } from './store';
 
 @NgModule({
