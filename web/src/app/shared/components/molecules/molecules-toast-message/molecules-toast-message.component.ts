@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 
+import { IconsService } from '@core/services';
 import { BS_ICON, NOTIFICATION_TYPE } from '@shared/constants';
 import { ToastMessage } from '@shared/models/toastMessage';
 
@@ -33,5 +34,7 @@ export class MoleculesToastMessageComponent {
     [NOTIFICATION_TYPE.INFO]: BS_ICON.Info,
     [NOTIFICATION_TYPE.WARN]: BS_ICON.Exclamation
   };
-  constructor(@Inject(MAT_SNACK_BAR_DATA) public toast: ToastMessage) {}
+  constructor(@Inject(MAT_SNACK_BAR_DATA) public toast: ToastMessage, private readonly iconsService: IconsService) {
+    this.iconsService.registerIcons([...Object.values(this.cardIcons)]);
+  }
 }
