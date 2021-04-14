@@ -1,23 +1,24 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { IconsService, MediaQueryService } from '@/core/services';
-import { AppState } from '@/core/store';
-import {
-  selectDropdownVisible,
-  selectIndicatorVisible,
-  selectReadNotifications,
-  selectUnreadNotifications
-} from '@/core/store/notifications/notifications.selectors';
+import { Observable } from 'rxjs';
+
+import { IconsService, MediaQueryService } from '@core/services';
+import { AppState } from '@core/store';
 import {
   closeDropdown,
   markAllAsRead,
   markAsRead,
   removeNotification,
   toggleDropdown
-} from '@/core/store/notifications/notifications.actions';
-import { BS_ICON, MAT_BUTTON, NOTIFICATION_TYPE, THEME_PALETTE } from '@/shared/constants';
-import { Notification } from '@/shared/models';
+} from '@core/store/notifications/notifications.actions';
+import {
+  selectDropdownVisible,
+  selectIndicatorVisible,
+  selectReadNotifications,
+  selectUnreadNotifications
+} from '@core/store/notifications/notifications.selectors';
+import { BS_ICON, MAT_BUTTON, NOTIFICATION_TYPE, THEME_PALETTE } from '@shared/constants';
+import { Notification } from '@shared/models';
 
 @Component({
   selector: 'notifications-component',

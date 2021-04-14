@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PathConstants, VIEW_PRIVILEGE, ADD_PRIVILEGE, FormNameConstants } from '@/shared/constants';
-import { PrivilegeGuard } from '@/shared/guards';
+
+import { PathConstants, VIEW_PRIVILEGE, ADD_PRIVILEGE, FormNameConstants } from '@shared/constants';
+import { PrivilegeGuard } from '@shared/guards';
 
 import { RolesComponent, RoleComponent, AddRoleComponent } from './components';
 

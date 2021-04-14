@@ -1,18 +1,19 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { first } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
-import { AppState } from '@/core/store';
-import { Role, Privilege } from '@/core/modules/role-api/shared';
-import { selectRolesLoading } from '@/core/modules/role-api/store/role';
-import { selectUsersById } from '@/core/modules/user-api/store';
-import { TemplatesViewDetailsComponent } from '@/shared/components';
-import { MAT_BUTTON, COLUMN_KEY, COLUMN_LABEL, CommonConstants, BS_ICON, FormNameConstants } from '@/shared/constants';
-import { DialogService } from '@/shared/services';
-import { DialogDataModel, IDialogResult, DIALOG_TYPE, DialogWithTwoButtonModel } from '@/shared/models';
-import { UsersDialogComponent } from '@/modules/user-management/components';
-import { PrivilegesDialogComponent } from '@/modules/role-management/components/privileges/dialog/privileges-dialog.component';
-import { resetSelectionPopup, prepareSelectionPopup } from '@/modules/user-management/store';
+import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
+
+import { Role, Privilege } from '@core/modules/role-api/shared';
+import { selectRolesLoading } from '@core/modules/role-api/store/role';
+import { selectUsersById } from '@core/modules/user-api/store';
+import { AppState } from '@core/store';
+import { PrivilegesDialogComponent } from '@modules/role-management/components/privileges/dialog/privileges-dialog.component';
+import { UsersDialogComponent } from '@modules/user-management/components';
+import { resetSelectionPopup, prepareSelectionPopup } from '@modules/user-management/store';
+import { TemplatesViewDetailsComponent } from '@shared/components';
+import { MAT_BUTTON, COLUMN_KEY, COLUMN_LABEL, CommonConstants, BS_ICON, FormNameConstants } from '@shared/constants';
+import { DialogDataModel, IDialogResult, DIALOG_TYPE, DialogWithTwoButtonModel } from '@shared/models';
+import { DialogService } from '@shared/services';
 
 @Component({
   selector: 'templates-role-view',
@@ -92,14 +93,14 @@ export class TemplatesRoleViewComponent extends TemplatesViewDetailsComponent<Ro
               (selectedPrivilege) => !this.item.Privileges.some((privilege) => privilege.id === selectedPrivilege.id)
             )
             ?.map((selectedPrivilege) => ({
-                ...selectedPrivilege,
-                RolePrivilege: {
-                  add: false,
-                  view: false,
-                  edit: false,
-                  delete: false
-                }
-              }));
+              ...selectedPrivilege,
+              RolePrivilege: {
+                add: false,
+                view: false,
+                edit: false,
+                delete: false
+              }
+            }));
           if (selectedPrivileges?.length) {
             this.item = {
               ...this.item,

@@ -1,8 +1,8 @@
 import { createReducer, on, Action } from '@ngrx/store';
-import { DATE_FORMAT, ITEMS_PER_PAGE, LIST_VIEW, TIME_FORMAT } from '@/shared/constants';
+
+import { DATE_FORMAT, ITEMS_PER_PAGE, LIST_VIEW, TIME_FORMAT } from '@shared/constants';
 
 import * as PreferencesActions from './preferences.actions';
-
 
 export interface Preferences {
   dateFormat: DATE_FORMAT;

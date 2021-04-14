@@ -1,7 +1,8 @@
-import { createAction, props } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
-import { PageQuery, NewPassword, CollectionApiResponse } from '@/shared/models';
-import { Page } from '@/shared/store';
+import { createAction, props } from '@ngrx/store';
+
+import { PageQuery, NewPassword, CollectionApiResponse } from '@shared/models';
+import { Page } from '@shared/store';
 
 import { User } from '../shared';
 

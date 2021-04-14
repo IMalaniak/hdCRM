@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BaseMessage } from '@/shared/models';
-import { ApiRoutesConstants } from '@/shared/constants';
-import { BaseCrudService } from '@/shared/services';
+
+import { ApiRoutesConstants } from '@shared/constants';
+import { BaseMessage } from '@shared/models';
+import { BaseCrudService } from '@shared/services';
 
 @Injectable({
   providedIn: 'root'

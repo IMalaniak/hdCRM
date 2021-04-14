@@ -1,12 +1,13 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
-import { SharedModule } from '@/shared/shared.module';
-import { formsStateMock } from '@/shared/testing/mocks';
-import { DialogCreateEditModel, DialogDataModel, DIALOG_MODE } from '@/shared/models/dialog';
+
+import { DialogCreateEditModel, DialogDataModel, DIALOG_MODE } from '@shared/models/dialog';
+import { SharedModule } from '@shared/shared.module';
+import { formsStateMock } from '@shared/testing/mocks';
 
 import { OrganismsTaskDialogComponent } from './organisms-task-dialog.component';
 

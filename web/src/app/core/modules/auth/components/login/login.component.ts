@@ -1,12 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
-import { Observable, Subject } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
-import { AppState } from '@/core/store';
-import { IconsService } from '@/core/services';
-import { ConfirmPasswordValidator } from '@/shared/validators';
-import { NewPassword } from '@/shared/models';
+import { Observable, Subject } from 'rxjs';
+
+import { IconsService } from '@core/services';
+import { AppState } from '@core/store';
 import {
   ACTION_LABEL,
   THEME_PALETTE,
@@ -16,7 +15,9 @@ import {
   RoutingConstants,
   BS_ICON,
   INPUT_TYPE
-} from '@/shared/constants';
+} from '@shared/constants';
+import { NewPassword } from '@shared/models';
+import { ConfirmPasswordValidator } from '@shared/validators';
 
 import * as authActions from '../../store/auth.actions';
 import * as authSelectors from '../../store/auth.selectors';

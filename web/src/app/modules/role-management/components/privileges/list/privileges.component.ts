@@ -1,22 +1,23 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { takeUntil, map } from 'rxjs/operators';
-import { Subject, Observable } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { AppState } from '@/core/store';
-import { Privilege } from '@/core/modules/role-api/shared';
+import { Subject, Observable } from 'rxjs';
+import { takeUntil, map } from 'rxjs/operators';
+
+import { Privilege } from '@core/modules/role-api/shared';
 import {
   selectPrivilegesLoading,
   allPrivilegesRequested,
   selectAllPrivileges,
   createPrivilegeRequested
-} from '@/core/modules/role-api/store/privilege';
-import { COLUMN_KEY, COLUMN_LABEL, ACTION_LABEL, CommonConstants, BS_ICON } from '@/shared/constants';
-import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
-import { DialogService } from '@/shared/services';
-import { DIALOG_MODE } from '@/shared/models/dialog/dialog-mode.enum';
-import { IDialogResult } from '@/shared/models/dialog/dialog-result';
-import { DialogCreateEditModel, DIALOG_TYPE } from '@/shared/models';
+} from '@core/modules/role-api/store/privilege';
+import { AppState } from '@core/store';
+import { COLUMN_KEY, COLUMN_LABEL, ACTION_LABEL, CommonConstants, BS_ICON } from '@shared/constants';
+import { DialogCreateEditModel, DIALOG_TYPE } from '@shared/models';
+import { DialogDataModel } from '@shared/models/dialog/dialog-data.model';
+import { DIALOG_MODE } from '@shared/models/dialog/dialog-mode.enum';
+import { IDialogResult } from '@shared/models/dialog/dialog-result';
+import { DialogService } from '@shared/services';
 
 import { AddPrivilegeDialogComponent } from '../add-dialog/add-privilege-dialog.component';
 

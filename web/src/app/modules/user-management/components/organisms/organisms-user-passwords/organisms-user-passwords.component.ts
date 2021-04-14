@@ -1,12 +1,13 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AppState } from '@/core/store';
-import { IconsService } from '@/core/services';
-import { changeOldPassword } from '@/core/modules/user-api/store';
-import { NewPassword } from '@/shared/models';
-import { ConfirmPasswordValidator } from '@/shared/validators';
-import { ACTION_LABEL, BS_ICON, INPUT_TYPE } from '@/shared/constants';
+
+import { changeOldPassword } from '@core/modules/user-api/store';
+import { IconsService } from '@core/services';
+import { AppState } from '@core/store';
+import { ACTION_LABEL, BS_ICON, INPUT_TYPE } from '@shared/constants';
+import { NewPassword } from '@shared/models';
+import { ConfirmPasswordValidator } from '@shared/validators';
 
 @Component({
   selector: 'organisms-user-passwords',

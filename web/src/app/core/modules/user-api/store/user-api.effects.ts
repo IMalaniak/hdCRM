@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
+import { Update } from '@ngrx/entity';
 import { of } from 'rxjs';
 import { mergeMap, map, catchError, tap, switchMap } from 'rxjs/operators';
-import { Update } from '@ngrx/entity';
-import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { ToastMessageService } from '@/shared/services';
-import { CollectionApiResponse, ItemApiResponse, BaseMessage } from '@/shared/models';
-import { Page } from '@/shared/store';
-import { generatePageKey } from '@/shared/utils/generatePageKey';
+
+import { CollectionApiResponse, ItemApiResponse, BaseMessage } from '@shared/models';
+import { ToastMessageService } from '@shared/services';
+import { Page } from '@shared/store';
+import { generatePageKey } from '@shared/utils/generatePageKey';
 
 import { UserService } from '../services';
 import { User } from '../shared';

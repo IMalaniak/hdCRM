@@ -1,12 +1,13 @@
-import { Component, ChangeDetectionStrategy, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ComponentType } from '@angular/cdk/portal';
-import { Privilege } from '@/core/modules/role-api/shared';
-import { ACTION_LABEL, THEME_PALETTE } from '@/shared/constants';
-import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
-import { DialogCreateEditModel, IDialogResult } from '@/shared/models';
-import { DialogCreateEditPageModel } from '@/shared/components';
+import { Component, ChangeDetectionStrategy, OnInit, Inject } from '@angular/core';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+import { Privilege } from '@core/modules/role-api/shared';
+import { DialogCreateEditPageModel } from '@shared/components';
+import { ACTION_LABEL, THEME_PALETTE } from '@shared/constants';
+import { DialogCreateEditModel, IDialogResult } from '@shared/models';
+import { DialogDataModel } from '@shared/models/dialog/dialog-data.model';
 
 @Component({
   templateUrl: 'add-privilege-dialog.component.html',

@@ -1,9 +1,10 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { User } from '@/core/modules/user-api/shared';
-import { selectAllUsers } from '@/core/modules/user-api/store';
-import { PageQuery } from '@/shared/models';
-import { generatePageKey } from '@/shared/utils/generatePageKey';
-import { Page } from '@/shared/store';
+
+import { User } from '@core/modules/user-api/shared';
+import { selectAllUsers } from '@core/modules/user-api/store';
+import { PageQuery } from '@shared/models';
+import { Page } from '@shared/store';
+import { generatePageKey } from '@shared/utils/generatePageKey';
 
 import { userManagementFeatureKey, UserListState } from './user.reducer';
 

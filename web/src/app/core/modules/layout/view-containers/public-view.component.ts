@@ -1,6 +1,7 @@
-import { IconsService } from '@/core/services';
-import { BS_ICON } from '@/shared/constants';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+
+import { IconsService } from '@core/services';
+import { BS_ICON } from '@shared/constants';
 
 @Component({
   template: `

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Manager, Socket } from 'socket.io-client';
-import { Observable } from 'rxjs';
 import { environment } from 'environments/environment';
+import { Observable } from 'rxjs';
+import { Manager, Socket } from 'socket.io-client';
 
 import { SOCKET_EVENT } from '../constants';
 

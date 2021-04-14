@@ -1,10 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormControl, FormGroup, AbstractControl } from '@angular/forms';
+import { Store, select } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
-import { IconsService } from '@/core/services';
-import { User } from '@/core/modules/user-api/shared';
+
+import { User } from '@core/modules/user-api/shared';
+import { IconsService } from '@core/services';
 import {
   CommonConstants,
   ACTION_LABEL,
@@ -15,10 +16,10 @@ import {
   ORGANIZATION_TYPE,
   BS_ICON,
   INPUT_TYPE
-} from '@/shared/constants';
+} from '@shared/constants';
 
-import { AuthState } from '../../store/auth.reducer';
 import { registerUser } from '../../store/auth.actions';
+import { AuthState } from '../../store/auth.reducer';
 import { isLoading } from '../../store/auth.selectors';
 
 @Component({

@@ -1,6 +1,7 @@
 import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
-import { THEME_PALETTE, MAT_BUTTON, BS_ICON } from '@/shared/constants';
-import { User } from '@/core/modules/user-api/shared';
+
+import { User } from '@core/modules/user-api/shared';
+import { THEME_PALETTE, MAT_BUTTON, BS_ICON } from '@shared/constants';
 
 @Component({
   selector: 'molecules-user-list-sm-item',

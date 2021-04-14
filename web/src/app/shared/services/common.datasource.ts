@@ -1,7 +1,8 @@
 import { DataSource } from '@angular/cdk/collections';
-import { Observable, BehaviorSubject } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppState } from '@/core/store';
+import { Observable, BehaviorSubject } from 'rxjs';
+
+import { AppState } from '@core/store';
 
 import { PageQuery } from '../models';
 import { DataRow } from '../models/table';

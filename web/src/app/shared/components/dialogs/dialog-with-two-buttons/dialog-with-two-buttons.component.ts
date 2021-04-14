@@ -1,9 +1,10 @@
-import { Component, HostListener, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { ComponentType } from '@angular/cdk/portal';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DOCUMENT } from '@angular/common';
-import { DialogDataModel, DialogWithTwoButtonModel } from '@/shared/models';
-import { THEME_PALETTE } from '@/shared/constants';
+import { Component, HostListener, ChangeDetectionStrategy, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+import { THEME_PALETTE } from '@shared/constants';
+import { DialogDataModel, DialogWithTwoButtonModel } from '@shared/models';
 
 import { DialogBaseModel } from '../models/dialog-base.model';
 

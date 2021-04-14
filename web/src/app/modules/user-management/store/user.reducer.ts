@@ -1,7 +1,8 @@
 import { Action, on, createReducer } from '@ngrx/store';
-import * as userApiActions from '@/core/modules/user-api/store/user-api.actions';
-import { initialListState, pagesAdapter, ListState, LIST_DISPLAY_MODE } from '@/shared/store';
-import { User } from '@/core/modules/user-api/shared';
+
+import { User } from '@core/modules/user-api/shared';
+import * as userApiActions from '@core/modules/user-api/store/user-api.actions';
+import { initialListState, pagesAdapter, ListState, LIST_DISPLAY_MODE } from '@shared/store';
 
 import * as userActions from './user.actions';
 

@@ -1,6 +1,6 @@
 import * as _components from './components';
-import * as _pipes from './pipes';
 import * as _directives from './directives';
+import * as _pipes from './pipes';
 
 const ATOMS = [
   _components.AtomsIconButtonComponent,

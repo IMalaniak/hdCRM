@@ -2,8 +2,9 @@ import { Component, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormControl, Validators } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CommonConstants, InputErrorConstants } from '@/shared/constants';
-import { SharedModule } from '@/shared/shared.module';
+
+import { CommonConstants, InputErrorConstants } from '@shared/constants';
+import { SharedModule } from '@shared/shared.module';
 
 import { InputValidationComponent } from './input-validation.component';
 

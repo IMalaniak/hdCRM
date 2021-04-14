@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap, filter, first } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
-import { AppState } from '@/core/store';
-import { formRequested, selectFormByName } from '@/core/store/dynamic-form';
-import { DynamicForm } from '@/shared/models';
-import { RoutingDataConstants } from '@/shared/constants';
+
+import { AppState } from '@core/store';
+import { formRequested, selectFormByName } from '@core/store/dynamic-form';
+import { RoutingDataConstants } from '@shared/constants';
+import { DynamicForm } from '@shared/models';
 
 @Injectable()
 export class DynamicFormResolver implements Resolve<DynamicForm> {

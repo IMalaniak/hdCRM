@@ -1,7 +1,8 @@
 import { Component, ChangeDetectionStrategy, Input, OnChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { DynamicForm } from '@/shared/models';
-import { DynamicFormService } from '@/core/services/dynamic-form.service';
+
+import { DynamicFormService } from '@core/services/dynamic-form.service';
+import { DynamicForm } from '@shared/models';
 
 @Component({
   selector: 'dynamic-form',

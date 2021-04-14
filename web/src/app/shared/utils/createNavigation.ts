@@ -1,4 +1,4 @@
-import { LINK_TARGET, LINK_TYPE } from '@/shared/constants';
+import { LINK_TARGET, LINK_TYPE } from '@shared/constants';
 
 import { Navigation } from '../models';
 

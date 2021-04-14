@@ -1,14 +1,15 @@
 import { select } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { listPageRequested } from '@/core/modules/user-api/store';
-import { User } from '@/core/modules/user-api/shared';
-import { PageQuery } from '@/shared/models';
-import { CommonDataSource } from '@/shared/services';
-import { Cell, DataRow } from '@/shared/models/table';
-import { COLUMN_KEY } from '@/shared/constants/table.constants';
-import { createNavigation, UrlGenerator } from '@/shared/utils';
-import { CommonConstants, LINK_TARGET, LINK_TYPE } from '@/shared/constants';
+
+import { User } from '@core/modules/user-api/shared';
+import { listPageRequested } from '@core/modules/user-api/store';
+import { CommonConstants, LINK_TARGET, LINK_TYPE } from '@shared/constants';
+import { COLUMN_KEY } from '@shared/constants/table.constants';
+import { PageQuery } from '@shared/models';
+import { Cell, DataRow } from '@shared/models/table';
+import { CommonDataSource } from '@shared/services';
+import { createNavigation, UrlGenerator } from '@shared/utils';
 
 import { selectUsersPage } from '../store';
 

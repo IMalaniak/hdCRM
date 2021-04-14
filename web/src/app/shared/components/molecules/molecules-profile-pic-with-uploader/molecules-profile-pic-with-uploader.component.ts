@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { Asset } from '@/shared/models';
-import { BS_ICON, MAT_BUTTON, THEME_PALETTE } from '@/shared/constants';
+
+import { BS_ICON, MAT_BUTTON, THEME_PALETTE } from '@shared/constants';
+import { Asset } from '@shared/models';
 
 @Component({
   selector: 'molecules-profile-pic-with-uploader',

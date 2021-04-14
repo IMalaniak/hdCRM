@@ -1,6 +1,7 @@
-import { createReducer, on, Action } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { DynamicForm } from '@/shared/models';
+import { createReducer, on, Action } from '@ngrx/store';
+
+import { DynamicForm } from '@shared/models';
 
 import * as dynamicFormActions from './dynamic-form.actions';
 

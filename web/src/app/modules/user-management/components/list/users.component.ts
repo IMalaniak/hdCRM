@@ -1,29 +1,30 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store, select } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
-import { AppState } from '@/core/store';
-import { User, USER_STATE } from '@/core/modules/user-api/shared';
-import { deleteUser, inviteUsers, onlineUserListRequested } from '@/core/modules/user-api/store';
-import { isPrivileged, currentUser } from '@/core/modules/auth/store/auth.selectors';
-import { IconsService } from '@/core/services';
-import { DialogCreateEditModel, DialogDataModel, DIALOG_MODE, DIALOG_TYPE, IDialogResult } from '@/shared/models';
-import { RoutingConstants, CommonConstants, BS_ICON } from '@/shared/constants';
-import { ADD_PRIVILEGE, EDIT_PRIVILEGE, DELETE_PRIVILEGE, COLUMN_KEY } from '@/shared/constants';
-import { LIST_DISPLAY_MODE } from '@/shared/store';
-import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
-import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
-import { DialogService } from '@/shared/services';
-import { RowActionData, ROW_ACTION_TYPE, Column, IColumn } from '@/shared/models/table';
 
+import { isPrivileged, currentUser } from '@core/modules/auth/store/auth.selectors';
+import { User, USER_STATE } from '@core/modules/user-api/shared';
+import { deleteUser, inviteUsers, onlineUserListRequested } from '@core/modules/user-api/store';
+import { IconsService } from '@core/services';
+import { AppState } from '@core/store';
+import { DialogConfirmComponent } from '@shared/components/dialogs/dialog-confirm/dialog-confirm.component';
+import { RoutingConstants, CommonConstants, BS_ICON } from '@shared/constants';
+import { ADD_PRIVILEGE, EDIT_PRIVILEGE, DELETE_PRIVILEGE, COLUMN_KEY } from '@shared/constants';
+import { DialogCreateEditModel, DialogDataModel, DIALOG_MODE, DIALOG_TYPE, IDialogResult } from '@shared/models';
+import { DialogConfirmModel } from '@shared/models/dialog/dialog-confirm.model';
+import { RowActionData, ROW_ACTION_TYPE, Column, IColumn } from '@shared/models/table';
+import { DialogService } from '@shared/services';
+import { LIST_DISPLAY_MODE } from '@shared/store';
+
+import { UsersDataSource } from '../../dataSources';
 import {
   selectListDisplayMode,
   selectPreselectedUsersIds,
   selectUserPageLoading,
   selectUsersTotalCount
 } from '../../store';
-import { UsersDataSource } from '../../dataSources';
 import { InvitationDialogComponent } from '../invitation-dialog/invitation-dialog.component';
 
 @Component({

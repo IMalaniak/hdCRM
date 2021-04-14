@@ -2,9 +2,10 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
-import { DialogWithTwoButtonModel } from '@/shared/models';
-import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
-import { SharedModule } from '@/shared/shared.module';
+
+import { DialogWithTwoButtonModel } from '@shared/models';
+import { DialogDataModel } from '@shared/models/dialog/dialog-data.model';
+import { SharedModule } from '@shared/shared.module';
 
 import { OrganismsUserDetailsDialogComponent } from './organisms-user-details-dialog.component';
 

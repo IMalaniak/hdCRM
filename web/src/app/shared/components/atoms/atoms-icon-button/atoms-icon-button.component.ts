@@ -1,5 +1,6 @@
 import { Component, Input, HostBinding, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { THEME_PALETTE, BUTTON_TYPE, MAT_BUTTON } from '@/shared/constants';
+
+import { THEME_PALETTE, BUTTON_TYPE, MAT_BUTTON } from '@shared/constants';
 
 @Component({
   selector: 'atoms-icon-button',

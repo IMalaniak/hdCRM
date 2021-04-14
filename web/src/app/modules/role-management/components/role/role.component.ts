@@ -3,11 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
-import { AppState } from '@/core/store';
-import { Role } from '@/core/modules/role-api/shared';
-import { selectRoleDeepById, roleRequested, updateRoleRequested } from '@/core/modules/role-api/store/role';
-import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
-import { EDIT_PRIVILEGE } from '@/shared/constants';
+
+import { isPrivileged } from '@core/modules/auth/store/auth.selectors';
+import { Role } from '@core/modules/role-api/shared';
+import { selectRoleDeepById, roleRequested, updateRoleRequested } from '@core/modules/role-api/store/role';
+import { AppState } from '@core/store';
+import { EDIT_PRIVILEGE } from '@shared/constants';
 
 import { cacheRole, changeIsEditingState, restoreFromCache, selectIsEditing } from '../../store';
 

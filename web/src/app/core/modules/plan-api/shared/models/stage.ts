@@ -1,5 +1,5 @@
-import { PlanStage } from './planStage';
 import { Plan } from './plan';
+import { PlanStage } from './planStage';
 
 export interface Stage {
   id: number;

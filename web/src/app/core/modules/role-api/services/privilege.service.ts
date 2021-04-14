@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ApiRoutesConstants } from '@/shared/constants';
-import { BaseCrudService } from '@/shared/services';
+import { Injectable } from '@angular/core';
+
+import { ApiRoutesConstants } from '@shared/constants';
+import { BaseCrudService } from '@shared/services';
 
 @Injectable()
 export class PrivilegeService extends BaseCrudService {

@@ -1,8 +1,9 @@
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/portal';
 import { Component, Inject } from '@angular/core';
-import { DIALOG_MODE } from '@/shared/models/dialog/dialog-mode.enum';
-import { DialogCreateEditModel, DialogDataModel } from '@/shared/models';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+import { DialogCreateEditModel, DialogDataModel } from '@shared/models';
+import { DIALOG_MODE } from '@shared/models/dialog/dialog-mode.enum';
 
 import { DialogBaseModel } from './dialog-base.model';
 

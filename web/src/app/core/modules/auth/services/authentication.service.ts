@@ -1,10 +1,11 @@
-﻿import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { User, Organization } from '@/core/modules/user-api/shared';
-import { BaseMessage, NewPassword, JwtDecoded, ItemApiResponse } from '@/shared/models';
+﻿import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { ApiRoutesConstants } from '@/shared/constants';
+import { Observable } from 'rxjs';
+
+import { User, Organization } from '@core/modules/user-api/shared';
+import { ApiRoutesConstants } from '@shared/constants';
+import { BaseMessage, NewPassword, JwtDecoded, ItemApiResponse } from '@shared/models';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {

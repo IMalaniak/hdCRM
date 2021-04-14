@@ -1,12 +1,13 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import { AppState } from '@/core/store';
-import { getPreferencesState, Preferences } from '@/core/store/preferences';
-import { getSessionId, currentUser } from '@/core/modules/auth/store/auth.selectors';
-import { User } from '@/core/modules/user-api/shared';
-import { selectUserApiIsLoading } from '@/core/modules/user-api/store';
-import { TAB_NAME } from '@/shared/constants';
+import { Observable } from 'rxjs';
+
+import { getSessionId, currentUser } from '@core/modules/auth/store/auth.selectors';
+import { User } from '@core/modules/user-api/shared';
+import { selectUserApiIsLoading } from '@core/modules/user-api/store';
+import { AppState } from '@core/store';
+import { getPreferencesState, Preferences } from '@core/store/preferences';
+import { TAB_NAME } from '@shared/constants';
 
 import { selectIsEditing } from '../../store';
 

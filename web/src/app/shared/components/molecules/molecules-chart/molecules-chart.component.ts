@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { SingleChartDataModel } from '@/shared/models';
+
+import { SingleChartDataModel } from '@shared/models';
 
 @Component({
   selector: 'molecules-chart',

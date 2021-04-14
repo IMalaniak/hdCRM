@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
-import { DialogConfirmModel, DialogDataModel } from '@/shared/models';
-import { SharedModule } from '@/shared/shared.module';
+
+import { DialogConfirmModel, DialogDataModel } from '@shared/models';
+import { SharedModule } from '@shared/shared.module';
 
 import { DialogConfirmComponent } from './dialog-confirm.component';
 

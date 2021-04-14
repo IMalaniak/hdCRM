@@ -1,6 +1,7 @@
-import { createAction, props } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
-import { Notification } from '@/shared/models';
+import { createAction, props } from '@ngrx/store';
+
+import { Notification } from '@shared/models';
 
 const prefix = '[Notifications]';
 

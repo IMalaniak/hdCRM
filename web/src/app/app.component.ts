@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { appRouterTransition } from '@/shared/animations';
 import { RouterOutlet } from '@angular/router';
+
+import { appRouterTransition } from '@shared/animations';
 
 @Component({
   selector: 'app-root',

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap, skipWhile } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
-import { RoutingConstants } from '@/shared/constants';
 
-import { AppState } from '../store';
+import { RoutingConstants } from '@shared/constants';
+
 import { isLoggedOut, isLoading } from '../modules/auth/store/auth.selectors';
+import { AppState } from '../store';
 
 @Injectable({ providedIn: 'root' })
 export class PublicGuard implements CanActivate {

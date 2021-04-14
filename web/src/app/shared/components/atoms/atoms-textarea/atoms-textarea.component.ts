@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, Optional, Self } from '@angular/core';
-import { MatFormFieldControl } from '@angular/material/form-field';
 import { NgControl } from '@angular/forms';
+import { MatFormFieldControl } from '@angular/material/form-field';
 
 import { BaseControlValueAccessorComponentModel } from '../../base/componentModels';
 

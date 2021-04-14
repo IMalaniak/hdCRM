@@ -1,10 +1,12 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, OnChanges } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { MatRadioChange } from '@angular/material/radio';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { Observable } from 'rxjs';
+import { MatRadioChange } from '@angular/material/radio';
 import { Store, select } from '@ngrx/store';
-import { AppState } from '@/core/store';
+import { Observable } from 'rxjs';
+
+import { enableDarkTheme } from '@core/modules/layout/store/layout.actions';
+import { AppState } from '@core/store';
 import {
   changeTimeFormat,
   changeDateFormat,
@@ -15,8 +17,7 @@ import {
   Preferences,
   getPreferencesList,
   changeListBordersVisibility
-} from '@/core/store/preferences';
-import { enableDarkTheme } from '@/core/modules/layout/store/layout.actions';
+} from '@core/store/preferences';
 
 @Component({
   selector: 'organisms-user-preferences',

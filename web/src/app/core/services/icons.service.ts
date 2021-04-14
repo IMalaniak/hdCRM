@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { BS_ICON, ICON } from '@/shared/constants';
+
+import { BS_ICON, ICON } from '@shared/constants';
 
 type LibFolder = 'bs-icons' | 'icons';
 

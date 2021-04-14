@@ -8,12 +8,13 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
-import { MatFormFieldControl } from '@angular/material/form-field';
 import { NgControl } from '@angular/forms';
-import { ThemePalette } from '@angular/material/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { ThemePalette } from '@angular/material/core';
+import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatRadioChange } from '@angular/material/radio';
-import { FIELD_TYPE, THEME_PALETTE } from '@/shared/constants';
+
+import { FIELD_TYPE, THEME_PALETTE } from '@shared/constants';
 
 import { BaseControlValueAccessorComponentModel } from '../../base/componentModels';
 

@@ -1,17 +1,18 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Store } from '@ngrx/store';
-import { initialPreferencesState } from '@/core/store/preferences';
-import { AppState } from '@/core/store';
-import { initialLayoutState } from '@/core/modules/layout/store';
-import { Cell, Column, DataRow, IColumn } from '@/shared/models/table';
-import { SharedModule } from '@/shared/shared.module';
-import { COLUMN_KEY } from '@/shared/constants';
-import { CommonDataSource } from '@/shared/services';
-import { PageQuery } from '@/shared/models';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+
+import { initialLayoutState } from '@core/modules/layout/store';
+import { AppState } from '@core/store';
+import { initialPreferencesState } from '@core/store/preferences';
+import { COLUMN_KEY } from '@shared/constants';
+import { PageQuery } from '@shared/models';
+import { Cell, Column, DataRow, IColumn } from '@shared/models/table';
+import { CommonDataSource } from '@shared/services';
+import { SharedModule } from '@shared/shared.module';
 
 import { TableComponent } from './table.component';
 

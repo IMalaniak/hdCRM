@@ -1,16 +1,17 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ComponentType } from '@angular/cdk/portal';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, Inject } from '@angular/core';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Store, select } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
-import { AppState } from '@/core/store';
-import { User } from '@/core/modules/user-api/shared';
-import { selectAllUsers } from '@/core/modules/user-api/store';
-import { CommonConstants, ACTION_LABEL, MAT_BUTTON, THEME_PALETTE, BS_ICON, INPUT_TYPE } from '@/shared/constants';
-import { DialogCreateEditModel, DialogDataModel, IDialogResult } from '@/shared/models';
-import { DialogBaseModel } from '@/shared/components';
+
+import { User } from '@core/modules/user-api/shared';
+import { selectAllUsers } from '@core/modules/user-api/store';
+import { AppState } from '@core/store';
+import { DialogBaseModel } from '@shared/components';
+import { CommonConstants, ACTION_LABEL, MAT_BUTTON, THEME_PALETTE, BS_ICON, INPUT_TYPE } from '@shared/constants';
+import { DialogCreateEditModel, DialogDataModel, IDialogResult } from '@shared/models';
 
 @Component({
   templateUrl: './invitation-dialog.component.html',

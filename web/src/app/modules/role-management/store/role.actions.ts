@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { Role } from '@/core/modules/role-api/shared';
+
+import { Role } from '@core/modules/role-api/shared';
 
 const detailsPrefix = '[Role Details]';
 

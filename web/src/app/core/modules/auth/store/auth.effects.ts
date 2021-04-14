@@ -1,18 +1,19 @@
-import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
-import { tap, map, switchMap, catchError, concatMap, withLatestFrom, mergeMap, exhaustMap } from 'rxjs/operators';
 import { Actions, ofType, createEffect, OnInitEffects } from '@ngrx/effects';
 import { Store, select, Action } from '@ngrx/store';
-import { AppState } from '@/core/store';
-import { initPreferences } from '@/core/store/preferences';
-import { selectUrl } from '@/core/store/router.selectors';
-import { Organization, User } from '@/core/modules/user-api/shared';
-import { SocketService, ToastMessageService } from '@/shared/services';
-import { BaseMessage, ItemApiResponse } from '@/shared/models';
-import { SOCKET_EVENT, RoutingConstants, CommonConstants } from '@/shared/constants';
-import { changeIsEditingState } from '@/modules/user-management/store';
+import { of } from 'rxjs';
+import { tap, map, switchMap, catchError, concatMap, withLatestFrom, mergeMap, exhaustMap } from 'rxjs/operators';
+
+import { Organization, User } from '@core/modules/user-api/shared';
+import { AppState } from '@core/store';
+import { initPreferences } from '@core/store/preferences';
+import { selectUrl } from '@core/store/router.selectors';
+import { changeIsEditingState } from '@modules/user-management/store';
+import { SOCKET_EVENT, RoutingConstants, CommonConstants } from '@shared/constants';
+import { BaseMessage, ItemApiResponse } from '@shared/models';
+import { SocketService, ToastMessageService } from '@shared/services';
 
 import { AuthenticationService } from '../services';
 

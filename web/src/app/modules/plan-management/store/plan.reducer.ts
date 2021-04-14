@@ -1,7 +1,8 @@
 import { createReducer, on, Action } from '@ngrx/store';
-import * as planApiActions from '@/core/modules/plan-api/store/plan/plan.actions';
-import { Plan } from '@/core/modules/plan-api/shared';
-import { initialListState, ListState, pagesAdapter } from '@/shared/store';
+
+import { Plan } from '@core/modules/plan-api/shared';
+import * as planApiActions from '@core/modules/plan-api/store/plan/plan.actions';
+import { initialListState, ListState, pagesAdapter } from '@shared/store';
 
 import * as planActions from './plan.actions';
 

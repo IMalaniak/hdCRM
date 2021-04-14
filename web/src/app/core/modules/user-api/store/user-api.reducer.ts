@@ -1,6 +1,7 @@
-import { Action, on, createReducer } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { partialDataLoaded } from '@/core/store/normalization';
+import { Action, on, createReducer } from '@ngrx/store';
+
+import { partialDataLoaded } from '@core/store/normalization';
 
 import { User } from '../shared';
 

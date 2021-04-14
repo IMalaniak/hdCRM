@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StoreModule } from '@ngrx/store';
+import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 
-import { usersFeatureKey, reducer, UserEffects } from './store';
 import { UserService } from './services';
+import { usersFeatureKey, reducer, UserEffects } from './store';
 
 @NgModule({
   imports: [CommonModule, StoreModule.forFeature(usersFeatureKey, reducer), EffectsModule.forFeature([UserEffects])],

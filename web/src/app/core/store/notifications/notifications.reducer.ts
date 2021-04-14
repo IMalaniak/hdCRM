@@ -1,6 +1,7 @@
-import { createReducer, on, Action } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Notification } from '@/shared/models';
+import { createReducer, on, Action } from '@ngrx/store';
+
+import { Notification } from '@shared/models';
 
 import * as notificationsActions from './notifications.actions';
 

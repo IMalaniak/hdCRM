@@ -1,7 +1,8 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Asset } from '@/shared/models';
 import { environment } from 'environments/environment';
-import { CommonConstants } from '@/shared/constants';
+
+import { CommonConstants } from '@shared/constants';
+import { Asset } from '@shared/models';
 
 @Component({
   selector: 'atoms-user-pic',

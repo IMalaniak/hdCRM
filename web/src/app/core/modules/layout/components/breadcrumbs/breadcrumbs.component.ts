@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { select, Store } from '@ngrx/store';
-import { AppState } from '@/core/store';
-import { selectRoute } from '@/core/store/router.selectors';
-import { BS_ICON, RoutingConstants } from '@/shared/constants';
+
+import { AppState } from '@core/store';
+import { selectRoute } from '@core/store/router.selectors';
+import { BS_ICON, RoutingConstants } from '@shared/constants';
 
 import { Breadcrumb } from './breadcrumb';
 

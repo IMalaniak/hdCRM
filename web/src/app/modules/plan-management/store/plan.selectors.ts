@@ -1,13 +1,14 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Dictionary } from '@ngrx/entity';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { denormalize } from 'normalizr';
-import { planListSchema } from '@/core/store/normalization';
-import { Plan } from '@/core/modules/plan-api/shared';
-import { selectAllPlanEntities } from '@/core/modules/plan-api/store/plan/plan.selectors';
-import { selectAllUserEntities } from '@/core/modules/user-api/store';
-import { ListState, Page } from '@/shared/store';
-import { PageQuery } from '@/shared/models';
-import { generatePageKey } from '@/shared/utils/generatePageKey';
+
+import { Plan } from '@core/modules/plan-api/shared';
+import { selectAllPlanEntities } from '@core/modules/plan-api/store/plan/plan.selectors';
+import { selectAllUserEntities } from '@core/modules/user-api/store';
+import { planListSchema } from '@core/store/normalization';
+import { PageQuery } from '@shared/models';
+import { ListState, Page } from '@shared/store';
+import { generatePageKey } from '@shared/utils/generatePageKey';
 
 import { plansFeatureKey } from './plan.reducer';
 
@@ -25,9 +26,8 @@ export const selectPlansOfPage = (pageQuery: PageQuery) =>
     selectAllPlanEntities,
     selectPlanPageByKey(pageQuery),
     selectAllUserEntities,
-    (planEntities: Dictionary<Plan>, page: Page, userEntities) => page
-        ? (denormalize(page.dataIds, planListSchema, { Users: userEntities, Plans: planEntities }) as Plan[])
-        : []
+    (planEntities: Dictionary<Plan>, page: Page, userEntities) =>
+      page ? (denormalize(page.dataIds, planListSchema, { Users: userEntities, Plans: planEntities }) as Plan[]) : []
   );
 
 export const selectIsEditing = createSelector(selectPlansState, (plansState) => plansState?.isEditing);

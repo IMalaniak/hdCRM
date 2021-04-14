@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { Department } from '@/core/modules/department-api/shared';
+
+import { Department } from '@core/modules/department-api/shared';
 
 const detailsPrefix = '[Department Details]';
 

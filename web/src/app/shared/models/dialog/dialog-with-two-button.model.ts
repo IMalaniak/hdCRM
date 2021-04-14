@@ -1,4 +1,4 @@
-import { DialogConstants } from '@/shared/constants';
+import { DialogConstants } from '@shared/constants';
 
 export class DialogWithTwoButtonModel {
   constructor(

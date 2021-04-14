@@ -1,15 +1,16 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
+import { Store, select } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
-import { AppState } from '@/core/store';
-import { IconsService, MediaQueryService } from '@/core/services';
-import { BS_ICON } from '@/shared/constants';
-import { privateRouterTransition } from '@/shared/animations';
 
-import * as layoutActions from '../store/layout.actions';
+import { IconsService, MediaQueryService } from '@core/services';
+import { AppState } from '@core/store';
+import { privateRouterTransition } from '@shared/animations';
+import { BS_ICON } from '@shared/constants';
+
 import * as fromLayout from '../store';
+import * as layoutActions from '../store/layout.actions';
 
 @Component({
   template: `

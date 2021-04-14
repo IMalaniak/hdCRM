@@ -1,15 +1,16 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
-import { initialUsersState } from '@/core/modules/user-api/store';
-import { initialPreferencesState } from '@/core/store/preferences';
-import { initialDepartmentApiState } from '@/core/modules/department-api/store';
-import { initialLayoutState } from '@/core/modules/layout/store';
-import { initialListState } from '@/shared/store';
-import { SharedModule } from '@/shared/shared.module';
-import { authStateMock } from '@/shared/testing/mocks';
+
+import { initialDepartmentApiState } from '@core/modules/department-api/store';
+import { initialLayoutState } from '@core/modules/layout/store';
+import { initialUsersState } from '@core/modules/user-api/store';
+import { initialPreferencesState } from '@core/store/preferences';
+import { SharedModule } from '@shared/shared.module';
+import { initialListState } from '@shared/store';
+import { authStateMock } from '@shared/testing/mocks';
 
 import { DepartmentsComponent } from './departments.component';
 

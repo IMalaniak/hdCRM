@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { SharedModule } from '@/shared/shared.module';
+import { StoreModule } from '@ngrx/store';
 
-import { PublicViewComponent, PrivateViewComponent } from './view-containers';
+import { SharedModule } from '@shared/shared.module';
+
 import {
   BreadcrumbsComponent,
   HeaderComponent,
@@ -16,8 +16,9 @@ import {
   NotificationsComponent,
   UserDropdownComponent
 } from './components';
-import * as fromLayout from './store/layout.reducer';
 import { LayoutEffects } from './store/layout.effects';
+import * as fromLayout from './store/layout.reducer';
+import { PublicViewComponent, PrivateViewComponent } from './view-containers';
 
 @NgModule({
   imports: [

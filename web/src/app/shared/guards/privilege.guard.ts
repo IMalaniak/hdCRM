@@ -1,12 +1,13 @@
 ﻿import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap, skipWhile } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
-import { AppState } from '@/core/store';
-import { isPrivileged } from '@/core/modules/auth/store/auth.selectors';
-import { ToastMessageService } from '@/shared/services';
-import { CommonConstants } from '@/shared/constants';
+
+import { isPrivileged } from '@core/modules/auth/store/auth.selectors';
+import { AppState } from '@core/store';
+import { CommonConstants } from '@shared/constants';
+import { ToastMessageService } from '@shared/services';
 
 @Injectable({ providedIn: 'root' })
 export class PrivilegeGuard implements CanActivate {

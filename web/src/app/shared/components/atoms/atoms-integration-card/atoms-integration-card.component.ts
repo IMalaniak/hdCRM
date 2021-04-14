@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonConstants } from '@/shared/constants';
+
+import { CommonConstants } from '@shared/constants';
 
 @Component({
   selector: 'atoms-integration-card',

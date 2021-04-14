@@ -1,15 +1,16 @@
 import { Component, OnChanges, Input, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { UAParser } from 'ua-parser-js';
-import { AppState } from '@/core/store';
-import { IconsService } from '@/core/services';
-import { deleteSession, deleteMultipleSession } from '@/core/modules/auth/store/auth.actions';
-import { User, UserSession } from '@/core/modules/user-api/shared';
-import { MAT_BUTTON, THEME_PALETTE, CommonConstants, BS_ICON } from '@/shared/constants';
-import { DialogConfirmModel } from '@/shared/models/dialog/dialog-confirm.model';
-import { DialogDataModel } from '@/shared/models/dialog/dialog-data.model';
-import { DialogConfirmComponent } from '@/shared/components/dialogs/dialog-confirm/dialog-confirm.component';
-import { DialogService } from '@/shared/services';
+
+import { deleteSession, deleteMultipleSession } from '@core/modules/auth/store/auth.actions';
+import { User, UserSession } from '@core/modules/user-api/shared';
+import { IconsService } from '@core/services';
+import { AppState } from '@core/store';
+import { DialogConfirmComponent } from '@shared/components/dialogs/dialog-confirm/dialog-confirm.component';
+import { MAT_BUTTON, THEME_PALETTE, CommonConstants, BS_ICON } from '@shared/constants';
+import { DialogConfirmModel } from '@shared/models/dialog/dialog-confirm.model';
+import { DialogDataModel } from '@shared/models/dialog/dialog-data.model';
+import { DialogService } from '@shared/services';
 
 @Component({
   selector: 'organisms-user-sessions',

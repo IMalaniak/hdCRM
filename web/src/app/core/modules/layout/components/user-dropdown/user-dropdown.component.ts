@@ -1,11 +1,12 @@
 import { Component, ChangeDetectionStrategy, EventEmitter, Output } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { MediaQueryService, IconsService } from '@/core/services';
-import { AppState } from '@/core/store';
-import { currentUser, isPrivileged } from '@/core/modules/auth/store/auth.selectors';
-import { logOut } from '@/core/modules/auth/store/auth.actions';
-import { User } from '@/core/modules/user-api/shared';
+import { Observable } from 'rxjs';
+
+import { logOut } from '@core/modules/auth/store/auth.actions';
+import { currentUser, isPrivileged } from '@core/modules/auth/store/auth.selectors';
+import { User } from '@core/modules/user-api/shared';
+import { MediaQueryService, IconsService } from '@core/services';
+import { AppState } from '@core/store';
 import {
   ACTION_LABEL,
   ADD_PRIVILEGE,
@@ -14,10 +15,10 @@ import {
   MAT_BUTTON,
   RoutingConstants,
   THEME_PALETTE
-} from '@/shared/constants';
+} from '@shared/constants';
 
-import { closeUserDropdown, toggleUserDropdown } from '../../store/layout.actions';
 import { userDropdownVisible } from '../../store';
+import { closeUserDropdown, toggleUserDropdown } from '../../store/layout.actions';
 
 @Component({
   selector: 'user-dropdown-component',

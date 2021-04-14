@@ -1,5 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { FIELD_TYPE } from '@/shared/constants';
+
+import { FIELD_TYPE } from '@shared/constants';
 
 @Component({
   selector: 'atoms-readonly-form-field',

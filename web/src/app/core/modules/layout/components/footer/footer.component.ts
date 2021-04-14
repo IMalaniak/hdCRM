@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { IconsService } from '@/core/services';
-import { ICON } from '@/shared/constants';
+
+import { IconsService } from '@core/services';
+import { ICON } from '@shared/constants';
 
 @Component({
   selector: 'footer-component',

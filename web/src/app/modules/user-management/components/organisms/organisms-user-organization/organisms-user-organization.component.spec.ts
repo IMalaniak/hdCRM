@@ -1,7 +1,8 @@
-import { SharedModule } from '@/shared/shared.module';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
+
+import { SharedModule } from '@shared/shared.module';
 
 import { OrganismsUserOrganizationComponent } from './organisms-user-organization.component';
 

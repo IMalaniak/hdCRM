@@ -1,4 +1,4 @@
-import { TimeStamps } from '@/shared/models/base';
+import { TimeStamps } from '@shared/models/base';
 
 import { User } from '..';
 

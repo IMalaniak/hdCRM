@@ -1,6 +1,6 @@
-import { NOTIFICATION_TYPE } from '@/shared/constants';
-import { DateUtilityService } from '@/shared/services';
-import { Notification } from '@/shared/models';
+import { NOTIFICATION_TYPE } from '@shared/constants';
+import { Notification } from '@shared/models';
+import { DateUtilityService } from '@shared/services';
 
 import { NotificationsService } from './notifications.service';
 
