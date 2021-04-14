@@ -98,7 +98,7 @@ export class AuthController {
         res.json(body.accessToken);
       },
       (error) => {
-        res.status(StatusCodes.BAD_REQUEST);
+        res.status(error.statusCode);
         res.send(error.serializeErrors());
       }
     );

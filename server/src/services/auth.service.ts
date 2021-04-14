@@ -6,7 +6,14 @@ import { Op } from 'sequelize';
 import { BaseResponse, PasswordReset } from '../models';
 import { MAIL_THEME, USER_STATE } from '../constants';
 import { Config } from '../config';
-import { BadRequestError, CustomError, InternalServerError, NotAuthorizedError, NotFoundError } from '../errors';
+import {
+  BadRequestError,
+  CustomError,
+  ForbiddenError,
+  InternalServerError,
+  NotAuthorizedError,
+  NotFoundError
+} from '../errors';
 import {
   OrganizationCreationAttributes,
   UserCreationAttributes,
@@ -140,26 +147,26 @@ export class AuthService {
         attributes: ['id', 'passwordHash', 'salt', 'state']
       });
       if (!user) {
-        return err(new NotFoundError('Sorry, there are no user with this email or login!'));
+        return err(new BadRequestError('Email/Login or password you provided is incorrect!'));
       }
 
       if (user.state === USER_STATE.INITIALIZED) {
         await this.saveLogInAttempt(connection, user, false);
         return err(
-          new NotAuthorizedError(
+          new ForbiddenError(
             'Sorry, Your account is not activated, please use activation link we sent You or contact administrator!'
           )
         );
       } else if (user.state === USER_STATE.DISABLED || user.state === USER_STATE.ARCHIVE) {
         await this.saveLogInAttempt(connection, user, false);
-        return err(new NotAuthorizedError('Sorry, Your account have been disabled, please contact administrator!'));
+        return err(new ForbiddenError('Sorry, Your account have been disabled, please contact administrator!'));
       }
 
       const isMatch = this.crypt.validatePassword(password, user.passwordHash, user.salt);
       if (isMatch) {
         if (this.isPasswordExpired(await user.getPasswordAttributes())) {
           return err(
-            new NotAuthorizedError(
+            new ForbiddenError(
               'Your password has expired, please click on "forgot password" button to reset your password!'
             )
           );
