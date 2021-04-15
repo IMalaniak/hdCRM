@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 
-import { IconsService } from '@core/services';
+import { IconsService } from '@core/services/icons.service';
 import { BS_ICON, NOTIFICATION_TYPE } from '@shared/constants';
 import { ToastMessage } from '@shared/models/toastMessage';
 
