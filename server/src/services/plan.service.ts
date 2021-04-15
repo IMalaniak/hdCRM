@@ -29,7 +29,7 @@ export class PlanService extends BaseService<PlanCreationAttributes, PlanAttribu
   protected readonly includes: IncludeOptions[] = [
     {
       association: Plan.associations?.Creator,
-      attributes: { exclude: ['passwordHash', 'salt'] },
+      attributes: { exclude: ['password'] },
       include: [
         {
           association: User.associations?.avatar
@@ -38,7 +38,7 @@ export class PlanService extends BaseService<PlanCreationAttributes, PlanAttribu
     },
     {
       association: Plan.associations?.Participants,
-      attributes: { exclude: ['passwordHash', 'salt'] },
+      attributes: { exclude: ['password'] },
       through: {
         attributes: []
       },

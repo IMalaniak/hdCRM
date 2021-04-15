@@ -23,7 +23,7 @@ export class DepartmentService extends BaseService<DepartmentCreationAttributes,
     },
     {
       association: Department.associations?.Workers,
-      attributes: { exclude: ['passwordHash', 'salt'] },
+      attributes: { exclude: ['password'] },
       include: [
         {
           association: User.associations?.avatar
@@ -33,7 +33,7 @@ export class DepartmentService extends BaseService<DepartmentCreationAttributes,
     },
     {
       association: Department.associations?.Manager,
-      attributes: { exclude: ['passwordHash', 'salt'] },
+      attributes: { exclude: ['password'] },
       include: [
         {
           association: User.associations?.avatar

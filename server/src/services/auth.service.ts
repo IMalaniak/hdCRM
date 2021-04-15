@@ -2,6 +2,7 @@
 import { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 import { Op } from 'sequelize';
+import * as argon2 from 'argon2';
 
 import { BaseResponse, PasswordReset } from '../models';
 import { MAIL_THEME, USER_STATE } from '../constants';
@@ -41,9 +42,8 @@ export class AuthService {
   public async register(params: {
     organization: OrganizationCreationAttributes;
     user: Partial<UserCreationAttributes>;
-    password: string;
   }): Promise<Result<BaseResponse, CustomError>> {
-    const { organization, user, password } = params;
+    const { organization, user } = params;
 
     try {
       const createdOrg = await Organization.create(organization, {
@@ -78,7 +78,7 @@ export class AuthService {
 
       await this.sendMail(MAIL_THEME.ACTIVATIONN, {
         user: createdUser,
-        tmpPassword: password,
+        tmpPassword: user.password,
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         url: `${Config.WEB_URL!}/auth/activate-account/${token.value}`
       });
@@ -144,7 +144,7 @@ export class AuthService {
             }
           ]
         },
-        attributes: ['id', 'passwordHash', 'salt', 'state']
+        attributes: ['id', 'password', 'state']
       });
       if (!user) {
         return err(new BadRequestError('Email/Login or password you provided is incorrect!'));
@@ -162,7 +162,7 @@ export class AuthService {
         return err(new ForbiddenError('Sorry, Your account have been disabled, please contact administrator!'));
       }
 
-      const isMatch = this.crypt.validatePassword(password, user.passwordHash, user.salt);
+      const isMatch = await argon2.verify(user.password, password);
       if (isMatch) {
         if (this.isPasswordExpired(await user.getPasswordAttributes())) {
           return err(
@@ -282,9 +282,7 @@ export class AuthService {
       if (pa) {
         if (params.newPassword === params.verifyPassword) {
           const user = await pa.getUser();
-          const passwordData = this.crypt.saltHashPassword(params.newPassword);
-          user.passwordHash = passwordData.passwordHash;
-          user.salt = passwordData.salt;
+          user.password = params.newPassword;
           await user.save();
 
           pa.token = null;

@@ -10,17 +10,6 @@ describe('CryptoUtils', () => {
     expect(randomString).lengthOf(12);
   });
 
-  it('should generate hashed password and then validate it', () => {
-    const password = 'HelloThisIsMyPassword';
-    const { salt, passwordHash } = crypt.saltHashPassword(password);
-
-    // put the wrong password => expect false
-    expect(crypt.validatePassword('WrongPassword', passwordHash, salt)).to.equal(false);
-
-    // put the correct password => expect true
-    expect(crypt.validatePassword(password, passwordHash, salt)).to.equal(true);
-  });
-
   it('should set expire minutes', () => {
     const date = new Date();
     const exireIn = crypt.setExpireMinutes(date, 15);

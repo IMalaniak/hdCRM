@@ -26,7 +26,6 @@ export class AuthController {
     req.log.info('Registering new user...');
 
     const password = req.body.password ? req.body.password : this.crypt.genRandomString(12);
-    const passwordData = this.crypt.saltHashPassword(password);
 
     const orgDefaults = {
       Roles: [
@@ -45,15 +44,14 @@ export class AuthController {
     const user: Partial<UserCreationAttributes> = {
       email: req.body.email,
       login: req.body.login,
-      passwordHash: passwordData.passwordHash,
-      salt: passwordData.salt,
+      password,
       name: req.body.name,
       surname: req.body.surname,
       defaultLang: 'en',
       phone: req.body.phone
     };
 
-    const result = await this.authService.register({ organization, user, password });
+    const result = await this.authService.register({ organization, user });
 
     return sendResponse<BaseResponse, CustomError>(result, res);
   }

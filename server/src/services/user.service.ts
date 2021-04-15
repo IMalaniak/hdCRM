@@ -3,6 +3,7 @@ import path from 'path';
 import fs from 'fs';
 import { promisify } from 'util';
 
+import * as argon2 from 'argon2';
 import Container, { Service } from 'typedi';
 import { Op, IncludeOptions } from 'sequelize';
 import { err, ok, Result } from 'neverthrow';
@@ -31,7 +32,7 @@ import { BaseService } from './base/base.service';
 @Service()
 export class UserService extends BaseService<UserCreationAttributes, UserAttributes, User> {
   private readonly unlinkAsync = promisify(fs.unlink);
-  protected excludes: string[] = ['passwordHash', 'salt'];
+  protected excludes: string[] = ['password'];
   protected readonly includes: IncludeOptions[] = [
     {
       association: User.associations?.Role,
@@ -87,11 +88,9 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
           return err(new NotFoundError('User not found!'));
         }
 
-        const validatePassword = this.crypt.validatePassword(passData.oldPassword, user.passwordHash, user.salt);
+        const validatePassword = await argon2.verify(user.password, passData.oldPassword);
         if (validatePassword) {
-          const newPasswordData = this.crypt.saltHashPassword(passData.newPassword);
-          user.passwordHash = newPasswordData.passwordHash;
-          user.salt = newPasswordData.salt;
+          user.password = passData.newPassword;
 
           await user.save();
           await this.sendMail(MAIL_THEME.PASSWORD_RESET_CONFIRM, user);
@@ -211,9 +210,7 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
   public async invite(user: UserAttributes, orgId: number): Promise<Result<ItemApiResponse<User>, CustomError>> {
     try {
       const password = this.crypt.genRandomString(12);
-      const passwordData = this.crypt.saltHashPassword(password);
-      user.passwordHash = passwordData.passwordHash;
-      user.salt = passwordData.salt;
+      user.password = password;
       user.OrganizationId = orgId;
       if (!user.fullname) {
         return err(new BadRequestError('Full name is not provided'));
