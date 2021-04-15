@@ -11,16 +11,6 @@ export class CryptoUtils {
       .slice(0, length); /** return required number of characters */
   }
 
-  private sha512(password: string, salt: string): { salt: string; passwordHash: string } {
-    const hash = crypto.createHmac('sha512', salt); /** Hashing algorithm sha512 */
-    hash.update(password);
-    const value = hash.digest('hex');
-    return {
-      salt,
-      passwordHash: value
-    };
-  }
-
   saltHashPassword(userpassword: string): { salt: string; passwordHash: string } {
     const salt = this.genRandomString(16); /** Gives us salt of length 16 */
     return this.sha512(userpassword, salt);
@@ -52,5 +42,15 @@ export class CryptoUtils {
     const buff = Buffer.from(str, 'base64');
     const encoded = buff.toString('ascii');
     return JSON.parse(encoded) as R;
+  }
+
+  private sha512(password: string, salt: string): { salt: string; passwordHash: string } {
+    const hash = crypto.createHmac('sha512', salt); /** Hashing algorithm sha512 */
+    hash.update(password);
+    const value = hash.digest('hex');
+    return {
+      salt,
+      passwordHash: value
+    };
   }
 }

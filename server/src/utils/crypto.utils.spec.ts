@@ -20,4 +20,19 @@ describe('CryptoUtils', () => {
     // put the correct password => expect true
     expect(crypt.validatePassword(password, passwordHash, salt)).to.equal(true);
   });
+
+  it('should set expire minutes', () => {
+    const date = new Date();
+    const exireIn = crypt.setExpireMinutes(date, 15);
+
+    const diffMs = exireIn.getTime() - date.getTime();
+    const diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
+    expect(diffMins).to.equal(15);
+  });
+
+  it('should generate timelimited token', () => {
+    const timeLimitedToken = crypt.genTimeLimitedToken(15);
+    expect(timeLimitedToken.value.length).to.equal(32);
+    expect(timeLimitedToken.expireDate).to.be.greaterThan(new Date());
+  });
 });
