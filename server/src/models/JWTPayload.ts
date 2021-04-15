@@ -1,11 +1,12 @@
-export interface JwtData {
+export interface JwtPayload {
   userId: number;
   sessionId: number;
 }
 
-export interface JwtPayload {
-  readonly sub: string;
+export interface JwtDecoded {
   readonly aud: string;
   readonly exp: number;
   readonly iat: number;
+  readonly sessionId: number;
+  readonly userId: number;
 }

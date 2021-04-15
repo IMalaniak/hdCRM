@@ -32,18 +32,6 @@ export class CryptoUtils {
     };
   }
 
-  jsonToBase64(json: { [key: string]: any }): string {
-    const data = JSON.stringify(json);
-    const buff = Buffer.from(data);
-    return buff.toString('base64');
-  }
-
-  base64ToJson<R extends { [key: string]: any }>(str: string): R {
-    const buff = Buffer.from(str, 'base64');
-    const encoded = buff.toString('ascii');
-    return JSON.parse(encoded) as R;
-  }
-
   private sha512(password: string, salt: string): { salt: string; passwordHash: string } {
     const hash = crypto.createHmac('sha512', salt); /** Hashing algorithm sha512 */
     hash.update(password);

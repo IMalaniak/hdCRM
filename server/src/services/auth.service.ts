@@ -174,11 +174,11 @@ export class AuthService {
           const userSession = await this.saveLogInAttempt(connection, user, true);
           const accessToken = this.jwtHelper.generateToken({
             type: 'access',
-            data: { userId: user.id, sessionId: userSession.id }
+            payload: { userId: user.id, sessionId: userSession.id }
           });
           const refreshToken = this.jwtHelper.generateToken({
             type: 'refresh',
-            data: { userId: userSession.UserId, sessionId: userSession.id }
+            payload: { userId: userSession.UserId, sessionId: userSession.id }
           });
 
           return ok({ accessToken, refreshToken });
@@ -205,12 +205,12 @@ export class AuthService {
         const userPA = await PasswordAttribute.findOne({ where: { UserId: userId } });
         if (userPA && this.isPasswordExpired(userPA)) {
           return err(
-            new ForbiddenError(
+            new NotAuthorizedError(
               'Your password has expired, please click on "forgot password" button to reset your password!'
             )
           );
         } else {
-          const accessToken = this.jwtHelper.generateToken({ type: 'access', data: { userId, sessionId } });
+          const accessToken = this.jwtHelper.generateToken({ type: 'access', payload: { userId, sessionId } });
           return ok({ accessToken });
         }
       } else {
