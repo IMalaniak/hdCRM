@@ -38,9 +38,9 @@ export class Passport {
     // passport.session();
     passport.use(
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      new Strategy(this.opts, async (jwtPayload: JwtPayload, done) => {
+      new Strategy(this.opts, async (payload: JwtPayload, done) => {
         try {
-          const userResult = await this.userService.getByPk(jwtPayload.userId);
+          const userResult = await this.userService.getByPk(payload.sub);
           if (userResult.isOk()) {
             return done(null, userResult.value.data);
           } else {

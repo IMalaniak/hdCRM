@@ -23,11 +23,11 @@ describe('JwtUtils', () => {
       sessionId: 1
     };
 
-    const accessToken = jwtHelper.generateToken({ type: 'access', data });
+    const accessToken = jwtHelper.sign({ type: 'access', data });
 
     expect(accessToken).to.not.be.empty;
 
-    const decodedResult = jwtHelper.getDecoded(accessToken);
+    const decodedResult = jwtHelper.decode(accessToken);
 
     if (decodedResult.isOk()) {
       expect(decodedResult.value).to.not.be.empty;

@@ -172,13 +172,13 @@ export class AuthService {
           );
         } else {
           const userSession = await this.saveLogInAttempt(connection, user, true);
-          const accessToken = this.jwtHelper.generateToken({
+          const accessToken = this.jwtHelper.sign({
             type: 'access',
-            payload: { userId: user.id, sessionId: userSession.id }
+            payload: { sub: user.id }
           });
-          const refreshToken = this.jwtHelper.generateToken({
+          const refreshToken = this.jwtHelper.sign({
             type: 'refresh',
-            payload: { userId: userSession.UserId, sessionId: userSession.id }
+            payload: { sub: userSession.id }
           });
 
           return ok({ accessToken, refreshToken });
@@ -199,10 +199,11 @@ export class AuthService {
 
   public async refreshSession(token: string | undefined): Promise<Result<{ accessToken: string }, CustomError>> {
     if (token) {
-      const verifiedResult = await this.jwtHelper.getVerified({ type: 'refresh', token });
-      if (verifiedResult.isOk()) {
-        const { sessionId, userId } = verifiedResult.value;
-        const userPA = await PasswordAttribute.findOne({ where: { UserId: userId } });
+      const userSession = await this.jwtHelper.verifyAndGetSubject({ type: 'refresh', token });
+      if (userSession.isOk()) {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        const { UserId } = userSession.value as UserSession;
+        const userPA = await PasswordAttribute.findOne({ where: { UserId } });
         if (userPA && this.isPasswordExpired(userPA)) {
           return err(
             new NotAuthorizedError(
@@ -210,11 +211,11 @@ export class AuthService {
             )
           );
         } else {
-          const accessToken = this.jwtHelper.generateToken({ type: 'access', payload: { userId, sessionId } });
+          const accessToken = this.jwtHelper.sign({ type: 'access', payload: { sub: UserId } });
           return ok({ accessToken });
         }
       } else {
-        return err(verifiedResult.error);
+        return err(userSession.error);
       }
     } else {
       return err(new BadRequestError('No refresh token!'));

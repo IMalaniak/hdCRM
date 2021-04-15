@@ -128,9 +128,9 @@ export class AuthController {
 
     const cookies = parseCookies(req);
     if (cookies.refresh_token) {
-      const decodedResult = this.jwtHelper.getDecoded(cookies.refresh_token);
+      const decodedResult = this.jwtHelper.decode(cookies.refresh_token);
       if (decodedResult.isOk()) {
-        await this.userService.removeSession(decodedResult.value.sessionId);
+        await this.userService.removeSession(decodedResult.value.sub);
       }
     }
     // force cookie expiration
