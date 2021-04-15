@@ -253,8 +253,7 @@ export const userFactory = (sequelize: Sequelize): Model => {
         }
       },
       password: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.STRING
       },
       defaultLang: {
         type: new DataTypes.CHAR(2)

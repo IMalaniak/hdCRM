@@ -52,6 +52,7 @@ export abstract class BaseService<C, A, M extends Model<A, C>> {
           ...(parsedFilters as any),
           ...(organizationId && { OrganizationId: organizationId })
         },
+        attributes: { exclude: [...this.excludes] },
         include: [...this.includes],
         limit,
         offset,

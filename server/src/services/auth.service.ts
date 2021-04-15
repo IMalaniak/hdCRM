@@ -331,6 +331,8 @@ export class AuthService {
         return this.mailer.sendActivationConfirmation(params);
       case MAIL_THEME.PASSWORD_RESET:
         return this.mailer.sendPasswordReset(params);
+      case MAIL_THEME.PASSWORD_RESET_CONFIRM:
+        return this.mailer.sendPasswordResetConfirmation(params);
       default:
         return Promise.reject();
     }
