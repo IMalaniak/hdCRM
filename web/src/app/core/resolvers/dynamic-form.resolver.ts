@@ -4,10 +4,11 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap, filter, first } from 'rxjs/operators';
 
-import { AppState } from '@core/store';
-import { formRequested, selectFormByName } from '@core/store/dynamic-form';
 import { RoutingDataConstants } from '@shared/constants';
 import { DynamicForm } from '@shared/models';
+
+import { AppState } from '../store';
+import { formRequested, selectFormByName } from '../store/dynamic-form';
 
 @Injectable()
 export class DynamicFormResolver implements Resolve<DynamicForm> {
