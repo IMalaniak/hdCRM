@@ -125,26 +125,17 @@ export class AuthService {
   }
 
   public async authenticate(params: {
-    loginOrEmail: string;
+    email: string;
     password: string;
     connection: {
       IP: string;
       UA: string | undefined;
     };
   }): Promise<Result<AuthResponse, CustomError>> {
-    const { loginOrEmail, password, connection } = params;
+    const { email, password, connection } = params;
     try {
       const user = await User.findOne({
-        where: {
-          [Op.or]: [
-            {
-              login: loginOrEmail
-            },
-            {
-              email: loginOrEmail
-            }
-          ]
-        },
+        where: { email },
         attributes: ['id', 'password', 'state']
       });
       if (!user) {
@@ -232,19 +223,10 @@ export class AuthService {
     }
   }
 
-  public async forgotPassword(loginOrEmail: string): Promise<Result<BaseResponse, CustomError>> {
+  public async forgotPassword(email: string): Promise<Result<BaseResponse, CustomError>> {
     try {
       const user = await User.findOne({
-        where: {
-          [Op.or]: [
-            {
-              login: loginOrEmail
-            },
-            {
-              email: loginOrEmail
-            }
-          ]
-        }
+        where: { email }
       });
       if (user) {
         const pa = await user.getPasswordAttributes();

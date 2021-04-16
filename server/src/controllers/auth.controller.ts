@@ -44,7 +44,6 @@ export class AuthController {
 
     const user: Partial<UserCreationAttributes> = {
       email: req.body.email,
-      login: req.body.login,
       password,
       name: req.body.name,
       surname: req.body.surname,
@@ -71,15 +70,15 @@ export class AuthController {
   }
 
   public async authenticate(
-    req: RequestWithBody<{ login: string; password: string }>,
+    req: RequestWithBody<{ email: string; password: string }>,
     res: Response<AuthResponse | BaseResponse>
   ): Promise<void> {
     req.log.info(`Authenticating web client...`);
 
-    const loginOrEmail = req.body.login;
+    const email = req.body.email;
     const password = req.body.password;
     const result = await this.authService.authenticate({
-      loginOrEmail,
+      email,
       password,
       connection: {
         IP: req.ip,
@@ -139,12 +138,10 @@ export class AuthController {
     res.status(StatusCodes.OK).json({ message: 'logged out' });
   }
 
-  public async forgotPassword(req: RequestWithBody<{ login: string }>, res: Response<BaseResponse>): Promise<void> {
+  public async forgotPassword(req: RequestWithBody<{ email: string }>, res: Response<BaseResponse>): Promise<void> {
     req.log.info(`Forget password requesting...`);
 
-    const loginOrEmail = req.body.login;
-
-    const result = await this.authService.forgotPassword(loginOrEmail);
+    const result = await this.authService.forgotPassword(req.body.email);
     return sendResponse<BaseResponse, CustomError>(result, res);
   }
 

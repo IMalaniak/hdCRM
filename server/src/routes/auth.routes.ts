@@ -25,7 +25,7 @@ export class AuthRoutes {
 
     this.router.post(
       '/authenticate',
-      async (req: RequestWithBody<{ login: string; password: string }>, res: Response<AuthResponse | BaseResponse>) =>
+      async (req: RequestWithBody<{ email: string; password: string }>, res: Response<AuthResponse | BaseResponse>) =>
         this.authController.authenticate(req, res)
     );
 

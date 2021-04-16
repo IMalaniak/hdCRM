@@ -41,7 +41,7 @@ export class EmailUtils {
       },
       locals: {
         name: user.name,
-        username: user.login,
+        username: user.email,
         token: tokenUrl
       }
     });
@@ -56,7 +56,7 @@ export class EmailUtils {
       },
       locals: {
         name: user.name,
-        username: user.login
+        username: user.email
       }
     });
   }
@@ -71,7 +71,7 @@ export class EmailUtils {
       },
       locals: {
         name: user.name,
-        username: user.login,
+        username: user.email,
         tmpPass: tmpPassword,
         activationUrl: url
       }
@@ -87,7 +87,7 @@ export class EmailUtils {
       },
       locals: {
         name: user.name,
-        username: user.login
+        username: user.email
       }
     });
   }
@@ -104,7 +104,7 @@ export class EmailUtils {
         organization: user.Organization?.title,
         email: user.email,
         name: user.name,
-        username: user.login,
+        username: user.email,
         tmpPass: tmpPassword,
         activationUrl: url
       }
