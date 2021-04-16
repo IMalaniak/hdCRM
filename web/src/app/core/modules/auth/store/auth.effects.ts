@@ -63,12 +63,13 @@ export class AuthEffects implements OnInitEffects {
     () =>
       this.actions$.pipe(
         ofType(authActions.logOut),
-        tap(() =>
-          this.authService.logout().subscribe(() => {
-            // TODO check if this is unsubscribed
-            this.scktService.emit(SOCKET_EVENT.ISOFFLINE);
-            this.router.navigateByUrl(RoutingConstants.ROUTE_HOME);
-          })
+        switchMap(() =>
+          this.authService.logout().pipe(
+            map(() => {
+              this.scktService.emit(SOCKET_EVENT.ISOFFLINE);
+              this.router.navigateByUrl(RoutingConstants.ROUTE_AUTH);
+            })
+          )
         )
       ),
     {
