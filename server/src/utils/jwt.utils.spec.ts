@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { expect } from 'chai';
 import sinon from 'sinon';
-import Container from 'typedi';
 import { StatusCodes } from 'http-status-codes';
 
 import { Config } from '../config';
