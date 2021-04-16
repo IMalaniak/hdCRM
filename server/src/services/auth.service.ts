@@ -29,6 +29,7 @@ import { Logger } from '../utils/Logger';
 import { CryptoUtils } from '../utils/crypto.utils';
 import { EmailUtils } from '../utils/email.utils';
 import { JwtUtils } from '../utils/jwt.utils';
+import { AuthResponse } from '../models/authResponse';
 
 @Service()
 export class AuthService {
@@ -130,7 +131,7 @@ export class AuthService {
       IP: string;
       UA: string | undefined;
     };
-  }): Promise<Result<{ refreshToken: string; accessToken: string }, CustomError>> {
+  }): Promise<Result<AuthResponse, CustomError>> {
     const { loginOrEmail, password, connection } = params;
     try {
       const user = await User.findOne({
@@ -172,16 +173,22 @@ export class AuthService {
           );
         } else {
           const userSession = await this.saveLogInAttempt(connection, user, true);
-          const accessToken = this.jwtHelper.sign({
+          const {
+            token: accessToken,
+            decoded: { exp }
+          } = this.jwtHelper.sign({
             type: 'access',
             payload: { sub: user.id }
           });
-          const refreshToken = this.jwtHelper.sign({
+          const {
+            token: refreshToken,
+            decoded: { sub }
+          } = this.jwtHelper.sign({
             type: 'refresh',
             payload: { sub: userSession.id }
           });
 
-          return ok({ accessToken, refreshToken });
+          return ok({ accessToken, refreshToken, tokenType: 'bearer', expiresIn: exp, sessionId: sub });
         }
       } else {
         await this.saveLogInAttempt(connection, user, false);
@@ -197,12 +204,12 @@ export class AuthService {
     }
   }
 
-  public async refreshSession(token: string | undefined): Promise<Result<{ accessToken: string }, CustomError>> {
+  public async refreshSession(token: string | undefined): Promise<Result<AuthResponse, CustomError>> {
     if (token) {
       const userSession = await this.jwtHelper.verifyAndGetSubject({ type: 'refresh', token });
       if (userSession.isOk()) {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        const { UserId } = userSession.value as UserSession;
+        const { UserId, id } = userSession.value as UserSession;
         const userPA = await PasswordAttribute.findOne({ where: { UserId } });
         if (userPA && this.isPasswordExpired(userPA)) {
           return err(
@@ -211,8 +218,11 @@ export class AuthService {
             )
           );
         } else {
-          const accessToken = this.jwtHelper.sign({ type: 'access', payload: { sub: UserId } });
-          return ok({ accessToken });
+          const {
+            token: accessToken,
+            decoded: { exp }
+          } = this.jwtHelper.sign({ type: 'access', payload: { sub: UserId } });
+          return ok({ accessToken, tokenType: 'bearer', expiresIn: exp, sessionId: id });
         }
       } else {
         return err(userSession.error);

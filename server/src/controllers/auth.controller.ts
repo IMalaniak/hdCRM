@@ -4,6 +4,7 @@ import { Service } from 'typedi';
 
 import { CustomError } from '../errors/custom-error';
 import { BaseResponse, PasswordReset, RequestWithBody } from '../models';
+import { AuthResponse } from '../models/authResponse';
 import { Organization, OrganizationCreationAttributes, UserCreationAttributes } from '../repositories';
 import { AuthService, UserService } from '../services';
 import { CryptoUtils } from '../utils/crypto.utils';
@@ -71,7 +72,7 @@ export class AuthController {
 
   public async authenticate(
     req: RequestWithBody<{ login: string; password: string }>,
-    res: Response<string | BaseResponse>
+    res: Response<AuthResponse | BaseResponse>
   ): Promise<void> {
     req.log.info(`Authenticating web client...`);
 
@@ -87,13 +88,13 @@ export class AuthController {
     });
 
     return result.match<void>(
-      (body) => {
+      ({ refreshToken, accessToken, expiresIn, sessionId, tokenType }) => {
         // set cookie for one year, it doest matter, because it has token that itself has an expiration date;
         const expires = new Date();
         expires.setFullYear(expires.getFullYear() + 1);
-        res.cookie('refresh_token', body.refreshToken, { httpOnly: true, expires });
+        res.cookie('refresh_token', refreshToken, { httpOnly: true, expires });
         res.status(StatusCodes.OK);
-        res.json(body.accessToken);
+        res.send({ accessToken, expiresIn, sessionId, tokenType });
       },
       (error) => {
         res.status(error.statusCode);
@@ -102,7 +103,7 @@ export class AuthController {
     );
   }
 
-  public async refreshSession(req: Request, res: Response<string | BaseResponse>): Promise<void> {
+  public async refreshSession(req: Request, res: Response<AuthResponse | BaseResponse>): Promise<void> {
     req.log.info(`Refreshing session...`);
 
     const cookies = parseCookies(req);
@@ -112,10 +113,10 @@ export class AuthController {
     return result.match<void>(
       (body) => {
         res.status(StatusCodes.OK);
-        res.json(body.accessToken);
+        res.send(body);
       },
       (error) => {
-        res.status(StatusCodes.BAD_REQUEST);
+        res.status(error.statusCode);
         res.send(error.serializeErrors());
       }
     );

@@ -2,7 +2,6 @@ export * from './baseMessage';
 export * from './apiResponse';
 export * from './asset';
 export * from './dynamicForm';
-export * from './jwtDecoded';
 export * from './multi-chart-data.model';
 export * from './newPassword';
 export * from './notification';

@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { TokenExpiredError } from 'jsonwebtoken';
 import { Service } from 'typedi';
 import { err, ok, Result } from 'neverthrow';
 
@@ -10,7 +10,7 @@ import { User, UserSession } from '../repositories';
 
 interface TokenProps {
   type: 'access' | 'refresh';
-  payload: JwtPayload;
+  payload: Partial<JwtPayload>;
 }
 
 interface VerifyProps {
@@ -22,12 +22,18 @@ interface VerifyProps {
 export class JwtUtils {
   constructor(private readonly logger: Logger) {}
 
-  sign({ type, payload }: TokenProps): string {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return jwt.sign(payload, type === 'access' ? process.env.ACCESS_TOKEN_SECRET! : process.env.REFRESH_TOKEN_SECRET!, {
-      expiresIn: type === 'access' ? process.env.ACCESS_TOKEN_LIFETIME : process.env.REFRESH_TOKEN_LIFETIME,
-      audience: Config.WEB_URL
-    });
+  sign({ type, payload }: TokenProps): { token: string; decoded: JwtPayload } {
+    const token = jwt.sign(
+      payload,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      type === 'access' ? process.env.ACCESS_TOKEN_SECRET! : process.env.REFRESH_TOKEN_SECRET!,
+      {
+        expiresIn: type === 'access' ? process.env.ACCESS_TOKEN_LIFETIME : process.env.REFRESH_TOKEN_LIFETIME,
+        audience: Config.WEB_URL
+      }
+    );
+    const decoded = jwt.decode(token) as JwtPayload;
+    return { token, decoded };
   }
 
   decode(token: string): Result<JwtPayload, CustomError> {
@@ -68,8 +74,12 @@ export class JwtUtils {
         }
       }
     } catch (error) {
-      this.logger.error(error);
-      return err(new InternalServerError());
+      if (error instanceof TokenExpiredError) {
+        return err(new NotAuthorizedError());
+      } else {
+        this.logger.error(error);
+        return err(new InternalServerError());
+      }
     }
   }
 }

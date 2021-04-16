@@ -7,8 +7,8 @@ import * as AuthActions from './auth.actions';
 export interface AuthState {
   loggedIn: boolean;
   accessToken: string;
+  tokenType: string;
   sessionId: number;
-  isTokenValid: boolean;
   isTokenRefreshing: boolean;
   currentUser: User | null;
   loading: boolean;
@@ -17,8 +17,8 @@ export interface AuthState {
 export const initialState: AuthState = {
   loggedIn: false,
   accessToken: null,
+  tokenType: null,
   sessionId: null,
-  isTokenValid: false,
   isTokenRefreshing: false,
   currentUser: null,
   loading: false
@@ -32,7 +32,6 @@ const authReducer = createReducer(
     AuthActions.refreshSession,
     AuthActions.deleteSession,
     AuthActions.deleteMultipleSession,
-    AuthActions.checkIsTokenValid,
     AuthActions.setNewPassword,
     AuthActions.resetPasswordRequest,
     AuthActions.activateAccount,
@@ -45,30 +44,24 @@ const authReducer = createReducer(
     ...state,
     loading: false
   })),
-  on(AuthActions.logInSuccess, (state, { accessToken }) => ({
+  on(AuthActions.logInSuccess, (state, { accessToken, tokenType, sessionId }) => ({
     ...state,
     loading: false,
     loggedIn: true,
-    isTokenValid: true,
-    accessToken
+    accessToken,
+    tokenType,
+    sessionId
   })),
-  on(AuthActions.refreshSessionSuccess, (state, { accessToken }) => ({
+  on(AuthActions.refreshSessionSuccess, (state, { accessToken, tokenType, sessionId }) => ({
     ...state,
     loading: false,
-    isTokenValid: true,
     isTokenRefreshing: true,
     loggedIn: true,
-    accessToken
+    accessToken,
+    tokenType,
+    sessionId
   })),
   on(AuthActions.refreshSessionFailure, () => ({ ...initialState })),
-  on(AuthActions.setSessionId, (state, { sessionId }) => ({ ...state, sessionId })),
-  on(AuthActions.checkIsTokenValidSuccess, (state) => ({
-    ...state,
-    loading: false,
-    isTokenValid: true,
-    loggedIn: true
-  })),
-  on(AuthActions.checkIsTokenValidFailure, () => ({ ...initialState })),
   on(AuthActions.logOut, () => ({ ...initialState })),
   on(AuthActions.currentUserLoaded, (state, { currentUser }) => ({ ...state, currentUser, loading: false })),
   on(AuthActions.updateUserProfileSuccess, (state, { currentUser }) => ({ ...state, currentUser, loading: false })),

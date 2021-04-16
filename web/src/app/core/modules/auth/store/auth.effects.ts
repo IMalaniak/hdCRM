@@ -3,8 +3,18 @@ import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Actions, ofType, createEffect, OnInitEffects } from '@ngrx/effects';
 import { Store, select, Action } from '@ngrx/store';
-import { of } from 'rxjs';
-import { tap, map, switchMap, catchError, concatMap, withLatestFrom, mergeMap, exhaustMap } from 'rxjs/operators';
+import { of, timer } from 'rxjs';
+import {
+  tap,
+  map,
+  switchMap,
+  catchError,
+  concatMap,
+  withLatestFrom,
+  exhaustMap,
+  delayWhen,
+  filter
+} from 'rxjs/operators';
 
 import { Organization, User } from '@core/modules/user-api/shared';
 import { AppState } from '@core/store';
@@ -16,9 +26,10 @@ import { BaseMessage, ItemApiResponse } from '@shared/models';
 import { SocketService, ToastMessageService } from '@shared/services';
 
 import { AuthenticationService } from '../services';
+import { AuthResponse } from '../shared';
 
 import * as authActions from './auth.actions';
-import { getToken } from './auth.selectors';
+import { isLoggedIn } from './auth.selectors';
 
 @Injectable()
 export class AuthEffects implements OnInitEffects {
@@ -42,10 +53,7 @@ export class AuthEffects implements OnInitEffects {
       map((payload) => payload.user),
       exhaustMap((userLoginData) =>
         this.authService.login(userLoginData).pipe(
-          switchMap((accessToken: string) => {
-            const sessionId = this.authService.getTokenDecoded(accessToken).sessionId;
-            return [authActions.logInSuccess({ accessToken }), authActions.setSessionId({ sessionId })];
-          }),
+          switchMap((response: AuthResponse) => of(authActions.logInSuccess(response))),
           tap(() => {
             const returnUrl = this.route.snapshot.queryParams['returnUrl'] || RoutingConstants.ROUTE_DASHBOARD;
             this.router.navigateByUrl(returnUrl);
@@ -188,18 +196,36 @@ export class AuthEffects implements OnInitEffects {
     )
   );
 
+  initSession$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authActions.initSession),
+      exhaustMap(() =>
+        this.authService
+          .refreshSession()
+          .pipe(switchMap((response: AuthResponse) => of(authActions.logInSuccess(response))))
+      )
+    )
+  );
+
   refreshSession$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authActions.refreshSession),
       exhaustMap(() =>
         this.authService.refreshSession().pipe(
-          switchMap((accessToken: string) => {
-            const sessionId = this.authService.getTokenDecoded(accessToken).sessionId;
-            return [authActions.refreshSessionSuccess({ accessToken }), authActions.setSessionId({ sessionId })];
-          }),
-          catchError(() => of(authActions.refreshSessionFailure()))
+          switchMap((response: AuthResponse) => of(authActions.logInSuccess(response))),
+          catchError(() => [authActions.refreshSessionFailure(), authActions.redirectToLogin()])
         )
       )
+    )
+  );
+
+  refreshToken$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authActions.logInSuccess),
+      delayWhen((payload: AuthResponse) => timer(payload.expiresIn * 1000 - 60 * 1000 - Date.now())),
+      withLatestFrom(this.store$.select(isLoggedIn)),
+      filter(([_, isLoggedIn]) => isLoggedIn),
+      switchMap(() => of(authActions.refreshSession()))
     )
   );
 
@@ -226,28 +252,6 @@ export class AuthEffects implements OnInitEffects {
         return authActions.deleteSessionSuccess();
       }),
       catchError(() => of(authActions.authApiError()))
-    )
-  );
-
-  checkIsTokenValid$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(authActions.checkIsTokenValid),
-      withLatestFrom(this.store$.pipe(select(getToken))),
-      switchMap(([_, token]) => {
-        const isValid = this.authService.isTokenValid(token);
-        if (isValid) {
-          return of(authActions.checkIsTokenValidSuccess());
-        } else {
-          return of(authActions.checkIsTokenValidFailure());
-        }
-      })
-    )
-  );
-
-  checkIsTokenValidFailure$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(authActions.checkIsTokenValidFailure),
-      mergeMap(() => of(authActions.refreshSession()))
     )
   );
 
@@ -294,6 +298,6 @@ export class AuthEffects implements OnInitEffects {
   ) {}
 
   ngrxOnInitEffects(): Action {
-    return authActions.refreshSession();
+    return authActions.initSession();
   }
 }

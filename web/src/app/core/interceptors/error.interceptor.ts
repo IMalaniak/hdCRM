@@ -1,15 +1,14 @@
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable, throwError, timer } from 'rxjs';
-import { catchError, first, retryWhen, filter, last, mergeMap } from 'rxjs/operators';
+import { catchError, retryWhen, filter, last, mergeMap } from 'rxjs/operators';
 
-import { ApiRoutesConstants, PathConstants, RoutingConstants } from '@shared/constants';
+import { ApiRoutesConstants, RoutingConstants } from '@shared/constants';
 
-import { refreshSession, redirectToLogin } from '../modules/auth/store/auth.actions';
+import { redirectToLogin } from '../modules/auth/store/auth.actions';
 import { AppState } from '../store';
-import { selectUrl } from '../store/router.selectors';
 
 const genericRetryStrategy = ({
   maxRetryAttempts = 3,
@@ -49,13 +48,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         if (err.status >= 500) {
           this.router.navigateByUrl(RoutingConstants.ROUTE_INTERNAL_ERROR);
         } else if (err.status === 401 && !request.url.includes(ApiRoutesConstants.REFRESH_SESSION)) {
-          this.store$.dispatch(refreshSession());
-        } else if (err.status === 403 && request.url.includes(ApiRoutesConstants.REFRESH_SESSION)) {
-          this.store$.pipe(select(selectUrl), first()).subscribe((url) => {
-            if (url && !url.includes(PathConstants.AUTH)) {
-              this.store$.dispatch(redirectToLogin());
-            }
-          });
+          this.store$.dispatch(redirectToLogin());
         }
 
         // const error = err.message || err.statusText;
