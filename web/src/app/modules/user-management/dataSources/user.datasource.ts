@@ -36,7 +36,6 @@ export class UsersDataSource extends CommonDataSource<User> {
       [COLUMN_KEY.SEQUENCE]: Cell.createSequenceCell(),
       [COLUMN_KEY.SELECT]: Cell.createCheckboxCell(),
       [COLUMN_KEY.AVATAR]: Cell.createAvatarCell(user),
-      [COLUMN_KEY.LOGIN]: Cell.createStringCell(user.login),
       [COLUMN_KEY.EMAIL]: Cell.createLinkCell(
         user.email,
         createNavigation(CommonConstants.PREFIX_MAIL_TO + `${user.email}`, LINK_TYPE.LINK)

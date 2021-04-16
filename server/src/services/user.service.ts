@@ -215,7 +215,6 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
       if (!user.fullname) {
         return err(new BadRequestError('Full name is not provided'));
       }
-      user.login = user.fullname.replace(' ', '_');
       const result = await this.create(user);
 
       if (result.isOk()) {

@@ -75,7 +75,6 @@ export class UsersComponent {
     Column.createSequenceNumberColumn(),
     Column.createCheckboxColumn(),
     Column.createColumn({ key: COLUMN_KEY.AVATAR, hasSorting: false }),
-    Column.createColumn({ key: COLUMN_KEY.LOGIN }),
     Column.createLinkColumn({ key: COLUMN_KEY.EMAIL }),
     Column.createColumn({ key: COLUMN_KEY.NAME }),
     Column.createColumn({ key: COLUMN_KEY.SURNAME }),

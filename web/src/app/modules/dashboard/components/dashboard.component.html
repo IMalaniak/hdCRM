@@ -6,7 +6,7 @@
         <ul>
           <li>
             <h5>{{ appUser.fullname }}</h5>
-            <span>({{ appUser.login }})</span>
+            <span>({{ appUser.email }})</span>
           </li>
           <ng-container *ngIf="appUser.Department">
             <li *ngIf="canViewDepartments$ | async; else depTitle">

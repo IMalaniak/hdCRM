@@ -85,7 +85,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   prepareUserForm(): void {
     this.user = this.fb.group({
-      login: new FormControl(null, [Validators.required]),
+      email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null)
     });
     if (this.currentPath === PathConstants.LOGIN) {

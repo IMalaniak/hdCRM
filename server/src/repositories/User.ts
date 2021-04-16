@@ -49,7 +49,6 @@ import { Preference } from './Preference';
 export interface UserAttributes {
   id: number;
   email: string;
-  login: string;
   name: string;
   surname: string;
   OrganizationId: number;
@@ -71,13 +70,11 @@ export type UserCreationAttributes = Optional<
 export class User extends Model<UserAttributes, UserCreationAttributes> {
   public id!: number;
   public email!: string;
-  public login!: string;
   public name!: string;
   public surname!: string;
   public fullname!: string;
   public phone!: string;
   public password!: string;
-  public salt!: string;
   public state!: USER_STATE;
   public defaultLang!: string;
 
@@ -244,14 +241,6 @@ export const userFactory = (sequelize: Sequelize): Model => {
           isEmail: true
         }
       },
-      login: {
-        type: new DataTypes.STRING(50),
-        allowNull: false,
-        unique: true,
-        validate: {
-          notEmpty: true
-        }
-      },
       password: {
         type: DataTypes.STRING
       },
@@ -270,10 +259,6 @@ export const userFactory = (sequelize: Sequelize): Model => {
         {
           unique: true,
           fields: ['email']
-        },
-        {
-          unique: true,
-          fields: ['login']
         }
       ],
       tableName: 'Users',
