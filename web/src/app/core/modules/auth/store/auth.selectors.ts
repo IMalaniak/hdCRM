@@ -13,15 +13,12 @@ export const isLoading = createSelector(selectAuthState, (auth) => auth.loading)
 export const currentUser = createSelector(selectAuthState, (auth) => auth.currentUser);
 
 export const getToken = createSelector(selectAuthState, (auth) => auth.accessToken);
+export const getTokenType = createSelector(selectAuthState, (auth) => auth.tokenType);
+export const isTokenRefreshing = createSelector(selectAuthState, (auth) => auth.isTokenRefreshing);
 
 export const getSessionId = createSelector(selectAuthState, (auth) => auth.sessionId);
 
-export const isTokenRefreshing = createSelector(selectAuthState, (auth) => auth.isTokenRefreshing);
-
-export const isTokenValid = createSelector(selectAuthState, (auth) => auth.isTokenValid);
-
-export const isLoggedIn = createSelector(selectAuthState, isTokenValid, (auth, valid) => auth.loggedIn && valid);
-
+export const isLoggedIn = createSelector(selectAuthState, (auth) => auth.loggedIn);
 export const isLoggedOut = createSelector(isLoggedIn, (loggedIn) => !loggedIn);
 
 // get an array pf currentUser privileges

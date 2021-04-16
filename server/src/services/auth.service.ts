@@ -2,11 +2,19 @@
 import { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 import { Op } from 'sequelize';
+import * as argon2 from 'argon2';
 
 import { BaseResponse, PasswordReset } from '../models';
 import { MAIL_THEME, USER_STATE } from '../constants';
 import { Config } from '../config';
-import { BadRequestError, CustomError, InternalServerError, NotAuthorizedError, NotFoundError } from '../errors';
+import {
+  BadRequestError,
+  CustomError,
+  ForbiddenError,
+  InternalServerError,
+  NotAuthorizedError,
+  NotFoundError
+} from '../errors';
 import {
   OrganizationCreationAttributes,
   UserCreationAttributes,
@@ -21,6 +29,7 @@ import { Logger } from '../utils/Logger';
 import { CryptoUtils } from '../utils/crypto.utils';
 import { EmailUtils } from '../utils/email.utils';
 import { JwtUtils } from '../utils/jwt.utils';
+import { AuthResponse } from '../models/authResponse';
 
 @Service()
 export class AuthService {
@@ -34,9 +43,8 @@ export class AuthService {
   public async register(params: {
     organization: OrganizationCreationAttributes;
     user: Partial<UserCreationAttributes>;
-    password: string;
   }): Promise<Result<BaseResponse, CustomError>> {
-    const { organization, user, password } = params;
+    const { organization, user } = params;
 
     try {
       const createdOrg = await Organization.create(organization, {
@@ -71,7 +79,7 @@ export class AuthService {
 
       await this.sendMail(MAIL_THEME.ACTIVATIONN, {
         user: createdUser,
-        tmpPassword: password,
+        tmpPassword: user.password,
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         url: `${Config.WEB_URL!}/auth/activate-account/${token.value}`
       });
@@ -123,7 +131,7 @@ export class AuthService {
       IP: string;
       UA: string | undefined;
     };
-  }): Promise<Result<{ refreshToken: string; accessToken: string }, CustomError>> {
+  }): Promise<Result<AuthResponse, CustomError>> {
     const { loginOrEmail, password, connection } = params;
     try {
       const user = await User.findOne({
@@ -137,44 +145,50 @@ export class AuthService {
             }
           ]
         },
-        attributes: ['id', 'passwordHash', 'salt', 'state']
+        attributes: ['id', 'password', 'state']
       });
       if (!user) {
-        return err(new NotFoundError('Sorry, there are no user with this email or login!'));
+        return err(new BadRequestError('Email/Login or password you provided is incorrect!'));
       }
 
       if (user.state === USER_STATE.INITIALIZED) {
         await this.saveLogInAttempt(connection, user, false);
         return err(
-          new NotAuthorizedError(
+          new ForbiddenError(
             'Sorry, Your account is not activated, please use activation link we sent You or contact administrator!'
           )
         );
       } else if (user.state === USER_STATE.DISABLED || user.state === USER_STATE.ARCHIVE) {
         await this.saveLogInAttempt(connection, user, false);
-        return err(new NotAuthorizedError('Sorry, Your account have been disabled, please contact administrator!'));
+        return err(new ForbiddenError('Sorry, Your account have been disabled, please contact administrator!'));
       }
 
-      const isMatch = this.crypt.validatePassword(password, user.passwordHash, user.salt);
+      const isMatch = await argon2.verify(user.password, password);
       if (isMatch) {
         if (this.isPasswordExpired(await user.getPasswordAttributes())) {
           return err(
-            new NotAuthorizedError(
+            new ForbiddenError(
               'Your password has expired, please click on "forgot password" button to reset your password!'
             )
           );
         } else {
           const userSession = await this.saveLogInAttempt(connection, user, true);
-          const accessToken = this.jwtHelper.generateToken({
+          const {
+            token: accessToken,
+            decoded: { exp }
+          } = this.jwtHelper.sign({
             type: 'access',
-            payload: { userId: user.id, sessionId: userSession.id }
+            payload: { sub: user.id }
           });
-          const refreshToken = this.jwtHelper.generateToken({
+          const {
+            token: refreshToken,
+            decoded: { sub }
+          } = this.jwtHelper.sign({
             type: 'refresh',
-            payload: { userId: userSession.UserId, sessionId: userSession.id }
+            payload: { sub: userSession.id }
           });
 
-          return ok({ accessToken, refreshToken });
+          return ok({ accessToken, refreshToken, tokenType: 'bearer', expiresIn: exp, sessionId: sub });
         }
       } else {
         await this.saveLogInAttempt(connection, user, false);
@@ -190,12 +204,13 @@ export class AuthService {
     }
   }
 
-  public async refreshSession(token: string | undefined): Promise<Result<{ accessToken: string }, CustomError>> {
+  public async refreshSession(token: string | undefined): Promise<Result<AuthResponse, CustomError>> {
     if (token) {
-      const verifiedResult = await this.jwtHelper.getVerified({ type: 'refresh', token });
-      if (verifiedResult.isOk()) {
-        const { sessionId, userId } = verifiedResult.value;
-        const userPA = await PasswordAttribute.findOne({ where: { UserId: userId } });
+      const userSession = await this.jwtHelper.verifyAndGetSubject({ type: 'refresh', token });
+      if (userSession.isOk()) {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        const { UserId, id } = userSession.value as UserSession;
+        const userPA = await PasswordAttribute.findOne({ where: { UserId } });
         if (userPA && this.isPasswordExpired(userPA)) {
           return err(
             new NotAuthorizedError(
@@ -203,11 +218,14 @@ export class AuthService {
             )
           );
         } else {
-          const accessToken = this.jwtHelper.generateToken({ type: 'access', payload: { userId, sessionId } });
-          return ok({ accessToken });
+          const {
+            token: accessToken,
+            decoded: { exp }
+          } = this.jwtHelper.sign({ type: 'access', payload: { sub: UserId } });
+          return ok({ accessToken, tokenType: 'bearer', expiresIn: exp, sessionId: id });
         }
       } else {
-        return err(verifiedResult.error);
+        return err(userSession.error);
       }
     } else {
       return err(new BadRequestError('No refresh token!'));
@@ -274,9 +292,7 @@ export class AuthService {
       if (pa) {
         if (params.newPassword === params.verifyPassword) {
           const user = await pa.getUser();
-          const passwordData = this.crypt.saltHashPassword(params.newPassword);
-          user.passwordHash = passwordData.passwordHash;
-          user.salt = passwordData.salt;
+          user.password = await argon2.hash(params.newPassword);
           await user.save();
 
           pa.token = null;
@@ -325,6 +341,8 @@ export class AuthService {
         return this.mailer.sendActivationConfirmation(params);
       case MAIL_THEME.PASSWORD_RESET:
         return this.mailer.sendPasswordReset(params);
+      case MAIL_THEME.PASSWORD_RESET_CONFIRM:
+        return this.mailer.sendPasswordResetConfirmation(params);
       default:
         return Promise.reject();
     }

@@ -31,6 +31,7 @@ import {
   HasManySetAssociationsMixin,
   Optional
 } from 'sequelize';
+import * as argon2 from 'argon2';
 
 import { enumToArray } from '../utils/enumToArray';
 import { USER_STATE } from '../constants';
@@ -52,8 +53,7 @@ export interface UserAttributes {
   name: string;
   surname: string;
   OrganizationId: number;
-  passwordHash: string;
-  salt: string;
+  password: string;
   fullname?: string;
   phone?: string;
   state?: USER_STATE;
@@ -76,7 +76,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
   public surname!: string;
   public fullname!: string;
   public phone!: string;
-  public passwordHash!: string;
+  public password!: string;
   public salt!: string;
   public state!: USER_STATE;
   public defaultLang!: string;
@@ -252,13 +252,8 @@ export const userFactory = (sequelize: Sequelize): Model => {
           notEmpty: true
         }
       },
-      passwordHash: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      salt: {
-        type: DataTypes.STRING,
-        allowNull: false
+      password: {
+        type: DataTypes.STRING
       },
       defaultLang: {
         type: new DataTypes.CHAR(2)
@@ -282,6 +277,11 @@ export const userFactory = (sequelize: Sequelize): Model => {
         }
       ],
       tableName: 'Users',
+      hooks: {
+        beforeCreate: async (user) => {
+          user.password = await argon2.hash(user.password);
+        }
+      },
       sequelize
     }
   );

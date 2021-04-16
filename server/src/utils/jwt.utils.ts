@@ -1,8 +1,8 @@
-import jwt from 'jsonwebtoken';
+import jwt, { TokenExpiredError } from 'jsonwebtoken';
 import { Service } from 'typedi';
 import { err, ok, Result } from 'neverthrow';
 
-import { JwtPayload, JwtDecoded } from '../models';
+import { JwtPayload } from '../models';
 import { Config } from '../config';
 import { CustomError, NotFoundError, NotAuthorizedError, InternalServerError } from '../errors';
 import { Logger } from '../utils/Logger';
@@ -10,7 +10,7 @@ import { User, UserSession } from '../repositories';
 
 interface TokenProps {
   type: 'access' | 'refresh';
-  payload: JwtPayload;
+  payload: Partial<JwtPayload>;
 }
 
 interface VerifyProps {
@@ -22,25 +22,31 @@ interface VerifyProps {
 export class JwtUtils {
   constructor(private readonly logger: Logger) {}
 
-  generateToken({ type, payload }: TokenProps): string {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return jwt.sign(payload, type === 'access' ? process.env.ACCESS_TOKEN_SECRET! : process.env.REFRESH_TOKEN_SECRET!, {
-      expiresIn: type === 'access' ? process.env.ACCESS_TOKEN_LIFETIME : process.env.REFRESH_TOKEN_LIFETIME,
-      audience: Config.WEB_URL
-    });
+  sign({ type, payload }: TokenProps): { token: string; decoded: JwtPayload } {
+    const token = jwt.sign(
+      payload,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      type === 'access' ? process.env.ACCESS_TOKEN_SECRET! : process.env.REFRESH_TOKEN_SECRET!,
+      {
+        expiresIn: type === 'access' ? process.env.ACCESS_TOKEN_LIFETIME : process.env.REFRESH_TOKEN_LIFETIME,
+        audience: Config.WEB_URL
+      }
+    );
+    const decoded = jwt.decode(token) as JwtPayload;
+    return { token, decoded };
   }
 
-  getDecoded(token: string): Result<JwtDecoded, CustomError> {
+  decode(token: string): Result<JwtPayload, CustomError> {
     try {
-      const verified = jwt.decode(token) as JwtDecoded;
-      return ok(verified);
+      const decoded = jwt.decode(token) as JwtPayload;
+      return ok(decoded);
     } catch (error) {
       this.logger.error(error);
       return err(new InternalServerError());
     }
   }
 
-  async getVerified({ type, token }: VerifyProps): Promise<Result<JwtDecoded, CustomError>> {
+  async verifyAndGetSubject({ type, token }: VerifyProps): Promise<Result<User | UserSession, CustomError>> {
     try {
       const verified = jwt.verify(
         token,
@@ -49,27 +55,31 @@ export class JwtUtils {
         {
           audience: Config.WEB_URL
         }
-      ) as JwtDecoded;
+      ) as JwtPayload;
 
       // checking in the DB for real existing of data
       if (type === 'access') {
-        const user = await User.findByPk(verified.userId, { attributes: ['id'] });
+        const user = await User.findByPk(verified.sub, { attributes: ['id'] });
         if (user) {
-          return ok(verified);
+          return ok(user);
         } else {
           return err(new NotFoundError('No user registered'));
         }
       } else {
-        const session = await UserSession.findByPk(verified.sessionId, { attributes: ['id'] });
+        const session = await UserSession.findByPk(verified.sub, { attributes: ['id', 'UserId'] });
         if (session) {
-          return ok(verified);
+          return ok(session);
         } else {
           return err(new NotAuthorizedError('No session registered'));
         }
       }
     } catch (error) {
-      this.logger.error(error);
-      return err(new InternalServerError());
+      if (error instanceof TokenExpiredError) {
+        return err(new NotAuthorizedError());
+      } else {
+        this.logger.error(error);
+        return err(new InternalServerError());
+      }
     }
   }
 }

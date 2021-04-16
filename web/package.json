@@ -28,7 +28,6 @@
     "@angular/platform-browser": "11.2.10",
     "@angular/platform-browser-dynamic": "11.2.10",
     "@angular/router": "11.2.10",
-    "@auth0/angular-jwt": "5.0.2",
     "@ngrx/component": "11.1.0",
     "@ngrx/effects": "11.1.0",
     "@ngrx/entity": "11.1.0",

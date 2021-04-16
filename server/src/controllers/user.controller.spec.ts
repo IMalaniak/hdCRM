@@ -67,7 +67,7 @@ describe('UserController', () => {
   it('should send success response when calling updatePassword', async () => {
     const stub: sinon.SinonStub = sinon.stub(dataBaseServiceInstance, 'updatePassword');
     const jwtHelperInstance = Container.get(JwtUtils);
-    const jwtHelperStub: sinon.SinonStub = sinon.stub(jwtHelperInstance, 'getDecoded');
+    const jwtHelperStub: sinon.SinonStub = sinon.stub(jwtHelperInstance, 'decode');
     jwtHelperStub.withArgs('token').returns(ok({ sessionId: 1 }));
     stub.resolves(ok({ message: 'updated' }));
     const request = {

@@ -90,7 +90,7 @@ export const authStateMock: AuthState = {
   loggedIn: true,
   sessionId: 1,
   accessToken: 'token',
-  isTokenValid: true,
+  tokenType: 'bearer',
   isTokenRefreshing: false,
   currentUser: currentUserMock,
   loading: false

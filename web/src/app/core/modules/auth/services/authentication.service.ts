@@ -1,16 +1,15 @@
 ﻿import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 
 import { User, Organization } from '@core/modules/user-api/shared';
 import { ApiRoutesConstants } from '@shared/constants';
-import { BaseMessage, NewPassword, JwtDecoded, ItemApiResponse } from '@shared/models';
+import { BaseMessage, NewPassword, ItemApiResponse } from '@shared/models';
+
+import { AuthResponse } from '../shared';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  private jwtHelper = new JwtHelperService();
-
   constructor(private http: HttpClient) {}
 
   getProfile(): Observable<ItemApiResponse<User>> {
@@ -29,12 +28,12 @@ export class AuthenticationService {
     return this.http.post<BaseMessage>(ApiRoutesConstants.AUTH_REGISTER, user);
   }
 
-  login(loginUser: User): Observable<BaseMessage | string> {
-    return this.http.post<BaseMessage | string>(ApiRoutesConstants.AUTHENTICATE, loginUser, { withCredentials: true });
+  login(loginUser: User): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(ApiRoutesConstants.AUTHENTICATE, loginUser, { withCredentials: true });
   }
 
-  refreshSession(): Observable<BaseMessage | string> {
-    return this.http.get<BaseMessage | string>(ApiRoutesConstants.REFRESH_SESSION, { withCredentials: true });
+  refreshSession(): Observable<AuthResponse> {
+    return this.http.get<AuthResponse>(ApiRoutesConstants.REFRESH_SESSION, { withCredentials: true });
   }
 
   activateAccount(token: string): Observable<BaseMessage> {
@@ -53,14 +52,6 @@ export class AuthenticationService {
 
   logout(): Observable<BaseMessage> {
     return this.http.get<BaseMessage>(ApiRoutesConstants.LOGOUT, { withCredentials: true });
-  }
-
-  isTokenValid(token: string): boolean {
-    return !this.jwtHelper.isTokenExpired(token);
-  }
-
-  getTokenDecoded(token: string): JwtDecoded {
-    return this.jwtHelper.decodeToken(token);
   }
 
   deleteSession(id: number): Observable<BaseMessage> {

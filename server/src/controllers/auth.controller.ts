@@ -4,6 +4,7 @@ import { Service } from 'typedi';
 
 import { CustomError } from '../errors/custom-error';
 import { BaseResponse, PasswordReset, RequestWithBody } from '../models';
+import { AuthResponse } from '../models/authResponse';
 import { Organization, OrganizationCreationAttributes, UserCreationAttributes } from '../repositories';
 import { AuthService, UserService } from '../services';
 import { CryptoUtils } from '../utils/crypto.utils';
@@ -26,7 +27,6 @@ export class AuthController {
     req.log.info('Registering new user...');
 
     const password = req.body.password ? req.body.password : this.crypt.genRandomString(12);
-    const passwordData = this.crypt.saltHashPassword(password);
 
     const orgDefaults = {
       Roles: [
@@ -45,15 +45,14 @@ export class AuthController {
     const user: Partial<UserCreationAttributes> = {
       email: req.body.email,
       login: req.body.login,
-      passwordHash: passwordData.passwordHash,
-      salt: passwordData.salt,
+      password,
       name: req.body.name,
       surname: req.body.surname,
       defaultLang: 'en',
       phone: req.body.phone
     };
 
-    const result = await this.authService.register({ organization, user, password });
+    const result = await this.authService.register({ organization, user });
 
     return sendResponse<BaseResponse, CustomError>(result, res);
   }
@@ -73,7 +72,7 @@ export class AuthController {
 
   public async authenticate(
     req: RequestWithBody<{ login: string; password: string }>,
-    res: Response<string | BaseResponse>
+    res: Response<AuthResponse | BaseResponse>
   ): Promise<void> {
     req.log.info(`Authenticating web client...`);
 
@@ -89,22 +88,22 @@ export class AuthController {
     });
 
     return result.match<void>(
-      (body) => {
+      ({ refreshToken, accessToken, expiresIn, sessionId, tokenType }) => {
         // set cookie for one year, it doest matter, because it has token that itself has an expiration date;
         const expires = new Date();
         expires.setFullYear(expires.getFullYear() + 1);
-        res.cookie('refresh_token', body.refreshToken, { httpOnly: true, expires });
+        res.cookie('refresh_token', refreshToken, { httpOnly: true, expires });
         res.status(StatusCodes.OK);
-        res.json(body.accessToken);
+        res.send({ accessToken, expiresIn, sessionId, tokenType });
       },
       (error) => {
-        res.status(StatusCodes.BAD_REQUEST);
+        res.status(error.statusCode);
         res.send(error.serializeErrors());
       }
     );
   }
 
-  public async refreshSession(req: Request, res: Response<string | BaseResponse>): Promise<void> {
+  public async refreshSession(req: Request, res: Response<AuthResponse | BaseResponse>): Promise<void> {
     req.log.info(`Refreshing session...`);
 
     const cookies = parseCookies(req);
@@ -114,10 +113,10 @@ export class AuthController {
     return result.match<void>(
       (body) => {
         res.status(StatusCodes.OK);
-        res.json(body.accessToken);
+        res.send(body);
       },
       (error) => {
-        res.status(StatusCodes.BAD_REQUEST);
+        res.status(error.statusCode);
         res.send(error.serializeErrors());
       }
     );
@@ -128,9 +127,9 @@ export class AuthController {
 
     const cookies = parseCookies(req);
     if (cookies.refresh_token) {
-      const decodedResult = this.jwtHelper.getDecoded(cookies.refresh_token);
+      const decodedResult = this.jwtHelper.decode(cookies.refresh_token);
       if (decodedResult.isOk()) {
-        await this.userService.removeSession(decodedResult.value.sessionId);
+        await this.userService.removeSession(decodedResult.value.sub);
       }
     }
     // force cookie expiration

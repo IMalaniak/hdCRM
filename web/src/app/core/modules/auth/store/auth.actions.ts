@@ -3,30 +3,25 @@ import { props, createAction } from '@ngrx/store';
 import { Organization, User } from '@core/modules/user-api/shared';
 import { NewPassword } from '@shared/models';
 
+import { AuthResponse } from '../shared';
+
 export const registerUser = createAction('[Auth] Register User Requested', props<{ user: User }>());
 export const registerSuccess = createAction('[Auth API] Register Success');
 
 export const logIn = createAction('[Auth] Login', props<{ user: User }>());
-export const logInSuccess = createAction('[Auth API] Login Success', props<{ accessToken: string }>());
+export const logInSuccess = createAction('[Auth API] Login Success', props<AuthResponse>());
 
+export const initSession = createAction('[Auth] Init Session Token');
 export const refreshSession = createAction('[Auth] Refresh Session Token');
-export const refreshSessionSuccess = createAction(
-  '[Auth API] Refresh Session Success',
-  props<{ accessToken: string }>()
-);
+export const refreshSessionSuccess = createAction('[Auth API] Refresh Session Success', props<AuthResponse>());
 export const refreshSessionFailure = createAction('[Auth API] Refresh Session Failure');
 
-export const setSessionId = createAction('[Auth Effect] Set Session Id', props<{ sessionId: number }>());
 export const deleteSession = createAction('[Session Tab] Delete User Session', props<{ id: number }>());
 export const deleteMultipleSession = createAction(
   '[Session Tab] Delete User Multiple Sessions',
   props<{ sessionIds: number[] }>()
 );
 export const deleteSessionSuccess = createAction('[Users API] Delete User Session Success');
-
-export const checkIsTokenValid = createAction('[Auth] Check Token Validity');
-export const checkIsTokenValidSuccess = createAction('[Auth Service] Check Token Validity Success');
-export const checkIsTokenValidFailure = createAction('[Auth Service] Check Token Validity Failure');
 
 export const setNewPassword = createAction('[Auth] Set New Password Requested', props<{ newPassword: NewPassword }>());
 

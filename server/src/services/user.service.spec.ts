@@ -11,6 +11,7 @@ import { Result } from 'neverthrow';
 import { CreateOptions } from 'sequelize';
 import sinon from 'sinon';
 import Container from 'typedi';
+import * as argon2 from 'argon2';
 
 import { Config } from '../config';
 import { CONSTANTS } from '../constants';
@@ -39,8 +40,7 @@ describe('UserService', () => {
   let findAllPrivilegesStub: sinon.SinonStub;
   let destroySessionStub: sinon.SinonStub;
 
-  let cryptValidatePasswordStub: sinon.SinonStub;
-  let cryptSaltHashPasswordStub: sinon.SinonStub;
+  // let argonValidateStub: sinon.SinonStub;
   let cryptGenRandomStringStub: sinon.SinonStub;
   let cryptGenTimeLimitedTokenStub: sinon.SinonStub;
   let mailerSendPasswordResetConfirmationStub: sinon.SinonStub;
@@ -50,8 +50,6 @@ describe('UserService', () => {
   const userFake = {
     id: 1,
     fullname: 'John Doe',
-    passwordHash: 'hash',
-    salt: 'salt',
     save: sinon.stub() as any,
     getUserSessions: sinon.stub() as any,
     createPasswordAttributes: sinon.stub() as any
@@ -91,8 +89,6 @@ describe('UserService', () => {
     findAllPrivilegesStub = sinon.stub(Privilege, 'findAll');
 
     const cryptInstance = Container.get(CryptoUtils);
-    cryptValidatePasswordStub = sinon.stub(cryptInstance, 'validatePassword');
-    cryptSaltHashPasswordStub = sinon.stub(cryptInstance, 'saltHashPassword');
     cryptGenRandomStringStub = sinon.stub(cryptInstance, 'genRandomString');
     cryptGenTimeLimitedTokenStub = sinon.stub(cryptInstance, 'genTimeLimitedToken');
 
@@ -112,8 +108,6 @@ describe('UserService', () => {
     findAllUsersStub.restore();
     findAllPrivilegesStub.restore();
     destroySessionStub.restore();
-    cryptValidatePasswordStub.restore();
-    cryptSaltHashPasswordStub.restore();
     cryptGenRandomStringStub.restore();
     cryptGenTimeLimitedTokenStub.restore();
     mailerSendPasswordResetConfirmationStub.restore();
@@ -136,8 +130,7 @@ describe('UserService', () => {
     findAllUsersStub.reset();
     findAllPrivilegesStub.reset();
     destroySessionStub.reset();
-    cryptValidatePasswordStub.reset();
-    cryptSaltHashPasswordStub.reset();
+    // argonValidateStub.reset();
     cryptGenRandomStringStub.reset();
     cryptGenTimeLimitedTokenStub.reset();
     mailerSendPasswordResetConfirmationStub.reset();
@@ -168,7 +161,7 @@ describe('UserService', () => {
 
   it('should return error because old password is not correct', async () => {
     findUserByPkStub.withArgs(1).resolves(userFake);
-    cryptValidatePasswordStub.withArgs('old_password', userFake.passwordHash, userFake.salt).returns(false);
+    userFake.password = await argon2.hash('password');
 
     const result = await serviceInstance.updatePassword({
       newPassword: 'new_password',
@@ -178,7 +171,6 @@ describe('UserService', () => {
       userId: 1
     });
     expect(findUserByPkStub.calledOnce).to.be.true;
-    expect(cryptValidatePasswordStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.false;
     expect(result.isErr()).to.be.true;
     expect(result._unsafeUnwrapErr().statusCode).to.equal(StatusCodes.UNAUTHORIZED);
@@ -187,11 +179,7 @@ describe('UserService', () => {
 
   it('should change password when calling updatePassword', async () => {
     findUserByPkStub.withArgs(1).resolves(userFake);
-    cryptValidatePasswordStub.withArgs('old_password', userFake.passwordHash, userFake.salt).returns(true);
-    cryptSaltHashPasswordStub.withArgs('new_password').returns({
-      passwordHash: 'hash',
-      salt: 'salt'
-    });
+    userFake.password = await argon2.hash('old_password');
     (userFake.save as sinon.SinonStub).resolves();
     mailerSendPasswordResetConfirmationStub.withArgs(userFake).resolves();
 
@@ -204,8 +192,6 @@ describe('UserService', () => {
     });
 
     expect(findUserByPkStub.calledOnce).to.be.true;
-    expect(cryptValidatePasswordStub.calledOnce).to.be.true;
-    expect(cryptSaltHashPasswordStub.calledOnce).to.be.true;
     expect(result.isOk()).to.be.true;
     expect(result.isErr()).to.be.false;
     expect(result._unsafeUnwrap().message).to.equal('You have successfully changed your password.');
@@ -213,11 +199,7 @@ describe('UserService', () => {
 
   it('should change password but fail to remove sessions when calling updatePassword', async () => {
     findUserByPkStub.withArgs(1).resolves(userFake);
-    cryptValidatePasswordStub.withArgs('old_password', userFake.passwordHash, userFake.salt).returns(true);
-    cryptSaltHashPasswordStub.withArgs('new_password').returns({
-      passwordHash: 'hash',
-      salt: 'salt'
-    });
+    userFake.password = await argon2.hash('old_password');
     (userFake.save as sinon.SinonStub).resolves();
     mailerSendPasswordResetConfirmationStub.withArgs(userFake).resolves();
     destroySessionStub.rejects();
@@ -232,8 +214,6 @@ describe('UserService', () => {
     });
 
     expect(findUserByPkStub.calledOnce).to.be.true;
-    expect(cryptValidatePasswordStub.calledOnce).to.be.true;
-    expect(cryptSaltHashPasswordStub.calledOnce).to.be.true;
     expect((userFake.save as sinon.SinonStub).calledOnce).to.be.true;
     expect(mailerSendPasswordResetConfirmationStub.calledOnce).to.be.true;
     expect(destroySessionStub.calledOnce).to.be.true;
@@ -411,7 +391,6 @@ describe('UserService', () => {
 
   it('should invite a new user', async () => {
     cryptGenRandomStringStub.returns('password');
-    cryptSaltHashPasswordStub.withArgs('password').returns({ salt: 'salt', passwordHash: 'hash' });
     createStub.resolves(userFake);
     findUserByPkStub.resolves(userFake);
     cryptGenTimeLimitedTokenStub.returns({ value: 'token', expireDate: 'expireDate' });
@@ -431,7 +410,6 @@ describe('UserService', () => {
     const result = await serviceInstance.invite(userFake, 1);
 
     expect(cryptGenRandomStringStub.calledOnce).to.be.true;
-    expect(cryptSaltHashPasswordStub.calledOnce).to.be.true;
     expect(createStub.calledOnce).to.be.true;
     expect(cryptGenTimeLimitedTokenStub.calledOnce).to.be.true;
     expect((userFake.createPasswordAttributes as sinon.SinonStub).calledOnce).to.be.true;
@@ -446,13 +424,11 @@ describe('UserService', () => {
 
   it('should throw error when addind invited user', async () => {
     cryptGenRandomStringStub.returns('password');
-    cryptSaltHashPasswordStub.withArgs('password').returns({ salt: 'salt', passwordHash: 'hash' });
     createStub.throws();
 
     const result = await serviceInstance.invite(userFake, 1);
 
     expect(cryptGenRandomStringStub.calledOnce).to.be.true;
-    expect(cryptSaltHashPasswordStub.calledOnce).to.be.true;
     expect(createStub.calledOnce).to.be.true;
 
     expect(result.isOk()).to.be.false;
@@ -462,7 +438,6 @@ describe('UserService', () => {
 
   it('should throw error when sending email invited user', async () => {
     cryptGenRandomStringStub.returns('password');
-    cryptSaltHashPasswordStub.withArgs('password').returns({ salt: 'salt', passwordHash: 'hash' });
     createStub.resolves(userFake);
     findUserByPkStub.resolves(userFake);
     cryptGenTimeLimitedTokenStub.returns({ value: 'token', expireDate: 'expireDate' });
@@ -476,7 +451,6 @@ describe('UserService', () => {
     const result = await serviceInstance.invite(userFake, 1);
 
     expect(cryptGenRandomStringStub.calledOnce).to.be.true;
-    expect(cryptSaltHashPasswordStub.calledOnce).to.be.true;
     expect(createStub.calledOnce).to.be.true;
     expect(cryptGenTimeLimitedTokenStub.calledOnce).to.be.true;
     expect((userFake.createPasswordAttributes as sinon.SinonStub).calledOnce).to.be.true;
@@ -490,7 +464,6 @@ describe('UserService', () => {
 
   it('should invite multiple users', async () => {
     cryptGenRandomStringStub.returns('password');
-    cryptSaltHashPasswordStub.withArgs('password').returns({ salt: 'salt', passwordHash: 'hash' });
     createStub.resolves(userFake);
     findUserByPkStub.resolves(userFake);
     cryptGenTimeLimitedTokenStub.returns({ value: 'token', expireDate: 'expireDate' });
@@ -510,7 +483,6 @@ describe('UserService', () => {
     const result = await serviceInstance.inviteMultiple([userFake], 1);
 
     expect(cryptGenRandomStringStub.calledOnce).to.be.true;
-    expect(cryptSaltHashPasswordStub.calledOnce).to.be.true;
     expect(createStub.calledOnce).to.be.true;
     expect(cryptGenTimeLimitedTokenStub.calledOnce).to.be.true;
     expect((userFake.createPasswordAttributes as sinon.SinonStub).calledOnce).to.be.true;
@@ -525,13 +497,11 @@ describe('UserService', () => {
 
   it('should fail inviting multiple users', async () => {
     cryptGenRandomStringStub.returns('password');
-    cryptSaltHashPasswordStub.withArgs('password').returns({ salt: 'salt', passwordHash: 'hash' });
     createStub.rejects();
 
     const result = await serviceInstance.inviteMultiple([userFake], 1);
 
     expect(cryptGenRandomStringStub.calledOnce).to.be.true;
-    expect(cryptSaltHashPasswordStub.calledOnce).to.be.true;
     expect(createStub.calledOnce).to.be.true;
 
     expect(result.isOk()).to.be.false;
@@ -543,7 +513,6 @@ describe('UserService', () => {
     const userFake2 = { ...userFake, id: 2 } as User;
 
     cryptGenRandomStringStub.returns('password');
-    cryptSaltHashPasswordStub.withArgs('password').returns({ salt: 'salt', passwordHash: 'hash' });
     createStub.withArgs(userFake).resolves(userFake);
     createStub.withArgs(userFake2).resolves(userFake2);
     findUserByPkStub.withArgs(1).resolves(userFake);
@@ -565,7 +534,6 @@ describe('UserService', () => {
     const result = await serviceInstance.inviteMultiple([userFake, userFake2], 1);
 
     expect(cryptGenRandomStringStub.calledTwice).to.be.true;
-    expect(cryptSaltHashPasswordStub.calledTwice).to.be.true;
     expect(createStub.calledTwice).to.be.true;
     expect(cryptGenTimeLimitedTokenStub.calledOnce).to.be.true;
     expect((userFake.createPasswordAttributes as sinon.SinonStub).calledOnce).to.be.true;

@@ -39,9 +39,9 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
     if (req.body.deleteSessions) {
       const cookies = parseCookies(req);
       if (cookies.refresh_token) {
-        const decodedResult = this.jwtHelper.getDecoded(cookies.refresh_token);
+        const decodedResult = this.jwtHelper.decode(cookies.refresh_token);
         if (decodedResult.isOk()) {
-          sId = decodedResult.value.sessionId;
+          sId = decodedResult.value.sub;
         }
       }
     }

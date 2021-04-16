@@ -22,7 +22,7 @@ export class RoleService extends BaseService<RoleCreationAttributes, RoleAttribu
     },
     {
       association: Role.associations?.Users,
-      attributes: { exclude: ['passwordHash', 'salt'] },
+      attributes: { exclude: ['password'] },
       include: [
         {
           association: User.associations?.avatar,

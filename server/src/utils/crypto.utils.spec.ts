@@ -10,14 +10,18 @@ describe('CryptoUtils', () => {
     expect(randomString).lengthOf(12);
   });
 
-  it('should generate hashed password and then validate it', () => {
-    const password = 'HelloThisIsMyPassword';
-    const { salt, passwordHash } = crypt.saltHashPassword(password);
+  it('should set expire minutes', () => {
+    const date = new Date();
+    const exireIn = crypt.setExpireMinutes(date, 15);
 
-    // put the wrong password => expect false
-    expect(crypt.validatePassword('WrongPassword', passwordHash, salt)).to.equal(false);
+    const diffMs = exireIn.getTime() - date.getTime();
+    const diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
+    expect(diffMins).to.equal(15);
+  });
 
-    // put the correct password => expect true
-    expect(crypt.validatePassword(password, passwordHash, salt)).to.equal(true);
+  it('should generate timelimited token', () => {
+    const timeLimitedToken = crypt.genTimeLimitedToken(15);
+    expect(timeLimitedToken.value.length).to.equal(32);
+    expect(timeLimitedToken.expireDate).to.be.greaterThan(new Date());
   });
 });

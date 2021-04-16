@@ -4,6 +4,7 @@ import { Service } from 'typedi';
 
 import { BaseResponse, PasswordReset, RequestWithBody } from '../models';
 import { AuthController } from '../controllers';
+import { AuthResponse } from '../models/authResponse';
 
 @Service()
 export class AuthRoutes {
@@ -24,11 +25,11 @@ export class AuthRoutes {
 
     this.router.post(
       '/authenticate',
-      async (req: RequestWithBody<{ login: string; password: string }>, res: Response<string | BaseResponse>) =>
+      async (req: RequestWithBody<{ login: string; password: string }>, res: Response<AuthResponse | BaseResponse>) =>
         this.authController.authenticate(req, res)
     );
 
-    this.router.get('/refresh-session', async (req: Request, res: Response<string | BaseResponse>) =>
+    this.router.get('/refresh-session', async (req: Request, res: Response<AuthResponse | BaseResponse>) =>
       this.authController.refreshSession(req, res)
     );
 
