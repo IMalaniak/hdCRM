@@ -280,9 +280,6 @@ export const userFactory = (sequelize: Sequelize): Model => {
       hooks: {
         beforeCreate: async (user) => {
           user.password = await argon2.hash(user.password);
-        },
-        beforeSave: async (user) => {
-          user.password = await argon2.hash(user.password);
         }
       },
       sequelize

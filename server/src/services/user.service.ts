@@ -90,7 +90,7 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
 
         const validatePassword = await argon2.verify(user.password, passData.oldPassword);
         if (validatePassword) {
-          user.password = passData.newPassword;
+          user.password = await argon2.hash(passData.newPassword);
 
           await user.save();
           await this.sendMail(MAIL_THEME.PASSWORD_RESET_CONFIRM, user);

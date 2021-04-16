@@ -282,7 +282,7 @@ export class AuthService {
       if (pa) {
         if (params.newPassword === params.verifyPassword) {
           const user = await pa.getUser();
-          user.password = params.newPassword;
+          user.password = await argon2.hash(params.newPassword);
           await user.save();
 
           pa.token = null;
