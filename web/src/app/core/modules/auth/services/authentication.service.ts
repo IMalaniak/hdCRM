@@ -28,8 +28,8 @@ export class AuthenticationService {
     return this.http.post<BaseMessage>(ApiRoutesConstants.AUTH_REGISTER, user);
   }
 
-  login(loginUser: User): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(ApiRoutesConstants.AUTHENTICATE, loginUser, { withCredentials: true });
+  authenticate(user: User): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(ApiRoutesConstants.AUTHENTICATE, user, { withCredentials: true });
   }
 
   refreshSession(): Observable<AuthResponse> {

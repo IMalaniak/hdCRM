@@ -52,7 +52,7 @@ export class AuthEffects implements OnInitEffects {
       ofType(authActions.logIn),
       map((payload) => payload.user),
       exhaustMap((userLoginData) =>
-        this.authService.login(userLoginData).pipe(
+        this.authService.authenticate(userLoginData).pipe(
           switchMap((response: AuthResponse) => of(authActions.logInSuccess(response))),
           tap(() => {
             const returnUrl = this.route.snapshot.queryParams['returnUrl'] || RoutingConstants.ROUTE_DASHBOARD;

@@ -14,10 +14,10 @@
         >
           <mat-card>
             <mat-card-content class="d-flex justify-content-center flex-column p-3">
-              <h2 i18n="@@loginComponentFormHeaderTitleLogin" class="pb-3">Login</h2>
+              <h2 i18n="@@loginComponentFormHeaderTitleLogin" class="pb-3">Email</h2>
 
-              <!-- Login/Email -->
-              <atoms-input label="Login/Email" [formControl]="user.get('login')"> </atoms-input>
+              <!-- Email -->
+              <atoms-input label="Email" [formControl]="user.get('email')"> </atoms-input>
 
               <!-- Password -->
               <atoms-input
@@ -66,10 +66,10 @@
         <form (submit)="onResetPasswordRequest()" [formGroup]="user" *ngIf="currentPath === paths.REQUEST_NEW_PASSWORD">
           <mat-card>
             <mat-card-content class="d-flex justify-content-center flex-column p-3">
-              <h3 i18n="@@loginComponentFormRequestNewPasswordHeader" class="pb-2">Your email or login</h3>
+              <h3 i18n="@@loginComponentFormRequestNewPasswordHeader" class="pb-2">Your email</h3>
 
               <!-- Login/Email -->
-              <atoms-input label="Login/Email" [formControl]="user.get('login')"> </atoms-input>
+              <atoms-input label="Email" [formControl]="user.get('email')"> </atoms-input>
 
               <div class="d-flex justify-content-between">
                 <atoms-icon-button

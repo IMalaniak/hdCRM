@@ -14,7 +14,6 @@ export interface User extends TimeStamps, BelongsToOrganization {
   name: string;
   surname: string;
   fullname: string;
-  login: string;
   email: string;
   phone: string;
   password: string;

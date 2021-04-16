@@ -13,9 +13,6 @@
                   >General information</ng-template
                 >
                 <form [formGroup]="registerData.get('userCredentials')" class="d-flex flex-column">
-                  <!-- Login -->
-                  <atoms-input label="Login" [formControl]="getControl('userCredentials', 'login')"></atoms-input>
-
                   <!-- Email -->
                   <atoms-input
                     label="Email"

@@ -67,12 +67,6 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   buildRegisterFormGroup(): void {
     this.registerData = this.fb.group({
       userCredentials: this.fb.group({
-        login: new FormControl(null, [
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(25),
-          Validators.pattern(CommonConstants.LOGIN_REGEX)
-        ]),
         email: new FormControl(null, [Validators.required, Validators.email]),
         password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
         generatePassword: new FormControl(null)

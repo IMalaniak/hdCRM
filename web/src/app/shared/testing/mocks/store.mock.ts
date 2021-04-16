@@ -10,7 +10,6 @@ export const currentUserMock = ({
   surname: 'Tester',
   phone: '+380990990909',
   email: 'test@test.ua',
-  login: 'TestTest',
   defaultLang: 'en',
   createdAt: '2019-01-25T13:37:58.125Z',
   updatedAt: '2019-10-19T09:20:31.515Z',
@@ -117,13 +116,6 @@ export const formsStateMock: DynamicFormState = {
           type: FIELD_TYPE.INPUT,
           label: 'Surname',
           isEditable: true
-        },
-        {
-          controlName: 'login',
-          type: FIELD_TYPE.INPUT,
-          label: 'Login',
-          isEditable: false,
-          required: true
         },
         {
           controlName: 'email',
