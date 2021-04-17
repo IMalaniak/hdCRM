@@ -8,7 +8,7 @@ export class CommonConstants {
   static NO_IMAGE_TITLE = 'noimage';
 
   // regex
-  static PHONE_REGEX = /^[0-9]+$/;
+  static PHONE_REGEX = /^[+][0-9]+$/;
   static WWW_REGEX = /^(http:\/\/www.|https:\/\/www.|http:\/\/|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
   static ONLY_TEXT_REGEX = /^[a-zA-Zа-яА-ЯіІїЇàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/;
 

@@ -143,10 +143,10 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
           ]);
         } else if (value === ORGANIZATION_TYPE.PRIVATE) {
           orgTitle.setValidators(null);
-          orgTitle.reset();
           orgWebsite.setValidators([Validators.maxLength(100), Validators.pattern(CommonConstants.WWW_REGEX)]);
-          orgWebsite.reset();
         }
+        orgTitle.reset();
+        orgWebsite.reset();
         orgTitle.updateValueAndValidity();
         orgWebsite.updateValueAndValidity();
       });
