@@ -38,8 +38,7 @@ export class AuthController {
 
     const organization: OrganizationCreationAttributes = {
       ...orgDefaults,
-      ...req.body.Organization,
-      ...(!req.body.Organization.title && { title: `PRIVATE_ORG_FOR_${req.body.name}_${req.body.surname}` })
+      ...req.body.Organization
     };
 
     const user: Partial<UserCreationAttributes> = {
