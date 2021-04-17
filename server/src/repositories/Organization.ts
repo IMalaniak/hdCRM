@@ -23,8 +23,8 @@ import { Role } from './Role';
 
 export interface OrganizationAttributes {
   id: number;
-  title: string;
   type: string;
+  title?: string;
   token?: string;
   country?: string;
   city?: string;
@@ -38,22 +38,22 @@ export interface OrganizationAttributes {
 
 export type OrganizationCreationAttributes = Optional<
   OrganizationAttributes,
-  'id' | 'token' | 'country' | 'city' | 'address' | 'postcode' | 'phone' | 'email' | 'website' | 'employees'
+  'id' | 'title' | 'token' | 'country' | 'city' | 'address' | 'postcode' | 'phone' | 'email' | 'website' | 'employees'
 >;
 
 export class Organization extends Model<OrganizationAttributes, OrganizationCreationAttributes> {
   public id!: number;
-  public title!: string;
-  public token!: string;
   public type!: string;
-  public country!: string;
-  public city!: string;
-  public address!: string;
-  public postcode!: string;
-  public phone!: number;
-  public email!: string;
-  public website!: string;
-  public employees!: string;
+  public title?: string;
+  public token?: string;
+  public country?: string;
+  public city?: string;
+  public address?: string;
+  public postcode?: string;
+  public phone?: number;
+  public email?: string;
+  public website?: string;
+  public employees?: string;
 
   // timestamps
   public readonly createdAt!: Date;
@@ -126,11 +126,8 @@ export const organizationFactory = (sequelize: Sequelize): Model => {
       },
       title: {
         type: new DataTypes.STRING(50),
-        allowNull: false,
         unique: true,
-        validate: {
-          notEmpty: true
-        }
+        allowNull: true
       },
       token: {
         type: DataTypes.STRING,
