@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
-import { Op, UniqueConstraintError } from 'sequelize';
+import { Op, Transaction, UniqueConstraintError } from 'sequelize';
 import * as argon2 from 'argon2';
 
 import { BaseResponse, PasswordReset } from '../models';
@@ -23,13 +23,15 @@ import {
   PasswordAttribute,
   User,
   UserAttributes,
-  UserSession
+  UserSession,
+  DataBase
 } from '../repositories';
 import { Logger } from '../utils/Logger';
 import { CryptoUtils } from '../utils/crypto.utils';
 import { EmailUtils } from '../utils/email.utils';
 import { JwtUtils } from '../utils/jwt.utils';
 import { AuthResponse } from '../models/authResponse';
+import { DatabaseUniqueFieldError } from '../errors/database-unique-field-error';
 
 @Service()
 export class AuthService {
@@ -37,7 +39,8 @@ export class AuthService {
     private readonly crypt: CryptoUtils,
     private readonly mailer: EmailUtils,
     private readonly jwtHelper: JwtUtils,
-    private readonly logger: Logger
+    private readonly logger: Logger,
+    private readonly db: DataBase
   ) {}
 
   public async register(params: {
@@ -46,18 +49,24 @@ export class AuthService {
   }): Promise<Result<BaseResponse, CustomError>> {
     const { organization, user } = params;
 
+    const transaction: Transaction = await this.db.transaction;
+
     try {
       const createdOrg = await Organization.create(organization, {
-        include: [{ association: Organization.associations?.Roles }]
+        include: [{ association: Organization.associations?.Roles }],
+        transaction
       });
-      const createdUser = await createdOrg.createUser({
-        ...user
-      });
+      const createdUser = await createdOrg.createUser(
+        {
+          ...user
+        },
+        { transaction }
+      );
 
       const privileges = await Privilege.findAll();
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const adminRole = createdOrg.Roles![0]!;
-      await adminRole.setPrivileges(privileges);
+      await adminRole.setPrivileges(privileges, { transaction });
       const rPrivileges = await adminRole.getPrivileges();
       for (const privilege of rPrivileges) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -66,16 +75,21 @@ export class AuthService {
         rPriv.delete = true;
         rPriv.edit = true;
         rPriv.view = true;
-        await rPriv.save();
+        await rPriv.save({ transaction });
       }
-      await adminRole.addUser(createdUser);
+      await adminRole.addUser(createdUser, { transaction });
 
       const token = this.crypt.genTimeLimitedToken(24 * 60);
-      await createdUser.createPasswordAttributes({
-        token: token.value,
-        tokenExpire: token.expireDate,
-        passwordExpire: token.expireDate
-      });
+      await createdUser.createPasswordAttributes(
+        {
+          token: token.value,
+          tokenExpire: token.expireDate,
+          passwordExpire: token.expireDate
+        },
+        { transaction }
+      );
+
+      await transaction.commit();
 
       await this.sendMail(MAIL_THEME.ACTIVATIONN, {
         user: createdUser,
@@ -88,8 +102,9 @@ export class AuthService {
         message: 'Activation link has been sent'
       });
     } catch (error) {
+      await transaction.rollback();
       if (error instanceof UniqueConstraintError) {
-        return err(new BadRequestError('some problem'));
+        return err(new DatabaseUniqueFieldError(error));
       }
       this.logger.error(error);
       return err(new InternalServerError());

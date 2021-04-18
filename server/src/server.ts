@@ -49,6 +49,7 @@ export class Server {
         logger: this.logger.instance
       })
     );
+    this.dBase.init();
     this.socket = new SocketServer(this.server);
     this.socketRouter.initSocketConnection(this.socket);
     this.router = Router();

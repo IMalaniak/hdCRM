@@ -126,7 +126,10 @@ export const organizationFactory = (sequelize: Sequelize): Model => {
       },
       title: {
         type: new DataTypes.STRING(50),
-        unique: true,
+        unique: {
+          msg: 'Organization with this title already exists.',
+          name: 'Organizations_title_key'
+        },
         allowNull: true
       },
       token: {
@@ -143,18 +146,27 @@ export const organizationFactory = (sequelize: Sequelize): Model => {
       postcode: DataTypes.STRING(10),
       phone: {
         type: DataTypes.STRING,
-        unique: true
+        unique: {
+          msg: 'Organization with this phone already exists.',
+          name: 'Organizations_phone_key'
+        }
       },
       email: {
         type: DataTypes.STRING,
-        unique: true,
+        unique: {
+          msg: 'Organization with this email already exists.',
+          name: 'Organizations_email_key'
+        },
         validate: {
           isEmail: true
         }
       },
       website: {
         type: DataTypes.STRING(100),
-        unique: true,
+        unique: {
+          msg: 'Organization with this website already exists.',
+          name: 'Organizations_website_key'
+        },
         validate: {
           isUrl: true
         }

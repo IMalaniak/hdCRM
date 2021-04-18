@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 
-import { BaseResponse } from '../models';
+import { ErrorResponse } from '../models';
 
 import { CustomError } from './custom-error';
 
@@ -13,7 +13,7 @@ export class BadRequestError extends CustomError {
     Object.setPrototypeOf(this, BadRequestError.prototype);
   }
 
-  serializeErrors(): BaseResponse {
+  serializeErrors(): ErrorResponse {
     return { message: this.message };
   }
 }

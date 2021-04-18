@@ -1,4 +1,4 @@
-import { BaseResponse } from '../models';
+import { ErrorResponse } from '../models';
 
 export abstract class CustomError extends Error {
   abstract statusCode: number;
@@ -9,5 +9,5 @@ export abstract class CustomError extends Error {
     Object.setPrototypeOf(this, CustomError.prototype);
   }
 
-  abstract serializeErrors(): BaseResponse;
+  abstract serializeErrors(): ErrorResponse;
 }
