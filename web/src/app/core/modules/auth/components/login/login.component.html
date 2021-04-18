@@ -14,8 +14,6 @@
         >
           <mat-card>
             <mat-card-content class="d-flex justify-content-center flex-column p-3">
-              <h2 i18n="@@loginComponentFormHeaderTitleLogin" class="pb-3">Email</h2>
-
               <!-- Email -->
               <atoms-input label="Email" [formControl]="user.get('email')" autocomplete="email"> </atoms-input>
 
@@ -69,7 +67,7 @@
             <mat-card-content class="d-flex justify-content-center flex-column p-3">
               <h3 i18n="@@loginComponentFormRequestNewPasswordHeader" class="pb-2">Your email</h3>
 
-              <!-- Login/Email -->
+              <!-- Email -->
               <atoms-input label="Email" [formControl]="user.get('email')" autocomplete="email"> </atoms-input>
 
               <div class="d-flex justify-content-between">
