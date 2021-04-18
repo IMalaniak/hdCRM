@@ -230,7 +230,8 @@ export const userFactory = (sequelize: Sequelize): Model => {
         }
       },
       phone: {
-        type: new DataTypes.CHAR(15)
+        type: DataTypes.STRING,
+        unique: true
       },
       email: {
         type: new DataTypes.STRING(50),

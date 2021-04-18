@@ -141,7 +141,10 @@ export const organizationFactory = (sequelize: Sequelize): Model => {
       city: DataTypes.STRING(50),
       address: DataTypes.STRING,
       postcode: DataTypes.STRING(10),
-      phone: DataTypes.STRING,
+      phone: {
+        type: DataTypes.STRING,
+        unique: true
+      },
       email: {
         type: DataTypes.STRING,
         unique: true,

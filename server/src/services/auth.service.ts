@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
-import { Op } from 'sequelize';
+import { Op, UniqueConstraintError } from 'sequelize';
 import * as argon2 from 'argon2';
 
 import { BaseResponse, PasswordReset } from '../models';
@@ -88,6 +88,9 @@ export class AuthService {
         message: 'Activation link has been sent'
       });
     } catch (error) {
+      if (error instanceof UniqueConstraintError) {
+        return err(new BadRequestError('some problem'));
+      }
       this.logger.error(error);
       return err(new InternalServerError());
     }
