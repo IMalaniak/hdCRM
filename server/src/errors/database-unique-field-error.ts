@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
-import { UniqueConstraintError } from 'sequelize/types';
+import { UniqueConstraintError, ValidationErrorItem } from 'sequelize/types';
 
 import { ErrorResponse } from '../models';
 
@@ -16,7 +16,7 @@ export class DatabaseUniqueFieldError extends CustomError {
 
   serializeErrors(): ErrorResponse {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const error = this.error.errors[0]!;
+    const error: ValidationErrorItem = this.error.errors[0]!;
     return { message: error.message, field: error.path };
   }
 }
