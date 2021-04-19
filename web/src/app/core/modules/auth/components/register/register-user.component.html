@@ -18,6 +18,7 @@
                     label="Email"
                     [inputType]="inputTypes.EMAIL"
                     [formControl]="getControl('userCredentials', 'email')"
+                    autocomplete="email"
                   ></atoms-input>
 
                   <!-- Password -->
@@ -26,6 +27,7 @@
                     label="Password"
                     [inputType]="hidePassword ? inputTypes.PASSWORD : inputTypes.TEXT"
                     [formControl]="getControl('userCredentials', 'password')"
+                    autocomplete="new-password"
                   >
                     <mat-icon
                       suffix
@@ -53,18 +55,26 @@
                 >
                 <form [formGroup]="registerData.get('userPersonalInfo')" class="d-flex flex-column">
                   <!-- Name -->
-                  <atoms-input label="Name" [formControl]="getControl('userPersonalInfo', 'name')"></atoms-input>
+                  <atoms-input
+                    label="Name"
+                    [formControl]="getControl('userPersonalInfo', 'name')"
+                    autocomplete="given-name"
+                  ></atoms-input>
 
                   <!-- Surname -->
-                  <atoms-input label="Surname" [formControl]="getControl('userPersonalInfo', 'surname')"></atoms-input>
+                  <atoms-input
+                    label="Surname"
+                    [formControl]="getControl('userPersonalInfo', 'surname')"
+                    autocomplete="family-name"
+                  ></atoms-input>
 
                   <!-- Phone -->
                   <atoms-input
                     label="Phone"
                     [inputType]="inputTypes.TEL"
                     [formControl]="getControl('userPersonalInfo', 'phone')"
+                    autocomplete="tel"
                   >
-                    <span prefix>+ &nbsp;</span>
                   </atoms-input>
                 </form>
                 <div class="d-flex justify-content-between">
@@ -97,20 +107,22 @@
 
                   <!-- Company name -->
                   <atoms-input
-                    *ngIf="getControl('userOrganization', 'type').value === orgTypes.COMPANY"
+                    *ngIf="
+                      getControl('userOrganization', 'type').value === orgTypes.COMPANY ||
+                      getControl('userOrganization', 'type').value === orgTypes.PRIVATE
+                    "
                     label="Company name"
                     [formControl]="getControl('userOrganization', 'title')"
+                    autocomplete="organization-title"
                   ></atoms-input>
 
                   <!-- Web site address -->
                   <atoms-input
-                    *ngIf="
-                      getControl('userOrganization', 'title').value ||
-                      getControl('userOrganization', 'type').value === orgTypes.PRIVATE
-                    "
+                    *ngIf="getControl('userOrganization', 'title').value"
                     label="Web site address"
                     [inputType]="inputTypes.URL"
                     [formControl]="getControl('userOrganization', 'website')"
+                    autocomplete="url"
                   ></atoms-input>
 
                   <mat-accordion *ngIf="getControl('userOrganization', 'type').value === orgTypes.COMPANY">
@@ -147,30 +159,39 @@
                       <atoms-input
                         label="Country"
                         [formControl]="getControl('userOrganization', 'country')"
+                        autocomplete="country"
                       ></atoms-input>
                       <!-- City -->
-                      <atoms-input label="City" [formControl]="getControl('userOrganization', 'city')"></atoms-input>
+                      <atoms-input
+                        label="City"
+                        [formControl]="getControl('userOrganization', 'city')"
+                        autocomplete="address-line1"
+                      ></atoms-input>
                       <!-- Address -->
                       <atoms-input
                         label="Address"
                         [formControl]="getControl('userOrganization', 'address')"
+                        autocomplete="address-line2"
                       ></atoms-input>
                       <!-- Postcode -->
                       <atoms-input
                         label="Postcode"
                         [formControl]="getControl('userOrganization', 'postcode')"
+                        autocomplete="postal-code"
                       ></atoms-input>
                       <!-- Phone -->
                       <atoms-input
                         label="Phone"
                         [inputType]="inputTypes.TEL"
                         [formControl]="getControl('userOrganization', 'phone')"
+                        autocomplete="tel"
                       ></atoms-input>
                       <!-- Email -->
                       <atoms-input
                         label="Email"
                         [inputType]="inputTypes.EMAIL"
                         [formControl]="getControl('userOrganization', 'email')"
+                        autocomplete="email"
                       ></atoms-input>
                     </mat-expansion-panel>
                   </mat-accordion>

@@ -6,6 +6,8 @@ import { INPUT_TYPE } from '@shared/constants';
 
 import { BaseControlValueAccessorComponentModel } from '../../base/componentModels';
 
+import { Autocomplete } from './autocomplete';
+
 @Component({
   selector: 'atoms-input',
   template: `
@@ -14,7 +16,7 @@ import { BaseControlValueAccessorComponentModel } from '../../base/componentMode
       [canValidate]="(ngControl.control?.invalid || ngControl.control?.touched) && canValidate"
       [inputErrors]="ngControl.control?.invalid || ngControl.control?.touched ? ngControl.control?.errors : {}"
     >
-      <input matInput trimInput [type]="inputType" [formControl]="ngControl.control" />
+      <input matInput trimInput [type]="inputType" [formControl]="ngControl.control" [autocomplete]="autocomplete" />
       <ng-content prefix select="[prefix]"></ng-content>
       <ng-content suffix select="[suffix]"></ng-content>
     </input-validation-component>
@@ -25,7 +27,7 @@ export class AtomsInputComponent extends BaseControlValueAccessorComponentModel<
   @Input() canValidate = true;
   @Input() label = '';
   @Input() inputType: INPUT_TYPE = INPUT_TYPE.TEXT;
-  @Input() autocomplete: 'on' | 'off' = 'on'; // TODO: investigate the universal method to control autocomplete, the autocomplete don't work
+  @Input() autocomplete: Autocomplete = 'on';
 
   constructor(@Optional() @Self() readonly ngControl: NgControl) {
     super();

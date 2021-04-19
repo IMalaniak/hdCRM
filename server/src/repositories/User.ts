@@ -230,12 +230,19 @@ export const userFactory = (sequelize: Sequelize): Model => {
         }
       },
       phone: {
-        type: new DataTypes.CHAR(15)
+        type: DataTypes.STRING,
+        unique: {
+          msg: 'This phone number is already taken.',
+          name: 'Users_phone_key'
+        }
       },
       email: {
         type: new DataTypes.STRING(50),
         allowNull: false,
-        unique: true,
+        unique: {
+          msg: 'This email is already taken.',
+          name: 'Users_email_key'
+        },
         validate: {
           notEmpty: true,
           isEmail: true

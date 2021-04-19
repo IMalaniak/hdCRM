@@ -1,5 +1,5 @@
 import { Service } from 'typedi';
-import { Op, Sequelize } from 'sequelize';
+import { Op, Sequelize, Transaction } from 'sequelize';
 
 import { Logger } from '../utils/Logger';
 
@@ -22,9 +22,11 @@ import { formFactory } from './Form';
 
 @Service()
 export class DataBase {
-  sequelize: Sequelize;
+  sequelize!: Sequelize;
 
-  constructor(private readonly logger: Logger) {
+  constructor(private readonly logger: Logger) {}
+
+  public init(): void {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.sequelize = new Sequelize(process.env.DATABASE_URL!, {
       operatorsAliases: {
@@ -60,9 +62,17 @@ export class DataBase {
           }
         }
       }),
-      logging: this.logger.debug.bind(logger)
+      logging: this.logger.debug.bind(this.logger)
     });
     this.createModels();
+  }
+
+  public get connection(): Sequelize {
+    return this.sequelize;
+  }
+
+  public get transaction(): Promise<Transaction> {
+    return this.sequelize.transaction();
   }
 
   private createModels(): void {
@@ -178,9 +188,5 @@ export class DataBase {
     Task.belongsTo(User, { as: 'Creator' });
     Task.belongsTo(TaskPriority);
     TaskPriority.hasMany(Task);
-  }
-
-  public get connection(): Sequelize {
-    return this.sequelize;
   }
 }

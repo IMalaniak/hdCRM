@@ -23,8 +23,8 @@ import { Role } from './Role';
 
 export interface OrganizationAttributes {
   id: number;
-  title: string;
   type: string;
+  title?: string;
   token?: string;
   country?: string;
   city?: string;
@@ -38,22 +38,22 @@ export interface OrganizationAttributes {
 
 export type OrganizationCreationAttributes = Optional<
   OrganizationAttributes,
-  'id' | 'token' | 'country' | 'city' | 'address' | 'postcode' | 'phone' | 'email' | 'website' | 'employees'
+  'id' | 'title' | 'token' | 'country' | 'city' | 'address' | 'postcode' | 'phone' | 'email' | 'website' | 'employees'
 >;
 
 export class Organization extends Model<OrganizationAttributes, OrganizationCreationAttributes> {
   public id!: number;
-  public title!: string;
-  public token!: string;
   public type!: string;
-  public country!: string;
-  public city!: string;
-  public address!: string;
-  public postcode!: string;
-  public phone!: number;
-  public email!: string;
-  public website!: string;
-  public employees!: string;
+  public title?: string;
+  public token?: string;
+  public country?: string;
+  public city?: string;
+  public address?: string;
+  public postcode?: string;
+  public phone?: number;
+  public email?: string;
+  public website?: string;
+  public employees?: string;
 
   // timestamps
   public readonly createdAt!: Date;
@@ -126,11 +126,11 @@ export const organizationFactory = (sequelize: Sequelize): Model => {
       },
       title: {
         type: new DataTypes.STRING(50),
-        allowNull: false,
-        unique: true,
-        validate: {
-          notEmpty: true
-        }
+        unique: {
+          msg: 'Organization with this title already exists.',
+          name: 'Organizations_title_key'
+        },
+        allowNull: true
       },
       token: {
         type: DataTypes.STRING,
@@ -144,17 +144,29 @@ export const organizationFactory = (sequelize: Sequelize): Model => {
       city: DataTypes.STRING(50),
       address: DataTypes.STRING,
       postcode: DataTypes.STRING(10),
-      phone: DataTypes.STRING,
+      phone: {
+        type: DataTypes.STRING,
+        unique: {
+          msg: 'Organization with this phone already exists.',
+          name: 'Organizations_phone_key'
+        }
+      },
       email: {
         type: DataTypes.STRING,
-        unique: true,
+        unique: {
+          msg: 'Organization with this email already exists.',
+          name: 'Organizations_email_key'
+        },
         validate: {
           isEmail: true
         }
       },
       website: {
         type: DataTypes.STRING(100),
-        unique: true,
+        unique: {
+          msg: 'Organization with this website already exists.',
+          name: 'Organizations_website_key'
+        },
         validate: {
           isUrl: true
         }

@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 
 import { CONSTANTS } from '../constants';
-import { BaseResponse } from '../models';
+import { ErrorResponse } from '../models';
 
 import { CustomError } from './custom-error';
 
@@ -14,7 +14,7 @@ export class NotAuthorizedError extends CustomError {
     Object.setPrototypeOf(this, NotAuthorizedError.prototype);
   }
 
-  serializeErrors(): BaseResponse {
+  serializeErrors(): ErrorResponse {
     return { message: this.message };
   }
 }
