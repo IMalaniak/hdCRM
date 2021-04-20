@@ -24,7 +24,6 @@ export class StageService extends BaseService<StageCreationAttributes, StageAttr
         include: [
           {
             model: Plan,
-            as: 'StagePlans',
             where: {
               OrganizationId: organizationId
             },

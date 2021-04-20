@@ -1,6 +1,5 @@
 import { Department } from '@core/modules/department-api/shared';
 import { Role } from '@core/modules/role-api/shared';
-import { Asset } from '@shared/models';
 import { TimeStamps } from '@shared/models/base';
 
 import { BelongsToOrganization } from './organization';
@@ -19,14 +18,13 @@ export interface User extends TimeStamps, BelongsToOrganization {
   password: string;
   Role: Role;
   RoleId: number;
-  defaultLang: string;
+  locale: string;
   state: USER_STATE;
   Department: Department;
   DepartmentId: number;
-  avatarId: number;
-  avatar: Asset;
   UserSessions: UserSession[];
   PasswordAttributes: PasswordAttributes;
   Preference: UserPreferences;
   online: boolean;
+  picture: string;
 }

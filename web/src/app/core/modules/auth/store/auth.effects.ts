@@ -170,7 +170,7 @@ export class AuthEffects implements OnInitEffects {
           id: currentUser.id,
           name: currentUser.name,
           surname: currentUser.surname,
-          avatar: currentUser.avatar,
+          picture: currentUser.picture,
           OrganizationId: currentUser.OrganizationId
         });
 

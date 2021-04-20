@@ -5,7 +5,7 @@ import { IncludeOptions, Op } from 'sequelize';
 import { CollectionApiResponse } from '../models';
 import { CONSTANTS } from '../constants';
 import { CustomError, InternalServerError } from '../errors';
-import { RoleCreationAttributes, RoleAttributes, Role, User, Privilege, Asset } from '../repositories';
+import { RoleCreationAttributes, RoleAttributes, Role, User, Privilege } from '../repositories';
 
 import { BaseService } from './base/base.service';
 
@@ -22,12 +22,6 @@ export class RoleService extends BaseService<RoleCreationAttributes, RoleAttribu
     {
       model: User,
       attributes: { exclude: ['password'] },
-      include: [
-        {
-          model: Asset,
-          as: 'avatar'
-        }
-      ],
       required: false
     }
   ];

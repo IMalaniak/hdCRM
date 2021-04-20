@@ -5,7 +5,7 @@ import { IncludeOptions, Op } from 'sequelize';
 import { CollectionApiResponse } from '../models';
 import { CONSTANTS } from '../constants';
 import { CustomError, InternalServerError } from '../errors';
-import { DepartmentCreationAttributes, DepartmentAttributes, Department, User, Asset } from '../repositories';
+import { DepartmentCreationAttributes, DepartmentAttributes, Department, User } from '../repositories';
 
 import { BaseService } from './base/base.service';
 
@@ -26,24 +26,12 @@ export class DepartmentService extends BaseService<DepartmentCreationAttributes,
       model: User,
       as: 'Workers',
       attributes: { exclude: ['password'] },
-      include: [
-        {
-          model: Asset,
-          as: 'avatar'
-        }
-      ],
       required: false
     },
     {
       model: User,
       as: 'Manager',
       attributes: { exclude: ['password'] },
-      include: [
-        {
-          model: Asset,
-          as: 'avatar'
-        }
-      ],
       required: false
     }
   ];

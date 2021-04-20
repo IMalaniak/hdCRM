@@ -29,13 +29,7 @@ export class PlanService extends BaseService<PlanCreationAttributes, PlanAttribu
     {
       model: User,
       as: 'Creator',
-      attributes: { exclude: ['password'] },
-      include: [
-        {
-          model: Asset,
-          as: 'avatar'
-        }
-      ]
+      attributes: { exclude: ['password'] }
     },
     {
       model: User,
@@ -43,13 +37,7 @@ export class PlanService extends BaseService<PlanCreationAttributes, PlanAttribu
       attributes: { exclude: ['password'] },
       through: {
         attributes: []
-      },
-      include: [
-        {
-          model: Asset,
-          as: 'avatar'
-        }
-      ]
+      }
     },
     {
       model: Asset,

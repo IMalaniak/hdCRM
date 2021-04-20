@@ -46,7 +46,7 @@ export class AuthController {
       password,
       name: req.body.name,
       surname: req.body.surname,
-      defaultLang: 'en',
+      locale: 'en',
       phone: req.body.phone
     };
 

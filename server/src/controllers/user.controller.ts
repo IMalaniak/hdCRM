@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import Container, { Service } from 'typedi';
-import jimp from 'jimp';
 
 import { CONSTANTS } from '../constants';
 import { ItemApiResponse, BaseResponse, CollectionApiResponse, RequestWithBody, PasswordReset } from '../models';
@@ -12,9 +11,7 @@ import {
   User,
   UserSession,
   OrganizationAttributes,
-  Organization,
-  Asset,
-  AssetCreationAttributes
+  Organization
 } from '../repositories';
 import { JwtUtils } from '../utils/jwt.utils';
 import { parseCookies } from '../utils/parseCookies';
@@ -129,43 +126,6 @@ export class UserController extends BaseController<UserCreationAttributes, UserA
     const result = await this.dataBaseService.inviteMultiple(req.body, req.user!.OrganizationId);
 
     return sendResponse<CollectionApiResponse<User>, CustomError>(result, res);
-  }
-
-  public async updateAvatar(
-    req: Request<{ id: string }>,
-    res: Response<ItemApiResponse<Asset> | BaseResponse>
-  ): Promise<void> {
-    req.log.info(`Update user avatar`);
-
-    const tpl = await jimp.read(req.file.path);
-    tpl
-      .clone()
-      .resize(100, jimp.AUTO)
-      .write(req.file.destination + '/thumbnails/' + req.file.originalname);
-
-    const params: { avatar: AssetCreationAttributes; userId: string } = {
-      avatar: {
-        title: req.file.originalname,
-        location: req.file.destination.split('uploads')[1] as string,
-        type: req.file.mimetype
-      },
-      userId: req.params.id
-    };
-
-    const result = await this.dataBaseService.updateAvatar(params);
-
-    return sendResponse<ItemApiResponse<Asset>, CustomError>(result, res);
-  }
-
-  public async deleteAvatar(req: Request<{ id: string }>, res: Response<BaseResponse>): Promise<void> {
-    const {
-      params: { id }
-    } = req;
-    req.log.info(`Delete user avatar by id: ${id}`);
-
-    const result = await this.dataBaseService.deleteAvatar(id);
-
-    return sendResponse<BaseResponse, CustomError>(result, res);
   }
 
   protected generateCreationAttributes(req: RequestWithBody<UserCreationAttributes>): UserCreationAttributes {

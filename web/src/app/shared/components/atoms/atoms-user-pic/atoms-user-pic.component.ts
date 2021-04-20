@@ -2,12 +2,11 @@ import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core
 import { environment } from 'environments/environment';
 
 import { CommonConstants } from '@shared/constants';
-import { Asset } from '@shared/models';
 
 @Component({
   selector: 'atoms-user-pic',
   template: `
-    <img src="{{ src }}" alt="{{ title }}" [hidden]="imageIsLoading" (load)="imageIsLoading = false" />
+    <img src="{{ src }}" [hidden]="imageIsLoading" (load)="imageIsLoading = false" />
     <span *ngIf="!imageIsLoading" class="user-status-icon" [ngClass]="{ 'bg-accent': userOnline }"></span>
     <mat-spinner *ngIf="imageIsLoading" [diameter]="35" [strokeWidth]="2"></mat-spinner>
   `,
@@ -15,7 +14,7 @@ import { Asset } from '@shared/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AtomsUserPicComponent implements OnInit {
-  @Input() avatar: Asset = null;
+  @Input() picture: string = null;
 
   @Input() userOnline: false;
 
@@ -25,9 +24,8 @@ export class AtomsUserPicComponent implements OnInit {
   imageIsLoading = true;
 
   ngOnInit(): void {
-    if (!!this.avatar) {
-      this.src = this.baseUrl + this.avatar.location + '/thumbnails/' + this.avatar.title;
-      this.title = this.avatar.title;
+    if (!!this.picture) {
+      this.src = this.picture;
     }
   }
 }

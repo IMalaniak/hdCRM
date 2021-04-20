@@ -6,10 +6,10 @@ import { Asset } from '@shared/models';
 @Component({
   selector: 'molecules-profile-pic-with-uploader',
   template: `
-    <div class="avatar-uploader">
+    <div class="picture-uploader">
       <atoms-profile-pic
         *ngIf="!changePic"
-        [avatar]="avatar"
+        [picture]="picture"
         (imageLoad)="changePicButtonVisible = true"
       ></atoms-profile-pic>
 
@@ -32,7 +32,7 @@ import { Asset } from '@shared/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MoleculesProfilePicWithUploaderComponent {
-  @Input() avatar: Asset;
+  @Input() picture: Asset;
   @Input() apiUrl: string;
 
   @Output() addFileCall: EventEmitter<any> = new EventEmitter();
@@ -47,7 +47,7 @@ export class MoleculesProfilePicWithUploaderComponent {
 
   onAddFile(asset: Asset): void {
     setTimeout(() => {
-      this.avatar = { ...asset };
+      this.picture = { ...asset };
       this.changePic = false;
     }, 300);
 

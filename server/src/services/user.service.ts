@@ -1,7 +1,4 @@
-import path from 'path';
-import fs from 'fs';
-import { promisify } from 'util';
-
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import * as argon2 from 'argon2';
 import Container, { Service } from 'typedi';
 import { Op, IncludeOptions } from 'sequelize';
@@ -19,8 +16,6 @@ import {
   UserSession,
   OrganizationAttributes,
   Organization,
-  AssetCreationAttributes,
-  Asset,
   Privilege,
   Preference,
   PasswordAttribute,
@@ -34,7 +29,6 @@ import { BaseService } from './base/base.service';
 
 @Service()
 export class UserService extends BaseService<UserCreationAttributes, UserAttributes, User> {
-  private readonly unlinkAsync = promisify(fs.unlink);
   protected excludes: string[] = ['password'];
   protected readonly includes: IncludeOptions[] = [
     {
@@ -62,10 +56,6 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
       as: 'PasswordAttributes',
       attributes: ['updatedAt', 'passwordExpire'],
       required: false
-    },
-    {
-      model: Asset,
-      as: 'avatar'
     },
     {
       model: Department,
@@ -267,76 +257,6 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
       });
     } else {
       return ok({ message: 'Invitations have been sent successfully!', data: invitedUsers });
-    }
-  }
-
-  public async updateAvatar(params: {
-    avatar: AssetCreationAttributes;
-    userId: string;
-  }): Promise<Result<ItemApiResponse<Asset>, CustomError>> {
-    let message: string;
-
-    try {
-      const { avatar, userId } = params;
-
-      const user = await User.findByPk(userId);
-      if (!user) {
-        return err(new NotFoundError('User not found!'));
-      }
-      const userAvatar = await user.getAvatar();
-
-      if (userAvatar.id) {
-        await Asset.destroy({
-          where: { id: avatar.id }
-        });
-
-        const uploadsPath = path.join(__dirname, '../../uploads');
-        const destination = uploadsPath + avatar.location + '/' + avatar.title;
-        const thumbDestination = uploadsPath + avatar.location + '/thumbnails/' + avatar.title;
-        await this.unlinkAsync(destination);
-        await this.unlinkAsync(thumbDestination);
-
-        message = 'User profile picture is updated successfully!';
-      } else {
-        message = 'User profile picture is added successfully!';
-      }
-      const newAvatar = await user.createAvatar(avatar as any);
-
-      return ok({
-        message,
-        data: newAvatar
-      });
-    } catch (error) {
-      this.logger.error(error);
-      return err(new InternalServerError());
-    }
-  }
-
-  public async deleteAvatar(userId: string): Promise<Result<BaseResponse, CustomError>> {
-    try {
-      const user = await User.findByPk(userId);
-      if (!user) {
-        return err(new NotFoundError('User not found!'));
-      }
-      const userAvatar = await user.getAvatar();
-      if (userAvatar.id) {
-        await Asset.destroy({
-          where: { id: userAvatar.id }
-        });
-
-        const uploadsPath = path.join(__dirname, '../../uploads');
-        const destination = uploadsPath + userAvatar.location + '/' + userAvatar.title;
-        const thumbDestination = uploadsPath + userAvatar.location + '/thumbnails/' + userAvatar.title;
-        await this.unlinkAsync(destination);
-        await this.unlinkAsync(thumbDestination);
-
-        return ok({ message: 'Profile picture is deleted' });
-      } else {
-        return err(new NotFoundError('Avatar not found!'));
-      }
-    } catch (error) {
-      this.logger.error(error);
-      return err(new InternalServerError());
     }
   }
 

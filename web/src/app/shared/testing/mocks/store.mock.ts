@@ -10,11 +10,10 @@ export const currentUserMock = ({
   surname: 'Tester',
   phone: '+380990990909',
   email: 'test@test.ua',
-  defaultLang: 'en',
+  locale: 'en',
   createdAt: '2019-01-25T13:37:58.125Z',
   updatedAt: '2019-10-19T09:20:31.515Z',
   OrganizationId: 1,
-  avatarId: null,
   StateId: 2,
   DepartmentId: 1,
   RoleId: 1,
@@ -66,7 +65,7 @@ export const currentUserMock = ({
   ],
   PasswordAttributes: { updatedAt: '2019-10-16T11:39:39.397Z', passwordExpire: null },
   State: { id: 2, keyString: 'active' },
-  avatar: null,
+  picture: null,
   Department: {
     title: 'CEO'
   },
