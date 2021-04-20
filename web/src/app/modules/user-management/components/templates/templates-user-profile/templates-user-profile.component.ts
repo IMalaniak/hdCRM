@@ -12,7 +12,6 @@ import { AppState } from '@core/store';
 import { Preferences } from '@core/store/preferences';
 import { changeIsEditingState } from '@modules/user-management/store';
 import { TAB_PRIVILEGE, TAB_NAME, TAB_LABEL } from '@shared/constants';
-import { Asset } from '@shared/models';
 
 @Component({
   selector: 'templates-user-profile',
@@ -50,8 +49,7 @@ export class TemplatesUserProfileComponent implements OnInit {
     }
   }
 
-  // TODO: remove asset and remove profile pic uploader
-  updateUser(user: User, _asset?: Asset): void {
+  updateUser(user: User): void {
     if (this.isProfilePage) {
       this.store.dispatch(updateUserProfileRequested({ user }));
     } else {

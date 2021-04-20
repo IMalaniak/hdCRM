@@ -5,11 +5,7 @@
         <img src="{{ user.picture }}" alt="{{ user.fullname }}" />
       </div>
 
-      <templates-user-details
-        [user]="user"
-        [isDialog]="false"
-        (addFileCall)="updateUser(user, $event)"
-      ></templates-user-details>
+      <templates-user-details [user]="user" [isDialog]="false"></templates-user-details>
     </aside>
 
     <div class="col-sm-12 col-md-8 col-lg-9 tabs">

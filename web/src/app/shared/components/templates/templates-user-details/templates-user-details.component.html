@@ -1,13 +1,7 @@
 <div class="profile-details" *ngIf="user">
-  <div class="profile-picture" *ngIf="!isDialog">
-    <molecules-profile-pic-with-uploader
-      [picture]="user.picture"
-      [apiUrl]="'/users/' + user.id + '/picture'"
-      (addFileCall)="onAddFile($event)"
-    ></molecules-profile-pic-with-uploader>
+  <div class="profile-picture">
+    <atoms-profile-pic [picture]="user.picture" picClass="w-50 mx-auto my-3"></atoms-profile-pic>
   </div>
-
-  <atoms-profile-pic *ngIf="isDialog" [picture]="user.picture" picClass="w-50 mx-auto my-3"></atoms-profile-pic>
 
   <div class="caption">
     <mat-icon [svgIcon]="icons.user" class="icon icon-normal" aria-hidden="false"></mat-icon>
