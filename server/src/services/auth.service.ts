@@ -213,6 +213,38 @@ export class AuthService {
     }
   }
 
+  public async oauth(params: {
+    user: User;
+    connection: {
+      IP: string;
+      UA: string | undefined;
+    };
+  }): Promise<Result<AuthResponse, CustomError>> {
+    const { user, connection } = params;
+    try {
+      const userSession = await this.saveLogInAttempt(connection, user, true);
+      const {
+        token: accessToken,
+        decoded: { exp }
+      } = this.jwtHelper.sign({
+        type: 'access',
+        payload: { sub: user.id }
+      });
+      const {
+        token: refreshToken,
+        decoded: { sub }
+      } = this.jwtHelper.sign({
+        type: 'refresh',
+        payload: { sub: userSession.id }
+      });
+
+      return ok({ accessToken, refreshToken, tokenType: 'bearer', expiresIn: exp, sessionId: sub });
+    } catch (error) {
+      this.logger.error(error);
+      return err(new InternalServerError());
+    }
+  }
+
   public async refreshSession(token: string | undefined): Promise<Result<AuthResponse, CustomError>> {
     if (token) {
       const userSession = await this.jwtHelper.verifyAndGetSubject({ type: 'refresh', token });

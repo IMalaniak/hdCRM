@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import * as argon2 from 'argon2';
 import Container, { Service } from 'typedi';
-import { Op, IncludeOptions } from 'sequelize';
+import { Op, IncludeOptions, Transaction } from 'sequelize';
 import { err, ok, Result } from 'neverthrow';
 
-import { ItemApiResponse, BaseResponse, CollectionApiResponse, PasswordReset } from '../models';
-import { CONSTANTS, MAIL_THEME } from '../constants';
+import { ItemApiResponse, BaseResponse, CollectionApiResponse, PasswordReset, GoogleTokenPayload } from '../models';
+import { CONSTANTS, MAIL_THEME, USER_STATE } from '../constants';
 import { Config } from '../config';
 import { BadRequestError, CustomError, InternalServerError, NotAuthorizedError, NotFoundError } from '../errors';
 import {
@@ -19,7 +19,8 @@ import {
   Privilege,
   Preference,
   PasswordAttribute,
-  Department
+  Department,
+  DataBase
 } from '../repositories';
 import { CryptoUtils } from '../utils/crypto.utils';
 import { EmailUtils } from '../utils/email.utils';
@@ -66,7 +67,7 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
     }
   ];
 
-  constructor(private readonly mailer: EmailUtils, private readonly crypt: CryptoUtils) {
+  constructor(private readonly mailer: EmailUtils, private readonly crypt: CryptoUtils, private readonly db: DataBase) {
     super();
     Container.set(CONSTANTS.MODEL, User);
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_USER);
@@ -260,6 +261,86 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
     }
   }
 
+  public async prepareOauthUser(payload: GoogleTokenPayload): Promise<Result<User, CustomError>> {
+    const transaction: Transaction = await this.db.transaction;
+    try {
+      // find out if there is already associated account
+      const userExist = await this.findOneWhere({ googleId: payload.sub });
+      if (userExist) {
+        return ok(userExist);
+      } else {
+        // if no user - check if there is already a user with such email and then asscociate this account
+        const userResult = await this.findOneWhere({ email: payload.email });
+        if (userResult) {
+          if (userResult.state !== USER_STATE.ACTIVE) {
+            userResult.state = USER_STATE.ACTIVE;
+            await userResult.save();
+          }
+          return ok(userResult);
+        } else {
+          const orgDefaults = {
+            Roles: [
+              {
+                keyString: 'admin'
+              }
+            ]
+          } as Organization;
+          const newOrg = await Organization.create(
+            {
+              ...orgDefaults,
+              type: 'private'
+            },
+            {
+              include: Role,
+              transaction
+            }
+          );
+          const newUser = await newOrg.createUser(
+            {
+              email: payload.email,
+              fullname: payload.name,
+              picture: payload.picture,
+              googleId: payload.sub,
+              locale: payload.locale
+            },
+            { transaction }
+          );
+          // no need to verify email because it is verified by oauth
+          newUser.state = USER_STATE.ACTIVE;
+          await newUser.save();
+
+          const privileges = await Privilege.findAll();
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          const adminRole = newOrg.Roles![0]!;
+          await adminRole.setPrivileges(privileges, { transaction });
+          const rPrivileges = await adminRole.getPrivileges();
+          for (const privilege of rPrivileges) {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const rPriv = privilege.RolePrivilege!;
+            rPriv.add = true;
+            rPriv.delete = true;
+            rPriv.edit = true;
+            rPriv.view = true;
+            await rPriv.save({ transaction });
+          }
+          await adminRole.addUser(newUser, { transaction });
+          await transaction.commit();
+
+          await this.sendMail(MAIL_THEME.OAUTH_WELCOME, {
+            user: newUser
+          });
+
+          const user = (await this.findByPk(newUser.id)) as User;
+          return ok(user);
+        }
+      }
+    } catch (error) {
+      await transaction.rollback();
+      this.logger.error(error);
+      return err(new InternalServerError());
+    }
+  }
+
   // TODO: check if I can set types dynamically for params
   private sendMail(type: MAIL_THEME, params?: any): Promise<any> {
     switch (type) {
@@ -267,6 +348,8 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
         return this.mailer.sendPasswordResetConfirmation(params);
       case MAIL_THEME.INVITATION:
         return this.mailer.sendInvitation(params);
+      case MAIL_THEME.OAUTH_WELCOME:
+        return this.mailer.oauthWelcome(params);
       default:
         return Promise.reject();
     }
