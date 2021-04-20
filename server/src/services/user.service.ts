@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import path from 'path';
 import fs from 'fs';
 import { promisify } from 'util';
@@ -21,7 +20,11 @@ import {
   OrganizationAttributes,
   Organization,
   AssetCreationAttributes,
-  Asset
+  Asset,
+  Privilege,
+  Preference,
+  PasswordAttribute,
+  Department
 } from '../repositories';
 import { CryptoUtils } from '../utils/crypto.utils';
 import { EmailUtils } from '../utils/email.utils';
@@ -35,11 +38,11 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
   protected excludes: string[] = ['password'];
   protected readonly includes: IncludeOptions[] = [
     {
-      association: User.associations?.Role,
+      model: Role,
       required: false,
       include: [
         {
-          association: Role.associations?.Privileges,
+          model: Privilege,
           through: {
             attributes: ['view', 'edit', 'add', 'delete']
           },
@@ -48,26 +51,28 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
       ]
     },
     {
-      association: User.associations?.UserSessions
+      model: UserSession
     },
     {
-      association: User.associations?.Preference,
+      model: Preference,
       required: false
     },
     {
-      association: User.associations?.PasswordAttributes,
+      model: PasswordAttribute,
+      as: 'PasswordAttributes',
       attributes: ['updatedAt', 'passwordExpire'],
       required: false
     },
     {
-      association: User.associations?.avatar
+      model: Asset,
+      as: 'avatar'
     },
     {
-      association: User.associations?.Department,
+      model: Department,
       required: false
     },
     {
-      association: User.associations?.Organization
+      model: Organization
     }
   ];
 

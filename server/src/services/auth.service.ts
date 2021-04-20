@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 import { Op, Transaction, UniqueConstraintError } from 'sequelize';
@@ -24,7 +23,8 @@ import {
   User,
   UserAttributes,
   UserSession,
-  DataBase
+  DataBase,
+  Role
 } from '../repositories';
 import { Logger } from '../utils/Logger';
 import { CryptoUtils } from '../utils/crypto.utils';
@@ -53,7 +53,7 @@ export class AuthService {
 
     try {
       const createdOrg = await Organization.create(organization, {
-        include: [{ association: Organization.associations?.Roles }],
+        include: Role,
         transaction
       });
       const createdUser = await createdOrg.createUser(
