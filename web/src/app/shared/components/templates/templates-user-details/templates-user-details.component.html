@@ -1,6 +1,9 @@
 <div class="profile-details" *ngIf="user">
   <div class="profile-picture">
-    <atoms-profile-pic [picture]="user.picture" picClass="w-50 mx-auto my-3"></atoms-profile-pic>
+    <atoms-profile-pic
+      [picture]="user.picture"
+      picClass="{{ isDialog ? 'w-50' : '' }} mx-auto my-3"
+    ></atoms-profile-pic>
   </div>
 
   <div class="caption">

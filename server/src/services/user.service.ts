@@ -307,7 +307,7 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
           );
           // no need to verify email because it is verified by oauth
           newUser.state = USER_STATE.ACTIVE;
-          await newUser.save();
+          await newUser.save({ transaction });
 
           const privileges = await Privilege.findAll();
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

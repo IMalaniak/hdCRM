@@ -66,26 +66,28 @@ export class NotificationsEffects {
       ofType(currentUserLoaded),
       map((payload) => payload.currentUser),
       switchMap((currentUser) => {
-        const passwordExpireAfter: number = this.dateUtility.diffDaysFromToday(
-          currentUser.PasswordAttributes.passwordExpire
-        );
-        if (passwordExpireAfter < 5) {
-          const ignore: boolean = this.notificationsService.checkIgnore('passwordExpire');
-          if (ignore) {
-            return EMPTY;
-          } else {
-            const notification: Notification = this.notificationsService.create(
-              `Your password is going to expire in ${passwordExpireAfter} day${
-                passwordExpireAfter > 1 && 's'
-              }, please change your password!`,
-              NOTIFICATION_TYPE.WARN
-            );
-            this.notificationsService.ignore({ ['passwordExpire']: this.dateUtility.addFutureDays(1) });
-            return of(
-              notificationsActions.sendNotification({
-                notification
-              })
-            );
+        if (currentUser.PasswordAttributes) {
+          const passwordExpireAfter: number = this.dateUtility.diffDaysFromToday(
+            currentUser.PasswordAttributes.passwordExpire
+          );
+          if (passwordExpireAfter < 5) {
+            const ignore: boolean = this.notificationsService.checkIgnore('passwordExpire');
+            if (ignore) {
+              return EMPTY;
+            } else {
+              const notification: Notification = this.notificationsService.create(
+                `Your password is going to expire in ${passwordExpireAfter} day${
+                  passwordExpireAfter > 1 && 's'
+                }, please change your password!`,
+                NOTIFICATION_TYPE.WARN
+              );
+              this.notificationsService.ignore({ ['passwordExpire']: this.dateUtility.addFutureDays(1) });
+              return of(
+                notificationsActions.sendNotification({
+                  notification
+                })
+              );
+            }
           }
         }
         return EMPTY;

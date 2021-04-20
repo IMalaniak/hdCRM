@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -11,7 +11,7 @@ import { updateUserRequested } from '@core/modules/user-api/store';
 import { AppState } from '@core/store';
 import { Preferences } from '@core/store/preferences';
 import { changeIsEditingState } from '@modules/user-management/store';
-import { TAB_PRIVILEGE, TAB_NAME, TAB_LABEL } from '@shared/constants';
+import { TAB_PRIVILEGE, TAB_NAME, TAB_LABEL, CommonConstants } from '@shared/constants';
 
 @Component({
   selector: 'templates-user-profile',
@@ -19,7 +19,7 @@ import { TAB_PRIVILEGE, TAB_NAME, TAB_LABEL } from '@shared/constants';
   styleUrls: ['./templates-user-profile.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TemplatesUserProfileComponent implements OnInit {
+export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   @Input() user: User;
   @Input() userPreferences: Preferences;
   @Input() currentSessionId: number;
@@ -37,6 +37,8 @@ export class TemplatesUserProfileComponent implements OnInit {
   tabNames = TAB_NAME;
   tabLabels = TAB_LABEL;
 
+  coverUrl = CommonConstants.NO_IMAGE_URL;
+
   constructor(private store: Store<AppState>, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
@@ -45,6 +47,14 @@ export class TemplatesUserProfileComponent implements OnInit {
       if (isEditing) {
         isEditing = JSON.parse(isEditing);
         this.store.dispatch(changeIsEditingState({ isEditing }));
+      }
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['user']?.currentValue && this.user) {
+      if (this.user.picture) {
+        this.coverUrl = this.user.picture;
       }
     }
   }

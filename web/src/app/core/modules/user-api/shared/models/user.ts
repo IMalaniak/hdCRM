@@ -14,17 +14,18 @@ export interface User extends TimeStamps, BelongsToOrganization {
   surname: string;
   fullname: string;
   email: string;
-  phone: string;
+  phone?: string;
   password: string;
   Role: Role;
   RoleId: number;
-  locale: string;
+  locale?: string;
   state: USER_STATE;
-  Department: Department;
-  DepartmentId: number;
+  Department?: Department;
+  DepartmentId?: number;
   UserSessions: UserSession[];
-  PasswordAttributes: PasswordAttributes;
+  PasswordAttributes?: PasswordAttributes;
   Preference: UserPreferences;
   online: boolean;
-  picture: string;
+  picture?: string;
+  googleId?: string;
 }
