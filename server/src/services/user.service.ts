@@ -269,15 +269,24 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
       if (userExist) {
         return ok(userExist);
       } else {
-        // if no user - check if there is already a user with such email and then asscociate this account
+        // if no associated account - check if there is already an account with such email and then asscociate this account
         const userResult = await this.findOneWhere({ email: payload.email });
         if (userResult) {
           if (userResult.state !== USER_STATE.ACTIVE) {
             userResult.state = USER_STATE.ACTIVE;
-            await userResult.save();
           }
+          userResult.googleId = payload.sub;
+          if (!userResult.picture) {
+            userResult.picture = payload.picture;
+          }
+          if (!userResult.locale) {
+            userResult.locale = payload.locale;
+          }
+          await userResult.save();
+          await userResult.reload();
           return ok(userResult);
         } else {
+          // if no associated account - create a new one
           const orgDefaults = {
             Roles: [
               {
