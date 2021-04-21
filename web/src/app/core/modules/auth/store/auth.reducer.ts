@@ -62,7 +62,7 @@ const authReducer = createReducer(
     sessionId
   })),
   on(AuthActions.refreshSessionFailure, () => ({ ...initialState })),
-  on(AuthActions.logOut, () => ({ ...initialState })),
+  on(AuthActions.logOutSuccess, () => ({ ...initialState })),
   on(AuthActions.currentUserLoaded, (state, { currentUser }) => ({ ...state, currentUser, loading: false })),
   on(AuthActions.updateUserProfileSuccess, (state, { currentUser }) => ({ ...state, currentUser, loading: false })),
   on(AuthActions.updateUserOrgSuccess, (state: AuthState, { organization }) => {

@@ -34,6 +34,7 @@ export const activateAccount = createAction('[Auth] Account Activation Requested
 export const activateAccountSuccess = createAction('[Auth API] Account Activation Success');
 
 export const logOut = createAction('[Auth] Logout');
+export const logOutSuccess = createAction('[Auth] Successfully Loged Out');
 
 export const redirectToLogin = createAction('[Auth] Redirect To Login');
 

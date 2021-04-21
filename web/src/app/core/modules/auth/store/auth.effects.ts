@@ -87,22 +87,20 @@ export class AuthEffects implements OnInitEffects {
     )
   );
 
-  logOut$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(authActions.logOut),
-        switchMap(() =>
-          this.authService.logout().pipe(
-            map(() => {
-              this.scktService.emit(SOCKET_EVENT.ISOFFLINE);
-              this.router.navigateByUrl(RoutingConstants.ROUTE_AUTH);
-            })
-          )
+  logOut$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authActions.logOut),
+      exhaustMap(() =>
+        this.authService.logout().pipe(
+          switchMap(() => {
+            this.router.navigateByUrl(RoutingConstants.ROUTE_AUTH);
+            this.toastMessageService.success(CommonConstants.TEXTS_SUCCESSFULL_LOGOUT);
+            this.scktService.emit(SOCKET_EVENT.ISOFFLINE);
+            return of(authActions.logOutSuccess());
+          })
         )
-      ),
-    {
-      dispatch: false
-    }
+      )
+    )
   );
 
   resetPassword$ = createEffect(() =>
