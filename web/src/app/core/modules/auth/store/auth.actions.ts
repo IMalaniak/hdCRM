@@ -11,6 +11,8 @@ export const registerSuccess = createAction('[Auth API] Register Success');
 export const logIn = createAction('[Auth] Login', props<{ user: User }>());
 export const logInSuccess = createAction('[Auth API] Login Success', props<AuthResponse>());
 
+export const googleOauth = createAction('[Auth] Google OAuth', props<{ token: string }>());
+
 export const initSession = createAction('[Auth] Init Session Token');
 export const refreshSession = createAction('[Auth] Refresh Session Token');
 export const refreshSessionSuccess = createAction('[Auth API] Refresh Session Success', props<AuthResponse>());

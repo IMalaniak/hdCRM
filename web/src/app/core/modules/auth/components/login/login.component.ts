@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 
+import { GoogleAuthService } from '@core/modules/google-api/services/google-auth.service';
 import { IconsService } from '@core/services';
 import { AppState } from '@core/store';
 import {
@@ -52,14 +53,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     eye: BS_ICON.Eye,
     eyeDisabled: BS_ICON.EyeSlash
   };
-
   private unsubscribe: Subject<void> = new Subject();
 
   constructor(
-    private route: ActivatedRoute,
-    private fb: FormBuilder,
-    private store: Store<AppState>,
-    private readonly iconsService: IconsService
+    private readonly route: ActivatedRoute,
+    private readonly fb: FormBuilder,
+    private readonly store: Store<AppState>,
+    private readonly iconsService: IconsService,
+    private readonly googleAuthService: GoogleAuthService
   ) {
     this.iconsService.registerIcons([...Object.values(this.icons)]);
   }
@@ -107,6 +108,16 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   activateAccount(): void {
     this.store.dispatch(authActions.activateAccount({ token: this.token }));
+  }
+
+  onGoogleSignIn(): void {
+    this.googleAuthService.getAuth().subscribe((auth) => {
+      auth
+        .signIn()
+        .then((googleUser) =>
+          this.store.dispatch(authActions.googleOauth({ token: googleUser.getAuthResponse().id_token }))
+        );
+    });
   }
 
   onLoginSubmit() {

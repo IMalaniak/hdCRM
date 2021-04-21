@@ -7,7 +7,10 @@ import { Observable, Observer } from 'rxjs';
 })
 export class GoogleApiService {
   private readonly gapiUrl: string = 'https://apis.google.com/js/platform.js';
-  private config: gapi.auth2.ClientConfig = { client_id: environment.googleClientId, scope: 'profile email' };
+  private config: gapi.auth2.ClientConfig = {
+    client_id: environment.googleClientId,
+    scope: 'profile email'
+  };
   private gapiLoaded: boolean;
   private script: HTMLScriptElement;
   private observers: Observer<boolean>[] = [];

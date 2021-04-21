@@ -67,6 +67,26 @@ export class AuthEffects implements OnInitEffects {
     )
   );
 
+  googleOauth$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authActions.googleOauth),
+      map((payload) => payload.token),
+      exhaustMap((token) =>
+        this.authService.googleOauth(token).pipe(
+          switchMap((response: AuthResponse) => of(authActions.logInSuccess(response))),
+          tap(() => {
+            const returnUrl = this.route.snapshot.queryParams['returnUrl'] || RoutingConstants.ROUTE_DASHBOARD;
+            this.router.navigateByUrl(returnUrl);
+          }),
+          catchError((errorResponse: HttpErrorResponse) => {
+            this.toastMessageService.error(errorResponse.error.message);
+            return of(authActions.authApiError());
+          })
+        )
+      )
+    )
+  );
+
   logOut$ = createEffect(
     () =>
       this.actions$.pipe(
