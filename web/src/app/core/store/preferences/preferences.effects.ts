@@ -11,7 +11,6 @@ import { AppState } from '../index';
 import * as preferencesActions from './preferences.actions';
 import { getPreferencesState, getListLoaded } from './preferences.selectors';
 
-
 @Injectable()
 export class PreferencesEffects {
   loadPreferencesList$ = createEffect(() =>

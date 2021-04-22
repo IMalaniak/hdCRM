@@ -3,8 +3,8 @@ export class SingleChartDataModel {
 
   constructor(data: any[], paramX: string, paramY: string) {
     this.data = data?.map((item) => ({
-        name: item[paramX],
-        value: item[paramY].length
-      }));
+      name: item[paramX],
+      value: item[paramY].length
+    }));
   }
 }
