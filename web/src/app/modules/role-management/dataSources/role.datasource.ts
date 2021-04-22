@@ -28,8 +28,8 @@ export class RolesDataSource extends CommonDataSource<Role> {
       .subscribe();
   }
 
-  protected mapToDataRows(roles: Role[]): DataRow[] {
-    return roles.map((role) => ({
+  protected mapToDataRows(data: Role[]): DataRow[] {
+    return data.map((role) => ({
       id: role.id,
       [COLUMN_KEY.SEQUENCE]: Cell.createSequenceCell(),
       [COLUMN_KEY.TITLE]: Cell.createStringCell(role.keyString),

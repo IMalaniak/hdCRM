@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Optional, Output, Self } from '@angular/core';
-import { NgControl } from '@angular/forms';
+import { FormControl, NgControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ThemePalette } from '@angular/material/core';
 import { MatFormFieldControl } from '@angular/material/form-field';
@@ -11,7 +11,7 @@ import { BaseControlValueAccessorComponentModel } from '../../base/componentMode
 @Component({
   selector: 'atoms-checkbox',
   template: `
-    <mat-checkbox [formControl]="ngControl.control" [color]="color" (change)="onChange.emit($event)">
+    <mat-checkbox [formControl]="control" [color]="color" (change)="onChange.emit($event)">
       {{ label }}
     </mat-checkbox>
   `,
@@ -29,5 +29,9 @@ export class AtomsCheckboxComponent extends BaseControlValueAccessorComponentMod
     super();
 
     this.ngControl.valueAccessor = this;
+  }
+
+  get control(): FormControl {
+    return this.ngControl?.control as FormControl;
   }
 }

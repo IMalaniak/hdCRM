@@ -30,8 +30,8 @@ export class UsersDataSource extends CommonDataSource<User> {
       .subscribe();
   }
 
-  protected mapToDataRows(users: User[]): DataRow[] {
-    return users.map((user) => ({
+  protected mapToDataRows(data: User[]): DataRow[] {
+    return data.map((user) => ({
       id: user.id,
       [COLUMN_KEY.SEQUENCE]: Cell.createSequenceCell(),
       [COLUMN_KEY.SELECT]: Cell.createCheckboxCell(),

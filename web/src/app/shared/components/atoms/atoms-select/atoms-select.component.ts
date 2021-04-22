@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, Optional, Self } from '@angular/core';
-import { NgControl } from '@angular/forms';
+import { FormControl, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 
 import { BaseControlValueAccessorComponentModel } from '../../base/componentModels';
@@ -12,7 +12,7 @@ import { BaseControlValueAccessorComponentModel } from '../../base/componentMode
       [canValidate]="(ngControl.control?.invalid || ngControl.control?.touched) && canValidate"
       [inputErrors]="ngControl.control?.invalid || ngControl.control?.touched ? ngControl.control?.errors : {}"
     >
-      <mat-select [formControl]="ngControl.control">
+      <mat-select [formControl]="control">
         <mat-option *ngFor="let option of options" [value]="option.value">{{ option.label }}</mat-option>
       </mat-select>
     </input-validation-component>
@@ -29,5 +29,9 @@ export class AtomsSelectComponent extends BaseControlValueAccessorComponentModel
     super();
 
     this.ngControl.valueAccessor = this;
+  }
+
+  get control(): FormControl {
+    return this.ngControl?.control as FormControl;
   }
 }

@@ -17,7 +17,7 @@ import { Asset } from '@shared/models';
 export class AtomsUserPicComponent implements OnInit {
   @Input() avatar: Asset = null;
 
-  @Input() userOnline: false;
+  @Input() userOnline = false;
 
   baseUrl = environment.baseUrl;
   src = CommonConstants.NO_IMAGE_URL;

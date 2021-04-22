@@ -6,7 +6,7 @@
   <input
     matInput
     trimInput
-    [formControl]="ngControl.control"
+    [formControl]="control"
     [type]="inputType.DATETIME"
     [matDatepicker]="picker"
     [value]="ngControl.control.value | dateTimeFormat | async"
