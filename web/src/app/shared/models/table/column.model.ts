@@ -7,7 +7,7 @@ export interface IColumn {
   readonly key: string;
   readonly label: string;
   readonly horizontalAlign: HORIZONTAL_ALIGN;
-  readonly isVisible: boolean;
+  isVisible: boolean;
   readonly hidable: boolean;
   readonly draggable: boolean;
   readonly hasSorting: boolean;

@@ -1,5 +1,5 @@
 import { Component, Input, Optional, Self } from '@angular/core';
-import { NgControl } from '@angular/forms';
+import { FormControl, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 
 import { INPUT_TYPE } from '@shared/constants';
@@ -21,5 +21,9 @@ export class AtomsDateComponent extends BaseControlValueAccessorComponentModel<D
     super();
 
     this.ngControl.valueAccessor = this;
+  }
+
+  get control(): FormControl {
+    return this.ngControl?.control as FormControl;
   }
 }

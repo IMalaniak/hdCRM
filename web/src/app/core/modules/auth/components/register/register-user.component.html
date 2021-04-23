@@ -3,7 +3,7 @@
     <div class="row h-100">
       <div class="col-sm-12 col-md-8 register-form">
         <mat-card>
-          <mat-card-content>
+          <mat-card-content [formGroup]="registerData">
             <h3 class="register-form-title" i18n="@@registerUserComponentFormHeaderTitleRegister">
               Register your HDCRM Account
             </h3>
@@ -12,12 +12,12 @@
                 <ng-template matStepLabel i18n="@@registerUserComponentStepperLabelsGeneralInformation"
                   >General information</ng-template
                 >
-                <form [formGroup]="registerData.get('userCredentials')" class="d-flex flex-column">
+                <form formGroupName="userCredentials" class="d-flex flex-column">
                   <!-- Email -->
                   <atoms-input
                     label="Email"
+                    formControlName="email"
                     [inputType]="inputTypes.EMAIL"
-                    [formControl]="getControl('userCredentials', 'email')"
                     autocomplete="email"
                   ></atoms-input>
 
@@ -25,8 +25,8 @@
                   <atoms-input
                     *ngIf="!getControl('userCredentials', 'generatePassword').value"
                     label="Password"
+                    formControlName="password"
                     [inputType]="hidePassword ? inputTypes.PASSWORD : inputTypes.TEXT"
-                    [formControl]="getControl('userCredentials', 'password')"
                     autocomplete="new-password"
                   >
                     <mat-icon
@@ -40,7 +40,7 @@
                   <atoms-checkbox
                     label="Generate password for me and send it to my email"
                     color="warn"
-                    [formControl]="getControl('userCredentials', 'generatePassword')"
+                    formControlName="generatePassword"
                   ></atoms-checkbox>
                 </form>
                 <div class="d-flex justify-content-end pt-3">
@@ -53,28 +53,15 @@
                 <ng-template matStepLabel i18n="@@registerUserComponentStepperLabelsContactInformation"
                   >Contact information</ng-template
                 >
-                <form [formGroup]="registerData.get('userPersonalInfo')" class="d-flex flex-column">
+                <form formGroupName="userPersonalInfo" class="d-flex flex-column">
                   <!-- Name -->
-                  <atoms-input
-                    label="Name"
-                    [formControl]="getControl('userPersonalInfo', 'name')"
-                    autocomplete="given-name"
-                  ></atoms-input>
+                  <atoms-input label="Name" formControlName="name" autocomplete="given-name"></atoms-input>
 
                   <!-- Surname -->
-                  <atoms-input
-                    label="Surname"
-                    [formControl]="getControl('userPersonalInfo', 'surname')"
-                    autocomplete="family-name"
-                  ></atoms-input>
+                  <atoms-input label="Surname" formControlName="surname" autocomplete="family-name"></atoms-input>
 
                   <!-- Phone -->
-                  <atoms-input
-                    label="Phone"
-                    [inputType]="inputTypes.TEL"
-                    [formControl]="getControl('userPersonalInfo', 'phone')"
-                    autocomplete="tel"
-                  >
+                  <atoms-input label="Phone" formControlName="phone" [inputType]="inputTypes.TEL" autocomplete="tel">
                   </atoms-input>
                 </form>
                 <div class="d-flex justify-content-between">
@@ -94,11 +81,11 @@
                 <ng-template matStepLabel i18n="@@registerUserComponentStepperLabelsOrganizationInformation"
                   >Organization information</ng-template
                 >
-                <form [formGroup]="registerData.get('userOrganization')" class="d-flex flex-column">
+                <form formGroupName="userOrganization" class="d-flex flex-column">
                   <!-- Company type -->
                   <atoms-radiogroup
                     class="mt-1 mb-4"
-                    [formControl]="getControl('userOrganization', 'type')"
+                    formControlName="type"
                     [options]="[
                       { label: 'Company', value: orgTypes.COMPANY },
                       { label: 'Private', value: orgTypes.PRIVATE }
@@ -112,7 +99,7 @@
                       getControl('userOrganization', 'type').value === orgTypes.PRIVATE
                     "
                     label="Company name"
-                    [formControl]="getControl('userOrganization', 'title')"
+                    formControlName="title"
                     autocomplete="organization-title"
                   ></atoms-input>
 
@@ -120,9 +107,9 @@
                   <atoms-input
                     *ngIf="getControl('userOrganization', 'title').value"
                     label="Web site address"
-                    [inputType]="inputTypes.URL"
-                    [formControl]="getControl('userOrganization', 'website')"
+                    formControlName="website"
                     autocomplete="url"
+                    [inputType]="inputTypes.URL"
                   ></atoms-input>
 
                   <mat-accordion *ngIf="getControl('userOrganization', 'type').value === orgTypes.COMPANY">
@@ -134,6 +121,7 @@
                       <!-- Number of employees -->
                       <atoms-select
                         label="Number of employees"
+                        formControlName="employees"
                         [options]="[
                           {
                             label: '1-10',
@@ -152,46 +140,29 @@
                             value: '250+'
                           }
                         ]"
-                        [formControl]="getControl('userOrganization', 'employees')"
                       ></atoms-select>
 
                       <!-- Country -->
-                      <atoms-input
-                        label="Country"
-                        [formControl]="getControl('userOrganization', 'country')"
-                        autocomplete="country"
-                      ></atoms-input>
+                      <atoms-input label="Country" formControlName="country" autocomplete="country"></atoms-input>
                       <!-- City -->
-                      <atoms-input
-                        label="City"
-                        [formControl]="getControl('userOrganization', 'city')"
-                        autocomplete="address-line1"
-                      ></atoms-input>
+                      <atoms-input label="City" formControlName="city" autocomplete="address-line1"></atoms-input>
                       <!-- Address -->
-                      <atoms-input
-                        label="Address"
-                        [formControl]="getControl('userOrganization', 'address')"
-                        autocomplete="address-line2"
-                      ></atoms-input>
+                      <atoms-input label="Address" formControlName="address" autocomplete="address-line2"></atoms-input>
                       <!-- Postcode -->
-                      <atoms-input
-                        label="Postcode"
-                        [formControl]="getControl('userOrganization', 'postcode')"
-                        autocomplete="postal-code"
-                      ></atoms-input>
+                      <atoms-input label="Postcode" formControlName="postcode" autocomplete="postal-code"></atoms-input>
                       <!-- Phone -->
                       <atoms-input
                         label="Phone"
-                        [inputType]="inputTypes.TEL"
-                        [formControl]="getControl('userOrganization', 'phone')"
+                        formControlName="phone"
                         autocomplete="tel"
+                        [inputType]="inputTypes.TEL"
                       ></atoms-input>
                       <!-- Email -->
                       <atoms-input
                         label="Email"
-                        [inputType]="inputTypes.EMAIL"
-                        [formControl]="getControl('userOrganization', 'email')"
+                        formControlName="email"
                         autocomplete="email"
+                        [inputType]="inputTypes.EMAIL"
                       ></atoms-input>
                     </mat-expansion-panel>
                   </mat-accordion>

@@ -8,7 +8,7 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
-import { NgControl } from '@angular/forms';
+import { FormControl, NgControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ThemePalette } from '@angular/material/core';
 import { MatFormFieldControl } from '@angular/material/form-field';
@@ -50,7 +50,11 @@ export class MoleculesFormFieldComponent extends BaseControlValueAccessorCompone
     this.ngControl.valueAccessor = this;
   }
 
-  protected onValueChange(event: MatCheckboxChange | MatRadioChange): void {
+  onValueChange(event: MatCheckboxChange | MatRadioChange): void {
     this.onChange.emit(event);
+  }
+
+  get control(): FormControl {
+    return this.ngControl?.control as FormControl;
   }
 }

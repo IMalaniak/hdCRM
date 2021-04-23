@@ -15,24 +15,24 @@
           <mat-card>
             <mat-card-content class="d-flex justify-content-center flex-column p-3">
               <!-- Email -->
-              <atoms-input label="Email" [formControl]="user.get('email')" autocomplete="email"> </atoms-input>
+              <atoms-input label="Email" formControlName="email" autocomplete="email"> </atoms-input>
 
               <!-- Password -->
               <atoms-input
                 label="Password"
-                [inputType]="hidePassword ? inputTypes.PASSWORD : inputTypes.TEXT"
-                [formControl]="user.get('password')"
+                formControlName="password"
                 autocomplete="current-password"
+                [inputType]="hidePassword ? inputTypes.PASSWORD : inputTypes.TEXT"
               >
                 <ng-container *ngTemplateOutlet="passwordEye" suffix></ng-container>
               </atoms-input>
 
               <div class="d-flex flex-row justify-content-between align-items-center">
                 <atoms-icon-button
+                  class="text-muted"
                   [color]="themePalette.BASIC"
                   [matType]="matButtonTypes.FLAT"
                   [type]="buttonType.BUTTON"
-                  class="text-muted"
                   [routerLink]="routes.ROUTE_AUTH_REQUEST_NEW_PASSWORD"
                 >
                   Forgot password?
@@ -68,7 +68,7 @@
               <h3 i18n="@@loginComponentFormRequestNewPasswordHeader" class="pb-2">Your email</h3>
 
               <!-- Email -->
-              <atoms-input label="Email" [formControl]="user.get('email')" autocomplete="email"> </atoms-input>
+              <atoms-input label="Email" formControlName="email" autocomplete="email"> </atoms-input>
 
               <div class="d-flex justify-content-between">
                 <atoms-icon-button
@@ -98,9 +98,9 @@
               <!-- New password -->
               <atoms-input
                 label="New password"
-                [inputType]="hidePassword ? inputTypes.PASSWORD : inputTypes.TEXT"
-                [formControl]="newPasswordForm.get('newPassword')"
+                formControlName="newPassword"
                 autocomplete="new-password"
+                [inputType]="hidePassword ? inputTypes.PASSWORD : inputTypes.TEXT"
               >
                 <ng-container *ngTemplateOutlet="passwordEye" suffix></ng-container>
               </atoms-input>
@@ -108,9 +108,9 @@
               <!-- Confirm password -->
               <atoms-input
                 label="Confirm password"
-                [inputType]="inputTypes.PASSWORD"
-                [formControl]="newPasswordForm.get('verifyPassword')"
+                formControlName="verifyPassword"
                 autocomplete="new-password"
+                [inputType]="inputTypes.PASSWORD"
               >
               </atoms-input>
 

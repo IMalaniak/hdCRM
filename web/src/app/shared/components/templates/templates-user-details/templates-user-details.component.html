@@ -33,8 +33,8 @@
         <atoms-link-button
           *ngIf="canViewDepartment$ | async; else depTitle"
           [linkLabel]="user.Department.title"
+          [linkType]="linkTypes.ROUTER"
           linkClass="pl-0 lh-normal"
-          linkType="router"
           linkHref="/departments/details/{{ user.Department.id }}"
         ></atoms-link-button>
         <ng-template #depTitle>

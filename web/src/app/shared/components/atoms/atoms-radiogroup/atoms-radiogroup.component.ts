@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Optional, Output, Self } from '@angular/core';
-import { NgControl } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { FormControl, NgControl } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { MatFormFieldControl } from '@angular/material/form-field';
+import { MatRadioChange } from '@angular/material/radio';
 
 import { THEME_PALETTE } from '@shared/constants';
 
@@ -13,7 +13,7 @@ import { BaseControlValueAccessorComponentModel } from '../../base/componentMode
   template: `
     <h5>{{ label }}</h5>
     <mat-radio-group
-      [formControl]="ngControl.control"
+      [formControl]="control"
       [ngClass]="{ 'd-flex flex-column': optionsColumn }"
       [color]="color"
       (change)="onChange.emit($event)"
@@ -32,11 +32,15 @@ export class AtomsRadiogroupComponent extends BaseControlValueAccessorComponentM
   @Input() color: ThemePalette = THEME_PALETTE.PRIMARY;
 
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
-  @Output() onChange: EventEmitter<MatCheckboxChange> = new EventEmitter();
+  @Output() onChange: EventEmitter<MatRadioChange> = new EventEmitter();
 
   constructor(@Optional() @Self() readonly ngControl: NgControl) {
     super();
 
     this.ngControl.valueAccessor = this;
+  }
+
+  get control(): FormControl {
+    return this.ngControl?.control as FormControl;
   }
 }

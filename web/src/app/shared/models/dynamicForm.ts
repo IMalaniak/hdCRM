@@ -1,3 +1,5 @@
+import { ThemePalette } from '@angular/material/core';
+
 import { FORM_TYPE, FIELD_TYPE } from '../constants';
 
 import { TimeStamps } from './base';
@@ -14,7 +16,7 @@ export interface DynamicFormItem {
   isEditable: boolean;
   editOnly?: boolean;
   required?: boolean;
-  color?: string;
+  color?: ThemePalette;
   options?: DynamicFormItemOption[];
   multiple?: boolean;
 }

@@ -72,9 +72,13 @@ function eslint({ cwd, fix = false }: { cwd: string; fix?: boolean }) {
   const ext = '--ext .ts';
   const ignorePath = './.eslintignore';
   const fixParam = fix ? '--fix' : '';
+  const prettierConfigPath = cwd === '.' ? '' : '../';
+  const prettier = `node_modules/.bin/prettier ${
+    fix ? '--write' : '--check'
+  } --config ${prettierConfigPath}.prettierrc --ignore-path ${prettierConfigPath}.prettierignore '**/*.{json,ts,html,scss}'`;
   return cwd === 'web'
-    ? doRun(`node_modules/.bin/ng lint ${fixParam}`, { cwd })
-    : doRun(`npx eslint ${fixParam} ${path} ${ext} --ignore-path '${ignorePath}'`, { cwd });
+    ? doRun(`node_modules/.bin/ng lint ${fixParam} && ${prettier}`, { cwd })
+    : doRun(`npx eslint ${fixParam} ${path} ${ext} --ignore-path '${ignorePath}' && ${prettier}`, { cwd });
 }
 
 export function lint(cwd, fix = false) {

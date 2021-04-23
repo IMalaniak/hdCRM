@@ -1,6 +1,6 @@
 <component-dialog [formInvalid]="privilegeGroup.invalid" (dialogClose)="onClose($event)">
   <form [formGroup]="privilegeGroup" class="d-flex flex-column justify-content-center">
-    <atoms-input label="Title" [formControl]="privilegeGroup.get('title')"> </atoms-input>
-    <atoms-input label="Key" [formControl]="privilegeGroup.get('keyString')"> </atoms-input>
+    <atoms-input label="Title" formControlName="title"> </atoms-input>
+    <atoms-input label="Key" formControlName="keyString"> </atoms-input>
   </form>
 </component-dialog>

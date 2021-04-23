@@ -12,7 +12,7 @@
             <li *ngIf="canViewDepartments$ | async; else depTitle">
               <atoms-link-button
                 [linkLabel]="appUser.Department.title"
-                linkType="router"
+                [linkType]="linkTypes.ROUTER"
                 linkHref="/departments/details/{{ appUser.Department.id }}"
               ></atoms-link-button>
             </li>

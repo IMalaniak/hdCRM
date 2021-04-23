@@ -1,5 +1,5 @@
 import { Component, Input, Optional, Self } from '@angular/core';
-import { NgControl } from '@angular/forms';
+import { FormControl, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 
 import { INPUT_TYPE } from '@shared/constants';
@@ -16,7 +16,7 @@ import { Autocomplete } from './autocomplete';
       [canValidate]="(ngControl.control?.invalid || ngControl.control?.touched) && canValidate"
       [inputErrors]="ngControl.control?.invalid || ngControl.control?.touched ? ngControl.control?.errors : {}"
     >
-      <input matInput trimInput [type]="inputType" [formControl]="ngControl.control" [autocomplete]="autocomplete" />
+      <input matInput trimInput [type]="inputType" [formControl]="control" [autocomplete]="autocomplete" />
       <ng-content prefix select="[prefix]"></ng-content>
       <ng-content suffix select="[suffix]"></ng-content>
     </input-validation-component>
@@ -33,5 +33,9 @@ export class AtomsInputComponent extends BaseControlValueAccessorComponentModel<
     super();
 
     this.ngControl.valueAccessor = this;
+  }
+
+  get control(): FormControl {
+    return this.ngControl?.control as FormControl;
   }
 }
