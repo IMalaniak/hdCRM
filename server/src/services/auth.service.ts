@@ -63,11 +63,11 @@ export class AuthService {
         { transaction }
       );
 
-      const privileges = await Privilege.findAll();
+      const privileges = await Privilege.findAll({ transaction });
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const adminRole = createdOrg.Roles![0]!;
       await adminRole.setPrivileges(privileges, { transaction });
-      const rPrivileges = await adminRole.getPrivileges();
+      const rPrivileges = await adminRole.getPrivileges({ transaction });
       for (const privilege of rPrivileges) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const rPriv = privilege.RolePrivilege!;

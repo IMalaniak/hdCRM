@@ -10,6 +10,7 @@ export const registerSuccess = createAction('[Auth API] Register Success');
 
 export const logIn = createAction('[Auth] Login', props<{ user: User }>());
 export const logInSuccess = createAction('[Auth API] Login Success', props<AuthResponse>());
+export const logInSuccessRedirect = createAction('[Auth API] Login Success Redirect');
 
 export const googleOauth = createAction('[Auth] Google OAuth', props<{ token: string }>());
 
