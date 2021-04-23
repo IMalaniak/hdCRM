@@ -29,8 +29,8 @@ export class DepartmentsDataSource extends CommonDataSource<Department> {
       .subscribe();
   }
 
-  protected mapToDataRows(departments: Department[]): DataRow[] {
-    return departments.map((department) => ({
+  protected mapToDataRows(data: Department[]): DataRow[] {
+    return data.map((department) => ({
       id: department.id,
       [COLUMN_KEY.SEQUENCE]: Cell.createSequenceCell(),
       [COLUMN_KEY.TITLE]: Cell.createStringCell(department.title),

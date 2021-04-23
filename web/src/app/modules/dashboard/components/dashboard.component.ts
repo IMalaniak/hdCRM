@@ -16,7 +16,7 @@ import { Role } from '@core/modules/role-api/shared';
 import { selectAllRoles, roleDashboardDataRequested } from '@core/modules/role-api/store/role';
 import { User, UserSession } from '@core/modules/user-api/shared';
 import { AppState } from '@core/store';
-import { VIEW_PRIVILEGE } from '@shared/constants';
+import { LINK_TYPE, VIEW_PRIVILEGE } from '@shared/constants';
 
 @Component({
   selector: 'app-dashboard',
@@ -34,6 +34,8 @@ export class DashboardComponent implements OnInit {
   canViewRoles$: Observable<boolean> = this.store.pipe(select(isPrivileged(VIEW_PRIVILEGE.ROLE)));
   canViewPlan$: Observable<boolean> = this.store.pipe(select(isPrivileged(VIEW_PRIVILEGE.PLAN)));
   canViewDepartments$: Observable<boolean> = this.store.pipe(select(isPrivileged(VIEW_PRIVILEGE.DEPARTMENT)));
+
+  linkTypes: typeof LINK_TYPE = LINK_TYPE;
 
   constructor(private store: Store<AppState>) {}
 

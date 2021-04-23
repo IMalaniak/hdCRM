@@ -1,6 +1,6 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
 
-import { FIELD_TYPE, FORM_TYPE } from '../constants';
+import { FIELD_TYPE, FORM_TYPE, FIELD_COLOR } from '../constants';
 import { enumToArray } from '../utils/enumToArray';
 
 export interface FormItemOption {
@@ -15,7 +15,7 @@ export interface FormItem {
   isEditable: boolean;
   editOnly?: boolean;
   required?: boolean;
-  color?: string;
+  color?: FIELD_COLOR;
   options?: FormItemOption[];
   multiple?: boolean;
 }

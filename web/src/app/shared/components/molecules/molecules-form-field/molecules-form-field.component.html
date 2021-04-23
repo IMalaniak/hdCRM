@@ -1,28 +1,22 @@
 <ng-container *ngIf="editForm && editable">
   <ng-container [ngSwitch]="fType">
     <!-- INPUT -->
-    <atoms-input *ngSwitchCase="fieldTypes.INPUT" [formControl]="ngControl.control" [label]="label"> </atoms-input>
+    <atoms-input *ngSwitchCase="fieldTypes.INPUT" [formControl]="control" [label]="label"> </atoms-input>
 
     <!-- TEXTAREA -->
-    <atoms-textarea *ngSwitchCase="fieldTypes.TEXTAREA" [formControl]="ngControl.control" [label]="label">
-    </atoms-textarea>
+    <atoms-textarea *ngSwitchCase="fieldTypes.TEXTAREA" [formControl]="control" [label]="label"> </atoms-textarea>
 
     <!-- SELECT -->
-    <atoms-select
-      *ngSwitchCase="fieldTypes.SELECT"
-      [formControl]="ngControl.control"
-      [options]="options"
-      [label]="label"
-    >
+    <atoms-select *ngSwitchCase="fieldTypes.SELECT" [formControl]="control" [options]="options" [label]="label">
     </atoms-select>
 
     <!-- DATE -->
-    <atoms-date *ngSwitchCase="fieldTypes.DATE" [formControl]="ngControl.control" [label]="label"> </atoms-date>
+    <atoms-date *ngSwitchCase="fieldTypes.DATE" [formControl]="control" [label]="label"> </atoms-date>
 
     <!-- CHECKBOX -->
     <atoms-checkbox
       *ngSwitchCase="fieldTypes.CHECKBOX"
-      [formControl]="ngControl.control"
+      [formControl]="control"
       [label]="label"
       [color]="color"
       (onChange)="onValueChange($event)"
@@ -32,7 +26,7 @@
     <!-- RADIOGROUP -->
     <atoms-radiogroup
       *ngSwitchCase="fieldTypes.RADIOGROUP"
-      [formControl]="ngControl.control"
+      [formControl]="control"
       [options]="options"
       [label]="label"
       [color]="color"

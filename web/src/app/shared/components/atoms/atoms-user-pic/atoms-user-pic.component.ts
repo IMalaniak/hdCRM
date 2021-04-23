@@ -16,7 +16,7 @@ import { CommonConstants } from '@shared/constants';
 export class AtomsUserPicComponent implements OnInit {
   @Input() picture: string = null;
 
-  @Input() userOnline: false;
+  @Input() userOnline = false;
 
   baseUrl = environment.baseUrl;
   src = CommonConstants.NO_IMAGE_URL;

@@ -45,7 +45,7 @@
       </div> -->
       <atoms-radiogroup
         label="Theme"
-        [formControl]="preferencesForm.get('theme')"
+        formControlName="theme"
         [options]="themes"
         (onChange)="onThemeChange($event)"
       ></atoms-radiogroup>

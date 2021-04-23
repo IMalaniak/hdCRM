@@ -97,7 +97,7 @@ export class TemplatesAttachmentsListComponent {
     this.addFileCall.emit(asset);
   }
 
-  handleDeleteFile(id: number): void {
+  handleDeleteFile(id: Event): void {
     this.deleteFileCall.emit(id);
   }
 

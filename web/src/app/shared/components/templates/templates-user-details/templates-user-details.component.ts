@@ -6,7 +6,7 @@ import { isPrivileged } from '@core/modules/auth/store/auth.selectors';
 import { User } from '@core/modules/user-api/shared';
 import { IconsService } from '@core/services';
 import { AppState } from '@core/store';
-import { BS_ICON, VIEW_PRIVILEGE } from '@shared/constants';
+import { BS_ICON, LINK_TYPE, VIEW_PRIVILEGE } from '@shared/constants';
 
 @Component({
   selector: 'templates-user-details',
@@ -30,6 +30,7 @@ export class TemplatesUserDetailsComponent {
     mail: BS_ICON.Envelope,
     phone: BS_ICON.Telephone
   };
+  linkTypes: typeof LINK_TYPE = LINK_TYPE;
 
   constructor(private store$: Store<AppState>, private readonly iconsService: IconsService) {
     this.iconsService.registerIcons([BS_ICON.ToggleOn, BS_ICON.FilePerson, BS_ICON.Envelope, BS_ICON.Telephone]);

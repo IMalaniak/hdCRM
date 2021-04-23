@@ -9,17 +9,12 @@
     </mat-list>
     <form [formGroup]="userData">
       <div class="form-container">
+        <atoms-input label="Full name" class="mr-0 mr-md-2" formControlName="fullname" autocomplete="off"></atoms-input>
         <atoms-input
-          label="Full name"
-          class="mr-0 mr-md-2"
-          [formControl]="userData.get('fullname')"
-          autocomplete="off"
-        ></atoms-input>
-        <atoms-input
+          [inputType]="inputTypes.EMAIL"
           label="Email"
           class="ml-0 ml-md-2"
-          [inputType]="inputTypes.EMAIL"
-          [formControl]="userData.get('email')"
+          formControlName="email"
           autocomplete="off"
         >
         </atoms-input>

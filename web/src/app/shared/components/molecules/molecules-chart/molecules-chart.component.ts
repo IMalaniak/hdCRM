@@ -41,7 +41,7 @@ export class MoleculesChartComponent implements OnInit {
   @Input() paramY: string;
   @Input() results: any; // TODO: ArseniiIrod add type
   @Input() scheme: string;
-  @Input() gradient: string;
+  @Input() gradient: boolean;
   @Input() xAxis: boolean;
   @Input() yAxis: boolean;
   @Input() legend: boolean;

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, Optional, Self } from '@angular/core';
-import { NgControl } from '@angular/forms';
+import { FormControl, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 
 import { BaseControlValueAccessorComponentModel } from '../../base/componentModels';
@@ -12,7 +12,7 @@ import { BaseControlValueAccessorComponentModel } from '../../base/componentMode
       [canValidate]="(ngControl.control?.invalid || ngControl.control?.touched) && canValidate"
       [inputErrors]="ngControl.control?.invalid || ngControl.control?.touched ? ngControl.control?.errors : {}"
     >
-      <textarea matInput trimInput [formControl]="ngControl.control" [rows]="rows"></textarea>
+      <textarea matInput trimInput [formControl]="control" [rows]="rows"></textarea>
     </input-validation-component>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,5 +27,9 @@ export class AtomsTextareaComponent extends BaseControlValueAccessorComponentMod
     super();
 
     this.ngControl.valueAccessor = this;
+  }
+
+  get control(): FormControl {
+    return this.ngControl?.control as FormControl;
   }
 }

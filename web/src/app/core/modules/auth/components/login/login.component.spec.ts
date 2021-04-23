@@ -8,7 +8,6 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { SharedModule } from '@shared/shared.module';
 
-
 import { AuthenticationService } from '../../services';
 import { AuthState, initialState as initialAuthState } from '../../store/auth.reducer';
 

@@ -65,7 +65,7 @@ import { LIST_DISPLAY_MODE } from '@shared/store';
 })
 export class TableComponent implements OnChanges, AfterViewInit, OnDestroy {
   @Input() id: string;
-  @Input() dataSource: CommonDataSource<DataRow>;
+  @Input() dataSource: CommonDataSource<{ [key: string]: any }>;
   @Input() totalItems: number;
   @Input() preselectedItems: number[];
   @Input() columns: IColumn[];

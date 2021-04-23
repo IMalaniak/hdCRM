@@ -10,7 +10,7 @@ import { DynamicForm } from '@shared/models';
     <form class="d-flex flex-column" [formGroup]="form" *ngIf="formJson">
       <molecules-form-field
         *ngFor="let field of formJson.form"
-        [formControl]="form.get(field.controlName)"
+        [formControlName]="field.controlName"
         [label]="field.label"
         [color]="field.color"
         [options]="field.options"

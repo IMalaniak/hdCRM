@@ -11,3 +11,10 @@ export enum FIELD_TYPE {
   RADIOGROUP = 'radiogroup',
   DATE = 'date'
 }
+
+export enum FIELD_COLOR {
+  BASIC = 'basic',
+  PRIMARY = 'primary',
+  WARN = 'warn',
+  ACCENT = 'accent'
+}
