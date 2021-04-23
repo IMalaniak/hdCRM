@@ -23,7 +23,12 @@ export class StageEffects {
       withLatestFrom(this.store.pipe(select(allStagesLoaded))),
       filter(([_, allStagesLoaded]) => !allStagesLoaded),
       mergeMap(() => this.stageService.getDashboardData()),
-      map((response: CollectionApiResponse<Stage>) => stageActions.allStagesApiLoaded({ response })),
+      map((response: CollectionApiResponse<Stage>) => {
+        if (response.data) {
+          // TODO: @IMalaniak: handle 204 responce correctly
+          return stageActions.allStagesApiLoaded({ response });
+        }
+      }),
       catchError(() => of(stageActions.stageApiError()))
     )
   );

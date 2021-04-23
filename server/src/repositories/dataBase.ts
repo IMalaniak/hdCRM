@@ -107,8 +107,6 @@ export class DataBase {
     User.belongsTo(Organization);
 
     User.belongsTo(Role, { onDelete: 'set null', onUpdate: 'cascade' });
-    User.belongsToMany(Asset, { through: 'UserAssets', foreignKey: 'UserId' });
-    User.belongsTo(Asset, { as: 'avatar' });
     User.belongsToMany(Plan, {
       as: 'PlansTakesPartIn',
       through: 'UserPlans',
@@ -131,7 +129,6 @@ export class DataBase {
 
     UserSession.belongsTo(User);
     PasswordAttribute.belongsTo(User);
-    Asset.belongsToMany(User, { through: 'UserAssets', foreignKey: 'AssetId' });
     Role.hasMany(User);
     Plan.belongsTo(User, { as: 'Creator' });
     Plan.belongsToMany(User, {

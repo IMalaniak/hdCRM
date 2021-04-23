@@ -1,11 +1,13 @@
 import { Service } from 'typedi';
-import { Strategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
+import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
+import { Strategy as GoogleStrategy } from 'passport-google-verify-token';
 import { BasicStrategy } from 'passport-http';
-import passport from 'passport';
+import passport, { AuthenticateOptions } from 'passport';
 import { RequestHandler } from 'express';
 
 import { UserService } from '../services';
-import { JwtPayload } from '../models';
+import { GoogleTokenPayload, JwtPayload } from '../models';
+import { BadRequestError } from '../errors';
 
 import { Config } from './config';
 
@@ -13,23 +15,21 @@ import { Config } from './config';
 export class Passport {
   constructor(private readonly userService: UserService) {}
 
-  private readonly opts: StrategyOptions = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: process.env.ACCESS_TOKEN_SECRET,
-    audience: Config.WEB_URL
-  };
-
-  public authenticate(strategy: 'jwt' | 'basic' = 'jwt'): RequestHandler {
+  public authenticate(strategy: 'jwt' | 'basic' | 'google' = 'jwt', opts?: AuthenticateOptions): RequestHandler {
     switch (strategy) {
       case 'jwt':
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return passport.authenticate('jwt', {
+          ...opts,
           session: false,
-          failWithError: true
+          failWithError: false
         });
       case 'basic':
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-        return passport.authenticate('basic', { session: false });
+        return passport.authenticate('basic', { ...opts, session: false });
+      case 'google':
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        return passport.authenticate('google-verify-token', { ...opts, session: false });
     }
   }
 
@@ -37,19 +37,48 @@ export class Passport {
     passport.initialize();
     // passport.session();
     passport.use(
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      new Strategy(this.opts, async (payload: JwtPayload, done) => {
-        try {
-          const userResult = await this.userService.getByPk(payload.sub);
-          if (userResult.isOk()) {
-            return done(null, userResult.value.data);
-          } else {
-            return done(null, false);
+      new JwtStrategy(
+        {
+          jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+          secretOrKey: process.env.ACCESS_TOKEN_SECRET,
+          audience: Config.WEB_URL
+        },
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        async (payload: JwtPayload, done) => {
+          try {
+            const userResult = await this.userService.getByPk(payload.sub);
+            if (userResult.isOk()) {
+              return done(null, userResult.value.data);
+            } else {
+              return done(null, null);
+            }
+          } catch (error) {
+            return done(error, null);
           }
-        } catch (error) {
-          return done(error, false);
         }
-      })
+      )
+    );
+
+    passport.use(
+      new GoogleStrategy(
+        { clientID: process.env.GOOGLE_CLIENT_ID },
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        async (profile: GoogleTokenPayload, _googleId: string, done: (...args: any[]) => void) => {
+          if (!profile.email_verified || !profile.name) {
+            done(new BadRequestError('Missing params in google payload'), null);
+          }
+          try {
+            const userResult = await this.userService.prepareOauthUser(profile);
+            if (userResult.isOk()) {
+              return done(null, userResult.value);
+            } else {
+              return done(null, null);
+            }
+          } catch (error) {
+            return done(error, null);
+          }
+        }
+      )
     );
 
     passport.use(

@@ -5,7 +5,7 @@ export interface UserOnline {
   name: string;
   surname: string;
   fullname: string;
-  avatar: any; // TODO Asset
+  picture?: string;
   lastSocketId: string;
   activeSockets: string[];
   orgRoom: string;

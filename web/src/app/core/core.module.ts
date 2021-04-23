@@ -12,6 +12,7 @@ import { environment } from 'environments/environment';
 import { httpInterceptorsProviders } from './interceptors';
 import { AuthModule } from './modules/auth/auth.module';
 import { DepartmentApiModule } from './modules/department-api/department-api.module';
+import { GoogleApiModule } from './modules/google-api/google-api.module';
 import { LayoutModule } from './modules/layout/layout.module';
 import { PlanApiModule } from './modules/plan-api/plan-api.module';
 import { RoleApiModule } from './modules/role-api/role-api.module';
@@ -40,7 +41,8 @@ import { PreferencesEffects } from './store/preferences';
     UserApiModule,
     DepartmentApiModule,
     PlanApiModule,
-    RoleApiModule
+    RoleApiModule,
+    GoogleApiModule
   ],
   exports: [RouterModule, HttpClientModule, FormsModule, ReactiveFormsModule, LayoutModule],
   providers: [httpInterceptorsProviders]

@@ -139,4 +139,12 @@ export abstract class BaseService<C, A, M extends Model<A, C>> {
       include: [...this.includes]
     });
   }
+
+  protected findOneWhere(where: WhereOptions<M['_attributes']>): Promise<M | null> {
+    return this.MODEL.findOne({
+      where,
+      attributes: { exclude: [...this.excludes] },
+      include: [...this.includes]
+    });
+  }
 }

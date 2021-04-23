@@ -32,6 +32,14 @@ export class AuthenticationService {
     return this.http.post<AuthResponse>(ApiRoutesConstants.AUTHENTICATE, user, { withCredentials: true });
   }
 
+  googleOauth(token: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(
+      ApiRoutesConstants.OAUTH_GOOGLE,
+      { id_token: token },
+      { withCredentials: true }
+    );
+  }
+
   refreshSession(): Observable<AuthResponse> {
     return this.http.get<AuthResponse>(ApiRoutesConstants.REFRESH_SESSION, { withCredentials: true });
   }

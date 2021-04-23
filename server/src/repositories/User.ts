@@ -53,18 +53,19 @@ export interface UserAttributes {
   surname: string;
   OrganizationId: number;
   password: string;
-  fullname?: string;
+  fullname: string;
   phone?: string;
   state?: USER_STATE;
-  defaultLang?: string;
+  locale?: string;
   RoleId?: number;
-  avatarId?: number;
   DepartmentId?: number;
+  picture?: string;
+  googleId?: string;
 }
 
 export type UserCreationAttributes = Optional<
   UserAttributes,
-  'id' | 'fullname' | 'phone' | 'defaultLang' | 'avatarId' | 'DepartmentId'
+  'id' | 'fullname' | 'phone' | 'locale' | 'picture' | 'googleId' | 'DepartmentId'
 >;
 
 export class User extends Model<UserAttributes, UserCreationAttributes> {
@@ -73,10 +74,12 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
   public name!: string;
   public surname!: string;
   public fullname!: string;
-  public phone!: string;
   public password!: string;
   public state!: USER_STATE;
-  public defaultLang!: string;
+  public locale?: string;
+  public phone?: string;
+  public picture?: string;
+  public googleId?: string;
 
   // timestamps
   public readonly createdAt!: Date;
@@ -85,7 +88,6 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
   // from assotiations
   public OrganizationId!: number;
   public RoleId!: number;
-  public avatarId!: number;
   public DepartmentId!: number;
 
   public getOrganization!: BelongsToGetAssociationMixin<Organization>;
@@ -149,8 +151,6 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
 
   public readonly Organization?: Organization;
   public readonly Role?: Role;
-  public readonly Assets?: Asset[];
-  public readonly avatar?: Asset;
   public readonly PlansTakesPartIn?: Plan[];
   public readonly UserSessions?: UserSession[];
   public readonly ManagedDepartment?: Department;
@@ -162,8 +162,6 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
   public static associations: {
     Organization: Association<User, Organization>;
     Role: Association<User, Role>;
-    Asset: Association<User, Asset>;
-    avatar: Association<User, Asset>;
     PlansTakesPartIn: Association<User, Plan>;
     UserSessions: Association<User, UserSession>;
     ManagedDepartment: Association<User, Department>;
@@ -196,12 +194,13 @@ export const userFactory = (sequelize: Sequelize): Model => {
           key: 'id'
         }
       },
-      avatarId: {
-        type: DataTypes.INTEGER,
-        references: {
-          model: 'Assets',
-          key: 'id'
-        }
+      picture: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      googleId: {
+        type: DataTypes.STRING,
+        allowNull: true
       },
       DepartmentId: {
         type: DataTypes.INTEGER
@@ -251,7 +250,7 @@ export const userFactory = (sequelize: Sequelize): Model => {
       password: {
         type: DataTypes.STRING
       },
-      defaultLang: {
+      locale: {
         type: new DataTypes.CHAR(2)
       },
       state: {
@@ -271,7 +270,9 @@ export const userFactory = (sequelize: Sequelize): Model => {
       tableName: 'Users',
       hooks: {
         beforeCreate: async (user) => {
-          user.password = await argon2.hash(user.password);
+          if (user.password) {
+            user.password = await argon2.hash(user.password);
+          }
         }
       },
       sequelize

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import Container, { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 import { IncludeOptions, Op } from 'sequelize';
@@ -14,31 +13,25 @@ import { BaseService } from './base/base.service';
 export class DepartmentService extends BaseService<DepartmentCreationAttributes, DepartmentAttributes, Department> {
   protected readonly includes: IncludeOptions[] = [
     {
-      association: Department.associations?.ParentDepartment,
+      model: Department,
+      as: 'ParentDepartment',
       required: false
     },
     {
-      association: Department.associations?.SubDepartments,
+      model: Department,
+      as: 'SubDepartments',
       required: false
     },
     {
-      association: Department.associations?.Workers,
+      model: User,
+      as: 'Workers',
       attributes: { exclude: ['password'] },
-      include: [
-        {
-          association: User.associations?.avatar
-        }
-      ],
       required: false
     },
     {
-      association: Department.associations?.Manager,
+      model: User,
+      as: 'Manager',
       attributes: { exclude: ['password'] },
-      include: [
-        {
-          association: User.associations?.avatar
-        }
-      ],
       required: false
     }
   ];
@@ -58,7 +51,8 @@ export class DepartmentService extends BaseService<DepartmentCreationAttributes,
         },
         include: [
           {
-            association: Department.associations?.Workers,
+            model: User,
+            as: 'Workers',
             attributes: ['id'],
             required: false
           }

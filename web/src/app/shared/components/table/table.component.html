@@ -133,7 +133,7 @@
             <!-- AVATAR -->
             <ng-container *ngSwitchCase="cellType.AVATAR">
               <atoms-user-pic
-                [avatar]="row[column.key].value?.avatar"
+                [picture]="row[column.key].value?.picture"
                 [userOnline]="row[column.key].value?.online"
               ></atoms-user-pic>
             </ng-container>

@@ -67,22 +67,40 @@ export class AuthEffects implements OnInitEffects {
     )
   );
 
-  logOut$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(authActions.logOut),
-        switchMap(() =>
-          this.authService.logout().pipe(
-            map(() => {
-              this.scktService.emit(SOCKET_EVENT.ISOFFLINE);
-              this.router.navigateByUrl(RoutingConstants.ROUTE_AUTH);
-            })
-          )
+  googleOauth$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authActions.googleOauth),
+      map((payload) => payload.token),
+      exhaustMap((token) =>
+        this.authService.googleOauth(token).pipe(
+          switchMap((response: AuthResponse) => of(authActions.logInSuccess(response))),
+          tap(() => {
+            const returnUrl = this.route.snapshot.queryParams['returnUrl'] || RoutingConstants.ROUTE_DASHBOARD;
+            this.router.navigateByUrl(returnUrl);
+          }),
+          catchError((errorResponse: HttpErrorResponse) => {
+            this.toastMessageService.error(errorResponse.error.message);
+            return of(authActions.authApiError());
+          })
         )
-      ),
-    {
-      dispatch: false
-    }
+      )
+    )
+  );
+
+  logOut$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authActions.logOut),
+      exhaustMap(() =>
+        this.authService.logout().pipe(
+          switchMap(() => {
+            this.router.navigateByUrl(RoutingConstants.ROUTE_AUTH);
+            this.toastMessageService.success(CommonConstants.TEXTS_SUCCESSFULL_LOGOUT);
+            this.scktService.emit(SOCKET_EVENT.ISOFFLINE);
+            return of(authActions.logOutSuccess());
+          })
+        )
+      )
+    )
   );
 
   resetPassword$ = createEffect(() =>
@@ -170,7 +188,7 @@ export class AuthEffects implements OnInitEffects {
           id: currentUser.id,
           name: currentUser.name,
           surname: currentUser.surname,
-          avatar: currentUser.avatar,
+          picture: currentUser.picture,
           OrganizationId: currentUser.OrganizationId
         });
 

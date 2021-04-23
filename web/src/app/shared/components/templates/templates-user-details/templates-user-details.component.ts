@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/internal/Observable';
 
@@ -7,7 +7,6 @@ import { User } from '@core/modules/user-api/shared';
 import { IconsService } from '@core/services';
 import { AppState } from '@core/store';
 import { BS_ICON, LINK_TYPE, VIEW_PRIVILEGE } from '@shared/constants';
-import { Asset } from '@shared/models';
 
 @Component({
   selector: 'templates-user-details',
@@ -18,8 +17,6 @@ import { Asset } from '@shared/models';
 export class TemplatesUserDetailsComponent {
   @Input() user: User;
   @Input() isDialog = false;
-
-  @Output() addFileCall: EventEmitter<Asset> = new EventEmitter();
 
   canViewDepartment$: Observable<boolean> = this.store$.pipe(select(isPrivileged(VIEW_PRIVILEGE.DEPARTMENT)));
 
@@ -37,9 +34,5 @@ export class TemplatesUserDetailsComponent {
 
   constructor(private store$: Store<AppState>, private readonly iconsService: IconsService) {
     this.iconsService.registerIcons([BS_ICON.ToggleOn, BS_ICON.FilePerson, BS_ICON.Envelope, BS_ICON.Telephone]);
-  }
-
-  onAddFile(asset: Asset): void {
-    this.addFileCall.emit(asset);
   }
 }

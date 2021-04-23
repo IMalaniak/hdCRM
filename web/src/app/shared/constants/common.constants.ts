@@ -39,6 +39,7 @@ export class CommonConstants {
   static TEXTS_YOU_ARE_NOT_AUTHORIZED = 'You are not authorized to see this page, or your session has been expired!';
   static TEXTS_GOOGLE_DRIVE_INTEGRATION_ENABLED = 'Google Drive integration is enabled!';
   static TEXTS_GOOGLE_DRIVE_INTEGRATION_DISABLED = 'Google Drive integration is disabled!';
+  static TEXTS_SUCCESSFULL_LOGOUT = 'You have been logged out correctly!';
 
   // dialog text
   static TEXTS_MORE_DETAILS = 'More details';

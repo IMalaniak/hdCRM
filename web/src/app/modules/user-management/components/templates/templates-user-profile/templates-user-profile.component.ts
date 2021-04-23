@@ -1,7 +1,6 @@
-import { Component, Input, SimpleChanges, OnChanges, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
-import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
 import { updateUserOrgRequested, updateUserProfileRequested } from '@core/modules/auth/store/auth.actions';
@@ -12,8 +11,7 @@ import { updateUserRequested } from '@core/modules/user-api/store';
 import { AppState } from '@core/store';
 import { Preferences } from '@core/store/preferences';
 import { changeIsEditingState } from '@modules/user-management/store';
-import { TAB_PRIVILEGE, CommonConstants, TAB_NAME, TAB_LABEL } from '@shared/constants';
-import { Asset } from '@shared/models';
+import { TAB_PRIVILEGE, TAB_NAME, TAB_LABEL, CommonConstants } from '@shared/constants';
 
 @Component({
   selector: 'templates-user-profile',
@@ -39,9 +37,7 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
   tabNames = TAB_NAME;
   tabLabels = TAB_LABEL;
 
-  baseUrl = environment.baseUrl;
   coverUrl = CommonConstants.NO_IMAGE_URL;
-  coverTitle = CommonConstants.NO_IMAGE_TITLE;
 
   constructor(private store: Store<AppState>, private route: ActivatedRoute) {}
 
@@ -57,22 +53,13 @@ export class TemplatesUserProfileComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['user']?.currentValue && this.user) {
-      if (this.user.avatar) {
-        this.setCover(this.user.avatar);
+      if (this.user.picture) {
+        this.coverUrl = this.user.picture;
       }
     }
   }
 
-  setCover(cover: Asset): void {
-    this.coverUrl = this.baseUrl + cover.location + '/' + cover.title;
-    this.coverTitle = cover.title;
-  }
-
-  updateUser(user: User, asset?: Asset): void {
-    if (asset) {
-      this.setCover(asset);
-      user = { ...user, ...(asset && { avatar: asset, avatarId: asset.id }) };
-    }
+  updateUser(user: User): void {
     if (this.isProfilePage) {
       this.store.dispatch(updateUserProfileRequested({ user }));
     } else {

@@ -17,6 +17,7 @@ export class ApiRoutesConstants {
   static AUTH = '/auth';
   static AUTH_REGISTER = `${ApiRoutesConstants.AUTH}/register`;
   static AUTHENTICATE = `${ApiRoutesConstants.AUTH}/authenticate`;
+  static OAUTH_GOOGLE = `${ApiRoutesConstants.AUTH}/google`;
   static REFRESH_SESSION = `${ApiRoutesConstants.AUTH}/refresh-session`;
   static ACTIVATE_ACCOUNT = `${ApiRoutesConstants.AUTH}/activate_account`;
   static FORGOT_PASSWORD = `${ApiRoutesConstants.AUTH}/forgot_password`;

@@ -46,7 +46,7 @@ export class AuthController {
       password,
       name: req.body.name,
       surname: req.body.surname,
-      defaultLang: 'en',
+      locale: 'en',
       phone: req.body.phone
     };
 
@@ -55,10 +55,38 @@ export class AuthController {
     return sendResponse<BaseResponse, CustomError>(result, res);
   }
 
-  public async activateAccount(
+  public async oauth(
     req: RequestWithBody<{ token: string }>,
-    res: Response<BaseResponse | BaseResponse>
+    res: Response<AuthResponse | BaseResponse>
   ): Promise<void> {
+    req.log.info(`Authenticating oauth client...`);
+
+    const result = await this.authService.oauth({
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      user: req.user!,
+      connection: {
+        IP: req.ip,
+        UA: req.headers['user-agent']
+      }
+    });
+
+    return result.match<void>(
+      ({ refreshToken, accessToken, expiresIn, sessionId, tokenType }) => {
+        // set cookie for one year, it doest matter, because it has token that itself has an expiration date;
+        const expires = new Date();
+        expires.setFullYear(expires.getFullYear() + 1);
+        res.cookie('refresh_token', refreshToken, { httpOnly: true, expires });
+        res.status(StatusCodes.OK);
+        res.send({ accessToken, expiresIn, sessionId, tokenType });
+      },
+      (error) => {
+        res.status(error.statusCode);
+        res.send(error.serializeErrors());
+      }
+    );
+  }
+
+  public async activateAccount(req: RequestWithBody<{ token: string }>, res: Response<BaseResponse>): Promise<void> {
     req.log.info(`Activating new user...`);
 
     const { token } = req.body;

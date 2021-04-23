@@ -8,7 +8,7 @@ import { THEME_PALETTE, MAT_BUTTON, BS_ICON } from '@shared/constants';
   template: `
     <mat-list-option [value]="user">
       <div class="d-flex flex-row align-items-center">
-        <atoms-user-pic matListAvatar [avatar]="user.avatar" [userOnline]="user.online" class="m-0"></atoms-user-pic>
+        <atoms-user-pic matListAvatar [picture]="user.picture" [userOnline]="user.online" class="m-0"></atoms-user-pic>
 
         <atoms-link-button [linkLabel]="user.fullname"></atoms-link-button>
 

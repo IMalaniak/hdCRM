@@ -1,6 +1,6 @@
 <div class="user-dropdown" *ngIf="currentUser$ | async as currentUser" cdkOverlayOrigin #userMenu="cdkOverlayOrigin">
   <atoms-user-pic
-    [avatar]="currentUser.avatar"
+    [picture]="currentUser.picture"
     [userOnline]="currentUser.online"
     (click)="toggleNotification()"
   ></atoms-user-pic>

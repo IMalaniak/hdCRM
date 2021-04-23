@@ -7,13 +7,8 @@ import multer from 'multer';
 const uploadsFolder = path.join(__dirname, '../uploads');
 
 const store = multer.diskStorage({
-  destination: (req: Request, file, cb) => {
-    let dest: string;
-    if (req.url.includes('avatar')) {
-      dest = `${uploadsFolder}/images/userpic`;
-    } else {
-      dest = file.mimetype.includes('image/') ? `${uploadsFolder}/images` : `${uploadsFolder}/docs`;
-    }
+  destination: (_req: Request, file, cb) => {
+    const dest: string = file.mimetype.includes('image/') ? `${uploadsFolder}/images` : `${uploadsFolder}/docs`;
     if (!fs.existsSync(dest)) {
       fs.mkdirSync(dest);
     }

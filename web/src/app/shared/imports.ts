@@ -18,7 +18,6 @@ const ATOMS = [
   _components.AtomsRadiogroupComponent
 ];
 const MOLECULES = [
-  _components.MoleculesProfilePicWithUploaderComponent,
   _components.MoleculesUserListSmItemComponent,
   _components.MoleculesChartComponent,
   _components.MoleculesToastMessageComponent,

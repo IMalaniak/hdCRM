@@ -7,7 +7,7 @@ export enum SORT_DIRECTION {
 export enum COLUMN_KEY {
   ACTIONS = 'actions',
   ADD = 'add',
-  AVATAR = 'avatar',
+  PICTURE = 'picture',
   CREATED_AT = 'created_at',
   CREATOR = 'creator',
   DEADLINE = 'deadline',
@@ -39,7 +39,7 @@ export enum COLUMN_KEY {
 export enum COLUMN_LABEL {
   ACTIONS = '',
   ADD = 'Add',
-  AVATAR = 'Avatar',
+  PICTURE = '',
   CREATED_AT = 'Created At',
   CREATOR = 'Creator',
   DEADLINE = 'Deadline',

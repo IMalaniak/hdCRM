@@ -1,15 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
-import path from 'path';
-import fs from 'fs';
-import { promisify } from 'util';
-
 import * as argon2 from 'argon2';
 import Container, { Service } from 'typedi';
-import { Op, IncludeOptions } from 'sequelize';
+import { Op, IncludeOptions, Transaction } from 'sequelize';
 import { err, ok, Result } from 'neverthrow';
 
-import { ItemApiResponse, BaseResponse, CollectionApiResponse, PasswordReset } from '../models';
-import { CONSTANTS, MAIL_THEME } from '../constants';
+import { ItemApiResponse, BaseResponse, CollectionApiResponse, PasswordReset, GoogleTokenPayload } from '../models';
+import { CONSTANTS, MAIL_THEME, USER_STATE } from '../constants';
 import { Config } from '../config';
 import { BadRequestError, CustomError, InternalServerError, NotAuthorizedError, NotFoundError } from '../errors';
 import {
@@ -20,8 +16,11 @@ import {
   UserSession,
   OrganizationAttributes,
   Organization,
-  AssetCreationAttributes,
-  Asset
+  Privilege,
+  Preference,
+  PasswordAttribute,
+  Department,
+  DataBase
 } from '../repositories';
 import { CryptoUtils } from '../utils/crypto.utils';
 import { EmailUtils } from '../utils/email.utils';
@@ -31,15 +30,14 @@ import { BaseService } from './base/base.service';
 
 @Service()
 export class UserService extends BaseService<UserCreationAttributes, UserAttributes, User> {
-  private readonly unlinkAsync = promisify(fs.unlink);
   protected excludes: string[] = ['password'];
   protected readonly includes: IncludeOptions[] = [
     {
-      association: User.associations?.Role,
+      model: Role,
       required: false,
       include: [
         {
-          association: Role.associations?.Privileges,
+          model: Privilege,
           through: {
             attributes: ['view', 'edit', 'add', 'delete']
           },
@@ -48,30 +46,28 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
       ]
     },
     {
-      association: User.associations?.UserSessions
+      model: UserSession
     },
     {
-      association: User.associations?.Preference,
+      model: Preference,
       required: false
     },
     {
-      association: User.associations?.PasswordAttributes,
+      model: PasswordAttribute,
+      as: 'PasswordAttributes',
       attributes: ['updatedAt', 'passwordExpire'],
       required: false
     },
     {
-      association: User.associations?.avatar
-    },
-    {
-      association: User.associations?.Department,
+      model: Department,
       required: false
     },
     {
-      association: User.associations?.Organization
+      model: Organization
     }
   ];
 
-  constructor(private readonly mailer: EmailUtils, private readonly crypt: CryptoUtils) {
+  constructor(private readonly mailer: EmailUtils, private readonly crypt: CryptoUtils, private readonly db: DataBase) {
     super();
     Container.set(CONSTANTS.MODEL, User);
     Container.set(CONSTANTS.MODELS_NAME, CONSTANTS.MODELS_NAME_USER);
@@ -265,71 +261,90 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
     }
   }
 
-  public async updateAvatar(params: {
-    avatar: AssetCreationAttributes;
-    userId: string;
-  }): Promise<Result<ItemApiResponse<Asset>, CustomError>> {
-    let message: string;
-
+  public async prepareOauthUser(payload: GoogleTokenPayload): Promise<Result<User, CustomError>> {
+    const transaction: Transaction = await this.db.transaction;
     try {
-      const { avatar, userId } = params;
-
-      const user = await User.findByPk(userId);
-      if (!user) {
-        return err(new NotFoundError('User not found!'));
-      }
-      const userAvatar = await user.getAvatar();
-
-      if (userAvatar.id) {
-        await Asset.destroy({
-          where: { id: avatar.id }
-        });
-
-        const uploadsPath = path.join(__dirname, '../../uploads');
-        const destination = uploadsPath + avatar.location + '/' + avatar.title;
-        const thumbDestination = uploadsPath + avatar.location + '/thumbnails/' + avatar.title;
-        await this.unlinkAsync(destination);
-        await this.unlinkAsync(thumbDestination);
-
-        message = 'User profile picture is updated successfully!';
+      // find out if there is already associated account
+      const userExist = await this.findOneWhere({ googleId: payload.sub });
+      if (userExist) {
+        return ok(userExist);
       } else {
-        message = 'User profile picture is added successfully!';
-      }
-      const newAvatar = await user.createAvatar(avatar as any);
+        // if no associated account - check if there is already an account with such email and then asscociate this account
+        const userResult = await this.findOneWhere({ email: payload.email });
+        if (userResult) {
+          if (userResult.state !== USER_STATE.ACTIVE) {
+            userResult.state = USER_STATE.ACTIVE;
+          }
+          userResult.googleId = payload.sub;
+          if (!userResult.picture) {
+            userResult.picture = payload.picture;
+          }
+          if (!userResult.locale) {
+            userResult.locale = payload.locale;
+          }
+          await userResult.save();
+          await userResult.reload();
+          return ok(userResult);
+        } else {
+          // if no associated account - create a new one
+          const orgDefaults = {
+            Roles: [
+              {
+                keyString: 'admin'
+              }
+            ]
+          } as Organization;
+          const newOrg = await Organization.create(
+            {
+              ...orgDefaults,
+              type: 'private'
+            },
+            {
+              include: Role,
+              transaction
+            }
+          );
+          const newUser = await newOrg.createUser(
+            {
+              email: payload.email,
+              fullname: payload.name,
+              picture: payload.picture,
+              googleId: payload.sub,
+              locale: payload.locale
+            },
+            { transaction }
+          );
+          // no need to verify email because it is verified by oauth
+          newUser.state = USER_STATE.ACTIVE;
+          await newUser.save({ transaction });
 
-      return ok({
-        message,
-        data: newAvatar
-      });
+          const privileges = await Privilege.findAll();
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          const adminRole = newOrg.Roles![0]!;
+          await adminRole.setPrivileges(privileges, { transaction });
+          const rPrivileges = await adminRole.getPrivileges();
+          for (const privilege of rPrivileges) {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const rPriv = privilege.RolePrivilege!;
+            rPriv.add = true;
+            rPriv.delete = true;
+            rPriv.edit = true;
+            rPriv.view = true;
+            await rPriv.save({ transaction });
+          }
+          await adminRole.addUser(newUser, { transaction });
+          await transaction.commit();
+
+          await this.sendMail(MAIL_THEME.OAUTH_WELCOME, {
+            user: newUser
+          });
+
+          const user = (await this.findByPk(newUser.id)) as User;
+          return ok(user);
+        }
+      }
     } catch (error) {
-      this.logger.error(error);
-      return err(new InternalServerError());
-    }
-  }
-
-  public async deleteAvatar(userId: string): Promise<Result<BaseResponse, CustomError>> {
-    try {
-      const user = await User.findByPk(userId);
-      if (!user) {
-        return err(new NotFoundError('User not found!'));
-      }
-      const userAvatar = await user.getAvatar();
-      if (userAvatar.id) {
-        await Asset.destroy({
-          where: { id: userAvatar.id }
-        });
-
-        const uploadsPath = path.join(__dirname, '../../uploads');
-        const destination = uploadsPath + userAvatar.location + '/' + userAvatar.title;
-        const thumbDestination = uploadsPath + userAvatar.location + '/thumbnails/' + userAvatar.title;
-        await this.unlinkAsync(destination);
-        await this.unlinkAsync(thumbDestination);
-
-        return ok({ message: 'Profile picture is deleted' });
-      } else {
-        return err(new NotFoundError('Avatar not found!'));
-      }
-    } catch (error) {
+      await transaction.rollback();
       this.logger.error(error);
       return err(new InternalServerError());
     }
@@ -342,6 +357,8 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
         return this.mailer.sendPasswordResetConfirmation(params);
       case MAIL_THEME.INVITATION:
         return this.mailer.sendInvitation(params);
+      case MAIL_THEME.OAUTH_WELCOME:
+        return this.mailer.oauthWelcome(params);
       default:
         return Promise.reject();
     }

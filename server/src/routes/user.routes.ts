@@ -5,15 +5,7 @@ import { Service } from 'typedi';
 
 import { CollectionApiResponse, BaseResponse, ItemApiResponse, RequestWithBody, PasswordReset } from '../models';
 import { UserController } from '../controllers';
-import { uploads } from '../utils/multerConfig';
-import {
-  UserCreationAttributes,
-  UserAttributes,
-  User,
-  Asset,
-  OrganizationAttributes,
-  Organization
-} from '../repositories';
+import { UserCreationAttributes, UserAttributes, User, OrganizationAttributes, Organization } from '../repositories';
 
 import { BaseRoutes } from './base/base.routes';
 
@@ -38,17 +30,6 @@ export class UserRoutes extends BaseRoutes<UserCreationAttributes, UserAttribute
 
     this.router.post('/change-password', async (req: RequestWithBody<PasswordReset>, res: Response<BaseResponse>) =>
       this.routesController.updatePassword(req, res)
-    );
-
-    this.router.post(
-      '/:id/avatar',
-      uploads.single('profile-pic-uploader'),
-      async (req: Request<{ id: string }>, res: Response<ItemApiResponse<Asset> | BaseResponse>) =>
-        this.routesController.updateAvatar(req, res)
-    );
-
-    this.router.delete('/:id/avatar', async (req: Request<{ id: string }>, res: Response<BaseResponse>) =>
-      this.routesController.deleteAvatar(req, res)
     );
 
     this.router.post(

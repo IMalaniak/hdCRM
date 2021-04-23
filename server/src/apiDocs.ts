@@ -3037,10 +3037,6 @@ export const apiDocs: JsonObject = {
             type: 'number',
             example: 1
           },
-          avatarId: {
-            type: 'number',
-            example: 1
-          },
           email: {
             type: 'string',
             example: 'john.doe@test.com'
@@ -3065,7 +3061,7 @@ export const apiDocs: JsonObject = {
             type: 'string',
             example: '380676767676'
           },
-          defaultLang: {
+          locale: {
             type: 'string',
             example: 'en'
           },

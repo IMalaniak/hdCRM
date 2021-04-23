@@ -5,14 +5,21 @@ import { Service } from 'typedi';
 import { BaseResponse, PasswordReset, RequestWithBody } from '../models';
 import { AuthController } from '../controllers';
 import { AuthResponse } from '../models/authResponse';
+import { Passport } from '../config';
 
 @Service()
 export class AuthRoutes {
   private readonly router: Router = Router();
 
-  constructor(private readonly authController: AuthController) {}
+  constructor(private readonly authController: AuthController, private readonly passport: Passport) {}
 
   public register(): Router {
+    this.router.post(
+      '/google',
+      this.passport.authenticate('google', { scope: ['profile'] }),
+      async (req: Request, res: Response<AuthResponse | BaseResponse>) => this.authController.oauth(req, res)
+    );
+
     this.router.post('/register', async (req: Request, res: Response<BaseResponse>) =>
       this.authController.register(req, res)
     );

@@ -78,6 +78,20 @@ export class EmailUtils {
     });
   }
 
+  oauthWelcome(params: { user: User }): Promise<any> {
+    const { user } = params;
+    return this.newEmail.send({
+      template: path.join(__dirname, '../../emails', 'oauthWelcome'),
+      message: {
+        subject: 'Welcome to HDCRM',
+        to: user.email
+      },
+      locals: {
+        name: user.name
+      }
+    });
+  }
+
   sendActivationConfirmation(user: User): Promise<any> {
     return this.newEmail.send({
       template: path.join(__dirname, '../../emails', 'confirmActivation'),

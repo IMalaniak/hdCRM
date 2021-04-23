@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import path from 'path';
 import fs from 'fs';
 import { promisify } from 'util';
@@ -28,37 +27,32 @@ export class PlanService extends BaseService<PlanCreationAttributes, PlanAttribu
 
   protected readonly includes: IncludeOptions[] = [
     {
-      association: Plan.associations?.Creator,
-      attributes: { exclude: ['password'] },
-      include: [
-        {
-          association: User.associations?.avatar
-        }
-      ]
+      model: User,
+      as: 'Creator',
+      attributes: { exclude: ['password'] }
     },
     {
-      association: Plan.associations?.Participants,
+      model: User,
+      as: 'Participants',
       attributes: { exclude: ['password'] },
-      through: {
-        attributes: []
-      },
-      include: [
-        {
-          association: User.associations?.avatar
-        }
-      ]
-    },
-    {
-      association: Plan.associations?.Documents,
       through: {
         attributes: []
       }
     },
     {
-      association: Plan.associations?.activeStage
+      model: Asset,
+      as: 'Documents',
+      through: {
+        attributes: []
+      }
     },
     {
-      association: Plan.associations?.Stages,
+      model: Stage,
+      as: 'activeStage'
+    },
+    {
+      model: Stage,
+      as: 'Stages',
       through: {
         as: 'Details',
         attributes: { exclude: ['PlanId', 'StageId'] }

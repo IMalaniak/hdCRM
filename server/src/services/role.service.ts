@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import Container, { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 import { IncludeOptions, Op } from 'sequelize';
@@ -14,21 +13,15 @@ import { BaseService } from './base/base.service';
 export class RoleService extends BaseService<RoleCreationAttributes, RoleAttributes, Role> {
   protected readonly includes: IncludeOptions[] = [
     {
-      association: Role.associations?.Privileges,
+      model: Privilege,
       through: {
         attributes: ['view', 'edit', 'add', 'delete']
       },
       required: false
     },
     {
-      association: Role.associations?.Users,
+      model: User,
       attributes: { exclude: ['password'] },
-      include: [
-        {
-          association: User.associations?.avatar,
-          required: false
-        }
-      ],
       required: false
     }
   ];
@@ -48,7 +41,7 @@ export class RoleService extends BaseService<RoleCreationAttributes, RoleAttribu
         },
         include: [
           {
-            association: Role.associations?.Users,
+            model: User,
             attributes: ['id'],
             required: true
           }

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 import { Op, Transaction, UniqueConstraintError } from 'sequelize';
@@ -24,7 +23,8 @@ import {
   User,
   UserAttributes,
   UserSession,
-  DataBase
+  DataBase,
+  Role
 } from '../repositories';
 import { Logger } from '../utils/Logger';
 import { CryptoUtils } from '../utils/crypto.utils';
@@ -53,7 +53,7 @@ export class AuthService {
 
     try {
       const createdOrg = await Organization.create(organization, {
-        include: [{ association: Organization.associations?.Roles }],
+        include: Role,
         transaction
       });
       const createdUser = await createdOrg.createUser(
@@ -207,6 +207,38 @@ export class AuthService {
           )
         );
       }
+    } catch (error) {
+      this.logger.error(error);
+      return err(new InternalServerError());
+    }
+  }
+
+  public async oauth(params: {
+    user: User;
+    connection: {
+      IP: string;
+      UA: string | undefined;
+    };
+  }): Promise<Result<AuthResponse, CustomError>> {
+    const { user, connection } = params;
+    try {
+      const userSession = await this.saveLogInAttempt(connection, user, true);
+      const {
+        token: accessToken,
+        decoded: { exp }
+      } = this.jwtHelper.sign({
+        type: 'access',
+        payload: { sub: user.id }
+      });
+      const {
+        token: refreshToken,
+        decoded: { sub }
+      } = this.jwtHelper.sign({
+        type: 'refresh',
+        payload: { sub: userSession.id }
+      });
+
+      return ok({ accessToken, refreshToken, tokenType: 'bearer', expiresIn: exp, sessionId: sub });
     } catch (error) {
       this.logger.error(error);
       return err(new InternalServerError());

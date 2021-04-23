@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import Container, { Service } from 'typedi';
 import { Result, ok, err } from 'neverthrow';
 
 import { CollectionApiResponse, BaseResponse } from '../models';
 import { CONSTANTS } from '../constants';
 import { CustomError, InternalServerError } from '../errors';
-import { StageCreationAttributes, StageAttributes, Stage } from '../repositories';
+import { StageCreationAttributes, StageAttributes, Stage, Plan } from '../repositories';
 
 import { BaseService } from './base/base.service';
 
@@ -24,7 +23,7 @@ export class StageService extends BaseService<StageCreationAttributes, StageAttr
       const data = await Stage.findAndCountAll({
         include: [
           {
-            association: Stage.associations?.Plans,
+            model: Plan,
             where: {
               OrganizationId: organizationId
             },

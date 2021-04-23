@@ -36,7 +36,7 @@ export class SocketRouter {
           name: user.name,
           surname: user.surname,
           fullname: `${user.name} ${user.surname}`,
-          avatar: user.avatar,
+          picture: user.picture,
           lastSocketId: socket.id,
           orgRoom,
           rooms: [orgRoom],
