@@ -1,5 +1,5 @@
 import { err, ok, Result } from 'neverthrow';
-import { IncludeOptions, Model, WhereOptions } from 'sequelize';
+import { IncludeOptions, Model, Transaction, WhereOptions } from 'sequelize';
 import { Inject } from 'typedi';
 
 import { CONSTANTS } from '../../constants';
@@ -140,11 +140,12 @@ export abstract class BaseService<C, A, M extends Model<A, C>> {
     });
   }
 
-  protected findOneWhere(where: WhereOptions<M['_attributes']>): Promise<M | null> {
+  protected findOneWhere(where: WhereOptions<M['_attributes']>, transaction?: Transaction): Promise<M | null> {
     return this.MODEL.findOne({
       where,
       attributes: { exclude: [...this.excludes] },
-      include: [...this.includes]
+      include: [...this.includes],
+      transaction
     });
   }
 }

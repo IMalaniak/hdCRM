@@ -265,12 +265,13 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
     const transaction: Transaction = await this.db.transaction;
     try {
       // find out if there is already associated account
-      const userExist = await this.findOneWhere({ googleId: payload.sub });
+      const userExist = await this.findOneWhere({ googleId: payload.sub }, transaction);
       if (userExist) {
+        await transaction.commit();
         return ok(userExist);
       } else {
         // if no associated account - check if there is already an account with such email and then asscociate this account
-        const userResult = await this.findOneWhere({ email: payload.email });
+        const userResult = await this.findOneWhere({ email: payload.email }, transaction);
         if (userResult) {
           if (userResult.state !== USER_STATE.ACTIVE) {
             userResult.state = USER_STATE.ACTIVE;
@@ -282,8 +283,9 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
           if (!userResult.locale) {
             userResult.locale = payload.locale;
           }
-          await userResult.save();
-          await userResult.reload();
+          await userResult.save({ transaction });
+          await userResult.reload({ transaction });
+          await transaction.commit();
           return ok(userResult);
         } else {
           // if no associated account - create a new one
@@ -318,7 +320,7 @@ export class UserService extends BaseService<UserCreationAttributes, UserAttribu
           newUser.state = USER_STATE.ACTIVE;
           await newUser.save({ transaction });
 
-          const privileges = await Privilege.findAll();
+          const privileges = await Privilege.findAll({ transaction });
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           const adminRole = newOrg.Roles![0]!;
           await adminRole.setPrivileges(privileges, { transaction });
