@@ -53,11 +53,10 @@ export class AuthEffects implements OnInitEffects {
       map((payload) => payload.user),
       exhaustMap((userLoginData) =>
         this.authService.authenticate(userLoginData).pipe(
-          switchMap((response: AuthResponse) => of(authActions.logInSuccess(response))),
-          tap(() => {
-            const returnUrl = this.route.snapshot.queryParams['returnUrl'] || RoutingConstants.ROUTE_DASHBOARD;
-            this.router.navigateByUrl(returnUrl);
-          }),
+          switchMap((response: AuthResponse) => [
+            authActions.logInSuccess(response),
+            authActions.logInSuccessRedirect()
+          ]),
           catchError((errorResponse: HttpErrorResponse) => {
             this.toastMessageService.error(errorResponse.error.message);
             return of(authActions.authApiError());
@@ -73,11 +72,10 @@ export class AuthEffects implements OnInitEffects {
       map((payload) => payload.token),
       exhaustMap((token) =>
         this.authService.googleOauth(token).pipe(
-          switchMap((response: AuthResponse) => of(authActions.logInSuccess(response))),
-          tap(() => {
-            const returnUrl = this.route.snapshot.queryParams['returnUrl'] || RoutingConstants.ROUTE_DASHBOARD;
-            this.router.navigateByUrl(returnUrl);
-          }),
+          switchMap((response: AuthResponse) => [
+            authActions.logInSuccess(response),
+            authActions.logInSuccessRedirect()
+          ]),
           catchError((errorResponse: HttpErrorResponse) => {
             this.toastMessageService.error(errorResponse.error.message);
             return of(authActions.authApiError());
@@ -85,6 +83,18 @@ export class AuthEffects implements OnInitEffects {
         )
       )
     )
+  );
+
+  loginSuccessRedirect$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(authActions.logInSuccessRedirect),
+        map(() => {
+          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || RoutingConstants.ROUTE_DASHBOARD;
+          this.router.navigateByUrl(returnUrl);
+        })
+      ),
+    { dispatch: false }
   );
 
   logOut$ = createEffect(() =>

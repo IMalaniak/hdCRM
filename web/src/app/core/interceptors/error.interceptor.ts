@@ -60,7 +60,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         genericRetryStrategy({
           maxRetryAttempts: 2,
           scalingDuration: 1000,
-          excludedStatusCodes: [500, 403, 400]
+          excludedStatusCodes: [500, 403, 401, 400]
         })
       ),
       last()
