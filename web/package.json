@@ -61,7 +61,7 @@
     "@ngrx/schematics": "11.1.1",
     "@types/gapi": "0.0.39",
     "@types/gapi.auth2": "0.0.54",
-    "@types/jasmine": "3.6.11",
+    "@types/jasmine": "3.7.0",
     "@types/jasminewd2": "2.0.8",
     "@types/node": "13.13.51",
     "@types/ua-parser-js": "0.7.35",
