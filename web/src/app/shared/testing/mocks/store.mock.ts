@@ -3,7 +3,7 @@ import { User } from '@core/modules/user-api/shared';
 import { DynamicFormState } from '@core/store/dynamic-form';
 import { FORM_TYPE, FIELD_TYPE } from '@shared/constants';
 
-export const currentUserMock = ({
+export const currentUserMock = {
   fullname: 'User Tester',
   id: 1,
   name: 'User',
@@ -56,8 +56,7 @@ export const currentUserMock = ({
       id: 1,
       IP: '::ffff:10.32.205.200',
       isSuccess: true,
-      UA:
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36',
+      UA: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36',
       createdAt: '2020-09-15T06:59:50.487Z',
       updatedAt: '2020-09-15T06:59:50.487Z',
       UserId: 1
@@ -82,7 +81,7 @@ export const currentUserMock = ({
     createdAt: '2019-01-26T10:26:35.088Z',
     updatedAt: '2019-01-26T10:26:35.088Z'
   }
-} as unknown) as User;
+} as unknown as User;
 
 export const authStateMock: AuthState = {
   loggedIn: true,
