@@ -130,13 +130,17 @@ export class PlanService extends BaseService<PlanCreationAttributes, PlanAttribu
         /* eslint-disable */
         stages.forEach(async (stage, i) => {
           if (stage.keyString === 'created') {
-            ((await Plan.findByPk(id, {
-              attributes: ['id']
-            })) as Plan).setActiveStage(stage);
+            (
+              (await Plan.findByPk(id, {
+                attributes: ['id']
+              })) as Plan
+            ).setActiveStage(stage);
           }
-          await ((await Plan.findByPk(id, {
-            attributes: ['id']
-          })) as Plan).addStage(stage, {
+          await (
+            (await Plan.findByPk(id, {
+              attributes: ['id']
+            })) as Plan
+          ).addStage(stage, {
             through: {
               order: i,
               completed: false
@@ -153,9 +157,11 @@ export class PlanService extends BaseService<PlanCreationAttributes, PlanAttribu
           [Op.or]: plan.Participants as { id: number }[]
         }
       });
-      await ((await Plan.findByPk(id, {
-        attributes: ['id']
-      })) as Plan).setParticipants(users);
+      await (
+        (await Plan.findByPk(id, {
+          attributes: ['id']
+        })) as Plan
+      ).setParticipants(users);
     }
     return this.findByPk(id) as Promise<Plan>;
   }

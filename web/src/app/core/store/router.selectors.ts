@@ -4,10 +4,8 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { AppState } from './index';
 
-export const selectRouterState = createFeatureSelector<
-  AppState,
-  fromRouter.RouterReducerState<SerializedRouterStateSnapshot>
->('router');
+export const selectRouterState =
+  createFeatureSelector<AppState, fromRouter.RouterReducerState<SerializedRouterStateSnapshot>>('router');
 
 export const {
   selectCurrentRoute, // select the current route
