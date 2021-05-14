@@ -1,55 +1,57 @@
+@use '~@angular/material' as mat;
+@use '~@angular/material/core/theming/palette' as palette;
 @import 'theme-variables.scss';
 
 //RESET MATERIAL VARIABLES:
 // Background palette for light themes.
-$mat-light-theme-background: (
-  status-bar: map_get($mat-grey, 300),
-  app-bar: map_get($mat-grey, 100),
-  background: map_get($mat-grey, 50),
+mat.$light-theme-background-palette: (
+  status-bar: map_get(mat.$grey-palette, 300),
+  app-bar: map_get(mat.$grey-palette, 100),
+  background: map_get(mat.$grey-palette, 50),
   hover: rgba(black, 0.04),
   card: app-color('theme', 'light', true),
   dialog: app-color('theme', 'background', true),
   disabled-button: rgba(black, 0.12),
   raised-button: app-color('theme', 'light', true),
-  focused-button: $dark-focused,
-  selected-button: map_get($mat-grey, 300),
-  selected-disabled-button: map_get($mat-grey, 400),
-  disabled-button-toggle: map_get($mat-grey, 200),
-  unselected-chip: map_get($mat-grey, 300),
-  disabled-list-option: map_get($mat-grey, 200),
-  tooltip: map_get($mat-grey, 700)
+  focused-button: palette.$dark-focused,
+  selected-button: map_get(mat.$grey-palette, 300),
+  selected-disabled-button: map_get(mat.$grey-palette, 400),
+  disabled-button-toggle: map_get(mat.$grey-palette, 200),
+  unselected-chip: map_get(mat.$grey-palette, 300),
+  disabled-list-option: map_get(mat.$grey-palette, 200),
+  tooltip: map_get(mat.$grey-palette, 700)
 );
 
-// Background palette for dark themes.
-$mat-dark-theme-background: (
+// // Background palette for dark themes.
+mat.$dark-theme-background-palette: (
   status-bar: black,
-  app-bar: map_get($mat-grey, 900),
+  app-bar: map_get(mat.$grey-palette, 900),
   background: #303030,
   hover: rgba(white, 0.04),
   card: app-color('theme-dark', 'light', true),
   dialog: app-color('theme-dark', 'background', true),
   disabled-button: rgba(white, 0.12),
-  raised-button: map-get($mat-grey, 800),
-  focused-button: $light-focused,
-  selected-button: map_get($mat-grey, 900),
+  raised-button: map-get(mat.$grey-palette, 800),
+  focused-button: rgba(white, 0.12),
+  selected-button: map_get(mat.$grey-palette, 900),
   selected-disabled-button: app-color('theme-dark', 'light', true),
   disabled-button-toggle: black,
-  unselected-chip: map_get($mat-grey, 700),
+  unselected-chip: map_get(mat.$grey-palette, 700),
   disabled-list-option: black,
-  tooltip: map_get($mat-grey, 700)
+  tooltip: map_get(mat.$grey-palette, 700)
 );
 
-// Foreground palette for light themes.
-$mat-light-theme-foreground: (
+// // Foreground palette for light themes.
+mat.$light-theme-foreground-palette: (
   base: app-color('theme', 'text', true),
-  divider: $dark-dividers,
-  dividers: $dark-dividers,
-  disabled: $dark-disabled-text,
+  divider: palette.$dark-dividers,
+  dividers: palette.$dark-dividers,
+  disabled: palette.$dark-disabled-text,
   disabled-button: rgba(black, 0.26),
-  disabled-text: $dark-disabled-text,
+  disabled-text: palette.$dark-disabled-text,
   elevation: black,
-  hint-text: $dark-disabled-text,
-  secondary-text: $dark-secondary-text,
+  hint-text: palette.$dark-disabled-text,
+  secondary-text: palette.$dark-secondary-text,
   icon: app-color('theme', 'text', true),
   icons: app-color('theme', 'text', true),
   text: app-color('theme', 'text', true),
@@ -58,17 +60,17 @@ $mat-light-theme-foreground: (
   slider-off-active: rgba(black, 0.38)
 );
 
-// Foreground palette for dark themes.
-$mat-dark-theme-foreground: (
+// // Foreground palette for dark themes.
+mat.$dark-theme-foreground-palette: (
   base: app-color('theme-dark', 'text', true),
-  divider: $light-dividers,
-  dividers: $light-dividers,
-  disabled: $light-disabled-text,
+  divider: palette.$light-dividers,
+  dividers: palette.$light-dividers,
+  disabled: palette.$light-disabled-text,
   disabled-button: rgba(white, 0.3),
-  disabled-text: $light-disabled-text,
+  disabled-text: palette.$light-disabled-text,
   elevation: black,
-  hint-text: $light-disabled-text,
-  secondary-text: $light-secondary-text,
+  hint-text: palette.$light-disabled-text,
+  secondary-text: palette.$light-secondary-text,
   icon: app-color('theme-dark', 'text', true),
   icons: app-color('theme-dark', 'text', true),
   text: app-color('theme-dark', 'text', true),
@@ -78,25 +80,25 @@ $mat-dark-theme-foreground: (
 );
 
 // Define the standart theme
-$theme-primary: mat-palette($default-primary-palette, $default-primary-palette-shade);
-$theme-accent: mat-palette($default-accent-palette, $default-accent-palette-shade);
-$theme-warn: mat-palette($default-warn-palette, $default-warn-palette-shade);
-$theme: mat-light-theme($theme-primary, $theme-accent, $theme-warn);
+$theme-primary: mat.define-palette($default-primary-palette, $default-primary-palette-shade);
+$theme-accent: mat.define-palette($default-accent-palette, $default-accent-palette-shade);
+$theme-warn: mat.define-palette($default-warn-palette, $default-warn-palette-shade);
+$theme: mat.define-light-theme($theme-primary, $theme-accent, $theme-warn);
 
 // Define an alternate dark theme
-$theme-dark-primary: mat-palette($dark-primary-palette, $dark-primary-palette-shade);
-$theme-dark-accent: mat-palette($dark-accent-palette, $dark-accent-palette-shade);
-$theme-dark-warn: mat-palette($dark-warn-palette, $dark-warn-palette-shade);
-$dark-theme: mat-dark-theme($theme-dark-primary, $theme-dark-accent, $theme-dark-warn);
+$theme-dark-primary: mat.define-palette($dark-primary-palette, $dark-primary-palette-shade);
+$theme-dark-accent: mat.define-palette($dark-accent-palette, $dark-accent-palette-shade);
+$theme-dark-warn: mat.define-palette($dark-warn-palette, $dark-warn-palette-shade);
+$dark-theme: mat.define-dark-theme($theme-dark-primary, $theme-dark-accent, $theme-dark-warn);
 
 // Define typography
-$general-typography: mat-typography-config(
+$general-typography: mat.define-typography-config(
   $font-family: $font-family
 );
 
-@include mat-core($general-typography);
-@include angular-material-theme($theme);
+@include mat.core($general-typography);
+@include mat.all-component-themes($theme);
 
 .dark-theme {
-  @include angular-material-theme($dark-theme);
+  @include mat.all-component-themes($dark-theme);
 }
