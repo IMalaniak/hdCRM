@@ -2,7 +2,7 @@
 
 // App Variables
 $transition-time: 0.3s;
-$transition-style: $mat-fast-out-slow-in-timing-function;
+$transition-style: cubic-bezier(0.4, 0, 0.2, 1);
 $transition: $transition-time $transition-style;
 
 // RESET BOOTSTRAP VARIABLES:
@@ -69,7 +69,7 @@ $size-prefix: --app-size-;
 $app-colors: (
   'theme': (
     'background': $white,
-    'border': $dark-dividers,
+    'border': rgba(black, 0.12),
     'text': $dark,
     'text-contrast': $light,
     'table-hover': $gray-200,
@@ -83,7 +83,7 @@ $app-colors: (
   ),
   'theme-dark': (
     'background': #222222,
-    'border': $light-dividers,
+    'border': rgba(white, 0.12),
     'text': $light,
     'text-contrast': $light,
     'table-hover': $gray-900,
