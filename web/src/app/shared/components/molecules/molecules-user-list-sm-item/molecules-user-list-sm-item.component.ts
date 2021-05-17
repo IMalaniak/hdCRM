@@ -17,7 +17,7 @@ import { THEME_PALETTE, MAT_BUTTON, BS_ICON } from '@shared/constants';
           [matType]="matButtonTypes.ICON"
           [color]="themePalette.WARN"
           [icon]="removeIcon"
-          class="ml-auto"
+          class="ms-auto"
           (onclick)="onRemoveClick(user.id); $event.stopPropagation()"
         >
         </atoms-icon-button>

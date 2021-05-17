@@ -4,7 +4,7 @@
     <!-- show filters -->
     <!-- TODO: will be added in other task -->
     <!-- <atoms-icon-button
-      class="mr-2"
+      class="me-2"
       [type]="buttonType.BUTTON"
       [matType]="matButtonType.STROKED"
       [color]="themePalette.BASIC"
@@ -14,7 +14,7 @@
     </atoms-icon-button> -->
     <!-- configure columns -->
     <atoms-icon-button
-      class="mr-2"
+      class="me-2"
       [matMenuTriggerFor]="tableColumns"
       [type]="buttonType.BUTTON"
       [matType]="matButtonType.STROKED"
@@ -26,7 +26,7 @@
     <!-- show borders -->
     <ng-container *ngrxLet="outlineBorders$ as borders">
       <atoms-icon-button
-        class="mr-2"
+        class="me-2"
         [type]="buttonType.BUTTON"
         [matType]="matButtonType.STROKED"
         [color]="themePalette.BASIC"
@@ -100,7 +100,7 @@
               </span>
               <ng-template #linkButton>
                 <atoms-link-button
-                  linkClass="w-100 text-underline text-left"
+                  linkClass="w-100 text-underline text-start"
                   [linkLabel]="row[column.key].value"
                   [linkColor]="themePalette.BASIC"
                   [linkType]="row[column.key].navigation.linkType"
@@ -228,7 +228,7 @@
               (change)="updateTableConfig()"
               [(ngModel)]="column.isVisible"
             >
-              <span class="ml-1 text-capitalize"> {{ column.label }} </span>
+              <span class="ms-1 text-capitalize"> {{ column.label }} </span>
             </mat-checkbox>
             <span class="drag-handler" cdkDragHandle>
               <mat-icon *ngIf="column.draggable" [svgIcon]="icons.columnDrag"> </mat-icon>

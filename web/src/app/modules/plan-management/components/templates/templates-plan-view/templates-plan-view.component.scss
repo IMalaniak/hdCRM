@@ -58,9 +58,9 @@
 
   &.active {
     @include set-textcolor('background');
-    background: theme-color('success');
+    background: app-color('theme', 'accent', true);
     &:after {
-      border-left-color: theme-color('success');
+      border-left-color: app-color('theme', 'accent', true);
     }
   }
 

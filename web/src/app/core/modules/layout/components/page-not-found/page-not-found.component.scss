@@ -1,6 +1,10 @@
-@import '~bootstrap/scss/mixins/breakpoints';
 @import 'mixins';
 @import 'variables';
+
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~bootstrap/scss/mixins/utilities';
 
 .page-not-found {
   width: 100%;
