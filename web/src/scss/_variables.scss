@@ -1,7 +1,5 @@
 @import 'theme-variables';
 
-@use '~@angular/material/core/theming/palette' as palette;
-
 // App Variables
 $transition-time: 0.3s;
 $transition-style: cubic-bezier(0.4, 0, 0.2, 1);
@@ -60,7 +58,7 @@ $size-prefix: --app-size-;
 $app-colors: (
   'theme': (
     'background': $white,
-    'border': palette.$dark-dividers,
+    'border': rgba(black, 0.12),
     'text': $dark,
     'text-contrast': $light,
     'table-hover': $gray-200,
@@ -74,7 +72,7 @@ $app-colors: (
   ),
   'theme-dark': (
     'background': #222222,
-    'border': palette.$light-dividers,
+    'border': rgba(white, 0.12),
     'text': $light,
     'text-contrast': $light,
     'table-hover': $gray-900,
