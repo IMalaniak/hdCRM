@@ -13,7 +13,7 @@ const copyBSIcons = () => {
 
 task({
   name: 'web:compile',
-  fct: doRun('node_modules/.bin/ng build --prod', {
+  fct: doRun('node_modules/.bin/ng build --configuration production', {
     ...cwd,
     ...devOptions
   }),

@@ -1,35 +1,35 @@
-@import '~@angular/material/theming';
+@use '~@angular/material' as mat;
 
 // Font
 $font-family: 'Lato', sans-serif;
 
 // Colors
-$default-primary-palette: $mat-light-blue;
+$default-primary-palette: mat.$light-blue-palette;
 $default-primary-palette-shade: 500;
 
-$default-accent-palette: $mat-teal;
+$default-accent-palette: mat.$teal-palette;
 $default-accent-palette-shade: A700;
 
-$default-warn-palette: $mat-red;
+$default-warn-palette: mat.$red-palette;
 $default-warn-palette-shade: 800;
 
-$dark-primary-palette: $mat-light-blue;
+$dark-primary-palette: mat.$light-blue-palette;
 $dark-primary-palette-shade: 500;
 
-$dark-accent-palette: $mat-teal;
+$dark-accent-palette: mat.$teal-palette;
 $dark-accent-palette-shade: A400;
 
-$dark-warn-palette: $mat-red;
+$dark-warn-palette: mat.$red-palette;
 $dark-warn-palette-shade: 800;
 
 // reset bootstrap theme variables
-$blue: mat-color($default-primary-palette, $default-primary-palette-shade);
-$red: mat-color($default-warn-palette, $default-warn-palette-shade);
-$green: mat-color($default-accent-palette, $default-accent-palette-shade);
+$blue: mat.get-color-from-palette($default-primary-palette, $default-primary-palette-shade);
+$red: mat.get-color-from-palette($default-warn-palette, $default-warn-palette-shade);
+$green: mat.get-color-from-palette($default-accent-palette, $default-accent-palette-shade);
 
-$link: mat-color($default-primary-palette, 800);
+$link: mat.get-color-from-palette($default-primary-palette, 800);
 
 // bootstrap theme dark
-$primary-dark: mat-color($dark-primary-palette, $dark-primary-palette-shade);
-$accent-dark: mat-color($dark-accent-palette, $dark-accent-palette-shade);
-$warn-dark: mat-color($dark-warn-palette, $dark-warn-palette-shade);
+$primary-dark: mat.get-color-from-palette($dark-primary-palette, $dark-primary-palette-shade);
+$accent-dark: mat.get-color-from-palette($dark-accent-palette, $dark-accent-palette-shade);
+$warn-dark: mat.get-color-from-palette($dark-warn-palette, $dark-warn-palette-shade);
