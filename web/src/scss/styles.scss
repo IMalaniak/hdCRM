@@ -2,19 +2,25 @@
 @import 'variables';
 @import 'mixins';
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap');
+
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
+@import '~bootstrap/scss/utilities';
 
 @import 'bs-theme.scss';
 
 @import '~bootstrap/scss/root';
 @import '~bootstrap/scss/reboot';
 @import '~bootstrap/scss/type';
+@import '~bootstrap/scss/containers';
 @import '~bootstrap/scss/grid';
 @import '~bootstrap/scss/breadcrumb';
-@import '~bootstrap/scss/utilities';
 @import '~bootstrap/scss/spinners';
+@import '~bootstrap/scss/helpers';
+
+@import '~bootstrap/scss/utilities/api';
+
 @import 'styles-reset';
 @import 'root';
 
@@ -146,20 +152,5 @@ th.text-right {
   .mat-sort-header-container {
     display: flex;
     justify-content: flex-end;
-  }
-}
-
-// Define sizing utility to allow responsive breakpoints
-// Can be deleted after Bootstrap added this to core
-@each $breakpoint in map-keys($grid-breakpoints) {
-  @include media-breakpoint-up($breakpoint) {
-    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
-    @each $prop, $abbrev in (width: w, height: h) {
-      @each $size, $length in $sizes {
-        .#{$abbrev}#{$infix}-#{$size} {
-          #{$prop}: $length !important;
-        }
-      }
-    }
   }
 }

@@ -18,7 +18,7 @@ import { ToastMessage } from '@shared/models/toastMessage';
     >
       <mat-card-content class="d-flex flex-row align-items-center p-1">
         <mat-icon [svgIcon]="cardIcons[toast.type]" aria-hidden="false"></mat-icon>
-        <div class="ml-3">
+        <div class="ms-3">
           <span>{{ toast.message }}</span>
         </div>
       </mat-card-content>

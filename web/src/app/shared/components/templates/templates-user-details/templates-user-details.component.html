@@ -31,7 +31,7 @@
           *ngIf="canViewDepartment$ | async; else depTitle"
           [linkLabel]="user.Department.title"
           [linkType]="linkTypes.ROUTER"
-          linkClass="pl-0 lh-normal"
+          linkClass="ps-0 lh-normal"
           linkHref="/departments/details/{{ user.Department.id }}"
         ></atoms-link-button>
         <ng-template #depTitle>
@@ -71,7 +71,7 @@
       <atoms-link-button
         [linkLabel]="user.email"
         linkHref="mailto:{{ user.email }}"
-        linkClass="pl-1 lh-normal"
+        linkClass="ps-1 lh-normal"
       ></atoms-link-button>
     </div>
     <div class="caption" *ngIf="user.phone">
@@ -79,7 +79,7 @@
       <atoms-link-button
         [linkLabel]="user.phone"
         linkHref="tel:{{ user.phone }}"
-        linkClass="pl-1 lh-normal"
+        linkClass="ps-1 lh-normal"
       ></atoms-link-button>
     </div>
   </div>

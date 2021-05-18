@@ -1,6 +1,10 @@
 @import 'variables';
 @import 'mixins';
+
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins/breakpoints';
+@import '~bootstrap/scss/mixins/utilities';
 
 :host {
   appearance: none;

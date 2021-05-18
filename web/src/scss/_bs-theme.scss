@@ -1,39 +1,47 @@
 @import 'theme-variables.scss';
 
-$colors: map-remove($colors, 'indigo', 'purple', 'pink', 'orange', 'teal', 'cyan');
-$theme-colors: map-remove($theme-colors, 'secondary', 'success', 'info', 'danger');
-$theme-colors: map-merge(
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/utilities';
+
+$utilities: map-merge(
+  $utilities,
   (
-    'accent': $success,
-    'warn': $danger
-  ),
-  $theme-colors
+    'width': (
+      property: width,
+      responsive: true,
+      class: w,
+      values: (
+        25: 25%,
+        50: 50%,
+        75: 75%,
+        100: 100%,
+        auto: auto
+      )
+    )
+  )
 );
 
-$theme-colors-dark: (
-  'primary': $primary-dark,
-  'accent': $accent-dark,
-  'warn': $warn-dark
-);
+$colors: map-remove($colors, 'indigo', 'purple', 'pink', 'orange', 'teal', 'cyan');
 
 .dark-theme {
   @each $color, $value in $theme-colors-dark {
-    @include bg-variant('.bg-#{$color}', $value, true);
+    .bg-#{$color} {
+      background-color: $color !important;
+    }
+    .border-#{$color} {
+      border-color: $value !important;
+    }
+    .text-#{$color} {
+      color: $value !important;
+    }
   }
 
   @if $enable-gradients {
     @each $color, $value in $theme-colors-dark {
-      @include bg-gradient-variant('.bg-gradient-#{$color}', $value, true);
+      .bg-gradient-#{$color} {
+        background: $color linear-gradient(180deg, mix($body-bg, $color, 15%), $color) repeat-x !important;
+      }
     }
-  }
-
-  @each $color, $value in $theme-colors-dark {
-    .border-#{$color} {
-      border-color: $value !important;
-    }
-  }
-
-  @each $color, $value in $theme-colors-dark {
-    @include text-emphasis-variant('.text-#{$color}', $value, true);
   }
 }

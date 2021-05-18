@@ -8,28 +8,6 @@ $transition: $transition-time $transition-style;
 // RESET BOOTSTRAP VARIABLES:
 $font-family-base: $font-family;
 
-$grid-breakpoints: (
-  xs: 0,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px,
-  xxl: 1440px,
-  xxxl: 1600px
-);
-
-$container-max-widths: (
-  sm: 540px,
-  md: 720px,
-  lg: 960px,
-  xl: 1140px,
-  xxl: 1350px,
-  xxxl: 1500px
-);
-
-// remove underline from button links
-$link-hover-decoration: none;
-
 // set link color based on the used material theme
 $link-color: $link;
 $link-hover-color: currentColor;
@@ -56,9 +34,20 @@ $btn-transition: color $transition, background-color $transition, border-color $
 $custom-forms-transition: background-color $transition, border-color $transition, box-shadow $transition;
 
 // Bootstrap options:
-$enable-responsive-font-sizes: true;
+$enable-smooth-scroll: true;
 
 // reset bootstrap maps
+$theme-colors: (
+  'primary': $blue,
+  'accent': $green,
+  'warn': $red
+);
+
+$theme-colors-dark: (
+  'primary': $primary-dark,
+  'accent': $accent-dark,
+  'warn': $warn-dark
+);
 
 // variable prefixes for CSS4 output
 $color-prefix: --app-color-;
